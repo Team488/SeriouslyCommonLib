@@ -8,6 +8,7 @@ import xbot.common.wpi_extensions.mechanism_wrappers.XCompressor;
 import xbot.common.wpi_extensions.mechanism_wrappers.XDigitalInput;
 import xbot.common.wpi_extensions.mechanism_wrappers.XDigitalOutput;
 import xbot.common.wpi_extensions.mechanism_wrappers.XEncoder;
+import xbot.common.wpi_extensions.mechanism_wrappers.XGyro;
 import xbot.common.wpi_extensions.mechanism_wrappers.XJoystick;
 import xbot.common.wpi_extensions.mechanism_wrappers.XPowerDistributionPanel;
 import xbot.common.wpi_extensions.mechanism_wrappers.XServo;

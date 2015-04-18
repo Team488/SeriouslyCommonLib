@@ -1,4 +1,4 @@
-package xbot.common.controls;
+package xbot.common.wpi_extensions.mechanism_wrappers;
 
 import xbot.common.math.*;
 

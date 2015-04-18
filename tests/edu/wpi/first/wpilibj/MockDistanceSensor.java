@@ -1,5 +1,6 @@
-package xbot.common.controls;
+package edu.wpi.first.wpilibj;
 
+import xbot.common.controls.DistanceSensor;
 import xbot.common.injection.MockRobotIO;
 
 public class MockDistanceSensor implements DistanceSensor {

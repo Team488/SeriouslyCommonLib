@@ -2,14 +2,13 @@ package xbot.common.controls;
 
 import edu.wpi.first.wpilibj.SerialPort;
 import xbot.common.math.*;
+import xbot.common.wpi_extensions.mechanism_wrappers.XGyro;
 import xbot.nav6.IMU;
 
 /**
  * Internal class to handle gyro readings.
  * 
  * Wraps yaw values to circle 0-360 degrees.
- * 
- * @author Kaelin
  *
  */
 public class Nav6Gyro implements XGyro
