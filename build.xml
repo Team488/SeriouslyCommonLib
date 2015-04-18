@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="XbotCommonLib" default="jar">
+	<property file="build.properties"/>
+	
+	<target name="compile" description="Compile the source code.">
+	    <mkdir dir="${build.dir}"/>
+	    <echo>[xbotcommonlib-compile] Compiling ${src.dir} with classpath=${classpath} to ${build.dir}</echo>
+
+	    <javac srcdir="${src.dir}"
+	     destdir="${build.dir}"
+	     includeAntRuntime="no"
+	     includeJavaRuntime="no"
+	     classpath="${classpath}"
+	     target="${ant.java.version}"
+	     source="${ant.java.version}"
+	     compiler="javac${ant.java.version}"
+	     debug="true">
+	    </javac>
+	  </target>
+	
+	<target name="jar" depends="compile">
+	    <echo>[xbotcommonlib-jar] Making jar ${dist.jar}.</echo>
+	    <mkdir dir="${dist.dir}" />
+	    <mkdir dir="${build.jars}" />
+
+		<echo>[xbotcommonlib-jar] Copying jars from ${classpath} to ${build.jars}.</echo>
+		<copy todir="${build.jars}" flatten="true">
+			<path>
+				<pathelement path="${classpath}"/>
+			</path>
+		</copy>
+
+	    <jar destfile="${dist.jar}" update="false">
+	      <fileset dir="${build.dir}" includes="**/*.class"/>
+	    </jar>
+	  </target>
+</project> 
