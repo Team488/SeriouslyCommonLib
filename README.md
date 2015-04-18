@@ -1,4 +1,4 @@
-# Seriously Common Lib for FRC Teams
+# Seriously Common Lib for FRC
 
 Seriously Common Lib is a collection of common solutions to robot problems that FRC teams face while using WPILib and Java. This library aims to:
 - Be fully testable. Every class is built so that it can be run on a development PC, using mock implementations and factories.
