@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-import org.apache.commons.io.*;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 /**

@@ -1,6 +1,5 @@
 package xbot.common.wpi_extensions.mechanism_wrappers;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 
 public class DigitalOutputWPIAdapter implements XDigitalOutput {
@@ -10,7 +9,7 @@ public class DigitalOutputWPIAdapter implements XDigitalOutput {
 	 * Create an instance of a Digital Output class. Creates a digital output
 	 * given a channel.
 	 *
-	 * @param channel
+	 * @param channel The channel to control.
 	 */
 	public DigitalOutputWPIAdapter (int channel) {
 		adapter = new DigitalOutput(channel);

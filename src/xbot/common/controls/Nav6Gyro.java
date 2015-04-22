@@ -1,7 +1,7 @@
 package xbot.common.controls;
 
 import edu.wpi.first.wpilibj.SerialPort;
-import xbot.common.math.*;
+import xbot.common.math.ContiguousDouble;
 import xbot.common.wpi_extensions.mechanism_wrappers.XGyro;
 import xbot.nav6.IMU;
 

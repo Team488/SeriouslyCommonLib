@@ -1,6 +1,6 @@
 package xbot.common.wpi_extensions.mechanism_wrappers;
 
-import xbot.common.math.*;
+import xbot.common.math.ContiguousDouble;
 
 public interface XGyro
 {

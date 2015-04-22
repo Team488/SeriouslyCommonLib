@@ -14,11 +14,10 @@ import xbot.common.wpi_extensions.mechanism_wrappers.XPowerDistributionPanel;
 import xbot.common.wpi_extensions.mechanism_wrappers.XServo;
 import xbot.common.wpi_extensions.mechanism_wrappers.XSolenoid;
 import xbot.common.wpi_extensions.mechanism_wrappers.XSpeedController;
-import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.buttons.Button;
-import xbot.common.controls.*;
+import xbot.common.controls.AnalogHIDButton;
 import xbot.common.controls.AnalogHIDButton.AnalogHIDDescription;
+import xbot.common.controls.DistanceSensor;
 
 public interface WPIFactory {
 	

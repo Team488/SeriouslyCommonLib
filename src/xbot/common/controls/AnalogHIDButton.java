@@ -1,7 +1,6 @@
 package xbot.common.controls;
 
 import xbot.common.wpi_extensions.mechanism_wrappers.XJoystick;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.buttons.Button;
 
 public class AnalogHIDButton extends Button {

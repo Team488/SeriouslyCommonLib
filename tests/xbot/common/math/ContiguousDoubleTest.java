@@ -1,9 +1,9 @@
 package xbot.common.math;
 
 import static org.junit.Assert.*;
-import xbot.common.injection.BaseWPITest;
+import org.junit.Test;
 
-import org.junit.*;
+import xbot.common.injection.BaseWPITest;
 
 public class ContiguousDoubleTest extends BaseWPITest 
 {

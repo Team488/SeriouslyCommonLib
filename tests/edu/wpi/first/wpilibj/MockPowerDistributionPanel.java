@@ -4,9 +4,7 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
-import xbot.common.injection.MockRobotIO;
 import xbot.common.wpi_extensions.mechanism_wrappers.XPowerDistributionPanel;
-import xbot.common.wpi_extensions.mechanism_wrappers.XSpeedController;
 
 public class MockPowerDistributionPanel implements XPowerDistributionPanel {
 	private HashMap<Integer, Double> outputCurrents;

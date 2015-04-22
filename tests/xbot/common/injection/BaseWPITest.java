@@ -1,7 +1,7 @@
 package xbot.common.injection;
 
 import org.apache.log4j.xml.DOMConfigurator;
-import org.junit.*;
+import org.junit.Before;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

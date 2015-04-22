@@ -69,7 +69,6 @@ class CrashingOnInitCommand extends BaseCommand {
     public void execute() {
         
     }
-    
 }
 
 class CrashingInExecCommand extends BaseCommand {
@@ -83,5 +82,4 @@ class CrashingInExecCommand extends BaseCommand {
     public void execute() {
         throw new RuntimeException(); 
     }
-    
 }

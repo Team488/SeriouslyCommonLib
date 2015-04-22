@@ -2,11 +2,7 @@ package xbot.common.wpi_extensions.mechanism_wrappers;
 
 import org.apache.log4j.Logger;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.Trigger.ButtonScheduler;
-import edu.wpi.first.wpilibj.command.Command;
 
 public class AdvancedJoystickButton extends Button
 {
