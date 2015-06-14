@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
 import xbot.common.wpi_extensions.BaseCommand;
 import xbot.common.wpi_extensions.XScheduler;
@@ -31,7 +32,8 @@ public class MockTimerTest extends BaseWPITest {
 		assertEquals(10.0, Timer.getFPGATimestamp(), 0.001);
 	}
 	
-	class TimeOut extends BaseCommand {
+    @Ignore
+	public class TimeOut extends BaseCommand {
 		@Override
 		public void initialize() {
 			this.setTimeout(10.0);

@@ -12,12 +12,12 @@
 	     includeAntRuntime="no"
 	     includeJavaRuntime="no"
 	     classpath="${classpath}"
-	     target="${ant.java.version}"
-	     source="${ant.java.version}"
 	     compiler="javac${ant.java.version}"
-	     debug="true">
+	     debug="true"
+         source="8"
+	     target="8">
 	    </javac>
-	  </target>
+	</target>
 	
 	<target name="jar" depends="compile">
 	    <echo>[xbotcommonlib-jar] Making jar ${dist.jar}.</echo>
@@ -34,5 +34,35 @@
 	    <jar destfile="${dist.jar}" update="false">
 	      <fileset dir="${build.dir}" includes="**/*.class"/>
 	    </jar>
-	  </target>
+	</target>      
+    
+    <target name="compile-tests" description="Compile the test code." depends="jar">
+	    <mkdir dir="${test.dest.dir}"/>
+	    <echo>[xbotcommonlib-compile] Compiling ${test.src.dir} with classpath=${test.classpath} to ${test.build.dir}</echo>
+
+	    <javac srcdir="${test.src.dir}"
+	     destdir="${test.dest.dir}"
+	     includeAntRuntime="no"
+	     includeJavaRuntime="no"
+	     classpath="${test.classpath}"
+	     compiler="javac${ant.java.version}"
+	     debug="true"
+         source="8"
+	     target="8">
+	    </javac>
+	</target>
+    
+	<target name="test" depends="compile-tests">
+        <junit printsummary="yes" showoutput="true" outputtoformatters="yes">
+            <classpath>
+                <pathelement path="${test.magic.classpath}"/>
+            </classpath>
+            <batchtest fork="yes" todir="${test.report.dir}">
+                <formatter type="brief" usefile="false" />
+                <fileset dir="${test.dest.dir}">
+                    <include name="**/*Test*.class"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
 </project> 

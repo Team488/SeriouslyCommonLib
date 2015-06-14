@@ -12,6 +12,9 @@ import com.google.inject.Singleton;
 import edu.wpi.first.wpilibj.MockTimer;
 import edu.wpi.first.wpilibj.Timer;
 
+import org.junit.Ignore;
+
+@Ignore
 public class UnitTestModule extends AbstractModule {
 	@Override
 	protected void configure() {

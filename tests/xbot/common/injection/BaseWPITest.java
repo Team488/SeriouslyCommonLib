@@ -2,6 +2,7 @@ package xbot.common.injection;
 
 import org.apache.log4j.xml.DOMConfigurator;
 import org.junit.Before;
+import org.junit.Ignore;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj.MockTimer;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 
+@Ignore
 public class BaseWPITest {
 	public Injector injector;
 	
