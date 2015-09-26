@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="XbotCommonLib" default="jar">
+	<property file="build.properties"/>
+	
+	<target name="compile" description="Compile the source code.">
+	    <mkdir dir="${build.dir}"/>
+	    <echo>[xbotcommonlib-compile] Compiling ${src.dir} with classpath=${classpath} to ${build.dir}</echo>
+
+	    <javac srcdir="${src.dir}"
+	     destdir="${build.dir}"
+	     includeAntRuntime="no"
+	     includeJavaRuntime="no"
+	     classpath="${classpath}"
+	     compiler="javac${ant.java.version}"
+	     debug="true"
+         source="8"
+	     target="8">
+	    </javac>
+	</target>
+	
+	<target name="jar" depends="compile">
+	    <echo>[xbotcommonlib-jar] Making jar ${dist.jar}.</echo>
+	    <mkdir dir="${dist.dir}" />
+	    <mkdir dir="${build.jars}" />
+
+		<echo>[xbotcommonlib-jar] Copying jars from ${classpath} to ${build.jars}.</echo>
+		<copy todir="${build.jars}" flatten="true">
+			<path>
+				<pathelement path="${classpath}"/>
+			</path>
+		</copy>
+
+	    <jar destfile="${dist.jar}" update="false">
+	      <fileset dir="${build.dir}" includes="**/*.class"/>
+	    </jar>
+	</target>      
+    
+    <target name="compile-tests" description="Compile the test code." depends="jar">
+	    <mkdir dir="${test.dest.dir}"/>
+	    <echo>[xbotcommonlib-compile] Compiling ${test.src.dir} with classpath=${test.classpath} to ${test.build.dir}</echo>
+
+	    <javac srcdir="${test.src.dir}"
+	     destdir="${test.dest.dir}"
+	     includeAntRuntime="no"
+	     includeJavaRuntime="no"
+	     classpath="${test.classpath}"
+	     compiler="javac${ant.java.version}"
+	     debug="true"
+         source="8"
+	     target="8">
+	    </javac>
+	</target>
+    
+	<target name="test" depends="compile-tests">
+        <junit printsummary="yes" showoutput="true" outputtoformatters="yes">
+            <classpath>
+                <pathelement path="${test.magic.classpath}"/>
+            </classpath>
+            <batchtest fork="yes" todir="${test.report.dir}">
+                <formatter type="brief" usefile="false" />
+                <fileset dir="${test.dest.dir}">
+                    <include name="**/*Test*.class"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+</project> 
