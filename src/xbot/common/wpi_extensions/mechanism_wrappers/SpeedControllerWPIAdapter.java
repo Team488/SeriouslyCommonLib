@@ -7,10 +7,12 @@ public class SpeedControllerWPIAdapter implements XSpeedController
 {
     private SpeedController controller;
     private boolean inverted = false;
+    final int channel;
     
     public SpeedControllerWPIAdapter(int channel)
     {
         controller = new Talon(channel);
+        this.channel = channel;
     }
     
     public double get()
@@ -41,6 +43,11 @@ public class SpeedControllerWPIAdapter implements XSpeedController
     public void setInverted(boolean inverted)
     {
         this.inverted = inverted;
+    }
+
+    @Override
+    public int getChannel() {
+        return this.channel;
     }
 
 }

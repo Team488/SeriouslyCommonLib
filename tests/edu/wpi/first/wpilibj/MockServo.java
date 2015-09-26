@@ -5,7 +5,7 @@ import xbot.common.wpi_extensions.mechanism_wrappers.XServo;
 
 public class MockServo implements XServo {
 	MockRobotIO mockRobotIO;
-	int channel;
+	final int channel;
 	
 	public MockServo(int channel, MockRobotIO mockRobotIO){
 		this.channel = channel;
@@ -16,4 +16,9 @@ public class MockServo implements XServo {
 	public void set(double value) {
 		mockRobotIO.setPWM(this.channel, value);
 	}
+
+    @Override
+    public int getChannel() {
+        return this.channel;
+    }
 }

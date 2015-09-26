@@ -6,9 +6,11 @@ public class SolenoidWPIAdapter implements XSolenoid {
 
 	Solenoid solenoid;
     private boolean inverted;
+    final int channel;
     
 	public SolenoidWPIAdapter(int channel) {
 		this.solenoid = new Solenoid(channel);
+		this.channel = channel;
 	}
 	
 	@Override
@@ -26,6 +28,11 @@ public class SolenoidWPIAdapter implements XSolenoid {
     public void setInverted(boolean isInverted)
     {
         this.inverted = isInverted;
+    }
+
+    @Override
+    public int getChannel() {
+        return this.channel;
     }
 
 }
