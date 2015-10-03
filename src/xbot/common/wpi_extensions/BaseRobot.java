@@ -27,13 +27,13 @@ public class BaseRobot extends IterativeRobot {
     
     static Logger log = Logger.getLogger(BaseRobot.class);
     
-    PropertyManager propertyManager;
-    XScheduler xScheduler;
+    protected PropertyManager propertyManager;
+    protected XScheduler xScheduler;
     
-    AbstractModule injectionModule;
+    protected AbstractModule injectionModule;
     
     // Other than initially creating required systems, you should never use the injector again
-    Injector injector;
+    protected Injector injector;
     
     public BaseRobot() {
     	super();
