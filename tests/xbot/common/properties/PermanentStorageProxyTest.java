@@ -13,7 +13,7 @@ import xbot.common.injection.BaseWPITest;
 
 public class PermanentStorageProxyTest extends BaseWPITest {
 
-    private String testFolder = "testo";
+    private String testFolder = "./488Database";
     
     @Before
     public void setUp() {
@@ -32,7 +32,7 @@ public class PermanentStorageProxyTest extends BaseWPITest {
     @Test
     public void testSaveAndLoad() {
         
-        PermanentStorageProxy p = new PermanentStorage();
+        PermanentStorageProxy p = new PermanentStorage(testFolder);
         p.writeToFile("double,fancyname,1.23\nboolean,flag,true\nstring,phrase,What time is it?");
         
         p.loadFromDisk();
@@ -45,12 +45,9 @@ public class PermanentStorageProxyTest extends BaseWPITest {
     @After
     public void cleanUp()
     {
-        File d = new File(testFolder);
-        try {
-            FileUtils.deleteDirectory(d);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    	// We need a way to obliterate the database locally so tests don't leak. Can't delete the files themselves,
+    	// because the database process still has a handle on some of them.
+    	 PermanentStorage p = new PermanentStorage(testFolder);
+    	 assertEquals(true, p.obliterateStorage());
     }
 }

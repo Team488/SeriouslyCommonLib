@@ -15,10 +15,30 @@ public class PermanentStorage extends PermanentStorageProxy {
 
     private static Logger log = Logger.getLogger(PermanentStorage.class);
     
-    private String dbUrl = "jdbc:derby:/488Database;create=true";
+    private String dbUrlPreFormat = "jdbc:derby:%1s;create=true";
+    private String dbUrl = "";
     
-    public PermanentStorage() {
+    public PermanentStorage(String databaseDirectory) {
         super();
+        
+        dbUrl = String.format(dbUrlPreFormat, databaseDirectory);
+    }
+    
+    public boolean obliterateStorage() {
+    	try {
+            Connection conn = DriverManager.getConnection(dbUrl);
+            
+            Statement sta = conn.createStatement();
+            String payload = "DROP TABLE PROPERTIES";
+            
+            return sta.execute(payload);
+    	}
+    	catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }
+    	
     }
 
     protected String readFromFile() {
