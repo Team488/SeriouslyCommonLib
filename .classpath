@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="lib/commons-io-2.4/commons-io-2.4-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-2.4/commons-io-2.4-sources.jar"/>
 	<classpathentry kind="lib" path="lib/log4j/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="lib/guice-3.0/guice-assistedinject-3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
