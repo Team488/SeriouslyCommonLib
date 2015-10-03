@@ -42,6 +42,20 @@ public class PermanentStorageProxyTest extends BaseWPITest {
         assertEquals("What time is it?", p.getString("phrase"));        
     }
     
+    @Test
+    public void testClear() {
+    	PermanentStorageProxy p = new PermanentStorage();
+        p.writeToFile("double,fancyname,1.23\nboolean,flag,true\nstring,phrase,What time is it?");
+        
+        p.loadFromDisk();
+        
+        p.clear();
+        
+        boolean result = p.getDouble("fancyname") == null;
+        
+        assertEquals("Should get null back when the table is clear!", result, true);
+    }
+    
     @After
     public void cleanUp()
     {
