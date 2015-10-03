@@ -22,6 +22,14 @@ public abstract class Property {
 
     ITableProxy permanentStore;
     ITableProxy randomAccessStore;
+    
+    /** 
+     * New enum to determine property persistence
+     */
+    public enum propertyPersistenceType{
+    	Ephemeral,
+    	Persistent
+    }
 
     private static Logger log = Logger.getLogger(Property.class);
 
@@ -30,6 +38,19 @@ public abstract class Property {
      * what you're doing.
      */
     public Property(String key, PropertyManager manager) {
+        this.key = sanitizeKey(key);
+        this.permanentStore = manager.permanentStore;
+        this.randomAccessStore = manager.randomAccessStore;
+        manager.registerProperty(this);
+    } 
+    
+    /**
+     * The name of the property. This should be unique unless you really know
+     * what you're doing.
+     * New builder with persistence type. Old builder will be deprecated.
+     * @author Marc
+     */
+    public Property(String key, PropertyManager manager, propertyPersistenceType persistenceType) {
         this.key = sanitizeKey(key);
         this.permanentStore = manager.permanentStore;
         this.randomAccessStore = manager.randomAccessStore;

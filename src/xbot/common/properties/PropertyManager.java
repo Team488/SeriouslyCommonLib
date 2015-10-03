@@ -37,6 +37,14 @@ public class PropertyManager {
      *
      */
     public ITableProxy randomAccessStore;
+    
+    /** 
+     * New enum to determine property persistence
+     */
+    public enum propertyPersistenceType{
+    	Ephemeral,
+    	Persistent
+    }
 
     @Inject
     public PropertyManager(PermanentStorageProxy permanentStore, ITableProxy randomAccessStore) {
@@ -111,6 +119,24 @@ public class PropertyManager {
     }
     
     public DoubleProperty createProperty(String key, Double defaultValue) {
+    	return new DoubleProperty(key, defaultValue, this);
+    }
+    
+    /**
+     * Creating new methods for creating the properties with a new parameter.
+     * This parameter will determine if the property is ephemeral or have to be persisted.
+     * Old methods with 2 parameters will be deprecated
+     * @author Marc
+     */
+    public BooleanProperty createProperty(String key, Boolean defaultValue, propertyPersistenceType persistenceType) {
+    	return new BooleanProperty(key, defaultValue, this);
+    } 
+    
+    public StringProperty createProperty(String key, String defaultValue, propertyPersistenceType persistenceType) {
+    	return new StringProperty(key, defaultValue, this);
+    }
+    
+    public DoubleProperty createProperty(String key, Double defaultValue, propertyPersistenceType persistenceType) {
     	return new DoubleProperty(key, defaultValue, this);
     }
     

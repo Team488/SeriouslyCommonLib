@@ -17,6 +17,12 @@ public class DoubleProperty extends Property {
         load();
     }
     
+    public DoubleProperty(String name, double defaultValue, PropertyManager manager, propertyPersistenceType persistenceType) {
+        super(name, manager, persistenceType);
+        this.defaultValue = defaultValue;
+        load();
+    }
+    
 
     public double get() {
         return randomAccessStore.getDouble(key).doubleValue();

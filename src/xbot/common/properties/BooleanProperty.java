@@ -6,6 +6,8 @@
 
 package xbot.common.properties;
 
+import xbot.common.properties.Property.propertyPersistenceType;
+
 /**
  * A property holding a boolean value.
  * 
@@ -22,6 +24,13 @@ public class BooleanProperty extends Property {
     public BooleanProperty(String name, boolean defaultValue,
             PropertyManager manager) {
         super(name, manager);
+        this.defaultValue = defaultValue;
+        load();
+    }
+    
+    public BooleanProperty(String name, boolean defaultValue,
+            PropertyManager manager, propertyPersistenceType persistenceType) {
+        super(name, manager, persistenceType);
         this.defaultValue = defaultValue;
         load();
     }
