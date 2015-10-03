@@ -6,7 +6,6 @@
 
 package xbot.common.properties;
 
-import xbot.common.properties.Property.propertyPersistenceType;
 
 /**
  * A property holding a boolean value.
@@ -28,8 +27,8 @@ public class BooleanProperty extends Property {
         load();
     }
     
-    public BooleanProperty(String name, boolean defaultValue,
-            PropertyManager manager, propertyPersistenceType persistenceType) {
+    public BooleanProperty(String name, boolean defaultValue, PropertyPersistenceType persistenceType,
+            PropertyManager manager) {
         super(name, manager, persistenceType);
         this.defaultValue = defaultValue;
         load();
@@ -56,8 +55,10 @@ public class BooleanProperty extends Property {
      * Saves the value permanently (presumably to the Robot).
      */
     public void save() {
+    	if(persistenceType == PropertyPersistenceType.Persistent) {
         permanentStore.setBoolean(key, randomAccessStore.getBoolean(key)
                 .booleanValue());
+    	}
     }
 
     /**

@@ -5,6 +5,7 @@
 package xbot.common.properties;
 
 import xbot.common.properties.PermanentStorageProxy;
+import xbot.common.properties.Property.PropertyPersistenceType;
 
 import java.util.ArrayList;
 
@@ -37,14 +38,6 @@ public class PropertyManager {
      *
      */
     public ITableProxy randomAccessStore;
-    
-    /** 
-     * New enum to determine property persistence
-     */
-    public enum propertyPersistenceType{
-    	Ephemeral,
-    	Persistent
-    }
 
     @Inject
     public PropertyManager(PermanentStorageProxy permanentStore, ITableProxy randomAccessStore) {
@@ -128,16 +121,16 @@ public class PropertyManager {
      * Old methods with 2 parameters will be deprecated
      * @author Marc
      */
-    public BooleanProperty createProperty(String key, Boolean defaultValue, propertyPersistenceType persistenceType) {
-    	return new BooleanProperty(key, defaultValue, this);
+    public BooleanProperty createProperty(String key, Boolean defaultValue, PropertyPersistenceType persistenceType) {
+    	return new BooleanProperty(key, defaultValue, persistenceType, this);
     } 
     
-    public StringProperty createProperty(String key, String defaultValue, propertyPersistenceType persistenceType) {
-    	return new StringProperty(key, defaultValue, this);
+    public StringProperty createProperty(String key, String defaultValue, PropertyPersistenceType persistenceType) {
+    	return new StringProperty(key, defaultValue, persistenceType, this);
     }
     
-    public DoubleProperty createProperty(String key, Double defaultValue, propertyPersistenceType persistenceType) {
-    	return new DoubleProperty(key, defaultValue, this);
+    public DoubleProperty createProperty(String key, Double defaultValue, PropertyPersistenceType persistenceType) {
+    	return new DoubleProperty(key, defaultValue, persistenceType, this);
     }
     
     

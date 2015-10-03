@@ -26,11 +26,12 @@ public abstract class Property {
     /** 
      * New enum to determine property persistence
      */
-    public enum propertyPersistenceType{
+    public enum PropertyPersistenceType{
     	Ephemeral,
     	Persistent
     }
-
+    
+    public PropertyPersistenceType persistenceType;
     private static Logger log = Logger.getLogger(Property.class);
 
     /**
@@ -41,6 +42,7 @@ public abstract class Property {
         this.key = sanitizeKey(key);
         this.permanentStore = manager.permanentStore;
         this.randomAccessStore = manager.randomAccessStore;
+        this.persistenceType = PropertyPersistenceType.Persistent;
         manager.registerProperty(this);
     } 
     
@@ -50,10 +52,11 @@ public abstract class Property {
      * New builder with persistence type. Old builder will be deprecated.
      * @author Marc
      */
-    public Property(String key, PropertyManager manager, propertyPersistenceType persistenceType) {
+    public Property(String key, PropertyManager manager, PropertyPersistenceType persistenceType) {
         this.key = sanitizeKey(key);
         this.permanentStore = manager.permanentStore;
         this.randomAccessStore = manager.randomAccessStore;
+        this.persistenceType = persistenceType;
         manager.registerProperty(this);
     }
 
