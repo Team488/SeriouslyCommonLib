@@ -103,14 +103,27 @@ public class PropertyManager {
         permanentStore.saveToDisk();
     }
     
+    /**
+     * @deprecated You should use createProperty(String key, Boolean defaultValue, PropertyPersistenceType persistenceType) 
+     * instead, which includes persistenceType to determine if the property is persistent
+     * 
+     */
     public BooleanProperty createProperty(String key, Boolean defaultValue) {
     	return new BooleanProperty(key, defaultValue, this);
     }
-    
+    /**
+     * @deprecated You should use createProperty(String key, String defaultValue, PropertyPersistenceType persistenceType) 
+     * instead, which includes persistenceType to determine if the property is persistent
+     * 
+     */
     public StringProperty createProperty(String key, String defaultValue) {
     	return new StringProperty(key, defaultValue, this);
     }
-    
+    /**
+     * @deprecated You should use createProperty(String key, Double defaultValue, PropertyPersistenceType persistenceType) 
+     * instead, which includes persistenceType to determine if the property is persistent
+     * 
+     */
     public DoubleProperty createProperty(String key, Double defaultValue) {
     	return new DoubleProperty(key, defaultValue, this);
     }

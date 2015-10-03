@@ -37,6 +37,7 @@ public abstract class Property {
     /**
      * The name of the property. This should be unique unless you really know
      * what you're doing.
+     * 
      */
     public Property(String key, PropertyManager manager) {
         this.key = sanitizeKey(key);
