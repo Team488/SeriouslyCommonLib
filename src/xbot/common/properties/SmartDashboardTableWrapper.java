@@ -17,6 +17,10 @@ public class SmartDashboardTableWrapper implements ITableProxy {
     public void setDouble(String key, double value) {
         SmartDashboard.putNumber(key, value);
     }
+    
+    public void clear(){
+    	// Do not clear the smart dashboard
+    }
 
     public Double getDouble(String key) {
         try {

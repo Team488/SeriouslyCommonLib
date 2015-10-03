@@ -22,4 +22,6 @@ public interface ITableProxy {
     public Boolean getBoolean (String key);
     
     public String getString (String key);
+    
+    public void clear();
 }

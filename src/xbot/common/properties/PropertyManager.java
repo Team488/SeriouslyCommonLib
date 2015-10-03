@@ -77,6 +77,12 @@ public class PropertyManager {
      * Save all properties into permanent storage.
      */
     public void saveOutAllProperties() {
+    	
+    	// We should clear the permanent storage before we save, otherwise we can have
+    	// "orphaned" values that are loaded/saved indefinitely, even if there's nothing in the 
+    	// code that uses them.
+    	
+    	permanentStore.clear();
         
         if (properties.size() == 0)
         {
