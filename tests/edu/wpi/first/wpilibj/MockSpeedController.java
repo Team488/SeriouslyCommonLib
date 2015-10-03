@@ -6,7 +6,7 @@ import xbot.common.injection.MockRobotIO;
 import xbot.common.wpi_extensions.mechanism_wrappers.XSpeedController;
 
 public class MockSpeedController implements XSpeedController {
-	public int channel;
+	public final int channel;
 	MockRobotIO mockRobotIO;
 	private boolean inverted;
 	
@@ -49,6 +49,11 @@ public class MockSpeedController implements XSpeedController {
     public void setInverted(boolean inverted)
     {
         this.inverted = inverted;        
+    }
+
+    @Override
+    public int getChannel() {
+        return this.channel;
     }
 
 }

@@ -8,7 +8,6 @@ public class EncoderWPIAdapter implements XEncoder {
 	boolean inverted;
 	
 	public EncoderWPIAdapter(int aChannel, int bChannel) {
-		
 		adapter = new Encoder(aChannel, bChannel);
 	}
 

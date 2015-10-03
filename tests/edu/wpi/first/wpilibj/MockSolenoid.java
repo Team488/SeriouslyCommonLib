@@ -5,7 +5,7 @@ import xbot.common.wpi_extensions.mechanism_wrappers.XSolenoid;
 
 public class MockSolenoid implements XSolenoid {
 	MockRobotIO mockRobotIO;
-	int channel;
+	final int channel;
 	
 	public MockSolenoid(int channel, MockRobotIO mockRobotIO) {
 		this.mockRobotIO = mockRobotIO;
@@ -26,5 +26,10 @@ public class MockSolenoid implements XSolenoid {
     public void setInverted(boolean isInverted)
     {
                 
+    }
+
+    @Override
+    public int getChannel() {
+        return this.channel;
     }
 }
