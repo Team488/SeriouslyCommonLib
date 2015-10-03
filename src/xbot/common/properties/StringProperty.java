@@ -33,6 +33,9 @@ public class StringProperty extends Property {
         randomAccessStore.setString(key, value);
     }
     
+    /**
+     * We only save the property if it's from a persistent type
+     */
     public void save() {
     	if(persistenceType == PropertyPersistenceType.Persistent) {
         permanentStore.setString(key, randomAccessStore.getString(key));
