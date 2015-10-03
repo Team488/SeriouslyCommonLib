@@ -42,12 +42,10 @@ public abstract class PermanentStorageProxy extends TableProxy {
      * @param name  Name of the permanentStore class
      * @param pathToPropertiesFile  Where to save the table
      */
-    public PermanentStorageProxy(String pathToPropertiesFile)
+    public PermanentStorageProxy()
     {
         super();
         writeNeeded = true;
-        //PATH = "file:///Properties.txt";
-        path = pathToPropertiesFile;
     }
     
     /**

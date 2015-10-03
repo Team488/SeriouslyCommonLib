@@ -21,7 +21,7 @@ public class MockPermanentStorage extends PermanentStorageProxy {
 	
 	@Inject
 	public MockPermanentStorage() {
-		super ("");
+		super ();
         buf = new StringBuffer();
 	}
 	

@@ -13,55 +13,33 @@ import xbot.common.injection.BaseWPITest;
 
 public class PermanentStorageProxyTest extends BaseWPITest {
 
-    private String testFolder = ".\\TestProperties";
+    private String testFolder = "testo";
     
     @Before
     public void setUp() {
         super.setUp();
+        
+        // clean out database
         File d = new File(testFolder);
-        d.mkdirs();
+        try {
+            FileUtils.deleteDirectory(d);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
     
     @Test
-    public void saveBackups() {
+    public void testSaveAndLoad() {
         
-        PermanentStorageProxy p = new PermanentStorage(testFolder + "\\Properties.txt");
-        p.writeToFile("asdf,1.23");
-        p.writeToFile("aaaaabcd, 1.23");
+        PermanentStorageProxy p = new PermanentStorage();
+        p.writeToFile("double,fancyname,1.23\nboolean,flag,true\nstring,phrase,What time is it?");
         
-        File d = new File(testFolder);
-        File[] listOfFiles = d.listFiles();
+        p.loadFromDisk();
         
-        // Check that the directory has 2 files: the original, and the backup
-        assertEquals(2, listOfFiles.length);
-    }
-    
-    @Test
-    public void checkEmptyData()
-    {
-        PermanentStorageProxy p = new PermanentStorage(testFolder + "\\Properties.txt");
-        p.writeToFile("asdf,1.23");
-        p.writeToFile("");
-        
-        File d = new File(testFolder);
-        File[] listOfFiles = d.listFiles();
-        
-        // Check that the directory has only 1 file (because no backup created, due to abort)
-        assertEquals(1, listOfFiles.length);
-    }
-    
-    @Test
-    public void checkBadWrite()
-    {
-        PermanentStorageProxy p = new PermanentStorage(testFolder + "\\Properties.txt");
-        p.writeToFile("asdf,1.23");
-        p.writeToFile("a,1");
-        
-        File d = new File(testFolder);
-        File[] listOfFiles = d.listFiles();
-        
-        // Check that the directory has only 1 file (because no backup created, due to abort)
-        assertEquals(1, listOfFiles.length);
+        assertEquals(1.23, p.getDouble("fancyname"), 0.1);
+        assertEquals(true, p.getBoolean("flag"));
+        assertEquals("What time is it?", p.getString("phrase"));        
     }
     
     @After
