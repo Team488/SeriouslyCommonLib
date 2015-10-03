@@ -1,9 +1,14 @@
 package xbot.common.wpi_extensions;
 
+import com.google.inject.Inject;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 public abstract class BaseCommand extends Command {
 	
+    @Inject
+    SmartDashboardCommandPutter commandPutter;
+    
 	@Override
 	public abstract void initialize();
 
@@ -24,5 +29,17 @@ public abstract class BaseCommand extends Command {
 	public void interrupted() {
 		this.end();
 	}
+	
+    public void includeOnSmartDashboard () {
+        if(commandPutter != null) {
+            commandPutter.addCommandToSmartDashboard(this);
+        }
+    }
+    
+    public void includeOnSmartDashboard (String label) {
+        if(commandPutter != null) {
+            commandPutter.addCommandToSmartDashboard(label, this);
+        }
+    }
 
 }
