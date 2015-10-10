@@ -62,7 +62,7 @@ public class BaseRobot extends IterativeRobot {
     	}
         
     	this.injector = Guice.createInjector(this.injectionModule);
-
+    	this.initializeSystems();
     	SmartDashboard.putData(Scheduler.getInstance());
     }
     
