@@ -31,7 +31,14 @@ public class PermanentStorage extends PermanentStorageProxy {
             Statement sta = conn.createStatement();
             String payload = "DROP TABLE PROPERTIES";
             
-            return sta.execute(payload);
+            int response = sta.executeUpdate(payload);
+            
+            if (response == 0)
+            {
+            	return true;
+            }
+            // something went wrong
+            return false;
     	}
     	catch (SQLException e) {
             // TODO Auto-generated catch block
