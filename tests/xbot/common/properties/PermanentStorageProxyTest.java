@@ -1,6 +1,7 @@
 package xbot.common.properties;
 
 import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -10,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.MockPermanentStorageWithDatabase;
 
 public class PermanentStorageProxyTest extends BaseWPITest {
 
@@ -22,8 +24,9 @@ public class PermanentStorageProxyTest extends BaseWPITest {
     
     @Test
     public void testSaveAndLoad() {
+    	
+    	PermanentStorageProxy p = propertyManager.permanentStore;
         
-        PermanentStorageProxy p = new PermanentStorageBase(testFolder);
         p.writeToFile("double,fancyname,1.23\nboolean,flag,true\nstring,phrase,What time is it?");
         
         p.loadFromDisk();
@@ -38,7 +41,6 @@ public class PermanentStorageProxyTest extends BaseWPITest {
     {
     	// We need a way to obliterate the database locally so tests don't leak. Can't delete the files themselves,
     	// because the database process still has a handle on some of them.
-    	 PermanentStorageBase p = new PermanentStorageBase(testFolder);
-    	 assertEquals(true, p.obliterateStorage());
+    	 assertEquals(true, ((MockPermanentStorageWithDatabase)propertyManager.permanentStore).obliterateStorage());
     }
 }

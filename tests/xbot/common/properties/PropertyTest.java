@@ -3,11 +3,13 @@ package xbot.common.properties;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
 import xbot.common.injection.MockPermanentStorage;
+import xbot.common.injection.MockPermanentStorageWithDatabase;
 
 public class PropertyTest extends BaseWPITest {
 	
@@ -122,5 +124,13 @@ public class PropertyTest extends BaseWPITest {
         assertEquals(0.5, dbl.get(), 0.001);
         assertEquals(true,bool.get());
         assertEquals("teststring",str.get());
+    }
+    
+    @After
+    public void cleanUp()
+    {
+    	// We need a way to obliterate the database locally so tests don't leak. Can't delete the files themselves,
+    	// because the database process still has a handle on some of them.
+    	assertEquals(true, ((MockPermanentStorageWithDatabase)propertyManager.permanentStore).obliterateStorage());
     }
 }

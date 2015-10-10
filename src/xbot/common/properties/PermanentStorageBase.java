@@ -1,10 +1,12 @@
 package xbot.common.properties;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -28,17 +30,29 @@ public class PermanentStorageBase extends PermanentStorageProxy {
     	try {
             Connection conn = DriverManager.getConnection(dbUrl);
             
-            Statement sta = conn.createStatement();
-            String payload = "DROP TABLE PROPERTIES";
+            DatabaseMetaData md = conn.getMetaData();
+            ResultSet tables = md.getTables(null, null, "PROPERTIES", null);
             
-            int response = sta.executeUpdate(payload);
-            
-            if (response == 0)
+            if (tables.next())
             {
+            	//table exists
+            	Statement sta = conn.createStatement();
+                String payload = "DROP TABLE PROPERTIES";
+                
+                int response = sta.executeUpdate(payload);
+                
+                if (response == 0)
+                {
+                	return true;
+                }
+                // something went wrong
+                return false;
+            }
+            else
+            {
+            	// table does not exist, nothing to obliterate
             	return true;
             }
-            // something went wrong
-            return false;
     	}
     	catch (SQLException e) {
             // TODO Auto-generated catch block
