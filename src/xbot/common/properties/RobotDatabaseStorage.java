@@ -1,10 +1,10 @@
 package xbot.common.properties;
 
-public class RobotPermanentStorage extends PermanentStorageBase {
+public class RobotDatabaseStorage extends DatabaseStorageBase {
 
 	private static String location = "/488Database";
 	
-	public RobotPermanentStorage() {
+	public RobotDatabaseStorage() {
 		super(location);
 	}
 

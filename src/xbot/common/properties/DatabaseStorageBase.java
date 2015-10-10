@@ -13,14 +13,14 @@ import org.apache.log4j.Logger;
  *
  * @author John
  */
-public class PermanentStorageBase extends PermanentStorageProxy {
+public abstract class DatabaseStorageBase extends PermanentStorageProxy {
 
-    private static Logger log = Logger.getLogger(PermanentStorageBase.class);
+    private static Logger log = Logger.getLogger(DatabaseStorageBase.class);
     
     private String dbUrlPreFormat = "jdbc:derby:%1s;create=true";
     private String dbUrl = "";
     
-    public PermanentStorageBase(String databaseDirectory) {
+    public DatabaseStorageBase(String databaseDirectory) {
         super();
         
         dbUrl = String.format(dbUrlPreFormat, databaseDirectory);

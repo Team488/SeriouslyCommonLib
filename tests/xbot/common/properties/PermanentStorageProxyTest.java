@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
-import xbot.common.injection.MockPermanentStorageWithDatabase;
+import xbot.common.injection.MockDatabaseStorage;
 
 public class PermanentStorageProxyTest extends BaseWPITest {
 
@@ -48,6 +48,6 @@ public class PermanentStorageProxyTest extends BaseWPITest {
     {
     	// We need a way to obliterate the database locally so tests don't leak. Can't delete the files themselves,
     	// because the database process still has a handle on some of them.
-    	 assertEquals(true, ((MockPermanentStorageWithDatabase)propertyManager.permanentStore).obliterateStorage());
+    	 assertEquals(true, ((MockDatabaseStorage)propertyManager.permanentStore).obliterateStorage());
     }
 }
