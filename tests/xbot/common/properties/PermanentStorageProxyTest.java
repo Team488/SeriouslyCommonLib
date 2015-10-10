@@ -36,6 +36,13 @@ public class PermanentStorageProxyTest extends BaseWPITest {
         assertEquals("What time is it?", p.getString("phrase"));        
     }
     
+    @Test
+    public void loadNothing()
+    {
+    	// No exceptions should be thrown.
+    	propertyManager.permanentStore.loadFromDisk();
+    }
+    
     @After
     public void cleanUp()
     {

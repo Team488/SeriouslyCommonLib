@@ -26,16 +26,31 @@ public class PermanentStorageBase extends PermanentStorageProxy {
         dbUrl = String.format(dbUrlPreFormat, databaseDirectory);
     }
     
-    public boolean obliterateStorage() {
-    	try {
-            Connection conn = DriverManager.getConnection(dbUrl);
-            
-            DatabaseMetaData md = conn.getMetaData();
+    private boolean propertiesTableExists(Connection conn)
+    {
+		try {
+			DatabaseMetaData md = conn.getMetaData();
             ResultSet tables = md.getTables(null, null, "PROPERTIES", null);
             
             if (tables.next())
             {
-            	//table exists
+            	return true;
+            }
+            return false;
+	        
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+    }
+    
+    public boolean obliterateStorage() {
+    	try {
+            Connection conn = DriverManager.getConnection(dbUrl);
+            
+            if (propertiesTableExists(conn))
+            {
             	Statement sta = conn.createStatement();
                 String payload = "DROP TABLE PROPERTIES";
                 
@@ -68,23 +83,32 @@ public class PermanentStorageBase extends PermanentStorageProxy {
         try {
             Connection conn = DriverManager.getConnection(dbUrl);
             
-            Statement sta = conn.createStatement();
-            String payload = "SELECT * FROM PROPERTIES";
-
-            ResultSet rs = sta.executeQuery(payload);
-            
-            StringBuffer sb = new StringBuffer();
-            
-            while ( rs.next() ) {
-                sb.append(rs.getString("Type"));
-                sb.append(propertyDelimiter);
-                sb.append(rs.getString("Name"));
-                sb.append(propertyDelimiter);
-                sb.append(rs.getString("Value"));
-                sb.append(lineSeperator);
+            if (propertiesTableExists(conn))
+            {
+	            Statement sta = conn.createStatement();
+	            String payload = "SELECT * FROM PROPERTIES";
+	
+	            ResultSet rs = sta.executeQuery(payload);
+	            
+	            StringBuffer sb = new StringBuffer();
+	            
+	            while ( rs.next() ) {
+	                sb.append(rs.getString("Type"));
+	                sb.append(propertyDelimiter);
+	                sb.append(rs.getString("Name"));
+	                sb.append(propertyDelimiter);
+	                sb.append(rs.getString("Value"));
+	                sb.append(lineSeperator);
+	            }
+	            
+	            return sb.toString();
             }
-            
-            return sb.toString();
+            else
+            {
+            	// could not load properties table.
+            	log.error("Could not find the properties table in the database when loading properties!");
+            	log.error("All properties will be at their default levels!");
+            }
         } 
         catch (SQLException e) {
             // TODO Auto-generated catch block
