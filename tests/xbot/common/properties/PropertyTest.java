@@ -89,9 +89,9 @@ public class PropertyTest extends BaseWPITest {
 	
     @Test
     public void testLoadingValue() {
-    	((MockPermanentStorage)propertyManager.permanentStore).addTestDouble("speed", 0.5);
-    	((MockPermanentStorage)propertyManager.permanentStore).addTestBoolean("isTrue", true);
-    	((MockPermanentStorage)propertyManager.permanentStore).addTestString("string", "teststring");
+    	propertyManager.permanentStore.setDouble("speed", 0.5);
+    	propertyManager.permanentStore.setBoolean("isTrue", true);
+    	propertyManager.permanentStore.setString("string", "teststring");
     	
     	propertyManager.loadPropertiesFromStorage();
         
@@ -106,9 +106,12 @@ public class PropertyTest extends BaseWPITest {
     
     @Test
     public void testLoadingValueAfterCreation() {
-    	((MockPermanentStorage)propertyManager.permanentStore).addTestDouble("speed", 0.5);
-    	((MockPermanentStorage)propertyManager.permanentStore).addTestBoolean("isTrue", true);
-    	((MockPermanentStorage)propertyManager.permanentStore).addTestString("string", "teststring");
+    	   	
+    	propertyManager.createProperty("speed", 0.5);
+        propertyManager.createProperty("isTrue", true);
+        propertyManager.createProperty("string", "teststring");
+    	
+    	propertyManager.saveOutAllProperties();
     	
         DoubleProperty dbl = propertyManager.createProperty("speed", 1.0);
         BooleanProperty bool = propertyManager.createProperty("isTrue", false);

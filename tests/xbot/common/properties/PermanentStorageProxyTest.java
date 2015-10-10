@@ -18,21 +18,12 @@ public class PermanentStorageProxyTest extends BaseWPITest {
     @Before
     public void setUp() {
         super.setUp();
-        
-        // clean out database
-        File d = new File(testFolder);
-        try {
-            FileUtils.deleteDirectory(d);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
     
     @Test
     public void testSaveAndLoad() {
         
-        PermanentStorageProxy p = new PermanentStorage(testFolder);
+        PermanentStorageProxy p = new PermanentStorageBase(testFolder);
         p.writeToFile("double,fancyname,1.23\nboolean,flag,true\nstring,phrase,What time is it?");
         
         p.loadFromDisk();
@@ -47,7 +38,7 @@ public class PermanentStorageProxyTest extends BaseWPITest {
     {
     	// We need a way to obliterate the database locally so tests don't leak. Can't delete the files themselves,
     	// because the database process still has a handle on some of them.
-    	 PermanentStorage p = new PermanentStorage(testFolder);
+    	 PermanentStorageBase p = new PermanentStorageBase(testFolder);
     	 assertEquals(true, p.obliterateStorage());
     }
 }

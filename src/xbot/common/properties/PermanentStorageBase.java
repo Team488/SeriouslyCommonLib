@@ -11,14 +11,14 @@ import org.apache.log4j.Logger;
  *
  * @author John
  */
-public class PermanentStorage extends PermanentStorageProxy {
+public class PermanentStorageBase extends PermanentStorageProxy {
 
-    private static Logger log = Logger.getLogger(PermanentStorage.class);
+    private static Logger log = Logger.getLogger(PermanentStorageBase.class);
     
     private String dbUrlPreFormat = "jdbc:derby:%1s;create=true";
     private String dbUrl = "";
     
-    public PermanentStorage(String databaseDirectory) {
+    public PermanentStorageBase(String databaseDirectory) {
         super();
         
         dbUrl = String.format(dbUrlPreFormat, databaseDirectory);
@@ -85,6 +85,7 @@ public class PermanentStorage extends PermanentStorageProxy {
         Connection conn = null;
         
         try {
+        	// we need to be more resilient here, and only create if table doesn't exist.
             conn = DriverManager.getConnection(dbUrl);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
