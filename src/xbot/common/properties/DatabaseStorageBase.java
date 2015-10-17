@@ -128,7 +128,12 @@ public abstract class DatabaseStorageBase implements ITableProxy {
             Statement sta = conn.createStatement();
             String payload = "SELECT * FROM PROPERTIES WHERE NAME = '" + name + "'";
             ResultSet rs = sta.executeQuery(payload);
-            return rs.getString("Value");
+            
+            if (rs.next())
+            {
+                return rs.getString("Value");
+            }
+            rs.close();
         } catch (SQLException e) {
             log.warn("Unable to load property " + name + "!");
             log.warn(e.toString());
