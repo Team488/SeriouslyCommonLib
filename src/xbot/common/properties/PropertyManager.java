@@ -109,7 +109,7 @@ public class PropertyManager {
      * 
      */
     public BooleanProperty createProperty(String key, Boolean defaultValue) {
-    	return new BooleanProperty(key, defaultValue, this);
+        return new BooleanProperty(key, defaultValue, this);
     }
     /**
      * @deprecated You should use createProperty(String key, String defaultValue, PropertyPersistenceType persistenceType) 
@@ -117,7 +117,7 @@ public class PropertyManager {
      * 
      */
     public StringProperty createProperty(String key, String defaultValue) {
-    	return new StringProperty(key, defaultValue, this);
+        return new StringProperty(key, defaultValue, this);
     }
     /**
      * @deprecated You should use createProperty(String key, Double defaultValue, PropertyPersistenceType persistenceType) 
@@ -125,7 +125,7 @@ public class PropertyManager {
      * 
      */
     public DoubleProperty createProperty(String key, Double defaultValue) {
-    	return new DoubleProperty(key, defaultValue, this);
+        return new DoubleProperty(key, defaultValue, this);
     }
     
     /**
@@ -135,15 +135,15 @@ public class PropertyManager {
      * @author Marc
      */
     public BooleanProperty createProperty(String key, Boolean defaultValue, PropertyPersistenceType persistenceType) {
-    	return new BooleanProperty(key, defaultValue, persistenceType, this);
+        return new BooleanProperty(key, defaultValue, persistenceType, this);
     } 
     
     public StringProperty createProperty(String key, String defaultValue, PropertyPersistenceType persistenceType) {
-    	return new StringProperty(key, defaultValue, persistenceType, this);
+        return new StringProperty(key, defaultValue, persistenceType, this);
     }
     
     public DoubleProperty createProperty(String key, Double defaultValue, PropertyPersistenceType persistenceType) {
-    	return new DoubleProperty(key, defaultValue, persistenceType, this);
+        return new DoubleProperty(key, defaultValue, persistenceType, this);
     }
     
     
