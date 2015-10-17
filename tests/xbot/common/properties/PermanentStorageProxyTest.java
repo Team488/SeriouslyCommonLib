@@ -48,6 +48,8 @@ public class PermanentStorageProxyTest extends BaseWPITest {
         p.writeToFile("double,fancyname,1.23\nboolean,flag,true\nstring,phrase,What time is it?");
         
         p.loadFromDisk();
+        // need to verify that information was loaded
+        assertEquals(p.getDouble("fancyname"), 1.23, .01);
         
         p.clear();
         
