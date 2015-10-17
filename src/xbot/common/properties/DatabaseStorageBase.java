@@ -154,8 +154,10 @@ public abstract class DatabaseStorageBase implements ITableProxy {
             ResultSet tables = md.getTables(null, null, "PROPERTIES", null);
 
             if (tables.next()) {
+                tables.close();
                 return true;
             }
+            tables.close();
             return false;
 
         } catch (SQLException e) {
