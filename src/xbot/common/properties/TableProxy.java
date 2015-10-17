@@ -16,7 +16,11 @@ public class TableProxy implements ITableProxy {
     public Hashtable<String, String> table;
 
     public TableProxy() {
-        this.table = new Hashtable<String, String>();
+        clear();
+    }
+    
+    public void clear() {
+    	this.table = new Hashtable<String, String>();
     }
     
     public void setDouble(String key, double value) {
