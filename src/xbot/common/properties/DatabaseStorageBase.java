@@ -26,10 +26,18 @@ public abstract class DatabaseStorageBase extends PermanentStorageProxy {
         dbUrl = String.format(dbUrlPreFormat, databaseDirectory);
     }
     
+    
+    /**
+     * @param conn - this method needs an open connection to the database
+     * @return True if the PROPERTIES table is present in the Database; False otherwise
+     */
     private boolean propertiesTableExists(Connection conn)
     {
 		try {
 			DatabaseMetaData md = conn.getMetaData();
+			// The following method returns tables that match a given pattern. Since we don't care about
+			// Catalog, Schema, or Types (we only care about the TableNamePattern), we leave those 
+			// fields null.
             ResultSet tables = md.getTables(null, null, "PROPERTIES", null);
             
             if (tables.next())
