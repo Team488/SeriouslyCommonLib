@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
 import xbot.common.injection.MockPermanentStorage;
-import xbot.common.properties.Property.PropertyPersistenceType;
+
 
 public class PropertyTest extends BaseWPITest {
 	
@@ -71,13 +71,13 @@ public class PropertyTest extends BaseWPITest {
         BooleanProperty bool1 = propertyManager.createProperty("isTrue", false);
         StringProperty str1 = propertyManager.createProperty("string", "test2");
         
-        DoubleProperty dbl2 = propertyManager.createProperty("weight", 2.3, PropertyPersistenceType.Ephemeral);
-        BooleanProperty bool2 = propertyManager.createProperty("isFalse", true, PropertyPersistenceType.Ephemeral);
-        StringProperty str2 = propertyManager.createProperty("robotname", "xbot", PropertyPersistenceType.Ephemeral);
+        DoubleProperty dbl2 = propertyManager.createEphemeralProperty("weight", 2.3);
+        BooleanProperty bool2 = propertyManager.createEphemeralProperty("isFalse", true);
+        StringProperty str2 = propertyManager.createEphemeralProperty("robotname", "xbot");
         
-        DoubleProperty dbl3 = propertyManager.createProperty("height", 4.8, PropertyPersistenceType.Persistent);
-        BooleanProperty bool3 = propertyManager.createProperty("isAwesome", true, PropertyPersistenceType.Persistent);
-        StringProperty str3 = propertyManager.createProperty("team", "488", PropertyPersistenceType.Persistent);
+        DoubleProperty dbl3 = propertyManager.createPersistentProperty("height", 4.8);
+        BooleanProperty bool3 = propertyManager.createPersistentProperty("isAwesome", true);
+        StringProperty str3 = propertyManager.createPersistentProperty("team", "488");
         
         assertSame(null, propertyManager.permanentStore.getDouble("speed"));
         assertSame(null, propertyManager.permanentStore.getBoolean("isTrue"));

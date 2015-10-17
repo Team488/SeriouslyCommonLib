@@ -25,10 +25,12 @@ public abstract class Property {
     
     /** 
      * New enum to determine property persistence
+     * Ephemeral properties will not be saved or load from a persistent storage
+     * Persistent properties will be saved and load from a persistent storage
      */
     public enum PropertyPersistenceType{
-    	Ephemeral,
-    	Persistent
+        Ephemeral,
+        Persistent
     }
     
     public PropertyPersistenceType persistenceType;

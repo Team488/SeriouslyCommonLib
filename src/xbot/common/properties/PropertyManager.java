@@ -129,22 +129,50 @@ public class PropertyManager {
     }
     
     /**
-     * Creating new methods for creating the properties with a new parameter.
-     * This parameter will determine if the property is ephemeral or have to be persisted.
-     * Old methods with 2 parameters will be deprecated
+     * Method for creating a boolean ephemeral property
      * @author Marc
      */
-    public BooleanProperty createProperty(String key, Boolean defaultValue, PropertyPersistenceType persistenceType) {
-        return new BooleanProperty(key, defaultValue, persistenceType, this);
+    public BooleanProperty createEphemeralProperty(String key, Boolean defaultValue) {
+        return new BooleanProperty(key, defaultValue, PropertyPersistenceType.Ephemeral, this);
     } 
     
-    public StringProperty createProperty(String key, String defaultValue, PropertyPersistenceType persistenceType) {
-        return new StringProperty(key, defaultValue, persistenceType, this);
+    /**
+     * Method for creating a string ephemeral property
+     * @author Marc
+     */
+    public StringProperty createEphemeralProperty(String key, String defaultValue) {
+        return new StringProperty(key, defaultValue, PropertyPersistenceType.Ephemeral, this);
     }
     
-    public DoubleProperty createProperty(String key, Double defaultValue, PropertyPersistenceType persistenceType) {
-        return new DoubleProperty(key, defaultValue, persistenceType, this);
+    /**
+     * Method for creating a double ephemeral property
+     * @author Marc
+     */
+    public DoubleProperty createEphemeralProperty(String key, Double defaultValue) {
+        return new DoubleProperty(key, defaultValue, PropertyPersistenceType.Ephemeral, this);
     }
     
+    /**
+     * Method for creating a double persistent property
+     * @author Marc
+     */
+    public BooleanProperty createPersistentProperty(String key, Boolean defaultValue) {
+        return new BooleanProperty(key, defaultValue, PropertyPersistenceType.Persistent, this);
+    } 
     
+    /**
+     * Method for creating a double persistent property
+     * @author Marc
+     */
+    public StringProperty createPersistentProperty(String key, String defaultValue) {
+        return new StringProperty(key, defaultValue, PropertyPersistenceType.Persistent, this);
+    }
+    
+    /**
+     * Method for creating a double persistent property
+     * @author Marc
+     */
+    public DoubleProperty createPersistentProperty(String key, Double defaultValue) {
+        return new DoubleProperty(key, defaultValue, PropertyPersistenceType.Persistent, this);
+    }
 }
