@@ -1,13 +1,13 @@
 package xbot.common.injection;
 
 import xbot.common.properties.DatabaseStorageBase;
-import xbot.common.properties.PermanentStorageProxy;
+import xbot.common.properties.TableProxy;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class MockPermanentStorage extends DatabaseStorageBase {
+public class MockPermanentStorage extends TableProxy {
 	
     private StringBuffer buf;
 	

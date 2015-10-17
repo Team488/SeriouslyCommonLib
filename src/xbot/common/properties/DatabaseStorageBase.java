@@ -9,8 +9,6 @@ import java.sql.Statement;
 
 import org.apache.log4j.Logger;
 
-import com.sun.javafx.scene.layout.region.Margins.Converter;
-
 /**
  *
  * @author John
@@ -25,17 +23,20 @@ public abstract class DatabaseStorageBase implements ITableProxy {
     private Connection conn = null;
 
     public DatabaseStorageBase(String databaseDirectory) {
-        super();
-
+        
         dbUrl = String.format(dbUrlPreFormat, databaseDirectory);
         
         try {
-            Connection conn = DriverManager.getConnection(dbUrl);
+            conn = DriverManager.getConnection(dbUrl);
         } catch (SQLException e) {
             log.error("Could not open a connection to the database! No properties will be loaded or persisted!!");
             log.error(e.toString());
             e.printStackTrace();
-        }
+        } catch (Exception e) {
+            log.error("Could not open a connection to the database! No properties will be loaded or persisted!!");
+            log.error(e.toString());
+            e.printStackTrace();
+        }        
         
         // create properties if not exists
         if (propertiesTableExists() == false)
@@ -58,16 +59,42 @@ public abstract class DatabaseStorageBase implements ITableProxy {
     
     public Double getDouble(String key){
         String value = loadProperty(key);
-        return Double.parseDouble(value);
+        try {
+            return Double.parseDouble(value);
+        }
+        catch (NumberFormatException e)
+        {
+            return null;
+        }
     }
     
     public Boolean getBoolean (String key){
         String value = loadProperty(key);
-        return Boolean.parseBoolean(value);
+        return parseBoolean(value);
+    }
+    
+    private Boolean parseBoolean(String value)
+    {
+        if (value.toLowerCase().equals("true"))
+        {
+            return true;
+        }
+        
+        if (value.toLowerCase().equals("false"))
+        {
+            return false;
+        }
+        
+        return null;
     }
     
     public String getString (String key){
-        return loadProperty(key);
+        String value = loadProperty(key);
+        if (value.length() == 0)
+        {
+            return null;
+        }
+        return value;
     }
     
     public void clear(){
@@ -99,7 +126,7 @@ public abstract class DatabaseStorageBase implements ITableProxy {
     {
         try {
             Statement sta = conn.createStatement();
-            String payload = "SELECT * FROM PROPERTIES WHERE NAME = " + name;
+            String payload = "SELECT * FROM PROPERTIES WHERE NAME = '" + name + "'";
             ResultSet rs = sta.executeQuery(payload);
             return rs.getString("Value");
         } catch (SQLException e) {

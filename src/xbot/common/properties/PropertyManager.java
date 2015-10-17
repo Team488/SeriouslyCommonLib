@@ -4,12 +4,8 @@
  */
 package xbot.common.properties;
 
-import xbot.common.properties.PermanentStorageProxy;
-
 import java.util.ArrayList;
-
 import org.apache.log4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -56,9 +52,7 @@ public class PropertyManager {
      * Loads all properties from storage into the PermanentStore's table.
      */
     public void loadPropertiesFromStorage()
-    {
-        permanentStore.loadFromDisk();
-        
+    {        
         // We need to somehow get the random store and force load everything in that.
         int escape = 0;
         for(int i = 0; i < properties.size(); i++) {
@@ -102,10 +96,6 @@ public class PropertyManager {
                 break;
             }
         }
-        
-        // We also need to trigger the permanent storage proxy to actually write
-        // to disk.
-        permanentStore.saveToDisk();
     }
     
     public BooleanProperty createProperty(String key, Boolean defaultValue) {

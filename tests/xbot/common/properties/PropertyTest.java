@@ -67,18 +67,6 @@ public class PropertyTest extends BaseWPITest {
     }
     
     @Test
-    public void testSortingValues() {
-        PermanentStorageProxy permanentStore = propertyManager.permanentStore;
-        permanentStore.setDouble("A", 0);
-        permanentStore.setString("A1", "");
-        permanentStore.setDouble("C", 0);
-        permanentStore.setDouble("B", 0);
-        
-        assertEquals("double,A,0.0\nstring,A1,\ndouble,B,0.0\ndouble,C,0.0\n",
-                permanentStore.serializePropertiesToString());
-    }
-    
-    @Test
     public void testBadPropertyName() {
         DoubleProperty dbl = propertyManager.createProperty("commas are bad ,", 0.5);
         assertEquals("commas are bad ", dbl.key);
