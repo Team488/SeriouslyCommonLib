@@ -20,7 +20,7 @@ public abstract class Property {
      */
     public String key;
 
-    ITableProxy permanentStore;
+    DatabaseStorageBase permanentStore;
     ITableProxy randomAccessStore;
 
     private static Logger log = Logger.getLogger(Property.class);
