@@ -1,6 +1,6 @@
 package edu.wpi.first.wpilibj;
 
-import xbot.common.controls.DistanceSensor;
+import xbot.common.controls.sensors.DistanceSensor;
 
 public class MockDistanceSensor implements DistanceSensor {
 

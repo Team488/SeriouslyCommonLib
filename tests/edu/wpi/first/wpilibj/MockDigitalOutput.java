@@ -1,6 +1,6 @@
 package edu.wpi.first.wpilibj;
 
-public class MockDigitalOutput implements xbot.common.controls.XDigitalOutput {
+public class MockDigitalOutput implements xbot.common.controls.actuators.XDigitalOutput {
 	protected int channel;
 	
 	protected MockRobotIO mockRobotIO;

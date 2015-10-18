@@ -1,6 +1,6 @@
 package edu.wpi.first.wpilibj;
 
-public class MockDigitalInput implements xbot.common.controls.XDigitalInput {
+public class MockDigitalInput implements xbot.common.controls.sensors.XDigitalInput {
 
 	protected boolean value;
 	final int channel;

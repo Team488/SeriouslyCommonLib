@@ -3,7 +3,7 @@ package edu.wpi.first.wpilibj;
 import java.util.HashMap;
 import java.util.Map;
 
-import xbot.common.controls.XJoystick;
+import xbot.common.controls.sensors.XJoystick;
 import xbot.common.math.XYPair;
 
 public class MockJoystick extends GenericHID implements XJoystick {

@@ -1,6 +1,6 @@
 package edu.wpi.first.wpilibj;
 
-import xbot.common.controls.XAnalogInput;
+import xbot.common.controls.sensors.XAnalogInput;
 
 public class MockAnalogInput implements XAnalogInput {
 	MockRobotIO mockRobotIO;
