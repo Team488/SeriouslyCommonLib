@@ -1,7 +1,7 @@
 package edu.wpi.first.wpilibj;
 
 
-public class MockEncoder implements xbot.common.wpi_extensions.mechanism_wrappers.XEncoder{
+public class MockEncoder implements xbot.common.controls.XEncoder{
 	
 	private double distance;
 	private double rate;

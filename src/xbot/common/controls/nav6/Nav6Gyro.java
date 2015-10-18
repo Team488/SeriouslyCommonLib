@@ -1,9 +1,8 @@
-package xbot.common.controls;
+package xbot.common.controls.nav6;
 
 import edu.wpi.first.wpilibj.SerialPort;
-import xbot.common.controls.nav6.IMU;
+import xbot.common.controls.XGyro;
 import xbot.common.math.ContiguousDouble;
-import xbot.common.wpi_extensions.mechanism_wrappers.XGyro;
 
 /**
  * Internal class to handle gyro readings.

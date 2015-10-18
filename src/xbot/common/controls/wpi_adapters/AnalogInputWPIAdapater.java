@@ -1,6 +1,7 @@
-package xbot.common.wpi_extensions.mechanism_wrappers;
+package xbot.common.controls.wpi_adapters;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import xbot.common.controls.XAnalogInput;
 
 public class AnalogInputWPIAdapater implements XAnalogInput {
 	AnalogInput input;

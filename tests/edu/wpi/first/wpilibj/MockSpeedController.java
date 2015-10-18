@@ -2,7 +2,7 @@ package edu.wpi.first.wpilibj;
 
 import org.apache.log4j.Logger;
 
-import xbot.common.wpi_extensions.mechanism_wrappers.XSpeedController;
+import xbot.common.controls.XSpeedController;
 
 public class MockSpeedController implements XSpeedController {
 	public final int channel;

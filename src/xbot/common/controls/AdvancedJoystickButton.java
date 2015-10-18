@@ -1,4 +1,4 @@
-package xbot.common.wpi_extensions.mechanism_wrappers;
+package xbot.common.controls;
 
 import org.apache.log4j.Logger;
 

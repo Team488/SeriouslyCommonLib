@@ -2,22 +2,22 @@ package xbot.common.injection.wpi_factories;
 
 import java.util.function.DoubleFunction;
 
-import xbot.common.wpi_extensions.mechanism_wrappers.AdvancedJoystickButton;
-import xbot.common.wpi_extensions.mechanism_wrappers.XAnalogInput;
-import xbot.common.wpi_extensions.mechanism_wrappers.XCompressor;
-import xbot.common.wpi_extensions.mechanism_wrappers.XDigitalInput;
-import xbot.common.wpi_extensions.mechanism_wrappers.XDigitalOutput;
-import xbot.common.wpi_extensions.mechanism_wrappers.XEncoder;
-import xbot.common.wpi_extensions.mechanism_wrappers.XGyro;
-import xbot.common.wpi_extensions.mechanism_wrappers.XJoystick;
-import xbot.common.wpi_extensions.mechanism_wrappers.XPowerDistributionPanel;
-import xbot.common.wpi_extensions.mechanism_wrappers.XServo;
-import xbot.common.wpi_extensions.mechanism_wrappers.XSolenoid;
-import xbot.common.wpi_extensions.mechanism_wrappers.XSpeedController;
 import edu.wpi.first.wpilibj.I2C.Port;
+import xbot.common.controls.AdvancedJoystickButton;
 import xbot.common.controls.AnalogHIDButton;
 import xbot.common.controls.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.DistanceSensor;
+import xbot.common.controls.XAnalogInput;
+import xbot.common.controls.XCompressor;
+import xbot.common.controls.XDigitalInput;
+import xbot.common.controls.XDigitalOutput;
+import xbot.common.controls.XEncoder;
+import xbot.common.controls.XGyro;
+import xbot.common.controls.XJoystick;
+import xbot.common.controls.XPowerDistributionPanel;
+import xbot.common.controls.XServo;
+import xbot.common.controls.XSolenoid;
+import xbot.common.controls.XSpeedController;
 
 public interface WPIFactory {
 	

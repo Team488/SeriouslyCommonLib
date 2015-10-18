@@ -1,10 +1,10 @@
-package xbot.common.wpi_extensions.mechanism_wrappers;
+package xbot.common.controls.wpi_adapters;
 
 import xbot.common.math.XYPair;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 
-public class JoystickWPIAdapter implements xbot.common.wpi_extensions.mechanism_wrappers.XJoystick
+public class JoystickWPIAdapter implements xbot.common.controls.XJoystick
 {
     private boolean xInverted = false;
     private boolean yInverted = false;

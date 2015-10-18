@@ -1,7 +1,8 @@
-package xbot.common.wpi_extensions.mechanism_wrappers;
+package xbot.common.controls.wpi_adapters;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
+import xbot.common.controls.XSpeedController;
 
 public class SpeedControllerWPIAdapter implements XSpeedController
 {

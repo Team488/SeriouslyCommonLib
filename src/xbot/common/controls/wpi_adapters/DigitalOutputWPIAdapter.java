@@ -1,6 +1,7 @@
-package xbot.common.wpi_extensions.mechanism_wrappers;
+package xbot.common.controls.wpi_adapters;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
+import xbot.common.controls.XDigitalOutput;
 
 public class DigitalOutputWPIAdapter implements XDigitalOutput {
 	

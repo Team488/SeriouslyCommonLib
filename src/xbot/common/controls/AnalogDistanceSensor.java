@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyManager;
-import xbot.common.wpi_extensions.mechanism_wrappers.XAnalogInput;
 
 import java.util.function.DoubleFunction;
 

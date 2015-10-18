@@ -7,8 +7,6 @@ import org.apache.log4j.Logger;
 import xbot.common.controls.AnalogHIDButton;
 import xbot.common.controls.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.injection.wpi_factories.WPIFactory;
-import xbot.common.wpi_extensions.mechanism_wrappers.AdvancedJoystickButton;
-import xbot.common.wpi_extensions.mechanism_wrappers.XJoystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 
 /**

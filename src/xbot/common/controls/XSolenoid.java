@@ -1,4 +1,4 @@
-package xbot.common.wpi_extensions.mechanism_wrappers;
+package xbot.common.controls;
 
 public interface XSolenoid extends XBaseIO {
 	public void set(boolean on);

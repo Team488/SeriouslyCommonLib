@@ -1,6 +1,6 @@
 package edu.wpi.first.wpilibj;
 
-import xbot.common.wpi_extensions.mechanism_wrappers.XServo;
+import xbot.common.controls.XServo;
 
 public class MockServo implements XServo {
 	MockRobotIO mockRobotIO;

@@ -1,4 +1,4 @@
-package xbot.common.wpi_extensions.mechanism_wrappers;
+package xbot.common.controls;
 
 import xbot.common.math.XYPair;
 import edu.wpi.first.wpilibj.GenericHID;

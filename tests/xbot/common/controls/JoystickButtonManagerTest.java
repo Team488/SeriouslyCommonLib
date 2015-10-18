@@ -6,8 +6,6 @@ import org.junit.Test;
 import xbot.common.injection.BaseWPITest;
 import xbot.common.injection.wpi_factories.WPIFactory;
 
-import xbot.common.wpi_extensions.mechanism_wrappers.XJoystick;
-
 
 public class JoystickButtonManagerTest extends BaseWPITest {
 

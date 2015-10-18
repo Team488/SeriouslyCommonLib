@@ -3,8 +3,8 @@ package edu.wpi.first.wpilibj;
 import java.util.HashMap;
 import java.util.Map;
 
+import xbot.common.controls.XJoystick;
 import xbot.common.math.XYPair;
-import xbot.common.wpi_extensions.mechanism_wrappers.XJoystick;
 
 public class MockJoystick extends GenericHID implements XJoystick {
     double x = 0;

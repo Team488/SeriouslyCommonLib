@@ -1,6 +1,7 @@
-package xbot.common.wpi_extensions.mechanism_wrappers;
+package xbot.common.controls.wpi_adapters;
 
 import edu.wpi.first.wpilibj.Encoder;
+import xbot.common.controls.XEncoder;
 
 public class EncoderWPIAdapter implements XEncoder {
 	

@@ -1,7 +1,7 @@
 package edu.wpi.first.wpilibj;
 
+import xbot.common.controls.XGyro;
 import xbot.common.math.ContiguousDouble;
-import xbot.common.wpi_extensions.mechanism_wrappers.XGyro;
 
 public class MockGyro implements XGyro
 {
