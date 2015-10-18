@@ -3,8 +3,8 @@ package xbot.common.controls;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.wpi.first.wpilibj.MockRobotIO;
 import xbot.common.injection.BaseWPITest;
-import xbot.common.injection.MockRobotIO;
 import xbot.common.injection.wpi_factories.MockWPIFactory;
 import xbot.common.properties.PropertyManager;
 import static org.junit.Assert.*;

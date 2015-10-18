@@ -1,4 +1,4 @@
-package xbot.common.injection;
+package edu.wpi.first.wpilibj;
 
 import java.util.HashMap;
 import java.util.Map;

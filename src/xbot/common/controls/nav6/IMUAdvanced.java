@@ -8,13 +8,12 @@
 /* in the root directory of the project.                                      */
 /*----------------------------------------------------------------------------*/
 
-package xbot.nav6;
+package xbot.common.controls.nav6;
 
 import java.util.Arrays;
 
-import xbot.nav6.IMUProtocol;
-
 import edu.wpi.first.wpilibj.SerialPort;
+import xbot.common.controls.nav6.IMUProtocol;
 
 /**
  * The IMUAdvanced class provides a simplified interface to advanced capabilities

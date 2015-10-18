@@ -8,11 +8,9 @@
 /* in the root directory of the project.                                      */
 /*----------------------------------------------------------------------------*/
 
-package xbot.nav6;
+package xbot.common.controls.nav6;
 
 import java.util.Arrays;
-
-import xbot.nav6.IMUProtocol;
 
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.SensorBase;
@@ -20,6 +18,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
+import xbot.common.controls.nav6.IMUProtocol;
 
 /**
  * The IMU class provides a simplified interface to the KauaiLabs nav6 IMU.

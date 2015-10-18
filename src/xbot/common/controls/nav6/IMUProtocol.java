@@ -21,7 +21,7 @@
  THE SOFTWARE.
  ===============================================
  */
-package xbot.nav6;
+package xbot.common.controls.nav6;
 
 public class IMUProtocol {
 
