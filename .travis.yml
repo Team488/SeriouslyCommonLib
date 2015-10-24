@@ -1,0 +1,11 @@
+language: java
+jdk:
+  - oraclejdk8
+install:
+  - mkdir -p /home/travis/wpilib/java/current/lib/
+  - cp lib/WPILib.jar /home/travis/wpilib/java/current/lib/
+  - cp lib/NetworkTables.jar /home/travis/wpilib/java/current/lib/
+  - sudo mkdir /488Logs/
+  - sudo touch /488Logs/default.log
+  - sudo chmod 777 /488Logs/default.log
+sudo: required
