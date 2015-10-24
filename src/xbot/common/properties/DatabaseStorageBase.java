@@ -69,9 +69,13 @@ public abstract class DatabaseStorageBase implements ITableProxy {
     
     public Boolean getBoolean (String key){
         String value = loadProperty(key);
+        // See the comments on parseBoolean() as to why we have to do this.
         return parseBoolean(value);
     }
     
+    // The default Java boolean parser is good, but makes too many assumptions. Any variation of "true"
+    // comes back as true, and LITERALLY ANYTHING ELSE (including null) is considered false. Since we want
+    // to keep null as "I didn't find this property", we need to more explicitly parse true and false.
     private Boolean parseBoolean(String value)
     {
         if (value.toLowerCase().equals("true"))
