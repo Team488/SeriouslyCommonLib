@@ -4,6 +4,7 @@ import java.util.function.DoubleFunction;
 
 import com.google.inject.Inject;
 
+import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
@@ -12,6 +13,7 @@ import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
+import xbot.common.controls.sensors.MockGyro;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
@@ -27,10 +29,8 @@ import edu.wpi.first.wpilibj.MockDigitalInput;
 import edu.wpi.first.wpilibj.MockDigitalOutput;
 import edu.wpi.first.wpilibj.MockDistanceSensor;
 import edu.wpi.first.wpilibj.MockEncoder;
-import edu.wpi.first.wpilibj.MockGyro;
 import edu.wpi.first.wpilibj.MockJoystick;
 import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
-import edu.wpi.first.wpilibj.MockRobotIO;
 import edu.wpi.first.wpilibj.MockServo;
 import edu.wpi.first.wpilibj.MockSolenoid;
 import edu.wpi.first.wpilibj.MockSpeedController;

@@ -3,7 +3,7 @@ package xbot.common.controls.sensors;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.wpi.first.wpilibj.MockRobotIO;
+import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.injection.BaseWPITest;
 import xbot.common.injection.wpi_factories.MockWPIFactory;

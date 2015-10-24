@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.google.inject.Inject;
 
+import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
@@ -20,6 +21,7 @@ import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
 import xbot.common.controls.sensors.Lidar;
+import xbot.common.controls.sensors.MockGyro;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
@@ -34,8 +36,6 @@ import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.JoystickWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter;
 import xbot.common.properties.PropertyManager;
-import edu.wpi.first.wpilibj.MockGyro;
-import edu.wpi.first.wpilibj.MockRobotIO;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;

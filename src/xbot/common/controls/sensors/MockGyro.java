@@ -1,6 +1,6 @@
-package edu.wpi.first.wpilibj;
+package xbot.common.controls.sensors;
 
-import xbot.common.controls.sensors.XGyro;
+import xbot.common.controls.MockRobotIO;
 import xbot.common.math.ContiguousDouble;
 
 public class MockGyro implements XGyro

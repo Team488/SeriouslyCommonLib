@@ -1,4 +1,4 @@
-package edu.wpi.first.wpilibj;
+package xbot.common.controls;
 
 import java.util.HashMap;
 import java.util.Map;

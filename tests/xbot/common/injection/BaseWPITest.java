@@ -7,10 +7,10 @@ import org.junit.Ignore;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import xbot.common.controls.MockRobotIO;
 import xbot.common.properties.PropertyManager;
 import edu.wpi.first.wpilibj.HLUsageReporting;
 import edu.wpi.first.wpilibj.MockHLUsageReporting;
-import edu.wpi.first.wpilibj.MockRobotIO;
 import edu.wpi.first.wpilibj.MockRobotState;
 import edu.wpi.first.wpilibj.MockTimer;
 import edu.wpi.first.wpilibj.RobotState;
