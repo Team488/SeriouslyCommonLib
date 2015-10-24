@@ -18,9 +18,7 @@ public abstract class DatabaseStorageBase implements ITableProxy {
     private static Logger log = Logger.getLogger(DatabaseStorageBase.class);
 
     private String dbUrlPreFormat = "jdbc:derby:%1s;create=true";
-    private String dbUrl = "";
-    
-    private Connection conn = null;
+    private final String dbUrl;
 
     public DatabaseStorageBase(String databaseDirectory) {
         

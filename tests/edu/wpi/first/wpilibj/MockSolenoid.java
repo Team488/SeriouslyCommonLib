@@ -1,7 +1,7 @@
 package edu.wpi.first.wpilibj;
 
-import xbot.common.injection.MockRobotIO;
-import xbot.common.wpi_extensions.mechanism_wrappers.XSolenoid;
+import xbot.common.controls.MockRobotIO;
+import xbot.common.controls.actuators.XSolenoid;
 
 public class MockSolenoid implements XSolenoid {
 	MockRobotIO mockRobotIO;

@@ -4,6 +4,8 @@
  */
 package xbot.common.properties;
 
+import xbot.common.properties.PermanentStorageProxy;
+import xbot.common.properties.Property.PropertyPersistenceType;
 import java.util.ArrayList;
 import org.apache.log4j.Logger;
 import com.google.inject.Inject;
@@ -96,17 +98,76 @@ public class PropertyManager {
         }
     }
     
+    /**
+     * @deprecated You should use createProperty(String key, Boolean defaultValue, PropertyPersistenceType persistenceType) 
+     * instead, which includes persistenceType to determine if the property is persistent
+     * 
+     */
     public BooleanProperty createProperty(String key, Boolean defaultValue) {
-    	return new BooleanProperty(key, defaultValue, this);
+        return new BooleanProperty(key, defaultValue, this);
     }
-    
+    /**
+     * @deprecated You should use createProperty(String key, String defaultValue, PropertyPersistenceType persistenceType) 
+     * instead, which includes persistenceType to determine if the property is persistent
+     * 
+     */
     public StringProperty createProperty(String key, String defaultValue) {
-    	return new StringProperty(key, defaultValue, this);
+        return new StringProperty(key, defaultValue, this);
     }
-    
+    /**
+     * @deprecated You should use createProperty(String key, Double defaultValue, PropertyPersistenceType persistenceType) 
+     * instead, which includes persistenceType to determine if the property is persistent
+     * 
+     */
     public DoubleProperty createProperty(String key, Double defaultValue) {
-    	return new DoubleProperty(key, defaultValue, this);
+        return new DoubleProperty(key, defaultValue, this);
     }
     
+    /**
+     * Method for creating a boolean ephemeral property
+     * @author Marc
+     */
+    public BooleanProperty createEphemeralProperty(String key, Boolean defaultValue) {
+        return new BooleanProperty(key, defaultValue, PropertyPersistenceType.Ephemeral, this);
+    } 
     
+    /**
+     * Method for creating a string ephemeral property
+     * @author Marc
+     */
+    public StringProperty createEphemeralProperty(String key, String defaultValue) {
+        return new StringProperty(key, defaultValue, PropertyPersistenceType.Ephemeral, this);
+    }
+    
+    /**
+     * Method for creating a double ephemeral property
+     * @author Marc
+     */
+    public DoubleProperty createEphemeralProperty(String key, Double defaultValue) {
+        return new DoubleProperty(key, defaultValue, PropertyPersistenceType.Ephemeral, this);
+    }
+    
+    /**
+     * Method for creating a double persistent property
+     * @author Marc
+     */
+    public BooleanProperty createPersistentProperty(String key, Boolean defaultValue) {
+        return new BooleanProperty(key, defaultValue, PropertyPersistenceType.Persistent, this);
+    } 
+    
+    /**
+     * Method for creating a double persistent property
+     * @author Marc
+     */
+    public StringProperty createPersistentProperty(String key, String defaultValue) {
+        return new StringProperty(key, defaultValue, PropertyPersistenceType.Persistent, this);
+    }
+    
+    /**
+     * Method for creating a double persistent property
+     * @author Marc
+     */
+    public DoubleProperty createPersistentProperty(String key, Double defaultValue) {
+        return new DoubleProperty(key, defaultValue, PropertyPersistenceType.Persistent, this);
+    }
 }

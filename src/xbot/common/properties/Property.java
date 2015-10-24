@@ -22,17 +22,44 @@ public abstract class Property {
 
     DatabaseStorageBase permanentStore;
     ITableProxy randomAccessStore;
-
+    
+    /** 
+     * New enum to determine property persistence
+     * Ephemeral properties will not be saved or load from a persistent storage
+     * Persistent properties will be saved and load from a persistent storage
+     */
+    public enum PropertyPersistenceType{
+        Ephemeral,
+        Persistent
+    }
+    
+    public PropertyPersistenceType persistenceType;
     private static Logger log = Logger.getLogger(Property.class);
 
     /**
      * The name of the property. This should be unique unless you really know
      * what you're doing.
+     * 
      */
     public Property(String key, PropertyManager manager) {
         this.key = sanitizeKey(key);
         this.permanentStore = manager.permanentStore;
         this.randomAccessStore = manager.randomAccessStore;
+        this.persistenceType = PropertyPersistenceType.Persistent;
+        manager.registerProperty(this);
+    } 
+    
+    /**
+     * The name of the property. This should be unique unless you really know
+     * what you're doing.
+     * New builder with persistence type. Old builder will be deprecated.
+     * @author Marc
+     */
+    public Property(String key, PropertyManager manager, PropertyPersistenceType persistenceType) {
+        this.key = sanitizeKey(key);
+        this.permanentStore = manager.permanentStore;
+        this.randomAccessStore = manager.randomAccessStore;
+        this.persistenceType = persistenceType;
         manager.registerProperty(this);
     }
 

@@ -1,13 +1,13 @@
 package xbot.common.injection;
 
+import xbot.common.command.RealSmartDashboardCommandPutter;
+import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.injection.wpi_factories.RealWPIFactory;
 import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.properties.DatabaseStorageBase;
 import xbot.common.properties.ITableProxy;
 import xbot.common.properties.RobotDatabaseStorage;
 import xbot.common.properties.SmartDashboardTableWrapper;
-import xbot.common.wpi_extensions.RealSmartDashboardCommandPutter;
-import xbot.common.wpi_extensions.SmartDashboardCommandPutter;
 
 import com.google.inject.AbstractModule;
 

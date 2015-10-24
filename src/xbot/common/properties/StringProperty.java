@@ -19,6 +19,12 @@ public class StringProperty extends Property {
         load();
     }
     
+    public StringProperty(String name, String defaultValue, PropertyPersistenceType persistenceType, PropertyManager manager) {
+        super(name, manager, persistenceType);
+        this.defaultValue = defaultValue;
+        load();
+    }
+    
     public String get() {
         return randomAccessStore.getString(key);
     }
@@ -27,8 +33,13 @@ public class StringProperty extends Property {
         randomAccessStore.setString(key, value);
     }
     
+    /**
+     * We only save the property if it's from a persistent type
+     */
     public void save() {
-        permanentStore.setString(key, randomAccessStore.getString(key));
+        if(persistenceType == PropertyPersistenceType.Persistent) {
+            permanentStore.setString(key, randomAccessStore.getString(key));
+        }
     }
 
     public void load() {
