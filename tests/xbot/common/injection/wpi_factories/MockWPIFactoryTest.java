@@ -3,7 +3,7 @@ package xbot.common.injection.wpi_factories;
 import org.junit.Before;
 import org.junit.Test;
 
-import xbot.common.injection.MockRobotIO;
+import xbot.common.controls.MockRobotIO;
 
 public class MockWPIFactoryTest {
 

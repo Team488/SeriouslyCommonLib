@@ -6,11 +6,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.Ignore;
 
-import xbot.common.wpi_extensions.BaseCommand;
-import xbot.common.wpi_extensions.XScheduler;
 import edu.wpi.first.wpilibj.MockTimer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import xbot.common.command.BaseCommand;
+import xbot.common.command.XScheduler;
 
 public class MockTimerTest extends BaseWPITest {
 
