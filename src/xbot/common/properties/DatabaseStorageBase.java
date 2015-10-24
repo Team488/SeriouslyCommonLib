@@ -28,11 +28,11 @@ public abstract class DatabaseStorageBase implements ITableProxy {
         try {
             conn = DriverManager.getConnection(dbUrl);
         } catch (SQLException e) {
-            log.error("Could not open a connection to the database! No properties will be loaded or persisted!!");
+            log.error("Ran into a SQL problem - could not open a connection to the database! No properties will be loaded or persisted!!");
             log.error(e.toString());
             e.printStackTrace();
         } catch (Exception e) {
-            log.error("Could not open a connection to the database! No properties will be loaded or persisted!!");
+            log.error("Ran into a general expection, so could not open a connection to the database! No properties will be loaded or persisted!!");
             log.error(e.toString());
             e.printStackTrace();
         }        
