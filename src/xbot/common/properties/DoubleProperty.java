@@ -17,6 +17,12 @@ public class DoubleProperty extends Property {
         load();
     }
     
+    public DoubleProperty(String name, double defaultValue, PropertyPersistenceType persistenceType, PropertyManager manager) {
+        super(name, manager, persistenceType);
+        this.defaultValue = defaultValue;
+        load();
+    }
+    
 
     public double get() {
         return randomAccessStore.getDouble(key).doubleValue();
@@ -28,10 +34,12 @@ public class DoubleProperty extends Property {
     }
     
     /**
-     *
+     * We only save the property if it's from a persistent type
      */
     public void save() {
-        permanentStore.setDouble(key, randomAccessStore.getDouble(key).doubleValue());
+        if(persistenceType == PropertyPersistenceType.Persistent) {
+            permanentStore.setDouble(key, randomAccessStore.getDouble(key).doubleValue());
+        }
     }
 
     /**

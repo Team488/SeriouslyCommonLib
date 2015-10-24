@@ -9,6 +9,7 @@ import org.junit.Test;
 import xbot.common.injection.BaseWPITest;
 import xbot.common.injection.MockPermanentStorage;
 
+
 public class PropertyTest extends BaseWPITest {
 	
 	@Before
@@ -62,6 +63,57 @@ public class PropertyTest extends BaseWPITest {
         assertEquals(0.5, propertyManager.permanentStore.getDouble("speed").doubleValue(), 0.001);
         assertEquals(false,propertyManager.permanentStore.getBoolean("isTrue").booleanValue());
         assertEquals("test2",propertyManager.permanentStore.getString("string"));
+    }
+    
+    @Test
+    public void testSavingValuePersistent() {
+        DoubleProperty dbl1 = propertyManager.createProperty("speed", 0.5);
+        BooleanProperty bool1 = propertyManager.createProperty("isTrue", false);
+        StringProperty str1 = propertyManager.createProperty("string", "test2");
+        
+        DoubleProperty dbl2 = propertyManager.createEphemeralProperty("weight", 2.3);
+        BooleanProperty bool2 = propertyManager.createEphemeralProperty("isFalse", true);
+        StringProperty str2 = propertyManager.createEphemeralProperty("robotname", "xbot");
+        
+        DoubleProperty dbl3 = propertyManager.createPersistentProperty("height", 4.8);
+        BooleanProperty bool3 = propertyManager.createPersistentProperty("isAwesome", true);
+        StringProperty str3 = propertyManager.createPersistentProperty("team", "488");
+        
+        assertSame(null, propertyManager.permanentStore.getDouble("speed"));
+        assertSame(null, propertyManager.permanentStore.getBoolean("isTrue"));
+        assertSame(null, propertyManager.permanentStore.getString("string"));
+        
+        assertSame(null, propertyManager.permanentStore.getDouble("weight"));
+        assertSame(null, propertyManager.permanentStore.getBoolean("isFalse"));
+        assertSame(null, propertyManager.permanentStore.getString("robotname"));
+        
+        assertSame(null, propertyManager.permanentStore.getDouble("height"));
+        assertSame(null, propertyManager.permanentStore.getBoolean("isAwesome"));
+        assertSame(null, propertyManager.permanentStore.getString("team"));
+        
+        assertEquals(0.5, dbl1.get(), 0.001);
+        assertEquals(false,bool1.get());
+        assertEquals("test2",str1.get());
+        assertEquals(2.3,dbl2.get(), 0.001);
+        assertEquals(true,bool2.get());
+        assertEquals("xbot",str2.get());
+        assertEquals(4.8,dbl3.get(), 0.001);
+        assertEquals(true,bool3.get());
+        assertEquals("488",str3.get());
+        
+        propertyManager.saveOutAllProperties();
+        
+        assertEquals(0.5, propertyManager.permanentStore.getDouble("speed").doubleValue(), 0.001);
+        assertEquals(false,propertyManager.permanentStore.getBoolean("isTrue").booleanValue());
+        assertEquals("test2",propertyManager.permanentStore.getString("string"));
+        
+        assertSame(null, propertyManager.permanentStore.getDouble("weight"));
+        assertSame(null, propertyManager.permanentStore.getBoolean("isFalse"));
+        assertSame(null, propertyManager.permanentStore.getString("robotname"));
+        
+        assertEquals(4.8, propertyManager.permanentStore.getDouble("height").doubleValue(), 0.001);
+        assertEquals(true,propertyManager.permanentStore.getBoolean("isAwesome").booleanValue());
+        assertEquals("488",propertyManager.permanentStore.getString("team"));
     }
     
     @Test
