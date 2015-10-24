@@ -18,7 +18,7 @@ public abstract class DatabaseStorageBase extends PermanentStorageProxy {
     private static Logger log = Logger.getLogger(DatabaseStorageBase.class);
 
     private String dbUrlPreFormat = "jdbc:derby:%1s;create=true";
-    private String dbUrl = "";
+    private final String dbUrl;
 
     public DatabaseStorageBase(String databaseDirectory) {
         super();
@@ -110,7 +110,6 @@ public abstract class DatabaseStorageBase extends PermanentStorageProxy {
                 log.error("All properties will be at their default levels!");
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -133,7 +132,7 @@ public abstract class DatabaseStorageBase extends PermanentStorageProxy {
             // create table if it doesn't exist
             Statement sta = conn.createStatement();
             String payload = "CREATE TABLE PROPERTIES (Name VARCHAR(100), Type VARCHAR(20), Value VARCHAR(50))";
-            int count = sta.executeUpdate(payload);
+            sta.executeUpdate(payload);
             sta.close();
 
         } catch (SQLException e) {
