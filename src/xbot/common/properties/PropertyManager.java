@@ -4,7 +4,6 @@
  */
 package xbot.common.properties;
 
-import xbot.common.properties.PermanentStorageProxy;
 import xbot.common.properties.Property.PropertyPersistenceType;
 import java.util.ArrayList;
 import org.apache.log4j.Logger;

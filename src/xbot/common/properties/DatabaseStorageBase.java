@@ -19,6 +19,7 @@ public abstract class DatabaseStorageBase implements ITableProxy {
 
     private String dbUrlPreFormat = "jdbc:derby:%1s;create=true";
     private final String dbUrl;
+    private Connection conn;
 
     public DatabaseStorageBase(String databaseDirectory) {
         
