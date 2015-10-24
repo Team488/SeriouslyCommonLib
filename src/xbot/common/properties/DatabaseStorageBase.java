@@ -131,7 +131,9 @@ public abstract class DatabaseStorageBase implements ITableProxy {
             
             if (rs.next())
             {
-                return rs.getString("Value");
+                String value = rs.getString("Value");
+                rs.close();
+                return value;
             }
             rs.close();
         } catch (SQLException e) {
