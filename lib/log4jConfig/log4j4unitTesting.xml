@@ -13,7 +13,7 @@
    <appender name="fileAppender"
            class="org.apache.log4j.RollingFileAppender">
       <param name="Threshold" value="INFO" />
-      <param name="File" value="/488Logs/default.log"/>
+      <param name="File" value="./488Logs/default.log"/>
       <param name="bufferedIO" value="false"/>
       <param name="bufferSize" value="100"/>
       <param name="MaxFileSize" value="1000KB"/>
