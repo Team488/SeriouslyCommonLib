@@ -1,6 +1,7 @@
 package xbot.common.properties;
 
 import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -10,29 +11,22 @@ import org.junit.Before;
 import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.OffRobotDatabaseStorage;
 
 public class PermanentStorageProxyTest extends BaseWPITest {
 
-    private String testFolder = "testo";
+    private String testFolder = "./TeamDatabase";
     
     @Before
     public void setUp() {
         super.setUp();
-        
-        // clean out database
-        File d = new File(testFolder);
-        try {
-            FileUtils.deleteDirectory(d);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
     
     @Test
     public void testSaveAndLoad() {
+    	
+    	PermanentStorageProxy p = propertyManager.permanentStore;
         
-        PermanentStorageProxy p = new PermanentStorage();
         p.writeToFile("double,fancyname,1.23\nboolean,flag,true\nstring,phrase,What time is it?");
         
         p.loadFromDisk();
@@ -43,8 +37,14 @@ public class PermanentStorageProxyTest extends BaseWPITest {
     }
     
     @Test
+    public void loadNothing()
+    {
+    	// No exceptions should be thrown.
+    	propertyManager.permanentStore.loadFromDisk();
+    }
+    
     public void testClear() {
-    	PermanentStorageProxy p = new PermanentStorage();
+    	PermanentStorageProxy p = propertyManager.permanentStore;
         p.writeToFile("double,fancyname,1.23\nboolean,flag,true\nstring,phrase,What time is it?");
         
         p.loadFromDisk();
@@ -61,12 +61,8 @@ public class PermanentStorageProxyTest extends BaseWPITest {
     @After
     public void cleanUp()
     {
-        File d = new File(testFolder);
-        try {
-            FileUtils.deleteDirectory(d);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    	// We need a way to obliterate the database locally so tests don't leak. Can't delete the files themselves,
+    	// because the database process still has a handle on some of them.
+    	 assertEquals(true, ((OffRobotDatabaseStorage)propertyManager.permanentStore).obliterateStorage());
     }
 }

@@ -21,3 +21,4 @@ dist/
 
 # test logs
 derby.log
+/TeamDatabase

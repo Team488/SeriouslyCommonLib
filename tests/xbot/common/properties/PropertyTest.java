@@ -3,11 +3,13 @@ package xbot.common.properties;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
 import xbot.common.injection.MockPermanentStorage;
+import xbot.common.injection.OffRobotDatabaseStorage;
 
 
 public class PropertyTest extends BaseWPITest {
@@ -141,9 +143,9 @@ public class PropertyTest extends BaseWPITest {
 	
     @Test
     public void testLoadingValue() {
-    	((MockPermanentStorage)propertyManager.permanentStore).addTestDouble("speed", 0.5);
-    	((MockPermanentStorage)propertyManager.permanentStore).addTestBoolean("isTrue", true);
-    	((MockPermanentStorage)propertyManager.permanentStore).addTestString("string", "teststring");
+    	propertyManager.permanentStore.setDouble("speed", 0.5);
+    	propertyManager.permanentStore.setBoolean("isTrue", true);
+    	propertyManager.permanentStore.setString("string", "teststring");
     	
     	propertyManager.loadPropertiesFromStorage();
         
@@ -158,9 +160,12 @@ public class PropertyTest extends BaseWPITest {
     
     @Test
     public void testLoadingValueAfterCreation() {
-    	((MockPermanentStorage)propertyManager.permanentStore).addTestDouble("speed", 0.5);
-    	((MockPermanentStorage)propertyManager.permanentStore).addTestBoolean("isTrue", true);
-    	((MockPermanentStorage)propertyManager.permanentStore).addTestString("string", "teststring");
+    	   	
+    	propertyManager.createProperty("speed", 0.5);
+        propertyManager.createProperty("isTrue", true);
+        propertyManager.createProperty("string", "teststring");
+    	
+    	propertyManager.saveOutAllProperties();
     	
         DoubleProperty dbl = propertyManager.createProperty("speed", 1.0);
         BooleanProperty bool = propertyManager.createProperty("isTrue", false);
@@ -171,5 +176,13 @@ public class PropertyTest extends BaseWPITest {
         assertEquals(0.5, dbl.get(), 0.001);
         assertEquals(true,bool.get());
         assertEquals("teststring",str.get());
+    }
+    
+    @After
+    public void cleanUp()
+    {
+    	// We need a way to obliterate the database locally so tests don't leak. Can't delete the files themselves,
+    	// because the database process still has a handle on some of them.
+    	assertEquals(true, ((OffRobotDatabaseStorage)propertyManager.permanentStore).obliterateStorage());
     }
 }
