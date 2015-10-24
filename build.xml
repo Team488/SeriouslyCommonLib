@@ -53,7 +53,7 @@
 	</target>
     
 	<target name="test" depends="compile-tests">
-        <junit printsummary="yes" showoutput="true" outputtoformatters="yes">
+        <junit printsummary="yes" showoutput="true" outputtoformatters="yes" failureproperty="test.failed">
             <classpath>
                 <pathelement path="${test.magic.classpath}"/>
             </classpath>
@@ -65,4 +65,6 @@
             </batchtest>
         </junit>
     </target>
+	
+	<fail message="Test failure detected, check test results." if="test.failed" />
 </project> 
