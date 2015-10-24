@@ -11,22 +11,9 @@ public class BaseCommandTest extends BaseWPITest {
 
     @Test
     public void testPuttingOnSmartDashboardDoesntCrashTest() {
-        BaseCommand command = injector.getInstance(TestBaseCommand.class);
+        BaseCommand command = injector.getInstance(MockCommand.class);
         command.includeOnSmartDashboard("label");
         command.includeOnSmartDashboard();
     }
 
-}
-
-class TestBaseCommand extends BaseCommand {
-    @Override
-    public void initialize() {
-        
-        
-    }
-
-    @Override
-    public void execute() {
-       
-    }
 }
