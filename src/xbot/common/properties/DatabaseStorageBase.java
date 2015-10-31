@@ -3,6 +3,7 @@ package xbot.common.properties;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,7 +33,7 @@ public abstract class DatabaseStorageBase implements ITableProxy {
             log.error(e.toString());
             e.printStackTrace();
         } catch (Exception e) {
-            log.error("Ran into a general expection, so could not open a connection to the database! No properties will be loaded or persisted!!");
+            log.error("Ran into a general exception, so could not open a connection to the database! No properties will be loaded or persisted!!");
             log.error(e.toString());
             e.printStackTrace();
         }        
@@ -106,17 +107,22 @@ public abstract class DatabaseStorageBase implements ITableProxy {
     
     private void saveProperty(String type, String name, String value) {
        
-        String payload = "UPDATE PROPERTIES SET TYPE='" + name + "', VALUE='" + type + "' WHERE NAME = '" + value + "'";
-        Statement sta;
-        try {
-            sta = conn.createStatement();
-            int count = sta.executeUpdate(payload);
+        try {            
+            PreparedStatement sta = conn.prepareStatement("UPDATE PROPERTIES SET TYPE= ?, VALUE= ? WHERE NAME = ?");
+            sta.setString(1, type);
+            sta.setString(2,  value);
+            sta.setString(3, name);
+            
+            int count = sta.executeUpdate();
 
             if (count == 0) {
                 // Looks like this isn't currently in the database. We need to add it instead.
-                payload = "INSERT INTO PROPERTIES VALUES ('" + name + "', '" + type + "', '" + value + "')";
-                Statement insert = conn.createStatement();
-                count = insert.executeUpdate(payload);
+                PreparedStatement insert = conn.prepareStatement("INSERT INTO PROPERTIES VALUES (?, ?, ?)");
+                insert.setString(1, name);
+                insert.setString(2, value);
+                insert.setString(3, value);
+                
+                count = insert.executeUpdate();
             }
         } catch (SQLException e) {
             log.warn("Unable to save property " + name + "!");
@@ -128,9 +134,9 @@ public abstract class DatabaseStorageBase implements ITableProxy {
     private String loadProperty(String name)
     {
         try {
-            Statement sta = conn.createStatement();
-            String payload = "SELECT * FROM PROPERTIES WHERE NAME = '" + name + "'";
-            ResultSet rs = sta.executeQuery(payload);
+            PreparedStatement sta = conn.prepareStatement("SELECT * FROM PROPERTIES WHERE NAME = ?");
+            sta.setString(1, name);
+            ResultSet rs = sta.executeQuery();
             
             if (rs.next())
             {
