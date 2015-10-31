@@ -3,6 +3,7 @@ package xbot.common.properties;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,25 +14,149 @@ import org.apache.log4j.Logger;
  *
  * @author John
  */
-public abstract class DatabaseStorageBase extends PermanentStorageProxy {
+public abstract class DatabaseStorageBase implements ITableProxy {
 
     private static Logger log = Logger.getLogger(DatabaseStorageBase.class);
 
     private String dbUrlPreFormat = "jdbc:derby:%1s;create=true";
     private final String dbUrl;
+    private Connection conn;
 
     public DatabaseStorageBase(String databaseDirectory) {
-        super();
-
+        
         dbUrl = String.format(dbUrlPreFormat, databaseDirectory);
+        
+        try {
+            conn = DriverManager.getConnection(dbUrl);
+        } catch (SQLException e) {
+            log.error("Ran into a SQL problem - could not open a connection to the database! No properties will be loaded or persisted!!");
+            log.error(e.toString());
+            e.printStackTrace();
+        } catch (Exception e) {
+            log.error("Ran into a general exception, so could not open a connection to the database! No properties will be loaded or persisted!!");
+            log.error(e.toString());
+            e.printStackTrace();
+        }        
+        
+        // create properties if not exists
+        if (propertiesTableExists() == false)
+        {
+            createPropertiesTable();
+        }
+    }
+    
+    public void setDouble(String key, double value){
+        saveProperty("double", key, Double.toString(value));
+    }
+    
+    public void setBoolean(String key, boolean value){
+        saveProperty("boolean", key, Boolean.toString(value));
+    }
+    
+    public void setString(String key, String value){
+        saveProperty("string", key, value);
+    }
+    
+    public Double getDouble(String key){
+        String value = loadProperty(key);
+        try {
+            return Double.parseDouble(value);
+        }
+        catch (NumberFormatException e)
+        {
+            return null;
+        }
+    }
+    
+    public Boolean getBoolean (String key){
+        String value = loadProperty(key);
+        // See the comments on parseBoolean() as to why we have to do this.
+        return parseBoolean(value);
+    }
+    
+    // The default Java boolean parser is good, but makes too many assumptions. Any variation of "true"
+    // comes back as true, and LITERALLY ANYTHING ELSE (including null) is considered false. Since we want
+    // to keep null as "I didn't find this property", we need to more explicitly parse true and false.
+    private Boolean parseBoolean(String value)
+    {
+        if (value.toLowerCase().equals("true"))
+        {
+            return true;
+        }
+        
+        if (value.toLowerCase().equals("false"))
+        {
+            return false;
+        }
+        
+        return null;
+    }
+    
+    public String getString (String key){
+        String value = loadProperty(key);
+        if (value.length() == 0)
+        {
+            return null;
+        }
+        return value;
+    }
+    
+    public void clear(){
+        obliterateStorage();
+    }
+    
+    private void saveProperty(String type, String name, String value) {
+       
+        try {            
+            PreparedStatement sta = conn.prepareStatement("UPDATE PROPERTIES SET TYPE= ?, VALUE= ? WHERE NAME = ?");
+            sta.setString(1, type);
+            sta.setString(2,  value);
+            sta.setString(3, name);
+            
+            int count = sta.executeUpdate();
+
+            if (count == 0) {
+                // Looks like this isn't currently in the database. We need to add it instead.
+                PreparedStatement insert = conn.prepareStatement("INSERT INTO PROPERTIES VALUES (?, ?, ?)");
+                insert.setString(1, name);
+                insert.setString(2, value);
+                insert.setString(3, value);
+                
+                count = insert.executeUpdate();
+            }
+        } catch (SQLException e) {
+            log.warn("Unable to save property " + name + "!");
+            log.warn(e.toString());
+            e.printStackTrace();
+        }
+    }
+    
+    private String loadProperty(String name)
+    {
+        try {
+            PreparedStatement sta = conn.prepareStatement("SELECT * FROM PROPERTIES WHERE NAME = ?");
+            sta.setString(1, name);
+            ResultSet rs = sta.executeQuery();
+            
+            if (rs.next())
+            {
+                String value = rs.getString("Value");
+                rs.close();
+                return value;
+            }
+            rs.close();
+        } catch (SQLException e) {
+            log.warn("Unable to load property " + name + "!");
+            log.warn(e.toString());
+            e.printStackTrace();
+        }
+        return "";        
     }
 
     /**
-     * @param conn
-     *            - this method needs an open connection to the database
      * @return True if the PROPERTIES table is present in the Database; False otherwise
      */
-    private boolean propertiesTableExists(Connection conn) {
+    private boolean propertiesTableExists() {
         try {
             DatabaseMetaData md = conn.getMetaData();
             // The following method returns tables that match a given pattern. Since we don't care about
@@ -40,8 +165,10 @@ public abstract class DatabaseStorageBase extends PermanentStorageProxy {
             ResultSet tables = md.getTables(null, null, "PROPERTIES", null);
 
             if (tables.next()) {
+                tables.close();
                 return true;
             }
+            tables.close();
             return false;
 
         } catch (SQLException e) {
@@ -52,11 +179,27 @@ public abstract class DatabaseStorageBase extends PermanentStorageProxy {
         return false;
     }
 
+    private boolean createPropertiesTable() {
+        
+        Statement sta;
+        try {
+            sta = conn.createStatement();
+            String payload = "CREATE TABLE PROPERTIES (Name VARCHAR(100), Type VARCHAR(20), Value VARCHAR(50), UNIQUE (Name))";
+            int count = sta.executeUpdate(payload);
+            return true;
+        } catch (SQLException e) {
+            log.warn("Could not create the properties table! Properties will not be saved!!");
+            log.warn(e.toString());
+            e.printStackTrace();
+        }
+        
+        return false;
+    }
+    
     public boolean obliterateStorage() {
         try {
-            Connection conn = DriverManager.getConnection(dbUrl);
-
-            if (propertiesTableExists(conn)) {
+            
+            if (propertiesTableExists()) {
                 Statement sta = conn.createStatement();
                 String payload = "DROP TABLE PROPERTIES";
 
@@ -78,95 +221,5 @@ public abstract class DatabaseStorageBase extends PermanentStorageProxy {
             return false;
         }
 
-    }
-
-    protected String readFromFile() {
-        // Need to read out the database into a string
-
-        try {
-            Connection conn = DriverManager.getConnection(dbUrl);
-
-            if (propertiesTableExists(conn)) {
-                Statement sta = conn.createStatement();
-                String payload = "SELECT * FROM PROPERTIES";
-
-                ResultSet rs = sta.executeQuery(payload);
-
-                StringBuffer sb = new StringBuffer();
-
-                while (rs.next()) {
-                    sb.append(rs.getString("Type"));
-                    sb.append(propertyDelimiter);
-                    sb.append(rs.getString("Name"));
-                    sb.append(propertyDelimiter);
-                    sb.append(rs.getString("Value"));
-                    sb.append(lineSeperator);
-                }
-
-                return sb.toString();
-            } else {
-                // could not load properties table.
-                log.error("Could not find the properties table in the database when loading properties!");
-                log.error("All properties will be at their default levels!");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return "";
-    }
-
-    protected void writeToFile(String data) {
-
-        Connection conn = null;
-
-        try {
-            // we need to be more resilient here, and only create if table doesn't exist.
-            conn = DriverManager.getConnection(dbUrl);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        try {
-            // create table if it doesn't exist
-            Statement sta = conn.createStatement();
-            String payload = "CREATE TABLE PROPERTIES (Name VARCHAR(100), Type VARCHAR(20), Value VARCHAR(50))";
-            sta.executeUpdate(payload);
-            sta.close();
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            // e.printStackTrace();
-        }
-
-        // split up that string
-        String[] splitData = data.split(lineSeperator);
-
-        // each row actually needs to be split again;
-        for (String line : splitData) {
-            String[] values = line.split(propertyDelimiter);
-            // values is currently the order of Type, Name, Value
-
-            // try to update. If update doens't work or updates no rows, we'll try and insert directly.
-            String payload = "UPDATE PROPERTIES SET TYPE='" + values[0] + "', VALUE='" + values[2] + "' WHERE NAME = '"
-                    + values[1] + "'";
-            Statement sta;
-            try {
-                sta = conn.createStatement();
-                int count = sta.executeUpdate(payload);
-
-                if (count == 0) {
-                    // Looks like this isn't currently in the database. We need to add it instead.
-                    payload = "INSERT INTO PROPERTIES VALUES ('" + values[1] + "', '" + values[0] + "', '" + values[2]
-                            + "')";
-                    Statement insert = conn.createStatement();
-                    count = insert.executeUpdate(payload);
-                }
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
     }
 }

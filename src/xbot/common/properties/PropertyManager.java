@@ -4,13 +4,9 @@
  */
 package xbot.common.properties;
 
-import xbot.common.properties.PermanentStorageProxy;
 import xbot.common.properties.Property.PropertyPersistenceType;
-
 import java.util.ArrayList;
-
 import org.apache.log4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -33,14 +29,14 @@ public class PropertyManager {
     /**
      *
      */
-    public PermanentStorageProxy permanentStore;
+    public DatabaseStorageBase permanentStore;
     /**
      *
      */
     public ITableProxy randomAccessStore;
 
     @Inject
-    public PropertyManager(PermanentStorageProxy permanentStore, ITableProxy randomAccessStore) {
+    public PropertyManager(DatabaseStorageBase permanentStore, ITableProxy randomAccessStore) {
         this.properties = new ArrayList<Property>();
         this.permanentStore = permanentStore;
         this.randomAccessStore = randomAccessStore;
@@ -57,9 +53,7 @@ public class PropertyManager {
      * Loads all properties from storage into the PermanentStore's table.
      */
     public void loadPropertiesFromStorage()
-    {
-        permanentStore.loadFromDisk();
-        
+    {        
         // We need to somehow get the random store and force load everything in that.
         int escape = 0;
         for(int i = 0; i < properties.size(); i++) {
@@ -82,9 +76,7 @@ public class PropertyManager {
     	// We should clear the permanent storage before we save, otherwise we can have
     	// "orphaned" values that are loaded/saved indefinitely, even if there's nothing in the 
     	// code that uses them.
-    	
-    	permanentStore.clear();
-        
+    	        
         if (properties.size() == 0)
         {
             log.error("No properties to save! Skipping save phase.");
@@ -103,10 +95,6 @@ public class PropertyManager {
                 break;
             }
         }
-        
-        // We also need to trigger the permanent storage proxy to actually write
-        // to disk.
-        permanentStore.saveToDisk();
     }
     
     /**
