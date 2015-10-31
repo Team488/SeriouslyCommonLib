@@ -184,7 +184,7 @@ public abstract class DatabaseStorageBase implements ITableProxy {
         Statement sta;
         try {
             sta = conn.createStatement();
-            String payload = "CREATE TABLE PROPERTIES (Name VARCHAR(100), Type VARCHAR(20), Value VARCHAR(50))";
+            String payload = "CREATE TABLE PROPERTIES (Name VARCHAR(100), Type VARCHAR(20), Value VARCHAR(50), UNIQUE (Name))";
             int count = sta.executeUpdate(payload);
             return true;
         } catch (SQLException e) {
