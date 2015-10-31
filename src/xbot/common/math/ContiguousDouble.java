@@ -9,8 +9,6 @@ import org.apache.log4j.Logger;
  * For bounds 0 - 10, 10 + 1 = 1 and 0 - 1 = 9
  * 
  * TODO: Find a better name?
- * 
- * @author Kaelin
  */
 public class ContiguousDouble {
 
@@ -64,12 +62,12 @@ public class ContiguousDouble {
 
     /**
      * Flips the lower and upper bounds if the lower bound is larger than the
-     * upper bound
+     * upper bound.
      */
     private void validateBounds() {
         if (lowerBound > upperBound) {
             log.warn(String
-                    .format("Given bounds are out of order (Low %.4f: High:%.4f). Flipping them to continue.",
+                    .format("Given bounds are out of order (Low: %.4f, High: %.4f). Flipping them to continue.",
                             this.lowerBound, this.upperBound));
             double tmp = this.lowerBound;
             this.lowerBound = this.upperBound;
@@ -101,12 +99,14 @@ public class ContiguousDouble {
 
     /**
      * Computes the difference between two values (other - this), accounting for
-     * wrapping
+     * wrapping. Treats the given 'other' value as a number within the same bounds
+     * as the current instance.
      * 
      * @param otherValue
      *            the other value to compare against
      * @return the computed difference
      */
+    @Deprecated
     public double difference(double otherValue) {
         return difference(new ContiguousDouble(otherValue, lowerBound,
                 upperBound));
@@ -125,8 +125,9 @@ public class ContiguousDouble {
         if (otherValue.getLowerBound() != lowerBound
                 || otherValue.getUpperBound() != upperBound) {
             log.warn("The given ContiguousDouble does not have the same upper and lower bounds. "
-                    + "This may lead to unintended behavior.");
+                    + "This may lead to unexpected behavior.");
         }
+        
         // Find the shortest path to the target (smallest difference)
         // TODO: Find a better way to compare these values (more efficient)
         double aboveDiff = otherValue.getValue() - this.unwrapAbove();
@@ -207,5 +208,12 @@ public class ContiguousDouble {
     @Override
     public ContiguousDouble clone() {
         return new ContiguousDouble(value, lowerBound, upperBound);
+    }
+    
+    @Override
+    public String toString() {
+        return "ContiguousDouble"
+            + "[" + this.getLowerBound() +", " + this.getUpperBound() + "]"
+            + " " + this.getValue();
     }
 }
