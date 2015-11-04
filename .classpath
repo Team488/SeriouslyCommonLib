@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="lib/log4j/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="lib/guice-3.0/guice-assistedinject-3.0.jar"/>
 	<classpathentry kind="lib" path="lib/Derby/derby.jar"/>
+	<classpathentry kind="lib" path="lib/rhino.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
