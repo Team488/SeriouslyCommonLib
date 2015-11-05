@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.apache.log4j.Logger;
 
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class XScheduler {
@@ -41,5 +42,9 @@ public class XScheduler {
             crashedPreviously = true;
             numberOfCrashes++;
         }
+    }
+    
+    public void add(Command command) {
+        scheduler.add(command);
     }
 }
