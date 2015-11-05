@@ -58,7 +58,7 @@ public class InvokeCommandFunction implements Function {
     @Override
     public String getClassName() {
         // Intentionally left unimplemented (not needed)
-        return null;
+        return "";
     }
 
     @Override

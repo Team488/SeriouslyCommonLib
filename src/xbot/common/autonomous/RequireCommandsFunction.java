@@ -1,4 +1,5 @@
 package xbot.common.autonomous;
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 import org.mozilla.javascript.*;
@@ -13,7 +14,10 @@ public class RequireCommandsFunction implements Function {
 
     @Override
     public Object call(Context arg0, Scriptable arg1, Scriptable arg2, Object[] functionParams) {
-        this.requiredComandsCallback.accept((String[]) functionParams);
+        // TODO: DO this manually to make sure no errors
+        String[] functionParamsAsStrings = Arrays.copyOf(functionParams, functionParams.length, String[].class);
+        
+        this.requiredComandsCallback.accept(functionParamsAsStrings);
         
         return null;
     }

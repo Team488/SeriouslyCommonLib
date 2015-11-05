@@ -33,6 +33,11 @@ public class AutonomousScriptedCommand extends Command {
         
     }
     
+    public void executeScriptFromString(String scriptText) {
+        // TODO: Replace with better input system
+        this.jsContext.evaluateString(jsScope, scriptText, "Test script", 1, null);
+    }
+    
     private void requireCommands(String[] commandNames) {
         
         for(String commandTypeName : commandNames) {
@@ -43,12 +48,15 @@ public class AutonomousScriptedCommand extends Command {
             
             InvokeCommandFunction commandInvoker = new InvokeCommandFunction(commandProvider, command -> this.invokeCommand(command));
             
-            jsScope.put("invoke" + commandTypeName, jsScope, commandInvoker);
+            jsScope.put("invoke" + commandTypeName, robotInterfaceObject, commandInvoker);
+            System.out.println("Done");
         }
     }
     
     private void invokeCommand(Command command) {
+        System.out.println("Invoked!!!");
         // TODO
+        // TODO: Set parent on new command
     }
     
     @Override
