@@ -1,5 +1,10 @@
 package xbot.common.autonomous;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -16,13 +21,48 @@ public class AutonomousScriptedCommandThread extends Thread {
     ScriptedCommandFactory availableCommandFactory;
     AutonomousScriptedCommand parentCommand;
     
-    public AutonomousScriptedCommandThread(AutonomousScriptedCommand parentCommand, ScriptedCommandFactory availableCommandFactory) {
+    File scriptFile;
+    String manualScriptText, manualScriptName;
+    
+    public AutonomousScriptedCommandThread(
+            File scriptFile,
+            AutonomousScriptedCommand parentCommand,
+            ScriptedCommandFactory availableCommandFactory) {
+        
+        this.scriptFile = scriptFile;
+        this.parentCommand = parentCommand;
+        this.availableCommandFactory = availableCommandFactory;
+    }
+    
+    public AutonomousScriptedCommandThread(
+            String scriptText,
+            String scriptName,
+            AutonomousScriptedCommand parentCommand,
+            ScriptedCommandFactory availableCommandFactory) {
+        
+        this.manualScriptText = scriptText;
+        this.manualScriptName = scriptName;
         this.parentCommand = parentCommand;
         this.availableCommandFactory = availableCommandFactory;
     }
     
     @Override
     public void run() {
+        if(this.scriptFile == null) {
+            this.jsContext.evaluateString(jsScope, manualScriptText, manualScriptName, 1, null);
+        }
+        else {
+            FileReader reader;
+            try {
+                reader = new FileReader(this.scriptFile);
+                this.jsContext.evaluateReader(jsScope, reader, this.scriptFile.getName(), 1, null);
+            } catch (FileNotFoundException e) {
+                log.error("The given script file could not be found. Execution of this script will not continue. File (\"" + this.scriptFile.getPath() + "\")");
+            }
+            catch (IOException e) {
+                log.error("An error was encountered while reading from the script file (\"" + this.scriptFile.getPath() + "\")");
+            }
+        }
         
     }
     
@@ -48,10 +88,6 @@ public class AutonomousScriptedCommandThread extends Thread {
         Context.exit();
         this.jsContext = null;
         this.jsScope = null;
-    }
-    
-    public synchronized void executeScriptFromString(String scriptText, String scriptName) {
-        this.jsContext.evaluateString(jsScope, scriptText, scriptName, 1, null);
     }
     
     private void requireCommands(String[] commandNames) {

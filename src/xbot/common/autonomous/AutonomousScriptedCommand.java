@@ -1,5 +1,6 @@
 package xbot.common.autonomous;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,6 +17,9 @@ public class AutonomousScriptedCommand extends Command {
 
     ScriptedCommandFactory availableCommandFactory;
     
+    File scriptFile = null;
+    String manualScriptText = null, manualScriptName = null;
+    
     /**
      * Contains all the commands that this script has invoked.
      * NOTE: Not all commands in this collection are guaranteed to be running;
@@ -24,27 +28,28 @@ public class AutonomousScriptedCommand extends Command {
      */
     private Set<Command> invokedCommands;
     
-    public AutonomousScriptedCommand(ScriptedCommandFactory availableCommandFactory) {
+    public AutonomousScriptedCommand(File scriptFile, ScriptedCommandFactory availableCommandFactory) {
         this.availableCommandFactory = availableCommandFactory;
         
-        initializeScriptEngine();
+        this.scriptFile = scriptFile;
     }
     
-    private void initializeScriptEngine() {
-        execThread = new AutonomousScriptedCommandThread(this, availableCommandFactory);
+    public AutonomousScriptedCommand(String manualScriptText, String manualScriptName, ScriptedCommandFactory availableCommandFactory) {
+        this.availableCommandFactory = availableCommandFactory;
+        
+        this.manualScriptText = manualScriptText;
+        this.manualScriptName = manualScriptName;
+    }
+    
+    private void initializeExecThread() {
+        if(scriptFile == null) {
+            execThread = new AutonomousScriptedCommandThread(manualScriptText, manualScriptName, this, availableCommandFactory);
+        }
+        else {
+            execThread = new AutonomousScriptedCommandThread(scriptFile, this, availableCommandFactory);
+        }
+        
         execThread.initializeScriptEngine();
-    }
-    
-    /**
-     * Executes the given script string.
-     * WARNING: This should only be used for debugging. Real robots should use
-     * the constructor to pass in a target file.
-     * 
-     * @param scriptText
-     * @param scriptName
-     */
-    public void executeScriptFromString(String scriptText, String scriptName) {
-        execThread.executeScriptFromString(scriptText, scriptName);
     }
     
     /**
@@ -61,14 +66,13 @@ public class AutonomousScriptedCommand extends Command {
     
     @Override
     protected void initialize() {
-        if(execThread == null)
-            initializeScriptEngine();
+        initializeExecThread();
     }
 
     @Override
     protected void execute() {
-        // TODO Auto-generated method stub
-
+        if(execThread != null && !execThread.isAlive())
+            this.execThread.start();
     }
 
     @Override

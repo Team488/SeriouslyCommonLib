@@ -14,11 +14,11 @@ public class BaseAutonomousScriptTest extends BaseWPITest {
     @Test
     public void testBasicCommandExecution() {
         TempCommandFactory scriptedCommandFactory = new TempCommandFactory();
-        AutonomousScriptedCommand scriptedCommand = new AutonomousScriptedCommand(scriptedCommandFactory);
-        scriptedCommand.executeScriptFromString(
+        AutonomousScriptedCommand scriptedCommand = new AutonomousScriptedCommand(
                 "robot.requireCommands('CounterCommand');"
                 + " robot.invokeCounterCommand();",
-                "TestScript");
+                "TestScript",
+                scriptedCommandFactory);
         
         XScheduler scheduler = injector.getInstance(XScheduler.class);
         
@@ -33,6 +33,8 @@ public class BaseAutonomousScriptTest extends BaseWPITest {
 
         assertEquals(1, lastCommand.getInitCount());
         assertEquals(1, lastCommand.getExecCount());
+        
+        scriptedCommand.interrupted();
     }
 
 }
