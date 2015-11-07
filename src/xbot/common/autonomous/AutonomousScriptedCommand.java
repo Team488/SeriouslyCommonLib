@@ -1,6 +1,8 @@
 package xbot.common.autonomous;
 
 import java.io.File;
+import java.lang.Thread.State;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,7 +51,14 @@ public class AutonomousScriptedCommand extends Command {
             execThread = new AutonomousScriptedCommandThread(scriptFile, this, availableCommandFactory);
         }
         
-        execThread.initializeScriptEngine();
+        execThread.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+            
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                Logger log = Logger.getLogger(AutonomousScriptedCommandThread.class);
+                log.error("Uncaught exception in autonomous thread! " + e.toString());
+            }
+        });
     }
     
     /**
@@ -71,7 +80,7 @@ public class AutonomousScriptedCommand extends Command {
 
     @Override
     protected void execute() {
-        if(execThread != null && !execThread.isAlive())
+        if(execThread != null && execThread.getState() == State.NEW)
             this.execThread.start();
     }
 
@@ -98,5 +107,8 @@ public class AutonomousScriptedCommand extends Command {
     protected void interrupted() {
         end();
     }
-
+    
+    public boolean hasReachedCheckpoint(String checkpointName) {
+        return execThread != null && execThread.hasReachedCheckpoint(checkpointName);
+    }
 }

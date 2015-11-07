@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.mozilla.javascript.Context;
@@ -20,6 +24,8 @@ public class AutonomousScriptedCommandThread extends Thread {
     
     ScriptedCommandFactory availableCommandFactory;
     AutonomousScriptedCommand parentCommand;
+    
+    volatile Set<String> reachedCheckpoints = new HashSet<>();
     
     File scriptFile;
     String manualScriptText, manualScriptName;
@@ -48,6 +54,8 @@ public class AutonomousScriptedCommandThread extends Thread {
     
     @Override
     public void run() {
+        initializeScriptEngine();
+        
         if(this.scriptFile == null) {
             this.jsContext.evaluateString(jsScope, manualScriptText, manualScriptName, 1, null);
         }
@@ -63,11 +71,9 @@ public class AutonomousScriptedCommandThread extends Thread {
                 log.error("An error was encountered while reading from the script file (\"" + this.scriptFile.getPath() + "\")");
             }
         }
-        
     }
     
-    public synchronized void initializeScriptEngine() {
-        // TODO: Figure out if this will work with multiple simultaneous scripted commands
+    public void initializeScriptEngine() {
         jsContext = Context.enter();
         jsScope = jsContext.initStandardObjects();
         robotInterfaceObject = new ScriptableObject() {
@@ -80,6 +86,9 @@ public class AutonomousScriptedCommandThread extends Thread {
         jsScope.put("robot",  jsScope, robotInterfaceObject);
         robotInterfaceObject.put("requireCommands", robotInterfaceObject,
                 new RequireCommandsFunction(commandNames -> this.requireCommands(commandNames)));
+
+        robotInterfaceObject.put("checkpointReached", robotInterfaceObject,
+                new CodeCheckpointFunction(checkpointReached -> this.checkpointReached(checkpointReached)));
         
     }
     
@@ -111,5 +120,16 @@ public class AutonomousScriptedCommandThread extends Thread {
             
             jsScope.put("invoke" + commandTypeName, robotInterfaceObject, commandInvoker);
         }
+    }
+    
+    private synchronized void checkpointReached(String checkpointName) {
+        if(this.reachedCheckpoints.contains(checkpointName))
+            log.warn("Auto checkpoint re-registered! This has no effect!");
+        
+        this.reachedCheckpoints.add(checkpointName);
+    }
+    
+    public synchronized boolean hasReachedCheckpoint(String checkpointName) {
+        return this.reachedCheckpoints.contains(checkpointName);
     }
 }
