@@ -11,11 +11,17 @@
 <module name="Checker">
   <property name="severity" value="warning"/>
   <property name="charset" value="UTF-8"/>
+  <module name="FileTabCharacter"/>
+  <module name="SuppressionFilter">
+    <property name="file" value="${samedir}/checkstyle_suppressions.xml" />
+  </module>
+  <module name="SuppressionCommentFilter"/>
   <module name="TreeWalker">
+  <module name="FileContentsHolder"/>
     <module name="OuterTypeFilename"/>
     <module name="LineLength">
       <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
-      <property name="max" value="120"/>
+      <property name="max" value="160"/>
     </module>
     <module name="AvoidStarImport"/>
     <module name="OneTopLevelClass"/>

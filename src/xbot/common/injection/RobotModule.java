@@ -13,12 +13,12 @@ import com.google.inject.AbstractModule;
 
 public class RobotModule extends AbstractModule {
 
-	@Override
-	protected void configure() {
-		this.bind(WPIFactory.class).to(RealWPIFactory.class);
-		this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class);
-		this.bind(DatabaseStorageBase.class).to(RobotDatabaseStorage.class);
-		this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);
-	}
+    @Override
+    protected void configure() {
+        this.bind(WPIFactory.class).to(RealWPIFactory.class);
+        this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class);
+        this.bind(DatabaseStorageBase.class).to(RobotDatabaseStorage.class);
+        this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);
+    }
 
 }

@@ -18,27 +18,27 @@ import edu.wpi.first.wpilibj.Timer;
 
 @Ignore
 public class BaseWPITest {
-	public Injector injector;
-	
-	public MockRobotIO mockRobotIO;
-	
-	public MockRobotState mockRobotState;
-	
-	public PropertyManager propertyManager;
-	
-	@Before
-	public void setUp() {
-		injector = Guice.createInjector(new UnitTestModule());
-		
-		mockRobotIO = injector.getInstance(MockRobotIO.class);
-		
-		HLUsageReporting.SetImplementation(new MockHLUsageReporting());
-		Timer.SetImplementation(injector.getInstance(MockTimer.class));
-		this.mockRobotState = injector.getInstance(MockRobotState.class);
-		RobotState.SetImplementation(mockRobotState);
-		
-		propertyManager = injector.getInstance(PropertyManager.class);
-		
-		DOMConfigurator.configure("lib/log4jConfig/log4j4unitTesting.xml");
-	}
+    public Injector injector;
+
+    public MockRobotIO mockRobotIO;
+
+    public MockRobotState mockRobotState;
+
+    public PropertyManager propertyManager;
+
+    @Before
+    public void setUp() {
+        injector = Guice.createInjector(new UnitTestModule());
+
+        mockRobotIO = injector.getInstance(MockRobotIO.class);
+
+        HLUsageReporting.SetImplementation(new MockHLUsageReporting());
+        Timer.SetImplementation(injector.getInstance(MockTimer.class));
+        this.mockRobotState = injector.getInstance(MockRobotState.class);
+        RobotState.SetImplementation(mockRobotState);
+
+        propertyManager = injector.getInstance(PropertyManager.class);
+
+        DOMConfigurator.configure("lib/log4jConfig/log4j4unitTesting.xml");
+    }
 }

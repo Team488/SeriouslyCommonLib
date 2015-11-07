@@ -37,79 +37,77 @@ import edu.wpi.first.wpilibj.MockSpeedController;
 
 public class MockWPIFactory implements WPIFactory {
 
-	MockRobotIO mockRobotIO;
-	
-	@Inject
-	public MockWPIFactory(MockRobotIO mockRobotIO) {
-		this.mockRobotIO = mockRobotIO;
-	}
-	
-	public XSpeedController getSpeedController(int channel) {
-		return new MockSpeedController(channel, mockRobotIO);
-	}
+    MockRobotIO mockRobotIO;
 
-	public XJoystick getJoystick(int number) {
-		return new MockJoystick();
-	}
+    @Inject
+    public MockWPIFactory(MockRobotIO mockRobotIO) {
+        this.mockRobotIO = mockRobotIO;
+    }
 
-	@Override
-	public XDigitalInput getDigitalInput(int channel) {
-		return new MockDigitalInput(channel);
-	}
+    public XSpeedController getSpeedController(int channel) {
+        return new MockSpeedController(channel, mockRobotIO);
+    }
 
-	@Override
-	public XAnalogInput getAnalogInput(int channel) {
-		return new MockAnalogInput(channel, this.mockRobotIO);
-	}
+    public XJoystick getJoystick(int number) {
+        return new MockJoystick();
+    }
 
-	@Override
-	public XCompressor getCompressor() {
-		return new MockCompressor();
-	}
-
-	@Override
-	public XSolenoid getSolenoid(int channel) {
-		return new MockSolenoid(channel, this.mockRobotIO);
-	}
-
-	@Override
-	public AdvancedJoystickButton getJoystickButton(XJoystick joystick, int button_number) {
-		return new AdvancedJoystickButton(joystick, button_number);
-	}
-	
     @Override
-    public AnalogHIDButton getAnalogJoystickButton(XJoystick joystick, int axisNumber,
-            double analogMinThreshold, double analogMaxThreshold) {
+    public XDigitalInput getDigitalInput(int channel) {
+        return new MockDigitalInput(channel);
+    }
+
+    @Override
+    public XAnalogInput getAnalogInput(int channel) {
+        return new MockAnalogInput(channel, this.mockRobotIO);
+    }
+
+    @Override
+    public XCompressor getCompressor() {
+        return new MockCompressor();
+    }
+
+    @Override
+    public XSolenoid getSolenoid(int channel) {
+        return new MockSolenoid(channel, this.mockRobotIO);
+    }
+
+    @Override
+    public AdvancedJoystickButton getJoystickButton(XJoystick joystick, int button_number) {
+        return new AdvancedJoystickButton(joystick, button_number);
+    }
+
+    @Override
+    public AnalogHIDButton getAnalogJoystickButton(XJoystick joystick, int axisNumber, double analogMinThreshold,
+            double analogMaxThreshold) {
         return new AnalogHIDButton(joystick, axisNumber, analogMinThreshold, analogMaxThreshold);
     }
-	
+
     @Override
     public AnalogHIDButton getAnalogJoystickButton(XJoystick joystick, AnalogHIDDescription description) {
         return new AnalogHIDButton(joystick, description);
     }
-    
+
     @Override
-    public XGyro getGyro()
-    {
+    public XGyro getGyro() {
         return new MockGyro(this.mockRobotIO);
     }
-    
-	@Override
-	public XEncoder getEncoder(int aChannel, int bChannel) {
-		return new MockEncoder(aChannel, bChannel);
-	}
 
-	@Override
-	public XServo getServo(int channel) {
-		// TODO Auto-generated method stub
-		return new MockServo(channel, this.mockRobotIO);
-	}
+    @Override
+    public XEncoder getEncoder(int aChannel, int bChannel) {
+        return new MockEncoder(aChannel, bChannel);
+    }
 
+    @Override
+    public XServo getServo(int channel) {
+        // TODO Auto-generated method stub
+        return new MockServo(channel, this.mockRobotIO);
+    }
 
-	@Override
-	public DistanceSensor getLidar(Port kmxp) {
-		return new MockDistanceSensor();
-	}
+    @Override
+    public DistanceSensor getLidar(Port kmxp) {
+        return new MockDistanceSensor();
+    }
 
     @Override
     public DistanceSensor getAnalogDistanceSensor(int channel, DoubleFunction<Double> voltageMap) {

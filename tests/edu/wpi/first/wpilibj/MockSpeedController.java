@@ -6,49 +6,46 @@ import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XSpeedController;
 
 public class MockSpeedController implements XSpeedController {
-	public final int channel;
-	MockRobotIO mockRobotIO;
-	private boolean inverted;
-	
-	private static Logger log = Logger.getLogger(MockSpeedController.class);
-	
-	public MockSpeedController(int channel, MockRobotIO mockRobotIO) {
-		log.info("Creating speed controller on channel:" + channel);
-		this.channel = channel;
-		this.mockRobotIO = mockRobotIO;
-	}
+    public final int channel;
+    MockRobotIO mockRobotIO;
+    private boolean inverted;
 
-	@Override
-	public double get() {
-		return mockRobotIO.getPWM(channel);
-	}
+    private static Logger log = Logger.getLogger(MockSpeedController.class);
 
-	@Override
-	public void set(double output) {
-		mockRobotIO.setPWM(channel, output);
-	}
-
-	@Override
-	public void disable() {
-		mockRobotIO.setPWM(channel, 0.0);
-	}
+    public MockSpeedController(int channel, MockRobotIO mockRobotIO) {
+        log.info("Creating speed controller on channel:" + channel);
+        this.channel = channel;
+        this.mockRobotIO = mockRobotIO;
+    }
 
     @Override
-    public SpeedController getInternalController()
-    {
+    public double get() {
+        return mockRobotIO.getPWM(channel);
+    }
+
+    @Override
+    public void set(double output) {
+        mockRobotIO.setPWM(channel, output);
+    }
+
+    @Override
+    public void disable() {
+        mockRobotIO.setPWM(channel, 0.0);
+    }
+
+    @Override
+    public SpeedController getInternalController() {
         return null;
     }
 
     @Override
-    public boolean getInverted()
-    {
+    public boolean getInverted() {
         return inverted;
     }
 
     @Override
-    public void setInverted(boolean inverted)
-    {
-        this.inverted = inverted;        
+    public void setInverted(boolean inverted) {
+        this.inverted = inverted;
     }
 
     @Override
