@@ -2,10 +2,6 @@ package xbot.common.properties;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,8 +10,6 @@ import xbot.common.injection.BaseWPITest;
 import xbot.common.injection.OffRobotDatabaseStorage;
 
 public class PermanentStorageProxyTest extends BaseWPITest {
-
-    private String testFolder = "./TeamDatabase";
     
     @Before
     public void setUp() {

@@ -8,10 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
-import xbot.common.injection.MockPermanentStorage;
 import xbot.common.injection.OffRobotDatabaseStorage;
 
-
+@SuppressWarnings("deprecation")
 public class PropertyTest extends BaseWPITest {
 	
 	@Before
