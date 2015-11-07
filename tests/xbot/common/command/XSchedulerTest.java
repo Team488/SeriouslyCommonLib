@@ -60,6 +60,7 @@ public class XSchedulerTest extends BaseWPITest {
 
 }
 
+//CHECKSTYLE:OFF
 class CrashingOnInitCommand extends BaseCommand {
 
     @Override
@@ -85,3 +86,4 @@ class CrashingInExecCommand extends BaseCommand {
         throw new RuntimeException(); 
     }
 }
+//CHECKSTYLE:ON
