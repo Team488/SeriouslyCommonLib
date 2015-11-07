@@ -7,8 +7,8 @@ package xbot.common.properties;
 import java.util.Hashtable;
 
 /**
- * A simple implementation of ITableProxy. Uses a HashTable as the table to
- * store and save properties.
+ * A simple implementation of ITableProxy. Uses a HashTable as the table to store and save properties.
+ * 
  * @author Alex
  */
 public class TableProxy implements ITableProxy {
@@ -18,37 +18,35 @@ public class TableProxy implements ITableProxy {
     public TableProxy() {
         clear();
     }
-    
+
     public void clear() {
-    	this.table = new Hashtable<String, String>();
+        this.table = new Hashtable<String, String>();
     }
-    
+
     public void setDouble(String key, double value) {
         table.put(key, Double.toString(value));
     }
 
     public Double getDouble(String key) {
-        if (table.get(key)==null){
+        if (table.get(key) == null) {
             return null;
-        }
-        else {
+        } else {
             return Double.valueOf(table.get(key).toString());
         }
     }
-    
+
     public void setBoolean(String key, boolean value) {
         table.put(key, Boolean.toString(value));
     }
 
     public Boolean getBoolean(String key) {
-        if (table.get(key)==null){
+        if (table.get(key) == null) {
             return null;
-        }
-        else {
-            return parseBoolean ((String) table.get(key));
+        } else {
+            return parseBoolean((String) table.get(key));
         }
     }
-    
+
     public void setString(String key, String value) {
         table.put(key, value);
     }
@@ -56,13 +54,11 @@ public class TableProxy implements ITableProxy {
     public String getString(String key) {
         return (String) table.get(key);
     }
-    
-    private static boolean parseBoolean(String string)
-    {
+
+    private static boolean parseBoolean(String string) {
         if (string.equals("true")) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

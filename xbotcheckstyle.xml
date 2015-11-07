@@ -11,7 +11,7 @@
 <module name="Checker">
   <property name="severity" value="warning"/>
   <property name="charset" value="UTF-8"/>
-  <!--module name="FileTabCharacter"/-->
+  <module name="FileTabCharacter"/>
   <module name="SuppressionFilter">
     <property name="file" value="${samedir}/checkstyle_suppressions.xml" />
   </module>

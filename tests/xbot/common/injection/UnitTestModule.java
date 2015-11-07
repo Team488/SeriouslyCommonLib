@@ -18,15 +18,15 @@ import org.junit.Ignore;
 
 @Ignore
 public class UnitTestModule extends AbstractModule {
-	@Override
-	protected void configure() {
-		this.bind(Timer.StaticInterface.class).to(MockTimer.class);
-		
-		this.bind(WPIFactory.class).to(MockWPIFactory.class);
-		
-		this.bind(ITableProxy.class).to(TableProxy.class).in(Singleton.class);
-		this.bind(DatabaseStorageBase.class).to(OffRobotDatabaseStorage.class).in(Singleton.class);
-		
-		this.bind(SmartDashboardCommandPutter.class).to(MockSmartDashboardCommandPutter.class);
-	}
+    @Override
+    protected void configure() {
+        this.bind(Timer.StaticInterface.class).to(MockTimer.class);
+
+        this.bind(WPIFactory.class).to(MockWPIFactory.class);
+
+        this.bind(ITableProxy.class).to(TableProxy.class).in(Singleton.class);
+        this.bind(DatabaseStorageBase.class).to(OffRobotDatabaseStorage.class).in(Singleton.class);
+
+        this.bind(SmartDashboardCommandPutter.class).to(MockSmartDashboardCommandPutter.class);
+    }
 }
