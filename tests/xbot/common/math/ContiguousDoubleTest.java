@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
 
+@SuppressWarnings("deprecation")
 public class ContiguousDoubleTest extends BaseWPITest 
 {
     @Test

@@ -27,7 +27,7 @@ public class Lidar implements DistanceSensor {
 	public Lidar(Port port, PropertyManager propMan) {
 		
 		log.info("Creating Lidar on port: " + port.toString());
-		lidarPollDuration = propMan.createProperty("LidarPollDurationMs", 100d);
+		lidarPollDuration = propMan.createPersistentProperty("LidarPollDurationMs", 100d);
 		
 		i2c = new I2C(port, lidar_address);
 		

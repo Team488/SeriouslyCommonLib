@@ -1,10 +1,9 @@
 package xbot.common.injection;
 
-import xbot.common.properties.DatabaseStorageBase;
-import xbot.common.properties.TableProxy;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import xbot.common.properties.TableProxy;
 
 @Singleton
 public class MockPermanentStorage extends TableProxy {

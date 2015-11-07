@@ -25,8 +25,8 @@ public class AnalogDistanceSensor implements DistanceSensor {
         log.info("Initializing...");
         this.inputPort = inputPort;
         this.voltageMap = voltageMap;
-        voltageOffset = propMan.createProperty("Distance sensor " + inputPort.getChannel() + " voltage offset", 0d);
-        distanceOffset = propMan.createProperty("Distance sensor " + inputPort.getChannel() + " distance offset", 0d);
+        voltageOffset = propMan.createPersistentProperty("Distance sensor " + inputPort.getChannel() + " voltage offset", 0d);
+        distanceOffset = propMan.createPersistentProperty("Distance sensor " + inputPort.getChannel() + " distance offset", 0d);
     }
 
     @Override
