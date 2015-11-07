@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import edu.wpi.first.wpilibj.command.Scheduler;
-import xbot.common.autonomous.TestScriptedCommandFactory.ExecutionCounterCommandProvider;
+import xbot.common.autonomous.TempCommandFactory.ExecutionCounterCommandProvider;
 import xbot.common.command.XScheduler;
 import xbot.common.injection.BaseWPITest;
 
@@ -13,7 +13,7 @@ public class BaseAutonomousScriptTest extends BaseWPITest {
 
     @Test
     public void testBasicCommandExecution() {
-        TestScriptedCommandFactory scriptedCommandFactory = new TestScriptedCommandFactory();
+        TempCommandFactory scriptedCommandFactory = new TempCommandFactory();
         AutonomousScriptedCommand scriptedCommand = new AutonomousScriptedCommand(scriptedCommandFactory);
         scriptedCommand.executeScriptFromString(
                 "robot.requireCommands('CounterCommand');"

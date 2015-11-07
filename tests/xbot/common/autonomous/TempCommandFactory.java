@@ -2,7 +2,7 @@ package xbot.common.autonomous;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TestScriptedCommandFactory implements ScriptedCommandFactory {
+public class TempCommandFactory implements ScriptedCommandFactory {
     private ExecutionCounterCommandProvider lastExecutionCounterCommandProvider;
     
     @Override
