@@ -85,19 +85,21 @@ public class AutonomousScriptedCommand extends Command {
 
     @Override
     protected void execute() {
-        if(execThread != null && execThread.getState() == State.NEW)
+        if(execThread.getState() == State.NEW)
             this.execThread.start();
     }
 
     @Override
     protected boolean isFinished() {
-        // TODO Auto-generated method stub
-        return false;
+        return execThread != null && execThread.getState() == State.TERMINATED;
     }
 
     @Override
     protected void end() {
-        this.execThread.interrupt();
+        if(execThread != null) {
+            this.execThread.interrupt();
+        }
+        
         if(this.invokedCommands != null) {
             for(Command command : invokedCommands) {
                 command.cancel();
@@ -105,7 +107,6 @@ public class AutonomousScriptedCommand extends Command {
             
             this.invokedCommands = null;
         }
-        this.execThread = null;
     }
 
     @Override
