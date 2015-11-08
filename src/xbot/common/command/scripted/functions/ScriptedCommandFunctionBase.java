@@ -1,6 +1,4 @@
 package xbot.common.command.scripted.functions;
-import java.util.Arrays;
-import java.util.function.Consumer;
 
 import org.mozilla.javascript.*;
 
