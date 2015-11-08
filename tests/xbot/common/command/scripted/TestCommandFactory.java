@@ -22,6 +22,7 @@ public class TestCommandFactory implements ScriptedCommandFactory {
         return this.lastExecutionCounterCommandProvider;
     }
     
+    @Ignore
     public static class ExecutionCounterCommandProvider implements ScriptedCommandProvider {
         private ExecutionCounterCommand lastCommand;
         
