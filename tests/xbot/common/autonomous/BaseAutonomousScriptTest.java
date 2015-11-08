@@ -15,6 +15,44 @@ public class BaseAutonomousScriptTest extends BaseWPITest {
     static Logger log = Logger.getLogger(BaseAutonomousScriptTest.class);
 
     @Test
+    public void testBasicCommandExecution() {
+        TempCommandFactory scriptedCommandFactory = new TempCommandFactory();
+        AutonomousScriptedCommand scriptedCommand = new AutonomousScriptedCommand(
+                "robot.requireCommands('CounterCommand');\n"
+                + "robot.invokeCounterCommand();\n",
+                "TestScript",
+                scriptedCommandFactory);
+        
+        XScheduler scheduler = injector.getInstance(XScheduler.class);
+        scheduler.add(scriptedCommand);
+        
+        for(int numLoops = 0; !scriptedCommand.isFinished() && numLoops < 40; numLoops++) {
+            scheduler.run();
+            
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                log.error("Sleep interrupted while running test... may result in unrealistic faliures!");
+            }
+        }
+        
+        scheduler.run();
+        scheduler.run();
+        
+        ExecutionCounterCommandProvider lastCommandProvider = scriptedCommandFactory.getLastExecutionCounterCommandProvider();
+        assertNotNull(lastCommandProvider);
+        ExecutionCounterCommand lastCommand = lastCommandProvider.getLastCommand();
+        assertNotNull(lastCommand);
+
+        log.info("Autonomous command was initialized " + lastCommand.getInitCount() + " time(s)"
+                + " and executed " + lastCommand.getExecCount() + " time(s).");
+        assertTrue(lastCommand.getInitCount() >= 1);
+        assertTrue(lastCommand.getExecCount() >= 1);
+        
+        scriptedCommand.interrupted();
+    }
+
+    @Test
     public void testCommandCheckpoints() {
         TempCommandFactory scriptedCommandFactory = new TempCommandFactory();
         AutonomousScriptedCommand scriptedCommand = new AutonomousScriptedCommand(
@@ -57,42 +95,4 @@ public class BaseAutonomousScriptTest extends BaseWPITest {
         scriptedCommand.interrupted();
     }
     
-    @Test
-    public void testBasicCommandExecution() {
-        TempCommandFactory scriptedCommandFactory = new TempCommandFactory();
-        AutonomousScriptedCommand scriptedCommand = new AutonomousScriptedCommand(
-                "robot.requireCommands('CounterCommand');\n"
-                + "robot.invokeCounterCommand();\n",
-                "TestScript",
-                scriptedCommandFactory);
-        
-        XScheduler scheduler = injector.getInstance(XScheduler.class);
-        scheduler.add(scriptedCommand);
-        
-        for(int numLoops = 0; !scriptedCommand.isFinished() && numLoops < 40; numLoops++) {
-            scheduler.run();
-            
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                log.error("Sleep interrupted while running test... may result in unrealistic faliures!");
-            }
-        }
-        
-        scheduler.run();
-        scheduler.run();
-        
-        ExecutionCounterCommandProvider lastCommandProvider = scriptedCommandFactory.getLastExecutionCounterCommandProvider();
-        assertNotNull(lastCommandProvider);
-        ExecutionCounterCommand lastCommand = lastCommandProvider.getLastCommand();
-        assertNotNull(lastCommand);
-
-        log.info("Autonomous command was initialized " + lastCommand.getInitCount() + " time(s)"
-                + " and executed " + lastCommand.getExecCount() + " time(s).");
-        assertTrue(lastCommand.getInitCount() >= 1);
-        assertTrue(lastCommand.getExecCount() >= 1);
-        
-        scriptedCommand.interrupted();
-    }
-
 }
