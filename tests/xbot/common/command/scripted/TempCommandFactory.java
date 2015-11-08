@@ -1,6 +1,8 @@
-package xbot.common.autonomous;
+package xbot.common.command.scripted;
 
 import edu.wpi.first.wpilibj.command.Command;
+import xbot.common.command.scripted.ScriptedCommandFactory;
+import xbot.common.command.scripted.ScriptedCommandProvider;
 
 public class TempCommandFactory implements ScriptedCommandFactory {
     private ExecutionCounterCommandProvider lastExecutionCounterCommandProvider;

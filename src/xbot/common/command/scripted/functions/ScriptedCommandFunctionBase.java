@@ -1,4 +1,4 @@
-package xbot.common.autonomous.functions;
+package xbot.common.command.scripted.functions;
 import java.util.Arrays;
 import java.util.function.Consumer;
 

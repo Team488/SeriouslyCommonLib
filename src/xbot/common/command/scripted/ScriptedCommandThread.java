@@ -1,4 +1,4 @@
-package xbot.common.autonomous;
+package xbot.common.command.scripted;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,17 +14,17 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-import xbot.common.autonomous.functions.CodeCheckpointFunction;
-import xbot.common.autonomous.functions.InvokeCommandFunction;
-import xbot.common.autonomous.functions.RequireCommandsFunction;
+import xbot.common.command.scripted.functions.CodeCheckpointFunction;
+import xbot.common.command.scripted.functions.InvokeCommandFunction;
+import xbot.common.command.scripted.functions.RequireCommandsFunction;
 
 /**
- * A thread implementation for internal use by the AutonomousScriptedCommand class
+ * A thread implementation for internal use by the ScriptedCommand class
  * to execute the underlying scripts.
  *
  */
-public class AutonomousScriptedCommandThread extends Thread {
-    static Logger log = Logger.getLogger(AutonomousScriptedCommandThread.class);
+public class ScriptedCommandThread extends Thread {
+    static Logger log = Logger.getLogger(ScriptedCommandThread.class);
     
     Context jsContext;
     Scriptable jsScope;
@@ -32,16 +32,16 @@ public class AutonomousScriptedCommandThread extends Thread {
     ScriptableObject robotInterfaceObject;
     
     ScriptedCommandFactory availableCommandFactory;
-    AutonomousScriptedCommand parentCommand;
+    ScriptedCommand parentCommand;
     
     volatile Set<String> reachedCheckpoints = new HashSet<>();
     
     File scriptFile;
     String manualScriptText, manualScriptName;
     
-    public AutonomousScriptedCommandThread(
+    public ScriptedCommandThread(
             File scriptFile,
-            AutonomousScriptedCommand parentCommand,
+            ScriptedCommand parentCommand,
             ScriptedCommandFactory availableCommandFactory) {
         
         this.scriptFile = scriptFile;
@@ -49,10 +49,10 @@ public class AutonomousScriptedCommandThread extends Thread {
         this.availableCommandFactory = availableCommandFactory;
     }
     
-    public AutonomousScriptedCommandThread(
+    public ScriptedCommandThread(
             String scriptText,
             String scriptName,
-            AutonomousScriptedCommand parentCommand,
+            ScriptedCommand parentCommand,
             ScriptedCommandFactory availableCommandFactory) {
         
         this.manualScriptText = scriptText;
@@ -116,7 +116,7 @@ public class AutonomousScriptedCommandThread extends Thread {
         }
         
         for(String commandTypeName : commandNames) {
-            log.info("Autonomous script required command " + commandTypeName);
+            log.info("Scripted command required command " + commandTypeName);
             
             ScriptedCommandProvider commandProvider = this.availableCommandFactory.getProviderForName(commandTypeName);
             
@@ -132,10 +132,10 @@ public class AutonomousScriptedCommandThread extends Thread {
     }
     
     private synchronized void checkpointReached(String checkpointName) {
-        log.debug("Auto script reached checkpoint " + checkpointName);
+        log.debug("Script reached checkpoint " + checkpointName);
         
         if(this.reachedCheckpoints.contains(checkpointName))
-            log.warn("Auto checkpoint re-registered! This has no effect!");
+            log.warn("Checkpoint re-registered! This has no effect!");
         
         this.reachedCheckpoints.add(checkpointName);
     }

@@ -1,4 +1,4 @@
-package xbot.common.autonomous.functions;
+package xbot.common.command.scripted.functions;
 
 import java.util.function.Consumer;
 
@@ -8,7 +8,7 @@ import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 
 import edu.wpi.first.wpilibj.command.Command;
-import xbot.common.autonomous.ScriptedCommandProvider;
+import xbot.common.command.scripted.ScriptedCommandProvider;
 
 /**
  * A JavaScript-callable function to invoke a command.

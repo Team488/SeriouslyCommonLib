@@ -1,4 +1,4 @@
-package xbot.common.autonomous;
+package xbot.common.command.scripted;
 
 import java.io.File;
 import java.lang.Thread.State;
@@ -17,11 +17,11 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  * to robot functionality such as Command invocation.
  *
  */
-public class AutonomousScriptedCommand extends Command {
+public class ScriptedCommand extends Command {
 
-    static Logger log = Logger.getLogger(AutonomousScriptedCommand.class);
+    static Logger log = Logger.getLogger(ScriptedCommand.class);
     
-    private AutonomousScriptedCommandThread execThread;
+    private ScriptedCommandThread execThread;
 
     ScriptedCommandFactory availableCommandFactory;
     
@@ -36,7 +36,7 @@ public class AutonomousScriptedCommand extends Command {
      */
     private Set<Command> invokedCommands;
     
-    public AutonomousScriptedCommand(File scriptFile, ScriptedCommandFactory availableCommandFactory) {
+    public ScriptedCommand(File scriptFile, ScriptedCommandFactory availableCommandFactory) {
         this.availableCommandFactory = availableCommandFactory;
         
         this.scriptFile = scriptFile;
@@ -44,7 +44,7 @@ public class AutonomousScriptedCommand extends Command {
         log.debug("Instantiated with file path\"" + scriptFile.getAbsolutePath() + "\"");
     }
     
-    public AutonomousScriptedCommand(String manualScriptText, String manualScriptName, ScriptedCommandFactory availableCommandFactory) {
+    public ScriptedCommand(String manualScriptText, String manualScriptName, ScriptedCommandFactory availableCommandFactory) {
         this.availableCommandFactory = availableCommandFactory;
         
         this.manualScriptText = manualScriptText;
@@ -58,18 +58,18 @@ public class AutonomousScriptedCommand extends Command {
         
         if(scriptFile == null) {
             log.debug("Using manual script text for exec");
-            execThread = new AutonomousScriptedCommandThread(manualScriptText, manualScriptName, this, availableCommandFactory);
+            execThread = new ScriptedCommandThread(manualScriptText, manualScriptName, this, availableCommandFactory);
         }
         else {
             log.debug("Using file path for exec");
-            execThread = new AutonomousScriptedCommandThread(scriptFile, this, availableCommandFactory);
+            execThread = new ScriptedCommandThread(scriptFile, this, availableCommandFactory);
         }
         
         execThread.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
             
             @Override
             public void uncaughtException(Thread t, Throwable e) {
-                Logger log = Logger.getLogger(AutonomousScriptedCommandThread.class);
+                Logger log = Logger.getLogger(ScriptedCommandThread.class);
                 log.error("Uncaught exception in autonomous thread! " + e.toString());
             }
         });

@@ -1,4 +1,4 @@
-package xbot.common.autonomous;
+package xbot.common.command.scripted;
 
 /**
  * An interface which describes a factory which translates command

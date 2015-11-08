@@ -1,4 +1,4 @@
-package xbot.common.autonomous;
+package xbot.common.command.scripted;
 
 import edu.wpi.first.wpilibj.command.Command;
 

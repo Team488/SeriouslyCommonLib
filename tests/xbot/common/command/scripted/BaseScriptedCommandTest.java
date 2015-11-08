@@ -1,4 +1,4 @@
-package xbot.common.autonomous;
+package xbot.common.command.scripted;
 
 import static org.junit.Assert.*;
 
@@ -7,17 +7,18 @@ import org.junit.Test;
 
 import edu.wpi.first.wpilibj.command.Scheduler;
 import sun.util.logging.resources.logging;
-import xbot.common.autonomous.TempCommandFactory.ExecutionCounterCommandProvider;
 import xbot.common.command.XScheduler;
+import xbot.common.command.scripted.ScriptedCommand;
+import xbot.common.command.scripted.TempCommandFactory.ExecutionCounterCommandProvider;
 import xbot.common.injection.BaseWPITest;
 
-public class BaseAutonomousScriptTest extends BaseWPITest {
-    static Logger log = Logger.getLogger(BaseAutonomousScriptTest.class);
+public class BaseScriptedCommandTest extends BaseWPITest {
+    static Logger log = Logger.getLogger(BaseScriptedCommandTest.class);
 
     @Test
     public void testBasicCommandExecution() {
         TempCommandFactory scriptedCommandFactory = new TempCommandFactory();
-        AutonomousScriptedCommand scriptedCommand = new AutonomousScriptedCommand(
+        ScriptedCommand scriptedCommand = new ScriptedCommand(
                 "robot.requireCommands('CounterCommand');\n"
                 + "robot.invokeCounterCommand();\n",
                 "TestScript",
@@ -44,7 +45,7 @@ public class BaseAutonomousScriptTest extends BaseWPITest {
         ExecutionCounterCommand lastCommand = lastCommandProvider.getLastCommand();
         assertNotNull(lastCommand);
 
-        log.info("Autonomous command was initialized " + lastCommand.getInitCount() + " time(s)"
+        log.info("Scripted command was initialized " + lastCommand.getInitCount() + " time(s)"
                 + " and executed " + lastCommand.getExecCount() + " time(s).");
         assertTrue(lastCommand.getInitCount() >= 1);
         assertTrue(lastCommand.getExecCount() >= 1);
@@ -55,7 +56,7 @@ public class BaseAutonomousScriptTest extends BaseWPITest {
     @Test
     public void testCommandCheckpoints() {
         TempCommandFactory scriptedCommandFactory = new TempCommandFactory();
-        AutonomousScriptedCommand scriptedCommand = new AutonomousScriptedCommand(
+        ScriptedCommand scriptedCommand = new ScriptedCommand(
                 "robot.requireCommands('CounterCommand');\n"
                 + "robot.invokeCounterCommand();\n"
                 + "robot.checkpointReached('commandInvoked');\n"
@@ -87,7 +88,7 @@ public class BaseAutonomousScriptTest extends BaseWPITest {
         ExecutionCounterCommand lastCommand = lastCommandProvider.getLastCommand();
         assertNotNull(lastCommand);
 
-        log.info("Autonomous command was initialized " + lastCommand.getInitCount() + " time(s)"
+        log.info("Scripted command was initialized " + lastCommand.getInitCount() + " time(s)"
                 + " and executed " + lastCommand.getExecCount() + " time(s).");
         assertTrue(lastCommand.getInitCount() >= 1);
         assertTrue(lastCommand.getExecCount() >= 1);
