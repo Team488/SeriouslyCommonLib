@@ -1,14 +1,21 @@
-package xbot.common.autonomous;
+package xbot.common.autonomous.functions;
 
 import java.util.function.Consumer;
 
+import org.apache.log4j.Logger;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 
 import edu.wpi.first.wpilibj.command.Command;
+import xbot.common.autonomous.ScriptedCommandProvider;
 
+/**
+ * A JavaScript-callable function to invoke a command.
+ *
+ */
 public class InvokeCommandFunction extends ScriptedCommandFunctionBase {
+    static Logger log = Logger.getLogger(CodeCheckpointFunction.class);
 
     private ScriptedCommandProvider wrappedCommandType;
     private Consumer<Command> notifyInvokedCommand;
@@ -26,8 +33,7 @@ public class InvokeCommandFunction extends ScriptedCommandFunctionBase {
             this.notifyInvokedCommand.accept(newCommand);
         }
         catch (Exception e) {
-            // TODO
-            e.printStackTrace();
+            log.error("An error occurred while attempting to invoke a comman in an autonomous script.");
         }
         
         return null;

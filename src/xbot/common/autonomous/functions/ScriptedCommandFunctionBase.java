@@ -1,9 +1,14 @@
-package xbot.common.autonomous;
+package xbot.common.autonomous.functions;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
 import org.mozilla.javascript.*;
 
+/**
+ * An abstract implementation of the JavaScript Function interface to provide
+ * blank defaults for function implementations.
+ *
+ */
 public abstract class ScriptedCommandFunctionBase implements Function {
 
     @Override

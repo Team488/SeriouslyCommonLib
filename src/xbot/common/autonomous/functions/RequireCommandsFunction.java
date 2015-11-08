@@ -1,9 +1,14 @@
-package xbot.common.autonomous;
+package xbot.common.autonomous.functions;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
 import org.mozilla.javascript.*;
 
+/**
+ * A JavaScript-callable function to allow scripts to specify that they require access
+ * to certain command types.
+ *
+ */
 public class RequireCommandsFunction extends ScriptedCommandFunctionBase {
 
     private Consumer<String[]> requiredComandsCallback;

@@ -11,6 +11,11 @@ import org.apache.log4j.Logger;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
+/**
+ * A command to facilitate execution of a JavaScript script with access
+ * to robot functionality such as Command invocation.
+ *
+ */
 public class AutonomousScriptedCommand extends Command {
 
     static Logger log = Logger.getLogger(AutonomousScriptedCommand.class);

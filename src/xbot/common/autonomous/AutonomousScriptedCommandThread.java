@@ -14,6 +14,15 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
+import xbot.common.autonomous.functions.CodeCheckpointFunction;
+import xbot.common.autonomous.functions.InvokeCommandFunction;
+import xbot.common.autonomous.functions.RequireCommandsFunction;
+
+/**
+ * A thread implementation for internal use by the AutonomousScriptedCommand class
+ * to execute the underlying scripts.
+ *
+ */
 public class AutonomousScriptedCommandThread extends Thread {
     static Logger log = Logger.getLogger(AutonomousScriptedCommandThread.class);
     
