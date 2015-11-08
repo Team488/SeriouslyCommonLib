@@ -26,9 +26,9 @@ public class InvokeCommandFunction extends ScriptedCommandFunctionBase {
     }
 
     @Override
-    public Object call(Context arg0, Scriptable arg1, Scriptable arg2, Object[] arg3) {
+    public Object call(Context arg0, Scriptable arg1, Scriptable arg2, Object[] parameters) {
         try {
-            Command newCommand = wrappedCommandType.get();
+            Command newCommand = wrappedCommandType.get(parameters);
             //TODO: Configure command according to parameters
             this.notifyInvokedCommand.accept(newCommand);
         }

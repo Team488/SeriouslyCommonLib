@@ -21,7 +21,7 @@ public class TempCommandFactory implements ScriptedCommandFactory {
         private ExecutionCounterCommand lastCommand;
         
         @Override
-        public Command get() {
+        public Command get(Object[] parameters) {
             return lastCommand = new ExecutionCounterCommand();
         }
         

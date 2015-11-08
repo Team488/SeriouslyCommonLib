@@ -9,5 +9,5 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public interface ScriptedCommandProvider {
-    public Command get();
+    public Command get(Object[] parameters);
 }
