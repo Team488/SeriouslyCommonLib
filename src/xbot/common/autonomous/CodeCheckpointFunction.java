@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import org.apache.log4j.Logger;
 import org.mozilla.javascript.*;
 
-public class CodeCheckpointFunction implements Function {
+public class CodeCheckpointFunction extends ScriptedCommandFunctionBase {
     static Logger log = Logger.getLogger(CodeCheckpointFunction.class);
 
     private Consumer<String> codeCheckpointCallback;
@@ -29,91 +29,4 @@ public class CodeCheckpointFunction implements Function {
         
         return null;
     }
-    
-    
-    @Override
-    public void delete(String arg0) {
-        
-    }
-
-    @Override
-    public void delete(int arg0) {
-        
-    }
-
-    @Override
-    public Object get(String arg0, Scriptable arg1) {
-        return null;
-    }
-
-    @Override
-    public Object get(int arg0, Scriptable arg1) {
-        return null;
-    }
-
-    @Override
-    public String getClassName() {
-        return null;
-    }
-
-    @Override
-    public Object getDefaultValue(Class<?> arg0) {
-        return null;
-    }
-
-    @Override
-    public Object[] getIds() {
-        return null;
-    }
-
-    @Override
-    public Scriptable getParentScope() {
-        return null;
-    }
-
-    @Override
-    public Scriptable getPrototype() {
-        return null;
-    }
-
-    @Override
-    public boolean has(String arg0, Scriptable arg1) {
-        return false;
-    }
-
-    @Override
-    public boolean has(int arg0, Scriptable arg1) {
-        return false;
-    }
-
-    @Override
-    public boolean hasInstance(Scriptable arg0) {
-        return false;
-    }
-
-    @Override
-    public void put(String arg0, Scriptable arg1, Object arg2) {
-        
-    }
-
-    @Override
-    public void put(int arg0, Scriptable arg1, Object arg2) {
-        
-    }
-
-    @Override
-    public void setParentScope(Scriptable arg0) {
-        
-    }
-
-    @Override
-    public void setPrototype(Scriptable arg0) {
-        
-    }
-
-    @Override
-    public Scriptable construct(Context arg0, Scriptable arg1, Object[] arg2) {
-        return null;
-    }
-
 }
