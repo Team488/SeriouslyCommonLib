@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -39,6 +40,8 @@ public class AutonomousScriptedCommand extends Command {
         this.availableCommandFactory = availableCommandFactory;
         
         this.scriptFile = scriptFile;
+        
+        log.debug("Instantiated with file path\"" + scriptFile.getAbsolutePath() + "\"");
     }
     
     public AutonomousScriptedCommand(String manualScriptText, String manualScriptName, ScriptedCommandFactory availableCommandFactory) {
@@ -46,13 +49,19 @@ public class AutonomousScriptedCommand extends Command {
         
         this.manualScriptText = manualScriptText;
         this.manualScriptName = manualScriptName;
+        
+        log.debug("Instantiated with script string");
     }
     
     private void initializeExecThread() {
+        log.debug("Initializing exec thread");
+        
         if(scriptFile == null) {
+            log.debug("Using manual script text for exec");
             execThread = new AutonomousScriptedCommandThread(manualScriptText, manualScriptName, this, availableCommandFactory);
         }
         else {
+            log.debug("Using file path for exec");
             execThread = new AutonomousScriptedCommandThread(scriptFile, this, availableCommandFactory);
         }
         
@@ -71,6 +80,8 @@ public class AutonomousScriptedCommand extends Command {
      * @param command
      */
     public synchronized void invokeCommand(Command command) {
+        log.info("Adding command " + command + " to scheduler");
+        
         Scheduler.getInstance().add(command);
         if(this.invokedCommands == null)
             this.invokedCommands = new HashSet<Command>();
@@ -85,21 +96,27 @@ public class AutonomousScriptedCommand extends Command {
 
     @Override
     protected void execute() {
-        if(execThread.getState() == State.NEW)
+        if(execThread.getState() == State.NEW) {
+            log.debug("Starting exec thread");
             this.execThread.start();
+        }
     }
 
     @Override
     protected boolean isFinished() {
+        log.debug("isFinished called; State is " + (execThread == null ? "[uninitialized]" : execThread.getState().toString())); 
         return execThread != null && execThread.getState() == State.TERMINATED;
     }
 
     @Override
     protected void end() {
+        log.debug("end called");
         if(execThread != null) {
+            log.debug("Interrupting exec thread");
             this.execThread.interrupt();
         }
         
+        log.debug("Cancelling invoked commands");
         if(this.invokedCommands != null) {
             for(Command command : invokedCommands) {
                 command.cancel();

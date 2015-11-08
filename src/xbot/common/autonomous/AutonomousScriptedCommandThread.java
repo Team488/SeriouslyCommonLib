@@ -132,6 +132,8 @@ public class AutonomousScriptedCommandThread extends Thread {
     }
     
     private synchronized void checkpointReached(String checkpointName) {
+        log.debug("Auto script reached checkpoint " + checkpointName);
+        
         if(this.reachedCheckpoints.contains(checkpointName))
             log.warn("Auto checkpoint re-registered! This has no effect!");
         
