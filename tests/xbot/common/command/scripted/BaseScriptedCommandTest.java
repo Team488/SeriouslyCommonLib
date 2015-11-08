@@ -5,8 +5,6 @@ import static org.junit.Assert.*;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-import edu.wpi.first.wpilibj.command.Scheduler;
-import sun.util.logging.resources.logging;
 import xbot.common.command.XScheduler;
 import xbot.common.command.scripted.ScriptedCommand;
 import xbot.common.command.scripted.TempCommandFactory.ExecutionCounterCommandProvider;
