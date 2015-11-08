@@ -4,16 +4,18 @@ import static org.junit.Assert.*;
 
 import org.apache.log4j.Logger;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import xbot.common.command.XScheduler;
-import xbot.common.command.scripted.TempCommandFactory.ExecutionCounterCommandProvider;
+import xbot.common.command.scripted.TestCommandFactory.ExecutionCounterCommandProvider;
 import xbot.common.injection.BaseWPITest;
 
+@Ignore
 public class BaseScriptedCommandTest extends BaseWPITest {
     static Logger log = Logger.getLogger(BaseScriptedCommandTest.class);
     
-    TempCommandFactory scriptedCommandFactory = new TempCommandFactory();
+    TestCommandFactory scriptedCommandFactory = new TestCommandFactory();
     XScheduler scheduler;
     
     @Before

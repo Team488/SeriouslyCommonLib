@@ -1,10 +1,13 @@
 package xbot.common.command.scripted;
 
+import org.junit.Ignore;
+
 import edu.wpi.first.wpilibj.command.Command;
 import xbot.common.command.scripted.ScriptedCommandFactory;
 import xbot.common.command.scripted.ScriptedCommandProvider;
 
-public class TempCommandFactory implements ScriptedCommandFactory {
+@Ignore
+public class TestCommandFactory implements ScriptedCommandFactory {
     private ExecutionCounterCommandProvider lastExecutionCounterCommandProvider;
     
     @Override

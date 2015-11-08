@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import xbot.common.command.XScheduler;
 import xbot.common.command.scripted.ScriptedCommand;
-import xbot.common.command.scripted.TempCommandFactory.ExecutionCounterCommandProvider;
+import xbot.common.command.scripted.TestCommandFactory.ExecutionCounterCommandProvider;
 import xbot.common.injection.BaseWPITest;
 
 public class ScriptedCommandTest extends BaseScriptedCommandTest {
