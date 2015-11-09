@@ -125,7 +125,10 @@ public class ScriptedCommandThread extends Thread {
                 continue;
             }
             
-            InvokeCommandFunction commandInvoker = new InvokeCommandFunction(commandProvider, command -> this.parentCommand.invokeCommand(command));
+            InvokeCommandFunction commandInvoker = new InvokeCommandFunction(
+                    commandProvider,
+                    command -> this.parentCommand.invokeCommand(command),
+                    parentCommand);
             
             jsScope.put("invoke" + commandTypeName, robotInterfaceObject, commandInvoker);
         }

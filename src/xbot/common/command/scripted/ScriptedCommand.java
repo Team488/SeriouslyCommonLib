@@ -36,6 +36,8 @@ public class ScriptedCommand extends Command {
      */
     private Set<Command> invokedCommands;
     
+    private volatile Set<ScriptedCommandCompletionLock> completionLocks;
+    
     public ScriptedCommand(File scriptFile, ScriptedCommandFactory availableCommandFactory) {
         this.availableCommandFactory = availableCommandFactory;
         
@@ -96,9 +98,27 @@ public class ScriptedCommand extends Command {
 
     @Override
     protected void execute() {
+        // Start the execution thread if this is the first command run
         if(execThread.getState() == State.NEW) {
             log.debug("Starting exec thread");
             this.execThread.start();
+        }
+        
+        // Update any locks waiting for commands to finish
+        if(this.completionLocks != null) {
+            Set<ScriptedCommandCompletionLock> locksToRemove = new HashSet<>();
+            
+            for(ScriptedCommandCompletionLock lock : this.completionLocks) {
+                if(lock.updateLock()) {
+                    log.debug("Found lock to remove: " + lock.toString());
+                    locksToRemove.add(lock);
+                }
+            }
+            
+            if(!locksToRemove.isEmpty()) {
+                log.debug("Removing " + locksToRemove.size() + " locks");
+                completionLocks.removeAll(locksToRemove);
+            }
         }
     }
 
@@ -133,5 +153,12 @@ public class ScriptedCommand extends Command {
     
     public boolean hasReachedCheckpoint(String checkpointName) {
         return execThread != null && execThread.hasReachedCheckpoint(checkpointName);
+    }
+    
+    public void addCompletionLock(ScriptedCommandCompletionLock lock) {
+        if(this.completionLocks == null)
+            this.completionLocks = new HashSet<>();
+        
+        this.completionLocks.add(lock);
     }
 }

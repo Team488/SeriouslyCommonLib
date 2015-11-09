@@ -12,6 +12,9 @@ import xbot.common.injection.BaseWPITest;
 
 public class ScriptedCommandTest extends BaseScriptedCommandTest {
     static Logger log = Logger.getLogger(ScriptedCommandTest.class);
+    
+    final int loopTimeoutIterations = 60;
+    final int loopWaitIncrement = 50;
 
     @Test
     public void testBasicCommandExecution() {
@@ -23,9 +26,9 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
         
         scheduler.add(scriptedCommand);
         
-        for(int numLoops = 0; !scriptedCommand.isFinished() && numLoops < 40; numLoops++) {
+        for(int numLoops = 0; !scriptedCommand.isFinished() && numLoops < loopTimeoutIterations; numLoops++) {
             scheduler.run();
-            sleepThread(50);
+            sleepThread(loopWaitIncrement);
         }
         
         scheduler.run();
@@ -49,9 +52,9 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
         
         scheduler.add(scriptedCommand);
         
-        for(int numLoops = 0; !scriptedCommand.hasReachedCheckpoint("commandInvoked") && numLoops < 40; numLoops++) {
+        for(int numLoops = 0; !scriptedCommand.hasReachedCheckpoint("commandInvoked") && numLoops < loopTimeoutIterations; numLoops++) {
             scheduler.run();
-            sleepThread(50);
+            sleepThread(loopWaitIncrement);
         }
         
         assertTrue(scriptedCommand.hasReachedCheckpoint("commandInvoked"));
@@ -66,4 +69,29 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
         scriptedCommand.interrupted();
     }
     
+    @Test
+    public void testCommandWaiting() {
+        ScriptedCommand scriptedCommand = new ScriptedCommand(
+                "robot.requireCommands('CounterCommand');\n"
+                + "var invokedCommand = robot.invokeCounterCommand(1);\n"
+                + "invokedCommand.waitForCompletion();",
+                "TestScript",
+                scriptedCommandFactory);
+        
+        scheduler.add(scriptedCommand);
+        
+        int numLoops = 0;
+        for(; !scriptedCommand.isFinished() && numLoops < loopTimeoutIterations; numLoops++) {
+            scheduler.run();
+            sleepThread(loopWaitIncrement);
+        }
+        
+        // If it took the whole timeout period, we can assume that the wait wouldn't ever finish
+        assertTrue(numLoops < loopTimeoutIterations);
+        
+        ExecutionCounterCommand lastCommand = getLastCounterCommand();
+        assertCounterExecuted(lastCommand);
+        
+        scriptedCommand.interrupted();
+    }
 }

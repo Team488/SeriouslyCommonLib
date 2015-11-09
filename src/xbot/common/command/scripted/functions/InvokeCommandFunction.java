@@ -8,6 +8,8 @@ import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 
 import edu.wpi.first.wpilibj.command.Command;
+import xbot.common.command.scripted.CommandScriptInterface;
+import xbot.common.command.scripted.ScriptedCommand;
 import xbot.common.command.scripted.ScriptedCommandProvider;
 
 /**
@@ -19,21 +21,24 @@ public class InvokeCommandFunction extends ScriptedCommandFunctionBase {
 
     private ScriptedCommandProvider wrappedCommandType;
     private Consumer<Command> notifyInvokedCommand;
+    private ScriptedCommand parentCommand;
     
-    public InvokeCommandFunction(ScriptedCommandProvider commandToInvoke, Consumer<Command> notifyInvokedCommand) {
+    public InvokeCommandFunction(ScriptedCommandProvider commandToInvoke, Consumer<Command> notifyInvokedCommand, ScriptedCommand parentCommand) {
         this.wrappedCommandType = commandToInvoke;
         this.notifyInvokedCommand = notifyInvokedCommand;
+        this.parentCommand = parentCommand;
     }
 
     @Override
     public Object call(Context arg0, Scriptable arg1, Scriptable arg2, Object[] parameters) {
         try {
             Command newCommand = wrappedCommandType.get(parameters);
-            //TODO: Configure command according to parameters
             this.notifyInvokedCommand.accept(newCommand);
+            
+            return new CommandScriptInterface(newCommand, parentCommand);
         }
         catch (Exception e) {
-            log.error("An error occurred while attempting to invoke a comman in an autonomous script.");
+            log.error("An error occurred while attempting to invoke a command in an autonomous script.");
         }
         
         return null;

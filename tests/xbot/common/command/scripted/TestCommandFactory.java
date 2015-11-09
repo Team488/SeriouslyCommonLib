@@ -28,7 +28,13 @@ public class TestCommandFactory implements ScriptedCommandFactory {
         
         @Override
         public Command get(Object[] parameters) {
-            return lastCommand = new ExecutionCounterCommand();
+            lastCommand = new ExecutionCounterCommand();
+            
+            if(parameters.length >= 1 && parameters[0] instanceof Integer) {
+                lastCommand.setExecLimit((Integer)parameters[0]);
+            }
+            
+            return lastCommand;
         }
         
         public ExecutionCounterCommand getLastCommand() {
@@ -36,5 +42,4 @@ public class TestCommandFactory implements ScriptedCommandFactory {
             return lastCommand;
         }
     }
-
 }

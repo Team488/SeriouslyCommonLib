@@ -1,11 +1,19 @@
 package xbot.common.command.scripted;
 
-import edu.wpi.first.wpilibj.command.Command;
+import xbot.common.command.BaseCommand;
 
-public class ExecutionCounterCommand extends Command {
+public class ExecutionCounterCommand extends BaseCommand {
     private int initCount, execCount;
-    public boolean isFinished = false;
+    private Integer initLimit = null, execLimit = null;
 
+    public void setInitLimit(int initLimit) {
+        this.initLimit = new Integer(initLimit);
+    }
+
+    public void setExecLimit(int execLimit) {
+        this.execLimit = new Integer(execLimit);
+    }
+    
     public int getInitCount() {
         return initCount;
     }
@@ -23,29 +31,32 @@ public class ExecutionCounterCommand extends Command {
     }
     
     @Override
-    protected void initialize() {
+    public void initialize() {
         this.initCount++;
 
     }
 
     @Override
-    protected void execute() {
+    public void execute() {
         this.execCount++;
 
     }
 
     @Override
-    protected boolean isFinished() {
-        return isFinished;
+    public boolean isFinished() {
+        // TODO: Figure out if we need the separate null check
+        // ... >= might do it for us and return the expected result
+        return (initLimit != null && initCount >= initLimit)
+                || (execLimit != null && execCount >= execLimit);
     }
 
     @Override
-    protected void end() {
-
+    public void end() {
+        this.execCount = 0;
     }
 
     @Override
-    protected void interrupted() {
+    public void interrupted() {
 
     }
 
