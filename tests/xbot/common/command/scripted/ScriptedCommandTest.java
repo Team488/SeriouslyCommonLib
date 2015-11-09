@@ -13,7 +13,6 @@ import xbot.common.injection.BaseWPITest;
 public class ScriptedCommandTest extends BaseScriptedCommandTest {
     static Logger log = Logger.getLogger(ScriptedCommandTest.class);
     
-    final int loopTimeoutIterations = 80;
     final int loopWaitIncrement = 60;
 
     @Test
@@ -26,7 +25,7 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
         
         scheduler.add(scriptedCommand);
         
-        for(int numLoops = 0; !scriptedCommand.isFinished() && numLoops < loopTimeoutIterations; numLoops++) {
+        for(int numLoops = 0; !scriptedCommand.isFinished(); numLoops++) {
             scheduler.run();
             sleepThread(loopWaitIncrement);
         }
@@ -34,7 +33,7 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
         scheduler.run();
         scheduler.run();
         
-        ExecutionCounterCommand lastCommand = getLastCounterCommand();
+        ExecutionCounterCommand lastCommand = assertLastCounterCommand();
         assertCounterExecuted(lastCommand);
         
         scriptedCommand.interrupted();
@@ -51,10 +50,16 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
                 scriptedCommandFactory);
         
         scheduler.add(scriptedCommand);
+        ExecutionCounterCommand lastCommand = null;
         
-        for(int numLoops = 0; !scriptedCommand.hasReachedCheckpoint("commandInvoked") && numLoops < loopTimeoutIterations; numLoops++) {
+        // Loop until it either reaches the checkpoint (good) or the command has been
+        // executed more than 10 times (probably won't ever hit checkpoint)
+        while(!scriptedCommand.hasReachedCheckpoint("commandInvoked")
+                && (lastCommand == null || lastCommand.getExecCount() <= 10)) {
             scheduler.run();
             sleepThread(loopWaitIncrement);
+            
+            lastCommand = getLastCounterCommand();
         }
         
         assertTrue(scriptedCommand.hasReachedCheckpoint("commandInvoked"));
@@ -63,7 +68,7 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
         scheduler.run();
         scheduler.run();
         
-        ExecutionCounterCommand lastCommand = getLastCounterCommand();
+        lastCommand = assertLastCounterCommand();
         assertCounterExecuted(lastCommand);
         
         scriptedCommand.interrupted();
@@ -81,16 +86,22 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
         
         scheduler.add(scriptedCommand);
         
-        int numLoops = 0;
-        for(; !scriptedCommand.isFinished() && numLoops < loopTimeoutIterations; numLoops++) {
+        ExecutionCounterCommand lastCommand;
+        
+        // Loop until either the script finishes executing or the counter command has
+        // been finished for more than 10 iterations
+        int loopsSinceCounterFinished = 0;
+        while(!scriptedCommand.isFinished() && loopsSinceCounterFinished <= 10) {
             scheduler.run();
             sleepThread(loopWaitIncrement);
+            
+            lastCommand = getLastCounterCommand();
+            if(lastCommand != null && lastCommand.isFinished())
+                loopsSinceCounterFinished++;
         }
         
-        // If it took the whole timeout period, we can assume that the wait wouldn't ever finish
-        assertTrue(numLoops < loopTimeoutIterations);
-        
-        ExecutionCounterCommand lastCommand = getLastCounterCommand();
+        assertTrue(scriptedCommand.isFinished());
+        lastCommand = assertLastCounterCommand();
         assertCounterExecuted(lastCommand);
         
         scriptedCommand.interrupted();

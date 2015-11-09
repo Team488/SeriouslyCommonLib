@@ -28,6 +28,15 @@ public class BaseScriptedCommandTest extends BaseWPITest {
     protected ExecutionCounterCommand getLastCounterCommand() {
         
         ExecutionCounterCommandProvider lastCommandProvider = scriptedCommandFactory.getLastExecutionCounterCommandProvider();
+        if(lastCommandProvider == null)
+            return null;
+        
+        return lastCommandProvider.getLastCommand();
+    }
+    
+    protected ExecutionCounterCommand assertLastCounterCommand() {
+        
+        ExecutionCounterCommandProvider lastCommandProvider = scriptedCommandFactory.getLastExecutionCounterCommandProvider();
         assertNotNull(lastCommandProvider);
         
         ExecutionCounterCommand lastCommand = lastCommandProvider.getLastCommand();
