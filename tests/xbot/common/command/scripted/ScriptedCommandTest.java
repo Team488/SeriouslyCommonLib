@@ -13,8 +13,8 @@ import xbot.common.injection.BaseWPITest;
 public class ScriptedCommandTest extends BaseScriptedCommandTest {
     static Logger log = Logger.getLogger(ScriptedCommandTest.class);
     
-    final int loopTimeoutIterations = 60;
-    final int loopWaitIncrement = 50;
+    final int loopTimeoutIterations = 80;
+    final int loopWaitIncrement = 60;
 
     @Test
     public void testBasicCommandExecution() {
@@ -71,6 +71,7 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
     
     @Test
     public void testCommandWaiting() {
+        // TODO: Re-write this test to be 100% sure that the wait method waited successfully
         ScriptedCommand scriptedCommand = new ScriptedCommand(
                 "robot.requireCommands('CounterCommand');\n"
                 + "var invokedCommand = robot.invokeCounterCommand(1);\n"
