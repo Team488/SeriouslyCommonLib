@@ -13,9 +13,9 @@ import xbot.common.injection.BaseWPITest;
 public class ScriptedCommandTest extends BaseScriptedCommandTest {
     static Logger log = Logger.getLogger(ScriptedCommandTest.class);
     
-    final int loopWaitIncrement = 60;
+    final int loopWaitIncrement = 10;
 
-    @Test
+    @Test(timeout=10000)
     public void testBasicCommandExecution() {
         ScriptedCommand scriptedCommand = new ScriptedCommand(
                 "robot.requireCommands('CounterCommand');\n"
@@ -25,7 +25,7 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
         
         scheduler.add(scriptedCommand);
         
-        for(int numLoops = 0; !scriptedCommand.isFinished(); numLoops++) {
+        while(!scriptedCommand.isFinished()) {
             scheduler.run();
             sleepThread(loopWaitIncrement);
         }
@@ -39,7 +39,7 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
         scriptedCommand.interrupted();
     }
 
-    @Test
+    @Test(timeout=10000)
     public void testCommandCheckpoints() {
         ScriptedCommand scriptedCommand = new ScriptedCommand(
                 "robot.requireCommands('CounterCommand');\n"
@@ -50,16 +50,10 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
                 scriptedCommandFactory);
         
         scheduler.add(scriptedCommand);
-        ExecutionCounterCommand lastCommand = null;
         
-        // Loop until it either reaches the checkpoint (good) or the command has been
-        // executed more than 10 times (probably won't ever hit checkpoint)
-        while(!scriptedCommand.hasReachedCheckpoint("commandInvoked")
-                && (lastCommand == null || lastCommand.getExecCount() <= 10)) {
+        while(!scriptedCommand.hasReachedCheckpoint("commandInvoked")) {
             scheduler.run();
             sleepThread(loopWaitIncrement);
-            
-            lastCommand = getLastCounterCommand();
         }
         
         assertTrue(scriptedCommand.hasReachedCheckpoint("commandInvoked"));
@@ -68,40 +62,30 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
         scheduler.run();
         scheduler.run();
         
-        lastCommand = assertLastCounterCommand();
+        ExecutionCounterCommand lastCommand = assertLastCounterCommand();
         assertCounterExecuted(lastCommand);
         
         scriptedCommand.interrupted();
     }
     
-    @Test
+    @Test(timeout=10000)
     public void testCommandWaiting() {
-        // TODO: Re-write this test to be 100% sure that the wait method waited successfully
         ScriptedCommand scriptedCommand = new ScriptedCommand(
                 "robot.requireCommands('CounterCommand');\n"
-                + "var invokedCommand = robot.invokeCounterCommand(1);\n"
+                + "var invokedCommand = robot.invokeCounterCommand(10);\n"
                 + "invokedCommand.waitForCompletion();",
                 "TestScript",
                 scriptedCommandFactory);
         
         scheduler.add(scriptedCommand);
         
-        ExecutionCounterCommand lastCommand;
-        
-        // Loop until either the script finishes executing or the counter command has
-        // been finished for more than 10 iterations
-        int loopsSinceCounterFinished = 0;
-        while(!scriptedCommand.isFinished() && loopsSinceCounterFinished <= 10) {
+        while(!scriptedCommand.isFinished()) {
             scheduler.run();
             sleepThread(loopWaitIncrement);
-            
-            lastCommand = getLastCounterCommand();
-            if(lastCommand != null && lastCommand.isFinished())
-                loopsSinceCounterFinished++;
         }
         
         assertTrue(scriptedCommand.isFinished());
-        lastCommand = assertLastCounterCommand();
+        ExecutionCounterCommand lastCommand = assertLastCounterCommand();
         assertCounterExecuted(lastCommand);
         
         scriptedCommand.interrupted();
