@@ -4,6 +4,8 @@
 
 Seriously Common Lib is a collection of common solutions to robot problems that FRC teams face while using WPILib and Java. It attempts to streamline basic functionality, provide the framework for more advanced programs, and promote clean and well-written code. It functions primarily as a wrapper around WPILib which allows the robot code to run separately from the robot-specific library and HAL, enabling unit tests that can be run on a PC or CI server.
 
+For new teams that are haven't done much advanced programming before, this library has all the core code that is needed to get a robot running with advanced functionality without having to write the core systems from scratch. For more advanced teams, the common lib gives you a solid foundation of all the basics to start building your robot code on top of. You don't need to use the pre-built drive system or any of the other parts of the library if you don't want to; it's all modular.
+
 ## Who's working on it?
 SeriouslyCommonLib started as a separation of the commonly-written sections of code from FRC team 488 Xbot. We wanted to write re-usable code that could significantly decrease the time it took to get started in subsequent years. We had also been looking for a way to write unit tests for our robot code, which required us to write a fairly large amount of code that we didn't want to re-write each year. In doing so, we developed loads of useful utilities and wrappers and kept them separate from our season code so that we could publish it when we had the time.
 
