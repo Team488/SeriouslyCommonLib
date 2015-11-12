@@ -5,6 +5,11 @@ import org.apache.log4j.Logger;
 import edu.wpi.first.wpilibj.command.Command;
 import xbot.common.command.BaseCommand;
 
+/**
+ * An object which can be exposed to a running script to wrap a
+ * command on the scheduler.
+ *
+ */
 public class CommandScriptInterface {
     static Logger log = Logger.getLogger(CommandScriptInterface.class);
     
