@@ -60,14 +60,19 @@ public class CommandScriptInterface {
         parentCommand.addCompletionLock(lock);
 
         try {
+            long startTime = System.currentTimeMillis();
             synchronized (lock) {
                 if(timeoutMillis <= 0) {
+                    log.debug("Waiting indefinitely for lock notification");
                     lock.wait();
                 }
                 else {
+                    log.debug("Waiting with a timeout of " + timeoutMillis + "ms");
                     lock.wait(timeoutMillis);
                 }
             }
+            
+            log.debug("Wait completed (waited " + (System.currentTimeMillis() - startTime) + "millis)");
         }
         catch (InterruptedException e) {
             log.error("Scripted command wait unexpectedly interrupted!"); 

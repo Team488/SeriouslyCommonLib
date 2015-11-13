@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
+import com.sun.xml.internal.bind.annotation.XmlLocation;
+
 import xbot.common.command.XScheduler;
 import xbot.common.command.scripted.ScriptedCommand;
 import xbot.common.command.scripted.TestCommandFactory.ExecutionCounterCommandProvider;
@@ -69,10 +71,38 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
     }
     
     @Test(timeout=10000)
+    public void testCommandParams() {
+        int numExecs = 50;
+        ScriptedCommand scriptedCommand = new ScriptedCommand(
+                "robot.requireCommands('CounterCommand');\n"
+                + "robot.invokeCounterCommand(" + numExecs + ");\n",
+                "TestScript",
+                scriptedCommandFactory);
+        
+        scheduler.add(scriptedCommand);
+        
+        while(!scriptedCommand.isFinished()) {
+            scheduler.run();
+            sleepThread(loopWaitIncrement);
+        }
+        
+        // We need to make sure that it executes at least the limit # of times
+        for(int i = 0; i < numExecs + 1; i++) {
+            scheduler.run();
+        }
+        
+        ExecutionCounterCommand lastCommand = assertLastCounterCommand();
+        assertCounterExecuted(lastCommand);
+        assertEquals(numExecs, lastCommand.getExecCount());
+        
+        scriptedCommand.interrupted();
+    }
+    
+    @Test(timeout=10000)
     public void testCommandWaiting() {
         ScriptedCommand scriptedCommand = new ScriptedCommand(
                 "robot.requireCommands('CounterCommand');\n"
-                + "var invokedCommand = robot.invokeCounterCommand(10);\n"
+                + "var invokedCommand = robot.invokeCounterCommand(50);\n"
                 + "invokedCommand.waitForCompletion();",
                 "TestScript",
                 scriptedCommandFactory);

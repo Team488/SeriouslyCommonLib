@@ -32,13 +32,16 @@ public class ExecutionCounterCommand extends BaseCommand {
     
     @Override
     public void initialize() {
-        this.initCount++;
+        this.execCount = 0;
+        if(initLimit == null || initCount < initLimit)
+            this.initCount++;
 
     }
 
     @Override
     public void execute() {
-        this.execCount++;
+        if(execLimit == null || execCount < execLimit)
+            this.execCount++;
 
     }
 
@@ -52,7 +55,6 @@ public class ExecutionCounterCommand extends BaseCommand {
 
     @Override
     public void end() {
-        this.execCount = 0;
     }
 
     @Override
