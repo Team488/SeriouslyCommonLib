@@ -5,12 +5,7 @@ import static org.junit.Assert.*;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-import com.sun.xml.internal.bind.annotation.XmlLocation;
-
-import xbot.common.command.XScheduler;
 import xbot.common.command.scripted.ScriptedCommand;
-import xbot.common.command.scripted.TestCommandFactory.ExecutionCounterCommandProvider;
-import xbot.common.injection.BaseWPITest;
 
 public class ScriptedCommandTest extends BaseScriptedCommandTest {
     static Logger log = Logger.getLogger(ScriptedCommandTest.class);
