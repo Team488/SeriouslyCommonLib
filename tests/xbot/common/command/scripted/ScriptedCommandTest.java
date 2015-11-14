@@ -82,7 +82,7 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
         }
         
         // We need to make sure that it executes at least the limit # of times
-        for(int i = 0; i < numExecs + 1; i++) {
+        for(int i = 0; i < numExecs + 5; i++) {
             scheduler.run();
         }
         
