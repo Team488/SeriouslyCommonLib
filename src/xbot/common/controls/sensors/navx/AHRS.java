@@ -8,12 +8,7 @@
 /* in the root directory of the project.                                      */
 /*----------------------------------------------------------------------------*/
 
-package xbot.navx;
-
-import xbot.navx.AHRSProtocol;
-import xbot.navx.AHRSProtocol.AHRSPosUpdate;
-import xbot.navx.AHRSProtocol.BoardID;
-import xbot.navx.IMUProtocol.YPRUpdate;
+package xbot.common.controls.sensors.navx;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -22,6 +17,9 @@ import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
+import xbot.common.controls.sensors.navx.AHRSProtocol.AHRSPosUpdate;
+import xbot.common.controls.sensors.navx.AHRSProtocol.BoardID;
+import xbot.common.controls.sensors.navx.IMUProtocol.YPRUpdate;
 
 /**
  * The AHRS class provides an interface to AHRS capabilities

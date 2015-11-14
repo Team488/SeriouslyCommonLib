@@ -7,7 +7,7 @@
 /* modifications to this code must be accompanied by the \License.txt file    */ 
 /* in the root directory of the project.                                      */
 /*----------------------------------------------------------------------------*/
-package xbot.navx;
+package xbot.common.controls.sensors.navx;
 
 class InertialDataIntegrator {
 

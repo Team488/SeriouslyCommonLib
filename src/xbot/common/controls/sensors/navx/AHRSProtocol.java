@@ -22,7 +22,7 @@
  ===============================================
  */
 
-package xbot.navx;
+package xbot.common.controls.sensors.navx;
 
 
 public class AHRSProtocol extends IMUProtocol {

@@ -7,7 +7,7 @@
 /* modifications to this code must be accompanied by the \License.txt file    */ 
 /* in the root directory of the project.                                      */
 /*----------------------------------------------------------------------------*/
-package xbot.navx;
+package xbot.common.controls.sensors.navx;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;

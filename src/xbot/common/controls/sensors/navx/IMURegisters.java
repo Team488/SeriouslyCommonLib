@@ -21,7 +21,7 @@
  THE SOFTWARE.
  ===============================================
  */
-package xbot.navx;
+package xbot.common.controls.sensors.navx;
 
 public class IMURegisters {
 
