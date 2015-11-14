@@ -66,34 +66,6 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
     }
     
     @Test(timeout=10000)
-    public void testCommandParams() {
-        int numExecs = 50;
-        ScriptedCommand scriptedCommand = commonCommandFactory.createScriptedCommand(
-                "robot.requireCommands('CounterCommand');\n"
-                + "robot.invokeCounterCommand(" + numExecs + ");\n",
-                "TestScript",
-                scriptedCommandFactory);
-        
-        scheduler.add(scriptedCommand);
-        
-        while(!scriptedCommand.isFinished()) {
-            scheduler.run();
-            sleepThread(loopWaitIncrement);
-        }
-        
-        // We need to make sure that it executes at least the limit # of times
-        for(int i = 0; i < numExecs + 5; i++) {
-            scheduler.run();
-        }
-        
-        ExecutionCounterCommand lastCommand = assertLastCounterCommand();
-        assertCounterExecuted(lastCommand);
-        assertEquals(numExecs, lastCommand.getExecCount());
-        
-        scriptedCommand.interrupted();
-    }
-    
-    @Test(timeout=10000)
     public void testCommandWaiting() {
         ScriptedCommand scriptedCommand = commonCommandFactory.createScriptedCommand(
                 "robot.requireCommands('CounterCommand');\n"

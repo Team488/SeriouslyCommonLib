@@ -41,7 +41,7 @@ public class ScriptedCommand extends BaseCommand {
      * being in this list only signifies that a command was invoked at some
      * point by this script.
      */
-    private Set<BaseCommand> invokedCommands;
+    private volatile Set<BaseCommand> invokedCommands;
     
     private volatile Set<ScriptedCommandCompletionLock> completionLocks;
     
@@ -111,12 +111,12 @@ public class ScriptedCommand extends BaseCommand {
     }
     
     @Override
-    protected void initialize() {
+    public void initialize() {
         initializeExecThread();
     }
 
     @Override
-    protected void execute() {
+    public void execute() {
         // Start the execution thread if this is the first command run
         if(execThread.getState() == State.NEW) {
             log.debug("Starting exec thread");
@@ -142,14 +142,18 @@ public class ScriptedCommand extends BaseCommand {
     }
 
     @Override
-    protected boolean isFinished() {
-        log.debug("isFinished called; State is " + (execThread == null ? "[uninitialized]" : execThread.getState().toString())); 
-        return execThread != null && execThread.getState() == State.TERMINATED;
+    public boolean isFinished() {
+        log.debug("isFinished called; State is " + (execThread == null ? "[uninitialized]" : execThread.getState().toString()));
+        
+        boolean isFinished = execThread != null && execThread.getState() == State.TERMINATED;
+        log.debug("isFinished is " + isFinished);
+        
+        return isFinished;
     }
 
     @Override
-    protected void end() {
-        log.debug("end called");
+    public void end() {
+        log.debug("End called");
         if(execThread != null) {
             log.debug("Interrupting exec thread");
             this.execThread.interrupt();
@@ -158,15 +162,24 @@ public class ScriptedCommand extends BaseCommand {
         log.debug("Cancelling invoked commands");
         if(this.invokedCommands != null) {
             for(Command command : invokedCommands) {
+                log.info("Cancelling command " + command);
+
+                if(!command.isRunning())
+                    log.warn("Canceling a command (" + command + ") that isn't running - if it has not started yet, we won't be able to stop it!");
+                
                 command.cancel();
             }
             
             this.invokedCommands = null;
         }
+        else {
+            log.info("No invoked commands to cancel");
+        }
     }
 
     @Override
-    protected void interrupted() {
+    public void interrupted() {
+        log.info("Interrupted called");
         end();
     }
     
