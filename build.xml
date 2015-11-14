@@ -52,7 +52,9 @@
 	    </javac>
 	</target>
     
-	<target name="test" depends="compile-tests">
+	
+	
+	<target name="junit-tests" depends="compile-tests">
         <junit printsummary="yes" showoutput="true" outputtoformatters="yes" failureproperty="test.failed">
             <classpath>
                 <pathelement path="${test.magic.classpath}"/>
@@ -66,7 +68,7 @@
         </junit>
 		<fail message="Test failure detected, check test results." if="test.failed" />
     </target>
-	
+
 	<taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties"
 	         classpath="lib/checkstyle-6.12.1-all.jar"/>
 	
@@ -91,4 +93,6 @@
 		</checkstyle>
 		<fail message="Checkstyle failure detected, check test results." if="checkstyle.failed" />
 	</target>
+	
+	<target name="test" depends="junit-tests,checkstyle"></target>
 </project> 
