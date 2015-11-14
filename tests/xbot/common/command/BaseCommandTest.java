@@ -1,10 +1,7 @@
 package xbot.common.command;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
-import xbot.common.command.BaseCommand;
 import xbot.common.injection.BaseWPITest;
 
 public class BaseCommandTest extends BaseWPITest {

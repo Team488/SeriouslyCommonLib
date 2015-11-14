@@ -185,7 +185,7 @@ public abstract class DatabaseStorageBase implements ITableProxy {
         try {
             sta = conn.createStatement();
             String payload = "CREATE TABLE PROPERTIES (Name VARCHAR(100), Type VARCHAR(20), Value VARCHAR(50), UNIQUE (Name))";
-            int count = sta.executeUpdate(payload);
+            sta.executeUpdate(payload);
             return true;
         } catch (SQLException e) {
             log.warn("Could not create the properties table! Properties will not be saved!!");
