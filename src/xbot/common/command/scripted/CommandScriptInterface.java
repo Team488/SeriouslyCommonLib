@@ -13,10 +13,10 @@ import xbot.common.command.BaseCommand;
 public class CommandScriptInterface {
     static Logger log = Logger.getLogger(CommandScriptInterface.class);
     
-    private Command wrappedCommand;
+    private BaseCommand wrappedCommand;
     private ScriptedCommand parentCommand;
 
-    public CommandScriptInterface(Command wrappedCommand, ScriptedCommand parentCommand) {
+    public CommandScriptInterface(BaseCommand wrappedCommand, ScriptedCommand parentCommand) {
         this.wrappedCommand = wrappedCommand;
         this.parentCommand = parentCommand;
     }
@@ -38,14 +38,7 @@ public class CommandScriptInterface {
     }
 
     public boolean isFinished() {
-        if(!(this.wrappedCommand instanceof BaseCommand)) {
-            log.error("isFinished called on command which doesn't inherit from BaseCommand!"
-                    + " Unable to check if command has finished.");
-            
-            return false;
-        }
-        
-        return ((BaseCommand)wrappedCommand).isFinished();
+        return wrappedCommand.isFinished();
     }
     
     public void waitForCompletion(long timeoutMillis) {

@@ -9,17 +9,24 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import xbot.common.command.BaseCommand;
+import xbot.common.command.XScheduler;
 
 /**
  * A command to facilitate execution of a JavaScript script with access
  * to robot functionality such as Command invocation.
  *
  */
-public class ScriptedCommand extends Command {
+public class ScriptedCommand extends BaseCommand {
 
     static Logger log = Logger.getLogger(ScriptedCommand.class);
+    
+    private XScheduler scheduler;
     
     private ScriptedCommandThread execThread;
 
@@ -34,11 +41,16 @@ public class ScriptedCommand extends Command {
      * being in this list only signifies that a command was invoked at some
      * point by this script.
      */
-    private Set<Command> invokedCommands;
+    private Set<BaseCommand> invokedCommands;
     
     private volatile Set<ScriptedCommandCompletionLock> completionLocks;
     
-    public ScriptedCommand(File scriptFile, ScriptedCommandFactory availableCommandFactory) {
+    @AssistedInject
+    public ScriptedCommand(
+            XScheduler scheduler,
+            @Assisted File scriptFile,
+            @Assisted ScriptedCommandFactory availableCommandFactory) {
+        this.scheduler = scheduler;
         this.availableCommandFactory = availableCommandFactory;
         
         this.scriptFile = scriptFile;
@@ -46,7 +58,14 @@ public class ScriptedCommand extends Command {
         log.debug("Instantiated with file path\"" + scriptFile.getAbsolutePath() + "\"");
     }
     
-    public ScriptedCommand(String manualScriptText, String manualScriptName, ScriptedCommandFactory availableCommandFactory) {
+    @AssistedInject
+    public ScriptedCommand(
+            XScheduler scheduler,
+            @Assisted("manualScriptText") String manualScriptText,
+            @Assisted("manualScriptName") String manualScriptName,
+            @Assisted ScriptedCommandFactory availableCommandFactory) {
+        
+        this.scheduler = scheduler;
         this.availableCommandFactory = availableCommandFactory;
         
         this.manualScriptText = manualScriptText;
@@ -81,12 +100,12 @@ public class ScriptedCommand extends Command {
      * For internal use only!
      * @param command
      */
-    public synchronized void invokeCommand(Command command) {
+    public synchronized void invokeCommand(BaseCommand command) {
         log.info("Adding command " + command + " to scheduler");
         
-        Scheduler.getInstance().add(command);
+        this.scheduler.add(command);
         if(this.invokedCommands == null)
-            this.invokedCommands = new HashSet<Command>();
+            this.invokedCommands = new HashSet<BaseCommand>();
         
         this.invokedCommands.add(command);
     }

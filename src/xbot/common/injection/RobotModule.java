@@ -10,6 +10,7 @@ import xbot.common.properties.RobotDatabaseStorage;
 import xbot.common.properties.SmartDashboardTableWrapper;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 public class RobotModule extends AbstractModule {
 
@@ -19,6 +20,10 @@ public class RobotModule extends AbstractModule {
 		this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class);
 		this.bind(DatabaseStorageBase.class).to(RobotDatabaseStorage.class);
 		this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);
+		
+		this.install(new FactoryModuleBuilder() 
+            .build(CommonCommandFactory.class));
+
 	}
 
 }

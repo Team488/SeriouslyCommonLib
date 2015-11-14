@@ -10,6 +10,7 @@ import org.junit.Test;
 import xbot.common.command.XScheduler;
 import xbot.common.command.scripted.TestCommandFactory.ExecutionCounterCommandProvider;
 import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.CommonCommandFactory;
 
 @Ignore
 public class BaseScriptedCommandTest extends BaseWPITest {
@@ -17,12 +18,14 @@ public class BaseScriptedCommandTest extends BaseWPITest {
     
     TestCommandFactory scriptedCommandFactory = new TestCommandFactory();
     XScheduler scheduler;
+    CommonCommandFactory commonCommandFactory;
     
     @Before
     @Override
     public void setUp() {
         super.setUp();
         scheduler = injector.getInstance(XScheduler.class);
+        commonCommandFactory = injector.getInstance(CommonCommandFactory.class);
     }
     
     protected ExecutionCounterCommand getLastCounterCommand() {

@@ -14,7 +14,7 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
 
     @Test(timeout=10000)
     public void testBasicCommandExecution() {
-        ScriptedCommand scriptedCommand = new ScriptedCommand(
+        ScriptedCommand scriptedCommand = commonCommandFactory.createScriptedCommand(
                 "robot.requireCommands('CounterCommand');\n"
                 + "robot.invokeCounterCommand();\n",
                 "TestScript",
@@ -38,7 +38,7 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
 
     @Test(timeout=10000)
     public void testCommandCheckpoints() {
-        ScriptedCommand scriptedCommand = new ScriptedCommand(
+        ScriptedCommand scriptedCommand = commonCommandFactory.createScriptedCommand(
                 "robot.requireCommands('CounterCommand');\n"
                 + "robot.invokeCounterCommand();\n"
                 + "robot.checkpointReached('commandInvoked');\n"
@@ -68,7 +68,7 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
     @Test(timeout=10000)
     public void testCommandParams() {
         int numExecs = 50;
-        ScriptedCommand scriptedCommand = new ScriptedCommand(
+        ScriptedCommand scriptedCommand = commonCommandFactory.createScriptedCommand(
                 "robot.requireCommands('CounterCommand');\n"
                 + "robot.invokeCounterCommand(" + numExecs + ");\n",
                 "TestScript",
@@ -95,7 +95,7 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
     
     @Test(timeout=10000)
     public void testCommandWaiting() {
-        ScriptedCommand scriptedCommand = new ScriptedCommand(
+        ScriptedCommand scriptedCommand = commonCommandFactory.createScriptedCommand(
                 "robot.requireCommands('CounterCommand');\n"
                 + "var invokedCommand = robot.invokeCounterCommand(50);\n"
                 + "invokedCommand.waitForCompletion();",

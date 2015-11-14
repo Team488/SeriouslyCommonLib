@@ -1,6 +1,6 @@
 package xbot.common.command.scripted;
 
-import edu.wpi.first.wpilibj.command.Command;
+import xbot.common.command.BaseCommand;
 
 
 /**
@@ -9,5 +9,5 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public interface ScriptedCommandProvider {
-    public Command get(Object[] parameters);
+    public BaseCommand get(Object[] parameters);
 }

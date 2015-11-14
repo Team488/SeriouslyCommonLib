@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -92,6 +90,7 @@ public class ScriptedCommandThread extends Thread {
                 return "RobotInterface";
             }
         };
+        
         jsScope.put("robot",  jsScope, robotInterfaceObject);
         robotInterfaceObject.put("requireCommands", robotInterfaceObject,
                 new RequireCommandsFunction(commandNames -> this.requireCommands(commandNames)));
