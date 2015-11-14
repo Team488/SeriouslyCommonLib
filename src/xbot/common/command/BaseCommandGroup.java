@@ -8,9 +8,10 @@ public class BaseCommandGroup extends CommandGroup {
     @Inject
     SmartDashboardCommandPutter commandPutter;
     
-    public void includeOnSmartDashboard () {
-        if(commandPutter != null) {
+    public void includeOnSmartDashboard () 
+    {
+        if(commandPutter != null) 
             commandPutter.addCommandToSmartDashboard(this);
-        }
+        int x; x = 5;
     }
 }
