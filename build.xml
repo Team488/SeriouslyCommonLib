@@ -73,15 +73,22 @@
 	<target name="checkstyle"
 	        description="Generates a report of code convention violations.">
 
-	  <checkstyle config="xbotcheckstyle.xml"
-	              failureProperty="checkstyle.failure"
-	              failOnViolation="false">
-	  	<property key="samedir" value="." />
-	    <formatter type="xml" tofile="checkstyle_report.xml"/>
-	    <fileset dir="src" includes="**/*.java"/>
-	  	<fileset dir="tests" includes="**/*.java"/>
-	  	
-	  </checkstyle>
-		<fail message="Test failure detected, check test results." if="checkstyle.failure" />
+		<checkstyle config="xbotcheckstyle.xml"
+		  failureProperty="checkstyle.failed"
+		  failOnViolation="true"
+		  maxWarnings="0">
+			<property key="samedir" value="." />
+			<formatter type="plain"/>
+			<fileset dir="src" includes="**/*.java"/>
+		</checkstyle>
+		<fail message="Checkstyle failure detected, check test results." if="checkstyle.failed" />
+		<checkstyle config="xbotcheckstyle.xml"
+		  failureProperty="checkstyle.failed"
+		  failOnViolation="true">
+			<property key="samedir" value="." />
+			<formatter type="plain"/>
+			<fileset dir="tests" includes="**/*.java"/>
+		</checkstyle>
+		<fail message="Checkstyle failure detected, check test results." if="checkstyle.failed" />
 	</target>
 </project> 
