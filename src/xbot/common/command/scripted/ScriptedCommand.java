@@ -6,6 +6,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.derby.iapi.sql.execute.ExecutionFactory;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 
@@ -50,12 +51,22 @@ public class ScriptedCommand extends BaseCommand {
             XScheduler scheduler,
             @Assisted File scriptFile,
             @Assisted ScriptedCommandFactory availableCommandFactory) {
+        
         this.scheduler = scheduler;
         this.availableCommandFactory = availableCommandFactory;
         
         this.scriptFile = scriptFile;
         
-        log.debug("Instantiated with file path\"" + scriptFile.getAbsolutePath() + "\"");
+        if(scriptFile == null) {
+            log.warn("Instantiated with null file!");
+        }
+        else if (!scriptFile.canRead() || !scriptFile.isFile()) {
+            log.warn("Instantiated with file that can't be read! "
+                    + "It either doesn't exist or the robot program doesn't have permission to access it.");
+        }
+        else {
+            log.info("Instantiated with file path\"" + scriptFile.getAbsolutePath() + "\"");
+        }
     }
     
     @AssistedInject
@@ -71,19 +82,28 @@ public class ScriptedCommand extends BaseCommand {
         this.manualScriptText = manualScriptText;
         this.manualScriptName = manualScriptName;
         
-        log.debug("Instantiated with script string");
+        if(manualScriptText == null || manualScriptName == null) {
+            log.warn("Instantiated with null script or script name!");
+        }
+        else {
+            log.info("Instantiated with script string (" + manualScriptName + " is " + manualScriptText.length() + " chars)");
+        }
     }
     
     private void initializeExecThread() {
-        log.debug("Initializing exec thread");
+        log.info("Initializing exec thread");
         
-        if(scriptFile == null) {
-            log.debug("Using manual script text for exec");
+        if(manualScriptText != null && manualScriptName != null) {
+            log.info("Using manual script text for exec");
             execThread = new ScriptedCommandThread(manualScriptText, manualScriptName, this, availableCommandFactory);
         }
-        else {
-            log.debug("Using file path for exec");
+        else if (scriptFile != null && scriptFile.canRead() && scriptFile.isFile()) {
+            log.info("Using file path for exec");
             execThread = new ScriptedCommandThread(scriptFile, this, availableCommandFactory);
+        }
+        else {
+            log.error("Exec thread not initialized due to lack of viable script source.");
+            return;
         }
         
         execThread.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
@@ -92,6 +112,7 @@ public class ScriptedCommand extends BaseCommand {
             public void uncaughtException(Thread t, Throwable e) {
                 Logger log = Logger.getLogger(ScriptedCommandThread.class);
                 log.error("Uncaught exception in autonomous thread! " + e.toString());
+                e.printStackTrace();
             }
         });
     }
@@ -112,6 +133,7 @@ public class ScriptedCommand extends BaseCommand {
     
     @Override
     public void initialize() {
+        log.info("Initialized");
         initializeExecThread();
     }
 
@@ -119,7 +141,7 @@ public class ScriptedCommand extends BaseCommand {
     public void execute() {
         // Start the execution thread if this is the first command run
         if(execThread.getState() == State.NEW) {
-            log.debug("Starting exec thread");
+            log.info("Starting exec thread");
             this.execThread.start();
         }
         
@@ -135,7 +157,7 @@ public class ScriptedCommand extends BaseCommand {
             }
             
             if(!locksToRemove.isEmpty()) {
-                log.debug("Removing " + locksToRemove.size() + " locks");
+                log.info("Removing " + locksToRemove.size() + " locks");
                 completionLocks.removeAll(locksToRemove);
             }
         }
@@ -143,7 +165,7 @@ public class ScriptedCommand extends BaseCommand {
 
     @Override
     public boolean isFinished() {
-        log.debug("isFinished called; State is " + (execThread == null ? "[uninitialized]" : execThread.getState().toString()));
+        log.debug("isFinished called; Thread state is " + (execThread == null ? "[uninitialized]" : execThread.getState().toString()));
         
         boolean isFinished = execThread != null && execThread.getState() == State.TERMINATED;
         log.debug("isFinished is " + isFinished);
@@ -153,7 +175,7 @@ public class ScriptedCommand extends BaseCommand {
 
     @Override
     public void end() {
-        log.debug("End called");
+        log.info("Ending");
         if(execThread != null) {
             log.debug("Interrupting exec thread");
             this.execThread.interrupt();
@@ -179,7 +201,7 @@ public class ScriptedCommand extends BaseCommand {
 
     @Override
     public void interrupted() {
-        log.info("Interrupted called");
+        log.info("Interrupted");
         end();
     }
     

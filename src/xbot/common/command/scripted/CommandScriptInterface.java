@@ -19,6 +19,8 @@ public class CommandScriptInterface {
     public CommandScriptInterface(BaseCommand wrappedCommand, ScriptedCommand parentCommand) {
         this.wrappedCommand = wrappedCommand;
         this.parentCommand = parentCommand;
+        
+        log.info("Command script interface for " + wrappedCommand + " created");
     }
     
     public boolean canWaitForCompletion() {

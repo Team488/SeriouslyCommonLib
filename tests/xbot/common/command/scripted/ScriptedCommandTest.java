@@ -2,6 +2,8 @@ package xbot.common.command.scripted;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
@@ -86,5 +88,59 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
         assertCounterExecuted(lastCommand);
         
         scriptedCommand.interrupted();
+    }
+    
+    @Test(timeout=10000)
+    public void testCommandFromFile() {
+        ScriptedCommand scriptedCommand = commonCommandFactory.createScriptedCommand(
+                new File("scripts/WaitForCounter.js"),
+                scriptedCommandFactory);
+        
+        scheduler.add(scriptedCommand);
+        
+        while(!scriptedCommand.isFinished()) {
+            scheduler.run();
+            sleepThread(loopWaitIncrement);
+        }
+        
+        assertTrue(scriptedCommand.isFinished());
+        ExecutionCounterCommand lastCommand = assertLastCounterCommand();
+        assertCounterExecuted(lastCommand);
+        
+        scriptedCommand.interrupted();
+    }
+    
+    @Test(timeout=10000)
+    public void testCommandFromNonexistentFile() {
+        ScriptedCommand scriptedCommand = commonCommandFactory.createScriptedCommand(
+                new File("this/does/not/exist.abc"),
+                scriptedCommandFactory);
+        
+        scheduler.add(scriptedCommand);
+
+        scheduler.run();
+        scheduler.run();
+        
+        scriptedCommand.interrupted();
+        
+        // Should complete w/o exceptions
+    }
+    
+    @Test(timeout=10000)
+    public void testRequireNonexistentCommand() {
+        ScriptedCommand scriptedCommand = commonCommandFactory.createScriptedCommand(
+                "robot.requireCommands('NonexistentCommand');"
+                + "robot.invokeNonexistentCommand()",
+                "TestScript",
+                scriptedCommandFactory);
+        
+        scheduler.add(scriptedCommand);
+
+        scheduler.run();
+        scheduler.run();
+        
+        scriptedCommand.interrupted();
+        
+        // Should complete w/o exceptions
     }
 }
