@@ -16,8 +16,8 @@ public class SafeRobotAssertionManager {
     public void throwException(RuntimeException e) {
         log.error("Safe exception encountered (exception throw " + (allowExceptions ? "enabled" : "disabled") + "): "
                 +  e.getMessage());
-        log.error("Stack trace: \n    " + 
-                Arrays.stream(e.getStackTrace())
+        log.error("Stack trace: \n    "
+                + Arrays.stream(e.getStackTrace())
                     .map(elem -> elem.toString())
                     .collect(Collectors.joining("\n    ")));
         
