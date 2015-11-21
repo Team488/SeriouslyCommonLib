@@ -16,6 +16,7 @@ import com.google.inject.assistedinject.AssistedInject;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import xbot.common.command.BaseCommand;
+import xbot.common.command.CancellableCommandWrapper;
 import xbot.common.command.XScheduler;
 
 /**
@@ -119,16 +120,18 @@ public class ScriptedCommand extends BaseCommand {
     
     /**
      * For internal use only!
-     * @param command
+     * @param command The command to run
      */
     public synchronized void invokeCommand(BaseCommand command) {
         log.info("Adding command " + command + " to scheduler");
         
-        this.scheduler.add(command);
+        CancellableCommandWrapper wrappedCommand = new CancellableCommandWrapper(command);
+        
+        this.scheduler.add(wrappedCommand);
         if(this.invokedCommands == null)
             this.invokedCommands = new HashSet<BaseCommand>();
         
-        this.invokedCommands.add(command);
+        this.invokedCommands.add(wrappedCommand);
     }
     
     @Override
@@ -139,6 +142,7 @@ public class ScriptedCommand extends BaseCommand {
 
     @Override
     public void execute() {
+        log.debug("Execute (" + execThread + ")");
         // Start the execution thread if this is the first command run
         if(execThread.getState() == State.NEW) {
             log.info("Starting exec thread");
@@ -183,7 +187,7 @@ public class ScriptedCommand extends BaseCommand {
         
         log.debug("Cancelling invoked commands");
         if(this.invokedCommands != null) {
-            for(Command command : invokedCommands) {
+            for(BaseCommand command : invokedCommands) {
                 log.info("Cancelling command " + command);
 
                 if(!command.isRunning())

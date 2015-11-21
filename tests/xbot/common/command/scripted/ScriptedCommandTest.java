@@ -13,31 +13,7 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
     static Logger log = Logger.getLogger(ScriptedCommandTest.class);
     
     final int loopWaitIncrement = 10;
-
-    @Test(timeout=10000)
-    public void testBasicCommandExecution() {
-        ScriptedCommand scriptedCommand = commonCommandFactory.createScriptedCommand(
-                "robot.requireCommands('CounterCommand');\n"
-                + "robot.invokeCounterCommand();\n",
-                "TestScript",
-                scriptedCommandFactory);
-        
-        scheduler.add(scriptedCommand);
-        
-        while(!scriptedCommand.isFinished()) {
-            scheduler.run();
-            sleepThread(loopWaitIncrement);
-        }
-        
-        scheduler.run();
-        scheduler.run();
-        
-        ExecutionCounterCommand lastCommand = assertLastCounterCommand();
-        assertCounterExecuted(lastCommand);
-        
-        scriptedCommand.interrupted();
-    }
-
+    
     @Test(timeout=10000)
     public void testCommandCheckpoints() {
         ScriptedCommand scriptedCommand = commonCommandFactory.createScriptedCommand(

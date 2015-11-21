@@ -1,8 +1,12 @@
 package xbot.common.command.scripted;
 
+import org.apache.log4j.Logger;
+
 import xbot.common.command.BaseCommand;
 
 public class ExecutionCounterCommand extends BaseCommand {
+    static Logger log = Logger.getLogger(ExecutionCounterCommand.class);
+    
     private int initCount, execCount;
     private Integer initLimit = null, execLimit = null;
 
@@ -32,6 +36,8 @@ public class ExecutionCounterCommand extends BaseCommand {
     
     @Override
     public void initialize() {
+        log.debug("Initialize");
+        
         this.execCount = 0;
         if(initLimit == null || initCount < initLimit)
             this.initCount++;
@@ -40,6 +46,8 @@ public class ExecutionCounterCommand extends BaseCommand {
 
     @Override
     public void execute() {
+        log.debug("Execute");
+        
         if(execLimit == null || execCount < execLimit)
             this.execCount++;
 
