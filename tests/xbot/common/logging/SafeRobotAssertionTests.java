@@ -14,20 +14,12 @@ public class SafeRobotAssertionTests extends BaseWPITest {
         assertMan.throwException(new RuntimeException("Something really bad happened (...but robots never die)"));
     }
     
-    @Test
+    @Test(expected=RuntimeException.class
+            )
     public void testExceptionThrownInTests() {
         SafeRobotAssertionManager assertMan = injector.getInstance(SafeRobotAssertionManager.class);
         
-        try {
-            assertMan.throwException(new RuntimeException("Something really bad happened (tests are free to die as necessary)"));
-        }
-        catch (Throwable e) {
-            // We want it to throw -- this is good
-            return;
-        }
-        
-        // If it didn't throw, something went wrong!
-        fail();
+        assertMan.throwException(new RuntimeException("Something really bad happened (tests are free to die as necessary)"));
     }
     
     @Test
@@ -39,21 +31,17 @@ public class SafeRobotAssertionTests extends BaseWPITest {
         assertMan.assertTrue(false, "false != true");
     }
     
-    @Test
-    public void testAssertionInTests() {
+    @Test(expected=SafeRobotAssertionException.class)
+    public void testAssertionFailedInTests() {
+        SafeRobotAssertionManager assertMan = injector.getInstance(SafeRobotAssertionManager.class);
+        
+        assertMan.assertTrue(false, "false != true");
+    }
+    
+    @Test()
+    public void testAssertionPassedInTests() {
         SafeRobotAssertionManager assertMan = injector.getInstance(SafeRobotAssertionManager.class);
         
         assertMan.assertTrue(true, "The world is ending");
-        
-        try {
-            assertMan.assertTrue(false, "false != true");
-        }
-        catch (Throwable e) {
-            // We want it to throw -- this is good
-            return;
-        }
-        
-        // If it didn't throw, something went wrong!
-        fail();
     }
 }
