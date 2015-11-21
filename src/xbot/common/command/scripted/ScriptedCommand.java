@@ -142,15 +142,14 @@ public class ScriptedCommand extends BaseCommand {
 
     @Override
     public void execute() {
-        log.debug("Execute (" + execThread + ")");
         // Start the execution thread if this is the first command run
-        if(execThread.getState() == State.NEW) {
+        if(execThread != null && execThread.getState() == State.NEW) {
             log.info("Starting exec thread");
             this.execThread.start();
         }
         
         // Update any locks waiting for commands to finish
-        if(this.completionLocks != null) {
+        if(execThread != null && this.completionLocks != null) {
             Set<ScriptedCommandCompletionLock> locksToRemove = new HashSet<>();
             
             for(ScriptedCommandCompletionLock lock : this.completionLocks) {
@@ -190,9 +189,6 @@ public class ScriptedCommand extends BaseCommand {
             for(BaseCommand command : invokedCommands) {
                 log.info("Cancelling command " + command);
 
-                if(!command.isRunning())
-                    log.warn("Canceling a command (" + command + ") that isn't running - if it has not started yet, we won't be able to stop it!");
-                
                 command.cancel();
             }
             

@@ -21,7 +21,7 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
                 + "robot.invokeCounterCommand();\n"
                 + "robot.checkpointReached('commandInvoked');\n"
                 + "while(true);", // Prevent the command from exiting -- should be forcefully killed
-                "TestScript",
+                "CommandCheckpointTestScript",
                 scriptedCommandFactory);
         
         scheduler.add(scriptedCommand);
@@ -49,7 +49,7 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
                 "robot.requireCommands('CounterCommand');\n"
                 + "var invokedCommand = robot.invokeCounterCommand(50);\n"
                 + "invokedCommand.waitForCompletion();",
-                "TestScript",
+                "CommandWaitTestScript",
                 scriptedCommandFactory);
         
         scheduler.add(scriptedCommand);
@@ -107,7 +107,7 @@ public class ScriptedCommandTest extends BaseScriptedCommandTest {
         ScriptedCommand scriptedCommand = commonCommandFactory.createScriptedCommand(
                 "robot.requireCommands('NonexistentCommand');"
                 + "robot.invokeNonexistentCommand()",
-                "TestScript",
+                "RequireNonexistentCommandTestScript",
                 scriptedCommandFactory);
         
         scheduler.add(scriptedCommand);
