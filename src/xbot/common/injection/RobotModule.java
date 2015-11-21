@@ -14,7 +14,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 public class RobotModule extends AbstractModule {
 
-	@Override
+    @Override
 	protected void configure() {
 		this.bind(WPIFactory.class).to(RealWPIFactory.class);
 		this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class);
