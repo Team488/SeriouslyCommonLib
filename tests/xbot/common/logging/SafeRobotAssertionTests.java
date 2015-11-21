@@ -29,4 +29,31 @@ public class SafeRobotAssertionTests extends BaseWPITest {
         // If it didn't throw, something went wrong!
         fail();
     }
+    
+    @Test
+    public void testAssertionContinuesOnRobot() {
+        SafeRobotAssertionManager assertMan = injector.getInstance(SafeRobotAssertionManager.class);
+        assertMan.setExceptionsEnabled(false);
+        
+        assertMan.assertTrue(true, "The world is ending");
+        assertMan.assertTrue(false, "false != true");
+    }
+    
+    @Test
+    public void testAssertionInTests() {
+        SafeRobotAssertionManager assertMan = injector.getInstance(SafeRobotAssertionManager.class);
+        
+        assertMan.assertTrue(true, "The world is ending");
+        
+        try {
+            assertMan.assertTrue(false, "false != true");
+        }
+        catch (Throwable e) {
+            // We want it to throw -- this is good
+            return;
+        }
+        
+        // If it didn't throw, something went wrong!
+        fail();
+    }
 }

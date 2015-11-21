@@ -14,7 +14,8 @@ public class SafeRobotAssertionManager {
     static Logger log = Logger.getLogger(SafeRobotAssertionManager.class);
     
     public void throwException(RuntimeException e) {
-        log.error(e.getMessage() + ": " + e.getCause());
+        log.error("Safe exception encountered (exception throw " + (allowExceptions ? "enabled" : "disabled") + "): "
+                +  e.getMessage());
         log.error("Stack trace: \n    " + 
                 Arrays.stream(e.getStackTrace())
                     .map(elem -> elem.toString())
@@ -22,6 +23,12 @@ public class SafeRobotAssertionManager {
         
         if(allowExceptions) {
             throw e;
+        }
+    }
+    
+    public void assertTrue(boolean value, String assertionFaliureCause) {
+        if(!value) {
+            throwException(new SafeRobotAssertionException(assertionFaliureCause));
         }
     }
     
