@@ -15,15 +15,15 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 public class RobotModule extends AbstractModule {
 
     @Override
-	protected void configure() {
-		this.bind(WPIFactory.class).to(RealWPIFactory.class);
-		this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class);
-		this.bind(DatabaseStorageBase.class).to(RobotDatabaseStorage.class);
-		this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);
-		
-		this.install(new FactoryModuleBuilder() 
+    protected void configure() {
+        this.bind(WPIFactory.class).to(RealWPIFactory.class);
+        this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class);
+        this.bind(DatabaseStorageBase.class).to(RobotDatabaseStorage.class);
+        this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);
+        
+        this.install(new FactoryModuleBuilder() 
             .build(CommonCommandFactory.class));
 
-	}
+    }
 
 }
