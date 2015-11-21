@@ -52,7 +52,9 @@
 	    </javac>
 	</target>
     
-	<target name="test" depends="compile-tests">
+	
+	
+	<target name="junit-tests" depends="compile-tests">
         <junit printsummary="yes" showoutput="true" outputtoformatters="yes" failureproperty="test.failed">
             <classpath>
                 <pathelement path="${test.magic.classpath}"/>
@@ -66,4 +68,31 @@
         </junit>
 		<fail message="Test failure detected, check test results." if="test.failed" />
     </target>
+
+	<taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties"
+	         classpath="lib/checkstyle-6.12.1-all.jar"/>
+	<dirname property="antfile.dir" file="${ant.file}"/>
+	<target name="checkstyle"
+	        description="Generates a report of code convention violations.">
+
+		<checkstyle config="xbotcheckstyle.xml"
+		  failureProperty="checkstyle.failed"
+		  failOnViolation="true"
+		  maxWarnings="0">
+			<property key="samedir" value="${antfile.dir}" />
+			<formatter type="plain"/>
+			<fileset dir="src" includes="**/*.java"/>
+		</checkstyle>
+		<fail message="Checkstyle failure detected, check test results." if="checkstyle.failed" />
+		<checkstyle config="xbotcheckstyle.xml"
+		  failureProperty="checkstyle.failed"
+		  failOnViolation="true">
+			<property key="samedir" value="${antfile.dir}" />
+			<formatter type="plain"/>
+			<fileset dir="tests" includes="**/*.java"/>
+		</checkstyle>
+		<fail message="Checkstyle failure detected, check test results." if="checkstyle.failed" />
+	</target>
+	
+	<target name="test" depends="junit-tests,checkstyle"></target>
 </project> 
