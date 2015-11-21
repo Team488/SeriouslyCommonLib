@@ -2,7 +2,8 @@ package xbot.common.command.scripted.functions;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
-import org.mozilla.javascript.*;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * A JavaScript-callable function to allow scripts to specify that they require access

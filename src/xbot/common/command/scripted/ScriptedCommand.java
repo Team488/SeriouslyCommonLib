@@ -35,7 +35,9 @@ public class ScriptedCommand extends BaseCommand {
     ScriptedCommandFactory availableCommandFactory;
     
     File scriptFile = null;
-    String manualScriptText = null, manualScriptName = null;
+    
+    String manualScriptText = null;
+    String manualScriptName = null;
     
     /**
      * Contains all the commands that this script has invoked.
@@ -128,8 +130,9 @@ public class ScriptedCommand extends BaseCommand {
         CancellableCommandWrapper wrappedCommand = new CancellableCommandWrapper(command);
         
         this.scheduler.add(wrappedCommand);
-        if(this.invokedCommands == null)
+        if(this.invokedCommands == null) {
             this.invokedCommands = new HashSet<BaseCommand>();
+        }
         
         this.invokedCommands.add(wrappedCommand);
     }
@@ -210,8 +213,9 @@ public class ScriptedCommand extends BaseCommand {
     }
     
     public void addCompletionLock(ScriptedCommandCompletionLock lock) {
-        if(this.completionLocks == null)
+        if(this.completionLocks == null) {
             this.completionLocks = new HashSet<>();
+        }
         
         this.completionLocks.add(lock);
     }

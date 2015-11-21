@@ -2,12 +2,13 @@ package xbot.common.command.scripted.functions;
 import java.util.function.Consumer;
 
 import org.apache.log4j.Logger;
-import org.mozilla.javascript.*;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * A JavaScript-callable function to register a script checkpoint.
  *
- */
+ */ 
 public class CodeCheckpointFunction extends ScriptedCommandFunctionBase {
     static Logger log = Logger.getLogger(CodeCheckpointFunction.class);
 

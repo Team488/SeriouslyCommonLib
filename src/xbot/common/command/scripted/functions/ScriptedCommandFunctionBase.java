@@ -1,6 +1,8 @@
 package xbot.common.command.scripted.functions;
 
-import org.mozilla.javascript.*;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * An abstract implementation of the JavaScript Function interface to provide

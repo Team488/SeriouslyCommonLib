@@ -35,7 +35,8 @@ public class ScriptedCommandThread extends Thread {
     volatile Set<String> reachedCheckpoints = new HashSet<>();
     
     File scriptFile;
-    String manualScriptText, manualScriptName;
+    String manualScriptText;
+    String manualScriptName;
     
     public ScriptedCommandThread(
             File scriptFile,
@@ -136,8 +137,9 @@ public class ScriptedCommandThread extends Thread {
     private synchronized void checkpointReached(String checkpointName) {
         log.debug("Script reached checkpoint " + checkpointName);
         
-        if(this.reachedCheckpoints.contains(checkpointName))
+        if(this.reachedCheckpoints.contains(checkpointName)) {
             log.warn("Checkpoint re-registered! This has no effect!");
+        }
         
         this.reachedCheckpoints.add(checkpointName);
     }

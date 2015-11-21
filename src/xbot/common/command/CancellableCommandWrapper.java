@@ -25,40 +25,48 @@ public class CancellableCommandWrapper extends BaseCommand {
     
     @Override
     public void initialize() {
-        if(shouldCancel)
+        if(shouldCancel) {
             manualCancel();
-        else
+        }
+        else {
             wrappedCommand.initialize();
+        }
     }
 
     @Override
     public void execute() {
-        if(shouldCancel)
+        if(shouldCancel) {
             manualCancel();
-        else
+        }
+        else {
             wrappedCommand.execute();
+        }
     }
     
     @Override
     public boolean isFinished() {
-        if(shouldCancel)
+        if(shouldCancel) {
             return true;
-        else
+        }
+        else {
             return wrappedCommand.isFinished();
+        }
     }
     
     @Override
     public void end() {
-        if(!shouldCancel)
+        if(!shouldCancel) {
             wrappedCommand.end();
+        }
         
         shouldCancel = false;
     }
     
     @Override
     public void interrupted() {
-        if(!shouldCancel)
+        if(!shouldCancel) {
             wrappedCommand.interrupted();
+        }
         
         shouldCancel = false;
     }
