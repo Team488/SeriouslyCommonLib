@@ -14,8 +14,7 @@ public class SafeRobotAssertionTests extends BaseWPITest {
         assertMan.throwException(new RuntimeException("Something really bad happened (...but robots never die)"));
     }
     
-    @Test(expected=RuntimeException.class
-            )
+    @Test(expected=RuntimeException.class)
     public void testExceptionThrownInTests() {
         SafeRobotAssertionManager assertMan = injector.getInstance(SafeRobotAssertionManager.class);
         
