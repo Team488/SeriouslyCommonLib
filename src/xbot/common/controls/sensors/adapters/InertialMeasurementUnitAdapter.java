@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.I2C.Port;
 import xbot.common.controls.sensors.XInertialMeasurementUnit;
 import xbot.common.controls.sensors.navx.AHRS;
-import xbot.common.math.ContiguousDouble;
 
 public class InertialMeasurementUnitAdapter implements XInertialMeasurementUnit {
 
@@ -53,10 +52,5 @@ public class InertialMeasurementUnitAdapter implements XInertialMeasurementUnit 
         return this.ahrs.getPitch();
     }
 
-    @Override
-    public boolean isBroken() {
-        // TODO Auto-generated method stub
-        return false;
-    }
 
 }
