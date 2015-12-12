@@ -15,6 +15,7 @@ import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XGyro;
+import xbot.common.controls.sensors.XInertialMeasurementUnit;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
@@ -53,4 +54,6 @@ public interface WPIFactory {
     public DistanceSensor getAnalogDistanceSensor(int channel, DoubleFunction<Double> voltageMap);
 
     public XPowerDistributionPanel getPDP();
+    
+    public XInertialMeasurementUnit getIMU();
 }

@@ -26,8 +26,10 @@ import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XGyro;
+import xbot.common.controls.sensors.XInertialMeasurementUnit;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
+import xbot.common.controls.sensors.adapters.InertialMeasurementUnitAdapter;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.nav6.Nav6Gyro;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater;
@@ -52,8 +54,7 @@ public class RealWPIFactory implements WPIFactory {
     }
 
     public XSpeedController getSpeedController(int channel) {
-        SpeedControllerWPIAdapter controller = new SpeedControllerWPIAdapter(
-                channel);
+        SpeedControllerWPIAdapter controller = new SpeedControllerWPIAdapter(channel);
         LiveWindow.addActuator("Actuators", "SpeedController:" + channel,
                 (LiveWindowSendable) controller.getInternalController());
         return controller;
@@ -71,8 +72,7 @@ public class RealWPIFactory implements WPIFactory {
     @Override
     public XAnalogInput getAnalogInput(int channel) {
         AnalogInputWPIAdapater input = new AnalogInputWPIAdapater(channel);
-        LiveWindow.addSensor("Analog inputs", "Analog:" + channel,
-                (LiveWindowSendable) input.getInternalDevice());
+        LiveWindow.addSensor("Analog inputs", "Analog:" + channel, (LiveWindowSendable) input.getInternalDevice());
         return input;
     }
 
@@ -118,8 +118,7 @@ public class RealWPIFactory implements WPIFactory {
     @Override
     public XEncoder getEncoder(int aChannel, int bChannel) {
         EncoderWPIAdapter encoder = new EncoderWPIAdapter(aChannel, bChannel);
-        LiveWindow.addSensor("Encoders", "Encoder:" + aChannel,
-                (LiveWindowSendable) encoder.getInternalEncoder());
+        LiveWindow.addSensor("Encoders", "Encoder:" + aChannel, (LiveWindowSendable) encoder.getInternalEncoder());
         return encoder;
     }
 
@@ -141,17 +140,16 @@ public class RealWPIFactory implements WPIFactory {
 
     public XDigitalOutput getDigitalOutput(int channel) {
         DigitalOutputWPIAdapter adapter = new DigitalOutputWPIAdapter(channel);
-        LiveWindow.addSensor("Digital outs", "Out:" + channel,
-            (LiveWindowSendable) adapter.getWPIDigitalOutput());
+        LiveWindow.addSensor("Digital outs", "Out:" + channel, (LiveWindowSendable) adapter.getWPIDigitalOutput());
         return adapter;
     }
 
     @Override
-    public AnalogHIDButton getAnalogJoystickButton(XJoystick joystick, int axisNumber,
-            double minThreshold, double maxThreshold) {
+    public AnalogHIDButton getAnalogJoystickButton(XJoystick joystick, int axisNumber, double minThreshold,
+            double maxThreshold) {
         return new AnalogHIDButton(joystick, axisNumber, minThreshold, maxThreshold);
     }
-    
+
     @Override
     public AnalogHIDButton getAnalogJoystickButton(XJoystick joystick, AnalogHIDDescription description) {
         return new AnalogHIDButton(joystick, description);
@@ -159,6 +157,11 @@ public class RealWPIFactory implements WPIFactory {
 
     public XPowerDistributionPanel getPDP() {
         return new PowerDistributionPanelWPIAdapter();
+    }
+
+    @Override
+    public XInertialMeasurementUnit getIMU() {
+        return new InertialMeasurementUnitAdapter();
     }
 
 }
