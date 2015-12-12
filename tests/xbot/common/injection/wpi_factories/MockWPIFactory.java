@@ -14,10 +14,12 @@ import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
 import xbot.common.controls.sensors.MockGyro;
+import xbot.common.controls.sensors.MockInertialMeasurementUnit;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XGyro;
+import xbot.common.controls.sensors.XInertialMeasurementUnit;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
@@ -122,6 +124,11 @@ public class MockWPIFactory implements WPIFactory {
     @Override
     public XPowerDistributionPanel getPDP() {
         return new MockPowerDistributionPanel();
+    }
+
+    @Override
+    public XInertialMeasurementUnit getIMU() {
+        return new MockInertialMeasurementUnit(mockRobotIO);
     }
 
 }
