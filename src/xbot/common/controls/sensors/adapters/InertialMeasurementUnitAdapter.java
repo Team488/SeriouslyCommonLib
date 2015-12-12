@@ -11,13 +11,13 @@ import xbot.common.math.ContiguousDouble;
 public class InertialMeasurementUnitAdapter implements XInertialMeasurementUnit {
 
     AHRS ahrs;
-    
+
     public InertialMeasurementUnitAdapter() {
         /* Options: Port.kMXP, SPI.kMXP, I2C.kMXP or SerialPort.kUSB */
         this.ahrs = new AHRS(Port.kMXP);
         this.ahrs.zeroYaw();
     }
-    
+
     public InertialMeasurementUnitAdapter(SPI.Port spi_port_id) {
         this.ahrs = new AHRS(spi_port_id);
         this.ahrs.zeroYaw();
@@ -27,34 +27,30 @@ public class InertialMeasurementUnitAdapter implements XInertialMeasurementUnit 
         this.ahrs = new AHRS(i2c_port_id);
         this.ahrs.zeroYaw();
     }
-    
+
     public InertialMeasurementUnitAdapter(SerialPort.Port serial_port_id) {
         this.ahrs = new AHRS(serial_port_id);
         this.ahrs.zeroYaw();
     }
-    
+
     @Override
     public boolean isConnected() {
-        // TODO Auto-generated method stub
-        return false;
+        return this.ahrs.isConnected();
     }
 
     @Override
-    public ContiguousDouble getYaw() {
-        // TODO Auto-generated method stub
-        return null;
+    public double getYaw() {
+        return this.ahrs.getYaw();
     }
 
     @Override
     public double getRoll() {
-        // TODO Auto-generated method stub
-        return 0;
+        return this.ahrs.getRoll();
     }
 
     @Override
     public double getPitch() {
-        // TODO Auto-generated method stub
-        return 0;
+        return this.ahrs.getPitch();
     }
 
     @Override
@@ -63,5 +59,4 @@ public class InertialMeasurementUnitAdapter implements XInertialMeasurementUnit 
         return false;
     }
 
-    
 }
