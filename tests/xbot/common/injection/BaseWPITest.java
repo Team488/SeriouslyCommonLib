@@ -8,7 +8,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import xbot.common.controls.MockRobotIO;
-import xbot.common.logging.SafeRobotAssertionManager;
+import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.PropertyManager;
 import edu.wpi.first.wpilibj.HLUsageReporting;
 import edu.wpi.first.wpilibj.MockHLUsageReporting;
@@ -39,9 +39,6 @@ public class BaseWPITest {
         RobotState.SetImplementation(mockRobotState);
 
         propertyManager = injector.getInstance(PropertyManager.class);
-        
-        SafeRobotAssertionManager assertionMan = injector.getInstance(SafeRobotAssertionManager.class);
-        assertionMan.setExceptionsEnabled(true);
 
         DOMConfigurator.configure("lib/log4jConfig/log4j4unitTesting.xml");
     }
