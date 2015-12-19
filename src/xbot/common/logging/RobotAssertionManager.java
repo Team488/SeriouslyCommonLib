@@ -19,13 +19,13 @@ public abstract class RobotAssertionManager {
         handlePlatformException(e);
     }
     
-    protected abstract void handlePlatformException(RuntimeException e);
-    
-    public abstract boolean isExceptionsEnabled();
-    
     public final void throwException(String message, Throwable cause) {
         throwException(new RuntimeException(message, cause));
     }
+
+    protected abstract void handlePlatformException(RuntimeException e);
+    
+    public abstract boolean isExceptionsEnabled();
     
     public final void assertTrue(boolean value, String assertionFaliureCause) {
         if(!value) {
