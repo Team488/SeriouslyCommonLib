@@ -5,6 +5,11 @@ import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Base class for safe assertion manager. Allows context-based management of
+ * exceptions and assertion conditions.
+ *
+ */
 public abstract class RobotAssertionManager {
     static Logger log = Logger.getLogger(RobotAssertionManager.class);
     

@@ -3,8 +3,6 @@ package xbot.common.math;
 /**
  * This PID was extracted from WPILib. It has all the same functionality, but
  * does not run on its own separate thread.
- * 
- * @author Alex
  */
 public class PID
 {

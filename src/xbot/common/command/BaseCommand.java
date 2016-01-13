@@ -4,6 +4,10 @@ import com.google.inject.Inject;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Enhanced version of WPILib's Command that allows for extension
+ * of existing functionality.
+ */
 public abstract class BaseCommand extends Command {
 
     @Inject

@@ -1,5 +1,9 @@
 package xbot.common.logging;
 
+/**
+ * Version of RobotAssertionManager that prevents throwing of exceptions. Should
+ * be used on-robot in competitions.
+ */
 public class SilentRobotAssertionManager extends RobotAssertionManager {
 
     @Override
