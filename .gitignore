@@ -22,3 +22,4 @@ dist/
 # test logs
 derby.log
 /TeamDatabase
+/488Logs
