@@ -1,5 +1,11 @@
 # Seriously Common Lib for FRC [![Build Status](https://travis-ci.org/Team488/SeriouslyCommonLib.svg?branch=master)](https://travis-ci.org/Team488/SeriouslyCommonLib)
 
+## Up-Front Warning
+
+This repository is still very much a work in progress! There are chunks of code and build steps missing here that would probably block you from directly integrating this into your robot. 
+
+It's getting more complete every week, but as it stands, we recommend that you use parts of this repository rather than the whole of it - taking individual classes, or using the design as inspiration, rather than seeing it as a stable platform for robot development.
+
 ## What is it?
 
 Seriously Common Lib is a collection of common solutions to robot problems that FRC teams face while using WPILib and Java. It attempts to streamline basic functionality, provide the framework for more advanced programs, and promote clean and well-written code. It functions primarily as a wrapper around WPILib which allows the robot code to run separately from the robot-specific library and HAL, enabling unit tests that can be run on a PC or CI server.

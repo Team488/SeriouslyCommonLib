@@ -12,6 +12,7 @@ import com.google.inject.Injector;
 
 import xbot.common.command.scripted.ExecutionCounterCommand;
 import xbot.common.controls.MockRobotIO;
+import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.PropertyManager;
 import edu.wpi.first.wpilibj.HLUsageReporting;
 import edu.wpi.first.wpilibj.MockHLUsageReporting;
