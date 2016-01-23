@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="XbotCommonLib" default="jar">
-	<property file="build.properties"/>
+<project name="SeriouslyCommonLib" default="jar">
+	<property file="commonlib-build.properties"/>
 	
 	<target name="compile" description="Compile the source code.">
 	    <mkdir dir="${build.dir}"/>
-	    <echo>[xbotcommonlib-compile] Compiling ${src.dir} with classpath=${classpath} to ${build.dir}</echo>
+	    <echo>[seriouslycommonlib-compile] Compiling ${src.dir} with classpath=${classpath} to ${build.dir}</echo>
 
 	    <javac srcdir="${src.dir}"
 	     destdir="${build.dir}"
@@ -20,11 +20,11 @@
 	</target>
 	
 	<target name="jar" depends="compile">
-	    <echo>[xbotcommonlib-jar] Making jar ${dist.jar}.</echo>
+	    <echo>[seriouslycommonlib-jar] Making jar ${dist.jar}.</echo>
 	    <mkdir dir="${dist.dir}" />
 	    <mkdir dir="${build.jars}" />
 
-		<echo>[xbotcommonlib-jar] Copying jars from ${classpath} to ${build.jars}.</echo>
+		<echo>[seriouslycommonlib-jar] Copying jars from ${classpath} to ${build.jars}.</echo>
 		<copy todir="${build.jars}" flatten="true">
 			<path>
 				<pathelement path="${classpath}"/>
@@ -38,7 +38,7 @@
     
     <target name="compile-tests" description="Compile the test code." depends="jar">
 	    <mkdir dir="${test.dest.dir}"/>
-	    <echo>[xbotcommonlib-compile] Compiling ${test.src.dir} with classpath=${test.classpath} to ${test.build.dir}</echo>
+	    <echo>[seriouslycommonlib-compile] Compiling ${test.src.dir} with classpath=${test.classpath} to ${test.build.dir}</echo>
 
 	    <javac srcdir="${test.src.dir}"
 	     destdir="${test.dest.dir}"
@@ -94,5 +94,5 @@
 		<fail message="Checkstyle failure detected, check test results." if="checkstyle.failed" />
 	</target>
 	
-	<target name="test" depends="junit-tests,checkstyle"></target>
+	<target name="check" depends="junit-tests,checkstyle"></target>
 </project> 
