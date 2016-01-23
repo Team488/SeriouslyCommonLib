@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="XbotCommonLib" default="jar">
-	<property file="build.properties"/>
+	<property file="commonlib-build.properties"/>
 	
 	<target name="compile" description="Compile the source code.">
 	    <mkdir dir="${build.dir}"/>
@@ -94,5 +94,5 @@
 		<fail message="Checkstyle failure detected, check test results." if="checkstyle.failed" />
 	</target>
 	
-	<target name="test" depends="junit-tests,checkstyle"></target>
+	<target name="check" depends="junit-tests,checkstyle"></target>
 </project> 
