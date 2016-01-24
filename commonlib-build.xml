@@ -34,7 +34,7 @@
 	    <jar destfile="${dist.jar}" update="false">
 	      <fileset dir="${build.dir}" includes="**/*.class"/>
 	    </jar>
-	</target>      
+	</target>
     
     <target name="compile-tests" description="Compile the test code." depends="jar">
 	    <mkdir dir="${test.dest.dir}"/>
@@ -52,7 +52,23 @@
 	    </javac>
 	</target>
     
-	
+	<target name="jar-with-test-code" depends="compile,compile-tests">
+	    <echo>[seriouslycommonlib-jar-with-test-code] Making jar ${dist.jar} with tests included.</echo>
+	    <mkdir dir="${dist.dir}" />
+	    <mkdir dir="${build.jars}" />
+
+		<echo>[seriouslycommonlib-jar] Copying jars from ${classpath} to ${build.jars}.</echo>
+		<copy todir="${build.jars}" flatten="true">
+			<path>
+				<pathelement path="${classpath}"/>
+			</path>
+		</copy>
+
+	    <jar destfile="${dist.jar}" update="false">
+		    <fileset dir="${build.dir}" includes="**/*.class"/>
+		    <fileset dir="${test.dest.dir}" includes="**/*.class"/>
+	    </jar>
+	</target>
 	
 	<target name="junit-tests" depends="compile-tests">
         <junit printsummary="yes" showoutput="true" outputtoformatters="yes" failureproperty="test.failed">
