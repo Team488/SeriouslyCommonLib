@@ -106,7 +106,6 @@ public class ContiguousDouble {
      *            the other value to compare against
      * @return the computed difference
      */
-    @Deprecated
     public double difference(double otherValue) {
         return difference(new ContiguousDouble(otherValue, lowerBound,
                 upperBound));

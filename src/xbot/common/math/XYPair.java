@@ -20,10 +20,14 @@ public class XYPair {
         return new XYPair(x, y);
     }
 
-    public XYPair fromPolar(double magnitude, double angle) {
-        this.x = magnitude;
-        this.y = 0;
-        return this.rotate(angle);
+    public static XYPair fromPolar(double angle, double magnitude) {
+        XYPair newValue = new XYPair(magnitude, 0);
+        return newValue.rotate(angle);
+    }
+    
+    public static XYPair fromUnitPolar(double angle) {
+        XYPair newValue = new XYPair(1, 0);
+        return newValue.rotate(angle);
     }
 
     public XYPair scale(double scalarMagnitude) {
