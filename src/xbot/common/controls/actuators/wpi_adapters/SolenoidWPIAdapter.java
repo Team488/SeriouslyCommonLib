@@ -1,5 +1,6 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import xbot.common.controls.actuators.XSolenoid;
 
@@ -32,6 +33,10 @@ public class SolenoidWPIAdapter implements XSolenoid {
     @Override
     public int getChannel() {
         return this.channel;
+    }
+    
+    public Solenoid getInternalDevice() {
+        return solenoid;
     }
 
 }

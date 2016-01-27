@@ -14,6 +14,7 @@ import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.actuators.wpi_adapters.CompressorWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.DigitalOutputWPIAdapter;
+import xbot.common.controls.actuators.wpi_adapters.ServoWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.SolenoidWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.SpeedControllerWPIAdapter;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
@@ -54,7 +55,7 @@ public class RealWPIFactory implements WPIFactory {
     public XSpeedController getSpeedController(int channel) {
         SpeedControllerWPIAdapter controller = new SpeedControllerWPIAdapter(
                 channel);
-        LiveWindow.addActuator("Actuators", "SpeedController:" + channel,
+        LiveWindow.addActuator("SpeedController", channel,
                 (LiveWindowSendable) controller.getInternalController());
         return controller;
     }
@@ -65,25 +66,30 @@ public class RealWPIFactory implements WPIFactory {
 
     @Override
     public XDigitalInput getDigitalInput(int channel) {
-        return new DigitalInputWPIAdapter(channel);
+        DigitalInputWPIAdapter result = new DigitalInputWPIAdapter(channel);
+        LiveWindow.addSensor("DigitalInput", channel, result.getWPIDigitalInput());
+        return result;
     }
 
     @Override
     public XAnalogInput getAnalogInput(int channel) {
         AnalogInputWPIAdapater input = new AnalogInputWPIAdapater(channel);
-        LiveWindow.addSensor("Analog inputs", "Analog:" + channel,
-                (LiveWindowSendable) input.getInternalDevice());
+        LiveWindow.addSensor("Analog input", channel, input.getInternalDevice());
         return input;
     }
 
     @Override
     public XCompressor getCompressor() {
-        return new CompressorWPIAdapter();
+        CompressorWPIAdapter result = new CompressorWPIAdapter();
+        
+        return result;
     }
 
     @Override
     public XSolenoid getSolenoid(int channel) {
-        return new SolenoidWPIAdapter(channel);
+        SolenoidWPIAdapter result = new SolenoidWPIAdapter(channel);
+        LiveWindow.addActuator("Solenoid", channel, result.getInternalDevice());
+        return result;
     }
 
     @Override
@@ -118,15 +124,15 @@ public class RealWPIFactory implements WPIFactory {
     @Override
     public XEncoder getEncoder(int aChannel, int bChannel) {
         EncoderWPIAdapter encoder = new EncoderWPIAdapter(aChannel, bChannel);
-        LiveWindow.addSensor("Encoders", "Encoder:" + aChannel,
-                (LiveWindowSendable) encoder.getInternalEncoder());
+        LiveWindow.addSensor("Encoder", aChannel, encoder.getInternalEncoder());
         return encoder;
     }
 
     @Override
     public XServo getServo(int channel) {
-        // TODO Auto-generated method stub
-        return null;
+        ServoWPIAdapter result = new ServoWPIAdapter(channel);
+        LiveWindow.addActuator("Servo", channel, result.getInternalDevice());
+        return result;
     }
 
     @Override
@@ -141,8 +147,7 @@ public class RealWPIFactory implements WPIFactory {
 
     public XDigitalOutput getDigitalOutput(int channel) {
         DigitalOutputWPIAdapter adapter = new DigitalOutputWPIAdapter(channel);
-        LiveWindow.addSensor("Digital outs", "Out:" + channel,
-            (LiveWindowSendable) adapter.getWPIDigitalOutput());
+        LiveWindow.addSensor("Digital output", channel, adapter.getWPIDigitalOutput());
         return adapter;
     }
 
@@ -158,7 +163,9 @@ public class RealWPIFactory implements WPIFactory {
     }
 
     public XPowerDistributionPanel getPDP() {
-        return new PowerDistributionPanelWPIAdapter();
+        PowerDistributionPanelWPIAdapter result = new PowerDistributionPanelWPIAdapter();
+        LiveWindow.addSensor("PDP Panel", 0, (LiveWindowSendable) result.getInternalDevice());
+        return result;
     }
 
 }

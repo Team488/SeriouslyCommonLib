@@ -14,5 +14,9 @@ public class PowerDistributionPanelWPIAdapter implements XPowerDistributionPanel
     public double getCurrent(int channel) {
         return pdp.getCurrent(channel);
     }
+    
+    public PowerDistributionPanel getInternalDevice() {
+        return this.pdp;
+    }
 
 }
