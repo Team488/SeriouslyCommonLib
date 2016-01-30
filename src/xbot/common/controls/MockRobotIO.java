@@ -42,7 +42,7 @@ public class MockRobotIO {
             value = 0;
         }
 
-        pwms.put(channel, Math.min(1.0, value));
+        pwms.put(channel, Math.max(-1, Math.min(1.0, value)));
     }
 
     // This returns a 12-bit number representing an anlog measurement. That's relativly
