@@ -106,15 +106,14 @@ public class RealWPIFactory implements WPIFactory {
         // at runtime when it can't communicate over the serial port.
         // The robot needs to protect itself from this behavior.
         try {
-            if (imuType == ImuType.nav6) {
-                return new Nav6Gyro(); 
-            }
-            if (imuType == ImuType.navX) {
+            switch (imuType) {
+            case nav6:
+                return new Nav6Gyro();
+            case navX:
                 return new InertialMeasurementUnitAdapter(Port.kMXP);
-            }
-            else {
-                log.error("Could not find " + imuType.name() + "! Returning a \"broken\" MockGyro instead.");
-                return getBrokenGyro();
+                default:
+                    log.error("Could not find " + imuType.name() + "! Returning a \"broken\" MockGyro instead.");
+                    return getBrokenGyro();
             }
         } catch (Exception e) {
             
