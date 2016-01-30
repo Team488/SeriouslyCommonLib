@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
  *
  * @author John
  */
-public abstract class DatabaseStorageBase implements ITableProxy {
+public abstract class DatabaseStorageBase implements PermanentStorage {
 
     private static Logger log = Logger.getLogger(DatabaseStorageBase.class);
 

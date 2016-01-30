@@ -117,6 +117,8 @@ public class PropertyTest extends BaseWPITest {
     public void cleanUp() {
         // We need a way to obliterate the database locally so tests don't leak. Can't delete the files themselves,
         // because the database process still has a handle on some of them.
-        assertEquals(true, ((OffRobotDatabaseStorage) propertyManager.permanentStore).obliterateStorage());
+        if(propertyManager.permanentStore instanceof OffRobotDatabaseStorage) {
+            assertEquals(true, ((OffRobotDatabaseStorage) propertyManager.permanentStore).obliterateStorage());
+        }
     }
 }

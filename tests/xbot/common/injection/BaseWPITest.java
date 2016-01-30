@@ -4,6 +4,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 import org.junit.Before;
 import org.junit.Ignore;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -26,10 +27,12 @@ public class BaseWPITest {
     public MockRobotState mockRobotState;
 
     public PropertyManager propertyManager;
+    
+    protected AbstractModule guice_module = new UnitTestModule();
 
     @Before
     public void setUp() {
-        injector = Guice.createInjector(new UnitTestModule());
+        injector = Guice.createInjector(guice_module);
 
         mockRobotIO = injector.getInstance(MockRobotIO.class);
 
