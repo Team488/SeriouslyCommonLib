@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="XbotCommonLib" default="jar">
-	<property file="build.properties"/>
+<project name="SeriouslyCommonLib" default="jar">
+	<property file="commonlib-build.properties"/>
 	
 	<target name="compile" description="Compile the source code.">
 	    <mkdir dir="${build.dir}"/>
-	    <echo>[xbotcommonlib-compile] Compiling ${src.dir} with classpath=${classpath} to ${build.dir}</echo>
+	    <echo>[seriouslycommonlib-compile] Compiling ${src.dir} with classpath=${classpath} to ${build.dir}</echo>
 
 	    <javac srcdir="${src.dir}"
 	     destdir="${build.dir}"
@@ -20,11 +20,11 @@
 	</target>
 	
 	<target name="jar" depends="compile">
-	    <echo>[xbotcommonlib-jar] Making jar ${dist.jar}.</echo>
+	    <echo>[seriouslycommonlib-jar] Making jar ${dist.jar}.</echo>
 	    <mkdir dir="${dist.dir}" />
 	    <mkdir dir="${build.jars}" />
 
-		<echo>[xbotcommonlib-jar] Copying jars from ${classpath} to ${build.jars}.</echo>
+		<echo>[seriouslycommonlib-jar] Copying jars from ${classpath} to ${build.jars}.</echo>
 		<copy todir="${build.jars}" flatten="true">
 			<path>
 				<pathelement path="${classpath}"/>
@@ -34,11 +34,11 @@
 	    <jar destfile="${dist.jar}" update="false">
 	      <fileset dir="${build.dir}" includes="**/*.class"/>
 	    </jar>
-	</target>      
+	</target>
     
     <target name="compile-tests" description="Compile the test code." depends="jar">
 	    <mkdir dir="${test.dest.dir}"/>
-	    <echo>[xbotcommonlib-compile] Compiling ${test.src.dir} with classpath=${test.classpath} to ${test.build.dir}</echo>
+	    <echo>[seriouslycommonlib-compile] Compiling ${test.src.dir} with classpath=${test.classpath} to ${test.build.dir}</echo>
 
 	    <javac srcdir="${test.src.dir}"
 	     destdir="${test.dest.dir}"
@@ -52,7 +52,23 @@
 	    </javac>
 	</target>
     
-	
+	<target name="jar-with-test-code" depends="compile,compile-tests">
+	    <echo>[seriouslycommonlib-jar-with-test-code] Making jar ${dist.jar} with tests included.</echo>
+	    <mkdir dir="${dist.dir}" />
+	    <mkdir dir="${build.jars}" />
+
+		<echo>[seriouslycommonlib-jar] Copying jars from ${classpath} to ${build.jars}.</echo>
+		<copy todir="${build.jars}" flatten="true">
+			<path>
+				<pathelement path="${classpath}"/>
+			</path>
+		</copy>
+
+	    <jar destfile="${dist.jar}" update="false">
+		    <fileset dir="${build.dir}" includes="**/*.class"/>
+		    <fileset dir="${test.dest.dir}" includes="**/*.class"/>
+	    </jar>
+	</target>
 	
 	<target name="junit-tests" depends="compile-tests">
         <junit printsummary="yes" showoutput="true" outputtoformatters="yes" failureproperty="test.failed">
@@ -94,5 +110,5 @@
 		<fail message="Checkstyle failure detected, check test results." if="checkstyle.failed" />
 	</target>
 	
-	<target name="test" depends="junit-tests,checkstyle"></target>
+	<target name="check" depends="junit-tests,checkstyle"></target>
 </project> 
