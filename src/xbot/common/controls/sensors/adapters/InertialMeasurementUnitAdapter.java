@@ -51,7 +51,7 @@ public class InertialMeasurementUnitAdapter extends NavImu implements XGyro {
 
     @Override
     public ContiguousDouble getYaw() {
-        return new ContiguousDouble(-180, 180, this.ahrs.getYaw());
+        return new ContiguousDouble(this.ahrs.getYaw(), -180, 180);
     }
 
     @Override
