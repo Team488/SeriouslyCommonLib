@@ -23,11 +23,11 @@ import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
 import xbot.common.controls.sensors.Lidar;
 import xbot.common.controls.sensors.MockGyro;
+import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XGyro;
-import xbot.common.controls.sensors.XInertialMeasurementUnit;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.adapters.InertialMeasurementUnitAdapter;
@@ -55,14 +55,9 @@ public class RealWPIFactory implements WPIFactory {
     }
 
     public XSpeedController getSpeedController(int channel) {
-<<<<<<< HEAD
-        SpeedControllerWPIAdapter controller = new SpeedControllerWPIAdapter(channel);
-        LiveWindow.addActuator("Actuators", "SpeedController:" + channel,
-=======
         SpeedControllerWPIAdapter controller = new SpeedControllerWPIAdapter(
                 channel);
         LiveWindow.addActuator("SpeedController", channel,
->>>>>>> master
                 (LiveWindowSendable) controller.getInternalController());
         return controller;
     }
@@ -81,11 +76,7 @@ public class RealWPIFactory implements WPIFactory {
     @Override
     public XAnalogInput getAnalogInput(int channel) {
         AnalogInputWPIAdapater input = new AnalogInputWPIAdapater(channel);
-<<<<<<< HEAD
-        LiveWindow.addSensor("Analog inputs", "Analog:" + channel, (LiveWindowSendable) input.getInternalDevice());
-=======
         LiveWindow.addSensor("Analog input", channel, input.getInternalDevice());
->>>>>>> master
         return input;
     }
 
@@ -109,14 +100,24 @@ public class RealWPIFactory implements WPIFactory {
     }
 
     @Override
-    public XGyro getGyro() {
+    public XGyro getGyro(ImuType imuType) {
         // It's possible that the nav6 might get disconnected, and throw some
         // exceptions
         // at runtime when it can't communicate over the serial port.
         // The robot needs to protect itself from this behavior.
         try {
-            return new Nav6Gyro();
+            if (imuType == ImuType.nav6) {
+                return new Nav6Gyro(); 
+            }
+            if (imuType == ImuType.navX) {
+                return new InertialMeasurementUnitAdapter(Port.kMXP);
+            }
+            else {
+                log.error("Could not find " + imuType.name() + "! Returning a \"broken\" MockGyro instead.");
+                return getBrokenGyro();
+            }
         } catch (Exception e) {
+            
             // We need to return SOMETHING so that downstream consumers don't
             // explode.
             // In this case, we just return a MockGyro that has "isBroken" set
@@ -125,21 +126,21 @@ public class RealWPIFactory implements WPIFactory {
             // if we have a bad gyro.
 
             log.error("Could not create gyro! Returning a \"broken\" MockGyro instead.");
-
-            MockGyro brokenGyro = new MockGyro(new MockRobotIO());
-            brokenGyro.setIsBroken(true);
-            return brokenGyro;
+            return getBrokenGyro();
         }
+    }
+    
+    private XGyro getBrokenGyro()
+    {
+        MockGyro brokenGyro = new MockGyro(new MockRobotIO());
+        brokenGyro.setIsBroken(true);
+        return brokenGyro;
     }
 
     @Override
     public XEncoder getEncoder(int aChannel, int bChannel) {
         EncoderWPIAdapter encoder = new EncoderWPIAdapter(aChannel, bChannel);
-<<<<<<< HEAD
-        LiveWindow.addSensor("Encoders", "Encoder:" + aChannel, (LiveWindowSendable) encoder.getInternalEncoder());
-=======
         LiveWindow.addSensor("Encoder", aChannel, encoder.getInternalEncoder());
->>>>>>> master
         return encoder;
     }
 
@@ -162,11 +163,7 @@ public class RealWPIFactory implements WPIFactory {
 
     public XDigitalOutput getDigitalOutput(int channel) {
         DigitalOutputWPIAdapter adapter = new DigitalOutputWPIAdapter(channel);
-<<<<<<< HEAD
-        LiveWindow.addSensor("Digital outs", "Out:" + channel, (LiveWindowSendable) adapter.getWPIDigitalOutput());
-=======
         LiveWindow.addSensor("Digital output", channel, adapter.getWPIDigitalOutput());
->>>>>>> master
         return adapter;
     }
 
@@ -185,11 +182,6 @@ public class RealWPIFactory implements WPIFactory {
         PowerDistributionPanelWPIAdapter result = new PowerDistributionPanelWPIAdapter();
         LiveWindow.addSensor("PDP Panel", 0, (LiveWindowSendable) result.getInternalDevice());
         return result;
-    }
-
-    @Override
-    public XInertialMeasurementUnit getIMU() {
-        return new InertialMeasurementUnitAdapter();
     }
 
 }

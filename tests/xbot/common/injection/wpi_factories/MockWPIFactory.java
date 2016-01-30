@@ -14,15 +14,14 @@ import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
 import xbot.common.controls.sensors.MockGyro;
-import xbot.common.controls.sensors.MockInertialMeasurementUnit;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XGyro;
-import xbot.common.controls.sensors.XInertialMeasurementUnit;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
+import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.injection.wpi_factories.WPIFactory;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.MockAnalogInput;
@@ -91,7 +90,7 @@ public class MockWPIFactory implements WPIFactory {
     }
 
     @Override
-    public XGyro getGyro() {
+    public XGyro getGyro(ImuType imuType) {
         return new MockGyro(this.mockRobotIO);
     }
 
@@ -124,11 +123,6 @@ public class MockWPIFactory implements WPIFactory {
     @Override
     public XPowerDistributionPanel getPDP() {
         return new MockPowerDistributionPanel();
-    }
-
-    @Override
-    public XInertialMeasurementUnit getIMU() {
-        return new MockInertialMeasurementUnit(mockRobotIO);
     }
 
 }
