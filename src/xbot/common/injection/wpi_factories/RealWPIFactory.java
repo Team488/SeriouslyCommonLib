@@ -107,10 +107,10 @@ public class RealWPIFactory implements WPIFactory {
         // The robot needs to protect itself from this behavior.
         try {
             switch (imuType) {
-            case nav6:
-                return new Nav6Gyro();
-            case navX:
-                return new InertialMeasurementUnitAdapter(Port.kMXP);
+                case nav6:
+                    return new Nav6Gyro();
+                case navX:
+                    return new InertialMeasurementUnitAdapter(Port.kMXP);
                 default:
                     log.error("Could not find " + imuType.name() + "! Returning a \"broken\" MockGyro instead.");
                     return getBrokenGyro();
@@ -123,7 +123,6 @@ public class RealWPIFactory implements WPIFactory {
             // to true.
             // That way, nobody throws an exception, and we can test at runtime
             // if we have a bad gyro.
-
             log.error("Could not create gyro! Returning a \"broken\" MockGyro instead.");
             return getBrokenGyro();
         }
