@@ -16,7 +16,7 @@ public class MockGyro implements XGyro {
     }
 
     public ContiguousDouble getYaw() {
-        return new ContiguousDouble(mockIO.getGyroHeading(), 0, 360);
+        return new ContiguousDouble(mockIO.getGyroHeading(), -180, 180);
     }
 
     public void setIsBroken(boolean broken) {
