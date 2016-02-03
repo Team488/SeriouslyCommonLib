@@ -130,8 +130,7 @@ public class RealWPIFactory implements WPIFactory {
     
     private XGyro getBrokenGyro()
     {
-        MockGyro brokenGyro = new MockGyro(new MockRobotIO());
-        brokenGyro.setIsBroken(true);
+        MockGyro brokenGyro = new MockGyro(new MockRobotIO(), true);
         return brokenGyro;
     }
 

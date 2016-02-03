@@ -23,7 +23,6 @@ public class InertialMeasurementUnitAdapter extends NavImu implements XGyro {
         catch (Exception e){
             isBroken = true;
         }
-        this.ahrs.zeroYaw();
     }
 
     public InertialMeasurementUnitAdapter(SPI.Port spi_port_id) {
@@ -66,7 +65,6 @@ public class InertialMeasurementUnitAdapter extends NavImu implements XGyro {
 
     @Override
     public boolean isBroken() {
-        // TODO Auto-generated method stub
         return isBroken;
     }
 

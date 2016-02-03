@@ -10,6 +10,11 @@ public class MockGyro implements XGyro {
     public MockGyro(MockRobotIO mockRobotIO) {
         mockIO = mockRobotIO;
     }
+    
+    public MockGyro(MockRobotIO mockRobotIO, boolean isBroken) {
+        mockIO = mockRobotIO;
+        setIsBroken(isBroken);
+    }
 
     public boolean isConnected() {
         return true;
