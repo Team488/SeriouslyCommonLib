@@ -16,7 +16,7 @@ public class PermanentStorageProxyTest extends BaseWPITest {
     public void setUp() {
         UnitTestModule module = new UnitTestModule();
         module.useRealDatabaseForPropertyStorage = true;
-        this.guice_module = module;
+        this.guiceModule = module;
         
         super.setUp();
     }

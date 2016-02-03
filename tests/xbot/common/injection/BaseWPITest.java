@@ -28,11 +28,11 @@ public class BaseWPITest {
 
     public PropertyManager propertyManager;
     
-    protected AbstractModule guice_module = new UnitTestModule();
+    protected AbstractModule guiceModule = new UnitTestModule();
 
     @Before
     public void setUp() {
-        injector = Guice.createInjector(guice_module);
+        injector = Guice.createInjector(guiceModule);
 
         mockRobotIO = injector.getInstance(MockRobotIO.class);
 

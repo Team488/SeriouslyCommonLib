@@ -33,11 +33,13 @@ public class UnitTestModule extends AbstractModule {
 
         this.bind(ITableProxy.class).to(TableProxy.class).in(Singleton.class);
         
+        Class<? extends PermanentStorage> permanentStorageClass = null;
         if(this.useRealDatabaseForPropertyStorage) {
-            this.bind(PermanentStorage.class).to(OffRobotDatabaseStorage.class).in(Singleton.class);
+            permanentStorageClass = OffRobotDatabaseStorage.class;
         } else {
-            this.bind(PermanentStorage.class).to(MockPermamentStorage.class).in(Singleton.class);
+            permanentStorageClass = MockPermamentStorage.class;
         }
+        this.bind(PermanentStorage.class).to(permanentStorageClass).in(Singleton.class);
         
 
         this.bind(SmartDashboardCommandPutter.class).to(MockSmartDashboardCommandPutter.class);
