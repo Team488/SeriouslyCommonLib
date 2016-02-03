@@ -21,6 +21,7 @@ import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
+import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.injection.wpi_factories.WPIFactory;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.MockAnalogInput;
@@ -89,7 +90,7 @@ public class MockWPIFactory implements WPIFactory {
     }
 
     @Override
-    public XGyro getGyro() {
+    public XGyro getGyro(ImuType imuType) {
         return new MockGyro(this.mockRobotIO);
     }
 

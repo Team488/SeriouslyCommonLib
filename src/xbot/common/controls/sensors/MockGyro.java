@@ -10,13 +10,18 @@ public class MockGyro implements XGyro {
     public MockGyro(MockRobotIO mockRobotIO) {
         mockIO = mockRobotIO;
     }
+    
+    public MockGyro(MockRobotIO mockRobotIO, boolean isBroken) {
+        mockIO = mockRobotIO;
+        setIsBroken(isBroken);
+    }
 
     public boolean isConnected() {
         return true;
     }
 
     public ContiguousDouble getYaw() {
-        return new ContiguousDouble(mockIO.getGyroHeading(), 0, 360);
+        return new ContiguousDouble(mockIO.getGyroHeading(), -180, 180);
     }
 
     public void setIsBroken(boolean broken) {

@@ -11,6 +11,7 @@ import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
+import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
@@ -44,7 +45,7 @@ public interface WPIFactory {
 
     public XServo getServo(int channel);
 
-    public XGyro getGyro();
+    public XGyro getGyro(ImuType imuType);
 
     public XEncoder getEncoder(int aChannel, int bChannel);
 

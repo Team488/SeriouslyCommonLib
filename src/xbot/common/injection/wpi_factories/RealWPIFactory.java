@@ -23,12 +23,14 @@ import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
 import xbot.common.controls.sensors.Lidar;
 import xbot.common.controls.sensors.MockGyro;
+import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
+import xbot.common.controls.sensors.adapters.InertialMeasurementUnitAdapter;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.nav6.Nav6Gyro;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater;
@@ -98,27 +100,38 @@ public class RealWPIFactory implements WPIFactory {
     }
 
     @Override
-    public XGyro getGyro() {
+    public XGyro getGyro(ImuType imuType) {
         // It's possible that the nav6 might get disconnected, and throw some
         // exceptions
         // at runtime when it can't communicate over the serial port.
         // The robot needs to protect itself from this behavior.
         try {
-            return new Nav6Gyro();
+            switch (imuType) {
+                case nav6:
+                    return new Nav6Gyro();
+                case navX:
+                    return new InertialMeasurementUnitAdapter(Port.kMXP);
+                default:
+                    log.error("Could not find " + imuType.name() + "! Returning a \"broken\" MockGyro instead.");
+                    return getBrokenGyro();
+            }
         } catch (Exception e) {
+            
             // We need to return SOMETHING so that downstream consumers don't
             // explode.
             // In this case, we just return a MockGyro that has "isBroken" set
             // to true.
             // That way, nobody throws an exception, and we can test at runtime
             // if we have a bad gyro.
-
             log.error("Could not create gyro! Returning a \"broken\" MockGyro instead.");
-
-            MockGyro brokenGyro = new MockGyro(new MockRobotIO());
-            brokenGyro.setIsBroken(true);
-            return brokenGyro;
+            return getBrokenGyro();
         }
+    }
+    
+    private XGyro getBrokenGyro()
+    {
+        MockGyro brokenGyro = new MockGyro(new MockRobotIO(), true);
+        return brokenGyro;
     }
 
     @Override
@@ -152,11 +165,11 @@ public class RealWPIFactory implements WPIFactory {
     }
 
     @Override
-    public AnalogHIDButton getAnalogJoystickButton(XJoystick joystick, int axisNumber,
-            double minThreshold, double maxThreshold) {
+    public AnalogHIDButton getAnalogJoystickButton(XJoystick joystick, int axisNumber, double minThreshold,
+            double maxThreshold) {
         return new AnalogHIDButton(joystick, axisNumber, minThreshold, maxThreshold);
     }
-    
+
     @Override
     public AnalogHIDButton getAnalogJoystickButton(XJoystick joystick, AnalogHIDDescription description) {
         return new AnalogHIDButton(joystick, description);

@@ -1,6 +1,7 @@
 package xbot.common.controls.sensors.nav6;
 
 import edu.wpi.first.wpilibj.SerialPort;
+import xbot.common.controls.sensors.NavImu;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.math.ContiguousDouble;
 
@@ -10,7 +11,7 @@ import xbot.common.math.ContiguousDouble;
  * Wraps yaw values to circle 0-360 degrees.
  *
  */
-public class Nav6Gyro implements XGyro
+public class Nav6Gyro extends NavImu implements XGyro
 {
     private SerialPort imuPort;
     private IMU coreSensor;
@@ -20,6 +21,7 @@ public class Nav6Gyro implements XGyro
     
     public Nav6Gyro()
     {
+        super(ImuType.nav6);
         imuPort = new SerialPort(baudRate, SerialPort.Port.kOnboard);
         coreSensor = new IMU(imuPort);
         
