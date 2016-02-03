@@ -20,12 +20,11 @@ public class DriverStationAppender extends AppenderSkeleton {
 
     @Override
     public void close() {
-        // TODO Auto-generated method stub
+        
     }
 
     @Override
     public boolean requiresLayout() {
-        // TODO Auto-generated method stub
         return false;
     }
 

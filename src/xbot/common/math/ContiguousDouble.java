@@ -6,9 +6,10 @@ import org.apache.log4j.Logger;
  * Wraps a double to allow easy comparison and manipulation of sensor readings
  * that wrap (e.g. -180 to 180).
  * 
- * For bounds 0 - 10, 10 + 1 = 1 and 0 - 1 = 9
- * 
- * TODO: Find a better name?
+ * For bounds 0 - 10, logically:
+ *   - 10 + 1 == 1
+ *   - 0 - 1 == 9
+ *   - 0 == 10
  */
 public class ContiguousDouble {
 

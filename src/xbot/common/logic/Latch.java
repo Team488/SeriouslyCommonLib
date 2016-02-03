@@ -2,6 +2,9 @@ package xbot.common.logic;
 
 import java.util.Observable;
 
+/**
+ * Logical switch which consumes booleans and signals when the given value changes.
+ */
 public class Latch extends Observable {
 
     private boolean value;

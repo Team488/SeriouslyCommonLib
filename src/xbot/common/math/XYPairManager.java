@@ -3,6 +3,11 @@ package xbot.common.math;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyManager;
 
+/**
+ * Wrapper for XYPair class that automatically puts X and Y values on the
+ * SmartDashboard.
+ *
+ */
 public class XYPairManager {
 
     private DoubleProperty propX;

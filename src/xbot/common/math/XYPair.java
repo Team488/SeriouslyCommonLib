@@ -1,5 +1,10 @@
 package xbot.common.math;
 
+/**
+ * Pair of X and Y coordinates. Can be used for points, vectors, or anything
+ * else that requires a coordinate pair.
+ *
+ */
 public class XYPair {
     public static final XYPair ZERO = new XYPair(0, 0);
 

@@ -3,6 +3,10 @@ package xbot.common.math;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyManager;
 
+/**
+ * Wrapper for PID class which automatically puts the P, I and D values on
+ * the SmartDashboard.
+ */
 public class PIDManager {
     private PID pid;
 

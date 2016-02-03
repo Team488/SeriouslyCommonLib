@@ -6,6 +6,10 @@ import org.apache.log4j.Logger;
 
 import edu.wpi.first.wpilibj.command.Scheduler;
 
+/**
+ * Wrapper for base Scheduler which intelligently manages exceptions.
+ *
+ */
 public class XScheduler {
     
     private static Logger log = Logger.getLogger(XScheduler.class);
