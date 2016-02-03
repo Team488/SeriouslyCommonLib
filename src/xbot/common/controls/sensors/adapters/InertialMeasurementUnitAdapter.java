@@ -28,19 +28,16 @@ public class InertialMeasurementUnitAdapter extends NavImu implements XGyro {
     public InertialMeasurementUnitAdapter(SPI.Port spi_port_id) {
         super(ImuType.navX);
         this.ahrs = new AHRS(spi_port_id);
-        this.ahrs.zeroYaw();
     }
 
     public InertialMeasurementUnitAdapter(I2C.Port i2c_port_id) {
         super(ImuType.navX);
         this.ahrs = new AHRS(i2c_port_id);
-        this.ahrs.zeroYaw();
     }
 
     public InertialMeasurementUnitAdapter(SerialPort.Port serial_port_id) {
         super(ImuType.navX);
         this.ahrs = new AHRS(serial_port_id);
-        this.ahrs.zeroYaw();
     }
 
     @Override
@@ -50,7 +47,7 @@ public class InertialMeasurementUnitAdapter extends NavImu implements XGyro {
 
     @Override
     public ContiguousHeading getYaw() {
-        return new ContiguousHeading(this.ahrs.getYaw());
+        return new ContiguousHeading(-this.ahrs.getYaw());
     }
 
     @Override
