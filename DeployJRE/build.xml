@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="jre-upload">
+	<property file="${user.home}/wpilib/wpilib.properties"/>
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="${user.home}/wpilib/java/${version}/ant/ant-contrib.jar"/>
+		</classpath>
+	</taskdef>
+	<taskdef resource="net/jtools/classloadertask/antlib.xml" classpath="${user.home}/wpilib/java/${version}/ant/ant-classloadertask.jar"/>
+	<classloader loader="system" classpath="${user.home}/wpilib/java/${version}/ant/jsch-0.1.50.jar"/>
+
+	
+	<!-- Clean up the temporary files -->
+	<delete dir="JRE"/>
+	<delete dir="ejdk1.8.0_06"/>
+	
+	<!-- Extract the JRE -->
+	<untar src="ejdk-8u6-fcs-b23-linux-arm-vfp-sflt-12_jun_2014.gz" dest="." compression="gzip"/>
+	
+	<!-- Run JRECreate to make an environment with a compact debugging profile -->
+	<java jar="ejdk1.8.0_06/lib/JRECreate.jar"
+	       args="--dest JRE --vm client --keep-debug-info --debug"
+	       fork="true">
+		<env key="EJDK_HOME" value="./ejdk1.8.0_06/"/>
+	</java>
+		
+	<!-- Make the "JRE" directory on the roboRIO -->
+	<sshexec command="mkdir /usr/local/frc/JRE"
+	          host="roborio-${team-number}-FRC.local"
+	          username="admin"
+	          password=""
+	          failonerror="false"
+	          trust="true"/>
+	
+	<!-- Upload the new JRE -->
+	<scp todir="admin@roborio-${team-number}-FRC.local:/usr/local/frc/JRE"
+	     password=""
+	     trust="true">
+		<fileset dir="JRE"/>
+	</scp>
+	
+	<!-- Mark the java binaries as executable --> 
+	<sshexec command="chmod +x /usr/local/frc/JRE/bin/*"
+	          host="roborio-${team-number}-FRC.local"
+	          username="admin"
+	          password=""
+	          failonerror="false"
+	          trust="true"/>
+</project>
+

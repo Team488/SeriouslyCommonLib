@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import xbot.common.controls.sensors.NavImu;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.navx.AHRS;
-import xbot.common.math.ContiguousDouble;
+import xbot.common.math.ContiguousHeading;
 
 public class InertialMeasurementUnitAdapter extends NavImu implements XGyro {
 
@@ -49,8 +49,8 @@ public class InertialMeasurementUnitAdapter extends NavImu implements XGyro {
     }
 
     @Override
-    public ContiguousDouble getYaw() {
-        return new ContiguousDouble(this.ahrs.getYaw(), -180, 180);
+    public ContiguousHeading getYaw() {
+        return new ContiguousHeading(this.ahrs.getYaw());
     }
 
     @Override

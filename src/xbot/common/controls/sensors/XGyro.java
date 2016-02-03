@@ -1,12 +1,12 @@
 package xbot.common.controls.sensors;
 
-import xbot.common.math.ContiguousDouble;
+import xbot.common.math.ContiguousHeading;
 
 public interface XGyro
 {
     public boolean isConnected();
     
-    public ContiguousDouble getYaw();
+    public ContiguousHeading getYaw();
     
     public double getRoll();
     

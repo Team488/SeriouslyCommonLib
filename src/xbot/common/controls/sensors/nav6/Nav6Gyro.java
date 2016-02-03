@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import xbot.common.controls.sensors.NavImu;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.math.ContiguousDouble;
+import xbot.common.math.ContiguousHeading;
 
 /**
  * Internal class to handle gyro readings.
@@ -15,7 +16,7 @@ public class Nav6Gyro extends NavImu implements XGyro
 {
     private SerialPort imuPort;
     private IMU coreSensor;
-    private ContiguousDouble yawValue;
+    private ContiguousHeading yawValue;
     
     public final int baudRate = 57600;
     
@@ -26,7 +27,7 @@ public class Nav6Gyro extends NavImu implements XGyro
         coreSensor = new IMU(imuPort);
         
         // This will remap original values. IMU reports -180 to 180 normally.
-        yawValue = new ContiguousDouble(0, 360);
+        yawValue = new ContiguousHeading();
     }
     
     public boolean isConnected()
@@ -34,13 +35,13 @@ public class Nav6Gyro extends NavImu implements XGyro
         return coreSensor.isConnected();
     }
     
-    public ContiguousDouble getYawContiguous()
+    public ContiguousHeading getYawContiguous()
     {
         yawValue.setValue(coreSensor.getYaw());
         return yawValue.clone();
     }
     
-    public ContiguousDouble getYaw()
+    public ContiguousHeading getYaw()
     {
         return getYawContiguous();
     }
