@@ -20,7 +20,7 @@ public abstract class Property {
      */
     public String key;
 
-    DatabaseStorageBase permanentStore;
+    PermanentStorage permanentStore;
     ITableProxy randomAccessStore;
     
     /** 

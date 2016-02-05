@@ -8,6 +8,8 @@ import xbot.common.logging.LoudRobotAssertionManager;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.DatabaseStorageBase;
 import xbot.common.properties.ITableProxy;
+import xbot.common.properties.MockPermamentStorage;
+import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.TableProxy;
 
 import com.google.inject.AbstractModule;
@@ -20,6 +22,9 @@ import org.junit.Ignore;
 
 @Ignore
 public class UnitTestModule extends AbstractModule {
+    
+    public boolean useRealDatabaseForPropertyStorage = false;
+    
     @Override
     protected void configure() {
         this.bind(Timer.StaticInterface.class).to(MockTimer.class);
@@ -27,7 +32,15 @@ public class UnitTestModule extends AbstractModule {
         this.bind(WPIFactory.class).to(MockWPIFactory.class);
 
         this.bind(ITableProxy.class).to(TableProxy.class).in(Singleton.class);
-        this.bind(DatabaseStorageBase.class).to(OffRobotDatabaseStorage.class).in(Singleton.class);
+        
+        Class<? extends PermanentStorage> permanentStorageClass = null;
+        if(this.useRealDatabaseForPropertyStorage) {
+            permanentStorageClass = OffRobotDatabaseStorage.class;
+        } else {
+            permanentStorageClass = MockPermamentStorage.class;
+        }
+        this.bind(PermanentStorage.class).to(permanentStorageClass).in(Singleton.class);
+        
 
         this.bind(SmartDashboardCommandPutter.class).to(MockSmartDashboardCommandPutter.class);
 

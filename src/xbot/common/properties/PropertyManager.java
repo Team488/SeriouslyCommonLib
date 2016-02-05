@@ -29,14 +29,14 @@ public class PropertyManager {
     /**
      *
      */
-    public DatabaseStorageBase permanentStore;
+    public PermanentStorage permanentStore;
     /**
      *
      */
     public ITableProxy randomAccessStore;
 
     @Inject
-    public PropertyManager(DatabaseStorageBase permanentStore, ITableProxy randomAccessStore) {
+    public PropertyManager(PermanentStorage permanentStore, ITableProxy randomAccessStore) {
         this.properties = new ArrayList<Property>();
         this.permanentStore = permanentStore;
         this.randomAccessStore = randomAccessStore;

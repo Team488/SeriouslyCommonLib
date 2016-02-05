@@ -8,18 +8,23 @@ import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
 import xbot.common.injection.OffRobotDatabaseStorage;
+import xbot.common.injection.UnitTestModule;
 
 public class PermanentStorageProxyTest extends BaseWPITest {
 
     @Before
     public void setUp() {
+        UnitTestModule module = new UnitTestModule();
+        module.useRealDatabaseForPropertyStorage = true;
+        this.guiceModule = module;
+        
         super.setUp();
     }
 
     @Test
     public void testSaveAndLoad() {
 
-        DatabaseStorageBase p = propertyManager.permanentStore;
+        PermanentStorage p = propertyManager.permanentStore;
 
         p.setDouble("fancyname", 1.23);
         p.setBoolean("flag", true);
@@ -31,7 +36,7 @@ public class PermanentStorageProxyTest extends BaseWPITest {
     }
 
     public void testClear() {
-        DatabaseStorageBase p = propertyManager.permanentStore;
+        PermanentStorage p = propertyManager.permanentStore;
 
         p.setDouble("fancyname", 1.23);
         p.setBoolean("flag", true);
