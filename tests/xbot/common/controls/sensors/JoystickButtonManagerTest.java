@@ -44,9 +44,9 @@ public class JoystickButtonManagerTest extends BaseWPITest {
     private void testButton(JoystickButtonManager manager, int i) {
         try {
             manager.getifAvailable(i);
-            assertTrue(false);
-        } catch (Exception e)
-        {
+            fail();
+        } 
+        catch (Exception e) {
             // nice!
         }
     }
