@@ -53,20 +53,17 @@ public class JoystickButtonManager {
     public AdvancedJoystickButton getifAvailable(int buttonNumber) {
         
         if (buttonNumber < 1 || buttonNumber > maxButtons) {
-            String message = "button " + buttonNumber + " is out of range!";
-            return getMockButton(message);
+            return handleInvalidButton("button " + buttonNumber + " is out of range!");
         }
         
         if (buttonMap.containsKey(buttonNumber)) {
             return buttonMap.remove(buttonNumber);
         } else {
-            // Warn people that terrible things are happening, then return a null button.
-            String message = "button " + buttonNumber + " is already used! Cannot be used twice!";
-            return getMockButton(message);
+            return handleInvalidButton("button " + buttonNumber + " is already used! Cannot be used twice!");
         }
     }
     
-    private AdvancedJoystickButton getMockButton(String message) {
+    private AdvancedJoystickButton handleInvalidButton(String message) {
         log.error(message);
         assertionManager.throwException(message, new Exception());
         
