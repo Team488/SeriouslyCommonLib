@@ -9,7 +9,6 @@ import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.logging.RobotAssertionException;
 import xbot.common.logging.RobotAssertionManager;
-import edu.wpi.first.wpilibj.MockJoystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 
 /**
