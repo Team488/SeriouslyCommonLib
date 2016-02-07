@@ -7,6 +7,8 @@ import org.apache.log4j.Logger;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.injection.wpi_factories.WPIFactory;
+import xbot.common.logging.RobotAssertionException;
+import xbot.common.logging.RobotAssertionManager;
 import edu.wpi.first.wpilibj.buttons.Button;
 
 /**
@@ -18,15 +20,20 @@ public class JoystickButtonManager {
 
     private HashMap<Integer, AdvancedJoystickButton> buttonMap;
     private HashMap<AnalogHIDButton.AnalogHIDDescription, AnalogHIDButton> analogButtonMap;
+    private int maxButtons;
 
     private WPIFactory factory;
 
     private XJoystick joystick;
 
-    public JoystickButtonManager(int numButtons, WPIFactory factory, XJoystick joystick) {
+    private RobotAssertionManager assertionManager;
+    
+    public JoystickButtonManager(int numButtons, WPIFactory factory, RobotAssertionManager assertionManager, XJoystick joystick) {
         this.joystick = joystick;
         this.factory = factory;
-
+        this.assertionManager = assertionManager;
+        maxButtons = numButtons;
+        
         this.buttonMap = new HashMap<Integer, AdvancedJoystickButton>(numButtons);
         this.analogButtonMap = new HashMap<>();
 
@@ -44,13 +51,24 @@ public class JoystickButtonManager {
     }
 
     public AdvancedJoystickButton getifAvailable(int buttonNumber) {
+        
+        if (buttonNumber < 1 || buttonNumber > maxButtons) {
+            return handleInvalidButton("button " + buttonNumber + " is out of range!");
+        }
+        
         if (buttonMap.containsKey(buttonNumber)) {
             return buttonMap.remove(buttonNumber);
         } else {
-            // Warn people that terrible things are happening, then return a null button.
-            log.error("button " + buttonNumber + " is already used! Cannot be used twice!");
-            return null;
+            return handleInvalidButton("button " + buttonNumber + " is already used! Cannot be used twice!");
         }
+    }
+    
+    private AdvancedJoystickButton handleInvalidButton(String message) {
+        log.error(message);
+        assertionManager.throwException(message, new Exception());
+        
+        MockJoystick mj = new MockJoystick();
+        return new AdvancedJoystickButton(mj, 1);
     }
 
     public Button getAnalogIfAvailable(AnalogHIDDescription desc) {

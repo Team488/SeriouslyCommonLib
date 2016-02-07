@@ -1,40 +1,68 @@
 package xbot.common.controls.sensors;
 
 import static org.junit.Assert.*;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import xbot.common.controls.sensors.JoystickButtonManager;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.BaseWPITest;
 import xbot.common.injection.wpi_factories.WPIFactory;
+import xbot.common.logging.RobotAssertionException;
+import xbot.common.logging.RobotAssertionManager;
 
 
 public class JoystickButtonManagerTest extends BaseWPITest {
-
+    
+    WPIFactory factory;
+    XJoystick testJoystick;
+    RobotAssertionManager assertion;
+    JoystickButtonManager testButtons;
+    
+    @Before
+    public void setup() {
+        super.setUp();
+        
+        factory = this.injector.getInstance(WPIFactory.class);
+        testJoystick = factory.getJoystick(1);
+        assertion = this.injector.getInstance(RobotAssertionManager.class);
+        testButtons = new JoystickButtonManager(12, factory, assertion, testJoystick);
+    }
+    
+    @Test(expected = RuntimeException.class)
+    public void testButtonBelowRange() {
+        testButtons.getifAvailable(13);
+    }
+    
+    @Test(expected = RuntimeException.class)
+    public void testButtonZero() {
+        testButtons.getifAvailable(0);
+    }
+    
+    @Test(expected = RuntimeException.class)
+    public void testButtonNegative() {
+        testButtons.getifAvailable(-1);
+    }
+    
     @Test
-    public void testAvailability() {
-
-        WPIFactory factory = this.injector.getInstance(WPIFactory.class);
-        XJoystick testJoystick = factory.getJoystick(1);
-
-        JoystickButtonManager testButtons = new JoystickButtonManager(12, factory, testJoystick);
-
-        int i = 13;
-        assertTrue("Button " + i + " should be null.", null == testButtons.getifAvailable(i));
-
-        i = 0;
-        assertTrue("Button " + i + " should be null.", null == testButtons.getifAvailable(i));
-
-        i = -1;
-        assertTrue("Button " + i + " should be null.", null == testButtons.getifAvailable(i));
-
+    public void testAllValidButtons() {
         for (int x = 1; x <= 12; x++) {
             assertTrue("Button " + x + " should not be null.", null != testButtons.getifAvailable(x));
         }
         for (int x = 1; x <= 12; x++) {
-            assertTrue("Button " + x + " should be null.", null == testButtons.getifAvailable(x));
+            testButton(testButtons, x);
         }
-
+    }
+    
+    private void testButton(JoystickButtonManager manager, int i) {
+        try {
+            manager.getifAvailable(i);
+            fail();
+        } 
+        catch (Exception e) {
+            // nice!
+        }
     }
 
 }

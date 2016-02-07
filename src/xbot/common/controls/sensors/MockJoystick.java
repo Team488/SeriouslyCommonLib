@@ -1,9 +1,10 @@
-package edu.wpi.first.wpilibj;
+package xbot.common.controls.sensors;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import xbot.common.controls.sensors.XJoystick;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import xbot.common.math.XYPair;
 
 public class MockJoystick extends GenericHID implements XJoystick {
