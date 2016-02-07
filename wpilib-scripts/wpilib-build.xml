@@ -67,7 +67,7 @@
      classpath="${classpath}:${userLibs}"
      target="8"
      source="8"
-     compiler="javac8"
+     compiler="javac${ant.java.version}"
      debug="true">
     </javac>
   </target>
