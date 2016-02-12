@@ -13,6 +13,7 @@ package xbot.common.controls.sensors.nav6;
 import java.util.Arrays;
 
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
@@ -445,5 +446,15 @@ public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Ru
                 ex.printStackTrace();
             }
         }
+    }
+    
+    @Override
+    public void setPIDSourceType(PIDSourceType pidSource) {
+        
+    }
+    
+    @Override
+    public PIDSourceType getPIDSourceType() {
+        return PIDSourceType.kDisplacement;
     }
 }
