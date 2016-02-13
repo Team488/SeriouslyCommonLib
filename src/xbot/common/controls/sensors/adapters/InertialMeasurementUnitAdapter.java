@@ -52,12 +52,12 @@ public class InertialMeasurementUnitAdapter extends NavImu implements XGyro {
 
     @Override
     public double getRoll() {
-        return this.ahrs.getRoll();
+        return -this.ahrs.getRoll();
     }
 
     @Override
     public double getPitch() {
-        return this.ahrs.getPitch();
+        return -this.ahrs.getPitch();
     }
 
     @Override
