@@ -38,7 +38,7 @@ import xbot.common.controls.sensors.wpi_adapters.DigitalInputWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.JoystickWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter;
-import xbot.common.properties.PropertyManager;
+import xbot.common.properties.XPropertyManager;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
@@ -47,10 +47,10 @@ public class RealWPIFactory implements WPIFactory {
 
     private static Logger log = Logger.getLogger(RealWPIFactory.class);
 
-    private PropertyManager propMan;
+    private XPropertyManager propMan;
 
     @Inject
-    public RealWPIFactory(PropertyManager propMan) {
+    public RealWPIFactory(XPropertyManager propMan) {
         this.propMan = propMan;
     }
 

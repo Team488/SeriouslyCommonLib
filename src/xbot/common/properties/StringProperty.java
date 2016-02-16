@@ -13,13 +13,13 @@ package xbot.common.properties;
 public class StringProperty extends Property {
     private String defaultValue;
     
-    public StringProperty(String name, String defaultValue, PropertyManager manager) {
+    public StringProperty(String name, String defaultValue, XPropertyManager manager) {
         super(name, manager);
         this.defaultValue = defaultValue;
         load();
     }
     
-    public StringProperty(String name, String defaultValue, PropertyPersistenceType persistenceType, PropertyManager manager) {
+    public StringProperty(String name, String defaultValue, PropertyPersistenceType persistenceType, XPropertyManager manager) {
         super(name, manager, persistenceType);
         this.defaultValue = defaultValue;
         load();

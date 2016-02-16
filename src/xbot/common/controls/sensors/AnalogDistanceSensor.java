@@ -3,7 +3,7 @@ package xbot.common.controls.sensors;
 import org.apache.log4j.Logger;
 
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyManager;
+import xbot.common.properties.XPropertyManager;
 
 import java.util.function.DoubleFunction;
 
@@ -21,7 +21,7 @@ public class AnalogDistanceSensor implements DistanceSensor {
     
     private static final Logger log = Logger.getLogger(AnalogDistanceSensor.class);
 
-    public AnalogDistanceSensor(XAnalogInput inputPort, DoubleFunction<Double> voltageMap, PropertyManager propMan) {
+    public AnalogDistanceSensor(XAnalogInput inputPort, DoubleFunction<Double> voltageMap, XPropertyManager propMan) {
         log.info("Initializing...");
         this.inputPort = inputPort;
         this.voltageMap = voltageMap;

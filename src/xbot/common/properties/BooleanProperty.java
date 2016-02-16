@@ -21,14 +21,14 @@ public class BooleanProperty extends Property {
      * @param defaultValue initial value if none there from the permanent store
      */
     public BooleanProperty(String name, boolean defaultValue,
-            PropertyManager manager) {
+            XPropertyManager manager) {
         super(name, manager);
         this.defaultValue = defaultValue;
         load();
     }
     
     public BooleanProperty(String name, boolean defaultValue, PropertyPersistenceType persistenceType,
-            PropertyManager manager) {
+            XPropertyManager manager) {
         super(name, manager, persistenceType);
         this.defaultValue = defaultValue;
         load();

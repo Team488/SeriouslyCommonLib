@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
 import xbot.common.injection.RobotModule;
-import xbot.common.properties.PropertyManager;
+import xbot.common.properties.XPropertyManager;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -24,7 +24,7 @@ public class BaseRobot extends IterativeRobot {
 
     static Logger log = Logger.getLogger(BaseRobot.class);
 
-    protected PropertyManager propertyManager;
+    protected XPropertyManager propertyManager;
     protected XScheduler xScheduler;
 
     protected AbstractModule injectionModule;
@@ -63,7 +63,7 @@ public class BaseRobot extends IterativeRobot {
         // override with additional systems (but call this one too)
 
         // Get the property manager and get all properties from the robot disk
-        propertyManager = this.injector.getInstance(PropertyManager.class);
+        propertyManager = this.injector.getInstance(XPropertyManager.class);
         xScheduler = this.injector.getInstance(XScheduler.class);
     }
 

@@ -1,7 +1,7 @@
 package xbot.common.math;
 
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyManager;
+import xbot.common.properties.XPropertyManager;
 
 /**
  * Wrapper for PID class which automatically puts the P, I and D values on
@@ -14,15 +14,15 @@ public class PIDManager {
     private DoubleProperty propI;
     private DoubleProperty propD;
 
-    public PIDManager(String functionName, PropertyManager propMan, double defaultP, double defaultI, double defaultD) {
+    public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD) {
         setupPIDManager(functionName, propMan, defaultP, defaultI, defaultD);
     }
 
-    public PIDManager(String functionName, PropertyManager propMan) {
+    public PIDManager(String functionName, XPropertyManager propMan) {
         setupPIDManager(functionName, propMan, 0, 0, 0);
     }
 
-    private void setupPIDManager(String functionName, PropertyManager propMan, double defaultP, double defaultI,
+    private void setupPIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI,
             double defaultD) {
         propP = new DoubleProperty(functionName + " P", defaultP, propMan);
         propI = new DoubleProperty(functionName + " I", defaultI, propMan);
