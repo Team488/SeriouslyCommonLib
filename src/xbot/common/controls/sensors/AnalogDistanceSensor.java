@@ -16,6 +16,7 @@ public class AnalogDistanceSensor implements DistanceSensor {
     
     private DoubleProperty voltageOffset;
     private DoubleProperty distanceOffset;
+    private DoubleProperty scalarMultiplier;
     
     private boolean isAveragingEnabled = false;
     
@@ -27,12 +28,13 @@ public class AnalogDistanceSensor implements DistanceSensor {
         this.voltageMap = voltageMap;
         voltageOffset = propMan.createPersistentProperty("Distance sensor " + inputPort.getChannel() + " voltage offset", 0d);
         distanceOffset = propMan.createPersistentProperty("Distance sensor " + inputPort.getChannel() + " distance offset", 0d);
+        scalarMultiplier = propMan.createPersistentProperty("Distance sensor " + inputPort.getChannel() + "scalar multiplier", 1d);
     }
 
     @Override
     public double getDistance() {
         double voltage = isAveragingEnabled ? inputPort.getAverageVoltage() : inputPort.getVoltage();
-        return voltageMap.apply(voltage + voltageOffset.get()) + distanceOffset.get();
+        return (voltageMap.apply(voltage + voltageOffset.get()) + distanceOffset.get()) * scalarMultiplier.get();
     }
 
     @Override
