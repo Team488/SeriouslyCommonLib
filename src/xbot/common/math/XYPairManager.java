@@ -1,7 +1,7 @@
 package xbot.common.math;
 
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyManager;
+import xbot.common.properties.XPropertyManager;
 
 /**
  * Wrapper for XYPair class that automatically puts X and Y values on the
@@ -13,15 +13,15 @@ public class XYPairManager {
     private DoubleProperty propX;
     private DoubleProperty propY;
 
-    public XYPairManager(String functionName, PropertyManager propMan, double defaultX, double defaultY) {
+    public XYPairManager(String functionName, XPropertyManager propMan, double defaultX, double defaultY) {
         setupPIDManager(functionName, propMan, defaultX, defaultY);
     }
 
-    public XYPairManager(String functionName, PropertyManager propMan) {
+    public XYPairManager(String functionName, XPropertyManager propMan) {
         setupPIDManager(functionName, propMan, 0, 0);
     }
 
-    private void setupPIDManager(String functionName, PropertyManager propMan, double defaultX, double defaultY) {
+    private void setupPIDManager(String functionName, XPropertyManager propMan, double defaultX, double defaultY) {
         propX = new DoubleProperty(functionName + " X", defaultX, propMan);
         propY = new DoubleProperty(functionName + " Y", defaultY, propMan);
     }

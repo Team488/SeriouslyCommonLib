@@ -7,7 +7,7 @@ import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.injection.BaseWPITest;
 import xbot.common.injection.wpi_factories.MockWPIFactory;
-import xbot.common.properties.PropertyManager;
+import xbot.common.properties.XPropertyManager;
 import static org.junit.Assert.*;
 
 public class AnalogDistanceSensorTest extends BaseWPITest {
@@ -15,13 +15,13 @@ public class AnalogDistanceSensorTest extends BaseWPITest {
     AnalogDistanceSensor sensor;
     MockWPIFactory factory;
     MockRobotIO robotIo;
-    PropertyManager propMan;
+    XPropertyManager propMan;
 
     @Before
     public void setup() {
         robotIo = new MockRobotIO();
         factory = new MockWPIFactory(robotIo);
-        propMan = injector.getInstance(PropertyManager.class);
+        propMan = injector.getInstance(XPropertyManager.class);
         sensor = new AnalogDistanceSensor(factory.getAnalogInput(0), AnalogDistanceSensor.VoltageMaps::sharp0A51SK,
                 propMan);
     }

@@ -5,7 +5,7 @@ import java.util.TimerTask;
 import org.apache.log4j.Logger;
 
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyManager;
+import xbot.common.properties.XPropertyManager;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -25,7 +25,7 @@ public class Lidar implements DistanceSensor {
 
     private DoubleProperty lidarPollDuration;
 
-    public Lidar(Port port, PropertyManager propMan) {
+    public Lidar(Port port, XPropertyManager propMan) {
 
         log.info("Creating Lidar on port: " + port.toString());
         lidarPollDuration = propMan.createPersistentProperty("LidarPollDurationMs", 100d);

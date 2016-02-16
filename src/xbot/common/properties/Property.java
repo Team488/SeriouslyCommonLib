@@ -41,7 +41,7 @@ public abstract class Property {
      * what you're doing.
      * 
      */
-    public Property(String key, PropertyManager manager) {
+    public Property(String key, XPropertyManager manager) {
         this.key = sanitizeKey(key);
         this.permanentStore = manager.permanentStore;
         this.randomAccessStore = manager.randomAccessStore;
@@ -55,7 +55,7 @@ public abstract class Property {
      * New builder with persistence type. Old builder will be deprecated.
      * @author Marc
      */
-    public Property(String key, PropertyManager manager, PropertyPersistenceType persistenceType) {
+    public Property(String key, XPropertyManager manager, PropertyPersistenceType persistenceType) {
         this.key = sanitizeKey(key);
         this.permanentStore = manager.permanentStore;
         this.randomAccessStore = manager.randomAccessStore;

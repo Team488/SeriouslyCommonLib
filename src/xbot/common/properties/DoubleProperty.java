@@ -11,13 +11,13 @@ package xbot.common.properties;
 public class DoubleProperty extends Property {
     double defaultValue;
 
-    public DoubleProperty(String name, double defaultValue, PropertyManager manager) {
+    public DoubleProperty(String name, double defaultValue, XPropertyManager manager) {
         super(name, manager);
         this.defaultValue = defaultValue;
         load();
     }
     
-    public DoubleProperty(String name, double defaultValue, PropertyPersistenceType persistenceType, PropertyManager manager) {
+    public DoubleProperty(String name, double defaultValue, PropertyPersistenceType persistenceType, XPropertyManager manager) {
         super(name, manager, persistenceType);
         this.defaultValue = defaultValue;
         load();

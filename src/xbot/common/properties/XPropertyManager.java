@@ -18,9 +18,9 @@ import com.google.inject.Singleton;
  * @author Alex
  */
 @Singleton
-public class PropertyManager {
+public class XPropertyManager {
 
-    private static final Logger log = Logger.getLogger(PropertyManager.class);
+    private static final Logger log = Logger.getLogger(XPropertyManager.class);
 
     /**
      *
@@ -36,7 +36,7 @@ public class PropertyManager {
     public ITableProxy randomAccessStore;
 
     @Inject
-    public PropertyManager(PermanentStorage permanentStore, ITableProxy randomAccessStore) {
+    public XPropertyManager(PermanentStorage permanentStore, ITableProxy randomAccessStore) {
         this.properties = new ArrayList<Property>();
         this.permanentStore = permanentStore;
         this.randomAccessStore = randomAccessStore;
