@@ -3,6 +3,7 @@ package xbot.common.injection.wpi_factories;
 import java.util.function.DoubleFunction;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XCompressor;
@@ -36,16 +37,51 @@ import edu.wpi.first.wpilibj.MockServo;
 import edu.wpi.first.wpilibj.MockSolenoid;
 import edu.wpi.first.wpilibj.MockSpeedController;
 
+@Singleton
 public class MockWPIFactory implements WPIFactory {
 
     MockRobotIO mockRobotIO;
+    
+    int[] pwms;
+    int[] analogs;
+    int[] dios;
+    int[] solenoids;
 
     @Inject
     public MockWPIFactory(MockRobotIO mockRobotIO) {
         this.mockRobotIO = mockRobotIO;
+        
+        pwms = new int[10];
+        analogs = new int[8];
+        dios = new int[10];
+        solenoids = new int[8];
+    }
+    
+    private void checkPwm(int channel) {
+        checkDevice(pwms, channel);;
+    }
+    
+    private void checkAnalog(int channel) {
+        checkDevice(analogs, channel);
+    }
+    
+    private void checkDio(int channel) {
+        checkDevice(dios, channel);
+    }
+    
+    private void checkSolenoid(int channel) {
+        checkDevice(solenoids, channel);
+    }
+    
+    private void checkDevice(int[] array, int channel) {
+        if (array[channel] == 1) {
+            throw new RuntimeException("Channel " + channel + " already allocated!");
+        }
+        array[channel] = 1;
     }
 
     public XSpeedController getSpeedController(int channel) {
+        checkPwm(channel);
         return new MockSpeedController(channel, mockRobotIO);
     }
 
@@ -55,11 +91,13 @@ public class MockWPIFactory implements WPIFactory {
 
     @Override
     public XDigitalInput getDigitalInput(int channel) {
+        checkDio(channel);
         return new MockDigitalInput(channel);
     }
 
     @Override
     public XAnalogInput getAnalogInput(int channel) {
+        checkAnalog(channel);
         return new MockAnalogInput(channel, this.mockRobotIO);
     }
 
@@ -70,6 +108,7 @@ public class MockWPIFactory implements WPIFactory {
 
     @Override
     public XSolenoid getSolenoid(int channel) {
+        checkSolenoid(channel);
         return new MockSolenoid(channel, this.mockRobotIO);
     }
 
@@ -96,11 +135,14 @@ public class MockWPIFactory implements WPIFactory {
 
     @Override
     public XEncoder getEncoder(int aChannel, int bChannel) {
+        checkDio(aChannel);
+        checkDio(bChannel);
         return new MockEncoder(aChannel, bChannel);
     }
 
     @Override
     public XServo getServo(int channel) {
+        checkDio(channel);
         // TODO Auto-generated method stub
         return new MockServo(channel, this.mockRobotIO);
     }
@@ -112,11 +154,13 @@ public class MockWPIFactory implements WPIFactory {
 
     @Override
     public DistanceSensor getAnalogDistanceSensor(int channel, DoubleFunction<Double> voltageMap) {
+        checkAnalog(channel);
         return new MockDistanceSensor();
     }
 
     @Override
     public XDigitalOutput getDigitalOutput(int channel) {
+        checkDio(channel);
         return new MockDigitalOutput(channel, mockRobotIO);
     }
 
