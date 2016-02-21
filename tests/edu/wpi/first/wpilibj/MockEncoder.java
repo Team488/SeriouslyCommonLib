@@ -20,12 +20,6 @@ public class MockEncoder implements xbot.common.controls.sensors.XEncoder {
     }
 
     @Override
-    public void setDistancePerPulse(double dPP) {
-        this.distancePerPulse = dPP;
-
-    }
-
-    @Override
     public double getRate() {
         return rate;
     }
