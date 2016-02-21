@@ -13,8 +13,8 @@ public class PIDManager {
     private DoubleProperty propP;
     private DoubleProperty propI;
     private DoubleProperty propD;
-    private DoubleProperty maxPositiveOutput;
-    private DoubleProperty minNegativeOutput;
+    private DoubleProperty maxOutput;
+    private DoubleProperty minOutput;
 
     public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD,
             double defaultMaxOutput, double defaultMinOutput) {
@@ -35,15 +35,15 @@ public class PIDManager {
         propI = propMan.createPersistentProperty(functionName + " I", defaultI);
         propD = propMan.createPersistentProperty(functionName + " D", defaultD);
         
-        maxPositiveOutput = propMan.createPersistentProperty(functionName + " MaxOutput", defaultMaxOutput);
-        minNegativeOutput = propMan.createPersistentProperty(functionName + " MinOutput", defaultMinOutput);
+        maxOutput = propMan.createPersistentProperty(functionName + " MaxOutput", defaultMaxOutput);
+        minOutput = propMan.createPersistentProperty(functionName + " MinOutput", defaultMinOutput);
 
         pid = new PID();
     }
 
     public double calculate(double goal, double current) {
         double pidResult = pid.calculate(goal, current, propP.get(), propI.get(), propD.get());
-        return MathUtils.constrainDouble(pidResult, minNegativeOutput.get(), maxPositiveOutput.get());
+        return MathUtils.constrainDouble(pidResult, minOutput.get(), maxOutput.get());
     }
 
     public void reset() {
