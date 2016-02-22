@@ -53,7 +53,7 @@ public class MockWPIFactoryTest {
 
     @Test
     public void testEncoder() {
-        wpiFactory.getEncoder(1, 2);
+        wpiFactory.getEncoder("test", 1, 2, 1.0);
     }
 
     @Test

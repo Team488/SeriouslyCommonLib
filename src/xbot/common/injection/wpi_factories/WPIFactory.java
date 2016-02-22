@@ -47,7 +47,7 @@ public interface WPIFactory {
 
     public XGyro getGyro(ImuType imuType);
 
-    public XEncoder getEncoder(int aChannel, int bChannel);
+    public XEncoder getEncoder(String name, int aChannel, int bChannel, double defaultDistancePerPulse);
 
     public DistanceSensor getLidar(Port kmxp);
 
