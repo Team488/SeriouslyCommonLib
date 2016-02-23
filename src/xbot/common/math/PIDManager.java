@@ -1,5 +1,6 @@
 package xbot.common.math;
 
+import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
@@ -13,26 +14,39 @@ public class PIDManager {
     private DoubleProperty propP;
     private DoubleProperty propI;
     private DoubleProperty propD;
+    private DoubleProperty maxOutput;
+    private DoubleProperty minOutput;
+    private BooleanProperty isEnabled;
 
-    public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD) {
-        setupPIDManager(functionName, propMan, defaultP, defaultI, defaultD);
-    }
-
-    public PIDManager(String functionName, XPropertyManager propMan) {
-        setupPIDManager(functionName, propMan, 0, 0, 0);
-    }
-
-    private void setupPIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI,
-            double defaultD) {
-        propP = new DoubleProperty(functionName + " P", defaultP, propMan);
-        propI = new DoubleProperty(functionName + " I", defaultI, propMan);
-        propD = new DoubleProperty(functionName + " D", defaultD, propMan);
+    public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD,
+            double defaultMaxOutput, double defaultMinOutput) {
+        propP = propMan.createPersistentProperty(functionName + " P", defaultP);
+        propI = propMan.createPersistentProperty(functionName + " I", defaultI);
+        propD = propMan.createPersistentProperty(functionName + " D", defaultD);
+        
+        maxOutput = propMan.createPersistentProperty(functionName + " Max Output", defaultMaxOutput);
+        minOutput = propMan.createPersistentProperty(functionName + " Min Output", defaultMinOutput);
+        
+        isEnabled = propMan.createPersistentProperty(functionName + " Is Enabled", true);
 
         pid = new PID();
     }
+    
+    public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD) {
+        this(functionName, propMan, defaultP, defaultI, defaultD, 1.0, -1.0);
+    }
+
+    public PIDManager(String functionName, XPropertyManager propMan) {
+        this(functionName, propMan, 0, 0, 0);
+    }
 
     public double calculate(double goal, double current) {
-        return pid.calculate(goal, current, propP.get(), propI.get(), propD.get());
+        if(isEnabled.get()) {
+            double pidResult = pid.calculate(goal, current, propP.get(), propI.get(), propD.get());
+            return MathUtils.constrainDouble(pidResult, minOutput.get(), maxOutput.get());
+        } else {
+            return 0;
+        }
     }
 
     public void reset() {
