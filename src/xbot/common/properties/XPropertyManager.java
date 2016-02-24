@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package xbot.common.properties;
 
 import xbot.common.properties.Property.PropertyPersistenceType;
@@ -22,17 +18,8 @@ public class XPropertyManager {
 
     private static final Logger log = Logger.getLogger(XPropertyManager.class);
 
-    /**
-     *
-     */
     public ArrayList<Property> properties;
-    /**
-     *
-     */
     public PermanentStorage permanentStore;
-    /**
-     *
-     */
     public ITableProxy randomAccessStore;
 
     @Inject
@@ -94,11 +81,11 @@ public class XPropertyManager {
     }
 
     /**
-     * @deprecated You should use createProperty(String key, Boolean defaultValue, PropertyPersistenceType
+     * @deprecated You should use createProperty(String key, boolean defaultValue, PropertyPersistenceType
      *             persistenceType) instead, which includes persistenceType to determine if the property is persistent
      * 
      */
-    public BooleanProperty createProperty(String key, Boolean defaultValue) {
+    public BooleanProperty createProperty(String key, boolean defaultValue) {
         return new BooleanProperty(key, defaultValue, this);
     }
 
@@ -112,11 +99,11 @@ public class XPropertyManager {
     }
 
     /**
-     * @deprecated You should use createProperty(String key, Double defaultValue, PropertyPersistenceType
+     * @deprecated You should use createProperty(String key, double defaultValue, PropertyPersistenceType
      *             persistenceType) instead, which includes persistenceType to determine if the property is persistent
      * 
      */
-    public DoubleProperty createProperty(String key, Double defaultValue) {
+    public DoubleProperty createProperty(String key, double defaultValue) {
         return new DoubleProperty(key, defaultValue, this);
     }
 
@@ -125,7 +112,7 @@ public class XPropertyManager {
      * 
      * @author Marc
      */
-    public BooleanProperty createEphemeralProperty(String key, Boolean defaultValue) {
+    public BooleanProperty createEphemeralProperty(String key, boolean defaultValue) {
         return new BooleanProperty(key, defaultValue, PropertyPersistenceType.Ephemeral, this);
     }
 
@@ -143,7 +130,7 @@ public class XPropertyManager {
      * 
      * @author Marc
      */
-    public DoubleProperty createEphemeralProperty(String key, Double defaultValue) {
+    public DoubleProperty createEphemeralProperty(String key, double defaultValue) {
         return new DoubleProperty(key, defaultValue, PropertyPersistenceType.Ephemeral, this);
     }
 
@@ -152,7 +139,7 @@ public class XPropertyManager {
      * 
      * @author Marc
      */
-    public BooleanProperty createPersistentProperty(String key, Boolean defaultValue) {
+    public BooleanProperty createPersistentProperty(String key, boolean defaultValue) {
         return new BooleanProperty(key, defaultValue, PropertyPersistenceType.Persistent, this);
     }
 
@@ -170,7 +157,7 @@ public class XPropertyManager {
      * 
      * @author Marc
      */
-    public DoubleProperty createPersistentProperty(String key, Double defaultValue) {
+    public DoubleProperty createPersistentProperty(String key, double defaultValue) {
         return new DoubleProperty(key, defaultValue, PropertyPersistenceType.Persistent, this);
     }
 }
