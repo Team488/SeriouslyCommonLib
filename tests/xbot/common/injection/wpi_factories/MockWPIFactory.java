@@ -53,7 +53,7 @@ public class MockWPIFactory implements WPIFactory {
         
         pwms = new int[10];
         analogs = new int[8];
-        dios = new int[10];
+        dios = new int[20];
         solenoids = new int[8];
     }
     
