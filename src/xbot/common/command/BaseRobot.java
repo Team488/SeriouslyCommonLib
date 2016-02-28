@@ -31,6 +31,8 @@ public class BaseRobot extends IterativeRobot {
 
     // Other than initially creating required systems, you should never use the injector again
     protected Injector injector;
+    
+    protected BaseCommand autonomousCommand;
 
     public BaseRobot() {
         super();
@@ -79,6 +81,12 @@ public class BaseRobot extends IterativeRobot {
 
     public void autonomousInit() {
         log.info("Autonomous init");
+        if(this.autonomousCommand != null) {
+            log.info("Starting command: " + this.autonomousCommand);
+            this.autonomousCommand.start();
+        } else {
+            log.warn("No autonomousCommand set.");
+        }
     }
 
     /**
@@ -90,6 +98,10 @@ public class BaseRobot extends IterativeRobot {
 
     public void teleopInit() {
         log.info("Teleop init");
+        if(this.autonomousCommand != null) {
+            log.info("Cancelling autonomousCommand.");
+            this.autonomousCommand.cancel();
+        }
     }
 
     /**
