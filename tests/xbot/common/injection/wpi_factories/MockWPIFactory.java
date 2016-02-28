@@ -46,6 +46,7 @@ public class MockWPIFactory implements WPIFactory {
     int[] analogs;
     int[] dios;
     int[] solenoids;
+    int[] mxpDigital;
 
     @Inject
     public MockWPIFactory(MockRobotIO mockRobotIO) {
@@ -53,12 +54,18 @@ public class MockWPIFactory implements WPIFactory {
         
         pwms = new int[10];
         analogs = new int[8];
-        dios = new int[20];
+        dios = new int[10];
         solenoids = new int[8];
+        mxpDigital = new int[10];
     }
     
     private void checkPwm(int channel) {
-        checkDevice(pwms, channel);;
+        if (channel >= 10) {
+            checkDevice(mxpDigital, channel);
+        }
+        else {
+            checkDevice(pwms, channel);
+        }
     }
     
     private void checkAnalog(int channel) {
@@ -66,7 +73,12 @@ public class MockWPIFactory implements WPIFactory {
     }
     
     private void checkDio(int channel) {
-        checkDevice(dios, channel);
+        if (channel >= 10) {
+            checkDevice(mxpDigital, channel);
+        }
+        else {
+            checkDevice(dios, channel);
+        }
     }
     
     private void checkSolenoid(int channel) {
