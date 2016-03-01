@@ -54,9 +54,9 @@ public class MockWPIFactory implements WPIFactory {
         
         pwms = new int[10];
         analogs = new int[8];
-        dios = new int[20];
+        dios = new int[10];
         solenoids = new int[8];
-        mxpDigital = new int[10];
+        mxpDigital = new int[20];
     }
     
     private void checkPwm(int channel) {
