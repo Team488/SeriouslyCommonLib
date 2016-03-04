@@ -11,6 +11,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,7 +33,7 @@ public class BaseRobot extends IterativeRobot {
     // Other than initially creating required systems, you should never use the injector again
     protected Injector injector;
     
-    protected BaseCommand autonomousCommand;
+    protected Command autonomousCommand;
 
     public BaseRobot() {
         super();
