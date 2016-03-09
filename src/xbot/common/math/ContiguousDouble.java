@@ -164,10 +164,14 @@ public class ContiguousDouble {
      * 
      * @param shiftMagnitude
      *            the amount to add to the current value
+     * 
+     * @return A reference to the current ContiguousDouble, for daisy chaining.
      */
-    public void shiftValue(double shiftMagnitude) {
+    public ContiguousDouble shiftValue(double shiftMagnitude) {
         value += shiftMagnitude;
         reboundValue();
+        
+        return this;
     }
 
     // Getters/Setters ----------------

@@ -1,6 +1,6 @@
 package xbot.common.math;
 
-public class ContiguousHeading extends ContiguousDouble{
+public class ContiguousHeading extends ContiguousDouble {
 
     public ContiguousHeading() {
         super(0, -180, 180);
