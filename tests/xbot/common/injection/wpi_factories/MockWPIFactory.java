@@ -56,7 +56,7 @@ public class MockWPIFactory implements WPIFactory {
         analogs = new int[8];
         dios = new int[10];
         solenoids = new int[8];
-        mxpDigital = new int[20];
+        mxpDigital = new int[24];
     }
     
     private void checkPwm(int channel) {
@@ -74,6 +74,10 @@ public class MockWPIFactory implements WPIFactory {
     
     private void checkDio(int channel) {
         if (channel >= 10) {
+            if(channel > 13 && channel < 18) {
+                throw new RuntimeException("Allocated MXP digital pin that does not exist!");
+            }
+            
             checkDevice(mxpDigital, channel);
         }
         else {
