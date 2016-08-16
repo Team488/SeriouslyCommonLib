@@ -75,7 +75,8 @@ public class MockWPIFactory implements WPIFactory {
     private void checkDio(int channel) {
         if (channel >= 10) {
             if(channel > 13 && channel < 18) {
-                throw new RuntimeException("Allocated MXP digital pin that does not exist!");
+                // Pin info available at http://www.pdocs.kauailabs.com/navx-mxp/installation/io-expansion/
+                throw new RuntimeException("Allocated MXP digital pin that does not exist! Valid I/O expansion pins are 10 through 23.");
             }
             
             checkDevice(mxpDigital, channel);
