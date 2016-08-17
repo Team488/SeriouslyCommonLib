@@ -24,7 +24,7 @@ public class CANTalonWPIAdapter implements XCANTalon {
 
     @Override
     public int getChannel() {
-        return internalTalon.getDeviceID();
+        return this.getDeviceID();
     }
 
     @Override
@@ -309,7 +309,7 @@ public class CANTalonWPIAdapter implements XCANTalon {
     }
 
     @Override
-    public int getAnalogVelocity() {
+    public int getAnalogSpeed() {
         return internalTalon.getAnalogInVelocity();
     }
 
@@ -324,7 +324,7 @@ public class CANTalonWPIAdapter implements XCANTalon {
     }
 
     @Override
-    public int getEncoderVelocity() {
+    public int getEncoderSpeed() {
         return internalTalon.getEncVelocity();
     }
 
@@ -356,11 +356,6 @@ public class CANTalonWPIAdapter implements XCANTalon {
     @Override
     public void setVoltageCompensationRampRate(double rampRate) {
         internalTalon.setVoltageCompensationRampRate(rampRate);
-    }
-
-    @Override
-    public void configMaxOutputVoltage(double voltage) {
-        internalTalon.configMaxOutputVoltage(voltage);
     }
 
     @Override

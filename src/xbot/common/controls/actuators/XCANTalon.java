@@ -81,10 +81,10 @@ public interface XCANTalon extends XSpeedController {
     int getAnalogPosition();
     void setAnalogPosition(int newPosition);
     int getAnalogPositionRaw();
-    int getAnalogVelocity();
+    int getAnalogSpeed();
     int getEncoderPosition();
     void setEncoderPosition(int newPosition);
-    int getEncoderVelocity();
+    int getEncoderSpeed();
     void reverseSensor(boolean flip);
     void enableZeroSensorPositionOnIndex(boolean enable, boolean risingEdge);
     int getNumberOfQuadIndexRises();
@@ -93,7 +93,6 @@ public interface XCANTalon extends XSpeedController {
     boolean getInverted();
     void setInverted(boolean isInverted);
     void setVoltageCompensationRampRate(double rampRate);
-    void configMaxOutputVoltage(double voltage);
     void configNominalOutputVoltage(double forwardVoltage, double reverseVoltage);
     void configPeakOutputVoltage(double forwardVoltage, double reverseVoltage);
     
