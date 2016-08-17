@@ -1,5 +1,6 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import edu.wpi.first.wpilibj.CANSpeedController.ControlMode;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDeviceStatus;
@@ -7,11 +8,18 @@ import edu.wpi.first.wpilibj.CANTalon.StatusFrameRate;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.SpeedController;
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.StringProperty;
+import xbot.common.properties.XPropertyManager;
 
 public class CANTalonWPIAdapter implements XCANTalon {
 
-    // TODO: Rename
     private CANTalon internalTalon;
+    
+    private StringProperty controlModeProperty = null;
+    private DoubleProperty currentProperty = null;
+    private DoubleProperty outVoltageProperty = null;
+    private DoubleProperty temperatureProperty = null;
 
     public CANTalonWPIAdapter(int deviceId) {
         internalTalon = new CANTalon(deviceId);
@@ -443,6 +451,29 @@ public class CANTalonWPIAdapter implements XCANTalon {
     @Override
     public void set(double outputValue) {
         internalTalon.set(outputValue);
+    }
+
+    @Override
+    public void createTelemetryProperties(String deviceName, XPropertyManager propertyManager) {
+        controlModeProperty = propertyManager.createEphemeralProperty(deviceName + " control mode", CANTalon.TalonControlMode.Disabled.name());
+        currentProperty = propertyManager.createEphemeralProperty(deviceName + " current", 0);
+        outVoltageProperty = propertyManager.createEphemeralProperty(deviceName + " voltage", 0);
+        temperatureProperty = propertyManager.createEphemeralProperty(deviceName + " temperature", 0);
+    }
+
+    @Override
+    public void updateTelemetryProperties() {
+        if(controlModeProperty == null
+                || currentProperty == null
+                || outVoltageProperty == null
+                || temperatureProperty == null) {
+            return;
+        }
+        
+        controlModeProperty.set(this.getControlMode().name());
+        currentProperty.set(this.getOutputCurrent());
+        outVoltageProperty.set(this.getOutputVoltage());
+        temperatureProperty.set(this.getTemperature());
     }
 
 }

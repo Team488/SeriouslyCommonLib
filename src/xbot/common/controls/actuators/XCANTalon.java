@@ -1,6 +1,7 @@
 package xbot.common.controls.actuators;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import xbot.common.properties.XPropertyManager;
 
 public interface XCANTalon extends XSpeedController {
     /*
@@ -123,4 +124,8 @@ public interface XCANTalon extends XSpeedController {
      * sensor.
      */
     void set(double outputValue);
+    
+    // Custom helpers -------------------------------------
+    void createTelemetryProperties(String deviceName, XPropertyManager propertyManager);
+    void updateTelemetryProperties();
 }

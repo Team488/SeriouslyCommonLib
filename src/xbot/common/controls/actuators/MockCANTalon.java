@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.CANTalon.StatusFrameRate;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.sensors.MockEncoder;
+import xbot.common.properties.XPropertyManager;
 
 public class MockCANTalon implements XCANTalon {    
     public final int deviceId;
@@ -629,6 +630,16 @@ public class MockCANTalon implements XCANTalon {
         }
         
         mockRobotIO.setPWM(-deviceId, this.getOutputVoltage() / this.getBusVoltage());
+    }
+
+    @Override
+    public void createTelemetryProperties(String deviceName, XPropertyManager propertyManager) {
+        // Intentionally left blank. There is no need for properties in mock mode.
+    }
+
+    @Override
+    public void updateTelemetryProperties() {
+        // Intentionally left blank. There is no need for properties in mock mode.
     }
 
 }

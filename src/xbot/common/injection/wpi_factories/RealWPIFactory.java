@@ -59,15 +59,14 @@ public class RealWPIFactory implements WPIFactory {
     public XSpeedController getSpeedController(int channel) {
         SpeedControllerWPIAdapter controller = new SpeedControllerWPIAdapter(
                 channel);
-        LiveWindow.addActuator("SpeedController", channel,
-                (LiveWindowSendable) controller.getInternalController());
+        LiveWindow.addActuator("SpeedController", channel, (LiveWindowSendable) controller.getInternalController());
         return controller;
     }
 
     @Override
     public XCANTalon getCANTalonSpeedController(int deviceId) {
         CANTalonWPIAdapter controller = new CANTalonWPIAdapter(deviceId);
-        LiveWindow.addActuator("SpeedController", deviceId,
+        LiveWindow.addActuator("CANTalon", deviceId,
                 (LiveWindowSendable) controller.getInternalController());
         return controller;
     }
