@@ -6,6 +6,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import xbot.common.controls.MockRobotIO;
+import xbot.common.controls.actuators.MockCANTalon;
+import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
@@ -43,6 +45,7 @@ public class MockWPIFactory implements WPIFactory {
     MockRobotIO mockRobotIO;
     
     int[] pwms;
+    int[] canTalonIds;
     int[] analogs;
     int[] dios;
     int[] solenoids;
@@ -53,6 +56,7 @@ public class MockWPIFactory implements WPIFactory {
         this.mockRobotIO = mockRobotIO;
         
         pwms = new int[10];
+        canTalonIds = new int[64];
         analogs = new int[8];
         dios = new int[10];
         solenoids = new int[8];
@@ -100,6 +104,11 @@ public class MockWPIFactory implements WPIFactory {
     public XSpeedController getSpeedController(int channel) {
         checkPwm(channel);
         return new MockSpeedController(channel, mockRobotIO);
+    }
+    
+    public XCANTalon getCANTalonSpeedController(int deviceId) {
+        checkDevice(canTalonIds, deviceId);
+        return new MockCANTalon(deviceId, mockRobotIO);
     }
 
     public XJoystick getJoystick(int number) {
