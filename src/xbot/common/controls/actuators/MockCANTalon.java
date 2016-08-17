@@ -1,19 +1,18 @@
-package edu.wpi.first.wpilibj;
+package xbot.common.controls.actuators;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.management.RuntimeErrorException;
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
-
 import org.apache.log4j.Logger;
 
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDeviceStatus;
 import edu.wpi.first.wpilibj.CANTalon.StatusFrameRate;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import xbot.common.controls.MockRobotIO;
-import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.controls.sensors.MockEncoder;
 
 public class MockCANTalon implements XCANTalon {    
     public final int deviceId;
@@ -21,7 +20,6 @@ public class MockCANTalon implements XCANTalon {
     private CANTalon.TalonControlMode lastSetControlMode;
     
     private boolean outputInverted = false;
-    private int encoderCodesPerRevolution = 1;
     
     private double setpoint = 0;
     private double throttlePercent = 0;

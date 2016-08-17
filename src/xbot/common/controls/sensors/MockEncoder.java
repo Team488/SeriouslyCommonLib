@@ -1,4 +1,4 @@
-package edu.wpi.first.wpilibj;
+package xbot.common.controls.sensors;
 
 public class MockEncoder implements xbot.common.controls.sensors.XEncoder {
 
