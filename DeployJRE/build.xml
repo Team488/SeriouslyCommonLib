@@ -17,7 +17,7 @@
 	<delete dir="ejdk1.8.0_06"/>
 	
 	<!-- Extract the JRE -->
-	<untar src="ejdk-8u6-fcs-b23-linux-arm-vfp-sflt-12_jun_2014.gz" dest="." compression="gzip"/>
+	<untar src="ejdk-8u6-fcs-b23-linux-arm-vfp-sflt-12_jun_2014.tar.gz" dest="." compression="gzip"/>
 	
 	<!-- Run JRECreate to make an environment with a compact debugging profile -->
 	<java jar="ejdk1.8.0_06/lib/JRECreate.jar"
