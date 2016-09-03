@@ -51,13 +51,13 @@ public class JoystickButtonManagerTest extends BaseWPITest {
             assertTrue("Button " + x + " should not be null.", null != testButtons.getifAvailable(x));
         }
         for (int x = 1; x <= 12; x++) {
-            testButton(testButtons, x);
+            assertButtonUnavailable(x);
         }
     }
     
-    private void testButton(JoystickButtonManager manager, int i) {
+    private void assertButtonUnavailable(int i) {
         try {
-            manager.getifAvailable(i);
+            testButtons.getifAvailable(i);
             fail();
         } 
         catch (Exception e) {
