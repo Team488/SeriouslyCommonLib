@@ -7,11 +7,13 @@ import org.apache.log4j.Logger;
 import com.google.inject.Inject;
 
 import xbot.common.controls.MockRobotIO;
+import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.actuators.XSpeedController;
+import xbot.common.controls.actuators.wpi_adapters.CANTalonWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.CompressorWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.DigitalOutputWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.ServoWPIAdapter;
@@ -57,11 +59,18 @@ public class RealWPIFactory implements WPIFactory {
     public XSpeedController getSpeedController(int channel) {
         SpeedControllerWPIAdapter controller = new SpeedControllerWPIAdapter(
                 channel);
-        LiveWindow.addActuator("SpeedController", channel,
-                (LiveWindowSendable) controller.getInternalController());
+        LiveWindow.addActuator("SpeedController", channel, (LiveWindowSendable) controller.getInternalController());
         return controller;
     }
 
+    @Override
+    public XCANTalon getCANTalonSpeedController(int deviceId) {
+        CANTalonWPIAdapter controller = new CANTalonWPIAdapter(deviceId);
+        LiveWindow.addActuator("CANTalon", deviceId,
+                (LiveWindowSendable) controller.getInternalController());
+        return controller;
+    }
+    
     public XJoystick getJoystick(int number) {
         return new JoystickWPIAdapter(number);
     }

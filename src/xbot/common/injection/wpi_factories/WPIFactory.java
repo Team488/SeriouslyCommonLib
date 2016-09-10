@@ -3,6 +3,7 @@ package xbot.common.injection.wpi_factories;
 import java.util.function.DoubleFunction;
 
 import edu.wpi.first.wpilibj.I2C.Port;
+import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
@@ -23,6 +24,8 @@ import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 public interface WPIFactory {
 
     public XSpeedController getSpeedController(int channel);
+
+    public XCANTalon getCANTalonSpeedController(int deviceId);
 
     public XJoystick getJoystick(int number);
 

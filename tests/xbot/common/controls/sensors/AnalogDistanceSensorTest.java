@@ -14,21 +14,17 @@ public class AnalogDistanceSensorTest extends BaseWPITest {
 
     AnalogDistanceSensor sensor;
     MockWPIFactory factory;
-    MockRobotIO robotIo;
-    XPropertyManager propMan;
 
     @Before
     public void setup() {
-        robotIo = new MockRobotIO();
-        factory = new MockWPIFactory(robotIo);
-        propMan = injector.getInstance(XPropertyManager.class);
+        factory = new MockWPIFactory(mockRobotIO);
         sensor = new AnalogDistanceSensor(factory.getAnalogInput(0), AnalogDistanceSensor.VoltageMaps::sharp0A51SK,
-                propMan);
+                propertyManager);
     }
 
     @Test
     public void testSensor() {
-        robotIo.setAnalogVoltage(0, 0.6d);
+        mockRobotIO.setAnalogVoltage(0, 0.6d);
         assertEquals(3.93700787d, sensor.getDistance(), 0.2);
     }
 }

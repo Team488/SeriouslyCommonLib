@@ -7,4 +7,5 @@
 <suppressions>
     <suppress files="nav6" checks="[a-zA-Z0-9]*"/>
     <suppress files="navx" checks="[a-zA-Z0-9]*"/>
+    <suppress files="CANTalon" checks="[a-zA-Z0-9]*"/>
 </suppressions>
