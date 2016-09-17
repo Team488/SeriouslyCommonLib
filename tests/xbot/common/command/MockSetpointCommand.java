@@ -16,5 +16,4 @@ public class MockSetpointCommand extends BaseSetpointCommand {
     @Override
     public void execute() {
     }
-
 }

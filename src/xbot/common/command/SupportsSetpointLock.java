@@ -2,7 +2,7 @@ package xbot.common.command;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public interface SupportsSetpoint {
+public interface SupportsSetpointLock {
 
-    public Subsystem getSetpointSystem();
+    public Subsystem getSetpointLock();
 }

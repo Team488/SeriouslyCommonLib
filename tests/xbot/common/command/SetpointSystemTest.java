@@ -9,13 +9,8 @@ import org.junit.Test;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import xbot.common.injection.BaseWPITest;
 
-public class SetpointSystemTest extends BaseWPITest{
+public class SetpointSystemTest extends BaseWPITest {
 
-    @Before
-    public void setUp() {
-        super.setUp();
-    }
-    
     @Test
     public void testSetpointSystemCanBeCreated() {
         MockSetpointCommand first = injector.getInstance(MockSetpointCommand.class);

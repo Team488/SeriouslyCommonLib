@@ -2,7 +2,7 @@ package xbot.common.command;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public abstract class BaseSetpointSubsystem extends BaseSubsystem implements SupportsSetpoint {
+public abstract class BaseSetpointSubsystem extends BaseSubsystem implements SupportsSetpointLock {
 
     private Subsystem setpointLock;
     
@@ -16,7 +16,7 @@ public abstract class BaseSetpointSubsystem extends BaseSubsystem implements Sup
     }
 
     @Override
-    public Subsystem getSetpointSystem() {
+    public Subsystem getSetpointLock() {
        return setpointLock;
     }    
 }

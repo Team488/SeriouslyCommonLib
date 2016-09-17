@@ -1,8 +1,8 @@
 package xbot.common.command;
 
-public abstract class BaseSetpointCommand extends BaseCommand{
+public abstract class BaseSetpointCommand extends BaseCommand {
 
-    public BaseSetpointCommand(SupportsSetpoint system) {
-        requires(system.getSetpointSystem());
+    public BaseSetpointCommand(SupportsSetpointLock system) {
+        requires(system.getSetpointLock());
     }
 }
