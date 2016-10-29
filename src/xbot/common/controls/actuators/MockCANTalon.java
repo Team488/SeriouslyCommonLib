@@ -589,6 +589,14 @@ public class MockCANTalon implements XCANTalon {
                 return 0;
         }
     }
+    
+    /**
+     * Test-only - get the most resent set() value.
+     * @return
+     */
+    public double getSetpoint() {
+        return setpoint;
+    }
 
     @Override
     public void set(double outputValue) {
