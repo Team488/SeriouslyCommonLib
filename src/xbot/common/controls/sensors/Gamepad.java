@@ -7,7 +7,7 @@ import xbot.common.controls.sensors.wpi_adapters.GamepadJoystickWpiAdapter.Gamep
 
 public class Gamepad implements XGamepad {
     
-    GenericHID internalHID;
+    final GenericHID internalHID;
     
     final XJoystick leftStick;
     final XJoystick rightStick;

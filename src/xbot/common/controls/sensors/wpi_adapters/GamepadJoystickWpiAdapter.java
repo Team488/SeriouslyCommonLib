@@ -5,6 +5,15 @@ import xbot.common.logging.LoggingLatch;
 import xbot.common.math.MathUtils;
 import xbot.common.math.XYPair;
 
+/**
+ * XBOX Gamepad axis definition:
+ * LeftX 0, LeftY 1
+ * RightX 4, RightY 5
+ * LeftTrigger 2, Range from 0 -> 1
+ * RightTrigger 3, Range from 0 -> 1
+ * @author John
+ *
+ */
 public class GamepadJoystickWpiAdapter implements xbot.common.controls.sensors.XJoystick {
 
     GenericHID internalSharedHID;
