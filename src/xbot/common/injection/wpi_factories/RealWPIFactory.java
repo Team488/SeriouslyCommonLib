@@ -23,12 +23,14 @@ import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
+import xbot.common.controls.sensors.Gamepad;
 import xbot.common.controls.sensors.Lidar;
 import xbot.common.controls.sensors.MockGyro;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.XGamepad;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
@@ -188,6 +190,11 @@ public class RealWPIFactory implements WPIFactory {
         PowerDistributionPanelWPIAdapter result = new PowerDistributionPanelWPIAdapter();
         LiveWindow.addSensor("PDP Panel", 0, (LiveWindowSendable) result.getInternalDevice());
         return result;
+    }
+
+    @Override
+    public XGamepad getGamepad(int number) {
+        return new Gamepad(number);
     }
 
 }
