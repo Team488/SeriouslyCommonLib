@@ -2,6 +2,7 @@ package xbot.common.controls.sensors.wpi_adapters;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import xbot.common.logging.LoggingLatch;
+import xbot.common.math.MathUtils;
 import xbot.common.math.XYPair;
 
 public class GamepadJoystickWpiAdapter implements xbot.common.controls.sensors.XJoystick {
@@ -18,12 +19,21 @@ public class GamepadJoystickWpiAdapter implements xbot.common.controls.sensors.X
     private LoggingLatch wrongJoystickButtons = 
             new LoggingLatch("Gamepad", "Gamepad buttons are only valid on LeftJoystick");
     
+    private LoggingLatch triggersHaveNoX = 
+            new LoggingLatch("Gamepad", "Triggers do not support an X axis");
+    
     public enum GamepadComponent {
         LeftJoystick,
         RightJoystick,
         LeftTrigger,
         RightTrigger,
+        DPad
     }
+    
+    public static int DPadUp = 0;
+    public static int DPadDown = 1;
+    public static int DPadLeft = 2;
+    public static int DPadRight = 3;
     
     public GamepadJoystickWpiAdapter(GenericHID internalSharedHID, GamepadComponent side) {
         this.internalSharedHID = internalSharedHID;
@@ -44,8 +54,10 @@ public class GamepadJoystickWpiAdapter implements xbot.common.controls.sensors.X
         case RightJoystick:
             axisValue = internalSharedHID.getRawAxis(4);
             break;
+        case DPad:
+            axisValue = translateHatToAxis(simpleAxis.X);
         default:
-            // For triggers, do nothing.
+            triggersHaveNoX.checkValue(true);
         }
         return axisValue * (xInverted? -1:1);
     }
@@ -67,6 +79,8 @@ public class GamepadJoystickWpiAdapter implements xbot.common.controls.sensors.X
         case RightTrigger:
             axisValue = internalSharedHID.getRawAxis(3);
             break;
+        case DPad:
+            axisValue = translateHatToAxis(simpleAxis.Y);
         default:
             unsupportedGamepadComponent.checkValue(true);
         }
@@ -113,10 +127,47 @@ public class GamepadJoystickWpiAdapter implements xbot.common.controls.sensors.X
         switch (side) {
         case LeftJoystick:
             return this.internalSharedHID.getRawButton(button);
+        case DPad:
+            // This gets a little more interesting.
+            if (button == DPadUp) {
+                return translateHatToAxis(simpleAxis.Y) == 1;
+            }
+            if (button == DPadDown) {
+                return translateHatToAxis(simpleAxis.Y) == -1;
+            }
+            if (button == DPadLeft) {
+                return translateHatToAxis(simpleAxis.X) == -1;
+            }
+            if (button == DPadRight) {
+                return translateHatToAxis(simpleAxis.X) == 1;
+            }
         default:
             wrongJoystickButtons.checkValue(true);
             return false;
         }
+    }
+    
+    private enum simpleAxis {
+        X,
+        Y
+    }
+    
+    private double translateHatToAxis(simpleAxis axis) {
+        MathUtils.constrainDoubleToRobotScale((Math.cos(this.internalSharedHID.getPOV() / 180 * Math.PI)*100));
+        double radians = this.internalSharedHID.getPOV() / 180 * Math.PI;
+        double val = 0;
+        switch (axis) {
+        case X:
+            val = Math.cos(radians);
+            break;
+        case Y:
+            val = Math.sin(radians);
+            break;
+        }
+        double extremeXVal = val * 100;
+        double coerced = MathUtils.constrainDoubleToRobotScale(extremeXVal);
+        
+        return coerced;   
     }
 
 }
