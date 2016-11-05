@@ -65,6 +65,7 @@ public class GamepadJoystickWpiAdapter implements xbot.common.controls.sensors.X
             break;
         case DPad:
             axisValue = translateHatToAxis(simpleAxis.X);
+            break;
         default:
             triggersHaveNoX.checkValue(true);
         }
@@ -90,6 +91,7 @@ public class GamepadJoystickWpiAdapter implements xbot.common.controls.sensors.X
             break;
         case DPad:
             axisValue = translateHatToAxis(simpleAxis.Y);
+            break;
         default:
             unsupportedGamepadComponent.checkValue(true);
         }
@@ -150,6 +152,7 @@ public class GamepadJoystickWpiAdapter implements xbot.common.controls.sensors.X
             if (button == DPadRight) {
                 return translateHatToAxis(simpleAxis.X) == 1;
             }
+            return false;
         default:
             wrongJoystickButtons.checkValue(true);
             return false;
@@ -172,6 +175,8 @@ public class GamepadJoystickWpiAdapter implements xbot.common.controls.sensors.X
         case Y:
             val = Math.sin(radians);
             break;
+        default:
+            // Nothing to do here for now
         }
         double extremeXVal = val * 100;
         double coerced = MathUtils.constrainDoubleToRobotScale(extremeXVal);
