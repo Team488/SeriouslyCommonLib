@@ -11,6 +11,7 @@ public class Gamepad implements XGamepad {
     
     final XJoystick leftStick;
     final XJoystick rightStick;
+    final XJoystick dpad;
     final XJoystick leftTrigger;
     final XJoystick rightTrigger;
     
@@ -19,6 +20,7 @@ public class Gamepad implements XGamepad {
         
         leftStick = new GamepadJoystickWpiAdapter(internalHID, GamepadComponent.LeftJoystick);
         rightStick = new GamepadJoystickWpiAdapter(internalHID, GamepadComponent.RightJoystick);
+        dpad = new GamepadJoystickWpiAdapter(internalHID, GamepadComponent.DPad);
         leftTrigger = new GamepadJoystickWpiAdapter(internalHID, GamepadComponent.LeftTrigger);
         rightTrigger = new GamepadJoystickWpiAdapter(internalHID, GamepadComponent.RightTrigger);
     }
@@ -31,6 +33,11 @@ public class Gamepad implements XGamepad {
     @Override
     public XJoystick getRightStick() {
         return rightStick;
+    }
+    
+    @Override
+    public XJoystick getDpad() {
+        return dpad;
     }
 
     @Override
