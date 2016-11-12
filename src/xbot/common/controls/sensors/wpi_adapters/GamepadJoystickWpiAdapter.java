@@ -64,7 +64,7 @@ public class GamepadJoystickWpiAdapter implements xbot.common.controls.sensors.X
             axisValue = internalSharedHID.getRawAxis(4);
             break;
         case DPad:
-            axisValue = translateHatToAxis(simpleAxis.X);
+            axisValue = translateHatToAxis(SimpleAxis.X);
             break;
         default:
             triggersHaveNoX.checkValue(true);
@@ -90,7 +90,7 @@ public class GamepadJoystickWpiAdapter implements xbot.common.controls.sensors.X
             axisValue = internalSharedHID.getRawAxis(3);
             break;
         case DPad:
-            axisValue = translateHatToAxis(simpleAxis.Y);
+            axisValue = translateHatToAxis(SimpleAxis.Y);
             break;
         default:
             unsupportedGamepadComponent.checkValue(true);
@@ -141,16 +141,16 @@ public class GamepadJoystickWpiAdapter implements xbot.common.controls.sensors.X
         case DPad:
             // This gets a little more interesting.
             if (button == DPadUp) {
-                return translateHatToAxis(simpleAxis.Y) == 1;
+                return translateHatToAxis(SimpleAxis.Y) == 1;
             }
             if (button == DPadDown) {
-                return translateHatToAxis(simpleAxis.Y) == -1;
+                return translateHatToAxis(SimpleAxis.Y) == -1;
             }
             if (button == DPadLeft) {
-                return translateHatToAxis(simpleAxis.X) == -1;
+                return translateHatToAxis(SimpleAxis.X) == -1;
             }
             if (button == DPadRight) {
-                return translateHatToAxis(simpleAxis.X) == 1;
+                return translateHatToAxis(SimpleAxis.X) == 1;
             }
             return false;
         default:
@@ -159,12 +159,12 @@ public class GamepadJoystickWpiAdapter implements xbot.common.controls.sensors.X
         }
     }
     
-    private enum simpleAxis {
+    private enum SimpleAxis {
         X,
         Y
     }
     
-    private double translateHatToAxis(simpleAxis axis) {
+    private double translateHatToAxis(SimpleAxis axis) {
         MathUtils.constrainDoubleToRobotScale((Math.cos(this.internalSharedHID.getPOV() / 180 * Math.PI)*100));
         double radians = this.internalSharedHID.getPOV() / 180 * Math.PI;
         double val = 0;
