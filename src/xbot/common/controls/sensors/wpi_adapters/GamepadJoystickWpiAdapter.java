@@ -39,10 +39,10 @@ public class GamepadJoystickWpiAdapter implements xbot.common.controls.sensors.X
         DPad
     }
     
-    public static int DPadUp = 0;
-    public static int DPadDown = 1;
-    public static int DPadLeft = 2;
-    public static int DPadRight = 3;
+    public static int DPadUp = 1;
+    public static int DPadDown = 2;
+    public static int DPadLeft = 3;
+    public static int DPadRight = 4;
     
     public GamepadJoystickWpiAdapter(GenericHID internalSharedHID, GamepadComponent side) {
         this.internalSharedHID = internalSharedHID;
