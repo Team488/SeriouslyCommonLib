@@ -1,11 +1,12 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import com.ctre.CANTalon;
+import com.ctre.CANTalon.FeedbackDevice;
+import com.ctre.CANTalon.FeedbackDeviceStatus;
+import com.ctre.CANTalon.StatusFrameRate;
+import com.ctre.CANTalon.TalonControlMode;
+
 import edu.wpi.first.wpilibj.CANSpeedController.ControlMode;
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
-import edu.wpi.first.wpilibj.CANTalon.FeedbackDeviceStatus;
-import edu.wpi.first.wpilibj.CANTalon.StatusFrameRate;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.SpeedController;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.properties.DoubleProperty;
