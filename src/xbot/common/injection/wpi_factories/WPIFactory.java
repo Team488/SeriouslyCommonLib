@@ -3,6 +3,7 @@ package xbot.common.injection.wpi_factories;
 import java.util.function.DoubleFunction;
 
 import edu.wpi.first.wpilibj.I2C.Port;
+import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
@@ -11,10 +12,12 @@ import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
+import xbot.common.controls.sensors.Gamepad;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.XGamepad;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
@@ -24,7 +27,11 @@ public interface WPIFactory {
 
     public XSpeedController getSpeedController(int channel);
 
+    public XCANTalon getCANTalonSpeedController(int deviceId);
+
     public XJoystick getJoystick(int number);
+    
+    public XGamepad getGamepad(int number);
 
     public XDigitalInput getDigitalInput(int channel);
 

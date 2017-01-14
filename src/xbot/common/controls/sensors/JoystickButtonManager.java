@@ -64,7 +64,6 @@ public class JoystickButtonManager {
     }
     
     private AdvancedJoystickButton handleInvalidButton(String message) {
-        log.error(message);
         assertionManager.throwException(message, new Exception());
         
         MockJoystick mj = new MockJoystick();

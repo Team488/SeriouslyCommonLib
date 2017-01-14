@@ -1,13 +1,17 @@
-package edu.wpi.first.wpilibj;
+package xbot.common.controls.sensors;
 
 public class MockEncoder implements xbot.common.controls.sensors.XEncoder {
 
     private double distance;
     private double rate;
-    private double distancePerPulse;
+    private double distancePerPulse = 1;
 
     public MockEncoder(int aChannel, int bChannel) {
-        distancePerPulse = 1;
+        
+    }
+    
+    public MockEncoder() {
+        
     }
 
     public void setDistance(double distance) {

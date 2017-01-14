@@ -7,11 +7,13 @@ import org.apache.log4j.Logger;
 import com.google.inject.Inject;
 
 import xbot.common.controls.MockRobotIO;
+import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.actuators.XSpeedController;
+import xbot.common.controls.actuators.wpi_adapters.CANTalonWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.CompressorWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.DigitalOutputWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.ServoWPIAdapter;
@@ -21,12 +23,14 @@ import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
+import xbot.common.controls.sensors.Gamepad;
 import xbot.common.controls.sensors.Lidar;
 import xbot.common.controls.sensors.MockGyro;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.XGamepad;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
@@ -57,11 +61,18 @@ public class RealWPIFactory implements WPIFactory {
     public XSpeedController getSpeedController(int channel) {
         SpeedControllerWPIAdapter controller = new SpeedControllerWPIAdapter(
                 channel);
-        LiveWindow.addActuator("SpeedController", channel,
-                (LiveWindowSendable) controller.getInternalController());
+        LiveWindow.addActuator("SpeedController", channel, (LiveWindowSendable) controller.getInternalController());
         return controller;
     }
 
+    @Override
+    public XCANTalon getCANTalonSpeedController(int deviceId) {
+        CANTalonWPIAdapter controller = new CANTalonWPIAdapter(deviceId);
+        LiveWindow.addActuator("CANTalon", deviceId,
+                (LiveWindowSendable) controller.getInternalController());
+        return controller;
+    }
+    
     public XJoystick getJoystick(int number) {
         return new JoystickWPIAdapter(number);
     }
@@ -179,6 +190,11 @@ public class RealWPIFactory implements WPIFactory {
         PowerDistributionPanelWPIAdapter result = new PowerDistributionPanelWPIAdapter();
         LiveWindow.addSensor("PDP Panel", 0, (LiveWindowSendable) result.getInternalDevice());
         return result;
+    }
+
+    @Override
+    public XGamepad getGamepad(int number) {
+        return new Gamepad(number);
     }
 
 }

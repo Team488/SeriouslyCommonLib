@@ -6,6 +6,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import xbot.common.controls.MockRobotIO;
+import xbot.common.controls.actuators.MockCANTalon;
+import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
@@ -14,11 +16,15 @@ import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
+import xbot.common.controls.sensors.Gamepad;
+import xbot.common.controls.sensors.MockEncoder;
+import xbot.common.controls.sensors.MockGamepad;
 import xbot.common.controls.sensors.MockGyro;
 import xbot.common.controls.sensors.MockJoystick;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.XGamepad;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
@@ -31,7 +37,6 @@ import edu.wpi.first.wpilibj.MockCompressor;
 import edu.wpi.first.wpilibj.MockDigitalInput;
 import edu.wpi.first.wpilibj.MockDigitalOutput;
 import edu.wpi.first.wpilibj.MockDistanceSensor;
-import edu.wpi.first.wpilibj.MockEncoder;
 import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
 import edu.wpi.first.wpilibj.MockServo;
 import edu.wpi.first.wpilibj.MockSolenoid;
@@ -43,6 +48,7 @@ public class MockWPIFactory implements WPIFactory {
     MockRobotIO mockRobotIO;
     
     int[] pwms;
+    int[] canTalonIds;
     int[] analogs;
     int[] dios;
     int[] solenoids;
@@ -53,6 +59,7 @@ public class MockWPIFactory implements WPIFactory {
         this.mockRobotIO = mockRobotIO;
         
         pwms = new int[10];
+        canTalonIds = new int[64];
         analogs = new int[8];
         dios = new int[10];
         solenoids = new int[8];
@@ -100,6 +107,11 @@ public class MockWPIFactory implements WPIFactory {
     public XSpeedController getSpeedController(int channel) {
         checkPwm(channel);
         return new MockSpeedController(channel, mockRobotIO);
+    }
+    
+    public XCANTalon getCANTalonSpeedController(int deviceId) {
+        checkDevice(canTalonIds, deviceId);
+        return new MockCANTalon(deviceId, mockRobotIO);
     }
 
     public XJoystick getJoystick(int number) {
@@ -184,6 +196,11 @@ public class MockWPIFactory implements WPIFactory {
     @Override
     public XPowerDistributionPanel getPDP() {
         return new MockPowerDistributionPanel();
+    }
+
+    @Override
+    public XGamepad getGamepad(int number) {
+        return new MockGamepad();
     }
 
 }
