@@ -85,9 +85,9 @@
      destdir="${build.dir}"
      includeAntRuntime="no"
      includeJavaRuntime="no"
-     classpathref="classpath.path"
-     target="${ant.java.version}"
-     source="${ant.java.version}"
+     classpath="${classpath}:${userLibs}"
+     target="8"
+     source="8"
      compiler="javac${ant.java.version}"
      debug="true">
     </javac>
