@@ -1,0 +1,2 @@
+OUTPUT_FORMAT(elf32-littlearm)
+GROUP ( libopencv_highgui.so.3 )
