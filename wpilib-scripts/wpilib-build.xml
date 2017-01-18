@@ -69,17 +69,8 @@
 
   <target name="compile" description="Compile the source code.">
     <mkdir dir="${build.dir}"/>
-	<path id="classpath.path">
-		<fileset dir="${userLibs.dir}" includes="*.jar"/>
-		<fileset file="${wpilib.jar}"/>
-		<fileset file="${networktables.jar}"/>
-		<fileset file="${opencv.jar}"/>
-		<fileset file="${cscore.jar}"/>
-		<fileset dir="${userLibs}" erroronmissingdir="false"/>
-	</path>
-
-    <pathconvert property="classpathProp" refid="classpath.path"/>
-    <echo>[athena-compile] Compiling ${src.dir} with classpath=${classpathProp} to ${build.dir}</echo>
+	
+    <echo>[athena-compile] Compiling ${src.dir} with classpath=${classpath} to ${build.dir}</echo>
 
     <javac srcdir="${src.dir}"
      destdir="${build.dir}"
