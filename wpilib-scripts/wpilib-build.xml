@@ -100,7 +100,9 @@
 
   <echo>[athena-jar] Copying jars to ${build.jars}.</echo>
   <copy todir="${build.jars}" flatten="true">
-    <path refid="classpath.path"/>
+  	<path>
+  	    <pathelement path="${classpath}"/>
+    </path>
   </copy>
 
     <jar destfile="${dist.jar}" update="false">
