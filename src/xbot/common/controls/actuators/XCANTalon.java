@@ -1,6 +1,7 @@
 package xbot.common.controls.actuators;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.CANTalon;
+
 import xbot.common.properties.XPropertyManager;
 
 public interface XCANTalon extends XSpeedController {

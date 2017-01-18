@@ -23,3 +23,7 @@ dist/
 derby.log
 /TeamDatabase
 /488Logs
+
+# dynamically generated properties files
+netconsole-host.properties
+WPI_Native_Libraries.properties

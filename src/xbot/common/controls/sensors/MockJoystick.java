@@ -17,6 +17,7 @@ public class MockJoystick extends GenericHID implements XJoystick {
     Map<Integer, Double> rawAxis = new HashMap<Integer, Double>();
 
     public MockJoystick() {
+        super(0);
         for(int i = 0; i < 6; i++)
         {
             rawAxis.put(i, 0d);
@@ -110,42 +111,40 @@ public class MockJoystick extends GenericHID implements XJoystick {
     }
 
     @Override
-    @Deprecated
-    public double getZ(Hand hand) {
-        throw new RuntimeException("Not yet implemented");
-    }
-
-    @Override
-    @Deprecated
-    public double getTwist() {
-        throw new RuntimeException("Not yet implemented");
-    }
-
-    @Override
-    @Deprecated
-    public double getThrottle() {
-        throw new RuntimeException("Not yet implemented");
-    }
-
-    @Override
     public double getRawAxis(int which) {
         return rawAxis.get(which);
     }
 
     @Override
-    public boolean getTrigger(Hand hand) {
+    public int getPOVCount() {
         throw new RuntimeException("Not yet implemented");
     }
 
     @Override
-    @Deprecated
-    public boolean getTop(Hand hand) {
+    public HIDType getType() {
         throw new RuntimeException("Not yet implemented");
     }
 
     @Override
-    @Deprecated
-    public boolean getBumper(Hand hand) {
+    public String getName() {
         throw new RuntimeException("Not yet implemented");
+    }
+
+    @Override
+    public void setOutput(int outputNumber, boolean value) {
+        throw new RuntimeException("Not yet implemented");
+        
+    }
+
+    @Override
+    public void setOutputs(int value) {
+        throw new RuntimeException("Not yet implemented");
+        
+    }
+
+    @Override
+    public void setRumble(RumbleType type, double value) {
+        throw new RuntimeException("Not yet implemented");
+        
     }
 }
