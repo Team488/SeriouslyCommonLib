@@ -477,4 +477,11 @@ public class CANTalonWPIAdapter implements XCANTalon {
         temperatureProperty.set(this.getTemperature());
     }
 
+    @Override
+    public void ensureModeForTalon(TalonControlMode mode) {
+        if (this.getControlMode() != mode) {
+            this.setControlMode(mode);
+        }
+    }
+
 }

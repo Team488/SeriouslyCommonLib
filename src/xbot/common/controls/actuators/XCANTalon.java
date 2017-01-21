@@ -1,6 +1,7 @@
 package xbot.common.controls.actuators;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.TalonControlMode;
 
 import xbot.common.properties.XPropertyManager;
 
@@ -129,4 +130,5 @@ public interface XCANTalon extends XSpeedController {
     // Custom helpers -------------------------------------
     void createTelemetryProperties(String deviceName, XPropertyManager propertyManager);
     void updateTelemetryProperties();
+    void ensureModeForTalon(TalonControlMode mode);
 }

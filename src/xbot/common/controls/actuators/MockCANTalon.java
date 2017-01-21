@@ -651,4 +651,10 @@ public class MockCANTalon implements XCANTalon {
         // Intentionally left blank. There is no need for properties in mock mode.
     }
 
+    @Override
+    public void ensureModeForTalon(TalonControlMode mode) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
