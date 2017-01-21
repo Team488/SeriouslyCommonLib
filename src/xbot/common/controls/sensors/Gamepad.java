@@ -1,52 +1,109 @@
 package xbot.common.controls.sensors;
 
+import edu.wpi.first.wpilibj.GamepadBase;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import xbot.common.controls.sensors.wpi_adapters.GamepadJoystickWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.GamepadJoystickWpiAdapter.GamepadComponent;
+import xbot.common.math.XYPair;
 
 public class Gamepad implements XGamepad {
     
-    final GenericHID internalHID;
-    
-    final XJoystick leftStick;
-    final XJoystick rightStick;
-    final XJoystick dpad;
-    final XJoystick leftTrigger;
-    final XJoystick rightTrigger;
+    final XboxController internalGamepad;
     
     public Gamepad(int port) {
-        internalHID = new Joystick(port);
         
-        leftStick = new GamepadJoystickWpiAdapter(internalHID, GamepadComponent.LeftJoystick);
-        rightStick = new GamepadJoystickWpiAdapter(internalHID, GamepadComponent.RightJoystick);
-        dpad = new GamepadJoystickWpiAdapter(internalHID, GamepadComponent.DPad);
-        leftTrigger = new GamepadJoystickWpiAdapter(internalHID, GamepadComponent.LeftTrigger);
-        rightTrigger = new GamepadJoystickWpiAdapter(internalHID, GamepadComponent.RightTrigger);
+        internalGamepad = new XboxController(port);
     }
 
     @Override
-    public XJoystick getLeftStick() {
-        return leftStick;
-    }
-
-    @Override
-    public XJoystick getRightStick() {
-        return rightStick;
+    //double
+    //Joysticks
+   public double getXStickLeft(){
+       
+       return internalGamepad.getX(Hand.kLeft);
+   }
+    
+    public double getXStickRight(){
+        
+        return internalGamepad.getX(Hand.kRight);
     }
     
-    @Override
-    public XJoystick getDpad() {
-        return dpad;
-    }
-
-    @Override
-    public XJoystick getLeftTrigger() {
-        return leftTrigger;
-    }
-
-    @Override
-    public XJoystick getRightTrigger() {
-        return rightTrigger;
-    }
+   public double getYStickLeft(){
+       
+       return internalGamepad.getY(Hand.kLeft);
+   }
+   
+   public double getYStickRight(){
+       
+       return internalGamepad.getY(Hand.kRight);
+   }
+   
+   //Triggers
+   public double getLeftTriggerAxis(){
+       
+       return internalGamepad.getTriggerAxis(Hand.kLeft);
+   }
+   
+   public double getRightTriggerAxis(){
+       
+       return internalGamepad.getTriggerAxis(Hand.kRight);
+   }
+   
+   //boolean
+   //Bumpers
+   public boolean getLeftBumper() {
+       
+       return internalGamepad.getBumper(Hand.kLeft);
+   }
+   
+  public boolean getRightBumper() {
+       
+       return internalGamepad.getBumper(Hand.kRight);
+  }
+  
+  //Buttons
+  public boolean getAButton(){
+      
+      return internalGamepad.getAButton();
+  }
+  
+  public boolean getBButton(){
+      
+      return internalGamepad.getBButton();
+  }
+  
+  public boolean getXButton(){
+      
+      return internalGamepad.getXButton();
+  }
+  
+  public boolean getYButton(){
+      
+      return internalGamepad.getYButton();
+  }
+  
+  public boolean getBackButton(){
+      
+      return internalGamepad.getBackButton();
+  }
+  
+  public boolean getStartButton(){
+      return internalGamepad.getStartButton();
+  }
+  
+  //Sticks
+  public boolean getLeftStickButton(){
+      
+      return internalGamepad.getStickButton(Hand.kLeft);
+  }
+  
+  public boolean getRightStickButton(){
+      
+      return internalGamepad.getStickButton(Hand.kRight);
+  }
+  
+  
 }
