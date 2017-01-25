@@ -1,25 +1,26 @@
 package xbot.common.controls.sensors;
 
+import xbot.common.math.XYPair;
 
 public interface XGamepad {
 
-    //double
-    //Joysticks
-    double getXStickLeft();
-    double getXStickRight();
-    double getYStickLeft();
-    double getYStickRight();
+    //Joysticks----------------------------------------------------------------------------------------------
+    double getLeftStickX();
+    double getRightStickX();
+    double getLeftStickY();
+    double getRightStickY();
+    XYPair getLeftStick();
+    XYPair getRightStick();
     
-    //Triggers
+    //Triggers-----------------------------------------------------------------------------------------------
     double getLeftTriggerAxis();
     double getRightTriggerAxis();
     
-    //boolean
-    //Bumpers
+    //Bumpers------------------------------------------------------------------------------------------------
     boolean getLeftBumper();
     boolean getRightBumper();
     
-    //Buttons
+    //Buttons------------------------------------------------------------------------------------------------
     boolean getAButton();
     boolean getBButton();
     boolean getXButton();
@@ -27,7 +28,7 @@ public interface XGamepad {
     boolean getBackButton();
     boolean getStartButton();
     
-    //Sticks
+    //Sticks-------------------------------------------------------------------------------------------------
     boolean getLeftStickButton();
     boolean getRightStickButton();
 }

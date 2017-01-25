@@ -19,29 +19,28 @@ public class Gamepad implements XGamepad {
     }
 
     @Override
-    //double
-    //Joysticks
-   public double getXStickLeft(){
+    //Joysticks---------------------------------------------------------------------------------------------
+   public double getLeftStickX(){
        
        return internalGamepad.getX(Hand.kLeft);
    }
     
-    public double getXStickRight(){
+    public double getRightStickX(){
         
         return internalGamepad.getX(Hand.kRight);
     }
     
-   public double getYStickLeft(){
+   public double getLeftStickY(){
        
        return internalGamepad.getY(Hand.kLeft);
    }
    
-   public double getYStickRight(){
+   public double getRightStickY(){
        
        return internalGamepad.getY(Hand.kRight);
    }
    
-   //Triggers
+   //Triggers-----------------------------------------------------------------------------------------------
    public double getLeftTriggerAxis(){
        
        return internalGamepad.getTriggerAxis(Hand.kLeft);
@@ -51,9 +50,8 @@ public class Gamepad implements XGamepad {
        
        return internalGamepad.getTriggerAxis(Hand.kRight);
    }
-   
-   //boolean
-   //Bumpers
+
+   //Bumpers------------------------------------------------------------------------------------------------
    public boolean getLeftBumper() {
        
        return internalGamepad.getBumper(Hand.kLeft);
@@ -64,7 +62,7 @@ public class Gamepad implements XGamepad {
        return internalGamepad.getBumper(Hand.kRight);
   }
   
-  //Buttons
+  //Buttons-------------------------------------------------------------------------------------------------
   public boolean getAButton(){
       
       return internalGamepad.getAButton();
@@ -91,10 +89,11 @@ public class Gamepad implements XGamepad {
   }
   
   public boolean getStartButton(){
+      
       return internalGamepad.getStartButton();
   }
   
-  //Sticks
+  //Sticks---------------------------------------------------------------------------------------------------
   public boolean getLeftStickButton(){
       
       return internalGamepad.getStickButton(Hand.kLeft);
@@ -104,6 +103,16 @@ public class Gamepad implements XGamepad {
       
       return internalGamepad.getStickButton(Hand.kRight);
   }
-  
-  
+
+@Override
+public XYPair getLeftStick() {
+    // TODO Auto-generated method stub
+    return null;
+}
+
+@Override
+public XYPair getRightStick() {
+    // TODO Auto-generated method stub
+    return null;
+}
 }

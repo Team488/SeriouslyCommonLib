@@ -34,11 +34,7 @@ public class MockGamepad implements XGamepad {
     public void setRightTrigger(double x){
         rightTriggerAxis = x;
     }
-    
-    /**
-     * Sets the bumper state. True means pressed/on. False means not pressed/off.
-     * @param b
-     */
+
     public void setLeftBumper(boolean pressed){
         leftBumper = pressed;
     }
@@ -79,23 +75,31 @@ public class MockGamepad implements XGamepad {
         rightStickButton = pressed;
     }
     
+    public XYPair getLeftStick(double x, double y){
+        return leftJoystickAxis = new XYPair(x, y);
+    }
+    
+    public XYPair getRightStick(double x, double y){
+        return rightJoystickAxis = new XYPair(x, y);
+    }
+    
     @Override
-    public double getXStickLeft() {
+    public double getLeftStickX() {
         return leftJoystickAxis.x;
     }
     
     @Override
-    public double getXStickRight() {
+    public double getRightStickX() {
         return rightJoystickAxis.x;
     }
 
     @Override
-    public double getYStickLeft() {
+    public double getLeftStickY() {
         return leftJoystickAxis.y;
     }
 
     @Override
-    public double getYStickRight() {
+    public double getRightStickY() {
         return rightJoystickAxis.y;
     }
 
@@ -159,6 +163,15 @@ public class MockGamepad implements XGamepad {
         return rightStickButton;
     }
 
+    @Override
+    public XYPair getLeftStick() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-
+    @Override
+    public XYPair getRightStick() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
