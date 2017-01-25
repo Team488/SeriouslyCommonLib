@@ -27,11 +27,11 @@ public class MockGamepad implements XGamepad {
         rightJoystickAxis = new XYPair(x, y);
     }
     
-    public void setLeftTrigger(double x){
+    public void setLeftTriggerPressed(double x){
         leftTriggerAxis = x;
     }
     
-    public void setRightTrigger(double x){
+    public void setRightTriggerPressed(double x){
         rightTriggerAxis = x;
     }
 
