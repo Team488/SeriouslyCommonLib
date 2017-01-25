@@ -653,8 +653,7 @@ public class MockCANTalon implements XCANTalon {
 
     @Override
     public void ensureModeForTalon(TalonControlMode mode) {
-        // TODO Auto-generated method stub
-        
+        this.setControlMode(mode);
     }
 
 }
