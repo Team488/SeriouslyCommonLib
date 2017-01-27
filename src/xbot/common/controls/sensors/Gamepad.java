@@ -104,15 +104,11 @@ public class Gamepad implements XGamepad {
       return internalGamepad.getStickButton(Hand.kRight);
   }
 
-@Override
-public XYPair getLeftStick() {
-    // TODO Auto-generated method stub
-    return null;
-}
+  public XYPair getLeftStick(){
+      return new XYPair(getRightStickX(), getLeftStickX());
+  }
 
-@Override
-public XYPair getRightStick() {
-    // TODO Auto-generated method stub
-    return null;
-}
+  public XYPair getRightStick(){
+      return new XYPair(getRightStickY(), getLeftStickY());
+  }
 }

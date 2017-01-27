@@ -27,11 +27,11 @@ public class MockGamepad implements XGamepad {
         rightJoystickAxis = new XYPair(x, y);
     }
     
-    public void setLeftTriggerPressed(double x){
+    public void setLeftTriggerValue(double x){
         leftTriggerAxis = x;
     }
     
-    public void setRightTriggerPressed(double x){
+    public void setRightTriggerValue(double x){
         rightTriggerAxis = x;
     }
 
@@ -75,85 +75,78 @@ public class MockGamepad implements XGamepad {
         rightStickButton = pressed;
     }
     
-    public XYPair getLeftStick(double x, double y){
-        return leftJoystickAxis = new XYPair(x, y);
+    public XYPair getLeftStick(){
+        return leftJoystickAxis;
     }
     
-    public XYPair getRightStick(double x, double y){
-        return rightJoystickAxis = new XYPair(x, y);
+    public XYPair getRightStick(){
+        return rightJoystickAxis;
     }
     
-    @Override
+  
     public double getLeftStickX() {
         return leftJoystickAxis.x;
     }
     
-    @Override
+  
     public double getRightStickX() {
         return rightJoystickAxis.x;
     }
 
-    @Override
+  
     public double getLeftStickY() {
         return leftJoystickAxis.y;
     }
 
-    @Override
+  
     public double getRightStickY() {
         return rightJoystickAxis.y;
     }
 
-    @Override
+  
     public double getLeftTriggerAxis() {
         return leftTriggerAxis;
     }
 
-    @Override
+  
     public double getRightTriggerAxis() {
         return rightTriggerAxis;
     }
 
-    @Override
+  
     public boolean getLeftBumper() {
         return leftBumper;
     }
 
-    @Override
+  
     public boolean getRightBumper() {
         return rightBumper;
     }
-
-    @Override
+ 
     public boolean getAButton() {
         return AButton;
     }
 
-    @Override
     public boolean getBButton() {
         return BButton;
     }
 
-    @Override
     public boolean getXButton() {
         return XButton;
     }
-
-    @Override
+  
     public boolean getYButton() {
         return YButton;
     }
-
-    @Override
+ 
     public boolean getBackButton() {
         return backButton;
     }
-
-    @Override
+ 
     public boolean getStartButton() {
         return startButton;
     }
 
-    @Override
     public boolean getLeftStickButton() {
        return leftStickButton;
     }
@@ -161,17 +154,5 @@ public class MockGamepad implements XGamepad {
     @Override
     public boolean getRightStickButton() {
         return rightStickButton;
-    }
-
-    @Override
-    public XYPair getLeftStick() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public XYPair getRightStick() {
-        // TODO Auto-generated method stub
-        return null;
     }
 }
