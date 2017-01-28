@@ -1,23 +1,24 @@
 package xbot.common.controls.sensors;
 
+import xbot.common.controls.sensors.XboxControllerWpiAdapter.XboxButtons;
 import xbot.common.math.XYPair;
 
-public class MockGamepad implements XGamepad {
+public class MockGamepad implements XXboxController {
 
     XYPair leftJoystickAxis;
     XYPair rightJoystickAxis;
     double leftTriggerAxis;
     double rightTriggerAxis;
-    boolean leftBumper;
-    boolean rightBumper;
-    boolean AButton;
-    boolean BButton;
-    boolean XButton;
-    boolean YButton;
-    boolean backButton;
-    boolean startButton;
-    boolean leftStickButton;
-    boolean rightStickButton;
+    
+    boolean[] buttonValues = new boolean[10];
+    
+    public void setButton(XboxButtons buttonName, boolean pressed) {
+        buttonValues[buttonName.getValue()-1] = pressed;
+    }
+    
+    public boolean getButton(XboxButtons buttonName) {
+        return buttonValues[buttonName.getValue()-1];
+    }
     
     public void setLeftStick(double x, double y){
         leftJoystickAxis = new XYPair(x, y);
@@ -27,132 +28,73 @@ public class MockGamepad implements XGamepad {
         rightJoystickAxis = new XYPair(x, y);
     }
     
-    public void setLeftTriggerValue(double x){
+    public void setLeftTriggerPressed(double x){
         leftTriggerAxis = x;
     }
     
-    public void setRightTriggerValue(double x){
+    public void setRightTriggerPressed(double x){
         rightTriggerAxis = x;
     }
-
-    public void setLeftBumper(boolean pressed){
-        leftBumper = pressed;
+    
+    public XYPair getLeftStick(double x, double y){
+        return leftJoystickAxis = new XYPair(x, y);
     }
     
-    public void setRightBumper(boolean pressed){
-        rightBumper = pressed;
+    public XYPair getRightStick(double x, double y){
+        return rightJoystickAxis = new XYPair(x, y);
     }
     
-    public void setAButton(boolean pressed){
-        AButton = pressed;
-    }
-    
-    public void setBButton(boolean pressed){
-        BButton = pressed;
-    }
-    
-    public void setXButton(boolean pressed){
-        XButton = pressed;
-    }
-    
-    public void setYButton(boolean pressed){
-        YButton = pressed;
-    }
-    
-    public void setBackButton(boolean pressed){
-        backButton = pressed;
-    }
-    
-    public void setStartButton(boolean pressed){
-        startButton = pressed;
-    }
-    
-    public void setLeftStickButton(boolean pressed){
-        leftStickButton = pressed;
-    }
-    
-    public void setRightStickButton(boolean pressed){
-        rightStickButton = pressed;
-    }
-    
-    public XYPair getLeftStick(){
-        return leftJoystickAxis;
-    }
-    
-    public XYPair getRightStick(){
-        return rightJoystickAxis;
-    }
-    
-  
+    @Override
     public double getLeftStickX() {
         return leftJoystickAxis.x;
     }
     
-  
+    @Override
     public double getRightStickX() {
         return rightJoystickAxis.x;
     }
 
-  
+    @Override
     public double getLeftStickY() {
         return leftJoystickAxis.y;
     }
 
-  
+    @Override
     public double getRightStickY() {
         return rightJoystickAxis.y;
     }
 
-  
+    @Override
     public double getLeftTriggerAxis() {
         return leftTriggerAxis;
     }
 
-  
+    @Override
     public double getRightTriggerAxis() {
         return rightTriggerAxis;
     }
 
-  
-    public boolean getLeftBumper() {
-        return leftBumper;
-    }
-
-  
-    public boolean getRightBumper() {
-        return rightBumper;
-    }
- 
-    public boolean getAButton() {
-        return AButton;
-    }
-
-    public boolean getBButton() {
-        return BButton;
-    }
-
-    public boolean getXButton() {
-        return XButton;
-    }
-  
-    public boolean getYButton() {
-        return YButton;
-    }
- 
-    public boolean getBackButton() {
-        return backButton;
-    }
- 
-    public boolean getStartButton() {
-        return startButton;
-    }
-
-    public boolean getLeftStickButton() {
-       return leftStickButton;
+    @Override
+    public XYPair getLeftStick() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override
-    public boolean getRightStickButton() {
-        return rightStickButton;
+    public XYPair getRightStick() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public AdvancedXboxButton getXboxButton(XboxButtons buttonName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean getRawXboxButton(int index) {
+        // TODO Auto-generated method stub
+        return false;
     }
 }
