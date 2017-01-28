@@ -651,6 +651,14 @@ public class MockCANTalon implements XCANTalon {
         // Intentionally left blank. There is no need for properties in mock mode.
     }
 
+    /**
+     * When working with the real implementation of the talon, we want to minimize
+     * setControlMode calls, as these appear to send a message across the CAN bus, and
+     * the bus has a finite bandwidth.
+     * 
+     * However, the Mock implementation has no such restrictions (it's all in-memory faked
+     * stuff), so we can just call set every tick.
+     */
     @Override
     public void ensureTalonControlMode(TalonControlMode mode) {
         this.setControlMode(mode);
