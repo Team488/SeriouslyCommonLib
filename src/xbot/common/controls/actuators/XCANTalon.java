@@ -130,5 +130,5 @@ public interface XCANTalon extends XSpeedController {
     // Custom helpers -------------------------------------
     void createTelemetryProperties(String deviceName, XPropertyManager propertyManager);
     void updateTelemetryProperties();
-    void ensureModeForTalon(TalonControlMode mode);
+    void ensureTalonControlMode(TalonControlMode mode);
 }

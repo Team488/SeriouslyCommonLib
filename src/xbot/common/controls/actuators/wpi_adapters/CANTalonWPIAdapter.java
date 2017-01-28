@@ -478,7 +478,7 @@ public class CANTalonWPIAdapter implements XCANTalon {
     }
 
     @Override
-    public void ensureModeForTalon(TalonControlMode mode) {
+    public void ensureTalonControlMode(TalonControlMode mode) {
         if (this.getControlMode() != mode) {
             this.setControlMode(mode);
         }

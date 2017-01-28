@@ -652,7 +652,7 @@ public class MockCANTalon implements XCANTalon {
     }
 
     @Override
-    public void ensureModeForTalon(TalonControlMode mode) {
+    public void ensureTalonControlMode(TalonControlMode mode) {
         this.setControlMode(mode);
     }
 
