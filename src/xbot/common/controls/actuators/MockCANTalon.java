@@ -383,7 +383,7 @@ public class MockCANTalon implements XCANTalon {
             return 0;
         }
         
-        return this.getEncoderPosition();
+        return internalEncoder.getDistance();
     }
 
     @Override
