@@ -477,4 +477,18 @@ public class CANTalonWPIAdapter implements XCANTalon {
         temperatureProperty.set(this.getTemperature());
     }
 
+    /**
+     * When working with the real implementation of the talon, we want to minimize
+     * setControlMode calls, as these appear to send a message across the CAN bus, and
+     * the bus has a finite bandwidth. However, the call to getControlMode appears to read
+     * from local in-memory information about the Talon, and thus is much cheaper to call
+     * repeatedly.
+     */
+    @Override
+    public void ensureTalonControlMode(TalonControlMode mode) {
+        if (this.getControlMode() != mode) {
+            this.setControlMode(mode);
+        }
+    }
+
 }
