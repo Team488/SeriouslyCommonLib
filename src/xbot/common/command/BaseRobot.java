@@ -1,5 +1,7 @@
 package xbot.common.command;
 
+import java.util.ArrayList;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
@@ -34,6 +36,8 @@ public class BaseRobot extends IterativeRobot {
     protected Injector injector;
     
     protected Command autonomousCommand;
+    
+    protected ArrayList<TelemetrySource> telemetrySources = new ArrayList<TelemetrySource>();
 
     public BaseRobot() {
         super();
@@ -77,7 +81,7 @@ public class BaseRobot extends IterativeRobot {
     }
 
     public void disabledPeriodic() {
-        xScheduler.run();
+        this.sharedPeriodic();
     }
 
     public void autonomousInit() {
@@ -94,7 +98,7 @@ public class BaseRobot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-        xScheduler.run();
+        this.sharedPeriodic();
     }
 
     public void teleopInit() {
@@ -109,7 +113,7 @@ public class BaseRobot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        xScheduler.run();
+        this.sharedPeriodic();
     }
 
     /**
@@ -117,5 +121,20 @@ public class BaseRobot extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
+    }
+    
+    protected void sharedPeriodic() {
+        xScheduler.run();
+        this.updateTelemetrySources();
+    }
+    
+    protected void registerTelemetrySource(TelemetrySource telemetrySource) {
+        this.telemetrySources.add(telemetrySource);
+    }
+    
+    protected void updateTelemetrySources() {
+        for (TelemetrySource telemetrySource: this.telemetrySources) {
+            telemetrySource.updateTelemetry();
+        }
     }
 }
