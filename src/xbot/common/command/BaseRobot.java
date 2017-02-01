@@ -1,6 +1,6 @@
 package xbot.common.command;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -37,7 +37,7 @@ public class BaseRobot extends IterativeRobot {
     
     protected Command autonomousCommand;
     
-    protected Vector<BaseSubsystem> telemetryUpdatingSubsystems = new Vector<BaseSubsystem>();
+    protected ArrayList<TelemetrySource> telemetrySources = new ArrayList<TelemetrySource>();
 
     public BaseRobot() {
         super();
@@ -123,18 +123,18 @@ public class BaseRobot extends IterativeRobot {
         LiveWindow.run();
     }
     
-    protected void sharedPeriodic(){
+    protected void sharedPeriodic() {
         xScheduler.run();
-        this.updateTelemetrySubsystems();
+        this.updateTelemetrySources();
     }
     
-    protected void registerTelemetrySubsystem(BaseSubsystem subsystem) {
-        this.telemetryUpdatingSubsystems.add(subsystem);
+    protected void registerTelemetrySource(TelemetrySource telemetrySource) {
+        this.telemetrySources.add(telemetrySource);
     }
     
-    protected void updateTelemetrySubsystems() {
-        for (BaseSubsystem subsystem : this.telemetryUpdatingSubsystems) {
-            subsystem.updateTelemetry();
+    protected void updateTelemetrySources() {
+        for (TelemetrySource telemetrySource: this.telemetrySources) {
+            telemetrySource.updateTelemetry();
         }
     }
 }

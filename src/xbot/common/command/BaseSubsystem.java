@@ -14,10 +14,5 @@ public class BaseSubsystem extends Subsystem {
     protected void initDefaultCommand() {
 
     }
-    
-    public void updateTelemetry() {
-        // Override in subclass if desired
-        throw new NotImplementedException();
-    }
 
 }
