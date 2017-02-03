@@ -12,7 +12,6 @@ import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
-import xbot.common.controls.sensors.XboxControllerWpiAdapter;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;

@@ -12,6 +12,7 @@ public class AdvancedXboxButton extends AdvancedButton {
     XboxButtons buttonName;
     
     public AdvancedXboxButton(XXboxController controller, XboxButtons buttonName) {
+        log.info("Creating XboxButton " + buttonName.toString() + " on port " + controller.getInternalController().getPort());
         this.controller = controller;
         this.buttonName = buttonName;
     }

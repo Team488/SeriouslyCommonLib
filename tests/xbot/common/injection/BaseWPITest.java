@@ -9,7 +9,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import xbot.common.controls.MockRobotIO;
-import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.XPropertyManager;
 import edu.wpi.first.wpilibj.HLUsageReporting;
 import edu.wpi.first.wpilibj.MockHLUsageReporting;

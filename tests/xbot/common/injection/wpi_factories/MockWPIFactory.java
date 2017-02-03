@@ -16,9 +16,8 @@ import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
-import xbot.common.controls.sensors.XboxControllerWpiAdapter;
 import xbot.common.controls.sensors.MockEncoder;
-import xbot.common.controls.sensors.MockGamepad;
+import xbot.common.controls.sensors.MockXboxController;
 import xbot.common.controls.sensors.MockGyro;
 import xbot.common.controls.sensors.MockJoystick;
 import xbot.common.controls.sensors.XAnalogInput;
@@ -200,7 +199,7 @@ public class MockWPIFactory implements WPIFactory {
 
     @Override
     public XXboxController getGamepad(int number) {
-        return new MockGamepad();
+        return new MockXboxController(0);
     }
 
 }

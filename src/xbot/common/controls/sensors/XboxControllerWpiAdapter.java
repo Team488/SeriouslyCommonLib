@@ -6,7 +6,7 @@ import xbot.common.math.XYPair;
 
 public class XboxControllerWpiAdapter implements XXboxController {
     
-    final XboxController internalGamepad;
+    final XboxController internalXboxController;
         
     public enum XboxButtons {
         A(1),
@@ -33,7 +33,7 @@ public class XboxControllerWpiAdapter implements XXboxController {
     
     public XboxControllerWpiAdapter(int port) {
         
-        internalGamepad = new XboxController(port);
+        internalXboxController = new XboxController(port);
     }
     
     public AdvancedXboxButton getXboxButton(XboxButtons buttonName) {
@@ -41,40 +41,40 @@ public class XboxControllerWpiAdapter implements XXboxController {
     }
     
     public boolean getRawXboxButton(int index) {
-        return internalGamepad.getRawButton(index);
+        return internalXboxController.getRawButton(index);
     }
 
     @Override
     //Joysticks---------------------------------------------------------------------------------------------
    public double getLeftStickX(){
        
-       return internalGamepad.getX(Hand.kLeft);
+       return internalXboxController.getX(Hand.kLeft);
    }
     
     public double getRightStickX(){
         
-        return internalGamepad.getX(Hand.kRight);
+        return internalXboxController.getX(Hand.kRight);
     }
     
    public double getLeftStickY(){
        
-       return internalGamepad.getY(Hand.kLeft);
+       return internalXboxController.getY(Hand.kLeft);
    }
    
    public double getRightStickY(){
        
-       return internalGamepad.getY(Hand.kRight);
+       return internalXboxController.getY(Hand.kRight);
    }
    
    //Triggers-----------------------------------------------------------------------------------------------
    public double getLeftTriggerAxis(){
        
-       return internalGamepad.getTriggerAxis(Hand.kLeft);
+       return internalXboxController.getTriggerAxis(Hand.kLeft);
    }
    
    public double getRightTriggerAxis(){
        
-       return internalGamepad.getTriggerAxis(Hand.kRight);
+       return internalXboxController.getTriggerAxis(Hand.kRight);
    }
 
 
@@ -86,5 +86,10 @@ public class XboxControllerWpiAdapter implements XXboxController {
     @Override
     public XYPair getRightStick() {
         return new XYPair(getRightStickX(), getRightStickY());
+    }
+
+    @Override
+    public XboxController getInternalController() {
+        return internalXboxController;
     }
 }

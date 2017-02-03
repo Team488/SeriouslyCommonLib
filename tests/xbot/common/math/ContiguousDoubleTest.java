@@ -1,11 +1,11 @@
 package xbot.common.math;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
 
-@SuppressWarnings("deprecation")
 public class ContiguousDoubleTest extends BaseWPITest {
     @Test
     public void testCore() {

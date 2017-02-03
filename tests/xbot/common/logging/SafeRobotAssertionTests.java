@@ -1,6 +1,5 @@
 package xbot.common.logging;
 
-import static org.junit.Assert.*;
 import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;

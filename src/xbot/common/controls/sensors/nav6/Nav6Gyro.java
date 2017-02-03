@@ -3,7 +3,6 @@ package xbot.common.controls.sensors.nav6;
 import edu.wpi.first.wpilibj.SerialPort;
 import xbot.common.controls.sensors.NavImu;
 import xbot.common.controls.sensors.XGyro;
-import xbot.common.math.ContiguousDouble;
 import xbot.common.math.ContiguousHeading;
 
 /**

@@ -6,7 +6,6 @@ import com.ctre.CANTalon.FeedbackDeviceStatus;
 import com.ctre.CANTalon.StatusFrameRate;
 import com.ctre.CANTalon.TalonControlMode;
 
-import edu.wpi.first.wpilibj.CANSpeedController.ControlMode;
 import edu.wpi.first.wpilibj.SpeedController;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.properties.DoubleProperty;

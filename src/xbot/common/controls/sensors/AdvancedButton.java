@@ -1,7 +1,5 @@
 package xbot.common.controls.sensors;
 
-import org.apache.log4j.Logger;
-
 import edu.wpi.first.wpilibj.buttons.Button;
 
 public abstract class AdvancedButton extends Button

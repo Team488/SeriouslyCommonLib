@@ -1,9 +1,14 @@
 package xbot.common.controls.sensors;
 
+import edu.wpi.first.wpilibj.XboxController;
 import xbot.common.controls.sensors.XboxControllerWpiAdapter.XboxButtons;
 import xbot.common.math.XYPair;
 
-public class MockGamepad implements XXboxController {
+public class MockXboxController extends XboxController implements XXboxController {
+
+    public MockXboxController(int port) {
+        super(0);
+    }
 
     XYPair leftJoystickAxis;
     XYPair rightJoystickAxis;
@@ -96,6 +101,12 @@ public class MockGamepad implements XXboxController {
     public boolean getRawXboxButton(int index) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public XboxController getInternalController() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 
