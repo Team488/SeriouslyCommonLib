@@ -40,8 +40,20 @@ public class MockGamepad implements XXboxController {
         return leftJoystickAxis = new XYPair(x, y);
     }
     
+    @Override
+    public XYPair getLeftStick() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
     public XYPair getRightStick(double x, double y){
         return rightJoystickAxis = new XYPair(x, y);
+    }
+    
+    @Override
+    public XYPair getRightStick() {
+        // TODO Auto-generated method stub
+        return null;
     }
     
     @Override
@@ -85,4 +97,6 @@ public class MockGamepad implements XXboxController {
         // TODO Auto-generated method stub
         return false;
     }
+
+
 }
