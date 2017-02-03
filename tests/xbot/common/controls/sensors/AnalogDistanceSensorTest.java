@@ -8,7 +8,7 @@ import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.injection.BaseWPITest;
 import xbot.common.injection.wpi_factories.MockWPIFactory;
 import xbot.common.properties.XPropertyManager;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class AnalogDistanceSensorTest extends BaseWPITest {
 
