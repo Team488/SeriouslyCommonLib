@@ -75,18 +75,6 @@ public class MockGamepad implements XXboxController {
     }
 
     @Override
-    public XYPair getLeftStick() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public XYPair getRightStick() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public AdvancedXboxButton getXboxButton(XboxButtons buttonName) {
         // TODO Auto-generated method stub
         return null;
