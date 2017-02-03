@@ -12,7 +12,7 @@ package xbot.common.controls.sensors.navx;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+@SuppressWarnings("unused")
 class SerialIO implements IIOProvider {
 
     SerialPort.Port serial_port_id;

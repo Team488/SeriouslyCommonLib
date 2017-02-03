@@ -10,6 +10,7 @@ import xbot.common.injection.BaseWPITest;
 
 public class SetpointSystemTest extends BaseWPITest {
 
+    @SuppressWarnings("unused")
     @Test
     public void testSetpointSystemCanBeCreated() {
         MockSetpointCommand first = injector.getInstance(MockSetpointCommand.class);
