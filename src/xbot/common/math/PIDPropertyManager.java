@@ -5,8 +5,6 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
 public class PIDPropertyManager {
-
-    private String name;
     
     private DoubleProperty propP;
     private DoubleProperty propI;
@@ -16,19 +14,10 @@ public class PIDPropertyManager {
     @Inject
     public PIDPropertyManager(String functionName, XPropertyManager propMan, 
             double defaultP, double defaultI, double defaultD, double defaultF) {
-        
         propP = propMan.createPersistentProperty(functionName + " P", defaultP);
         propI = propMan.createPersistentProperty(functionName + " I", defaultI);
         propD = propMan.createPersistentProperty(functionName + " D", defaultD);
         propF = propMan.createPersistentProperty(functionName + " F", defaultF);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public double getP() {
