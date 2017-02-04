@@ -8,21 +8,16 @@ import xbot.common.properties.XPropertyManager;
  * Wrapper for PID class which automatically puts the P, I and D values on
  * the SmartDashboard.
  */
-public class PIDManager {
+public class PIDManager extends PIDPropertyManager {
     private PID pid;
 
-    private DoubleProperty propP;
-    private DoubleProperty propI;
-    private DoubleProperty propD;
     private DoubleProperty maxOutput;
     private DoubleProperty minOutput;
     private BooleanProperty isEnabled;
 
     public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD,
             double defaultMaxOutput, double defaultMinOutput) {
-        propP = propMan.createPersistentProperty(functionName + " P", defaultP);
-        propI = propMan.createPersistentProperty(functionName + " I", defaultI);
-        propD = propMan.createPersistentProperty(functionName + " D", defaultD);
+        super(functionName, propMan, defaultP, defaultI, defaultD, 0);
         
         maxOutput = propMan.createPersistentProperty(functionName + " Max Output", defaultMaxOutput);
         minOutput = propMan.createPersistentProperty(functionName + " Min Output", defaultMinOutput);
@@ -42,7 +37,7 @@ public class PIDManager {
 
     public double calculate(double goal, double current) {
         if(isEnabled.get()) {
-            double pidResult = pid.calculate(goal, current, propP.get(), propI.get(), propD.get());
+            double pidResult = pid.calculate(goal, current, getP(), getI(), getD(), getF());
             return MathUtils.constrainDouble(pidResult, minOutput.get(), maxOutput.get());
         } else {
             return 0;
@@ -55,17 +50,5 @@ public class PIDManager {
 
     public boolean isOnTarget(double tolerance) {
         return pid.isOnTarget(tolerance);
-    }
-
-    public void setP(double val) {
-        propP.set(val);
-    }
-
-    public void setI(double val) {
-        propI.set(val);
-    }
-
-    public void setD(double val) {
-        propD.set(val);
     }
 }
