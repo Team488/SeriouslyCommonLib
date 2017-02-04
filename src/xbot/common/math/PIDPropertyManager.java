@@ -13,21 +13,14 @@ public class PIDPropertyManager {
     private DoubleProperty propD;
     private DoubleProperty propF;
     
-    private DoubleProperty maxOutput;
-    private DoubleProperty minOutput;
-    
     @Inject
     public PIDPropertyManager(String functionName, XPropertyManager propMan, 
-            double defaultP, double defaultI, double defaultD, double defaultF,
-            double defaultMaxOutput, double defaultMinOutput) {
+            double defaultP, double defaultI, double defaultD, double defaultF) {
         
         propP = propMan.createPersistentProperty(functionName + " P", defaultP);
         propI = propMan.createPersistentProperty(functionName + " I", defaultI);
         propD = propMan.createPersistentProperty(functionName + " D", defaultD);
         propF = propMan.createPersistentProperty(functionName + " F", defaultF);
-        
-        maxOutput = propMan.createPersistentProperty(functionName + " Max Output", defaultMaxOutput);
-        minOutput = propMan.createPersistentProperty(functionName + " Min Output", defaultMinOutput);
     }
 
     public String getName() {
@@ -68,21 +61,5 @@ public class PIDPropertyManager {
 
     public void setDefaultF(double f) {
         propF.set(f);
-    }
-
-    public double getMaxOutput() {
-        return maxOutput.get();
-    }
-
-    public void setMaxOutput(double max) {
-        maxOutput.set(max);
-    }
-
-    public double getDefaultMinOutput() {
-        return minOutput.get();
-    }
-
-    public void setDefaultMinOutput(double min) {
-        minOutput.set(min);
     }
 }
