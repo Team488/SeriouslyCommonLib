@@ -38,10 +38,12 @@ public class PID
      *            Integral response.
      * @param d
      *            Derivative response.
+     * @param f
+     *            Feed-forward response            
      * @return The output value to achieve goal
      */
     public double calculate(double goal, double current,
-            double p, double i, double d)
+            double p, double i, double d, double f)
     {
         m_targetInputValue = goal;
         m_currentInputValue = current;
@@ -66,7 +68,7 @@ public class PID
             }
         }
 
-        m_result = p * m_error + i * m_totalError + d * (m_error - m_prevError);
+        m_result = p * m_error + i * m_totalError + d * (m_error - m_prevError) + f * goal;
         m_prevError = m_error;
 
         if (m_result > m_maximumOutput)
@@ -79,6 +81,26 @@ public class PID
         result = m_result;
 
         return result;
+    }
+    
+    /**
+     * Calculates the output value given P,I,D, a process variable and a goal
+     * 
+     * @param goal
+     *            What value you are trying to achieve
+     * @param current
+     *            What the value under observation currently is
+     * @param p
+     *            Proportionate response
+     * @param i
+     *            Integral response.
+     * @param d
+     *            Derivative response.
+     * @return The output value to achieve goal
+     */
+    public double calculate(double goal, double current,
+            double p, double i, double d) {
+        return calculate(goal, current, p, i, d, 0);
     }
 
     /**
