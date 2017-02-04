@@ -40,7 +40,7 @@ public class PIDPropertyManager {
         return propD.get();
     }
 
-    public void setDefaultD(double d) {
+    public void setD(double d) {
         propD.set(d);
     }
 
@@ -48,7 +48,7 @@ public class PIDPropertyManager {
         return propF.get();
     }
 
-    public void setDefaultF(double f) {
+    public void setF(double f) {
         propF.set(f);
     }
 }
