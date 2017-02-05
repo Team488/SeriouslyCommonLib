@@ -7,6 +7,7 @@ import com.google.inject.Singleton;
 
 import javafx.util.Pair;
 import xbot.common.command.BaseSubsystem;
+import xbot.common.command.TelemetrySource;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.injection.wpi_factories.WPIFactory;
@@ -16,7 +17,7 @@ import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
-public abstract class BasePoseSubsystem extends BaseSubsystem {
+public abstract class BasePoseSubsystem extends BaseSubsystem implements TelemetrySource {
         
     private static Logger log = Logger.getLogger(BasePoseSubsystem.class);
     public final XGyro imu;

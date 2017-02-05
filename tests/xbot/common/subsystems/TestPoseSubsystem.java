@@ -31,4 +31,8 @@ public class TestPoseSubsystem extends BasePoseSubsystem {
         return right.getPosition();
     }
 
+    @Override
+    public void updateTelemetry() {
+    }
+
 }
