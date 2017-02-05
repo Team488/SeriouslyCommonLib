@@ -182,4 +182,9 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Telemet
         inherentRioPitch.set(getRealPitch());
         inherentRioRoll.set(getRealRoll());
     }
+    
+    @Override
+    public void updateTelemetry() {
+        updatePose();
+    }
 }

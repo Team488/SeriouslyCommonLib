@@ -30,9 +30,4 @@ public class TestPoseSubsystem extends BasePoseSubsystem {
     protected double getRightDriveDistance() {
         return right.getPosition();
     }
-
-    @Override
-    public void updateTelemetry() {
-    }
-
 }
