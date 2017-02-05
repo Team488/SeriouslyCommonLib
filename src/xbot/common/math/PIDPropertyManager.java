@@ -6,10 +6,13 @@ import xbot.common.properties.XPropertyManager;
 
 public class PIDPropertyManager {
     
-    private DoubleProperty propP;
-    private DoubleProperty propI;
-    private DoubleProperty propD;
-    private DoubleProperty propF;
+    private final DoubleProperty propP;
+    private final DoubleProperty propI;
+    private final DoubleProperty propD;
+    private final DoubleProperty propF;
+    
+    private final DoubleProperty propErrorThreshold;
+    private final DoubleProperty propErrorDerivativeThreshold;
     
     @Inject
     public PIDPropertyManager(String functionName, XPropertyManager propMan, 
@@ -18,6 +21,11 @@ public class PIDPropertyManager {
         propI = propMan.createPersistentProperty(functionName + " I", defaultI);
         propD = propMan.createPersistentProperty(functionName + " D", defaultD);
         propF = propMan.createPersistentProperty(functionName + " F", defaultF);
+        
+        propErrorThreshold = 
+                propMan.createPersistentProperty(functionName + " Error threshold", -1);
+        propErrorDerivativeThreshold = 
+                propMan.createPersistentProperty(functionName + " Derivative threshold", -1);
     }
 
     public double getP() {
@@ -51,4 +59,20 @@ public class PIDPropertyManager {
     public void setF(double f) {
         propF.set(f);
     }
+    
+    public double getErrorThreshold() {
+        return propErrorThreshold.get();
+    }
+    
+    public void setErrorThreshold(double errorThreshold) {
+        propErrorThreshold.set(errorThreshold);
+    }
+    
+    public double getDerivativeThreshold() {
+        return propErrorDerivativeThreshold.get();
+    }
+    
+    public void setDerivativeThreshold(double errorThreshold) {
+        propErrorDerivativeThreshold.set(errorThreshold);
+    }    
 }

@@ -36,6 +36,9 @@ public class PIDManager extends PIDPropertyManager {
     }
 
     public double calculate(double goal, double current) {
+        // update tolerances via properties
+        pid.setTolerances(getErrorThreshold(), getDerivativeThreshold());
+        
         if(isEnabled.get()) {
             double pidResult = pid.calculate(goal, current, getP(), getI(), getD(), getF());
             return MathUtils.constrainDouble(pidResult, minOutput.get(), maxOutput.get());
@@ -49,12 +52,13 @@ public class PIDManager extends PIDPropertyManager {
     }
 
     public boolean isOnTarget(double errorTolerance) {
-        pid.setErrorTolerance(errorTolerance);
+        setErrorThreshold(errorTolerance);
         return pid.isOnTarget();
     }
     
     public boolean isOnTarget(double errorTolerance, double derivativeOfErrorTolerance) {
-        pid.setTolerances(errorTolerance, derivativeOfErrorTolerance);
+        setErrorThreshold(errorTolerance);
+        setDerivativeThreshold(derivativeOfErrorTolerance);
         return pid.isOnTarget();
     }
 }
