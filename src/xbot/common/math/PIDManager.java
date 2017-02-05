@@ -48,7 +48,13 @@ public class PIDManager extends PIDPropertyManager {
         pid.reset();
     }
 
-    public boolean isOnTarget(double tolerance) {
-        return pid.isOnTarget(tolerance);
+    public boolean isOnTarget(double errorTolerance) {
+        pid.setErrorTolerance(errorTolerance);
+        return pid.isErrorBelowTolerance();
+    }
+    
+    public boolean isOnTarget(double errorTolerance, double derivativeOfErrorTolerance) {
+        pid.setTolerances(errorTolerance, derivativeOfErrorTolerance);
+        return pid.isErrorBelowTolerance() && pid.isDerivativeOfErrorBelowTolerance();
     }
 }

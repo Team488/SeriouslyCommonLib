@@ -6,7 +6,6 @@ package xbot.common.math;
  */
 public class PID
 {
-
     private double m_error = 0.0;
     private double m_maximumOutput = 1.0; // |maximum output|
     private double m_minimumOutput = -1.0; // |minimum output|
@@ -18,6 +17,12 @@ public class PID
     
     private boolean calculateHasBeenCalled = false;
     private double m_derivativeValue;
+    
+    private boolean errorIsSmall = false;
+    private boolean derivativeOfErrorIsSmall = false;
+    
+    double errorTolerance = -1;
+    double errorDerivativeTolerance = -1;
 
     /**
      * Resets the PID controller.
@@ -26,7 +31,37 @@ public class PID
     {
         m_prevError = 0;
         m_totalError = 0;
-        calculateHasBeenCalled = false;
+        errorIsSmall = false;
+        derivativeOfErrorIsSmall = false;
+    }
+    
+    /**
+     * Set how close the error can be before it is considered
+     * "on-target."
+     *            
+     * This is in the same units as your current and goal values.
+     */
+    public void setErrorTolerance(double errorTolerance) {
+        setTolerances(errorTolerance, this.errorDerivativeTolerance);
+    }
+    
+    /**
+     * Set how small the derivative of the error can be before it is considered
+     * "on-target."
+     *            
+     * This is roughly in the same units as your current and goal values,
+     * but per 1/20th of a second.
+     *            
+     * so if you wanted a minimum rotation speed of 5 degrees per second,
+     * this tolerance would need to be 0.25.     * 
+     */
+    public void setErrorDerivativeTolerance(double errorDerivativeTolerance) {
+        setTolerances(this.errorTolerance, errorDerivativeTolerance);
+    }
+    
+    public void setTolerances(double errorTolerance, double errorDerivativeTolerance) {
+        this.errorTolerance = errorTolerance;
+        this.errorDerivativeTolerance = errorDerivativeTolerance;
     }
 
     /**
@@ -86,6 +121,9 @@ public class PID
             m_result = m_minimumOutput;
         }
         result = m_result;
+        
+        errorIsSmall = Math.abs(m_targetInputValue - m_currentInputValue) < errorTolerance;
+        derivativeOfErrorIsSmall = Math.abs(m_derivativeValue) < errorDerivativeTolerance;
 
         return result;
     }
@@ -111,49 +149,20 @@ public class PID
     }
 
     /**
-     * This tells you if the controller has met its goal.
+     * This tells you if the controller is near its goal. 
      * 
-     * @param errorTolerance
-     *            How close the value can be before it is considered
-     *            "on-target."
+     * You need to call setErrorTolerance() for this to work well!
      */
-    public boolean isOnTarget(double errorTolerance)
-    {
-        return isOnTarget(errorTolerance, Double.MAX_VALUE);
+    public boolean isErrorBelowTolerance() {
+        return errorIsSmall;
     }
     
     /**
-     * This tells you if the controller has met its goal.
-     * @param errorTolerance 
-     *            How close the error can be before it is considered
-     *            "on-target."
-     *            
-     *            This is in the same units as your current and goal values.
-     * @param errorDerivativeTolerance
-     *            How small the derivative of the error can be before it is considered
-     *            "on-target."
-     *            
-     *            This is roughly in the same units as your current and goal values,
-     *            but per 1/20th of a second.
-     *            
-     *            so if you wanted a minimum rotation speed of 5 degrees per second,
-     *            this tolerance would need to be 0.25.     *            
+     * This tells you if the error in the controller is changing very slowly
+     * 
+     * You need to call setErrorDerivativeTolerance() for this to work well!
      */
-    public boolean isOnTarget(double errorTolerance, double errorDerivativeTolerance) {
-        /*
-         * If calculate hasn't been called, all the tolerance checks will pass, since
-         * all the values that are being checked will be initialized to 0.
-         * 
-         * To deal with this, we check the flag "calculateHasBeenCalled" to make sure
-         * that these values have been populated.
-         */
-        if (!calculateHasBeenCalled) {
-            return false;
-        }
-        
-        boolean errorIsSmall = Math.abs(m_targetInputValue - m_currentInputValue) < errorTolerance;
-        boolean derivativeOfErrorIsSmall = Math.abs(m_derivativeValue) < errorDerivativeTolerance;
-        
-        return errorIsSmall && derivativeOfErrorIsSmall;
+    public boolean isDerivativeOfErrorBelowTolerance() {
+        return derivativeOfErrorIsSmall;
     }
 }
