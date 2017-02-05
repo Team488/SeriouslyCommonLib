@@ -100,6 +100,8 @@ public class PIDManagerTest extends BaseWPITest{
     public void testLegacyIsOnTarget() {
         PIDManager manager = new PIDManager("test", injector.getInstance(XPropertyManager.class), 1, 0, 0, 0, 0.5, -0.25);
         
+        assertFalse(manager.isOnTarget(1));
+        
         manager.calculate(100, 0);
         assertFalse(manager.isOnTarget(1));
         
