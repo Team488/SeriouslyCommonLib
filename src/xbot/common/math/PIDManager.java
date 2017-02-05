@@ -50,11 +50,11 @@ public class PIDManager extends PIDPropertyManager {
 
     public boolean isOnTarget(double errorTolerance) {
         pid.setErrorTolerance(errorTolerance);
-        return pid.isErrorBelowTolerance();
+        return pid.isOnTarget();
     }
     
     public boolean isOnTarget(double errorTolerance, double derivativeOfErrorTolerance) {
         pid.setTolerances(errorTolerance, derivativeOfErrorTolerance);
-        return pid.isErrorBelowTolerance() && pid.isDerivativeOfErrorBelowTolerance();
+        return pid.isOnTarget();
     }
 }

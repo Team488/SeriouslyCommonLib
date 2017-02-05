@@ -15,12 +15,9 @@ public class PID
     private double m_targetInputValue;
     private double m_currentInputValue;
     
-    private boolean calculateHasBeenCalled = false;
     private double m_derivativeValue;
-    
     private boolean errorIsSmall = false;
     private boolean derivativeOfErrorIsSmall = false;
-    
     double errorTolerance = -1;
     double errorDerivativeTolerance = -1;
 
@@ -83,9 +80,7 @@ public class PID
      */
     public double calculate(double goal, double current,
             double p, double i, double d, double f)
-    {
-        calculateHasBeenCalled = true;
-        
+    {        
         m_targetInputValue = goal;
         m_currentInputValue = current;
         double result;
@@ -147,22 +142,24 @@ public class PID
             double p, double i, double d) {
         return calculate(goal, current, p, i, d, 0);
     }
-
-    /**
-     * This tells you if the controller is near its goal. 
-     * 
-     * You need to call setErrorTolerance() for this to work well!
-     */
-    public boolean isErrorBelowTolerance() {
-        return errorIsSmall;
-    }
     
     /**
-     * This tells you if the error in the controller is changing very slowly
-     * 
-     * You need to call setErrorDerivativeTolerance() for this to work well!
+     * Check for all conditions where the tolerance is above 0. Since tolerances default to
+     * -1, it will skip any unassigned ones.
      */
-    public boolean isDerivativeOfErrorBelowTolerance() {
-        return derivativeOfErrorIsSmall;
+    public boolean isOnTarget() {
+        boolean checkError = errorTolerance > 0;
+        boolean checkDerivative = errorDerivativeTolerance > 0;
+        
+        boolean isOnTarget = true;
+        
+        if (checkError) {
+            isOnTarget &= errorIsSmall;
+        }
+        if (checkDerivative) {
+            isOnTarget &= derivativeOfErrorIsSmall;
+        }
+        
+        return isOnTarget;
     }
 }
