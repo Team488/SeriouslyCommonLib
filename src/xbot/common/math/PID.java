@@ -124,8 +124,15 @@ public class PID
         }
         result = m_result;
         
-        errorIsSmall = Math.abs(m_targetInputValue - m_currentInputValue) < errorTolerance;
-        derivativeIsSmall = Math.abs(m_derivativeValue) < derivativeTolerance;
+        errorIsSmall = false;
+        if (checkErrorThreshold) {
+            errorIsSmall = Math.abs(m_targetInputValue - m_currentInputValue) < errorTolerance;
+        }
+        
+        derivativeIsSmall = false;
+        if (checkDerivativeThreshold) {
+            derivativeIsSmall = Math.abs(m_derivativeValue) < derivativeTolerance;
+        }
 
         return result;
     }
