@@ -95,4 +95,15 @@ public class PIDManagerTest extends BaseWPITest{
         
         assertTrue(manager.isOnTarget());
     }
+    
+    @Test
+    public void testLegacyIsOnTarget() {
+        PIDManager manager = new PIDManager("test", injector.getInstance(XPropertyManager.class), 1, 0, 0, 0, 0.5, -0.25);
+        
+        manager.calculate(100, 0);
+        assertFalse(manager.isOnTarget(1));
+        
+        manager.calculate(100, 99.5);
+        assertTrue(manager.isOnTarget(1));
+    }
 }

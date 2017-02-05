@@ -75,10 +75,14 @@ public class PIDManager extends PIDPropertyManager {
             XPropertyManager propMan) {
         this(functionName, propMan, 0, 0, 0);
     }
+    
+    private void updateTolerancesFromProperties() {
+        pid.setTolerances(getErrorThreshold(), getDerivativeThreshold());
+    }
 
     public double calculate(double goal, double current) {
         // update tolerances via properties
-        pid.setTolerances(getErrorThreshold(), getDerivativeThreshold());
+        updateTolerancesFromProperties();
         
         if(isEnabled.get()) {
             double pidResult = pid.calculate(goal, current, getP(), getI(), getD(), getF());
@@ -97,6 +101,7 @@ public class PIDManager extends PIDPropertyManager {
      */
     public boolean isOnTarget(double errorTolerance) {
         setErrorThreshold(errorTolerance);
+        updateTolerancesFromProperties();
         return pid.isOnTarget();
     }
     
