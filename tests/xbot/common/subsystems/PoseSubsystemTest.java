@@ -9,17 +9,17 @@ import xbot.common.injection.BaseWPITest;
 
 public class PoseSubsystemTest extends BaseWPITest {
         
-    PoseSubsystem pose;
+    TestPoseSubsystem pose;
     
     @Before
     public void setup() {
-        pose = injector.getInstance(PoseSubsystem.class);
+        pose = injector.getInstance(TestPoseSubsystem.class);
     }    
     
     @Test
     public void testInitialHeading() {
         // IMU initially starts at 0, robot starts at 90.
-        verifyRobotHeading(PoseSubsystem.FACING_AWAY_FROM_DRIVERS);
+        verifyRobotHeading(AbstractPoseSubsystem.FACING_AWAY_FROM_DRIVERS);
     }
     
     @Test

@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import javafx.util.Pair;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XGyro;
@@ -15,10 +16,9 @@ import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
-@Singleton
-public class PoseSubsystem extends BaseSubsystem {
+public abstract class AbstractPoseSubsystem extends BaseSubsystem {
         
-    private static Logger log = Logger.getLogger(PoseSubsystem.class);
+    private static Logger log = Logger.getLogger(AbstractPoseSubsystem.class);
     public final XGyro imu;
     
     private final DoubleProperty leftDriveDistance;
@@ -47,8 +47,7 @@ public class PoseSubsystem extends BaseSubsystem {
     
     private BooleanProperty rioRotated;
     
-    @Inject
-    public PoseSubsystem(WPIFactory factory, XPropertyManager propManager) {
+    public AbstractPoseSubsystem(WPIFactory factory, XPropertyManager propManager) {
         log.info("Creating PoseSubsystem");
         imu = factory.getGyro(ImuType.navX);
         
@@ -152,8 +151,11 @@ public class PoseSubsystem extends BaseSubsystem {
      */
     public void updatePose(double leftDistance, double rightDistance) {
         updateCurrentHeading();
-        updateDistanceTraveled(leftDistance, rightDistance);
+        updateDistanceTraveled(getLeftDriveDistance(), getRightDriveDistance());
     }
+    
+    protected abstract double getLeftDriveDistance();
+    protected abstract double getRightDriveDistance();
     
     public double getRobotPitch() {
         return getRealPitch() - inherentRioPitch.get();
