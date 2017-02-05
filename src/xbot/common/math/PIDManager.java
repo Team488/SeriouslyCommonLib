@@ -14,17 +14,30 @@ public class PIDManager extends PIDPropertyManager {
     private DoubleProperty maxOutput;
     private DoubleProperty minOutput;
     private BooleanProperty isEnabled;
-
-    public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD,
-            double defaultMaxOutput, double defaultMinOutput) {
-        super(functionName, propMan, defaultP, defaultI, defaultD, 0);
+    
+    public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD, double defaultF,
+            double defaultMaxOutput, double defaultMinOutput,
+            double errorThreshold, double derivativeThreshold) {
+        super(functionName, propMan, defaultP, defaultI, defaultD, defaultF, errorThreshold, derivativeThreshold);
         
         maxOutput = propMan.createPersistentProperty(functionName + " Max Output", defaultMaxOutput);
         minOutput = propMan.createPersistentProperty(functionName + " Min Output", defaultMinOutput);
-        
         isEnabled = propMan.createPersistentProperty(functionName + " Is Enabled", true);
 
         pid = new PID();
+        pid.setTolerances(getErrorThreshold(), getDerivativeThreshold());
+    }
+    
+    // And now, the wall of constructors to support simpler PIDManagers.
+    
+    public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD, double defaultF,
+            double defaultMaxOutput, double defaultMinOutput) {
+        this(functionName, propMan, defaultP, defaultI, defaultD, defaultF, defaultMaxOutput, defaultMinOutput, -1, -1);
+    }
+
+    public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD,
+            double defaultMaxOutput, double defaultMinOutput) {
+        this(functionName, propMan, defaultP, defaultI, defaultD, 0, 1.0, -1.0, -1, -1);
     }
     
     public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD) {
@@ -36,6 +49,9 @@ public class PIDManager extends PIDPropertyManager {
     }
 
     public double calculate(double goal, double current) {
+        // update tolerances via properties
+        pid.setTolerances(getErrorThreshold(), getDerivativeThreshold());
+        
         if(isEnabled.get()) {
             double pidResult = pid.calculate(goal, current, getP(), getI(), getD(), getF());
             return MathUtils.constrainDouble(pidResult, minOutput.get(), maxOutput.get());
@@ -48,7 +64,29 @@ public class PIDManager extends PIDPropertyManager {
         pid.reset();
     }
 
-    public boolean isOnTarget(double tolerance) {
-        return pid.isOnTarget(tolerance);
+    /**
+     * Legacy method to support old callers.
+     */
+    public boolean isOnTarget(double errorTolerance) {
+        setErrorThreshold(errorTolerance);
+        return pid.isOnTarget();
+    }
+    
+    /**
+     * Legacy method to support old callers.
+     */
+    public boolean isOnTarget(double errorTolerance, double derivativeOfErrorTolerance) {
+        setErrorThreshold(errorTolerance);
+        setDerivativeThreshold(derivativeOfErrorTolerance);
+        return pid.isOnTarget();
+    }
+    
+    /**
+     * Determines if you are on target.
+     * Only works if you have called setErrorThreshold() and/or 
+     * setDerivativeThreshold().
+     */
+    public boolean isOnTarget() {
+        return pid.isOnTarget();
     }
 }
