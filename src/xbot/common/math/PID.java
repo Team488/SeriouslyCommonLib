@@ -31,31 +31,27 @@ public class PID
         errorIsSmall = false;
         derivativeIsSmall = false;
     }
-    
+ 
     /**
-     * Set how close the error can be before it is considered
-     * "on-target."
-     *            
-     * This is in the same units as your current and goal values.
+     * Set tolerances for the PID system.
+     * @param errorTolerance
+     *  How close the error can be before it is considered
+     *  "on-target."
+     *
+     *  Negative values will cause that constraint to skipped when checking
+     *  isOnTarget().
+     *
+     *  This is in the same units as your current and goal values.
+     * @param derivativeTolerance
+     *  Set how small the derivative of the error can be before it is considered
+     *  "on-target."
+     *
+     *  This is roughly in the same units as your current and goal values,
+     *  but per 1/20th of a second.
+     *
+     *  e.g. if you wanted a minimum rotation speed of 5 degrees per second,
+     *  this tolerance would need to be 0.25.  
      */
-    public void setErrorTolerance(double errorTolerance) {
-        setTolerances(errorTolerance, this.derivativeTolerance);
-    }
-    
-    /**
-     * Set how small the derivative of the error can be before it is considered
-     * "on-target."
-     *            
-     * This is roughly in the same units as your current and goal values,
-     * but per 1/20th of a second.
-     *            
-     * so if you wanted a minimum rotation speed of 5 degrees per second,
-     * this tolerance would need to be 0.25.     * 
-     */
-    public void setErrorDerivativeTolerance(double errorDerivativeTolerance) {
-        setTolerances(this.errorTolerance, errorDerivativeTolerance);
-    }
-    
     public void setTolerances(double errorTolerance, double derivativeTolerance) {
         this.errorTolerance = errorTolerance;
         this.derivativeTolerance = derivativeTolerance;
@@ -80,7 +76,7 @@ public class PID
      */
     public double calculate(double goal, double current,
             double p, double i, double d, double f)
-    {        
+    {
         m_targetInputValue = goal;
         m_currentInputValue = current;
         double result;

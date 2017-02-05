@@ -88,4 +88,11 @@ public class PIDManagerTest extends BaseWPITest{
         manager.calculate(100, 90);
         assertFalse(manager.isOnTarget());
     }
+    
+    @Test
+    public void testNotSettingThresholds() {
+        PIDManager manager = new PIDManager("test", injector.getInstance(XPropertyManager.class), 1, 0, 0, 0, 0.5, -0.25);
+        
+        assertTrue(manager.isOnTarget());
+    }
 }
