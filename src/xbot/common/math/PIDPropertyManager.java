@@ -12,20 +12,25 @@ public class PIDPropertyManager {
     private final DoubleProperty propF;
     
     private final DoubleProperty propErrorThreshold;
-    private final DoubleProperty propErrorDerivativeThreshold;
+    private final DoubleProperty propDerivativeThreshold;
     
-    @Inject
     public PIDPropertyManager(String functionName, XPropertyManager propMan, 
-            double defaultP, double defaultI, double defaultD, double defaultF) {
+            double defaultP, double defaultI, double defaultD, double defaultF,
+            double errorThreshold, double derivativeThreshold) {
         propP = propMan.createPersistentProperty(functionName + " P", defaultP);
         propI = propMan.createPersistentProperty(functionName + " I", defaultI);
         propD = propMan.createPersistentProperty(functionName + " D", defaultD);
         propF = propMan.createPersistentProperty(functionName + " F", defaultF);
         
         propErrorThreshold = 
-                propMan.createPersistentProperty(functionName + " Error threshold", -1);
-        propErrorDerivativeThreshold = 
-                propMan.createPersistentProperty(functionName + " Derivative threshold", -1);
+                propMan.createPersistentProperty(functionName + " Error threshold", errorThreshold);
+        propDerivativeThreshold = 
+                propMan.createPersistentProperty(functionName + " Derivative threshold", derivativeThreshold);
+    }
+    
+    public PIDPropertyManager(String functionName, XPropertyManager propMan, 
+            double defaultP, double defaultI, double defaultD, double defaultF) {
+        this(functionName, propMan, defaultP, defaultI, defaultD, defaultF, -1, -1);
     }
 
     public double getP() {
@@ -69,10 +74,10 @@ public class PIDPropertyManager {
     }
     
     public double getDerivativeThreshold() {
-        return propErrorDerivativeThreshold.get();
+        return propDerivativeThreshold.get();
     }
     
     public void setDerivativeThreshold(double errorThreshold) {
-        propErrorDerivativeThreshold.set(errorThreshold);
+        propDerivativeThreshold.set(errorThreshold);
     }    
 }

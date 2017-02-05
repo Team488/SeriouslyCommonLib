@@ -14,17 +14,29 @@ public class PIDManager extends PIDPropertyManager {
     private DoubleProperty maxOutput;
     private DoubleProperty minOutput;
     private BooleanProperty isEnabled;
-
-    public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD,
-            double defaultMaxOutput, double defaultMinOutput) {
-        super(functionName, propMan, defaultP, defaultI, defaultD, 0);
+    
+    public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD, double defaultF,
+            double defaultMaxOutput, double defaultMinOutput,
+            double errorThreshold, double derivativeThreshold) {
+        super(functionName, propMan, defaultP, defaultI, defaultD, defaultF, errorThreshold, derivativeThreshold);
         
         maxOutput = propMan.createPersistentProperty(functionName + " Max Output", defaultMaxOutput);
         minOutput = propMan.createPersistentProperty(functionName + " Min Output", defaultMinOutput);
-        
         isEnabled = propMan.createPersistentProperty(functionName + " Is Enabled", true);
 
         pid = new PID();
+    }
+    
+    // And now, the wall of constructors to support simpler PIDManagers.
+    
+    public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD, double defaultF,
+            double defaultMaxOutput, double defaultMinOutput) {
+        this(functionName, propMan, defaultP, defaultI, defaultD, defaultF, 1.0, -1.0, -1, -1);
+    }
+
+    public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD,
+            double defaultMaxOutput, double defaultMinOutput) {
+        this(functionName, propMan, defaultP, defaultI, defaultD, 0, 1.0, -1.0, -1, -1);
     }
     
     public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD) {

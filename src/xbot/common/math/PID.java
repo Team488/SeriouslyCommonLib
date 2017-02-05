@@ -17,9 +17,9 @@ public class PID
     
     private double m_derivativeValue;
     private boolean errorIsSmall = false;
-    private boolean derivativeOfErrorIsSmall = false;
+    private boolean derivativeIsSmall = false;
     double errorTolerance = -1;
-    double errorDerivativeTolerance = -1;
+    double derivativeTolerance = -1;
 
     /**
      * Resets the PID controller.
@@ -29,7 +29,7 @@ public class PID
         m_prevError = 0;
         m_totalError = 0;
         errorIsSmall = false;
-        derivativeOfErrorIsSmall = false;
+        derivativeIsSmall = false;
     }
     
     /**
@@ -39,7 +39,7 @@ public class PID
      * This is in the same units as your current and goal values.
      */
     public void setErrorTolerance(double errorTolerance) {
-        setTolerances(errorTolerance, this.errorDerivativeTolerance);
+        setTolerances(errorTolerance, this.derivativeTolerance);
     }
     
     /**
@@ -56,9 +56,9 @@ public class PID
         setTolerances(this.errorTolerance, errorDerivativeTolerance);
     }
     
-    public void setTolerances(double errorTolerance, double errorDerivativeTolerance) {
+    public void setTolerances(double errorTolerance, double derivativeTolerance) {
         this.errorTolerance = errorTolerance;
-        this.errorDerivativeTolerance = errorDerivativeTolerance;
+        this.derivativeTolerance = derivativeTolerance;
     }
 
     /**
@@ -118,7 +118,7 @@ public class PID
         result = m_result;
         
         errorIsSmall = Math.abs(m_targetInputValue - m_currentInputValue) < errorTolerance;
-        derivativeOfErrorIsSmall = Math.abs(m_derivativeValue) < errorDerivativeTolerance;
+        derivativeIsSmall = Math.abs(m_derivativeValue) < derivativeTolerance;
 
         return result;
     }
@@ -149,7 +149,7 @@ public class PID
      */
     public boolean isOnTarget() {
         boolean checkError = errorTolerance > 0;
-        boolean checkDerivative = errorDerivativeTolerance > 0;
+        boolean checkDerivative = derivativeTolerance > 0;
         
         boolean isOnTarget = true;
         
@@ -157,7 +157,7 @@ public class PID
             isOnTarget &= errorIsSmall;
         }
         if (checkDerivative) {
-            isOnTarget &= derivativeOfErrorIsSmall;
+            isOnTarget &= derivativeIsSmall;
         }
         
         return isOnTarget;
