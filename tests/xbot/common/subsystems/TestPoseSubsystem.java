@@ -28,7 +28,6 @@ public class TestPoseSubsystem extends AbstractPoseSubsystem {
 
     @Override
     protected double getRightDriveDistance() {
-        // TODO Auto-generated method stub
         return right.getPosition();
     }
 
