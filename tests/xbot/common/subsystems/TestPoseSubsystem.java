@@ -6,7 +6,7 @@ import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.properties.XPropertyManager;
 
-public class TestPoseSubsystem extends AbstractPoseSubsystem {
+public class TestPoseSubsystem extends BasePoseSubsystem {
 
     private XCANTalon left;
     private XCANTalon right;

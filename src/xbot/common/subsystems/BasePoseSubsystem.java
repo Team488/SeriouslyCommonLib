@@ -16,9 +16,9 @@ import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
-public abstract class AbstractPoseSubsystem extends BaseSubsystem {
+public abstract class BasePoseSubsystem extends BaseSubsystem {
         
-    private static Logger log = Logger.getLogger(AbstractPoseSubsystem.class);
+    private static Logger log = Logger.getLogger(BasePoseSubsystem.class);
     public final XGyro imu;
     
     private final DoubleProperty leftDriveDistance;
@@ -47,7 +47,7 @@ public abstract class AbstractPoseSubsystem extends BaseSubsystem {
     
     private BooleanProperty rioRotated;
     
-    public AbstractPoseSubsystem(WPIFactory factory, XPropertyManager propManager) {
+    public BasePoseSubsystem(WPIFactory factory, XPropertyManager propManager) {
         log.info("Creating PoseSubsystem");
         imu = factory.getGyro(ImuType.navX);
         

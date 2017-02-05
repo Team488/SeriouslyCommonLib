@@ -19,7 +19,7 @@ public class PoseSubsystemTest extends BaseWPITest {
     @Test
     public void testInitialHeading() {
         // IMU initially starts at 0, robot starts at 90.
-        verifyRobotHeading(AbstractPoseSubsystem.FACING_AWAY_FROM_DRIVERS);
+        verifyRobotHeading(BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS);
     }
     
     @Test
