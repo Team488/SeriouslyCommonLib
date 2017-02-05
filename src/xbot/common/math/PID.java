@@ -18,9 +18,12 @@ public class PID
     private double m_derivativeValue;
     private boolean errorIsSmall = false;
     private boolean derivativeIsSmall = false;
-    double errorTolerance = -1;
-    double derivativeTolerance = -1;
-
+    double errorTolerance = 0;
+    double derivativeTolerance = 0;
+    
+    private boolean checkErrorThreshold = false;
+    private boolean checkDerivativeThreshold = false;
+    
     /**
      * Resets the PID controller.
      */
@@ -55,6 +58,14 @@ public class PID
     public void setTolerances(double errorTolerance, double derivativeTolerance) {
         this.errorTolerance = errorTolerance;
         this.derivativeTolerance = derivativeTolerance;
+    }
+    
+    /**
+     * Controls whether or not the tolerances are checked as part of isOnTarget().
+     */
+    public void setShouldCheckTolerances(boolean checkError, boolean checkDerivative) {
+        checkErrorThreshold = checkError;
+        checkDerivativeThreshold = checkDerivative;
     }
 
     /**
@@ -144,15 +155,20 @@ public class PID
      * -1, it will skip any unassigned ones.
      */
     public boolean isOnTarget() {
-        boolean checkError = errorTolerance > 0;
-        boolean checkDerivative = derivativeTolerance > 0;
+        
+        if (!checkErrorThreshold && !checkDerivativeThreshold) {
+            // No tolerances are enabled, but isOnTarget is being called anyway. We still need to return something.
+            // In this case, we return FALSE, as it promotes robot action (the command using this will complete
+            // its activity, even if it doesn't signal that it is done to allow other actions to proceed).
+            return false;
+        }
         
         boolean isOnTarget = true;
         
-        if (checkError) {
+        if (checkErrorThreshold) {
             isOnTarget &= errorIsSmall;
         }
-        if (checkDerivative) {
+        if (checkDerivativeThreshold) {
             isOnTarget &= derivativeIsSmall;
         }
         

@@ -1,6 +1,9 @@
 package xbot.common.math;
 
 import com.google.inject.Inject;
+
+import xbot.common.logging.RobotAssertionManager;
+import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
@@ -14,7 +17,12 @@ public class PIDPropertyManager {
     private final DoubleProperty propErrorThreshold;
     private final DoubleProperty propDerivativeThreshold;
     
-    public PIDPropertyManager(String functionName, XPropertyManager propMan, 
+    private final BooleanProperty propEnableErrorThreshold;
+    private final BooleanProperty propEnableDerivativeThreshold;
+    
+    private final RobotAssertionManager assertionManager;
+    
+    public PIDPropertyManager(String functionName, XPropertyManager propMan, RobotAssertionManager assertionManager,
             double defaultP, double defaultI, double defaultD, double defaultF,
             double errorThreshold, double derivativeThreshold) {
         propP = propMan.createPersistentProperty(functionName + " P", defaultP);
@@ -26,11 +34,18 @@ public class PIDPropertyManager {
                 propMan.createPersistentProperty(functionName + " Error threshold", errorThreshold);
         propDerivativeThreshold = 
                 propMan.createPersistentProperty(functionName + " Derivative threshold", derivativeThreshold);
+        
+        propEnableErrorThreshold = 
+                propMan.createPersistentProperty(functionName + " Enable error threshold", errorThreshold > 0);
+        propEnableDerivativeThreshold = 
+                propMan.createPersistentProperty(functionName + " Enable derivative threshold", derivativeThreshold > 0);
+        
+        this.assertionManager = assertionManager;
     }
     
-    public PIDPropertyManager(String functionName, XPropertyManager propMan, 
+    public PIDPropertyManager(String functionName, XPropertyManager propMan, RobotAssertionManager assertionManager,
             double defaultP, double defaultI, double defaultD, double defaultF) {
-        this(functionName, propMan, defaultP, defaultI, defaultD, defaultF, -1, -1);
+        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, -1, -1);
     }
 
     public double getP() {
@@ -70,6 +85,7 @@ public class PIDPropertyManager {
     }
     
     public void setErrorThreshold(double errorThreshold) {
+        assertionManager.assertTrue(errorThreshold >= 0, "Thresholds won't work if they are negative!");
         propErrorThreshold.set(errorThreshold);
     }
     
@@ -77,7 +93,24 @@ public class PIDPropertyManager {
         return propDerivativeThreshold.get();
     }
     
-    public void setDerivativeThreshold(double errorThreshold) {
-        propDerivativeThreshold.set(errorThreshold);
-    }    
+    public void setDerivativeThreshold(double derivativeThreshold) {
+        assertionManager.assertTrue(derivativeThreshold >= 0, "Thresholds won't work if they are negative!");
+        propDerivativeThreshold.set(derivativeThreshold);
+    }
+    
+    public boolean getEnableErrorThreshold() {
+        return propEnableErrorThreshold.get();
+    }
+    
+    public void setEnableErrorThreshold(boolean isEnabled) {
+        propEnableErrorThreshold.set(isEnabled);
+    }
+    
+    public boolean getEnableDerivativeThreshold() {
+        return propEnableDerivativeThreshold.get();
+    }
+    
+    public void setEnableDerivativeThreshold(boolean isEnabled) {
+        propEnableDerivativeThreshold.set(isEnabled);
+    }
 }
