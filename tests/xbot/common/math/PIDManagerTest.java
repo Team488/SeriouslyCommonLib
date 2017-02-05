@@ -1,6 +1,8 @@
 package xbot.common.math;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -27,5 +29,39 @@ public class PIDManagerTest extends BaseWPITest{
         
         output = manager.calculate(-100, 0);
         assertEquals(-0.25, output, 0.001);
+    }
+    
+    @Test
+    public void testIsOnTargetStartsFalse() {
+        PIDManager manager = new PIDManager("test", injector.getInstance(XPropertyManager.class), 1, 0, 0, 0, 0.5, -0.25, 1, -1);
+        assertFalse(manager.isOnTarget());
+    }
+    
+    @Test
+    public void testIsOnTargetUsingError() {
+        PIDManager manager = new PIDManager("test", injector.getInstance(XPropertyManager.class), 1, 0, 0, 0, 0.5, -0.25, 1, -1);
+        manager.calculate(100, 0);
+        
+        assertFalse(manager.isOnTarget());
+        
+        manager.calculate(100, 100);
+        
+        assertTrue(manager.isOnTarget());
+    }
+    
+    @Test
+    public void testIsOnTargetUsingDerivative() {
+        PIDManager manager = new PIDManager("test", injector.getInstance(XPropertyManager.class), 1, 0, 0, 0, 0.5, -0.25, 1, 1);
+        manager.calculate(100, 0);
+        
+        assertFalse(manager.isOnTarget());
+        
+        manager.calculate(100, 100);
+        
+        assertFalse(manager.isOnTarget());
+        
+        manager.calculate(100, 100);
+        
+        assertTrue(manager.isOnTarget());
     }
 }

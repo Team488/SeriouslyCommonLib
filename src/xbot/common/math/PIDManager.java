@@ -25,6 +25,7 @@ public class PIDManager extends PIDPropertyManager {
         isEnabled = propMan.createPersistentProperty(functionName + " Is Enabled", true);
 
         pid = new PID();
+        pid.setTolerances(getErrorThreshold(), getDerivativeThreshold());
     }
     
     // And now, the wall of constructors to support simpler PIDManagers.
