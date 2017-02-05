@@ -40,28 +40,52 @@ public class PIDManagerTest extends BaseWPITest{
     @Test
     public void testIsOnTargetUsingError() {
         PIDManager manager = new PIDManager("test", injector.getInstance(XPropertyManager.class), 1, 0, 0, 0, 0.5, -0.25, 1, -1);
-        manager.calculate(100, 0);
         
+        manager.calculate(100, 0);
         assertFalse(manager.isOnTarget());
         
-        manager.calculate(100, 100);
-        
+        manager.calculate(100, 99.5);
         assertTrue(manager.isOnTarget());
     }
     
     @Test
     public void testIsOnTargetUsingDerivative() {
-        PIDManager manager = new PIDManager("test", injector.getInstance(XPropertyManager.class), 1, 0, 0, 0, 0.5, -0.25, 1, 1);
+        PIDManager manager = new PIDManager("test", injector.getInstance(XPropertyManager.class), 1, 0, 0, 0, 0.5, -0.25, -1, 1);
+        
         manager.calculate(100, 0);
+        assertFalse(manager.isOnTarget());
         
+        manager.calculate(100, 99.5);
         assertFalse(manager.isOnTarget());
         
         manager.calculate(100, 100);
-        
-        assertFalse(manager.isOnTarget());
-        
-        manager.calculate(100, 100);
-        
         assertTrue(manager.isOnTarget());
+    }
+    
+    @Test
+    public void testIsOnTargetUsingErrorAndDerivative() {
+        PIDManager manager = new PIDManager("test", injector.getInstance(XPropertyManager.class), 1, 0, 0, 0, 0.5, -0.25, 1, 1);
+        
+        manager.calculate(100, 0);
+        assertFalse(manager.isOnTarget());
+        
+        manager.calculate(100, 99.5);
+        assertFalse(manager.isOnTarget());
+        
+        manager.calculate(100, 100);
+        assertTrue(manager.isOnTarget());
+    }
+    
+    @Test
+    public void testIsOnTargetThenNot() {
+        PIDManager manager = new PIDManager("test", injector.getInstance(XPropertyManager.class), 1, 0, 0, 0, 0.5, -0.25, 1, -1);
+        manager.calculate(100, 0);
+        assertFalse(manager.isOnTarget());
+        
+        manager.calculate(100, 99.5);
+        assertTrue(manager.isOnTarget());
+        
+        manager.calculate(100, 90);
+        assertFalse(manager.isOnTarget());
     }
 }
