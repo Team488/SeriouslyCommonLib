@@ -146,8 +146,6 @@ public abstract class AbstractPoseSubsystem extends BaseSubsystem {
      * distance values coming from the DriveSubsystem. In order to have accurate calculations, these
      * values need to be in inches, and should never be reset - any resetting should be done here
      * in the PoseSubsystem
-     * @param leftDistance total distance, in inches, that the left drivetrain has traveled
-     * @param rightDistance total distance, in inches, that the right drivetrain has traveled
      */
     public void updatePose() {
         updateCurrentHeading();

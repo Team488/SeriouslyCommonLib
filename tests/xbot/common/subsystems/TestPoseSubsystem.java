@@ -6,13 +6,13 @@ import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.properties.XPropertyManager;
 
-public class MockPoseSubsystem extends AbstractPoseSubsystem {
+public class TestPoseSubsystem extends AbstractPoseSubsystem {
 
     private XCANTalon left;
     private XCANTalon right;
     
     @Inject
-    public MockPoseSubsystem(WPIFactory factory, XPropertyManager propManager) {
+    public TestPoseSubsystem(WPIFactory factory, XPropertyManager propManager) {
         super(factory, propManager);
     }
     

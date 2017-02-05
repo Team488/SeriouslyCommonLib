@@ -9,11 +9,11 @@ import xbot.common.injection.BaseWPITest;
 
 public class PoseSubsystemTest extends BaseWPITest {
         
-    MockPoseSubsystem pose;
+    TestPoseSubsystem pose;
     
     @Before
     public void setup() {
-        pose = injector.getInstance(MockPoseSubsystem.class);
+        pose = injector.getInstance(TestPoseSubsystem.class);
     }    
     
     @Test
