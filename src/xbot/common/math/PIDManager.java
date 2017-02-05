@@ -31,7 +31,7 @@ public class PIDManager extends PIDPropertyManager {
     
     public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD, double defaultF,
             double defaultMaxOutput, double defaultMinOutput) {
-        this(functionName, propMan, defaultP, defaultI, defaultD, defaultF, 1.0, -1.0, -1, -1);
+        this(functionName, propMan, defaultP, defaultI, defaultD, defaultF, defaultMaxOutput, defaultMinOutput, -1, -1);
     }
 
     public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD,

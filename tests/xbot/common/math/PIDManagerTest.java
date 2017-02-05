@@ -21,7 +21,7 @@ public class PIDManagerTest extends BaseWPITest{
     
     @Test
     public void testOverrideOutputLimits() {
-        PIDManager manager = new PIDManager("test", injector.getInstance(XPropertyManager.class), 1, 0, 0, 0.5, -0.25);
+        PIDManager manager = new PIDManager("test", injector.getInstance(XPropertyManager.class), 1, 0, 0, 0, 0.5, -0.25);
         double output = manager.calculate(100, 0);
         assertEquals(0.5, output, 0.001);
         
