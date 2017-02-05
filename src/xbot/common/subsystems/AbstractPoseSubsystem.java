@@ -149,7 +149,7 @@ public abstract class AbstractPoseSubsystem extends BaseSubsystem {
      * @param leftDistance total distance, in inches, that the left drivetrain has traveled
      * @param rightDistance total distance, in inches, that the right drivetrain has traveled
      */
-    public void updatePose(double leftDistance, double rightDistance) {
+    public void updatePose() {
         updateCurrentHeading();
         updateDistanceTraveled(getLeftDriveDistance(), getRightDriveDistance());
     }
