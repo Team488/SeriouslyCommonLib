@@ -22,9 +22,16 @@ public class PIDPropertyManager {
     
     private final RobotAssertionManager assertionManager;
     
-    public PIDPropertyManager(String functionName, XPropertyManager propMan, RobotAssertionManager assertionManager,
-            double defaultP, double defaultI, double defaultD, double defaultF,
-            double errorThreshold, double derivativeThreshold) {
+    public PIDPropertyManager(
+            String functionName, 
+            XPropertyManager propMan,
+            RobotAssertionManager assertionManager,
+            double defaultP, 
+            double defaultI,
+            double defaultD, 
+            double defaultF,
+            double errorThreshold, 
+            double derivativeThreshold) {
         propP = propMan.createPersistentProperty(functionName + " P", defaultP);
         propI = propMan.createPersistentProperty(functionName + " I", defaultI);
         propD = propMan.createPersistentProperty(functionName + " D", defaultD);
@@ -43,8 +50,14 @@ public class PIDPropertyManager {
         this.assertionManager = assertionManager;
     }
     
-    public PIDPropertyManager(String functionName, XPropertyManager propMan, RobotAssertionManager assertionManager,
-            double defaultP, double defaultI, double defaultD, double defaultF) {
+    public PIDPropertyManager(
+            String functionName, 
+            XPropertyManager propMan, 
+            RobotAssertionManager assertionManager,
+            double defaultP, 
+            double defaultI, 
+            double defaultD, 
+            double defaultF) {
         this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, -1, -1);
     }
 
