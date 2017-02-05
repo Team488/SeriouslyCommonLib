@@ -51,14 +51,29 @@ public class PIDManager extends PIDPropertyManager {
         pid.reset();
     }
 
+    /**
+     * Legacy method to support old callers.
+     */
     public boolean isOnTarget(double errorTolerance) {
         setErrorThreshold(errorTolerance);
         return pid.isOnTarget();
     }
     
+    /**
+     * Legacy method to support old callers.
+     */
     public boolean isOnTarget(double errorTolerance, double derivativeOfErrorTolerance) {
         setErrorThreshold(errorTolerance);
         setDerivativeThreshold(derivativeOfErrorTolerance);
+        return pid.isOnTarget();
+    }
+    
+    /**
+     * Determines if you are on target.
+     * Only works if you have called setErrorThreshold() and/or 
+     * setDerivativeThreshold().
+     */
+    public boolean isOnTarget() {
         return pid.isOnTarget();
     }
 }
