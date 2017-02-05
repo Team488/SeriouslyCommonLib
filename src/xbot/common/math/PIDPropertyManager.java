@@ -86,7 +86,7 @@ public class PIDPropertyManager {
     
     public void setErrorThreshold(double errorThreshold) {
         assertionManager.assertTrue(errorThreshold >= 0, "Thresholds won't work if they are negative!");
-        propErrorThreshold.set(errorThreshold);
+        propErrorThreshold.set(Math.abs(errorThreshold));
     }
     
     public double getDerivativeThreshold() {
@@ -95,7 +95,7 @@ public class PIDPropertyManager {
     
     public void setDerivativeThreshold(double derivativeThreshold) {
         assertionManager.assertTrue(derivativeThreshold >= 0, "Thresholds won't work if they are negative!");
-        propDerivativeThreshold.set(derivativeThreshold);
+        propDerivativeThreshold.set(Math.abs(derivativeThreshold));
     }
     
     public boolean getEnableErrorThreshold() {
