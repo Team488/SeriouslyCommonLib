@@ -15,6 +15,9 @@ public class PID
     private double m_totalError;
     private double m_targetInputValue;
     private double m_currentInputValue;
+    
+    private boolean calculateHasBeenCalled = false;
+    private double m_derivativeValue;
 
     /**
      * Resets the PID controller.
@@ -23,6 +26,7 @@ public class PID
     {
         m_prevError = 0;
         m_totalError = 0;
+        calculateHasBeenCalled = false;
     }
 
     /**
@@ -45,6 +49,8 @@ public class PID
     public double calculate(double goal, double current,
             double p, double i, double d, double f)
     {
+        calculateHasBeenCalled = true;
+        
         m_targetInputValue = goal;
         m_currentInputValue = current;
         double result;
@@ -68,7 +74,8 @@ public class PID
             }
         }
 
-        m_result = p * m_error + i * m_totalError + d * (m_error - m_prevError) + f * goal;
+        m_derivativeValue = m_error - m_prevError;
+        m_result = p * m_error + i * m_totalError + d * (m_derivativeValue) + f * goal;
         m_prevError = m_error;
 
         if (m_result > m_maximumOutput)
@@ -104,15 +111,49 @@ public class PID
     }
 
     /**
-     * This tells you if the controller has met its goal. Don't call this before
-     * calling calculate!
+     * This tells you if the controller has met its goal.
      * 
-     * @param absoluteTolerance
+     * @param errorTolerance
      *            How close the value can be before it is considered
      *            "on-target."
      */
-    public boolean isOnTarget(double absoluteTolerance)
+    public boolean isOnTarget(double errorTolerance)
     {
-        return Math.abs(m_targetInputValue - m_currentInputValue) < absoluteTolerance;
+        return isOnTarget(errorTolerance, Double.MAX_VALUE);
+    }
+    
+    /**
+     * This tells you if the controller has met its goal.
+     * @param errorTolerance 
+     *            How close the error can be before it is considered
+     *            "on-target."
+     *            
+     *            This is in the same units as your current and goal values.
+     * @param errorDerivativeTolerance
+     *            How small the derivative of the error can be before it is considered
+     *            "on-target."
+     *            
+     *            This is roughly in the same units as your current and goal values,
+     *            but per 1/20th of a second.
+     *            
+     *            so if you wanted a minimum rotation speed of 5 degrees per second,
+     *            this tolerance would need to be 0.25.     *            
+     */
+    public boolean isOnTarget(double errorTolerance, double errorDerivativeTolerance) {
+        /*
+         * If calculate hasn't been called, all the tolerance checks will pass, since
+         * all the values that are being checked will be initialized to 0.
+         * 
+         * To deal with this, we check the flag "calculateHasBeenCalled" to make sure
+         * that these values have been populated.
+         */
+        if (!calculateHasBeenCalled) {
+            return false;
+        }
+        
+        boolean errorIsSmall = Math.abs(m_targetInputValue - m_currentInputValue) < errorTolerance;
+        boolean derivativeOfErrorIsSmall = Math.abs(m_derivativeValue) < errorDerivativeTolerance;
+        
+        return errorIsSmall && derivativeOfErrorIsSmall;
     }
 }
