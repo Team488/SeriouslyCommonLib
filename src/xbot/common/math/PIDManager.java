@@ -1,5 +1,9 @@
 package xbot.common.math;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
+
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
@@ -16,18 +20,19 @@ public class PIDManager extends PIDPropertyManager {
     private DoubleProperty minOutput;
     private BooleanProperty isEnabled;
     
+    @AssistedInject
     public PIDManager(
-            String functionName, 
+            @Assisted String functionName, 
             XPropertyManager propMan, 
             RobotAssertionManager assertionManager,
-            double defaultP, 
-            double defaultI, 
-            double defaultD, 
-            double defaultF,
-            double defaultMaxOutput, 
-            double defaultMinOutput,
-            double errorThreshold, 
-            double derivativeThreshold) {
+            @Assisted("defaultP") double defaultP, 
+            @Assisted("defaultI") double defaultI, 
+            @Assisted("defaultD") double defaultD, 
+            @Assisted("defaultF") double defaultF,
+            @Assisted("defaultMaxOutput") double defaultMaxOutput, 
+            @Assisted("defaultMinOutput") double defaultMinOutput,
+            @Assisted("errorThreshold") double errorThreshold, 
+            @Assisted("derivativeThreshold") double derivativeThreshold) {
         super(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold, derivativeThreshold);
         
         maxOutput = propMan.createPersistentProperty(functionName + " Max Output", defaultMaxOutput);
@@ -39,44 +44,47 @@ public class PIDManager extends PIDPropertyManager {
     }
     
     // And now, the wall of constructors to support simpler PIDManagers.
-    
+    @AssistedInject
     public PIDManager(
-            String functionName,
+            @Assisted String functionName,
             XPropertyManager propMan,
             RobotAssertionManager assertionManager,
-            double defaultP, 
-            double defaultI, 
-            double defaultD, 
-            double defaultF,
-            double defaultMaxOutput, 
-            double defaultMinOutput) {
+            @Assisted("defaultP") double defaultP, 
+            @Assisted("defaultI") double defaultI, 
+            @Assisted("defaultD") double defaultD, 
+            @Assisted("defaultF") double defaultF,
+            @Assisted("defaultMaxOutput") double defaultMaxOutput, 
+            @Assisted("defaultMinOutput") double defaultMinOutput) {
         this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, defaultMaxOutput, defaultMinOutput, -1, -1);
     }
 
+    @AssistedInject
     public PIDManager(
-            String functionName, 
+            @Assisted String functionName, 
             XPropertyManager propMan,
             RobotAssertionManager assertionManager,
-            double defaultP, 
-            double defaultI, 
-            double defaultD,
-            double defaultMaxOutput, 
-            double defaultMinOutput) {
+            @Assisted("defaultP") double defaultP, 
+            @Assisted("defaultI") double defaultI, 
+            @Assisted("defaultD") double defaultD, 
+            @Assisted("defaultMaxOutput") double defaultMaxOutput, 
+            @Assisted("defaultMinOutput") double defaultMinOutput) {
         this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, 0, 1.0, -1.0, -1, -1);
     }
     
+    @AssistedInject
     public PIDManager(
-            String functionName, 
+            @Assisted String functionName, 
             XPropertyManager propMan,
             RobotAssertionManager assertionManager,
-            double defaultP, 
-            double defaultI, 
-            double defaultD) {
+            @Assisted("defaultP") double defaultP, 
+            @Assisted("defaultI") double defaultI, 
+            @Assisted("defaultD") double defaultD) {
         this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, 1.0, -1.0);
     }
 
+    @AssistedInject
     public PIDManager(
-            String functionName, 
+            @Assisted String functionName, 
             XPropertyManager propMan,
             RobotAssertionManager assertionManager) {
         this(functionName, propMan, assertionManager, 0, 0, 0);
