@@ -1,5 +1,6 @@
 package xbot.common.math;
 
+import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
@@ -18,6 +19,7 @@ public class PIDManager extends PIDPropertyManager {
     public PIDManager(
             String functionName, 
             XPropertyManager propMan, 
+            RobotAssertionManager assertionManager,
             double defaultP, 
             double defaultI, 
             double defaultD, 
@@ -26,63 +28,68 @@ public class PIDManager extends PIDPropertyManager {
             double defaultMinOutput,
             double errorThreshold, 
             double derivativeThreshold) {
-        super(functionName, propMan, defaultP, defaultI, defaultD, defaultF, errorThreshold, derivativeThreshold);
+        super(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold, derivativeThreshold);
         
         maxOutput = propMan.createPersistentProperty(functionName + " Max Output", defaultMaxOutput);
         minOutput = propMan.createPersistentProperty(functionName + " Min Output", defaultMinOutput);
         isEnabled = propMan.createPersistentProperty(functionName + " Is Enabled", true);
 
         pid = new PID();
-        pid.setTolerances(getErrorThreshold(), getDerivativeThreshold());
+        sendTolerancesToInternalPID();
     }
     
     // And now, the wall of constructors to support simpler PIDManagers.
     
     public PIDManager(
-            String functionName, 
-            XPropertyManager propMan, 
+            String functionName,
+            XPropertyManager propMan,
+            RobotAssertionManager assertionManager,
             double defaultP, 
             double defaultI, 
             double defaultD, 
             double defaultF,
             double defaultMaxOutput, 
             double defaultMinOutput) {
-        this(functionName, propMan, defaultP, defaultI, defaultD, defaultF, defaultMaxOutput, defaultMinOutput, -1, -1);
+        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, defaultMaxOutput, defaultMinOutput, -1, -1);
     }
 
     public PIDManager(
             String functionName, 
-            XPropertyManager propMan, 
+            XPropertyManager propMan,
+            RobotAssertionManager assertionManager,
             double defaultP, 
             double defaultI, 
             double defaultD,
             double defaultMaxOutput, 
             double defaultMinOutput) {
-        this(functionName, propMan, defaultP, defaultI, defaultD, 0, 1.0, -1.0, -1, -1);
+        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, 0, 1.0, -1.0, -1, -1);
     }
     
     public PIDManager(
             String functionName, 
-            XPropertyManager propMan, 
+            XPropertyManager propMan,
+            RobotAssertionManager assertionManager,
             double defaultP, 
             double defaultI, 
             double defaultD) {
-        this(functionName, propMan, defaultP, defaultI, defaultD, 1.0, -1.0);
+        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, 1.0, -1.0);
     }
 
     public PIDManager(
             String functionName, 
-            XPropertyManager propMan) {
-        this(functionName, propMan, 0, 0, 0);
+            XPropertyManager propMan,
+            RobotAssertionManager assertionManager) {
+        this(functionName, propMan, assertionManager, 0, 0, 0);
     }
     
-    private void updateTolerancesFromProperties() {
+    private void sendTolerancesToInternalPID() {
         pid.setTolerances(getErrorThreshold(), getDerivativeThreshold());
+        pid.setShouldCheckTolerances(getEnableErrorThreshold(), getEnableDerivativeThreshold());
     }
 
     public double calculate(double goal, double current) {
         // update tolerances via properties
-        updateTolerancesFromProperties();
+        sendTolerancesToInternalPID();
         
         if(isEnabled.get()) {
             double pidResult = pid.calculate(goal, current, getP(), getI(), getD(), getF());
@@ -101,23 +108,16 @@ public class PIDManager extends PIDPropertyManager {
      */
     public boolean isOnTarget(double errorTolerance) {
         setErrorThreshold(errorTolerance);
-        updateTolerancesFromProperties();
-        return pid.isOnTarget();
-    }
-    
-    /**
-     * Legacy method to support old callers.
-     */
-    public boolean isOnTarget(double errorTolerance, double derivativeOfErrorTolerance) {
-        setErrorThreshold(errorTolerance);
-        setDerivativeThreshold(derivativeOfErrorTolerance);
+        setEnableErrorThreshold(true);
+        sendTolerancesToInternalPID();
         return pid.isOnTarget();
     }
     
     /**
      * Determines if you are on target.
-     * Only works if you have called setErrorThreshold() and/or 
-     * setDerivativeThreshold().
+     * Only works if: you have called setErrorThreshold() and/or setDerivativeThreshold(), as well as
+     *  setEnableErrorThreshold() and/or setDerivativeErrorThreshold(), or if you have set
+     *  these values in the SmartDashboard at runtime.
      */
     public boolean isOnTarget() {
         return pid.isOnTarget();
