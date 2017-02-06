@@ -5,7 +5,9 @@ import org.apache.log4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import javafx.util.Pair;
 import xbot.common.command.BaseSubsystem;
+import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.injection.wpi_factories.WPIFactory;
@@ -15,10 +17,9 @@ import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
-@Singleton
-public class PoseSubsystem extends BaseSubsystem {
+public abstract class BasePoseSubsystem extends BaseSubsystem implements PeriodicDataSource {
         
-    private static Logger log = Logger.getLogger(PoseSubsystem.class);
+    private static Logger log = Logger.getLogger(BasePoseSubsystem.class);
     public final XGyro imu;
     
     private final DoubleProperty leftDriveDistance;
@@ -47,8 +48,7 @@ public class PoseSubsystem extends BaseSubsystem {
     
     private BooleanProperty rioRotated;
     
-    @Inject
-    public PoseSubsystem(WPIFactory factory, XPropertyManager propManager) {
+    public BasePoseSubsystem(WPIFactory factory, XPropertyManager propManager) {
         log.info("Creating PoseSubsystem");
         imu = factory.getGyro(ImuType.navX);
         
@@ -147,13 +147,14 @@ public class PoseSubsystem extends BaseSubsystem {
      * distance values coming from the DriveSubsystem. In order to have accurate calculations, these
      * values need to be in inches, and should never be reset - any resetting should be done here
      * in the PoseSubsystem
-     * @param leftDistance total distance, in inches, that the left drivetrain has traveled
-     * @param rightDistance total distance, in inches, that the right drivetrain has traveled
      */
-    public void updatePose(double leftDistance, double rightDistance) {
+    public void updatePose() {
         updateCurrentHeading();
-        updateDistanceTraveled(leftDistance, rightDistance);
+        updateDistanceTraveled(getLeftDriveDistance(), getRightDriveDistance());
     }
+    
+    protected abstract double getLeftDriveDistance();
+    protected abstract double getRightDriveDistance();
     
     public double getRobotPitch() {
         return getRealPitch() - inherentRioPitch.get();
@@ -180,5 +181,10 @@ public class PoseSubsystem extends BaseSubsystem {
     public void calibrateInherentRioOrientation() {
         inherentRioPitch.set(getRealPitch());
         inherentRioRoll.set(getRealRoll());
+    }
+    
+    @Override
+    public void updatePeriodicData() {
+        updatePose();
     }
 }

@@ -37,7 +37,7 @@ public class BaseRobot extends IterativeRobot {
     
     protected Command autonomousCommand;
     
-    protected ArrayList<TelemetrySource> telemetrySources = new ArrayList<TelemetrySource>();
+    protected ArrayList<PeriodicDataSource> telemetrySources = new ArrayList<PeriodicDataSource>();
 
     public BaseRobot() {
         super();
@@ -128,13 +128,13 @@ public class BaseRobot extends IterativeRobot {
         this.updateTelemetrySources();
     }
     
-    protected void registerTelemetrySource(TelemetrySource telemetrySource) {
+    protected void registerTelemetrySource(PeriodicDataSource telemetrySource) {
         this.telemetrySources.add(telemetrySource);
     }
     
     protected void updateTelemetrySources() {
-        for (TelemetrySource telemetrySource: this.telemetrySources) {
-            telemetrySource.updateTelemetry();
+        for (PeriodicDataSource telemetrySource: this.telemetrySources) {
+            telemetrySource.updatePeriodicData();
         }
     }
 }
