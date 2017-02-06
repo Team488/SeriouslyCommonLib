@@ -78,7 +78,7 @@
             <batchtest fork="yes" todir="${test.report.dir}">
                 <formatter type="brief" usefile="false" />
                 <fileset dir="${test.dest.dir}">
-                    <include name="**/*Test*.class"/>
+                    <include name="**/*Test.class"/>
                 </fileset>
             </batchtest>
         </junit>
