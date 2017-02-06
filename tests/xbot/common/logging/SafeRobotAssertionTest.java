@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
 
-public class SafeRobotAssertionTests extends BaseWPITest {
+public class SafeRobotAssertionTest extends BaseWPITest {
     @Test
     public void testNoExceptionOnRobot() {
         RobotAssertionManager assertMan = new SilentRobotAssertionManager();
