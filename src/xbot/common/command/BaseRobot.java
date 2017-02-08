@@ -37,7 +37,7 @@ public class BaseRobot extends IterativeRobot {
     
     protected Command autonomousCommand;
     
-    protected ArrayList<PeriodicDataSource> telemetrySources = new ArrayList<PeriodicDataSource>();
+    protected ArrayList<PeriodicDataSource> periodicDataSources = new ArrayList<PeriodicDataSource>();
 
     public BaseRobot() {
         super();
@@ -125,16 +125,16 @@ public class BaseRobot extends IterativeRobot {
     
     protected void sharedPeriodic() {
         xScheduler.run();
-        this.updateTelemetrySources();
+        this.updatePeriodicDataSources();
     }
     
-    protected void registerTelemetrySource(PeriodicDataSource telemetrySource) {
-        this.telemetrySources.add(telemetrySource);
+    protected void registerPeriodicDataSource(PeriodicDataSource telemetrySource) {
+        this.periodicDataSources.add(telemetrySource);
     }
     
-    protected void updateTelemetrySources() {
-        for (PeriodicDataSource telemetrySource: this.telemetrySources) {
-            telemetrySource.updatePeriodicData();
+    protected void updatePeriodicDataSources() {
+        for (PeriodicDataSource periodicDataSource: this.periodicDataSources) {
+            periodicDataSource.updatePeriodicData();
         }
     }
 }
