@@ -6,6 +6,7 @@ import xbot.common.injection.wpi_factories.MockWPIFactory;
 import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.logging.LoudRobotAssertionManager;
 import xbot.common.logging.RobotAssertionManager;
+import xbot.common.math.PIDManagerFactory;
 import xbot.common.properties.ITableProxy;
 import xbot.common.properties.MockPermamentStorage;
 import xbot.common.properties.PermanentStorage;
@@ -13,6 +14,7 @@ import xbot.common.properties.TableProxy;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 import edu.wpi.first.wpilibj.MockTimer;
 import edu.wpi.first.wpilibj.Timer;
@@ -44,5 +46,7 @@ public class UnitTestModule extends AbstractModule {
         this.bind(SmartDashboardCommandPutter.class).to(MockSmartDashboardCommandPutter.class);
 
         this.bind(RobotAssertionManager.class).to(LoudRobotAssertionManager.class);
+        
+        this.install(new FactoryModuleBuilder().build(PIDManagerFactory.class));
     }
 }

@@ -14,14 +14,14 @@ public class XYPairManager {
     private DoubleProperty propY;
 
     public XYPairManager(String functionName, XPropertyManager propMan, double defaultX, double defaultY) {
-        setupPIDManager(functionName, propMan, defaultX, defaultY);
+        setupXYPairManager(functionName, propMan, defaultX, defaultY);
     }
 
     public XYPairManager(String functionName, XPropertyManager propMan) {
-        setupPIDManager(functionName, propMan, 0, 0);
+        setupXYPairManager(functionName, propMan, 0, 0);
     }
 
-    private void setupPIDManager(String functionName, XPropertyManager propMan, double defaultX, double defaultY) {
+    private void setupXYPairManager(String functionName, XPropertyManager propMan, double defaultX, double defaultY) {
         propX = new DoubleProperty(functionName + " X", defaultX, propMan);
         propY = new DoubleProperty(functionName + " Y", defaultY, propMan);
     }
