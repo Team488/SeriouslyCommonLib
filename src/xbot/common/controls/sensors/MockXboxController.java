@@ -4,10 +4,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import xbot.common.controls.sensors.XboxControllerWpiAdapter.XboxButtons;
 import xbot.common.math.XYPair;
 
-public class MockXboxController extends XboxController implements XXboxController {
+public class MockXboxController implements XXboxController {
 
     public MockXboxController(int port) {
-        super(0);
     }
 
     XYPair leftJoystickAxis;
