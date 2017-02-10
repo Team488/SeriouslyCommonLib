@@ -17,6 +17,7 @@ public class PIDManager {
     private DoubleProperty maxOutput;
     private DoubleProperty minOutput;
     private BooleanProperty isEnabled;
+    private boolean isIMasked = false;
 
     public PIDManager(String functionName, XPropertyManager propMan, double defaultP, double defaultI, double defaultD,
             double defaultMaxOutput, double defaultMinOutput) {
@@ -42,7 +43,7 @@ public class PIDManager {
 
     public double calculate(double goal, double current) {
         if(isEnabled.get()) {
-            double pidResult = pid.calculate(goal, current, propP.get(), propI.get(), propD.get());
+            double pidResult = pid.calculate(goal, current, propP.get(), isIMasked ? 0 : propI.get(), propD.get());
             return MathUtils.constrainDouble(pidResult, minOutput.get(), maxOutput.get());
         } else {
             return 0;
@@ -67,5 +68,13 @@ public class PIDManager {
 
     public void setD(double val) {
         propD.set(val);
+    }
+
+    public void setIMask(boolean isMasked) {
+        isIMasked = isMasked;
+    }
+
+    public boolean getIMask() {
+        return isIMasked;
     }
 }
