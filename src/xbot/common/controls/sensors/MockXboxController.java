@@ -93,7 +93,7 @@ public class MockXboxController implements XXboxController {
     @Override
     public AdvancedXboxButton getXboxButton(XboxButtons buttonName) {
         // TODO Auto-generated method stub
-        return null;
+        return new AdvancedXboxButton(this, buttonName);
     }
 
     @Override
