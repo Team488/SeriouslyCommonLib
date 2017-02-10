@@ -1,6 +1,7 @@
 package xbot.common.controls.sensors;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +10,6 @@ import xbot.common.controls.sensors.JoystickButtonManager;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.BaseWPITest;
 import xbot.common.injection.wpi_factories.WPIFactory;
-import xbot.common.logging.RobotAssertionException;
 import xbot.common.logging.RobotAssertionManager;
 
 

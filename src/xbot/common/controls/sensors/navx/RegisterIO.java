@@ -10,7 +10,7 @@
 package xbot.common.controls.sensors.navx;
 
 import edu.wpi.first.wpilibj.Timer;
-
+@SuppressWarnings("unused")
 class RegisterIO implements IIOProvider {
     IRegisterIO io_provider;
     byte update_rate_hz;

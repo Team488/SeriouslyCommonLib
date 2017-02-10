@@ -3,7 +3,6 @@ package xbot.common.command;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -11,6 +10,7 @@ import xbot.common.injection.BaseWPITest;
 
 public class SetpointSystemTest extends BaseWPITest {
 
+    @SuppressWarnings("unused")
     @Test
     public void testSetpointSystemCanBeCreated() {
         MockSetpointCommand first = injector.getInstance(MockSetpointCommand.class);

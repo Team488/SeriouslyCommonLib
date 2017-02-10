@@ -2,9 +2,7 @@ package xbot.common.controls.sensors;
 
 import org.apache.log4j.Logger;
 
-import edu.wpi.first.wpilibj.buttons.Button;
-
-public class AdvancedJoystickButton extends Button
+public class AdvancedJoystickButton extends AdvancedButton
 {
     private static final Logger log = Logger.getLogger(AdvancedJoystickButton.class);
     
@@ -12,19 +10,13 @@ public class AdvancedJoystickButton extends Button
     int buttonNumber;
     
     public AdvancedJoystickButton(XJoystick joystick, int buttonNumber) {
+        log.info("Creating button " + buttonNumber + " on port " + joystick.getInternalHID().getPort());
         this.joystick = joystick;
         this.buttonNumber = buttonNumber;
     }
 
-    private boolean isInverted = false;
-
     @Override
     public boolean get() {
         return joystick.getButton(buttonNumber) ^ isInverted;
-    }
-    
-    public void setInverted(boolean inverted)
-    {
-        isInverted = inverted;
     }
 }

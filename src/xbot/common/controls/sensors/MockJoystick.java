@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import xbot.common.math.XYPair;
 
 public class MockJoystick extends GenericHID implements XJoystick {
