@@ -89,6 +89,7 @@ public abstract class BaseSRXControlledSubsystem extends BaseSubsystem implement
             WPIFactory factory, 
             PIDPropertyManager pidPropertyManager,
             XPropertyManager propManager){
+        super(systemName);
         log.info("Creating " + systemName + " system");
         
         this.pidPropertyManager = pidPropertyManager;
