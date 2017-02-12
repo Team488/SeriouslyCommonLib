@@ -1,5 +1,7 @@
 package xbot.common.command;
 
+import org.apache.log4j.Logger;
+
 import com.google.inject.Inject;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -10,14 +12,18 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public abstract class BaseCommand extends Command {
 
+    protected Logger log;
+    
     @Inject
     SmartDashboardCommandPutter commandPutter;
 
     public BaseCommand() {
+        log = Logger.getLogger(this.getName());
     }
 
     public BaseCommand(String name) {
         super(name);
+        log = Logger.getLogger(this.getName());
     }
 
     @Override
