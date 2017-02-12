@@ -13,6 +13,13 @@ public abstract class BaseCommand extends Command {
     @Inject
     SmartDashboardCommandPutter commandPutter;
 
+    public BaseCommand() {
+    }
+
+    public BaseCommand(String name) {
+        super(name);
+    }
+
     @Override
     public abstract void initialize();
 

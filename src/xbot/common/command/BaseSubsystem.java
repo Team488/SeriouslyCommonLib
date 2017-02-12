@@ -5,8 +5,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public abstract class BaseSubsystem extends Subsystem {
 
-    public BaseSubsystem() { }
-    
+    public BaseSubsystem() {
+    }
+
     public BaseSubsystem(String name) {
         super(name);
     }
