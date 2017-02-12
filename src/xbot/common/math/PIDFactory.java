@@ -2,9 +2,9 @@ package xbot.common.math;
 
 import com.google.inject.assistedinject.Assisted;
 
-public interface PIDManagerFactory {
+public interface PIDFactory {
 
-    public PIDManager create(
+    public PIDManager createPIDManager(
             String functionName,
             @Assisted("defaultP") double defaultP, 
             @Assisted("defaultI") double defaultI, 
@@ -15,7 +15,7 @@ public interface PIDManagerFactory {
             @Assisted("errorThreshold") double errorThreshold, 
             @Assisted("derivativeThreshold") double derivativeThreshold);
     
-    public PIDManager create(
+    public PIDManager createPIDManager(
             String functionName,
             @Assisted("defaultP") double defaultP, 
             @Assisted("defaultI") double defaultI, 
@@ -25,7 +25,7 @@ public interface PIDManagerFactory {
             @Assisted("defaultMinOutput") double defaultMinOutput);
 
     
-    public PIDManager create(
+    public PIDManager createPIDManager(
             String functionName, 
             @Assisted("defaultP") double defaultP, 
             @Assisted("defaultI") double defaultI, 
@@ -34,12 +34,29 @@ public interface PIDManagerFactory {
             @Assisted("defaultMinOutput") double defaultMinOutput);
     
     
-    public PIDManager create(
+    public PIDManager createPIDManager(
             String functionName, 
             @Assisted("defaultP") double defaultP, 
             @Assisted("defaultI") double defaultI, 
             @Assisted("defaultD") double defaultD);
 
     
-    public PIDManager create(String functionName);
+    public PIDManager createPIDManager(String functionName);
+    
+    public PIDPropertyManager createPIDPropertyManager(
+            String functionName,
+            @Assisted("defaultP") double defaultP, 
+            @Assisted("defaultI") double defaultI, 
+            @Assisted("defaultD") double defaultD, 
+            @Assisted("defaultF") double defaultF,
+            @Assisted("errorThreshold") double errorThreshold, 
+            @Assisted("derivativeThreshold") double derivativeThreshold);
+    
+    public PIDPropertyManager createPIDPropertyManager(
+            String functionName,
+            @Assisted("defaultP") double defaultP, 
+            @Assisted("defaultI") double defaultI, 
+            @Assisted("defaultD") double defaultD, 
+            @Assisted("defaultF") double defaultF);
+    
 }

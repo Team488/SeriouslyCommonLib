@@ -6,7 +6,7 @@ import xbot.common.injection.wpi_factories.MockWPIFactory;
 import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.logging.LoudRobotAssertionManager;
 import xbot.common.logging.RobotAssertionManager;
-import xbot.common.math.PIDManagerFactory;
+import xbot.common.math.PIDFactory;
 import xbot.common.properties.ITableProxy;
 import xbot.common.properties.MockPermamentStorage;
 import xbot.common.properties.PermanentStorage;
@@ -47,6 +47,6 @@ public class UnitTestModule extends AbstractModule {
 
         this.bind(RobotAssertionManager.class).to(LoudRobotAssertionManager.class);
         
-        this.install(new FactoryModuleBuilder().build(PIDManagerFactory.class));
+        this.install(new FactoryModuleBuilder().build(PIDFactory.class));
     }
 }
