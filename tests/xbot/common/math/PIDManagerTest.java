@@ -14,12 +14,12 @@ import xbot.common.properties.XPropertyManager;
 
 public class PIDManagerTest extends BaseWPITest{
     
-    PIDManagerFactory factory;
+    PIDFactory factory;
     
     @Before
     public void setUp() {
         super.setUp();
-        factory = injector.getInstance(PIDManagerFactory.class);
+        factory = injector.getInstance(PIDFactory.class);
     }
     
     @Test

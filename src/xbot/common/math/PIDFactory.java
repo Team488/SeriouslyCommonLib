@@ -2,7 +2,7 @@ package xbot.common.math;
 
 import com.google.inject.assistedinject.Assisted;
 
-public interface PIDManagerFactory {
+public interface PIDFactory {
 
     public PIDManager createPIDManager(
             String functionName,
