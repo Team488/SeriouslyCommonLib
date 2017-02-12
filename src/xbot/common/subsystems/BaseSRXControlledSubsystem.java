@@ -33,6 +33,7 @@ public abstract class BaseSRXControlledSubsystem extends BaseSubsystem implement
     private static Logger log = Logger.getLogger(BaseSRXControlledSubsystem.class);
 
     protected final XCANTalon masterMotor;
+    protected final XCANTalon followerMotor;
        
     // output telemetry properties
     protected final DoubleProperty systemCurrentSpeed;
@@ -51,6 +52,7 @@ public abstract class BaseSRXControlledSubsystem extends BaseSubsystem implement
      * 
      * @param systemName What the system is called. This will apply to various Properties.
      * @param masterChannel The CAN index of the master motor (or the only motor, for a simple system)
+     * @param followChannel The CAN index of the follow motor (-1 if no follow motor)
      * @param factory The WPIFactory
      * @param pidPropertyManager The default PIDF values the system should use
      * @param propManager The XPropertyManager
@@ -58,8 +60,10 @@ public abstract class BaseSRXControlledSubsystem extends BaseSubsystem implement
     public BaseSRXControlledSubsystem(
             String systemName,
             int masterChannel,
+            int followChannel,
             boolean invertMaster,
             boolean invertMasterSensor,
+            boolean invertFollower,
             WPIFactory factory, 
             PIDPropertyManager pidPropertyManager,
             XPropertyManager propManager){
@@ -82,28 +86,58 @@ public abstract class BaseSRXControlledSubsystem extends BaseSubsystem implement
         enablesystemLogging = propManager.createEphemeralProperty("Is " + systemName + " logging enabled?", false);
         
         masterMotor = factory.getCANTalonSpeedController(masterChannel);
-
-        initializeMotorConfiguration(invertMaster, invertMasterSensor);
+        initializeMasterMotorConfiguration(invertMaster, invertMasterSensor);
         masterMotor.createTelemetryProperties(systemName + "  master", propManager);
+        
+        if (followChannel >= 0) {
+            followerMotor = factory.getCANTalonSpeedController(followChannel);
+            initializeFollowerMotorConfiguration(invertFollower);
+        }
+        else {
+            followerMotor = null;
+        }
     }
     
     /**
-     * Setup extra values for the masterMotor XCANTalon, and do any necessary setup of your
-     * follower XCANTalon(s).
-     * Some examples:
-     * -Configure your follower XCANTalon(s) to follow masterMotor
-     * -Configure voltage settings, such as configNominalOutputVoltage and configPeakOutputVoltage
+     * 
+     * @param systemName What the system is called. This will apply to various Properties.
+     * @param masterChannel The CAN index of the master motor (or the only motor, for a simple system)
+     * @param factory The WPIFactory
+     * @param pidPropertyManager The default PIDF values the system should use
+     * @param propManager The XPropertyManager
      */
-    protected abstract void setupExtendedMotorProperties();
+    public BaseSRXControlledSubsystem(
+            String systemName,
+            int masterChannel,
+            boolean invertMaster,
+            boolean invertMasterSensor,
+            WPIFactory factory, 
+            PIDPropertyManager pidPropertyManager,
+            XPropertyManager propManager){
+        this(
+                systemName,
+                masterChannel,
+                -1, 
+                invertMaster,
+                invertMasterSensor,
+                false,
+                factory,
+                pidPropertyManager,
+                propManager);
+    }
     
-    protected void initializeMotorConfiguration(boolean motorInverted, boolean motorSensorInverted) {
+    protected void initializeMasterMotorConfiguration(boolean motorInverted, boolean motorSensorInverted) {
         masterMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
         masterMotor.setInverted(motorInverted);
         masterMotor.reverseSensor(motorSensorInverted);
         masterMotor.setControlMode(TalonControlMode.Speed);
         masterMotor.setProfile(0);
-        
-        setupExtendedMotorProperties();
+    }
+    
+    protected void initializeFollowerMotorConfiguration(boolean motorInverted) {
+        followerMotor.setControlMode(TalonControlMode.Follower);
+        followerMotor.setInverted(motorInverted);
+        followerMotor.set(masterChannel);
     }
         
     private void updateMotorPidValues() {
