@@ -2,10 +2,6 @@ package xbot.common.subsystems;
 
 import org.apache.log4j.Logger;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import javafx.util.Pair;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.sensors.NavImu.ImuType;

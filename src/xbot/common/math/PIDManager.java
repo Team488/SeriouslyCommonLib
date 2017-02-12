@@ -1,9 +1,7 @@
 package xbot.common.math;
 
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;

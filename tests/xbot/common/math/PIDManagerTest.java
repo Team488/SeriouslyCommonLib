@@ -9,8 +9,6 @@ import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
 import xbot.common.logging.RobotAssertionException;
-import xbot.common.logging.RobotAssertionManager;
-import xbot.common.properties.XPropertyManager;
 
 public class PIDManagerTest extends BaseWPITest{
     
