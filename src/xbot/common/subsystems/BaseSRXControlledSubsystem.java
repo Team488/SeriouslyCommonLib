@@ -69,14 +69,8 @@ public abstract class BaseSRXControlledSubsystem extends BaseSubsystem implement
             XPropertyManager propManager){
         this(systemName, masterChannel, invertMaster, invertMasterSensor, factory, pidPropertyManager, propManager);
         
-        if (followChannel >= 0) {
-            followerMotor = factory.getCANTalonSpeedController(followChannel);
-            initializeFollowerMotorConfiguration(invertFollower);
-        }
-        else {
-            log.error("A follower motor was requested, but a negative index was given!");
-            followerMotor = null;
-        }
+        followerMotor = factory.getCANTalonSpeedController(followChannel);
+        initializeFollowerMotorConfiguration(invertFollower);
     }
     
     /**
