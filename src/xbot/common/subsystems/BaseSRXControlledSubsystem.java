@@ -33,7 +33,7 @@ public abstract class BaseSRXControlledSubsystem extends BaseSubsystem implement
     private static Logger log = Logger.getLogger(BaseSRXControlledSubsystem.class);
 
     protected final XCANTalon masterMotor;
-    protected final XCANTalon followerMotor;
+    protected XCANTalon followerMotor;
        
     // output telemetry properties
     protected final DoubleProperty systemCurrentSpeed;
@@ -67,6 +67,34 @@ public abstract class BaseSRXControlledSubsystem extends BaseSubsystem implement
             WPIFactory factory, 
             PIDPropertyManager pidPropertyManager,
             XPropertyManager propManager){
+        this(systemName, masterChannel, invertMaster, invertMasterSensor, factory, pidPropertyManager, propManager);
+        
+        if (followChannel >= 0) {
+            followerMotor = factory.getCANTalonSpeedController(followChannel);
+            initializeFollowerMotorConfiguration(invertFollower);
+        }
+        else {
+            log.error("A follower motor was requested, but a negative index was given!");
+            followerMotor = null;
+        }
+    }
+    
+    /**
+     * 
+     * @param systemName What the system is called. This will apply to various Properties.
+     * @param masterChannel The CAN index of the master motor (or the only motor, for a simple system)
+     * @param factory The WPIFactory
+     * @param pidPropertyManager The default PIDF values the system should use
+     * @param propManager The XPropertyManager
+     */
+    public BaseSRXControlledSubsystem(
+            String systemName,
+            int masterChannel,
+            boolean invertMaster,
+            boolean invertMasterSensor,
+            WPIFactory factory, 
+            PIDPropertyManager pidPropertyManager,
+            XPropertyManager propManager){
         log.info("Creating " + systemName + " system");
         
         this.pidPropertyManager = pidPropertyManager;
@@ -88,42 +116,6 @@ public abstract class BaseSRXControlledSubsystem extends BaseSubsystem implement
         masterMotor = factory.getCANTalonSpeedController(masterChannel);
         initializeMasterMotorConfiguration(invertMaster, invertMasterSensor);
         masterMotor.createTelemetryProperties(systemName + "  master", propManager);
-        
-        if (followChannel >= 0) {
-            followerMotor = factory.getCANTalonSpeedController(followChannel);
-            initializeFollowerMotorConfiguration(invertFollower);
-        }
-        else {
-            followerMotor = null;
-        }
-    }
-    
-    /**
-     * 
-     * @param systemName What the system is called. This will apply to various Properties.
-     * @param masterChannel The CAN index of the master motor (or the only motor, for a simple system)
-     * @param factory The WPIFactory
-     * @param pidPropertyManager The default PIDF values the system should use
-     * @param propManager The XPropertyManager
-     */
-    public BaseSRXControlledSubsystem(
-            String systemName,
-            int masterChannel,
-            boolean invertMaster,
-            boolean invertMasterSensor,
-            WPIFactory factory, 
-            PIDPropertyManager pidPropertyManager,
-            XPropertyManager propManager){
-        this(
-                systemName,
-                masterChannel,
-                -1, 
-                invertMaster,
-                invertMasterSensor,
-                false,
-                factory,
-                pidPropertyManager,
-                propManager);
     }
     
     protected void initializeMasterMotorConfiguration(boolean motorInverted, boolean motorSensorInverted) {
