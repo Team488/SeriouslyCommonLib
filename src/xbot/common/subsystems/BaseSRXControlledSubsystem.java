@@ -135,6 +135,10 @@ public abstract class BaseSRXControlledSubsystem extends BaseSubsystem implement
     }
     
     protected void initializeFollowerMotorConfiguration(boolean motorInverted) {
+        if (followerMotor == null) {
+            log.warn("initializeFollowerMotorConfiguration was called, but no followerIndex was given during creation!");
+            return;
+        }
         followerMotor.setControlMode(TalonControlMode.Follower);
         followerMotor.setInverted(motorInverted);
         followerMotor.set(masterChannel);
