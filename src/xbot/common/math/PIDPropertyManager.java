@@ -1,6 +1,8 @@
 package xbot.common.math;
 
 import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.BooleanProperty;
@@ -22,16 +24,17 @@ public class PIDPropertyManager {
     
     private final RobotAssertionManager assertionManager;
     
+    @AssistedInject
     public PIDPropertyManager(
-            String functionName, 
-            XPropertyManager propMan,
+            @Assisted String functionName, 
+            XPropertyManager propMan, 
             RobotAssertionManager assertionManager,
-            double defaultP, 
-            double defaultI,
-            double defaultD, 
-            double defaultF,
-            double errorThreshold, 
-            double derivativeThreshold) {
+            @Assisted("defaultP") double defaultP, 
+            @Assisted("defaultI") double defaultI, 
+            @Assisted("defaultD") double defaultD, 
+            @Assisted("defaultF") double defaultF,
+            @Assisted("errorThreshold") double errorThreshold, 
+            @Assisted("derivativeThreshold") double derivativeThreshold) {
         propP = propMan.createPersistentProperty(functionName + " P", defaultP);
         propI = propMan.createPersistentProperty(functionName + " I", defaultI);
         propD = propMan.createPersistentProperty(functionName + " D", defaultD);
@@ -50,14 +53,15 @@ public class PIDPropertyManager {
         this.assertionManager = assertionManager;
     }
     
+    @AssistedInject
     public PIDPropertyManager(
-            String functionName, 
+            @Assisted String functionName, 
             XPropertyManager propMan, 
             RobotAssertionManager assertionManager,
-            double defaultP, 
-            double defaultI, 
-            double defaultD, 
-            double defaultF) {
+            @Assisted("defaultP") double defaultP, 
+            @Assisted("defaultI") double defaultI, 
+            @Assisted("defaultD") double defaultD, 
+            @Assisted("defaultF") double defaultF) {
         this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, -1, -1);
     }
 
