@@ -2,10 +2,6 @@ package xbot.common.subsystems;
 
 import org.apache.log4j.Logger;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import javafx.util.Pair;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.sensors.NavImu.ImuType;
@@ -18,8 +14,7 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
 public abstract class BasePoseSubsystem extends BaseSubsystem implements PeriodicDataSource {
-        
-    private static Logger log = Logger.getLogger(BasePoseSubsystem.class);
+
     public final XGyro imu;
     
     private final DoubleProperty leftDriveDistance;
@@ -49,7 +44,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     private BooleanProperty rioRotated;
     
     public BasePoseSubsystem(WPIFactory factory, XPropertyManager propManager) {
-        log.info("Creating PoseSubsystem");
+        log.info("Creating");
         imu = factory.getGyro(ImuType.navX);
         
         currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", 0.0);

@@ -147,7 +147,10 @@ public class MockCANTalon implements XCANTalon {
 
     @Override
     public double getOutputVoltage() {
-        return this.getThrottlePercent() * this.getBusVoltage();
+        // if the Talon is set to invert, it will output negative voltages. This needs
+        // to be taken into account.
+        double inversionFactor = this.getInverted() ? -1 : 1;
+        return this.getThrottlePercent() * this.getBusVoltage() * inversionFactor;
     }
 
     @Override
