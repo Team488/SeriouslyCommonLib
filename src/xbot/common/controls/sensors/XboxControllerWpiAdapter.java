@@ -53,7 +53,7 @@ public class XboxControllerWpiAdapter implements XXboxController {
     
     public double getRightStickX(){
         
-        return internalXboxController.getX(Hand.kRight);
+        return internalXboxController.getRawAxis(3);
     }
     
    public double getLeftStickY(){
@@ -63,7 +63,7 @@ public class XboxControllerWpiAdapter implements XXboxController {
    
    public double getRightStickY(){
        
-       return internalXboxController.getY(Hand.kRight);
+       return internalXboxController.getRawAxis(4);
    }
    
    //Triggers-----------------------------------------------------------------------------------------------
