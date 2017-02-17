@@ -1,5 +1,8 @@
 package xbot.common.controls.sensors;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import edu.wpi.first.wpilibj.XboxController;
 import xbot.common.controls.sensors.XboxControllerWpiAdapter.XboxButtons;
 import xbot.common.math.XYPair;
@@ -12,9 +15,73 @@ public class MockXboxController implements XXboxController {
     XYPair leftJoystickAxis;
     XYPair rightJoystickAxis;
     double leftTriggerAxis;
+    double x = 0;
+    double y = 0;
     double rightTriggerAxis;
+    private boolean xRightInverted = false;
+    private boolean yRightInverted = false;
+    private boolean xLeftInverted = false;
+    private boolean yLeftInverted = false;
+    
+    Map<Integer, Boolean> buttons = new HashMap<Integer, Boolean>();
+    Map<Integer, Double> rawAxis = new HashMap<Integer, Double>();
     
     boolean[] buttonValues = new boolean[10];
+    
+    public void setRightX(double x) {
+        double value = x * (xRightInverted ? -1 : 1);
+        this.x = value;
+        setRawAxis(0, value);
+    }
+
+    public void setLeftX(double x) {
+        double value = x * (xLeftInverted ? -1 : 1);
+        this.x = value;
+        setRawAxis(0, value);
+    }
+    
+    public void setRightY(double y) {
+        double value = y * (yRightInverted ? -1 : 1);
+        this.y = value;
+        setRawAxis(1, value);
+    }
+
+    public void setLeftY(double y) {
+        double value = y * (yLeftInverted ? -1 : 1);
+        this.y = value;
+        setRawAxis(1, value);
+    }
+    
+    public void setRawAxis(int which, double value) {
+        rawAxis.put(which, value);
+    }
+
+    public void pressButton(int button) {
+        buttons.put(button, true);
+    }
+
+    public void releaseButton(int button) {
+        buttons.put(button, false);
+    }
+
+    public XYPair getRightVector() {
+        return new XYPair(this.x * (xRightInverted ? -1 : 1), this.y
+                * (yRightInverted ? -1 : 1));
+    }
+
+    public XYPair getLeftVector() {
+        return new XYPair(this.x * (xLeftInverted ? -1 : 1), this.y
+                * (yLeftInverted ? -1 : 1));
+    }
+    
+    public boolean getRawButton(int button) {
+        return getButton(button);
+    }
+    
+    public boolean getButton(int button)
+    {
+        return buttons.getOrDefault(button, false);
+    }
     
     public void setButton(XboxButtons buttonName, boolean pressed) {
         buttonValues[buttonName.getValue()-1] = pressed;
@@ -108,5 +175,50 @@ public class MockXboxController implements XXboxController {
         return null;
     }
 
+    @Override
+    public void setRightStickXInversion(boolean inverted) {
+        // TODO Auto-generated method stub
+        xRightInverted = inverted;
+    }
 
-}
+    @Override
+    public void setRightStickYInversion(boolean inverted) {
+        // TODO Auto-generated method stub
+        yRightInverted = inverted;
+    }
+
+    @Override
+    public void setLeftStickXInversion(boolean inverted) {
+        // TODO Auto-generated method stub
+        xLeftInverted = inverted;
+    }
+
+    @Override
+    public void setLeftStickYInversion(boolean inverted) {
+        // TODO Auto-generated method stub
+        yLeftInverted = inverted;
+    }
+    
+    @Override
+    public boolean getRightStickXInversion() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+    
+    @Override
+    public boolean getRightStickYInversion() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean getLeftStickXInversion() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+    
+    @Override
+    public boolean getLeftStickYInversion() {
+        // TODO Auto-generated method stub
+        return false;
+    }

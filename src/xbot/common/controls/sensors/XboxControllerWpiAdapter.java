@@ -1,5 +1,6 @@
 package xbot.common.controls.sensors;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import xbot.common.math.XYPair;
@@ -7,6 +8,11 @@ import xbot.common.math.XYPair;
 public class XboxControllerWpiAdapter implements XXboxController {
     
     final XboxController internalXboxController;
+    private GenericHID internalHID;
+    private boolean xRightInverted = false;
+    private boolean yRightInverted = false;
+    private boolean xLeftInverted = false;
+    private boolean yLeftInverted = false;
         
     public enum XboxButtons {
         A(1),
@@ -64,6 +70,71 @@ public class XboxControllerWpiAdapter implements XXboxController {
    public double getRightStickY(){
        
        return internalXboxController.getRawAxis(4);
+   }
+   
+   public double getLeftStickInversionX()
+   {
+       return internalHID.getX() * (xLeftInverted? -1:1);
+   }
+
+   public boolean getLeftStickXInversion()
+   {
+       return xLeftInverted;
+   }
+
+   public void setLeftStickXInversion(boolean inverted)
+   {
+       xLeftInverted = inverted;
+   }
+
+   public double getRightStickInversionX()
+   {
+       return internalHID.getX() * (xRightInverted? -1:1);
+   }
+
+   public boolean getRightStickXInversion()
+   {
+       return xRightInverted;
+   }
+
+   public void setRightStickXInversion(boolean inverted)
+   {
+       xRightInverted = inverted;
+   }
+   
+   public double getLeftStickInversionY()
+   {
+       return internalHID.getY() * (yLeftInverted ? -1:1);
+   }
+
+   public boolean getLeftStickYInversion()
+   {
+       return yLeftInverted;
+   }
+
+   public void setLeftStickYInversion(boolean inverted)
+   {
+       yLeftInverted = inverted;        
+   }
+   
+   public double getRightStickInversionY()
+   {
+       return internalHID.getY() * (yRightInverted? -1:1);
+   }
+
+   public boolean getRightStickYInversion()
+   {
+       return yRightInverted;
+   }
+
+   public void setRightStickYInversion(boolean inverted)
+   {
+       yRightInverted = inverted;        
+   }
+   
+   public GenericHID getInternalHID()
+   {
+       return this.internalHID;
    }
    
    //Triggers-----------------------------------------------------------------------------------------------

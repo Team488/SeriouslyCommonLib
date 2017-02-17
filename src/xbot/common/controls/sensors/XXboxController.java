@@ -13,7 +13,18 @@ public interface XXboxController {
     double getRightStickY();
     XYPair getLeftStick();
     XYPair getRightStick();
+ 
+    public boolean getRightStickXInversion();
+    public void setRightStickXInversion(boolean inverted);
     
+    public boolean getRightStickYInversion();
+    public void setRightStickYInversion(boolean inverted);
+    
+    public boolean getLeftStickXInversion();
+    public void setLeftStickXInversion(boolean inverted);
+    
+    public boolean getLeftStickYInversion();
+    public void setLeftStickYInversion(boolean inverted);
     //Triggers-----------------------------------------------------------------------------------------------
     double getLeftTriggerAxis();
     double getRightTriggerAxis();
@@ -21,5 +32,4 @@ public interface XXboxController {
     AdvancedXboxButton getXboxButton(XboxButtons buttonName);
     boolean getRawXboxButton(int index);
     XboxController getInternalController();
-    
 }
