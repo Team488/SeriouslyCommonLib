@@ -166,7 +166,7 @@ public class PIDManagerTest extends BaseWPITest{
     
     @Test
     public void testIMask() {
-        PIDManager manager = factory.create("test", 0, 0.003, 0);
+        PIDManager manager = factory.createPIDManager("test", 0, 0.003, 0);
 
         double output = manager.calculate(100, 0);
         assertEquals(0.3, output, 1e-6);
