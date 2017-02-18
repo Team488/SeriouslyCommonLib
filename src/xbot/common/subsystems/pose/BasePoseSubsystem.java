@@ -25,7 +25,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     private ContiguousHeading currentHeading;
     private final DoubleProperty currentHeadingProp;
-    
+    private double headingOffset;
     private ContiguousHeading lastImuHeading;
     
     // These are two common robot starting positions - kept here as convenient shorthand.
@@ -50,8 +50,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", 0.0);
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
-        lastImuHeading = imu.getYaw();
-        currentHeading = new ContiguousHeading(FACING_AWAY_FROM_DRIVERS);
+        lastImuHeading = getRobotYaw();
+        
+        currentHeading = new ContiguousHeading(0);
+        setCurrentHeading(FACING_AWAY_FROM_DRIVERS);
         
         currentPitch = propManager.createEphemeralProperty("CurrentPitch", 0.0);
         currentRoll = propManager.createEphemeralProperty("CurrentRoll", 0.0);
@@ -68,15 +70,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     }
     
     private void updateCurrentHeading() {
-        // Old heading - current heading gets the delta heading        
-        double imuDeltaYaw = lastImuHeading.difference(imu.getYaw());
-
-        // add the delta to our current
-        currentHeading.shiftValue(imuDeltaYaw);
-        
-        // update the "old" value
-        lastImuHeading = imu.getYaw();
-        
+        currentHeading.setValue(getRobotYaw().getValue() + headingOffset);
         currentHeadingProp.set(currentHeading.getValue());
         
         currentPitch.set(getRobotPitch());
@@ -131,7 +125,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     }
     
     public void setCurrentHeading(double headingInDegrees){
-        currentHeading.setValue(headingInDegrees);
+        double rawHeading = getRobotYaw().getValue();
+        headingOffset = -rawHeading + headingInDegrees;
     }
     
     /**
@@ -157,6 +152,14 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     public double getRobotRoll() {
         return getUntrimmedRoll() - inherentRioRoll.get();
+    }
+    
+    /**
+     * If the RoboRIO is mounted in a position other than "flat" (e.g. with the pins facing upward)
+     * then this method will need to be overridden.
+     */
+    private ContiguousHeading getRobotYaw() {
+        return imu.getYaw();
     }
     
     private double getUntrimmedPitch() {
