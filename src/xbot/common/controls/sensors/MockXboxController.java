@@ -48,22 +48,19 @@ public class MockXboxController implements XXboxController {
     }
 
     public XYPair getRightVector() {
-        return new XYPair(this.rightJoystickAxis.x * (xRightInverted ? -1 : 1), this.rightJoystickAxis.y
-                * (yRightInverted ? -1 : 1));
+        return new XYPair(
+                this.rightJoystickAxis.x * (getRightStickXInversion() ? -1 : 1), 
+                this.rightJoystickAxis.y * (getRightStickYInversion() ? -1 : 1));
     }
 
     public XYPair getLeftVector() {
-        return new XYPair(this.leftJoystickAxis.x * (xLeftInverted ? -1 : 1), this.leftJoystickAxis.y
-                * (yLeftInverted ? -1 : 1));
+        return new XYPair(
+                this.leftJoystickAxis.x * (getLeftStickXInversion() ? -1 : 1), 
+                this.leftJoystickAxis.y * (getLeftStickYInversion() ? -1 : 1));
     }
     
     public boolean getRawButton(int button) {
         return getButton(button);
-    }
-    
-    public boolean getButton(int button)
-    {
-        return buttons.getOrDefault(button, false);
     }
     
     public void setButton(int button, boolean pressed) {
@@ -76,6 +73,11 @@ public class MockXboxController implements XXboxController {
     
     public boolean getButton(XboxButton buttonName) {
         return getButton(buttonName.getValue());
+    }
+    
+    public boolean getButton(int button)
+    {
+        return buttons.getOrDefault(button, false);
     }
     
     public void setLeftStick(double x, double y){
