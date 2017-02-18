@@ -12,7 +12,7 @@ public class XboxControllerWpiAdapter implements XXboxController {
     private boolean xLeftInverted = false;
     private boolean yLeftInverted = false;
         
-    public enum XboxButtons {
+    public enum XboxButton {
         A(1),
         B(2),
         X(3),
@@ -26,7 +26,7 @@ public class XboxControllerWpiAdapter implements XXboxController {
         
         private int value;
         
-        private XboxButtons(int value) {
+        private XboxButton(int value) {
             this.value = value;
         }
 
@@ -40,7 +40,7 @@ public class XboxControllerWpiAdapter implements XXboxController {
         internalXboxController = new XboxController(port);
     }
     
-    public AdvancedXboxButton getXboxButton(XboxButtons buttonName) {
+    public AdvancedXboxButton getXboxButton(XboxButton buttonName) {
         return new AdvancedXboxButton(this, buttonName);
     }
     
