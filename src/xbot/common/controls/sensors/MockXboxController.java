@@ -15,8 +15,6 @@ public class MockXboxController implements XXboxController {
     XYPair leftJoystickAxis;
     XYPair rightJoystickAxis;
     double leftTriggerAxis;
-    double x = 0;
-    double y = 0;
     double rightTriggerAxis;
     private boolean xRightInverted = false;
     private boolean yRightInverted = false;
@@ -24,36 +22,21 @@ public class MockXboxController implements XXboxController {
     private boolean yLeftInverted = false;
     
     Map<Integer, Boolean> buttons = new HashMap<Integer, Boolean>();
-    Map<Integer, Double> rawAxis = new HashMap<Integer, Double>();
-    
-    boolean[] buttonValues = new boolean[10];
     
     public void setRightX(double x) {
-        double value = x * (xRightInverted ? -1 : 1);
-        this.x = value;
-        setRawAxis(0, value);
+        rightJoystickAxis.x = x;
     }
 
     public void setLeftX(double x) {
-        double value = x * (xLeftInverted ? -1 : 1);
-        this.x = value;
-        setRawAxis(0, value);
+        leftJoystickAxis.x = x;
     }
     
     public void setRightY(double y) {
-        double value = y * (yRightInverted ? -1 : 1);
-        this.y = value;
-        setRawAxis(1, value);
+        rightJoystickAxis.y = y;
     }
 
     public void setLeftY(double y) {
-        double value = y * (yLeftInverted ? -1 : 1);
-        this.y = value;
-        setRawAxis(1, value);
-    }
-    
-    public void setRawAxis(int which, double value) {
-        rawAxis.put(which, value);
+        leftJoystickAxis.y = y;
     }
 
     public void pressButton(int button) {
@@ -65,12 +48,12 @@ public class MockXboxController implements XXboxController {
     }
 
     public XYPair getRightVector() {
-        return new XYPair(this.x * (xRightInverted ? -1 : 1), this.y
+        return new XYPair(this.rightJoystickAxis.x * (xRightInverted ? -1 : 1), this.rightJoystickAxis.y
                 * (yRightInverted ? -1 : 1));
     }
 
     public XYPair getLeftVector() {
-        return new XYPair(this.x * (xLeftInverted ? -1 : 1), this.y
+        return new XYPair(this.leftJoystickAxis.x * (xLeftInverted ? -1 : 1), this.leftJoystickAxis.y
                 * (yLeftInverted ? -1 : 1));
     }
     
@@ -84,11 +67,11 @@ public class MockXboxController implements XXboxController {
     }
     
     public void setButton(XboxButtons buttonName, boolean pressed) {
-        buttonValues[buttonName.getValue()-1] = pressed;
+        buttons.put(buttonName.getValue(), pressed);
     }
     
     public boolean getButton(XboxButtons buttonName) {
-        return buttonValues[buttonName.getValue()-1];
+        return getButton(buttonName.getValue());
     }
     
     public void setLeftStick(double x, double y){
@@ -113,7 +96,6 @@ public class MockXboxController implements XXboxController {
     
     @Override
     public XYPair getLeftStick() {
-        // TODO Auto-generated method stub
         return null;
     }
     
@@ -123,7 +105,6 @@ public class MockXboxController implements XXboxController {
     
     @Override
     public XYPair getRightStick() {
-        // TODO Auto-generated method stub
         return null;
     }
     
@@ -159,67 +140,56 @@ public class MockXboxController implements XXboxController {
 
     @Override
     public AdvancedXboxButton getXboxButton(XboxButtons buttonName) {
-        // TODO Auto-generated method stub
         return new AdvancedXboxButton(this, buttonName);
     }
 
     @Override
     public boolean getRawXboxButton(int index) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public XboxController getInternalController() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void setRightStickXInversion(boolean inverted) {
-        // TODO Auto-generated method stub
         xRightInverted = inverted;
     }
 
     @Override
     public void setRightStickYInversion(boolean inverted) {
-        // TODO Auto-generated method stub
         yRightInverted = inverted;
     }
 
     @Override
     public void setLeftStickXInversion(boolean inverted) {
-        // TODO Auto-generated method stub
         xLeftInverted = inverted;
     }
 
     @Override
     public void setLeftStickYInversion(boolean inverted) {
-        // TODO Auto-generated method stub
         yLeftInverted = inverted;
     }
     
     @Override
     public boolean getRightStickXInversion() {
-        // TODO Auto-generated method stub
         return false;
     }
     
     @Override
     public boolean getRightStickYInversion() {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean getLeftStickXInversion() {
-        // TODO Auto-generated method stub
         return false;
     }
     
     @Override
     public boolean getLeftStickYInversion() {
-        // TODO Auto-generated method stub
         return false;
     }
 }
