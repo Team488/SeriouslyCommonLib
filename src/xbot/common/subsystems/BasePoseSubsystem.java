@@ -22,6 +22,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     private final DoubleProperty totalDistanceX;
     private final DoubleProperty totalDistanceY;
+    private final DoubleProperty totalDistanceYRobotOriented;
     
     private ContiguousHeading currentHeading;
     private final DoubleProperty currentHeadingProp;
@@ -61,6 +62,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         
         totalDistanceX = propManager.createEphemeralProperty("TotalDistanceX", 0.0);
         totalDistanceY = propManager.createEphemeralProperty("TotalDistanceY", 0.0);
+        totalDistanceYRobotOriented = propManager.createEphemeralProperty("TotalDistanceY-RobotOriented", 0.0);
         
         rioRotated = propManager.createPersistentProperty("RioRotated", false);
         inherentRioPitch = propManager.createPersistentProperty("InherentRioPitch", 0.0);
@@ -93,6 +95,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         
         double totalDistance = (deltaLeft + deltaRight) / 2;
         
+        totalDistanceYRobotOriented.set(totalDistanceYRobotOriented.get() + totalDistance);
+        
         // get X and Y
         double deltaY = Math.sin(currentHeading.getValue() * Math.PI / 180) * totalDistance;
         double deltaX = Math.cos(currentHeading.getValue() * Math.PI / 180) * totalDistance;
@@ -119,10 +123,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     }
     
     public XYPair getRobotOrientedTotalDistanceTraveled() {
-        // if we are facing 90 degrees, no change.
-        // if we are facing 0 degrees (right), this rotates left by 90. Makes sense - if you rotate right, you want
-        // your perception of distance traveled to be that you have gone "leftward."
-        return getTravelVector().rotate(-(currentHeading.getValue() - 90)).clone();
+        return new XYPair(0, totalDistanceY.get());
     }
     
     public void resetDistanceTraveled() {

@@ -17,6 +17,7 @@ public class PIDManager extends PIDPropertyManager {
     private DoubleProperty maxOutput;
     private DoubleProperty minOutput;
     private BooleanProperty isEnabled;
+    private boolean isIMasked = false;
     
     @AssistedInject
     public PIDManager(
@@ -98,7 +99,7 @@ public class PIDManager extends PIDPropertyManager {
         sendTolerancesToInternalPID();
         
         if(isEnabled.get()) {
-            double pidResult = pid.calculate(goal, current, getP(), getI(), getD(), getF());
+            double pidResult = pid.calculate(goal, current, getP(), isIMasked ? 0 : getI(), getD(), getF());
             return MathUtils.constrainDouble(pidResult, minOutput.get(), maxOutput.get());
         } else {
             return 0;
@@ -127,5 +128,13 @@ public class PIDManager extends PIDPropertyManager {
      */
     public boolean isOnTarget() {
         return pid.isOnTarget();
+    }
+
+    public void setIMask(boolean isMasked) {
+        isIMasked = isMasked;
+    }
+
+    public boolean getIMask() {
+        return isIMasked;
     }
 }
