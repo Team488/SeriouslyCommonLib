@@ -16,7 +16,7 @@ public class SetRobotHeadingCommand extends BaseCommand {
         heading = BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS;
     }
     
-    public void setHeading(double heading) {
+    public void setHeadingToApply(double heading) {
         this.heading = heading;
     }
 

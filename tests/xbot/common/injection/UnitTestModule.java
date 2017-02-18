@@ -11,8 +11,8 @@ import xbot.common.properties.ITableProxy;
 import xbot.common.properties.MockPermamentStorage;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.TableProxy;
-import xbot.common.subsystems.TestPoseSubsystem;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
+import xbot.common.subsystems.pose.TestPoseSubsystem;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
