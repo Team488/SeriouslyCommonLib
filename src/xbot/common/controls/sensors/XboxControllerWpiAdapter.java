@@ -1,6 +1,5 @@
 package xbot.common.controls.sensors;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import xbot.common.math.XYPair;
