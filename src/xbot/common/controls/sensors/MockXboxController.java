@@ -175,21 +175,21 @@ public class MockXboxController implements XXboxController {
     
     @Override
     public boolean getRightStickXInversion() {
-        return false;
+        return xRightInverted;
     }
     
     @Override
     public boolean getRightStickYInversion() {
-        return false;
+        return yRightInverted;
     }
 
     @Override
     public boolean getLeftStickXInversion() {
-        return false;
+        return xLeftInverted;
     }
     
     @Override
     public boolean getLeftStickYInversion() {
-        return false;
+        return yLeftInverted;
     }
 }

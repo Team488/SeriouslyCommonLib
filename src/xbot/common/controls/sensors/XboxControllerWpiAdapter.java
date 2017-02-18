@@ -8,7 +8,6 @@ import xbot.common.math.XYPair;
 public class XboxControllerWpiAdapter implements XXboxController {
     
     final XboxController internalXboxController;
-    private GenericHID internalHID;
     private boolean xRightInverted = false;
     private boolean yRightInverted = false;
     private boolean xLeftInverted = false;
@@ -71,11 +70,6 @@ public class XboxControllerWpiAdapter implements XXboxController {
        
        return internalXboxController.getRawAxis(4);
    }
-   
-   public double getLeftStickInversionX()
-   {
-       return internalHID.getX() * (xLeftInverted? -1:1);
-   }
 
    public boolean getLeftStickXInversion()
    {
@@ -87,11 +81,6 @@ public class XboxControllerWpiAdapter implements XXboxController {
        xLeftInverted = inverted;
    }
 
-   public double getRightStickInversionX()
-   {
-       return internalHID.getX() * (xRightInverted? -1:1);
-   }
-
    public boolean getRightStickXInversion()
    {
        return xRightInverted;
@@ -100,11 +89,6 @@ public class XboxControllerWpiAdapter implements XXboxController {
    public void setRightStickXInversion(boolean inverted)
    {
        xRightInverted = inverted;
-   }
-   
-   public double getLeftStickInversionY()
-   {
-       return internalHID.getY() * (yLeftInverted ? -1:1);
    }
 
    public boolean getLeftStickYInversion()
@@ -117,11 +101,6 @@ public class XboxControllerWpiAdapter implements XXboxController {
        yLeftInverted = inverted;        
    }
    
-   public double getRightStickInversionY()
-   {
-       return internalHID.getY() * (yRightInverted? -1:1);
-   }
-
    public boolean getRightStickYInversion()
    {
        return yRightInverted;
@@ -131,12 +110,6 @@ public class XboxControllerWpiAdapter implements XXboxController {
    {
        yRightInverted = inverted;        
    }
-   
-   public GenericHID getInternalHID()
-   {
-       return this.internalHID;
-   }
-   
    //Triggers-----------------------------------------------------------------------------------------------
    public double getLeftTriggerAxis(){
        
