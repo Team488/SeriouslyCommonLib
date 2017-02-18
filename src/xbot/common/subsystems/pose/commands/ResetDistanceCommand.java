@@ -7,7 +7,7 @@ import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 public class ResetDistanceCommand extends BaseCommand {
 
-    BasePoseSubsystem poseSubsystem;
+    protected final BasePoseSubsystem poseSubsystem;
     
     @Inject
     public ResetDistanceCommand(BasePoseSubsystem poseSubsystem) {

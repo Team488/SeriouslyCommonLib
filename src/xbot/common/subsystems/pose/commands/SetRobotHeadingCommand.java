@@ -7,8 +7,8 @@ import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 public class SetRobotHeadingCommand extends BaseCommand {
 
-    BasePoseSubsystem poseSubsystem;
-    double heading;
+    protected final BasePoseSubsystem poseSubsystem;
+    private double heading;
     
     @Inject
     public SetRobotHeadingCommand(BasePoseSubsystem poseSubsystem) {
