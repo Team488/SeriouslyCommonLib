@@ -1,11 +1,16 @@
-package xbot.common.subsystems;
+package xbot.common.subsystems.pose;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+import xbot.common.controls.actuators.MockCANTalon;
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.controls.sensors.MockXboxController;
 import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.properties.XPropertyManager;
+import xbot.common.subsystems.pose.BasePoseSubsystem;
 
+@Singleton
 public class TestPoseSubsystem extends BasePoseSubsystem {
 
     private XCANTalon left;
@@ -29,5 +34,11 @@ public class TestPoseSubsystem extends BasePoseSubsystem {
     @Override
     protected double getRightDriveDistance() {
         return right.getPosition();
+    }
+    
+    public void setDriveEncoderDistances(double left, double right) {
+        ((MockCANTalon)this.left).setPosition(left);
+        ((MockCANTalon)this.right).setPosition(right);
+        updatePeriodicData();
     }
 }
