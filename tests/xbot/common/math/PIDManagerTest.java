@@ -163,4 +163,28 @@ public class PIDManagerTest extends BaseWPITest{
         
         assertTrue(manager.isOnTarget());
     }
+    
+    @Test
+    public void testIMask() {
+        PIDManager manager = factory.createPIDManager("test", 0, 0.003, 0);
+
+        double output = manager.calculate(100, 0);
+        assertEquals(0.3, output, 1e-6);
+
+        output = manager.calculate(100, 0);
+        assertEquals(0.3 * 2, output, 1e-6);
+        
+        manager.setIMask(true);
+        
+        output = manager.calculate(100, 0);
+        assertEquals(0, output, 1e-6);
+
+        output = manager.calculate(100, 0);
+        assertEquals(0, output, 1e-6);
+        
+        manager.setIMask(false);
+        
+        output = manager.calculate(100, 0);
+        assertEquals(0.3 * 3, output, 1e-6);
+    }
 }
