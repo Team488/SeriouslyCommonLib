@@ -9,6 +9,8 @@
 /*----------------------------------------------------------------------------*/
 package xbot.common.controls.sensors.navx;
 
+import xbot.common.controls.sensors.navx.AHRSProtocol;
+
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -16,6 +18,7 @@ class RegisterIO_SPI implements IRegisterIO{
 
     SPI port;
     int bitrate;
+    boolean trace = true;
     
     static final int   DEFAULT_SPI_BITRATE_HZ         = 500000;
     
@@ -36,6 +39,7 @@ class RegisterIO_SPI implements IRegisterIO{
         port.setSampleDataOnFalling();
         port.setClockActiveLow();
         port.setChipSelectActiveLow();
+        if (trace) System.out.println("navX-MXP:  Initialized SPI communication at bitrate " + bitrate);
         return true;
     }
 
@@ -45,7 +49,12 @@ class RegisterIO_SPI implements IRegisterIO{
         cmd[0] = (byte) (address  | (byte)0x80);
         cmd[1] = value;
         cmd[2] = AHRSProtocol.getCRC(cmd, 2);
-        if ( port.write(cmd, cmd.length) != cmd.length) {
+        boolean write_ok;
+        synchronized(this) {
+        	write_ok = (port.write(cmd, cmd.length) == cmd.length);
+        }
+        if ( !write_ok ) {
+            if (trace) System.out.println("navX-MXP SPI Read:  Write error");
             return false; // WRITE ERROR
         }
         return true;
@@ -57,20 +66,24 @@ class RegisterIO_SPI implements IRegisterIO{
         cmd[0] = first_address;
         cmd[1] = (byte)buffer.length;
         cmd[2] = AHRSProtocol.getCRC(cmd, 2);
-        if ( port.write(cmd, cmd.length) != cmd.length ) {
-            return false; // WRITE ERROR
+        synchronized(this) {
+	        if ( port.write(cmd, cmd.length) != cmd.length ) {
+	        	return false; // WRITE ERROR
+	        }
+	        // delay 200 us /* TODO:  What is min. granularity of delay()? */
+	        Timer.delay(0.001);
+	        byte[] received_data = new byte[buffer.length+1];
+	        if ( port.read(true, received_data, received_data.length) != received_data.length ) {
+	            if (trace) System.out.println("navX-MXP SPI Read:  Read error");
+	            return false; // READ ERROR
+	        }
+	        byte crc = AHRSProtocol.getCRC(received_data, received_data.length - 1);
+	        if ( crc != received_data[received_data.length-1] ) {
+	            if (trace) System.out.println("navX-MXP SPI Read:  CRC error");        	
+	            return false; // CRC ERROR
+	        }
+	        System.arraycopy(received_data, 0, buffer, 0, received_data.length - 1);
         }
-        // delay 200 us /* TODO:  What is min. granularity of delay()? */
-        Timer.delay(0.001);
-        byte[] received_data = new byte[buffer.length+1];
-        if ( port.read(true, received_data, received_data.length) != received_data.length ) {
-            return false; // READ ERROR
-        }
-        byte crc = AHRSProtocol.getCRC(received_data, received_data.length - 1);
-        if ( crc != received_data[received_data.length-1] ) {
-            return false; // CRC ERROR
-        }
-        System.arraycopy(received_data, 0, buffer, 0, received_data.length - 1);
         return true;
     }
 
