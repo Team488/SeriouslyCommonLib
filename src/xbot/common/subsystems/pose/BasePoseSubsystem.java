@@ -51,18 +51,18 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         currentHeading = new ContiguousHeading(0);
         setCurrentHeading(FACING_AWAY_FROM_DRIVERS);
         
-        currentPitch = propManager.createEphemeralProperty("CurrentPitch", 0.0);
-        currentRoll = propManager.createEphemeralProperty("CurrentRoll", 0.0);
+        currentPitch = propManager.createEphemeralProperty("Current pitch", 0.0);
+        currentRoll = propManager.createEphemeralProperty("Current roll", 0.0);
         
-        leftDriveDistance = propManager.createEphemeralProperty("LeftDriveDistance", 0.0);
-        rightDriveDistance = propManager.createEphemeralProperty("RightDriveDistance", 0.0);
+        leftDriveDistance = propManager.createEphemeralProperty("Left drive distance", 0.0);
+        rightDriveDistance = propManager.createEphemeralProperty("Right drive distance", 0.0);
         
-        totalDistanceX = propManager.createEphemeralProperty("TotalDistanceX", 0.0);
-        totalDistanceY = propManager.createEphemeralProperty("TotalDistanceY", 0.0);
+        totalDistanceX = propManager.createEphemeralProperty("Total distance X", 0.0);
+        totalDistanceY = propManager.createEphemeralProperty("Total distance Y", 0.0);
         
-        rioRotated = propManager.createPersistentProperty("RioRotated", false);
-        inherentRioPitch = propManager.createPersistentProperty("InherentRioPitch", 0.0);
-        inherentRioRoll = propManager.createPersistentProperty("InherentRioRoll", 0.0);
+        rioRotated = propManager.createPersistentProperty("RIO rotated", false);
+        inherentRioPitch = propManager.createPersistentProperty("Inherent RIO pitch", 0.0);
+        inherentRioRoll = propManager.createPersistentProperty("Inherent RIO roll", 0.0);
     }
     
     private void updateCurrentHeading() {
