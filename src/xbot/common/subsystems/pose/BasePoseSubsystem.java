@@ -1,7 +1,5 @@
 package xbot.common.subsystems.pose;
 
-import org.apache.log4j.Logger;
-
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.sensors.NavImu.ImuType;
@@ -26,7 +24,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     private ContiguousHeading currentHeading;
     private final DoubleProperty currentHeadingProp;
     private double headingOffset;
-    private ContiguousHeading lastImuHeading;
     
     // These are two common robot starting positions - kept here as convenient shorthand.
     public static final double FACING_AWAY_FROM_DRIVERS = 90;
@@ -50,7 +47,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", 0.0);
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
-        lastImuHeading = getRobotYaw();
         
         currentHeading = new ContiguousHeading(0);
         setCurrentHeading(FACING_AWAY_FROM_DRIVERS);
