@@ -1,7 +1,10 @@
 package xbot.common.controls.sensors;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import edu.wpi.first.wpilibj.XboxController;
-import xbot.common.controls.sensors.XboxControllerWpiAdapter.XboxButtons;
+import xbot.common.controls.sensors.XboxControllerWpiAdapter.XboxButton;
 import xbot.common.math.XYPair;
 
 public class MockXboxController implements XXboxController {
@@ -13,15 +16,68 @@ public class MockXboxController implements XXboxController {
     XYPair rightJoystickAxis;
     double leftTriggerAxis;
     double rightTriggerAxis;
+    private boolean xRightInverted = false;
+    private boolean yRightInverted = false;
+    private boolean xLeftInverted = false;
+    private boolean yLeftInverted = false;
     
-    boolean[] buttonValues = new boolean[10];
+    Map<Integer, Boolean> buttons = new HashMap<Integer, Boolean>();
     
-    public void setButton(XboxButtons buttonName, boolean pressed) {
-        buttonValues[buttonName.getValue()-1] = pressed;
+    public void setRightX(double x) {
+        rightJoystickAxis.x = x;
+    }
+
+    public void setLeftX(double x) {
+        leftJoystickAxis.x = x;
     }
     
-    public boolean getButton(XboxButtons buttonName) {
-        return buttonValues[buttonName.getValue()-1];
+    public void setRightY(double y) {
+        rightJoystickAxis.y = y;
+    }
+
+    public void setLeftY(double y) {
+        leftJoystickAxis.y = y;
+    }
+
+    public void pressButton(int button) {
+        setButton(button, true);
+    }
+
+    public void releaseButton(int button) {
+        setButton(button, false);
+    }
+
+    public XYPair getRightVector() {
+        return new XYPair(
+                this.rightJoystickAxis.x * (getRightStickXInversion() ? -1 : 1), 
+                this.rightJoystickAxis.y * (getRightStickYInversion() ? -1 : 1));
+    }
+
+    public XYPair getLeftVector() {
+        return new XYPair(
+                this.leftJoystickAxis.x * (getLeftStickXInversion() ? -1 : 1), 
+                this.leftJoystickAxis.y * (getLeftStickYInversion() ? -1 : 1));
+    }
+    
+    public boolean getRawButton(int button) {
+        return getButton(button);
+    }
+    
+    public void setButton(int button, boolean pressed) {
+        buttons.put(button, pressed);
+    }
+    
+    public void setButton(XboxButton buttonName, boolean pressed) {
+        setButton(buttonName.getValue(), pressed);
+    }
+    
+    public boolean getButton(XboxButton buttonName) {
+        return getButton(buttonName.getValue());
+    }
+    
+    public boolean getButton(int button)
+    {
+        return buttons.getOrDefault(button, false);
     }
     
     public void setLeftStick(double x, double y){
@@ -40,44 +96,24 @@ public class MockXboxController implements XXboxController {
         rightTriggerAxis = x;
     }
     
-    public XYPair getLeftStick(double x, double y){
-        return leftJoystickAxis = new XYPair(x, y);
-    }
-    
-    @Override
-    public XYPair getLeftStick() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-    
-    public XYPair getRightStick(double x, double y){
-        return rightJoystickAxis = new XYPair(x, y);
-    }
-    
-    @Override
-    public XYPair getRightStick() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-    
     @Override
     public double getLeftStickX() {
-        return leftJoystickAxis.x;
+        return getLeftVector().x;
     }
     
     @Override
     public double getRightStickX() {
-        return rightJoystickAxis.x;
+        return getRightVector().x;
     }
 
     @Override
     public double getLeftStickY() {
-        return leftJoystickAxis.y;
+        return getLeftVector().y;
     }
 
     @Override
     public double getRightStickY() {
-        return rightJoystickAxis.y;
+        return getRightVector().y;
     }
 
     @Override
@@ -91,22 +127,67 @@ public class MockXboxController implements XXboxController {
     }
 
     @Override
-    public AdvancedXboxButton getXboxButton(XboxButtons buttonName) {
-        // TODO Auto-generated method stub
+    public AdvancedXboxButton getXboxButton(XboxButton buttonName) {
         return new AdvancedXboxButton(this, buttonName);
     }
 
     @Override
     public boolean getRawXboxButton(int index) {
-        // TODO Auto-generated method stub
-        return false;
+        return getButton(index);
     }
 
     @Override
     public XboxController getInternalController() {
-        // TODO Auto-generated method stub
         return null;
     }
 
+    @Override
+    public void setRightStickXInversion(boolean inverted) {
+        xRightInverted = inverted;
+    }
 
+    @Override
+    public void setRightStickYInversion(boolean inverted) {
+        yRightInverted = inverted;
+    }
+
+    @Override
+    public void setLeftStickXInversion(boolean inverted) {
+        xLeftInverted = inverted;
+    }
+
+    @Override
+    public void setLeftStickYInversion(boolean inverted) {
+        yLeftInverted = inverted;
+    }
+    
+    @Override
+    public boolean getRightStickXInversion() {
+        return xRightInverted;
+    }
+    
+    @Override
+    public boolean getRightStickYInversion() {
+        return yRightInverted;
+    }
+
+    @Override
+    public boolean getLeftStickXInversion() {
+        return xLeftInverted;
+    }
+    
+    @Override
+    public boolean getLeftStickYInversion() {
+        return yLeftInverted;
+    }
+
+    @Override
+    public XYPair getLeftStick() {
+        return getLeftVector();
+    }
+
+    @Override
+    public XYPair getRightStick() {
+        return getRightVector();
+    }
 }
