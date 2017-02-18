@@ -83,7 +83,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         currentRoll.set(getRobotRoll());
     }  
     
-    private void updateDistanceTraveled(double currentLeftDistance, double currentRightDistance) {
+    private void updateOdometry(double currentLeftDistance, double currentRightDistance) {
        
         leftDriveDistance.set(currentLeftDistance);
         rightDriveDistance.set(currentRightDistance);
@@ -93,9 +93,9 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         
         double totalDistance = (deltaLeft + deltaRight) / 2;
         
-        // get X and Y
-        double deltaY = Math.sin(currentHeading.getValue() * Math.PI / 180) * totalDistance;
-        double deltaX = Math.cos(currentHeading.getValue() * Math.PI / 180) * totalDistance;
+        // get X and Y        
+        double deltaY = Math.sin(Math.toRadians(currentHeading.getValue())) * totalDistance;
+        double deltaX = Math.cos(Math.toRadians(currentHeading.getValue())) * totalDistance;
         
         totalDistanceX.set(totalDistanceX.get() + deltaX);
         totalDistanceY.set(totalDistanceY.get() + deltaY);
@@ -122,7 +122,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         // if we are facing 90 degrees, no change.
         // if we are facing 0 degrees (right), this rotates left by 90. Makes sense - if you rotate right, you want
         // your perception of distance traveled to be that you have gone "leftward."
-        return getTravelVector().rotate(-(currentHeading.getValue() - 90)).clone();
+        return getTravelVector().rotate(90 - currentHeading.getValue()).clone();
     }
     
     public void resetDistanceTraveled() {
@@ -138,35 +138,35 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
      * This should be called as often as reasonably possible, to increase accuracy
      * of the "distance traveled" calculation.
      * 
-     * The PoseSubsystem can't directly own CANTalons, so some command will need to feed in the
+     * The PoseSubsystem can't directly own positional sensors, so some command will need to feed in the
      * distance values coming from the DriveSubsystem. In order to have accurate calculations, these
      * values need to be in inches, and should never be reset - any resetting should be done here
      * in the PoseSubsystem
      */
-    public void updatePose() {
+    private void updatePose() {
         updateCurrentHeading();
-        updateDistanceTraveled(getLeftDriveDistance(), getRightDriveDistance());
+        updateOdometry(getLeftDriveDistance(), getRightDriveDistance());
     }
     
     protected abstract double getLeftDriveDistance();
     protected abstract double getRightDriveDistance();
     
     public double getRobotPitch() {
-        return getRealPitch() - inherentRioPitch.get();
+        return getUntrimmedPitch() - inherentRioPitch.get();
     }
     
     public double getRobotRoll() {
-        return getRealRoll() - inherentRioRoll.get();
+        return getUntrimmedRoll() - inherentRioRoll.get();
     }
     
-    private double getRealPitch() {
+    private double getUntrimmedPitch() {
         if (rioRotated.get()) {
             return imu.getRoll();
         }
         return imu.getPitch();
     }
     
-    private double getRealRoll() {
+    private double getUntrimmedRoll() {
         if (rioRotated.get()) {
             return imu.getPitch();
         }
@@ -174,8 +174,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     }
     
     public void calibrateInherentRioOrientation() {
-        inherentRioPitch.set(getRealPitch());
-        inherentRioRoll.set(getRealRoll());
+        inherentRioPitch.set(getUntrimmedPitch());
+        inherentRioRoll.set(getUntrimmedRoll());
     }
     
     @Override

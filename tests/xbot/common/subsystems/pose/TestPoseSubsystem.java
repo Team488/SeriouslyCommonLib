@@ -36,9 +36,9 @@ public class TestPoseSubsystem extends BasePoseSubsystem {
         return right.getPosition();
     }
     
-    public void setDistanceTraveled(double left, double right) {
+    public void setDriveEncoderDistances(double left, double right) {
         ((MockCANTalon)this.left).setPosition(left);
         ((MockCANTalon)this.right).setPosition(right);
-        updatePose();
+        updatePeriodicData();
     }
 }
