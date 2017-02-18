@@ -3,6 +3,7 @@ package xbot.common.subsystems.pose;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
+import org.junit.Ignore;
 
 import com.ctre.CANTalon.FeedbackDevice;
 
@@ -12,6 +13,7 @@ import xbot.common.injection.BaseWPITest;
 import xbot.common.injection.wpi_factories.MockWPIFactory;
 import xbot.common.injection.wpi_factories.WPIFactory;
 
+@Ignore
 public class BasePoseTest extends BaseWPITest {
 
     protected TestPoseSubsystem pose;
