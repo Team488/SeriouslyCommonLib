@@ -11,6 +11,8 @@ import xbot.common.properties.ITableProxy;
 import xbot.common.properties.MockPermamentStorage;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.TableProxy;
+import xbot.common.subsystems.TestPoseSubsystem;
+import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
@@ -46,6 +48,8 @@ public class UnitTestModule extends AbstractModule {
         this.bind(SmartDashboardCommandPutter.class).to(MockSmartDashboardCommandPutter.class);
 
         this.bind(RobotAssertionManager.class).to(LoudRobotAssertionManager.class);
+        
+        this.bind(BasePoseSubsystem.class).to(TestPoseSubsystem.class);
         
         this.install(new FactoryModuleBuilder().build(PIDFactory.class));
     }

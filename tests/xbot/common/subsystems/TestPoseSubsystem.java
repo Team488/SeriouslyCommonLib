@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.properties.XPropertyManager;
+import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 public class TestPoseSubsystem extends BasePoseSubsystem {
 
