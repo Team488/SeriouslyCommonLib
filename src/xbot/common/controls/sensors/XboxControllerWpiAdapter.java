@@ -7,6 +7,8 @@ import xbot.common.math.XYPair;
 public class XboxControllerWpiAdapter implements XXboxController {
     
     final XboxController internalXboxController;
+    XYPair leftJoystickAxis;
+    XYPair rightJoystickAxis;
     private boolean xRightInverted = false;
     private boolean yRightInverted = false;
     private boolean xLeftInverted = false;
@@ -48,20 +50,26 @@ public class XboxControllerWpiAdapter implements XXboxController {
         return internalXboxController.getRawButton(index);
     }
 
-    @Override
     //Joysticks---------------------------------------------------------------------------------------------
-   public double getLeftStickX(){
-       
+    public XYPair getRightVector() {
+        return new XYPair(this.rightJoystickAxis.x * (xRightInverted ? -1 : 1), this.rightJoystickAxis.y
+                * (yRightInverted ? -1 : 1));
+    }
+
+    public XYPair getLeftVector() {
+        return new XYPair(this.leftJoystickAxis.x * (xLeftInverted ? -1 : 1), this.leftJoystickAxis.y
+                * (yLeftInverted ? -1 : 1));
+    }
+    
+    public double getLeftStickX(){
        return internalXboxController.getX(Hand.kLeft);
-   }
+    }
     
     public double getRightStickX(){
-        
-        return internalXboxController.getRawAxis(3);
+       return internalXboxController.getRawAxis(3);
     }
     
    public double getLeftStickY(){
-       
        return internalXboxController.getY(Hand.kLeft);
    }
    
