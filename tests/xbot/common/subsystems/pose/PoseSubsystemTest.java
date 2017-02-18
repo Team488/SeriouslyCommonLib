@@ -1,13 +1,13 @@
-package xbot.common.subsystems;
+package xbot.common.subsystems.pose;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.subsystems.BasePoseSubsystem;
 
-public class PoseSubsystemTest extends BaseWPITest {
+public class PoseSubsystemTest extends BasePoseTest {
         
     TestPoseSubsystem pose;
     
