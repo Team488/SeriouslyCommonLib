@@ -24,7 +24,9 @@ public class XboxControllerWpiAdapter implements XXboxController {
         Back(7),
         Start(8),
         LeftStick(9),
-        RightStick(10);
+        RightStick(10),
+        LeftTrigger(-1),
+        RightTrigger(-1);
         
         private int value;
         
@@ -38,11 +40,13 @@ public class XboxControllerWpiAdapter implements XXboxController {
     }
     
     public XboxControllerWpiAdapter(int port) {
-        
         internalXboxController = new XboxController(port);
     }
     
     public AdvancedXboxButton getXboxButton(XboxButton buttonName) {
+        if (buttonName == XboxButton.LeftTrigger || buttonName == XboxButton.RightTrigger) {
+            return new AdvancedXboxAxisButton(this, buttonName, 0.75);
+        }
         return new AdvancedXboxButton(this, buttonName);
     }
     
@@ -127,7 +131,6 @@ public class XboxControllerWpiAdapter implements XXboxController {
        
        return internalXboxController.getTriggerAxis(Hand.kRight);
    }
-
 
     @Override
     public XYPair getLeftStick() {

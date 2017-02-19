@@ -1,7 +1,11 @@
 package xbot.common.controls.sensors;
 
+
 import java.util.HashMap;
 import java.util.Map;
+
+import com.google.inject.Inject;
+
 
 import edu.wpi.first.wpilibj.XboxController;
 import xbot.common.controls.sensors.XboxControllerWpiAdapter.XboxButton;
@@ -9,6 +13,7 @@ import xbot.common.math.XYPair;
 
 public class MockXboxController implements XXboxController {
 
+    
     public MockXboxController(int port) {
     }
 
@@ -128,6 +133,9 @@ public class MockXboxController implements XXboxController {
 
     @Override
     public AdvancedXboxButton getXboxButton(XboxButton buttonName) {
+        if (buttonName == XboxButton.LeftTrigger || buttonName == XboxButton.RightTrigger) {
+            return new AdvancedXboxAxisButton(this, buttonName, 0.75);
+        }
         return new AdvancedXboxButton(this, buttonName);
     }
 
