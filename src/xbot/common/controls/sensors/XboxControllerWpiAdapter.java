@@ -44,8 +44,8 @@ public class XboxControllerWpiAdapter implements XXboxController {
         internalXboxController = new XboxController(port);
     }
     
-    public AdvancedXboxButton getXboxButton(XboxButtons buttonName) {
-        if (buttonName == XboxButtons.LeftTrigger || buttonName == XboxButtons.RightTrigger) {
+    public AdvancedXboxButton getXboxButton(XboxButton buttonName) {
+        if (buttonName == XboxButton.LeftTrigger || buttonName == XboxButton.RightTrigger) {
             return new AdvancedXboxAxisButton(this, buttonName, 0.75);
         }
         return new AdvancedXboxButton(this, buttonName);
