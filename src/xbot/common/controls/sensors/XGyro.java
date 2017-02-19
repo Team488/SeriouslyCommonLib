@@ -13,4 +13,6 @@ public interface XGyro
     public double getPitch();
     
     public boolean isBroken();
+    
+    public double getVelocityOfYaw();
 }

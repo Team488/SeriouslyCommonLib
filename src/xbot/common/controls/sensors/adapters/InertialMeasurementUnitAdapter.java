@@ -58,12 +58,15 @@ public class InertialMeasurementUnitAdapter extends NavImu implements XGyro {
     @Override
     public double getPitch() {
         return -this.ahrs.getPitch();
+        
     }
 
     @Override
     public boolean isBroken() {
         return isBroken;
     }
-
-
+    
+    public double getVelocityOfYaw(){
+        return ahrs.getRate();
+    }
 }

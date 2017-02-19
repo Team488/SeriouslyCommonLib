@@ -1,11 +1,13 @@
 package xbot.common.controls.sensors;
 
 import xbot.common.controls.MockRobotIO;
+import xbot.common.controls.sensors.navx.AHRS;
 import xbot.common.math.ContiguousHeading;
 
 public class MockGyro implements XGyro {
     private boolean isBroken;
     private MockRobotIO mockIO;
+    AHRS ahrs;
 
     public MockGyro(MockRobotIO mockRobotIO) {
         mockIO = mockRobotIO;
@@ -40,6 +42,10 @@ public class MockGyro implements XGyro {
     @Override
     public double getPitch() {
         return mockIO.getGyroPitch();
+    }
+    
+    public double getVelocityOfYaw(){
+        return ahrs.getRate();
     }
 
 }

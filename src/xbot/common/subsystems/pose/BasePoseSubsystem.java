@@ -4,6 +4,7 @@ import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XGyro;
+import xbot.common.controls.sensors.navx.AHRS;
 import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.math.ContiguousHeading;
 import xbot.common.math.XYPair;
@@ -14,6 +15,7 @@ import xbot.common.properties.XPropertyManager;
 public abstract class BasePoseSubsystem extends BaseSubsystem implements PeriodicDataSource {
 
     public final XGyro imu;
+    AHRS ahrs;
     
     private final DoubleProperty leftDriveDistance;
     private final DoubleProperty rightDriveDistance;
@@ -175,6 +177,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     public void calibrateInherentRioOrientation() {
         inherentRioPitch.set(getUntrimmedPitch());
         inherentRioRoll.set(getUntrimmedRoll());
+    }
+    
+    public void getVelocityOfYaw(){
+        ahrs.getRate();
     }
     
     @Override

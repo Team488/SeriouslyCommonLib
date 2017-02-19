@@ -3,6 +3,7 @@ package xbot.common.controls.sensors.nav6;
 import edu.wpi.first.wpilibj.SerialPort;
 import xbot.common.controls.sensors.NavImu;
 import xbot.common.controls.sensors.XGyro;
+import xbot.common.controls.sensors.navx.AHRS;
 import xbot.common.math.ContiguousHeading;
 
 /**
@@ -16,6 +17,7 @@ public class Nav6Gyro extends NavImu implements XGyro
     private SerialPort imuPort;
     private IMU coreSensor;
     private ContiguousHeading yawValue;
+    AHRS ahrs;
     
     public final int baudRate = 57600;
     
@@ -58,5 +60,9 @@ public class Nav6Gyro extends NavImu implements XGyro
     @Override
     public boolean isBroken() {
         return false;
+    }
+    
+    public double getVelocityOfYaw(){
+       return ahrs.getRate();
     }
 }
