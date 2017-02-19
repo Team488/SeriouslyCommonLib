@@ -133,6 +133,9 @@ public class MockXboxController implements XXboxController {
 
     @Override
     public AdvancedXboxButton getXboxButton(XboxButton buttonName) {
+        if (buttonName == XboxButton.LeftTrigger || buttonName == XboxButton.RightTrigger) {
+            return new AdvancedXboxAxisButton(this, buttonName, 0.75);
+        }
         return new AdvancedXboxButton(this, buttonName);
     }
 

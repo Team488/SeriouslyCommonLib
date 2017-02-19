@@ -40,7 +40,6 @@ public class XboxControllerWpiAdapter implements XXboxController {
     }
     
     public XboxControllerWpiAdapter(int port) {
-        
         internalXboxController = new XboxController(port);
     }
     
