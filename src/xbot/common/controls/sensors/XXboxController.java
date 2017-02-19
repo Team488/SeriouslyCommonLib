@@ -16,7 +16,7 @@ public interface XXboxController {
     
     //Triggers-----------------------------------------------------------------------------------------------
     double getLeftTriggerAxis();
-    double getRightTriggerAxis();
+    double getRightTriggerAxis();   
     
     AdvancedXboxButton getXboxButton(XboxButtons buttonName);
     boolean getRawXboxButton(int index);

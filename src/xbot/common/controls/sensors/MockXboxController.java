@@ -13,6 +13,8 @@ public class MockXboxController implements XXboxController {
     XYPair rightJoystickAxis;
     double leftTriggerAxis;
     double rightTriggerAxis;
+    double leftTriggerButton;
+    double rightTriggerButton;
     
     boolean[] buttonValues = new boolean[10];
     
@@ -46,7 +48,6 @@ public class MockXboxController implements XXboxController {
     
     @Override
     public XYPair getLeftStick() {
-        // TODO Auto-generated method stub
         return null;
     }
     
@@ -56,7 +57,6 @@ public class MockXboxController implements XXboxController {
     
     @Override
     public XYPair getRightStick() {
-        // TODO Auto-generated method stub
         return null;
     }
     
@@ -92,21 +92,16 @@ public class MockXboxController implements XXboxController {
 
     @Override
     public AdvancedXboxButton getXboxButton(XboxButtons buttonName) {
-        // TODO Auto-generated method stub
         return new AdvancedXboxButton(this, buttonName);
     }
 
     @Override
     public boolean getRawXboxButton(int index) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public XboxController getInternalController() {
-        // TODO Auto-generated method stub
         return null;
     }
-
-
 }
