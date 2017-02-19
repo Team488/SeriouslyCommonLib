@@ -1,5 +1,7 @@
 package xbot.common.math;
 
+import xbot.common.controls.sensors.XTimer;
+
 /**
  * This PID was extracted from WPILib. It has all the same functionality, but
  * does not run on its own separate thread.
@@ -23,6 +25,11 @@ public class PID
     
     private boolean checkErrorThreshold = false;
     private boolean checkDerivativeThreshold = false;
+    private boolean checkOnTargetForDuration = false;
+    private boolean waitingToStabilize = false;
+    private double onTargetThreshold = 0;
+    XTimer timer = new XTimer();
+    
     
     /**
      * Resets the PID controller.
@@ -55,22 +62,24 @@ public class PID
      *  e.g. if you wanted a minimum rotation speed of 5 degrees per second,
      *  this tolerance would need to be 0.25.  
      */
-    public void setTolerances(double errorTolerance, double derivativeTolerance) {
+    public void setTolerances(double errorTolerance, double derivativeTolerance, double timeTolerenceInSeconds) {
         this.errorTolerance = errorTolerance;
         this.derivativeTolerance = derivativeTolerance;
+        this.onTargetThreshold = timeTolerenceInSeconds;
     }
     
     /**
      * Controls whether or not the tolerances are checked as part of isOnTarget().
      */
-    public void setShouldCheckTolerances(boolean checkError, boolean checkDerivative) {
+    public void setShouldCheckTolerances(boolean checkError, boolean checkDerivative, boolean checkTime) {
         checkErrorThreshold = checkError;
         checkDerivativeThreshold = checkDerivative;
+        checkOnTargetForDuration = checkTime;
     }
-
+    
     /**
      * Calculates the output value given P,I,D, a process variable and a goal
-     * 
+     *  
      * @param goal
      *            What value you are trying to achieve
      * @param current
@@ -126,7 +135,7 @@ public class PID
         
         errorIsSmall = checkErrorThreshold && Math.abs(m_targetInputValue - m_currentInputValue) < errorTolerance;
         derivativeIsSmall = checkDerivativeThreshold && Math.abs(m_derivativeValue) < derivativeTolerance;
-
+        
         return result;
     }
     
@@ -156,7 +165,7 @@ public class PID
      */
     public boolean isOnTarget() {
         
-        if (!checkErrorThreshold && !checkDerivativeThreshold) {
+        if (!checkErrorThreshold && !checkDerivativeThreshold && !checkOnTargetForDuration) {
             // No tolerances are enabled, but isOnTarget is being called anyway. We still need to return something.
             // In this case, we return FALSE, as it promotes robot action (the command using this will complete
             // its activity, even if it doesn't signal that it is done to allow other actions to proceed).
@@ -170,6 +179,21 @@ public class PID
         }
         if (checkDerivativeThreshold) {
             isOnTarget &= derivativeIsSmall;
+        }
+        
+        if (checkOnTargetForDuration) {
+            if(isOnTarget){
+                if(waitingToStabilize = false){
+                    waitingToStabilize = true;
+                    timer.start();
+                } else {
+                    return timer.getTime() > onTargetThreshold;
+                }
+            } else {
+                timer.reset();
+                waitingToStabilize = false;
+                return false;
+            }
         }
         
         return isOnTarget;

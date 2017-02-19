@@ -17,9 +17,11 @@ public class PIDPropertyManager {
     
     private final DoubleProperty propErrorThreshold;
     private final DoubleProperty propDerivativeThreshold;
+    private final DoubleProperty propTimeThreshold;
     
     private final BooleanProperty propEnableErrorThreshold;
     private final BooleanProperty propEnableDerivativeThreshold;
+    private final BooleanProperty propEnableTimeThreshold;
     
     private final RobotAssertionManager assertionManager;
     
@@ -33,7 +35,8 @@ public class PIDPropertyManager {
             @Assisted("defaultD") double defaultD, 
             @Assisted("defaultF") double defaultF,
             @Assisted("errorThreshold") double errorThreshold, 
-            @Assisted("derivativeThreshold") double derivativeThreshold) {
+            @Assisted("derivativeThreshold") double derivativeThreshold,
+            @Assisted("timeThreshold") double timeThreshold) {
         propP = propMan.createPersistentProperty(functionName + " P", defaultP);
         propI = propMan.createPersistentProperty(functionName + " I", defaultI);
         propD = propMan.createPersistentProperty(functionName + " D", defaultD);
@@ -43,11 +46,16 @@ public class PIDPropertyManager {
                 propMan.createPersistentProperty(functionName + " Error threshold", errorThreshold);
         propDerivativeThreshold = 
                 propMan.createPersistentProperty(functionName + " Derivative threshold", derivativeThreshold);
+        propTimeThreshold = 
+                propMan.createPersistentProperty(functionName + " Time threshold", timeThreshold);
+        
         
         propEnableErrorThreshold = 
                 propMan.createPersistentProperty(functionName + " Enable error threshold", errorThreshold > 0);
         propEnableDerivativeThreshold = 
                 propMan.createPersistentProperty(functionName + " Enable derivative threshold", derivativeThreshold > 0);
+        propEnableTimeThreshold = 
+                propMan.createPersistentProperty(functionName + " Enable time threshold", timeThreshold > 0);
         
         this.assertionManager = assertionManager;
     }
@@ -61,7 +69,7 @@ public class PIDPropertyManager {
             @Assisted("defaultI") double defaultI, 
             @Assisted("defaultD") double defaultD, 
             @Assisted("defaultF") double defaultF) {
-        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, -1, -1);
+        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, -1, -1, -1);
     }
 
     public double getP() {
@@ -114,6 +122,15 @@ public class PIDPropertyManager {
         propDerivativeThreshold.set(Math.abs(derivativeThreshold));
     }
     
+    public double getTimeThreshold() {
+        return propTimeThreshold.get();
+    }
+    
+    public void setTimeThreshold(double timeThreshold) {
+        assertionManager.assertTrue(timeThreshold >= 0, "Thresholds won't work if they are negative!");
+        propDerivativeThreshold.set(Math.abs(timeThreshold));
+    }
+    
     public boolean getEnableErrorThreshold() {
         return propEnableErrorThreshold.get();
     }
@@ -128,5 +145,13 @@ public class PIDPropertyManager {
     
     public void setEnableDerivativeThreshold(boolean isEnabled) {
         propEnableDerivativeThreshold.set(isEnabled);
+    }
+    
+    public boolean getEnableTimeThreshold() {
+        return propEnableTimeThreshold.get();
+    }
+    
+    public void setEnableTimeThreshold(boolean isEnabled) {
+        propEnableTimeThreshold.set(isEnabled);
     }
 }

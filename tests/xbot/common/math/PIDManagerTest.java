@@ -42,13 +42,13 @@ public class PIDManagerTest extends BaseWPITest{
     
     @Test
     public void testIsOnTargetStartsFalse() {
-        PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25, 1, 0);
+        PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25, 1, 0, -1);
         assertFalse(manager.isOnTarget());
     }
     
     @Test
     public void testIsOnTargetUsingError() {
-        PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25, 1, 0);
+        PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25, 1, 0, -1);
         
         manager.calculate(100, 0);
         assertFalse(manager.isOnTarget());
@@ -59,7 +59,7 @@ public class PIDManagerTest extends BaseWPITest{
     
     @Test
     public void testIsOnTargetUsingDerivative() {
-        PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25, 0, 1);
+        PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25, 0, 1, -1);
         
         manager.calculate(100, 0);
         assertFalse(manager.isOnTarget());
@@ -73,7 +73,7 @@ public class PIDManagerTest extends BaseWPITest{
     
     @Test
     public void testIsOnTargetUsingErrorAndDerivative() {
-        PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25, 1, 1);
+        PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25, 1, 1, -1);
         
         manager.calculate(100, 0);
         assertFalse(manager.isOnTarget());
@@ -87,7 +87,7 @@ public class PIDManagerTest extends BaseWPITest{
     
     @Test
     public void testIsOnTargetThenNot() {
-        PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25, 1, 0);
+        PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25, 1, 0, -1);
         manager.calculate(100, 0);
         assertFalse(manager.isOnTarget());
         
@@ -120,14 +120,14 @@ public class PIDManagerTest extends BaseWPITest{
     
     @Test(expected=RobotAssertionException.class)
     public void testAttemptNegativeThreshold() {
-        PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25, 1, 1);
+        PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25, 1, 1, -1);
         
         manager.setErrorThreshold(-10);
     }
     
     @Test
     public void disableEnableErrorTolerance() {
-        PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25, 1, 0);
+        PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25, 1, 0, -1);
         
         manager.calculate(100, 100);
         
@@ -146,7 +146,7 @@ public class PIDManagerTest extends BaseWPITest{
     
     @Test
     public void disableEnableDerivativeTolerance() {
-        PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25, 0, 1);
+        PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25, 0, 1, -1);
         
         manager.calculate(100, 100);
         manager.calculate(100, 100);
