@@ -27,7 +27,7 @@ public interface XXboxController {
     public void setLeftStickYInversion(boolean inverted);
     //Triggers-----------------------------------------------------------------------------------------------
     double getLeftTriggerAxis();
-    double getRightTriggerAxis();
+    double getRightTriggerAxis();   
     
     AdvancedXboxButton getXboxButton(XboxButton buttonName);
     boolean getRawXboxButton(int index);
