@@ -1,6 +1,4 @@
-package xbot.common.subsystems;
-
-import org.apache.log4j.Logger;
+package xbot.common.subsystems.pose;
 
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
@@ -22,12 +20,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     private final DoubleProperty totalDistanceX;
     private final DoubleProperty totalDistanceY;
-    private final DoubleProperty totalDistanceYRobotOriented;
     
     private ContiguousHeading currentHeading;
     private final DoubleProperty currentHeadingProp;
-    
-    private ContiguousHeading lastImuHeading;
+    private double headingOffset;
     
     // These are two common robot starting positions - kept here as convenient shorthand.
     public static final double FACING_AWAY_FROM_DRIVERS = 90;
@@ -51,41 +47,33 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", 0.0);
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
-        lastImuHeading = imu.getYaw();
-        currentHeading = new ContiguousHeading(FACING_AWAY_FROM_DRIVERS);
         
-        currentPitch = propManager.createEphemeralProperty("CurrentPitch", 0.0);
-        currentRoll = propManager.createEphemeralProperty("CurrentRoll", 0.0);
+        currentHeading = new ContiguousHeading(0);
+        setCurrentHeading(FACING_AWAY_FROM_DRIVERS);
         
-        leftDriveDistance = propManager.createEphemeralProperty("LeftDriveDistance", 0.0);
-        rightDriveDistance = propManager.createEphemeralProperty("RightDriveDistance", 0.0);
+        currentPitch = propManager.createEphemeralProperty("Current pitch", 0.0);
+        currentRoll = propManager.createEphemeralProperty("Current roll", 0.0);
         
-        totalDistanceX = propManager.createEphemeralProperty("TotalDistanceX", 0.0);
-        totalDistanceY = propManager.createEphemeralProperty("TotalDistanceY", 0.0);
-        totalDistanceYRobotOriented = propManager.createEphemeralProperty("TotalDistanceY-RobotOriented", 0.0);
+        leftDriveDistance = propManager.createEphemeralProperty("Left drive distance", 0.0);
+        rightDriveDistance = propManager.createEphemeralProperty("Right drive distance", 0.0);
         
-        rioRotated = propManager.createPersistentProperty("RioRotated", false);
-        inherentRioPitch = propManager.createPersistentProperty("InherentRioPitch", 0.0);
-        inherentRioRoll = propManager.createPersistentProperty("InherentRioRoll", 0.0);
+        totalDistanceX = propManager.createEphemeralProperty("Total distance X", 0.0);
+        totalDistanceY = propManager.createEphemeralProperty("Total distance Y", 0.0);
+        
+        rioRotated = propManager.createPersistentProperty("RIO rotated", false);
+        inherentRioPitch = propManager.createPersistentProperty("Inherent RIO pitch", 0.0);
+        inherentRioRoll = propManager.createPersistentProperty("Inherent RIO roll", 0.0);
     }
     
     private void updateCurrentHeading() {
-        // Old heading - current heading gets the delta heading        
-        double imuDeltaYaw = lastImuHeading.difference(imu.getYaw());
-
-        // add the delta to our current
-        currentHeading.shiftValue(imuDeltaYaw);
-        
-        // update the "old" value
-        lastImuHeading = imu.getYaw();
-        
+        currentHeading.setValue(getRobotYaw().getValue() + headingOffset);
         currentHeadingProp.set(currentHeading.getValue());
         
         currentPitch.set(getRobotPitch());
         currentRoll.set(getRobotRoll());
     }  
     
-    private void updateDistanceTraveled(double currentLeftDistance, double currentRightDistance) {
+    private void updateOdometry(double currentLeftDistance, double currentRightDistance) {
        
         leftDriveDistance.set(currentLeftDistance);
         rightDriveDistance.set(currentRightDistance);
@@ -95,11 +83,9 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         
         double totalDistance = (deltaLeft + deltaRight) / 2;
         
-        totalDistanceYRobotOriented.set(totalDistanceYRobotOriented.get() + totalDistance);
-        
-        // get X and Y
-        double deltaY = Math.sin(currentHeading.getValue() * Math.PI / 180) * totalDistance;
-        double deltaX = Math.cos(currentHeading.getValue() * Math.PI / 180) * totalDistance;
+        // get X and Y        
+        double deltaY = Math.sin(Math.toRadians(currentHeading.getValue())) * totalDistance;
+        double deltaX = Math.cos(Math.toRadians(currentHeading.getValue())) * totalDistance;
         
         totalDistanceX.set(totalDistanceX.get() + deltaX);
         totalDistanceY.set(totalDistanceY.get() + deltaY);
@@ -123,7 +109,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     }
     
     public XYPair getRobotOrientedTotalDistanceTraveled() {
-        return new XYPair(0, totalDistanceY.get());
+        // if we are facing 90 degrees, no change.
+        // if we are facing 0 degrees (right), this rotates left by 90. Makes sense - if you rotate right, you want
+        // your perception of distance traveled to be that you have gone "leftward."
+        return getTravelVector().rotate(90 - currentHeading.getValue()).clone();
     }
     
     public void resetDistanceTraveled() {
@@ -132,42 +121,51 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     }
     
     public void setCurrentHeading(double headingInDegrees){
-        currentHeading.setValue(headingInDegrees);
+        double rawHeading = getRobotYaw().getValue();
+        headingOffset = -rawHeading + headingInDegrees;
     }
     
     /**
      * This should be called as often as reasonably possible, to increase accuracy
      * of the "distance traveled" calculation.
      * 
-     * The PoseSubsystem can't directly own CANTalons, so some command will need to feed in the
+     * The PoseSubsystem can't directly own positional sensors, so some command will need to feed in the
      * distance values coming from the DriveSubsystem. In order to have accurate calculations, these
      * values need to be in inches, and should never be reset - any resetting should be done here
      * in the PoseSubsystem
      */
-    public void updatePose() {
+    private void updatePose() {
         updateCurrentHeading();
-        updateDistanceTraveled(getLeftDriveDistance(), getRightDriveDistance());
+        updateOdometry(getLeftDriveDistance(), getRightDriveDistance());
     }
     
     protected abstract double getLeftDriveDistance();
     protected abstract double getRightDriveDistance();
     
     public double getRobotPitch() {
-        return getRealPitch() - inherentRioPitch.get();
+        return getUntrimmedPitch() - inherentRioPitch.get();
     }
     
     public double getRobotRoll() {
-        return getRealRoll() - inherentRioRoll.get();
+        return getUntrimmedRoll() - inherentRioRoll.get();
     }
     
-    private double getRealPitch() {
+    /**
+     * If the RoboRIO is mounted in a position other than "flat" (e.g. with the pins facing upward)
+     * then this method will need to be overridden.
+     */
+    private ContiguousHeading getRobotYaw() {
+        return imu.getYaw();
+    }
+    
+    private double getUntrimmedPitch() {
         if (rioRotated.get()) {
             return imu.getRoll();
         }
         return imu.getPitch();
     }
     
-    private double getRealRoll() {
+    private double getUntrimmedRoll() {
         if (rioRotated.get()) {
             return imu.getPitch();
         }
@@ -175,8 +173,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     }
     
     public void calibrateInherentRioOrientation() {
-        inherentRioPitch.set(getRealPitch());
-        inherentRioRoll.set(getRealRoll());
+        inherentRioPitch.set(getUntrimmedPitch());
+        inherentRioRoll.set(getUntrimmedRoll());
     }
     
     @Override

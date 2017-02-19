@@ -9,10 +9,13 @@
 /*----------------------------------------------------------------------------*/
 package xbot.common.controls.sensors.navx;
 
+import xbot.common.controls.sensors.navx.AHRSProtocol;
+import xbot.common.controls.sensors.navx.IMUProtocol;
+
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-@SuppressWarnings("unused")
+
 class SerialIO implements IIOProvider {
 
     SerialPort.Port serial_port_id;
@@ -29,6 +32,7 @@ class SerialIO implements IIOProvider {
     private IMUProtocol.GyroUpdate gyro_update_data;
     private AHRSProtocol.AHRSUpdate ahrs_update_data;
     private AHRSProtocol.AHRSPosUpdate ahrspos_update_data;
+    private AHRSProtocol.AHRSPosTSUpdate ahrspos_ts_update_data;
     private AHRSProtocol.BoardID board_id;
     IIOCompleteNotification notify_sink;
     IIOCompleteNotification.BoardState board_state;
@@ -36,13 +40,18 @@ class SerialIO implements IIOProvider {
     double last_valid_packet_time;
 
     final boolean debug = false; /* Set to true to enable debug output (to smart dashboard) */
+    boolean is_usb;
     
     public SerialIO( SerialPort.Port port_id, byte update_rate_hz, boolean processed_data, IIOCompleteNotification notify_sink, IBoardCapabilities board_capabilities ) {
         this.serial_port_id = port_id;
+        is_usb = ((port_id == SerialPort.Port.kUSB) ||
+        		  (port_id == SerialPort.Port.kUSB1)||
+        		  (port_id == SerialPort.Port.kUSB2));
         ypr_update_data = new IMUProtocol.YPRUpdate();
         gyro_update_data = new IMUProtocol.GyroUpdate();
         ahrs_update_data = new AHRSProtocol.AHRSUpdate();
         ahrspos_update_data = new AHRSProtocol.AHRSPosUpdate();
+        ahrspos_ts_update_data = new AHRSProtocol.AHRSPosTSUpdate();
         board_id = new AHRSProtocol.BoardID();
         board_state = new IIOCompleteNotification.BoardState();
         this.notify_sink = notify_sink;
@@ -50,7 +59,7 @@ class SerialIO implements IIOProvider {
         serial_port = getMaybeCreateSerialPort();
         this.update_rate_hz = update_rate_hz;
         if ( processed_data ) {
-            update_type = AHRSProtocol.MSGID_AHRSPOS_UPDATE;
+            update_type = AHRSProtocol.MSGID_AHRSPOS_TS_UPDATE;
         } else {
             update_type = IMUProtocol.MSGID_GYRO_UPDATE;
         }
@@ -102,28 +111,40 @@ class SerialIO implements IIOProvider {
         board_state.gyro_fsr_dps = response.gyro_fsr_dps;
         board_state.update_rate_hz = (byte) response.update_rate_hz;
         notify_sink.setBoardState(board_state);
-        /* If AHRSPOS is update type is request, but board doesn't support it, */
-        /* retransmit the stream config, falling back to AHRS Update mode.     */
-        if ( this.update_type == AHRSProtocol.MSGID_AHRSPOS_UPDATE ) {
-            if ( !board_capabilities.isDisplacementSupported() ) {
-                this.update_type = AHRSProtocol.MSGID_AHRS_UPDATE;
-                signal_retransmit_stream_config = true;
-            }
+        /* If AHRSPOS_TS is update type is requested, but board doesn't support it, */
+        /* retransmit the stream config, falling back to AHRSPos update mode, if    */
+        /* the board supports it, otherwise fall all the way back to AHRS Update mode. */
+        if ( response.stream_type != this.update_type ) {
+	        if ( this.update_type == AHRSProtocol.MSGID_AHRSPOS_TS_UPDATE ) {
+	        	if ( board_capabilities.isAHRSPosTimestampSupported() ) {
+	        		this.update_type = AHRSProtocol.MSGID_AHRSPOS_TS_UPDATE;
+	        	}
+	        	else if ( board_capabilities.isDisplacementSupported() ) {
+	                this.update_type = AHRSProtocol.MSGID_AHRSPOS_UPDATE;
+	            }
+	        	else {
+	        		this.update_type = AHRSProtocol.MSGID_AHRS_UPDATE;
+	        	}
+	    		signal_retransmit_stream_config = true;
+	        }
         }
     }
     
     protected int decodePacketHandler(byte[] received_data, int offset, int bytes_remaining) {
 
         int packet_length;
+        int sensor_timestamp = 0; /* Note:  Serial Protocols often don't provide sensor timestamps */
         
         if ( (packet_length = IMUProtocol.decodeYPRUpdate(received_data, offset, bytes_remaining, ypr_update_data)) > 0) {
-            notify_sink.setYawPitchRoll(ypr_update_data);
+            notify_sink.setYawPitchRoll(ypr_update_data, sensor_timestamp);
+        } else if ( ( packet_length = AHRSProtocol.decodeAHRSPosTSUpdate(received_data, offset, bytes_remaining, ahrspos_ts_update_data)) > 0) {
+            notify_sink.setAHRSPosData(ahrspos_ts_update_data, ahrspos_ts_update_data.timestamp);
         } else if ( ( packet_length = AHRSProtocol.decodeAHRSPosUpdate(received_data, offset, bytes_remaining, ahrspos_update_data)) > 0) {
-            notify_sink.setAHRSPosData(ahrspos_update_data);
+            notify_sink.setAHRSPosData(ahrspos_update_data, sensor_timestamp);
         } else if ( ( packet_length = AHRSProtocol.decodeAHRSUpdate(received_data, offset, bytes_remaining, ahrs_update_data)) > 0) {
-            notify_sink.setAHRSData(ahrs_update_data);
+            notify_sink.setAHRSData(ahrs_update_data, sensor_timestamp);
         } else if ( ( packet_length = IMUProtocol.decodeGyroUpdate(received_data, offset, bytes_remaining, gyro_update_data)) > 0) {
-            notify_sink.setRawData(gyro_update_data);
+            notify_sink.setRawData(gyro_update_data, sensor_timestamp);
         } else if ( ( packet_length = AHRSProtocol.decodeBoardIDGetResponse(received_data, offset, bytes_remaining, board_id)) > 0) {
             notify_sink.setBoardID(board_id);
         } else {
@@ -131,7 +152,8 @@ class SerialIO implements IIOProvider {
         }
         return packet_length;
     }    
-    
+
+    @SuppressWarnings("unused") /* The following variables are debug-only. */    
     public void run() {
 
         stop = false;
@@ -139,7 +161,7 @@ class SerialIO implements IIOProvider {
         double last_stream_command_sent_timestamp = 0.0;
         double last_data_received_timestamp = 0;
         double last_second_start_time = 0;
-
+               
         int partial_binary_packet_count = 0;
         int stream_response_receive_count = 0;
         int timeout_count = 0;
@@ -186,6 +208,12 @@ class SerialIO implements IIOProvider {
         while (!stop) {
             try {
 
+            	if( serial_port == null) {
+                    double update_rate = 1.0/((double)((int)(this.update_rate_hz & 0xFF)));
+            		Timer.delay(update_rate);
+            		resetSerialPort();
+            		continue;
+            	}
                 // Wait, with delays to conserve CPU resources, until
                 // bytes have arrived.
 
@@ -195,6 +223,11 @@ class SerialIO implements IIOProvider {
                     next_integration_control_action = 0;
                     cmd_packet_length = AHRSProtocol.encodeIntegrationControlCmd( integration_control_command, integration_control );
                     try {
+                    	/* Ugly Hack.  This is a workaround for ARTF5478:           */
+                    	/* (USB Serial Port Write hang if receive buffer not empty. */
+                    	if (is_usb) {
+                    		serial_port.reset();
+                    	}
                         serial_port.write( integration_control_command, cmd_packet_length );
                     } catch (RuntimeException ex2) {
                         ex2.printStackTrace();
@@ -202,7 +235,8 @@ class SerialIO implements IIOProvider {
                 }               
 
                 if ( !stop && ( remainder_bytes == 0 ) && ( serial_port.getBytesReceived() < 1 ) ) {
-                    Timer.delay(1.0/update_rate_hz);
+                    double update_rate = 1.0/((double)((int)(this.update_rate_hz & 0xFF)));
+                    Timer.delay(update_rate);
                 }
 
                 int packets_received = 0;
@@ -315,6 +349,9 @@ class SerialIO implements IIOProvider {
                                         SmartDashboard.putNumber("navX Integration Control Response Count", integration_response_receive_count);
                                     }
                                     i += packet_length;
+                                    if ((integration_control.action & AHRSProtocol.NAVX_INTEGRATION_CTL_RESET_YAW)!=0) {
+                                    	this.notify_sink.yawResetComplete();
+                                    }                    
                                 } else {
                                     /* Even though a start-of-packet indicator was found, the  */
                                     /* current index is not the start of a packet if interest. */
@@ -451,6 +488,11 @@ class SerialIO implements IIOProvider {
                         try {
                             resetSerialPort();
                             last_stream_command_sent_timestamp = Timer.getFPGATimestamp();
+                        	/* Ugly Hack.  This is a workaround for ARTF5478:           */
+                        	/* (USB Serial Port Write hang if receive buffer not empty. */
+                        	if (is_usb) {
+                        		serial_port.reset();
+                        	}                            
                             serial_port.write( stream_command, cmd_packet_length );
                             cmd_packet_length = AHRSProtocol.encodeDataGetRequest( stream_command,  AHRSProtocol.AHRS_DATA_TYPE.BOARD_IDENTITY, (byte)0 ); 
                             serial_port.write( stream_command, cmd_packet_length );
@@ -462,7 +504,8 @@ class SerialIO implements IIOProvider {
                     else {                        
                         // If no bytes remain in the buffer, and not awaiting a response, sleep a bit
                         if ( stream_response_received && ( serial_port.getBytesReceived() == 0 ) ) {
-                            Timer.delay(1.0/update_rate_hz);
+                            double update_rate = 1.0/((double)((int)(this.update_rate_hz & 0xFF)));      
+                        	Timer.delay(update_rate);
                         }        
                     }
 

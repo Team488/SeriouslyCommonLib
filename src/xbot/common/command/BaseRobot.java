@@ -41,7 +41,13 @@ public class BaseRobot extends IterativeRobot {
 
     public BaseRobot() {
         super();
-        // Override in constructor if you need a different module
+        setupInjectionModule();
+    }
+    
+    /**
+     * Override if you need a different module
+     */
+    protected void setupInjectionModule() {
         this.injectionModule = new RobotModule();
     }
 
