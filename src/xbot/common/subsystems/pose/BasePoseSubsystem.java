@@ -15,7 +15,6 @@ import xbot.common.properties.XPropertyManager;
 public abstract class BasePoseSubsystem extends BaseSubsystem implements PeriodicDataSource {
 
     public final XGyro imu;
-    AHRS ahrs;
     
     private final DoubleProperty leftDriveDistance;
     private final DoubleProperty rightDriveDistance;
@@ -179,8 +178,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         inherentRioRoll.set(getUntrimmedRoll());
     }
     
-    public void getVelocityOfYaw(){
-        ahrs.getRate();
+    public void getYawAngularVelocity(){
+        imu.getYawAngularVelocity();
     }
     
     @Override
