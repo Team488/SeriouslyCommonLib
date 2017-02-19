@@ -39,7 +39,7 @@ public abstract class BaseCommand extends Command {
 
     @Override
     public void end() {
-
+        log.info("Ending");
     }
 
     @Override
