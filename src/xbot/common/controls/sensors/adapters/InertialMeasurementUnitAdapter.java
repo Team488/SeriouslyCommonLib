@@ -66,6 +66,9 @@ public class InertialMeasurementUnitAdapter extends NavImu implements XGyro {
         return isBroken;
     }
     
+    /**
+     * Note: this is in degrees per second.
+     */
     public double getYawAngularVelocity(){
         return ahrs.getRate();
     }
