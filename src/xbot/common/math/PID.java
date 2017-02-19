@@ -1,5 +1,7 @@
 package xbot.common.math;
 
+import xbot.common.controls.sensors.XTimer;
+
 /**
  * This PID was extracted from WPILib. It has all the same functionality, but
  * does not run on its own separate thread.
@@ -23,6 +25,11 @@ public class PID
     
     private boolean checkErrorThreshold = false;
     private boolean checkDerivativeThreshold = false;
+    private boolean checkOnTargetForDuration = false;
+    private boolean waitingToStabalize = false;
+    private double onTargetThreshold = 0.5;
+    XTimer timer = new XTimer();
+    
     
     /**
      * Resets the PID controller.
@@ -156,7 +163,7 @@ public class PID
      */
     public boolean isOnTarget() {
         
-        if (!checkErrorThreshold && !checkDerivativeThreshold) {
+        if (!checkErrorThreshold && !checkDerivativeThreshold && !checkOnTargetForDuration) {
             // No tolerances are enabled, but isOnTarget is being called anyway. We still need to return something.
             // In this case, we return FALSE, as it promotes robot action (the command using this will complete
             // its activity, even if it doesn't signal that it is done to allow other actions to proceed).
@@ -170,6 +177,19 @@ public class PID
         }
         if (checkDerivativeThreshold) {
             isOnTarget &= derivativeIsSmall;
+        }
+        
+        if(isOnTarget){
+            if(waitingToStabalize = false){
+                waitingToStablize = true;
+                timer.start();
+            } else {
+                return timer.getTime() > onTargetThreshold;
+            }
+        } else {
+            timer.reset();
+            waiting = false;
+            return false;
         }
         
         return isOnTarget;
