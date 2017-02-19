@@ -1,7 +1,6 @@
 package xbot.common.controls.sensors;
 
 import xbot.common.controls.MockRobotIO;
-import xbot.common.controls.sensors.navx.AHRS;
 import xbot.common.math.ContiguousHeading;
 
 public class MockGyro implements XGyro {
