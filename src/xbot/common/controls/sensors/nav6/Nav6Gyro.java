@@ -17,7 +17,6 @@ public class Nav6Gyro extends NavImu implements XGyro
     private SerialPort imuPort;
     private IMU coreSensor;
     private ContiguousHeading yawValue;
-    AHRS ahrs;
     
     public final int baudRate = 57600;
     
@@ -62,7 +61,8 @@ public class Nav6Gyro extends NavImu implements XGyro
         return false;
     }
     
-    public double getVelocityOfYaw(){
-       return ahrs.getRate();
+    public double getYawAngularVelocity(){
+        // This method is not supported for the Nav6 gyro.
+        return 0;
     }
 }

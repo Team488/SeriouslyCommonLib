@@ -6,13 +6,25 @@ public interface XGyro
 {
     public boolean isConnected();
     
+    /**
+     * In degrees
+     */
     public ContiguousHeading getYaw();
     
+    /**
+     * In degrees
+     */
     public double getRoll();
     
+    /**
+     * In degrees
+     */
     public double getPitch();
     
     public boolean isBroken();
     
-    public double getVelocityOfYaw();
+    /**
+     * In degrees per second
+     */
+    public double getYawAngularVelocity();
 }

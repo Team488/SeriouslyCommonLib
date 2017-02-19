@@ -7,7 +7,6 @@ import xbot.common.math.ContiguousHeading;
 public class MockGyro implements XGyro {
     private boolean isBroken;
     private MockRobotIO mockIO;
-    AHRS ahrs;
 
     public MockGyro(MockRobotIO mockRobotIO) {
         mockIO = mockRobotIO;
@@ -44,8 +43,8 @@ public class MockGyro implements XGyro {
         return mockIO.getGyroPitch();
     }
     
-    public double getVelocityOfYaw(){
-        return ahrs.getRate();
+    public double getYawAngularVelocity(){
+        return mockIO.getGyroHeadingAngularVelocity();
     }
 
 }
