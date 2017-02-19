@@ -26,8 +26,8 @@ public class PID
     private boolean checkErrorThreshold = false;
     private boolean checkDerivativeThreshold = false;
     private boolean checkOnTargetForDuration = false;
-    private boolean waitingToStabalize = false;
-    private double onTargetThreshold = 0.5;
+    private boolean waitingToStabilize = false;
+    private double onTargetThreshold = 0;
     XTimer timer = new XTimer();
     
     
@@ -62,22 +62,24 @@ public class PID
      *  e.g. if you wanted a minimum rotation speed of 5 degrees per second,
      *  this tolerance would need to be 0.25.  
      */
-    public void setTolerances(double errorTolerance, double derivativeTolerance) {
+    public void setTolerances(double errorTolerance, double derivativeTolerance, double timeTolerenceInSeconds) {
         this.errorTolerance = errorTolerance;
         this.derivativeTolerance = derivativeTolerance;
+        this.onTargetThreshold = timeTolerenceInSeconds;
     }
     
     /**
      * Controls whether or not the tolerances are checked as part of isOnTarget().
      */
-    public void setShouldCheckTolerances(boolean checkError, boolean checkDerivative) {
+    public void setShouldCheckTolerances(boolean checkError, boolean checkDerivative, boolean checkTime) {
         checkErrorThreshold = checkError;
         checkDerivativeThreshold = checkDerivative;
+        checkOnTargetForDuration = checkTime;
     }
-
+    
     /**
      * Calculates the output value given P,I,D, a process variable and a goal
-     * 
+     *  
      * @param goal
      *            What value you are trying to achieve
      * @param current
@@ -133,7 +135,7 @@ public class PID
         
         errorIsSmall = checkErrorThreshold && Math.abs(m_targetInputValue - m_currentInputValue) < errorTolerance;
         derivativeIsSmall = checkDerivativeThreshold && Math.abs(m_derivativeValue) < derivativeTolerance;
-
+        
         return result;
     }
     
@@ -179,17 +181,19 @@ public class PID
             isOnTarget &= derivativeIsSmall;
         }
         
-        if(isOnTarget){
-            if(waitingToStabalize = false){
-                waitingToStablize = true;
-                timer.start();
+        if (checkOnTargetForDuration) {
+            if(isOnTarget){
+                if(waitingToStabilize = false){
+                    waitingToStabilize = true;
+                    timer.start();
+                } else {
+                    return timer.getTime() > onTargetThreshold;
+                }
             } else {
-                return timer.getTime() > onTargetThreshold;
+                timer.reset();
+                waitingToStabilize = false;
+                return false;
             }
-        } else {
-            timer.reset();
-            waiting = false;
-            return false;
         }
         
         return isOnTarget;

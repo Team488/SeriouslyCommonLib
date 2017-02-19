@@ -31,8 +31,9 @@ public class PIDManager extends PIDPropertyManager {
             @Assisted("defaultMaxOutput") double defaultMaxOutput, 
             @Assisted("defaultMinOutput") double defaultMinOutput,
             @Assisted("errorThreshold") double errorThreshold, 
-            @Assisted("derivativeThreshold") double derivativeThreshold) {
-        super(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold, derivativeThreshold);
+            @Assisted("derivativeThreshold") double derivativeThreshold,
+            @Assisted("timeThreshold") double timeThreshold) {
+        super(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold, derivativeThreshold, timeThreshold);
         
         maxOutput = propMan.createPersistentProperty(functionName + " Max Output", defaultMaxOutput);
         minOutput = propMan.createPersistentProperty(functionName + " Min Output", defaultMinOutput);
@@ -54,7 +55,7 @@ public class PIDManager extends PIDPropertyManager {
             @Assisted("defaultF") double defaultF,
             @Assisted("defaultMaxOutput") double defaultMaxOutput, 
             @Assisted("defaultMinOutput") double defaultMinOutput) {
-        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, defaultMaxOutput, defaultMinOutput, -1, -1);
+        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, defaultMaxOutput, defaultMinOutput, -1, -1, -1);
     }
 
     @AssistedInject
@@ -67,7 +68,7 @@ public class PIDManager extends PIDPropertyManager {
             @Assisted("defaultD") double defaultD, 
             @Assisted("defaultMaxOutput") double defaultMaxOutput, 
             @Assisted("defaultMinOutput") double defaultMinOutput) {
-        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, 0, 1.0, -1.0, -1, -1);
+        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, 0, 1.0, -1.0, -1, -1, -1);
     }
     
     @AssistedInject
@@ -90,8 +91,8 @@ public class PIDManager extends PIDPropertyManager {
     }
     
     private void sendTolerancesToInternalPID() {
-        pid.setTolerances(getErrorThreshold(), getDerivativeThreshold());
-        pid.setShouldCheckTolerances(getEnableErrorThreshold(), getEnableDerivativeThreshold());
+        pid.setTolerances(getErrorThreshold(), getDerivativeThreshold(), getTimeThreshold());
+        pid.setShouldCheckTolerances(getEnableErrorThreshold(), getEnableDerivativeThreshold(), getEnableTimeThreshold());
     }
 
     public double calculate(double goal, double current) {
