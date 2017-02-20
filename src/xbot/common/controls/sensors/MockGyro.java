@@ -41,5 +41,9 @@ public class MockGyro implements XGyro {
     public double getPitch() {
         return mockIO.getGyroPitch();
     }
+    
+    public double getYawAngularVelocity(){
+        return mockIO.getGyroHeadingAngularVelocity();
+    }
 
 }

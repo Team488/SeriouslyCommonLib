@@ -34,6 +34,7 @@ public class MockRobotIO {
     double gyroHeading;
     double gyroRoll;
     double gyroPitch;
+    double gyroHeadingAngularVelocity;
 
     @Inject
     public MockRobotIO() {
@@ -82,6 +83,14 @@ public class MockRobotIO {
 
     public double getGyroHeading() {
         return gyroHeading;
+    }
+    
+    public void setGyroHeadingAngularVelocity(double angularVelocityInDegrees) {
+        gyroHeadingAngularVelocity = angularVelocityInDegrees;
+    }
+    
+    public double getGyroHeadingAngularVelocity() {
+        return gyroHeadingAngularVelocity;
     }
 
     public void setGyroRoll(double roll) {
