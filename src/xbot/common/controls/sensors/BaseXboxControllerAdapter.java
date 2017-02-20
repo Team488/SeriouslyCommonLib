@@ -105,50 +105,43 @@ public abstract class BaseXboxControllerAdapter {
         return xRightInverted;
     }
 
-   public void setRightStickXInversion(boolean inverted)
-   {
-       xRightInverted = inverted;
-   }
+    public void setRightStickXInversion(boolean inverted) {
+        xRightInverted = inverted;
+    }
 
-   public boolean getLeftStickYInversion()
-   {
-       return yLeftInverted;
-   }
+    public boolean getLeftStickYInversion() {
+        return yLeftInverted;
+    }
 
-   public void setLeftStickYInversion(boolean inverted)
-   {
-       yLeftInverted = inverted;        
-   }
+    public void setLeftStickYInversion(boolean inverted) {
+        yLeftInverted = inverted;        
+    }
    
-   public boolean getRightStickYInversion()
-   {
-       return yRightInverted;
-   }
+    public boolean getRightStickYInversion() {
+        return yRightInverted;
+    }
 
-   public void setRightStickYInversion(boolean inverted)
-   {
-       yRightInverted = inverted;        
-   }
+    public void setRightStickYInversion(boolean inverted) {
+        yRightInverted = inverted;        
+    }
    //Triggers-----------------------------------------------------------------------------------------------
-   public double getLeftTriggerAxis(){
-       
-       return this.getTriggerAxis(Hand.kLeft);
-   }
+    public double getLeftTriggerAxis() {  
+        return this.getTriggerAxis(Hand.kLeft);
+    }
    
-   public double getRightTriggerAxis(){
-       
-       return this.getTriggerAxis(Hand.kRight);
-   }
+    public double getRightTriggerAxis() {
+        return this.getTriggerAxis(Hand.kRight);
+    }
+
+   
+    public XYPair getLeftStick() {
+        return new XYPair(getLeftStickX(), getLeftStickY());
+    }
 
     
-   public XYPair getLeftStick() {
-       return new XYPair(getLeftStickX(), getLeftStickY());
-   }
-
-    
-   public XYPair getRightStick() {
-       return new XYPair(getRightStickX(), getRightStickY());
-   }
+    public XYPair getRightStick() {
+        return new XYPair(getRightStickX(), getRightStickY());
+    }
     
     
     
@@ -215,11 +208,4 @@ public abstract class BaseXboxControllerAdapter {
     public abstract double getX();
 
     public abstract int hashCode();
-
-
-
-
-
-    
-
 }
