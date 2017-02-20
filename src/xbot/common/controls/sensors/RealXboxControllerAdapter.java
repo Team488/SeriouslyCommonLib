@@ -19,42 +19,27 @@ public class RealXboxControllerAdapter extends XXboxController {
     }
 
     @Override
-    public int hashCode() {
-        return controller.hashCode();
-    }
-
-    @Override
-    public double getX(Hand hand) {
+    protected double getX(Hand hand) {
         return controller.getX(hand);
     }
 
     @Override
-    public double getY(Hand hand) {
+    protected double getY(Hand hand) {
         return controller.getY(hand);
     }
 
     @Override
-    public double getRawAxis(int axis) {
+    protected double getRawAxis(int axis) {
         return controller.getRawAxis(axis);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return controller.equals(obj);
-    }
-
-    @Override
-    public boolean getRawButton(int button) {
+    protected boolean getRawButton(int button) {
         return controller.getRawButton(button);
     }
 
     @Override
-    public double getTriggerAxis(Hand hand) {
+    protected double getTriggerAxis(Hand hand) {
         return controller.getTriggerAxis(hand);
-    }
-
-    @Override
-    public String toString() {
-        return controller.toString();
     }
 }

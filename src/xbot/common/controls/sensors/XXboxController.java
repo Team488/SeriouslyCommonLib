@@ -149,7 +149,7 @@ public abstract class XXboxController {
 
     protected abstract double getRawAxis(int axis);
 
-    public abstract double getY(Hand hand);
+    protected abstract double getY(Hand hand);
 
-    public abstract double getX(Hand hand);
+    protected abstract double getX(Hand hand);
 }

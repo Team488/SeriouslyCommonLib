@@ -27,37 +27,25 @@ public class MockXboxControllerAdapter extends XXboxController {
     }
 
     @Override
-    public String toString() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public double getTriggerAxis(Hand hand) {
+    protected double getTriggerAxis(Hand hand) {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public boolean getRawButton(int button) {
+    protected boolean getRawButton(int button) {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public double getRawAxis(int axis) {
+    protected double getRawAxis(int axis) {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public double getY(Hand hand) {
+    protected double getY(Hand hand) {
         if (hand == Hand.kLeft) {
             return leftStick.y;
         }
@@ -65,16 +53,10 @@ public class MockXboxControllerAdapter extends XXboxController {
     }
 
     @Override
-    public double getX(Hand hand) {
-        if (hand == hand.kLeft) {
+    protected double getX(Hand hand) {
+        if (hand == Hand.kLeft) {
             return leftStick.x;
         }
         return rightStick.x;
-    }
-
-    @Override
-    public int hashCode() {
-        // TODO Auto-generated method stub
-        return 0;
     }
 }
