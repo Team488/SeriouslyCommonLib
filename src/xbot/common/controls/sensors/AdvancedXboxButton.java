@@ -2,7 +2,7 @@ package xbot.common.controls.sensors;
 
 import org.apache.log4j.Logger;
 
-import xbot.common.controls.sensors.XboxControllerWpiAdapter.XboxButton;
+import xbot.common.controls.sensors.XXboxController.XboxButton;
 
 public class AdvancedXboxButton extends AdvancedButton {
     

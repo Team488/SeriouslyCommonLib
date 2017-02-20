@@ -1,6 +1,6 @@
 package xbot.common.controls.sensors;
 
-import xbot.common.controls.sensors.XboxControllerWpiAdapter.XboxButton;
+import xbot.common.controls.sensors.XXboxController.XboxButton;
 
 public class AdvancedXboxAxisButton extends AdvancedXboxButton {
 
