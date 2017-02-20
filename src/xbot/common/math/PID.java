@@ -1,5 +1,6 @@
 package xbot.common.math;
 
+import edu.wpi.first.wpilibj.Timer;
 import xbot.common.controls.sensors.XTimer;
 
 /**
@@ -28,7 +29,10 @@ public class PID
     private boolean checkOnTargetForDuration = false;
     private boolean waitingToStabilize = false;
     private double onTargetThreshold = 0;
-    XTimer timer = new XTimer();
+    
+    private double startTime = 0;
+    
+    private boolean onTarget = false;
     
     
     /**
@@ -136,6 +140,8 @@ public class PID
         errorIsSmall = checkErrorThreshold && Math.abs(m_targetInputValue - m_currentInputValue) < errorTolerance;
         derivativeIsSmall = checkDerivativeThreshold && Math.abs(m_derivativeValue) < derivativeTolerance;
         
+        checkIsOnTarget();
+        
         return result;
     }
     
@@ -160,42 +166,51 @@ public class PID
     }
     
     /**
-     * Check for all conditions where the tolerance is above 0. Since tolerances default to
-     * -1, it will skip any unassigned ones.
+     * With the addition of a time threshold, "onTarget" needs to be updated every tick, since
+     * isOnTarget() should return true if all conditions are met EVEN IF it's the first time
+     * being called.
+     * 
+     * While that's unlikely due to our command infrastructure, it's still possible, and the PID
+     * class should be able to handle that scenario.
+     * 
+     * As a result, this checkIsOnTarget method was added, which does all the onTarget calculations
+     * during every calculate() call. the isOnTarget() method just returns a stored class-level variable.
      */
-    public boolean isOnTarget() {
-        
+    private void checkIsOnTarget() {
         if (!checkErrorThreshold && !checkDerivativeThreshold && !checkOnTargetForDuration) {
             // No tolerances are enabled, but isOnTarget is being called anyway. We still need to return something.
             // In this case, we return FALSE, as it promotes robot action (the command using this will complete
             // its activity, even if it doesn't signal that it is done to allow other actions to proceed).
-            return false;
+            onTarget = false;
+            return;
         }
         
-        boolean isOnTarget = true;
+        onTarget = true;
         
         if (checkErrorThreshold) {
-            isOnTarget &= errorIsSmall;
+            onTarget &= errorIsSmall;
         }
         if (checkDerivativeThreshold) {
-            isOnTarget &= derivativeIsSmall;
+            onTarget &= derivativeIsSmall;
         }
         
         if (checkOnTargetForDuration) {
-            if(isOnTarget){
-                if(waitingToStabilize = false){
+            if(onTarget){
+                if(waitingToStabilize == false){
                     waitingToStabilize = true;
-                    timer.start();
+                    startTime = Timer.getFPGATimestamp();
+                    onTarget = false;
                 } else {
-                    return timer.getTime() > onTargetThreshold;
+                    onTarget =  Timer.getFPGATimestamp() - startTime > onTargetThreshold;
                 }
             } else {
-                timer.reset();
                 waitingToStabilize = false;
-                return false;
+                onTarget = false;
             }
         }
-        
-        return isOnTarget;
+    }
+    
+    public boolean isOnTarget() {
+        return onTarget;
     }
 }
