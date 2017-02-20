@@ -14,7 +14,6 @@ import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
-import xbot.common.controls.sensors.AdvancedXboxController;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
 import xbot.common.controls.sensors.MockEncoder;
@@ -28,6 +27,7 @@ import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
+import xbot.common.controls.sensors.BaseXboxControllerAdapter;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.injection.wpi_factories.WPIFactory;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -198,9 +198,8 @@ public class MockWPIFactory implements WPIFactory {
     }
 
     @Override
-    public AdvancedXboxController getXboxController(int number) {
-        MockXboxControllerAdapter mockAdapter = new MockXboxControllerAdapter(number);
-        return new AdvancedXboxController(mockAdapter);
+    public BaseXboxControllerAdapter getXboxController(int number) {
+        return new MockXboxControllerAdapter(number);
     }
 
 }

@@ -10,8 +10,8 @@ import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
-import xbot.common.controls.sensors.AdvancedXboxController;
 import xbot.common.controls.sensors.AnalogHIDButton;
+import xbot.common.controls.sensors.BaseXboxControllerAdapter;
 import xbot.common.controls.sensors.DistanceSensor;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XAnalogInput;
@@ -30,7 +30,7 @@ public interface WPIFactory {
 
     public XJoystick getJoystick(int number);
     
-    public AdvancedXboxController getXboxController(int number);
+    public BaseXboxControllerAdapter getXboxController(int number);
 
     public XDigitalInput getDigitalInput(int channel);
 
