@@ -33,102 +33,6 @@ public class MockXboxControllerAdapter extends XXboxController {
     }
 
     @Override
-    public void setRumble(RumbleType type, double value) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void setOutputs(int value) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void setOutput(int outputNumber, boolean value) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public String getName() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public HIDType getType() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public int getPOVCount() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-    
-    @Override
-    public int getPOV() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public int getPOV(int pov) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public boolean getStartButton() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean getBackButton() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean getStickButton(Hand hand) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-    
-    @Override
-    public boolean getStickButton() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean getYButton() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean getXButton() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean getBButton() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean getAButton() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
     public double getTriggerAxis(Hand hand) {
         // TODO Auto-generated method stub
         return 0;
@@ -142,36 +46,6 @@ public class MockXboxControllerAdapter extends XXboxController {
 
     @Override
     public boolean equals(Object obj) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean getTop(Hand hand) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public int getPort() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public boolean getTrigger(Hand hand) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean getBumper(Hand hand) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-    
-    @Override
-    public boolean getBumper() {
         // TODO Auto-generated method stub
         return false;
     }
@@ -191,23 +65,11 @@ public class MockXboxControllerAdapter extends XXboxController {
     }
 
     @Override
-    public double getY() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
     public double getX(Hand hand) {
         if (hand == hand.kLeft) {
             return leftStick.x;
         }
         return rightStick.x;
-    }
-
-    @Override
-    public double getX() {
-        // TODO Auto-generated method stub
-        return 0;
     }
 
     @Override

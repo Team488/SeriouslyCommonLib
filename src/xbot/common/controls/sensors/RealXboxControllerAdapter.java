@@ -19,43 +19,13 @@ public class RealXboxControllerAdapter extends XXboxController {
     }
 
     @Override
-    public boolean getBumper() {
-        return controller.getBumper();
-    }
-    
-    @Override
-    public boolean getBumper(Hand hand) {
-        return controller.getBumper(hand);
-    }
-
-    @Override
-    public boolean getStickButton() {
-        return controller.getStickButton();
-    }
-
-    @Override
-    public boolean getStickButton(Hand hand) {
-        return controller.getStickButton(hand);
-    }
-
-    @Override
     public int hashCode() {
         return controller.hashCode();
     }
 
     @Override
-    public final double getX() {
-        return controller.getX();
-    }
-
-    @Override
     public double getX(Hand hand) {
         return controller.getX(hand);
-    }
-
-    @Override
-    public final double getY() {
-        return controller.getY();
     }
 
     @Override
@@ -66,33 +36,6 @@ public class RealXboxControllerAdapter extends XXboxController {
     @Override
     public double getRawAxis(int axis) {
         return controller.getRawAxis(axis);
-    }
-
-
-
-    @Override
-    public boolean getTrigger(Hand hand) {
-        return controller.getTrigger(hand);
-    }
-
-    @Override
-    public int getPOV() {
-        return controller.getPOV();
-    }
-    
-    @Override
-    public int getPOV(int pov) {
-        return controller.getPOV(pov);
-    }
-
-    @Override
-    public int getPort() {
-        return controller.getPort();
-    }
-
-    @Override
-    public boolean getTop(Hand hand) {
-        return controller.getTop(hand);
     }
 
     @Override
@@ -108,66 +51,6 @@ public class RealXboxControllerAdapter extends XXboxController {
     @Override
     public double getTriggerAxis(Hand hand) {
         return controller.getTriggerAxis(hand);
-    }
-
-    @Override
-    public boolean getAButton() {
-        return controller.getAButton();
-    }
-
-    @Override
-    public boolean getBButton() {
-        return controller.getBButton();
-    }
-
-    @Override
-    public boolean getXButton() {
-        return controller.getXButton();
-    }
-
-    @Override
-    public boolean getYButton() {
-        return controller.getYButton();
-    }
-
-    @Override
-    public boolean getBackButton() {
-        return controller.getBackButton();
-    }
-
-    @Override
-    public boolean getStartButton() {
-        return controller.getStartButton();
-    }
-
-    @Override
-    public int getPOVCount() {
-        return controller.getPOVCount();
-    }
-
-    @Override
-    public HIDType getType() {
-        return controller.getType();
-    }
-
-    @Override
-    public String getName() {
-        return controller.getName();
-    }
-
-    @Override
-    public void setOutput(int outputNumber, boolean value) {
-        controller.setOutput(outputNumber, value);
-    }
-
-    @Override
-    public void setOutputs(int value) {
-        controller.setOutputs(value);
-    }
-
-    @Override
-    public void setRumble(RumbleType type, double value) {
-        controller.setRumble(type, value);
     }
 
     @Override
