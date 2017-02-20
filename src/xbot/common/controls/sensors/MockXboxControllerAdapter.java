@@ -67,6 +67,12 @@ public class MockXboxControllerAdapter extends BaseXboxControllerAdapter {
         // TODO Auto-generated method stub
         return 0;
     }
+    
+    @Override
+    public int getPOV() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
     @Override
     public int getPOV(int pov) {
@@ -88,6 +94,12 @@ public class MockXboxControllerAdapter extends BaseXboxControllerAdapter {
 
     @Override
     public boolean getStickButton(Hand hand) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+    
+    @Override
+    public boolean getStickButton() {
         // TODO Auto-generated method stub
         return false;
     }
@@ -147,12 +159,6 @@ public class MockXboxControllerAdapter extends BaseXboxControllerAdapter {
     }
 
     @Override
-    public int getPOV() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
     public boolean getTrigger(Hand hand) {
         // TODO Auto-generated method stub
         return false;
@@ -160,6 +166,12 @@ public class MockXboxControllerAdapter extends BaseXboxControllerAdapter {
 
     @Override
     public boolean getBumper(Hand hand) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+    
+    @Override
+    public boolean getBumper() {
         // TODO Auto-generated method stub
         return false;
     }
@@ -203,17 +215,4 @@ public class MockXboxControllerAdapter extends BaseXboxControllerAdapter {
         // TODO Auto-generated method stub
         return 0;
     }
-
-    @Override
-    public boolean getStickButton() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean getBumper() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
 }

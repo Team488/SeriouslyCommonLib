@@ -22,10 +22,20 @@ public class RealXboxControllerAdapter extends BaseXboxControllerAdapter {
     public boolean getBumper() {
         return controller.getBumper();
     }
+    
+    @Override
+    public boolean getBumper(Hand hand) {
+        return controller.getBumper(hand);
+    }
 
     @Override
     public boolean getStickButton() {
         return controller.getStickButton();
+    }
+
+    @Override
+    public boolean getStickButton(Hand hand) {
+        return controller.getStickButton(hand);
     }
 
     @Override
@@ -58,10 +68,7 @@ public class RealXboxControllerAdapter extends BaseXboxControllerAdapter {
         return controller.getRawAxis(axis);
     }
 
-    @Override
-    public boolean getBumper(Hand hand) {
-        return controller.getBumper(hand);
-    }
+
 
     @Override
     public boolean getTrigger(Hand hand) {
@@ -71,6 +78,11 @@ public class RealXboxControllerAdapter extends BaseXboxControllerAdapter {
     @Override
     public int getPOV() {
         return controller.getPOV();
+    }
+    
+    @Override
+    public int getPOV(int pov) {
+        return controller.getPOV(pov);
     }
 
     @Override
@@ -119,11 +131,6 @@ public class RealXboxControllerAdapter extends BaseXboxControllerAdapter {
     }
 
     @Override
-    public boolean getStickButton(Hand hand) {
-        return controller.getStickButton(hand);
-    }
-
-    @Override
     public boolean getBackButton() {
         return controller.getBackButton();
     }
@@ -131,11 +138,6 @@ public class RealXboxControllerAdapter extends BaseXboxControllerAdapter {
     @Override
     public boolean getStartButton() {
         return controller.getStartButton();
-    }
-
-    @Override
-    public int getPOV(int pov) {
-        return controller.getPOV(pov);
     }
 
     @Override
