@@ -13,7 +13,8 @@ public interface PIDFactory {
             @Assisted("defaultMaxOutput") double defaultMaxOutput, 
             @Assisted("defaultMinOutput") double defaultMinOutput,
             @Assisted("errorThreshold") double errorThreshold, 
-            @Assisted("derivativeThreshold") double derivativeThreshold);
+            @Assisted("derivativeThreshold") double derivativeThreshold,
+            @Assisted("timeThreshold") double timeThreshold);
     
     public PIDManager createPIDManager(
             String functionName,
@@ -50,7 +51,8 @@ public interface PIDFactory {
             @Assisted("defaultD") double defaultD, 
             @Assisted("defaultF") double defaultF,
             @Assisted("errorThreshold") double errorThreshold, 
-            @Assisted("derivativeThreshold") double derivativeThreshold);
+            @Assisted("derivativeThreshold") double derivativeThreshold,
+            @Assisted("timeThreshold") double timeThreshold);
     
     public PIDPropertyManager createPIDPropertyManager(
             String functionName,
