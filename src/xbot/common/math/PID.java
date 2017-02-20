@@ -26,13 +26,13 @@ public class PID
     
     private boolean checkErrorThreshold = false;
     private boolean checkDerivativeThreshold = false;
-    private boolean checkOnTargetForDuration = false;
+    private boolean checkTimeThreshold = false;
     private boolean waitingToStabilize = false;
-    private double onTargetThreshold = 0;
+    private double timeToleranceInSeconds = 0;
     
     private double startTime = 0;
     
-    private boolean onTarget = false;
+    private boolean onTargetStartTime = false;
     
     
     /**
@@ -66,10 +66,10 @@ public class PID
      *  e.g. if you wanted a minimum rotation speed of 5 degrees per second,
      *  this tolerance would need to be 0.25.  
      */
-    public void setTolerances(double errorTolerance, double derivativeTolerance, double timeTolerenceInSeconds) {
+    public void setTolerances(double errorTolerance, double derivativeTolerance, double timeToleranceInSeconds) {
         this.errorTolerance = errorTolerance;
         this.derivativeTolerance = derivativeTolerance;
-        this.onTargetThreshold = timeTolerenceInSeconds;
+        this.timeToleranceInSeconds = timeToleranceInSeconds;
     }
     
     /**
@@ -78,7 +78,7 @@ public class PID
     public void setShouldCheckTolerances(boolean checkError, boolean checkDerivative, boolean checkTime) {
         checkErrorThreshold = checkError;
         checkDerivativeThreshold = checkDerivative;
-        checkOnTargetForDuration = checkTime;
+        checkTimeThreshold = checkTime;
     }
     
     /**
@@ -177,40 +177,40 @@ public class PID
      * during every calculate() call. the isOnTarget() method just returns a stored class-level variable.
      */
     private void checkIsOnTarget() {
-        if (!checkErrorThreshold && !checkDerivativeThreshold && !checkOnTargetForDuration) {
+        if (!checkErrorThreshold && !checkDerivativeThreshold && !checkTimeThreshold) {
             // No tolerances are enabled, but isOnTarget is being called anyway. We still need to return something.
             // In this case, we return FALSE, as it promotes robot action (the command using this will complete
             // its activity, even if it doesn't signal that it is done to allow other actions to proceed).
-            onTarget = false;
+            onTargetStartTime = false;
             return;
         }
         
-        onTarget = true;
+        onTargetStartTime = true;
         
         if (checkErrorThreshold) {
-            onTarget &= errorIsSmall;
+            onTargetStartTime &= errorIsSmall;
         }
         if (checkDerivativeThreshold) {
-            onTarget &= derivativeIsSmall;
+            onTargetStartTime &= derivativeIsSmall;
         }
         
-        if (checkOnTargetForDuration) {
-            if(onTarget){
+        if (checkTimeThreshold) {
+            if(onTargetStartTime){
                 if(waitingToStabilize == false){
                     waitingToStabilize = true;
                     startTime = Timer.getFPGATimestamp();
-                    onTarget = false;
+                    onTargetStartTime = false;
                 } else {
-                    onTarget =  Timer.getFPGATimestamp() - startTime > onTargetThreshold;
+                    onTargetStartTime =  Timer.getFPGATimestamp() - startTime > timeToleranceInSeconds;
                 }
             } else {
                 waitingToStabilize = false;
-                onTarget = false;
+                onTargetStartTime = false;
             }
         }
     }
     
     public boolean isOnTarget() {
-        return onTarget;
+        return onTargetStartTime;
     }
 }
