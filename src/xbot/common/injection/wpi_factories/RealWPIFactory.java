@@ -23,14 +23,14 @@ import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
-import xbot.common.controls.sensors.XboxControllerWpiAdapter;
+import xbot.common.controls.sensors.AdvancedXboxController;
 import xbot.common.controls.sensors.Lidar;
 import xbot.common.controls.sensors.MockGyro;
+import xbot.common.controls.sensors.RealXboxControllerAdapter;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
-import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
@@ -193,8 +193,9 @@ public class RealWPIFactory implements WPIFactory {
     }
 
     @Override
-    public XXboxController getGamepad(int number) {
-        return new XboxControllerWpiAdapter(number);
+    public AdvancedXboxController getXboxController(int number) {
+        RealXboxControllerAdapter realAdapter = new RealXboxControllerAdapter(number);
+        return new AdvancedXboxController(realAdapter);
     }
 
 }

@@ -5,7 +5,6 @@ import com.google.inject.Singleton;
 
 import xbot.common.controls.actuators.MockCANTalon;
 import xbot.common.controls.actuators.XCANTalon;
-import xbot.common.controls.sensors.MockXboxController;
 import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.properties.XPropertyManager;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
