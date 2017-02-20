@@ -35,7 +35,7 @@ import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.adapters.InertialMeasurementUnitAdapter;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
-import xbot.common.controls.sensors.BaseXboxControllerAdapter;
+import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.nav6.Nav6Gyro;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater;
 import xbot.common.controls.sensors.wpi_adapters.DigitalInputWPIAdapter;
@@ -193,7 +193,7 @@ public class RealWPIFactory implements WPIFactory {
     }
 
     @Override
-    public BaseXboxControllerAdapter getXboxController(int number) {
+    public XXboxController getXboxController(int number) {
         return new RealXboxControllerAdapter(number);
     }
 

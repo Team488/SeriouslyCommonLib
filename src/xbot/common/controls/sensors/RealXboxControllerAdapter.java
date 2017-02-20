@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.XboxController;
 
-public class RealXboxControllerAdapter extends BaseXboxControllerAdapter {
+public class RealXboxControllerAdapter extends XXboxController {
 
     protected XboxController controller;
 

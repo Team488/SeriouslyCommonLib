@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import xbot.common.math.XYPair;
 
-public class MockXboxControllerAdapter extends BaseXboxControllerAdapter {
+public class MockXboxControllerAdapter extends XXboxController {
 
     private XYPair leftStick;
     private XYPair rightStick;

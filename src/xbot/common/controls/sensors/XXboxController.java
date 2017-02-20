@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import xbot.common.math.XYPair;
 
-public abstract class BaseXboxControllerAdapter {
+public abstract class XXboxController {
     
     protected int port;
     
     @Inject
-    public BaseXboxControllerAdapter(@Assisted("port") int port) {
+    public XXboxController(@Assisted("port") int port) {
         this.port = port;
     }
     

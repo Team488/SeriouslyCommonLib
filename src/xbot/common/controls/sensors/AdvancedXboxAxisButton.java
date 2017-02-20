@@ -1,12 +1,12 @@
 package xbot.common.controls.sensors;
 
-import xbot.common.controls.sensors.BaseXboxControllerAdapter.XboxButton;
+import xbot.common.controls.sensors.XXboxController.XboxButton;
 
 public class AdvancedXboxAxisButton extends AdvancedXboxButton {
 
     private double threshold;
     
-    public AdvancedXboxAxisButton(BaseXboxControllerAdapter controller, XboxButton buttonName, double threshold) {
+    public AdvancedXboxAxisButton(XXboxController controller, XboxButton buttonName, double threshold) {
         super(controller, buttonName);
         
         this.threshold = threshold;
