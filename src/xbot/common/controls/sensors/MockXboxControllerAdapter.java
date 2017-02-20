@@ -1,8 +1,6 @@
 package xbot.common.controls.sensors;
 
-import edu.wpi.first.wpilibj.GenericHID.HIDType;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import xbot.common.math.XYPair;
 
 public class MockXboxControllerAdapter extends XXboxController {
