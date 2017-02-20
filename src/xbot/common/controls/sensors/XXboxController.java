@@ -142,70 +142,14 @@ public abstract class XXboxController {
     public XYPair getRightStick() {
         return new XYPair(getRightStickX(), getRightStickY());
     }
-    
-    
-    
-    
 
-    public abstract String toString();
+    protected abstract double getTriggerAxis(Hand hand);
 
-    public abstract void setRumble(RumbleType type, double value);
+    protected abstract boolean getRawButton(int button);
 
-    public abstract void setOutputs(int value);
+    protected abstract double getRawAxis(int axis);
 
-    public abstract void setOutput(int outputNumber, boolean value);
+    protected abstract double getY(Hand hand);
 
-    public abstract String getName();
-
-    public abstract HIDType getType();
-
-    public abstract int getPOVCount();
-
-    public abstract int getPOV(int pov);
-    
-    public abstract int getPOV();
-
-    public abstract boolean getStartButton();
-
-    public abstract boolean getBackButton();
-
-    public abstract boolean getStickButton(Hand hand);
-    
-    public abstract boolean getStickButton();
-
-    public abstract boolean getYButton();
-
-    public abstract boolean getXButton();
-
-    public abstract boolean getBButton();
-
-    public abstract boolean getAButton();
-
-    public abstract double getTriggerAxis(Hand hand);
-
-    public abstract boolean getRawButton(int button);
-
-    public abstract boolean equals(Object obj);
-
-    public abstract boolean getTop(Hand hand);
-
-    public abstract int getPort();
-
-    public abstract boolean getTrigger(Hand hand);
-
-    public abstract boolean getBumper(Hand hand);
-    
-    public abstract boolean getBumper();
-
-    public abstract double getRawAxis(int axis);
-
-    public abstract double getY(Hand hand);
-
-    public abstract double getY();
-
-    public abstract double getX(Hand hand);
-
-    public abstract double getX();
-
-    public abstract int hashCode();
+    protected abstract double getX(Hand hand);
 }
