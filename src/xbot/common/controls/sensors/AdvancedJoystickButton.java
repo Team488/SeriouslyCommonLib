@@ -10,7 +10,7 @@ public class AdvancedJoystickButton extends AdvancedButton
     int buttonNumber;
     
     public AdvancedJoystickButton(XJoystick joystick, int buttonNumber) {
-        log.info("Creating button " + buttonNumber + " on port " + joystick.getInternalHID().getPort());
+        log.info("Creating button " + buttonNumber + " on port " + joystick.getPort());
         this.joystick = joystick;
         this.buttonNumber = buttonNumber;
     }
