@@ -12,7 +12,7 @@ public abstract class XJoystick
     private boolean yInverted = false;
     
     @Inject
-    public XJoystick(@Assisted("port") int port) {
+    public XJoystick(int port) {
         this.port = port;
     }
     
