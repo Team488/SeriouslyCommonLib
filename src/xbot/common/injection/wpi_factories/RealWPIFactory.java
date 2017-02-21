@@ -147,8 +147,8 @@ public class RealWPIFactory implements WPIFactory {
 
     @Override
     public XEncoder getEncoder(String name, int aChannel, int bChannel, double defaultDistancePerPulse) {
-        EncoderWPIAdapter encoder = new EncoderWPIAdapter(name, aChannel, bChannel, defaultDistancePerPulse, propMan);
-        LiveWindow.addSensor("Encoder", aChannel, encoder.getInternalEncoder());
+        XEncoder encoder = new EncoderWPIAdapter(name, aChannel, bChannel, defaultDistancePerPulse, propMan);
+        LiveWindow.addSensor("Encoder", aChannel, encoder.getLiveWindowSendable());
         return encoder;
     }
 

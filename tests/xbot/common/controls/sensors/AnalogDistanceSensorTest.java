@@ -15,7 +15,7 @@ public class AnalogDistanceSensorTest extends BaseWPITest {
 
     @Before
     public void setup() {
-        factory = new MockWPIFactory(mockRobotIO);
+        factory = new MockWPIFactory(mockRobotIO, propertyManager);
         sensor = new AnalogDistanceSensor(factory.getAnalogInput(0), AnalogDistanceSensor.VoltageMaps::sharp0A51SK,
                 propertyManager);
     }

@@ -14,6 +14,7 @@ import com.ctre.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.SpeedController;
 import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.sensors.MockEncoder;
+import xbot.common.controls.sensors.XEncoder;
 import xbot.common.properties.XPropertyManager;
 
 public class MockCANTalon implements XCANTalon {    
@@ -41,15 +42,17 @@ public class MockCANTalon implements XCANTalon {
     private static final ProfileParams defaultParams = new ProfileParams();
     
     MockRobotIO mockRobotIO;
-    public MockEncoder internalEncoder = null;
+    public XEncoder internalEncoder = null;
+    XPropertyManager propMan;
 
     private static Logger log = Logger.getLogger(MockCANTalon.class);
 
-    public MockCANTalon(int deviceId, MockRobotIO mockRobotIO) {
+    public MockCANTalon(int deviceId, MockRobotIO mockRobotIO, XPropertyManager propMan) {
         log.info("Creating CAN talon with device ID: " + deviceId);
         
         this.deviceId = deviceId;
         this.mockRobotIO = mockRobotIO;
+        this.propMan = propMan;
         mockRobotIO.setCANTalon(deviceId, this);
         
         this.setControlMode(TalonControlMode.Disabled);
@@ -317,10 +320,10 @@ public class MockCANTalon implements XCANTalon {
         
         double currentPos;
         if(controlMode == TalonControlMode.Position) {
-            currentPos = internalEncoder.getDistance();
+            currentPos = internalEncoder.getAdjustedDistance();
         }
         else if (controlMode == TalonControlMode.Speed) {
-            currentPos = internalEncoder.getRate();
+            currentPos = internalEncoder.getAdjustedRate();
         }
         else {
             return 0;
@@ -365,7 +368,7 @@ public class MockCANTalon implements XCANTalon {
     @Override
     public void setFeedbackDevice(FeedbackDevice device) {
         if(device == FeedbackDevice.QuadEncoder) {
-            this.internalEncoder = new MockEncoder();
+            this.internalEncoder = new MockEncoder(propMan);
         }
     }
 
@@ -386,7 +389,7 @@ public class MockCANTalon implements XCANTalon {
             return 0;
         }
         
-        return internalEncoder.getDistance();
+        return internalEncoder.getAdjustedDistance();
     }
 
     @Override
@@ -395,7 +398,7 @@ public class MockCANTalon implements XCANTalon {
             log.warn("Position set before setting feedback device!");
         }
         else {
-            internalEncoder.setDistance(pos);
+            ((MockEncoder)internalEncoder).setDistance(pos);
         }
     }
 
@@ -434,7 +437,7 @@ public class MockCANTalon implements XCANTalon {
 
     @Override
     public int getEncoderPosition() {
-        return internalEncoder == null ? 0 : (int) internalEncoder.getDistance();
+        return internalEncoder == null ? 0 : (int) internalEncoder.getAdjustedDistance();
     }
 
     @Override
@@ -443,15 +446,15 @@ public class MockCANTalon implements XCANTalon {
             // Because the nullity of internalEncoder is used to determine whether a
             //  feedback device has been chosen, initializing it here will have the
             //  unintended side-effect of no longer warning about an unset sensor.
-            internalEncoder = new MockEncoder();
+            internalEncoder = new MockEncoder(propMan);
         }
         
-        internalEncoder.setDistance(newPosition);
+        ((MockEncoder)internalEncoder).setDistance(newPosition);
     }
 
     @Override
     public int getEncoderSpeed() {
-        return internalEncoder == null ? 0 : (int) internalEncoder.getRate();
+        return internalEncoder == null ? 0 : (int) internalEncoder.getAdjustedRate();
     }
 
     @Override

@@ -30,6 +30,7 @@ import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.injection.wpi_factories.WPIFactory;
+import xbot.common.properties.XPropertyManager;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.MockAnalogInput;
 import edu.wpi.first.wpilibj.MockCompressor;
@@ -52,10 +53,13 @@ public class MockWPIFactory implements WPIFactory {
     int[] dios;
     int[] solenoids;
     int[] mxpDigital;
+    
+    private XPropertyManager propMan;
 
     @Inject
-    public MockWPIFactory(MockRobotIO mockRobotIO) {
+    public MockWPIFactory(MockRobotIO mockRobotIO, XPropertyManager propMan) {
         this.mockRobotIO = mockRobotIO;
+        this.propMan = propMan;
         
         pwms = new int[10];
         canTalonIds = new int[64];
@@ -110,7 +114,7 @@ public class MockWPIFactory implements WPIFactory {
     
     public XCANTalon getCANTalonSpeedController(int deviceId) {
         checkDevice(canTalonIds, deviceId);
-        return new MockCANTalon(deviceId, mockRobotIO);
+        return new MockCANTalon(deviceId, mockRobotIO, propMan);
     }
 
     public XJoystick getJoystick(int number) {
@@ -165,7 +169,7 @@ public class MockWPIFactory implements WPIFactory {
     public XEncoder getEncoder(String name, int aChannel, int bChannel, double defaultDistancePerPulse) {
         checkDio(aChannel);
         checkDio(bChannel);
-        return new MockEncoder(aChannel, bChannel);
+        return new MockEncoder(name, aChannel, bChannel, defaultDistancePerPulse, propMan);
     }
 
     @Override

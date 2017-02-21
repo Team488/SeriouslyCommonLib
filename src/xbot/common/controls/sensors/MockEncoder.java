@@ -1,47 +1,52 @@
 package xbot.common.controls.sensors;
 
-public class MockEncoder implements xbot.common.controls.sensors.XEncoder {
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
+
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
+import xbot.common.properties.XPropertyManager;
+
+public class MockEncoder extends XEncoder {
 
     private double distance;
     private double rate;
-    private double distancePerPulse = 1;
 
-    public MockEncoder(int aChannel, int bChannel) {
-        
+    @AssistedInject
+    public MockEncoder(
+            @Assisted("name")String name, 
+            @Assisted("aChannel") int aChannel, 
+            @Assisted("bChannel") int bChannel, 
+            @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse, 
+            XPropertyManager propMan) {
+        super(name, aChannel, bChannel, defaultDistancePerPulse, propMan);
     }
     
-    public MockEncoder() {
-        
+    @AssistedInject
+    public MockEncoder(XPropertyManager propMan) {
+        super(propMan);
     }
 
     public void setDistance(double distance) {
         this.distance = distance;
     }
 
-    @Override
-    public double getDistance() {
-        return distance * distancePerPulse;
-    }
-
-    @Override
-    public double getRate() {
+    protected double getRate() {
         return rate;
     }
 
     public void setRate(double newRate) {
         this.rate = newRate;
     }
-
-    @Override
-    public void setInverted(boolean inverted) {
-        // TODO Auto-generated method stub
-
+    
+    protected double getDistance() {
+        return distance;
     }
 
+    public void setSamplesToAverage(int samples) {}
+
     @Override
-    public void setSamplesToAverage(int samples) {
-        // TODO Auto-generated method stub
-
+    public LiveWindowSendable getLiveWindowSendable() {
+        return null;
     }
-
 }

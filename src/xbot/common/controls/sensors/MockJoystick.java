@@ -3,6 +3,8 @@ package xbot.common.controls.sensors;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.inject.Inject;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import xbot.common.math.XYPair;
 
@@ -11,6 +13,7 @@ public class MockJoystick extends XJoystick {
     Map<Integer, Boolean> buttons = new HashMap<Integer, Boolean>();
     Map<Integer, Double> rawAxis = new HashMap<Integer, Double>();
 
+    @Inject
     public MockJoystick() {
         super(0);
         for(int i = 0; i < 6; i++)

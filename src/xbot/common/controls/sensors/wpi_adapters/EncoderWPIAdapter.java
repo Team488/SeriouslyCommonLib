@@ -1,43 +1,43 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
-public class EncoderWPIAdapter implements XEncoder {
+public class EncoderWPIAdapter extends XEncoder {
 
-    Encoder adapter;
-    boolean inverted;
-    public DoubleProperty distancePerPulse;
+    Encoder internalEncoder;
 
-    public EncoderWPIAdapter(String name, int aChannel, int bChannel, double defaultDistancePerPulse, XPropertyManager propMan) {
-        adapter = new Encoder(aChannel, bChannel);
-        distancePerPulse = propMan.createPersistentProperty(name + "-DistancePerPulse", defaultDistancePerPulse);
+    @Inject
+    public EncoderWPIAdapter(
+            @Assisted("name")String name, 
+            @Assisted("aChannel") int aChannel, 
+            @Assisted("bChannel") int bChannel, 
+            @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse, 
+            XPropertyManager propMan) {
+        super(name, aChannel, bChannel, defaultDistancePerPulse, propMan);
+        internalEncoder = new Encoder(aChannel, bChannel);
     }
 
-    @Override
-    public double getDistance() {
-        return adapter.getDistance() * (inverted ? -1d : 1d) * distancePerPulse.get();
+    protected double getRate() {
+        return internalEncoder.getRate();
     }
 
-    @Override
-    public double getRate() {
-        return adapter.getRate() * (inverted ? -1d : 1d) * distancePerPulse.get();
+    protected double getDistance() {
+        return internalEncoder.getDistance();
     }
 
-    public Encoder getInternalEncoder() {
-        return adapter;
-    }
-
-    @Override
-    public void setInverted(boolean inverted) {
-        this.inverted = inverted;
-    }
-
-    @Override
     public void setSamplesToAverage(int samples) {
-        adapter.setSamplesToAverage(samples);
+        internalEncoder.setSamplesToAverage(samples);
+    }
+
+    public LiveWindowSendable getLiveWindowSendable() {
+        return (LiveWindowSendable)internalEncoder;
     }
 
 }

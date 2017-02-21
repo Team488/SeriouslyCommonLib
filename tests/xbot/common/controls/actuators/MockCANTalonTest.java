@@ -13,7 +13,7 @@ import xbot.common.injection.BaseWPITest;
 public class MockCANTalonTest extends BaseWPITest {
     @Test
     public void testSpeedControl() {
-        XCANTalon talon = new MockCANTalon(1, mockRobotIO);
+        XCANTalon talon = new MockCANTalon(1, mockRobotIO, propertyManager);
         talon.setProfile(0);
         talon.setP(0.5);
         

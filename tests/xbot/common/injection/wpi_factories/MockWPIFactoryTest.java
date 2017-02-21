@@ -4,8 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import xbot.common.controls.MockRobotIO;
+import xbot.common.injection.BaseWPITest;
 
-public class MockWPIFactoryTest {
+public class MockWPIFactoryTest extends BaseWPITest {
 
     WPIFactory wpiFactory;
     MockRobotIO robotIo;
@@ -13,7 +14,7 @@ public class MockWPIFactoryTest {
     @Before
     public void setup() {
         robotIo = new MockRobotIO();
-        wpiFactory = new MockWPIFactory(robotIo);
+        wpiFactory = new MockWPIFactory(robotIo, propertyManager);
     }
 
     @Test
