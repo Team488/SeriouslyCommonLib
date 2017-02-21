@@ -4,9 +4,10 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 
-public class MockPowerDistributionPanel implements XPowerDistributionPanel {
+public class MockPowerDistributionPanel extends XPowerDistributionPanel {
     private HashMap<Integer, Double> outputCurrents;
 
     private static Logger log = Logger.getLogger(MockPowerDistributionPanel.class);
@@ -23,6 +24,11 @@ public class MockPowerDistributionPanel implements XPowerDistributionPanel {
     @Override
     public double getCurrent(int channel) {
         return outputCurrents.getOrDefault(channel, 0d);
+    }
+
+    @Override
+    public LiveWindowSendable getLiveWindowSendable() {
+        return null;
     }
 
 }

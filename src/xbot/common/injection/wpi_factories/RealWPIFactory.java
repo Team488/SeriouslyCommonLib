@@ -187,9 +187,9 @@ public class RealWPIFactory implements WPIFactory {
     }
 
     public XPowerDistributionPanel getPDP() {
-        PowerDistributionPanelWPIAdapter result = new PowerDistributionPanelWPIAdapter();
-        LiveWindow.addSensor("PDP Panel", 0, (LiveWindowSendable) result.getInternalDevice());
-        return result;
+        PowerDistributionPanelWPIAdapter pdp = new PowerDistributionPanelWPIAdapter();
+        LiveWindow.addSensor("PDP Panel", 0, pdp.getLiveWindowSendable());
+        return pdp;
     }
 
     @Override
