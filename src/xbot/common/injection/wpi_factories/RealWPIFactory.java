@@ -79,9 +79,9 @@ public class RealWPIFactory implements WPIFactory {
 
     @Override
     public XDigitalInput getDigitalInput(int channel) {
-        DigitalInputWPIAdapter result = new DigitalInputWPIAdapter(channel);
-        LiveWindow.addSensor("DigitalInput", channel, result.getWPIDigitalInput());
-        return result;
+        XDigitalInput input = new DigitalInputWPIAdapter(channel);
+        LiveWindow.addSensor("DigitalInput", channel, input.getLiveWindowSendable());
+        return input;
     }
 
     @Override

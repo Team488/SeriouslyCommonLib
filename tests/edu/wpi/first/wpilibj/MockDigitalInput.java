@@ -1,6 +1,9 @@
 package edu.wpi.first.wpilibj;
 
-public class MockDigitalInput implements xbot.common.controls.sensors.XDigitalInput {
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
+import xbot.common.controls.sensors.XDigitalInput;
+
+public class MockDigitalInput extends XDigitalInput {
 
     protected boolean value;
     final int channel;
@@ -17,9 +20,13 @@ public class MockDigitalInput implements xbot.common.controls.sensors.XDigitalIn
         return value;
     }
 
-    @Override
     public int getChannel() {
         return this.channel;
+    }
+
+    @Override
+    public LiveWindowSendable getLiveWindowSendable() {
+        return null;
     }
 
 }
