@@ -1,18 +1,23 @@
 package xbot.common.controls.sensors;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
+
 import xbot.common.controls.MockRobotIO;
-import xbot.common.math.ContiguousHeading;
 
 public class MockGyro extends XGyro {
     private boolean isBroken;
     private MockRobotIO mockIO;
 
+    @Inject
     public MockGyro(MockRobotIO mockRobotIO) {
         super(ImuType.mock);
         mockIO = mockRobotIO;
     }
     
-    public MockGyro(MockRobotIO mockRobotIO, boolean isBroken) {
+    @AssistedInject
+    public MockGyro(MockRobotIO mockRobotIO, @Assisted("isBroken") boolean isBroken) {
         super(ImuType.mock);
         mockIO = mockRobotIO;
         setIsBroken(isBroken);
