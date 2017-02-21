@@ -1,7 +1,5 @@
 package xbot.common.controls.sensors;
 
-import com.google.inject.Inject;
-
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
