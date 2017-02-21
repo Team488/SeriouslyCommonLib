@@ -2,8 +2,8 @@ package xbot.common.subsystems.pose;
 
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
-import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XGyro;
+import xbot.common.controls.sensors.XGyro.ImuType;
 import xbot.common.controls.sensors.navx.AHRS;
 import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.math.ContiguousHeading;
@@ -156,7 +156,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
      * then this method will need to be overridden.
      */
     private ContiguousHeading getRobotYaw() {
-        return imu.getYaw();
+        return imu.getHeading();
     }
     
     private double getUntrimmedPitch() {

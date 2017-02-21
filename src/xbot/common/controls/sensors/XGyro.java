@@ -2,29 +2,55 @@ package xbot.common.controls.sensors;
 
 import xbot.common.math.ContiguousHeading;
 
-public interface XGyro
-{
-    public boolean isConnected();
+public abstract class XGyro
+{   
+    public enum ImuType {
+        nav6,
+        navX,
+        mock
+    }
+    
+    protected ImuType imuType;
+    
+    public XGyro(ImuType imuType) 
+    {
+        this.imuType = imuType;
+    }
+    
+    protected ImuType getImuType() {
+        return imuType;
+    }
+    
+    public abstract boolean isConnected();
     
     /**
      * In degrees
      */
-    public ContiguousHeading getYaw();
+    public ContiguousHeading getHeading() {
+        return new ContiguousHeading(getYaw());
+    }
     
     /**
      * In degrees
      */
-    public double getRoll();
+    public abstract double getRoll();
     
     /**
      * In degrees
      */
-    public double getPitch();
+    public abstract double getPitch();
     
-    public boolean isBroken();
+    /**
+     * In degrees
+     */
+    protected abstract double getYaw();
+    
+    public abstract boolean isBroken();
     
     /**
      * In degrees per second
      */
-    public double getYawAngularVelocity();
+    public abstract double getYawAngularVelocity();
+    
+    
 }

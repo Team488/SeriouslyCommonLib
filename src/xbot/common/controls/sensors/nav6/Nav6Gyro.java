@@ -1,7 +1,6 @@
 package xbot.common.controls.sensors.nav6;
 
 import edu.wpi.first.wpilibj.SerialPort;
-import xbot.common.controls.sensors.NavImu;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.navx.AHRS;
 import xbot.common.math.ContiguousHeading;
@@ -12,7 +11,7 @@ import xbot.common.math.ContiguousHeading;
  * Wraps yaw values to circle 0-360 degrees.
  *
  */
-public class Nav6Gyro extends NavImu implements XGyro
+public class Nav6Gyro extends XGyro
 {
     private SerialPort imuPort;
     private IMU coreSensor;
@@ -41,22 +40,19 @@ public class Nav6Gyro extends NavImu implements XGyro
         return yawValue.clone();
     }
     
-    public ContiguousHeading getYaw()
+    public double getYaw()
     {
-        return getYawContiguous();
+        return coreSensor.getYaw();
     }
 
-    @Override
     public double getRoll() {
         return coreSensor.getRoll();
     }
     
-    @Override
     public double getPitch() {
         return coreSensor.getPitch();
     }
 
-    @Override
     public boolean isBroken() {
         return false;
     }

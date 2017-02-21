@@ -1,19 +1,21 @@
 package xbot.common.controls.sensors.adapters;
 
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
+
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.I2C.Port;
-import xbot.common.controls.sensors.NavImu;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.navx.AHRS;
-import xbot.common.math.ContiguousHeading;
 
-public class InertialMeasurementUnitAdapter extends NavImu implements XGyro {
+public class InertialMeasurementUnitAdapter extends XGyro {
 
     AHRS ahrs;
     boolean isBroken = false;
 
+    @AssistedInject
     public InertialMeasurementUnitAdapter() {
         super(ImuType.navX);
         /* Options: Port.kMXP, SPI.kMXP, I2C.kMXP or SerialPort.kUSB */
@@ -25,17 +27,20 @@ public class InertialMeasurementUnitAdapter extends NavImu implements XGyro {
         }
     }
 
-    public InertialMeasurementUnitAdapter(SPI.Port spi_port_id) {
+    @AssistedInject
+    public InertialMeasurementUnitAdapter(@Assisted("spi-port") SPI.Port spi_port_id) {
         super(ImuType.navX);
         this.ahrs = new AHRS(spi_port_id);
     }
 
-    public InertialMeasurementUnitAdapter(I2C.Port i2c_port_id) {
+    @AssistedInject
+    public InertialMeasurementUnitAdapter(@Assisted("i2c-port") I2C.Port i2c_port_id) {
         super(ImuType.navX);
         this.ahrs = new AHRS(i2c_port_id);
     }
 
-    public InertialMeasurementUnitAdapter(SerialPort.Port serial_port_id) {
+    @AssistedInject
+    public InertialMeasurementUnitAdapter(@Assisted("serial-port") SerialPort.Port serial_port_id) {
         super(ImuType.navX);
         this.ahrs = new AHRS(serial_port_id);
     }
@@ -45,9 +50,8 @@ public class InertialMeasurementUnitAdapter extends NavImu implements XGyro {
         return this.ahrs.isConnected();
     }
 
-    @Override
-    public ContiguousHeading getYaw() {
-        return new ContiguousHeading(-this.ahrs.getYaw());
+    protected double getYaw() {
+        return -this.ahrs.getYaw();
     }
 
     @Override

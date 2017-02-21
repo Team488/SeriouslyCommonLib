@@ -3,15 +3,17 @@ package xbot.common.controls.sensors;
 import xbot.common.controls.MockRobotIO;
 import xbot.common.math.ContiguousHeading;
 
-public class MockGyro implements XGyro {
+public class MockGyro extends XGyro {
     private boolean isBroken;
     private MockRobotIO mockIO;
 
     public MockGyro(MockRobotIO mockRobotIO) {
+        super(ImuType.mock);
         mockIO = mockRobotIO;
     }
     
     public MockGyro(MockRobotIO mockRobotIO, boolean isBroken) {
+        super(ImuType.mock);
         mockIO = mockRobotIO;
         setIsBroken(isBroken);
     }
@@ -20,8 +22,8 @@ public class MockGyro implements XGyro {
         return true;
     }
 
-    public ContiguousHeading getYaw() {
-        return new ContiguousHeading(mockIO.getGyroHeading());
+    public double getYaw() {
+        return mockIO.getGyroHeading();
     }
 
     public void setIsBroken(boolean broken) {
@@ -32,12 +34,10 @@ public class MockGyro implements XGyro {
         return isBroken;
     }
 
-    @Override
     public double getRoll() {
         return mockIO.getGyroRoll();
     }
 
-    @Override
     public double getPitch() {
         return mockIO.getGyroPitch();
     }
