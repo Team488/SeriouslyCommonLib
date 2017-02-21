@@ -2,6 +2,8 @@ package xbot.common.injection;
 
 import xbot.common.command.MockSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
+import xbot.common.controls.sensors.XPowerDistributionPanel;
+import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.MockWPIFactory;
 import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.logging.LoudRobotAssertionManager;
@@ -18,6 +20,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
+import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
 import edu.wpi.first.wpilibj.MockTimer;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -52,5 +55,9 @@ public class UnitTestModule extends AbstractModule {
         this.bind(BasePoseSubsystem.class).to(TestPoseSubsystem.class);
         
         this.install(new FactoryModuleBuilder().build(PIDFactory.class));
+        
+        this.install(new FactoryModuleBuilder()
+                .implement(XPowerDistributionPanel.class, MockPowerDistributionPanel.class)
+                .build(CommonLibFactory.class));
     }
 }
