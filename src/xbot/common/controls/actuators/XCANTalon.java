@@ -3,6 +3,8 @@ package xbot.common.controls.actuators;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
 
+import org.influxdb.dto.Point;
+
 import xbot.common.properties.XPropertyManager;
 
 public interface XCANTalon extends XSpeedController {
@@ -131,4 +133,5 @@ public interface XCANTalon extends XSpeedController {
     void createTelemetryProperties(String deviceName, XPropertyManager propertyManager);
     void updateTelemetryProperties();
     void ensureTalonControlMode(TalonControlMode mode);
+    Point getTelemetryPoint(String className, String side, boolean addDistance);
 }
