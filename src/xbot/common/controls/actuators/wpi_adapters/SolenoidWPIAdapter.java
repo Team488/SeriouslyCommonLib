@@ -3,7 +3,7 @@ package xbot.common.controls.actuators.wpi_adapters;
 import edu.wpi.first.wpilibj.Solenoid;
 import xbot.common.controls.actuators.XSolenoid;
 
-public class SolenoidWPIAdapter implements XSolenoid {
+public class SolenoidWPIAdapter extends XSolenoid {
 
     Solenoid solenoid;
     private boolean inverted;
