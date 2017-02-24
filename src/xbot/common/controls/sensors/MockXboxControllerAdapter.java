@@ -1,5 +1,8 @@
 package xbot.common.controls.sensors;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import xbot.common.math.XYPair;
 
@@ -18,7 +21,8 @@ public class MockXboxControllerAdapter extends XXboxController {
         rightStick.y = y;
     }
     
-    public MockXboxControllerAdapter(int port) {
+    @Inject
+    public MockXboxControllerAdapter(@Assisted("port") int port) {
         super(port);
         leftStick = new XYPair();
         rightStick = new XYPair();
