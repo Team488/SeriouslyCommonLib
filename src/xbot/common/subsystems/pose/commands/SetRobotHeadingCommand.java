@@ -22,6 +22,7 @@ public class SetRobotHeadingCommand extends BaseCommand {
 
     @Override
     public void initialize() {
+        log.info("Initializing");
         poseSubsystem.setCurrentHeading(heading);
     }
 
