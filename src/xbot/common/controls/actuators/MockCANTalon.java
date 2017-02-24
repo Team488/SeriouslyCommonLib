@@ -2,8 +2,10 @@ package xbot.common.controls.actuators;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
+import org.influxdb.dto.Point;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
@@ -665,6 +667,19 @@ public class MockCANTalon implements XCANTalon {
     @Override
     public void ensureTalonControlMode(TalonControlMode mode) {
         this.setControlMode(mode);
+    }
+
+    @Override
+    public Point getTelemetryPoint(String className, String side, boolean addDistance) {
+        Point.Builder telemetryPoints = Point.measurement(className)
+                .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+                .tag("side", side)
+                .addField("power", get())
+                .addField("current", getOutputCurrent());
+            if (addDistance) {
+                telemetryPoints.addField("distance", getPosition());
+            } 
+            return telemetryPoints.build();
     }
 
 }
