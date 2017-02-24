@@ -26,7 +26,14 @@ public class StringProperty extends Property {
     }
     
     public String get() {
-        return randomAccessStore.getString(key);
+        String nullableTableValue = randomAccessStore.getString(key);
+        
+        if(nullableTableValue == null) {
+            log.error("Property key not present in the underlying store! Returning default value.");
+            return defaultValue;
+        }
+        
+        return nullableTableValue;
     }
     
     public void set(String value) {

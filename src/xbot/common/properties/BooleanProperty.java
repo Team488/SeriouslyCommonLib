@@ -6,6 +6,7 @@
 
 package xbot.common.properties;
 
+import org.apache.log4j.Logger;
 
 /**
  * A property holding a boolean value.
@@ -39,7 +40,14 @@ public class BooleanProperty extends Property {
      * @return the current boolean value
      */
     public boolean get() {
-        return randomAccessStore.getBoolean(key).booleanValue();
+        Boolean nullableTableValue = randomAccessStore.getBoolean(key);
+        
+        if(nullableTableValue == null) {
+            log.error("Property key not present in the underlying store! Returning default value.");
+            return defaultValue;
+        }
+        
+        return nullableTableValue.booleanValue();
     }
 
     /**

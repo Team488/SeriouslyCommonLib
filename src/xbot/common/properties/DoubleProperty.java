@@ -25,7 +25,14 @@ public class DoubleProperty extends Property {
     
 
     public double get() {
-        return randomAccessStore.getDouble(key).doubleValue();
+        Double nullableTableValue = randomAccessStore.getDouble(key);
+        
+        if(nullableTableValue == null) {
+            log.error("Property key not present in the underlying store! Returning default value.");
+            return defaultValue;
+        }
+        
+        return nullableTableValue.doubleValue();
     }
     
 

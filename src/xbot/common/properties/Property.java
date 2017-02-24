@@ -34,20 +34,7 @@ public abstract class Property {
     }
     
     public PropertyPersistenceType persistenceType;
-    private static Logger log = Logger.getLogger(Property.class);
-
-    /**
-     * The name of the property. This should be unique unless you really know
-     * what you're doing.
-     * 
-     */
-    public Property(String key, XPropertyManager manager) {
-        this.key = sanitizeKey(key);
-        this.permanentStore = manager.permanentStore;
-        this.randomAccessStore = manager.randomAccessStore;
-        this.persistenceType = PropertyPersistenceType.Persistent;
-        manager.registerProperty(this);
-    } 
+    protected static Logger log;
     
     /**
      * The name of the property. This should be unique unless you really know
@@ -57,11 +44,22 @@ public abstract class Property {
      */
     public Property(String key, XPropertyManager manager, PropertyPersistenceType persistenceType) {
         this.key = sanitizeKey(key);
+        log =  Logger.getLogger(this.getClass().getSimpleName() + " (\"" + this.key + "\")");
+        
         this.permanentStore = manager.permanentStore;
         this.randomAccessStore = manager.randomAccessStore;
         this.persistenceType = persistenceType;
         manager.registerProperty(this);
     }
+
+    /**
+     * The name of the property. This should be unique unless you really know
+     * what you're doing.
+     * 
+     */
+    public Property(String key, XPropertyManager manager) {
+        this(key, manager, PropertyPersistenceType.Persistent);
+    } 
 
     private String sanitizeKey(String key) {
         String sanitizedKey = key;
