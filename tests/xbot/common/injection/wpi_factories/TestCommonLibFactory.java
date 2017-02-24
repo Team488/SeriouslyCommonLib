@@ -1,8 +1,6 @@
 package xbot.common.injection.wpi_factories;
 
 import org.junit.Test;
-
-import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.injection.BaseWPITest;
 
 public class TestCommonLibFactory extends BaseWPITest {
@@ -11,6 +9,10 @@ public class TestCommonLibFactory extends BaseWPITest {
     public void testPDP() {
         CommonLibFactory clf = injector.getInstance(CommonLibFactory.class);
         
-        XPowerDistributionPanel xpdp = clf.createPowerDistributionPanel();
+        clf.createPowerDistributionPanel();
+        clf.createJoystick(1);
+        clf.createEncoder("asdf", 1, 2, 1);
+        clf.createDigitalInput(1);
+        clf.createAnalogInput(1);
     }
 }

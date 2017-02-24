@@ -2,7 +2,14 @@ package xbot.common.injection;
 
 import xbot.common.command.MockSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
+import xbot.common.controls.sensors.MockEncoder;
+import xbot.common.controls.sensors.MockJoystick;
+import xbot.common.controls.sensors.XAnalogInput;
+import xbot.common.controls.sensors.XDigitalInput;
+import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
+import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.MockWPIFactory;
 import xbot.common.injection.wpi_factories.WPIFactory;
@@ -20,6 +27,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
+import edu.wpi.first.wpilibj.MockAnalogInput;
+import edu.wpi.first.wpilibj.MockDigitalInput;
 import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
 import edu.wpi.first.wpilibj.MockTimer;
 import edu.wpi.first.wpilibj.Timer;
@@ -58,6 +67,10 @@ public class UnitTestModule extends AbstractModule {
         
         this.install(new FactoryModuleBuilder()
                 .implement(XPowerDistributionPanel.class, MockPowerDistributionPanel.class)
+                .implement(XJoystick.class, MockJoystick.class)
+                .implement(XEncoder.class, MockEncoder.class)
+                .implement(XDigitalInput.class, MockDigitalInput.class)
+                .implement(XAnalogInput.class, MockAnalogInput.class)
                 .build(CommonLibFactory.class));
     }
 }
