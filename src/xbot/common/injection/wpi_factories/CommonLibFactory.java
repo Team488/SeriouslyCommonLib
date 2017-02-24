@@ -7,6 +7,7 @@ import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
+import xbot.common.controls.sensors.XXboxController;
 
 public interface CommonLibFactory {
 
@@ -26,4 +27,7 @@ public interface CommonLibFactory {
     
     public XAnalogInput createAnalogInput(
             @Assisted("channel") int channel);
+    
+    public XXboxController createXboxController(
+            @Assisted("port") int port);
 }

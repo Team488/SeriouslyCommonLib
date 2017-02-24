@@ -14,5 +14,6 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createEncoder("asdf", 1, 2, 1);
         clf.createDigitalInput(1);
         clf.createAnalogInput(1);
+        clf.createXboxController(1);
     }
 }

@@ -4,11 +4,13 @@ import xbot.common.command.MockSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.sensors.MockEncoder;
 import xbot.common.controls.sensors.MockJoystick;
+import xbot.common.controls.sensors.MockXboxControllerAdapter;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
+import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.MockWPIFactory;
@@ -71,6 +73,7 @@ public class UnitTestModule extends AbstractModule {
                 .implement(XEncoder.class, MockEncoder.class)
                 .implement(XDigitalInput.class, MockDigitalInput.class)
                 .implement(XAnalogInput.class, MockAnalogInput.class)
+                .implement(XXboxController.class, MockXboxControllerAdapter.class)
                 .build(CommonLibFactory.class));
     }
 }
