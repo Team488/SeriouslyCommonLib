@@ -36,7 +36,6 @@ public class DoubleProperty extends Property {
         return nullableTableValue.doubleValue();
     }
     
-
     public void set(double value) {
         randomAccessStore.setDouble(key, value);
     }
