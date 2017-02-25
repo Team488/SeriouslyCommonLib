@@ -5,6 +5,7 @@ import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
+import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.MockEncoder;
 import xbot.common.controls.sensors.MockJoystick;
 import xbot.common.controls.sensors.MockXboxControllerAdapter;
@@ -38,6 +39,7 @@ import edu.wpi.first.wpilibj.MockDigitalOutput;
 import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
 import edu.wpi.first.wpilibj.MockServo;
 import edu.wpi.first.wpilibj.MockSolenoid;
+import edu.wpi.first.wpilibj.MockSpeedController;
 import edu.wpi.first.wpilibj.MockTimer;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -83,6 +85,7 @@ public class UnitTestModule extends AbstractModule {
                 .implement(XSolenoid.class, MockSolenoid.class)
                 .implement(XDigitalOutput.class, MockDigitalOutput.class)
                 .implement(XServo.class, MockServo.class)
+                .implement(XSpeedController.class, MockSpeedController.class)
                 .build(CommonLibFactory.class));
     }
 }
