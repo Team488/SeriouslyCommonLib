@@ -6,7 +6,7 @@ import xbot.common.injection.BaseWPITest;
 public class TestCommonLibFactory extends BaseWPITest {
 
     @Test
-    public void testPDP() {
+    public void makeOneOfEverything() {
         CommonLibFactory clf = injector.getInstance(CommonLibFactory.class);
         
         clf.createPowerDistributionPanel();

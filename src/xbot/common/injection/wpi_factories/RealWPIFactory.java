@@ -25,7 +25,7 @@ import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
 import xbot.common.controls.sensors.Lidar;
 import xbot.common.controls.sensors.MockGyro;
-import xbot.common.controls.sensors.RealXboxControllerAdapter;
+import xbot.common.controls.sensors.XboxControllerWpiAdapter;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
@@ -193,7 +193,7 @@ public class RealWPIFactory implements WPIFactory {
 
     @Override
     public XXboxController getXboxController(int number) {
-        return new RealXboxControllerAdapter(number);
+        return new XboxControllerWpiAdapter(number);
     }
 
 }

@@ -6,12 +6,12 @@ import com.google.inject.assistedinject.Assisted;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 
-public class RealXboxControllerAdapter extends XXboxController {
+public class XboxControllerWpiAdapter extends XXboxController {
 
     protected XboxController controller;
 
     @Inject
-    public RealXboxControllerAdapter(@Assisted("port") int port) {
+    public XboxControllerWpiAdapter(@Assisted("port") int port) {
         super(port);
         controller = new XboxController(port);
     }
