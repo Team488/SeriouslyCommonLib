@@ -101,7 +101,7 @@ public class RealWPIFactory implements WPIFactory {
     @Override
     public XSolenoid getSolenoid(int channel) {
         SolenoidWPIAdapter result = new SolenoidWPIAdapter(channel);
-        LiveWindow.addActuator("Solenoid", channel, result.getInternalDevice());
+        LiveWindow.addActuator("Solenoid", channel, result.getLiveWindowSendable());
         return result;
     }
 
