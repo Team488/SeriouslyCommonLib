@@ -25,10 +25,17 @@ public class DoubleProperty extends Property {
     
 
     public double get() {
-        return randomAccessStore.getDouble(key).doubleValue();
+        Double nullableTableValue = randomAccessStore.getDouble(key);
+        
+        if(nullableTableValue == null) {
+            log.error("Property key \"" + key + "\" not present in the underlying store!"
+                    + " IF THIS IS AN IMPORTANT ROBOT PROPERTY, MAKE SURE IT HAS A SANE VALUE BEFORE ENABLING THE ROBOT!");
+            return defaultValue;
+        }
+        
+        return nullableTableValue.doubleValue();
     }
     
-
     public void set(double value) {
         randomAccessStore.setDouble(key, value);
     }

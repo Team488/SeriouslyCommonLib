@@ -26,7 +26,15 @@ public class StringProperty extends Property {
     }
     
     public String get() {
-        return randomAccessStore.getString(key);
+        String nullableTableValue = randomAccessStore.getString(key);
+        
+        if(nullableTableValue == null) {
+            log.error("Property key \"" + key + "\" not present in the underlying store!"
+                    + " IF THIS IS AN IMPORTANT ROBOT PROPERTY, MAKE SURE IT HAS A SANE VALUE BEFORE ENABLING THE ROBOT!");
+            return defaultValue;
+        }
+        
+        return nullableTableValue;
     }
     
     public void set(String value) {
