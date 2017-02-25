@@ -67,9 +67,8 @@ public class RealWPIFactory implements WPIFactory {
 
     @Override
     public XCANTalon getCANTalonSpeedController(int deviceId) {
-        CANTalonWPIAdapter controller = new CANTalonWPIAdapter(deviceId);
-        LiveWindow.addActuator("CANTalon", deviceId,
-                (LiveWindowSendable) controller.getInternalController());
+        CANTalonWPIAdapter controller = new CANTalonWPIAdapter(deviceId, propMan);
+        LiveWindow.addActuator("CANTalon", deviceId, controller.getLiveWindowSendable());
         return controller;
     }
     

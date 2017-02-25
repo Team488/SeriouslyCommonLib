@@ -2,6 +2,8 @@ package xbot.common.injection;
 
 import xbot.common.command.MockSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
+import xbot.common.controls.actuators.MockCANTalon;
+import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
@@ -86,6 +88,7 @@ public class UnitTestModule extends AbstractModule {
                 .implement(XDigitalOutput.class, MockDigitalOutput.class)
                 .implement(XServo.class, MockServo.class)
                 .implement(XSpeedController.class, MockSpeedController.class)
+                .implement(XCANTalon.class, MockCANTalon.class)
                 .build(CommonLibFactory.class));
     }
 }

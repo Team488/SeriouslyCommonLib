@@ -19,5 +19,6 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createDigitalOutput(1);
         clf.createServo(1);
         clf.createSpeedController(1);
+        clf.createCANTalon(1);
     }
 }

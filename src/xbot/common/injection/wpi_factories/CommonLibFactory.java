@@ -2,6 +2,7 @@ package xbot.common.injection.wpi_factories;
 
 import com.google.inject.assistedinject.Assisted;
 
+import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
@@ -46,4 +47,7 @@ public interface CommonLibFactory {
     
     public XSpeedController createSpeedController(
             @Assisted("channel") int channel);
+    
+    public XCANTalon createCANTalon(
+            @Assisted("deviceId") int deviceId);
 }

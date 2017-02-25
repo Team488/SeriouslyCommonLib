@@ -5,34 +5,24 @@ import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.FeedbackDeviceStatus;
 import com.ctre.CANTalon.StatusFrameRate;
 import com.ctre.CANTalon.TalonControlMode;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.StringProperty;
 import xbot.common.properties.XPropertyManager;
 
-public class CANTalonWPIAdapter implements XCANTalon {
+public class CANTalonWPIAdapter extends XCANTalon {
 
     private CANTalon internalTalon;
-    
-    private StringProperty controlModeProperty = null;
-    private DoubleProperty currentProperty = null;
-    private DoubleProperty outVoltageProperty = null;
-    private DoubleProperty temperatureProperty = null;
 
-    public CANTalonWPIAdapter(int deviceId) {
+    @Inject
+    public CANTalonWPIAdapter(@Assisted("deviceId") int deviceId, XPropertyManager propMan) {
+        super(deviceId, propMan);
         internalTalon = new CANTalon(deviceId);
-    }
-
-    @Override
-    public SpeedController getInternalController() {
-        return internalTalon;
-    }
-
-    @Override
-    public int getChannel() {
-        return this.getDeviceID();
     }
 
     @Override
@@ -454,40 +444,7 @@ public class CANTalonWPIAdapter implements XCANTalon {
     }
 
     @Override
-    public void createTelemetryProperties(String deviceName, XPropertyManager propertyManager) {
-        controlModeProperty = propertyManager.createEphemeralProperty(deviceName + " control mode", CANTalon.TalonControlMode.Disabled.name());
-        currentProperty = propertyManager.createEphemeralProperty(deviceName + " current", 0);
-        outVoltageProperty = propertyManager.createEphemeralProperty(deviceName + " voltage", 0);
-        temperatureProperty = propertyManager.createEphemeralProperty(deviceName + " temperature", 0);
+    public LiveWindowSendable getLiveWindowSendable() {
+        return internalTalon;
     }
-
-    @Override
-    public void updateTelemetryProperties() {
-        if(controlModeProperty == null
-                || currentProperty == null
-                || outVoltageProperty == null
-                || temperatureProperty == null) {
-            return;
-        }
-        
-        controlModeProperty.set(this.getControlMode().name());
-        currentProperty.set(this.getOutputCurrent());
-        outVoltageProperty.set(this.getOutputVoltage());
-        temperatureProperty.set(this.getTemperature());
-    }
-
-    /**
-     * When working with the real implementation of the talon, we want to minimize
-     * setControlMode calls, as these appear to send a message across the CAN bus, and
-     * the bus has a finite bandwidth. However, the call to getControlMode appears to read
-     * from local in-memory information about the Talon, and thus is much cheaper to call
-     * repeatedly.
-     */
-    @Override
-    public void ensureTalonControlMode(TalonControlMode mode) {
-        if (this.getControlMode() != mode) {
-            this.setControlMode(mode);
-        }
-    }
-
 }

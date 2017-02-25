@@ -10,14 +10,17 @@ import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.FeedbackDeviceStatus;
 import com.ctre.CANTalon.StatusFrameRate;
 import com.ctre.CANTalon.TalonControlMode;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.sensors.MockEncoder;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.properties.XPropertyManager;
 
-public class MockCANTalon implements XCANTalon {    
+public class MockCANTalon extends XCANTalon {    
     public final int deviceId;
     private CANTalon.TalonControlMode controlMode;
     private CANTalon.TalonControlMode lastSetControlMode;
@@ -43,16 +46,16 @@ public class MockCANTalon implements XCANTalon {
     
     MockRobotIO mockRobotIO;
     public XEncoder internalEncoder = null;
-    XPropertyManager propMan;
 
     private static Logger log = Logger.getLogger(MockCANTalon.class);
 
-    public MockCANTalon(int deviceId, MockRobotIO mockRobotIO, XPropertyManager propMan) {
+    @Inject
+    public MockCANTalon(@Assisted("deviceId") int deviceId, MockRobotIO mockRobotIO, XPropertyManager propMan) {
+        super(deviceId, propMan);
         log.info("Creating CAN talon with device ID: " + deviceId);
         
         this.deviceId = deviceId;
         this.mockRobotIO = mockRobotIO;
-        this.propMan = propMan;
         mockRobotIO.setCANTalon(deviceId, this);
         
         this.setControlMode(TalonControlMode.Disabled);
@@ -72,13 +75,8 @@ public class MockCANTalon implements XCANTalon {
     }
     
     @Override
-    public SpeedController getInternalController() {
+    public LiveWindowSendable getLiveWindowSendable() {
         return null;
-    }
-
-    @Override
-    public int getChannel() {
-        return this.getDeviceID();
     }
 
     @Override
@@ -646,28 +644,4 @@ public class MockCANTalon implements XCANTalon {
         
         mockRobotIO.setPWM(-deviceId, this.getOutputVoltage() / this.getBusVoltage());
     }
-
-    @Override
-    public void createTelemetryProperties(String deviceName, XPropertyManager propertyManager) {
-        // Intentionally left blank. There is no need for properties in mock mode.
-    }
-
-    @Override
-    public void updateTelemetryProperties() {
-        // Intentionally left blank. There is no need for properties in mock mode.
-    }
-
-    /**
-     * When working with the real implementation of the talon, we want to minimize
-     * setControlMode calls, as these appear to send a message across the CAN bus, and
-     * the bus has a finite bandwidth.
-     * 
-     * However, the Mock implementation has no such restrictions (it's all in-memory faked
-     * stuff), so we can just call set every tick.
-     */
-    @Override
-    public void ensureTalonControlMode(TalonControlMode mode) {
-        this.setControlMode(mode);
-    }
-
 }
