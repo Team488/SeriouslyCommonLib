@@ -3,6 +3,7 @@ package xbot.common.injection.wpi_factories;
 import com.google.inject.assistedinject.Assisted;
 
 import xbot.common.controls.actuators.XDigitalOutput;
+import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
@@ -37,5 +38,8 @@ public interface CommonLibFactory {
             @Assisted("channel") int channel);
     
     public XDigitalOutput createDigitalOutput(
+            @Assisted("channel") int channel);
+    
+    public XServo createServo(
             @Assisted("channel") int channel);
 }

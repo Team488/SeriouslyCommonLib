@@ -3,6 +3,7 @@ package xbot.common.injection;
 import xbot.common.command.MockSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.actuators.XDigitalOutput;
+import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.sensors.MockEncoder;
 import xbot.common.controls.sensors.MockJoystick;
@@ -35,6 +36,7 @@ import edu.wpi.first.wpilibj.MockAnalogInput;
 import edu.wpi.first.wpilibj.MockDigitalInput;
 import edu.wpi.first.wpilibj.MockDigitalOutput;
 import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
+import edu.wpi.first.wpilibj.MockServo;
 import edu.wpi.first.wpilibj.MockSolenoid;
 import edu.wpi.first.wpilibj.MockTimer;
 import edu.wpi.first.wpilibj.Timer;
@@ -80,6 +82,7 @@ public class UnitTestModule extends AbstractModule {
                 .implement(XXboxController.class, MockXboxControllerAdapter.class)
                 .implement(XSolenoid.class, MockSolenoid.class)
                 .implement(XDigitalOutput.class, MockDigitalOutput.class)
+                .implement(XServo.class, MockServo.class)
                 .build(CommonLibFactory.class));
     }
 }

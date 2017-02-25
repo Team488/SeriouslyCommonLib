@@ -17,5 +17,6 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createXboxController(1);
         clf.createSolenoid(1);
         clf.createDigitalOutput(1);
+        clf.createServo(1);
     }
 }
