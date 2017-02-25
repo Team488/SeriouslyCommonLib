@@ -1,14 +1,19 @@
 package edu.wpi.first.wpilibj;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XServo;
 
-public class MockServo implements XServo {
+public class MockServo extends XServo {
+    
     MockRobotIO mockRobotIO;
-    final int channel;
 
-    public MockServo(int channel, MockRobotIO mockRobotIO) {
-        this.channel = channel;
+    @Inject
+    public MockServo(@Assisted("channel") int channel, MockRobotIO mockRobotIO) {
+        super(channel);
         this.mockRobotIO = mockRobotIO;
     }
 
@@ -18,7 +23,7 @@ public class MockServo implements XServo {
     }
 
     @Override
-    public int getChannel() {
-        return this.channel;
+    public LiveWindowSendable getLiveWindowSendable() {
+        return null;
     }
 }

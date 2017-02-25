@@ -155,7 +155,7 @@ public class RealWPIFactory implements WPIFactory {
     @Override
     public XServo getServo(int channel) {
         ServoWPIAdapter result = new ServoWPIAdapter(channel);
-        LiveWindow.addActuator("Servo", channel, result.getInternalDevice());
+        LiveWindow.addActuator("Servo", channel, result.getLiveWindowSendable());
         return result;
     }
 
