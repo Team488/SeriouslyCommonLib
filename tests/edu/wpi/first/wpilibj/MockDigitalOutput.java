@@ -1,29 +1,31 @@
 package edu.wpi.first.wpilibj;
 
-import xbot.common.controls.MockRobotIO;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
-public class MockDigitalOutput implements xbot.common.controls.actuators.XDigitalOutput {
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
+import xbot.common.controls.MockRobotIO;
+import xbot.common.controls.actuators.XDigitalOutput;
+
+public class MockDigitalOutput extends XDigitalOutput {
     protected int channel;
 
     protected MockRobotIO mockRobotIO;
 
-    public MockDigitalOutput(int channel, MockRobotIO mockRobotIO) {
-        this.channel = channel;
+    @Inject
+    public MockDigitalOutput(@Assisted("channel") int channel, MockRobotIO mockRobotIO) {
+        super(channel);
         this.mockRobotIO = mockRobotIO;
-    }
-
-    public boolean get() {
-        return mockRobotIO.getDigital(channel);
-    }
-
-    @Override
-    public int getChannel() {
-        return channel;
     }
 
     @Override
     public void set(boolean value) {
         mockRobotIO.setDigital(channel, value);
+    }
+
+    @Override
+    public LiveWindowSendable getLiveWindowSendable() {
+        return null;
     }
 
 }

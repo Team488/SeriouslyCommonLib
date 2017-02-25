@@ -2,6 +2,8 @@ package xbot.common.injection.wpi_factories;
 
 import com.google.inject.assistedinject.Assisted;
 
+import xbot.common.controls.actuators.XDigitalOutput;
+import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
@@ -30,4 +32,10 @@ public interface CommonLibFactory {
     
     public XXboxController createXboxController(
             @Assisted("port") int port);
+    
+    public XSolenoid createSolenoid(
+            @Assisted("channel") int channel);
+    
+    public XDigitalOutput createDigitalOutput(
+            @Assisted("channel") int channel);
 }

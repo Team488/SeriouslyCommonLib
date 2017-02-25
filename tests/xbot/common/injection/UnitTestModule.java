@@ -2,6 +2,8 @@ package xbot.common.injection;
 
 import xbot.common.command.MockSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
+import xbot.common.controls.actuators.XDigitalOutput;
+import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.sensors.MockEncoder;
 import xbot.common.controls.sensors.MockJoystick;
 import xbot.common.controls.sensors.MockXboxControllerAdapter;
@@ -31,7 +33,9 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 import edu.wpi.first.wpilibj.MockAnalogInput;
 import edu.wpi.first.wpilibj.MockDigitalInput;
+import edu.wpi.first.wpilibj.MockDigitalOutput;
 import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
+import edu.wpi.first.wpilibj.MockSolenoid;
 import edu.wpi.first.wpilibj.MockTimer;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -74,6 +78,8 @@ public class UnitTestModule extends AbstractModule {
                 .implement(XDigitalInput.class, MockDigitalInput.class)
                 .implement(XAnalogInput.class, MockAnalogInput.class)
                 .implement(XXboxController.class, MockXboxControllerAdapter.class)
+                .implement(XSolenoid.class, MockSolenoid.class)
+                .implement(XDigitalOutput.class, MockDigitalOutput.class)
                 .build(CommonLibFactory.class));
     }
 }
