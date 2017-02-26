@@ -6,7 +6,7 @@ import xbot.common.properties.XPropertyManager;
 
 public abstract class XEncoder {
 
-    boolean inverted;
+    protected boolean isInverted;
     protected DoubleProperty distancePerPulse;
 
     public XEncoder(
@@ -23,15 +23,15 @@ public abstract class XEncoder {
     }
     
     public double getAdjustedDistance() {
-        return getDistance() * (inverted ? -1d : 1d) * distancePerPulse.get();
+        return getDistance() * (isInverted ? -1d : 1d) * distancePerPulse.get();
     }
 
     public double getAdjustedRate() {
-        return getRate() * (inverted ? -1d : 1d) * distancePerPulse.get();
+        return getRate() * (isInverted ? -1d : 1d) * distancePerPulse.get();
     }
 
     public void setInverted(boolean inverted) {
-        this.inverted = inverted;
+        this.isInverted = inverted;
     }
     
     public void setDistancePerPulse(double dpp) {

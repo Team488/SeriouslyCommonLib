@@ -28,7 +28,7 @@ public class MockEncoder extends XEncoder {
     }
 
     public void setDistance(double distance) {
-        this.distance = distance;
+        this.distance = distance * (isInverted ? -1 : 1);
     }
 
     protected double getRate() {
