@@ -1,5 +1,6 @@
 package xbot.common.subsystems.pose;
 
+import edu.wpi.first.wpilibj.Timer;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.sensors.NavImu.ImuType;
@@ -48,7 +49,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", 0.0);
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
-        
+        Timer.delay(1);
         currentHeading = new ContiguousHeading(0);
         setCurrentHeading(FACING_AWAY_FROM_DRIVERS);
         
@@ -122,8 +123,11 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     }
     
     public void setCurrentHeading(double headingInDegrees){
+        log.info("Forcing heading to: " + headingInDegrees);
         double rawHeading = getRobotYaw().getValue();
+        log.info("Raw heading is: " + rawHeading);
         headingOffset = -rawHeading + headingInDegrees;
+        log.info("Offset calculated to be: " + headingOffset);
     }
     
     /**
