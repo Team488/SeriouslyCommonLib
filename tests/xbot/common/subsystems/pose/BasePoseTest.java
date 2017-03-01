@@ -7,6 +7,7 @@ import org.junit.Ignore;
 
 import com.ctre.CANTalon.FeedbackDevice;
 
+import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.controls.actuators.MockCANTalon;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.injection.BaseWPITest;
@@ -17,9 +18,11 @@ import xbot.common.injection.wpi_factories.WPIFactory;
 public class BasePoseTest extends BaseWPITest {
 
     protected TestPoseSubsystem pose;
+    private MockTimer mockTimer;
     
     @Before
     public void setup() {
+        mockTimer = injector.getInstance(MockTimer.class);
         pose = injector.getInstance(TestPoseSubsystem.class);
         WPIFactory factory = injector.getInstance(MockWPIFactory.class);
         
