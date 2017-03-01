@@ -123,7 +123,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         totalDistanceY.set(0);
     }
     
-    public void setCurrentHeading(double headingInDegrees) {
+    public void setCurrentHeading(double headingInDegrees){
         log.info("Forcing heading to: " + headingInDegrees);
         double rawHeading = getRobotYaw().getValue();
         log.info("Raw heading is: " + rawHeading);
