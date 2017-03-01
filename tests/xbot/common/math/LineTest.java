@@ -36,4 +36,9 @@ public class LineTest {
         double distance = l.getDistanceToLineFromPoint(new XYPair(1, 1));
         assertEquals(Math.sqrt(2), distance, 0.001);
     }
+    
+    @Test
+    public void basicMath() {
+        assertEquals(45, Math.toDegrees(Math.atan2(1, 1)), 0.001);
+    }
 }

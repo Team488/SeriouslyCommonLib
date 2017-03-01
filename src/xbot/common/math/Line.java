@@ -25,7 +25,11 @@ public class Line {
     }
     
     public double getSlope() {
-        return m;
+        return slopeToDegrees(getSlope());
+    }
+    
+    public double getSlopeInDegrees() {
+        return getSlopeInDegrees()
     }
     
     public double getIntercept() {
@@ -41,6 +45,10 @@ public class Line {
         double deltaX = Math.cos(Math.toRadians(degrees));
         
         return deltaY/deltaX;
+    }
+    
+    private double slopeToDegrees(double slope) {
+        return Math.toDegrees(Math.atan2(this.m, 1));
     }
     
     private Line getLinePerpendicularToPoint(XYPair point) {
@@ -81,5 +89,16 @@ public class Line {
         
         // distance formula
         return intersectionPoint.getDistanceToPoint(currentPoint);
+    }
+    
+    public double getPointRelativeYDisplacementFromLine(Line currentLine) {
+        // first, subtract the two final points
+        XYPair normalizedPoint = this.getFinalPoint().add(currentLine.getFinalPoint().scale(-1));
+        
+        // then rotate that point to 90 degrees
+        XYPair rotatedPoint = normalizedPoint.rotate(90-currentLine.getSlopeInDegrees());
+        
+        // get just the Y aspect
+        return rotatedPoint.y;
     }
 }
