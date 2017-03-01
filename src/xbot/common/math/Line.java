@@ -4,9 +4,11 @@ public class Line {
 
     private double m;
     private double b;
+    private final XYPair finalPoint;
     
     public Line(XYPair point, ContiguousHeading heading) {
         m = degreesToSlope(heading.getValue());
+        this.finalPoint = point;
         
         // if we already have the y-intercept, avoid division by 0.
         if ((point.x == 0) || (m == 0)) {
@@ -14,6 +16,12 @@ public class Line {
         } else {
             b = point.y / (point.x * m); 
         }   
+    }
+    
+    public Line(XYPair point, double slope) {
+        this.finalPoint = point;
+        m = slope;
+        b = point.y - (point.x * m);
     }
     
     public double getSlope() {
@@ -24,9 +32,8 @@ public class Line {
         return b;
     }
     
-    public Line(XYPair point, double slope) {
-        m = slope;
-        b = point.y - (point.x * m);
+    public XYPair getFinalPoint() {
+        return finalPoint;
     }
     
     private double degreesToSlope(double degrees) {
