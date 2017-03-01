@@ -79,6 +79,10 @@ public class XYPair {
         this.y += pair.y;
         return this;
     }
+    
+    public double getDistanceToPoint(XYPair otherPoint) {
+        return Math.sqrt(Math.pow((otherPoint.x - this.x), 2) + Math.pow((otherPoint.y - this.y), 2));
+    }
 
     @Override
     public String toString() {
