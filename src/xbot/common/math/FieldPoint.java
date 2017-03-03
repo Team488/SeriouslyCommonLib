@@ -1,14 +1,16 @@
 package xbot.common.math;
 
-public class Line {
+public class FieldPoint {
 
     private double m;
     private double b;
-    private final XYPair finalPoint;
+    private ContiguousHeading heading;
+    private final XYPair fieldPosition;
     
-    public Line(XYPair point, ContiguousHeading heading) {
+    public FieldPoint(XYPair point, ContiguousHeading heading) {
         m = degreesToSlope(heading.getValue());
-        this.finalPoint = point;
+        this.fieldPosition = point;
+        this.heading = heading;
         
         // if we already have the y-intercept, avoid division by 0.
         if ((point.x == 0) || (m == 0)) {
@@ -18,18 +20,27 @@ public class Line {
         }   
     }
     
-    public Line(XYPair point, double slope) {
-        this.finalPoint = point;
+    public FieldPoint(XYPair point, double slope, boolean positiveAngle) {
+        this.fieldPosition = point;
         m = slope;
         b = point.y - (point.x * m);
+        
+        // if slope negative, but positive angle, we are in quadrant II
+        if (slope < 0 && positiveAngle) {
+            heading = new ContiguousHeading(slopeToDegrees(m) + 180);
+        }
+        // if slope positive, but negative angle, we are in quadrant III
+        if (slope > 0 && !positiveAngle) {
+            heading = new ContiguousHeading(slopeToDegrees(m) - 180);
+        }
     }
     
     public double getSlope() {
-        return slopeToDegrees(getSlope());
+        return m;
     }
     
-    public double getSlopeInDegrees() {
-        return getSlopeInDegrees()
+    public ContiguousHeading getHeading() {
+        return heading;
     }
     
     public double getIntercept() {
@@ -37,7 +48,7 @@ public class Line {
     }
     
     public XYPair getFinalPoint() {
-        return finalPoint;
+        return fieldPosition;
     }
     
     private double degreesToSlope(double degrees) {
@@ -48,10 +59,17 @@ public class Line {
     }
     
     private double slopeToDegrees(double slope) {
-        return Math.toDegrees(Math.atan2(this.m, 1));
+        double x = 1;
+        if (Math.abs(this.m) > 90) {
+            x = -1;
+        }
+        
+        double rads = Math.atan2(this.m, x);
+        
+        return Math.toDegrees(rads);
     }
     
-    private Line getLinePerpendicularToPoint(XYPair point) {
+    private FieldPoint getLinePerpendicularToPoint(XYPair point) {
         // for lines of zero slope, this is not great
         
         double perp_m = 0;
@@ -64,14 +82,14 @@ public class Line {
             perp_m = -1/m; 
         }
         
-        return new Line(point, perp_m);
+        return new FieldPoint(point, perp_m,  heading.getValue() > 0);
     }
     
     public double getY(double x) {
         return x*m+b;
     }
     
-    private XYPair getIntersectionWithLine(Line line) {
+    private XYPair getIntersectionWithLine(FieldPoint line) {
         // calculate X point where they meet
         
         double x_intersect = (line.b - this.b) / (this.m - line.m);
@@ -82,7 +100,7 @@ public class Line {
     
     public double getDistanceToLineFromPoint(XYPair currentPoint) {
         // Find the perpendicular line at this point
-        Line perpLine = getLinePerpendicularToPoint(currentPoint);
+        FieldPoint perpLine = getLinePerpendicularToPoint(currentPoint);
         
         // Find where the points meet
         XYPair intersectionPoint = getIntersectionWithLine(perpLine);
@@ -91,12 +109,12 @@ public class Line {
         return intersectionPoint.getDistanceToPoint(currentPoint);
     }
     
-    public double getPointRelativeYDisplacementFromLine(Line currentLine) {
+    public double getPointRelativeYDisplacementFromLine(FieldPoint currentLine) {
         // first, subtract the two final points
         XYPair normalizedPoint = this.getFinalPoint().add(currentLine.getFinalPoint().scale(-1));
         
         // then rotate that point to 90 degrees
-        XYPair rotatedPoint = normalizedPoint.rotate(90-currentLine.getSlopeInDegrees());
+        XYPair rotatedPoint = normalizedPoint.rotate(90-currentLine.getHeading().getValue());
         
         // get just the Y aspect
         return rotatedPoint.y;
