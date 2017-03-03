@@ -13,6 +13,7 @@ public class PoseSubsystemTest extends BasePoseTest {
     
     @Before
     public void setup() {
+        super.setup();
         pose = injector.getInstance(TestPoseSubsystem.class);
     }    
     
@@ -35,7 +36,7 @@ public class PoseSubsystemTest extends BasePoseTest {
     public void testCalibrate() {
         changeMockGyroHeading(45);
         verifyRobotHeading(135);
-        
+
         pose.setCurrentHeading(90);
         verifyRobotHeading(90);
     }

@@ -193,7 +193,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     @Override
     public void updatePeriodicData() {
+        log.info("test");
         if (!isNavXReady && (classInstantiationTime + 1 < Timer.getFPGATimestamp())) {
+            System.out.println("REACHED");
+            log.info("reached");
             setCurrentHeading(FACING_AWAY_FROM_DRIVERS);
             isNavXReady = true;
         }   

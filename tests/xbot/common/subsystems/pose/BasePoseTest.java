@@ -18,7 +18,7 @@ import xbot.common.injection.wpi_factories.WPIFactory;
 public class BasePoseTest extends BaseWPITest {
 
     protected TestPoseSubsystem pose;
-    private MockTimer mockTimer;
+    protected MockTimer mockTimer;
     
     @Before
     public void setup() {
@@ -32,6 +32,9 @@ public class BasePoseTest extends BaseWPITest {
         right.setFeedbackDevice(FeedbackDevice.QuadEncoder);
         
         pose.setDriveTalons(left, right);
+        
+        mockTimer.advanceTimeInSecondsBy(10);
+        pose.updatePeriodicData();
     }
     
     protected void verifyRobotHeading(double expectedHeading) {
