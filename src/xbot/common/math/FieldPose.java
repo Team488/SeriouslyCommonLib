@@ -1,13 +1,13 @@
 package xbot.common.math;
 
-public class FieldPoint {
+public class FieldPose {
 
     private double m;
     private double b;
     private ContiguousHeading heading;
     private final XYPair fieldPosition;
     
-    public FieldPoint(XYPair point, ContiguousHeading heading) {
+    public FieldPose(XYPair point, ContiguousHeading heading) {
         m = degreesToSlope(heading.getValue());
         this.fieldPosition = point;
         this.heading = heading;
@@ -20,7 +20,7 @@ public class FieldPoint {
         }   
     }
     
-    public FieldPoint(XYPair point, double slope, boolean positiveAngle) {
+    public FieldPose(XYPair point, double slope, boolean positiveAngle) {
         this.fieldPosition = point;
         m = slope;
         b = point.y - (point.x * m);
@@ -47,7 +47,7 @@ public class FieldPoint {
         return b;
     }
     
-    public XYPair getFinalPoint() {
+    public XYPair getPoint() {
         return fieldPosition;
     }
     
@@ -69,7 +69,7 @@ public class FieldPoint {
         return Math.toDegrees(rads);
     }
     
-    private FieldPoint getLinePerpendicularToPoint(XYPair point) {
+    public FieldPose getLinePerpendicularToPoint(XYPair point) {
         // for lines of zero slope, this is not great
         
         double perp_m = 0;
@@ -82,14 +82,14 @@ public class FieldPoint {
             perp_m = -1/m; 
         }
         
-        return new FieldPoint(point, perp_m,  heading.getValue() > 0);
+        return new FieldPose(point, perp_m,  heading.getValue() > 0);
     }
     
     public double getY(double x) {
         return x*m+b;
     }
     
-    private XYPair getIntersectionWithLine(FieldPoint line) {
+    private XYPair getIntersectionWithLine(FieldPose line) {
         // calculate X point where they meet
         
         double x_intersect = (line.b - this.b) / (this.m - line.m);
@@ -100,7 +100,7 @@ public class FieldPoint {
     
     public double getDistanceToLineFromPoint(XYPair currentPoint) {
         // Find the perpendicular line at this point
-        FieldPoint perpLine = getLinePerpendicularToPoint(currentPoint);
+        FieldPose perpLine = getLinePerpendicularToPoint(currentPoint);
         
         // Find where the points meet
         XYPair intersectionPoint = getIntersectionWithLine(perpLine);
@@ -109,9 +109,9 @@ public class FieldPoint {
         return intersectionPoint.getDistanceToPoint(currentPoint);
     }
     
-    public double getPointRelativeYDisplacementFromLine(FieldPoint currentLine) {
+    public double getPointRelativeYDisplacementFromLine(FieldPose currentLine) {
         // first, subtract the two final points
-        XYPair normalizedPoint = this.getFinalPoint().add(currentLine.getFinalPoint().scale(-1));
+        XYPair normalizedPoint = this.getPoint().add(currentLine.getPoint().scale(-1));
         
         // then rotate that point to 90 degrees
         XYPair rotatedPoint = normalizedPoint.rotate(90-currentLine.getHeading().getValue());
