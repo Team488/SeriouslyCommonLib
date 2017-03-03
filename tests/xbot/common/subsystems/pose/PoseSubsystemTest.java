@@ -2,7 +2,6 @@ package xbot.common.subsystems.pose;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import xbot.common.subsystems.BasePoseSubsystem;
@@ -11,7 +10,6 @@ public class PoseSubsystemTest extends BasePoseTest {
         
     TestPoseSubsystem pose;
     
-    @Before
     public void setup() {
         super.setup();
         pose = injector.getInstance(TestPoseSubsystem.class);
