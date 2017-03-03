@@ -98,6 +98,9 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         previousRightDistance = currentRightDistance;
     }
     
+    /**
+     * @return Current heading but if the navX is still booting up it will return 0
+     */
     public ContiguousHeading getCurrentHeading() {
         updateCurrentHeading();
         return currentHeading.clone();
