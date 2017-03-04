@@ -13,7 +13,7 @@ public class FieldPose {
         this.heading = heading;
         
         // if we already have the y-intercept, avoid division by 0.
-        if ((point.x == 0) || (m == 0)) {
+        if ((point.x == 0) || (Math.abs(m) < 0.01)) {
             b = point.y;
         } else {
             b = point.y / (point.x * m); 
@@ -30,9 +30,12 @@ public class FieldPose {
             heading = new ContiguousHeading(slopeToDegrees(m) + 180);
         }
         // if slope positive, but negative angle, we are in quadrant III
-        if (slope > 0 && !positiveAngle) {
+        else if (slope > 0 && !positiveAngle) {
             heading = new ContiguousHeading(slopeToDegrees(m) - 180);
+        } else {
+            heading = new ContiguousHeading(slopeToDegrees(m));
         }
+       
     }
     
     public double getSlope() {
@@ -111,7 +114,9 @@ public class FieldPose {
     
     public double getPointRelativeYDisplacementFromLine(FieldPose currentLine) {
         // first, subtract the two final points
-        XYPair normalizedPoint = this.getPoint().add(currentLine.getPoint().scale(-1));
+        XYPair clonedPoint = this.getPoint().clone();
+        
+        XYPair normalizedPoint = clonedPoint.add(currentLine.getPoint().scale(-1));
         
         // then rotate that point to 90 degrees
         XYPair rotatedPoint = normalizedPoint.rotate(90-currentLine.getHeading().getValue());

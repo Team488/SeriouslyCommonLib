@@ -32,7 +32,7 @@ public class PID
     
     private double startTime = 0;
     
-    private boolean onTargetStartTime = false;
+    private boolean onTarget = false;
     
     
     /**
@@ -181,36 +181,36 @@ public class PID
             // No tolerances are enabled, but isOnTarget is being called anyway. We still need to return something.
             // In this case, we return FALSE, as it promotes robot action (the command using this will complete
             // its activity, even if it doesn't signal that it is done to allow other actions to proceed).
-            onTargetStartTime = false;
+            onTarget = false;
             return;
         }
         
-        onTargetStartTime = true;
+        onTarget = true;
         
         if (checkErrorThreshold) {
-            onTargetStartTime &= errorIsSmall;
+            onTarget &= errorIsSmall;
         }
         if (checkDerivativeThreshold) {
-            onTargetStartTime &= derivativeIsSmall;
+            onTarget &= derivativeIsSmall;
         }
         
         if (checkTimeThreshold) {
-            if(onTargetStartTime){
+            if(onTarget){
                 if(waitingToStabilize == false){
                     waitingToStabilize = true;
                     startTime = Timer.getFPGATimestamp();
-                    onTargetStartTime = false;
+                    onTarget = false;
                 } else {
-                    onTargetStartTime =  Timer.getFPGATimestamp() - startTime > timeToleranceInSeconds;
+                    onTarget =  (Timer.getFPGATimestamp() - startTime) > timeToleranceInSeconds;
                 }
             } else {
                 waitingToStabilize = false;
-                onTargetStartTime = false;
+                onTarget = false;
             }
         }
     }
     
     public boolean isOnTarget() {
-        return onTargetStartTime;
+        return onTarget;
     }
 }

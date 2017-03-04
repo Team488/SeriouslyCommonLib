@@ -77,4 +77,14 @@ public class FieldPointTest {
         
         assertEquals(0, y, 0.001);
     }
+    
+    @Test
+    public void testHeadings() {
+        ContiguousHeading goal = new ContiguousHeading(90);
+        ContiguousHeading curr = new ContiguousHeading(0);
+        
+        double diff = curr.difference(goal);
+        
+        assertEquals(90, diff, 0.001);
+    }
 }
