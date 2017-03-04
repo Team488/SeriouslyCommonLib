@@ -1,22 +1,32 @@
 package xbot.common.math;
 
+/**
+ * The FieldPose class represents a point on the field as well as a heading.
+ * 
+ * It also keeps track of some linear equation parameters such as slope and y-intercept.
+ * These are used to calculate intersection points between multiple FieldPose instances,
+ * which can then be used as part of path-following logic.
+ * 
+ * @author John
+ *
+ */
 public class FieldPose {
 
-    private double m;
-    private double b;
+    private double m; // slope
+    private double b; // y-intercept
     private ContiguousHeading heading;
     private final XYPair fieldPosition;
     
     public FieldPose(XYPair point, ContiguousHeading heading) {
         m = degreesToSlope(heading.getValue());
-        this.fieldPosition = point;
-        this.heading = heading;
+        this.fieldPosition = point.clone();
+        this.heading = heading.clone();
         
         // if we already have the y-intercept, avoid division by 0.
         if ((point.x == 0) || (Math.abs(m) < 0.01)) {
             b = point.y;
         } else {
-            b = point.y / (point.x * m); 
+            b = point.y - (point.x * m); 
         }   
     }
     
@@ -72,7 +82,7 @@ public class FieldPose {
         return Math.toDegrees(rads);
     }
     
-    public FieldPose getLinePerpendicularToPoint(XYPair point) {
+    public FieldPose getPerpendicularLineThatIncludesPoint(XYPair point) {
         // for lines of zero slope, this is not great
         
         double perp_m = 0;
@@ -95,6 +105,15 @@ public class FieldPose {
     private XYPair getIntersectionWithLine(FieldPose line) {
         // calculate X point where they meet
         
+        // In order to find the intersection point of two lines, you can set their Y values equal
+        // to each other to find their common X, and then use that X on either line to find their 
+        // common y.
+        // y1 = m1x1 + b1, y2 = m2x2 + b1
+        // m1x + b1 = m2x + b2
+        // m1x - m2x = b2 - b1
+        // (m1-m2)x = b2 - b1
+        // x = (b2-b1)/(m1-m2)
+        
         double x_intersect = (line.b - this.b) / (this.m - line.m);
         double y_intersect = getY(x_intersect);
         
@@ -103,7 +122,7 @@ public class FieldPose {
     
     public double getDistanceToLineFromPoint(XYPair currentPoint) {
         // Find the perpendicular line at this point
-        FieldPose perpLine = getLinePerpendicularToPoint(currentPoint);
+        FieldPose perpLine = getPerpendicularLineThatIncludesPoint(currentPoint);
         
         // Find where the points meet
         XYPair intersectionPoint = getIntersectionWithLine(perpLine);

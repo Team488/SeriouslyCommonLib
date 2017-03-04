@@ -1,7 +1,5 @@
 package xbot.common.subsystems.pose;
 
-import java.text.FieldPosition;
-
 import edu.wpi.first.wpilibj.Timer;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
