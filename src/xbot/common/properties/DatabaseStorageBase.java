@@ -184,7 +184,7 @@ public abstract class DatabaseStorageBase implements PermanentStorage {
         Statement sta;
         try {
             sta = conn.createStatement();
-            String payload = "CREATE TABLE PROPERTIES (Name VARCHAR(100), Type VARCHAR(20), Value VARCHAR(50), UNIQUE (Name))";
+            String payload = "CREATE TABLE PROPERTIES (Name VARCHAR(100), Type VARCHAR(100), Value VARCHAR(100), UNIQUE (Name))";
             sta.executeUpdate(payload);
             return true;
         } catch (SQLException e) {

@@ -1,10 +1,11 @@
 package xbot.common.subsystems.pose;
 
+import edu.wpi.first.wpilibj.Timer;
+
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XGyro;
-import xbot.common.controls.sensors.navx.AHRS;
 import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.math.ContiguousHeading;
 import xbot.common.math.XYPair;
@@ -39,18 +40,20 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     private double previousLeftDistance;
     private double previousRightDistance;
     
+    private final double classInstantiationTime;
+    private boolean isNavXReady = false;
+    
     private BooleanProperty rioRotated;
     
     public BasePoseSubsystem(WPIFactory factory, XPropertyManager propManager) {
         log.info("Creating");
+        this.classInstantiationTime = Timer.getFPGATimestamp();
         imu = factory.getGyro(ImuType.navX);
         
         currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", 0.0);
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
-        
         currentHeading = new ContiguousHeading(0);
-        setCurrentHeading(FACING_AWAY_FROM_DRIVERS);
         
         currentPitch = propManager.createEphemeralProperty("Current pitch", 0.0);
         currentRoll = propManager.createEphemeralProperty("Current roll", 0.0);
@@ -75,7 +78,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     }  
     
     private void updateOdometry(double currentLeftDistance, double currentRightDistance) {
-       
         leftDriveDistance.set(currentLeftDistance);
         rightDriveDistance.set(currentRightDistance);
         
@@ -96,6 +98,9 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         previousRightDistance = currentRightDistance;
     }
     
+    /**
+     * @return Current heading but if the navX is still booting up it will return 0
+     */
     public ContiguousHeading getCurrentHeading() {
         updateCurrentHeading();
         return currentHeading.clone();
@@ -122,8 +127,11 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     }
     
     public void setCurrentHeading(double headingInDegrees){
+        log.info("Forcing heading to: " + headingInDegrees);
         double rawHeading = getRobotYaw().getValue();
+        log.info("Raw heading is: " + rawHeading);
         headingOffset = -rawHeading + headingInDegrees;
+        log.info("Offset calculated to be: " + headingOffset);
     }
     
     /**
@@ -182,8 +190,16 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         imu.getYawAngularVelocity();
     }
     
+    public boolean getNavXReady() {
+        return isNavXReady;
+    }
+    
     @Override
     public void updatePeriodicData() {
-        updatePose();
+        if (!isNavXReady && (classInstantiationTime + 1 < Timer.getFPGATimestamp())) {
+            setCurrentHeading(FACING_AWAY_FROM_DRIVERS);
+            isNavXReady = true;
+        }   
+        updatePose();      
     }
 }
