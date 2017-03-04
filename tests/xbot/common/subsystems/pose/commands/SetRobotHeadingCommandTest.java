@@ -18,18 +18,20 @@ public class SetRobotHeadingCommandTest extends BasePoseTest {
     
     @Test
     public void testSetHeading() {
+        mockTimer.setTimeInSeconds(mockTimer.getFPGATimestamp() + 1);
         verifyRobotHeading(BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS);
         
         setHeading.setHeadingToApply(74);
         setHeading.isFinished();
         setHeading.initialize();
         setHeading.execute();
-        
+  
         verifyRobotHeading(74);
     }
     
     @Test
     public void testSetHeadingLargeValues() {
+        mockTimer.setTimeInSeconds(2);
         verifyRobotHeading(BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS);
         
         setHeading.setHeadingToApply(361);
