@@ -28,6 +28,11 @@ public class FieldPose {
         return fieldPosition;
     }
     
+    public ContiguousHeading getPerpendicularHeadingTowardsPoint(FieldPose other) {
+        boolean direction = getPoseRelativeDisplacement(other).y > 0;
+        return heading.clone().shiftValue(direction ? -90 : 90);
+    }
+    
     public XYPair getPointAlongPoseClosestToPoint(XYPair other) {
 
         XYPair relativeVector = new XYPair(other.x - fieldPosition.x, other.y - fieldPosition.y);
@@ -43,5 +48,13 @@ public class FieldPose {
     
     public double getDistanceToLineFromPoint(XYPair currentPoint) {
         return getPointAlongPoseClosestToPoint(currentPoint).getDistanceToPoint(currentPoint);
+    }
+
+    public XYPair getPoseRelativeDisplacement(FieldPose other) {
+        XYPair clonedPoint = this.getPoint().clone();
+        XYPair normalizedPoint = clonedPoint.add(other.getPoint().scale(-1));
+        
+        // then rotate that point to 90 degrees
+        return normalizedPoint.rotate(90 - other.getHeading().getValue());
     }
 }
