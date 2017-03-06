@@ -2,7 +2,6 @@ package xbot.common.math;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class FieldPoseTest {
@@ -32,7 +31,6 @@ public class FieldPoseTest {
     }
     
     @Test
-    @Ignore("The current implementation has limitations that make this case nonfunctional")
     public void testVerticalWithOffset() {
         FieldPose pose = new FieldPose(new XYPair(10, 0), new ContiguousHeading(90));
         assertEquals(5, pose.getDistanceToLineFromPoint(new XYPair(5, 10)), 10e-5);
