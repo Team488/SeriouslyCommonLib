@@ -15,4 +15,10 @@ public class ContiguousHeading extends ContiguousDouble {
         return new ContiguousHeading(this.getValue());
     }
     
+    @Override
+    public ContiguousHeading shiftValue(double shiftMagnitude) {
+        super.shiftValue(shiftMagnitude);
+        return this;
+    }
+    
 }

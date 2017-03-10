@@ -1,5 +1,9 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import java.util.concurrent.TimeUnit;
+
+import org.influxdb.dto.Point;
+
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.FeedbackDeviceStatus;
@@ -488,6 +492,19 @@ public class CANTalonWPIAdapter implements XCANTalon {
         if (this.getControlMode() != mode) {
             this.setControlMode(mode);
         }
+    }
+
+    @Override
+    public Point getTelemetryPoint(String className, String side, boolean addDistance) {
+        Point.Builder telemetryPoints = Point.measurement(className)
+            .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+            .tag("side", side)
+            .addField("power", internalTalon.get())
+            .addField("current", internalTalon.getOutputCurrent());
+        if (addDistance) {
+            telemetryPoints.addField("distance", internalTalon.getPosition());
+        } 
+        return telemetryPoints.build();       
     }
 
 }
