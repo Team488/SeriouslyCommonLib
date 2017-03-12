@@ -1,20 +1,28 @@
 package xbot.common.controls.sensors;
 
+import java.util.HashMap;
+
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.GenericHID.HIDType;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 
 public abstract class XXboxController {
     
     protected int port;
+    RobotAssertionManager assertionManager;
+    
+    HashMap<XboxButton, Boolean> allocatedButtons;
     
     @Inject
-    public XXboxController(@Assisted("port") int port) {
+    public XXboxController(@Assisted("port") int port, RobotAssertionManager assertionManager) {
         this.port = port;
+        this.assertionManager = assertionManager;
+        allocatedButtons = new HashMap<XboxButton, Boolean>();
     }
     
     private boolean xRightInverted = false;
@@ -48,6 +56,16 @@ public abstract class XXboxController {
     }
     
     public AdvancedXboxButton getXboxButton(XboxButton buttonName) {
+        
+        if (!allocatedButtons.containsKey(buttonName)) {
+            allocatedButtons.put(buttonName, true);
+        } else {
+            // key exists!
+            assertionManager.assertTrue(
+                    !allocatedButtons.get(buttonName),
+                    "Button " + buttonName + " has already been allocated!");
+        }
+        
         if (buttonName == XboxButton.LeftTrigger || buttonName == XboxButton.RightTrigger) {
             return new AdvancedXboxAxisButton(this, buttonName, 0.75);
         }
