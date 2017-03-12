@@ -8,6 +8,7 @@ import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.math.ContiguousHeading;
+import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
@@ -112,6 +113,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     private XYPair getTravelVector() {
         return new XYPair(totalDistanceX.get(), totalDistanceY.get());
+    }
+    
+    public FieldPose getCurrentFieldPose() {
+        return new FieldPose(getTravelVector(), getCurrentHeading());
     }
     
     public XYPair getRobotOrientedTotalDistanceTraveled() {
