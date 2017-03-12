@@ -19,7 +19,7 @@ public class XboxControllerTest extends BaseWPITest {
         WPIFactory factory = injector.getInstance(WPIFactory.class);
         XXboxController controller = factory.getXboxController(0);
         
-        // We expecte the robot to get mad if we try to get the same button twice
+        // We expect the robot to get mad if we try to get the same button twice
         thrown.expect(RobotAssertionException.class);
         controller.getXboxButton(XboxButton.A);
         controller.getXboxButton(XboxButton.A);
