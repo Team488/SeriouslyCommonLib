@@ -5,9 +5,7 @@ import java.util.HashMap;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import edu.wpi.first.wpilibj.GenericHID.HIDType;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 
@@ -16,13 +14,13 @@ public abstract class XXboxController {
     protected int port;
     RobotAssertionManager assertionManager;
     
-    HashMap<XboxButton, Boolean> allocatedButtons;
+    HashMap<XboxButton, AdvancedXboxButton> allocatedButtons;
     
     @Inject
     public XXboxController(@Assisted("port") int port, RobotAssertionManager assertionManager) {
         this.port = port;
         this.assertionManager = assertionManager;
-        allocatedButtons = new HashMap<XboxButton, Boolean>();
+        allocatedButtons = new HashMap<XboxButton, AdvancedXboxButton>();
     }
     
     private boolean xRightInverted = false;
@@ -58,18 +56,24 @@ public abstract class XXboxController {
     public AdvancedXboxButton getXboxButton(XboxButton buttonName) {
         
         if (!allocatedButtons.containsKey(buttonName)) {
-            allocatedButtons.put(buttonName, true);
+            // key does not exist. Create button!
+            AdvancedXboxButton candidate;
+            
+            // If it's a trigger button, create it in a different way
+            if (buttonName == XboxButton.LeftTrigger || buttonName == XboxButton.RightTrigger) {
+                candidate = new AdvancedXboxAxisButton(this, buttonName, 0.75);
+            } else {
+                candidate = new AdvancedXboxButton(this, buttonName);
+            }
+            
+            allocatedButtons.put(buttonName, candidate);
         } else {
             // key exists!
-            assertionManager.assertTrue(
-                    !allocatedButtons.get(buttonName),
+            assertionManager.assertTrue(false,
                     "Button " + buttonName + " has already been allocated!");
         }
-        
-        if (buttonName == XboxButton.LeftTrigger || buttonName == XboxButton.RightTrigger) {
-            return new AdvancedXboxAxisButton(this, buttonName, 0.75);
-        }
-        return new AdvancedXboxButton(this, buttonName);
+
+        return allocatedButtons.get(buttonName);
     }
     
     public boolean getRawXboxButton(int index) {
