@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import xbot.common.controls.MockRobotIO;
+import xbot.common.logging.LoudRobotAssertionManager;
 
 public class MockWPIFactoryTest {
 
@@ -13,7 +14,7 @@ public class MockWPIFactoryTest {
     @Before
     public void setup() {
         robotIo = new MockRobotIO();
-        wpiFactory = new MockWPIFactory(robotIo);
+        wpiFactory = new MockWPIFactory(robotIo, new LoudRobotAssertionManager());
     }
 
     @Test
