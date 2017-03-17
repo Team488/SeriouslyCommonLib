@@ -23,6 +23,7 @@ public class MultiplexedLidarPair {
     private byte[] distanceB;
     private LidarUpdater task;
     
+    private final int mux_address = 0x70;
     private final int lidar_address = 0x62;
     private final int lidar_config_register = 0x00;
     private final int lidar_distance_register = 0x8f;
@@ -97,10 +98,10 @@ public class MultiplexedLidarPair {
 
     // Update distance variable
     public void update() {
-        i2c.writeBulk(new byte[] { (byte) (1 << lidarMuxIdA) });
+        i2c.write(mux_address, 1 << lidarMuxIdA);
         readDistanceFromCurrentSensor(distanceA);
 
-        i2c.writeBulk(new byte[] { (byte) (1 << lidarMuxIdB) });
+        i2c.write(mux_address, 1 << lidarMuxIdB);
         readDistanceFromCurrentSensor(distanceB);
         
         Timer.delay(0.01); // Delay to prevent over polling
