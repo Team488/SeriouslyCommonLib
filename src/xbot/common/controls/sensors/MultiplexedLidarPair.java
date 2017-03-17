@@ -1,6 +1,5 @@
 package xbot.common.controls.sensors;
 
-import java.nio.ByteBuffer;
 import java.util.TimerTask;
 
 import org.apache.log4j.Logger;
