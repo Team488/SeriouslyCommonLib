@@ -23,8 +23,10 @@ import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
+import xbot.common.controls.sensors.DistanceSensorPair;
 import xbot.common.controls.sensors.Lidar;
 import xbot.common.controls.sensors.MockGyro;
+import xbot.common.controls.sensors.MultiplexedLidarPair;
 import xbot.common.controls.sensors.RealXboxControllerAdapter;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XAnalogInput;
@@ -200,4 +202,8 @@ public class RealWPIFactory implements WPIFactory {
         return new RealXboxControllerAdapter(number, assertionManager);
     }
 
+    @Override
+    public DistanceSensorPair getMultiplexedLidarPair(Port port, byte lidarMuxIdA, byte lidarMuxIdB) {
+        return new MultiplexedLidarPair(port, lidarMuxIdA, lidarMuxIdB, propMan);
+    }
 }

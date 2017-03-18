@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.I2C.Port;
 
-public class MultiplexedLidarPair {
+public class MultiplexedLidarPair implements DistanceSensorPair {
 
     private Logger log = Logger.getLogger(MultiplexedLidarPair.class);
 
@@ -78,25 +78,29 @@ public class MultiplexedLidarPair {
         this.start();
     }
     
+    @Override
     public DistanceSensor getSensorA() {
         return sensorA;
     }
     
+    @Override
     public DistanceSensor getSensorB() {
         return sensorB;
     }
 
+    @Override
     public void start() {
         log.info("Starting Lidar polling");
         updater.schedule(task, 0);
     }
 
+    @Override
     public void stop() {
         updater.cancel();
     }
 
     // Update distance variable
-    public void update() {
+    protected void update() {
         i2c.write(mux_address, 1 << lidarMuxIdA);
         readDistanceFromCurrentSensor(distanceA);
 

@@ -16,6 +16,7 @@ import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
+import xbot.common.controls.sensors.DistanceSensorPair;
 import xbot.common.controls.sensors.MockEncoder;
 import xbot.common.controls.sensors.MockGyro;
 import xbot.common.controls.sensors.MockJoystick;
@@ -37,6 +38,7 @@ import edu.wpi.first.wpilibj.MockCompressor;
 import edu.wpi.first.wpilibj.MockDigitalInput;
 import edu.wpi.first.wpilibj.MockDigitalOutput;
 import edu.wpi.first.wpilibj.MockDistanceSensor;
+import edu.wpi.first.wpilibj.MockDistanceSensorPair;
 import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
 import edu.wpi.first.wpilibj.MockServo;
 import edu.wpi.first.wpilibj.MockSolenoid;
@@ -174,7 +176,6 @@ public class MockWPIFactory implements WPIFactory {
     @Override
     public XServo getServo(int channel) {
         checkDio(channel);
-        // TODO Auto-generated method stub
         return new MockServo(channel, this.mockRobotIO);
     }
 
@@ -205,4 +206,8 @@ public class MockWPIFactory implements WPIFactory {
         return new MockXboxControllerAdapter(number, assertionManager);
     }
 
+    @Override
+    public DistanceSensorPair getMultiplexedLidarPair(Port port, byte lidarMuxIdA, byte lidarMuxIdB) {
+        return new MockDistanceSensorPair();
+    }
 }
