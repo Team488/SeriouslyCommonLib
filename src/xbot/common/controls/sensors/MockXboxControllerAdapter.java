@@ -1,6 +1,7 @@
 package xbot.common.controls.sensors;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 
 public class MockXboxControllerAdapter extends XXboxController {
@@ -18,8 +19,8 @@ public class MockXboxControllerAdapter extends XXboxController {
         rightStick.y = y;
     }
     
-    public MockXboxControllerAdapter(int port) {
-        super(port);
+    public MockXboxControllerAdapter(int port, RobotAssertionManager assertionManager) {
+        super(port, assertionManager);
         leftStick = new XYPair();
         rightStick = new XYPair();
     }

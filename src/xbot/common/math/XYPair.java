@@ -79,6 +79,13 @@ public class XYPair {
         this.y += pair.y;
         return this;
     }
+    
+    public double getDistanceToPoint(XYPair otherPoint) {
+        // Subtract the points from each other
+        XYPair normalizedPoint = this.clone().add(otherPoint.clone().scale(-1));
+        // Get the magnitude of the resultant vector
+        return normalizedPoint.getMagnitude();
+    }
 
     @Override
     public String toString() {

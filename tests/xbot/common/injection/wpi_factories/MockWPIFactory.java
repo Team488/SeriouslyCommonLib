@@ -30,6 +30,7 @@ import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.injection.wpi_factories.WPIFactory;
+import xbot.common.logging.RobotAssertionManager;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.MockAnalogInput;
 import edu.wpi.first.wpilibj.MockCompressor;
@@ -45,6 +46,7 @@ import edu.wpi.first.wpilibj.MockSpeedController;
 public class MockWPIFactory implements WPIFactory {
 
     MockRobotIO mockRobotIO;
+    RobotAssertionManager assertionManager;
     
     int[] pwms;
     int[] canTalonIds;
@@ -54,8 +56,9 @@ public class MockWPIFactory implements WPIFactory {
     int[] mxpDigital;
 
     @Inject
-    public MockWPIFactory(MockRobotIO mockRobotIO) {
+    public MockWPIFactory(MockRobotIO mockRobotIO, RobotAssertionManager assertionManager) {
         this.mockRobotIO = mockRobotIO;
+        this.assertionManager = assertionManager;
         
         pwms = new int[10];
         canTalonIds = new int[64];
@@ -199,7 +202,7 @@ public class MockWPIFactory implements WPIFactory {
 
     @Override
     public XXboxController getXboxController(int number) {
-        return new MockXboxControllerAdapter(number);
+        return new MockXboxControllerAdapter(number, assertionManager);
     }
 
 }

@@ -42,6 +42,7 @@ import xbot.common.controls.sensors.wpi_adapters.DigitalInputWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.JoystickWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter;
+import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.XPropertyManager;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -52,10 +53,12 @@ public class RealWPIFactory implements WPIFactory {
     private static Logger log = Logger.getLogger(RealWPIFactory.class);
 
     private XPropertyManager propMan;
+    private RobotAssertionManager assertionManager;
 
     @Inject
-    public RealWPIFactory(XPropertyManager propMan) {
+    public RealWPIFactory(XPropertyManager propMan, RobotAssertionManager assertionManager) {
         this.propMan = propMan;
+        this.assertionManager = assertionManager;
     }
 
     public XSpeedController getSpeedController(int channel) {
@@ -194,7 +197,7 @@ public class RealWPIFactory implements WPIFactory {
 
     @Override
     public XXboxController getXboxController(int number) {
-        return new RealXboxControllerAdapter(number);
+        return new RealXboxControllerAdapter(number, assertionManager);
     }
 
 }
