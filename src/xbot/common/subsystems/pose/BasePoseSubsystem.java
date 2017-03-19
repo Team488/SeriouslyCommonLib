@@ -52,13 +52,12 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         log.info("Creating");
         this.classInstantiationTime = Timer.getFPGATimestamp();
         imu = factory.getGyro(ImuType.navX);
-
-        currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", 0.0);
         
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
         currentHeading = new ContiguousHeading(0);
         
+        currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", currentHeading.getValue());
         currentCompassHeadingProp = propManager.createEphemeralProperty("Current compass heading", getCompassHeading(currentHeading));
         
         currentPitch = propManager.createEphemeralProperty("Current pitch", 0.0);
