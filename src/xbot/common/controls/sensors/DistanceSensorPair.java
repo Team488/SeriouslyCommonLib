@@ -4,6 +4,5 @@ public interface DistanceSensorPair {
     public DistanceSensor getSensorA();
     public DistanceSensor getSensorB();
 
-    public void start();
-    public void stop();
+    public void update();
 }
