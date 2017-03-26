@@ -66,6 +66,8 @@ public class MultiplexedLidarPair implements DistanceSensorPair {
                 return (int) Integer.toUnsignedLong(distanceB[0] << 8) + Byte.toUnsignedInt(distanceB[1]);
             }
         };
+        
+        initiateMeasurements();
     }
     
     @Override
@@ -77,22 +79,21 @@ public class MultiplexedLidarPair implements DistanceSensorPair {
     public DistanceSensor getSensorB() {
         return sensorB;
     }
+    
+    private void initiateMeasurements() {
+        i2c.write(mux_address, 1 << lidarMuxIdA);
+        i2c.write(lidar_config_register, 0x04);
+        i2c.write(mux_address, 1 << lidarMuxIdB);
+        i2c.write(lidar_config_register, 0x04);
+    }
 
     @Override
     public void update() {
         i2c.write(mux_address, 1 << lidarMuxIdA);
-        readDistanceFromCurrentSensor(distanceA);
-
+        i2c.read(lidar_distance_register, 2, distanceA);
         i2c.write(mux_address, 1 << lidarMuxIdB);
-        readDistanceFromCurrentSensor(distanceB);
+        i2c.read(lidar_distance_register, 2, distanceB);
         
-        Timer.delay(0.01); // Delay to prevent over polling
-    }
-    
-    private void readDistanceFromCurrentSensor(byte[] outData) {
-        i2c.write(lidar_config_register, 0x04); // Initiate measurement
-        Timer.delay(0.04); // Delay for measurement to be taken
-        
-        i2c.read(lidar_distance_register, 2, outData); // Read in measurement
+        initiateMeasurements();
     }
 }
