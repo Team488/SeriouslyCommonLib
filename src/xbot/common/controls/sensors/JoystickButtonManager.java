@@ -49,7 +49,7 @@ public class JoystickButtonManager {
         setAnalog(factory.getAnalogJoystickButton(joystick, desc));
     }
 
-    public AdvancedJoystickButton getifAvailable(int buttonNumber) {
+    public AdvancedJoystickButton getIfAvailable(int buttonNumber) {
         
         if (buttonNumber < 1 || buttonNumber > maxButtons) {
             return handleInvalidButton("button " + buttonNumber + " is out of range!");

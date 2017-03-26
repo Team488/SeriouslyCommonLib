@@ -32,23 +32,23 @@ public class JoystickButtonManagerTest extends BaseWPITest {
     
     @Test(expected = RuntimeException.class)
     public void testButtonBelowRange() {
-        testButtons.getifAvailable(13);
+        testButtons.getIfAvailable(13);
     }
     
     @Test(expected = RuntimeException.class)
     public void testButtonZero() {
-        testButtons.getifAvailable(0);
+        testButtons.getIfAvailable(0);
     }
     
     @Test(expected = RuntimeException.class)
     public void testButtonNegative() {
-        testButtons.getifAvailable(-1);
+        testButtons.getIfAvailable(-1);
     }
     
     @Test
     public void testAllValidButtons() {
         for (int x = 1; x <= 12; x++) {
-            assertTrue("Button " + x + " should not be null.", null != testButtons.getifAvailable(x));
+            assertTrue("Button " + x + " should not be null.", null != testButtons.getIfAvailable(x));
         }
         for (int x = 1; x <= 12; x++) {
             assertButtonUnavailable(x);
@@ -57,7 +57,7 @@ public class JoystickButtonManagerTest extends BaseWPITest {
     
     private void assertButtonUnavailable(int i) {
         try {
-            testButtons.getifAvailable(i);
+            testButtons.getIfAvailable(i);
             fail();
         } 
         catch (Exception e) {
