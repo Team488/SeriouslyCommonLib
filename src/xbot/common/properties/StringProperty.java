@@ -46,7 +46,7 @@ public class StringProperty extends Property {
      */
     public void save() {
         if(persistenceType == PropertyPersistenceType.Persistent) {
-            permanentStore.setString(key, randomAccessStore.getString(key));
+            permanentStore.setString(key, get());
         }
     }
 

@@ -57,8 +57,7 @@ public class BooleanProperty extends Property {
      */
     public void save() {
         if(persistenceType == PropertyPersistenceType.Persistent) {
-            permanentStore.setBoolean(key, randomAccessStore.getBoolean(key)
-                .booleanValue());
+            permanentStore.setBoolean(key, get());
         }
     }
 
