@@ -44,8 +44,9 @@ public class DoubleProperty extends Property {
      * We only save the property if it's from a persistent type
      */
     public void save() {
-        if(persistenceType == PropertyPersistenceType.Persistent) {
-            permanentStore.setDouble(key, randomAccessStore.getDouble(key).doubleValue());
+        Double value;
+        if(persistenceType == PropertyPersistenceType.Persistent && (value = randomAccessStore.getDouble(key)) != null) {
+            permanentStore.setDouble(key, value.doubleValue());
         }
     }
 

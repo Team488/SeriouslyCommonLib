@@ -56,9 +56,9 @@ public class BooleanProperty extends Property {
      * Saves the value permanently (presumably to the Robot).
      */
     public void save() {
-        if(persistenceType == PropertyPersistenceType.Persistent) {
-            permanentStore.setBoolean(key, randomAccessStore.getBoolean(key)
-                .booleanValue());
+        Boolean value;
+        if(persistenceType == PropertyPersistenceType.Persistent && (value = randomAccessStore.getBoolean(key)) != null) {
+            permanentStore.setBoolean(key, value.booleanValue());
         }
     }
 
