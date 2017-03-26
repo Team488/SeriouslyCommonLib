@@ -27,12 +27,7 @@ public class MockDistanceSensorPair implements DistanceSensorPair {
     }
 
     @Override
-    public void start() {
-        // Intentionally left blank
-    }
-
-    @Override
-    public void stop() {
+    public void update() {
         // Intentionally left blank
     }
 }
