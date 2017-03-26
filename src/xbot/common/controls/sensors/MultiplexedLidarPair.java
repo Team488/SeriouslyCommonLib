@@ -89,6 +89,11 @@ public class MultiplexedLidarPair implements DistanceSensorPair {
 
     @Override
     public void update() {
+        // This sensor must be asked to take a distance measurement before
+        // updated data is available. Because there is a required delay
+        // between asking for a measurement and retrieving the value, we ask for
+        // a value at the end of the loop and wait for the next iteration.
+        
         i2c.write(mux_address, 1 << lidarMuxIdA);
         i2c.read(lidar_distance_register, 2, distanceA);
         i2c.write(mux_address, 1 << lidarMuxIdB);
