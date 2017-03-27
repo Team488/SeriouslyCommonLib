@@ -6,13 +6,16 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
 import xbot.common.injection.RobotModule;
+import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -37,6 +40,10 @@ public class BaseRobot extends IterativeRobot {
     
     protected Command autonomousCommand;
     
+    protected DoubleProperty frequencyReportInterval;
+    protected double lastFreqCounterResetTime = -1;
+    protected int loopCycleCounter = 0;
+    
     protected ArrayList<PeriodicDataSource> periodicDataSources = new ArrayList<PeriodicDataSource>();
 
     public BaseRobot() {
@@ -53,9 +60,6 @@ public class BaseRobot extends IterativeRobot {
 
     /**
      * This function is run when the robot is first started up and should be used for any initialization code.
-     * 
-     * Info on the warning suppression
-     * http://help.eclipse.org/indigo/index.jsp?topic=%2Forg.eclipse.jdt.doc.user%2Ftasks%2Ftask-suppress_warnings.htm
      */
     public void robotInit() {
 
@@ -64,12 +68,14 @@ public class BaseRobot extends IterativeRobot {
             DOMConfigurator.configure("log4j.xml");
         } catch (Exception e) {
             // Had a problem loading the config. Robot should continue!
-            System.out.println("Couldn't configure logging - file probably missing or malformed");
+            log.error("Couldn't configure logging - file probably missing or malformed");
         }
 
         this.injector = Guice.createInjector(this.injectionModule);
         this.initializeSystems();
         SmartDashboard.putData(Scheduler.getInstance());
+        
+        frequencyReportInterval = injector.getInstance(XPropertyManager.class).createPersistentProperty("Robot loop frequency report interval", 20);
     }
 
     protected void initializeSystems() {
@@ -82,21 +88,37 @@ public class BaseRobot extends IterativeRobot {
 
     @Override
     public void disabledInit() {
-        log.info("Disabled init");
+        log.info("Disabled init (" + getMatchContextString() + ")");
         propertyManager.saveOutAllProperties();
     }
 
     public void disabledPeriodic() {
         this.sharedPeriodic();
     }
+    
+    protected String getMatchContextString() {
+        DriverStation ds = DriverStation.getInstance();
+        return ds.getAlliance().toString() + ds.getLocation() + ", "
+            + ds.getMatchTime() + "s, "
+            + (ds.isDSAttached() ? "DS connected" : "DS disconnected") + ", "
+            + (ds.isFMSAttached() ? "FMS connected" : "FMS disconnected") + ", "
+            + "Is disabled: " + ds.isDisabled() + ", "
+            + "Is enabled: " + ds.isEnabled() + ", "
+            + "Is auto: " + ds.isAutonomous() + ", "
+            + "Is teleop: " + ds.isOperatorControl() + ", "
+            + "Is test: " + ds.isTest() + ", "
+            + "Is browned out: " + ds.isBrownedOut() + ", "
+            + "Is output enabled: " + ds.isSysActive() + ", "
+            + "Battery voltage: " + ds.getBatteryVoltage();
+    }
 
     public void autonomousInit() {
-        log.info("Autonomous init");
+        log.info("Autonomous init (" + getMatchContextString() + ")");
         if(this.autonomousCommand != null) {
-            log.info("Starting command: " + this.autonomousCommand);
+            log.info("Starting autonomous command: " + this.autonomousCommand);
             this.autonomousCommand.start();
         } else {
-            log.warn("No autonomousCommand set.");
+            log.warn("No autonomous command set.");
         }
     }
 
@@ -108,7 +130,7 @@ public class BaseRobot extends IterativeRobot {
     }
 
     public void teleopInit() {
-        log.info("Teleop init");
+        log.info("Teleop init (" + getMatchContextString() + ")");
         if(this.autonomousCommand != null) {
             log.info("Cancelling autonomousCommand.");
             this.autonomousCommand.cancel();
@@ -132,6 +154,17 @@ public class BaseRobot extends IterativeRobot {
     protected void sharedPeriodic() {
         xScheduler.run();
         this.updatePeriodicDataSources();
+        
+        loopCycleCounter++;
+        double timeSinceLastLog = Timer.getFPGATimestamp() - lastFreqCounterResetTime;
+        if(lastFreqCounterResetTime > 0 && timeSinceLastLog >= frequencyReportInterval.get()) {
+            double loopsPerSecond = loopCycleCounter / timeSinceLastLog; 
+            
+            loopCycleCounter = 0;
+            lastFreqCounterResetTime = Timer.getFPGATimestamp();
+            
+            log.info("Robot loops per second: " + loopsPerSecond);
+        }
     }
     
     protected void registerPeriodicDataSource(PeriodicDataSource telemetrySource) {
