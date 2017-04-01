@@ -68,7 +68,9 @@ public class BaseRobot extends IterativeRobot {
             DOMConfigurator.configure("log4j.xml");
         } catch (Exception e) {
             // Had a problem loading the config. Robot should continue!
-            log.error("Couldn't configure logging - file probably missing or malformed");
+            final String errorString = "Couldn't configure logging - file probably missing or malformed";
+            System.out.println(errorString);
+            DriverStation.reportError(errorString, false);
         }
 
         this.injector = Guice.createInjector(this.injectionModule);
@@ -157,7 +159,10 @@ public class BaseRobot extends IterativeRobot {
         
         loopCycleCounter++;
         double timeSinceLastLog = Timer.getFPGATimestamp() - lastFreqCounterResetTime;
-        if(lastFreqCounterResetTime > 0 && timeSinceLastLog >= frequencyReportInterval.get()) {
+        if(lastFreqCounterResetTime <= 0) {
+            lastFreqCounterResetTime = Timer.getFPGATimestamp();
+        }
+        else if(timeSinceLastLog >= frequencyReportInterval.get()) {
             double loopsPerSecond = loopCycleCounter / timeSinceLastLog; 
             
             loopCycleCounter = 0;
