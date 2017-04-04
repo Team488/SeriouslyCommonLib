@@ -1,17 +1,22 @@
 package xbot.common.command;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
 import xbot.common.injection.RobotModule;
+import xbot.common.logic.Latch;
+import xbot.common.logic.Latch.EdgeType;
 import xbot.common.properties.XPropertyManager;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -26,6 +31,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class BaseRobot extends IterativeRobot {
 
     static Logger log = Logger.getLogger(BaseRobot.class);
+    Latch brownoutLatch;
 
     protected XPropertyManager propertyManager;
     protected XScheduler xScheduler;
@@ -42,6 +48,19 @@ public class BaseRobot extends IterativeRobot {
     public BaseRobot() {
         super();
         setupInjectionModule();
+        
+        brownoutLatch = new Latch(false, EdgeType.Both);
+        brownoutLatch.addObserver((Observable o, Object arg) -> {
+            if(arg instanceof EdgeType) {
+                EdgeType edge = (EdgeType)arg;
+                if(edge == EdgeType.RisingEdge) {
+                    log.warn("Entering brownout");
+                }
+                else if(edge == EdgeType.FallingEdge) {
+                    log.info("Leaving brownout");
+                }
+            }
+        });
     }
     
     /**
@@ -132,6 +151,7 @@ public class BaseRobot extends IterativeRobot {
     protected void sharedPeriodic() {
         xScheduler.run();
         this.updatePeriodicDataSources();
+        brownoutLatch.setValue(DriverStation.getInstance().isBrownedOut());
     }
     
     protected void registerPeriodicDataSource(PeriodicDataSource telemetrySource) {
