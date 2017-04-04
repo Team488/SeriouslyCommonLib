@@ -33,7 +33,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class BaseRobot extends IterativeRobot {
 
     static Logger log = Logger.getLogger(BaseRobot.class);
-    Latch brownoutLatch;
+    Latch brownoutLatch = new Latch(false, EdgeType.Both);
 
     protected XPropertyManager propertyManager;
     protected XScheduler xScheduler;
@@ -55,7 +55,6 @@ public class BaseRobot extends IterativeRobot {
         super();
         setupInjectionModule();
         
-        brownoutLatch = new Latch(false, EdgeType.Both);
         brownoutLatch.addObserver((Observable o, Object arg) -> {
             if(arg instanceof EdgeType) {
                 EdgeType edge = (EdgeType)arg;
