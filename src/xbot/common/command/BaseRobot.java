@@ -1,11 +1,15 @@
 package xbot.common.command;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
 import xbot.common.injection.RobotModule;
+import xbot.common.logic.Latch;
+import xbot.common.logic.Latch.EdgeType;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
@@ -29,6 +33,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class BaseRobot extends IterativeRobot {
 
     static Logger log = Logger.getLogger(BaseRobot.class);
+    Latch brownoutLatch = new Latch(false, EdgeType.Both);
 
     protected XPropertyManager propertyManager;
     protected XScheduler xScheduler;
@@ -49,6 +54,18 @@ public class BaseRobot extends IterativeRobot {
     public BaseRobot() {
         super();
         setupInjectionModule();
+        
+        brownoutLatch.addObserver((Observable o, Object arg) -> {
+            if(arg instanceof EdgeType) {
+                EdgeType edge = (EdgeType)arg;
+                if(edge == EdgeType.RisingEdge) {
+                    log.warn("Entering brownout");
+                }
+                else if(edge == EdgeType.FallingEdge) {
+                    log.info("Leaving brownout");
+                }
+            }
+        });
     }
     
     /**
@@ -156,6 +173,8 @@ public class BaseRobot extends IterativeRobot {
     protected void sharedPeriodic() {
         xScheduler.run();
         this.updatePeriodicDataSources();
+        
+        brownoutLatch.setValue(DriverStation.getInstance().isBrownedOut());
         
         loopCycleCounter++;
         double timeSinceLastLog = Timer.getFPGATimestamp() - lastFreqCounterResetTime;
