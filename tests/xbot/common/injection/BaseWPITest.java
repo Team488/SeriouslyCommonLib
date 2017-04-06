@@ -28,15 +28,16 @@ public class BaseWPITest {
     public XPropertyManager propertyManager;
     
     protected AbstractModule guiceModule = new UnitTestModule();
+    protected MockTimer timer;
 
     @Before
     public void setUp() {
         injector = Guice.createInjector(guiceModule);
-
         mockRobotIO = injector.getInstance(MockRobotIO.class);
+        timer = injector.getInstance(MockTimer.class);
 
         HLUsageReporting.SetImplementation(new MockHLUsageReporting());
-        Timer.SetImplementation(injector.getInstance(MockTimer.class));
+        Timer.SetImplementation(timer);
         this.mockRobotState = injector.getInstance(MockRobotState.class);
         RobotState.SetImplementation(mockRobotState);
 
