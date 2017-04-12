@@ -13,6 +13,7 @@ import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.DistanceSensor;
+import xbot.common.controls.sensors.DistanceSensorPair;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
@@ -56,6 +57,8 @@ public interface WPIFactory {
     public XEncoder getEncoder(String name, int aChannel, int bChannel, double defaultDistancePerPulse);
 
     public DistanceSensor getLidar(Port kmxp);
+    
+    public DistanceSensorPair getMultiplexedLidarPair(Port port, byte lidarMuxIdA, byte lidarMuxIdB);
 
     public DistanceSensor getAnalogDistanceSensor(int channel, DoubleFunction<Double> voltageMap);
 

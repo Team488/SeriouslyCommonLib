@@ -7,6 +7,7 @@ import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.injection.wpi_factories.WPIFactory;
+import xbot.common.math.ContiguousDouble;
 import xbot.common.math.ContiguousHeading;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
@@ -26,6 +27,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     private ContiguousHeading currentHeading;
     private final DoubleProperty currentHeadingProp;
+    private final DoubleProperty currentCompassHeadingProp;
     private double headingOffset;
     
     // These are two common robot starting positions - kept here as convenient shorthand.
@@ -51,10 +53,12 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         this.classInstantiationTime = Timer.getFPGATimestamp();
         imu = factory.getGyro(ImuType.navX);
         
-        currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", 0.0);
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
         currentHeading = new ContiguousHeading(0);
+        
+        currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", currentHeading.getValue());
+        currentCompassHeadingProp = propManager.createEphemeralProperty("Current compass heading", getCompassHeading(currentHeading));
         
         currentPitch = propManager.createEphemeralProperty("Current pitch", 0.0);
         currentRoll = propManager.createEphemeralProperty("Current roll", 0.0);
@@ -70,9 +74,14 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         inherentRioRoll = propManager.createPersistentProperty("Inherent RIO roll", 0.0);
     }
     
+    private double getCompassHeading(ContiguousDouble standardHeading) {
+        return new ContiguousDouble(currentHeading.getValue() - 90, 0, 360).getValue();
+    }
+    
     private void updateCurrentHeading() {
         currentHeading.setValue(getRobotYaw().getValue() + headingOffset);
         currentHeadingProp.set(currentHeading.getValue());
+        currentCompassHeadingProp.set(getCompassHeading(currentHeading));
         
         currentPitch.set(getRobotPitch());
         currentRoll.set(getRobotRoll());

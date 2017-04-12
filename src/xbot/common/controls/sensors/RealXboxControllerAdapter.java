@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import xbot.common.logging.RobotAssertionManager;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class RealXboxControllerAdapter extends XXboxController {
@@ -11,8 +12,8 @@ public class RealXboxControllerAdapter extends XXboxController {
     protected XboxController controller;
 
     @Inject
-    public RealXboxControllerAdapter(@Assisted("port") int port) {
-        super(port);
+    public RealXboxControllerAdapter(@Assisted("port") int port, RobotAssertionManager assertionManager) {
+        super(port, assertionManager);
         controller = new XboxController(port);
     }
 

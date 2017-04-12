@@ -16,6 +16,7 @@ import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
+import xbot.common.controls.sensors.DistanceSensorPair;
 import xbot.common.controls.sensors.MockEncoder;
 import xbot.common.controls.sensors.MockGyro;
 import xbot.common.controls.sensors.MockJoystick;
@@ -30,12 +31,14 @@ import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.injection.wpi_factories.WPIFactory;
+import xbot.common.logging.RobotAssertionManager;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.MockAnalogInput;
 import edu.wpi.first.wpilibj.MockCompressor;
 import edu.wpi.first.wpilibj.MockDigitalInput;
 import edu.wpi.first.wpilibj.MockDigitalOutput;
 import edu.wpi.first.wpilibj.MockDistanceSensor;
+import edu.wpi.first.wpilibj.MockDistanceSensorPair;
 import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
 import edu.wpi.first.wpilibj.MockServo;
 import edu.wpi.first.wpilibj.MockSolenoid;
@@ -45,6 +48,7 @@ import edu.wpi.first.wpilibj.MockSpeedController;
 public class MockWPIFactory implements WPIFactory {
 
     MockRobotIO mockRobotIO;
+    RobotAssertionManager assertionManager;
     
     int[] pwms;
     int[] canTalonIds;
@@ -54,8 +58,9 @@ public class MockWPIFactory implements WPIFactory {
     int[] mxpDigital;
 
     @Inject
-    public MockWPIFactory(MockRobotIO mockRobotIO) {
+    public MockWPIFactory(MockRobotIO mockRobotIO, RobotAssertionManager assertionManager) {
         this.mockRobotIO = mockRobotIO;
+        this.assertionManager = assertionManager;
         
         pwms = new int[10];
         canTalonIds = new int[64];
@@ -171,7 +176,6 @@ public class MockWPIFactory implements WPIFactory {
     @Override
     public XServo getServo(int channel) {
         checkDio(channel);
-        // TODO Auto-generated method stub
         return new MockServo(channel, this.mockRobotIO);
     }
 
@@ -199,7 +203,11 @@ public class MockWPIFactory implements WPIFactory {
 
     @Override
     public XXboxController getXboxController(int number) {
-        return new MockXboxControllerAdapter(number);
+        return new MockXboxControllerAdapter(number, assertionManager);
     }
 
+    @Override
+    public DistanceSensorPair getMultiplexedLidarPair(Port port, byte lidarMuxIdA, byte lidarMuxIdB) {
+        return new MockDistanceSensorPair();
+    }
 }
