@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
+import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter;
 import xbot.common.injection.RobotModule;
 import xbot.common.properties.XPropertyManager;
 
@@ -29,6 +30,7 @@ public class BaseRobot extends IterativeRobot {
 
     protected XPropertyManager propertyManager;
     protected XScheduler xScheduler;
+    protected PowerDistributionPanelWPIAdapter pdp;
 
     protected AbstractModule injectionModule;
 
@@ -132,6 +134,25 @@ public class BaseRobot extends IterativeRobot {
     protected void sharedPeriodic() {
         xScheduler.run();
         this.updatePeriodicDataSources();
+        
+        brownoutLatch.setValue(DriverStation.getInstance().isBrownedOut());
+        
+        loopCycleCounter++;
+        double timeSinceLastLog = Timer.getFPGATimestamp() - lastFreqCounterResetTime;
+        if(lastFreqCounterResetTime <= 0) {
+            lastFreqCounterResetTime = Timer.getFPGATimestamp();
+            log.info("Total Current:" + pdp.getTotalCurrent());
+        }
+        else if(timeSinceLastLog >= frequencyReportInterval.get()) {
+            double loopsPerSecond = loopCycleCounter / timeSinceLastLog; 
+            double loopDuration = pdp.getTotalCurrent() / loopCycleCounter;
+            
+            loopCycleCounter = 0;
+            lastFreqCounterResetTime = Timer.getFPGATimestamp();
+            
+            log.info("Robot loops per second: " + loopsPerSecond);
+            log.info("Loop Duration:" + loopDuration);
+        }
     }
     
     protected void registerPeriodicDataSource(PeriodicDataSource telemetrySource) {
