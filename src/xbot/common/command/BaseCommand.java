@@ -43,7 +43,8 @@ public abstract class BaseCommand extends Command {
 
     @Override
     public void interrupted() {
-        this.end();
+        log.info("Interrupted");
+        end();
     }
 
     public void includeOnSmartDashboard() {
