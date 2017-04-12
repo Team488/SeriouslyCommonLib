@@ -19,7 +19,7 @@ public class PowerDistributionPanelWPIAdapter implements XPowerDistributionPanel
     public double getTotalCurrent(){
         double totalCurrent = 0;
         for(int i = 0; i <= 15; i++){
-            totalCurrent += getCurrent(i);
+            totalCurrent += Math.abs(getCurrent(i));
         }
         return totalCurrent;
     }

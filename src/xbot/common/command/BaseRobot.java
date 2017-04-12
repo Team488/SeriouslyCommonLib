@@ -57,6 +57,7 @@ public class BaseRobot extends IterativeRobot {
         super();
         setupInjectionModule();
         
+        pdp = injector.getInstance(PowerDistributionPanelWPIAdapter.class);
         brownoutLatch.addObserver((Observable o, Object arg) -> {
             if(arg instanceof EdgeType) {
                 EdgeType edge = (EdgeType)arg;
@@ -186,7 +187,7 @@ public class BaseRobot extends IterativeRobot {
         }
         else if(timeSinceLastLog >= frequencyReportInterval.get()) {
             double loopsPerSecond = loopCycleCounter / timeSinceLastLog; 
-            double loopDuration = pdp.getTotalCurrent() / loopCycleCounter;
+            double loopDuration = timeSinceLastLog / loopCycleCounter;
             
             loopCycleCounter = 0;
             lastFreqCounterResetTime = Timer.getFPGATimestamp();
