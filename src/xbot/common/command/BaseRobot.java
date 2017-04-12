@@ -187,11 +187,6 @@ public class BaseRobot extends IterativeRobot {
         else if(timeSinceLastLog >= frequencyReportInterval.get()) {
             double loopsPerSecond = loopCycleCounter / timeSinceLastLog; 
             double loopDuration = pdp.getTotalCurrent() / loopCycleCounter;
-
-        }
-        else if(timeSinceLastLog >= frequencyReportInterval.get()) {
-            double loopsPerSecond = loopCycleCounter / timeSinceLastLog; 
-
             
             loopCycleCounter = 0;
             lastFreqCounterResetTime = Timer.getFPGATimestamp();
@@ -199,7 +194,6 @@ public class BaseRobot extends IterativeRobot {
             log.info("Robot loops per second: " + loopsPerSecond);
 
             log.info("Loop Duration:" + loopDuration);
-
         }
     }
     
