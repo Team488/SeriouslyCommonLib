@@ -6,24 +6,24 @@ public class PeriodicDeltaObserver {
 
     protected static Logger log = Logger.getLogger(PeriodicDeltaObserver.class);
     
-    private double checkPowerThreshold;
+    private double checkValueThreshold;
     
-    private double oldPower = 0;
+    private double oldValue = 0;
     
-    public PeriodicDeltaObserver(double checkPowerThreshold) {
-        this.checkPowerThreshold = checkPowerThreshold;
+    public PeriodicDeltaObserver(double checkValueThreshold) {
+        this.checkValueThreshold = checkValueThreshold;
     }
     
-    public void setCheckPowerThreshold(double power) {
-        this.checkPowerThreshold = power;
+    public void setCheckPowerThreshold(double value) {
+        this.checkValueThreshold = value;
     }
     
-    public boolean isDelta(double newPower) {
-        if (Math.abs(oldPower - newPower) > checkPowerThreshold) {
-            oldPower = newPower;
+    public boolean isDelta(double newValue) {
+        if (Math.abs(oldValue - newValue) > checkValueThreshold) {
+            oldValue = newValue;
             return true;
         }
-        oldPower = newPower;
+        oldValue = newValue;
         return false;
     }
     
