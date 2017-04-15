@@ -18,7 +18,7 @@ public class PeriodicDeltaObserver {
         this.checkPowerThreshold = power;
     }
     
-    public boolean isThereASignficantChangeInTheSystem(double newPower) {
+    public boolean isDelta(double newPower) {
         if (Math.abs(oldPower - newPower) > checkPowerThreshold) {
             oldPower = newPower;
             return true;
