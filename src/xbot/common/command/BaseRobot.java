@@ -202,7 +202,7 @@ public class BaseRobot extends IterativeRobot {
             
             log.info("Total Current: " + pdp.getTotalCurrent());
             
-            log.info("Average Loop Duration:" + loopDuration);
+            log.info("Average Loop Duration:" + averageLoopDuration);
         } 
     }
     
