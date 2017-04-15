@@ -51,6 +51,7 @@ public class BaseRobot extends IterativeRobot {
     protected DoubleProperty frequencyReportInterval;
     protected double lastFreqCounterResetTime = -1;
     protected int loopCycleCounter = 0;
+    protected double loopDuration = 0;
     
     protected ArrayList<PeriodicDataSource> periodicDataSources = new ArrayList<PeriodicDataSource>();
 
@@ -182,7 +183,7 @@ public class BaseRobot extends IterativeRobot {
         
         brownoutLatch.setValue(DriverStation.getInstance().isBrownedOut());
         
-        double loopDuration = Timer.getFPGATimestamp() - loopBegin;
+        loopDuration += Timer.getFPGATimestamp() - loopBegin;
         
         loopCycleCounter++;
         double timeSinceLastLog = Timer.getFPGATimestamp() - lastFreqCounterResetTime;
@@ -191,7 +192,9 @@ public class BaseRobot extends IterativeRobot {
         }
         else if(timeSinceLastLog >= frequencyReportInterval.get()) {
             double loopsPerSecond = loopCycleCounter / timeSinceLastLog; 
+            double averageLoopDuration = loopDuration / loopCycleCounter;
             
+            loopDuration = 0;
             loopCycleCounter = 0;
             lastFreqCounterResetTime = Timer.getFPGATimestamp();
             
@@ -199,9 +202,8 @@ public class BaseRobot extends IterativeRobot {
             
             log.info("Total Current: " + pdp.getTotalCurrent());
             
-            log.info("Loop Duration:" + loopDuration);
-        }
-        
+            log.info("Average Loop Duration:" + loopDuration);
+        } 
     }
     
     protected void registerPeriodicDataSource(PeriodicDataSource telemetrySource) {
