@@ -17,11 +17,7 @@ public class PowerDistributionPanelWPIAdapter implements XPowerDistributionPanel
     
     @Override
     public double getTotalCurrent(){
-        double totalCurrent = 0;
-        for(int i = 0; i <= 15; i++){
-            totalCurrent += Math.abs(getCurrent(i));
-        }
-        return totalCurrent;
+        return pdp.getTotalCurrent();
     }
     
     public PowerDistributionPanel getInternalDevice() {
