@@ -176,12 +176,14 @@ public class BaseRobot extends IterativeRobot {
     }
     
     protected void sharedPeriodic() {
+        double loopBegin = Timer.getFPGATimestamp();
         xScheduler.run();
         this.updatePeriodicDataSources();
         
         brownoutLatch.setValue(DriverStation.getInstance().isBrownedOut());
         
-        double loopBegin = Timer.getFPGATimestamp();
+        double loopDuration = Timer.getFPGATimestamp() - loopBegin;
+        
         loopCycleCounter++;
         double timeSinceLastLog = Timer.getFPGATimestamp() - lastFreqCounterResetTime;
         if(lastFreqCounterResetTime <= 0) {
@@ -197,7 +199,6 @@ public class BaseRobot extends IterativeRobot {
             
             log.info("Total Current: " + pdp.getTotalCurrent());
             
-            double loopDuration = Timer.getFPGATimestamp() - loopBegin;
             log.info("Loop Duration:" + loopDuration);
         }
         
