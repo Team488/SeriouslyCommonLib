@@ -18,9 +18,10 @@ public class PeriodicDeltaObserver {
         this.checkValueThreshold = value;
     }
     
-    public boolean updateAndCheckHasDeltaExceededThreshold(double reportedValue) {
-        if (lastReportedValue == null || Math.abs(lastReportedValue - reportedValue) > checkValueThreshold) {
-            lastReportedValue = reportedValue;
+    public boolean updateAndCheckHasDeltaExceededThreshold(double newReportedValue) {
+        boolean significantChange = Math.abs(lastReportedValue - newReportedValue) > checkValueThreshold;
+        if (lastReportedValue == null || significantChange) {
+            lastReportedValue = newReportedValue;
             return true;
         }
         return false;
