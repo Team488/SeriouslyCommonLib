@@ -191,8 +191,14 @@ public class BaseRobot extends IterativeRobot {
             lastFreqCounterResetTime = Timer.getFPGATimestamp();
         }
         else if(timeSinceLastLog >= frequencyReportInterval.get()) {
-            double loopsPerSecond = loopCycleCounter / timeSinceLastLog; 
-            double averageLoopDuration = loopDuration / loopCycleCounter;
+            double loopsPerSecond = loopCycleCounter / timeSinceLastLog;
+            double averageLoopDuration = 0;
+            if(loopCycleCounter != 0){
+                 averageLoopDuration = loopDuration / loopCycleCounter;
+            }
+            else{
+                log.info("Cannot have loopCycleCounter as 0");
+            }
             
             loopDuration = 0;
             loopCycleCounter = 0;
