@@ -1,4 +1,4 @@
-package xbot.common.logging;
+package xbot.common.logic;
 
 import org.apache.log4j.Logger;
 
