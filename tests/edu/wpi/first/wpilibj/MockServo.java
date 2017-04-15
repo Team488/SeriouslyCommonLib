@@ -21,4 +21,8 @@ public class MockServo implements XServo {
     public int getChannel() {
         return this.channel;
     }
+    
+    public double getValue(){
+        return mockRobotIO.getPWM(channel);
+    }
 }
