@@ -25,6 +25,5 @@ public class PeriodicDeltaObserver {
             return true;
         }
         return false;
-    }
-    
+    }   
 }
