@@ -1,13 +1,8 @@
 package xbot.common.logic;
 
-import org.apache.log4j.Logger;
-
 public class PeriodicDeltaObserver {
 
-    protected static Logger log = Logger.getLogger(PeriodicDeltaObserver.class);
-    
     private double checkValueThreshold;
-    
     private Double lastReportedValue = null;
     
     public PeriodicDeltaObserver(double checkValueThreshold) {
