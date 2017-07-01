@@ -9,6 +9,7 @@ import xbot.common.logging.SilentRobotAssertionManager;
 import xbot.common.math.PIDFactory;
 import xbot.common.properties.ITableProxy;
 import xbot.common.properties.PermanentStorage;
+import xbot.common.properties.PreferenceStorage;
 import xbot.common.properties.RobotDatabaseStorage;
 import xbot.common.properties.SmartDashboardTableWrapper;
 
@@ -21,7 +22,7 @@ public class RobotModule extends AbstractModule {
     protected void configure() {
         this.bind(WPIFactory.class).to(RealWPIFactory.class);
         this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class);
-        this.bind(PermanentStorage.class).to(RobotDatabaseStorage.class);
+        this.bind(PermanentStorage.class).to(PreferenceStorage.class);
         this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);
         this.bind(RobotAssertionManager.class).to(SilentRobotAssertionManager.class);
         this.install(new FactoryModuleBuilder().build(PIDFactory.class));
