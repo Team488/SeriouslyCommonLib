@@ -4,6 +4,16 @@ import org.apache.log4j.Logger;
 
 import edu.wpi.first.wpilibj.Preferences;
 
+/**
+ * @author John
+ * 
+ * This saves properties to the robot using WPI's built-in Preferences library:
+ * http://first.wpi.edu/FRC/roborio/release/docs/java/edu/wpi/first/wpilibj/Preferences.html
+ * 
+ * This stores them in a simple key-value pair on the robot, in a file called
+ * /home/lvuser/networktables.ini
+ * 
+ */
 public class PreferenceStorage implements PermanentStorage {
 
     protected static Logger log;
