@@ -52,7 +52,6 @@ public class PreferenceStorage implements PermanentStorage {
 
     @Override
     public void clear() {
-        // Can't figure out how to clear it - could not figure out how to make Java happy
-        // with the untyped Vector output from the library
+        Preferences.getInstance().getKeys().clear();
     }
 }
