@@ -24,5 +24,13 @@ public class MockPowerDistributionPanel implements XPowerDistributionPanel {
     public double getCurrent(int channel) {
         return outputCurrents.getOrDefault(channel, 0d);
     }
+    @Override
+    public double getTotalCurrent(){
+        double totalCurrent = 0;
+        for(int i = 0; i <= 15; i++){
+            totalCurrent += Math.abs(getCurrent(i));
+        }
+        return totalCurrent;
+    }
 
 }

@@ -7,6 +7,8 @@ import java.util.Observer;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
+import xbot.common.controls.sensors.XPowerDistributionPanel;
+import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter;
 import xbot.common.injection.RobotModule;
 import xbot.common.logic.Latch;
 import xbot.common.logic.Latch.EdgeType;
@@ -37,6 +39,7 @@ public class BaseRobot extends IterativeRobot {
 
     protected XPropertyManager propertyManager;
     protected XScheduler xScheduler;
+    protected XPowerDistributionPanel pdp;
 
     protected AbstractModule injectionModule;
 
@@ -48,6 +51,7 @@ public class BaseRobot extends IterativeRobot {
     protected DoubleProperty frequencyReportInterval;
     protected double lastFreqCounterResetTime = -1;
     protected int loopCycleCounter = 0;
+    protected double loopDuration = 0;
     
     protected ArrayList<PeriodicDataSource> periodicDataSources = new ArrayList<PeriodicDataSource>();
 
@@ -101,8 +105,10 @@ public class BaseRobot extends IterativeRobot {
         // override with additional systems (but call this one too)
 
         // Get the property manager and get all properties from the robot disk
+        pdp = injector.getInstance(PowerDistributionPanelWPIAdapter.class);
         propertyManager = this.injector.getInstance(XPropertyManager.class);
         xScheduler = this.injector.getInstance(XScheduler.class);
+        
     }
 
     @Override
@@ -171,10 +177,13 @@ public class BaseRobot extends IterativeRobot {
     }
     
     protected void sharedPeriodic() {
+        double loopBegin = Timer.getFPGATimestamp();
         xScheduler.run();
         this.updatePeriodicDataSources();
         
         brownoutLatch.setValue(DriverStation.getInstance().isBrownedOut());
+        
+        loopDuration += Timer.getFPGATimestamp() - loopBegin;
         
         loopCycleCounter++;
         double timeSinceLastLog = Timer.getFPGATimestamp() - lastFreqCounterResetTime;
@@ -182,13 +191,25 @@ public class BaseRobot extends IterativeRobot {
             lastFreqCounterResetTime = Timer.getFPGATimestamp();
         }
         else if(timeSinceLastLog >= frequencyReportInterval.get()) {
-            double loopsPerSecond = loopCycleCounter / timeSinceLastLog; 
+            double loopsPerSecond = loopCycleCounter / timeSinceLastLog;
+            double averageLoopDuration = 0;
+            if(loopCycleCounter != 0){
+                 averageLoopDuration = loopDuration / loopCycleCounter;
+            }
+            else{
+                log.info("Cannot have loopCycleCounter as 0");
+            }
             
+            loopDuration = 0;
             loopCycleCounter = 0;
             lastFreqCounterResetTime = Timer.getFPGATimestamp();
             
             log.info("Robot loops per second: " + loopsPerSecond);
-        }
+            
+            log.info("Total Current: " + pdp.getTotalCurrent());
+            
+            log.info("Average Loop Duration:" + averageLoopDuration);
+        } 
     }
     
     protected void registerPeriodicDataSource(PeriodicDataSource telemetrySource) {
