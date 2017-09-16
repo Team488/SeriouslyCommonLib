@@ -10,6 +10,7 @@ import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XXboxController;
@@ -50,4 +51,6 @@ public interface CommonLibFactory {
     
     public XCANTalon createCANTalon(
             @Assisted("deviceId") int deviceId);
+    
+    public XGyro createGyro();
 }

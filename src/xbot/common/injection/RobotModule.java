@@ -17,9 +17,11 @@ import xbot.common.controls.sensors.MockEncoder;
 import xbot.common.controls.sensors.MockJoystick;
 import xbot.common.controls.sensors.MockXboxControllerAdapter;
 import xbot.common.controls.sensors.XboxControllerWpiAdapter;
+import xbot.common.controls.sensors.adapters.InertialMeasurementUnitAdapter;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XXboxController;
@@ -73,6 +75,7 @@ public class RobotModule extends AbstractModule {
                 .implement(XServo.class, ServoWPIAdapter.class)
                 .implement(XSpeedController.class, SpeedControllerWPIAdapter.class)
                 .implement(XCANTalon.class, CANTalonWPIAdapter.class)
+                .implement(XGyro.class, InertialMeasurementUnitAdapter.class)
                 .build(CommonLibFactory.class));
     }
 

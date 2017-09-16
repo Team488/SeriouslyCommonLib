@@ -10,7 +10,7 @@ public class MockGyro extends XGyro {
     private boolean isBroken;
     private MockRobotIO mockIO;
 
-    @Inject
+    @AssistedInject
     public MockGyro(MockRobotIO mockRobotIO) {
         super(ImuType.mock);
         mockIO = mockRobotIO;
