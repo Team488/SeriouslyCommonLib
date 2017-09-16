@@ -30,39 +30,65 @@ public class InertialMeasurementUnitAdapter extends XGyro {
     @AssistedInject
     public InertialMeasurementUnitAdapter(@Assisted("spi-port") SPI.Port spi_port_id) {
         super(ImuType.navX);
-        this.ahrs = new AHRS(spi_port_id);
+        try {
+            this.ahrs = new AHRS(spi_port_id);
+        }
+        catch (Exception e){
+            isBroken = true;
+        }
     }
 
     @AssistedInject
     public InertialMeasurementUnitAdapter(@Assisted("i2c-port") I2C.Port i2c_port_id) {
         super(ImuType.navX);
-        this.ahrs = new AHRS(i2c_port_id);
+        try {
+            this.ahrs = new AHRS(i2c_port_id);
+        }
+        catch (Exception e){
+            isBroken = true;
+        }
     }
 
     @AssistedInject
     public InertialMeasurementUnitAdapter(@Assisted("serial-port") SerialPort.Port serial_port_id) {
         super(ImuType.navX);
-        this.ahrs = new AHRS(serial_port_id);
+        try {
+            this.ahrs = new AHRS(serial_port_id);
+        }
+        catch (Exception e){
+            isBroken = true;
+        }
     }
 
     @Override
     public boolean isConnected() {
-        return this.ahrs.isConnected();
+        if (!isBroken) {
+            return this.ahrs.isConnected();
+        }
+        return false;
     }
 
     protected double getYaw() {
-        return -this.ahrs.getYaw();
+        if (!isBroken) {
+            return -this.ahrs.getYaw();
+        }
+        return 0;
     }
 
     @Override
     public double getRoll() {
-        return -this.ahrs.getRoll();
+        if (!isBroken) {
+            return -this.ahrs.getRoll();
+        }
+        return 0;
     }
 
     @Override
     public double getPitch() {
-        return -this.ahrs.getPitch();
-        
+        if (!isBroken) {
+            return -this.ahrs.getPitch();
+        }
+        return 0;
     }
 
     @Override
@@ -74,6 +100,9 @@ public class InertialMeasurementUnitAdapter extends XGyro {
      * Note: this is in degrees per second.
      */
     public double getYawAngularVelocity(){
-        return ahrs.getRate();
+        if (!isBroken) {
+            return ahrs.getRate();
+        }
+        return 0;
     }
 }
