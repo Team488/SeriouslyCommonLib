@@ -31,65 +31,39 @@ public class InertialMeasurementUnitAdapter extends XGyro {
     @Inject
     public InertialMeasurementUnitAdapter(@Assisted("spi-port") SPI.Port spi_port_id) {
         super(ImuType.navX);
-        try {
-            this.ahrs = new AHRS(spi_port_id);
-        }
-        catch (Exception e){
-            isBroken = true;
-        }
+        this.ahrs = new AHRS(spi_port_id);
     }
 
     @Inject
     public InertialMeasurementUnitAdapter(@Assisted("i2c-port") I2C.Port i2c_port_id) {
         super(ImuType.navX);
-        try {
-            this.ahrs = new AHRS(i2c_port_id);
-        }
-        catch (Exception e){
-            isBroken = true;
-        }
+        this.ahrs = new AHRS(i2c_port_id);
     }
 
     @Inject
     public InertialMeasurementUnitAdapter(@Assisted("serial-port") SerialPort.Port serial_port_id) {
         super(ImuType.navX);
-        try {
-            this.ahrs = new AHRS(serial_port_id);
-        }
-        catch (Exception e){
-            isBroken = true;
-        }
+        this.ahrs = new AHRS(serial_port_id);
     }
 
     @Override
     public boolean isConnected() {
-        if (!isBroken) {
-            return this.ahrs.isConnected();
-        }
-        return false;
+        return this.ahrs.isConnected();
     }
 
     protected double getYaw() {
-        if (!isBroken) {
-            return -this.ahrs.getYaw();
-        }
-        return 0;
+        return -this.ahrs.getYaw();
     }
 
     @Override
     public double getRoll() {
-        if (!isBroken) {
-            return -this.ahrs.getRoll();
-        }
-        return 0;
+        return -this.ahrs.getRoll();
     }
 
     @Override
     public double getPitch() {
-        if (!isBroken) {
-            return -this.ahrs.getPitch();
-        }
-        return 0;
+        return -this.ahrs.getPitch();
+        
     }
 
     @Override
@@ -101,9 +75,6 @@ public class InertialMeasurementUnitAdapter extends XGyro {
      * Note: this is in degrees per second.
      */
     public double getYawAngularVelocity(){
-        if (!isBroken) {
-            return ahrs.getRate();
-        }
-        return 0;
+        return ahrs.getRate();
     }
 }
