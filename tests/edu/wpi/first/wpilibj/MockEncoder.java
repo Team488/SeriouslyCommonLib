@@ -1,9 +1,10 @@
-package xbot.common.controls.sensors;
+package edu.wpi.first.wpilibj;
 
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
+import xbot.common.controls.sensors.XEncoder;
 import xbot.common.properties.XPropertyManager;
 
 public class MockEncoder extends XEncoder {

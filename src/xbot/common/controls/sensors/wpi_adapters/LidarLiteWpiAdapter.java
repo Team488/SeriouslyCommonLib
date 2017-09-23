@@ -1,10 +1,11 @@
-package xbot.common.controls.sensors;
+package xbot.common.controls.sensors.wpi_adapters;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
+import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.properties.XPropertyManager;
 import edu.wpi.first.wpilibj.Timer;
 

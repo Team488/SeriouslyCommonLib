@@ -1,4 +1,4 @@
-package xbot.common.controls.sensors.adapters;
+package xbot.common.controls.sensors.wpi_adapters;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;

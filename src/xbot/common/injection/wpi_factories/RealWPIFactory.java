@@ -23,25 +23,25 @@ import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
-import xbot.common.controls.sensors.LidarLiteWpiAdapter;
-import xbot.common.controls.sensors.MockGyro;
-import xbot.common.controls.sensors.XboxControllerWpiAdapter;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XGyro.ImuType;
+import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
-import xbot.common.controls.sensors.adapters.InertialMeasurementUnitAdapter;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.nav6.Nav6Gyro;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater;
 import xbot.common.controls.sensors.wpi_adapters.DigitalInputWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter;
+import xbot.common.controls.sensors.wpi_adapters.InertialMeasurementUnitAdapter;
 import xbot.common.controls.sensors.wpi_adapters.JoystickWPIAdapter;
+import xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter;
+import xbot.common.controls.sensors.wpi_adapters.XboxControllerWpiAdapter;
 import xbot.common.properties.XPropertyManager;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -52,10 +52,12 @@ public class RealWPIFactory implements WPIFactory {
     private static Logger log = Logger.getLogger(RealWPIFactory.class);
 
     private XPropertyManager propMan;
+    private CommonLibFactory clf;
 
     @Inject
-    public RealWPIFactory(XPropertyManager propMan) {
+    public RealWPIFactory(XPropertyManager propMan, CommonLibFactory clf) {
         this.propMan = propMan;
+        this.clf = clf;
     }
 
     public XSpeedController getSpeedController(int channel) {
@@ -165,7 +167,7 @@ public class RealWPIFactory implements WPIFactory {
 
     @Override
     public DistanceSensor getAnalogDistanceSensor(int channel, DoubleFunction<Double> voltageMap) {
-        return new AnalogDistanceSensor(getAnalogInput(channel), voltageMap, propMan);
+        return clf.createAnalogDistanceSensor(channel, voltageMap);
     }
 
     public XDigitalOutput getDigitalOutput(int channel) {

@@ -13,10 +13,10 @@ import com.ctre.CANTalon.TalonControlMode;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import edu.wpi.first.wpilibj.MockEncoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.MockRobotIO;
-import xbot.common.controls.sensors.MockEncoder;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.properties.XPropertyManager;
 

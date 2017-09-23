@@ -1,9 +1,10 @@
-package xbot.common.controls.sensors;
+package xbot.common.controls.sensors.wpi_adapters;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import xbot.common.controls.sensors.XXboxController;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class XboxControllerWpiAdapter extends XXboxController {

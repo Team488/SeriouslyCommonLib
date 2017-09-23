@@ -16,15 +16,12 @@ import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
-import xbot.common.controls.sensors.MockEncoder;
-import xbot.common.controls.sensors.MockGyro;
-import xbot.common.controls.sensors.MockJoystick;
-import xbot.common.controls.sensors.MockXboxControllerAdapter;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XGyro.ImuType;
+import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
@@ -37,10 +34,13 @@ import edu.wpi.first.wpilibj.MockCompressor;
 import edu.wpi.first.wpilibj.MockDigitalInput;
 import edu.wpi.first.wpilibj.MockDigitalOutput;
 import edu.wpi.first.wpilibj.MockDistanceSensor;
+import edu.wpi.first.wpilibj.MockEncoder;
+import edu.wpi.first.wpilibj.MockJoystick;
 import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
 import edu.wpi.first.wpilibj.MockServo;
 import edu.wpi.first.wpilibj.MockSolenoid;
 import edu.wpi.first.wpilibj.MockSpeedController;
+import edu.wpi.first.wpilibj.MockXboxControllerAdapter;
 
 @Singleton
 public class MockWPIFactory implements WPIFactory {

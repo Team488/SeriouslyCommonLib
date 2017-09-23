@@ -13,12 +13,6 @@ import xbot.common.controls.actuators.wpi_adapters.DigitalOutputWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.ServoWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.SolenoidWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.SpeedControllerWPIAdapter;
-import xbot.common.controls.sensors.LidarLiteWpiAdapter;
-import xbot.common.controls.sensors.MockEncoder;
-import xbot.common.controls.sensors.MockJoystick;
-import xbot.common.controls.sensors.MockXboxControllerAdapter;
-import xbot.common.controls.sensors.XboxControllerWpiAdapter;
-import xbot.common.controls.sensors.adapters.InertialMeasurementUnitAdapter;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
@@ -30,8 +24,11 @@ import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater;
 import xbot.common.controls.sensors.wpi_adapters.DigitalInputWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter;
+import xbot.common.controls.sensors.wpi_adapters.InertialMeasurementUnitAdapter;
 import xbot.common.controls.sensors.wpi_adapters.JoystickWPIAdapter;
+import xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter;
+import xbot.common.controls.sensors.wpi_adapters.XboxControllerWpiAdapter;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.RealWPIFactory;
 import xbot.common.injection.wpi_factories.WPIFactory;
@@ -49,10 +46,13 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import edu.wpi.first.wpilibj.MockAnalogInput;
 import edu.wpi.first.wpilibj.MockDigitalInput;
 import edu.wpi.first.wpilibj.MockDigitalOutput;
+import edu.wpi.first.wpilibj.MockEncoder;
+import edu.wpi.first.wpilibj.MockJoystick;
 import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
 import edu.wpi.first.wpilibj.MockServo;
 import edu.wpi.first.wpilibj.MockSolenoid;
 import edu.wpi.first.wpilibj.MockSpeedController;
+import edu.wpi.first.wpilibj.MockXboxControllerAdapter;
 
 public class RobotModule extends AbstractModule {
 

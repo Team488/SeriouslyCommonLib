@@ -1,5 +1,7 @@
 package xbot.common.injection.wpi_factories;
 
+import java.util.function.DoubleFunction;
+
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.I2C;
@@ -9,6 +11,7 @@ import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.actuators.XSpeedController;
+import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
@@ -59,4 +62,8 @@ public interface CommonLibFactory {
     
     public XLidarLite createLidarLite(
             @Assisted("port") I2C.Port port);
+    
+    public AnalogDistanceSensor createAnalogDistanceSensor(
+            @Assisted("channel") int channel,
+            @Assisted("voltageMap") DoubleFunction<Double> voltageMap);
 }
