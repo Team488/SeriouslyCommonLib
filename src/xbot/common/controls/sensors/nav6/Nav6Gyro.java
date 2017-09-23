@@ -40,16 +40,16 @@ public class Nav6Gyro extends XGyro
         return yawValue.clone();
     }
     
-    public double getYaw()
+    public double getDeviceYaw()
     {
         return coreSensor.getYaw();
     }
 
-    public double getRoll() {
+    public double getDeviceRoll() {
         return coreSensor.getRoll();
     }
     
-    public double getPitch() {
+    public double getDevicePitch() {
         return coreSensor.getPitch();
     }
 
@@ -57,7 +57,7 @@ public class Nav6Gyro extends XGyro
         return false;
     }
     
-    public double getYawAngularVelocity(){
+    public double getDeviceYawAngularVelocity(){
         // This method is not supported for the Nav6 gyro.
         return 0;
     }

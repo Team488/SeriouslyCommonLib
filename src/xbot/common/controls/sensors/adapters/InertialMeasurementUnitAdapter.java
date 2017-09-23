@@ -51,17 +51,17 @@ public class InertialMeasurementUnitAdapter extends XGyro {
         return this.ahrs.isConnected();
     }
 
-    protected double getYaw() {
+    protected double getDeviceYaw() {
         return -this.ahrs.getYaw();
     }
 
     @Override
-    public double getRoll() {
+    public double getDeviceRoll() {
         return -this.ahrs.getRoll();
     }
 
     @Override
-    public double getPitch() {
+    public double getDevicePitch() {
         return -this.ahrs.getPitch();
         
     }
@@ -74,7 +74,7 @@ public class InertialMeasurementUnitAdapter extends XGyro {
     /**
      * Note: this is in degrees per second.
      */
-    public double getYawAngularVelocity(){
+    public double getDeviceYawAngularVelocity(){
         return ahrs.getRate();
     }
 }

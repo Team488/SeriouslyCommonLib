@@ -27,7 +27,7 @@ public class MockGyro extends XGyro {
         return true;
     }
 
-    public double getYaw() {
+    public double getDeviceYaw() {
         return mockIO.getGyroHeading();
     }
 
@@ -39,15 +39,15 @@ public class MockGyro extends XGyro {
         return isBroken;
     }
 
-    public double getRoll() {
+    public double getDeviceRoll() {
         return mockIO.getGyroRoll();
     }
 
-    public double getPitch() {
+    public double getDevicePitch() {
         return mockIO.getGyroPitch();
     }
     
-    public double getYawAngularVelocity(){
+    public double getDeviceYawAngularVelocity(){
         return mockIO.getGyroHeadingAngularVelocity();
     }
 
