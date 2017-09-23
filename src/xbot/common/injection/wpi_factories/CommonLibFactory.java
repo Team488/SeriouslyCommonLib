@@ -2,6 +2,8 @@ package xbot.common.injection.wpi_factories;
 
 import com.google.inject.assistedinject.Assisted;
 
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.I2C.Port;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
@@ -12,6 +14,7 @@ import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
+import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XXboxController;
 
@@ -53,4 +56,7 @@ public interface CommonLibFactory {
             @Assisted("deviceId") int deviceId);
     
     public XGyro createGyro();
+    
+    public XLidarLite createLidarLite(
+            @Assisted("port") I2C.Port port);
 }

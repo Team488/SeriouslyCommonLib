@@ -13,6 +13,7 @@ import xbot.common.controls.actuators.wpi_adapters.DigitalOutputWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.ServoWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.SolenoidWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.SpeedControllerWPIAdapter;
+import xbot.common.controls.sensors.LidarLiteWpiAdapter;
 import xbot.common.controls.sensors.MockEncoder;
 import xbot.common.controls.sensors.MockJoystick;
 import xbot.common.controls.sensors.MockXboxControllerAdapter;
@@ -23,6 +24,7 @@ import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
+import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater;
@@ -76,6 +78,7 @@ public class RobotModule extends AbstractModule {
                 .implement(XSpeedController.class, SpeedControllerWPIAdapter.class)
                 .implement(XCANTalon.class, CANTalonWPIAdapter.class)
                 .implement(XGyro.class, InertialMeasurementUnitAdapter.class)
+                .implement(XLidarLite.class, LidarLiteWpiAdapter.class)
                 .build(CommonLibFactory.class));
     }
 

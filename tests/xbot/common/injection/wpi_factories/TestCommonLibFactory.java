@@ -1,6 +1,8 @@
 package xbot.common.injection.wpi_factories;
 
 import org.junit.Test;
+
+import edu.wpi.first.wpilibj.I2C;
 import xbot.common.injection.BaseWPITest;
 
 public class TestCommonLibFactory extends BaseWPITest {
@@ -21,5 +23,6 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createSpeedController(1);
         clf.createCANTalon(1);
         clf.createGyro();
+        clf.createLidarLite(I2C.Port.kOnboard);
     }
 }

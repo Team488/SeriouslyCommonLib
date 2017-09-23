@@ -11,12 +11,14 @@ import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.MockEncoder;
 import xbot.common.controls.sensors.MockGyro;
 import xbot.common.controls.sensors.MockJoystick;
+import xbot.common.controls.sensors.MockLidarLite;
 import xbot.common.controls.sensors.MockXboxControllerAdapter;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
+import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter;
@@ -92,6 +94,7 @@ public class UnitTestModule extends AbstractModule {
                 .implement(XSpeedController.class, MockSpeedController.class)
                 .implement(XCANTalon.class, MockCANTalon.class)
                 .implement(XGyro.class, MockGyro.class)
+                .implement(XLidarLite.class, MockLidarLite.class)
                 .build(CommonLibFactory.class));
     }
 }
