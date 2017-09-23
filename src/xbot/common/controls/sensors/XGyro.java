@@ -17,40 +17,68 @@ public abstract class XGyro
         this.imuType = imuType;
     }
     
+    public abstract boolean isBroken();
+    
     protected ImuType getImuType() {
         return imuType;
-    }
+    }    
     
-    public abstract boolean isConnected();
+    // Below are the "safe" methods that return gyro information. They pay attention
+    // to the state of the gyro, and as such will ideally not cause exceptions.
     
     /**
      * In degrees
      */
     public ContiguousHeading getHeading() {
-        return new ContiguousHeading(getYaw());
+        if (!isBroken()) {
+            return new ContiguousHeading(getDeviceYaw());
+        }
+        return new ContiguousHeading(0);
     }
     
-    /**
-     * In degrees
-     */
-    public abstract double getRoll();
+    public double getRoll() {
+        if (!isBroken()) {
+            return getDeviceRoll();
+        }
+        return 0;
+    }
+    
+    public double getPitch() {
+        if (!isBroken()) {
+            return getDeviceYaw();
+        }
+        return 0;
+    }
+    
+    public double getYawAngularVelocity() {
+        if (!isBroken()) {
+            return getDeviceYawAngularVelocity();
+        }
+        return 0;
+    }
+    
+    // What follows are the primitive "gets" for the gyro. These aren't protected,
+    // and could cause exceptions if called while they gyro is not connected.
+    
+    protected abstract boolean isConnected();
     
     /**
      * In degrees
      */
-    public abstract double getPitch();
+    protected abstract double getDeviceRoll();
     
     /**
      * In degrees
      */
-    protected abstract double getYaw();
+    protected abstract double getDevicePitch();
     
-    public abstract boolean isBroken();
+    /**
+     * In degrees
+     */
+    protected abstract double getDeviceYaw();
     
     /**
      * In degrees per second
      */
-    public abstract double getYawAngularVelocity();
-    
-    
+    protected abstract double getDeviceYawAngularVelocity();
 }
