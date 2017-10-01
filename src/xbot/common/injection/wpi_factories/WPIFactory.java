@@ -63,4 +63,6 @@ public interface WPIFactory {
     public DistanceSensor getAnalogDistanceSensor(int channel, DoubleFunction<Double> voltageMap);
 
     public XPowerDistributionPanel getPDP();
+
+    public XCANDevice getCANDevice(int arbitrationId);
 }
