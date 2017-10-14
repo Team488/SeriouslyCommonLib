@@ -6,6 +6,7 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import xbot.common.controls.sensors.XCompleteJoystick;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.math.XYPair;
 

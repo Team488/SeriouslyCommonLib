@@ -9,6 +9,7 @@ import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.XAnalogInput;
+import xbot.common.controls.sensors.XCompleteJoystick;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XGyro;
@@ -18,6 +19,7 @@ import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter;
+import xbot.common.controls.sensors.wpi_adapters.JoystickWPIAdapter;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.MockWPIFactory;
 import xbot.common.injection.wpi_factories.WPIFactory;
@@ -83,7 +85,8 @@ public class UnitTestModule extends AbstractModule {
         
         this.install(new FactoryModuleBuilder()
                 .implement(XPowerDistributionPanel.class, MockPowerDistributionPanel.class)
-                .implement(XJoystick.class, MockJoystick.class)
+                .implement(XCompleteJoystick.class, MockJoystick.class)
+                //.implement(XCompleteJoystick.class, MockCompleteJoystick.class)
                 .implement(XEncoder.class, MockEncoder.class)
                 .implement(XDigitalInput.class, MockDigitalInput.class)
                 .implement(XAnalogInput.class, MockAnalogInput.class)

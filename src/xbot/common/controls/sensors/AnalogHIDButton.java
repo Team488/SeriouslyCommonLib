@@ -1,5 +1,9 @@
 package xbot.common.controls.sensors;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
+
 import edu.wpi.first.wpilibj.buttons.Button;
 
 public class AnalogHIDButton extends Button {
@@ -20,15 +24,23 @@ public class AnalogHIDButton extends Button {
      * @param analogThreshold
      *            Analog threshold to trigger binary button state
      */
-    public AnalogHIDButton(XJoystick joystick, int axisNumber,
-            double analogMinThreshold, double analogMaxThreshold) {
+    
+    @AssistedInject
+    public AnalogHIDButton(
+            @Assisted("joystick") XJoystick joystick, 
+            @Assisted("axisNumber") int axisNumber,
+            @Assisted("analogMinThreshold") double analogMinThreshold, 
+            @Assisted("analogMaxThreshold") double analogMaxThreshold) {
         m_joystick = joystick;
         m_axisNumber = axisNumber;
         m_analogMinThreshold = analogMinThreshold;
         m_analogMaxThreshold = analogMaxThreshold;
     }
 
-    public AnalogHIDButton(XJoystick joystick, AnalogHIDDescription desc) {
+    @AssistedInject
+    public AnalogHIDButton(
+            @Assisted("joystick") XJoystick joystick, 
+            @Assisted("desc") AnalogHIDDescription desc) {
         m_joystick = joystick;
         m_axisNumber = desc.axisNumber;
         m_analogMinThreshold = desc.analogMinThreshold;
