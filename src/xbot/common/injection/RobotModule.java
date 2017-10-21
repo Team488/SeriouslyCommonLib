@@ -14,7 +14,6 @@ import xbot.common.controls.actuators.wpi_adapters.ServoWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.SolenoidWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.SpeedControllerWPIAdapter;
 import xbot.common.controls.sensors.XAnalogInput;
-import xbot.common.controls.sensors.XCompleteJoystick;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XGyro;

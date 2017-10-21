@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import xbot.common.controls.sensors.XCompleteJoystick;
 import xbot.common.controls.sensors.XJoystick;
+import xbot.common.injection.wpi_factories.CommonLibFactory;
+import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 
 public class MockJoystick extends XJoystick {
@@ -16,8 +18,14 @@ public class MockJoystick extends XJoystick {
     Map<Integer, Double> rawAxis = new HashMap<Integer, Double>();
 
     @Inject
-    public MockJoystick() {
-        super(0);
+    public MockJoystick(
+            @Assisted("port") int port, 
+            CommonLibFactory clf, 
+            RobotAssertionManager assertionManager, 
+            @Assisted("numButtons") int numButtons) {
+        
+        super(port, clf, assertionManager, numButtons);
+        
         for(int i = 0; i < 6; i++)
         {
             rawAxis.put(i, 0d);

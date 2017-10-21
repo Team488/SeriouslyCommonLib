@@ -13,7 +13,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         CommonLibFactory clf = injector.getInstance(CommonLibFactory.class);
         
         clf.createPowerDistributionPanel();
-        XJoystick j = clf.createJoystick(1);
+        XJoystick j = clf.createJoystick(1, 12);
         clf.createEncoder("asdf", 1, 2, 1);
         clf.createDigitalInput(1);
         clf.createAnalogInput(1);
@@ -27,6 +27,5 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createLidarLite(I2C.Port.kOnboard);
         clf.createAdvancedJoystickButton(j, 1);
         clf.createAnalogHIDButton(j, 1, -1, 1);
-        clf.createCompleteJoystick(1, 10);
     }
 }

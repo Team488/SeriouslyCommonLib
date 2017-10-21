@@ -28,7 +28,7 @@ public interface WPIFactory {
 
     public XCANTalon getCANTalonSpeedController(int deviceId);
 
-    public XJoystick getJoystick(int number);
+    public XJoystick getJoystick(int number, int numButtons);
     
     public XXboxController getXboxController(int number);
 

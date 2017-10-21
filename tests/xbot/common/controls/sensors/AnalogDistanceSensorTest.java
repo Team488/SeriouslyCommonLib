@@ -16,12 +16,8 @@ public class AnalogDistanceSensorTest extends BaseWPITest {
 
     @Before
     public void setup() {
-        factory = new MockWPIFactory(mockRobotIO, propertyManager);
-        CommonLibFactory clf = injector.getInstance(CommonLibFactory.class);
+        factory = new MockWPIFactory(mockRobotIO, propertyManager, clf);
         sensor = clf.createAnalogDistanceSensor(0, AnalogDistanceSensor.VoltageMaps::sharp0A51SK);
-                
-                // new AnalogDistanceSensor(factory.getAnalogInput(0), AnalogDistanceSensor.VoltageMaps::sharp0A51SK,
-                //propertyManager);
     }
 
     @Test

@@ -74,8 +74,8 @@ public class RealWPIFactory implements WPIFactory {
         return controller;
     }
     
-    public XJoystick getJoystick(int number) {
-        return new JoystickWPIAdapter(number);
+    public XJoystick getJoystick(int port, int numButtons) {
+        return clf.createJoystick(port, numButtons);
     }
 
     @Override

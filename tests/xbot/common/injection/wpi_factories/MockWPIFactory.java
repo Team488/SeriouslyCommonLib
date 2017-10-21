@@ -55,11 +55,13 @@ public class MockWPIFactory implements WPIFactory {
     int[] mxpDigital;
     
     private XPropertyManager propMan;
+    private CommonLibFactory clf;
 
     @Inject
-    public MockWPIFactory(MockRobotIO mockRobotIO, XPropertyManager propMan) {
+    public MockWPIFactory(MockRobotIO mockRobotIO, XPropertyManager propMan, CommonLibFactory clf) {
         this.mockRobotIO = mockRobotIO;
         this.propMan = propMan;
+        this.clf = clf;
         
         pwms = new int[10];
         canTalonIds = new int[64];
@@ -117,8 +119,8 @@ public class MockWPIFactory implements WPIFactory {
         return new MockCANTalon(deviceId, mockRobotIO, propMan);
     }
 
-    public XJoystick getJoystick(int number) {
-        return new MockJoystick();
+    public XJoystick getJoystick(int number, int numButtons) {
+        return clf.createJoystick(number, numButtons);
     }
 
     @Override

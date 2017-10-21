@@ -15,7 +15,6 @@ import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.XAnalogInput;
-import xbot.common.controls.sensors.XCompleteJoystick;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XGyro;
@@ -30,7 +29,8 @@ public interface CommonLibFactory {
     public XPowerDistributionPanel createPowerDistributionPanel();
     
     public XJoystick createJoystick(
-            @Assisted("port") int port);
+            @Assisted("port") int port,
+            @Assisted("numButtons") int numButtons);
     
     public XEncoder createEncoder(
             @Assisted("name")String name, 
@@ -84,8 +84,4 @@ public interface CommonLibFactory {
     public AnalogHIDButton createAnalogHIDButton(
             @Assisted("joystick") XJoystick joystick, 
             @Assisted("desc") AnalogHIDDescription desc);
-    
-    public XCompleteJoystick createCompleteJoystick(
-            @Assisted("port") int port,
-            @Assisted("numButtons")int numButtons);
 }

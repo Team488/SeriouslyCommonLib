@@ -13,8 +13,9 @@ public class MockWPIFactoryTest extends BaseWPITest {
 
     @Before
     public void setup() {
+
         robotIo = new MockRobotIO();
-        wpiFactory = new MockWPIFactory(robotIo, propertyManager);
+        wpiFactory = new MockWPIFactory(robotIo, propertyManager, clf);
     }
 
     @Test
@@ -24,7 +25,7 @@ public class MockWPIFactoryTest extends BaseWPITest {
 
     @Test
     public void testJoystick() {
-        wpiFactory.getJoystick(1);
+        wpiFactory.getJoystick(1, 12);
     }
 
     @Test
@@ -49,7 +50,7 @@ public class MockWPIFactoryTest extends BaseWPITest {
 
     @Test
     public void testJoystickButton() {
-        wpiFactory.getJoystickButton(wpiFactory.getJoystick(1), 1);
+        wpiFactory.getJoystickButton(wpiFactory.getJoystick(1, 12), 1);
     }
 
     @Test
