@@ -26,6 +26,7 @@ public class CANDeviceWPIAdapter implements XCANDevice {
     @Override
     public void send(byte[] data) {
         ByteBuffer buffer = ByteBuffer.allocateDirect(data.length);
+        buffer.put(data);
         CANJNI.FRCNetCommCANSessionMuxSendMessage(this.outboundArbitrationId, buffer, CANJNI.CAN_SEND_PERIOD_NO_REPEAT);
     }
 
