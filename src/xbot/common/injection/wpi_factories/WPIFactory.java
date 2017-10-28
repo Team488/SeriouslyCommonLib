@@ -9,6 +9,7 @@ import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.actuators.XSpeedController;
+import xbot.common.controls.misc.XCANDevice;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.XXboxController;
@@ -64,5 +65,5 @@ public interface WPIFactory {
 
     public XPowerDistributionPanel getPDP();
 
-    public XCANDevice getCANDevice(int arbitrationId);
+    public XCANDevice getCANDevice(int inboundArbitrationId, int outboundArbitrationId);
 }

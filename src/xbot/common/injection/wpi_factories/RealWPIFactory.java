@@ -19,6 +19,7 @@ import xbot.common.controls.actuators.wpi_adapters.DigitalOutputWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.ServoWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.SolenoidWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.SpeedControllerWPIAdapter;
+import xbot.common.controls.misc.XCANDevice;
 import xbot.common.controls.misc.wpi_adapters.CANDeviceWPIAdapter;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogDistanceSensor;
@@ -209,7 +210,7 @@ public class RealWPIFactory implements WPIFactory {
     }
 
     @Override
-    public XCANDevice getCANDevice(int arbitrationId) {
-        return new CANDeviceWPIAdapter(arbitrationId);
+    public XCANDevice getCANDevice(int inboundArbitrationId, int outboundArbitrationId) {
+        return new CANDeviceWPIAdapter(inboundArbitrationId, outboundArbitrationId);
     }
 }
