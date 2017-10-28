@@ -8,13 +8,11 @@ import org.junit.Test;
 
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.BaseWPITest;
-import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.logging.RobotAssertionManager;
 
 
 public class JoystickButtonManagerTest extends BaseWPITest {
     
-    WPIFactory factory;
     XJoystick testJoystick;
     RobotAssertionManager assertion;
     
@@ -22,8 +20,7 @@ public class JoystickButtonManagerTest extends BaseWPITest {
     public void setup() {
         super.setUp();
         
-        factory = this.injector.getInstance(WPIFactory.class);
-        testJoystick = factory.getJoystick(1, 12);
+        testJoystick = clf.createJoystick(1, 12);
         assertion = this.injector.getInstance(RobotAssertionManager.class);
     }
     

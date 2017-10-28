@@ -32,8 +32,6 @@ import xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.XboxControllerWpiAdapter;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.injection.wpi_factories.RealWPIFactory;
-import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.logging.SilentRobotAssertionManager;
 import xbot.common.math.PIDFactory;
@@ -45,22 +43,10 @@ import xbot.common.properties.SmartDashboardTableWrapper;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
-import edu.wpi.first.wpilibj.MockAnalogInput;
-import edu.wpi.first.wpilibj.MockDigitalInput;
-import edu.wpi.first.wpilibj.MockDigitalOutput;
-import edu.wpi.first.wpilibj.MockEncoder;
-import edu.wpi.first.wpilibj.MockJoystick;
-import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
-import edu.wpi.first.wpilibj.MockServo;
-import edu.wpi.first.wpilibj.MockSolenoid;
-import edu.wpi.first.wpilibj.MockSpeedController;
-import edu.wpi.first.wpilibj.MockXboxControllerAdapter;
-
 public class RobotModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        this.bind(WPIFactory.class).to(RealWPIFactory.class);
         this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class);
         this.bind(PermanentStorage.class).to(RobotDatabaseStorage.class);
         this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);

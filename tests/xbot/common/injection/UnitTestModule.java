@@ -21,8 +21,6 @@ import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.JoystickWPIAdapter;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.injection.wpi_factories.MockWPIFactory;
-import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.logging.LoudRobotAssertionManager;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.PIDFactory;
@@ -62,8 +60,6 @@ public class UnitTestModule extends AbstractModule {
     @Override
     protected void configure() {
         this.bind(Timer.StaticInterface.class).to(MockTimer.class);
-
-        this.bind(WPIFactory.class).to(MockWPIFactory.class);
 
         this.bind(ITableProxy.class).to(TableProxy.class).in(Singleton.class);
         

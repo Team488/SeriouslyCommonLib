@@ -6,7 +6,7 @@ import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XGyro.ImuType;
-import xbot.common.injection.wpi_factories.WPIFactory;
+import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.ContiguousHeading;
 import xbot.common.math.XYPair;
 import xbot.common.properties.BooleanProperty;
@@ -44,9 +44,9 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     private BooleanProperty rioRotated;
     
-    public BasePoseSubsystem(WPIFactory factory, XPropertyManager propManager) {
+    public BasePoseSubsystem(CommonLibFactory factory, XPropertyManager propManager) {
         log.info("Creating");
-        imu = factory.getGyro(ImuType.navX);
+        imu = factory.createGyro();
         
         currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", 0.0);
         // Right when the system is initialized, we need to have the old value be

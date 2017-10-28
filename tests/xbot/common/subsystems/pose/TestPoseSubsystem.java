@@ -5,7 +5,7 @@ import com.google.inject.Singleton;
 
 import xbot.common.controls.actuators.MockCANTalon;
 import xbot.common.controls.actuators.XCANTalon;
-import xbot.common.injection.wpi_factories.WPIFactory;
+import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.properties.XPropertyManager;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
@@ -16,7 +16,7 @@ public class TestPoseSubsystem extends BasePoseSubsystem {
     private XCANTalon right;
     
     @Inject
-    public TestPoseSubsystem(WPIFactory factory, XPropertyManager propManager) {
+    public TestPoseSubsystem(CommonLibFactory factory, XPropertyManager propManager) {
         super(factory, propManager);
     }
     
