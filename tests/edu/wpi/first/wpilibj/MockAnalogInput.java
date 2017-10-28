@@ -18,6 +18,7 @@ public class MockAnalogInput extends XAnalogInput {
         this.channel = channel;
     }
 
+    @Deprecated
     public int getValue() {
         return this.mockRobotIO.getAnalog(channel);
     }
