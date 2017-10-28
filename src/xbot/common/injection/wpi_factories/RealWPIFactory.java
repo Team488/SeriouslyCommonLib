@@ -49,14 +49,10 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 
 public class RealWPIFactory implements WPIFactory {
 
-    private static Logger log = Logger.getLogger(RealWPIFactory.class);
-
-    private XPropertyManager propMan;
     private CommonLibFactory clf;
 
     @Inject
-    public RealWPIFactory(XPropertyManager propMan, CommonLibFactory clf) {
-        this.propMan = propMan;
+    public RealWPIFactory(CommonLibFactory clf) {
         this.clf = clf;
     }
 
