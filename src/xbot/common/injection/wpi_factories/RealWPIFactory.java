@@ -19,6 +19,8 @@ import xbot.common.controls.actuators.wpi_adapters.DigitalOutputWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.ServoWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.SolenoidWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.SpeedControllerWPIAdapter;
+import xbot.common.controls.misc.XCANDevice;
+import xbot.common.controls.misc.wpi_adapters.CANDeviceWPIAdapter;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.controls.sensors.AnalogHIDButton;
@@ -205,5 +207,10 @@ public class RealWPIFactory implements WPIFactory {
     @Override
     public DistanceSensorPair getMultiplexedLidarPair(Port port, byte lidarMuxIdA, byte lidarMuxIdB) {
         return new MultiplexedLidarPair(port, lidarMuxIdA, lidarMuxIdB, propMan);
+    }
+
+    @Override
+    public XCANDevice getCANDevice(int inboundArbitrationId, int outboundArbitrationId) {
+        return new CANDeviceWPIAdapter(inboundArbitrationId, outboundArbitrationId);
     }
 }

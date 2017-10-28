@@ -13,6 +13,7 @@ import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.actuators.XSpeedController;
+import xbot.common.controls.misc.XCANDevice;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.DistanceSensor;
@@ -34,6 +35,7 @@ import xbot.common.injection.wpi_factories.WPIFactory;
 import xbot.common.logging.RobotAssertionManager;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.MockAnalogInput;
+import edu.wpi.first.wpilibj.MockCANDevice;
 import edu.wpi.first.wpilibj.MockCompressor;
 import edu.wpi.first.wpilibj.MockDigitalInput;
 import edu.wpi.first.wpilibj.MockDigitalOutput;
@@ -209,5 +211,10 @@ public class MockWPIFactory implements WPIFactory {
     @Override
     public DistanceSensorPair getMultiplexedLidarPair(Port port, byte lidarMuxIdA, byte lidarMuxIdB) {
         return new MockDistanceSensorPair();
+    }
+    
+    @Override
+    public XCANDevice getCANDevice(int inboundArbitrationId, int outboundArbitrationId) {
+        return new MockCANDevice();
     }
 }
