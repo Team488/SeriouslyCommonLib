@@ -8,6 +8,7 @@ import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 
 import xbot.common.controls.MockRobotIO;
+import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
 import xbot.common.injection.BaseWPITest;
 
 public class MockCANTalonTest extends BaseWPITest {

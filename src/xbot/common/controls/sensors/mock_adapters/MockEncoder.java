@@ -1,4 +1,4 @@
-package edu.wpi.first.wpilibj;
+package xbot.common.controls.sensors.mock_adapters;
 
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;

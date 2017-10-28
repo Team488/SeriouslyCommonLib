@@ -1,11 +1,9 @@
-package xbot.common.controls.actuators;
+package xbot.common.controls.actuators.mock_adapters;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
-import org.influxdb.dto.Point;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
@@ -15,11 +13,11 @@ import com.ctre.CANTalon.TalonControlMode;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import edu.wpi.first.wpilibj.MockEncoder;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.MockRobotIO;
+import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 import xbot.common.properties.XPropertyManager;
 
 public class MockCANTalon extends XCANTalon {    

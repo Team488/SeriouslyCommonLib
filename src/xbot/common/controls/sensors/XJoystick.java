@@ -1,6 +1,7 @@
 package xbot.common.controls.sensors;
 
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
+import xbot.common.controls.sensors.mock_adapters.MockJoystick;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
@@ -9,7 +10,6 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
-import edu.wpi.first.wpilibj.MockJoystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 
 public abstract class XJoystick
