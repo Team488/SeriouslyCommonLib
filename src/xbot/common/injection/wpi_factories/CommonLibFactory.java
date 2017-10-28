@@ -7,6 +7,7 @@ import com.google.inject.assistedinject.Assisted;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
@@ -63,6 +64,8 @@ public interface CommonLibFactory {
             @Assisted("deviceId") int deviceId);
     
     public XGyro createGyro();
+    
+    public XCompressor createCompressor();
     
     public XLidarLite createLidarLite(
             @Assisted("port") I2C.Port port);

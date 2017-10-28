@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 
 public class ServoWPIAdapter extends XServo{
@@ -16,6 +17,7 @@ public class ServoWPIAdapter extends XServo{
     public ServoWPIAdapter(@Assisted("channel") int channel) {
         super(channel);
         this.servo = new Servo(channel);
+        LiveWindow.addActuator("Servo", channel, this.getLiveWindowSendable());
     }
     
     @Override

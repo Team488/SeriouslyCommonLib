@@ -9,6 +9,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.properties.DoubleProperty;
@@ -23,6 +24,8 @@ public class CANTalonWPIAdapter extends XCANTalon {
     public CANTalonWPIAdapter(@Assisted("deviceId") int deviceId, XPropertyManager propMan) {
         super(deviceId, propMan);
         internalTalon = new CANTalon(deviceId);
+        
+        LiveWindow.addActuator("CANTalon", deviceId, this.getLiveWindowSendable());
     }
 
     @Override

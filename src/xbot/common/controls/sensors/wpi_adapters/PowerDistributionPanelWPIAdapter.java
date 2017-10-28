@@ -1,6 +1,7 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 
@@ -10,6 +11,8 @@ public class PowerDistributionPanelWPIAdapter extends XPowerDistributionPanel {
     
     public PowerDistributionPanelWPIAdapter() {
         pdp = new PowerDistributionPanel();
+        
+        LiveWindow.addSensor("PDP Panel", 0, this.getLiveWindowSendable());
     }
     
     @Override

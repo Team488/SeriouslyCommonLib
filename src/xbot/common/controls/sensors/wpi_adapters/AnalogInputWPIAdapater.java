@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import xbot.common.controls.sensors.XAnalogInput;
 
 public class AnalogInputWPIAdapater extends XAnalogInput {
@@ -12,6 +13,7 @@ public class AnalogInputWPIAdapater extends XAnalogInput {
     @Inject
     public AnalogInputWPIAdapater(@Assisted("channel") int channel) {
         input = new AnalogInput(channel);
+        LiveWindow.addSensor("Analog input", channel, this.getInternalDevice());
     }
 
     public int getValue() {

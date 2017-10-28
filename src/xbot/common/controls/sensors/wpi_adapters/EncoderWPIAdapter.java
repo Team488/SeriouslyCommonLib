@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.properties.DoubleProperty;
@@ -22,6 +23,8 @@ public class EncoderWPIAdapter extends XEncoder {
             XPropertyManager propMan) {
         super(name, aChannel, bChannel, defaultDistancePerPulse, propMan);
         internalEncoder = new Encoder(aChannel, bChannel);
+        
+        LiveWindow.addSensor("Encoder", aChannel, this.getLiveWindowSendable());
     }
 
     protected double getRate() {

@@ -61,17 +61,12 @@ public class RealWPIFactory implements WPIFactory {
     }
 
     public XSpeedController getSpeedController(int channel) {
-        SpeedControllerWPIAdapter controller = new SpeedControllerWPIAdapter(
-                channel);
-        LiveWindow.addActuator("SpeedController", channel, (LiveWindowSendable) controller.getLiveWindowSendable());
-        return controller;
+        return clf.createSpeedController(channel);
     }
 
     @Override
     public XCANTalon getCANTalonSpeedController(int deviceId) {
-        CANTalonWPIAdapter controller = new CANTalonWPIAdapter(deviceId, propMan);
-        LiveWindow.addActuator("CANTalon", deviceId, controller.getLiveWindowSendable());
-        return controller;
+        return clf.createCANTalon(deviceId);
     }
     
     public XJoystick getJoystick(int port, int numButtons) {
@@ -80,89 +75,47 @@ public class RealWPIFactory implements WPIFactory {
 
     @Override
     public XDigitalInput getDigitalInput(int channel) {
-        XDigitalInput input = new DigitalInputWPIAdapter(channel);
-        LiveWindow.addSensor("DigitalInput", channel, input.getLiveWindowSendable());
-        return input;
+        return clf.createDigitalInput(channel);
     }
 
     @Override
     public XAnalogInput getAnalogInput(int channel) {
-        AnalogInputWPIAdapater input = new AnalogInputWPIAdapater(channel);
-        LiveWindow.addSensor("Analog input", channel, input.getInternalDevice());
-        return input;
+        return clf.createAnalogInput(channel);
     }
 
     @Override
     public XCompressor getCompressor() {
-        CompressorWPIAdapter result = new CompressorWPIAdapter();
-        
-        return result;
+        return clf.createCompressor();
     }
 
     @Override
     public XSolenoid getSolenoid(int channel) {
-        SolenoidWPIAdapter result = new SolenoidWPIAdapter(channel);
-        LiveWindow.addActuator("Solenoid", channel, result.getLiveWindowSendable());
-        return result;
+        return clf.createSolenoid(channel);
     }
 
     @Override
     public AdvancedJoystickButton getJoystickButton(XJoystick joystick, int button_number) {
-        return new AdvancedJoystickButton(joystick, button_number);
+        return clf.createAdvancedJoystickButton(joystick, button_number);
     }
 
     @Override
     public XGyro getGyro(ImuType imuType) {
-        // It's possible that the nav6 might get disconnected, and throw some
-        // exceptions
-        // at runtime when it can't communicate over the serial port.
-        // The robot needs to protect itself from this behavior.
-        try {
-            switch (imuType) {
-                case nav6:
-                    return new Nav6Gyro();
-                case navX:
-                    return new InertialMeasurementUnitAdapter(Port.kMXP);
-                default:
-                    log.error("Could not find " + imuType.name() + "! Returning a \"broken\" MockGyro instead.");
-                    return getBrokenGyro();
-            }
-        } catch (Exception e) {
-            
-            // We need to return SOMETHING so that downstream consumers don't
-            // explode.
-            // In this case, we just return a MockGyro that has "isBroken" set
-            // to true.
-            // That way, nobody throws an exception, and we can test at runtime
-            // if we have a bad gyro.
-            log.error("Could not create gyro! Returning a \"broken\" MockGyro instead.");
-            return getBrokenGyro();
-        }
-    }
-    
-    private XGyro getBrokenGyro()
-    {
-        MockGyro brokenGyro = new MockGyro(new MockRobotIO(), true);
-        return brokenGyro;
+        return clf.createGyro();
     }
 
     @Override
     public XEncoder getEncoder(String name, int aChannel, int bChannel, double defaultDistancePerPulse) {
-        XEncoder encoder = new EncoderWPIAdapter(name, aChannel, bChannel, defaultDistancePerPulse, propMan);
-        LiveWindow.addSensor("Encoder", aChannel, encoder.getLiveWindowSendable());
-        return encoder;
+        return clf.createEncoder(name, aChannel, bChannel, defaultDistancePerPulse);
     }
 
     @Override
     public XServo getServo(int channel) {
-        ServoWPIAdapter result = new ServoWPIAdapter(channel);
-        LiveWindow.addActuator("Servo", channel, result.getLiveWindowSendable());
-        return result;
+        return clf.createServo(channel);
     }
 
     @Override
     public DistanceSensor getLidar(Port port) {
-        return new LidarLiteWpiAdapter(port, propMan);
+        return clf.createLidarLite(port);
     }
 
     @Override
@@ -171,31 +124,27 @@ public class RealWPIFactory implements WPIFactory {
     }
 
     public XDigitalOutput getDigitalOutput(int channel) {
-        DigitalOutputWPIAdapter adapter = new DigitalOutputWPIAdapter(channel);
-        LiveWindow.addSensor("Digital output", channel, adapter.getWPIDigitalOutput());
-        return adapter;
+        return clf.createDigitalOutput(channel);
     }
 
     @Override
     public AnalogHIDButton getAnalogJoystickButton(XJoystick joystick, int axisNumber, double minThreshold,
             double maxThreshold) {
-        return new AnalogHIDButton(joystick, axisNumber, minThreshold, maxThreshold);
+        return clf.createAnalogHIDButton(joystick, axisNumber, minThreshold, maxThreshold);
     }
 
     @Override
     public AnalogHIDButton getAnalogJoystickButton(XJoystick joystick, AnalogHIDDescription description) {
-        return new AnalogHIDButton(joystick, description);
+        return clf.createAnalogHIDButton(joystick, description);
     }
 
     public XPowerDistributionPanel getPDP() {
-        PowerDistributionPanelWPIAdapter pdp = new PowerDistributionPanelWPIAdapter();
-        LiveWindow.addSensor("PDP Panel", 0, pdp.getLiveWindowSendable());
-        return pdp;
+        return clf.createPowerDistributionPanel();
     }
 
     @Override
     public XXboxController getXboxController(int number) {
-        return new XboxControllerWpiAdapter(number);
+        return clf.createXboxController(number);
     }
 
 }

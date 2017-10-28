@@ -4,6 +4,7 @@ import xbot.common.command.MockSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.actuators.MockCANTalon;
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
@@ -37,6 +38,7 @@ import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 import edu.wpi.first.wpilibj.MockAnalogInput;
+import edu.wpi.first.wpilibj.MockCompressor;
 import edu.wpi.first.wpilibj.MockDigitalInput;
 import edu.wpi.first.wpilibj.MockDigitalOutput;
 import edu.wpi.first.wpilibj.MockEncoder;
@@ -96,6 +98,7 @@ public class UnitTestModule extends AbstractModule {
                 .implement(XCANTalon.class, MockCANTalon.class)
                 .implement(XGyro.class, MockGyro.class)
                 .implement(XLidarLite.class, MockLidarLite.class)
+                .implement(XCompressor.class, MockCompressor.class)
                 .build(CommonLibFactory.class));
     }
 }

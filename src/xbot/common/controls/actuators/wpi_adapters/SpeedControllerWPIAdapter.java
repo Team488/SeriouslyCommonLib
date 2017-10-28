@@ -18,6 +18,8 @@ public class SpeedControllerWPIAdapter extends XSpeedController
     {
         super(channel);
         controller = new Talon(channel);
+        
+        LiveWindow.addActuator("SpeedController", channel, (LiveWindowSendable) this.getLiveWindowSendable());
     }
     
     public double get()
