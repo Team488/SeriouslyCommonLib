@@ -2,8 +2,10 @@ package xbot.common.controls.actuators;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
+import org.influxdb.dto.Point;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
@@ -29,6 +31,7 @@ public class MockCANTalon extends XCANTalon {
     
     private double setpoint = 0;
     private double throttlePercent = 0;
+    private double motorCurrent = 0;
     
     private int currentProfile = 0;
     private Map<Integer, ProfileParams> profiles = new HashMap<>();
@@ -139,11 +142,11 @@ public class MockCANTalon extends XCANTalon {
 
     @Override
     public double getOutputCurrent() {
-        if(controlMode == TalonControlMode.Follower) {
-            return mockRobotIO.getCANTalon((int)setpoint).getOutputCurrent();
-        }
-        
-        return Math.abs(setpoint) > 0.01 ? MockRobotIO.NOMINAL_MOTOR_CURRENT : 0;
+        return motorCurrent;
+    }
+    
+    public void setOutputCurrent(double current){
+        motorCurrent = current;
     }
 
     @Override

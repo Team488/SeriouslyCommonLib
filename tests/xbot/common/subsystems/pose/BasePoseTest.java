@@ -7,6 +7,7 @@ import org.junit.Ignore;
 
 import com.ctre.CANTalon.FeedbackDevice;
 
+import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.injection.BaseWPITest;
 
@@ -14,9 +15,11 @@ import xbot.common.injection.BaseWPITest;
 public class BasePoseTest extends BaseWPITest {
 
     protected TestPoseSubsystem pose;
+    protected MockTimer mockTimer;
     
     @Before
     public void setup() {
+        mockTimer = injector.getInstance(MockTimer.class);
         pose = injector.getInstance(TestPoseSubsystem.class);
         
         XCANTalon left = clf.createCANTalon(0);
@@ -25,6 +28,9 @@ public class BasePoseTest extends BaseWPITest {
         right.setFeedbackDevice(FeedbackDevice.QuadEncoder);
         
         pose.setDriveTalons(left, right);
+        
+        mockTimer.advanceTimeInSecondsBy(10);
+        pose.updatePeriodicData();
     }
     
     protected void verifyRobotHeading(double expectedHeading) {

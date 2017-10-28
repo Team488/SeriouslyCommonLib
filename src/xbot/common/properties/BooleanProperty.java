@@ -1,11 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package xbot.common.properties;
-
 
 /**
  * A property holding a boolean value.
@@ -39,7 +32,15 @@ public class BooleanProperty extends Property {
      * @return the current boolean value
      */
     public boolean get() {
-        return randomAccessStore.getBoolean(key).booleanValue();
+        Boolean nullableTableValue = randomAccessStore.getBoolean(key);
+        
+        if(nullableTableValue == null) {
+            log.error("Property key \"" + key + "\" not present in the underlying store!"
+                    + " IF THIS IS AN IMPORTANT ROBOT PROPERTY, MAKE SURE IT HAS A SANE VALUE BEFORE ENABLING THE ROBOT!");
+            return defaultValue;
+        }
+        
+        return nullableTableValue.booleanValue();
     }
 
     /**
@@ -56,8 +57,7 @@ public class BooleanProperty extends Property {
      */
     public void save() {
         if(persistenceType == PropertyPersistenceType.Persistent) {
-            permanentStore.setBoolean(key, randomAccessStore.getBoolean(key)
-                .booleanValue());
+            permanentStore.setBoolean(key, get());
         }
     }
 

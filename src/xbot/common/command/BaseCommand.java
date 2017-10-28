@@ -1,5 +1,8 @@
 package xbot.common.command;
 import org.apache.log4j.Logger;
+
+import com.google.inject.Inject;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -10,7 +13,7 @@ public abstract class BaseCommand extends Command {
 
     protected Logger log;
     
-    
+    @Inject
     SmartDashboardCommandPutter commandPutter;
 
     public BaseCommand() {
@@ -40,7 +43,8 @@ public abstract class BaseCommand extends Command {
 
     @Override
     public void interrupted() {
-        this.end();
+        log.info("Interrupted");
+        end();
     }
 
     public void includeOnSmartDashboard() {

@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="lib/guice-3.0/guice-assistedinject-3.0.jar"/>
 	<classpathentry kind="lib" path="lib/Derby/derby.jar"/>
 	<classpathentry kind="lib" path="lib/CTRLib.jar"/>
+	<classpathentry kind="lib" path="lib/influxdb-java-2.5-jar-with-dependencies.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

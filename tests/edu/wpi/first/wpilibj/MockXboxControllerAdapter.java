@@ -5,6 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import xbot.common.controls.sensors.XXboxController;
+import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 
 public class MockXboxControllerAdapter extends XXboxController {
@@ -23,8 +24,8 @@ public class MockXboxControllerAdapter extends XXboxController {
     }
     
     @Inject
-    public MockXboxControllerAdapter(@Assisted("port") int port) {
-        super(port);
+    public MockXboxControllerAdapter(@Assisted("port") int port, RobotAssertionManager manager) {
+        super(port, manager);
         leftStick = new XYPair();
         rightStick = new XYPair();
     }

@@ -8,6 +8,10 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.StringProperty;
 import xbot.common.properties.XPropertyManager;
 
+import java.util.concurrent.TimeUnit;
+
+import org.influxdb.dto.Point;
+
 public abstract class XCANTalon {
     /*
      * Functions currently omitted:
@@ -176,7 +180,19 @@ public abstract class XCANTalon {
      * sensor.
      */
     public abstract void set(double outputValue);
-    
+
     // LiveWindow
     public abstract LiveWindowSendable getLiveWindowSendable();
+        
+    public Point getTelemetryPoint(String className, String side, boolean addDistance) {
+        Point.Builder telemetryPoints = Point.measurement(className)
+            .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+            .tag("side", side)
+            .addField("power", get())
+            .addField("current", getOutputCurrent());
+        if (addDistance) {
+            telemetryPoints.addField("distance", getPosition());
+        } 
+        return telemetryPoints.build();       
+    }
 }

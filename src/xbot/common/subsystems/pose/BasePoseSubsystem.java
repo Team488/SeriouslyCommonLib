@@ -1,12 +1,16 @@
 package xbot.common.subsystems.pose;
 
+import edu.wpi.first.wpilibj.Timer;
+
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XGyro.ImuType;
 import xbot.common.controls.sensors.navx.AHRS;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
+import xbot.common.math.ContiguousDouble;
 import xbot.common.math.ContiguousHeading;
+import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
@@ -24,6 +28,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     private ContiguousHeading currentHeading;
     private final DoubleProperty currentHeadingProp;
+    private final DoubleProperty currentCompassHeadingProp;
     private double headingOffset;
     
     // These are two common robot starting positions - kept here as convenient shorthand.
@@ -39,18 +44,22 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     private double previousLeftDistance;
     private double previousRightDistance;
     
+    private final double classInstantiationTime;
+    private boolean isNavXReady = false;
+    
     private BooleanProperty rioRotated;
     
     public BasePoseSubsystem(CommonLibFactory factory, XPropertyManager propManager) {
         log.info("Creating");
         imu = factory.createGyro();
+        this.classInstantiationTime = Timer.getFPGATimestamp();
         
-        currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", 0.0);
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
-        
         currentHeading = new ContiguousHeading(0);
-        setCurrentHeading(FACING_AWAY_FROM_DRIVERS);
+        
+        currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", currentHeading.getValue());
+        currentCompassHeadingProp = propManager.createEphemeralProperty("Current compass heading", getCompassHeading(currentHeading));
         
         currentPitch = propManager.createEphemeralProperty("Current pitch", 0.0);
         currentRoll = propManager.createEphemeralProperty("Current roll", 0.0);
@@ -66,16 +75,20 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         inherentRioRoll = propManager.createPersistentProperty("Inherent RIO roll", 0.0);
     }
     
+    private double getCompassHeading(ContiguousDouble standardHeading) {
+        return new ContiguousDouble(currentHeading.getValue() - 90, 0, 360).getValue();
+    }
+    
     private void updateCurrentHeading() {
         currentHeading.setValue(getRobotYaw().getValue() + headingOffset);
         currentHeadingProp.set(currentHeading.getValue());
+        currentCompassHeadingProp.set(getCompassHeading(currentHeading));
         
         currentPitch.set(getRobotPitch());
         currentRoll.set(getRobotRoll());
     }  
     
     private void updateOdometry(double currentLeftDistance, double currentRightDistance) {
-       
         leftDriveDistance.set(currentLeftDistance);
         rightDriveDistance.set(currentRightDistance);
         
@@ -96,6 +109,9 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         previousRightDistance = currentRightDistance;
     }
     
+    /**
+     * @return Current heading but if the navX is still booting up it will return 0
+     */
     public ContiguousHeading getCurrentHeading() {
         updateCurrentHeading();
         return currentHeading.clone();
@@ -107,6 +123,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     private XYPair getTravelVector() {
         return new XYPair(totalDistanceX.get(), totalDistanceY.get());
+    }
+    
+    public FieldPose getCurrentFieldPose() {
+        return new FieldPose(getTravelVector(), getCurrentHeading());
     }
     
     public XYPair getRobotOrientedTotalDistanceTraveled() {
@@ -122,8 +142,11 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     }
     
     public void setCurrentHeading(double headingInDegrees){
+        log.info("Forcing heading to: " + headingInDegrees);
         double rawHeading = getRobotYaw().getValue();
+        log.info("Raw heading is: " + rawHeading);
         headingOffset = -rawHeading + headingInDegrees;
+        log.info("Offset calculated to be: " + headingOffset);
     }
     
     /**
@@ -182,8 +205,16 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         imu.getYawAngularVelocity();
     }
     
+    public boolean getNavXReady() {
+        return isNavXReady;
+    }
+    
     @Override
     public void updatePeriodicData() {
-        updatePose();
+        if (!isNavXReady && (classInstantiationTime + 1 < Timer.getFPGATimestamp())) {
+            setCurrentHeading(FACING_AWAY_FROM_DRIVERS);
+            isNavXReady = true;
+        }   
+        updatePose();      
     }
 }
