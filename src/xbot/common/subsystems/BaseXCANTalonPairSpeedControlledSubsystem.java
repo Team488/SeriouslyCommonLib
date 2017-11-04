@@ -37,9 +37,8 @@ public class BaseXCANTalonPairSpeedControlledSubsystem extends BaseXCANTalonSpee
     
     protected void initializeFollowerMotorConfiguration(boolean motorInverted) {
         followerMotor.setControlMode(TalonControlMode.Follower);
-        followerMotor.
-        followerMotor.setInverted(motorInverted);
         followerMotor.set(masterChannel);
+        followerMotor.reverseOutput(motorInverted);
     }
 
 }

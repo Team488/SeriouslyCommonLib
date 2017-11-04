@@ -115,9 +115,7 @@ public interface XCANTalon extends XSpeedController {
     void setVoltageCompensationRampRate(double rampRate);
     void configNominalOutputVoltage(double forwardVoltage, double reverseVoltage);
     void configPeakOutputVoltage(double forwardVoltage, double reverseVoltage);
-    
-    
-    
+        
     // Soft position limits -------------------------------
     int getForwardSoftLimit();
     int getReverseSoftLimit();
