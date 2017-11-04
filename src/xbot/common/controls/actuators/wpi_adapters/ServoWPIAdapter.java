@@ -1,34 +1,32 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
 import xbot.common.controls.actuators.XServo;
+
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 
-public class ServoWPIAdapter implements XServo{
+public class ServoWPIAdapter extends XServo{
+    
     Servo servo;
-    final int channel;
 
-    public ServoWPIAdapter(int channel) {
+    @Inject
+    public ServoWPIAdapter(@Assisted("channel") int channel) {
+        super(channel);
         this.servo = new Servo(channel);
-        this.channel = channel;
-    }
-
-    @Override
-    public int getChannel() {
-        return this.channel;
+        LiveWindow.addActuator("Servo", channel, this.getLiveWindowSendable());
     }
     
-    public Servo getInternalDevice() {
-        return this.servo;
-    }
-    
-    public double get() {
-        return this.servo.get();
-    }
-
     @Override
     public void set(double value) {
-        this.servo.set(value);
-        
+        this.servo.set(value);   
     }
 
+    @Override
+    public LiveWindowSendable getLiveWindowSendable() {
+        return servo;
+    }
 }

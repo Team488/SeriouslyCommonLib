@@ -1,41 +1,36 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.actuators.XSolenoid;
 
-public class SolenoidWPIAdapter implements XSolenoid {
+public class SolenoidWPIAdapter extends XSolenoid {
 
     Solenoid solenoid;
-    private boolean inverted;
-    final int channel;
 
-    public SolenoidWPIAdapter(int channel) {
+    @Inject
+    public SolenoidWPIAdapter(@Assisted("channel") int channel) {
+        super(channel);
         this.solenoid = new Solenoid(channel);
-        this.channel = channel;
+        LiveWindow.addActuator("Solenoid", channel, this.getLiveWindowSendable());
     }
 
     @Override
     public void set(boolean on) {
-        this.solenoid.set(on ^ inverted);
+        this.solenoid.set(on);
     }
 
     @Override
     public boolean get() {
-        return this.solenoid.get() ^ inverted;
+        return this.solenoid.get();
     }
 
     @Override
-    public void setInverted(boolean isInverted) {
-        this.inverted = isInverted;
+    public LiveWindowSendable getLiveWindowSendable() {
+        return (LiveWindowSendable)this.solenoid;
     }
-
-    @Override
-    public int getChannel() {
-        return this.channel;
-    }
-    
-    public Solenoid getInternalDevice() {
-        return solenoid;
-    }
-
 }

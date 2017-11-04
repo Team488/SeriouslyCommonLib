@@ -4,9 +4,8 @@ import edu.wpi.first.wpilibj.Timer;
 
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
-import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XGyro;
-import xbot.common.injection.wpi_factories.WPIFactory;
+import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.ContiguousDouble;
 import xbot.common.math.ContiguousHeading;
 import xbot.common.math.FieldPose;
@@ -48,10 +47,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     private BooleanProperty rioRotated;
     
-    public BasePoseSubsystem(WPIFactory factory, XPropertyManager propManager) {
+    public BasePoseSubsystem(CommonLibFactory factory, XPropertyManager propManager) {
         log.info("Creating");
+        imu = factory.createGyro();
         this.classInstantiationTime = Timer.getFPGATimestamp();
-        imu = factory.getGyro(ImuType.navX);
         
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
@@ -178,7 +177,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
      * then this method will need to be overridden.
      */
     private ContiguousHeading getRobotYaw() {
-        return imu.getYaw();
+        return imu.getHeading();
     }
     
     private double getUntrimmedPitch() {

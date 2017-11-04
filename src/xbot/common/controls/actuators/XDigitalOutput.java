@@ -1,9 +1,20 @@
 package xbot.common.controls.actuators;
 
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.XBaseIO;
 
-public interface XDigitalOutput extends XBaseIO {
+public abstract class XDigitalOutput implements XBaseIO {
 
-    public void set(boolean value);
-
+    protected int channel;
+    
+    public XDigitalOutput(int channel) {
+        this.channel = channel;
+    }
+    
+    public int getChannel() {
+        return channel;
+    }
+    
+    public abstract void set(boolean value);
+    public abstract LiveWindowSendable getLiveWindowSendable();
 }

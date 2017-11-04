@@ -1,12 +1,9 @@
 package xbot.common.subsystems;
 
-import org.apache.log4j.Logger;
-
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
-import xbot.common.controls.sensors.NavImu.ImuType;
 import xbot.common.controls.sensors.XGyro;
-import xbot.common.injection.wpi_factories.WPIFactory;
+import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.ContiguousHeading;
 import xbot.common.math.XYPair;
 import xbot.common.properties.BooleanProperty;
@@ -44,14 +41,14 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     private BooleanProperty rioRotated;
     
-    public BasePoseSubsystem(WPIFactory factory, XPropertyManager propManager) {
+    public BasePoseSubsystem(CommonLibFactory factory, XPropertyManager propManager) {
         log.info("Creating");
-        imu = factory.getGyro(ImuType.navX);
+        imu = factory.createGyro();
         
         currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", 0.0);
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
-        lastImuHeading = imu.getYaw();
+        lastImuHeading = imu.getHeading();
         currentHeading = new ContiguousHeading(FACING_AWAY_FROM_DRIVERS);
         
         currentPitch = propManager.createEphemeralProperty("CurrentPitch", 0.0);
@@ -71,13 +68,13 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     private void updateCurrentHeading() {
         // Old heading - current heading gets the delta heading        
-        double imuDeltaYaw = lastImuHeading.difference(imu.getYaw());
+        double imuDeltaYaw = lastImuHeading.difference(imu.getHeading());
 
         // add the delta to our current
         currentHeading.shiftValue(imuDeltaYaw);
         
         // update the "old" value
-        lastImuHeading = imu.getYaw();
+        lastImuHeading = imu.getHeading();
         
         currentHeadingProp.set(currentHeading.getValue());
         

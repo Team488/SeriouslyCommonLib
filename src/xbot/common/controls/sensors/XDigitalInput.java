@@ -1,9 +1,11 @@
 package xbot.common.controls.sensors;
 
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.XBaseIO;
 
-public interface XDigitalInput extends XBaseIO {
+public abstract class XDigitalInput implements XBaseIO {
 
-    public boolean get();
-
+    public abstract boolean get();
+    
+    public abstract LiveWindowSendable getLiveWindowSendable();
 }

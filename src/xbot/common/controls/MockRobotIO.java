@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import xbot.common.controls.actuators.MockCANTalon;
+import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
 
 @Singleton
 public class MockRobotIO {
