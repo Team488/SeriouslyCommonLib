@@ -456,6 +456,11 @@ public class CANTalonWPIAdapter implements XCANTalon {
     public void set(double outputValue) {
         internalTalon.set(outputValue);
     }
+    
+    @Override
+    public void reverseOutput(boolean isInverted) {
+        internalTalon.reverseOutput(isInverted);
+    }
 
     @Override
     public void createTelemetryProperties(String deviceName, XPropertyManager propertyManager) {

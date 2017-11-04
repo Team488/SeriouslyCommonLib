@@ -683,4 +683,9 @@ public class MockCANTalon implements XCANTalon {
             return telemetryPoints.build();
     }
 
+    @Override
+    public void reverseOutput(boolean isInverted) {
+        this.setInverted(isInverted);        
+    }
+
 }
