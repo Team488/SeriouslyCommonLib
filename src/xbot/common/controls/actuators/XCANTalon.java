@@ -148,25 +148,25 @@ public abstract class XCANTalon {
     public abstract int getNumberOfQuadIndexRises();
     
     // Output ---------------------------------------------
-    boolean getInverted();
+    public abstract boolean getInverted();
     
     /**
      * This inverts the motor for operations like PercentVBus, but DOES NOT INVERT
      * THE MOTOR FOR ClOSED-LOOP CONTROL OR FOLLOWER CONTROL!!! For that, use reverseOutput().
      * @param isInverted
      */
-    void setInverted(boolean isInverted);
+    public abstract void setInverted(boolean isInverted);
     
     /**
      * This is used to reverse the closed-loop output of a CANTalon. In addition, this will 
      * also cause a follower motor to move in the opposite direction of the master motor.
      * @param isInverted
      */
-    void reverseOutput(boolean isInverted);
+    public abstract void reverseOutput(boolean isInverted);
     
-    void setVoltageCompensationRampRate(double rampRate);
-    void configNominalOutputVoltage(double forwardVoltage, double reverseVoltage);
-    void configPeakOutputVoltage(double forwardVoltage, double reverseVoltage);
+    public abstract void setVoltageCompensationRampRate(double rampRate);
+    public abstract void configNominalOutputVoltage(double forwardVoltage, double reverseVoltage);
+    public abstract void configPeakOutputVoltage(double forwardVoltage, double reverseVoltage);
         
     // Soft position limits -------------------------------
     public abstract int getForwardSoftLimit();

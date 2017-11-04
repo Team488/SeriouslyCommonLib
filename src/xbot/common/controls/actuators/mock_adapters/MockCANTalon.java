@@ -647,4 +647,9 @@ public class MockCANTalon extends XCANTalon {
         
         mockRobotIO.setPWM(-deviceId, this.getOutputVoltage() / this.getBusVoltage());
     }
+
+    @Override
+    public void reverseOutput(boolean isInverted) {
+        this.setInverted(isInverted);        
+    }
 }

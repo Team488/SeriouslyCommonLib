@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.actuators.XCANTalon;
-import xbot.common.injection.wpi_factories.WPIFactory;
+import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.PIDPropertyManager;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
@@ -56,7 +56,7 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
             int masterChannel,
             boolean invertMaster,
             boolean invertMasterSensor,
-            WPIFactory factory, 
+            CommonLibFactory factory, 
             PIDPropertyManager pidPropertyManager,
             XPropertyManager propManager){
         super(name);
@@ -77,9 +77,9 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
         systemTalonError = propManager.createEphemeralProperty(name + " speed error", 0);
         enablesystemLogging = propManager.createEphemeralProperty("Is " + name + " logging enabled?", false);
         
-        masterMotor = factory.getCANTalonSpeedController(masterChannel);
+        masterMotor = factory.createCANTalon(masterChannel);
         initializeMasterMotorConfiguration(invertMaster, invertMasterSensor);
-        masterMotor.createTelemetryProperties(name + "  master", propManager);
+        masterMotor.createTelemetryProperties(name + "  master");
     }
     
     protected void initializeMasterMotorConfiguration(boolean motorInverted, boolean motorSensorInverted) {
