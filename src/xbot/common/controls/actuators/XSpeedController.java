@@ -1,15 +1,38 @@
 package xbot.common.controls.actuators;
 
-import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.XBaseIO;
 
-public interface XSpeedController extends XBaseIO
+public abstract class XSpeedController implements XBaseIO
 {
-    public double get();
-    public void set(double value);
-    public void disable();
-    public SpeedController getInternalController();
+    protected int channel;
+    protected boolean isInverted;
     
-    public boolean getInverted();
-    public void setInverted(boolean inverted);
+    public XSpeedController(int channel) {
+        this.channel = channel;
+    }
+    
+    public int getChannel() {
+        return channel;
+    }
+    
+    public boolean getInverted() {
+        return isInverted;
+    }
+    public void setInverted(boolean isInverted) {
+        this.isInverted = isInverted;
+    }
+    
+    public void setPower(double power) {
+        set(power * (isInverted ? -1 : 1));
+    }
+    
+    public double getPower() {
+        return get() * (isInverted ? -1 : 1);
+    }
+    
+    protected abstract double get();
+    protected abstract void set(double value);
+    
+    public abstract LiveWindowSendable getLiveWindowSendable();
 }

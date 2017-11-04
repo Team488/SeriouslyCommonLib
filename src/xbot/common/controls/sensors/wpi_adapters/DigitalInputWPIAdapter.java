@@ -1,11 +1,16 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.sensors.XDigitalInput;
 
-public class DigitalInputWPIAdapter implements XDigitalInput {
+public class DigitalInputWPIAdapter extends XDigitalInput {
 
-    DigitalInput adapter;
+    protected DigitalInput adapter;
 
     /**
      * Create an instance of a Digital Input class. Creates a digital input given a channel.
@@ -13,8 +18,11 @@ public class DigitalInputWPIAdapter implements XDigitalInput {
      * @param channel
      *            the DIO channel for the digital input 0-9 are on-board, 10-25 are on the MXP
      */
-    public DigitalInputWPIAdapter(int channel) {
+    @Inject
+    public DigitalInputWPIAdapter(@Assisted("channel") int channel) {
         adapter = new DigitalInput(channel);
+        
+        LiveWindow.addSensor("DigitalInput", channel, this.getLiveWindowSendable());
     }
 
     /**
@@ -35,8 +43,8 @@ public class DigitalInputWPIAdapter implements XDigitalInput {
         return adapter.getChannel();
     }
 
-    public DigitalInput getWPIDigitalInput() {
-        return adapter;
+    @Override
+    public LiveWindowSendable getLiveWindowSendable() {
+        return (LiveWindowSendable)adapter;
     }
-
 }

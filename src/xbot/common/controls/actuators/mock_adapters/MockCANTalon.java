@@ -1,24 +1,26 @@
-package xbot.common.controls.actuators;
+package xbot.common.controls.actuators.mock_adapters;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
-import org.influxdb.dto.Point;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.FeedbackDeviceStatus;
 import com.ctre.CANTalon.StatusFrameRate;
 import com.ctre.CANTalon.TalonControlMode;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
-import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.MockRobotIO;
-import xbot.common.controls.sensors.MockEncoder;
+import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 import xbot.common.properties.XPropertyManager;
 
-public class MockCANTalon implements XCANTalon {    
+public class MockCANTalon extends XCANTalon {    
     public final int deviceId;
     private CANTalon.TalonControlMode controlMode;
     private CANTalon.TalonControlMode lastSetControlMode;
@@ -32,6 +34,8 @@ public class MockCANTalon implements XCANTalon {
     private int currentProfile = 0;
     private Map<Integer, ProfileParams> profiles = new HashMap<>();
     
+
+    @SuppressWarnings("unused")
     private static class ProfileParams
     {
         public double p;
@@ -44,11 +48,13 @@ public class MockCANTalon implements XCANTalon {
     private static final ProfileParams defaultParams = new ProfileParams();
     
     MockRobotIO mockRobotIO;
-    public MockEncoder internalEncoder = null;
+    public XEncoder internalEncoder = null;
 
     private static Logger log = Logger.getLogger(MockCANTalon.class);
 
-    public MockCANTalon(int deviceId, MockRobotIO mockRobotIO) {
+    @Inject
+    public MockCANTalon(@Assisted("deviceId") int deviceId, MockRobotIO mockRobotIO, XPropertyManager propMan) {
+        super(deviceId, propMan);
         log.info("Creating CAN talon with device ID: " + deviceId);
         
         this.deviceId = deviceId;
@@ -72,13 +78,8 @@ public class MockCANTalon implements XCANTalon {
     }
     
     @Override
-    public SpeedController getInternalController() {
+    public LiveWindowSendable getLiveWindowSendable() {
         return null;
-    }
-
-    @Override
-    public int getChannel() {
-        return this.getDeviceID();
     }
 
     @Override
@@ -320,10 +321,10 @@ public class MockCANTalon implements XCANTalon {
         
         double currentPos;
         if(controlMode == TalonControlMode.Position) {
-            currentPos = internalEncoder.getDistance();
+            currentPos = internalEncoder.getAdjustedDistance();
         }
         else if (controlMode == TalonControlMode.Speed) {
-            currentPos = internalEncoder.getRate();
+            currentPos = internalEncoder.getAdjustedRate();
         }
         else {
             return 0;
@@ -368,7 +369,7 @@ public class MockCANTalon implements XCANTalon {
     @Override
     public void setFeedbackDevice(FeedbackDevice device) {
         if(device == FeedbackDevice.QuadEncoder) {
-            this.internalEncoder = new MockEncoder();
+            this.internalEncoder = new MockEncoder(propMan);
         }
     }
 
@@ -389,7 +390,7 @@ public class MockCANTalon implements XCANTalon {
             return 0;
         }
         
-        return internalEncoder.getDistance();
+        return internalEncoder.getAdjustedDistance();
     }
 
     @Override
@@ -398,7 +399,7 @@ public class MockCANTalon implements XCANTalon {
             log.warn("Position set before setting feedback device!");
         }
         else {
-            internalEncoder.setDistance(pos);
+            ((MockEncoder)internalEncoder).setDistance(pos);
         }
     }
 
@@ -437,7 +438,7 @@ public class MockCANTalon implements XCANTalon {
 
     @Override
     public int getEncoderPosition() {
-        return internalEncoder == null ? 0 : (int) internalEncoder.getDistance();
+        return internalEncoder == null ? 0 : (int) internalEncoder.getAdjustedDistance();
     }
 
     @Override
@@ -446,15 +447,15 @@ public class MockCANTalon implements XCANTalon {
             // Because the nullity of internalEncoder is used to determine whether a
             //  feedback device has been chosen, initializing it here will have the
             //  unintended side-effect of no longer warning about an unset sensor.
-            internalEncoder = new MockEncoder();
+            internalEncoder = new MockEncoder(propMan);
         }
         
-        internalEncoder.setDistance(newPosition);
+        ((MockEncoder)internalEncoder).setDistance(newPosition);
     }
 
     @Override
     public int getEncoderSpeed() {
-        return internalEncoder == null ? 0 : (int) internalEncoder.getRate();
+        return internalEncoder == null ? 0 : (int) internalEncoder.getAdjustedRate();
     }
 
     @Override
@@ -646,46 +647,4 @@ public class MockCANTalon implements XCANTalon {
         
         mockRobotIO.setPWM(-deviceId, this.getOutputVoltage() / this.getBusVoltage());
     }
-
-    @Override
-    public void createTelemetryProperties(String deviceName, XPropertyManager propertyManager) {
-        // Intentionally left blank. There is no need for properties in mock mode.
-    }
-
-    @Override
-    public void updateTelemetryProperties() {
-        // Intentionally left blank. There is no need for properties in mock mode.
-    }
-
-    /**
-     * When working with the real implementation of the talon, we want to minimize
-     * setControlMode calls, as these appear to send a message across the CAN bus, and
-     * the bus has a finite bandwidth.
-     * 
-     * However, the Mock implementation has no such restrictions (it's all in-memory faked
-     * stuff), so we can just call set every tick.
-     */
-    @Override
-    public void ensureTalonControlMode(TalonControlMode mode) {
-        this.setControlMode(mode);
-    }
-
-    @Override
-    public Point getTelemetryPoint(String className, String side, boolean addDistance) {
-        Point.Builder telemetryPoints = Point.measurement(className)
-                .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-                .tag("side", side)
-                .addField("power", get())
-                .addField("current", getOutputCurrent());
-            if (addDistance) {
-                telemetryPoints.addField("distance", getPosition());
-            } 
-            return telemetryPoints.build();
-    }
-
-    @Override
-    public void reverseOutput(boolean isInverted) {
-        this.setInverted(isInverted);        
-    }
-
 }

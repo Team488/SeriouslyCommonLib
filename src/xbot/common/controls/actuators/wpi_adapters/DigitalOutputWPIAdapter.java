@@ -1,29 +1,19 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.actuators.XDigitalOutput;
 
-public class DigitalOutputWPIAdapter implements XDigitalOutput {
+public class DigitalOutputWPIAdapter extends XDigitalOutput {
 
     DigitalOutput adapter;
 
-    /**
-     * Create an instance of a Digital Output class. Creates a digital output given a channel.
-     *
-     * @param channel
-     *            The channel to control.
-     */
     public DigitalOutputWPIAdapter(int channel) {
+        super(channel);
         adapter = new DigitalOutput(channel);
-    }
-
-    /**
-     * Get the channel of the digital input
-     *
-     * @return The GPIO channel number that this object represents.
-     */
-    public int getChannel() {
-        return adapter.getChannel();
+        
+        LiveWindow.addSensor("Digital output", channel, this.getWPIDigitalOutput());
     }
 
     public void set(boolean value) {
@@ -31,6 +21,11 @@ public class DigitalOutputWPIAdapter implements XDigitalOutput {
     }
 
     public DigitalOutput getWPIDigitalOutput() {
+        return adapter;
+    }
+
+    @Override
+    public LiveWindowSendable getLiveWindowSendable() {
         return adapter;
     }
 

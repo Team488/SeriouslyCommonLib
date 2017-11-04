@@ -2,6 +2,10 @@ package xbot.common.controls.sensors;
 
 import org.apache.log4j.Logger;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
+import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
@@ -11,7 +15,7 @@ public class AnalogDistanceSensor implements DistanceSensor {
     
     private static final int NUM_AVERAGE_BITS = 2;
 
-    XAnalogInput inputPort;
+    XAnalogInput input;
     DoubleFunction<Double> voltageMap;
     
     private DoubleProperty voltageOffset;
@@ -22,25 +26,31 @@ public class AnalogDistanceSensor implements DistanceSensor {
     
     private static final Logger log = Logger.getLogger(AnalogDistanceSensor.class);
 
-    public AnalogDistanceSensor(XAnalogInput inputPort, DoubleFunction<Double> voltageMap, XPropertyManager propMan) {
+    @Inject
+    public AnalogDistanceSensor(
+            CommonLibFactory clf, 
+            @Assisted("channel") int channel, 
+            @Assisted("voltageMap") DoubleFunction<Double> voltageMap, 
+            XPropertyManager propMan) {
+                
         log.info("Initializing...");
-        this.inputPort = inputPort;
+        this.input = clf.createAnalogInput(channel);
         this.voltageMap = voltageMap;
-        voltageOffset = propMan.createPersistentProperty("Distance sensor " + inputPort.getChannel() + " voltage offset", 0d);
-        distanceOffset = propMan.createPersistentProperty("Distance sensor " + inputPort.getChannel() + " distance offset", 0d);
-        scalarMultiplier = propMan.createPersistentProperty("Distance sensor " + inputPort.getChannel() + "scalar multiplier", 1d);
+        voltageOffset = propMan.createPersistentProperty("Distance sensor " + input.getChannel() + " voltage offset", 0d);
+        distanceOffset = propMan.createPersistentProperty("Distance sensor " + input.getChannel() + " distance offset", 0d);
+        scalarMultiplier = propMan.createPersistentProperty("Distance sensor " + input.getChannel() + "scalar multiplier", 1d);
     }
 
     @Override
     public double getDistance() {
-        double voltage = isAveragingEnabled ? inputPort.getAverageVoltage() : inputPort.getVoltage();
+        double voltage = isAveragingEnabled ? input.getAverageVoltage() : input.getVoltage();
         return (voltageMap.apply(voltage + voltageOffset.get()) + distanceOffset.get()) * scalarMultiplier.get();
     }
 
     @Override
     public void setAveraging(boolean shouldAverage) {
         isAveragingEnabled = shouldAverage;
-        inputPort.setAverageBits(shouldAverage? NUM_AVERAGE_BITS : 0);
+        input.setAverageBits(shouldAverage? NUM_AVERAGE_BITS : 0);
     }
 
     public void setVoltageOffset(double offset)

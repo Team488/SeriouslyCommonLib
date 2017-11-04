@@ -1,7 +1,6 @@
 package xbot.common.command;
 
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.XPropertyManager;
 
 public class TimeoutCommand extends BaseCommand{
     DoubleProperty timeout;

@@ -1,19 +1,20 @@
-package xbot.common.controls.sensors;
+package xbot.common.controls.sensors.wpi_adapters;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import xbot.common.controls.sensors.XXboxController;
 import xbot.common.logging.RobotAssertionManager;
 import edu.wpi.first.wpilibj.XboxController;
 
-public class RealXboxControllerAdapter extends XXboxController {
+public class XboxControllerWpiAdapter extends XXboxController {
 
     protected XboxController controller;
 
     @Inject
-    public RealXboxControllerAdapter(@Assisted("port") int port, RobotAssertionManager assertionManager) {
-        super(port, assertionManager);
+    public XboxControllerWpiAdapter(@Assisted("port") int port, RobotAssertionManager manager) {
+        super(port, manager);
         controller = new XboxController(port);
     }
 

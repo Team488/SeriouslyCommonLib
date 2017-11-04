@@ -9,6 +9,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import xbot.common.controls.MockRobotIO;
+import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.properties.XPropertyManager;
 import edu.wpi.first.wpilibj.HLUsageReporting;
 import edu.wpi.first.wpilibj.MockHLUsageReporting;
@@ -28,6 +29,9 @@ public class BaseWPITest {
     public XPropertyManager propertyManager;
     
     protected AbstractModule guiceModule = new UnitTestModule();
+    
+    protected CommonLibFactory clf;
+    
     protected MockTimer timer;
 
     @Before
@@ -42,6 +46,8 @@ public class BaseWPITest {
         RobotState.SetImplementation(mockRobotState);
 
         propertyManager = injector.getInstance(XPropertyManager.class);
+        
+        clf = injector.getInstance(CommonLibFactory.class);
 
         DOMConfigurator.configure("lib/log4jConfig/log4j4unitTesting.xml");
     }
