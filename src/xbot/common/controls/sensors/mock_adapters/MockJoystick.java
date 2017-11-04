@@ -6,11 +6,9 @@ import java.util.Map;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.logging.RobotAssertionManager;
-import xbot.common.math.XYPair;
 
 public class MockJoystick extends XJoystick {
 

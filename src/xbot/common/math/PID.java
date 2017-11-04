@@ -1,7 +1,6 @@
 package xbot.common.math;
 
 import edu.wpi.first.wpilibj.Timer;
-import xbot.common.controls.sensors.XTimer;
 
 /**
  * This PID was extracted from WPILib. It has all the same functionality, but

@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.wpi.first.wpilibj.MockTimer;
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.BaseWPITest;
 import xbot.common.logging.RobotAssertionException;
 

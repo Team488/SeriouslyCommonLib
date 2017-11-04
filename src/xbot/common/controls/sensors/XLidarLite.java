@@ -4,9 +4,6 @@ import java.util.TimerTask;
 
 import org.apache.log4j.Logger;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.AssistedInject;
-
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 import edu.wpi.first.wpilibj.I2C.Port;

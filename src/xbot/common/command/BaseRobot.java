@@ -2,8 +2,6 @@ package xbot.common.command;
 
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Observer;
-
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 

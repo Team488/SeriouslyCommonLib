@@ -8,7 +8,6 @@ import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.actuators.XSpeedController;
-import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
 import xbot.common.controls.actuators.wpi_adapters.CANTalonWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.CompressorWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.DigitalOutputWPIAdapter;
@@ -38,7 +37,6 @@ import xbot.common.math.PIDFactory;
 import xbot.common.properties.ITableProxy;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.PreferenceStorage;
-import xbot.common.properties.RobotDatabaseStorage;
 import xbot.common.properties.SmartDashboardTableWrapper;
 
 import com.google.inject.AbstractModule;

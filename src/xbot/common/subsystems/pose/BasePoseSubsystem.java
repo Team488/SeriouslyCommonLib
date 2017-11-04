@@ -5,8 +5,6 @@ import edu.wpi.first.wpilibj.Timer;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.sensors.XGyro;
-import xbot.common.controls.sensors.XGyro.ImuType;
-import xbot.common.controls.sensors.navx.AHRS;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.ContiguousDouble;
 import xbot.common.math.ContiguousHeading;

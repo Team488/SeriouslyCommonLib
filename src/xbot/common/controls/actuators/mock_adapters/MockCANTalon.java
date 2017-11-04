@@ -34,6 +34,8 @@ public class MockCANTalon extends XCANTalon {
     private int currentProfile = 0;
     private Map<Integer, ProfileParams> profiles = new HashMap<>();
     
+
+    @SuppressWarnings("unused")
     private static class ProfileParams
     {
         public double p;

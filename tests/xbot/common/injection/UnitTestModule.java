@@ -20,8 +20,6 @@ import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.controls.sensors.mock_adapters.MockJoystick;
-import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter;
-import xbot.common.controls.sensors.wpi_adapters.JoystickWPIAdapter;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.logging.LoudRobotAssertionManager;
 import xbot.common.logging.RobotAssertionManager;

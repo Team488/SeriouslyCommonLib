@@ -1,9 +1,5 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
-import java.util.concurrent.TimeUnit;
-
-import org.influxdb.dto.Point;
-
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.FeedbackDeviceStatus;
@@ -12,12 +8,9 @@ import com.ctre.CANTalon.TalonControlMode;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.actuators.XCANTalon;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.StringProperty;
 import xbot.common.properties.XPropertyManager;
 
 public class CANTalonWPIAdapter extends XCANTalon {

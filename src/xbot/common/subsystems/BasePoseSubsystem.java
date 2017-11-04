@@ -1,11 +1,8 @@
 package xbot.common.subsystems;
 
-import org.apache.log4j.Logger;
-
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.sensors.XGyro;
-import xbot.common.controls.sensors.XGyro.ImuType;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.ContiguousHeading;
 import xbot.common.math.XYPair;

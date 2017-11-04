@@ -1,12 +1,10 @@
 package xbot.common.controls.sensors.mock_adapters;
 
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.sensors.XGyro;
-import xbot.common.controls.sensors.XGyro.ImuType;
 
 public class MockGyro extends XGyro {
     private boolean isBroken;
