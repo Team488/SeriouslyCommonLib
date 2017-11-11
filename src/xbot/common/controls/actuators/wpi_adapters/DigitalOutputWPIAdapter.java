@@ -1,5 +1,8 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
@@ -9,7 +12,8 @@ public class DigitalOutputWPIAdapter extends XDigitalOutput {
 
     DigitalOutput adapter;
 
-    public DigitalOutputWPIAdapter(int channel) {
+    @Inject
+    public DigitalOutputWPIAdapter(@Assisted("channel") int channel) {
         super(channel);
         adapter = new DigitalOutput(channel);
         
