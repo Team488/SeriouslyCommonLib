@@ -3,6 +3,7 @@ package xbot.common.subsystems;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.math.XYPair;
 import xbot.common.properties.XPropertyManager;
+import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 public abstract class BaseDriveSubsystem extends BaseSubsystem {
 

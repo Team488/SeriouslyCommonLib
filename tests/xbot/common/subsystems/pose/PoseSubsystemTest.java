@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import xbot.common.subsystems.BasePoseSubsystem;
-
 public class PoseSubsystemTest extends BasePoseTest {
         
     TestPoseSubsystem pose;
