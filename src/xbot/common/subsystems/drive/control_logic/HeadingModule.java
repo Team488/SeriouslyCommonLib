@@ -11,7 +11,7 @@ import xbot.common.subsystems.pose.BasePoseSubsystem;
 public class HeadingModule {
 
     final BasePoseSubsystem pose;
-    private PIDManager headingDrivePid;
+    private final PIDManager headingDrivePid;
     
     private ContiguousHeading targetHeading;
     
@@ -29,13 +29,8 @@ public class HeadingModule {
         targetHeading = new ContiguousHeading();
     }
     
-    /**
-     * This allows access to the internal PID object, so that callers can modify P,I,D values or other
-     * thresholds. This also allows them to access useful methods like isOnTarget.
-     * @return
-     */
-    public PIDManager getInternalPID() {
-        return headingDrivePid;
+    public boolean isOnTarget() {
+        return headingDrivePid.isOnTarget();
     }
     
     public void reset() {
