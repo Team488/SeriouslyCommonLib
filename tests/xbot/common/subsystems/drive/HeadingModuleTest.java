@@ -7,7 +7,6 @@ import static org.junit.Assert.assertFalse;
 import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
-import xbot.common.math.PIDFactory;
 import xbot.common.math.PIDManager;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
