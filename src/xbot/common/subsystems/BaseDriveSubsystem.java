@@ -1,5 +1,8 @@
 package xbot.common.subsystems;
 
+import java.util.Arrays;
+import java.util.stream.DoubleStream;
+
 import xbot.common.command.BaseSubsystem;
 import xbot.common.math.XYPair;
 import xbot.common.properties.XPropertyManager;
@@ -7,20 +10,8 @@ import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 public abstract class BaseDriveSubsystem extends BaseSubsystem {
 
-    public enum DriveType {
-        Tank,
-        Holonomic,
-        Swerve
-    }
-    
-    protected DriveType mode;
-    
     public BaseDriveSubsystem(BasePoseSubsystem pose, XPropertyManager propMan) {
         
-    }
-    
-    protected void setDriveMode(DriveType mode) {
-        this.mode = mode;
     }
     
     public abstract void setFrontLeftMotor(double value);
@@ -43,14 +34,31 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
         setRightSide(rightPower);
     }
     
-    public void setPowerGoal(XYPair translationPower, double rotationPower)
-    {
+    public void simpleHolonomicDrive(XYPair translation, double rotation, boolean normalizePower) {
+        double fl_power = translation.y + translation.x - rotation;
+        double fr_power = translation.y - translation.x + rotation;
+        double rl_power = translation.y - translation.x - rotation;
+        double rr_power = translation.y + translation.x + rotation;
         
+        DoubleStream powers = Arrays.stream(new double[]{fl_power, fr_power, rl_power, rr_power});
+        double max = powers.map((e) -> Math.abs(e)).max().getAsDouble();
+        
+        if (max > 1 && normalizePower) {
+            fl_power /= max;
+            fr_power /= max;
+            rl_power /= max;
+            rr_power /= max;
+        }
+        
+        setFrontLeftMotor(fl_power);
+        setFrontRightMotor(fr_power);
+        setRearLeftMotor(rl_power);
+        setRearRightMotor(rr_power);
     }
-    public abstract void setVelocityGoal(XYPair translationVelocityGoals, double rotationVelocityGoal);
-    public abstract void setPositionGoal(XYPair translationPositionGoal, double rotationPositionGoal);
     
-    public void assignDriveLogic(DriveType driveType) {
-        
+    public void simpleHolonomicDrive(XYPair translation, double rotation) {
+        simpleHolonomicDrive(translation, rotation, false);
     }
+    
+    
 }
