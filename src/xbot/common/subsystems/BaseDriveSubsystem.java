@@ -3,6 +3,8 @@ package xbot.common.subsystems;
 import java.util.Arrays;
 import java.util.stream.DoubleStream;
 
+import javax.swing.UIManager.LookAndFeelInfo;
+
 import com.ctre.CANTalon.TalonControlMode;
 
 import xbot.common.command.BaseSubsystem;
@@ -17,6 +19,21 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
         this.platform = platform;
         
         // Do some one-time checks and log the output
+        logIfExists(platform.getAllMasterTalons(), "Talons detected");
+        logIfExists(platform.getLeftMasterTalons(), "Left Talons detected");
+        logIfExists(platform.getRightMasterTalons(), "Right Talons detected");
+        
+        logIfExists(platform.getFrontLeftMasterTalon(), "Front Left Talon detected");
+        logIfExists(platform.getFrontLeftMasterTalon(), "Front Right Talon detected");
+        logIfExists(platform.getFrontLeftMasterTalon(), "Rear Left Talon detected");
+        logIfExists(platform.getFrontLeftMasterTalon(), "Rear Right Talon detected");
+        
+    }
+    
+    protected void logIfExists(Object objectToCheck, String message) {
+        if (objectToCheck != null) {
+            log.info(message);
+        }
     }
     
     protected void setTalonModes(TalonControlMode mode) {
