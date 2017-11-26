@@ -1,6 +1,5 @@
 package xbot.common.subsystems;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.DoubleStream;
 
@@ -9,42 +8,34 @@ import com.ctre.CANTalon.TalonControlMode;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.math.XYPair;
-import xbot.common.properties.XPropertyManager;
-import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 public abstract class BaseDriveSubsystem extends BaseSubsystem {
 
-    DrivePlatform platform;
+    protected BaseDrivePlatform platform;
     
-    public BaseDriveSubsystem(DrivePlatform platform) {
+    public BaseDriveSubsystem(BaseDrivePlatform platform) {
         this.platform = platform;
+        
+        // Do some one-time checks and log the output
     }
-    /*
-    public abstract void setFrontLeftMotor(double value);
-    public abstract void setFrontRightMotor(double value);
-    public abstract void setRearLeftMotor(double value);
-    public abstract void setRearRightMotor(double value);
-    
-    protected void setLeftSide(double value) {
-        setFrontLeftMotor(value);
-        setRearLeftMotor(value);
-    }
-    
-    protected void setRightSide(double value) {
-        setFrontRightMotor(value);
-        setRearRightMotor(value);
-    }*/
     
     protected void setTalonModes(TalonControlMode mode) {
-        platform.getAllMasterTalons().stream()
-        .forEach((t) -> t.ensureTalonControlMode(mode));
+        if (platform.getAllMasterTalons() != null) {
+            platform.getAllMasterTalons().stream()
+            .forEach((t) -> t.ensureTalonControlMode(mode));
+        }
     }
     
     public void simpleTankDrive(double leftPower, double rightPower) {
         setTalonModes(TalonControlMode.PercentVbus);
         
-        platform.getLeftMasterTalon().set(leftPower);
-        platform.getRightMasterTalon().set(rightPower);
+        if (platform.getLeftMasterTalons() != null) {
+            platform.getLeftMasterTalons().stream().forEach((t) -> t.set(leftPower));
+        }
+        
+        if (platform.getRightMasterTalons() != null) {
+            platform.getRightMasterTalons().stream().forEach((t) -> t.set(rightPower));
+        }
     }
     
     public void simpleHolonomicDrive(XYPair translation, double rotation, boolean normalizePower) {
@@ -66,15 +57,20 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
             rr_power /= max;
         }
         
-        platform.getFrontLeftMasterTalon().set(fl_power);
-        platform.getFrontRightMasterTalon().set(fr_power);
-        platform.getRearLeftMasterTalon().set(rl_power);
-        platform.getRearRightMasterTalon().set(rr_power);
+        setTalonIfAvailable(platform.getFrontLeftMasterTalon(), fl_power);
+        setTalonIfAvailable(platform.getFrontRightMasterTalon(), fr_power);
+        setTalonIfAvailable(platform.getRearLeftMasterTalon(), rl_power);
+        setTalonIfAvailable(platform.getRearRightMasterTalon(), rr_power);
     }
     
     public void simpleHolonomicDrive(XYPair translation, double rotation) {
         simpleHolonomicDrive(translation, rotation, false);
     }
     
+    protected void setTalonIfAvailable(XCANTalon t, double value) {
+        if (t != null) {
+            t.set(value);
+        }
+    }
     
 }

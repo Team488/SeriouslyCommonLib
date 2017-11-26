@@ -1,6 +1,5 @@
 package xbot.common.injection.wpi_factories;
 
-import java.awt.image.PixelInterleavedSampleModel;
 import java.util.function.DoubleFunction;
 
 import com.google.inject.assistedinject.Assisted;

@@ -18,6 +18,7 @@ import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
+import xbot.common.math.MathUtils;
 import xbot.common.properties.XPropertyManager;
 
 public class MockCANTalon extends XCANTalon {    
@@ -618,7 +619,7 @@ public class MockCANTalon extends XCANTalon {
                 throttlePercent = setpoint / this.getBusVoltage();
                 break;
             case PercentVbus:
-                throttlePercent = setpoint;
+                throttlePercent = MathUtils.constrainDouble(setpoint, -1, 1);
                 break;
             case Current:
                 // Guess voltage by assuming a linear relationship between current and voltage, bypassing PID
