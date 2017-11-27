@@ -1,7 +1,7 @@
 package xbot.common.subsystems.drive;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.inject.Inject;
 
@@ -11,52 +11,25 @@ import xbot.common.subsystems.BaseDrivePlatform;
 
 public class MockTankPlatform extends BaseDrivePlatform{
     
-    XCANTalon leftMaster;
-    XCANTalon rightMaster;
+    Map<XCANTalon, MotionRegistration> talons;
+    
+    public XCANTalon leftMaster;
+    public XCANTalon rightMaster;
     
     @Inject
     public MockTankPlatform(CommonLibFactory clf) {
         leftMaster = clf.createCANTalon(0);
         rightMaster = clf.createCANTalon(1);
+        
+        talons = new HashMap<XCANTalon, MotionRegistration>();
+        
+        talons.put(leftMaster, new MotionRegistration(0, 1, -1));
+        talons.put(rightMaster, new MotionRegistration(0, 1, 1));
     }
 
     @Override
-    public List<XCANTalon> getAllMasterTalons() {
-        return Arrays.asList(leftMaster, rightMaster);
+    public Map<XCANTalon, MotionRegistration> getAllMasterTalons() {
+        return talons;
     }
 
-    @Override
-    public List<XCANTalon> getLeftMasterTalons() {
-        return Arrays.asList(leftMaster);
-    }
-
-    @Override
-    public List<XCANTalon> getRightMasterTalons() {
-        return Arrays.asList(rightMaster);
-    }
-
-    @Override
-    public XCANTalon getFrontLeftMasterTalon() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public XCANTalon getFrontRightMasterTalon() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public XCANTalon getRearLeftMasterTalon() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public XCANTalon getRearRightMasterTalon() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-    
 }

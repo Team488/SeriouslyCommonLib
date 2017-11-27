@@ -1,6 +1,7 @@
 package xbot.common.subsystems;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.stream.DoubleStream;
 
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -10,6 +11,7 @@ import com.ctre.CANTalon.TalonControlMode;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.math.XYPair;
+import xbot.common.subsystems.BaseDrivePlatform.MotionRegistration;
 
 public abstract class BaseDriveSubsystem extends BaseSubsystem {
 
@@ -20,13 +22,6 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
         
         // Do some one-time checks and log the output
         logIfExists(platform.getAllMasterTalons(), "Talons detected");
-        logIfExists(platform.getLeftMasterTalons(), "Left Talons detected");
-        logIfExists(platform.getRightMasterTalons(), "Right Talons detected");
-        
-        logIfExists(platform.getFrontLeftMasterTalon(), "Front Left Talon detected");
-        logIfExists(platform.getFrontLeftMasterTalon(), "Front Right Talon detected");
-        logIfExists(platform.getFrontLeftMasterTalon(), "Rear Left Talon detected");
-        logIfExists(platform.getFrontLeftMasterTalon(), "Rear Right Talon detected");
         
     }
     
@@ -38,11 +33,26 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     
     protected void setTalonModes(TalonControlMode mode) {
         if (platform.getAllMasterTalons() != null) {
-            platform.getAllMasterTalons().stream()
+            platform.getAllMasterTalons().keySet().stream()
             .forEach((t) -> t.ensureTalonControlMode(mode));
         }
     }
     
+    public void drive(XYPair translation, double rotation) {
+        Map<XCANTalon, MotionRegistration> talons = platform.getAllMasterTalons();
+        
+        if (talons != null) {
+            
+            for(Map.Entry<XCANTalon, MotionRegistration> entry : talons.entrySet()) {
+               entry.getKey().ensureTalonControlMode(TalonControlMode.PercentVbus);
+               double power = entry.getValue()
+                       .calculateTotalImpact(translation.x, translation.y, rotation);
+               entry.getKey().set(power);
+            }
+        }
+    }
+    
+    /*
     public void simpleTankDrive(double leftPower, double rightPower) {
         setTalonModes(TalonControlMode.PercentVbus);
         
@@ -88,6 +98,6 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
         if (t != null) {
             t.set(value);
         }
-    }
+    }*/
     
 }

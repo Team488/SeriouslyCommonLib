@@ -1,23 +1,28 @@
 package xbot.common.subsystems;
 
-import java.util.List;
+import java.util.Map;
 
 import xbot.common.controls.actuators.XCANTalon;
 
 public abstract class BaseDrivePlatform {
 
-    public abstract List<XCANTalon> getAllMasterTalons();
+    public class MotionRegistration {
+
+        public double x;
+        public double y;
+        public double w;
+        
+        public MotionRegistration(double x, double y, double w) {
+            this.x = x;
+            this.y = y;
+            this.w = w;
+        }
+        
+        
+        public double calculateTotalImpact(double x, double y, double w) {
+            return this.x * x + this.y*y + this.w * w;
+        }
+    }
     
-    // Used in Tank Drive, or a Holonomic drive that has "fallen down" to tank drive.
-    // Returns an array because more advanced drive modes may have more than one 
-    // master CANTalon that needs to cooperate on a side - and it's easier to address
-    // that here than change configuration on the fly.
-    public abstract List<XCANTalon> getLeftMasterTalons();
-    public abstract List<XCANTalon> getRightMasterTalons();
-    
-    // Used in a Holonomic drive
-    public abstract XCANTalon getFrontLeftMasterTalon();
-    public abstract XCANTalon getFrontRightMasterTalon();
-    public abstract XCANTalon getRearLeftMasterTalon();
-    public abstract XCANTalon getRearRightMasterTalon();
+    public abstract Map<XCANTalon, MotionRegistration> getAllMasterTalons();
 }

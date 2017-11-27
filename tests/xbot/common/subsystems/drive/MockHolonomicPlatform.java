@@ -2,6 +2,7 @@ package xbot.common.subsystems.drive;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import com.google.inject.Inject;
 
@@ -25,47 +26,11 @@ public class MockHolonomicPlatform extends BaseDrivePlatform {
         rearLeft = clf.createCANTalon(2);
         rearRight = clf.createCANTalon(3);
     }
+
+    @Override
+    public Map<XCANTalon, MotionRegistration> getAllMasterTalons() {
+        // TODO Auto-generated method stub
+        return null;
+    }
     
-    @Override
-    public List<XCANTalon> getAllMasterTalons() {
-        // TODO Auto-generated method stub
-        return Arrays.asList(frontLeft, frontRight, rearLeft, rearRight);
-    }
-
-    @Override
-    public List<XCANTalon> getLeftMasterTalons() {
-        // TODO Auto-generated method stub
-        return Arrays.asList(frontLeft, rearLeft);
-    }
-
-    @Override
-    public List<XCANTalon> getRightMasterTalons() {
-        // TODO Auto-generated method stub
-        return Arrays.asList(frontRight, rearRight);
-    }
-
-    @Override
-    public XCANTalon getFrontLeftMasterTalon() {
-        // TODO Auto-generated method stub
-        return frontLeft;
-    }
-
-    @Override
-    public XCANTalon getFrontRightMasterTalon() {
-        // TODO Auto-generated method stub
-        return frontRight;
-    }
-
-    @Override
-    public XCANTalon getRearLeftMasterTalon() {
-        // TODO Auto-generated method stub
-        return rearLeft;
-    }
-
-    @Override
-    public XCANTalon getRearRightMasterTalon() {
-        // TODO Auto-generated method stub
-        return rearRight;
-    }
-
 }
