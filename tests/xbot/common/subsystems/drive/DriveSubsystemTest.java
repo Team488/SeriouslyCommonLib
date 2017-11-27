@@ -58,53 +58,13 @@ public class DriveSubsystemTest extends BaseWPITest {
     
     @Test
     public void testNoTalonsAvailable() {
-        // The default "tank" drive returns null when asked for holonomic talons.
         // Here, we're just checking the robot does not crash.
         MockNullPlatform n = injector.getInstance(MockNullPlatform.class);
         drive.setDrivePlatform(n);
         
         drive.drive(new XYPair(1, 1), 1);
     }
-    /*
-    @Test
-    public void testHolonomic() {
-        MockHolonomicPlatform h = injector.getInstance(MockHolonomicPlatform.class);
-        drive.setDrivePlatform(h);
-        
-        drive.simpleHolonomicDrive(new XYPair(0, 1), 0);
-        verifyHolonomicDrive(1, 1, 1, 1);
-        
-        drive.simpleHolonomicDrive(new XYPair(0, -1), 0);
-        verifyHolonomicDrive(-1, -1, -1, -1);
-        
-        drive.simpleHolonomicDrive(new XYPair(1, 0), 0);
-        verifyHolonomicDrive(1, -1, -1, 1);
-        
-        drive.simpleHolonomicDrive(new XYPair(-1, 0), 0);
-        verifyHolonomicDrive(-1, 1, 1, -1);
-        
-        drive.simpleHolonomicDrive(new XYPair(0, 0), 1);
-        verifyHolonomicDrive(-1, 1, -1, 1);
-        
-        drive.simpleHolonomicDrive(new XYPair(0, 0), -1);
-        verifyHolonomicDrive(1, -1, 1, -1);
-        
-        
-        drive.simpleHolonomicDrive(new XYPair(1, 1), 0);
-        verifyHolonomicDrive(1, 0, 0, 1);
-        
-        drive.simpleHolonomicDrive(new XYPair(1, 1), 1);
-        verifyHolonomicDrive(1, 1, -1, 1);
-    }*/
-    /*
-    @Test
-    public void testScaledHolonomic() {
-        MockHolonomicPlatform h = injector.getInstance(MockHolonomicPlatform.class);
-        drive.setDrivePlatform(h);
-        
-        drive.simpleHolonomicDrive(new XYPair(1, 1), 1, true);
-        verifyHolonomicDrive(.33333, .33333, -.33333, 1);
-    }*/
+    
     
     protected void verifyTankDrive(MockTankPlatform t, double left, double right) {
         assertEquals(left, getOutputPercent(t.leftMaster), 0.001);
