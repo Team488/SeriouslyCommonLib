@@ -38,18 +38,34 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
         }
     }
     
-    public void drive(XYPair translation, double rotation) {
+    public void drive(XYPair translation, double rotation, boolean normalize) {
         Map<XCANTalon, MotionRegistration> talons = platform.getAllMasterTalons();
         
         if (talons != null) {
+            double normalizationFactor = 1;
+            if (normalize) {
+                normalizationFactor = Math.max(1, getMaxOutput(translation, rotation));
+            }
+            
             
             for(Map.Entry<XCANTalon, MotionRegistration> entry : talons.entrySet()) {
                entry.getKey().ensureTalonControlMode(TalonControlMode.PercentVbus);
                double power = entry.getValue()
-                       .calculateTotalImpact(translation.x, translation.y, rotation);
+                       .calculateTotalImpact(translation.x, translation.y, rotation) / normalizationFactor;
                entry.getKey().set(power);
             }
         }
+    }
+    
+    public void drive(XYPair translation, double rotation) {
+        drive(translation, rotation, false);
+    }
+    
+    protected double getMaxOutput(XYPair translation, double rotation) {
+        return platform.getAllMasterTalons().values().stream()
+        .map(mr -> mr.calculateTotalImpact(translation.x, translation.y, rotation))
+        .map(e -> Math.abs(e))
+        .max(Double::compare).get().doubleValue();
     }
     
     /*
