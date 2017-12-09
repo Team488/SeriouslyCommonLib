@@ -9,10 +9,8 @@ import xbot.common.logging.LoggingLatch;
 import xbot.common.math.XYPair;
 
 public abstract class BaseDriveSubsystem extends BaseSubsystem {
-
-    public static final String TAG = BaseDriveSubsystem.class.getName();
     
-    private final LoggingLatch baseDriveSubsystemLoggingLatch = new LoggingLatch(TAG, "XCanTalon(s): null");
+    private final LoggingLatch baseDriveSubsystemLoggingLatch = new LoggingLatch(this.getName(), "XCanTalon(s): null");
     
     public class MotionRegistration {
 
