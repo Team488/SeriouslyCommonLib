@@ -6,31 +6,26 @@ import org.apache.log4j.Logger;
 
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.I2C.Port;
 
-public class Lidar implements DistanceSensor {
+public abstract class XLidarLite implements DistanceSensor {
 
-    private Logger log = Logger.getLogger(Lidar.class);
-
-    private I2C i2c;
-    private byte[] distance;
+    private Logger log = Logger.getLogger(XLidarLite.class);
+    
+    protected byte[] distance;
     private java.util.Timer updater;
     private LidarUpdater task;
 
-    private final int lidar_address = 0x62;
-    private final int lidar_config_register = 0x00;
-    private final int lidar_distance_register = 0x8f;
+    protected final int lidar_address = 0x62;
+    protected final int lidar_config_register = 0x00;
+    protected final int lidar_distance_register = 0x8f;
 
     private DoubleProperty lidarPollDuration;
 
-    public Lidar(Port port, XPropertyManager propMan) {
+    public XLidarLite(Port port, XPropertyManager propMan) {
 
         log.info("Creating Lidar on port: " + port.toString());
         lidarPollDuration = propMan.createPersistentProperty("LidarPollDurationMs", 100d);
-
-        i2c = new I2C(port, lidar_address);
 
         distance = new byte[2];
 
@@ -39,6 +34,8 @@ public class Lidar implements DistanceSensor {
 
         this.start();
     }
+    
+    protected abstract void update();
 
     // Distance in cm
     public double getDistance() {
@@ -58,14 +55,14 @@ public class Lidar implements DistanceSensor {
     public void stop() {
         updater.cancel();
     }
-
+/*
     // Update distance variable
     public void update() {
         i2c.write(lidar_config_register, 0x04); // Initiate measurement
         Timer.delay(0.04); // Delay for measurement to be taken
         i2c.read(lidar_distance_register, 2, distance); // Read in measurement
         Timer.delay(0.01); // Delay to prevent over polling
-    }
+    }*/
 
     // Timer task to keep distance updated
     private class LidarUpdater extends TimerTask {

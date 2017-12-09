@@ -2,14 +2,14 @@ package xbot.common.controls.sensors;
 
 import xbot.common.controls.XBaseIO;
 
-public interface XAnalogInput extends XBaseIO {
-    public int getValue();
+public abstract class XAnalogInput implements XBaseIO {
+    public abstract int getValue();
 
-    public double getVoltage();
+    public abstract double getVoltage();
 
-    public double getAverageVoltage();
+    public abstract double getAverageVoltage();
 
-    public void setAverageBits(int bits);
+    public abstract void setAverageBits(int bits);
 
-    public boolean getAsDigital(double threshold);
+    public abstract boolean getAsDigital(double threshold);
 }

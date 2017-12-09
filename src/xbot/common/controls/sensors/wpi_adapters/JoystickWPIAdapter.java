@@ -1,69 +1,43 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
-import xbot.common.math.XYPair;
+import xbot.common.controls.sensors.XJoystick;
+import xbot.common.injection.wpi_factories.CommonLibFactory;
+import xbot.common.logging.RobotAssertionManager;
+
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 
-public class JoystickWPIAdapter implements xbot.common.controls.sensors.XJoystick
-{
-    private boolean xInverted = false;
-    private boolean yInverted = false;
+public class JoystickWPIAdapter extends XJoystick {
+    
     private GenericHID internalHID;
     
-    public JoystickWPIAdapter(int port)
-    {
+    @Inject
+    public JoystickWPIAdapter(
+            @Assisted("port") int port, 
+            @Assisted("numButtons") int numButtons,
+            CommonLibFactory clf,
+            RobotAssertionManager assertionManager) {
+        super(port, clf, assertionManager, numButtons);
+        
         internalHID = new Joystick(port);
     }
     
-    public double getX()
-    {
-        return internalHID.getX() * (xInverted? -1:1);
-    }
-
-    public boolean getXInversion()
-    {
-        return xInverted;
-    }
-
-    public void setXInversion(boolean inverted)
-    {
-        xInverted = inverted;
-        
-    }
-
-    public double getY()
-    {
-        return internalHID.getY() * (yInverted? -1:1);
-    }
-
-    public boolean getYInversion()
-    {
-        return yInverted;
-    }
-
-    public void setYInversion(boolean inverted)
-    {
-        yInverted = inverted;        
+    protected double getX() {
+        return internalHID.getX();
     }
     
-    public XYPair getVector()
-    {
-        return new XYPair(this.getX(), this.getY());
+    protected double getY() {
+        return internalHID.getY();
     }
 
-    public GenericHID getInternalHID()
-    {
-        return this.internalHID;
-    }
-
-    @Override
-    public double getRawAxis(int axisNumber) {
+    protected double getRawAxis(int axisNumber) {
         return this.internalHID.getRawAxis(axisNumber);
     }
 
-    @Override
-    public boolean getButton(int button) {
+    protected boolean getButton(int button) {
         return this.internalHID.getRawButton(button);
     }
-    
 }

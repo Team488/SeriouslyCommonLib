@@ -1,17 +1,24 @@
-package xbot.common.controls.sensors;
+package xbot.common.controls.sensors.mock_adapters;
+
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import xbot.common.controls.MockRobotIO;
-import xbot.common.math.ContiguousHeading;
+import xbot.common.controls.sensors.XGyro;
 
-public class MockGyro implements XGyro {
+public class MockGyro extends XGyro {
     private boolean isBroken;
     private MockRobotIO mockIO;
 
+    @AssistedInject
     public MockGyro(MockRobotIO mockRobotIO) {
+        super(ImuType.mock);
         mockIO = mockRobotIO;
     }
     
-    public MockGyro(MockRobotIO mockRobotIO, boolean isBroken) {
+    @AssistedInject
+    public MockGyro(MockRobotIO mockRobotIO, @Assisted("isBroken") boolean isBroken) {
+        super(ImuType.mock);
         mockIO = mockRobotIO;
         setIsBroken(isBroken);
     }
@@ -20,8 +27,8 @@ public class MockGyro implements XGyro {
         return true;
     }
 
-    public ContiguousHeading getYaw() {
-        return new ContiguousHeading(mockIO.getGyroHeading());
+    public double getDeviceYaw() {
+        return mockIO.getGyroHeading();
     }
 
     public void setIsBroken(boolean broken) {
@@ -32,17 +39,15 @@ public class MockGyro implements XGyro {
         return isBroken;
     }
 
-    @Override
-    public double getRoll() {
+    public double getDeviceRoll() {
         return mockIO.getGyroRoll();
     }
 
-    @Override
-    public double getPitch() {
+    public double getDevicePitch() {
         return mockIO.getGyroPitch();
     }
     
-    public double getYawAngularVelocity(){
+    public double getDeviceYawAngularVelocity(){
         return mockIO.getGyroHeadingAngularVelocity();
     }
 

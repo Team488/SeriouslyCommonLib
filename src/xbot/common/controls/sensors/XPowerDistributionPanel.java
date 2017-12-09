@@ -1,8 +1,10 @@
 package xbot.common.controls.sensors;
 
-public interface XPowerDistributionPanel
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
+
+public abstract class XPowerDistributionPanel
 {
-    public double getCurrent(int channel);
+    public abstract double getCurrent(int channel);
     
-    //TODO: Add more PDP methods
+    public abstract LiveWindowSendable getLiveWindowSendable();
 }

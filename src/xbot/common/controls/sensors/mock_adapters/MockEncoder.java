@@ -1,45 +1,52 @@
-package xbot.common.controls.sensors.wpi_adapters;
+package xbot.common.controls.sensors.mock_adapters;
 
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.properties.XPropertyManager;
 
-public class EncoderWPIAdapter extends XEncoder {
+public class MockEncoder extends XEncoder {
 
-    Encoder internalEncoder;
+    private double distance;
+    private double rate;
 
-    @Inject
-    public EncoderWPIAdapter(
+    @AssistedInject
+    public MockEncoder(
             @Assisted("name")String name, 
             @Assisted("aChannel") int aChannel, 
             @Assisted("bChannel") int bChannel, 
             @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse, 
             XPropertyManager propMan) {
         super(name, aChannel, bChannel, defaultDistancePerPulse, propMan);
-        internalEncoder = new Encoder(aChannel, bChannel);
-        
-        LiveWindow.addSensor("Encoder", aChannel, this.getLiveWindowSendable());
+    }
+    
+    @AssistedInject
+    public MockEncoder(XPropertyManager propMan) {
+        super(propMan);
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance * (isInverted ? -1 : 1);
     }
 
     protected double getRate() {
-        return internalEncoder.getRate();
+        return rate;
     }
 
+    public void setRate(double newRate) {
+        this.rate = newRate;
+    }
+    
     protected double getDistance() {
-        return internalEncoder.getDistance();
+        return distance;
     }
 
-    public void setSamplesToAverage(int samples) {
-        internalEncoder.setSamplesToAverage(samples);
-    }
+    public void setSamplesToAverage(int samples) {}
 
+    @Override
     public LiveWindowSendable getLiveWindowSendable() {
-        return (LiveWindowSendable)internalEncoder;
+        return null;
     }
-
 }

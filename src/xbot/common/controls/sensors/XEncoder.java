@@ -1,12 +1,46 @@
 package xbot.common.controls.sensors;
 
-public interface XEncoder {
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
+import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.XPropertyManager;
 
-    public double getDistance();
+public abstract class XEncoder {
 
-    public double getRate();
+    protected boolean isInverted;
+    protected DoubleProperty distancePerPulse;
 
-    public void setInverted(boolean inverted);
+    public XEncoder(
+            String name, 
+            int aChannel, 
+            int bChannel, 
+            double defaultDistancePerPulse, 
+            XPropertyManager propMan) {
+        distancePerPulse = propMan.createPersistentProperty(name + "-DistancePerPulse", defaultDistancePerPulse);
+    }
+    
+    public XEncoder(XPropertyManager propMan) {
+        distancePerPulse = propMan.createPersistentProperty("Test" + "-DistancePerPulse", 1);
+    }
+    
+    public double getAdjustedDistance() {
+        return getDistance() * (isInverted ? -1d : 1d) * distancePerPulse.get();
+    }
 
-    void setSamplesToAverage(int samples);
+    public double getAdjustedRate() {
+        return getRate() * (isInverted ? -1d : 1d) * distancePerPulse.get();
+    }
+
+    public void setInverted(boolean inverted) {
+        this.isInverted = inverted;
+    }
+    
+    public void setDistancePerPulse(double dpp) {
+        distancePerPulse.set(dpp);
+    }
+    
+    protected abstract double getRate();
+    protected abstract double getDistance();
+    
+    public abstract void setSamplesToAverage(int samples);
+    public abstract LiveWindowSendable getLiveWindowSendable();
 }

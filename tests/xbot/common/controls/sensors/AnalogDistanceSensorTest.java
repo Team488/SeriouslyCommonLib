@@ -5,21 +5,15 @@ import org.junit.Test;
 
 import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.injection.BaseWPITest;
-import xbot.common.injection.wpi_factories.MockWPIFactory;
-import xbot.common.logging.RobotAssertionManager;
-
 import static org.junit.Assert.assertEquals;
 
 public class AnalogDistanceSensorTest extends BaseWPITest {
 
     AnalogDistanceSensor sensor;
-    MockWPIFactory factory;
 
     @Before
     public void setup() {
-        factory = new MockWPIFactory(mockRobotIO, injector.getInstance(RobotAssertionManager.class));
-        sensor = new AnalogDistanceSensor(factory.getAnalogInput(0), AnalogDistanceSensor.VoltageMaps::sharp0A51SK,
-                propertyManager);
+        sensor = clf.createAnalogDistanceSensor(0, AnalogDistanceSensor.VoltageMaps::sharp0A51SK);
     }
 
     @Test
