@@ -14,39 +14,76 @@ import xbot.common.injection.wpi_factories.CommonLibFactory;
 public class MockDriveSubsystem extends BaseDriveSubsystem {
 
     Map<XCANTalon, MotionRegistration> masterTalons;
+    CommonLibFactory clf;
+    
+    public double leftTotalDistance;
+    public double rightTotalDistance;
+    public double transverseTotalDistance;
+    
+    public XCANTalon leftTank;
+    public XCANTalon rightTank;
+    
+    public XCANTalon fl;
+    public XCANTalon fr;
+    public XCANTalon rl;
+    public XCANTalon rr;
     
     @Inject
     public MockDriveSubsystem(CommonLibFactory clf) {
+        this.clf = clf;
+        changeIntoTankDrive();
+    }
+    
+    public void changeIntoNoDrive() {
+        masterTalons = new HashMap<XCANTalon, MotionRegistration>();
+    }
+    
+    public void changeIntoTankDrive() {
         masterTalons = new HashMap<XCANTalon, MotionRegistration>();
         
-        // left talon
-        masterTalons.put(clf.createCANTalon(0), new MotionRegistration(0, 1, -1));
-        
-        // right talon
-        masterTalons.put(clf.createCANTalon(1), new MotionRegistration(0, 1, 1));
-    }
+        leftTank = clf.createCANTalon(0);
+        masterTalons.put(leftTank, new MotionRegistration(0, 1, -1));
 
+        rightTank = clf.createCANTalon(1);
+        masterTalons.put(rightTank, new MotionRegistration(0, 1, 1));
+    }
+    
+    public void changeIntoMecanum() {
+        masterTalons = new HashMap<XCANTalon, MotionRegistration>();
+        
+        // for simple tests, assume tank drive.
+        fl = clf.createCANTalon(0);
+        rl = clf.createCANTalon(1);
+        fr = clf.createCANTalon(2);
+        rr = clf.createCANTalon(3);        
+        
+        // front left talon
+        masterTalons.put(fl, new MotionRegistration(1, 1, -1));
+        // rear left talon
+        masterTalons.put(rl, new MotionRegistration(-1, 1, -1));
+        // front right talon
+        masterTalons.put(fr, new MotionRegistration(-1, 1, 1));
+        // rear right talon
+        masterTalons.put(rr, new MotionRegistration(1, 1, 1));
+    }
+    
     @Override
     protected Map<XCANTalon, MotionRegistration> getAllMasterTalons() {
-        // TODO Auto-generated method stub
-        return null;
+        return masterTalons;
     }
 
     @Override
     public double getLeftTotalDistance() {
-        // TODO Auto-generated method stub
-        return 0;
+        return leftTotalDistance;
     }
 
     @Override
     public double getRightTotalDistance() {
-        // TODO Auto-generated method stub
-        return 0;
+        return rightTotalDistance;
     }
 
     @Override
     public double getTransverseDistance() {
-        // TODO Auto-generated method stub
-        return 0;
+        return transverseTotalDistance;
     }
 }
