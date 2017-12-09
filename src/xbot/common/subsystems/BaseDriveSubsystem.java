@@ -53,12 +53,11 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
      */
     public abstract double getTransverseDistance();
     
-    protected void logIfExists(Object objectToCheck, String message) {
-        if (objectToCheck != null) {
-            log.info(message);
-        }
-    }
-    
+    /**
+     * Sets all the DriveSubsystem's "master" talons to a single control mode.
+     * e.g. PercentVBus, Follower, Current, etc...
+     * @param mode
+     */
     protected void setTalonModes(TalonControlMode mode) {
         if (getAllMasterTalons() != null) {
             getAllMasterTalons().keySet().stream()
@@ -66,6 +65,15 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
         }
     }
     
+    /**
+     * Commands each of the XCANTalons to respond to translation/rotation input.
+     * Each "wheel" is independently responsible, and as such there isn't any actual
+     * drive logic in this method.
+     * @param translation +Y is towards the front of the robot, +X is towards the right of the robot
+     * @param rotation +Rotation is left turn, -Rotation is right turn
+     * @param normalize If the largest output is greater than 1, should all outputs be
+     *        normalized so that 1 is the maximum?
+     */
     public void drive(XYPair translation, double rotation, boolean normalize) {
         Map<XCANTalon, MotionRegistration> talons = getAllMasterTalons();
         
@@ -84,10 +92,23 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
         }
     }
     
+    /**
+     * Commands each of the XCANTalons to respond to translation/rotation input.
+     * Each "wheel" is independently responsible, and as such there isn't any actual
+     * drive logic in this method.
+     * @param translation +Y is towards the front of the robot, +X is towards the right of the robot
+     * @param rotation +Rotation is left turn, -Rotation is right turn
+     */
     public void drive(XYPair translation, double rotation) {
         drive(translation, rotation, false);
     }
     
+    /**
+     * Determine the largest commanded output for a given wheel for a given
+     * translation/rotation input. For example, you would see a maximum output of
+     * two in a Tank Drive system that's commanded to go foward at full speed AND
+     * rotate at full speed.
+     */
     protected double getMaxOutput(XYPair translation, double rotation) {
         return getAllMasterTalons().values().stream()
         .map(mr -> mr.calculateTotalImpact(translation.x, translation.y, rotation))
@@ -95,6 +116,10 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
         .max(Double::compare).get().doubleValue();
     }
     
+    /**
+     * Limits the available motor current. Oddly enough, the limit must be a whole
+     * number of amps.
+     */
     public void setCurrentLimits(int maxCurrentInAmps) {
         getAllMasterTalons().keySet().stream()
         .forEach( (t) -> t.setCurrentLimit(maxCurrentInAmps));
