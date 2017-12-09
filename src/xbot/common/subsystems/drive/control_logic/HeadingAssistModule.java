@@ -35,6 +35,7 @@ public class HeadingAssistModule {
         // if human rotational power above some threshold, return that.
         // Also, update a timestamp that says this happened recently
         if (humanRotationalPower > humanThreshold.get()) {
+            inAutomaticMode = false;
             lastHumanInput = Timer.getFPGATimestamp();
             return humanRotationalPower;
         }

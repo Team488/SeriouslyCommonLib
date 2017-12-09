@@ -116,7 +116,7 @@ public class HeadingAssistModuleTest extends BaseWPITest {
     private void step4_robotRotated() {
         
         // the robot undergoes some automatic rotation
-        mockRobotIO.setGyroHeading(90);
+        mockRobotIO.setGyroHeading(mockRobotIO.getGyroHeading()+90);
         double power = ham.calculateHeadingPower(0);
         assertEquals(-1, power, 0.001);
     }
