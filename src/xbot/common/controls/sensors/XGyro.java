@@ -60,7 +60,7 @@ public abstract class XGyro
     // What follows are the primitive "gets" for the gyro. These aren't protected,
     // and could cause exceptions if called while they gyro is not connected.
     
-    protected abstract boolean isConnected();
+    public abstract boolean isConnected();
     
     /**
      * In degrees
