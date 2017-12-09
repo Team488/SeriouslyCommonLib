@@ -1,31 +1,25 @@
 package xbot.common.subsystems.drive;
 
+import java.util.Map;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import xbot.common.subsystems.BaseDriveSubsystem;
-import xbot.common.subsystems.BaseDrivePlatform;
+import xbot.common.controls.actuators.XCANTalon;
 
 @Singleton
 public class MockDriveSubsystem extends BaseDriveSubsystem {
 
     @Inject
-    public MockDriveSubsystem(BaseDrivePlatform platform) {
-        super(platform);
+    public MockDriveSubsystem() {
+        super();
         // TODO Auto-generated constructor stub
     }
-    
-    /**
-     * Used in testing to try out other drive platforms - the real robot
-     * shouldn't need this, as it won't be hot-swapping out to a new chassis.
-     * @param platform
-     */
-    public void setDrivePlatform(BaseDrivePlatform platform) {
-        this.platform = platform;
-    }
-    
-    public BaseDrivePlatform getDrivePlatform() {
-        return platform;
-    }
 
+    @Override
+    protected Map<XCANTalon, MotionRegistration> getAllMasterTalons() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

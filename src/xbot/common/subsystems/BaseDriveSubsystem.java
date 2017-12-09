@@ -6,17 +6,32 @@ import com.ctre.CANTalon.TalonControlMode;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.math.XYPair;
-import xbot.common.subsystems.BaseDrivePlatform.MotionRegistration;
 
 public abstract class BaseDriveSubsystem extends BaseSubsystem {
 
-    protected BaseDrivePlatform platform;
-    
-    public BaseDriveSubsystem(BaseDrivePlatform platform) {
-        this.platform = platform;
+    public class MotionRegistration {
+
+        public double x;
+        public double y;
+        public double w;
         
+        public MotionRegistration(double x, double y, double w) {
+            this.x = x;
+            this.y = y;
+            this.w = w;
+        }
+        
+        
+        public double calculateTotalImpact(double x, double y, double w) {
+            return this.x * x + this.y*y + this.w * w;
+        }
+    }
+    
+    protected abstract Map<XCANTalon, MotionRegistration> getAllMasterTalons();
+    
+    public BaseDriveSubsystem() {        
         // Do some one-time checks and log the output
-        logIfExists(platform.getAllMasterTalons(), "Talons detected");
+        logIfExists(getAllMasterTalons(), "Talons detected");
     }
     
     protected void logIfExists(Object objectToCheck, String message) {
@@ -26,14 +41,14 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     }
     
     protected void setTalonModes(TalonControlMode mode) {
-        if (platform.getAllMasterTalons() != null) {
-            platform.getAllMasterTalons().keySet().stream()
+        if (getAllMasterTalons() != null) {
+            getAllMasterTalons().keySet().stream()
             .forEach((t) -> t.ensureTalonControlMode(mode));
         }
     }
     
     public void drive(XYPair translation, double rotation, boolean normalize) {
-        Map<XCANTalon, MotionRegistration> talons = platform.getAllMasterTalons();
+        Map<XCANTalon, MotionRegistration> talons = getAllMasterTalons();
         
         if (talons != null) {
             double normalizationFactor = 1;
@@ -56,14 +71,14 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     }
     
     protected double getMaxOutput(XYPair translation, double rotation) {
-        return platform.getAllMasterTalons().values().stream()
+        return getAllMasterTalons().values().stream()
         .map(mr -> mr.calculateTotalImpact(translation.x, translation.y, rotation))
         .map(e -> Math.abs(e))
         .max(Double::compare).get().doubleValue();
     }
     
     public void setCurrentLimits(int maxCurrentInAmps) {
-        platform.getAllMasterTalons().keySet().stream()
+        getAllMasterTalons().keySet().stream()
         .forEach( (t) -> t.setCurrentLimit(maxCurrentInAmps));
     }
     
