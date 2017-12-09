@@ -26,6 +26,7 @@ public class MockCANTalon extends XCANTalon {
     private CANTalon.TalonControlMode lastSetControlMode;
     
     private boolean outputInverted = false;
+    private boolean closedLoopOutputInverted = false;
     
     private double setpoint = 0;
     private double throttlePercent = 0;
@@ -153,6 +154,8 @@ public class MockCANTalon extends XCANTalon {
     public double getOutputVoltage() {
         // if the Talon is set to invert, it will output negative voltages. This needs
         // to be taken into account.
+        
+        
         double inversionFactor = this.getInverted() ? -1 : 1;
         return this.getThrottlePercent() * this.getBusVoltage() * inversionFactor;
     }
@@ -592,7 +595,8 @@ public class MockCANTalon extends XCANTalon {
                 return this.getPosition();
             case Follower:
                 MockCANTalon master = mockRobotIO.getCANTalon((int)setpoint);
-                return master.getOutputVoltage() / master.getBusVoltage();
+                return master.getOutputVoltage() / master.getBusVoltage() 
+                       * getClosedLoopOutputInversionFactor();
             default:
                 return 0;
         }
@@ -650,6 +654,10 @@ public class MockCANTalon extends XCANTalon {
 
     @Override
     public void reverseOutput(boolean isInverted) {
-        this.setInverted(isInverted);        
+        closedLoopOutputInverted = isInverted;      
+    }
+    
+    private double getClosedLoopOutputInversionFactor() {
+        return closedLoopOutputInverted ? 1 : -1;
     }
 }
