@@ -447,4 +447,15 @@ public class CANTalonWPIAdapter extends XCANTalon {
     public LiveWindowSendable getLiveWindowSendable() {
         return internalTalon;
     }
+
+    @Override
+    public void enableCurrentLimit(boolean enable) {
+        internalTalon.EnableCurrentLimit(enable);
+        
+    }
+
+    @Override
+    public void setCurrentLimit(int amps) {
+        internalTalon.setCurrentLimit(amps);
+    }
 }

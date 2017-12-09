@@ -170,6 +170,10 @@ public abstract class XCANTalon {
     public abstract void configForwardLimitSwitchNormallyOpen(boolean normallyOpen);
     public abstract void configReverseLimitSwitchNormallyOpen(boolean normallyOpen);
     
+    // Current --------------------------------------------
+    public abstract void enableCurrentLimit(boolean enable);
+    public abstract void setCurrentLimit(int amps);
+    
     // Setpoints ------------------------------------------
     public abstract double get();
     /**

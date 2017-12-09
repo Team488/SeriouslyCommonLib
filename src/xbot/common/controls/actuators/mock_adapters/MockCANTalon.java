@@ -648,4 +648,14 @@ public class MockCANTalon extends XCANTalon {
         
         mockRobotIO.setPWM(-deviceId, this.getOutputVoltage() / this.getBusVoltage());
     }
+
+    @Override
+    public void enableCurrentLimit(boolean enable) {
+        // no op
+    }
+
+    @Override
+    public void setCurrentLimit(int amps) {
+        // no op
+    }
 }

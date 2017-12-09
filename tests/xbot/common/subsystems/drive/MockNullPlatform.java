@@ -1,6 +1,5 @@
 package xbot.common.subsystems.drive;
 
-import java.util.List;
 import java.util.Map;
 
 import xbot.common.controls.actuators.XCANTalon;
