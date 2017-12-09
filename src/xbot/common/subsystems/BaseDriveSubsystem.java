@@ -5,10 +5,15 @@ import com.ctre.CANTalon.TalonControlMode;
 
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.logging.LoggingLatch;
 import xbot.common.math.XYPair;
 
 public abstract class BaseDriveSubsystem extends BaseSubsystem {
 
+    public static final String TAG = BaseDriveSubsystem.class.getName();
+    
+    private final LoggingLatch baseDriveSubsystemLoggingLatch = new LoggingLatch(TAG, "XCanTalon(s): null");
+    
     public class MotionRegistration {
 
         public double x;
@@ -60,13 +65,18 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     }
     
     protected void setTalonModes(TalonControlMode mode) {
+        updateLoggingLatch();
         if (getAllMasterTalons() != null) {
             getAllMasterTalons().keySet().stream()
             .forEach((t) -> t.ensureTalonControlMode(mode));
         }
     }
     
+    /**
+     * @param rotation Power and Intent
+     */
     public void drive(XYPair translation, double rotation, boolean normalize) {
+        updateLoggingLatch();
         Map<XCANTalon, MotionRegistration> talons = getAllMasterTalons();
         
         if (talons != null) {
@@ -88,6 +98,10 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
         drive(translation, rotation, false);
     }
     
+    public void stop() {
+        drive(new XYPair(0, 0), 0);
+    }
+    
     protected double getMaxOutput(XYPair translation, double rotation) {
         return getAllMasterTalons().values().stream()
         .map(mr -> mr.calculateTotalImpact(translation.x, translation.y, rotation))
@@ -96,8 +110,12 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     }
     
     public void setCurrentLimits(int maxCurrentInAmps) {
+        updateLoggingLatch();
         getAllMasterTalons().keySet().stream()
         .forEach( (t) -> t.setCurrentLimit(maxCurrentInAmps));
     }
-    
+ 
+    private void updateLoggingLatch() {
+        baseDriveSubsystemLoggingLatch.checkValue(getAllMasterTalons() == null);
+    }
 }
