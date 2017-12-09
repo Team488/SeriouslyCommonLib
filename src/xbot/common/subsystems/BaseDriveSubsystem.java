@@ -59,7 +59,6 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     /**
      * Sets all the DriveSubsystem's "master" talons to a single control mode.
      * e.g. PercentVBus, Follower, Current, etc...
-     * @param mode
      */
     protected void setTalonModes(TalonControlMode mode) {
         updateLoggingLatch();
