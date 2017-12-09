@@ -19,20 +19,39 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
             this.x = x;
             this.y = y;
             this.w = w;
-        }
-        
+        }        
         
         public double calculateTotalImpact(double x, double y, double w) {
             return this.x * x + this.y*y + this.w * w;
         }
     }
     
+    /**
+     * This is the "heart" of the DriveSubsystem - the rest of the class depends on returning this
+     * list of Talons and how they respond to drive inputs.
+     */
     protected abstract Map<XCANTalon, MotionRegistration> getAllMasterTalons();
     
-    public BaseDriveSubsystem() {        
-        // Do some one-time checks and log the output
-        logIfExists(getAllMasterTalons(), "Talons detected");
-    }
+    /**
+     * Returns the total distance tracked by the encoder
+     * - On the LEFT side of the robot
+     * - Pointing in the direction of +Y travel
+     */
+    public abstract double getLeftTotalDistance();
+    
+    /**
+     * Returns the total distance tracked by the encoder
+     * - On the RIGHT side of the robot
+     * - Pointing in the direction of +Y travel
+     */
+    public abstract double getRightTotalDistance();
+    
+    /**
+     * Returns the total distance tracked by the encoder
+     * - In the center of the robot
+     * - Pointing in the direction of +X travel
+     */
+    public abstract double getTransverseDistance();
     
     protected void logIfExists(Object objectToCheck, String message) {
         if (objectToCheck != null) {
@@ -54,8 +73,7 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
             double normalizationFactor = 1;
             if (normalize) {
                 normalizationFactor = Math.max(1, getMaxOutput(translation, rotation));
-            }
-            
+            }            
             
             for(Map.Entry<XCANTalon, MotionRegistration> entry : talons.entrySet()) {
                entry.getKey().ensureTalonControlMode(TalonControlMode.PercentVbus);
