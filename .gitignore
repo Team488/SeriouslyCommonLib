@@ -27,3 +27,7 @@ derby.log
 # dynamically generated properties files
 netconsole-host.properties
 WPI_Native_Libraries.properties
+
+# JetBrains
+.idea/
+/*.iml
