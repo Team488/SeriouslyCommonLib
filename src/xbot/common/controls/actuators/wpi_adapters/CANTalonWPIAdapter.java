@@ -442,6 +442,11 @@ public class CANTalonWPIAdapter extends XCANTalon {
     public void set(double outputValue) {
         internalTalon.set(outputValue);
     }
+    
+    @Override
+    public void reverseOutput(boolean isInverted) {
+        internalTalon.reverseOutput(isInverted);
+    }
 
     @Override
     public LiveWindowSendable getLiveWindowSendable() {
