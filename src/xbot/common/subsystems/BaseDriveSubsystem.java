@@ -5,10 +5,13 @@ import com.ctre.CANTalon.TalonControlMode;
 
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.logging.LoggingLatch;
 import xbot.common.math.XYPair;
 
 public abstract class BaseDriveSubsystem extends BaseSubsystem {
-
+    
+    private final LoggingLatch baseDriveSubsystemLoggingLatch = new LoggingLatch(this.getName(), "XCanTalon(s) in DriveSubsystem is null");
+    
     public class MotionRegistration {
 
         public double x;
@@ -56,9 +59,9 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     /**
      * Sets all the DriveSubsystem's "master" talons to a single control mode.
      * e.g. PercentVBus, Follower, Current, etc...
-     * @param mode
      */
     protected void setTalonModes(TalonControlMode mode) {
+        updateLoggingLatch();
         if (getAllMasterTalons() != null) {
             getAllMasterTalons().keySet().stream()
             .forEach((t) -> t.ensureTalonControlMode(mode));
@@ -75,6 +78,7 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
      *        normalized so that 1 is the maximum?
      */
     public void drive(XYPair translation, double rotation, boolean normalize) {
+        updateLoggingLatch();
         Map<XCANTalon, MotionRegistration> talons = getAllMasterTalons();
         
         if (talons != null) {
@@ -103,6 +107,10 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
         drive(translation, rotation, false);
     }
     
+    public void stop() {
+        drive(new XYPair(0, 0), 0);
+    }
+    
     /**
      * Determine the largest commanded output for a given wheel for a given
      * translation/rotation input. For example, you would see a maximum output of
@@ -121,8 +129,12 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
      * number of amps.
      */
     public void setCurrentLimits(int maxCurrentInAmps) {
+        updateLoggingLatch();
         getAllMasterTalons().keySet().stream()
         .forEach( (t) -> t.setCurrentLimit(maxCurrentInAmps));
     }
-    
+ 
+    private void updateLoggingLatch() {
+        baseDriveSubsystemLoggingLatch.checkValue(getAllMasterTalons() == null);
+    }
 }
