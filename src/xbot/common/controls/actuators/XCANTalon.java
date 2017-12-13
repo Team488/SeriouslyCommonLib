@@ -127,6 +127,7 @@ public abstract class XCANTalon {
     public abstract long getIAccum();
     public abstract void setClosedLoopRampRate(double rampRate);
     
+    
     // Sensing and input ----------------------------------
     public abstract CANTalon.FeedbackDeviceStatus isSensorPresent(CANTalon.FeedbackDevice feedbackDevice);
     public abstract void setFeedbackDevice(CANTalon.FeedbackDevice device);
@@ -148,11 +149,25 @@ public abstract class XCANTalon {
     
     // Output ---------------------------------------------
     public abstract boolean getInverted();
+    
+    /**
+     * This inverts the motor for operations like PercentVBus, but DOES NOT INVERT
+     * THE MOTOR FOR ClOSED-LOOP CONTROL OR FOLLOWER CONTROL!!! For that, use reverseOutput().
+     * @param isInverted
+     */
     public abstract void setInverted(boolean isInverted);
+    
+    /**
+     * This is used to reverse the closed-loop output of a CANTalon. In addition, this will 
+     * also cause a follower motor to move in the opposite direction of the master motor.
+     * @param isInverted
+     */
+    public abstract void reverseOutput(boolean isInverted);
+    
     public abstract void setVoltageCompensationRampRate(double rampRate);
     public abstract void configNominalOutputVoltage(double forwardVoltage, double reverseVoltage);
     public abstract void configPeakOutputVoltage(double forwardVoltage, double reverseVoltage);
-    
+        
     // Soft position limits -------------------------------
     public abstract int getForwardSoftLimit();
     public abstract int getReverseSoftLimit();
