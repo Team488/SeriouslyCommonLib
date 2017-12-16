@@ -109,6 +109,21 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
         drive(translation, rotation, false);
     }
     
+    public void fieldOrientedDrive(
+            XYPair translation, 
+            double rotation, 
+            double currentHeading, 
+            boolean normalize) {
+        // rotate the translation vector into the robot coordinate frame
+        XYPair fieldRelativeVector = translation.clone();
+        
+        // 90 degrees is the defined "forward" direction for a driver
+        fieldRelativeVector.rotate(90 - currentHeading);
+        
+        // send the rotated vector to be driven
+        drive(fieldRelativeVector, rotation, normalize);
+    }
+    
     public void stop() {
         drive(new XYPair(0, 0), 0);
     }

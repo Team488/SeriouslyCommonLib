@@ -55,6 +55,27 @@ public class DriveSubsystemTest extends BaseWPITest {
     }
     
     @Test
+    public void testFieldOrientedHolonomicDrive() {
+        drive.changeIntoMecanum();
+        verifyHolonomicDrive(0, 0, 0, 0);
+        
+        // robot pointed right (0 degrees) but wants to go away from driver station (+Y)
+        drive.fieldOrientedDrive(new XYPair(0, 1), 0, 0, false);
+        // this should command the robot to strafe left from it's own perspective
+        verifyHolonomicDrive(-1, 1, 1, -1);
+        
+        // robot pointed down and right, commanded to go down and left
+        drive.fieldOrientedDrive(new XYPair(-1,-1), 0, -45, false);
+        // locally, this should be a strafe right
+        verifyHolonomicDrive(1, -1, -1, 1);
+        
+        // robot pointed down and right, commanded to go up and right
+        drive.fieldOrientedDrive(new XYPair(1,1), 0, -45, false);
+        // from its local perspective, this is another strafe left.
+        verifyHolonomicDrive(-1, 1, 1, -1);
+    }
+    
+    @Test
     public void testScaledDrive() {
         
         verifyTankDrive(0, 0);
