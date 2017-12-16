@@ -6,11 +6,13 @@ import com.ctre.CANTalon.TalonControlMode;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.logging.LoggingLatch;
+import xbot.common.logic.Latch.EdgeType;
 import xbot.common.math.XYPair;
 
 public abstract class BaseDriveSubsystem extends BaseSubsystem {
     
-    private final LoggingLatch baseDriveSubsystemLoggingLatch = new LoggingLatch(this.getName(), "XCanTalon(s) in DriveSubsystem is null");
+    private final LoggingLatch baseDriveSubsystemLoggingLatch = 
+            new LoggingLatch(this.getName(), "XCanTalon(s) in DriveSubsystem is null", EdgeType.RisingEdge);
     
     public class MotionRegistration {
 
