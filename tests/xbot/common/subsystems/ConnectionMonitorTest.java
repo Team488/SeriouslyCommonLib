@@ -4,7 +4,9 @@ import edu.wpi.first.wpilibj.MockTimer;
 import edu.wpi.first.wpilibj.Timer;
 import org.junit.Test;
 import xbot.common.injection.BaseWPITest;
+import xbot.common.properties.XPropertyManager;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import static junit.framework.TestCase.assertTrue;
@@ -39,7 +41,8 @@ public class ConnectionMonitorTest extends BaseWPITest {
 @Singleton
 class MockConnectionMonitor extends BaseConnectionMonitorSubsystem {
 
-    public MockConnectionMonitor() {
-        setTimeOut(1.0);
+    @Inject
+    public MockConnectionMonitor(XPropertyManager propertyManager) {
+        super(propertyManager);
     }
 }
