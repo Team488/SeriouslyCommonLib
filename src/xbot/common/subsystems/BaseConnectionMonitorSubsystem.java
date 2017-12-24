@@ -11,7 +11,7 @@ import java.util.Observer;
 
 public abstract class BaseConnectionMonitorSubsystem extends BaseSubsystem implements Observer {
 
-    private DoubleProperty timeOut;
+    private final DoubleProperty timeOut;
     private final Latch connectionLatch = new Latch(true, Latch.EdgeType.FallingEdge);
 
     private double lastPacketReceivedTimestamp = Timer.getFPGATimestamp();
