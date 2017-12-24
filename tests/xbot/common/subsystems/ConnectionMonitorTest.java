@@ -1,7 +1,6 @@
 package xbot.common.subsystems;
 
 import edu.wpi.first.wpilibj.MockTimer;
-import edu.wpi.first.wpilibj.Timer;
 import org.junit.Test;
 import xbot.common.injection.BaseWPITest;
 import xbot.common.properties.XPropertyManager;
@@ -23,18 +22,35 @@ public class ConnectionMonitorTest extends BaseWPITest {
     }
 
     @Test
-    public void testConnectedDriverStation() {
+    public void testShortIntervalNoDisconnection() {
         BaseConnectionMonitorSubsystem connectionMonitor = injector.getInstance(MockConnectionMonitor.class);
-        connectionMonitor.setLastPacketReceivedTimestamp(Timer.getFPGATimestamp());
-        assertTrue(connectionMonitor.getPreviousDisconnectionTime() == -1);
+        mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() / 4);
+        connectionMonitor.setLastPacketReceivedTimestamp(mockTimer.getFPGATimestamp());
+        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= -1.0);
     }
 
     @Test
-    public void testDisconnectedDriverStation() {
+    public void testLongIntervalNoDisconnection() {
         BaseConnectionMonitorSubsystem connectionMonitor = injector.getInstance(MockConnectionMonitor.class);
-        mockTimer.advanceTimeInSecondsBy(488);
-        connectionMonitor.setLastPacketReceivedTimestamp(Timer.getFPGATimestamp());
-        assertTrue(connectionMonitor.getPreviousDisconnectionTime() > 400);
+        mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() / 1.1);
+        connectionMonitor.setLastPacketReceivedTimestamp(mockTimer.getFPGATimestamp());
+        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= -1.0);
+    }
+
+    @Test
+    public void testShortIntervalDisconnection() {
+        BaseConnectionMonitorSubsystem connectionMonitor = injector.getInstance(MockConnectionMonitor.class);
+        mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() * 1.1);
+        connectionMonitor.setLastPacketReceivedTimestamp(mockTimer.getFPGATimestamp());
+        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() > -1.0);
+    }
+
+    @Test
+    public void testLongIntervalDisconnection() {
+        BaseConnectionMonitorSubsystem connectionMonitor = injector.getInstance(MockConnectionMonitor.class);
+        mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() * 500);
+        connectionMonitor.setLastPacketReceivedTimestamp(mockTimer.getFPGATimestamp());
+        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() > -1.0);
     }
 }
 

@@ -1,5 +1,6 @@
 package xbot.common.subsystems;
 
+import com.google.inject.Singleton;
 import edu.wpi.first.wpilibj.Timer;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.logic.Latch;
@@ -9,9 +10,10 @@ import xbot.common.properties.XPropertyManager;
 import java.util.Observable;
 import java.util.Observer;
 
-public abstract class BaseConnectionMonitorSubsystem extends BaseSubsystem implements Observer {
+@Singleton
+public class BaseConnectionMonitorSubsystem extends BaseSubsystem implements Observer {
 
-    private final DoubleProperty timeOut;
+    protected final DoubleProperty timeOut;
     private final Latch connectionLatch = new Latch(true, Latch.EdgeType.FallingEdge);
 
     private double lastPacketReceivedTimestamp = Timer.getFPGATimestamp();
@@ -19,7 +21,7 @@ public abstract class BaseConnectionMonitorSubsystem extends BaseSubsystem imple
 
     public BaseConnectionMonitorSubsystem(XPropertyManager propertyManager) {
         log.info("Creating");
-        timeOut = propertyManager.createPersistentProperty("ConnectionMontiorTimeOut Seconds", 1.0);
+        timeOut = propertyManager.createPersistentProperty("ConnectionMonitorTimeOut Seconds", 1.0);
         connectionLatch.addObserver(this);
     }
 
@@ -28,7 +30,7 @@ public abstract class BaseConnectionMonitorSubsystem extends BaseSubsystem imple
         this.lastPacketReceivedTimestamp = currentTimestamp;
     }
 
-    public double getPreviousDisconnectionTime() {
+    public double getPreviousDisconnectionTimestamp() {
         return previousDisconnectionTimestamp;
     }
 
