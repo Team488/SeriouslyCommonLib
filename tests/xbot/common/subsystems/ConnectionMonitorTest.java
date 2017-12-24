@@ -25,7 +25,7 @@ public class ConnectionMonitorTest extends BaseWPITest {
     @Test
     public void testConnectedDriverStation() {
         BaseConnectionMonitorSubsystem connectionMonitor = injector.getInstance(MockConnectionMonitor.class);
-        connectionMonitor.setLastPacketReceivedTimeStamp(Timer.getFPGATimestamp());
+        connectionMonitor.setLastPacketReceivedTimestamp(Timer.getFPGATimestamp());
         assertTrue(connectionMonitor.getPreviousDisconnectionTime() == -1);
     }
 
@@ -33,7 +33,7 @@ public class ConnectionMonitorTest extends BaseWPITest {
     public void testDisconnectedDriverStation() {
         BaseConnectionMonitorSubsystem connectionMonitor = injector.getInstance(MockConnectionMonitor.class);
         mockTimer.advanceTimeInSecondsBy(488);
-        connectionMonitor.setLastPacketReceivedTimeStamp(Timer.getFPGATimestamp());
+        connectionMonitor.setLastPacketReceivedTimestamp(Timer.getFPGATimestamp());
         assertTrue(connectionMonitor.getPreviousDisconnectionTime() > 400);
     }
 }

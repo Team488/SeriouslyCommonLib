@@ -14,8 +14,8 @@ public abstract class BaseConnectionMonitorSubsystem extends BaseSubsystem imple
     private DoubleProperty timeOut;
     private final Latch connectionLatch = new Latch(true, Latch.EdgeType.FallingEdge);
 
-    private double lastPacketReceivedTimeStamp = Timer.getFPGATimestamp();
-    private double previousDisconnectionTimeStamp = -1;
+    private double lastPacketReceivedTimestamp = Timer.getFPGATimestamp();
+    private double previousDisconnectionTimestamp = -1;
 
     public BaseConnectionMonitorSubsystem(XPropertyManager propertyManager) {
         log.info("Creating");
@@ -23,18 +23,18 @@ public abstract class BaseConnectionMonitorSubsystem extends BaseSubsystem imple
         connectionLatch.addObserver(this);
     }
 
-    public synchronized void setLastPacketReceivedTimeStamp(double currentTimeStamp) {
-        connectionLatch.setValue((currentTimeStamp - lastPacketReceivedTimeStamp) < timeOut.get());
-        this.lastPacketReceivedTimeStamp = currentTimeStamp;
+    public synchronized void setLastPacketReceivedTimestamp(double currentTimestamp) {
+        connectionLatch.setValue((currentTimestamp - lastPacketReceivedTimestamp) < timeOut.get());
+        this.lastPacketReceivedTimestamp = currentTimestamp;
     }
 
     public double getPreviousDisconnectionTime() {
-        return previousDisconnectionTimeStamp;
+        return previousDisconnectionTimestamp;
     }
 
     @Override
     public void update(Observable o, Object arg) {
         log.warn("The Driver Station has been disconnected for greater than " + timeOut + " Second(s)");
-        previousDisconnectionTimeStamp = lastPacketReceivedTimeStamp;
+        previousDisconnectionTimestamp = lastPacketReceivedTimestamp;
     }
 }
