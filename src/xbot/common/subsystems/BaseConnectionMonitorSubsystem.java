@@ -33,7 +33,7 @@ public abstract class BaseConnectionMonitorSubsystem extends BaseSubsystem imple
 
     @Override
     public void update(Observable o, Object arg) {
-        log.warn("The DriverStation has been disconnected for greater than " + timeOut + " seconds");
+        log.warn("The Driver Station has been disconnected for greater than " + timeOut + " Second(s)");
         previousDisconnectionTimeStamp = lastPacketReceivedTimeStamp;
     }
 }
