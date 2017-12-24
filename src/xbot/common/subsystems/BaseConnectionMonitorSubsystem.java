@@ -19,7 +19,7 @@ public abstract class BaseConnectionMonitorSubsystem extends BaseSubsystem imple
 
     public BaseConnectionMonitorSubsystem(XPropertyManager propertyManager) {
         log.info("Creating");
-        timeOut = propertyManager.createPersistentProperty("ConnectionMontiorTimeOut", 1.0);
+        timeOut = propertyManager.createPersistentProperty("ConnectionMontiorTimeOut Seconds", 1.0);
         connectionLatch.addObserver(this);
     }
 
