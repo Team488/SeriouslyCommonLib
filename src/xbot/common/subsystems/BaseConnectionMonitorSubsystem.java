@@ -18,6 +18,7 @@ public abstract class BaseConnectionMonitorSubsystem extends BaseSubsystem imple
     private double previousDisconnectionTimeStamp = -1;
 
     public BaseConnectionMonitorSubsystem(XPropertyManager propertyManager) {
+        log.info("Creating");
         timeOut = propertyManager.createPersistentProperty("ConnectionMontiorTimeOut", 1.0);
         connectionLatch.addObserver(this);
     }
