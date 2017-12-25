@@ -11,15 +11,15 @@ import java.util.Observable;
 import java.util.Observer;
 
 @Singleton
-public class BaseConnectionMonitorSubsystem extends BaseSubsystem implements Observer {
+public class ConnectionMonitorSubsystem extends BaseSubsystem implements Observer {
 
     protected final DoubleProperty timeOut;
-    private final Latch connectionLatch = new Latch(true, Latch.EdgeType.FallingEdge);
+    private final Latch connectionLatch = new Latch(true, Latch.EdgeType.Both);
 
     private double lastPacketReceivedTimestamp = Timer.getFPGATimestamp();
     private double previousDisconnectionTimestamp = -1;
 
-    public BaseConnectionMonitorSubsystem(XPropertyManager propertyManager) {
+    public ConnectionMonitorSubsystem(XPropertyManager propertyManager) {
         log.info("Creating");
         timeOut = propertyManager.createPersistentProperty("ConnectionMonitorTimeOut Seconds", 1.0);
         connectionLatch.addObserver(this);
@@ -36,7 +36,11 @@ public class BaseConnectionMonitorSubsystem extends BaseSubsystem implements Obs
 
     @Override
     public void update(Observable o, Object arg) {
-        log.warn("The Driver Station has been disconnected for greater than " + timeOut + " Second(s)");
-        previousDisconnectionTimestamp = lastPacketReceivedTimestamp;
+        if (arg == Latch.EdgeType.FallingEdge) {
+            log.warn("The Driver Station has been disconnected for greater than " + timeOut.get() + " Second(s)");
+            previousDisconnectionTimestamp = lastPacketReceivedTimestamp;
+        } else {
+            //This Has To Be Here Or Else It Breaks
+        }
     }
 }
