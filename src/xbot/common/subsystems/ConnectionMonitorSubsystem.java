@@ -39,8 +39,6 @@ public class ConnectionMonitorSubsystem extends BaseSubsystem implements Observe
         if (arg == Latch.EdgeType.FallingEdge) {
             log.warn("The Driver Station has been disconnected for greater than " + timeOut.get() + " Second(s)");
             previousDisconnectionTimestamp = lastPacketReceivedTimestamp;
-        } else {
-            //This Has To Be Here Or Else It Breaks
         }
     }
 }
