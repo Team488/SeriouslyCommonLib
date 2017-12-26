@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.Observable;
 import java.util.Observer;
 
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.assertEquals;
 
 public class LatchTest {
 
@@ -14,8 +14,9 @@ public class LatchTest {
         Latch latch = new Latch(false, Latch.EdgeType.RisingEdge);
         MockLatch mockLatch = new MockLatch();
         latch.addObserver(mockLatch);
+        assertEquals(mockLatch.getEdgeType(), null);
         latch.setValue(true);
-        assertTrue(mockLatch.getEdgeType() == Latch.EdgeType.RisingEdge);
+        assertEquals(mockLatch.getEdgeType(), Latch.EdgeType.RisingEdge);
     }
 
     @Test
@@ -24,7 +25,7 @@ public class LatchTest {
         MockLatch mockLatch = new MockLatch();
         latch.addObserver(mockLatch);
         latch.setValue(false);
-        assertTrue(mockLatch.getEdgeType() == Latch.EdgeType.FallingEdge);
+        assertEquals(mockLatch.getEdgeType(), Latch.EdgeType.FallingEdge);
     }
 
     @Test
@@ -32,13 +33,13 @@ public class LatchTest {
         Latch latch = new Latch(false, Latch.EdgeType.RisingEdge);
         MockLatch mockLatch = new MockLatch();
         latch.addObserver(mockLatch);
-        assertTrue(mockLatch.getEdgeType() == null);
+        assertEquals(mockLatch.getEdgeType(), null);
         latch.setValue(true);
-        assertTrue(mockLatch.getEdgeType() == Latch.EdgeType.RisingEdge);
+        assertEquals(mockLatch.getEdgeType(), Latch.EdgeType.RisingEdge);
         latch.setValue(false);
-        assertTrue(mockLatch.getEdgeType() == Latch.EdgeType.RisingEdge);
+        assertEquals(mockLatch.getEdgeType(), Latch.EdgeType.RisingEdge);
         latch.setValue(true);
-        assertTrue(mockLatch.getNumTimesUpdated() == 2);
+        assertEquals(mockLatch.getNumTimesUpdated(), 2);
     }
 
     @Test
@@ -47,11 +48,11 @@ public class LatchTest {
         MockLatch mockLatch = new MockLatch();
         latch.addObserver(mockLatch);
         latch.setValue(false);
-        assertTrue(mockLatch.getEdgeType() == Latch.EdgeType.FallingEdge);
+        assertEquals(mockLatch.getEdgeType(), Latch.EdgeType.FallingEdge);
         latch.setValue(true);
-        assertTrue(mockLatch.getEdgeType() == Latch.EdgeType.FallingEdge);
+        assertEquals(mockLatch.getEdgeType(), Latch.EdgeType.FallingEdge);
         latch.setValue(false);
-        assertTrue(mockLatch.getNumTimesUpdated() == 2);
+        assertEquals(mockLatch.getNumTimesUpdated(), 2);
     }
 }
 
