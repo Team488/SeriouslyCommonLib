@@ -28,8 +28,9 @@ public class Latch extends Observable {
                     saveValueAndAlertWatchers(value);
                     break;
                 case RisingEdge:
-                    if (value)
+                    if (value) {
                         saveValueAndAlertWatchers(true);
+                    }
                     break;
                 case FallingEdge:
                     if (!value) {
