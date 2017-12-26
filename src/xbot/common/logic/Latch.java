@@ -23,28 +23,28 @@ public class Latch extends Observable {
         boolean different = this.value != value;
 
         if (different) {
+            this.value = value;
             switch (latchType) {
                 case Both:
-                    saveValueAndAlertWatchers(value);
+                    alertWatchers(value);
                     break;
                 case RisingEdge:
                     if (value) {
-                        saveValueAndAlertWatchers(true);
+                        alertWatchers(true);
                     }
                     break;
                 case FallingEdge:
                     if (!value) {
-                        saveValueAndAlertWatchers(false);
+                        alertWatchers(false);
                     }
                     break;
                 default:
-                    this.value = value;
                     break;
             }
         }
     }
 
-    private void saveValueAndAlertWatchers(boolean value) {
+    private void alertWatchers(boolean value) {
         EdgeType edgeType = value ? EdgeType.RisingEdge : EdgeType.FallingEdge;
 
         setChanged();
