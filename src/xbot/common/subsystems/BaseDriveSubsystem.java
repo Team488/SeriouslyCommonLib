@@ -14,6 +14,22 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     private final LoggingLatch baseDriveSubsystemLoggingLatch = 
             new LoggingLatch(this.getName(), "XCanTalon(s) in DriveSubsystem is null", EdgeType.RisingEdge);
     
+    /**
+     * Each drive motor has an associated MotionRegistration, which keeps track of how much
+     * total motor power (in power units from -1 to 1) should be used to respond to 
+     * translation/rotation requests.
+     * 
+     * For example, the "left" motor in a tank drive configuration would be configured as having:
+     * X response: 0 (requests to move in the +X direction (strafing) have no response).
+     * Y response: 1 (requests to move in the +Y direction (forward) are matched 100%).
+     * W response: -1 (requests to move in the +W direction (rotating to the left) are reversed at 100%).
+     * 
+     * This works well for tank and mecanum drives, but is a bit too simple to track some more
+     * exotic drives (like 3-wheel omni, or any kind of swerve)
+     * 
+     * @author jogilber
+     *
+     */
     public class MotionRegistration {
 
         public double x;
@@ -74,8 +90,8 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
      * Commands each of the XCANTalons to respond to translation/rotation input.
      * Each "wheel" is independently responsible, and as such there isn't any actual
      * drive logic in this method.
-     * @param translation +Y is towards the front of the robot, +X is towards the right of the robot
-     * @param rotation +Rotation is left turn, -Rotation is right turn
+     * @param translation +Y is towards the front of the robot, +X is towards the right of the robot. Range between -1 and 1.
+     * @param rotation +Rotation is left turn, -Rotation is right turn. Range between -1 and 1.
      * @param normalize If the largest output is greater than 1, should all outputs be
      *        normalized so that 1 is the maximum?
      */
@@ -102,11 +118,27 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
      * Commands each of the XCANTalons to respond to translation/rotation input.
      * Each "wheel" is independently responsible, and as such there isn't any actual
      * drive logic in this method.
-     * @param translation +Y is towards the front of the robot, +X is towards the right of the robot
-     * @param rotation +Rotation is left turn, -Rotation is right turn
+     * @param translation +Y is towards the front of the robot, +X is towards the right of the robot. Range between -1 and 1
+     * @param rotation +Rotation is left turn, -Rotation is right turn. Range between -1 and 1.
      */
     public void drive(XYPair translation, double rotation) {
         drive(translation, rotation, false);
+    }
+    
+    /**
+     * Classic tank drive.
+     * @param left Power to the left drive motor. Range between -1 and 1.
+     * @param right Power to the right drive motor. Range between -1 and 1.
+     */
+    public void drive(double left, double right) {
+        // the amount of "forward" we want to go is the average of the two joysticks
+        double yTranslation = (left + right) / 2;
+        
+        // the amount of rotation we want is the difference between the two joysticks, normalized 
+        // to (-1, 1).
+        double rotation = (right - left) /  2;
+        
+        drive(new XYPair(0, yTranslation), rotation);
     }
     
     public void fieldOrientedDrive(
@@ -131,12 +163,12 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     /**
      * Determine the largest commanded output for a given wheel for a given
      * translation/rotation input. For example, you would see a maximum output of
-     * two in a Tank Drive system that's commanded to go foward at full speed AND
+     * two in a Tank Drive system that's commanded to go forward at full speed AND
      * rotate at full speed.
      */
     protected double getMaxOutput(XYPair translation, double rotation) {
         return getAllMasterTalons().values().stream()
-        .map(mr -> mr.calculateTotalImpact(translation.x, translation.y, rotation))
+        .map(motionRegistration -> motionRegistration.calculateTotalImpact(translation.x, translation.y, rotation))
         .map(e -> Math.abs(e))
         .max(Double::compare).get().doubleValue();
     }
