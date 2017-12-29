@@ -22,7 +22,7 @@ public class DriveSubsystemTest extends BaseWPITest {
     }
     
     @Test
-    public void testSimpleTankDrive() {        
+    public void testComplexTankDrive() {        
         verifyTankDrive(0, 0);
         
         drive.drive(new XYPair(0, 1), 0);
@@ -85,6 +85,23 @@ public class DriveSubsystemTest extends BaseWPITest {
         
         drive.drive(new XYPair(0, 1), 2, true);
         verifyTankDrive(-.3333, 1);
+    }
+    
+    @Test
+    public void testSimpleTankDrive() {
+        drive.changeIntoTankDrive();
+        
+        drive.drive(0, 0);
+        verifyTankDrive(0, 0);
+        
+        drive.drive(1, 1);
+        verifyTankDrive(1, 1);
+        
+        drive.drive(1, 0);
+        verifyTankDrive(1, 0);
+        
+        drive.drive(-.25, .6668);
+        verifyTankDrive(-.25, 0.6668);
     }
     
     
