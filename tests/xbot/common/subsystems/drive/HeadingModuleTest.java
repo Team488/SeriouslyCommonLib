@@ -18,7 +18,6 @@ public class HeadingModuleTest extends BaseWPITest {
     
     @Override
     public void setUp() {
-        // TODO Auto-generated method stub
         super.setUp();
         
         PIDManager pid = pf.createPIDManager("Testo", 100, 0, 0);
