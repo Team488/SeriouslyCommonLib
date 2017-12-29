@@ -54,6 +54,62 @@ public class LatchTest {
         latch.setValue(false);
         assertEquals(latchTestObserver.getNumTimesUpdated(), 2);
     }
+
+    @Test
+    public void testFallRiseRiseFallRiseFallObservingRisingEdge() {
+        Latch latch = new Latch(false, Latch.EdgeType.RisingEdge);
+        LatchTestObserver latchTestObserver = new LatchTestObserver();
+        latch.addObserver(latchTestObserver);
+        assertEquals(latchTestObserver.getLastUpdateEdgeType(), null);
+        latch.setValue(false);
+        assertEquals(latchTestObserver.getLastUpdateEdgeType(), null);
+        latch.setValue(true);
+        assertEquals(latchTestObserver.getLastUpdateEdgeType(), Latch.EdgeType.RisingEdge);
+        latch.setValue(true);
+        assertEquals(latchTestObserver.getLastUpdateEdgeType(), Latch.EdgeType.RisingEdge);
+        latch.setValue(false);
+        assertEquals(latchTestObserver.getLastUpdateEdgeType(), Latch.EdgeType.RisingEdge);
+        latch.setValue(true);
+        assertEquals(latchTestObserver.getLastUpdateEdgeType(), Latch.EdgeType.RisingEdge);
+        latch.setValue(false);
+        assertEquals(latchTestObserver.getLastUpdateEdgeType(), Latch.EdgeType.RisingEdge);
+        assertEquals(latchTestObserver.getNumTimesUpdated(), 2);
+    }
+
+    @Test
+    public void testFallRiseRiseFallRiseFallObservingFallingEdge() {
+        Latch latch = new Latch(true, Latch.EdgeType.FallingEdge);
+        LatchTestObserver latchTestObserver = new LatchTestObserver();
+        latch.addObserver(latchTestObserver);
+        assertEquals(latchTestObserver.getLastUpdateEdgeType(), null);
+        latch.setValue(true);
+        assertEquals(latchTestObserver.getLastUpdateEdgeType(), null);
+        latch.setValue(false);
+        assertEquals(latchTestObserver.getLastUpdateEdgeType(), Latch.EdgeType.FallingEdge);
+        latch.setValue(false);
+        assertEquals(latchTestObserver.getLastUpdateEdgeType(), Latch.EdgeType.FallingEdge);
+        latch.setValue(true);
+        assertEquals(latchTestObserver.getLastUpdateEdgeType(), Latch.EdgeType.FallingEdge);
+        latch.setValue(false);
+        assertEquals(latchTestObserver.getLastUpdateEdgeType(), Latch.EdgeType.FallingEdge);
+        latch.setValue(true);
+        assertEquals(latchTestObserver.getLastUpdateEdgeType(), Latch.EdgeType.FallingEdge);
+        assertEquals(latchTestObserver.getNumTimesUpdated(), 2);
+    }
+
+    @Test
+    public void testRiseFallRiseObservingBothEdges() {
+        Latch latch = new Latch(true, Latch.EdgeType.Both);
+        LatchTestObserver latchTestObserver = new LatchTestObserver();
+        latch.addObserver(latchTestObserver);
+        latch.setValue(false);
+        assertEquals(latchTestObserver.getLastUpdateEdgeType(), Latch.EdgeType.FallingEdge);
+        latch.setValue(true);
+        assertEquals(latchTestObserver.getLastUpdateEdgeType(), Latch.EdgeType.RisingEdge);
+        latch.setValue(false);
+        assertEquals(latchTestObserver.getLastUpdateEdgeType(), Latch.EdgeType.FallingEdge);
+        assertEquals(latchTestObserver.getNumTimesUpdated(), 3);
+    }
 }
 
 class LatchTestObserver implements Observer {
