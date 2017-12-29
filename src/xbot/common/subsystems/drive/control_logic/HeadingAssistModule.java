@@ -67,19 +67,16 @@ public class HeadingAssistModule {
         
         if (timeSinceHumanInput < coastTime.get()) {
             return 0;
-        }
-        
-        if (timeSinceHumanInput > coastTime.get() && !inAutomaticMode) {
+        } 
+        else if (timeSinceHumanInput >= coastTime.get() && !inAutomaticMode) {
             desiredHeading = pose.getCurrentHeading().getValue();
             inAutomaticMode = true;
             headingModule.reset();
             return 0;
         }
-        
-        if (inAutomaticMode) {
+        // by this point, the only option left is that the machine is in automatic mode.
+        else {
             return headingModule.calculateHeadingPower(desiredHeading);
-        }        
-        
-        return 0;
+        }
     }
 }
