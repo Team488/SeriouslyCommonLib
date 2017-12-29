@@ -47,19 +47,14 @@ public class HeadingModule {
         // class, which is aware of such circular effects), and then feed that into a PID where
         // Goal is 0 and Current is our error.
         
-        // This will have a side-effect of reversing the power output of the system, so we need to remember
-        // at the very end to reverse it one more time to cancel that out.
         targetHeading.setValue(desiredHeading);
-        double errorInDegrees = pose.getCurrentHeading().difference(targetHeading);
+        double errorInDegrees = targetHeading.difference(pose.getCurrentHeading());
         
         // Let's normalize the error into a -1 to 1 range. Convenient for further math.
         double normalizedError = errorInDegrees / 180;
         
         // Now we feed it into a PID system, where the goal is to have 0 error.
         double rotationalPower = headingDrivePid.calculate(0, normalizedError);
-        
-        // reverse the power (see above)
-        rotationalPower *= -1;
         
         return rotationalPower;        
     }

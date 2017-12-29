@@ -16,7 +16,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         
         clf.createPowerDistributionPanel();
         XJoystick j = clf.createJoystick(1, 12);
-        clf.createEncoder("asdf", 1, 2, 1);
+        clf.createEncoder("foo", 1, 2, 1);
         clf.createDigitalInput(1);
         clf.createAnalogInput(1);
         clf.createXboxController(1);
@@ -30,6 +30,6 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createAdvancedJoystickButton(j, 1);
         clf.createAnalogHIDButton(j, 1, -1, 1);
         
-        clf.createHeadingModule(pf.createPIDManager("testo", 1, 0, 0));
+        clf.createHeadingModule(pf.createPIDManager("bar", 1, 0, 0));
     }
 }
