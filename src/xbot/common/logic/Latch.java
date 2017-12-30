@@ -19,35 +19,29 @@ public class Latch extends Observable {
         this.latchType = latchType;
     }
 
-    public void setValue(boolean value) {
-        boolean different = this.value != value;
-
-        if (different) {
-            this.value = value;
-            switch (latchType) {
-                case Both:
-                    alertWatchers(value);
-                    break;
-                case RisingEdge:
-                    if (value) {
-                        alertWatchers(true);
-                    }
-                    break;
-                case FallingEdge:
-                    if (!value) {
-                        alertWatchers(false);
-                    }
-                    break;
-                default:
-                    break;
-            }
+    public void setValue(boolean newValue) {
+        if (this.value == newValue) {
+            return; /* Do nothing if value stays the same */
         }
-    }
 
-    private void alertWatchers(boolean value) {
-        EdgeType edgeType = value ? EdgeType.RisingEdge : EdgeType.FallingEdge;
+        this.value = newValue;
+        EdgeType edgeType = newValue ? EdgeType.RisingEdge : EdgeType.FallingEdge;
+        boolean alertWatchers = false;
+        switch (latchType) {
+            case RisingEdge:
+                alertWatchers = newValue; /* Alert Watchers if newValue equals true */
+                break;
+            case FallingEdge:
+                alertWatchers = !newValue; /* Alert Watchers if newValue equals false */
+                break;
+            case Both:
+                alertWatchers = true;
+                break;
+        }
 
-        setChanged();
-        notifyObservers(edgeType);
+        if (alertWatchers) {
+            setChanged();
+            notifyObservers(edgeType);
+        }
     }
 }
