@@ -26,7 +26,7 @@ public class Latch extends Observable {
 
         this.value = newValue;
         EdgeType edgeType = newValue ? EdgeType.RisingEdge : EdgeType.FallingEdge;
-        boolean alertWatchers = false;
+        boolean alertWatchers;
         switch (latchType) {
             case RisingEdge:
                 alertWatchers = newValue; /* Alert Watchers if newValue equals true */
@@ -36,6 +36,9 @@ public class Latch extends Observable {
                 break;
             case Both:
                 alertWatchers = true;
+                break;
+            default:
+                alertWatchers = false;
                 break;
         }
 
