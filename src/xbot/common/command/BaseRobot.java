@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import xbot.common.subsystems.ConnectionMonitorSubsystem;
 
 /**
  * Core Robot class which configures logging, properties,
@@ -35,6 +36,7 @@ public class BaseRobot extends IterativeRobot {
 
     protected XPropertyManager propertyManager;
     protected XScheduler xScheduler;
+    private ConnectionMonitorSubsystem connectionMonitorSubsystem;
 
     protected AbstractModule injectionModule;
 
@@ -101,6 +103,7 @@ public class BaseRobot extends IterativeRobot {
         // Get the property manager and get all properties from the robot disk
         propertyManager = this.injector.getInstance(XPropertyManager.class);
         xScheduler = this.injector.getInstance(XScheduler.class);
+        connectionMonitorSubsystem = this.injector.getInstance(ConnectionMonitorSubsystem.class);
     }
 
     @Override
@@ -169,6 +172,7 @@ public class BaseRobot extends IterativeRobot {
     }
     
     protected void sharedPeriodic() {
+        connectionMonitorSubsystem.setLastPacketReceivedTimestamp(Timer.getFPGATimestamp());
         xScheduler.run();
         this.updatePeriodicDataSources();
         
