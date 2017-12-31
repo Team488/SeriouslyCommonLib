@@ -15,7 +15,7 @@ public class ConnectionMonitorSubsystem extends BaseSubsystem implements Observe
     protected final DoubleProperty timeOut;
     private final Latch connectionLatch = new Latch(true, Latch.EdgeType.FallingEdge);
 
-    private double lastPacketReceivedTimestamp = -1;
+    private Double lastPacketReceivedTimestamp = null;
     private double previousDisconnectionTimestamp = -1;
 
     public ConnectionMonitorSubsystem(XPropertyManager propertyManager) {
@@ -25,7 +25,7 @@ public class ConnectionMonitorSubsystem extends BaseSubsystem implements Observe
     }
 
     public void setLastPacketReceivedTimestamp(double currentTimestamp) {
-        if (lastPacketReceivedTimestamp != -1) {
+        if (lastPacketReceivedTimestamp != null) {
             connectionLatch.setValue((currentTimestamp - lastPacketReceivedTimestamp) < timeOut.get());
         }
         this.lastPacketReceivedTimestamp = currentTimestamp;
