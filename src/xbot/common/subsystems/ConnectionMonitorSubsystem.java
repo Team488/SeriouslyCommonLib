@@ -14,7 +14,7 @@ import java.util.Observer;
 public class ConnectionMonitorSubsystem extends BaseSubsystem implements Observer {
 
     protected final DoubleProperty timeOut;
-    private final Latch connectionLatch = new Latch(true, Latch.EdgeType.Both);
+    private final Latch connectionLatch = new Latch(true, Latch.EdgeType.FallingEdge);
 
     private double lastPacketReceivedTimestamp = Timer.getFPGATimestamp();
     private double previousDisconnectionTimestamp = -1;
@@ -30,15 +30,13 @@ public class ConnectionMonitorSubsystem extends BaseSubsystem implements Observe
         this.lastPacketReceivedTimestamp = currentTimestamp;
     }
 
-    public double getPreviousDisconnectionTimestamp() {
+    public synchronized double getPreviousDisconnectionTimestamp() {
         return previousDisconnectionTimestamp;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg == Latch.EdgeType.FallingEdge) {
-            log.warn("The Driver Station has been disconnected for greater than " + timeOut.get() + " Second(s)");
-            previousDisconnectionTimestamp = lastPacketReceivedTimestamp;
-        }
+        log.warn("The Driver Station has been disconnected for greater than " + timeOut.get() + " Second(s)");
+        previousDisconnectionTimestamp = lastPacketReceivedTimestamp;
     }
 }
