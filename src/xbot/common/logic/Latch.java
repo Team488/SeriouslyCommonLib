@@ -20,7 +20,9 @@ public class Latch extends Observable {
     }
 
     public void setValue(boolean newValue) {
-        if (this.value == newValue) return; /* Do nothing if value stays the same */
+        if (this.value == newValue) {
+            return; /* Do nothing if value stays the same */
+        }
 
         EdgeType edgeType = newValue ? EdgeType.RisingEdge : EdgeType.FallingEdge;
         if (latchType == edgeType || latchType == EdgeType.Both) {
