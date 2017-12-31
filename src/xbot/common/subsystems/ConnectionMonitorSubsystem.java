@@ -6,7 +6,8 @@ import xbot.common.logic.Latch;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
-import java.util.*;
+import java.util.Observable;
+import java.util.Observer;
 
 @Singleton
 public class ConnectionMonitorSubsystem extends BaseSubsystem implements Observer {
@@ -36,8 +37,8 @@ public class ConnectionMonitorSubsystem extends BaseSubsystem implements Observe
 
     @Override
     public void update(Observable o, Object arg) {
-        log.warn("Connection with Driver Station restored. " +
-                "The Robot was disconnected from the driver station for at least " + timeOut.get() + " second(s).");
+        log.warn("Connection with Driver Station restored. "
+                + "The Robot was disconnected from the driver station for at least " + timeOut.get() + " second(s).");
         previousDisconnectionTimestamp = lastPacketReceivedTimestamp;
     }
 }
