@@ -27,7 +27,7 @@ public class ConnectionMonitorTest extends BaseWPITest {
         ConnectionMonitorSubsystem connectionMonitor = injector.getInstance(MockConnectionMonitor.class);
         mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() / 4.0);
         connectionMonitor.setLastPacketReceivedTimestamp(mockTimer.getFPGATimestamp());
-        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= -1.0);
+        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= 0.0);
     }
 
     @Test
@@ -35,27 +35,27 @@ public class ConnectionMonitorTest extends BaseWPITest {
         ConnectionMonitorSubsystem connectionMonitor = injector.getInstance(MockConnectionMonitor.class);
         mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() / 1.1);
         connectionMonitor.setLastPacketReceivedTimestamp(mockTimer.getFPGATimestamp());
-        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= -1.0);
+        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= 0.0);
     }
 
     @Test
     public void testShortIntervalDisconnection() {
         ConnectionMonitorSubsystem connectionMonitor = injector.getInstance(MockConnectionMonitor.class);
         connectionMonitor.setLastPacketReceivedTimestamp(mockTimer.getFPGATimestamp());
-        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= -1.0);
+        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= 0.0);
         mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() * 1.1);
         connectionMonitor.setLastPacketReceivedTimestamp(mockTimer.getFPGATimestamp());
-        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() > -1.0);
+        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() > 0.0);
     }
 
     @Test
     public void testLongIntervalDisconnection() {
         ConnectionMonitorSubsystem connectionMonitor = injector.getInstance(MockConnectionMonitor.class);
         connectionMonitor.setLastPacketReceivedTimestamp(Timer.getFPGATimestamp());
-        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= -1);
+        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= 0.0);
         mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() * 500.0);
         connectionMonitor.setLastPacketReceivedTimestamp(mockTimer.getFPGATimestamp());
-        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() > -1.0);
+        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() > 0.0);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class ConnectionMonitorTest extends BaseWPITest {
             mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() - (connectionMonitor.timeOut.get() / 2.0));
             connectionMonitor.setLastPacketReceivedTimestamp(mockTimer.getFPGATimestamp());
         }
-        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= -1.0);
+        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= 0.0);
     }
 
     @Test
@@ -78,30 +78,30 @@ public class ConnectionMonitorTest extends BaseWPITest {
             mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() - (connectionMonitor.timeOut.get() / 2.0));
             connectionMonitor.setLastPacketReceivedTimestamp(mockTimer.getFPGATimestamp());
         }
-        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() >= -1.0);
+        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() >= 0.0);
     }
 
     @Test
     public void testVaryingTimeOutWithNoDisconnection() {
         ConnectionMonitorSubsystem connectionMonitor = injector.getInstance(MockConnectionMonitor.class);
         mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() / 4.0);
-        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= -1.0);
+        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= 0.0);
         connectionMonitor.timeOut.set(500);
         assertTrue(connectionMonitor.timeOut.get() >= 500);
         mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() / 2.0);
-        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= -1.0);
+        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= 0.0);
     }
 
     @Test
     public void testVaryingTimeOutWithDisconnection() {
         ConnectionMonitorSubsystem connectionMonitor = injector.getInstance(MockConnectionMonitor.class);
         connectionMonitor.setLastPacketReceivedTimestamp(Timer.getFPGATimestamp());
-        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= -1.0);
+        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= 0.0);
 
         mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() * 2);
         connectionMonitor.setLastPacketReceivedTimestamp(mockTimer.getFPGATimestamp());
         double previousVal = connectionMonitor.getPreviousDisconnectionTimestamp();
-        assertTrue(previousVal > -1.0);
+        assertTrue(previousVal > 0.0);
 
         mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() / 4.0);
         connectionMonitor.setLastPacketReceivedTimestamp(mockTimer.getFPGATimestamp());
@@ -111,7 +111,7 @@ public class ConnectionMonitorTest extends BaseWPITest {
         mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() * 2.0);
         connectionMonitor.setLastPacketReceivedTimestamp(mockTimer.getFPGATimestamp());
         double currentVal = connectionMonitor.getPreviousDisconnectionTimestamp();
-        assertTrue(currentVal > -1.0 && currentVal != previousVal);
+        assertTrue(currentVal > 0.0 && currentVal != previousVal);
     }
 }
 
