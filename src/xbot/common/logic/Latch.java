@@ -7,8 +7,8 @@ import java.util.Observable;
  */
 public class Latch extends Observable {
 
+    private final EdgeType latchType;
     private boolean value;
-    private EdgeType latchType;
 
     public enum EdgeType {
         RisingEdge, FallingEdge, Both
@@ -20,31 +20,13 @@ public class Latch extends Observable {
     }
 
     public void setValue(boolean newValue) {
-        if (this.value == newValue) {
-            return; /* Do nothing if value stays the same */
-        }
+        if (this.value == newValue) return; /* Do nothing if value stays the same */
 
-        this.value = newValue;
         EdgeType edgeType = newValue ? EdgeType.RisingEdge : EdgeType.FallingEdge;
-        boolean alertWatchers;
-        switch (latchType) {
-            case RisingEdge:
-                alertWatchers = newValue; /* Alert Watchers if newValue equals true */
-                break;
-            case FallingEdge:
-                alertWatchers = !newValue; /* Alert Watchers if newValue equals false */
-                break;
-            case Both:
-                alertWatchers = true;
-                break;
-            default:
-                alertWatchers = false;
-                break;
-        }
-
-        if (alertWatchers) {
+        if (latchType == edgeType || latchType == EdgeType.Both) {
             setChanged();
             notifyObservers(edgeType);
         }
+        this.value = newValue;
     }
 }
