@@ -1,7 +1,6 @@
 package xbot.common.subsystems;
 
 import com.google.inject.Singleton;
-import edu.wpi.first.wpilibj.Timer;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.logic.Latch;
 import xbot.common.properties.DoubleProperty;
@@ -16,27 +15,29 @@ public class ConnectionMonitorSubsystem extends BaseSubsystem implements Observe
     protected final DoubleProperty timeOut;
     private final Latch connectionLatch = new Latch(true, Latch.EdgeType.FallingEdge);
 
-    private double lastPacketReceivedTimestamp = Timer.getFPGATimestamp();
+    private double lastPacketReceivedTimestamp = -1;
     private double previousDisconnectionTimestamp = -1;
 
     public ConnectionMonitorSubsystem(XPropertyManager propertyManager) {
         log.info("Creating");
-        timeOut = propertyManager.createPersistentProperty("ConnectionMonitorTimeOut Seconds", 1.0);
+        timeOut = propertyManager.createPersistentProperty("ConnectionMonitor TimeOut Threshold Seconds", 1.0);
         connectionLatch.addObserver(this);
     }
 
-    public synchronized void setLastPacketReceivedTimestamp(double currentTimestamp) {
-        connectionLatch.setValue((currentTimestamp - lastPacketReceivedTimestamp) < timeOut.get());
+    public void setLastPacketReceivedTimestamp(double currentTimestamp) {
+        if (lastPacketReceivedTimestamp != -1) {
+            connectionLatch.setValue((currentTimestamp - lastPacketReceivedTimestamp) < timeOut.get());
+        }
         this.lastPacketReceivedTimestamp = currentTimestamp;
     }
 
-    public synchronized double getPreviousDisconnectionTimestamp() {
+    public double getPreviousDisconnectionTimestamp() {
         return previousDisconnectionTimestamp;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        log.warn("The Driver Station has been disconnected for greater than " + timeOut.get() + " Second(s)");
+        log.warn("The Driver Station has been disconnected for greater than " + timeOut.get() + " second(s)");
         previousDisconnectionTimestamp = lastPacketReceivedTimestamp;
     }
 }

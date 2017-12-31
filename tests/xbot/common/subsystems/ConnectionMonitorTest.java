@@ -1,6 +1,7 @@
 package xbot.common.subsystems;
 
 import edu.wpi.first.wpilibj.MockTimer;
+import edu.wpi.first.wpilibj.Timer;
 import org.junit.Test;
 import xbot.common.injection.BaseWPITest;
 import xbot.common.properties.XPropertyManager;
@@ -40,6 +41,8 @@ public class ConnectionMonitorTest extends BaseWPITest {
     @Test
     public void testShortIntervalDisconnection() {
         ConnectionMonitorSubsystem connectionMonitor = injector.getInstance(MockConnectionMonitor.class);
+        connectionMonitor.setLastPacketReceivedTimestamp(mockTimer.getFPGATimestamp());
+        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= -1.0);
         mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() * 1.1);
         connectionMonitor.setLastPacketReceivedTimestamp(mockTimer.getFPGATimestamp());
         assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() > -1.0);
@@ -48,6 +51,8 @@ public class ConnectionMonitorTest extends BaseWPITest {
     @Test
     public void testLongIntervalDisconnection() {
         ConnectionMonitorSubsystem connectionMonitor = injector.getInstance(MockConnectionMonitor.class);
+        connectionMonitor.setLastPacketReceivedTimestamp(Timer.getFPGATimestamp());
+        assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= -1);
         mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() * 500.0);
         connectionMonitor.setLastPacketReceivedTimestamp(mockTimer.getFPGATimestamp());
         assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() > -1.0);
@@ -90,6 +95,7 @@ public class ConnectionMonitorTest extends BaseWPITest {
     @Test
     public void testVaryingTimeOutWithDisconnection() {
         ConnectionMonitorSubsystem connectionMonitor = injector.getInstance(MockConnectionMonitor.class);
+        connectionMonitor.setLastPacketReceivedTimestamp(Timer.getFPGATimestamp());
         assertTrue(connectionMonitor.getPreviousDisconnectionTimestamp() <= -1.0);
 
         mockTimer.advanceTimeInSecondsBy(connectionMonitor.timeOut.get() * 2);
