@@ -1,18 +1,33 @@
 package xbot.common.controls.actuators;
 
-import com.ctre.CANTalon;
-import com.ctre.CANTalon.TalonControlMode;
+import com.ctre.phoenix.*;
+import com.ctre.phoenix.motion.MotionProfileStatus;
+import com.ctre.phoenix.motion.TrajectoryPoint;
+import com.ctre.phoenix.motorcontrol.ControlFrame;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.Faults;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.IMotorController;
+import com.ctre.phoenix.motorcontrol.IMotorControllerEnhanced;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.SensorTerm;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.StickyFaults;
+import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
+import edu.wpi.first.wpilibj.Sendable;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.StringProperty;
 import xbot.common.properties.XPropertyManager;
 
-import java.util.concurrent.TimeUnit;
 
-import org.influxdb.dto.Point;
-
-public abstract class XCANTalon {
+public abstract class XCANTalon implements IMotorControllerEnhanced {
     /*
      * Functions currently omitted:
      * 
@@ -39,8 +54,9 @@ public abstract class XCANTalon {
         this.propMan = propMan;
     }
     
+    
+    
     public void createTelemetryProperties(String deviceName) {
-        controlModeProperty = propMan.createEphemeralProperty(deviceName + " control mode", CANTalon.TalonControlMode.Disabled.name());
         currentProperty = propMan.createEphemeralProperty(deviceName + " current", 0);
         outVoltageProperty = propMan.createEphemeralProperty(deviceName + " voltage", 0);
         temperatureProperty = propMan.createEphemeralProperty(deviceName + " temperature", 0);
@@ -54,160 +70,204 @@ public abstract class XCANTalon {
             return;
         }
         
-        controlModeProperty.set(this.getControlMode().name());
         currentProperty.set(this.getOutputCurrent());
-        outVoltageProperty.set(this.getOutputVoltage());
+        outVoltageProperty.set(this.getMotorOutputVoltage());
         temperatureProperty.set(this.getTemperature());
     }
+    
+    
 
-    /**
-     * When working with the real implementation of the talon, we want to minimize
-     * setControlMode calls, as these appear to send a message across the CAN bus, and
-     * the bus has a finite bandwidth. However, the call to getControlMode appears to read
-     * from local in-memory information about the Talon, and thus is much cheaper to call
-     * repeatedly.
-     */
-    public void ensureTalonControlMode(TalonControlMode mode) {
-        if (this.getControlMode() != mode) {
-            this.setControlMode(mode);
-        }
-    }
-    
-    // Control and meta config ----------------------------
-    public abstract boolean isEnabled();
-    public abstract void enable();
-    public abstract void disable();
-    public abstract void setProfile(int profile);
-    public abstract CANTalon.TalonControlMode getControlMode();
-    public abstract void setControlMode(CANTalon.TalonControlMode controlMode);
-    public abstract boolean getBrakeEnableDuringNeutral();
-    public abstract void setBrakeEnableDuringNeutral(boolean brake);
-    public abstract void setStatusFrameRateMs(CANTalon.StatusFrameRate stateFrame, int periodMs);
-    public abstract void reset();
-    
-    // Meta information -----------------------------------
-    public abstract int getDeviceID();
-    public abstract double getOutputCurrent();
-    public abstract double getOutputVoltage();
-    public abstract double getTemperature();
-    public abstract double getBusVoltage();
-    public abstract long getFirmwareVersion();
-    
-    // Faults ---------------------------------------------
-    public abstract void clearStickyFaults();
-    public abstract int getFaultForwardLim();
-    public abstract int getFaultForwardSoftLim();
-    public abstract int getFaultHardwareFailure();
-    public abstract int getFaultOverTemp();
-    public abstract int getFaultReverseLim();
-    public abstract int getFaultReverseSoftLim();
-    public abstract int getFaultUnderVoltage();
-    public abstract int getStickyFaultForwardLim();
-    public abstract int getStickyFaultForwardSoftLim();
-    public abstract int getStickyFaultOverTemp();
-    public abstract int getStickyFaultReverseLim();
-    public abstract int getStickyFaultReverseSoftLim();
-    public abstract int getStickyFaultUnderVoltage();
-    
-    // PID/closed-loop ------------------------------------
-    public abstract double getP();
-    public abstract double getI();
-    public abstract double getD();
-    public abstract double getF();
-    public abstract void setP(double p);
-    public abstract void setI(double i);
-    public abstract void setD(double d);
-    public abstract void setF(double f);
-    public abstract void setPID(double p, double i, double d);
-    public abstract void clearIAccum();
-    public abstract int getClosedLoopError();
-    public abstract void setAllowableClosedLoopError(int allowableError);
-    public abstract double getIZone();
-    public abstract void setIZone(int iZone);
-    public abstract long getIAccum();
-    public abstract void setClosedLoopRampRate(double rampRate);
-    
-    
-    // Sensing and input ----------------------------------
-    public abstract CANTalon.FeedbackDeviceStatus isSensorPresent(CANTalon.FeedbackDevice feedbackDevice);
-    public abstract void setFeedbackDevice(CANTalon.FeedbackDevice device);
-    public abstract void configEncoderCodesPerRev(int codesPerRev);
-    public abstract void configPotentiometerTurns(int turns);
-    public abstract double getPosition();
-    public abstract void setPosition(double pos);
-    public abstract double getSpeed();
-    public abstract int getAnalogPosition();
-    public abstract void setAnalogPosition(int newPosition);
-    public abstract int getAnalogPositionRaw();
-    public abstract int getAnalogSpeed();
-    public abstract int getEncoderPosition();
-    public abstract void setEncoderPosition(int newPosition);
-    public abstract int getEncoderSpeed();
-    public abstract void reverseSensor(boolean flip);
-    public abstract void enableZeroSensorPositionOnIndex(boolean enable, boolean risingEdge);
-    public abstract int getNumberOfQuadIndexRises();
-    
-    // Output ---------------------------------------------
+ // ------ Set output routines. ----------//
+    public abstract void set(ControlMode Mode, double demand);
+
+    public abstract void set(ControlMode Mode, double demand0, double demand1);
+
+    public abstract void neutralOutput();
+
+    public abstract void setNeutralMode(NeutralMode neutralMode);
+
+    // ------ Invert behavior ----------//
+    public abstract void setSensorPhase(boolean PhaseSensor);
+
+    public abstract void setInverted(boolean invert);
+
     public abstract boolean getInverted();
-    
-    /**
-     * This inverts the motor for operations like PercentVBus, but DOES NOT INVERT
-     * THE MOTOR FOR ClOSED-LOOP CONTROL OR FOLLOWER CONTROL!!! For that, use reverseOutput().
-     * @param isInverted
-     */
-    public abstract void setInverted(boolean isInverted);
-    
-    /**
-     * This is used to reverse the closed-loop output of a CANTalon. In addition, this will 
-     * also cause a follower motor to move in the opposite direction of the master motor.
-     * @param isInverted
-     */
-    public abstract void reverseOutput(boolean isInverted);
-    
-    public abstract void setVoltageCompensationRampRate(double rampRate);
-    public abstract void configNominalOutputVoltage(double forwardVoltage, double reverseVoltage);
-    public abstract void configPeakOutputVoltage(double forwardVoltage, double reverseVoltage);
-        
-    // Soft position limits -------------------------------
-    public abstract int getForwardSoftLimit();
-    public abstract int getReverseSoftLimit();
-    public abstract void setForwardSoftLimit(double forwardLimit);
-    public abstract void setReverseSoftLimit(double reverseLimit);
-    public abstract boolean isForwardSoftLimitEnabled();
-    public abstract boolean isReverseSoftLimitEnabled();
-    public abstract void enableForwardSoftLimit(boolean enable);
-    public abstract void enableReverseSoftLimit(boolean enable);
-    
-    // Limit switches -------------------------------------
-    public abstract void enableLimitSwitches(boolean forwardEnabled, boolean reverseEnabled);
-    public abstract boolean isForwardLimitSwitchClosed();
-    public abstract boolean isReverseLimitSwitchClosed();
-    public abstract void configForwardLimitSwitchNormallyOpen(boolean normallyOpen);
-    public abstract void configReverseLimitSwitchNormallyOpen(boolean normallyOpen);
-    
-    // Setpoints ------------------------------------------
-    public abstract double get();
-    /**
-     * Sets the appropriate output on the talon, depending on the mode. In PercentVbus, the output is between -1.0 and
-     * 1.0, with 0.0 as stopped. In Follower mode, the output is the integer device ID of the talon to duplicate. In
-     * Voltage mode, outputValue is in volts. In Current mode, outputValue is in amperes. In Speed mode, outputValue is
-     * in position change / 10ms. In Position mode, outputValue is in encoder ticks or an analog value, depending on the
-     * sensor.
-     */
-    public abstract void set(double outputValue);
 
-    // LiveWindow
-    public abstract LiveWindowSendable getLiveWindowSendable();
-        
-    public Point getTelemetryPoint(String className, String side, boolean addDistance) {
-        Point.Builder telemetryPoints = Point.measurement(className)
-            .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-            .tag("side", side)
-            .addField("power", get())
-            .addField("current", getOutputCurrent());
-        if (addDistance) {
-            telemetryPoints.addField("distance", getPosition());
-        } 
-        return telemetryPoints.build();       
-    }
+    // ----- general output shaping ------------------//
+    public abstract ErrorCode configOpenloopRamp(double secondsFromNeutralToFull, int timeoutMs);
+
+    public abstract ErrorCode configClosedloopRamp(double secondsFromNeutralToFull, int timeoutMs);
+
+    public abstract ErrorCode configPeakOutputForward(double percentOut, int timeoutMs);
+
+    public abstract ErrorCode configPeakOutputReverse(double percentOut, int timeoutMs);
+
+    public abstract ErrorCode configNominalOutputForward(double percentOut, int timeoutMs);
+
+    public abstract ErrorCode configNominalOutputReverse(double percentOut, int timeoutMs);
+
+    public abstract ErrorCode configNeutralDeadband(double percentDeadband, int timeoutMs);
+
+    // ------ Voltage Compensation ----------//
+    public abstract ErrorCode configVoltageCompSaturation(double voltage, int timeoutMs);
+
+    public abstract ErrorCode configVoltageMeasurementFilter(int filterWindowSamples, int timeoutMs);
+
+    public abstract void enableVoltageCompensation(boolean enable);
+
+    // ------ General Status ----------//
+    public abstract double getBusVoltage() ;
+
+    public abstract double getMotorOutputPercent() ;
+
+    public abstract double getMotorOutputVoltage() ;
+
+    public abstract double getOutputCurrent() ;
+
+    public abstract double getTemperature() ;
+
+    // ------ sensor selection ----------//
+    public abstract ErrorCode configSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);
+
+    public abstract ErrorCode configRemoteFeedbackFilter(int deviceID, RemoteSensorSource remoteSensorSource, int remoteOrdinal,
+            int timeoutMs);
+
+    public abstract ErrorCode configSensorTerm(SensorTerm sensorTerm, FeedbackDevice feedbackDevice, int timeoutMs);
+    
+    public abstract ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs );
+
+    // ------- sensor status --------- //
+    public abstract int getSelectedSensorPosition(int pidIdx);
+
+    public abstract int getSelectedSensorVelocity(int pidIdx);
+
+    public abstract ErrorCode setSelectedSensorPosition(int sensorPos, int pidIdx, int timeoutMs);
+    
+    // ------ status frame period changes ----------//
+    public abstract ErrorCode setControlFramePeriod(ControlFrame frame, int periodMs);
+
+    public abstract ErrorCode setStatusFramePeriod(StatusFrame frame, int periodMs, int timeoutMs);
+    public abstract ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs );
+    
+    public abstract int getStatusFramePeriod(StatusFrame frame, int timeoutMs);
+    public abstract int getStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs );    
+
+    //----- velocity signal conditionaing ------//
+    public abstract ErrorCode configVelocityMeasurementPeriod(VelocityMeasPeriod period, int timeoutMs );
+    public abstract ErrorCode configVelocityMeasurementWindow(int windowSize, int timeoutMs );
+
+    //------ remote limit switch ----------//
+    public abstract ErrorCode configForwardLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+            int deviceID, int timeoutMs);
+
+    public abstract ErrorCode configReverseLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+            int deviceID, int timeoutMs);
+
+    public abstract void overrideLimitSwitchesEnable(boolean enable);
+
+    // ------ local limit switch ----------//
+    public abstract ErrorCode configForwardLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int timeoutMs );
+    public abstract ErrorCode configReverseLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int timeoutMs );
+
+
+    // ------ soft limit ----------//
+    public abstract ErrorCode configForwardSoftLimitThreshold(int forwardSensorLimit, int timeoutMs);
+
+    public abstract ErrorCode configReverseSoftLimitThreshold(int reverseSensorLimit, int timeoutMs);
+    
+    public abstract ErrorCode configForwardSoftLimitEnable(boolean enable, int timeoutMs);
+
+    public abstract ErrorCode configReverseSoftLimitEnable(boolean enable, int timeoutMs);
+
+    public abstract void overrideSoftLimitsEnable(boolean enable);
+
+    // ------ Current Lim ----------//
+    public abstract ErrorCode configPeakCurrentLimit(int amps, int timeoutMs );
+    public abstract ErrorCode configPeakCurrentDuration(int milliseconds, int timeoutMs );
+    public abstract ErrorCode configContinuousCurrentLimit(int amps, int timeoutMs );
+    public abstract void enableCurrentLimit(boolean enable);
+
+    // ------ General Close loop ----------//
+    public abstract ErrorCode config_kP(int slotIdx, double value, int timeoutMs);
+
+    public abstract ErrorCode config_kI(int slotIdx, double value, int timeoutMs);
+
+    public abstract ErrorCode config_kD(int slotIdx, double value, int timeoutMs);
+
+    public abstract ErrorCode config_kF(int slotIdx, double value, int timeoutMs);
+
+    public abstract ErrorCode config_IntegralZone(int slotIdx, int izone, int timeoutMs);
+
+    public abstract ErrorCode configAllowableClosedloopError(int slotIdx, int allowableCloseLoopError, int timeoutMs);
+
+    public abstract ErrorCode configMaxIntegralAccumulator(int slotIdx, double iaccum, int timeoutMs);
+
+    //------ Close loop State ----------//
+    public abstract ErrorCode setIntegralAccumulator(double iaccum, int pidIdx, int timeoutMs);
+
+    public abstract int getClosedLoopError(int pidIdx);
+
+    public abstract double getIntegralAccumulator(int pidIdx) ;
+
+    public abstract double getErrorDerivative(int pidIdx) ;
+
+    public abstract void selectProfileSlot(int slotIdx, int pidIdx);
+
+    //public abstract int getClosedLoopTarget(int pidIdx); // will be added to JNI
+
+    public abstract int getActiveTrajectoryPosition();
+
+    public abstract int getActiveTrajectoryVelocity();
+
+    public abstract double getActiveTrajectoryHeading();
+
+    // ------ Motion Profile Settings used in Motion Magic and Motion Profile
+    public abstract ErrorCode configMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs);
+
+    public abstract ErrorCode configMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs);
+
+    // ------ Motion Profile Buffer ----------//
+    public abstract ErrorCode clearMotionProfileTrajectories();
+    public abstract int getMotionProfileTopLevelBufferCount();
+    public abstract ErrorCode pushMotionProfileTrajectory(TrajectoryPoint trajPt);
+    public abstract boolean isMotionProfileTopLevelBufferFull();
+    public abstract void processMotionProfileBuffer();
+    public abstract ErrorCode getMotionProfileStatus(MotionProfileStatus statusToFill);
+    public abstract ErrorCode clearMotionProfileHasUnderrun(int timeoutMs);
+    public abstract ErrorCode changeMotionControlFramePeriod(int periodMs);
+
+    // ------ error ----------//
+    public abstract ErrorCode getLastError();
+
+    // ------ Faults ----------//
+    public abstract ErrorCode getFaults(Faults toFill) ;
+
+    public abstract ErrorCode getStickyFaults(StickyFaults toFill) ;
+
+    public abstract ErrorCode clearStickyFaults(int timeoutMs);
+
+    // ------ Firmware ----------//
+    public abstract int getFirmwareVersion();
+
+    public abstract boolean hasResetOccurred();
+
+    // ------ Custom Persistent Params ----------//
+    public abstract ErrorCode configSetCustomParam(int newValue, int paramIndex, int timeoutMs);
+
+    public abstract int configGetCustomParam(int paramIndex, int timoutMs);
+
+    //------ Generic Param API, typically not used ----------//
+    public abstract ErrorCode configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs);
+    public abstract ErrorCode configSetParameter(int param, double value, int subValue, int ordinal, int timeoutMs);
+
+    public abstract double configGetParameter(ParamEnum paramEnum, int ordinal, int timeoutMs) ;
+    public abstract double configGetParameter(int paramEnum, int ordinal, int timeoutMs) ;
+
+    //------ Misc. ----------//
+    public abstract int getBaseID();
+    public abstract int getDeviceID();
+
+    // ----- Follower ------//
+    public abstract void follow(IMotorController masterToFollow);
+    public abstract void valueUpdated();
 }

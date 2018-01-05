@@ -1,10 +1,27 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
-import com.ctre.CANTalon;
-import com.ctre.CANTalon.FeedbackDevice;
-import com.ctre.CANTalon.FeedbackDeviceStatus;
-import com.ctre.CANTalon.StatusFrameRate;
-import com.ctre.CANTalon.TalonControlMode;
+import com.ctre.phoenix.ErrorCode;
+import com.ctre.phoenix.ParamEnum;
+import com.ctre.phoenix.motion.MotionProfileStatus;
+import com.ctre.phoenix.motion.TrajectoryPoint;
+import com.ctre.phoenix.motorcontrol.ControlFrame;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.Faults;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.IMotorController;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
+import com.ctre.phoenix.motorcontrol.SensorTerm;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.StickyFaults;
+import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -15,441 +32,426 @@ import xbot.common.properties.XPropertyManager;
 
 public class CANTalonWPIAdapter extends XCANTalon {
 
-    private CANTalon internalTalon;
+    private TalonSRX internalTalon;
 
     @Inject
     public CANTalonWPIAdapter(@Assisted("deviceId") int deviceId, XPropertyManager propMan) {
         super(deviceId, propMan);
-        internalTalon = new CANTalon(deviceId);
-        
+        internalTalon = new TalonSRX(deviceId);
         LiveWindow.addActuator("CANTalon", deviceId, this.getLiveWindowSendable());
     }
 
-    @Override
-    public boolean isEnabled() {
-        return internalTalon.isEnabled();
+    public ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs) {
+        return internalTalon.setStatusFramePeriod(frame, periodMs, timeoutMs);
     }
 
-    @Override
-    public void enable() {
-        internalTalon.enable();
+    public int getStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs) {
+        return internalTalon.getStatusFramePeriod(frame, timeoutMs);
     }
 
-    @Override
-    public void disable() {
-        internalTalon.disable();
+    public ErrorCode configVelocityMeasurementPeriod(VelocityMeasPeriod period, int timeoutMs) {
+        return internalTalon.configVelocityMeasurementPeriod(period, timeoutMs);
     }
 
-    @Override
-    public void setProfile(int profile) {
-        internalTalon.setProfile(profile);
+    public ErrorCode configVelocityMeasurementWindow(int windowSize, int timeoutMs) {
+        return internalTalon.configVelocityMeasurementWindow(windowSize, timeoutMs);
     }
 
-    @Override
-    public TalonControlMode getControlMode() {
-        return internalTalon.getControlMode();
+    public int hashCode() {
+        return internalTalon.hashCode();
     }
 
-    @Override
-    public void setControlMode(TalonControlMode controlMode) {
-        internalTalon.changeControlMode(controlMode);
+    public ErrorCode configForwardLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+            int timeoutMs) {
+        return internalTalon.configForwardLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
     }
 
-    @Override
-    public boolean getBrakeEnableDuringNeutral() {
-        return internalTalon.getBrakeEnableDuringNeutral();
+    public ErrorCode configReverseLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+            int timeoutMs) {
+        return internalTalon.configReverseLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
     }
 
-    @Override
-    public void setBrakeEnableDuringNeutral(boolean brake) {
-        internalTalon.enableBrakeMode(brake);
-
+    public ErrorCode configPeakCurrentLimit(int amps, int timeoutMs) {
+        return internalTalon.configPeakCurrentLimit(amps, timeoutMs);
     }
 
-    @Override
-    public void setStatusFrameRateMs(StatusFrameRate stateFrame, int periodMs) {
-        internalTalon.setStatusFrameRateMs(stateFrame, periodMs);
+    public long getHandle() {
+        return internalTalon.getHandle();
     }
 
-    @Override
-    public void reset() {
-        internalTalon.reset();
-    }
-
-    @Override
     public int getDeviceID() {
         return internalTalon.getDeviceID();
     }
 
-    @Override
-    public double getOutputCurrent() {
-        return internalTalon.getOutputCurrent();
+    public void set(ControlMode mode, double outputValue) {
+        internalTalon.set(mode, outputValue);
     }
 
-    @Override
-    public double getOutputVoltage() {
-        return internalTalon.getOutputVoltage();
+    public ErrorCode configPeakCurrentDuration(int milliseconds, int timeoutMs) {
+        return internalTalon.configPeakCurrentDuration(milliseconds, timeoutMs);
     }
 
-    @Override
-    public double getTemperature() {
-        return internalTalon.getTemperature();
+    public ErrorCode configContinuousCurrentLimit(int amps, int timeoutMs) {
+        return internalTalon.configContinuousCurrentLimit(amps, timeoutMs);
     }
 
-    @Override
-    public double getBusVoltage() {
-        return internalTalon.getBusVoltage();
+    public void set(ControlMode mode, double demand0, double demand1) {
+        internalTalon.set(mode, demand0, demand1);
     }
 
-    @Override
-    public long getFirmwareVersion() {
-        return internalTalon.GetFirmwareVersion();
+    public boolean equals(Object obj) {
+        return internalTalon.equals(obj);
     }
 
-    @Override
-    public void clearStickyFaults() {
-        internalTalon.clearStickyFaults();
+    public void enableCurrentLimit(boolean enable) {
+        internalTalon.enableCurrentLimit(enable);
     }
 
-    @Override
-    public int getFaultForwardLim() {
-        return internalTalon.getFaultForLim();
+    public void neutralOutput() {
+        internalTalon.neutralOutput();
     }
 
-    @Override
-    public int getFaultForwardSoftLim() {
-        return internalTalon.getFaultForSoftLim();
+    public void setNeutralMode(NeutralMode neutralMode) {
+        internalTalon.setNeutralMode(neutralMode);
     }
 
-    @Override
-    public int getFaultHardwareFailure() {
-        return internalTalon.getFaultHardwareFailure();
+    public void enableHeadingHold(boolean enable) {
+        internalTalon.enableHeadingHold(enable);
     }
 
-    @Override
-    public int getFaultOverTemp() {
-        return internalTalon.getFaultOverTemp();
+    public void selectDemandType(boolean value) {
+        internalTalon.selectDemandType(value);
     }
 
-    @Override
-    public int getFaultReverseLim() {
-        return internalTalon.getFaultRevLim();
+    public void setSensorPhase(boolean PhaseSensor) {
+        internalTalon.setSensorPhase(PhaseSensor);
     }
 
-    @Override
-    public int getFaultReverseSoftLim() {
-        return internalTalon.getFaultRevSoftLim();
+    public void setInverted(boolean invert) {
+        internalTalon.setInverted(invert);
     }
 
-    @Override
-    public int getFaultUnderVoltage() {
-        return internalTalon.getFaultUnderVoltage();
-    }
-
-    @Override
-    public int getStickyFaultForwardLim() {
-        return internalTalon.getStickyFaultForLim();
-    }
-
-    @Override
-    public int getStickyFaultForwardSoftLim() {
-        return internalTalon.getStickyFaultForSoftLim();
-    }
-
-    @Override
-    public int getStickyFaultOverTemp() {
-        return internalTalon.getStickyFaultOverTemp();
-    }
-
-    @Override
-    public int getStickyFaultReverseLim() {
-        return internalTalon.getStickyFaultRevLim();
-    }
-
-    @Override
-    public int getStickyFaultReverseSoftLim() {
-        return internalTalon.getStickyFaultRevSoftLim();
-    }
-
-    @Override
-    public int getStickyFaultUnderVoltage() {
-        return internalTalon.getStickyFaultUnderVoltage();
-    }
-
-    @Override
-    public double getP() {
-        return internalTalon.getP();
-    }
-
-    @Override
-    public double getI() {
-        return internalTalon.getI();
-    }
-
-    @Override
-    public double getD() {
-        return internalTalon.getD();
-    }
-
-    @Override
-    public double getF() {
-        return internalTalon.getF();
-    }
-
-    @Override
-    public void setP(double p) {
-        internalTalon.setP(p);
-    }
-
-    @Override
-    public void setI(double i) {
-        internalTalon.setI(i);
-    }
-
-    @Override
-    public void setD(double d) {
-        internalTalon.setD(d);
-    }
-
-    @Override
-    public void setF(double f) {
-        internalTalon.setF(f);
-    }
-
-    @Override
-    public void setPID(double p, double i, double d) {
-        internalTalon.setPID(p, i, d);
-    }
-
-    @Override
-    public void clearIAccum() {
-        internalTalon.clearIAccum();
-    }
-
-    @Override
-    public int getClosedLoopError() {
-        return internalTalon.getClosedLoopError();
-    }
-
-    @Override
-    public void setAllowableClosedLoopError(int allowableError) {
-        internalTalon.setAllowableClosedLoopErr(allowableError);
-    }
-
-    @Override
-    public double getIZone() {
-        return internalTalon.getIZone();
-    }
-
-    @Override
-    public void setIZone(int iZone) {
-        internalTalon.setIZone(iZone);
-    }
-
-    @Override
-    public long getIAccum() {
-        return internalTalon.GetIaccum();
-    }
-
-    @Override
-    public void setClosedLoopRampRate(double rampRate) {
-        internalTalon.setCloseLoopRampRate(rampRate);
-    }
-
-    @Override
-    public FeedbackDeviceStatus isSensorPresent(FeedbackDevice feedbackDevice) {
-        return internalTalon.isSensorPresent(feedbackDevice);
-    }
-
-    @Override
-    public void setFeedbackDevice(FeedbackDevice device) {
-        internalTalon.setFeedbackDevice(device);
-    }
-
-    @Override
-    public void configEncoderCodesPerRev(int codesPerRev) {
-        internalTalon.configEncoderCodesPerRev(codesPerRev);
-    }
-
-    @Override
-    public void configPotentiometerTurns(int turns) {
-        internalTalon.configPotentiometerTurns(turns);
-    }
-
-    @Override
-    public double getPosition() {
-        return internalTalon.getPosition();
-    }
-
-    @Override
-    public void setPosition(double pos) {
-        internalTalon.setPosition(pos);
-    }
-
-    @Override
-    public double getSpeed() {
-        return internalTalon.getSpeed();
-    }
-
-    @Override
-    public int getAnalogPosition() {
-        return internalTalon.getAnalogInPosition();
-    }
-
-    @Override
-    public void setAnalogPosition(int newPosition) {
-        internalTalon.setAnalogPosition(newPosition);
-    }
-
-    @Override
-    public int getAnalogPositionRaw() {
-        return internalTalon.getAnalogInRaw();
-    }
-
-    @Override
-    public int getAnalogSpeed() {
-        return internalTalon.getAnalogInVelocity();
-    }
-
-    @Override
-    public int getEncoderPosition() {
-        return internalTalon.getEncPosition();
-    }
-
-    @Override
-    public void setEncoderPosition(int newPosition) {
-        internalTalon.setEncPosition(newPosition);
-    }
-
-    @Override
-    public int getEncoderSpeed() {
-        return internalTalon.getEncVelocity();
-    }
-
-    @Override
-    public void reverseSensor(boolean flip) {
-        internalTalon.reverseSensor(flip);
-    }
-
-    @Override
-    public void enableZeroSensorPositionOnIndex(boolean enable, boolean risingEdge) {
-        internalTalon.enableZeroSensorPositionOnIndex(enable, risingEdge);
-    }
-
-    @Override
-    public int getNumberOfQuadIndexRises() {
-        return internalTalon.getNumberOfQuadIdxRises();
-    }
-
-    @Override
     public boolean getInverted() {
         return internalTalon.getInverted();
     }
 
-    @Override
-    public void setInverted(boolean isInverted) {
-        internalTalon.setInverted(isInverted);
+    public ErrorCode configOpenloopRamp(double secondsFromNeutralToFull, int timeoutMs) {
+        return internalTalon.configOpenloopRamp(secondsFromNeutralToFull, timeoutMs);
     }
 
-    @Override
-    public void setVoltageCompensationRampRate(double rampRate) {
-        internalTalon.setVoltageCompensationRampRate(rampRate);
+    public ErrorCode configClosedloopRamp(double secondsFromNeutralToFull, int timeoutMs) {
+        return internalTalon.configClosedloopRamp(secondsFromNeutralToFull, timeoutMs);
     }
 
-    @Override
-    public void configNominalOutputVoltage(double forwardVoltage, double reverseVoltage) {
-        internalTalon.configNominalOutputVoltage(forwardVoltage, reverseVoltage);
-
+    public ErrorCode configPeakOutputForward(double percentOut, int timeoutMs) {
+        return internalTalon.configPeakOutputForward(percentOut, timeoutMs);
     }
 
-    @Override
-    public void configPeakOutputVoltage(double forwardVoltage, double reverseVoltage) {
-        internalTalon.configPeakOutputVoltage(forwardVoltage, reverseVoltage);
-
+    public ErrorCode configPeakOutputReverse(double percentOut, int timeoutMs) {
+        return internalTalon.configPeakOutputReverse(percentOut, timeoutMs);
     }
 
-    @Override
-    public int getForwardSoftLimit() {
-        return internalTalon.getForwardSoftLimit();
+    public ErrorCode configNominalOutputForward(double percentOut, int timeoutMs) {
+        return internalTalon.configNominalOutputForward(percentOut, timeoutMs);
     }
 
-    @Override
-    public int getReverseSoftLimit() {
-        return internalTalon.getReverseSoftLimit();
+    public ErrorCode configNominalOutputReverse(double percentOut, int timeoutMs) {
+        return internalTalon.configNominalOutputReverse(percentOut, timeoutMs);
     }
 
-    @Override
-    public void setForwardSoftLimit(double forwardLimit) {
-        internalTalon.setForwardSoftLimit(forwardLimit);
+    public String toString() {
+        return internalTalon.toString();
     }
 
-    @Override
-    public void setReverseSoftLimit(double reverseLimit) {
-        internalTalon.setReverseSoftLimit(reverseLimit);
+    public ErrorCode configNeutralDeadband(double percentDeadband, int timeoutMs) {
+        return internalTalon.configNeutralDeadband(percentDeadband, timeoutMs);
     }
 
-    @Override
-    public boolean isForwardSoftLimitEnabled() {
-        return internalTalon.isForwardSoftLimitEnabled();
+    public ErrorCode configVoltageCompSaturation(double voltage, int timeoutMs) {
+        return internalTalon.configVoltageCompSaturation(voltage, timeoutMs);
     }
 
-    @Override
-    public boolean isReverseSoftLimitEnabled() {
-        return internalTalon.isReverseSoftLimitEnabled();
+    public ErrorCode configVoltageMeasurementFilter(int filterWindowSamples, int timeoutMs) {
+        return internalTalon.configVoltageMeasurementFilter(filterWindowSamples, timeoutMs);
     }
 
-    @Override
-    public void enableForwardSoftLimit(boolean enable) {
-        internalTalon.enableForwardSoftLimit(enable);
+    public void enableVoltageCompensation(boolean enable) {
+        internalTalon.enableVoltageCompensation(enable);
     }
 
-    @Override
-    public void enableReverseSoftLimit(boolean enable) {
-        internalTalon.enableReverseSoftLimit(enable);
+    public double getBusVoltage() {
+        return internalTalon.getBusVoltage();
     }
 
-    @Override
-    public void enableLimitSwitches(boolean forwardEnabled, boolean reverseEnabled) {
-        internalTalon.enableLimitSwitch(forwardEnabled, reverseEnabled);
+    public double getMotorOutputPercent() {
+        return internalTalon.getMotorOutputPercent();
     }
 
-    @Override
-    public boolean isForwardLimitSwitchClosed() {
-        return internalTalon.isFwdLimitSwitchClosed();
+    public double getMotorOutputVoltage() {
+        return internalTalon.getMotorOutputVoltage();
     }
 
-    @Override
-    public boolean isReverseLimitSwitchClosed() {
-        return internalTalon.isRevLimitSwitchClosed();
+    public double getOutputCurrent() {
+        return internalTalon.getOutputCurrent();
     }
 
-    @Override
-    public void configForwardLimitSwitchNormallyOpen(boolean normallyOpen) {
-        internalTalon.ConfigFwdLimitSwitchNormallyOpen(normallyOpen);
+    public double getTemperature() {
+        return internalTalon.getTemperature();
     }
 
-    @Override
-    public void configReverseLimitSwitchNormallyOpen(boolean normallyOpen) {
-        internalTalon.ConfigRevLimitSwitchNormallyOpen(normallyOpen);
+    public ErrorCode configSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) {
+        return internalTalon.configSelectedFeedbackSensor(feedbackDevice, pidIdx, timeoutMs);
     }
 
-    @Override
-    public double get() {
-        return internalTalon.get();
+    public ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) {
+        return internalTalon.configSelectedFeedbackSensor(feedbackDevice, pidIdx, timeoutMs);
     }
 
-    @Override
-    public void set(double outputValue) {
-        internalTalon.set(outputValue);
-    }
-    
-    @Override
-    public void reverseOutput(boolean isInverted) {
-        internalTalon.reverseOutput(isInverted);
+    public ErrorCode configRemoteFeedbackFilter(int deviceID, RemoteSensorSource remoteSensorSource, int remoteOrdinal,
+            int timeoutMs) {
+        return internalTalon.configRemoteFeedbackFilter(deviceID, remoteSensorSource, remoteOrdinal, timeoutMs);
     }
 
-    @Override
-    public LiveWindowSendable getLiveWindowSendable() {
-        return internalTalon;
+    public ErrorCode configSensorTerm(SensorTerm sensorTerm, FeedbackDevice feedbackDevice, int timeoutMs) {
+        return internalTalon.configSensorTerm(sensorTerm, feedbackDevice, timeoutMs);
     }
+
+    public int getSelectedSensorPosition(int pidIdx) {
+        return internalTalon.getSelectedSensorPosition(pidIdx);
+    }
+
+    public int getSelectedSensorVelocity(int pidIdx) {
+        return internalTalon.getSelectedSensorVelocity(pidIdx);
+    }
+
+    public ErrorCode setSelectedSensorPosition(int sensorPos, int pidIdx, int timeoutMs) {
+        return internalTalon.setSelectedSensorPosition(sensorPos, pidIdx, timeoutMs);
+    }
+
+    public ErrorCode setControlFramePeriod(ControlFrame frame, int periodMs) {
+        return internalTalon.setControlFramePeriod(frame, periodMs);
+    }
+
+    public ErrorCode setControlFramePeriod(int frame, int periodMs) {
+        return internalTalon.setControlFramePeriod(frame, periodMs);
+    }
+
+    public ErrorCode setStatusFramePeriod(int frameValue, int periodMs, int timeoutMs) {
+        return internalTalon.setStatusFramePeriod(frameValue, periodMs, timeoutMs);
+    }
+
+    public ErrorCode setStatusFramePeriod(StatusFrame frame, int periodMs, int timeoutMs) {
+        return internalTalon.setStatusFramePeriod(frame, periodMs, timeoutMs);
+    }
+
+    public int getStatusFramePeriod(int frame, int timeoutMs) {
+        return internalTalon.getStatusFramePeriod(frame, timeoutMs);
+    }
+
+    public int getStatusFramePeriod(StatusFrame frame, int timeoutMs) {
+        return internalTalon.getStatusFramePeriod(frame, timeoutMs);
+    }
+
+    public ErrorCode configForwardLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+            int deviceID, int timeoutMs) {
+        return internalTalon.configForwardLimitSwitchSource(type, normalOpenOrClose, deviceID, timeoutMs);
+    }
+
+    public ErrorCode configReverseLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+            int deviceID, int timeoutMs) {
+        return internalTalon.configReverseLimitSwitchSource(type, normalOpenOrClose, deviceID, timeoutMs);
+    }
+
+    public void overrideLimitSwitchesEnable(boolean enable) {
+        internalTalon.overrideLimitSwitchesEnable(enable);
+    }
+
+    public ErrorCode configForwardSoftLimitThreshold(int forwardSensorLimit, int timeoutMs) {
+        return internalTalon.configForwardSoftLimitThreshold(forwardSensorLimit, timeoutMs);
+    }
+
+    public ErrorCode configReverseSoftLimitThreshold(int reverseSensorLimit, int timeoutMs) {
+        return internalTalon.configReverseSoftLimitThreshold(reverseSensorLimit, timeoutMs);
+    }
+
+    public ErrorCode configForwardSoftLimitEnable(boolean enable, int timeoutMs) {
+        return internalTalon.configForwardSoftLimitEnable(enable, timeoutMs);
+    }
+
+    public ErrorCode configReverseSoftLimitEnable(boolean enable, int timeoutMs) {
+        return internalTalon.configReverseSoftLimitEnable(enable, timeoutMs);
+    }
+
+    public void overrideSoftLimitsEnable(boolean enable) {
+        internalTalon.overrideSoftLimitsEnable(enable);
+    }
+
+    public ErrorCode config_kP(int slotIdx, double value, int timeoutMs) {
+        return internalTalon.config_kP(slotIdx, value, timeoutMs);
+    }
+
+    public ErrorCode config_kI(int slotIdx, double value, int timeoutMs) {
+        return internalTalon.config_kI(slotIdx, value, timeoutMs);
+    }
+
+    public ErrorCode config_kD(int slotIdx, double value, int timeoutMs) {
+        return internalTalon.config_kD(slotIdx, value, timeoutMs);
+    }
+
+    public ErrorCode config_kF(int slotIdx, double value, int timeoutMs) {
+        return internalTalon.config_kF(slotIdx, value, timeoutMs);
+    }
+
+    public ErrorCode config_IntegralZone(int slotIdx, int izone, int timeoutMs) {
+        return internalTalon.config_IntegralZone(slotIdx, izone, timeoutMs);
+    }
+
+    public ErrorCode configAllowableClosedloopError(int slotIdx, int allowableClosedLoopError, int timeoutMs) {
+        return internalTalon.configAllowableClosedloopError(slotIdx, allowableClosedLoopError, timeoutMs);
+    }
+
+    public ErrorCode configMaxIntegralAccumulator(int slotIdx, double iaccum, int timeoutMs) {
+        return internalTalon.configMaxIntegralAccumulator(slotIdx, iaccum, timeoutMs);
+    }
+
+    public ErrorCode setIntegralAccumulator(double iaccum, int pidIdx, int timeoutMs) {
+        return internalTalon.setIntegralAccumulator(iaccum, pidIdx, timeoutMs);
+    }
+
+    public int getClosedLoopError(int pidIdx) {
+        return internalTalon.getClosedLoopError(pidIdx);
+    }
+
+    public double getIntegralAccumulator(int pidIdx) {
+        return internalTalon.getIntegralAccumulator(pidIdx);
+    }
+
+    public double getErrorDerivative(int pidIdx) {
+        return internalTalon.getErrorDerivative(pidIdx);
+    }
+
+    public void selectProfileSlot(int slotIdx, int pidIdx) {
+        internalTalon.selectProfileSlot(slotIdx, pidIdx);
+    }
+
+    public int getActiveTrajectoryPosition() {
+        return internalTalon.getActiveTrajectoryPosition();
+    }
+
+    public int getActiveTrajectoryVelocity() {
+        return internalTalon.getActiveTrajectoryVelocity();
+    }
+
+    public double getActiveTrajectoryHeading() {
+        return internalTalon.getActiveTrajectoryHeading();
+    }
+
+    public ErrorCode configMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs) {
+        return internalTalon.configMotionCruiseVelocity(sensorUnitsPer100ms, timeoutMs);
+    }
+
+    public ErrorCode configMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs) {
+        return internalTalon.configMotionAcceleration(sensorUnitsPer100msPerSec, timeoutMs);
+    }
+
+    public ErrorCode clearMotionProfileTrajectories() {
+        return internalTalon.clearMotionProfileTrajectories();
+    }
+
+    public int getMotionProfileTopLevelBufferCount() {
+        return internalTalon.getMotionProfileTopLevelBufferCount();
+    }
+
+    public ErrorCode pushMotionProfileTrajectory(TrajectoryPoint trajPt) {
+        return internalTalon.pushMotionProfileTrajectory(trajPt);
+    }
+
+    public boolean isMotionProfileTopLevelBufferFull() {
+        return internalTalon.isMotionProfileTopLevelBufferFull();
+    }
+
+    public void processMotionProfileBuffer() {
+        internalTalon.processMotionProfileBuffer();
+    }
+
+    public ErrorCode getMotionProfileStatus(MotionProfileStatus statusToFill) {
+        return internalTalon.getMotionProfileStatus(statusToFill);
+    }
+
+    public ErrorCode clearMotionProfileHasUnderrun(int timeoutMs) {
+        return internalTalon.clearMotionProfileHasUnderrun(timeoutMs);
+    }
+
+    public ErrorCode changeMotionControlFramePeriod(int periodMs) {
+        return internalTalon.changeMotionControlFramePeriod(periodMs);
+    }
+
+    public ErrorCode getLastError() {
+        return internalTalon.getLastError();
+    }
+
+    public ErrorCode getFaults(Faults toFill) {
+        return internalTalon.getFaults(toFill);
+    }
+
+    public ErrorCode getStickyFaults(StickyFaults toFill) {
+        return internalTalon.getStickyFaults(toFill);
+    }
+
+    public ErrorCode clearStickyFaults(int timeoutMs) {
+        return internalTalon.clearStickyFaults(timeoutMs);
+    }
+
+    public int getFirmwareVersion() {
+        return internalTalon.getFirmwareVersion();
+    }
+
+    public boolean hasResetOccurred() {
+        return internalTalon.hasResetOccurred();
+    }
+
+    public ErrorCode configSetCustomParam(int newValue, int paramIndex, int timeoutMs) {
+        return internalTalon.configSetCustomParam(newValue, paramIndex, timeoutMs);
+    }
+
+    public int configGetCustomParam(int paramIndex, int timoutMs) {
+        return internalTalon.configGetCustomParam(paramIndex, timoutMs);
+    }
+
+    public ErrorCode configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs) {
+        return internalTalon.configSetParameter(param, value, subValue, ordinal, timeoutMs);
+    }
+
+    public ErrorCode configSetParameter(int param, double value, int subValue, int ordinal, int timeoutMs) {
+        return internalTalon.configSetParameter(param, value, subValue, ordinal, timeoutMs);
+    }
+
+    public double configGetParameter(ParamEnum param, int ordinal, int timeoutMs) {
+        return internalTalon.configGetParameter(param, ordinal, timeoutMs);
+    }
+
+    public double configGetParameter(int param, int ordinal, int timeoutMs) {
+        return internalTalon.configGetParameter(param, ordinal, timeoutMs);
+    }
+
+    public int getBaseID() {
+        return internalTalon.getBaseID();
+    }
+
+    public void follow(IMotorController masterToFollow) {
+        internalTalon.follow(masterToFollow);
+    }
+
+    public void valueUpdated() {
+        internalTalon.valueUpdated();
+    }
+
+    public SensorCollection getSensorCollection() {
+        return internalTalon.getSensorCollection();
+    }
+
+    public ControlMode getControlMode() {
+        return internalTalon.getControlMode();
+    }
+   
 }

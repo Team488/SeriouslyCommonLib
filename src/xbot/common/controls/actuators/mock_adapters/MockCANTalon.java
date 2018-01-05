@@ -10,6 +10,7 @@ import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.FeedbackDeviceStatus;
 import com.ctre.CANTalon.StatusFrameRate;
 import com.ctre.CANTalon.TalonControlMode;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -22,8 +23,8 @@ import xbot.common.properties.XPropertyManager;
 
 public class MockCANTalon extends XCANTalon {    
     public final int deviceId;
-    private CANTalon.TalonControlMode controlMode;
-    private CANTalon.TalonControlMode lastSetControlMode;
+    private ControlMode controlMode;
+    private ControlMode lastSetControlMode;
     
     private boolean outputInverted = false;
     private boolean closedLoopOutputInverted = false;
@@ -362,7 +363,7 @@ public class MockCANTalon extends XCANTalon {
     public void setClosedLoopRampRate(double rampRate) {
         // Intentionally left blank. The mock implementation does not handle ramping.
     }
-
+/*
     @Override
     public FeedbackDeviceStatus isSensorPresent(FeedbackDevice feedbackDevice) {
         // The mock implementation only supports quadrature encoders
@@ -374,7 +375,7 @@ public class MockCANTalon extends XCANTalon {
         if(device == FeedbackDevice.QuadEncoder) {
             this.internalEncoder = new MockEncoder(propMan);
         }
-    }
+    }*/
 
     @Override
     public void configEncoderCodesPerRev(int codesPerRev) {

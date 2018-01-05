@@ -24,6 +24,7 @@ public class EncoderWPIAdapter extends XEncoder {
         internalEncoder = new Encoder(aChannel, bChannel);
         
         LiveWindow.addSensor("Encoder", aChannel, this.getLiveWindowSendable());
+        this.getLiveWindowSendable().setName("asdf", "foo");
     }
 
     protected double getRate() {

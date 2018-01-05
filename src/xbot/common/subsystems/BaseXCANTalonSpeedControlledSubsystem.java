@@ -1,7 +1,8 @@
 package xbot.common.subsystems;
 
-import com.ctre.CANTalon.FeedbackDevice;
-import com.ctre.CANTalon.TalonControlMode;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+
 import edu.wpi.first.wpilibj.Timer;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
@@ -83,18 +84,17 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
     }
     
     protected void initializeMasterMotorConfiguration(boolean motorInverted, boolean motorSensorInverted) {
-        masterMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+        masterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        
         masterMotor.setInverted(motorInverted);
-        masterMotor.reverseSensor(motorSensorInverted);
-        masterMotor.setControlMode(TalonControlMode.Speed);
-        masterMotor.setProfile(0);
+        masterMotor.setSensorPhase(motorSensorInverted);
     }
         
-    private void updateMotorPidValues() {
-        masterMotor.setP(pidPropertyManager.getP());
-        masterMotor.setI(pidPropertyManager.getI());
-        masterMotor.setD(pidPropertyManager.getD());
-        masterMotor.setF(pidPropertyManager.getF());
+    private void updateMotorPidValues() {        
+        masterMotor.config_kP(0, pidPropertyManager.getP(), 0);
+        masterMotor.config_kI(0, pidPropertyManager.getI(), 0);
+        masterMotor.config_kD(0, pidPropertyManager.getD(), 0);
+        masterMotor.config_kF(0, pidPropertyManager.getF(), 0);
     }
     
     /**
@@ -102,8 +102,7 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
      * @param Power is set to system
      */
     public void setPower(double power) {
-        masterMotor.ensureTalonControlMode(TalonControlMode.PercentVbus);
-        masterMotor.set(power);
+        masterMotor.set(ControlMode.PercentOutput, power);
     }
     
     /**
@@ -111,7 +110,7 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
      * @return Last Motor power
      */
     public double getPower() {
-        double robotPower = masterMotor.getOutputVoltage() / masterMotor.getBusVoltage();
+        double robotPower = masterMotor.getMotorOutputVoltage() / masterMotor.getBusVoltage();
         double inversionFactor = masterMotor.getInverted() ? -1 : 1;
         return robotPower * inversionFactor;
     }
@@ -120,19 +119,17 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
      * Gives the system a new speed goal.
      * @param systemTargetSpeed in Rotations per Second (RPS)
      */
-    public void setTargetSpeed(double speed) {
-        masterMotor.ensureTalonControlMode(TalonControlMode.Speed);
-        
+    public void setTargetSpeed(double speed) {        
         // Update property for dashboard
         systemTargetSpeed.set(speed);
         // If there have been any changes to encoder settings or PID setings, apply them.
         updateMotorPidValues();
         // Instruct motor about new speed goal
-        masterMotor.set(speed);
+        masterMotor.set(ControlMode.Velocity, speed);
     }
     
     public double getSpeed() {
-        return masterMotor.getSpeed();
+        return masterMotor.getSelectedSensorVelocity(0);
     }
     
     public boolean isAtSpeed() {
@@ -147,8 +144,8 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
         masterMotor.updateTelemetryProperties();        
         atSpeedProp.set(isAtSpeed());
         systemCurrentSpeed.set(getSpeed());
-        systemOutputPower.set(masterMotor.getOutputVoltage() / masterMotor.getBusVoltage());
-        systemTalonError.set(masterMotor.getClosedLoopError());
+        systemOutputPower.set(masterMotor.getMotorOutputVoltage() / masterMotor.getBusVoltage());
+        systemTalonError.set(masterMotor.getClosedLoopError(0));
         
         if(enablesystemLogging.get()){
             double currentTime = Timer.getFPGATimestamp();

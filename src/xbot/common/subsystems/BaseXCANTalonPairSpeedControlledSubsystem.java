@@ -1,7 +1,5 @@
 package xbot.common.subsystems;
 
-import com.ctre.CANTalon.TalonControlMode;
-
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.PIDPropertyManager;
@@ -36,9 +34,8 @@ public class BaseXCANTalonPairSpeedControlledSubsystem extends BaseXCANTalonSpee
     }
     
     protected void initializeFollowerMotorConfiguration(boolean motorInverted) {
-        followerMotor.setControlMode(TalonControlMode.Follower);
-        followerMotor.set(masterChannel);
-        followerMotor.reverseOutput(motorInverted);
+        followerMotor.follow(masterMotor);
+        followerMotor.setInverted(motorInverted);
     }
 
 }
