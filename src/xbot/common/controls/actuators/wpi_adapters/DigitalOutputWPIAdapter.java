@@ -16,8 +16,6 @@ public class DigitalOutputWPIAdapter extends XDigitalOutput {
     public DigitalOutputWPIAdapter(@Assisted("channel") int channel) {
         super(channel);
         adapter = new DigitalOutput(channel);
-        
-        LiveWindow.addSensor("Digital output", channel, this.getWPIDigitalOutput());
     }
 
     public void set(boolean value) {
@@ -25,11 +23,6 @@ public class DigitalOutputWPIAdapter extends XDigitalOutput {
     }
 
     public DigitalOutput getWPIDigitalOutput() {
-        return adapter;
-    }
-
-    @Override
-    public LiveWindowSendable getLiveWindowSendable() {
         return adapter;
     }
 

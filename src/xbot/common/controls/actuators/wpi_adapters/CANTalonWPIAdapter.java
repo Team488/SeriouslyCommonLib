@@ -25,8 +25,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.properties.XPropertyManager;
 
@@ -38,7 +36,6 @@ public class CANTalonWPIAdapter extends XCANTalon {
     public CANTalonWPIAdapter(@Assisted("deviceId") int deviceId, XPropertyManager propMan) {
         super(deviceId, propMan);
         internalTalon = new TalonSRX(deviceId);
-        LiveWindow.addActuator("CANTalon", deviceId, this.getLiveWindowSendable());
     }
 
     public ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs) {

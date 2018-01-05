@@ -1,6 +1,5 @@
 package xbot.common.controls.actuators;
 
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.XBaseIO;
 
 public abstract class XDigitalOutput implements XBaseIO {
@@ -16,5 +15,4 @@ public abstract class XDigitalOutput implements XBaseIO {
     }
     
     public abstract void set(boolean value);
-    public abstract LiveWindowSendable getLiveWindowSendable();
 }

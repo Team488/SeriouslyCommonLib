@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Ignore;
 
-import com.ctre.CANTalon.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.controls.actuators.XCANTalon;
@@ -23,9 +23,9 @@ public class BasePoseTest extends BaseWPITest {
         pose = injector.getInstance(TestPoseSubsystem.class);
         
         XCANTalon left = clf.createCANTalon(0);
-        left.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+        left.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         XCANTalon right = clf.createCANTalon(1);
-        right.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+        right.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         
         pose.setDriveTalons(left, right);
         
