@@ -28,6 +28,7 @@ import com.google.inject.assistedinject.Assisted;
 import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 import xbot.common.properties.XPropertyManager;
 
 public class MockCANTalon extends XCANTalon {
@@ -656,4 +657,22 @@ public class MockCANTalon extends XCANTalon {
         
     }
 
+    
+    public double getPosition() {
+        if(internalEncoder == null) {
+            log.warn("Position requested before setting feedback device!");
+            return 0;
+        }
+        
+        return internalEncoder.getAdjustedDistance();
+    }
+
+    public void setPosition(double pos) {
+        if(internalEncoder == null) {
+            log.warn("Position set before setting feedback device!");
+        }
+        else {
+            ((MockEncoder)internalEncoder).setDistance(pos);
+        }
+    }
 }

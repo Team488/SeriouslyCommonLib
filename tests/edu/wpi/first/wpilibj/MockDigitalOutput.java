@@ -22,10 +22,4 @@ public class MockDigitalOutput extends XDigitalOutput {
     public void set(boolean value) {
         mockRobotIO.setDigital(channel, value);
     }
-
-    @Override
-    public LiveWindowSendable getLiveWindowSendable() {
-        return null;
-    }
-
 }

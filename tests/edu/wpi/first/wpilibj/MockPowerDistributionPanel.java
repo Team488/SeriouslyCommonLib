@@ -25,10 +25,4 @@ public class MockPowerDistributionPanel extends XPowerDistributionPanel {
     public double getCurrent(int channel) {
         return outputCurrents.getOrDefault(channel, 0d);
     }
-
-    @Override
-    public LiveWindowSendable getLiveWindowSendable() {
-        return null;
-    }
-
 }

@@ -27,11 +27,10 @@ public class SmartDashboardTableWrapper implements ITableProxy {
         log.warn("Somebody attempted to clear the SmartDashboard. This will never work - why are you doing this?!");
     }
 
-    @SuppressWarnings("deprecation")
     public Double getDouble(String key) {
-        try {
-            return Double.valueOf(SmartDashboard.getNumber(key));
-        } catch (TableKeyNotDefinedException e) {
+        if (SmartDashboard.getKeys().contains(key)) {
+            return Double.valueOf(SmartDashboard.getNumber(key, 0));
+        } else  {
             return null;
         }
     }
@@ -40,11 +39,10 @@ public class SmartDashboardTableWrapper implements ITableProxy {
         SmartDashboard.putBoolean(key, value);
     }
 
-    @SuppressWarnings("deprecation")
     public Boolean getBoolean(String key) {
-        try {
-            return Boolean.valueOf(SmartDashboard.getBoolean(key));
-        } catch (TableKeyNotDefinedException e) {
+        if (SmartDashboard.getKeys().contains(key)) {
+            return Boolean.valueOf(SmartDashboard.getBoolean(key, false));
+        } else  {
             return null;
         }
     }
@@ -53,11 +51,10 @@ public class SmartDashboardTableWrapper implements ITableProxy {
         SmartDashboard.putString(key, value);
     }
 
-    @SuppressWarnings("deprecation")
     public String getString(String key) {
-        try {
-            return SmartDashboard.getString(key);
-        } catch (TableKeyNotDefinedException e) {
+        if (SmartDashboard.getKeys().contains(key)) {
+            return SmartDashboard.getString(key, "");
+        } else  {
             return null;
         }
     }

@@ -27,12 +27,12 @@ public class TestPoseSubsystem extends BasePoseSubsystem {
 
     @Override
     protected double getLeftDriveDistance() {
-        return left.getPosition();
+        return ((MockCANTalon)left).getPosition();
     }
 
     @Override
     protected double getRightDriveDistance() {
-        return right.getPosition();
+        return ((MockCANTalon)right).getPosition();
     }
     
     public void setDriveEncoderDistances(double left, double right) {

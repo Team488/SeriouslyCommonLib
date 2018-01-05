@@ -11,18 +11,10 @@ public class PowerDistributionPanelWPIAdapter extends XPowerDistributionPanel {
     
     public PowerDistributionPanelWPIAdapter() {
         pdp = new PowerDistributionPanel();
-        
-        LiveWindow.addSensor("PDP Panel", 0, this.getLiveWindowSendable());
     }
     
     @Override
     public double getCurrent(int channel) {
         return pdp.getCurrent(channel);
     }
-
-    @Override
-    public LiveWindowSendable getLiveWindowSendable() {
-        return this.pdp;
-    }
-
 }

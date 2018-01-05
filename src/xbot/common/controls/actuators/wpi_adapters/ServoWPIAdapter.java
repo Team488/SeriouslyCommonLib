@@ -17,16 +17,10 @@ public class ServoWPIAdapter extends XServo{
     public ServoWPIAdapter(@Assisted("channel") int channel) {
         super(channel);
         this.servo = new Servo(channel);
-        LiveWindow.addActuator("Servo", channel, this.getLiveWindowSendable());
     }
     
     @Override
     public void set(double value) {
         this.servo.set(value);   
-    }
-
-    @Override
-    public LiveWindowSendable getLiveWindowSendable() {
-        return servo;
     }
 }

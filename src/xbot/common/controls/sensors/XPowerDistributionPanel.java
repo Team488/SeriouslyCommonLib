@@ -5,6 +5,4 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 public abstract class XPowerDistributionPanel
 {
     public abstract double getCurrent(int channel);
-    
-    public abstract LiveWindowSendable getLiveWindowSendable();
 }

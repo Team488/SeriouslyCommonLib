@@ -21,11 +21,6 @@ public class MockServo extends XServo {
     public void set(double value) {
         mockRobotIO.setPWM(this.channel, value);
     }
-
-    @Override
-    public LiveWindowSendable getLiveWindowSendable() {
-        return null;
-    }
     
     public double getValue(){
         return mockRobotIO.getPWM(channel);
