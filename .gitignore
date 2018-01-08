@@ -31,3 +31,6 @@ WPI_Native_Libraries.properties
 # JetBrains
 .idea/
 /*.iml
+
+#Gradle
+.gradle/
