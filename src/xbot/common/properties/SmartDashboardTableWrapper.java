@@ -7,7 +7,6 @@ package xbot.common.properties;
 import org.apache.log4j.Logger;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException;
 
 /**
  *
