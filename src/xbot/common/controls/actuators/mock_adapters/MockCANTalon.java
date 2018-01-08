@@ -66,8 +66,7 @@ public class MockCANTalon extends XCANTalon {
 
     @Override
     public void set(ControlMode Mode, double demand) {
-        // TODO Auto-generated method stub
-        
+        set(Mode, demand, 0);
     }
 
     @Override
@@ -91,6 +90,14 @@ public class MockCANTalon extends XCANTalon {
                 throttlePercent = 0;
                 break;
             case Velocity:
+                double rate = internalEncoder.getAdjustedRate();
+                if (setpoint > rate) {
+                    throttlePercent = 1;
+                }
+                if (setpoint < rate) {
+                    throttlePercent = -1;
+                }                
+                break;
             case Position:
                 if(!Double.isFinite(this.kp)) { 
                     throttlePercent = 0;
@@ -207,7 +214,7 @@ public class MockCANTalon extends XCANTalon {
     @Override
     public double getBusVoltage() {
         // TODO Auto-generated method stub
-        return 0;
+        return 12;
     }
 
     @Override
@@ -217,13 +224,13 @@ public class MockCANTalon extends XCANTalon {
         
         
         double inversionFactor = this.getInverted() ? -1 : 1;
-        return this.getThrottlePercent() * this.getBusVoltage() * inversionFactor;
+        return this.getThrottlePercent() * inversionFactor;
     }
 
     @Override
     public double getMotorOutputVoltage() {
         // TODO Auto-generated method stub
-        return 0;
+        return getMotorOutputPercent()*this.getBusVoltage();
     }
 
     @Override
@@ -259,8 +266,11 @@ public class MockCANTalon extends XCANTalon {
 
     @Override
     public ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) {
-        // TODO Auto-generated method stub
-        return null;
+        if(feedbackDevice == FeedbackDevice.QuadEncoder) {
+            this.internalEncoder = new MockEncoder(propMan);
+        }
+        
+        return ErrorCode.OK;
     }
 
     @Override

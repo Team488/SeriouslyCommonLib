@@ -25,7 +25,7 @@ public class MockCANTalonTest extends BaseWPITest {
         assertEquals(1, mockRobotIO.getPWM(-1), 1e-5);
 
         talon.set(ControlMode.Velocity, -1);
-        assertEquals(-0.5 * MockRobotIO.BUS_VOLTAGE, talon.getMotorOutputVoltage(), 1e-5);
-        assertEquals(-0.5, mockRobotIO.getPWM(-1), 1e-5);
+        assertEquals(-1 * MockRobotIO.BUS_VOLTAGE, talon.getMotorOutputVoltage(), 1e-5);
+        assertEquals(-1, mockRobotIO.getPWM(-1), 1e-5);
     }
 }
