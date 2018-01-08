@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="tests"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="lib/WPILib.jar" sourcepath="lib/WPILib-sources.jar"/>
-	<classpathentry kind="lib" path="lib/guice-3.0/guice-3.0-no_aop.jar"/>
-	<classpathentry kind="lib" path="lib/guice-3.0/javax.inject.jar"/>
-	<classpathentry kind="lib" path="lib/commons-io-2.4/commons-io-2.4.jar"/>
-	<classpathentry kind="lib" path="lib/commons-io-2.4/commons-io-2.4-javadoc.jar"/>
-	<classpathentry kind="lib" path="lib/commons-io-2.4/commons-io-2.4-sources.jar"/>
-	<classpathentry kind="lib" path="lib/log4j/log4j-1.2.17.jar"/>
-	<classpathentry kind="lib" path="lib/guice-3.0/guice-assistedinject-3.0.jar"/>
-	<classpathentry kind="lib" path="lib/Derby/derby.jar"/>
-	<classpathentry kind="lib" path="lib/influxdb-java-2.5-jar-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="lib/CTRE_Phoenix.jar" sourcepath="lib/CTRE_Phoenix-sources.jar"/>
-	<classpathentry kind="lib" path="lib/wpiutil.jar" sourcepath="lib/wpiutil-sources.jar"/>
-	<classpathentry kind="lib" path="lib/ntcore.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="src" output="bin/main" path="src/main/java">
+		<attributes>
+			<attribute name="gradle_scope" value="main"/>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+			<attribute name="FROM_GRADLE_MODEL" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="bin/test" path="src/test/java">
+		<attributes>
+			<attribute name="gradle_scope" value="test"/>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="FROM_GRADLE_MODEL" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
+	<classpathentry kind="output" path="bin/default"/>
 </classpath>
