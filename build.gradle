@@ -20,15 +20,11 @@ repositories {
     maven {
         url "https://mvnrepository.com/artifact/com.google.inject/guice"
         url "http://first.wpi.edu/FRC/roborio/maven/release"
-        
-        //http://first.wpi.edu/FRC/roborio/maven/release/edu/wpi/first/ntcore/
     }
     
     flatDir {
        dirs 'lib'
    }
-    
-
 }
 
 // In this section you declare the dependencies for your production and test code
@@ -50,7 +46,7 @@ dependencies {
     compile 'edu.wpi.first.wpiutil:wpiutil-java:3.+'
     compile 'edu.wpi.first.wpilibj:wpilibj-java:+'
     compile 'edu.wpi.first.ntcore:ntcore-java:+'
-    testCompile "edu.wpi.first.wpilib.networktables.java:NetworkTables:+:desktop"
-    
+        
     compile files('lib/CTRE_Phoenix.jar')
+    compile files('lib/ntcore-jni-4.0.0-all.jar')
 }
