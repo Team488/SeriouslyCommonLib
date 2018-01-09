@@ -1,11 +1,4 @@
 language: java
-#addons:
-#  apt:
-#    sources:
-#    - ubuntu-toolchain-r-test
-#    packages:
-#    - libstdc++6
- 
 
 before_script:
 - mkdir libstdc++
@@ -16,11 +9,5 @@ before_script:
 - cd usr/lib/
 - export LD_LIBRARY_PATH=${PWD}
 - cd ../../../
-
-#- 'echo $LD_LIBRARY_PATH'
-#- '/sbin/ldconfig -p | grep stdc++'
-#- 'strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep LIBCXX'
-#- 'export LD_LIBRARY_PATH=/usr/local/lib64/:$LD_LIBRARY_PATH'
-#- 'echo $LD_LIBRARY_PATH'
 
 script: './gradlew build --info --debug'
