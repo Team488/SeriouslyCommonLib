@@ -28,6 +28,8 @@ import xbot.common.properties.ITableProxy;
 import xbot.common.properties.MockPermamentStorage;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.TableProxy;
+import xbot.common.subsystems.drive.BaseDriveSubsystem;
+import xbot.common.subsystems.drive.MockDriveSubsystem;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.TestPoseSubsystem;
 
@@ -68,6 +70,8 @@ public class UnitTestModule extends AbstractModule {
         this.bind(RobotAssertionManager.class).to(LoudRobotAssertionManager.class);
         
         this.bind(BasePoseSubsystem.class).to(TestPoseSubsystem.class);
+        
+        this.bind(BaseDriveSubsystem.class).to(MockDriveSubsystem.class);
         
         this.install(new FactoryModuleBuilder().build(PIDFactory.class));
         

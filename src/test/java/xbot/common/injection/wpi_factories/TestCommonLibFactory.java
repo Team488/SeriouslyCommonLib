@@ -5,16 +5,18 @@ import org.junit.Test;
 import edu.wpi.first.wpilibj.I2C;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.BaseWPITest;
+import xbot.common.math.PIDFactory;
 
 public class TestCommonLibFactory extends BaseWPITest {
 
     @Test
     public void makeOneOfEverything() {
         CommonLibFactory clf = injector.getInstance(CommonLibFactory.class);
+        PIDFactory pf = injector.getInstance(PIDFactory.class);
         
         clf.createPowerDistributionPanel();
         XJoystick j = clf.createJoystick(1, 12);
-        clf.createEncoder("asdf", 1, 2, 1);
+        clf.createEncoder("foo", 1, 2, 1);
         clf.createDigitalInput(1);
         clf.createAnalogInput(1);
         clf.createXboxController(1);
@@ -27,5 +29,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createLidarLite(I2C.Port.kOnboard);
         clf.createAdvancedJoystickButton(j, 1);
         clf.createAnalogHIDButton(j, 1, -1, 1);
+        
+        clf.createHeadingModule(pf.createPIDManager("bar", 1, 0, 0));
     }
 }

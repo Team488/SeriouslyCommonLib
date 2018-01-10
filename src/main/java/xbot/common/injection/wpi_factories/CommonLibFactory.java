@@ -23,6 +23,9 @@ import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
+import xbot.common.math.PIDManager;
+import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
+import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
 public interface CommonLibFactory {
 
@@ -86,4 +89,10 @@ public interface CommonLibFactory {
     public AnalogHIDButton createAnalogHIDButton(
             @Assisted("joystick") XJoystick joystick, 
             @Assisted("desc") AnalogHIDDescription desc);
+    
+    public HeadingModule createHeadingModule(
+            @Assisted("headingDrivePid") PIDManager headingDrivePid);
+    
+    public HeadingAssistModule createHeadingAssistModule(
+            @Assisted("headingModule") HeadingModule headingModule);
 }
