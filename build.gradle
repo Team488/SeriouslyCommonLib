@@ -17,14 +17,14 @@ repositories {
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
     
-    maven {
-        url "https://mvnrepository.com/artifact/com.google.inject/guice"
-        url "http://first.wpi.edu/FRC/roborio/maven/release"
-    }
+    maven { url "https://mvnrepository.com/artifact/com.google.inject/guice" }
+    maven { url "http://first.wpi.edu/FRC/roborio/maven/release"}
+    maven { url uri ("../SeriouslyCommonLib/lib/")}
     
-    flatDir {
+   /* 
+   flatDir {
        dirs 'lib'
-   }
+   }*/
 }
 
 // In this section you declare the dependencies for your production and test code
@@ -47,7 +47,9 @@ dependencies {
     compile 'edu.wpi.first.wpilibj:wpilibj-java:+'
     compile 'edu.wpi.first.ntcore:ntcore-java:+'
         
-    compile files('lib/CTRE_Phoenix.jar')
+    /*compile files('lib/CTRE_Phoenix.jar')
+    compile files('lib/CTRE_Phoenix-sources.jar')*/
+    compile 'a.b:CTRE_Phoenix:1.0'
     compile files('lib/ntcore-jni-4.0.0-all.jar')
 }
 
