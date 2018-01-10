@@ -1,5 +1,13 @@
 language: java
 
-before_install: chmod +x gradlew
- 
-script: './gradlew build -x test'
+before_script:
+- mkdir libstdc++
+- cd libstdc++
+- wget "http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu/pool/main/g/gcc-5/libstdc++6_5.1.0-0ubuntu11~10.04.2_amd64.deb"
+- ar xv libstdc++6_5.1.0-0ubuntu11~10.04.2_amd64.deb
+- tar xf data.tar.gz
+- cd usr/lib/
+- export LD_LIBRARY_PATH=${PWD}
+- cd ../../../
+
+script: './gradlew build --info --debug'
