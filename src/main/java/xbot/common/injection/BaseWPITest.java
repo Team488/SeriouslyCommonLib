@@ -49,6 +49,6 @@ public class BaseWPITest {
         
         clf = injector.getInstance(CommonLibFactory.class);
 
-        DOMConfigurator.configure("lib/log4jConfig/log4j4unitTesting.xml");
+        DOMConfigurator.configure("../SeriouslyCommonLib/lib/log4jConfig/log4j4unitTesting.xml");
     }
 }
