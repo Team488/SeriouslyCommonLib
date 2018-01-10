@@ -127,6 +127,6 @@ public class DriveSubsystemTest extends BaseWPITest {
     }
     
     protected double getOutputPercent(XCANTalon t) {
-        return t.getOutputVoltage() / MockRobotIO.BUS_VOLTAGE;
+        return t.getMotorOutputPercent();
     }
 }

@@ -1,7 +1,8 @@
 package xbot.common.subsystems;
 
 import java.util.Map;
-import com.ctre.CANTalon.TalonControlMode;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.actuators.XCANTalon;
@@ -75,18 +76,6 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     public abstract double getTransverseDistance();
     
     /**
-     * Sets all the DriveSubsystem's "master" talons to a single control mode.
-     * e.g. PercentVBus, Follower, Current, etc...
-     */
-    protected void setTalonModes(TalonControlMode mode) {
-        updateLoggingLatch();
-        if (getAllMasterTalons() != null) {
-            getAllMasterTalons().keySet().stream()
-            .forEach((t) -> t.ensureTalonControlMode(mode));
-        }
-    }
-    
-    /**
      * Commands each of the XCANTalons to respond to translation/rotation input.
      * Each "wheel" is independently responsible, and as such there isn't any actual
      * drive logic in this method.
@@ -106,10 +95,9 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
             }            
             
             for(Map.Entry<XCANTalon, MotionRegistration> entry : talons.entrySet()) {
-               entry.getKey().ensureTalonControlMode(TalonControlMode.PercentVbus);
                double power = entry.getValue()
                        .calculateTotalImpact(translation.x, translation.y, rotation) / normalizationFactor;
-               entry.getKey().set(power);
+               entry.getKey().set(ControlMode.PercentOutput, power);
             }
         }
     }
@@ -180,7 +168,7 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     public void setCurrentLimits(int maxCurrentInAmps) {
         updateLoggingLatch();
         getAllMasterTalons().keySet().stream()
-        .forEach( (t) -> t.setCurrentLimit(maxCurrentInAmps));
+        .forEach( (t) -> t.configContinuousCurrentLimit(maxCurrentInAmps, 0));
     }
  
     private void updateLoggingLatch() {
