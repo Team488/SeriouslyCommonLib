@@ -28,7 +28,7 @@ import xbot.common.properties.ITableProxy;
 import xbot.common.properties.MockPermamentStorage;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.TableProxy;
-import xbot.common.subsystems.BaseDriveSubsystem;
+import xbot.common.subsystems.drive.BaseDriveSubsystem;
 import xbot.common.subsystems.drive.MockDriveSubsystem;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.TestPoseSubsystem;

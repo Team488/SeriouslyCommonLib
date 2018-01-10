@@ -1,4 +1,4 @@
-package xbot.common.subsystems;
+package xbot.common.subsystems.drive;
 
 import java.util.Map;
 

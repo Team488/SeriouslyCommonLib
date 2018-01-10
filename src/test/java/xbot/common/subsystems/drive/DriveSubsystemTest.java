@@ -8,7 +8,6 @@ import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.injection.BaseWPITest;
 import xbot.common.math.XYPair;
-import xbot.common.subsystems.BaseDriveSubsystem;
 
 public class DriveSubsystemTest extends BaseWPITest {
 
