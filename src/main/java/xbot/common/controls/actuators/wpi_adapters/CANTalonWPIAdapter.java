@@ -54,10 +54,6 @@ public class CANTalonWPIAdapter extends XCANTalon {
         return internalTalon.configVelocityMeasurementWindow(windowSize, timeoutMs);
     }
 
-    public int hashCode() {
-        return internalTalon.hashCode();
-    }
-
     public ErrorCode configForwardLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
             int timeoutMs) {
         return internalTalon.configForwardLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
