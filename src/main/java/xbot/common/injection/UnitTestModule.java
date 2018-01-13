@@ -12,12 +12,14 @@ import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.XGamepad;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
+import xbot.common.controls.sensors.mock_adapters.MockGamepad;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.controls.sensors.mock_adapters.MockJoystick;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
@@ -78,6 +80,7 @@ public class UnitTestModule extends AbstractModule {
         this.install(new FactoryModuleBuilder()
                 .implement(XPowerDistributionPanel.class, MockPowerDistributionPanel.class)
                 .implement(XJoystick.class, MockJoystick.class)
+                .implement(XGamepad.class, MockGamepad.class)
                 .implement(XEncoder.class, MockEncoder.class)
                 .implement(XDigitalInput.class, MockDigitalInput.class)
                 .implement(XAnalogInput.class, MockAnalogInput.class)

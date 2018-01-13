@@ -17,6 +17,7 @@ import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.XGamepad;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
@@ -34,6 +35,10 @@ public interface CommonLibFactory {
     public XJoystick createJoystick(
             @Assisted("port") int port,
             @Assisted("numButtons") int numButtons);
+    
+    public XGamepad createGamepad(
+    		@Assisted("port") int port,
+            @Assisted("numButtons") int numButtons);    
     
     public XEncoder createEncoder(
             @Assisted("name")String name, 
