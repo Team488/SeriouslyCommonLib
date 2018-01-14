@@ -34,3 +34,7 @@ WPI_Native_Libraries.properties
 
 #Gradle
 .gradle/
+
+.settings/
+.classpath
+.project
