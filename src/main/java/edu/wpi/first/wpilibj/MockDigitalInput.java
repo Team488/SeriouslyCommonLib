@@ -3,7 +3,6 @@ package edu.wpi.first.wpilibj;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.sensors.XDigitalInput;
 
 public class MockDigitalInput extends XDigitalInput {
@@ -27,10 +26,4 @@ public class MockDigitalInput extends XDigitalInput {
     public int getChannel() {
         return this.channel;
     }
-
-    @Override
-    public LiveWindowSendable getLiveWindowSendable() {
-        return null;
-    }
-
 }

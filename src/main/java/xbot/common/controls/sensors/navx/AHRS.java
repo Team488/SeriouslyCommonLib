@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -43,7 +42,7 @@ import edu.wpi.first.wpilibj.Timer;
  * @author Scott
  */
 
-public class AHRS extends SensorBase implements PIDSource, LiveWindowSendable {
+public class AHRS extends SensorBase implements PIDSource {
 
     /**
      * Identifies one of the three sensing axes on the navX sensor board.  Note that these axes are

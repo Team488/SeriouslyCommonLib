@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
 import xbot.common.controls.sensors.nav6.IMUProtocol;
 
@@ -31,7 +30,7 @@ import xbot.common.controls.sensors.nav6.IMUProtocol;
  * class.
  * @author Scott
  */
-public class IMU extends SensorBase implements PIDSource, LiveWindowSendable, Runnable {
+public class IMU extends SensorBase implements PIDSource, Runnable {
 
     static final int    YAW_HISTORY_LENGTH      = 10;
     static final byte   DEFAULT_UPDATE_RATE_HZ  = 100;

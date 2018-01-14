@@ -1,6 +1,5 @@
 package xbot.common.controls.sensors;
 
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
@@ -42,5 +41,4 @@ public abstract class XEncoder {
     protected abstract double getDistance();
     
     public abstract void setSamplesToAverage(int samples);
-    public abstract LiveWindowSendable getLiveWindowSendable();
 }
