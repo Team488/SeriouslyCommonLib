@@ -20,6 +20,7 @@ repositories {
     maven { url "https://mvnrepository.com/artifact/com.google.inject/guice" }
     maven { url "http://first.wpi.edu/FRC/roborio/maven/release"}
     maven { url uri ("../SeriouslyCommonLib/lib/")}
+    maven { url "http://www.kauailabs.com/maven2" }
     
    /* 
    flatDir {
@@ -52,6 +53,8 @@ dependencies {
     compile 'a.b:CTRE_Phoenix:1.0'
     compile files('lib/ntcore-jni-4.0.0-all.jar')
     compile files('lib/wpilibj-jni-2018.1.1-all.jar')
+    
+    compile 'com.kauailabs.navx.frc:navx_frc:+'
 }
 
 tasks.withType(Test) {
