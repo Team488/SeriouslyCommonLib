@@ -17,6 +17,7 @@ import xbot.common.controls.actuators.wpi_adapters.SpeedControllerWPIAdapter;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.XFTCGamepad;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
@@ -25,6 +26,7 @@ import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater;
 import xbot.common.controls.sensors.wpi_adapters.DigitalInputWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter;
+import xbot.common.controls.sensors.wpi_adapters.FTCGamepadWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.InertialMeasurementUnitAdapter;
 import xbot.common.controls.sensors.wpi_adapters.JoystickWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter;
@@ -55,6 +57,7 @@ public class RobotModule extends AbstractModule {
         this.install(new FactoryModuleBuilder()
                 .implement(XPowerDistributionPanel.class, PowerDistributionPanelWPIAdapter.class)
                 .implement(XJoystick.class, JoystickWPIAdapter.class)
+                .implement(XFTCGamepad.class, FTCGamepadWpiAdapter.class)
                 .implement(XEncoder.class, EncoderWPIAdapter.class)
                 .implement(XDigitalInput.class, DigitalInputWPIAdapter.class)
                 .implement(XAnalogInput.class, AnalogInputWPIAdapater.class)

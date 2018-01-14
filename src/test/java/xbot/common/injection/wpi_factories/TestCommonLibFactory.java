@@ -29,6 +29,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createLidarLite(I2C.Port.kOnboard);
         clf.createAdvancedJoystickButton(j, 1);
         clf.createAnalogHIDButton(j, 1, -1, 1);
+        clf.createGamepad(1, 10);
         
         clf.createHeadingModule(pf.createPIDManager("bar", 1, 0, 0));
     }
