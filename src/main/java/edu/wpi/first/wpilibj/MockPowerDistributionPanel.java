@@ -3,8 +3,6 @@ package edu.wpi.first.wpilibj;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
-
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 
 public class MockPowerDistributionPanel extends XPowerDistributionPanel {

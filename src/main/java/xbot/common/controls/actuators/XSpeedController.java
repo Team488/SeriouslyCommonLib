@@ -1,6 +1,5 @@
 package xbot.common.controls.actuators;
 
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.XBaseIO;
 
 public abstract class XSpeedController implements XBaseIO
@@ -33,6 +32,4 @@ public abstract class XSpeedController implements XBaseIO
     
     protected abstract double get();
     protected abstract void set(double value);
-    
-    public abstract LiveWindowSendable getLiveWindowSendable();
 }

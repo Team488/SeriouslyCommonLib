@@ -6,7 +6,6 @@ import com.google.inject.assistedinject.Assisted;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.actuators.XSpeedController;
 
 public class SpeedControllerWPIAdapter extends XSpeedController
@@ -18,8 +17,6 @@ public class SpeedControllerWPIAdapter extends XSpeedController
     {
         super(channel);
         controller = new Talon(channel);
-        
-        LiveWindow.addActuator("SpeedController", channel, (LiveWindowSendable) this.getLiveWindowSendable());
     }
     
     public double get()
@@ -31,10 +28,4 @@ public class SpeedControllerWPIAdapter extends XSpeedController
     {
         controller.set(value);
     }
-
-    @Override
-    public LiveWindowSendable getLiveWindowSendable() {
-        return (LiveWindowSendable)controller;
-    }
-
 }
