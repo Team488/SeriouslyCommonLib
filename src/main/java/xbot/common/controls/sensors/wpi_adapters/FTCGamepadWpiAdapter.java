@@ -5,29 +5,29 @@ import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import xbot.common.controls.sensors.XGamepad;
+import xbot.common.controls.sensors.XFTCGamepad;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.logging.RobotAssertionManager;
 
-public class GamepadWpiAdapter extends XGamepad {
+public class FTCGamepadWpiAdapter extends XFTCGamepad {
 
-private GenericHID internalHID;
-    
+    private GenericHID internalHID;
+
     @Inject
-    public GamepadWpiAdapter(
+    public FTCGamepadWpiAdapter(
             @Assisted("port") int port, 
             @Assisted("numButtons") int numButtons,
             CommonLibFactory clf,
             RobotAssertionManager assertionManager) {
         super(port, clf, assertionManager, numButtons);
-        
+
         internalHID = new Joystick(port);
     }
-    
+
     protected double getX() {
         return internalHID.getX();
     }
-    
+
     protected double getY() {
         return internalHID.getY();
     }
