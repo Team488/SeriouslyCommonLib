@@ -17,44 +17,35 @@ repositories {
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
     
-    maven { url "https://mvnrepository.com/artifact/com.google.inject/guice" }
-    maven { url "http://first.wpi.edu/FRC/roborio/maven/release"}
-    maven { url uri ("../SeriouslyCommonLib/lib/")}
-    maven { url "http://www.kauailabs.com/maven2" }
-    
-   /* 
-   flatDir {
-       dirs 'lib'
-   }*/
+    maven { url "https://mvnrepository.com/artifact/com.google.inject/guice" } // Guice
+    maven { url "http://first.wpi.edu/FRC/roborio/maven/release"} // Official FIRST maven
+    maven { url "http://www.kauailabs.com/maven2" } // NavX
+    maven { url "https://raw.githubusercontent.com/Open-RIO/Maven-Mirror/master/m2" } // Same as GradleRIO for CTRE
 }
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
     // The production code uses the SLF4J logging API at compile time
     compile 'org.slf4j:slf4j-api:1.7.21'
-
-    // Declare the dependency for your favourite test framework you want to use in your tests.
-    // TestNG is also supported by the Gradle Test task. Just change the
-    // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
-    // 'test.useTestNG()' to your build script.
+    
     compile 'junit:junit:4.12'
     
     compile group: 'com.google.inject', name: 'guice', version: '3.0'
     compile group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '3.0'
-    
     compile group: 'log4j', name: 'log4j', version: '1.2.17'
     
+    // Library dependencies
     compile 'edu.wpi.first.wpiutil:wpiutil-java:3.+'
     compile 'edu.wpi.first.wpilibj:wpilibj-java:+'
     compile 'edu.wpi.first.ntcore:ntcore-java:+'
-        
-    /*compile files('lib/CTRE_Phoenix.jar')
-    compile files('lib/CTRE_Phoenix-sources.jar')*/
-    compile 'a.b:CTRE_Phoenix:1.0'
-    compile files('lib/ntcore-jni-4.0.0-all.jar')
-    compile files('lib/wpilibj-jni-2018.1.1-all.jar')
     
-    compile 'com.kauailabs.navx.frc:navx_frc:+'
+    // System libraries so our tests can run
+    compile 'edu.wpi.first.ntcore:ntcore-jni:4.0.0:all'
+    compile 'edu.wpi.first.wpilibj:wpilibj-jni:2018.1.1:all'
+    
+    // Third party - CTRE and NavX
+    compile 'openrio.mirror.third.ctre:CTRE-phoenix-java:5.2.1.1'
+    compile 'com.kauailabs.navx.frc:navx_frc:3.0.324'
 }
 
 tasks.withType(Test) {
