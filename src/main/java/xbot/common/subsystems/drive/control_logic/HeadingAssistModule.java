@@ -102,12 +102,12 @@ public class HeadingAssistModule {
             }
 
             switch (headingMode) {
-            case HoldOrientation:
-                return headingModule.calculateHeadingPower(desiredHeading);
-            case DecayVelocity:
-                return decayModule.calculateHeadingPower(0);
-            default:
-                return 0;
+                case HoldOrientation:
+                    return headingModule.calculateHeadingPower(desiredHeading);
+                case DecayVelocity:
+                    return decayModule.calculateHeadingPower(0);
+                default:
+                    return 0;
             }
         }
     }
