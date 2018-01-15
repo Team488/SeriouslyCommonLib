@@ -5,12 +5,13 @@ import java.util.Map;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import xbot.common.command.BaseSubsystem;
+import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.logging.LoggingLatch;
 import xbot.common.logic.Latch.EdgeType;
 import xbot.common.math.XYPair;
 
-public abstract class BaseDriveSubsystem extends BaseSubsystem {
+public abstract class BaseDriveSubsystem extends BaseSubsystem implements PeriodicDataSource {
     
     private final LoggingLatch baseDriveSubsystemLoggingLatch = 
             new LoggingLatch(this.getName(), "XCanTalon(s) in DriveSubsystem is null", EdgeType.RisingEdge);
@@ -173,5 +174,13 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
  
     private void updateLoggingLatch() {
         baseDriveSubsystemLoggingLatch.checkValue(getAllMasterTalons() == null);
+    }
+    
+    public void updatePeriodicData() {
+        getAllMasterTalons().keySet().stream().forEach((t) -> t.updateTelemetryProperties());
+    }
+    
+    public void resetEncoders() {
+        getAllMasterTalons().keySet().stream().forEach((t) -> t.setSelectedSensorPosition(0, 0, 0));
     }
 }
