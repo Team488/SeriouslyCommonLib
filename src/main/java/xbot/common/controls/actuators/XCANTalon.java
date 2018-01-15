@@ -99,7 +99,10 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
         velocityProperty.set(this.getSelectedSensorVelocity(0));
     }
     
-    
+    @Override
+    public int hashCode() {
+        return this.deviceId;
+    }
 
  // ------ Set output routines. ----------//
     public abstract void set(ControlMode Mode, double demand);
