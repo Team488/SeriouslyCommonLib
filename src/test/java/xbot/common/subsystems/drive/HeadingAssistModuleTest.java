@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
+import xbot.common.subsystems.drive.control_logic.HeadingAssistModule.HeadingAssistMode;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
 public class HeadingAssistModuleTest extends BaseWPITest {
@@ -17,8 +18,10 @@ public class HeadingAssistModuleTest extends BaseWPITest {
         // TODO Auto-generated method stub
         super.setUp();
         
-        HeadingModule hm = clf.createHeadingModule(pf.createPIDManager("Testo", 1000, 0, 0));
-        ham = clf.createHeadingAssistModule(hm);
+        HeadingModule hold = clf.createHeadingModule(pf.createPIDManager("Hold", 1000, 0, 0));
+        HeadingModule decay = clf.createHeadingModule(pf.createPIDManager("Decay", 0, 0, 1000));
+        ham = clf.createHeadingAssistModule(hold, decay);
+        ham.setMode(HeadingAssistMode.HoldOrientation);
     }
     
     @Test
@@ -119,5 +122,22 @@ public class HeadingAssistModuleTest extends BaseWPITest {
         mockRobotIO.setGyroHeading(mockRobotIO.getGyroHeading()+90);
         double power = ham.calculateHeadingPower(0);
         assertEquals(-1, power, 0.001);
+    }
+    
+    
+    @Test
+    public void testDecay() {
+        ham.setMode(HeadingAssistMode.DecayVelocity);
+        step1_humanDrive();
+        step2_humanStops();
+        step3_timePasses();
+        
+        // just like the position-based one, this should try to turn right if the robot is suddenly rotated left
+        step4_robotRotated();     
+        
+        // However, unlike the position-based one, this one will try and turn left if the robot is suddenly rotated right.
+        mockRobotIO.setGyroHeading(mockRobotIO.getGyroHeading()-90);
+        double power = ham.calculateHeadingPower(0);
+        assertEquals(1, power, 0.001);
     }
 }

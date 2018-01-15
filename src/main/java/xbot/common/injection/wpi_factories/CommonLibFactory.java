@@ -99,5 +99,6 @@ public interface CommonLibFactory {
             @Assisted("headingDrivePid") PIDManager headingDrivePid);
     
     public HeadingAssistModule createHeadingAssistModule(
-            @Assisted("headingModule") HeadingModule headingModule);
+            @Assisted("headingModule") HeadingModule headingModule,
+            @Assisted("decayModule") HeadingModule decayModule);
 }

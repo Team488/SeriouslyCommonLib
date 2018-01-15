@@ -22,22 +22,36 @@ public class HeadingAssistModule {
 
     final BasePoseSubsystem pose;
     final HeadingModule headingModule;
+    final HeadingModule decayModule;
+    
     final DoubleProperty humanThreshold;
     final DoubleProperty coastTime;
     double desiredHeading;
     double lastHumanInput;
     boolean inAutomaticMode;
+    private HeadingAssistMode headingMode;
+    
+    public enum HeadingAssistMode {
+        HoldOrientation,
+        DecayVelocity
+    }
     
     @AssistedInject
     public HeadingAssistModule(
             @Assisted("headingModule") HeadingModule headingModule,
+            @Assisted("decayModule") HeadingModule decayModule,
             XPropertyManager propMan,
             BasePoseSubsystem pose) {
         this.headingModule = headingModule;
+        this.decayModule = decayModule;
         this.pose = pose;
         humanThreshold = propMan.createPersistentProperty("HeadingAssistModule - Human Threshold", 0.05);
         coastTime = propMan.createPersistentProperty("Heading Assist Module - Coast Time", 0.5);
         lastHumanInput = 0;
+    }
+    
+    public void setMode(HeadingAssistMode mode) {
+        this.headingMode = mode;
     }
     
     /**
@@ -72,11 +86,19 @@ public class HeadingAssistModule {
             desiredHeading = pose.getCurrentHeading().getValue();
             inAutomaticMode = true;
             headingModule.reset();
+            decayModule.reset();
             return 0;
         }
         // by this point, the only option left is that the machine is in automatic mode.
         else {
-            return headingModule.calculateHeadingPower(desiredHeading);
+            switch (headingMode) {
+            case HoldOrientation:
+                return headingModule.calculateHeadingPower(desiredHeading);
+            case DecayVelocity:
+                return decayModule.calculateHeadingPower(0);
+            default:
+                return 0;
+            }
         }
     }
 }
