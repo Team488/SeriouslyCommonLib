@@ -98,6 +98,12 @@ public interface CommonLibFactory {
     public HeadingModule createHeadingModule(
             @Assisted("headingDrivePid") PIDManager headingDrivePid);
     
+    /**
+     * Creates a heading assist module. Can either hold an orientation, or resist rotational motion.
+     * @param headingModule Tune this one to rotate to a target orientation (PD, or PID controller)
+     * @param decayModule Tune this one to resist rotation (D controller)
+     * @return
+     */
     public HeadingAssistModule createHeadingAssistModule(
             @Assisted("headingModule") HeadingModule headingModule,
             @Assisted("decayModule") HeadingModule decayModule);
