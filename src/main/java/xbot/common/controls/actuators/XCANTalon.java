@@ -53,6 +53,8 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     private DoubleProperty currentProperty = null;
     private DoubleProperty outVoltageProperty = null;
     private DoubleProperty temperatureProperty = null;
+    private DoubleProperty positionProperty = null;
+    private DoubleProperty velocityProperty = null;
     
     private MotorSafetyHelper _safetyHelper;
     private String _description;
@@ -77,6 +79,8 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
         currentProperty = propMan.createEphemeralProperty(deviceName + " current", 0);
         outVoltageProperty = propMan.createEphemeralProperty(deviceName + " voltage", 0);
         temperatureProperty = propMan.createEphemeralProperty(deviceName + " temperature", 0);
+        positionProperty = propMan.createEphemeralProperty(deviceName + " position", 0);
+        velocityProperty = propMan.createEphemeralProperty(deviceName + " velocity", 0);
     }
     
     public void updateTelemetryProperties() {
@@ -90,6 +94,9 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
         currentProperty.set(this.getOutputCurrent());
         outVoltageProperty.set(this.getMotorOutputVoltage());
         temperatureProperty.set(this.getTemperature());
+        
+        positionProperty.set(this.getSelectedSensorPosition(0));
+        velocityProperty.set(this.getSelectedSensorVelocity(0));
     }
     
     
