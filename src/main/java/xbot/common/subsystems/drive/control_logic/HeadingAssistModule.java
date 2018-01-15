@@ -1,5 +1,7 @@
 package xbot.common.subsystems.drive.control_logic;
 
+import org.apache.log4j.Logger;
+
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -23,19 +25,21 @@ public class HeadingAssistModule {
     final BasePoseSubsystem pose;
     final HeadingModule headingModule;
     final HeadingModule decayModule;
-    
+
     final DoubleProperty humanThreshold;
     final DoubleProperty coastTime;
     double desiredHeading;
     double lastHumanInput;
     boolean inAutomaticMode;
     private HeadingAssistMode headingMode;
-    
+
     public enum HeadingAssistMode {
         HoldOrientation,
         DecayVelocity
     }
-    
+
+    private Logger log = Logger.getLogger("HeadingAssistModule");
+
     @AssistedInject
     public HeadingAssistModule(
             @Assisted("headingModule") HeadingModule headingModule,
@@ -48,12 +52,13 @@ public class HeadingAssistModule {
         humanThreshold = propMan.createPersistentProperty("HeadingAssistModule - Human Threshold", 0.05);
         coastTime = propMan.createPersistentProperty("Heading Assist Module - Coast Time", 0.5);
         lastHumanInput = 0;
+        this.headingMode = HeadingAssistMode.HoldOrientation;
     }
-    
+
     public void setMode(HeadingAssistMode mode) {
         this.headingMode = mode;
     }
-    
+
     /**
      * Core method of the HeadingAssistModule. You input the human rotational power input,
      * and this will determine whether or not to have the human drive the robot or whether the robot
@@ -66,7 +71,7 @@ public class HeadingAssistModule {
      * @return values between -1 and 1, in terms of "how hard you should try in order to satisfy rotational goals."
      */
     public double calculateHeadingPower(double humanRotationalPower) {
-        
+
         // if human rotational power above some threshold, return that.
         // Also, update a timestamp that says this happened recently
         if (humanRotationalPower > humanThreshold.get()) {
@@ -74,11 +79,11 @@ public class HeadingAssistModule {
             lastHumanInput = Timer.getFPGATimestamp();
             return humanRotationalPower;
         }
-        
+
         // If not under threshold, but too close to timestamp,
         // "coast"
         double timeSinceHumanInput = Timer.getFPGATimestamp() - lastHumanInput;
-        
+
         if (timeSinceHumanInput < coastTime.get()) {
             return 0;
         } 
@@ -91,6 +96,11 @@ public class HeadingAssistModule {
         }
         // by this point, the only option left is that the machine is in automatic mode.
         else {
+            if (headingMode == null) {
+                log.warn("Heading module did not have any mode set. Forcing to HoldOrientation.");
+                this.headingMode = HeadingAssistMode.HoldOrientation;
+            }
+
             switch (headingMode) {
             case HoldOrientation:
                 return headingModule.calculateHeadingPower(desiredHeading);

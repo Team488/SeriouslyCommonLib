@@ -25,6 +25,14 @@ public class HeadingAssistModuleTest extends BaseWPITest {
     }
     
     @Test
+    public void testNoConfig() {
+        ham.setMode(null);
+        step1_humanDrive();
+        step2_humanStops();
+        step3_timePasses();
+        step4_robotRotated();
+    }
+    @Test
     public void testFullStateMachine() {
         step1_humanDrive();
         step2_humanStops();
