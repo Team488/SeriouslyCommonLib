@@ -17,6 +17,10 @@ import xbot.common.subsystems.pose.BasePoseSubsystem;
  * - If the human driver wants the robot to turn (above some small threshold), then the robot should turn
  *   according to human desires.
  * - After a few moments, the robot should memorize its current heading, and attempt to hold it again.
+ * 
+ * The automatic response can take one of two forms:
+ * - Hold a specific heading, as mentioned above, using a PID controller
+ * - Resist changes in rotational velocity using a D-only controller.
  * @author jogilber
  *
  */
