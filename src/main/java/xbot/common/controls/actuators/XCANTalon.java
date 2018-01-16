@@ -103,6 +103,15 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     public int hashCode() {
         return this.deviceId;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof XCANTalon) {
+            // This works since our hash code IS our device ID.
+            return ((XCANTalon)obj).hashCode() == this.hashCode();
+          }
+        return false;
+    }
 
  // ------ Set output routines. ----------//
     public abstract void set(ControlMode Mode, double demand);
