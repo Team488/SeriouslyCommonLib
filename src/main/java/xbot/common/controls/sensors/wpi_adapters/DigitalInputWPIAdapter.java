@@ -5,7 +5,6 @@ import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.sensors.XDigitalInput;
 
 public class DigitalInputWPIAdapter extends XDigitalInput {
@@ -21,8 +20,6 @@ public class DigitalInputWPIAdapter extends XDigitalInput {
     @Inject
     public DigitalInputWPIAdapter(@Assisted("channel") int channel) {
         adapter = new DigitalInput(channel);
-        
-        LiveWindow.addSensor("DigitalInput", channel, this.getLiveWindowSendable());
     }
 
     /**
@@ -41,10 +38,5 @@ public class DigitalInputWPIAdapter extends XDigitalInput {
      */
     public int getChannel() {
         return adapter.getChannel();
-    }
-
-    @Override
-    public LiveWindowSendable getLiveWindowSendable() {
-        return (LiveWindowSendable)adapter;
     }
 }

@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XSpeedController;
 
@@ -30,10 +29,5 @@ public class MockSpeedController extends XSpeedController {
     @Override
     public void set(double output) {
         mockRobotIO.setPWM(channel, output);
-    }
-
-    @Override
-    public LiveWindowSendable getLiveWindowSendable() {
-        return null;
     }
 }

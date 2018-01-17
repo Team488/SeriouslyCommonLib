@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import xbot.common.controls.actuators.XSolenoid;
 
 public class SolenoidWPIAdapter extends XSolenoid {
@@ -26,5 +25,4 @@ public class SolenoidWPIAdapter extends XSolenoid {
     public boolean get() {
         return this.solenoid.get();
     }
-    
 }

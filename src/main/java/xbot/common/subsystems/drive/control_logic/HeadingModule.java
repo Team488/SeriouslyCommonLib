@@ -8,6 +8,13 @@ import xbot.common.math.PIDManager;
 import xbot.common.properties.XPropertyManager;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
+/**
+ * Encapsulates the logic needed to rotate the robot to a specific angle.
+ * When using a PD or PID controller, it will attempt to reach that angle.
+ * When using a D-only controller, it will just resist any rotational motion.
+ * @author John
+ *
+ */
 public class HeadingModule {
 
     final BasePoseSubsystem pose;

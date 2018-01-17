@@ -17,6 +17,7 @@ import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.XFTCGamepad;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
@@ -34,6 +35,10 @@ public interface CommonLibFactory {
     public XJoystick createJoystick(
             @Assisted("port") int port,
             @Assisted("numButtons") int numButtons);
+    
+    public XFTCGamepad createGamepad(
+    		@Assisted("port") int port,
+            @Assisted("numButtons") int numButtons);    
     
     public XEncoder createEncoder(
             @Assisted("name")String name, 
@@ -93,6 +98,13 @@ public interface CommonLibFactory {
     public HeadingModule createHeadingModule(
             @Assisted("headingDrivePid") PIDManager headingDrivePid);
     
+    /**
+     * Creates a heading assist module. Can either hold an orientation, or resist rotational motion.
+     * @param headingModule Tune this one to rotate to a target orientation (PD, or PID controller)
+     * @param decayModule Tune this one to resist rotation (D controller)
+     * @return
+     */
     public HeadingAssistModule createHeadingAssistModule(
-            @Assisted("headingModule") HeadingModule headingModule);
+            @Assisted("headingModule") HeadingModule headingModule,
+            @Assisted("decayModule") HeadingModule decayModule);
 }

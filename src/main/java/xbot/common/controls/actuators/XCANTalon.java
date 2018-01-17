@@ -21,13 +21,18 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 
+import edu.wpi.first.wpilibj.MotorSafety;
+import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.wpilibj.SendableBase;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.StringProperty;
 import xbot.common.properties.XPropertyManager;
 
 
-public abstract class XCANTalon implements IMotorControllerEnhanced {
+public abstract class XCANTalon extends SendableBase implements IMotorControllerEnhanced, MotorSafety {
     /*
      * Functions currently omitted:
      * 
@@ -48,10 +53,24 @@ public abstract class XCANTalon implements IMotorControllerEnhanced {
     private DoubleProperty currentProperty = null;
     private DoubleProperty outVoltageProperty = null;
     private DoubleProperty temperatureProperty = null;
+    private DoubleProperty positionProperty = null;
+    private DoubleProperty velocityProperty = null;
+    
+    private MotorSafetyHelper _safetyHelper;
+    private String _description;
     
     public XCANTalon(int deviceId, XPropertyManager propMan) {
         this.deviceId = deviceId;
         this.propMan = propMan;
+        
+        _safetyHelper = new MotorSafetyHelper(this);
+		_safetyHelper.setExpiration(0.0);
+		_safetyHelper.setSafetyEnabled(false);
+        
+        LiveWindow.add(this);
+        setName("Talon SRX ", deviceId);
+        
+        _description = "Talon SRX " + deviceId;
     }
     
     
@@ -60,6 +79,8 @@ public abstract class XCANTalon implements IMotorControllerEnhanced {
         currentProperty = propMan.createEphemeralProperty(deviceName + " current", 0);
         outVoltageProperty = propMan.createEphemeralProperty(deviceName + " voltage", 0);
         temperatureProperty = propMan.createEphemeralProperty(deviceName + " temperature", 0);
+        positionProperty = propMan.createEphemeralProperty(deviceName + " position", 0);
+        velocityProperty = propMan.createEphemeralProperty(deviceName + " velocity", 0);
     }
     
     public void updateTelemetryProperties() {
@@ -73,9 +94,24 @@ public abstract class XCANTalon implements IMotorControllerEnhanced {
         currentProperty.set(this.getOutputCurrent());
         outVoltageProperty.set(this.getMotorOutputVoltage());
         temperatureProperty.set(this.getTemperature());
+        
+        positionProperty.set(this.getSelectedSensorPosition(0));
+        velocityProperty.set(this.getSelectedSensorVelocity(0));
     }
-    
-    
+    /*
+    @Override
+    public int hashCode() {
+        return this.deviceId;
+    }*/
+    /*
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof XCANTalon) {
+            // This works since our hash code IS our device ID.
+            return ((XCANTalon)obj).hashCode() == this.hashCode();
+          }
+        return false;
+    }*/
 
  // ------ Set output routines. ----------//
     public abstract void set(ControlMode Mode, double demand);
@@ -270,4 +306,56 @@ public abstract class XCANTalon implements IMotorControllerEnhanced {
     // ----- Follower ------//
     public abstract void follow(IMotorController masterToFollow);
     public abstract void valueUpdated();
+    
+    // WPI Compatibility for LiveWindow.
+    
+    @Override
+	public void initSendable(SendableBuilder builder) {
+		// TODO Auto-generated method stub
+		builder.setSmartDashboardType("CANTalon");
+		builder.setSmartDashboardType("Speed Controller");
+		builder.setSafeState(this::stopMotor);
+		builder.addDoubleProperty("Value", this::getMotorOutputPercent, this::simpleSet);
+	}
+    
+    public void simpleSet(double percentInput) {
+    	set(ControlMode.PercentOutput, percentInput);
+    }
+	
+	public void stopMotor() {
+		neutralOutput();
+	}
+
+	@Override
+	public void setExpiration(double timeout) {
+		_safetyHelper.setExpiration(timeout);		
+	}
+
+	@Override
+	public double getExpiration() {
+		// TODO Auto-generated method stub
+		return _safetyHelper.getExpiration();
+	}
+
+	@Override
+	public boolean isAlive() {
+		// TODO Auto-generated method stub
+		return _safetyHelper.isAlive();
+	}
+
+	@Override
+	public void setSafetyEnabled(boolean enabled) {
+		_safetyHelper.setSafetyEnabled(enabled);
+	}
+
+	@Override
+	public boolean isSafetyEnabled() {
+		// TODO Auto-generated method stub
+		return _safetyHelper.isSafetyEnabled();
+	}
+
+	@Override
+	public String getDescription() {
+		return _description;
+	}
 }
