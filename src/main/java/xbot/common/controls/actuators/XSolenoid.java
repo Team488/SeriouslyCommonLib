@@ -1,6 +1,5 @@
 package xbot.common.controls.actuators;
 
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import xbot.common.controls.XBaseIO;
 
 public abstract class XSolenoid implements XBaseIO {
@@ -28,7 +27,6 @@ public abstract class XSolenoid implements XBaseIO {
         return channel;
     }
     
-    public abstract LiveWindowSendable getLiveWindowSendable();
     protected abstract void set(boolean on);
     protected abstract boolean get();
 }
