@@ -98,12 +98,12 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
         positionProperty.set(this.getSelectedSensorPosition(0));
         velocityProperty.set(this.getSelectedSensorVelocity(0));
     }
-    
+    /*
     @Override
     public int hashCode() {
         return this.deviceId;
-    }
-    
+    }*/
+    /*
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof XCANTalon) {
@@ -111,7 +111,7 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
             return ((XCANTalon)obj).hashCode() == this.hashCode();
           }
         return false;
-    }
+    }*/
 
  // ------ Set output routines. ----------//
     public abstract void set(ControlMode Mode, double demand);
