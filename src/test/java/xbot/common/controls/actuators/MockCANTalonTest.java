@@ -28,4 +28,14 @@ public class MockCANTalonTest extends BaseWPITest {
         assertEquals(-1 * MockRobotIO.BUS_VOLTAGE, talon.getMotorOutputVoltage(), 1e-5);
         assertEquals(-1, mockRobotIO.getPWM(-1), 1e-5);
     }
+    
+    @Test
+    public void internalEncoderTest() {
+    	MockCANTalon motor = (MockCANTalon)clf.createCANTalon(1);
+    	motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+    	motor.setPosition(100);
+    	
+    	assertEquals(100, motor.getPosition(), 0.001);
+    	assertEquals(100, motor.getSelectedSensorPosition(0), 0.001);
+    }
 }

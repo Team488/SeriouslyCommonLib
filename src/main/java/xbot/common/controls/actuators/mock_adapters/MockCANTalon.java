@@ -278,7 +278,7 @@ public class MockCANTalon extends XCANTalon {
     @Override
     public int getSelectedSensorPosition(int pidIdx) {
         // TODO Auto-generated method stub
-        return 0;
+        return (int)getPosition();
     }
 
     @Override
@@ -679,7 +679,7 @@ public class MockCANTalon extends XCANTalon {
         return internalEncoder.getAdjustedDistance();
     }
 
-    public void setPosition(double pos) {
+    public void setPosition(int pos) {
         if(internalEncoder == null) {
             log.warn("Position set before setting feedback device!");
         }
