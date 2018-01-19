@@ -35,7 +35,7 @@ public class TestPoseSubsystem extends BasePoseSubsystem {
         return ((MockCANTalon)right).getPosition();
     }
     
-    public void setDriveEncoderDistances(double left, double right) {
+    public void setDriveEncoderDistances(int left, int right) {
         ((MockCANTalon)this.left).setPosition(left);
         ((MockCANTalon)this.right).setPosition(right);
         updatePeriodicData();
