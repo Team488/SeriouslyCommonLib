@@ -22,7 +22,6 @@ public abstract class AdvancedButton extends Button {
     public void whilePressedNoRestart(final Command command) {
         // Based on source from WPILib's Trigger
         new ButtonScheduler() {
-            private boolean pressedLast = get();
             private Latch pressedLatch = new Latch(get(), EdgeType.Both, edge -> {
                 if (edge == EdgeType.RisingEdge) {
                     command.start();
