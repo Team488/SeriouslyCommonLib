@@ -6,26 +6,24 @@ import edu.wpi.first.wpilibj.command.Command;
 import xbot.common.logic.Latch;
 import xbot.common.logic.Latch.EdgeType;
 
-public abstract class AdvancedButton extends Button
-{
+public abstract class AdvancedButton extends Button {
     protected boolean isInverted = false;
-    
+
     public AdvancedButton() {}
 
-    public void setInverted(boolean inverted)
-    {
+    public void setInverted(boolean inverted) {
         isInverted = inverted;
     }
-    
+
     public boolean getInverted() {
         return isInverted;
     }
-    
+
     public void whilePressedSingleRun(final Command command) {
-    	// Based on source from WPILib's Trigger
+        // Based on source from WPILib's Trigger
         new ButtonScheduler() {
             private boolean pressedLast = get();
-            private Latch pressedLatch = new Latch(get(), EdgeType.Both, edge -> { 
+            private Latch pressedLatch = new Latch(get(), EdgeType.Both, edge -> {
                 if (edge == EdgeType.RisingEdge) {
                     command.start();
                 }
@@ -33,7 +31,7 @@ public abstract class AdvancedButton extends Button
                     command.cancel();
                 }
             });
-          
+
             @Override
             public void start() {
                 super.start();
@@ -41,7 +39,7 @@ public abstract class AdvancedButton extends Button
 
             @Override
             public void execute() {
-          	    pressedLatch.setValue(get());
+                pressedLatch.setValue(get());
             }
         }.start();
     }
