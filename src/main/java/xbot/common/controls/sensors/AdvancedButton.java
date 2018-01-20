@@ -19,7 +19,7 @@ public abstract class AdvancedButton extends Button {
         return isInverted;
     }
 
-    public void whilePressedSingleRun(final Command command) {
+    public void whilePressedNoRestart(final Command command) {
         // Based on source from WPILib's Trigger
         new ButtonScheduler() {
             private boolean pressedLast = get();
