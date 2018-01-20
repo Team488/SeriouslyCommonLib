@@ -36,8 +36,6 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
 	@Inject
 	public VictorAppearingAsTalonWPIAdapter(@Assisted("deviceId") int deviceId, XPropertyManager propMan) {
 		super(deviceId, propMan);
-		// TODO Auto-generated constructor stub
-		
 		internalSpeedController = new Victor(deviceId);
 		this.deviceId = deviceId;
 	}
