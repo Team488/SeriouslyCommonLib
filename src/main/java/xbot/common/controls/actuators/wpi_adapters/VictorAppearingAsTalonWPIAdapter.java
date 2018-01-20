@@ -27,13 +27,13 @@ import edu.wpi.first.wpilibj.Victor;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.properties.XPropertyManager;
 
-public class SpeedControllerAppearingAsTalonWPIAdapter extends XCANTalon {
+public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
 
 	SpeedController internalSpeedController;
 	int deviceId;
 	
 	@Inject
-	public SpeedControllerAppearingAsTalonWPIAdapter(int deviceId, XPropertyManager propMan) {
+	public VictorAppearingAsTalonWPIAdapter(int deviceId, XPropertyManager propMan) {
 		super(deviceId, propMan);
 		// TODO Auto-generated constructor stub
 		
