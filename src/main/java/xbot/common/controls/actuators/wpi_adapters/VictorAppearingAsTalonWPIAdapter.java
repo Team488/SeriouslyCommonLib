@@ -21,6 +21,7 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
@@ -33,7 +34,7 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
 	int deviceId;
 	
 	@Inject
-	public VictorAppearingAsTalonWPIAdapter(int deviceId, XPropertyManager propMan) {
+	public VictorAppearingAsTalonWPIAdapter(@Assisted("deviceId") int deviceId, XPropertyManager propMan) {
 		super(deviceId, propMan);
 		// TODO Auto-generated constructor stub
 		
