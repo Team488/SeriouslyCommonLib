@@ -60,12 +60,12 @@ dependencies {
 
 checkstyle {
     toolVersion = '8.7'
-    configFile = rootProject.file('xbotcheckstyle.xml')
+    configFile = file('./xbotcheckstyle.xml')
 }
 
 task checkstyle(type: Checkstyle) {
     source 'src/main/java'
-    configProperties.rootDir = "./"
+    configProperties.rootDir = file('.')
     
     // Empty classpath
     classpath = files()
