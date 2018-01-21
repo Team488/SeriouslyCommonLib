@@ -89,7 +89,7 @@ public class FieldPointTest {
     }
     
     @Test
-    public void yInterceptCalc() {
+    public void testYInterceptCalc() {
         FieldPose fp = new FieldPose(new XYPair(1, 1), new ContiguousHeading(45));
         
         assertEquals(0, fp.getIntercept(), 0.001);
