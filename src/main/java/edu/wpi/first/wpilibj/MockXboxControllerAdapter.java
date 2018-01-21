@@ -32,19 +32,16 @@ public class MockXboxControllerAdapter extends XXboxController {
 
     @Override
     protected double getTriggerAxis(Hand hand) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     protected boolean getRawButton(int button) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     protected double getRawAxis(int axis) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
