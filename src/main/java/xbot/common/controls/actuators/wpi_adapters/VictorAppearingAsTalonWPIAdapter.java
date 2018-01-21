@@ -1,7 +1,5 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
-import org.apache.log4j.Logger;
-
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motion.MotionProfileStatus;
@@ -32,8 +30,6 @@ import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.XPropertyManager;
 
 public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
-    static Logger log = Logger.getLogger(VictorAppearingAsTalonWPIAdapter.class);
-    
     RobotAssertionManager assertionManager;
     SpeedController internalSpeedController;
     int deviceId;
