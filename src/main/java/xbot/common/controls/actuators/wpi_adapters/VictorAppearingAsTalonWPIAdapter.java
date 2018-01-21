@@ -1,5 +1,7 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import org.apache.log4j.Logger;
+
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motion.MotionProfileStatus;
@@ -26,29 +28,60 @@ import com.google.inject.assistedinject.Assisted;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.XPropertyManager;
 
 public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
-
+    static Logger log = Logger.getLogger(VictorAppearingAsTalonWPIAdapter.class);
+    
+    RobotAssertionManager assertionManager;
     SpeedController internalSpeedController;
     int deviceId;
+    
+    int masterId = -1;
+    SpeedController masterController = null;
 
     @Inject
-    public VictorAppearingAsTalonWPIAdapter(@Assisted("deviceId") int deviceId, XPropertyManager propMan) {
+    public VictorAppearingAsTalonWPIAdapter(@Assisted("deviceId") int deviceId, RobotAssertionManager assertionManager, XPropertyManager propMan) {
         super(deviceId, propMan);
         internalSpeedController = new Victor(deviceId);
         this.deviceId = deviceId;
+        this.assertionManager = assertionManager; 
     }
 
     @Override
     public void set(ControlMode Mode, double demand) {
-        internalSpeedController.set(demand);
+        if(Mode == ControlMode.Follower) {
+
+            int demandId = (int)demand;
+            if (masterController == null || masterId != demandId) {
+                masterController = new Victor(demandId);
+                masterId = demandId;
+            }
+            
+            internalSpeedController.set(masterController.get());
+            return;
+        }
+        
+        masterController = null;
+        masterId = -1;
+        
+        if (Mode == ControlMode.PercentOutput) {
+            internalSpeedController.set(demand);
+            return;
+        }
+        
+        assertionManager.fail(
+                VictorAppearingAsTalonWPIAdapter.class.getSimpleName()
+                + " can only be used in PercentOutput or Follower mode;"
+                + " currently set to " + Mode);
     }
 
     @Override
     public void set(ControlMode Mode, double demand0, double demand1) {
-        this.simpleSet(demand0);
-
+        // demand1 is never used, as of 2018.
+        // We do not know what it may be used for in the future.
+        set(Mode, demand0);
     }
 
     @Override

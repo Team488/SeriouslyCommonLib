@@ -32,9 +32,13 @@ public abstract class RobotAssertionManager {
     
     public abstract boolean isExceptionsEnabled();
     
+    public final void fail(String message) {
+        throwException(new RobotAssertionException(message));
+    }
+    
     public final void assertTrue(boolean value, String assertionFaliureCause) {
         if(!value) {
-            throwException(new RobotAssertionException(assertionFaliureCause));
+            fail(assertionFaliureCause);
         }
     }
 }
