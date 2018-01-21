@@ -10,4 +10,4 @@ before_script:
 - export LD_LIBRARY_PATH=${PWD}
 - cd ../../../
 
-script: './gradlew build'
+script: './gradlew build checkstyle'
