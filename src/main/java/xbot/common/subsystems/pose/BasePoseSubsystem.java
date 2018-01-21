@@ -23,6 +23,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     private final DoubleProperty totalDistanceX;
     private final DoubleProperty totalDistanceY;
+    private final DoubleProperty totalVelocity;
     
     private ContiguousHeading currentHeading;
     private final DoubleProperty currentHeadingProp;
@@ -68,6 +69,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         totalDistanceX = propManager.createEphemeralProperty("Total distance X", 0.0);
         totalDistanceY = propManager.createEphemeralProperty("Total distance Y", 0.0);
         
+        totalVelocity = propManager.createEphemeralProperty("Total Velocity", 0.0);
+        
         rioRotated = propManager.createPersistentProperty("RIO rotated", false);
         inherentRioPitch = propManager.createPersistentProperty("Inherent RIO pitch", 0.0);
         inherentRioRoll = propManager.createPersistentProperty("Inherent RIO roll", 0.0);
@@ -99,8 +102,11 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         double deltaY = Math.sin(Math.toRadians(currentHeading.getValue())) * totalDistance;
         double deltaX = Math.cos(Math.toRadians(currentHeading.getValue())) * totalDistance;
         
+        double instantVelocity = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+        
         totalDistanceX.set(totalDistanceX.get() + deltaX);
         totalDistanceY.set(totalDistanceY.get() + deltaY);
+        totalVelocity.set(instantVelocity);
         
         // save values for next round
         previousLeftDistance = currentLeftDistance;
