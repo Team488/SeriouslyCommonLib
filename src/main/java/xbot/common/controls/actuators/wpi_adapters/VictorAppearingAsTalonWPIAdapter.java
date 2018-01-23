@@ -33,9 +33,6 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
     RobotAssertionManager assertionManager;
     SpeedController internalSpeedController;
     int deviceId;
-    
-    int masterId = -1;
-    SpeedController masterController = null;
 
     @Inject
     public VictorAppearingAsTalonWPIAdapter(@Assisted("deviceId") int deviceId, RobotAssertionManager assertionManager, XPropertyManager propMan) {
@@ -47,30 +44,15 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
 
     @Override
     public void set(ControlMode mode, double demand) {
-        if(mode == ControlMode.Follower) {
-
-            int demandId = (int)demand;
-            if (masterController == null || masterId != demandId) {
-                masterController = new Victor(demandId);
-                masterId = demandId;
-            }
-            
-            internalSpeedController.set(masterController.get());
-            return;
-        }
-        
-        masterController = null;
-        masterId = -1;
-        
         if (mode == ControlMode.PercentOutput) {
             internalSpeedController.set(demand);
-            return;
         }
-        
-        assertionManager.fail(
-                VictorAppearingAsTalonWPIAdapter.class.getSimpleName()
-                + " can only be used in PercentOutput or Follower mode;"
-                + " currently set to " + mode);
+        else {
+            assertionManager.fail(
+                    VictorAppearingAsTalonWPIAdapter.class.getSimpleName()
+                    + " can only be used in PercentOutput mode;"
+                    + " currently set to " + mode);
+        }
     }
 
     @Override
