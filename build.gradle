@@ -10,6 +10,7 @@
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'checkstyle'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -55,6 +56,19 @@ dependencies {
     compile files('lib/wpilibj-jni-2018.1.1-all.jar')
     
     compile 'com.kauailabs.navx.frc:navx_frc:+'
+}
+
+checkstyle {
+    toolVersion = '8.7'
+    configFile = file('./xbotcheckstyle.xml')
+}
+
+task checkstyle(type: Checkstyle) {
+    source 'src/main/java'
+    configProperties.rootDir = file('.')
+    
+    // Empty classpath
+    classpath = files()
 }
 
 tasks.withType(Test) {

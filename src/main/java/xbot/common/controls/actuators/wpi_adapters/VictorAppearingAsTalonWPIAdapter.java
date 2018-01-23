@@ -46,8 +46,8 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
     }
 
     @Override
-    public void set(ControlMode Mode, double demand) {
-        if(Mode == ControlMode.Follower) {
+    public void set(ControlMode mode, double demand) {
+        if(mode == ControlMode.Follower) {
 
             int demandId = (int)demand;
             if (masterController == null || masterId != demandId) {
@@ -62,7 +62,7 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
         masterController = null;
         masterId = -1;
         
-        if (Mode == ControlMode.PercentOutput) {
+        if (mode == ControlMode.PercentOutput) {
             internalSpeedController.set(demand);
             return;
         }
@@ -70,14 +70,13 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
         assertionManager.fail(
                 VictorAppearingAsTalonWPIAdapter.class.getSimpleName()
                 + " can only be used in PercentOutput or Follower mode;"
-                + " currently set to " + Mode);
+                + " currently set to " + mode);
     }
 
     @Override
-    public void set(ControlMode Mode, double demand0, double demand1) {
-        // demand1 is never used, as of 2018.
-        // We do not know what it may be used for in the future.
-        set(Mode, demand0);
+    public void set(ControlMode mode, double demand0, double demand1) {
+        this.simpleSet(demand0);
+
     }
 
     @Override
@@ -92,7 +91,7 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
     }
 
     @Override
-    public void setSensorPhase(boolean PhaseSensor) {
+    public void setSensorPhase(boolean phaseSensor) {
 
     }
 
@@ -204,6 +203,12 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
     }
 
     @Override
+    public ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) {
+
+        return null;
+    }
+
+    @Override
     public ErrorCode configRemoteFeedbackFilter(int deviceID, RemoteSensorSource remoteSensorSource, int remoteOrdinal,
             int timeoutMs) {
 
@@ -212,12 +217,6 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
 
     @Override
     public ErrorCode configSensorTerm(SensorTerm sensorTerm, FeedbackDevice feedbackDevice, int timeoutMs) {
-
-        return null;
-    }
-
-    @Override
-    public ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) {
 
         return null;
     }
@@ -290,20 +289,15 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
     }
 
     @Override
-    public ErrorCode configReverseLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
-            int deviceID, int timeoutMs) {
+    public ErrorCode configForwardLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+            int timeoutMs) {
 
         return null;
     }
 
     @Override
-    public void overrideLimitSwitchesEnable(boolean enable) {
-
-    }
-
-    @Override
-    public ErrorCode configForwardLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
-            int timeoutMs) {
+    public ErrorCode configReverseLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+            int deviceID, int timeoutMs) {
 
         return null;
     }
@@ -313,6 +307,11 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
             int timeoutMs) {
 
         return null;
+    }
+
+    @Override
+    public void overrideLimitSwitchesEnable(boolean enable) {
+
     }
 
     @Override

@@ -15,7 +15,6 @@ public class HeadingAssistModuleTest extends BaseWPITest {
     
     @Override
     public void setUp() {
-        // TODO Auto-generated method stub
         super.setUp();
         
         HeadingModule hold = clf.createHeadingModule(pf.createPIDManager("Hold", 1000, 0, 0));

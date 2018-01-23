@@ -37,7 +37,7 @@ public interface CommonLibFactory {
             @Assisted("numButtons") int numButtons);
     
     public XFTCGamepad createGamepad(
-    		@Assisted("port") int port,
+            @Assisted("port") int port,
             @Assisted("numButtons") int numButtons);    
     
     public XEncoder createEncoder(
