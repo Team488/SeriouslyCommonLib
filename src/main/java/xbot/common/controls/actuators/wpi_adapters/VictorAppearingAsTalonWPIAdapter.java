@@ -48,6 +48,7 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
             internalSpeedController.set(demand);
         }
         else {
+            internalSpeedController.set(0);
             assertionManager.fail(
                     VictorAppearingAsTalonWPIAdapter.class.getSimpleName()
                     + " can only be used in PercentOutput mode;"
