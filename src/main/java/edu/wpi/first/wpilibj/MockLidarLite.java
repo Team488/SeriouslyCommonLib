@@ -12,7 +12,6 @@ public class MockLidarLite extends XLidarLite {
     @Inject
     public MockLidarLite(@Assisted("port") Port port, XPropertyManager propMan) {
         super(port, propMan);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -21,7 +20,6 @@ public class MockLidarLite extends XLidarLite {
         try {
             Thread.sleep(5);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }        
     }
