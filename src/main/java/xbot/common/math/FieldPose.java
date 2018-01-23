@@ -37,6 +37,15 @@ public class FieldPose {
 
         XYPair relativeVector = new XYPair(other.x - fieldPosition.x, other.y - fieldPosition.y);
         
+
+        // Found by taking the derivative of the distance between any point along the
+        // projected pose, denoted by a distance P along the line, and the "other" point:
+        //     d/dP(D(P)=sqrt((sin(a)*P-y)^2+(cos(a)*P-x)^2))
+        // Then finding the zero of the resultant function, denoting the position along
+        // the projected line which is closest to the target:
+        //     solve (-x cos(a) - y sin(a) + P)/sqrt(-2 P x cos(a) - 2 P y sin(a) + P^2 + x^2 + y^2) for P
+        // ...and finally using that distance formula to construct the final point:
+        //     (cos(a)*P, sin(a)*P), for P=xcos(a)+ysin(a)
         double headingCosine = Math.cos(Math.toRadians(heading.getValue()));
         double headingSine = Math.sin(Math.toRadians(heading.getValue()));
         double distanceAlongPoseLine = headingCosine * relativeVector.x + headingSine * relativeVector.y;
