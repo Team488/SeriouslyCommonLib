@@ -9,6 +9,7 @@ import com.google.inject.assistedinject.Assisted;
 import xbot.common.controls.sensors.XFTCGamepad;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.logging.RobotAssertionManager;
+import xbot.common.math.XYPair;
 
 public class MockFTCGamepad extends XFTCGamepad {
 
@@ -71,6 +72,16 @@ public class MockFTCGamepad extends XFTCGamepad {
     @Override
     protected double getY() {
         return getRawAxis(1);
+    }
+    
+    public void setLeftStick(XYPair vector) {
+        setX(getLeftStickXInversion() ? -vector.x : vector.x);
+        setY(getLeftStickYInversion() ? -vector.y : vector.y);
+    }
+    
+    public void setRightStick(XYPair vector) {
+        setRawAxis(4, getLeftStickXInversion() ? -vector.x : vector.x);
+        setRawAxis(5, getLeftStickYInversion() ? -vector.y : vector.y);
     }
 
 }

@@ -58,6 +58,12 @@ dependencies {
     compile 'com.kauailabs.navx.frc:navx_frc:+'
 }
 
+
+task jarSources(type:Jar){
+    from sourceSets.main.allSource
+    classifier = 'source'
+}
+
 checkstyle {
     toolVersion = '8.7'
     configFile = file('./xbotcheckstyle.xml')
