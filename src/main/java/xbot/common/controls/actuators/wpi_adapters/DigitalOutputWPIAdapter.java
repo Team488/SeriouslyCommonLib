@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import xbot.common.controls.actuators.XDigitalOutput;
 
 public class DigitalOutputWPIAdapter extends XDigitalOutput {

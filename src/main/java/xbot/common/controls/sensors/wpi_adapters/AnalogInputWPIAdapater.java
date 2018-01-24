@@ -13,7 +13,6 @@ public class AnalogInputWPIAdapater extends XAnalogInput {
     @Inject
     public AnalogInputWPIAdapater(@Assisted("channel") int channel) {
         input = new AnalogInput(channel);
-        LiveWindow.addSensor("Analog input", channel, this.getInternalDevice());
     }
 
     public int getValue() {

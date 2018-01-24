@@ -3,7 +3,6 @@ package xbot.common.properties;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 

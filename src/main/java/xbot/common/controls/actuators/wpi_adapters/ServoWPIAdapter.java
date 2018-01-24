@@ -6,7 +6,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class ServoWPIAdapter extends XServo{
     
