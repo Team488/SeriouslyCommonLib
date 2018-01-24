@@ -151,26 +151,26 @@ public class LatchTest {
     private void verifyEdgeType(Latch.EdgeType expected) {
         assertEquals(expected, latchTestObserver.getLastUpdateEdgeType());
     }
-}
 
-class LatchTestObserver implements Observer {
+    class LatchTestObserver implements Observer {
 
-    private Latch.EdgeType lastUpdateEdgeType = null;
-    private int numTimesUpdated = 0;
+        private Latch.EdgeType lastUpdateEdgeType = null;
+        private int numTimesUpdated = 0;
 
-    public Latch.EdgeType getLastUpdateEdgeType() {
-        return lastUpdateEdgeType;
-    }
+        public Latch.EdgeType getLastUpdateEdgeType() {
+            return lastUpdateEdgeType;
+        }
 
-    public int getNumTimesUpdated() {
-        return numTimesUpdated;
-    }
+        public int getNumTimesUpdated() {
+            return numTimesUpdated;
+        }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        assertTrue("Latch is the only class that should be observed", o instanceof Latch);
-        assertTrue("Latch must provide an argument of type EdgeType", arg instanceof Latch.EdgeType);
-        numTimesUpdated++;
-        lastUpdateEdgeType = (Latch.EdgeType) arg;
+        @Override
+        public void update(Observable o, Object arg) {
+            assertTrue("Latch is the only class that should be observed", o instanceof Latch);
+            assertTrue("Latch must provide an argument of type EdgeType", arg instanceof Latch.EdgeType);
+            numTimesUpdated++;
+            lastUpdateEdgeType = (Latch.EdgeType) arg;
+        }
     }
 }
