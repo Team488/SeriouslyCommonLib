@@ -37,16 +37,8 @@ public class MockCANTalon extends XCANTalon {
     private static Logger log = Logger.getLogger(MockCANTalon.class);
     
     public final int deviceId;
-    private ControlMode controlMode;
-    private ControlMode lastSetControlMode;
-    
-    private boolean outputInverted = false;
-    private boolean closedLoopOutputInverted = false;
-    
     private double setpoint = 0;
     private double throttlePercent = 0;
-    private double motorCurrent = 0;
-    
     MockRobotIO mockRobotIO;
     public XEncoder internalEncoder = null;
     

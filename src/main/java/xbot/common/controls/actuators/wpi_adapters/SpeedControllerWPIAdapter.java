@@ -5,7 +5,6 @@ import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import xbot.common.controls.actuators.XSpeedController;
 
 public class SpeedControllerWPIAdapter extends XSpeedController

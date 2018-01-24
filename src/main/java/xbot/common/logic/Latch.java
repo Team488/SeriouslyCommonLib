@@ -1,7 +1,6 @@
 package xbot.common.logic;
 
 import java.util.Observable;
-import java.util.Observer;
 import java.util.function.Consumer;
 
 /**

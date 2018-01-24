@@ -1,7 +1,6 @@
 package xbot.common.controls.sensors;
 
 import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.Trigger.ButtonScheduler;
 import edu.wpi.first.wpilibj.command.Command;
 import xbot.common.logic.Latch;
 import xbot.common.logic.Latch.EdgeType;

@@ -16,12 +16,11 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -125,9 +124,9 @@ public class BaseRobot extends TimedRobot {
             + "Is auto: " + ds.isAutonomous() + ", "
             + "Is teleop: " + ds.isOperatorControl() + ", "
             + "Is test: " + ds.isTest() + ", "
-            + "Is browned out: " + ds.isBrownedOut() + ", "
-            + "Is output enabled: " + ds.isSysActive() + ", "
-            + "Battery voltage: " + ds.getBatteryVoltage();
+            + "Is browned out: " + RobotController.isBrownedOut() + ", "
+            + "Is output enabled: " + RobotController.isSysActive() + ", "
+            + "Battery voltage: " + RobotController.getBatteryVoltage();
     }
 
     public void autonomousInit() {
@@ -166,14 +165,13 @@ public class BaseRobot extends TimedRobot {
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-        LiveWindow.run();
     }
     
     protected void sharedPeriodic() {
         xScheduler.run();
         this.updatePeriodicDataSources();
         
-        brownoutLatch.setValue(DriverStation.getInstance().isBrownedOut());
+        brownoutLatch.setValue(RobotController.isBrownedOut());
         
         loopCycleCounter++;
         double timeSinceLastLog = Timer.getFPGATimestamp() - lastFreqCounterResetTime;
