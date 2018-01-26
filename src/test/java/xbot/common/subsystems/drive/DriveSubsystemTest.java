@@ -86,9 +86,7 @@ public class DriveSubsystemTest extends BaseWPITest {
     }
     
     @Test
-    public void testSimpleTankDrive() {
-        drive.changeIntoTankDrive();
-        
+    public void testSimpleTankDrive() {        
         drive.drive(0, 0);
         verifyTankDrive(0, 0);
         

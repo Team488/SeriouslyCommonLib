@@ -51,10 +51,10 @@ public class MockDriveSubsystem extends BaseDriveSubsystem {
         masterTalons = new HashMap<XCANTalon, MotionRegistration>();
         
         // for simple tests, assume tank drive.
-        fl = clf.createCANTalon(0);
-        rl = clf.createCANTalon(1);
-        fr = clf.createCANTalon(2);
-        rr = clf.createCANTalon(3);        
+        fl = clf.createCANTalon(2);
+        rl = clf.createCANTalon(3);
+        fr = clf.createCANTalon(4);
+        rr = clf.createCANTalon(5);        
         
         // front left talon
         masterTalons.put(fl, new MotionRegistration(1, 1, -1));

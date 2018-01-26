@@ -26,6 +26,8 @@ import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.StringProperty;
 import xbot.common.properties.XPropertyManager;
@@ -58,7 +60,7 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     private MotorSafetyHelper _safetyHelper;
     private String _description;
     
-    public XCANTalon(int deviceId, XPropertyManager propMan) {
+    public XCANTalon(int deviceId, XPropertyManager propMan, DevicePolice police) {
         this.deviceId = deviceId;
         this.propMan = propMan;
         
@@ -70,6 +72,7 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
         setName("Talon SRX ", deviceId);
         
         _description = "Talon SRX " + deviceId;
+        police.registerDevice(DeviceType.CAN, deviceId);
     }
     
     

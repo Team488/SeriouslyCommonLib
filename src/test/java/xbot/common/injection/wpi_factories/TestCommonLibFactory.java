@@ -33,4 +33,9 @@ public class TestCommonLibFactory extends BaseWPITest {
         
         clf.createHeadingModule(pf.createPIDManager("bar", 1, 0, 0));
     }
+    
+    @Test
+    public void doubleAllocate() {
+        clf.createCANTalon(1);
+    }
 }
