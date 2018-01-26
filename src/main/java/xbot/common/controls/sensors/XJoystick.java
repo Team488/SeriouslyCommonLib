@@ -3,6 +3,8 @@ package xbot.common.controls.sensors;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.mock_adapters.MockJoystick;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
+import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 
@@ -27,14 +29,16 @@ public abstract class XJoystick
     private CommonLibFactory clf;
 
     private RobotAssertionManager assertionManager;
+    private DevicePolice police;
     
     public XJoystick(
             int port, 
             CommonLibFactory clf, 
             RobotAssertionManager assertionManager, 
-            int numButtons) {
+            int numButtons,
+            DevicePolice police) {
         this.port = port;
-        
+        this.police = police;
         this.clf = clf;
         this.assertionManager = assertionManager;
         maxButtons = numButtons;
@@ -45,6 +49,8 @@ public abstract class XJoystick
         for (int i = 1; i <= numButtons; i++) {
             this.set(i, clf.createAdvancedJoystickButton(this, i));
         }
+        
+        police.registerDevice(DeviceType.USB, port);
     }
     
     public int getPort() {
@@ -107,7 +113,7 @@ public abstract class XJoystick
     private AdvancedJoystickButton handleInvalidButton(String message) {
         assertionManager.throwException(message, new Exception());
         
-        MockJoystick mj = new MockJoystick(0, clf, assertionManager, 12);
+        MockJoystick mj = new MockJoystick(0, clf, assertionManager, 12, police);
         return new AdvancedJoystickButton(mj, 1);
     }
 

@@ -6,6 +6,8 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 
@@ -17,10 +19,11 @@ public abstract class XXboxController {
     HashMap<XboxButton, AdvancedXboxButton> allocatedButtons;
     
     @Inject
-    public XXboxController(@Assisted("port") int port, RobotAssertionManager assertionManager) {
+    public XXboxController(@Assisted("port") int port, RobotAssertionManager assertionManager, DevicePolice police) {
         this.port = port;
         this.assertionManager = assertionManager;
         allocatedButtons = new HashMap<XboxButton, AdvancedXboxButton>();
+        police.registerDevice(DeviceType.USB, port);
     }
     
     private boolean xRightInverted = false;

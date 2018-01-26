@@ -5,14 +5,15 @@ import com.google.inject.assistedinject.Assisted;
 
 import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XServo;
+import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class MockServo extends XServo {
     
     MockRobotIO mockRobotIO;
 
     @Inject
-    public MockServo(@Assisted("channel") int channel, MockRobotIO mockRobotIO) {
-        super(channel);
+    public MockServo(@Assisted("channel") int channel, MockRobotIO mockRobotIO, DevicePolice police) {
+        super(channel, police);
         this.mockRobotIO = mockRobotIO;
     }
 

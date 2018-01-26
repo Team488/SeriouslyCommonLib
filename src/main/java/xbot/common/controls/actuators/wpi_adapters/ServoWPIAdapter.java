@@ -1,6 +1,7 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
 import xbot.common.controls.actuators.XServo;
+import xbot.common.injection.wpi_factories.DevicePolice;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -12,8 +13,8 @@ public class ServoWPIAdapter extends XServo{
     Servo servo;
 
     @Inject
-    public ServoWPIAdapter(@Assisted("channel") int channel) {
-        super(channel);
+    public ServoWPIAdapter(@Assisted("channel") int channel, DevicePolice police) {
+        super(channel, police);
         this.servo = new Servo(channel);
     }
     

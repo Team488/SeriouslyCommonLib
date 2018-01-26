@@ -8,6 +8,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
+import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 
 public class MockJoystick extends XJoystick {
@@ -20,9 +21,10 @@ public class MockJoystick extends XJoystick {
             @Assisted("port") int port, 
             CommonLibFactory clf, 
             RobotAssertionManager assertionManager, 
-            @Assisted("numButtons") int numButtons) {
+            @Assisted("numButtons") int numButtons,
+            DevicePolice police) {
         
-        super(port, clf, assertionManager, numButtons);
+        super(port, clf, assertionManager, numButtons, police);
         
         for(int i = 0; i < 6; i++)
         {

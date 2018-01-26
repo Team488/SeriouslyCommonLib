@@ -2,6 +2,7 @@ package xbot.common.controls.sensors.wpi_adapters;
 
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
+import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 
 import com.google.inject.Inject;
@@ -19,8 +20,9 @@ public class JoystickWPIAdapter extends XJoystick {
             @Assisted("port") int port, 
             @Assisted("numButtons") int numButtons,
             CommonLibFactory clf,
-            RobotAssertionManager assertionManager) {
-        super(port, clf, assertionManager, numButtons);
+            RobotAssertionManager assertionManager, 
+            DevicePolice police) {
+        super(port, clf, assertionManager, numButtons, police);
         
         internalHID = new Joystick(port);
     }

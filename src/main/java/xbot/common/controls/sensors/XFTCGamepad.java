@@ -1,6 +1,7 @@
 package xbot.common.controls.sensors;
 
 import xbot.common.injection.wpi_factories.CommonLibFactory;
+import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 
@@ -11,8 +12,8 @@ public abstract class XFTCGamepad extends XJoystick {
     private boolean xRightInverted = false;
     private boolean yRightInverted = false;
 
-    public XFTCGamepad(int port, CommonLibFactory clf, RobotAssertionManager assertionManager, int numButtons) {
-        super(port, clf, assertionManager, numButtons);
+    public XFTCGamepad(int port, CommonLibFactory clf, RobotAssertionManager assertionManager, int numButtons, DevicePolice police) {
+        super(port, clf, assertionManager, numButtons, police);
     }
 
     public XYPair getRightVector() {

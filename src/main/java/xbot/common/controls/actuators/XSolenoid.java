@@ -1,14 +1,17 @@
 package xbot.common.controls.actuators;
 
 import xbot.common.controls.XBaseIO;
+import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 
 public abstract class XSolenoid implements XBaseIO {
     
     protected boolean isInverted = false;
     protected final int channel;
     
-    public XSolenoid(int channel) {
+    public XSolenoid(int channel, DevicePolice police) {
         this.channel = channel;
+        police.registerDevice(DeviceType.Solenoid, channel);
     }
     
     public void setOn(boolean on) {

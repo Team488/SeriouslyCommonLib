@@ -1,5 +1,7 @@
 package xbot.common.controls.sensors;
 
+import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
@@ -13,8 +15,11 @@ public abstract class XEncoder {
             int aChannel, 
             int bChannel, 
             double defaultDistancePerPulse, 
-            XPropertyManager propMan) {
+            XPropertyManager propMan,
+            DevicePolice police) {
         distancePerPulse = propMan.createPersistentProperty(name + "-DistancePerPulse", defaultDistancePerPulse);
+        police.registerDevice(DeviceType.DigitalIO, aChannel);
+        police.registerDevice(DeviceType.DigitalIO, bChannel);
     }
     
     public XEncoder(XPropertyManager propMan) {

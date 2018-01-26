@@ -6,6 +6,7 @@ import com.google.inject.assistedinject.Assisted;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import xbot.common.controls.sensors.XLidarLite;
+import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.XPropertyManager;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -14,8 +15,8 @@ public class LidarLiteWpiAdapter extends XLidarLite{
     private I2C i2c;
     
     @Inject
-    public LidarLiteWpiAdapter(@Assisted("port") Port port, XPropertyManager propMan) {
-        super(port, propMan);
+    public LidarLiteWpiAdapter(@Assisted("port") Port port, XPropertyManager propMan, DevicePolice police) {
+        super(port, propMan, police);
 
       i2c = new I2C(port, lidar_address);
     }

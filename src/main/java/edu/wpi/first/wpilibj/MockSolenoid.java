@@ -5,14 +5,15 @@ import com.google.inject.assistedinject.Assisted;
 
 import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XSolenoid;
+import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class MockSolenoid extends XSolenoid {
     MockRobotIO mockRobotIO;
     final int channel;
 
     @Inject
-    public MockSolenoid(@Assisted("channel") int channel, MockRobotIO mockRobotIO) {
-        super(channel);
+    public MockSolenoid(@Assisted("channel") int channel, MockRobotIO mockRobotIO, DevicePolice police) {
+        super(channel, police);
         this.mockRobotIO = mockRobotIO;
         this.channel = channel;
     }

@@ -5,6 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.sensors.XAnalogInput;
+import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class MockAnalogInput extends XAnalogInput {
     MockRobotIO mockRobotIO;
@@ -13,7 +14,9 @@ public class MockAnalogInput extends XAnalogInput {
     @Inject
     public MockAnalogInput(
             @Assisted("channel") int channel, 
-            MockRobotIO mockRobotIO) {
+            MockRobotIO mockRobotIO,
+            DevicePolice police) {
+        super(channel, police);
         this.mockRobotIO = mockRobotIO;
         this.channel = channel;
     }

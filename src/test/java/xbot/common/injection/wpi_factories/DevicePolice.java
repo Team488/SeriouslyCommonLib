@@ -16,10 +16,13 @@ public class DevicePolice {
     
     public enum DeviceType {
         CAN,
+        PWM,
+        Solenoid,
         DigitalIO,
         Analog,
         SPI,
-        I2C
+        I2C,
+        USB
     }
     
     @Inject
