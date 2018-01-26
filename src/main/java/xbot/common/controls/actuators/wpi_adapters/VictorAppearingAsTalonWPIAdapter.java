@@ -36,7 +36,11 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
     int deviceId;
 
     @Inject
-    public VictorAppearingAsTalonWPIAdapter(@Assisted("deviceId") int deviceId, RobotAssertionManager assertionManager, XPropertyManager propMan, DevicePolice police) {
+    public VictorAppearingAsTalonWPIAdapter(
+            @Assisted("deviceId") int deviceId,
+            RobotAssertionManager assertionManager,
+            XPropertyManager propMan, 
+            DevicePolice police) {
         super(deviceId, propMan, police);
         internalSpeedController = new Victor(deviceId);
         this.deviceId = deviceId;
