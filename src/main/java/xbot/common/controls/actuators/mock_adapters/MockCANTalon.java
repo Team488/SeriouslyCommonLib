@@ -29,6 +29,7 @@ import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
+import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.math.MathUtils;
 import xbot.common.properties.XPropertyManager;
 
@@ -48,8 +49,8 @@ public class MockCANTalon extends XCANTalon {
     double kf;
     
     @Inject
-    public MockCANTalon(@Assisted("deviceId") int deviceId, MockRobotIO mockRobotIO, XPropertyManager propMan) {
-        super(deviceId, propMan);
+    public MockCANTalon(@Assisted("deviceId") int deviceId, MockRobotIO mockRobotIO, XPropertyManager propMan, DevicePolice police) {
+        super(deviceId, propMan, police);
         log.info("Creating CAN talon with device ID: " + deviceId);
         
         this.deviceId = deviceId;

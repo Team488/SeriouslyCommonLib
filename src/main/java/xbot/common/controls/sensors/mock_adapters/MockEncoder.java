@@ -4,6 +4,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import xbot.common.controls.sensors.XEncoder;
+import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.XPropertyManager;
 
 public class MockEncoder extends XEncoder {
@@ -17,8 +18,9 @@ public class MockEncoder extends XEncoder {
             @Assisted("aChannel") int aChannel, 
             @Assisted("bChannel") int bChannel, 
             @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse, 
-            XPropertyManager propMan) {
-        super(name, aChannel, bChannel, defaultDistancePerPulse, propMan);
+            XPropertyManager propMan, 
+            DevicePolice police) {
+        super(name, aChannel, bChannel, defaultDistancePerPulse, propMan, police);
     }
     
     @AssistedInject

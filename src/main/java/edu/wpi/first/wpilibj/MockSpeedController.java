@@ -7,6 +7,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XSpeedController;
+import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class MockSpeedController extends XSpeedController {
     
@@ -15,8 +16,8 @@ public class MockSpeedController extends XSpeedController {
     private static Logger log = Logger.getLogger(MockSpeedController.class);
 
     @Inject
-    public MockSpeedController(@Assisted("channel") int channel, MockRobotIO mockRobotIO) {
-        super(channel);
+    public MockSpeedController(@Assisted("channel") int channel, MockRobotIO mockRobotIO, DevicePolice police) {
+        super(channel, police);
         log.info("Creating speed controller on channel:" + channel);
         this.mockRobotIO = mockRobotIO;
     }

@@ -6,12 +6,14 @@ import com.google.inject.assistedinject.Assisted;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import xbot.common.controls.sensors.XAnalogInput;
+import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class AnalogInputWPIAdapater extends XAnalogInput {
     AnalogInput input;
 
     @Inject
-    public AnalogInputWPIAdapater(@Assisted("channel") int channel) {
+    public AnalogInputWPIAdapater(@Assisted("channel") int channel, DevicePolice police) {
+        super(channel, police);
         input = new AnalogInput(channel);
     }
 

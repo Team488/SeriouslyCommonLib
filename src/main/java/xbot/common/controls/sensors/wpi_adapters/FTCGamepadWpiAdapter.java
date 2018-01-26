@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import xbot.common.controls.sensors.XFTCGamepad;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
+import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 
 public class FTCGamepadWpiAdapter extends XFTCGamepad {
@@ -18,8 +19,9 @@ public class FTCGamepadWpiAdapter extends XFTCGamepad {
             @Assisted("port") int port, 
             @Assisted("numButtons") int numButtons,
             CommonLibFactory clf,
-            RobotAssertionManager assertionManager) {
-        super(port, clf, assertionManager, numButtons);
+            RobotAssertionManager assertionManager, 
+            DevicePolice police) {
+        super(port, clf, assertionManager, numButtons, police);
 
         internalHID = new Joystick(port);
     }

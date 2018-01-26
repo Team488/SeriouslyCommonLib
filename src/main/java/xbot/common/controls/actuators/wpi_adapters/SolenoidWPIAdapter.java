@@ -5,14 +5,15 @@ import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import xbot.common.controls.actuators.XSolenoid;
+import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class SolenoidWPIAdapter extends XSolenoid {
 
     Solenoid solenoid;
 
     @Inject
-    public SolenoidWPIAdapter(@Assisted("channel") int channel) {
-        super(channel);
+    public SolenoidWPIAdapter(@Assisted("channel") int channel, DevicePolice police) {
+        super(channel, police);
         this.solenoid = new Solenoid(channel);
     }
 

@@ -26,6 +26,7 @@ import com.google.inject.assistedinject.Assisted;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.XPropertyManager;
 
@@ -35,8 +36,12 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
     int deviceId;
 
     @Inject
-    public VictorAppearingAsTalonWPIAdapter(@Assisted("deviceId") int deviceId, RobotAssertionManager assertionManager, XPropertyManager propMan) {
-        super(deviceId, propMan);
+    public VictorAppearingAsTalonWPIAdapter(
+            @Assisted("deviceId") int deviceId,
+            RobotAssertionManager assertionManager,
+            XPropertyManager propMan, 
+            DevicePolice police) {
+        super(deviceId, propMan, police);
         internalSpeedController = new Victor(deviceId);
         this.deviceId = deviceId;
         this.assertionManager = assertionManager; 

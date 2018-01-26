@@ -5,6 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import xbot.common.controls.sensors.XXboxController;
+import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -13,8 +14,8 @@ public class XboxControllerWpiAdapter extends XXboxController {
     protected XboxController controller;
 
     @Inject
-    public XboxControllerWpiAdapter(@Assisted("port") int port, RobotAssertionManager manager) {
-        super(port, manager);
+    public XboxControllerWpiAdapter(@Assisted("port") int port, RobotAssertionManager manager, DevicePolice police) {
+        super(port, manager, police);
         controller = new XboxController(port);
     }
 

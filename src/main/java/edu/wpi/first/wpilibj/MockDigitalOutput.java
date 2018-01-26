@@ -5,6 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XDigitalOutput;
+import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class MockDigitalOutput extends XDigitalOutput {
     protected int channel;
@@ -12,8 +13,8 @@ public class MockDigitalOutput extends XDigitalOutput {
     protected MockRobotIO mockRobotIO;
 
     @Inject
-    public MockDigitalOutput(@Assisted("channel") int channel, MockRobotIO mockRobotIO) {
-        super(channel);
+    public MockDigitalOutput(@Assisted("channel") int channel, MockRobotIO mockRobotIO, DevicePolice police) {
+        super(channel, police);
         this.mockRobotIO = mockRobotIO;
     }
 
