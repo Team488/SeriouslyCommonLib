@@ -7,6 +7,7 @@ import org.junit.Test;
 import edu.wpi.first.wpilibj.I2C;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.BaseWPITest;
+import xbot.common.logging.RobotAssertionException;
 import xbot.common.math.PIDFactory;
 
 public class TestCommonLibFactory extends BaseWPITest {
@@ -36,15 +37,10 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createHeadingModule(pf.createPIDManager("bar", 1, 0, 0));
     }
     
-    @Test
+    @Test(expected = RobotAssertionException.class)
     public void doubleAllocate() {
+        clf.createCANTalon(1);    
         clf.createCANTalon(1);
-        
-        try {
-            clf.createCANTalon(1);
-            assertTrue("You shouldn't be able to double-allocate!", false);
-        } catch (Exception e) {
-            
-        }
+        assertTrue("You shouldn't be able to double-allocate!", false);
     }
 }
