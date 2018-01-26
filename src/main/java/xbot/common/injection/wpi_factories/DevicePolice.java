@@ -1,6 +1,6 @@
 package xbot.common.injection.wpi_factories;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.inject.Inject;
@@ -28,7 +28,7 @@ public class DevicePolice {
     @Inject
     public DevicePolice(RobotAssertionManager assertionManager) {
         this.assertionManager = assertionManager;
-        registeredDevices = new ArrayList<String>();
+        registeredDevices = new LinkedList<String>();
     }
     
     public void registerDevice(DeviceType type, int id) {
