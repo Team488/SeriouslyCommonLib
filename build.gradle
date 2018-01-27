@@ -71,7 +71,7 @@ checkstyle {
 
 task checkstyle(type: Checkstyle) {
     source 'src/main/java'
-    configProperties.rootDir = file('.')
+    configProperties.basedir = file('.')
     
     // Empty classpath
     classpath = files()

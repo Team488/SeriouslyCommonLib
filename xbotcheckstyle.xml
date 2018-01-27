@@ -12,7 +12,7 @@
   <property name="charset" value="UTF-8"/>
   <module name="FileTabCharacter"/>
   <module name="SuppressionFilter">
-    <property name="file" value="${rootDir}/checkstyle_suppressions.xml" />
+    <property name="file" value="${basedir}/../SeriouslyCommonLib/checkstyle_suppressions.xml" />
   </module>
   <module name="TreeWalker">
     <module name="SuppressionCommentFilter"/>

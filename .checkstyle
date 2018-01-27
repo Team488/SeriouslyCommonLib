@@ -7,7 +7,4 @@
   <fileset name="all" enabled="true" check-config-name="XbotCheckStyleConfig" local="true">
     <file-match-pattern match-pattern="." include-pattern="true"/>
   </fileset>
-  <filter name="FilesFromPackage" enabled="true">
-    <filter-data value="src/xbot/nav6"/>
-  </filter>
 </fileset-config>
