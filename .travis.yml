@@ -16,4 +16,4 @@ before_script:
 - export LD_LIBRARY_PATH=${PWD}
 - cd ../../../
 
-script: './gradlew build checkstyle'
+script: './gradlew build checkstyle --console=plain'
