@@ -29,7 +29,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.StringProperty;
 import xbot.common.properties.XPropertyManager;
 
 
@@ -50,7 +49,6 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     protected int deviceId;
     protected XPropertyManager propMan;
     
-    private StringProperty controlModeProperty = null;
     private DoubleProperty currentProperty = null;
     private DoubleProperty outVoltageProperty = null;
     private DoubleProperty temperatureProperty = null;
@@ -86,10 +84,11 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     }
     
     public void updateTelemetryProperties() {
-        if(controlModeProperty == null
-                || currentProperty == null
+        if(currentProperty == null
                 || outVoltageProperty == null
-                || temperatureProperty == null) {
+                || temperatureProperty == null
+                || positionProperty == null
+                || velocityProperty == null) {
             return;
         }
         
