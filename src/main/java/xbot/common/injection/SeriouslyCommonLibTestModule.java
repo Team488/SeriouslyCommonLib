@@ -1,0 +1,17 @@
+package xbot.common.injection;
+
+import xbot.common.subsystems.drive.BaseDriveSubsystem;
+import xbot.common.subsystems.drive.MockDriveSubsystem;
+import xbot.common.subsystems.pose.BasePoseSubsystem;
+import xbot.common.subsystems.pose.TestPoseSubsystem;
+
+public class SeriouslyCommonLibTestModule extends UnitTestModule {
+
+    @Override
+    protected void configure() {
+        super.configure();
+        
+        this.bind(BasePoseSubsystem.class).to(TestPoseSubsystem.class);
+        this.bind(BaseDriveSubsystem.class).to(MockDriveSubsystem.class);
+    }
+}

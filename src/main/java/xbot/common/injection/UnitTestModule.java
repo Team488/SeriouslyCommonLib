@@ -62,18 +62,10 @@ public class UnitTestModule extends AbstractModule {
     @Override
     protected void configure() {
         this.bind(Timer.StaticInterface.class).to(MockTimer.class);
-
         this.bind(ITableProxy.class).to(TableProxy.class).in(Singleton.class);
-
         this.bind(PermanentStorage.class).to(MockPermamentStorage.class).in(Singleton.class);
-
         this.bind(SmartDashboardCommandPutter.class).to(MockSmartDashboardCommandPutter.class);
-
         this.bind(RobotAssertionManager.class).to(LoudRobotAssertionManager.class);
-        
-        this.bind(BasePoseSubsystem.class).to(TestPoseSubsystem.class);
-        
-        this.bind(BaseDriveSubsystem.class).to(MockDriveSubsystem.class);
         
         this.install(new FactoryModuleBuilder().build(PIDFactory.class));
         

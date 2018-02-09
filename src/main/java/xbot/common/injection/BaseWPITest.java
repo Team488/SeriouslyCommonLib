@@ -29,7 +29,7 @@ public class BaseWPITest {
 
     public XPropertyManager propertyManager;
     
-    protected AbstractModule guiceModule = new UnitTestModule();
+    protected AbstractModule guiceModule = new SeriouslyCommonLibTestModule();
     
     protected CommonLibFactory clf;
     protected PIDFactory pf;
