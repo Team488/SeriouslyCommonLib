@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import xbot.common.controls.sensors.XDigitalInput;
+import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class MockDigitalInput extends XDigitalInput {
 
@@ -11,7 +12,8 @@ public class MockDigitalInput extends XDigitalInput {
     final int channel;
 
     @Inject
-    public MockDigitalInput(@Assisted("channel") int channel) {
+    public MockDigitalInput(@Assisted("channel") int channel, DevicePolice police) {
+        super(police, channel);
         this.channel = channel;
     }
 

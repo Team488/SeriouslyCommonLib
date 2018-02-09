@@ -20,7 +20,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createPowerDistributionPanel();
         XJoystick j = clf.createJoystick(1, 12);
         clf.createEncoder("foo", 1, 2, 1);
-        clf.createDigitalInput(1);
+        clf.createDigitalInput(5);
         clf.createAnalogInput(1);
         clf.createXboxController(2);
         clf.createSolenoid(1);
