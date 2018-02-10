@@ -5,6 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import xbot.common.controls.sensors.XDigitalInput;
+import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class DigitalInputWPIAdapter extends XDigitalInput {
 
@@ -17,7 +18,8 @@ public class DigitalInputWPIAdapter extends XDigitalInput {
      *            the DIO channel for the digital input 0-9 are on-board, 10-25 are on the MXP
      */
     @Inject
-    public DigitalInputWPIAdapter(@Assisted("channel") int channel) {
+    public DigitalInputWPIAdapter(@Assisted("channel") int channel, DevicePolice police) {
+        super(police, channel);
         adapter = new DigitalInput(channel);
     }
 

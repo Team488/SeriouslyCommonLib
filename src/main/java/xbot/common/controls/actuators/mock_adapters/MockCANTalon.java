@@ -266,7 +266,7 @@ public class MockCANTalon extends XCANTalon {
 
     @Override
     public ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) {
-        if(feedbackDevice == FeedbackDevice.QuadEncoder) {
+        if(feedbackDevice == FeedbackDevice.QuadEncoder || feedbackDevice == FeedbackDevice.CTRE_MagEncoder_Relative) {
             this.internalEncoder = new MockEncoder(propMan);
         }
         
