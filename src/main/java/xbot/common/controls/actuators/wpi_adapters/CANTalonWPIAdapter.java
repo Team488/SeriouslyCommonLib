@@ -279,6 +279,14 @@ public class CANTalonWPIAdapter extends XCANTalon {
     public void overrideSoftLimitsEnable(boolean enable) {
         internalTalon.overrideSoftLimitsEnable(enable);
     }
+    
+    public boolean isFwdLimitSwitchClosed() {
+        return internalTalon.getSensorCollection().isFwdLimitSwitchClosed();
+    }
+    
+    public boolean isRevLimitSwitchClosed() {
+        return internalTalon.getSensorCollection().isRevLimitSwitchClosed();
+    }
 
     public ErrorCode config_kP(int slotIdx, double value, int timeoutMs) {
         return internalTalon.config_kP(slotIdx, value, timeoutMs);
