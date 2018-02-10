@@ -42,6 +42,7 @@ public class MockCANTalon extends XCANTalon {
     private double throttlePercent = 0;
     MockRobotIO mockRobotIO;
     public XEncoder internalEncoder = null;
+    double current = 0;
     
     private boolean forwardLimitSwitch;
     private boolean reverseLimitSwitch;
@@ -234,7 +235,11 @@ public class MockCANTalon extends XCANTalon {
     @Override
     public double getOutputCurrent() {
         // TODO Auto-generated method stub
-        return 0;
+        return current;
+    }
+    
+    public void setOutputCurrent(double current) {
+        this.current = current;
     }
 
     @Override
