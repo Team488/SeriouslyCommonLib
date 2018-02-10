@@ -17,11 +17,17 @@ public class MockDigitalInput extends XDigitalInput {
         this.channel = channel;
     }
 
-    public void set_value(boolean value) {
-        this.value = value;
+    public void setValue(boolean value) {
+        this.value = value ^ getInverted();
+    }
+    
+    @Override
+    public void setInverted(boolean inverted) {
+        super.setInverted(inverted);
+        value = !value;
     }
 
-    public boolean get() {
+    public boolean getRaw() {
         return value;
     }
 

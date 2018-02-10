@@ -8,10 +8,24 @@ import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 
 public abstract class XDigitalInput implements XBaseIO {
 
+    boolean inverted;
+    
     @Inject
     public XDigitalInput(DevicePolice police, int channel) {
         police.registerDevice(DeviceType.DigitalIO, channel);
     }
     
-    public abstract boolean get();
+    public boolean get() {
+        return getRaw() ^ inverted;
+    }
+    
+    public void setInverted(boolean inverted) {
+        this.inverted = inverted;
+    }
+    
+    public boolean getInverted() {
+        return inverted;
+    }
+    
+    protected abstract boolean getRaw();
 }

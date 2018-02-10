@@ -28,7 +28,7 @@ public class DigitalInputWPIAdapter extends XDigitalInput {
      *
      * @return the status of the digital input
      */
-    public boolean get() {
+    protected boolean getRaw() {
         return adapter.get();
     }
 
