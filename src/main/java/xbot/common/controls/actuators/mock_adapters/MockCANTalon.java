@@ -44,6 +44,9 @@ public class MockCANTalon extends XCANTalon {
     public XEncoder internalEncoder = null;
     double current = 0;
     
+    private boolean forwardLimitSwitch;
+    private boolean reverseLimitSwitch;
+    
     double kp;
     double ki;
     double kd;
@@ -395,6 +398,22 @@ public class MockCANTalon extends XCANTalon {
     public void overrideSoftLimitsEnable(boolean enable) {
         // TODO Auto-generated method stub
         
+    }
+    
+    public boolean isFwdLimitSwitchClosed() {
+        return forwardLimitSwitch;
+    }
+    
+    public void setForwardLimitSwitch(boolean value) {
+       forwardLimitSwitch = value;
+    }
+    
+    public boolean isRevLimitSwitchClosed() {
+        return reverseLimitSwitch;
+    }
+    
+    public void setReverseLimitSwitch(boolean value) {
+        reverseLimitSwitch = value;
     }
 
     @Override
