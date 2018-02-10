@@ -205,7 +205,9 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     // ------ local limit switch ----------//
     public abstract ErrorCode configForwardLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int timeoutMs );
     public abstract ErrorCode configReverseLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int timeoutMs );
-
+    
+    public abstract boolean isFwdLimitSwitchClosed();
+    public abstract boolean isRevLimitSwitchClosed();
 
     // ------ soft limit ----------//
     public abstract ErrorCode configForwardSoftLimitThreshold(int forwardSensorLimit, int timeoutMs);

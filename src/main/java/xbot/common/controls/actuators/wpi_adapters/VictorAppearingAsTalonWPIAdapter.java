@@ -594,4 +594,16 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
 
     }
 
+    // This will never work - victors do not have this capability.
+    @Override
+    public boolean isFwdLimitSwitchClosed() {
+        return false;
+    }
+
+    // This will never work - victors do not have this capability.
+    @Override
+    public boolean isRevLimitSwitchClosed() {
+        return false;
+    }
+
 }
