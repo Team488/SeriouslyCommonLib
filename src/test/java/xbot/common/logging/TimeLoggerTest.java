@@ -34,4 +34,19 @@ public class TimeLoggerTest extends BaseWPITest {
         timer.advanceTimeInSecondsBy(0.75);
         tl.stop();
     }
+    
+    @Test
+    public void testOutOfOrder() {
+        tl.stop();
+        tl.stop();
+        tl.stop();
+        
+        tl.start();
+        tl.start();
+        tl.start();
+        
+        tl.stop();
+        tl.stop();
+        tl.stop();
+    }
 }
