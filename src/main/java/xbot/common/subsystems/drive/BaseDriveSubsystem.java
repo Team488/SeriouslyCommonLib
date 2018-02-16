@@ -9,10 +9,17 @@ import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.logging.LoggingLatch;
 import xbot.common.logic.Latch.EdgeType;
+import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
+import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
+import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
 public abstract class BaseDriveSubsystem extends BaseSubsystem implements PeriodicDataSource {
     
+    public abstract PIDManager getPositionalPid();
+    public abstract PIDManager getRotateToHeadingPid();
+    public abstract PIDManager getRotateDecayPid();
+        
     private final LoggingLatch baseDriveSubsystemLoggingLatch = 
             new LoggingLatch(this.getName(), "XCanTalon(s) in DriveSubsystem is null", EdgeType.RisingEdge);
     

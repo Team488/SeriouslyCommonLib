@@ -62,7 +62,7 @@ public class FieldPoseTest {
         assertEquals(10, rabbitLocation.getPoint().x, 0.001);
         assertEquals(5, rabbitLocation.getPoint().y, 0.001);
         
-        double angle = goal.getAngleToRabbit(robotPose, 5);
+        double angle = goal.getDeltaAngleToRabbit(robotPose, 5);
         assertEquals(-63, angle, 1);
     }
     
@@ -76,7 +76,7 @@ public class FieldPoseTest {
         assertEquals(10, rabbitLocation.getPoint().x, 0.001);
         assertEquals(5, rabbitLocation.getPoint().y, 0.001);
         
-        double angle = goal.getAngleToRabbit(robotPose, 5);
+        double angle = goal.getDeltaAngleToRabbit(robotPose, 5);
         assertEquals(0, angle, 1);
     }
     
@@ -90,7 +90,7 @@ public class FieldPoseTest {
         assertEquals(10, rabbitLocation.getPoint().x, 0.001);
         assertEquals(5, rabbitLocation.getPoint().y, 0.001);
         
-        double angle = goal.getAngleToRabbit(robotPose, 5);
+        double angle = goal.getDeltaAngleToRabbit(robotPose, 5);
         assertEquals(0, angle, 1);
     }
     
@@ -104,7 +104,7 @@ public class FieldPoseTest {
         assertEquals(10, rabbitLocation.getPoint().x, 0.001);
         assertEquals(5, rabbitLocation.getPoint().y, 0.001);
         
-        double angle = goal.getAngleToRabbit(robotPose, 5);
+        double angle = goal.getDeltaAngleToRabbit(robotPose, 5);
         assertEquals(-90, angle, 1);
     }
 }

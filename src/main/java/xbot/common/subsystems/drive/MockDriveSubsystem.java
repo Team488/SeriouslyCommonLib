@@ -8,6 +8,9 @@ import com.google.inject.Singleton;
 
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
+import xbot.common.math.PIDManager;
+import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
+import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
 @Singleton
 public class MockDriveSubsystem extends BaseDriveSubsystem {
@@ -84,5 +87,20 @@ public class MockDriveSubsystem extends BaseDriveSubsystem {
     @Override
     public double getTransverseDistance() {
         return transverseTotalDistance;
+    }
+
+    @Override
+    public PIDManager getPositionalPid() {
+        return null;
+    }
+
+    @Override
+    public PIDManager getRotateToHeadingPid() {
+        return null;
+    }
+
+    @Override
+    public PIDManager getRotateDecayPid() {
+        return null;
     }
 }

@@ -1,11 +1,7 @@
 package xbot.common.math;
 
-import static org.junit.Assert.*;
-
 import java.util.Timer;
 import java.util.TimerTask;
-
-import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
 
@@ -89,7 +85,7 @@ public class PurePursuitTest extends BaseWPITest {
                         pastOne = true;
                     }
                     
-                    double angleToRabbit = target.getAngleToRabbit(robot, 5);
+                    double angleToRabbit = target.getDeltaAngleToRabbit(robot, 5);
                     double turnFactorA = angleToRabbit / 180 * 15;
                                         
                     engine.step(0.1, turnFactorA);

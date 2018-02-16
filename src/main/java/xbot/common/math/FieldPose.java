@@ -69,24 +69,13 @@ public class FieldPose {
         return new FieldPose(rabbitLocation, getHeading());
     }
     
-    public double getAngleToRabbit(FieldPose other, double lookaheadDistance) {
-        FieldPose rabbitPose = getRabbitPose(other.getPoint(), lookaheadDistance);
-        XYPair rabbitVector = rabbitPose.getPoint().add(other.getPoint().clone().scale(-1));
-        double theta = other.getHeading().difference(rabbitVector.getAngle());
-        
-        return theta;    
+    public double getDeltaAngleToRabbit(FieldPose other, double lookaheadDistance) {
+        return other.getHeading().difference(getVectorToRabbit(other, lookaheadDistance).getAngle());    
     }
     
-    public double getRadiusOfCurvatureToRabbit(FieldPose other, double lookaheadDistance) {
+    public XYPair getVectorToRabbit(FieldPose other, double lookaheadDistance) {
         FieldPose rabbitPose = getRabbitPose(other.getPoint(), lookaheadDistance);
-        XYPair rabbitVector = rabbitPose.getPoint().add(other.getPoint().clone().scale(-1));
-        double theta = other.getHeading().difference(rabbitVector.getAngle());
-        
-        if (Math.abs(theta) < 0.1) {
-            return 0;
-        }
-        
-        return (rabbitVector.getMagnitude() / (2 * Math.sin(Math.toRadians(theta))));
+        return rabbitPose.getPoint().add(other.getPoint().clone().scale(-1));
     }
     
     public double getDistanceToLineFromPoint(XYPair currentPoint) {
