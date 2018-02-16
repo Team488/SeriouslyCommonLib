@@ -46,6 +46,17 @@ public class XYPair {
         this.y *= yMagnitude;
         return this;
     }
+    
+    public XYPair addMagnitude(double magnitudeToAdd) {
+        double currentMagnitude = this.getMagnitude();
+        
+        if (currentMagnitude == 0) {
+            return new XYPair(0, magnitudeToAdd);
+        }
+        
+        double totalMagnitude = currentMagnitude + magnitudeToAdd;
+        return this.clone().scale(totalMagnitude/ currentMagnitude);
+    }
 
     /**
      * Rotates the current coordinates by a given angle.
