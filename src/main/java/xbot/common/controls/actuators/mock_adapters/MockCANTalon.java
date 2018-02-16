@@ -66,6 +66,10 @@ public class MockCANTalon extends XCANTalon {
     public void set(ControlMode Mode, double demand) {
         set(Mode, demand, 0);
     }
+    
+    public double getSetpoint() {
+        return setpoint;
+    }
 
     @Override
     public void set(ControlMode Mode, double demand0, double demand1) {
