@@ -1,15 +1,12 @@
 package xbot.common.command;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
-
-import xbot.common.injection.RobotModule;
-import xbot.common.logic.Latch;
-import xbot.common.logic.Latch.EdgeType;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.XPropertyManager;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -22,6 +19,12 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import xbot.common.injection.RobotModule;
+import xbot.common.logging.TimeLogger;
+import xbot.common.logic.Latch;
+import xbot.common.logic.Latch.EdgeType;
+import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.XPropertyManager;
 
 /**
  * Core Robot class which configures logging, properties,
@@ -47,11 +50,13 @@ public class BaseRobot extends TimedRobot {
     protected double lastFreqCounterResetTime = -1;
     protected int loopCycleCounter = 0;
     
-    protected ArrayList<PeriodicDataSource> periodicDataSources = new ArrayList<PeriodicDataSource>();
+    protected Map<PeriodicDataSource, TimeLogger> sourceAndTimers;
+    TimeLogger schedulerMonitor;
 
     public BaseRobot() {
         super();
         setupInjectionModule();
+        sourceAndTimers = new HashMap<PeriodicDataSource, TimeLogger>();
         
         brownoutLatch.addObserver((Observable o, Object arg) -> {
             if(arg instanceof EdgeType) {
@@ -64,6 +69,7 @@ public class BaseRobot extends TimedRobot {
                 }
             }
         });
+        
     }
     
     /**
@@ -93,6 +99,7 @@ public class BaseRobot extends TimedRobot {
         SmartDashboard.putData(Scheduler.getInstance());
         
         frequencyReportInterval = injector.getInstance(XPropertyManager.class).createPersistentProperty("Robot loop frequency report interval", 20);
+        schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get());
     }
 
     protected void initializeSystems() {
@@ -168,7 +175,10 @@ public class BaseRobot extends TimedRobot {
     }
     
     protected void sharedPeriodic() {
+        schedulerMonitor.start();
         xScheduler.run();
+        schedulerMonitor.stop();
+        
         this.updatePeriodicDataSources();
         
         brownoutLatch.setValue(RobotController.isBrownedOut());
@@ -189,12 +199,16 @@ public class BaseRobot extends TimedRobot {
     }
     
     protected void registerPeriodicDataSource(PeriodicDataSource telemetrySource) {
-        this.periodicDataSources.add(telemetrySource);
+        sourceAndTimers.put(
+                telemetrySource, new TimeLogger(telemetrySource.getName(), (int)frequencyReportInterval.get()));
     }
     
     protected void updatePeriodicDataSources() {
-        for (PeriodicDataSource periodicDataSource: this.periodicDataSources) {
+        for (PeriodicDataSource periodicDataSource: this.sourceAndTimers.keySet()) {
+            TimeLogger monitor = sourceAndTimers.get(periodicDataSource);
+            monitor.start();
             periodicDataSource.updatePeriodicData();
+            monitor.stop();
         }
     }
 }

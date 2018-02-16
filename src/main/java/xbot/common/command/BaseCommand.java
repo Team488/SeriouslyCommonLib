@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import com.google.inject.Inject;
 
 import edu.wpi.first.wpilibj.command.Command;
+import xbot.common.logging.TimeLogger;
 
 /**
  * Enhanced version of WPILib's Command that allows for extension
@@ -12,12 +13,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public abstract class BaseCommand extends Command {
 
     protected Logger log;
+    protected TimeLogger monitor;
     
     @Inject
     SmartDashboardCommandPutter commandPutter;
 
     public BaseCommand() {
         log = Logger.getLogger(this.getName());
+        monitor = new TimeLogger(this.getName(), 20);
     }
 
     public BaseCommand(String name) {
