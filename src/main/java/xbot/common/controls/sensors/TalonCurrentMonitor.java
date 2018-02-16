@@ -1,6 +1,8 @@
 package xbot.common.controls.sensors;
 
 import java.util.ArrayDeque;
+
+
 import xbot.common.controls.actuators.XCANTalon;
 
 public class TalonCurrentMonitor {
@@ -8,6 +10,7 @@ public class TalonCurrentMonitor {
     XCANTalon talon;
     final int current_averaging_window=25;
     ArrayDeque<Double> currentHistory;
+
 
     public TalonCurrentMonitor(XCANTalon talon) {
         this.talon = talon;
@@ -28,7 +31,7 @@ public class TalonCurrentMonitor {
         }
         return sum / currentHistory.size();
     }
-
+    
     public double calculatePeakCurrent() {
         double peakCurrent = 0;
         currentHistory.addFirst(talon.getOutputCurrent());
