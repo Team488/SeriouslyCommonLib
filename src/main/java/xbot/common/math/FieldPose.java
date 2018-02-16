@@ -46,13 +46,35 @@ public class FieldPose {
         //     solve (-x cos(a) - y sin(a) + P)/sqrt(-2 P x cos(a) - 2 P y sin(a) + P^2 + x^2 + y^2) for P
         // ...and finally using that distance formula to construct the final point:
         //     (cos(a)*P, sin(a)*P), for P=xcos(a)+ysin(a)
-        double headingCosine = Math.cos(Math.toRadians(heading.getValue()));
-        double headingSine = Math.sin(Math.toRadians(heading.getValue()));
+        double headingCosine = getHeadingCosine();
+        double headingSine = getHeadingSine();
         double distanceAlongPoseLine = headingCosine * relativeVector.x + headingSine * relativeVector.y;
         
         return new XYPair(
                 fieldPosition.x + headingCosine * distanceAlongPoseLine,
                 fieldPosition.y + headingSine * distanceAlongPoseLine);
+    }
+    
+    private double getHeadingCosine() {
+        return  Math.cos(Math.toRadians(heading.getValue()));
+    }
+    
+    private double getHeadingSine() {
+        return Math.sin(Math.toRadians(heading.getValue()));
+    }
+    
+    public FieldPose getRabbitPose(XYPair other, double lookaheadDistance) {
+        XYPair closestPoint = getPointAlongPoseClosestToPoint(other);
+        XYPair rabbitLocation = closestPoint.add(new XYPair(lookaheadDistance * getHeadingCosine(), lookaheadDistance * getHeadingSine()));
+        return new FieldPose(rabbitLocation, getHeading());
+    }
+    
+    public double getAngleToRabbit(FieldPose other, double lookaheadDistance) {
+        FieldPose rabbitPose = getRabbitPose(other.getPoint(), lookaheadDistance);
+        XYPair rabbitVector = rabbitPose.getPoint().add(other.getPoint().scale(-1));
+        double theta = other.getHeading().difference(rabbitVector.getAngle());
+        
+        return theta;    
     }
     
     public double getDistanceToLineFromPoint(XYPair currentPoint) {
