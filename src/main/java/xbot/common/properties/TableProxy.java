@@ -62,4 +62,8 @@ public class TableProxy implements ITableProxy {
             return false;
         }
     }
+
+    @Override
+    public void setFastMode(boolean on) {
+    }
 }

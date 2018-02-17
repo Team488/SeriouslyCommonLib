@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.Preferences;
 public class PreferenceStorage implements PermanentStorage {
 
     protected static Logger log;
+    boolean fastMode = false;
     
     @Override
     public void setDouble(String key, double value) {
@@ -63,5 +64,9 @@ public class PreferenceStorage implements PermanentStorage {
     @Override
     public void clear() {
         Preferences.getInstance().getKeys().clear();
+    }
+
+    @Override
+    public void setFastMode(boolean on) {
     }
 }

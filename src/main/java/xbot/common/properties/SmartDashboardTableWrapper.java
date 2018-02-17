@@ -15,9 +15,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class SmartDashboardTableWrapper implements ITableProxy {
 
     private static final Logger log = Logger.getLogger(SmartDashboardTableWrapper.class);
+    boolean fastMode = false;
 
     public void setDouble(String key, double value) {
-        SmartDashboard.putNumber(key, value);
+        if (!fastMode) {
+            SmartDashboard.putNumber(key, value);
+        }
     }
 
     public void clear() {
@@ -35,7 +38,9 @@ public class SmartDashboardTableWrapper implements ITableProxy {
     }
 
     public void setBoolean(String key, boolean value) {
-        SmartDashboard.putBoolean(key, value);
+        if (!fastMode) {
+            SmartDashboard.putBoolean(key, value);
+        }
     }
 
     public Boolean getBoolean(String key) {
@@ -47,7 +52,9 @@ public class SmartDashboardTableWrapper implements ITableProxy {
     }
 
     public void setString(String key, String value) {
-        SmartDashboard.putString(key, value);
+        if (!fastMode) {
+            SmartDashboard.putString(key, value);
+        }
     }
 
     public String getString(String key) {
@@ -56,6 +63,11 @@ public class SmartDashboardTableWrapper implements ITableProxy {
         } else  {
             return null;
         }
+    }
+
+    @Override
+    public void setFastMode(boolean on) {
+        fastMode = on;
     }
 
 }
