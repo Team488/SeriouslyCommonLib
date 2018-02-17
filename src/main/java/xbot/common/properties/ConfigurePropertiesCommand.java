@@ -1,5 +1,7 @@
 package xbot.common.properties;
 
+import com.google.inject.Inject;
+
 import xbot.common.command.BaseCommand;
 
 public class ConfigurePropertiesCommand extends BaseCommand {
@@ -7,6 +9,7 @@ public class ConfigurePropertiesCommand extends BaseCommand {
     ITableProxy table;
     boolean fastMode;
     
+    @Inject
     public ConfigurePropertiesCommand(ITableProxy table) {
         this.table = table;
     }
