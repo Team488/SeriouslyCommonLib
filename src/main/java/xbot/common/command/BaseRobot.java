@@ -199,8 +199,9 @@ public class BaseRobot extends TimedRobot {
     }
     
     protected void registerPeriodicDataSource(PeriodicDataSource telemetrySource) {
+        log.info("Adding periodic watcher for " + telemetrySource.getName());
         sourceAndTimers.put(
-                telemetrySource, new TimeLogger(telemetrySource.getName(), (int)frequencyReportInterval.get()));
+                telemetrySource, new TimeLogger(telemetrySource.getName(), 20));
     }
     
     protected void updatePeriodicDataSources() {
