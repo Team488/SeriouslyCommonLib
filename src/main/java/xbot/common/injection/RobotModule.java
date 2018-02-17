@@ -40,15 +40,17 @@ import xbot.common.properties.ITableProxy;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.PreferenceStorage;
 import xbot.common.properties.SmartDashboardTableWrapper;
+import xbot.common.properties.TableProxy;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 public class RobotModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class);
+        this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class).in(Singleton.class);;
         this.bind(PermanentStorage.class).to(PreferenceStorage.class);
         this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);
         this.bind(RobotAssertionManager.class).to(SilentRobotAssertionManager.class);
