@@ -37,6 +37,10 @@ public class PIDPropertyManager {
             @Assisted("errorThreshold") double errorThreshold, 
             @Assisted("derivativeThreshold") double derivativeThreshold,
             @Assisted("timeThreshold") double timeThreshold) {
+        
+        // This creates nice automatic prefixes for the SmartDashboard.
+        functionName = functionName + "/";
+        
         propP = propMan.createPersistentProperty(functionName + " P", defaultP);
         propI = propMan.createPersistentProperty(functionName + " I", defaultI);
         propD = propMan.createPersistentProperty(functionName + " D", defaultD);
