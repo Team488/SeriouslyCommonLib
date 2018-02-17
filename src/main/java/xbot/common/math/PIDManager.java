@@ -138,4 +138,20 @@ public class PIDManager extends PIDPropertyManager {
     public boolean getIMask() {
         return isIMasked;
     }
+    
+    public void setMinOutput(double value) {
+        minOutput.set(value);
+    }
+    
+    public double getMinOutput() {
+        return minOutput.get();
+    }
+    
+    public void setMaxOutput(double value) {
+        maxOutput.set(value);
+    }
+    
+    public double getMaxOutput() {
+        return maxOutput.get();
+    }
 }

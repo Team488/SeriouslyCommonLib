@@ -60,6 +60,7 @@ public class PurePursuitCommand extends BaseCommand {
         // If for some reason we have no points, or we go beyond our list, don't do anything. It would be good to add a logging latch here.
         if (points.size() == 0 || pointIndex == points.size()) {
             drive.stop();
+            return;
         }
                 
         // In all other cases, we are "following the rabbit."

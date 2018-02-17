@@ -8,6 +8,7 @@ import com.google.inject.Singleton;
 
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
+import xbot.common.math.PIDFactory;
 import xbot.common.math.PIDManager;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
@@ -30,10 +31,18 @@ public class MockDriveSubsystem extends BaseDriveSubsystem {
     public XCANTalon rl;
     public XCANTalon rr;
     
+    private final PIDManager positionalPid;
+    private final PIDManager rotateToHeadingPid;
+    private final PIDManager rotateDecayPid;
+    
     @Inject
-    public MockDriveSubsystem(CommonLibFactory clf) {
+    public MockDriveSubsystem(CommonLibFactory clf, PIDFactory pf) {
         this.clf = clf;
         changeIntoTankDrive();
+        
+        positionalPid = pf.createPIDManager("Drive to position", 100, 0, 0, 0, 0.5, -0.5, 3, 1, 0.5);
+        rotateToHeadingPid = pf.createPIDManager("DriveHeading", 100, 0, 0);
+        rotateDecayPid = pf.createPIDManager("DriveDecay", 100, 0, 1);
     }
     
     public void changeIntoNoDrive() {
@@ -91,16 +100,16 @@ public class MockDriveSubsystem extends BaseDriveSubsystem {
 
     @Override
     public PIDManager getPositionalPid() {
-        return null;
+        return positionalPid;
     }
 
     @Override
     public PIDManager getRotateToHeadingPid() {
-        return null;
+        return rotateToHeadingPid;
     }
 
     @Override
     public PIDManager getRotateDecayPid() {
-        return null;
+        return rotateDecayPid;
     }
 }
