@@ -55,6 +55,13 @@ public class FieldPose {
                 fieldPosition.y + headingSine * distanceAlongPoseLine);
     }
     
+    public double getDistanceAlongPoseLine(XYPair other) {
+        XYPair relativeVector = new XYPair(other.x - fieldPosition.x, other.y - fieldPosition.y);
+        double headingCosine = getHeadingCosine();
+        double headingSine = getHeadingSine();
+        return headingCosine * relativeVector.x + headingSine * relativeVector.y;
+    }
+    
     private double getHeadingCosine() {
         return  Math.cos(Math.toRadians(heading.getValue()));
     }

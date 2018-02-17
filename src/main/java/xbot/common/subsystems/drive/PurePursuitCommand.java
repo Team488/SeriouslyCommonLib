@@ -31,6 +31,7 @@ public class PurePursuitCommand extends BaseCommand {
     public PurePursuitCommand(CommonLibFactory clf, BasePoseSubsystem pose, BaseDriveSubsystem drive, XPropertyManager propMan) {
         this.pose = pose;
         this.drive = drive;
+        this.requires(drive);
         
         rabbitTurnFactor = propMan.createPersistentProperty("Rabbit turn factor", 0.1);
         rabbitLookAhead = propMan.createPersistentProperty("Rabbit lookahead (in)", 12);
@@ -53,6 +54,7 @@ public class PurePursuitCommand extends BaseCommand {
     @Override
     public void initialize() {
         log.info("Initializing");
+        pointIndex = 0;
     }
 
     @Override
@@ -70,11 +72,12 @@ public class PurePursuitCommand extends BaseCommand {
         double angleToRabbit = target.getVectorToRabbit(robot, rabbitLookAhead.get()).getAngle();
         double turnPower = headingModule.calculateHeadingPower(angleToRabbit);
         
-        XYPair progress = target.getPointAlongPoseClosestToPoint(robot.getPoint());
-        double distanceRemainingToPointAlongPath = target.getPoint().clone().add(progress.clone().scale(-1)).getMagnitude();
+        //XYPair progress = target.getPointAlongPoseClosestToPoint(robot.getPoint());
+        //double distanceRemainingToPointAlongPath = target.getPoint().clone().add(progress.clone().scale(-1)).getMagnitude();
+        double distanceRemainingToPointAlongPath = -target.getDistanceAlongPoseLine(robot.getPoint());
         
         // If we are quite close to a point, and not on the last one, let's advance targets.
-        if (distanceRemainingToPointAlongPath < pointDistanceThreshold.get() && pointIndex < points.size()-1) {
+        if (Math.abs(distanceRemainingToPointAlongPath) < pointDistanceThreshold.get() && pointIndex < points.size()-1) {
             pointIndex++;
         }
         
@@ -85,7 +88,8 @@ public class PurePursuitCommand extends BaseCommand {
         }
         
         double translationPower = drive.getPositionalPid().calculate(distanceRemainingToPointAlongPath, 0);
-        
+        log.info(String.format("Point: %d, DistanceR: %.2f, Power: %.2f", 
+                pointIndex, distanceRemainingToPointAlongPath, translationPower));
         drive.drive(new XYPair(0, translationPower), turnPower);
     }
     
