@@ -1,6 +1,7 @@
 package xbot.common.subsystems.drive;
 
 import java.util.Map;
+import java.util.stream.Stream;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -11,8 +12,6 @@ import xbot.common.logging.LoggingLatch;
 import xbot.common.logic.Latch.EdgeType;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
-import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
-import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
 public abstract class BaseDriveSubsystem extends BaseSubsystem implements PeriodicDataSource {
     
@@ -177,6 +176,13 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem implements Period
         updateLoggingLatch();
         getAllMasterTalons().keySet().stream()
         .forEach( (t) -> t.configContinuousCurrentLimit(maxCurrentInAmps, 0));
+    }
+    
+    public void setVoltageRamp(double secondsFromNeutralToFull) {
+        Stream<XCANTalon> masters = getAllMasterTalons().keySet().stream();
+        
+        masters.forEach( (t) -> t.configOpenloopRamp(secondsFromNeutralToFull, 0));
+        masters.forEach( (t) -> t.configClosedloopRamp(secondsFromNeutralToFull, 0));
     }
  
     private void updateLoggingLatch() {
