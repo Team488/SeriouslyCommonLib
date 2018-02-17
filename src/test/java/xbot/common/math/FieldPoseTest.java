@@ -51,4 +51,60 @@ public class FieldPoseTest {
         FieldPose pose = new FieldPose(new XYPair(10, 0), new ContiguousHeading(-45));
         assertEquals(Math.hypot(9 - 8, 3 - 2), pose.getDistanceToLineFromPoint(new XYPair(9, 3)), 10e-5);
     }
+    
+    @Test
+    public void testRabbitOffsetVertical() {
+        FieldPose robotPose = new FieldPose(new XYPair(0, 0), new ContiguousHeading(90));
+        FieldPose goal = new FieldPose(new XYPair(10, 10), new ContiguousHeading(90));
+        assertEquals(10, goal.getDistanceToLineFromPoint(new XYPair(0, 0)), 10e-5);
+        
+        FieldPose rabbitLocation = goal.getRabbitPose(robotPose.getPoint(), 5);
+        assertEquals(10, rabbitLocation.getPoint().x, 0.001);
+        assertEquals(5, rabbitLocation.getPoint().y, 0.001);
+        
+        double angle = goal.getDeltaAngleToRabbit(robotPose, 5);
+        assertEquals(-63, angle, 1);
+    }
+    
+    @Test
+    public void testRabbitOnPath() {
+        FieldPose robotPose = new FieldPose(new XYPair(10, 0), new ContiguousHeading(90));
+        FieldPose goal = new FieldPose(new XYPair(10, 10), new ContiguousHeading(90));
+        assertEquals(10, goal.getDistanceToLineFromPoint(new XYPair(0, 0)), 10e-5);
+        
+        FieldPose rabbitLocation = goal.getRabbitPose(robotPose.getPoint(), 5);
+        assertEquals(10, rabbitLocation.getPoint().x, 0.001);
+        assertEquals(5, rabbitLocation.getPoint().y, 0.001);
+        
+        double angle = goal.getDeltaAngleToRabbit(robotPose, 5);
+        assertEquals(0, angle, 1);
+    }
+    
+    @Test
+    public void testRabbitSlightlyOffPath() {
+        FieldPose robotPose = new FieldPose(new XYPair(9.99, 0), new ContiguousHeading(90));
+        FieldPose goal = new FieldPose(new XYPair(10, 10), new ContiguousHeading(90));
+        assertEquals(10, goal.getDistanceToLineFromPoint(new XYPair(0, 0)), 10e-5);
+        
+        FieldPose rabbitLocation = goal.getRabbitPose(robotPose.getPoint(), 5);
+        assertEquals(10, rabbitLocation.getPoint().x, 0.001);
+        assertEquals(5, rabbitLocation.getPoint().y, 0.001);
+        
+        double angle = goal.getDeltaAngleToRabbit(robotPose, 5);
+        assertEquals(0, angle, 1);
+    }
+    
+    @Test
+    public void testRabbitHilariouslyOffPath() {
+        FieldPose robotPose = new FieldPose(new XYPair(-1000, 0), new ContiguousHeading(90));
+        FieldPose goal = new FieldPose(new XYPair(10, 10), new ContiguousHeading(90));
+        assertEquals(10, goal.getDistanceToLineFromPoint(new XYPair(0, 0)), 10e-5);
+        
+        FieldPose rabbitLocation = goal.getRabbitPose(robotPose.getPoint(), 5);
+        assertEquals(10, rabbitLocation.getPoint().x, 0.001);
+        assertEquals(5, rabbitLocation.getPoint().y, 0.001);
+        
+        double angle = goal.getDeltaAngleToRabbit(robotPose, 5);
+        assertEquals(-90, angle, 1);
+    }
 }
