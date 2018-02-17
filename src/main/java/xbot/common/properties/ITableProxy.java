@@ -24,4 +24,6 @@ public interface ITableProxy {
     public String getString (String key);
     
     public void clear();
+    
+    public void setFastMode(boolean on);
 }

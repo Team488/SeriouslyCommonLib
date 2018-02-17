@@ -52,6 +52,7 @@ public class BaseRobot extends TimedRobot {
     
     protected Map<PeriodicDataSource, TimeLogger> sourceAndTimers;
     TimeLogger schedulerMonitor;
+    TimeLogger outsidePeriodicMonitor;
 
     public BaseRobot() {
         super();
@@ -100,6 +101,7 @@ public class BaseRobot extends TimedRobot {
         
         frequencyReportInterval = injector.getInstance(XPropertyManager.class).createPersistentProperty("Robot loop frequency report interval", 20);
         schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get());
+        outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20);
     }
 
     protected void initializeSystems() {
@@ -175,6 +177,7 @@ public class BaseRobot extends TimedRobot {
     }
     
     protected void sharedPeriodic() {
+        outsidePeriodicMonitor.stop();
         schedulerMonitor.start();
         xScheduler.run();
         schedulerMonitor.stop();
@@ -196,6 +199,8 @@ public class BaseRobot extends TimedRobot {
             
             log.info("Robot loops per second: " + loopsPerSecond);
         }
+        
+        outsidePeriodicMonitor.start();
     }
     
     protected void registerPeriodicDataSource(PeriodicDataSource telemetrySource) {
