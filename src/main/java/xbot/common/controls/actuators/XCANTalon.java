@@ -54,6 +54,7 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     private DoubleProperty temperatureProperty = null;
     private DoubleProperty positionProperty = null;
     private DoubleProperty velocityProperty = null;
+    private DoubleProperty closedLoopErrorProperty = null;
     
     private MotorSafetyHelper _safetyHelper;
     private String _description;
@@ -81,6 +82,7 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
         temperatureProperty = propMan.createEphemeralProperty(deviceName + " temperature", 0);
         positionProperty = propMan.createEphemeralProperty(deviceName + " position", 0);
         velocityProperty = propMan.createEphemeralProperty(deviceName + " velocity", 0);
+        closedLoopErrorProperty = propMan.createEphemeralProperty(deviceName + " closed loop error (ID 0)", 0);
     }
     
     public void updateTelemetryProperties() {
@@ -88,7 +90,8 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
                 || outVoltageProperty == null
                 || temperatureProperty == null
                 || positionProperty == null
-                || velocityProperty == null) {
+                || velocityProperty == null
+                || closedLoopErrorProperty == null) {
             return;
         }
         
@@ -98,6 +101,8 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
         
         positionProperty.set(this.getSelectedSensorPosition(0));
         velocityProperty.set(this.getSelectedSensorVelocity(0));
+        
+        closedLoopErrorProperty.set(this.getClosedLoopError(0));
     }
     /*
     @Override
