@@ -48,6 +48,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     private BooleanProperty rioRotated;
     
+    private double lastSetHeadingTime;
+    
     public BasePoseSubsystem(CommonLibFactory factory, XPropertyManager propManager) {
         log.info("Creating");
         imu = factory.createGyro();
@@ -151,6 +153,12 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         log.info("Raw heading is: " + rawHeading);
         headingOffset = -rawHeading + headingInDegrees;
         log.info("Offset calculated to be: " + headingOffset);
+        
+        lastSetHeadingTime = Timer.getFPGATimestamp();
+    }
+    
+    public boolean getHeadingResetRecently() {
+        return Timer.getFPGATimestamp() - lastSetHeadingTime < 1;
     }
     
     /**

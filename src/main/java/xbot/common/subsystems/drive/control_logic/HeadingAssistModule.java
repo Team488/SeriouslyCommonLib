@@ -81,6 +81,11 @@ public class HeadingAssistModule {
      * @return values between -1 and 1, in terms of "how hard you should try in order to satisfy rotational goals."
      */
     public double calculateHeadingPower(double humanRotationalPower) {
+        
+        if (pose.getHeadingResetRecently()) {
+            reset();
+            return humanRotationalPower;
+        }
 
         // if human rotational power above some threshold, return that.
         // Also, update a timestamp that says this happened recently
