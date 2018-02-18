@@ -14,7 +14,6 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
-import xbot.common.subsystems.pose.PoseSubsystemTest;
 
 public class PurePursuitCommand extends BaseCommand {
 
