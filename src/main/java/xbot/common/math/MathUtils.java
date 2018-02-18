@@ -24,4 +24,9 @@ public class MathUtils
     public static double constrainDoubleToRobotScale(double value) {
         return constrainDouble(value, -1, 1);
     }
+    
+    public static double squareAndRetainSign(double value) {
+        double squared = Math.pow(value, 2);
+        return value < 0 ? -squared : squared;
+    }
 }
