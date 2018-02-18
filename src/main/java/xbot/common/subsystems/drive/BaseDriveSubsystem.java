@@ -179,10 +179,8 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem implements Period
     }
     
     public void setVoltageRamp(double secondsFromNeutralToFull) {
-        Stream<XCANTalon> masters = getAllMasterTalons().keySet().stream();
-        
-        masters.forEach( (t) -> t.configOpenloopRamp(secondsFromNeutralToFull, 0));
-        masters.forEach( (t) -> t.configClosedloopRamp(secondsFromNeutralToFull, 0));
+        getAllMasterTalons().keySet().stream().forEach( (t) -> t.configOpenloopRamp(secondsFromNeutralToFull, 0));
+        getAllMasterTalons().keySet().stream().forEach( (t) -> t.configClosedloopRamp(secondsFromNeutralToFull, 0));
     }
  
     private void updateLoggingLatch() {
