@@ -27,6 +27,10 @@ public abstract class BaseCommand extends Command {
         super(name);
         log = Logger.getLogger(this.getName());
     }
+    
+    public String getPrefix() {
+        return this.getName() + "/";
+    }
 
     @Override
     public abstract void initialize();

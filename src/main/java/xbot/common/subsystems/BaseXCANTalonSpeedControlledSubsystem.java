@@ -80,7 +80,7 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
         
         masterMotor = factory.createCANTalon(masterChannel);
         initializeMasterMotorConfiguration(invertMaster, invertMasterSensor);
-        masterMotor.createTelemetryProperties(name + "  master");
+        masterMotor.createTelemetryProperties(name + "/", name + "  master");
     }
     
     protected void initializeMasterMotorConfiguration(boolean motorInverted, boolean motorSensorInverted) {

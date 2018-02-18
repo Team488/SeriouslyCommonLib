@@ -21,6 +21,10 @@ public abstract class BaseSubsystem extends Subsystem {
     public void setDefaultCommand(Command command) {
         super.setDefaultCommand(command);
     }
+    
+    public String getPrefix() {
+        return this.getName() + "/";
+    }
 
     @Override
     protected void initDefaultCommand() {

@@ -40,7 +40,7 @@ public class SmartDashboardTableWrapper implements ITableProxy {
 
     public Double getDouble(String key) {
         if (!fastMode) {
-            if (SmartDashboard.getKeys().contains(key)) {
+            if (SmartDashboard.containsKey(key)) {
                 return Double.valueOf(SmartDashboard.getNumber(key, 0));
             } else {
                 return null;
@@ -58,7 +58,7 @@ public class SmartDashboardTableWrapper implements ITableProxy {
 
     public Boolean getBoolean(String key) {
         if (!fastMode) {
-            if (SmartDashboard.getKeys().contains(key)) {
+            if (SmartDashboard.containsKey(key)) {
                 return Boolean.valueOf(SmartDashboard.getBoolean(key, false));
             } else {
                 return null;
@@ -76,7 +76,7 @@ public class SmartDashboardTableWrapper implements ITableProxy {
 
     public String getString(String key) {
         if (!fastMode) {
-            if (SmartDashboard.getKeys().contains(key)) {
+            if (SmartDashboard.containsKey(key)) {
                 return SmartDashboard.getString(key, "");
             } else {
                 return null;
