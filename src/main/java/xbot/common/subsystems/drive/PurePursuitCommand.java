@@ -19,7 +19,6 @@ public class PurePursuitCommand extends BaseCommand {
     BasePoseSubsystem pose;
     BaseDriveSubsystem drive;
     
-    final DoubleProperty rabbitTurnFactor;
     final DoubleProperty rabbitLookAhead;
     final DoubleProperty pointDistanceThreshold;
     final HeadingModule headingModule;
@@ -33,9 +32,8 @@ public class PurePursuitCommand extends BaseCommand {
         this.drive = drive;
         this.requires(drive);
         
-        rabbitTurnFactor = propMan.createPersistentProperty("Rabbit turn factor", 0.1);
-        rabbitLookAhead = propMan.createPersistentProperty("Rabbit lookahead (in)", 12);
-        pointDistanceThreshold = propMan.createPersistentProperty("Rabbit distance threshold", 12.0);
+        rabbitLookAhead = propMan.createPersistentProperty(getPrefix() + "Rabbit lookahead (in)", 12);
+        pointDistanceThreshold = propMan.createPersistentProperty(getPrefix() + "Rabbit distance threshold", 12.0);
         
         headingModule = clf.createHeadingModule(drive.getRotateToHeadingPid());
         

@@ -53,8 +53,8 @@ public class HeadingAssistModule {
         this.headingModule = headingModule;
         this.decayModule = decayModule;
         this.pose = pose;
-        humanThreshold = propMan.createPersistentProperty("HeadingAssistModule - Human Threshold", 0.05);
-        coastTime = propMan.createPersistentProperty("Heading Assist Module - Coast Time", 0.5);
+        humanThreshold = propMan.createPersistentProperty("HeadingAssistModule/Human Threshold", 0.05);
+        coastTime = propMan.createPersistentProperty("Heading Assist Module/Coast Time", 0.5);
         lastHumanInput = 0;
         this.headingMode = HeadingAssistMode.HoldOrientation;
     }
