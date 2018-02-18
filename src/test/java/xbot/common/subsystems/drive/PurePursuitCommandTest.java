@@ -8,6 +8,7 @@ import xbot.common.injection.BaseWPITest;
 import xbot.common.math.ContiguousHeading;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
+import xbot.common.subsystems.drive.PurePursuitCommand.PursuitMode;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.TestPoseSubsystem;
 
@@ -71,6 +72,40 @@ public class PurePursuitCommandTest extends BaseWPITest {
         
         command.execute();
         verifyTankDrive(0, 1);
+    }
+    
+    @Test
+    public void testSimpleRelative() {
+        command.addPoint(new FieldPose(new XYPair(0, 10), new ContiguousHeading(90)));
+        command.addPoint(new FieldPose(new XYPair(10, 10), new ContiguousHeading(90)));
+        
+        command.setMode(PursuitMode.Relative);
+        command.initialize();
+        
+        verifyPose(command.getPlannedPointsToVisit().get(0), 0, 10, 90);
+        verifyPose(command.getPlannedPointsToVisit().get(1), 10, 10, 90); 
+    }
+    
+    @Test
+    public void testComplexRelative() {
+        command.addPoint(new FieldPose(new XYPair(0, 10), new ContiguousHeading(90)));
+        command.addPoint(new FieldPose(new XYPair(10, 10), new ContiguousHeading(90)));
+        
+        // rotate the robot
+        pose.setCurrentHeading(180);
+        pose.setDriveEncoderDistances(10, 10);
+        
+        command.setMode(PursuitMode.Relative);
+        command.initialize();
+        
+        verifyPose(command.getPlannedPointsToVisit().get(0), -20, 0, 180);
+        verifyPose(command.getPlannedPointsToVisit().get(1), -20, 10, 180); 
+    }
+    
+    protected void verifyPose(FieldPose poseToTest, double x, double y, double heading) {
+        assertEquals("Looking at X", x, poseToTest.getPoint().x, 0.001);
+        assertEquals("Looking at Y", y, poseToTest.getPoint().y, 0.001);
+        assertEquals("Looking at Heading", heading, poseToTest.getHeading().getValue(), 0.001);
     }
     
     protected void verifyTankDrive(double left, double right) {

@@ -1,5 +1,6 @@
 package xbot.common.subsystems.pose;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -23,6 +24,9 @@ public class TestPoseSubsystem extends BasePoseSubsystem {
     public void setDriveTalons(XCANTalon left, XCANTalon right) {
         this.left = left;
         this.right = right;
+        
+        left.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        right.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
     }
 
     @Override
