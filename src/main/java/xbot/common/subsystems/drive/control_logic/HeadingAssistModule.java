@@ -62,6 +62,12 @@ public class HeadingAssistModule {
     public void setMode(HeadingAssistMode mode) {
         this.headingMode = mode;
     }
+    
+    public void reset() {
+        headingModule.reset();
+        decayModule.reset();
+        inAutomaticMode = false;
+    }
 
     /**
      * Core method of the HeadingAssistModule. You input the human rotational power input,
@@ -78,7 +84,7 @@ public class HeadingAssistModule {
 
         // if human rotational power above some threshold, return that.
         // Also, update a timestamp that says this happened recently
-        if (humanRotationalPower > humanThreshold.get()) {
+        if (Math.abs(humanRotationalPower) > humanThreshold.get()) {
             inAutomaticMode = false;
             lastHumanInput = Timer.getFPGATimestamp();
             return humanRotationalPower;
