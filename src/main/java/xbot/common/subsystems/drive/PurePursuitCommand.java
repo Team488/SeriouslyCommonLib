@@ -20,6 +20,15 @@ public class PurePursuitCommand extends BaseCommand {
     public enum PursuitMode {
         Relative, Absolute
     }
+    
+    public class RabbitChaseInfo {
+        public final double translation;
+        public final double rotation;
+        public RabbitChaseInfo(double translation, double rotation) {
+            this.translation = translation;
+            this.rotation = rotation;
+        }
+    }
 
     BasePoseSubsystem pose;
     BaseDriveSubsystem drive;
@@ -101,24 +110,37 @@ public class PurePursuitCommand extends BaseCommand {
 
     @Override
     public void execute() {
-        // If for some reason we have no points, or we go beyond our list, don't do anything. It would be good to add a
+        RabbitChaseInfo chaseData = navigateToRabbit();
+        drive.drive(new XYPair(0, chaseData.translation), chaseData.rotation);
+    }
+
+    public RabbitChaseInfo navigateToRabbit() {
+     // If for some reason we have no points, or we go beyond our list, don't do anything. It would be good to add a
         // logging latch here.
         if (pointsToVisit.size() == 0 || pointIndex == pointsToVisit.size()) {
-            drive.stop();
-            return;
+            return new RabbitChaseInfo(0, 0);
         }
 
         // In all other cases, we are "following the rabbit."
         FieldPose target = pointsToVisit.get(pointIndex);
         FieldPose robot = pose.getCurrentFieldPose();
-
-        double angleToRabbit = target.getVectorToRabbit(robot, rabbitLookAhead.get()).getAngle();
-        double turnPower = headingModule.calculateHeadingPower(angleToRabbit);
-
-        // XYPair progress = target.getPointAlongPoseClosestToPoint(robot.getPoint());
-        // double distanceRemainingToPointAlongPath =
-        // target.getPoint().clone().add(progress.clone().scale(-1)).getMagnitude();
+        
         double distanceRemainingToPointAlongPath = -target.getDistanceAlongPoseLine(robot.getPoint());
+        
+        // if the distance is negative, the goal is behind us. That means we need to 
+        // -track a rabbit behind us,
+        // -aim at an angle 180* from the rabbit.
+        // -drive backwards
+        
+        double lookaheadFactor = 1;
+        double aimFactor = 0;
+        if (distanceRemainingToPointAlongPath < 0) {
+            lookaheadFactor = -1;
+            aimFactor = 180;
+        }
+
+        double angleToRabbit = target.getVectorToRabbit(robot, rabbitLookAhead.get()*lookaheadFactor).getAngle() + aimFactor;
+        double turnPower = headingModule.calculateHeadingPower(angleToRabbit);
 
         // If we are quite close to a point, and not on the last one, let's advance targets.
         if (Math.abs(distanceRemainingToPointAlongPath) < pointDistanceThreshold.get()
@@ -130,15 +152,15 @@ public class PurePursuitCommand extends BaseCommand {
         // to go.
         // However, if it is the last point, we use the proper distance.
         if (pointIndex < pointsToVisit.size() - 1) {
-            distanceRemainingToPointAlongPath = 144;
+            distanceRemainingToPointAlongPath = 144 * lookaheadFactor;
         }
 
         double translationPower = drive.getPositionalPid().calculate(distanceRemainingToPointAlongPath, 0);
         log.info(String.format("Point: %d, DistanceR: %.2f, Power: %.2f", pointIndex, distanceRemainingToPointAlongPath,
                 translationPower));
-        drive.drive(new XYPair(0, translationPower), turnPower);
+        return new RabbitChaseInfo(translationPower, turnPower);
     }
-
+    
     @Override
     public boolean isFinished() {
         // if the PID is stable, and we're at the last point, we're done.

@@ -23,8 +23,7 @@ public class PurePursuitTest extends BaseWPITest {
         public int loops;
         public double rabbitAngle;
         public double turnPower;
-        
-        
+                
         public PursuitEnvironmentState(FieldPose robot, FieldPose goal, FieldPose rabbit, int loops, double rabbitAngle, double turnPower) {
             this.robot = robot;
             this.goal = goal;
