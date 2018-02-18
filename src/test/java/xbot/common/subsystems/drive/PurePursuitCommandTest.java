@@ -2,6 +2,8 @@ package xbot.common.subsystems.drive;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
@@ -100,6 +102,21 @@ public class PurePursuitCommandTest extends BaseWPITest {
         
         verifyPose(command.getPlannedPointsToVisit().get(0), -20, 0, 180);
         verifyPose(command.getPlannedPointsToVisit().get(1), -20, 10, 180); 
+    }
+    
+    public void testSupplier() {
+        command.addPoint(new FieldPose(new XYPair(0, 10), new ContiguousHeading(90)));
+        command.addPoint(new FieldPose(new XYPair(10, 10), new ContiguousHeading(90)));
+        
+        command.setPointSupplier(() -> 
+        new ArrayList<FieldPose>() {{
+            add(new FieldPose(new XYPair(1, 2), new ContiguousHeading(3)));
+            }}
+        );
+        
+        command.initialize();
+        
+        verifyPose(command.getPlannedPointsToVisit().get(0), 1, 2, 3);
     }
     
     protected void verifyPose(FieldPose poseToTest, double x, double y, double heading) {

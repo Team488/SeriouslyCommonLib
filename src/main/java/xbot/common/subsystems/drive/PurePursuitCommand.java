@@ -2,6 +2,7 @@ package xbot.common.subsystems.drive;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import com.google.inject.Inject;
 
@@ -41,6 +42,7 @@ public class PurePursuitCommand extends BaseCommand {
     private List<FieldPose> pointsToVisit;
     private int pointIndex;
     private PursuitMode mode;
+    private Supplier<List<FieldPose>> externalPointSource;
 
     @Inject
     public PurePursuitCommand(CommonLibFactory clf, BasePoseSubsystem pose, BaseDriveSubsystem drive,
@@ -54,11 +56,13 @@ public class PurePursuitCommand extends BaseCommand {
 
         headingModule = clf.createHeadingModule(drive.getRotateToHeadingPid());
         mode = PursuitMode.Absolute;
-        resetPoints();
+        removePoints();
+        externalPointSource = null;
     }
 
-    private void resetPoints() {
+    private void removePoints() {
         originalPoints = new ArrayList<FieldPose>();
+        externalPointSource = null;
         pointIndex = 0;
     }
 
@@ -73,11 +77,19 @@ public class PurePursuitCommand extends BaseCommand {
     public List<FieldPose> getPlannedPointsToVisit() {
         return new ArrayList<FieldPose>(pointsToVisit);
     }
+    
+    public void setPointSupplier(Supplier<List<FieldPose>> externalPointSource) {
+        this.externalPointSource = externalPointSource;
+    }
 
     @Override
     public void initialize() {
         log.info("Initializing");
         pointIndex = 0;
+        
+        if (externalPointSource != null) {
+            originalPoints = externalPointSource.get();
+        }
         
         switch(mode) {
         case Absolute:
