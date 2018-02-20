@@ -10,7 +10,8 @@ import static junit.framework.TestCase.assertEquals;
 public class WatchdogTimerTest extends BaseWPITest {
 
     private WatchdogTimer watchdog;
-    int upCount, downCount;
+    int upCount;
+    int downCount;
 
     @Before
     public void setUp() {
