@@ -33,6 +33,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createAdvancedJoystickButton(j, 1);
         clf.createAnalogHIDButton(j, 1, -1, 1);
         clf.createGamepad(3, 10);
+        clf.createAdvancedPovButton(j, 1);
         
         clf.createHeadingModule(pf.createPIDManager("bar", 1, 0, 0));
     }
