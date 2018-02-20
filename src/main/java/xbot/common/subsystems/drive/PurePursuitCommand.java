@@ -91,33 +91,41 @@ public class PurePursuitCommand extends BaseCommand {
             originalPoints = externalPointSource.get();
         }
         
-        switch(mode) {
-        case Absolute:
-            pointsToVisit = originalPoints;
-            break;
-        case Relative:
-            pointsToVisit = new ArrayList<FieldPose>();
-            FieldPose currentRobotPose = pose.getCurrentFieldPose();
-            for (FieldPose originalPoint : originalPoints) {
-                // First, rotate the point according to the robot's current heading - 90
-                XYPair updatedPoint = originalPoint.getPoint().clone().rotate(
-                        currentRobotPose.getHeading().getValue()-BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS);
-                
-                // Then, translate the point according to the robot's current field position
-                updatedPoint.add(currentRobotPose.getPoint());
-                
-                // Finally, rotate the original's goal heading by the robot's current heading -90
-                double updatedHeading = originalPoint.getHeading().getValue() 
-                        + currentRobotPose.getHeading().getValue() 
-                        - BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS;
-                
-                FieldPose updatedPose = new FieldPose(updatedPoint, new ContiguousHeading(updatedHeading));
-                pointsToVisit.add(updatedPose);
-            }
-            break;
-            default:
-                log.info("Tried to initialize a PurePursuitCommand with no proper mode set!");
+        if (originalPoints == null || originalPoints.isEmpty()) {
+            log.warn("No target points specified; command will no-op");
+            this.pointsToVisit = new ArrayList<FieldPose>();
+            return;
         }
+        
+        switch(mode) {
+            case Absolute:
+                pointsToVisit = originalPoints;
+                break;
+            case Relative:
+                pointsToVisit = new ArrayList<FieldPose>();
+                FieldPose currentRobotPose = pose.getCurrentFieldPose();
+                for (FieldPose originalPoint : originalPoints) {
+                    // First, rotate the point according to the robot's current heading - 90
+                    XYPair updatedPoint = originalPoint.getPoint().clone().rotate(
+                            currentRobotPose.getHeading().getValue()-BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS);
+                    
+                    // Then, translate the point according to the robot's current field position
+                    updatedPoint.add(currentRobotPose.getPoint());
+                    
+                    // Finally, rotate the original's goal heading by the robot's current heading -90
+                    double updatedHeading = originalPoint.getHeading().getValue() 
+                            + currentRobotPose.getHeading().getValue() 
+                            - BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS;
+                    
+                    FieldPose updatedPose = new FieldPose(updatedPoint, new ContiguousHeading(updatedHeading));
+                    pointsToVisit.add(updatedPose);
+                }
+                break;
+            default:
+                log.error("Tried to initialize a PurePursuitCommand with no proper mode set!");
+        }
+        
+        log.info("Initialized PurePursuitCommand with " + pointsToVisit.size() + " point(s)");
     }
 
     @Override
@@ -127,7 +135,7 @@ public class PurePursuitCommand extends BaseCommand {
     }
 
     public RabbitChaseInfo navigateToRabbit() {
-     // If for some reason we have no points, or we go beyond our list, don't do anything. It would be good to add a
+        // If for some reason we have no points, or we go beyond our list, don't do anything. It would be good to add a
         // logging latch here.
         if (pointsToVisit.size() == 0 || pointIndex == pointsToVisit.size()) {
             return new RabbitChaseInfo(0, 0);
@@ -175,6 +183,10 @@ public class PurePursuitCommand extends BaseCommand {
     
     @Override
     public boolean isFinished() {
+        if (pointsToVisit == null || pointsToVisit.isEmpty()) {
+            return true;
+        }
+        
         // if the PID is stable, and we're at the last point, we're done.
         return (drive.getPositionalPid().isOnTarget()) && (pointIndex == pointsToVisit.size() - 1);
     }
