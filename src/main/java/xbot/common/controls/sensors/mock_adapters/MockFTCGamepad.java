@@ -86,4 +86,9 @@ public class MockFTCGamepad extends XFTCGamepad {
         setRawAxis(5, getLeftStickYInversion() ? -vector.y : vector.y);
     }
 
+    @Override
+    public int getPOV() {
+        return 0;
+    }
+
 }

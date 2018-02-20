@@ -42,4 +42,9 @@ public class JoystickWPIAdapter extends XJoystick {
     protected boolean getButton(int button) {
         return this.internalHID.getRawButton(button);
     }
+
+    @Override
+    public int getPOV() {
+        return this.internalHID.getPOV();
+    }
 }
