@@ -24,6 +24,7 @@ public abstract class XJoystick
 
     private HashMap<Integer, AdvancedJoystickButton> buttonMap;
     private HashMap<AnalogHIDButton.AnalogHIDDescription, AnalogHIDButton> analogButtonMap;
+    private HashMap<Integer, AdvancedPovButton> povButtonMap;
     private int maxButtons;
 
     private CommonLibFactory clf;
@@ -45,9 +46,14 @@ public abstract class XJoystick
         
         this.buttonMap = new HashMap<Integer, AdvancedJoystickButton>(numButtons);
         this.analogButtonMap = new HashMap<>();
+        this.povButtonMap = new HashMap<Integer, AdvancedPovButton>();
 
         for (int i = 1; i <= numButtons; i++) {
             this.set(i, clf.createAdvancedJoystickButton(this, i));
+        }
+        
+        for (int i = 0; i < 360; i+=45) {
+            povButtonMap.put(i, clf.createAdvancedPovButton(this, i));
         }
         
         police.registerDevice(DeviceType.USB, port);
@@ -87,7 +93,7 @@ public abstract class XJoystick
     
     protected abstract double getRawAxis(int axisNumber);
     
-    
+    public abstract int getPOV();    
 
     public void addAnalogButton(int axisNumber, double minThreshold, double maxThreshold) {
         addAnalogButton(new AnalogHIDDescription(axisNumber, minThreshold, maxThreshold));
@@ -96,8 +102,13 @@ public abstract class XJoystick
     public void addAnalogButton(AnalogHIDDescription desc) {
         setAnalog(clf.createAnalogHIDButton(this, desc));
     }
+    
+    public enum ButtonSource {
+        Standard,
+        POV
+    }
 
-    public AdvancedJoystickButton getifAvailable(int buttonNumber) {
+    public AdvancedButton getifAvailable(int buttonNumber) {
         
         if (buttonNumber < 1 || buttonNumber > maxButtons) {
             return handleInvalidButton("button " + buttonNumber + " is out of range!");
@@ -110,7 +121,19 @@ public abstract class XJoystick
         }
     }
     
-    private AdvancedJoystickButton handleInvalidButton(String message) {
+    public AdvancedButton getPovIfAvailable(int povNumber) {
+        if (povNumber < -1 || povNumber > 315) {
+            return handleInvalidButton("button " + povNumber + " is out of range!");
+        }
+        
+        if (povButtonMap.containsKey(povNumber)) {
+            return povButtonMap.remove(povNumber);
+        } else {
+            return handleInvalidButton("button " + povNumber + " is already used! Cannot be used twice!");
+        }
+    }
+    
+    private AdvancedButton handleInvalidButton(String message) {
         assertionManager.throwException(message, new Exception());
         
         MockJoystick mj = new MockJoystick(0, clf, assertionManager, 12, police);

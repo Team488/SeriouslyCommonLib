@@ -74,4 +74,9 @@ public class MockJoystick extends XJoystick {
     protected double getY() {
         return getRawAxis(1);
     }
+
+    @Override
+    public int getPOV() {
+        return 0;
+    }
 }
