@@ -12,8 +12,10 @@ import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
+import xbot.common.controls.sensors.AdvancedPovButton;
 import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.controls.sensors.AnalogHIDButton;
+import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
@@ -23,7 +25,6 @@ import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XXboxController;
-import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.math.PIDManager;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
@@ -94,6 +95,10 @@ public interface CommonLibFactory {
     public AnalogHIDButton createAnalogHIDButton(
             @Assisted("joystick") XJoystick joystick, 
             @Assisted("desc") AnalogHIDDescription desc);
+    
+    public AdvancedPovButton createAdvancedPovButton(
+            @Assisted("joystick") XJoystick joystick, 
+            @Assisted("povNumber")int povNumber);
     
     public HeadingModule createHeadingModule(
             @Assisted("headingDrivePid") PIDManager headingDrivePid);
