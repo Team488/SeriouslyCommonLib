@@ -22,7 +22,7 @@ public abstract class XSolenoid implements XBaseIO {
         return get() ^ isInverted;
     }
 
-    void setInverted(boolean isInverted) {
+    public void setInverted(boolean isInverted) {
         this.isInverted = isInverted;
     }
     
