@@ -172,15 +172,19 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem implements Period
      * Limits the available motor current. Oddly enough, the limit must be a whole
      * number of amps.
      */
-    public void setCurrentLimits(int maxCurrentInAmps) {
+    public void setCurrentLimits(int maxCurrentInAmps, boolean isEnabled) {
         updateLoggingLatch();
-        getAllMasterTalons().keySet().stream()
-        .forEach( (t) -> t.configContinuousCurrentLimit(maxCurrentInAmps, 0));
+        getAllMasterTalons().keySet().stream().forEach(t -> {
+                t.enableCurrentLimit(isEnabled);
+                t.configContinuousCurrentLimit(maxCurrentInAmps, 0);
+        });
     }
     
     public void setVoltageRamp(double secondsFromNeutralToFull) {
-        getAllMasterTalons().keySet().stream().forEach( (t) -> t.configOpenloopRamp(secondsFromNeutralToFull, 0));
-        getAllMasterTalons().keySet().stream().forEach( (t) -> t.configClosedloopRamp(secondsFromNeutralToFull, 0));
+        getAllMasterTalons().keySet().stream().forEach(t -> {
+            t.configOpenloopRamp(secondsFromNeutralToFull, 0);
+            t.configClosedloopRamp(secondsFromNeutralToFull, 0);
+        });
     }
  
     private void updateLoggingLatch() {
