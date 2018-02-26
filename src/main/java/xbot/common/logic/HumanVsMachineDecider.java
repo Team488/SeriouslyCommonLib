@@ -23,18 +23,19 @@ public class HumanVsMachineDecider {
     
     @Inject
     public HumanVsMachineDecider(@Assisted("name") String name, XPropertyManager propMan) {
-        deadbandProp = propMan.createPersistentProperty(name + "/Deadband", 0.1);
-        coastTimeProp = propMan.createPersistentProperty(name + "/Coast Time", 0.3);
+        deadbandProp = propMan.createPersistentProperty(name + "Decider/Deadband", 0.1);
+        coastTimeProp = propMan.createPersistentProperty(name + "Decider/Coast Time", 0.3);
         reset();
     }
     
     public void reset() {
-        lastHumanTime = Timer.getFPGATimestamp();
+        lastHumanTime = Timer.getFPGATimestamp()-100;
+        inAutomaticMode = true;
     }
     
     public HumanVsMachineMode getRecommendedMode(double humanInput) {
                 
-        if (humanInput > deadbandProp.get()) {
+        if (Math.abs(humanInput) > deadbandProp.get()) {
             lastHumanTime = Timer.getFPGATimestamp();
             inAutomaticMode = false;
             return HumanVsMachineMode.HumanControl;

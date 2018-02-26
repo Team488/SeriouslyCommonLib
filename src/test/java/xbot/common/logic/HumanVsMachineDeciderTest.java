@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.injection.BaseWPITest;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
 
@@ -20,10 +19,7 @@ public class HumanVsMachineDeciderTest extends BaseWPITest {
     
     @Test
     public void testStandardPath() {
-        assertTrue("Start in coast", decider.getRecommendedMode(0) == HumanVsMachineMode.Coast);
-        timer.advanceTimeInSecondsBy(1);
-        assertTrue("Advance to initialize", decider.getRecommendedMode(0) == HumanVsMachineMode.InitializeMachineControl);
-        assertTrue("Machine Control", decider.getRecommendedMode(0) == HumanVsMachineMode.MachineControl);
+        assertTrue("Start in machine control", decider.getRecommendedMode(0) == HumanVsMachineMode.MachineControl);
         
         assertTrue("Human input brings us back out", decider.getRecommendedMode(1) == HumanVsMachineMode.HumanControl);
         timer.advanceTimeInSecondsBy(0.01);
