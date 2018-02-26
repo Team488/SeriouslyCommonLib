@@ -1,8 +1,6 @@
 package xbot.common.subsystems.drive;
 
 import java.util.Map;
-import java.util.stream.Stream;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import xbot.common.command.BaseSubsystem;
