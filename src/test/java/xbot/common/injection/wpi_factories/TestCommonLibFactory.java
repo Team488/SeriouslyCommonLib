@@ -34,7 +34,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createAnalogHIDButton(j, 1, -1, 1);
         clf.createGamepad(3, 10);
         clf.createAdvancedPovButton(j, 1);
-        
+        clf.createHumanVsMachineDecider("testo");
         clf.createHeadingModule(pf.createPIDManager("bar", 1, 0, 0));
     }
     

@@ -25,6 +25,7 @@ import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XXboxController;
+import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.math.PIDManager;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
@@ -112,4 +113,7 @@ public interface CommonLibFactory {
     public HeadingAssistModule createHeadingAssistModule(
             @Assisted("headingModule") HeadingModule headingModule,
             @Assisted("decayModule") HeadingModule decayModule);
+    
+    public HumanVsMachineDecider createHumanVsMachineDecider(
+            @Assisted("name") String name);
 }

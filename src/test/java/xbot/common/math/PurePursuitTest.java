@@ -76,7 +76,6 @@ public class PurePursuitTest extends BaseWPITest {
                     }
                     
                     FieldPose robot = engine.getRobotPose();
-                    FieldPose rabbit = target.getRabbitPose(robot.getPoint(), 5);
                     
                     double distanceLeft = robot.getPoint().clone().add(target.getPoint().clone().scale(-1)).getMagnitude();
                     if (distanceLeft < 3)
