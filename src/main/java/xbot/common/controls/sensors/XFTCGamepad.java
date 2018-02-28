@@ -23,7 +23,15 @@ public abstract class XFTCGamepad extends XJoystick {
     public XYPair getLeftVector() {
         return this.getVector();
     }
-
+    
+    public double getLeftTrigger() {
+        return this.getRawAxis(2);
+    }
+    
+    public double getRightTrigger() {
+        return this.getRawAxis(3);
+    }
+    
     public double getRightStickX(){
         return this.getRawAxis(4) * (getRightStickXInversion() ? -1 : 1);
     }
