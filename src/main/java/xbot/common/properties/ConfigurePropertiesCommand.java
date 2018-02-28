@@ -12,6 +12,7 @@ public class ConfigurePropertiesCommand extends BaseCommand {
     @Inject
     public ConfigurePropertiesCommand(ITableProxy table) {
         this.table = table;
+        this.setRunWhenDisabled(true);
     }
     
     public void setFastMode(boolean on) {
@@ -20,7 +21,7 @@ public class ConfigurePropertiesCommand extends BaseCommand {
     
     @Override
     public void initialize() {
-        log.info("Initializing");
+        log.info("Initializing with fastMode: " + fastMode);
         table.setFastMode(fastMode);
     }
 
