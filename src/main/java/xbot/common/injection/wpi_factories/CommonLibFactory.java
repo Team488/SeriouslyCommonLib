@@ -117,7 +117,7 @@ public interface CommonLibFactory {
     
     public HumanVsMachineDecider createHumanVsMachineDecider(
             @Assisted("name") String name);
-    
+
     public CalibrationDecider createCalibrationDecider(
-    		@Assisted("name") String name);
+            @Assisted("name") String name);
 }
