@@ -16,7 +16,7 @@ import xbot.common.properties.XPropertyManager;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
-public class PurePursuitCommand extends BaseCommand {
+public abstract class PurePursuitCommand extends BaseCommand {
 
     public enum PursuitMode {
         Relative, Absolute
@@ -38,11 +38,8 @@ public class PurePursuitCommand extends BaseCommand {
     final DoubleProperty pointDistanceThreshold;
     final HeadingModule headingModule;
 
-    private List<FieldPose> originalPoints;
     private List<FieldPose> pointsToVisit;
-    private int pointIndex;
-    private PursuitMode mode;
-    private Supplier<List<FieldPose>> externalPointSource;
+    private int pointIndex = 0;
 
     @Inject
     public PurePursuitCommand(CommonLibFactory clf, BasePoseSubsystem pose, BaseDriveSubsystem drive,
@@ -55,31 +52,13 @@ public class PurePursuitCommand extends BaseCommand {
         pointDistanceThreshold = propMan.createPersistentProperty(getPrefix() + "Rabbit distance threshold", 12.0);
 
         headingModule = clf.createHeadingModule(drive.getRotateToHeadingPid());
-        mode = PursuitMode.Absolute;
-        removePoints();
-        externalPointSource = null;
     }
-
-    private void removePoints() {
-        originalPoints = new ArrayList<FieldPose>();
-        externalPointSource = null;
-        pointIndex = 0;
-    }
-
-    public void addPoint(FieldPose point) {
-        originalPoints.add(point);
-    }
-
-    public void setMode(PursuitMode mode) {
-        this.mode = mode;
-    }
+    
+    protected abstract List<FieldPose> getOriginalPoints();
+    protected abstract PursuitMode getPursuitMode();
     
     public List<FieldPose> getPlannedPointsToVisit() {
         return new ArrayList<FieldPose>(pointsToVisit);
-    }
-    
-    public void setPointSupplier(Supplier<List<FieldPose>> externalPointSource) {
-        this.externalPointSource = externalPointSource;
     }
 
     @Override
@@ -87,9 +66,8 @@ public class PurePursuitCommand extends BaseCommand {
         log.info("Initializing");
         pointIndex = 0;
         
-        if (externalPointSource != null) {
-            originalPoints = externalPointSource.get();
-        }
+        List<FieldPose> originalPoints = this.getOriginalPoints();
+        PursuitMode mode = this.getPursuitMode();
         
         if (originalPoints == null || originalPoints.isEmpty()) {
             log.warn("No target points specified; command will no-op");
