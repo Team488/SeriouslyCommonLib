@@ -16,14 +16,14 @@ import xbot.common.subsystems.pose.TestPoseSubsystem;
 
 public class PurePursuitCommandTest extends BaseWPITest {
     
-    PurePursuitCommand command;
+    ConfigurablePurePursuitCommand command;
     MockDriveSubsystem drive;
     TestPoseSubsystem pose;
     
     @Override
     public void setUp() {
         super.setUp();
-        command = injector.getInstance(PurePursuitCommand.class);
+        command = injector.getInstance(ConfigurablePurePursuitCommand.class);
         this.drive = (MockDriveSubsystem)injector.getInstance(BaseDriveSubsystem.class);
         this.pose = (TestPoseSubsystem)injector.getInstance(BasePoseSubsystem.class);
         
