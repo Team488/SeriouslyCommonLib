@@ -28,6 +28,12 @@ public class BaseCommandGroup extends CommandGroup {
         }
     }
     
+    public void includeOnSmartDashboard(String label) {
+        if (commandPutter != null) {
+            commandPutter.addCommandToSmartDashboard(label, this);
+        }
+    }
+    
     @Override
     protected void interrupted() {
         log.info("Interrupted");
