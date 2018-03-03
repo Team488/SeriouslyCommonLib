@@ -6,6 +6,7 @@ import java.util.Map;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
@@ -78,5 +79,11 @@ public class MockJoystick extends XJoystick {
     @Override
     public int getPOV() {
         return 0;
+    }
+
+    @Override
+    public GenericHID getRawWPILibJoystick() {
+        // We don't have a real HID
+        return null;
     }
 }
