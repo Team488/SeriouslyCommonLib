@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.buttons.Button;
 
 public abstract class XJoystick
@@ -92,6 +93,8 @@ public abstract class XJoystick
     protected abstract boolean getButton(int button);
     
     protected abstract double getRawAxis(int axisNumber);
+    
+    public abstract GenericHID getRawWPILibJoystick();
     
     public abstract int getPOV();    
 

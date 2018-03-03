@@ -47,4 +47,9 @@ public class JoystickWPIAdapter extends XJoystick {
     public int getPOV() {
         return this.internalHID.getPOV();
     }
+
+    @Override
+    public GenericHID getRawWPILibJoystick() {
+        return internalHID;
+    }
 }
