@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
@@ -13,15 +14,23 @@ public class MockXboxControllerAdapter extends XXboxController {
 
     private XYPair leftStick;
     private XYPair rightStick;
-    
+
     public void setLeftStick(double x, double y) {
         leftStick.x = x;
         leftStick.y = y;
     }
     
+    public void setLeftStick(XYPair value) {
+        setLeftStick(value.x, value.y);
+    }
+    
     public void setRightStick(double x, double y) {
         rightStick.x = x;
         rightStick.y = y;
+    }
+    
+    public void setRightStick(XYPair value) {
+        setRightStick(value.x, value.y);
     }
     
     @Inject
@@ -60,5 +69,15 @@ public class MockXboxControllerAdapter extends XXboxController {
             return leftStick.x;
         }
         return rightStick.x;
+    }
+
+    @Override
+    public int getPOV() {
+        return -1;
+    }
+
+    @Override
+    public void setRumble(RumbleType type, double value) {
+        // No-op
     }
 }

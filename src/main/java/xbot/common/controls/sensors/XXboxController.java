@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.logging.RobotAssertionManager;
@@ -43,7 +44,11 @@ public abstract class XXboxController {
         LeftStick(9),
         RightStick(10),
         LeftTrigger(-1),
-        RightTrigger(-1);
+        RightTrigger(-1),
+        DPadUp(-1),
+        DPadDown(-1),
+        DPadLeft(-1),
+        DPadRight(-1);
         
         private int value;
         
@@ -65,7 +70,14 @@ public abstract class XXboxController {
             // If it's a trigger button, create it in a different way
             if (buttonName == XboxButton.LeftTrigger || buttonName == XboxButton.RightTrigger) {
                 candidate = new AdvancedXboxAxisButton(this, buttonName, 0.75);
-            } else {
+            }
+            else if (buttonName == XboxButton.DPadUp
+                    || buttonName == XboxButton.DPadDown
+                    || buttonName == XboxButton.DPadLeft
+                    || buttonName == XboxButton.DPadRight) {
+                candidate = new AdvancedXboxDPadButton(this, buttonName);
+            }
+            else {
                 candidate = new AdvancedXboxButton(this, buttonName);
             }
             
@@ -177,4 +189,8 @@ public abstract class XXboxController {
     protected abstract double getY(Hand hand);
 
     protected abstract double getX(Hand hand);
+    
+    public abstract int getPOV();
+    
+    public abstract void setRumble(RumbleType type, double value);
 }

@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
@@ -42,5 +43,15 @@ public class XboxControllerWpiAdapter extends XXboxController {
     @Override
     protected double getTriggerAxis(Hand hand) {
         return controller.getTriggerAxis(hand);
+    }
+
+    @Override
+    public int getPOV() {
+        return controller.getPOV();
+    }
+    
+    @Override
+    public void setRumble(RumbleType type, double value) {
+        controller.setRumble(type, value);
     }
 }
