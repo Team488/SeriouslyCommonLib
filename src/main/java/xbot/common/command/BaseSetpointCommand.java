@@ -7,6 +7,10 @@ public abstract class BaseSetpointCommand extends BaseCommand {
         this.setTimeout(1);
     }
     
+    public void changeTimeout(double seconds) {
+        this.setTimeout(seconds);
+    }
+    
     @Override
     public boolean isFinished() {
         return this.isTimedOut();
