@@ -160,6 +160,11 @@ public abstract class PurePursuitCommand extends BaseCommand {
     }
     
     @Override
+    public void end() {
+        drive.stop();
+    }
+    
+    @Override
     public boolean isFinished() {
         if (pointsToVisit == null || pointsToVisit.isEmpty()) {
             return true;
