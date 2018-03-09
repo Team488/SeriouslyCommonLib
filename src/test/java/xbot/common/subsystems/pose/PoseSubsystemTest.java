@@ -58,6 +58,12 @@ public class PoseSubsystemTest extends BasePoseTest {
         verifyRobotHeading(10);
     }
     
+    @Test
+    public void testTilt() {
+        mockRobotIO.setGyroPitch(100);
+        assertEquals(100, pose.getRobotPitch(), 0.001);
+    }
+    
     protected void setMockGyroHeading(double heading) {
         mockRobotIO.setGyroHeading(heading);
     }

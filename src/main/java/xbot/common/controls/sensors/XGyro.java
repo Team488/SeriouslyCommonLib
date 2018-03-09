@@ -45,7 +45,7 @@ public abstract class XGyro
     
     public double getPitch() {
         if (!isBroken()) {
-            return getDeviceYaw();
+            return getDevicePitch();
         }
         return 0;
     }

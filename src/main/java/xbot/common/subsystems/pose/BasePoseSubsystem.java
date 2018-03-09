@@ -213,8 +213,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         inherentRioRoll.set(getUntrimmedRoll());
     }
     
-    public void getYawAngularVelocity(){
-        imu.getYawAngularVelocity();
+    public double getYawAngularVelocity(){
+        return imu.getYawAngularVelocity();
     }
     
     public boolean getNavXReady() {
