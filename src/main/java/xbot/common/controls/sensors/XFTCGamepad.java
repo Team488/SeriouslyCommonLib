@@ -1,6 +1,5 @@
 package xbot.common.controls.sensors;
 
-import edu.wpi.first.wpilibj.Joystick;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;

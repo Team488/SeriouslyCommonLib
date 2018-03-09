@@ -2,8 +2,6 @@ package xbot.common.subsystems.drive;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
-
 import com.google.inject.Inject;
 
 import xbot.common.command.BaseCommand;
