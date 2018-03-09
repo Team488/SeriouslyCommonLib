@@ -27,6 +27,7 @@ import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.logic.CalibrationDecider;
 import xbot.common.logic.HumanVsMachineDecider;
+import xbot.common.logic.VelocityThrottleModule;
 import xbot.common.math.PIDManager;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
@@ -120,4 +121,8 @@ public interface CommonLibFactory {
 
     public CalibrationDecider createCalibrationDecider(
             @Assisted("name") String name);
+    
+    public VelocityThrottleModule createVelocityThrottleModule(
+            @Assisted("name") String name,
+            @Assisted("velocityPid") PIDManager velocityPid);
 }
