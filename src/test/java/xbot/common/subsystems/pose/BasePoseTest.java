@@ -14,13 +14,13 @@ import xbot.common.injection.BaseWPITest;
 @Ignore
 public class BasePoseTest extends BaseWPITest {
 
-    protected TestPoseSubsystem pose;
+    protected MockBasePoseSubsystem pose;
     protected MockTimer mockTimer;
     
     @Before
     public void setup() {
         mockTimer = injector.getInstance(MockTimer.class);
-        pose = injector.getInstance(TestPoseSubsystem.class);
+        pose = injector.getInstance(MockBasePoseSubsystem.class);
         
         XCANTalon left = clf.createCANTalon(0);
         left.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);

@@ -38,6 +38,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
 
     private List<FieldPose> pointsToVisit;
     private int pointIndex = 0;
+    private boolean stickyPursueForward = true;
 
     @Inject
     public PurePursuitCommand(CommonLibFactory clf, BasePoseSubsystem pose, BaseDriveSubsystem drive,
@@ -102,12 +103,29 @@ public abstract class PurePursuitCommand extends BaseCommand {
         }
         
         log.info("Initialized PurePursuitCommand with " + pointsToVisit.size() + " point(s)");
+        
+        if (pointsToVisit.size() > 0) {
+            chooseStickyPursuitForward(pointsToVisit.get(0));
+        }
     }
 
     @Override
     public void execute() {
         RabbitChaseInfo chaseData = navigateToRabbit();
         drive.drive(new XYPair(0, chaseData.translation), chaseData.rotation);
+    }
+    
+    private void chooseStickyPursuitForward(FieldPose point) {
+        double distanceRemainingToPointAlongPath = 
+                -point.getDistanceAlongPoseLine(pose.getCurrentFieldPose().getPoint());
+        
+        if (distanceRemainingToPointAlongPath < 0) {
+            log.info("After analyzing the upcoming point, robot will attempt to pursue in reverse.");
+            stickyPursueForward = false;
+        } else {
+            log.info("After analyzing the upcoming point, robot will attempt to pursue forward.");
+            stickyPursueForward = true;
+        }
     }
 
     public RabbitChaseInfo navigateToRabbit() {
@@ -130,7 +148,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         
         double lookaheadFactor = 1;
         double aimFactor = 0;
-        if (distanceRemainingToPointAlongPath < 0) {
+        if (!stickyPursueForward) {
             lookaheadFactor = -1;
             aimFactor = 180;
         }
@@ -142,6 +160,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         if (Math.abs(distanceRemainingToPointAlongPath) < pointDistanceThreshold.get()
                 && pointIndex < pointsToVisit.size() - 1) {
             pointIndex++;
+            chooseStickyPursuitForward(pointsToVisit.get(pointIndex));
         }
 
         // We're going to cheese the system a little bit - if this isn't the last point, then we always have a long way

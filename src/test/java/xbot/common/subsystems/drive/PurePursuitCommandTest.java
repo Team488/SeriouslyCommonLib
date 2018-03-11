@@ -12,20 +12,20 @@ import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
 import xbot.common.subsystems.drive.PurePursuitCommand.PursuitMode;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
-import xbot.common.subsystems.pose.TestPoseSubsystem;
+import xbot.common.subsystems.pose.MockBasePoseSubsystem;
 
 public class PurePursuitCommandTest extends BaseWPITest {
     
     ConfigurablePurePursuitCommand command;
     MockDriveSubsystem drive;
-    TestPoseSubsystem pose;
+    MockBasePoseSubsystem pose;
     
     @Override
     public void setUp() {
         super.setUp();
         command = injector.getInstance(ConfigurablePurePursuitCommand.class);
         this.drive = (MockDriveSubsystem)injector.getInstance(BaseDriveSubsystem.class);
-        this.pose = (TestPoseSubsystem)injector.getInstance(BasePoseSubsystem.class);
+        this.pose = (MockBasePoseSubsystem)injector.getInstance(BasePoseSubsystem.class);
         
         pose.setDriveTalons(drive.leftTank, drive.rightTank);
         
@@ -120,6 +120,23 @@ public class PurePursuitCommandTest extends BaseWPITest {
         verifyPose(command.getPlannedPointsToVisit().get(0), 1, 2, 3);
     }
     
+    @Test
+    public void testStickyMode() {
+        command.addPoint(new FieldPose(new XYPair(0, 10), new ContiguousHeading(90)));
+        command.initialize();
+        command.execute();
+        verifyTankDrive(1, 1);
+        
+        pose.forceTotalXandY(1000000, 20);
+        command.execute();
+        command.execute();
+        
+        // too far forward, so -1, -1
+        // Need to turn hard to the left, so -1, 1
+        // should balance to -1, 0
+        verifyTankDrive(-1, 0);
+    }
+    
     protected void verifyPose(FieldPose poseToTest, double x, double y, double heading) {
         assertEquals("Looking at X", x, poseToTest.getPoint().x, 0.001);
         assertEquals("Looking at Y", y, poseToTest.getPoint().y, 0.001);
@@ -127,7 +144,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
     }
     
     protected void verifyTankDrive(double left, double right) {
-        assertEquals(left, drive.leftTank.getMotorOutputPercent(), 0.001);
-        assertEquals(right, drive.rightTank.getMotorOutputPercent(), 0.001);
+        assertEquals("Checking Left Drive", left, drive.leftTank.getMotorOutputPercent(), 0.001);
+        assertEquals("Checking Right Drive", right, drive.rightTank.getMotorOutputPercent(), 0.001);
     }
 }

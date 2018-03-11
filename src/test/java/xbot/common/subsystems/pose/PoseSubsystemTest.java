@@ -6,11 +6,11 @@ import org.junit.Test;
 
 public class PoseSubsystemTest extends BasePoseTest {
         
-    TestPoseSubsystem pose;
+    MockBasePoseSubsystem pose;
     
     public void setup() {
         super.setup();
-        pose = injector.getInstance(TestPoseSubsystem.class);
+        pose = injector.getInstance(MockBasePoseSubsystem.class);
     }    
     
     @Test

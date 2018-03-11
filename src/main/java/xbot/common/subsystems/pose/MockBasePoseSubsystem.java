@@ -11,13 +11,13 @@ import xbot.common.properties.XPropertyManager;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 @Singleton
-public class TestPoseSubsystem extends BasePoseSubsystem {
+public class MockBasePoseSubsystem extends BasePoseSubsystem {
 
     private XCANTalon left;
     private XCANTalon right;
     
     @Inject
-    public TestPoseSubsystem(CommonLibFactory factory, XPropertyManager propManager) {
+    public MockBasePoseSubsystem(CommonLibFactory factory, XPropertyManager propManager) {
         super(factory, propManager);
     }
     
@@ -43,5 +43,10 @@ public class TestPoseSubsystem extends BasePoseSubsystem {
         ((MockCANTalon)this.left).setPosition(left);
         ((MockCANTalon)this.right).setPosition(right);
         updatePeriodicData();
+    }
+    
+    public void forceTotalXandY(double x, double y) {
+        totalDistanceX.set(x);
+        totalDistanceY.set(y);
     }
 }
