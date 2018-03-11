@@ -21,8 +21,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     private final DoubleProperty leftDriveDistance;
     private final DoubleProperty rightDriveDistance;
     
-    private final DoubleProperty totalDistanceX;
-    private final DoubleProperty totalDistanceY;
+    protected final DoubleProperty totalDistanceX;
+    protected final DoubleProperty totalDistanceY;
     private final DoubleProperty totalVelocity;
     
     private ContiguousHeading currentHeading;
