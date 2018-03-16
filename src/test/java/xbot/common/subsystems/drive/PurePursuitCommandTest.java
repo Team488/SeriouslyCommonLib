@@ -127,7 +127,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
         command.execute();
         verifyTankDrive(1, 1);
         
-        pose.forceTotalXandY(1000000, 20);
+        pose.forceTotalXandY(1000000, 30);
         command.execute();
         command.execute();
         
