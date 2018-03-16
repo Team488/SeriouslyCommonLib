@@ -51,7 +51,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
 
         rabbitLookAhead = propMan.createPersistentProperty(getPrefix() + "Rabbit lookahead (in)", 12);
         pointDistanceThreshold = propMan.createPersistentProperty(getPrefix() + "Rabbit distance threshold", 12.0);
-        motionBudget = propMan.createPersistentProperty(getPrefix() + "Motion Budget", 1.5);
+        motionBudget = propMan.createPersistentProperty(getPrefix() + "Motion Budget", 1);
         headingModule = clf.createHeadingModule(drive.getRotateToHeadingPid());
     }
     
