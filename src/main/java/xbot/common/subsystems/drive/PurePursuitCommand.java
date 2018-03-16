@@ -154,7 +154,14 @@ public abstract class PurePursuitCommand extends BaseCommand {
         }
 
         double angleToRabbit = target.getVectorToRabbit(robot, rabbitLookAhead.get()*lookaheadFactor).getAngle() + aimFactor;
-        double turnPower = headingModule.calculateHeadingPower(angleToRabbit);
+        
+        double goalAngle = angleToRabbit;
+        if (Math.abs(distanceRemainingToPointAlongPath) < pointDistanceThreshold.get()) {
+            goalAngle = target.getHeading().getValue();
+        }
+        
+        double turnPower = headingModule.calculateHeadingPower(goalAngle);
+       
 
         // If we are quite close to a point, and not on the last one, let's advance targets.
         if (Math.abs(distanceRemainingToPointAlongPath) < pointDistanceThreshold.get()
