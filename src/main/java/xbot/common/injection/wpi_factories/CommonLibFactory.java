@@ -27,6 +27,7 @@ import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.logic.CalibrationDecider;
 import xbot.common.logic.HumanVsMachineDecider;
+import xbot.common.logic.StallDetector;
 import xbot.common.logic.VelocityThrottleModule;
 import xbot.common.math.PIDManager;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
@@ -125,4 +126,8 @@ public interface CommonLibFactory {
     public VelocityThrottleModule createVelocityThrottleModule(
             @Assisted("name") String name,
             @Assisted("velocityPid") PIDManager velocityPid);
+    
+    public StallDetector createStallDetector(
+            @Assisted("name") String name, 
+            @Assisted("maxVelocity") double maxVelocity);
 }
