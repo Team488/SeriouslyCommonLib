@@ -8,6 +8,7 @@ import xbot.common.command.BaseCommand;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.ContiguousHeading;
 import xbot.common.math.FieldPose;
+import xbot.common.math.MathUtils;
 import xbot.common.math.XYPair;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
@@ -34,6 +35,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
 
     final DoubleProperty rabbitLookAhead;
     final DoubleProperty pointDistanceThreshold;
+    final DoubleProperty motionBudget;
     final HeadingModule headingModule;
 
     private List<FieldPose> pointsToVisit;
@@ -49,7 +51,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
 
         rabbitLookAhead = propMan.createPersistentProperty(getPrefix() + "Rabbit lookahead (in)", 12);
         pointDistanceThreshold = propMan.createPersistentProperty(getPrefix() + "Rabbit distance threshold", 12.0);
-
+        motionBudget = propMan.createPersistentProperty(getPrefix() + "Motion Budget", 1.5);
         headingModule = clf.createHeadingModule(drive.getRotateToHeadingPid());
     }
     
@@ -178,6 +180,17 @@ public abstract class PurePursuitCommand extends BaseCommand {
         }
 
         double translationPower = drive.getPositionalPid().calculate(distanceRemainingToPointAlongPath, 0);
+        
+        // If the robot wants to turn, we can lower the translationPower to allow more stable turning. When
+        // the turn value decreases, we can allow more translationPower. This essentially slows down the robot
+        // in curves, and gives it full throttle on long stretches.
+        
+        // Essentially, there is a total motion budget, and turning has first access to this budget.
+        
+        double remainingBudget = motionBudget.get() - Math.abs(turnPower);
+        double constrainedRemainingBudget = MathUtils.constrainDouble(remainingBudget, 0, 1);
+        translationPower = translationPower * constrainedRemainingBudget;
+        
         log.info(String.format("Point: %d, DistanceR: %.2f, Power: %.2f", pointIndex, distanceRemainingToPointAlongPath,
                 translationPower));
         return new RabbitChaseInfo(translationPower, turnPower);
@@ -198,4 +211,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         return (drive.getPositionalPid().isOnTarget()) && (pointIndex == pointsToVisit.size() - 1);
     }
 
+    public double getMotionBudget() {
+        return motionBudget.get();
+    }
 }

@@ -59,7 +59,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
         command.initialize();
         command.execute();
         
-        verifyTankDrive(1, 0);
+        verifyTankDrive(1, -.5);
     }
     
     @Test
@@ -73,7 +73,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
         verifyTankDrive(1, 1);
         
         command.execute();
-        verifyTankDrive(0, 1);
+        verifyTankDrive(-.5, 1);
     }
     
     @Test
@@ -134,7 +134,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
         // too far forward, so -1, -1
         // Need to turn hard to the left, so -1, 1
         // should balance to -1, 0
-        verifyTankDrive(-1, 0);
+        verifyTankDrive(-1, .5);
     }
     
     protected void verifyPose(FieldPose poseToTest, double x, double y, double heading) {
