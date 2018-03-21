@@ -96,8 +96,8 @@ public abstract class XJoystick
     
     public abstract GenericHID getRawWPILibJoystick();
     
-    public abstract int getPOV();    
-
+    public abstract int getPOV();  
+    
     public void addAnalogButton(int axisNumber, double minThreshold, double maxThreshold) {
         addAnalogButton(new AnalogHIDDescription(axisNumber, minThreshold, maxThreshold));
     }
