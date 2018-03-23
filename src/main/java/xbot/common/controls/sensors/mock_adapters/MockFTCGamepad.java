@@ -17,7 +17,7 @@ public class MockFTCGamepad extends XFTCGamepad {
 
     Map<Integer, Boolean> buttons = new HashMap<Integer, Boolean>();
     Map<Integer, Double> rawAxis = new HashMap<Integer, Double>();
-    int POV;
+    int pov;
 
     @Inject
     public MockFTCGamepad(@Assisted("port") int port, CommonLibFactory clf, RobotAssertionManager assertionManager,
@@ -84,11 +84,11 @@ public class MockFTCGamepad extends XFTCGamepad {
 
     @Override
     public int getPOV() {
-        return this.POV;
+        return this.pov;
     }
 
-    public void setPOV(int POV) {
-        this.POV = POV;
+    public void setPOV(int pov) {
+        this.pov = pov;
     }
 
     @Override
