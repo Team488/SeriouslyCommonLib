@@ -20,22 +20,16 @@ public class MockFTCGamepad extends XFTCGamepad {
     int POV;
 
     @Inject
-    public MockFTCGamepad(
-            @Assisted("port") int port, 
-            CommonLibFactory clf, 
-            RobotAssertionManager assertionManager, 
-            @Assisted("numButtons") int numButtons, 
-            DevicePolice police) {
+    public MockFTCGamepad(@Assisted("port") int port, CommonLibFactory clf, RobotAssertionManager assertionManager,
+            @Assisted("numButtons") int numButtons, DevicePolice police) {
 
         super(port, clf, assertionManager, numButtons, police);
 
-        for(int i = 0; i < 6; i++)
-        {
+        for (int i = 0; i < 6; i++) {
             rawAxis.put(i, 0d);
         }
 
-        for(int i = 0; i < 12; i++)
-        {
+        for (int i = 0; i < 12; i++) {
             releaseButton(i);
         }
     }
@@ -77,12 +71,12 @@ public class MockFTCGamepad extends XFTCGamepad {
     protected double getY() {
         return getRawAxis(1);
     }
-    
+
     public void setLeftStick(XYPair vector) {
         setX(getLeftStickXInversion() ? -vector.x : vector.x);
         setY(getLeftStickYInversion() ? -vector.y : vector.y);
     }
-    
+
     public void setRightStick(XYPair vector) {
         setRawAxis(4, getLeftStickXInversion() ? -vector.x : vector.x);
         setRawAxis(5, getLeftStickYInversion() ? -vector.y : vector.y);
@@ -92,7 +86,7 @@ public class MockFTCGamepad extends XFTCGamepad {
     public int getPOV() {
         return this.POV;
     }
-    
+
     public void setPOV(int POV) {
         this.POV = POV;
     }

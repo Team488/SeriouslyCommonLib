@@ -15,12 +15,11 @@ import org.apache.log4j.Logger;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.buttons.Button;
 
-public abstract class XJoystick
-{
+public abstract class XJoystick {
     protected int port;
     private boolean xInverted = false;
     private boolean yInverted = false;
-    
+
     private static final Logger log = Logger.getLogger(XJoystick.class);
 
     private HashMap<Integer, AdvancedJoystickButton> buttonMap;
@@ -32,19 +31,15 @@ public abstract class XJoystick
 
     private RobotAssertionManager assertionManager;
     private DevicePolice police;
-    
-    public XJoystick(
-            int port, 
-            CommonLibFactory clf, 
-            RobotAssertionManager assertionManager, 
-            int numButtons,
+
+    public XJoystick(int port, CommonLibFactory clf, RobotAssertionManager assertionManager, int numButtons,
             DevicePolice police) {
         this.port = port;
         this.police = police;
         this.clf = clf;
         this.assertionManager = assertionManager;
         maxButtons = numButtons;
-        
+
         this.buttonMap = new HashMap<Integer, AdvancedJoystickButton>(numButtons);
         this.analogButtonMap = new HashMap<>();
         this.povButtonMap = new HashMap<Integer, AdvancedPovButton>();
@@ -52,14 +47,14 @@ public abstract class XJoystick
         for (int i = 1; i <= numButtons; i++) {
             this.set(i, clf.createAdvancedJoystickButton(this, i));
         }
-        
-        for (int i = 0; i < 360; i+=45) {
+
+        for (int i = 0; i < 360; i += 45) {
             povButtonMap.put(i, clf.createAdvancedPovButton(this, i));
         }
-        
+
         police.registerDevice(DeviceType.USB, port);
     }
-    
+
     public int getPort() {
         return port;
     }
@@ -70,7 +65,7 @@ public abstract class XJoystick
 
     public void setXInversion(boolean inverted) {
         xInverted = inverted;
-        
+
     }
 
     public boolean getYInversion() {
@@ -78,26 +73,25 @@ public abstract class XJoystick
     }
 
     public void setYInversion(boolean inverted) {
-        yInverted = inverted;        
+        yInverted = inverted;
     }
-    
+
     public XYPair getVector() {
-        return new XYPair(
-                getX() * (getXInversion() ? -1 : 1),
-                getY() * (getYInversion() ? -1 : 1));
+        return new XYPair(getX() * (getXInversion() ? -1 : 1), getY() * (getYInversion() ? -1 : 1));
     }
-    
+
     protected abstract double getX();
+
     protected abstract double getY();
-    
+
     protected abstract boolean getButton(int button);
-    
+
     protected abstract double getRawAxis(int axisNumber);
-    
+
     public abstract GenericHID getRawWPILibJoystick();
-    
-    public abstract int getPOV();  
-    
+
+    public abstract int getPOV();
+
     public void addAnalogButton(int axisNumber, double minThreshold, double maxThreshold) {
         addAnalogButton(new AnalogHIDDescription(axisNumber, minThreshold, maxThreshold));
     }
@@ -105,40 +99,39 @@ public abstract class XJoystick
     public void addAnalogButton(AnalogHIDDescription desc) {
         setAnalog(clf.createAnalogHIDButton(this, desc));
     }
-    
+
     public enum ButtonSource {
-        Standard,
-        POV
+        Standard, POV
     }
 
     public AdvancedButton getifAvailable(int buttonNumber) {
-        
+
         if (buttonNumber < 1 || buttonNumber > maxButtons) {
             return handleInvalidButton("button " + buttonNumber + " is out of range!");
         }
-        
+
         if (buttonMap.containsKey(buttonNumber)) {
             return buttonMap.remove(buttonNumber);
         } else {
             return handleInvalidButton("button " + buttonNumber + " is already used! Cannot be used twice!");
         }
     }
-    
+
     public AdvancedButton getPovIfAvailable(int povNumber) {
         if (povNumber < -1 || povNumber > 315) {
             return handleInvalidButton("button " + povNumber + " is out of range!");
         }
-        
+
         if (povButtonMap.containsKey(povNumber)) {
             return povButtonMap.remove(povNumber);
         } else {
             return handleInvalidButton("button " + povNumber + " is already used! Cannot be used twice!");
         }
     }
-    
+
     private AdvancedButton handleInvalidButton(String message) {
         assertionManager.throwException(message, new Exception());
-        
+
         MockJoystick mj = new MockJoystick(0, clf, assertionManager, 12, police);
         return new AdvancedJoystickButton(mj, 1);
     }

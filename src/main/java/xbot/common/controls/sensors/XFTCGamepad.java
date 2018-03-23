@@ -12,7 +12,8 @@ public abstract class XFTCGamepad extends XJoystick {
     private boolean xRightInverted = false;
     private boolean yRightInverted = false;
 
-    public XFTCGamepad(int port, CommonLibFactory clf, RobotAssertionManager assertionManager, int numButtons, DevicePolice police) {
+    public XFTCGamepad(int port, CommonLibFactory clf, RobotAssertionManager assertionManager, int numButtons,
+            DevicePolice police) {
         super(port, clf, assertionManager, numButtons, police);
     }
 
@@ -23,20 +24,20 @@ public abstract class XFTCGamepad extends XJoystick {
     public XYPair getLeftVector() {
         return this.getVector();
     }
-    
+
     public double getLeftTrigger() {
         return this.getRawAxis(2);
     }
-    
+
     public double getRightTrigger() {
         return this.getRawAxis(3);
     }
-    
-    public double getRightStickX(){
+
+    public double getRightStickX() {
         return this.getRawAxis(4) * (getRightStickXInversion() ? -1 : 1);
     }
 
-    public double getRightStickY(){
+    public double getRightStickY() {
         return this.getRawAxis(5) * (getRightStickYInversion() ? -1 : 1);
     }
 
@@ -74,6 +75,6 @@ public abstract class XFTCGamepad extends XJoystick {
     }
 
     public void setRightStickYInversion(boolean inverted) {
-        yRightInverted = inverted;        
+        yRightInverted = inverted;
     }
 }
