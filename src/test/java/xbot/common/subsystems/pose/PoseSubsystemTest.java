@@ -77,4 +77,15 @@ public class PoseSubsystemTest extends BasePoseTest {
     protected void verifyRobotHeading(double expectedHeading) {
         assertEquals(expectedHeading, pose.getCurrentHeading().getValue(), 0.001);
     }
+    
+    @Test
+    public void setPosition() {
+        pose.setCurrentPosition(0, 0);
+        assertEquals(0, pose.getFieldOrientedTotalDistanceTraveled().x, .01);
+        assertEquals(0, pose.getFieldOrientedTotalDistanceTraveled().y, .01);
+        
+        pose.setCurrentPosition(20, 30);
+        assertEquals(20, pose.getFieldOrientedTotalDistanceTraveled().x, .01);
+        assertEquals(30, pose.getFieldOrientedTotalDistanceTraveled().y, .01);
+    }
 }
