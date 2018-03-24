@@ -157,6 +157,11 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         lastSetHeadingTime = Timer.getFPGATimestamp();
     }
     
+    public void setCurrentPosition(double xPosition, double yPosition) {
+        totalDistanceX.set(xPosition);
+        totalDistanceY.set(yPosition);
+    }
+    
     public boolean getHeadingResetRecently() {
         return Timer.getFPGATimestamp() - lastSetHeadingTime < 1;
     }
