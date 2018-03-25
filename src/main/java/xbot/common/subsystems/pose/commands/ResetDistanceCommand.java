@@ -12,6 +12,7 @@ public class ResetDistanceCommand extends BaseCommand {
     @Inject
     public ResetDistanceCommand(BasePoseSubsystem poseSubsystem) {
         this.poseSubsystem = poseSubsystem;
+        this.setRunWhenDisabled(true);
     }
 
     @Override
