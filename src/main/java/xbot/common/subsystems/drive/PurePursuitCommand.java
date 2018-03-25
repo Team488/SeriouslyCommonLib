@@ -30,8 +30,8 @@ public abstract class PurePursuitCommand extends BaseCommand {
         }
     }
 
-    BasePoseSubsystem pose;
-    BaseDriveSubsystem drive;
+    protected final BasePoseSubsystem pose;
+    protected final BaseDriveSubsystem drive;
 
     final DoubleProperty rabbitLookAhead;
     final DoubleProperty pointDistanceThreshold;
@@ -39,7 +39,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
     final HeadingModule headingModule;
 
     private List<FieldPose> pointsToVisit;
-    private int pointIndex = 0;
+    protected int pointIndex = 0;
     private boolean stickyPursueForward = true;
 
     @Inject
