@@ -12,9 +12,9 @@ import xbot.common.properties.XPropertyManager;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 public class ConfigurablePurePursuitCommand extends PurePursuitCommand {
-    private List<FieldPose> originalPoints;
+    private List<RabbitPoint> originalPoints;
     private PointLoadingMode mode;
-    private Supplier<List<FieldPose>> externalPointSource;
+    private Supplier<List<RabbitPoint>> externalPointSource;
 
     @Inject
     public ConfigurablePurePursuitCommand(CommonLibFactory clf, BasePoseSubsystem pose, BaseDriveSubsystem drive,
@@ -25,19 +25,23 @@ public class ConfigurablePurePursuitCommand extends PurePursuitCommand {
         externalPointSource = null;
     }
 
-    public void addPoint(FieldPose point) {
+    public void addPoint(RabbitPoint point) {
         originalPoints.add(point);
+    }
+    
+    public void addPoint(FieldPose point) {
+        originalPoints.add(new RabbitPoint(point));
     }
 
     public void setMode(PointLoadingMode mode) {
         this.mode = mode;
     }
     
-    public void setPointSupplier(Supplier<List<FieldPose>> externalPointSource) {
+    public void setPointSupplier(Supplier<List<RabbitPoint>> externalPointSource) {
         this.externalPointSource = externalPointSource;
     }
     
-    protected List<FieldPose> getOriginalPoints() {
+    protected List<RabbitPoint> getOriginalPoints() {
         if (externalPointSource != null) {
             originalPoints = externalPointSource.get();
         }

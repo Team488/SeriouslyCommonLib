@@ -110,8 +110,8 @@ public class PurePursuitCommandTest extends BaseWPITest {
         command.addPoint(new FieldPose(new XYPair(10, 10), new ContiguousHeading(90)));
         
         command.setPointSupplier(() -> 
-        new ArrayList<FieldPose>() {{
-            add(new FieldPose(new XYPair(1, 2), new ContiguousHeading(3)));
+        new ArrayList<RabbitPoint>() {{
+            add(new RabbitPoint(1, 2, 3));
             }}
         );
         

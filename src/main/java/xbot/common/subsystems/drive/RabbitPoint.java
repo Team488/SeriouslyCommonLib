@@ -3,7 +3,9 @@ package xbot.common.subsystems.drive;
 import java.util.ArrayList;
 import java.util.List;
 
+import xbot.common.math.ContiguousHeading;
 import xbot.common.math.FieldPose;
+import xbot.common.math.XYPair;
 
 public class RabbitPoint {
 
@@ -26,6 +28,10 @@ public class RabbitPoint {
     public PointTerminatingType terminatingType;
     public PointDriveStyle driveStyle;
     public FieldPose pose;
+    
+    public RabbitPoint(double x, double y, double heading) {
+        this(new FieldPose(new XYPair(x, y), new ContiguousHeading(heading)));
+    }
     
     public RabbitPoint(FieldPose pose) {
         this.pose = pose;
