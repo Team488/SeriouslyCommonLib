@@ -13,14 +13,14 @@ import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 public class ConfigurablePurePursuitCommand extends PurePursuitCommand {
     private List<FieldPose> originalPoints;
-    private PursuitMode mode;
+    private PointLoadingMode mode;
     private Supplier<List<FieldPose>> externalPointSource;
 
     @Inject
     public ConfigurablePurePursuitCommand(CommonLibFactory clf, BasePoseSubsystem pose, BaseDriveSubsystem drive,
             XPropertyManager propMan) {
         super(clf, pose, drive, propMan);
-        mode = PursuitMode.Absolute;
+        mode = PointLoadingMode.Absolute;
         originalPoints = new ArrayList<>();
         externalPointSource = null;
     }
@@ -29,7 +29,7 @@ public class ConfigurablePurePursuitCommand extends PurePursuitCommand {
         originalPoints.add(point);
     }
 
-    public void setMode(PursuitMode mode) {
+    public void setMode(PointLoadingMode mode) {
         this.mode = mode;
     }
     
@@ -44,7 +44,7 @@ public class ConfigurablePurePursuitCommand extends PurePursuitCommand {
         return originalPoints;
     }
     
-    protected PursuitMode getPursuitMode() {
+    protected PointLoadingMode getPursuitMode() {
         return this.mode;
     }
 

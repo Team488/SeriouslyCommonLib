@@ -10,7 +10,7 @@ import xbot.common.injection.BaseWPITest;
 import xbot.common.math.ContiguousHeading;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
-import xbot.common.subsystems.drive.PurePursuitCommand.PursuitMode;
+import xbot.common.subsystems.drive.PurePursuitCommand.PointLoadingMode;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.MockBasePoseSubsystem;
 
@@ -81,7 +81,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
         command.addPoint(new FieldPose(new XYPair(0, 10), new ContiguousHeading(90)));
         command.addPoint(new FieldPose(new XYPair(10, 10), new ContiguousHeading(90)));
         
-        command.setMode(PursuitMode.Relative);
+        command.setMode(PointLoadingMode.Relative);
         command.initialize();
         
         verifyPose(command.getPlannedPointsToVisit().get(0), 0, 10, 90);
@@ -97,7 +97,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
         pose.setCurrentHeading(180);
         pose.setDriveEncoderDistances(10, 10);
         
-        command.setMode(PursuitMode.Relative);
+        command.setMode(PointLoadingMode.Relative);
         command.initialize();
         
         verifyPose(command.getPlannedPointsToVisit().get(0), -20, 0, 180);
@@ -137,10 +137,10 @@ public class PurePursuitCommandTest extends BaseWPITest {
         verifyTankDrive(-1, 1);
     }
     
-    protected void verifyPose(FieldPose poseToTest, double x, double y, double heading) {
-        assertEquals("Looking at X", x, poseToTest.getPoint().x, 0.001);
-        assertEquals("Looking at Y", y, poseToTest.getPoint().y, 0.001);
-        assertEquals("Looking at Heading", heading, poseToTest.getHeading().getValue(), 0.001);
+    protected void verifyPose(RabbitPoint poseToTest, double x, double y, double heading) {
+        assertEquals("Looking at X", x, poseToTest.pose.getPoint().x, 0.001);
+        assertEquals("Looking at Y", y, poseToTest.pose.getPoint().y, 0.001);
+        assertEquals("Looking at Heading", heading, poseToTest.pose.getHeading().getValue(), 0.001);
     }
     
     protected void verifyTankDrive(double left, double right) {

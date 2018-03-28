@@ -17,7 +17,7 @@ import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 public abstract class PurePursuitCommand extends BaseCommand {
 
-    public enum PursuitMode {
+    public enum PointLoadingMode {
         Relative, Absolute
     }
     
@@ -30,7 +30,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         }
     }
 
-    private final BasePoseSubsystem pose;
+    private final BasePoseSubsystem poseSystem;
     private final BaseDriveSubsystem drive;
 
     final DoubleProperty rabbitLookAhead;
@@ -38,14 +38,14 @@ public abstract class PurePursuitCommand extends BaseCommand {
     final DoubleProperty motionBudget;
     final HeadingModule headingModule;
 
-    private List<FieldPose> pointsToVisit;
+    private List<RabbitPoint> pointsToVisit;
     protected int pointIndex = 0;
     private boolean stickyPursueForward = true;
 
     @Inject
     public PurePursuitCommand(CommonLibFactory clf, BasePoseSubsystem pose, BaseDriveSubsystem drive,
             XPropertyManager propMan) {
-        this.pose = pose;
+        this.poseSystem = pose;
         this.drive = drive;
         this.requires(drive);
 
@@ -55,11 +55,11 @@ public abstract class PurePursuitCommand extends BaseCommand {
         headingModule = clf.createHeadingModule(drive.getRotateToHeadingPid());
     }
     
-    protected abstract List<FieldPose> getOriginalPoints();
-    protected abstract PursuitMode getPursuitMode();
+    protected abstract List<RabbitPoint> getOriginalPoints();
+    protected abstract PointLoadingMode getPursuitMode();
     
-    public List<FieldPose> getPlannedPointsToVisit() {
-        return new ArrayList<FieldPose>(pointsToVisit);
+    public List<RabbitPoint> getPlannedPointsToVisit() {
+        return new ArrayList<RabbitPoint>(pointsToVisit);
     }
 
     @Override
@@ -67,12 +67,12 @@ public abstract class PurePursuitCommand extends BaseCommand {
         log.info("Initializing");
         pointIndex = 0;
         
-        List<FieldPose> originalPoints = this.getOriginalPoints();
-        PursuitMode mode = this.getPursuitMode();
+        List<RabbitPoint> originalPoints = this.getOriginalPoints();
+        PointLoadingMode mode = this.getPursuitMode();
         
         if (originalPoints == null || originalPoints.isEmpty()) {
             log.warn("No target points specified; command will no-op");
-            this.pointsToVisit = new ArrayList<FieldPose>();
+            this.pointsToVisit = new ArrayList<RabbitPoint>();
             return;
         }
         
@@ -81,23 +81,27 @@ public abstract class PurePursuitCommand extends BaseCommand {
                 pointsToVisit = originalPoints;
                 break;
             case Relative:
-                pointsToVisit = new ArrayList<FieldPose>();
-                FieldPose currentRobotPose = pose.getCurrentFieldPose();
-                for (FieldPose originalPoint : originalPoints) {
+                pointsToVisit = new ArrayList<>();
+                FieldPose currentRobotPose = poseSystem.getCurrentFieldPose();
+                for (RabbitPoint originalPoint : originalPoints) {
                     // First, rotate the point according to the robot's current heading - 90
-                    XYPair updatedPoint = originalPoint.getPoint().clone().rotate(
+                    XYPair updatedPoint = originalPoint.pose.getPoint().clone().rotate(
                             currentRobotPose.getHeading().getValue()-BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS);
                     
                     // Then, translate the point according to the robot's current field position
                     updatedPoint.add(currentRobotPose.getPoint());
                     
                     // Finally, rotate the original's goal heading by the robot's current heading -90
-                    double updatedHeading = originalPoint.getHeading().getValue() 
+                    double updatedHeading = originalPoint.pose.getHeading().getValue() 
                             + currentRobotPose.getHeading().getValue() 
                             - BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS;
                     
                     FieldPose updatedPose = new FieldPose(updatedPoint, new ContiguousHeading(updatedHeading));
-                    pointsToVisit.add(updatedPose);
+                    pointsToVisit.add(new RabbitPoint(
+                            updatedPose, 
+                            originalPoint.pointType, 
+                            originalPoint.terminatingType, 
+                            originalPoint.driveStyle));
                 }
                 break;
             default:
@@ -117,9 +121,9 @@ public abstract class PurePursuitCommand extends BaseCommand {
         drive.drive(new XYPair(0, chaseData.translation), chaseData.rotation);
     }
     
-    private void chooseStickyPursuitForward(FieldPose point) {
+    private void chooseStickyPursuitForward(RabbitPoint point) {
         double distanceRemainingToPointAlongPath = 
-                -point.getDistanceAlongPoseLine(pose.getCurrentFieldPose().getPoint());
+                -point.pose.getDistanceAlongPoseLine(poseSystem.getCurrentFieldPose().getPoint());
         
         if (distanceRemainingToPointAlongPath < 0) {
             log.info("After analyzing the upcoming point, robot will attempt to pursue in reverse.");
@@ -138,8 +142,8 @@ public abstract class PurePursuitCommand extends BaseCommand {
         }
 
         // In all other cases, we are "following the rabbit."
-        FieldPose target = pointsToVisit.get(pointIndex);
-        FieldPose robot = pose.getCurrentFieldPose();
+        FieldPose target = pointsToVisit.get(pointIndex).pose;
+        FieldPose robot = poseSystem.getCurrentFieldPose();
         
         double distanceRemainingToPointAlongPath = -target.getDistanceAlongPoseLine(robot.getPoint());
         
