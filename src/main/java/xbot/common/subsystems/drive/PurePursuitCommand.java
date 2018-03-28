@@ -13,6 +13,7 @@ import xbot.common.math.MathUtils;
 import xbot.common.math.XYPair;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
+import xbot.common.subsystems.drive.RabbitPoint.PointDriveStyle;
 import xbot.common.subsystems.drive.RabbitPoint.PointTerminatingType;
 import xbot.common.subsystems.drive.RabbitPoint.PointType;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
@@ -176,7 +177,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
 
     private RabbitChaseInfo chaseRabbit(RabbitPoint target, FieldPose robot) {
         double distanceRemainingToPointAlongPath = -target.pose.getDistanceAlongPoseLine(robot.getPoint());
-        
+        double trueDistanceRemaining = distanceRemainingToPointAlongPath;
         // if the distance is negative, the goal is behind us. That means we need to 
         // -track a rabbit behind us,
         // -aim at an angle 180* from the rabbit.
@@ -188,8 +189,13 @@ public abstract class PurePursuitCommand extends BaseCommand {
             lookaheadFactor = -1;
             aimFactor = 180;
         }
+        
+        double candidateLookahead = rabbitLookAhead.get();
+        if (target.driveStyle == PointDriveStyle.Micro) {
+            candidateLookahead /= 2;
+        }
 
-        double angleToRabbit = target.pose.getVectorToRabbit(robot, rabbitLookAhead.get()*lookaheadFactor).getAngle() + aimFactor;
+        double angleToRabbit = target.pose.getVectorToRabbit(robot, candidateLookahead*lookaheadFactor).getAngle() + aimFactor;
         
         double goalAngle = angleToRabbit;
         if (Math.abs(distanceRemainingToPointAlongPath) < pointDistanceThreshold.get()) {
@@ -218,11 +224,16 @@ public abstract class PurePursuitCommand extends BaseCommand {
         double constrainedRemainingBudget = MathUtils.constrainDouble(remainingBudget, 0, 1);
         translationPower = translationPower * constrainedRemainingBudget;
         
-        log.info(String.format("Point: %d, DistanceR: %.2f, Power: %.2f", pointIndex, distanceRemainingToPointAlongPath,
-                translationPower));
+        log.info(String.format("Point: %d, DistanceR: %.2f, Power: %.2f", 
+                pointIndex, trueDistanceRemaining, translationPower));
+        
+        double distanceThreshold = pointDistanceThreshold.get();
+        if (target.driveStyle == PointDriveStyle.Micro) {
+            distanceThreshold /= 4;
+        }
         
         // If we are quite close to a point, let's advance targets.
-        if (Math.abs(distanceRemainingToPointAlongPath) < pointDistanceThreshold.get()) {
+        if (Math.abs(trueDistanceRemaining) < distanceThreshold) {
                 advancePointIfNotAtLastPoint();
         }
         

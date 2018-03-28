@@ -73,6 +73,8 @@ public class PurePursuitCommandTest extends BaseWPITest {
         verifyTankDrive(1, 1);
         
         command.execute();
+        command.execute();
+        command.execute();
         verifyTankDrive(-1, 1);
     }
     
