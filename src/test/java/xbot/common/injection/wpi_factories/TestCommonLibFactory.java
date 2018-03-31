@@ -38,6 +38,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createHeadingModule(pf.createPIDManager("bar", 1, 0, 0));
         clf.createCalibrationDecider("calibration");
         clf.createVelocityThrottleModule("velocityThrottleThing", pf.createPIDManager("velocity", 1, 0, 0));
+        clf.createRelay(5);
     }
     
     @Test(expected = RobotAssertionException.class)
