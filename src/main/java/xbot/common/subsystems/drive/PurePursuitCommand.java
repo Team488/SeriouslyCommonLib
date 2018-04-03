@@ -28,9 +28,18 @@ public abstract class PurePursuitCommand extends BaseCommand {
     public class RabbitChaseInfo {
         public final double translation;
         public final double rotation;
+        public FieldPose rabbit;
+        public FieldPose target;
+        
         public RabbitChaseInfo(double translation, double rotation) {
             this.translation = translation;
             this.rotation = rotation;
+        }
+        
+        public RabbitChaseInfo(double translation, double rotation, FieldPose target, FieldPose rabbit) {
+            this(translation, rotation);
+            this.rabbit = rabbit;
+            this.target = target;
         }
     }
 
@@ -190,10 +199,14 @@ public abstract class PurePursuitCommand extends BaseCommand {
             aimFactor = 180;
         }
         
+        
+        
         double candidateLookahead = rabbitLookAhead.get();
         if (target.driveStyle == PointDriveStyle.Micro) {
             candidateLookahead /= 2;
         }
+        
+        FieldPose rabbitLocation = target.pose.getRabbitPose(robot.getPoint(), candidateLookahead*lookaheadFactor);
 
         double angleToRabbit = target.pose.getVectorToRabbit(robot, candidateLookahead*lookaheadFactor).getAngle() + aimFactor;
         
@@ -237,7 +250,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
                 advancePointIfNotAtLastPoint();
         }
         
-        return new RabbitChaseInfo(translationPower, turnPower);
+        return new RabbitChaseInfo(translationPower, turnPower, target.pose, rabbitLocation);
     }
     
     @Override
