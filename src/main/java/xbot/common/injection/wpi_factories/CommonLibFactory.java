@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.I2C;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
+import xbot.common.controls.actuators.XRelay;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.actuators.XSpeedController;
@@ -67,6 +68,9 @@ public interface CommonLibFactory {
             @Assisted("channel") int channel);
     
     public XServo createServo(
+            @Assisted("channel") int channel);
+    
+    public XRelay createRelay(
             @Assisted("channel") int channel);
     
     public XSpeedController createSpeedController(
