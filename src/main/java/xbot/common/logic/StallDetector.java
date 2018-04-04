@@ -5,7 +5,6 @@ import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.Timer;
 import xbot.common.logic.Latch.EdgeType;
-import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
 public class StallDetector {

@@ -15,7 +15,7 @@ public class StallDetectorTest extends BaseWPITest {
     @Override
     public void setUp() {
         super.setUp();
-        this.detector = clf.createStallDetector("TestDetector", 10);
+        this.detector = clf.createStallDetector("TestDetector", 0.1, 1, 5, 80, 5);
     }
     
     @Test

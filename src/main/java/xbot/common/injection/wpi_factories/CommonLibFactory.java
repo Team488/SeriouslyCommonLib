@@ -133,5 +133,11 @@ public interface CommonLibFactory {
     
     public StallDetector createStallDetector(
             @Assisted("name") String name, 
-            @Assisted("maxVelocity") double maxVelocity);
+            
+            @Assisted("activationThreshold") double activationThreshold,
+            @Assisted("stallCheckTime") double stallCheckTime,
+            
+            @Assisted("cooldownDuration") double cooldownDuration,
+            @Assisted("maxVelocity") double maxVelocity,
+            @Assisted("criticalLowSpeedPercent") double criticalLowSpeedPercent);
 }

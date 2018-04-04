@@ -38,7 +38,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createHeadingModule(pf.createPIDManager("bar", 1, 0, 0));
         clf.createCalibrationDecider("calibration");
         clf.createVelocityThrottleModule("velocityThrottleThing", pf.createPIDManager("velocity", 1, 0, 0));
-        clf.createStallDetector("stallFellow", 1);
+        clf.createStallDetector("TestDetector", 0.1, 1, 5, 80, 5);
         clf.createRelay(5);
     }
     
