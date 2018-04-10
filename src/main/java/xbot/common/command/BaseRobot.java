@@ -103,13 +103,35 @@ public class BaseRobot extends TimedRobot {
         outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20);
     }
     
+    protected String getEnableTypeString() {
+        DriverStation ds = DriverStation.getInstance();
+        if (!ds.isEnabled()) {
+            return "disabled";
+        }
+        
+        if (ds.isAutonomous()) {
+            return "auto";
+        }
+        
+        if (ds.isOperatorControl()) {
+            return "teleop";
+        }
+        
+        if (ds.isTest()) {
+            return "test";
+        }
+        
+        return "enabled/unknown";
+    }
+    
     protected void updateLoggingContext() {
         DriverStation ds = DriverStation.getInstance();
 
         String dsStatus = ds.isDSAttached() ? "DS" : "no DS";
         String fmsStatus = ds.isFMSAttached() ? "FMS" : "no FMS";
-        String matchStatus = ds.getMatchType().toString() + " " + ds.getMatchNumber();
-        String matchContext = dsStatus + ", " + fmsStatus + ", " + matchStatus;
+        String matchStatus = ds.getMatchType().toString() + " " + ds.getMatchNumber() + " " + ds.getReplayNumber();
+        String enableStatus = getEnableTypeString();
+        String matchContext = dsStatus + ", " + fmsStatus + ", " + enableStatus + ", " + matchStatus;
         MDC.put("matchContext", matchContext);
     }
 
