@@ -19,17 +19,17 @@
    </appender>
 
    <appender name="fileAppender"
-           class="org.apache.log4j.RollingFileAppender">
+           class="xbot.common.logging.OneLogFilePerRunRollingFileAppender">
       <param name="Threshold" value="INFO" />
       <param name="File" value="/home/lvuser/488Logs/default.log"/>
       <param name="bufferedIO" value="false"/>
       <param name="bufferSize" value="100"/>
-      <param name="MaxFileSize" value="1000KB"/>
+      <param name="MaxFileSize" value="500KB"/>
       <!-- Keep ten backup files-->
-      <param name="MaxBackupIndex" value="10"/>
+      <param name="MaxBackupIndex" value="50"/>
       <param name="append" value="true"/>
       <layout class="org.apache.log4j.PatternLayout">
-         <param name="ConversionPattern" value="%5p | %d | %-38.38F | %L | %m%n" />
+         <param name="ConversionPattern" value="%5p | %d [%X{matchContext}] | %-38.38F | %L | %m%n" />
       </layout>
    </appender>
    

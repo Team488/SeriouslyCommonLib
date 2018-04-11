@@ -2,7 +2,6 @@ package xbot.common.command;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -33,7 +32,7 @@ import xbot.common.properties.XPropertyManager;
 public class BaseRobot extends TimedRobot {
 
     static Logger log = Logger.getLogger(BaseRobot.class);
-    Latch brownoutLatch = new Latch(false, EdgeType.Both);
+    Latch brownoutLatch;
 
     protected XPropertyManager propertyManager;
     protected XScheduler xScheduler;
@@ -55,18 +54,17 @@ public class BaseRobot extends TimedRobot {
 
     public BaseRobot() {
         super();
+        log.info("========== BASE ROBOT INITIALIZING ==========");
+        
         setupInjectionModule();
         sourceAndTimers = new HashMap<PeriodicDataSource, TimeLogger>();
         
-        brownoutLatch.addObserver((Observable o, Object arg) -> {
-            if(arg instanceof EdgeType) {
-                EdgeType edge = (EdgeType)arg;
-                if(edge == EdgeType.RisingEdge) {
-                    log.warn("Entering brownout");
-                }
-                else if(edge == EdgeType.FallingEdge) {
-                    log.info("Leaving brownout");
-                }
+        brownoutLatch = new Latch(false, EdgeType.Both, edge -> {
+            if(edge == EdgeType.RisingEdge) {
+                log.warn("Entering brownout");
+            }
+            else if(edge == EdgeType.FallingEdge) {
+                log.info("Leaving brownout");
             }
         });
         
@@ -102,8 +100,41 @@ public class BaseRobot extends TimedRobot {
         schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get());
         outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20);
     }
+    
+    protected String getEnableTypeString() {
+        DriverStation ds = DriverStation.getInstance();
+        if (!ds.isEnabled()) {
+            return "disabled";
+        }
+        
+        if (ds.isAutonomous()) {
+            return "auto";
+        }
+        
+        if (ds.isOperatorControl()) {
+            return "teleop";
+        }
+        
+        if (ds.isTest()) {
+            return "test";
+        }
+        
+        return "enabled/unknown";
+    }
+    
+    protected void updateLoggingContext() {
+        DriverStation ds = DriverStation.getInstance();
+
+        String dsStatus = ds.isDSAttached() ? "DS" : "no DS";
+        String fmsStatus = ds.isFMSAttached() ? "FMS" : "no FMS";
+        String matchStatus = ds.getMatchType().toString() + " " + ds.getMatchNumber() + " " + ds.getReplayNumber();
+        String enableStatus = getEnableTypeString();
+        String matchContext = dsStatus + ", " + fmsStatus + ", " + enableStatus + ", " + matchStatus;
+        org.apache.log4j.MDC.put("matchContext", matchContext);
+    }
 
     protected void initializeSystems() {
+        updateLoggingContext();
         // override with additional systems (but call this one too)
 
         // Get the property manager and get all properties from the robot disk
@@ -113,6 +144,7 @@ public class BaseRobot extends TimedRobot {
 
     @Override
     public void disabledInit() {
+        updateLoggingContext();
         log.info("Disabled init (" + getMatchContextString() + ")");
         propertyManager.saveOutAllProperties();
     }
@@ -138,6 +170,7 @@ public class BaseRobot extends TimedRobot {
     }
 
     public void autonomousInit() {
+        updateLoggingContext();
         log.info("Autonomous init (" + getMatchContextString() + ")");
         if(this.autonomousCommand != null) {
             log.info("Starting autonomous command: " + this.autonomousCommand);
@@ -155,6 +188,7 @@ public class BaseRobot extends TimedRobot {
     }
 
     public void teleopInit() {
+        updateLoggingContext();
         log.info("Teleop init (" + getMatchContextString() + ")");
         if(this.autonomousCommand != null) {
             log.info("Cancelling autonomousCommand.");
