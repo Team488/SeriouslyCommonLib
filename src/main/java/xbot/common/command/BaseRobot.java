@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.RollingFileAppender;
 import org.apache.log4j.xml.DOMConfigurator;
 
 import com.google.inject.AbstractModule;
@@ -19,7 +18,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import xbot.common.injection.RobotModule;
-import xbot.common.logging.OneLogFilePerRunRollingFileAppender;
 import xbot.common.logging.TimeLogger;
 import xbot.common.logic.Latch;
 import xbot.common.logic.Latch.EdgeType;
@@ -86,8 +84,6 @@ public class BaseRobot extends TimedRobot {
         // Get our logging config
         try {
             DOMConfigurator.configure("/home/lvuser/log4j.xml");
-            //OneLogFilePerRunRollingFileAppender fileAppender = (OneLogFilePerRunRollingFileAppender)Logger.getRootLogger().getAppender("fileAppender");
-            //fileAppender.rollOverManually();
         } catch (Exception e) {
             // Had a problem loading the config. Robot should continue!
             final String errorString = "Couldn't configure logging - file probably missing or malformed";
