@@ -2,10 +2,8 @@ package xbot.common.command;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.MDC;
 import org.apache.log4j.xml.DOMConfigurator;
 
 import com.google.inject.AbstractModule;
@@ -132,7 +130,7 @@ public class BaseRobot extends TimedRobot {
         String matchStatus = ds.getMatchType().toString() + " " + ds.getMatchNumber() + " " + ds.getReplayNumber();
         String enableStatus = getEnableTypeString();
         String matchContext = dsStatus + ", " + fmsStatus + ", " + enableStatus + ", " + matchStatus;
-        MDC.put("matchContext", matchContext);
+        org.apache.log4j.MDC.put("matchContext", matchContext);
     }
 
     protected void initializeSystems() {
