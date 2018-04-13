@@ -31,7 +31,7 @@ import xbot.common.properties.XPropertyManager;
  */
 public class BaseRobot extends TimedRobot {
 
-    static Logger log = Logger.getLogger(BaseRobot.class);
+    Logger log;
     Latch brownoutLatch;
 
     protected XPropertyManager propertyManager;
@@ -54,7 +54,6 @@ public class BaseRobot extends TimedRobot {
 
     public BaseRobot() {
         super();
-        log.info("========== BASE ROBOT INITIALIZING ==========");
         
         setupInjectionModule();
         sourceAndTimers = new HashMap<PeriodicDataSource, TimeLogger>();
@@ -91,6 +90,9 @@ public class BaseRobot extends TimedRobot {
             System.out.println(errorString);
             DriverStation.reportError(errorString, false);
         }
+        
+        log = Logger.getLogger(BaseRobot.class);
+        log.info("========== BASE ROBOT INITIALIZING ==========");
 
         this.injector = Guice.createInjector(this.injectionModule);
         this.initializeSystems();

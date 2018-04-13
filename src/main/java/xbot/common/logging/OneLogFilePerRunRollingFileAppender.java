@@ -9,17 +9,24 @@ public class OneLogFilePerRunRollingFileAppender extends RollingFileAppender {
 
     public OneLogFilePerRunRollingFileAppender() {
         super();
-        //this.rollOver();
     }
 
     public OneLogFilePerRunRollingFileAppender(Layout layout, String filename, boolean append) throws IOException {
         super(layout, filename, append);
-        //this.rollOver();
     }
 
     public OneLogFilePerRunRollingFileAppender(Layout layout, String filename) throws IOException {
         super(layout, filename);
-        //this.rollOver();
+    }
+    
+    @Override
+    public void activateOptions() {
+        super.activateOptions();
+        this.rollOverManually();
+    }
+    
+    public synchronized void rollOverManually() {
+        this.rollOver();
     }
 
 }
