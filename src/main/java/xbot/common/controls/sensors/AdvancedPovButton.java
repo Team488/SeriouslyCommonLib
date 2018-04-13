@@ -16,7 +16,7 @@ public class AdvancedPovButton extends AdvancedButton {
     public AdvancedPovButton(
             @Assisted("joystick") XJoystick joystick, 
             @Assisted("povNumber")int povNumber) {
-        log.info("Creating D-Pad button " + povNumber + " on port " + joystick.getPort());
+        log.debug("Creating D-Pad button " + povNumber + " on port " + joystick.getPort());
         this.joystick = joystick;
         this.povNumber = povNumber;
     }

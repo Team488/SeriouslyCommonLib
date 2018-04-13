@@ -16,7 +16,7 @@ public class AdvancedJoystickButton extends AdvancedButton
     public AdvancedJoystickButton(
             @Assisted("joystick") XJoystick joystick, 
             @Assisted("buttonNumber")int buttonNumber) {
-        log.info("Creating button " + buttonNumber + " on port " + joystick.getPort());
+        log.debug("Creating button " + buttonNumber + " on port " + joystick.getPort());
         this.joystick = joystick;
         this.buttonNumber = buttonNumber;
     }
