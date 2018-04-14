@@ -10,6 +10,7 @@ import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.ContiguousHeading;
 import xbot.common.math.FieldPose;
 import xbot.common.math.MathUtils;
+import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
@@ -49,7 +50,12 @@ public abstract class PurePursuitCommand extends BaseCommand {
     final DoubleProperty rabbitLookAhead;
     final DoubleProperty pointDistanceThreshold;
     final DoubleProperty motionBudget;
-    final HeadingModule headingModule;
+    
+    HeadingModule headingModule;
+    PIDManager positionalPid;
+    
+    HeadingModule defaultHeadingModule;
+    PIDManager defaultPositionalPid;
 
     private List<RabbitPoint> pointsToVisit;
     protected int pointIndex = 0;
@@ -65,7 +71,19 @@ public abstract class PurePursuitCommand extends BaseCommand {
         rabbitLookAhead = propMan.createPersistentProperty(getPrefix() + "Rabbit lookahead (in)", 12);
         pointDistanceThreshold = propMan.createPersistentProperty(getPrefix() + "Rabbit distance threshold", 12.0);
         motionBudget = propMan.createPersistentProperty(getPrefix() + "Motion Budget", 1);
-        headingModule = clf.createHeadingModule(drive.getRotateToHeadingPid());
+        defaultHeadingModule = clf.createHeadingModule(drive.getRotateToHeadingPid());
+        defaultPositionalPid = drive.getPositionalPid();
+        setPIDsToDefault();
+    }
+    
+    public void setPIDs(HeadingModule headingModule, PIDManager positionalPid) {
+        this.headingModule = headingModule;
+        this.positionalPid = positionalPid;
+    }
+    
+    public void setPIDsToDefault() {
+        this.headingModule = defaultHeadingModule;
+        this.positionalPid = defaultPositionalPid;
     }
     
     protected abstract List<RabbitPoint> getOriginalPoints();
@@ -225,7 +243,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
             }
         }
 
-        double translationPower = drive.getPositionalPid().calculate(distanceRemainingToPointAlongPath, 0);
+        double translationPower = positionalPid.calculate(distanceRemainingToPointAlongPath, 0);
         
         // If the robot wants to turn, we can lower the translationPower to allow more stable turning. When
         // the turn value decreases, we can allow more translationPower. This essentially slows down the robot
