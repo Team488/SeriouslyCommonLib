@@ -5,6 +5,7 @@ import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
+import xbot.common.controls.actuators.XPWM;
 import xbot.common.controls.actuators.XRelay;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
@@ -12,6 +13,7 @@ import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.actuators.wpi_adapters.CANTalonWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.CompressorWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.DigitalOutputWPIAdapter;
+import xbot.common.controls.actuators.wpi_adapters.PWMWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.RelayWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.ServoWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.SolenoidWPIAdapter;
@@ -73,6 +75,7 @@ public class RobotModule extends AbstractModule {
                 .implement(XLidarLite.class, LidarLiteWpiAdapter.class)
                 .implement(XCompressor.class, CompressorWPIAdapter.class)
                 .implement(XRelay.class, RelayWPIAdapter.class)
+                .implement(XPWM.class, PWMWPIAdapter.class)
                 .build(CommonLibFactory.class));
     }
 

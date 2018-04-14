@@ -5,6 +5,7 @@ import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
+import xbot.common.controls.actuators.XPWM;
 import xbot.common.controls.actuators.XRelay;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
@@ -41,6 +42,7 @@ import edu.wpi.first.wpilibj.MockCompressor;
 import edu.wpi.first.wpilibj.MockDigitalInput;
 import edu.wpi.first.wpilibj.MockDigitalOutput;
 import edu.wpi.first.wpilibj.MockLidarLite;
+import edu.wpi.first.wpilibj.MockPWM;
 import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
 import edu.wpi.first.wpilibj.MockServo;
 import edu.wpi.first.wpilibj.MockSolenoid;
@@ -83,6 +85,7 @@ public class UnitTestModule extends AbstractModule {
                 .implement(XLidarLite.class, MockLidarLite.class)
                 .implement(XCompressor.class, MockCompressor.class)
                 .implement(XRelay.class, MockRelay.class)
+                .implement(XPWM.class, MockPWM.class)
                 .build(CommonLibFactory.class));
     }
 }
