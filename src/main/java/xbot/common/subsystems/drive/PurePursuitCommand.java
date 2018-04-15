@@ -47,7 +47,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
     private final BasePoseSubsystem poseSystem;
     private final BaseDriveSubsystem drive;
 
-    final DoubleProperty rabbitLookAhead;
+    protected final DoubleProperty rabbitLookAhead;
     final DoubleProperty pointDistanceThreshold;
     final DoubleProperty motionBudget;
     
@@ -202,6 +202,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         if (pointIndex < pointsToVisit.size() - 1) {
             pointIndex++;
             chooseStickyPursuitForward(pointsToVisit.get(pointIndex));
+            headingModule.reset();
         }
     }
 
