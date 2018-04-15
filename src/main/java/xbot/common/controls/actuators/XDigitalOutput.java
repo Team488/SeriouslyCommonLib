@@ -21,7 +21,7 @@ public abstract class XDigitalOutput implements XBaseIO {
     
     /**
      * Set the PWM frequency of ALL DIGITAL OUTPUT PWM CHANNELS
-     * @param frequency
+     * @param frequency PWM frequency
      */
     public abstract void setPWMRate(double frequency);
     public abstract void enablePWM(double initialDutyCycle);
