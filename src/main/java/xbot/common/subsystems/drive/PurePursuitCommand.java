@@ -59,6 +59,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
 
     private List<RabbitPoint> pointsToVisit;
     protected int pointIndex = 0;
+    private int processedPointIndex = -1;
     private boolean stickyPursueForward = true;
 
     @Inject
@@ -97,6 +98,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
     public void initialize() {
         log.info("Initializing");
         pointIndex = 0;
+        processedPointIndex = -1;
         
         List<RabbitPoint> originalPoints = this.getOriginalPoints();
         PointLoadingMode mode = this.getPursuitMode();
@@ -178,6 +180,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         RabbitChaseInfo recommendedAction = new RabbitChaseInfo(0, 0);
         
         // Depending on the PointType, take the appropriate action
+        processedPointIndex = pointIndex;
         if (target.pointType == PointType.HeadingOnly) {
             recommendedAction = rotateToRabbit(target);
         } else if (target.pointType == PointType.PositionAndHeading) {
@@ -216,8 +219,6 @@ public abstract class PurePursuitCommand extends BaseCommand {
             lookaheadFactor = -1;
             aimFactor = 180;
         }
-        
-        
         
         double candidateLookahead = rabbitLookAhead.get();
         if (target.driveStyle == PointDriveStyle.Micro) {
@@ -282,8 +283,18 @@ public abstract class PurePursuitCommand extends BaseCommand {
             return true;
         }
         
+        if (processedPointIndex != pointIndex) {
+            return false;
+        }
+
         // if the PID is stable, and we're at the last point, we're done.
-        return (drive.getPositionalPid().isOnTarget()) && (pointIndex == pointsToVisit.size() - 1);
+        log.info(pointIndex);
+        if (pointsToVisit.get(pointIndex).pointType == PointType.HeadingOnly) {
+            return headingModule.isOnTarget() && (pointIndex == pointsToVisit.size() - 1);
+        }
+        else {
+            return drive.getPositionalPid().isOnTarget() && (pointIndex == pointsToVisit.size() - 1);
+        }
     }
 
     public double getMotionBudget() {
