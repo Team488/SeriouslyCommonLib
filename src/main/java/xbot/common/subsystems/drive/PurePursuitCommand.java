@@ -51,8 +51,8 @@ public abstract class PurePursuitCommand extends BaseCommand {
     final DoubleProperty pointDistanceThreshold;
     final DoubleProperty motionBudget;
     
-    HeadingModule headingModule;
-    PIDManager positionalPid;
+    protected HeadingModule headingModule;
+    protected PIDManager positionalPid;
     
     HeadingModule defaultHeadingModule;
     PIDManager defaultPositionalPid;

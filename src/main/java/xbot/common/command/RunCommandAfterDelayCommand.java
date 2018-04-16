@@ -11,5 +11,7 @@ public class RunCommandAfterDelayCommand extends BaseCommandGroup {
         
         this.addSequential(timeoutCommand);
         this.addSequential(command);
+        
+        this.setName("Delayed " + command.getName() + "(" + timeout + " seconds)" );
     }
 }
