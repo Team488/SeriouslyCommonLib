@@ -289,7 +289,6 @@ public abstract class PurePursuitCommand extends BaseCommand {
         }
 
         // if the PID is stable, and we're at the last point, we're done.
-        log.info(pointIndex);
         if (pointsToVisit.get(pointIndex).pointType == PointType.HeadingOnly) {
             return headingModule.isOnTarget() && (pointIndex == pointsToVisit.size() - 1);
         }
