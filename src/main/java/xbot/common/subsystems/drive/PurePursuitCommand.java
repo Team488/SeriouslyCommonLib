@@ -199,6 +199,12 @@ public abstract class PurePursuitCommand extends BaseCommand {
     }
     
     private void advancePointIfNotAtLastPoint() {
+    	if (pointIndex < pointsToVisit.size() && pointsToVisit.get(pointIndex).terminatingType == PointTerminatingType.Stop) {
+    		RabbitPoint currentPoint = pointsToVisit.get(pointIndex);
+    		FieldPose currentPose = currentPoint.pose;
+    		log.info("Completed stop point (index " + pointIndex + "); goal: " + currentPose.toString() + ", actual: " + poseSystem.getCurrentFieldPose().toString());
+    	}
+    	
         if (pointIndex < pointsToVisit.size() - 1) {
             pointIndex++;
             chooseStickyPursuitForward(pointsToVisit.get(pointIndex));
