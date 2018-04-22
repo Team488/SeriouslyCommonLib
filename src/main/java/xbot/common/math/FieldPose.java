@@ -99,8 +99,8 @@ public class FieldPose {
     
     @Override
     public String toString() {
-    	String xyString = fieldPosition == null ? "null, null" : fieldPosition.x + ", " + fieldPosition.y;
-    	String headingString = heading == null ? "null" : Double.toString(heading.getValue());
-    	return "FieldPose(" + xyString + ", "+ headingString + ")";
+        String xyString = fieldPosition == null ? "null, null" : fieldPosition.x + ", " + fieldPosition.y;
+        String headingString = heading == null ? "null" : Double.toString(heading.getValue());
+        return "FieldPose(" + xyString + ", "+ headingString + ")";
     }
 }

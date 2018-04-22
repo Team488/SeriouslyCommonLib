@@ -11,10 +11,10 @@ public class RunCommandAfterDelayCommand extends BaseCommandGroup {
         
         this.addSequential(timeoutCommand);
         if (commandTimeout > 0) {
-        	this.addSequential(command, commandTimeout);
+            this.addSequential(command, commandTimeout);
         }
         else {
-        	this.addSequential(command);
+            this.addSequential(command);
         }
         
         this.setName("Delayed " + command.getName() + "(" + delay + " seconds)" );
