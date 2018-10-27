@@ -58,6 +58,14 @@ dependencies {
     compile 'com.kauailabs.navx.frc:navx_frc:+'
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDirs = ["src/main/resources"]
+        }
+    }
+}
+
 
 task jarSources(type:Jar){
     from sourceSets.main.allSource
