@@ -1,10 +1,12 @@
-package xbot.common.logic;
+package xbot.common.logging;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Random;
 import java.util.stream.Collectors;
+
+import com.google.inject.Inject;
 
 import org.apache.log4j.Logger;
 
@@ -15,6 +17,7 @@ public class WordGenerator {
     private Logger log = Logger.getLogger("WordGenerator");
     Random rand = new Random();
 
+    @Inject
     public WordGenerator() {
         String words = getResourceFileAsString("10k.txt");
         if (words != null) {
@@ -40,7 +43,7 @@ public class WordGenerator {
         
         for (int i = 0; i < length; i++) {
             int r = rand.nextInt(wordArray.length-1);
-            b.append(wordArray[r]).append("separator");
+            b.append(wordArray[r]).append(separator);
         }
 
         String precandidate = b.toString();

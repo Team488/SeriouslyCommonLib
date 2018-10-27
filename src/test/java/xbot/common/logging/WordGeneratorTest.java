@@ -1,4 +1,4 @@
-package xbot.common.logic;
+package xbot.common.logging;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
