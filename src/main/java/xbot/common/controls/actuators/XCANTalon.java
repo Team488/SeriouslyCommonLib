@@ -362,5 +362,42 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
 	@Override
 	public String getDescription() {
 		return _description;
-	}
+    }
+        
+    /***
+     * Convenience function to rapidly configure two CANTalons to work in tandem, often used for drive motors.
+     * @param prefix Prefix for network tables; typically, fill this with getPrefix() if calling this from a Subsystem or Command.
+     * @param masterName Motor name for network tables
+     * @param master Talon that will control overall operations
+     * @param follower Talon that will follow the master
+     * @param masterInverted Should the master be inverted?
+     * @param followerInverted Should the follower be inverted RELATIVE TO THE MASTER?
+     * @param sensorPhase Is the encoder in phase with the master?
+     */
+    public static void configureMotorTeam(String prefix, String masterName, XCANTalon master, XCANTalon follower, boolean masterInverted,
+            boolean followerInverted, boolean sensorPhase) {
+        follower.follow(master);
+
+        master.setInverted(masterInverted);
+        follower.setInverted(followerInverted);
+
+        master.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        master.setSensorPhase(sensorPhase);
+        master.createTelemetryProperties(prefix, masterName);
+
+        // Master Config
+        master.setNeutralMode(NeutralMode.Coast);
+        master.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, 0);
+        master.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, 0);
+
+        master.configPeakOutputForward(1, 0);
+        master.configPeakOutputReverse(-1, 0);
+
+        // Follower Config
+        follower.setNeutralMode(NeutralMode.Coast);
+        follower.configPeakOutputForward(1, 0);
+        follower.configPeakOutputReverse(-1, 0);
+
+        follower.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, 0);
+    }
 }
