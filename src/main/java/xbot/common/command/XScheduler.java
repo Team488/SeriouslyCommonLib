@@ -46,4 +46,8 @@ public class XScheduler {
             numberOfCrashes++;
         }
     }
+
+    public void removeAll() {
+        scheduler.removeAll();
+    }
 }
