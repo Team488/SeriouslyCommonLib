@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import xbot.common.injection.RobotModule;
+import xbot.common.logging.RobotSession;
 import xbot.common.logging.TimeLogger;
 import xbot.common.logic.Latch;
 import xbot.common.logic.Latch.EdgeType;
@@ -51,6 +52,8 @@ public class BaseRobot extends TimedRobot {
     protected Map<PeriodicDataSource, TimeLogger> sourceAndTimers;
     TimeLogger schedulerMonitor;
     TimeLogger outsidePeriodicMonitor;
+
+    protected RobotSession robotSession;
 
     public BaseRobot() {
         super();
@@ -101,6 +104,7 @@ public class BaseRobot extends TimedRobot {
         frequencyReportInterval = injector.getInstance(XPropertyManager.class).createPersistentProperty("Robot loop frequency report interval", 20);
         schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get());
         outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20);
+        robotSession = injector.getInstance(RobotSession.class);
     }
     
     protected String getEnableTypeString() {
@@ -172,6 +176,7 @@ public class BaseRobot extends TimedRobot {
     }
 
     public void autonomousInit() {
+        robotSession.autoInit();
         updateLoggingContext();
         log.info("Autonomous init (" + getMatchContextString() + ")");
         if(this.autonomousCommand != null) {
@@ -190,6 +195,7 @@ public class BaseRobot extends TimedRobot {
     }
 
     public void teleopInit() {
+        robotSession.teleopInit();
         updateLoggingContext();
         log.info("Teleop init (" + getMatchContextString() + ")");
         if(this.autonomousCommand != null) {

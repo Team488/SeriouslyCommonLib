@@ -1,0 +1,30 @@
+{
+    "run": {
+        "default": "",
+        "items": [
+            {
+                "name": "SeriouslyCommonLib",
+                "projectName": "SeriouslyCommonLib",
+                "workingDirectory": "c:\\GitHub\\SeriouslyCommonLib",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    },
+    "debug": {
+        "default": "",
+        "items": [
+            {
+                "name": "SeriouslyCommonLib",
+                "projectName": "SeriouslyCommonLib",
+                "workingDirectory": "c:\\GitHub\\SeriouslyCommonLib",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    }
+}
