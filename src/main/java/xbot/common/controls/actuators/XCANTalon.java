@@ -365,7 +365,7 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     }
         
     /***
-     * Convenience function to rapidly configure two CANTalons to work in tandem, often used for drive motors.
+     * Convenience function to rapidly configure two CANTalons to work in tandem; often used for drive motors.
      * @param prefix Prefix for network tables; typically, fill this with getPrefix() if calling this from a Subsystem or Command.
      * @param masterName Motor name for network tables
      * @param master Talon that will control overall operations
@@ -376,28 +376,47 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
      */
     public static void configureMotorTeam(String prefix, String masterName, XCANTalon master, XCANTalon follower, boolean masterInverted,
             boolean followerInverted, boolean sensorPhase) {
-        follower.follow(master);
+        master.configureAsMasterMotor(prefix, masterName, masterInverted, sensorPhase);
+        follower.configureAsFollowerMotor(master, followerInverted);
+    }
 
-        master.setInverted(masterInverted);
-        follower.setInverted(followerInverted);
+    /**
+     * Convenience function to rapidly configure a CANTalon as a Master motor. Uses some typical configurations that can be
+     * overriden later (for example, it sets typical maximum/minimum output values to 1 and -1)
+     * @param prefix Prefix for network tables; typically, fill this with getPrefix() if calling this from a Subsystem or Command.
+     * @param masterName Motor name for network tables
+     * @param masterInverted Should the master be inverted?
+     * @param sensorPhase Is the encoder in phase with the master?
+     */
+    public void configureAsMasterMotor(String prefix, String masterName, boolean masterInverted, boolean sensorPhase) {
+        this.setInverted(masterInverted);
+        this.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        this.setSensorPhase(sensorPhase);
+        this.createTelemetryProperties(prefix, masterName);
 
-        master.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-        master.setSensorPhase(sensorPhase);
-        master.createTelemetryProperties(prefix, masterName);
+        this.setNeutralMode(NeutralMode.Coast);
+        this.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, 0);
+        this.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, 0);
 
-        // Master Config
-        master.setNeutralMode(NeutralMode.Coast);
-        master.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, 0);
-        master.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, 0);
+        this.configPeakOutputForward(1, 0);
+        this.configPeakOutputReverse(-1, 0);
+    }
 
-        master.configPeakOutputForward(1, 0);
-        master.configPeakOutputReverse(-1, 0);
+    /**
+     * Convenience function to rapidly configure a XCANTalon to follow another XCANTalon. Uses some typical configurations that can be
+     * overriden later (for example, it sets typical maximum/minimum output values to 1 and -1)
+     * @param master The master XCANTalon that this should follow
+     * @param followerInverted Should the follower be inverted RELATIVE TO THE MASTER?
+     */
+    public void configureAsFollowerMotor(XCANTalon master, boolean followerInverted) {
+        this.follow(master);
+        this.setInverted(followerInverted);
 
-        // Follower Config
-        follower.setNeutralMode(NeutralMode.Coast);
-        follower.configPeakOutputForward(1, 0);
-        follower.configPeakOutputReverse(-1, 0);
+        this.setNeutralMode(NeutralMode.Coast);
+        this.configPeakOutputForward(1, 0);
+        this.configPeakOutputReverse(-1, 0);
 
-        follower.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, 0);
+        this.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, 0);
+        this.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, 0);
     }
 }
