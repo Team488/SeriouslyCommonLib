@@ -8,8 +8,6 @@ import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
 
-import static junit.framework.TestCase.assertEquals;
-
 public class RobotSessionTest extends BaseWPITest {
 
     RobotSession rs;

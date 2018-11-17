@@ -4,6 +4,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import xbot.common.logging.WordGenerator;
+import xbot.common.properties.StringProperty;
+import xbot.common.properties.XPropertyManager;
 
 @Singleton
 public class RobotSession {
@@ -12,10 +14,13 @@ public class RobotSession {
     boolean hasStartedAuto;
     boolean hasStartedTeleop;
     String sessionId = "";
+    StringProperty sessionProp;
+    String propertyName = "RobotSession";
 
     @Inject
-    public RobotSession(WordGenerator wg) {
+    public RobotSession(WordGenerator wg, XPropertyManager propMan) {
         this.wg = wg;
+        sessionProp = propMan.createEphemeralProperty(propertyName, "NoSessionSetYet");
         reset();
     }
 
@@ -45,6 +50,7 @@ public class RobotSession {
         hasStartedAuto = false;
         hasStartedTeleop = false;
         sessionId = wg.getRandomWordChain(2, "-");
+        sessionProp.set(sessionId);
     }
 
     public String getSessionId() {
