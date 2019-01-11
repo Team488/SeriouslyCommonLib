@@ -20,9 +20,6 @@ public abstract class BaseCommand extends Command {
     @Inject
     SmartDashboardCommandPutter commandPutter;
 
-    @Inject
-    XTimer timer;
-
     public BaseCommand() {
         log = Logger.getLogger(this.getName());
         monitor = new TimeLogger(this.getName(), 20, timer);
