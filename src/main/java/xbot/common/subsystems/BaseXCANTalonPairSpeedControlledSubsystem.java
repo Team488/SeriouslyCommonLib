@@ -1,6 +1,7 @@
 package xbot.common.subsystems;
 
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.PIDPropertyManager;
 import xbot.common.properties.XPropertyManager;
@@ -26,8 +27,9 @@ public class BaseXCANTalonPairSpeedControlledSubsystem extends BaseXCANTalonSpee
             boolean invertFollower,
             CommonLibFactory factory,
             PIDPropertyManager pidPropertyManager,
-            XPropertyManager propManager) {
-        super(name, masterChannel, invertMaster, invertMasterSensor, factory, pidPropertyManager, propManager);
+            XPropertyManager propManager,
+            XTimer timer) {
+        super(name, masterChannel, invertMaster, invertMasterSensor, factory, pidPropertyManager, propManager, timer);
         
         followerMotor = factory.createCANTalon(followChannel);
         initializeFollowerMotorConfiguration(invertFollower);

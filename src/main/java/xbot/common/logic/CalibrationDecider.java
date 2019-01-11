@@ -3,7 +3,7 @@ package xbot.common.logic;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import edu.wpi.first.wpilibj.Timer;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
@@ -15,15 +15,17 @@ public class CalibrationDecider {
 
     final DoubleProperty calibrationTimeProp;
     double startTime;
+    XTimer timer;
 
     @Inject
-    public CalibrationDecider(@Assisted("name") String name, XPropertyManager propMan) {
+    public CalibrationDecider(@Assisted("name") String name, XPropertyManager propMan, XTimer timer) {
+        this.timer = timer;
         calibrationTimeProp = propMan.createPersistentProperty(name + "CalibrationDecider/Attempt Time", 3);
         reset();
     }
 
     public void reset() {
-        startTime = Timer.getFPGATimestamp();
+        startTime = timer.getFPGATimestamp();
     }
 
     public CalibrationMode decideMode(boolean isCalibrated) {
@@ -31,7 +33,7 @@ public class CalibrationDecider {
             return CalibrationMode.Calibrated;
         }
 
-        if (Timer.getFPGATimestamp() - startTime > calibrationTimeProp.get()) {
+        if (timer.getFPGATimestamp() - startTime > calibrationTimeProp.get()) {
             return CalibrationMode.GaveUp;
         }
 

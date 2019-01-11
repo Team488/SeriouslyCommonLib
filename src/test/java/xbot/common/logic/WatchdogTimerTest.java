@@ -18,7 +18,7 @@ public class WatchdogTimerTest extends BaseWPITest {
         super.setUp();
         upCount = 0;
         downCount = 0;
-        watchdog = new WatchdogTimer(5, () -> upCount++, () -> downCount++); 
+        watchdog = new WatchdogTimer(5, () -> upCount++, () -> downCount++, timer); 
     }
 
     @Test

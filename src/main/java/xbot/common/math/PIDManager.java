@@ -2,6 +2,8 @@ package xbot.common.math;
 
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
@@ -32,7 +34,8 @@ public class PIDManager extends PIDPropertyManager {
             @Assisted("defaultMinOutput") double defaultMinOutput,
             @Assisted("errorThreshold") double errorThreshold, 
             @Assisted("derivativeThreshold") double derivativeThreshold,
-            @Assisted("timeThreshold") double timeThreshold) {
+            @Assisted("timeThreshold") double timeThreshold,
+            XTimer timer) {
         super(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold, derivativeThreshold, timeThreshold);
         
         // This creates nice prefixes for SmartDashboard.
@@ -42,7 +45,7 @@ public class PIDManager extends PIDPropertyManager {
         minOutput = propMan.createPersistentProperty(functionName + " Min Output", defaultMinOutput);
         isEnabled = propMan.createPersistentProperty(functionName + " Is Enabled", true);
 
-        pid = new PID();
+        pid = new PID(timer);
         sendTolerancesToInternalPID();
     }
     
@@ -57,8 +60,9 @@ public class PIDManager extends PIDPropertyManager {
             @Assisted("defaultD") double defaultD, 
             @Assisted("defaultF") double defaultF,
             @Assisted("defaultMaxOutput") double defaultMaxOutput, 
-            @Assisted("defaultMinOutput") double defaultMinOutput) {
-        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, defaultMaxOutput, defaultMinOutput, -1, -1, -1);
+            @Assisted("defaultMinOutput") double defaultMinOutput,
+            XTimer timer) {
+        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, defaultMaxOutput, defaultMinOutput, -1, -1, -1, timer);
     }
 
     @AssistedInject
@@ -70,8 +74,9 @@ public class PIDManager extends PIDPropertyManager {
             @Assisted("defaultI") double defaultI, 
             @Assisted("defaultD") double defaultD, 
             @Assisted("defaultMaxOutput") double defaultMaxOutput, 
-            @Assisted("defaultMinOutput") double defaultMinOutput) {
-        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, 0, 1.0, -1.0, -1, -1, -1);
+            @Assisted("defaultMinOutput") double defaultMinOutput,
+            XTimer timer) {
+        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, 0, 1.0, -1.0, -1, -1, -1, timer);
     }
     
     @AssistedInject
@@ -81,16 +86,18 @@ public class PIDManager extends PIDPropertyManager {
             RobotAssertionManager assertionManager,
             @Assisted("defaultP") double defaultP, 
             @Assisted("defaultI") double defaultI, 
-            @Assisted("defaultD") double defaultD) {
-        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, 1.0, -1.0);
+            @Assisted("defaultD") double defaultD,
+            XTimer timer) {
+        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, 1.0, -1.0, timer);
     }
 
     @AssistedInject
     public PIDManager(
             @Assisted String functionName, 
             XPropertyManager propMan,
-            RobotAssertionManager assertionManager) {
-        this(functionName, propMan, assertionManager, 0, 0, 0);
+            RobotAssertionManager assertionManager,
+            XTimer timer) {
+        this(functionName, propMan, assertionManager, 0, 0, 0, timer);
     }
     
     private void sendTolerancesToInternalPID() {

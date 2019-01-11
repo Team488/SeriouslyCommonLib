@@ -6,9 +6,9 @@ import com.google.inject.Singleton;
 
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.properties.XPropertyManager;
-import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 @Singleton
 public class MockBasePoseSubsystem extends BasePoseSubsystem {
@@ -17,8 +17,8 @@ public class MockBasePoseSubsystem extends BasePoseSubsystem {
     private XCANTalon right;
     
     @Inject
-    public MockBasePoseSubsystem(CommonLibFactory factory, XPropertyManager propManager) {
-        super(factory, propManager);
+    public MockBasePoseSubsystem(CommonLibFactory factory, XPropertyManager propManager, XTimer timer) {
+        super(factory, propManager, timer);
     }
     
     public void setDriveTalons(XCANTalon left, XCANTalon right) {

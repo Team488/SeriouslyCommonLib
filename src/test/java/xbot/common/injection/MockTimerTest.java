@@ -23,13 +23,13 @@ public class MockTimerTest extends BaseWPITest {
 
     @Test
     public void test_starts_zero() {
-        assertEquals(0.0, Timer.getFPGATimestamp(), 0.001);
+        assertEquals(0.0, timer.getFPGATimestamp(), 0.001);
     }
 
     @Test
     public void updated_by_mock() {
         timer.setTimeInSeconds(10.0);
-        assertEquals(10.0, Timer.getFPGATimestamp(), 0.001);
+        assertEquals(10.0, timer.getFPGATimestamp(), 0.001);
     }
 
     @Ignore

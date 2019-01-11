@@ -1,9 +1,11 @@
 package xbot.common.command;
-import org.apache.log4j.Logger;
 
 import com.google.inject.Inject;
 
+import org.apache.log4j.Logger;
+
 import edu.wpi.first.wpilibj.command.Command;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.logging.TimeLogger;
 
 /**
@@ -18,9 +20,12 @@ public abstract class BaseCommand extends Command {
     @Inject
     SmartDashboardCommandPutter commandPutter;
 
+    @Inject
+    XTimer timer;
+
     public BaseCommand() {
         log = Logger.getLogger(this.getName());
-        monitor = new TimeLogger(this.getName(), 20);
+        monitor = new TimeLogger(this.getName(), 20, timer);
     }
 
     public BaseCommand(String name) {

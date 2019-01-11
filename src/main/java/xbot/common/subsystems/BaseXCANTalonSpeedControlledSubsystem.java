@@ -3,10 +3,10 @@ package xbot.common.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
-import edu.wpi.first.wpilibj.Timer;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.PIDPropertyManager;
 import xbot.common.properties.BooleanProperty;
@@ -43,6 +43,7 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
     private final DoubleProperty systemSpeedThresh;
     protected final PIDPropertyManager pidPropertyManager;
     protected final int masterChannel;
+    protected XTimer timer;
         
     /**
      * 
@@ -59,8 +60,10 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
             boolean invertMasterSensor,
             CommonLibFactory factory, 
             PIDPropertyManager pidPropertyManager,
-            XPropertyManager propManager){
+            XPropertyManager propManager,
+            XTimer timer){
         super(name);
+        this.timer = timer;
         log.info("Creating");
         
         this.pidPropertyManager = pidPropertyManager;
@@ -148,7 +151,7 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
         systemTalonError.set(masterMotor.getClosedLoopError(0));
         
         if(enablesystemLogging.get()){
-            double currentTime = Timer.getFPGATimestamp();
+            double currentTime = timer.getFPGATimestamp();
             // Format: time, voltage, error, speed
             log.info(currentTime + "," 
                  + systemOutputPower.get() + "," 

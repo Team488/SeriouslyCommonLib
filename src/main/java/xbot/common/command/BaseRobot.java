@@ -13,7 +13,6 @@ import com.google.inject.Injector;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -104,8 +103,8 @@ public class BaseRobot extends TimedRobot {
         SmartDashboard.putData(Scheduler.getInstance());
         
         frequencyReportInterval = injector.getInstance(XPropertyManager.class).createPersistentProperty("Robot loop frequency report interval", 20);
-        schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get());
-        outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20);
+        schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get(), timer);
+        outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20, timer);
         robotSession = injector.getInstance(RobotSession.class);
     }
     
@@ -250,7 +249,7 @@ public class BaseRobot extends TimedRobot {
     protected void registerPeriodicDataSource(PeriodicDataSource telemetrySource) {
         log.info("Adding periodic watcher for " + telemetrySource.getName());
         sourceAndTimers.put(
-                telemetrySource, new TimeLogger(telemetrySource.getName(), 20));
+                telemetrySource, new TimeLogger(telemetrySource.getName(), 20, timer));
     }
     
     protected void updatePeriodicDataSources() {
