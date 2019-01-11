@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.RobotModule;
 import xbot.common.logging.RobotSession;
 import xbot.common.logging.TimeLogger;
@@ -54,6 +55,7 @@ public class BaseRobot extends TimedRobot {
     TimeLogger outsidePeriodicMonitor;
 
     protected RobotSession robotSession;
+    protected XTimer timer;
 
     public BaseRobot() {
         super();
@@ -146,6 +148,7 @@ public class BaseRobot extends TimedRobot {
         // Get the property manager and get all properties from the robot disk
         propertyManager = this.injector.getInstance(XPropertyManager.class);
         xScheduler = this.injector.getInstance(XScheduler.class);
+        timer = this.injector.getInstance(XTimer.class);
     }
 
     @Override
@@ -228,15 +231,15 @@ public class BaseRobot extends TimedRobot {
         brownoutLatch.setValue(RobotController.isBrownedOut());
         
         loopCycleCounter++;
-        double timeSinceLastLog = Timer.getFPGATimestamp() - lastFreqCounterResetTime;
+        double timeSinceLastLog = timer.getFPGATimestamp() - lastFreqCounterResetTime;
         if(lastFreqCounterResetTime <= 0) {
-            lastFreqCounterResetTime = Timer.getFPGATimestamp();
+            lastFreqCounterResetTime = timer.getFPGATimestamp();
         }
         else if(timeSinceLastLog >= frequencyReportInterval.get()) {
             double loopsPerSecond = loopCycleCounter / timeSinceLastLog; 
             
             loopCycleCounter = 0;
-            lastFreqCounterResetTime = Timer.getFPGATimestamp();
+            lastFreqCounterResetTime = timer.getFPGATimestamp();
             
             log.info("Robot loops per second: " + loopsPerSecond);
         }

@@ -20,6 +20,7 @@ import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockFTCGamepad;
@@ -49,7 +50,6 @@ import edu.wpi.first.wpilibj.MockSolenoid;
 import edu.wpi.first.wpilibj.MockSpeedController;
 import edu.wpi.first.wpilibj.MockTimer;
 import edu.wpi.first.wpilibj.MockXboxControllerAdapter;
-import edu.wpi.first.wpilibj.Timer;
 
 import org.junit.Ignore;
 
@@ -60,7 +60,7 @@ public class UnitTestModule extends AbstractModule {
     
     @Override
     protected void configure() {
-        this.bind(Timer.StaticInterface.class).to(MockTimer.class);
+        this.bind(XTimer.class).to(MockTimer.class);
         this.bind(ITableProxy.class).to(TableProxy.class).in(Singleton.class);
         this.bind(PermanentStorage.class).to(MockPermamentStorage.class).in(Singleton.class);
         this.bind(SmartDashboardCommandPutter.class).to(MockSmartDashboardCommandPutter.class);

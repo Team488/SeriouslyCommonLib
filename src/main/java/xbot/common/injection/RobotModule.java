@@ -26,6 +26,7 @@ import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater;
 import xbot.common.controls.sensors.wpi_adapters.DigitalInputWPIAdapter;
@@ -35,6 +36,7 @@ import xbot.common.controls.sensors.wpi_adapters.InertialMeasurementUnitAdapter;
 import xbot.common.controls.sensors.wpi_adapters.JoystickWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter;
+import xbot.common.controls.sensors.wpi_adapters.TimerWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.XboxControllerWpiAdapter;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.logging.RobotAssertionManager;
@@ -52,6 +54,7 @@ public class RobotModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        this.bind(XTimer.class).to(TimerWpiAdapter.class);
         this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class).in(Singleton.class);;
         this.bind(PermanentStorage.class).to(PreferenceStorage.class);
         this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);

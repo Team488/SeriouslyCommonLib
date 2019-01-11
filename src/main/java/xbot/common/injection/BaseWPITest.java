@@ -37,8 +37,6 @@ public class BaseWPITest {
         mockRobotIO = injector.getInstance(MockRobotIO.class);
         timer = injector.getInstance(MockTimer.class);
 
-        Timer.SetImplementation(timer);
-
         propertyManager = injector.getInstance(XPropertyManager.class);
         
         clf = injector.getInstance(CommonLibFactory.class);
