@@ -13,8 +13,6 @@ import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.PIDFactory;
 import xbot.common.properties.XPropertyManager;
 import edu.wpi.first.wpilibj.MockTimer;
-import edu.wpi.first.wpilibj.RobotState;
-import edu.wpi.first.wpilibj.Timer;
 
 @Ignore
 public class BaseWPITest {
