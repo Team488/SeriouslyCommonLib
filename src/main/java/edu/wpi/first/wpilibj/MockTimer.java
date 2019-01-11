@@ -2,10 +2,10 @@ package edu.wpi.first.wpilibj;
 
 import com.google.inject.Singleton;
 
-import xbot.common.controls.sensors.XTimer;
+import xbot.common.controls.sensors.XTimerImpl;
 
 @Singleton
-public class MockTimer extends XTimer {
+public class MockTimer implements XTimerImpl {
 
     double timeInSeconds;
 
