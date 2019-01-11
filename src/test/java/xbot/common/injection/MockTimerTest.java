@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.junit.Ignore;
 
 import edu.wpi.first.wpilibj.MockTimer;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import xbot.common.command.BaseCommand;
 import xbot.common.command.XScheduler;
