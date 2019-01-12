@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import xbot.common.controls.sensors.XTimer;
+import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.RobotModule;
 import xbot.common.logging.RobotSession;
 import xbot.common.logging.TimeLogger;
@@ -142,10 +143,12 @@ public class BaseRobot extends TimedRobot {
     protected void initializeSystems() {
         updateLoggingContext();
         // override with additional systems (but call this one too)
+        XTimerImpl timerimpl = injector.getInstance(XTimerImpl.class);
+        XTimer.setImplementation(timerimpl);
 
         // Get the property manager and get all properties from the robot disk
         propertyManager = this.injector.getInstance(XPropertyManager.class);
-        xScheduler = this.injector.getInstance(XScheduler.class);
+        xScheduler = this.injector.getInstance(XScheduler.class);        
     }
 
     @Override
