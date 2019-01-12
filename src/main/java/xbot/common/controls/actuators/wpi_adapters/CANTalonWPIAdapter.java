@@ -6,6 +6,7 @@ import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.ControlFrame;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.IMotorController;
@@ -455,5 +456,40 @@ public class CANTalonWPIAdapter extends XCANTalon {
     public ControlMode getControlMode() {
         return internalTalon.getControlMode();
     }
+
+    @Override
+    public void set(ControlMode Mode, double demand0, DemandType demand1Type, double demand1) {
+        internalTalon.set(Mode, demand0, demand1Type, demand1);
+    }
+
+    @Override
+    public ErrorCode configSelectedFeedbackCoefficient(double coefficient, int pidIdx, int timeoutMs) {
+        return internalTalon.configSelectedFeedbackCoefficient(coefficient, pidIdx, timeoutMs);
+    }
+
+    @Override
+    public ErrorCode configClosedLoopPeakOutput(int slotIdx, double percentOut, int timeoutMs) {
+        return internalTalon.configClosedLoopPeakOutput(slotIdx, percentOut, timeoutMs);
+    }
+
+    @Override
+    public ErrorCode configClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs) {
+        return internalTalon.configClosedLoopPeriod(slotIdx, loopTimeMs, timeoutMs);
+    }
+
+    @Override
+    public ErrorCode configAuxPIDPolarity(boolean invert, int timeoutMs) {
+        return internalTalon.configAuxPIDPolarity(invert, timeoutMs);
+    }
+
+    @Override
+    public double getClosedLoopTarget(int pidIdx) {
+        return internalTalon.getClosedLoopTarget(pidIdx);
+    }
+
+    @Override
+    public ErrorCode configMotionProfileTrajectoryPeriod(int baseTrajDurationMs, int timeoutMs) {
+        return internalTalon.configMotionProfileTrajectoryPeriod(baseTrajDurationMs, timeoutMs);
+	}
    
 }

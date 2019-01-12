@@ -6,6 +6,7 @@ import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.ControlFrame;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.IMotorController;
@@ -15,6 +16,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -605,5 +607,50 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
     public boolean isRevLimitSwitchClosed() {
         return false;
     }
+
+    @Override
+    public SensorCollection getSensorCollection() {
+        return null;
+    }
+
+    @Override
+    public void set(ControlMode Mode, double demand0, DemandType demand1Type, double demand1) {
+
+    }
+
+    @Override
+    public ErrorCode configSelectedFeedbackCoefficient(double coefficient, int pidIdx, int timeoutMs) {
+        return null;
+    }
+
+    @Override
+    public ErrorCode configClosedLoopPeakOutput(int slotIdx, double percentOut, int timeoutMs) {
+        return null;
+    }
+
+    @Override
+    public ErrorCode configClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs) {
+        return null;
+    }
+
+    @Override
+    public ErrorCode configAuxPIDPolarity(boolean invert, int timeoutMs) {
+        return null;
+    }
+
+    @Override
+    public double getClosedLoopTarget(int pidIdx) {
+        return 0;
+    }
+
+    @Override
+    public ErrorCode configMotionProfileTrajectoryPeriod(int baseTrajDurationMs, int timeoutMs) {
+        return null;
+    }
+
+    @Override
+    public ControlMode getControlMode() {
+		return null;
+	}
 
 }
