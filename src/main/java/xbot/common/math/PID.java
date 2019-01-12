@@ -32,12 +32,6 @@ public class PID
     private double startTime = 0;
     
     private boolean onTarget = false;
-    XTimer timer;
-
-    public PID(XTimer timer) {
-        this.timer = timer;
-    }
-
 
     /**
      * Resets the PID controller.
@@ -202,10 +196,10 @@ public class PID
             if(onTarget){
                 if(waitingToStabilize == false){
                     waitingToStabilize = true;
-                    startTime = timer.getFPGATimestamp();
+                    startTime = XTimer.getFPGATimestamp();
                     onTarget = false;
                 } else {
-                    onTarget =  (timer.getFPGATimestamp() - startTime) > timeToleranceInSeconds;
+                    onTarget =  (XTimer.getFPGATimestamp() - startTime) > timeToleranceInSeconds;
                 }
             } else {
                 waitingToStabilize = false;

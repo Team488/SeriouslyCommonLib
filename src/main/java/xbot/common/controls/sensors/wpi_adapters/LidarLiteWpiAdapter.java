@@ -13,10 +13,9 @@ import xbot.common.properties.XPropertyManager;
 public class LidarLiteWpiAdapter extends XLidarLite{
 
     private I2C i2c;
-    private XTimer timer;
     
     @Inject
-    public LidarLiteWpiAdapter(@Assisted("port") Port port, XPropertyManager propMan, DevicePolice police, XTimer timer) {
+    public LidarLiteWpiAdapter(@Assisted("port") Port port, XPropertyManager propMan, DevicePolice police) {
         super(port, propMan, police);
 
       i2c = new I2C(port, lidar_address);
@@ -26,9 +25,9 @@ public class LidarLiteWpiAdapter extends XLidarLite{
     // Update distance variable
     public void update() {
         i2c.write(lidar_config_register, 0x04); // Initiate measurement
-        timer.delay(0.04); // Delay for measurement to be taken
+        XTimer.delay(0.04); // Delay for measurement to be taken
         i2c.read(lidar_distance_register, 2, distance); // Read in measurement
-        timer.delay(0.01); // Delay to prevent over polling
+        XTimer.delay(0.01); // Delay to prevent over polling
     }
 
 }

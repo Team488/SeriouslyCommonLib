@@ -17,8 +17,8 @@ public class MockBasePoseSubsystem extends BasePoseSubsystem {
     private XCANTalon right;
     
     @Inject
-    public MockBasePoseSubsystem(CommonLibFactory factory, XPropertyManager propManager, XTimer timer) {
-        super(factory, propManager, timer);
+    public MockBasePoseSubsystem(CommonLibFactory factory, XPropertyManager propManager) {
+        super(factory, propManager);
     }
     
     public void setDriveTalons(XCANTalon left, XCANTalon right) {

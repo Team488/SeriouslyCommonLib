@@ -36,7 +36,6 @@ public class HeadingAssistModule {
     double lastHumanInput;
     boolean inAutomaticMode;
     private HeadingAssistMode headingMode;
-    private XTimer timer;
 
     public enum HeadingAssistMode {
         HoldOrientation,
@@ -50,9 +49,7 @@ public class HeadingAssistModule {
             @Assisted("headingModule") HeadingModule headingModule,
             @Assisted("decayModule") HeadingModule decayModule,
             XPropertyManager propMan,
-            BasePoseSubsystem pose,
-            XTimer timer) {
-        this.timer = timer;
+            BasePoseSubsystem pose) {
         this.headingModule = headingModule;
         this.decayModule = decayModule;
         this.pose = pose;
@@ -94,13 +91,13 @@ public class HeadingAssistModule {
         // Also, update a timestamp that says this happened recently
         if (Math.abs(humanRotationalPower) > humanThreshold.get()) {
             inAutomaticMode = false;
-            lastHumanInput = timer.getFPGATimestamp();
+            lastHumanInput = XTimer.getFPGATimestamp();
             return humanRotationalPower;
         }
 
         // If not under threshold, but too close to timestamp,
         // "coast"
-        double timeSinceHumanInput = timer.getFPGATimestamp() - lastHumanInput;
+        double timeSinceHumanInput = XTimer.getFPGATimestamp() - lastHumanInput;
 
         if (timeSinceHumanInput < coastTime.get()) {
             return 0;

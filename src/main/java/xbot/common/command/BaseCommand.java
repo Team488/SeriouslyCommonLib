@@ -22,7 +22,7 @@ public abstract class BaseCommand extends Command {
 
     public BaseCommand() {
         log = Logger.getLogger(this.getName());
-        monitor = new TimeLogger(this.getName(), 20, timer);
+        monitor = new TimeLogger(this.getName(), 20);
     }
 
     public BaseCommand(String name) {

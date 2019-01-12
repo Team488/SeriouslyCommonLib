@@ -49,12 +49,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     private double lastSetHeadingTime;
 
-    private XTimer timer;
-    
-    public BasePoseSubsystem(CommonLibFactory factory, XPropertyManager propManager, XTimer timer) {
+    public BasePoseSubsystem(CommonLibFactory factory, XPropertyManager propManager) {
         log.info("Creating");
         imu = factory.createGyro();
-        this.classInstantiationTime = timer.getFPGATimestamp();
+        this.classInstantiationTime = XTimer.getFPGATimestamp();
         
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
@@ -155,7 +153,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         headingOffset = -rawHeading + headingInDegrees;
         log.info("Offset calculated to be: " + headingOffset);
         
-        lastSetHeadingTime = timer.getFPGATimestamp();
+        lastSetHeadingTime = XTimer.getFPGATimestamp();
     }
     
     public void setCurrentPosition(double newXPosition, double newYPosition) {
@@ -164,7 +162,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     }
     
     public boolean getHeadingResetRecently() {
-        return timer.getFPGATimestamp() - lastSetHeadingTime < 1;
+        return XTimer.getFPGATimestamp() - lastSetHeadingTime < 1;
     }
     
     /**
@@ -229,7 +227,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     @Override
     public void updatePeriodicData() {
-        if (!isNavXReady && (classInstantiationTime + 1 < timer.getFPGATimestamp())) {
+        if (!isNavXReady && (classInstantiationTime + 1 < XTimer.getFPGATimestamp())) {
             setCurrentHeading(FACING_AWAY_FROM_DRIVERS);
             isNavXReady = true;
         }   

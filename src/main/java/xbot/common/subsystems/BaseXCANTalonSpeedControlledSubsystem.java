@@ -43,7 +43,6 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
     private final DoubleProperty systemSpeedThresh;
     protected final PIDPropertyManager pidPropertyManager;
     protected final int masterChannel;
-    protected XTimer timer;
         
     /**
      * 
@@ -60,10 +59,8 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
             boolean invertMasterSensor,
             CommonLibFactory factory, 
             PIDPropertyManager pidPropertyManager,
-            XPropertyManager propManager,
-            XTimer timer){
+            XPropertyManager propManager){
         super(name);
-        this.timer = timer;
         log.info("Creating");
         
         this.pidPropertyManager = pidPropertyManager;
@@ -151,7 +148,7 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
         systemTalonError.set(masterMotor.getClosedLoopError(0));
         
         if(enablesystemLogging.get()){
-            double currentTime = timer.getFPGATimestamp();
+            double currentTime = XTimer.getFPGATimestamp();
             // Format: time, voltage, error, speed
             log.info(currentTime + "," 
                  + systemOutputPower.get() + "," 

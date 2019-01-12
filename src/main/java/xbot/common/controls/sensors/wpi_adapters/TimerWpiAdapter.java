@@ -3,10 +3,10 @@ package xbot.common.controls.sensors.wpi_adapters;
 import com.google.inject.Singleton;
 
 import edu.wpi.first.wpilibj.Timer;
-import xbot.common.controls.sensors.XTimer;
+import xbot.common.controls.sensors.XTimerImpl;
 
 @Singleton
-public class TimerWpiAdapter extends XTimer {
+public class TimerWpiAdapter implements XTimerImpl {
 
     @Override
     public double getFPGATimestamp() {

@@ -54,7 +54,6 @@ public class BaseRobot extends TimedRobot {
     TimeLogger outsidePeriodicMonitor;
 
     protected RobotSession robotSession;
-    protected XTimer timer;
 
     public BaseRobot() {
         super();
@@ -103,8 +102,8 @@ public class BaseRobot extends TimedRobot {
         SmartDashboard.putData(Scheduler.getInstance());
         
         frequencyReportInterval = injector.getInstance(XPropertyManager.class).createPersistentProperty("Robot loop frequency report interval", 20);
-        schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get(), timer);
-        outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20, timer);
+        schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get());
+        outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20);
         robotSession = injector.getInstance(RobotSession.class);
     }
     
@@ -147,7 +146,6 @@ public class BaseRobot extends TimedRobot {
         // Get the property manager and get all properties from the robot disk
         propertyManager = this.injector.getInstance(XPropertyManager.class);
         xScheduler = this.injector.getInstance(XScheduler.class);
-        timer = this.injector.getInstance(XTimer.class);
     }
 
     @Override
@@ -230,15 +228,15 @@ public class BaseRobot extends TimedRobot {
         brownoutLatch.setValue(RobotController.isBrownedOut());
         
         loopCycleCounter++;
-        double timeSinceLastLog = timer.getFPGATimestamp() - lastFreqCounterResetTime;
+        double timeSinceLastLog = XTimer.getFPGATimestamp() - lastFreqCounterResetTime;
         if(lastFreqCounterResetTime <= 0) {
-            lastFreqCounterResetTime = timer.getFPGATimestamp();
+            lastFreqCounterResetTime = XTimer.getFPGATimestamp();
         }
         else if(timeSinceLastLog >= frequencyReportInterval.get()) {
             double loopsPerSecond = loopCycleCounter / timeSinceLastLog; 
             
             loopCycleCounter = 0;
-            lastFreqCounterResetTime = timer.getFPGATimestamp();
+            lastFreqCounterResetTime = XTimer.getFPGATimestamp();
             
             log.info("Robot loops per second: " + loopsPerSecond);
         }
@@ -249,7 +247,7 @@ public class BaseRobot extends TimedRobot {
     protected void registerPeriodicDataSource(PeriodicDataSource telemetrySource) {
         log.info("Adding periodic watcher for " + telemetrySource.getName());
         sourceAndTimers.put(
-                telemetrySource, new TimeLogger(telemetrySource.getName(), 20, timer));
+                telemetrySource, new TimeLogger(telemetrySource.getName(), 20));
     }
     
     protected void updatePeriodicDataSources() {

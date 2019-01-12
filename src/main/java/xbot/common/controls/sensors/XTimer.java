@@ -12,10 +12,10 @@ public class XTimer
         return impl.getFPGATimestamp();
     }
 
-    public double getMatchTime() {
+    public static double getMatchTime() {
         return impl.getMatchTime();
     }
-    public void delay(double seconds) {
+    public static void delay(double seconds) {
         impl.delay(seconds);
     }
 

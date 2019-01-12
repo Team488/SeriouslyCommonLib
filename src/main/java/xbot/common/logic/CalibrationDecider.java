@@ -15,17 +15,15 @@ public class CalibrationDecider {
 
     final DoubleProperty calibrationTimeProp;
     double startTime;
-    XTimer timer;
 
     @Inject
-    public CalibrationDecider(@Assisted("name") String name, XPropertyManager propMan, XTimer timer) {
-        this.timer = timer;
+    public CalibrationDecider(@Assisted("name") String name, XPropertyManager propMan) {
         calibrationTimeProp = propMan.createPersistentProperty(name + "CalibrationDecider/Attempt Time", 3);
         reset();
     }
 
     public void reset() {
-        startTime = timer.getFPGATimestamp();
+        startTime = XTimer.getFPGATimestamp();
     }
 
     public CalibrationMode decideMode(boolean isCalibrated) {
@@ -33,7 +31,7 @@ public class CalibrationDecider {
             return CalibrationMode.Calibrated;
         }
 
-        if (timer.getFPGATimestamp() - startTime > calibrationTimeProp.get()) {
+        if (XTimer.getFPGATimestamp() - startTime > calibrationTimeProp.get()) {
             return CalibrationMode.GaveUp;
         }
 

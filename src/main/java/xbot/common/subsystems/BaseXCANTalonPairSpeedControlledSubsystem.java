@@ -27,9 +27,8 @@ public class BaseXCANTalonPairSpeedControlledSubsystem extends BaseXCANTalonSpee
             boolean invertFollower,
             CommonLibFactory factory,
             PIDPropertyManager pidPropertyManager,
-            XPropertyManager propManager,
-            XTimer timer) {
-        super(name, masterChannel, invertMaster, invertMasterSensor, factory, pidPropertyManager, propManager, timer);
+            XPropertyManager propManager) {
+        super(name, masterChannel, invertMaster, invertMasterSensor, factory, pidPropertyManager, propManager);
         
         followerMotor = factory.createCANTalon(followChannel);
         initializeFollowerMotorConfiguration(invertFollower);
