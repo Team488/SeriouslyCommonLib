@@ -48,9 +48,6 @@ dependencies {
     compile 'edu.wpi.first.wpiutil:wpiutil-java:2019.1.1'
     compile 'edu.wpi.first.wpilibj:wpilibj-java:2019.1.1'
     compile 'edu.wpi.first.ntcore:ntcore-java:2019.1.1'
-        
-    /*compile files('lib/CTRE_Phoenix.jar')
-    compile files('lib/CTRE_Phoenix-sources.jar')*/
     compile 'com.ctre.phoenix:wpiapi-java:5.12.1'
     compile 'com.ctre.phoenix:api-java:5.12.1'
     compile files('lib/ntcore-jni-2019.2.1-all.jar')
