@@ -43,7 +43,8 @@ public class XSchedulerTest extends BaseWPITest {
         // scheduler should have been emptied. TODO: Find a way of testing this
     }
 
-    @Test @Ignore("I can't make the scheduler crash - this needs more investigation later.")
+    @Test 
+    @Ignore("I can't make the scheduler crash - this needs more investigation later.")
     public void testSchedulerCrashes() {
         BaseCommand crashingCommand = new CrashingInExecCommand();
         Scheduler.getInstance().add(crashingCommand);
