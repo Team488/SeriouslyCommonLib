@@ -64,6 +64,11 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
     }
 
     @Override
+    public void set(ControlMode Mode, double demand0, DemandType demand1Type, double demand1) {
+
+    }
+
+    @Override
     public void set(ControlMode mode, double demand0, double demand1) {
         this.simpleSet(demand0);
 
@@ -614,11 +619,6 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
     }
 
     @Override
-    public void set(ControlMode Mode, double demand0, DemandType demand1Type, double demand1) {
-
-    }
-
-    @Override
     public ErrorCode configSelectedFeedbackCoefficient(double coefficient, int pidIdx, int timeoutMs) {
         return null;
     }
@@ -650,7 +650,7 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
 
     @Override
     public ControlMode getControlMode() {
-		return null;
-	}
+        return null;
+    }
 
 }
