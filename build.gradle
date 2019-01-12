@@ -51,8 +51,8 @@ dependencies {
     /*compile files('lib/CTRE_Phoenix.jar')
     compile files('lib/CTRE_Phoenix-sources.jar')*/
     compile 'a.b:CTRE_Phoenix:1.0'
-    compile files('lib/ntcore-jni-4.0.0-all.jar')
-    compile files('lib/wpilibj-jni-2018.1.1-all.jar')
+    compile files('lib/ntcore-jni-2019.2.1-all.jar')
+    compile files('lib/hal-jni-2019.2.1-all.jar')
     
     compile 'com.kauailabs.navx.frc:navx-java:3.1.344'
 }
