@@ -11,7 +11,7 @@ public class TimeLoggerTest extends BaseWPITest {
     @Override
     public void setUp() {
         super.setUp();
-        tl = new TimeLogger("Examplo", 1, timer);
+        tl = new TimeLogger("Examplo", 1);
     }
     
     @Test
