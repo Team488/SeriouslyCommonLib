@@ -49,7 +49,7 @@ public class MockTimerTest extends BaseWPITest {
         }
     }
 
-    @Test
+    @Test @Ignore("Changes to WPI's Timer render this non-functional, until we find a way to inject depeer into their library")
     public void test_command_timed_out() {
         BaseCommand timeOut = new TimeOut();
         XScheduler xScheduler = this.injector.getInstance(XScheduler.class);
