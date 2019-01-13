@@ -1,4 +1,4 @@
-# Seriously Common Lib for FRC [![Build Status](https://dev.azure.com/Team488/SeriouslyCommonLib/_apis/build/status/Team488.SeriouslyCommonLib?branchName=master)](https://dev.azure.com/Team488/SeriouslyCommonLib/_build/latest?definitionId=1?branchName=master)
+# Seriously Common Lib for FRC [![Build Status](https://dev.azure.com/Team488/Team%20488%20Builds/_apis/build/status/Team488.SeriouslyCommonLib?branchName=master)](https://dev.azure.com/Team488/Team%20488%20Builds/_build/latest?definitionId=1?branchName=master)
 
 ## Up-Front Warning
 
