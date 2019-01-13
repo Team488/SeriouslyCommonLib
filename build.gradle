@@ -50,8 +50,9 @@ dependencies {
     compile 'edu.wpi.first.ntcore:ntcore-java:2019.2.1'
     compile 'com.ctre.phoenix:wpiapi-java:5.12.1'
     compile 'com.ctre.phoenix:api-java:5.12.1'
-    compile files('lib/ntcore-jni-2019.2.1-all.jar')
-    compile files('lib/hal-jni-2019.2.1-all.jar')
+
+    compile 'edu.wpi.first.ntcore:ntcore-jni:2019.2.1:all'
+    compile 'edu.wpi.first.hal:hal-jni:2019.2.1:all'
     
     compile 'com.kauailabs.navx.frc:navx-java:3.1.344'
 }
