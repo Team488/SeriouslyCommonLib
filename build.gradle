@@ -76,13 +76,13 @@ checkstyle {
     configFile = file('./xbotcheckstyle.xml')
 }
 
-task checkstyle(type: Checkstyle) {
+/*task checkstyle(type: Checkstyle) {
     source 'src/main/java'
     configProperties.basedir = file('.')
     
     // Empty classpath
     classpath = files()
-}
+}*/
 
 tasks.withType(Test) {
     testLogging.showStandardStreams = true
