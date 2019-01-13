@@ -9,7 +9,7 @@
 
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
-apply plugin: 'checkstyle'
+//apply plugin: 'checkstyle'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -70,11 +70,11 @@ task jarSources(type:Jar){
     from sourceSets.main.allSource
     classifier = 'source'
 }
-
+/*
 checkstyle {
     toolVersion = '8.7'
     configFile = file('./xbotcheckstyle.xml')
-}
+}*/
 
 /*task checkstyle(type: Checkstyle) {
     source 'src/main/java'
