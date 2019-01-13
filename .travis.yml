@@ -11,8 +11,8 @@ cache:
 before_script:
 - mkdir libstdc++
 - cd libstdc++
-- wget "http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu/pool/main/g/gcc-5/libstdc++6_5.1.0-0ubuntu11~10.04.2_amd64.deb"
-- ar xv libstdc++6_5.1.0-0ubuntu11~10.04.2_amd64.deb
+- wget "http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu/pool/main/g/gcc-6/libstdc++6_6.2.0-7ubuntu11_amd64.deb"
+- ar xv libstdc++6_6.2.0-7ubuntu11_amd64.deb
 - tar xf data.tar.gz
 - cd usr/lib/
 - export LD_LIBRARY_PATH=${PWD}
