@@ -25,5 +25,7 @@ before_script:
 - cd usr/lib/
 - export LD_LIBRARY_PATH=${PWD}
 - cd ../../../
+- pwd
+- ls
 
 script: './gradlew build -i checkstyle --console=plain'
