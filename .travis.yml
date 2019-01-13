@@ -9,13 +9,13 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 before_script:
-#- mkdir libstdc++
-#- cd libstdc++
-#- wget "http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu/pool/main/g/gcc-6/libstdc++6_6.2.0-7ubuntu11_amd64.deb"
-#- ar xv libstdc++6_6.2.0-7ubuntu11_amd64.deb
-#- tar xf data.tar.xz
-#- cd usr/lib/
-#- export LD_LIBRARY_PATH=${PWD}
-#- cd ../../../
+- mkdir libstdc++
+- cd libstdc++
+- wget "http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu/pool/main/g/gcc-6/libstdc++6_6.2.0-7ubuntu11_amd64.deb"
+- ar xv libstdc++6_6.2.0-7ubuntu11_amd64.deb
+- tar xf data.tar.xz
+- cd usr/lib/
+- export LD_LIBRARY_PATH=${PWD}
+- cd ../../../
 
 script: './gradlew build -i checkstyle --console=plain'
