@@ -2,7 +2,7 @@ package xbot.common.logging;
 
 import org.apache.log4j.Logger;
 
-import edu.wpi.first.wpilibj.Timer;
+import xbot.common.controls.sensors.XTimer;
 
 public class TimeLogger {
     
@@ -26,11 +26,11 @@ public class TimeLogger {
     private void reset() {
         accumulatedTime = 0;
         callCount = 0;
-        lastReportTime = Timer.getFPGATimestamp();
+        lastReportTime = XTimer.getFPGATimestamp();
     }
     
     public void start() {
-        startTime = Timer.getFPGATimestamp();
+        startTime = XTimer.getFPGATimestamp();
         
         if (firstCall) {
             firstCall = false;
@@ -39,12 +39,12 @@ public class TimeLogger {
     }
     
     public void stop() {
-        double duration = Timer.getFPGATimestamp() - startTime;
+        double duration = XTimer.getFPGATimestamp() - startTime;
         
         accumulatedTime += duration;
         callCount++;
         
-        if (Timer.getFPGATimestamp() - lastReportTime > reportingIntervalInSeconds && callCount > 0) {
+        if (XTimer.getFPGATimestamp() - lastReportTime > reportingIntervalInSeconds && callCount > 0) {
             double averageLoopDuration = accumulatedTime / (double)callCount;
             log.info("Average duration for " + name + " was: " + averageLoopDuration);
             

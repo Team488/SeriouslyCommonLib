@@ -6,9 +6,9 @@ import com.google.inject.Singleton;
 
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.properties.XPropertyManager;
-import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 @Singleton
 public class MockBasePoseSubsystem extends BasePoseSubsystem {

@@ -1,6 +1,6 @@
 package xbot.common.logic;
 
-import edu.wpi.first.wpilibj.Timer;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.logic.Latch.EdgeType;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
@@ -50,11 +50,11 @@ public class WatchdogTimer {
     }
     
     public void kick() {
-        lastKick = Timer.getFPGATimestamp();
+        lastKick = XTimer.getFPGATimestamp();
     }
     
     public void check() {
-        double now = Timer.getFPGATimestamp();
+        double now = XTimer.getFPGATimestamp();
         double timeSinceKick = now - lastKick;
         boolean isUp = Double.isFinite(timeSinceKick) && timeSinceKick <= timeout;
         

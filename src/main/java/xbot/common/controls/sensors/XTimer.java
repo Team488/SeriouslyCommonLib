@@ -1,45 +1,22 @@
 package xbot.common.controls.sensors;
 
-import edu.wpi.first.wpilibj.Timer;
-
 public class XTimer
 {
-    private Timer internalTimer;
-    private boolean isStarted = false;
+    private static XTimerImpl impl;
     
-    public XTimer()
-    {
-        internalTimer = new Timer();
+    public static void setImplementation(XTimerImpl implementation) {
+        impl = implementation;
     }
-    
-    public double getTime()
-    {
-        return internalTimer.get();
+
+    public static double getFPGATimestamp() {
+        return impl.getFPGATimestamp();
     }
-    
-    public boolean isStarted()
-    {
-        return isStarted;
+
+    public static double getMatchTime() {
+        return impl.getMatchTime();
     }
-    
-    public void start()
-    {
-        internalTimer.start();
-        isStarted = true;
+    public static void delay(double seconds) {
+        impl.delay(seconds);
     }
-    
-    public double stop()
-    {
-        double result = internalTimer.get();
-        internalTimer.stop();
-        isStarted = false;
-        return result;
-    }
-    
-    public void reset()
-    {
-        internalTimer.stop();
-        internalTimer.reset();
-        isStarted = false;
-    }
+
 }

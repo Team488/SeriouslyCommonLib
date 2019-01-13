@@ -3,10 +3,10 @@ package xbot.common.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
-import edu.wpi.first.wpilibj.Timer;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.PIDPropertyManager;
 import xbot.common.properties.BooleanProperty;
@@ -148,7 +148,7 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
         systemTalonError.set(masterMotor.getClosedLoopError(0));
         
         if(enablesystemLogging.get()){
-            double currentTime = Timer.getFPGATimestamp();
+            double currentTime = XTimer.getFPGATimestamp();
             // Format: time, voltage, error, speed
             log.info(currentTime + "," 
                  + systemOutputPower.get() + "," 

@@ -1,6 +1,6 @@
 package xbot.common.math;
 
-import edu.wpi.first.wpilibj.Timer;
+import xbot.common.controls.sensors.XTimer;
 
 /**
  * This PID was extracted from WPILib. It has all the same functionality, but
@@ -32,8 +32,7 @@ public class PID
     private double startTime = 0;
     
     private boolean onTarget = false;
-    
-    
+
     /**
      * Resets the PID controller.
      */
@@ -197,10 +196,10 @@ public class PID
             if(onTarget){
                 if(waitingToStabilize == false){
                     waitingToStabilize = true;
-                    startTime = Timer.getFPGATimestamp();
+                    startTime = XTimer.getFPGATimestamp();
                     onTarget = false;
                 } else {
-                    onTarget =  (Timer.getFPGATimestamp() - startTime) > timeToleranceInSeconds;
+                    onTarget =  (XTimer.getFPGATimestamp() - startTime) > timeToleranceInSeconds;
                 }
             } else {
                 waitingToStabilize = false;

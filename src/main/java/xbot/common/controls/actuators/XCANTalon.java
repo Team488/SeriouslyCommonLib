@@ -21,8 +21,6 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 
-import edu.wpi.first.wpilibj.MotorSafety;
-import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
@@ -32,7 +30,7 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
 
-public abstract class XCANTalon extends SendableBase implements IMotorControllerEnhanced, MotorSafety {
+public abstract class XCANTalon extends SendableBase implements IMotorControllerEnhanced {
     /*
      * Functions currently omitted:
      * 
@@ -55,16 +53,11 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     private DoubleProperty positionProperty = null;
     private DoubleProperty velocityProperty = null;
     
-    private MotorSafetyHelper _safetyHelper;
     private String _description;
     
     public XCANTalon(int deviceId, XPropertyManager propMan, DevicePolice police) {
         this.deviceId = deviceId;
         this.propMan = propMan;
-        
-        _safetyHelper = new MotorSafetyHelper(this);
-		_safetyHelper.setExpiration(0.0);
-		_safetyHelper.setSafetyEnabled(false);
         
         LiveWindow.add(this);
         setName("Talon SRX ", deviceId);
@@ -330,39 +323,6 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
 	public void stopMotor() {
 		neutralOutput();
 	}
-
-	@Override
-	public void setExpiration(double timeout) {
-		_safetyHelper.setExpiration(timeout);		
-	}
-
-	@Override
-	public double getExpiration() {
-		// TODO Auto-generated method stub
-		return _safetyHelper.getExpiration();
-	}
-
-	@Override
-	public boolean isAlive() {
-		// TODO Auto-generated method stub
-		return _safetyHelper.isAlive();
-	}
-
-	@Override
-	public void setSafetyEnabled(boolean enabled) {
-		_safetyHelper.setSafetyEnabled(enabled);
-	}
-
-	@Override
-	public boolean isSafetyEnabled() {
-		// TODO Auto-generated method stub
-		return _safetyHelper.isSafetyEnabled();
-	}
-
-	@Override
-	public String getDescription() {
-		return _description;
-    }
         
     /***
      * Convenience function to rapidly configure two CANTalons to work in tandem; often used for drive motors.

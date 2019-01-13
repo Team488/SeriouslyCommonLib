@@ -1,10 +1,9 @@
 package xbot.common.subsystems.pose;
 
-import edu.wpi.first.wpilibj.Timer;
-
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.sensors.XGyro;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.ContiguousDouble;
 import xbot.common.math.ContiguousHeading;
@@ -49,11 +48,11 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     private BooleanProperty rioRotated;
     
     private double lastSetHeadingTime;
-    
+
     public BasePoseSubsystem(CommonLibFactory factory, XPropertyManager propManager) {
         log.info("Creating");
         imu = factory.createGyro();
-        this.classInstantiationTime = Timer.getFPGATimestamp();
+        this.classInstantiationTime = XTimer.getFPGATimestamp();
         
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
@@ -154,7 +153,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         headingOffset = -rawHeading + headingInDegrees;
         log.info("Offset calculated to be: " + headingOffset);
         
-        lastSetHeadingTime = Timer.getFPGATimestamp();
+        lastSetHeadingTime = XTimer.getFPGATimestamp();
     }
     
     public void setCurrentPosition(double newXPosition, double newYPosition) {
@@ -163,7 +162,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     }
     
     public boolean getHeadingResetRecently() {
-        return Timer.getFPGATimestamp() - lastSetHeadingTime < 1;
+        return XTimer.getFPGATimestamp() - lastSetHeadingTime < 1;
     }
     
     /**
@@ -228,7 +227,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     @Override
     public void updatePeriodicData() {
-        if (!isNavXReady && (classInstantiationTime + 1 < Timer.getFPGATimestamp())) {
+        if (!isNavXReady && (classInstantiationTime + 1 < XTimer.getFPGATimestamp())) {
             setCurrentHeading(FACING_AWAY_FROM_DRIVERS);
             isNavXReady = true;
         }   

@@ -1,7 +1,8 @@
 package xbot.common.command;
-import org.apache.log4j.Logger;
 
 import com.google.inject.Inject;
+
+import org.apache.log4j.Logger;
 
 import edu.wpi.first.wpilibj.command.Command;
 import xbot.common.logging.TimeLogger;
