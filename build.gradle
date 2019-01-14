@@ -84,6 +84,14 @@ task checkstyle(type: Checkstyle) {
     classpath = files()
 }
 
+checkstyleMain{
+    logging.setLevel(LogLevel.WARN)
+}
+
+checkstyleTest{
+    logging.setLevel(LogLevel.WARN)
+}
+
 tasks.withType(Test) {
     testLogging.showStandardStreams = true
     
