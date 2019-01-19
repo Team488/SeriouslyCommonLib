@@ -98,4 +98,10 @@ tasks.withType(Test) {
     afterTest { desc, result -> 
         logger.quiet "Executed test ${desc.name} [${desc.className}] with result: ${result.resultType}"
     }
+
+    afterSuite { desc, result ->
+      if (!desc.parent) { // will match the outermost suite
+        println "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+      }
+    }
 }
