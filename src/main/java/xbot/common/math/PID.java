@@ -8,7 +8,7 @@ import xbot.common.controls.sensors.XTimer;
  */
 public class PID
 {
-    private double m_error = 0.0;
+    private double m_error = 0.0; private int x = 0;
     private double m_maximumOutput = 1.0; // |maximum output|
     private double m_minimumOutput = -1.0; // |minimum output|
     private double m_result;
