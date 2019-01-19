@@ -8,6 +8,7 @@ import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.logging.LoggingLatch;
 import xbot.common.logic.Latch.EdgeType;
+import xbot.common.math.MathUtils;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
 
@@ -147,6 +148,75 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem implements Period
         
         // send the rotated vector to be driven
         drive(fieldRelativeVector, rotation, normalize);
+    }
+
+    double mQuickStopAccumulator;
+    public static final double kThrottleDeadband = 0.02;
+    private static final double kTurnSensitivity = 1.0;
+    /**
+     * Slightly adapted from 254's 2016 CheesyDriveHelper.java.
+     */
+    public void cheesyDrive(double translation, double rotation, boolean isQuickTurn) {
+        
+        double overPower;
+        double angularPower;
+
+        if (isQuickTurn) {
+            if (Math.abs(translation) < 0.2) {
+                // If the robot is driving slowly, we want to rapidly transition into "quick turn" mode.
+                double alpha = 0.1;
+                // With an alpha of 0.1, the accumulator is equal to 90% of its previous value, plus 20% of the intended rotation.
+                // That takes about 10 ticks to reach 100% power, and maxes out at 200% power at roughly 38 ticks. (assuming full
+                // turning force).
+                // I wonder why they multiply the rotation by 2? It seems guaranteed to saturate your controller.
+                mQuickStopAccumulator = (1 - alpha) * mQuickStopAccumulator + alpha * MathUtils.constrainDouble(rotation, -1, 1) * 2;
+            }
+            // In quick turn mode, overpower is forced on.
+            overPower = 1.0;
+            // additionally, rotation is directly proportional to rotation input - more like classic tank/arcade drive.
+            angularPower = rotation;
+        } else {
+            // If the robot is driving quickly, we want smooth, controlled turning.
+            overPower = 0.0;
+            // This is the core bit of logic - our rotation power is proportional to our translation power.
+            // The downside is that you cannot turn if you aren't moving - but if you wanted to do that, you would
+            // engage quick turn mode.
+            // There's also a bit of the quick stop accumulator, which as far as I can tell, just means the robot keeps turning for
+            // 2 ticks (1/30th of a second?) or so if you just transitioned out of quick turn mode. This seems pointless?
+            angularPower = Math.abs(translation) * rotation * kTurnSensitivity + mQuickStopAccumulator;
+            // Since we are no longer commanding quickTurn, this causes the quickStopAccumulator to decay much faster.
+            // In quick turn mode, it decays by 10% each tick - here, it's rapidly set to 0.
+            if (mQuickStopAccumulator > 1) {
+                mQuickStopAccumulator -= 1;
+            } else if (mQuickStopAccumulator < -1) {
+                mQuickStopAccumulator += 1;
+            } else {
+                mQuickStopAccumulator = 0.0;
+            }
+        }
+
+        // TODO: It looks like 254 and 488 disagree on what positive and negative values mean for the robot, unless
+        // I'm misreading. This section will have to be read carefully.
+        double rightPwm = translation + angularPower;
+        double leftPwm = translation - angularPower;
+        
+        if (overPower >= 0) {
+            if (leftPwm > 1.0) {
+                rightPwm -= overPower * (leftPwm - 1.0);
+                leftPwm = 1.0;
+            } else if (rightPwm > 1.0) {
+                leftPwm -= overPower * (rightPwm - 1.0);
+                rightPwm = 1.0;
+            } else if (leftPwm < -1.0) {
+                rightPwm += overPower * (-1.0 - leftPwm);
+                leftPwm = -1.0;
+            } else if (rightPwm < -1.0) {
+                leftPwm += overPower * (-1.0 - rightPwm);
+                rightPwm = -1.0;
+            }
+        }
+
+        drive(leftPwm, rightPwm);
     }
     
     public void stop() {
