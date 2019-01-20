@@ -17,6 +17,7 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem implements Period
     public abstract PIDManager getPositionalPid();
     public abstract PIDManager getRotateToHeadingPid();
     public abstract PIDManager getRotateDecayPid();
+    boolean isQuickTurn;
         
     private final LoggingLatch baseDriveSubsystemLoggingLatch = 
             new LoggingLatch(this.getName(), "XCanTalon(s) in DriveSubsystem is null", EdgeType.RisingEdge);
@@ -150,13 +151,17 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem implements Period
         drive(fieldRelativeVector, rotation, normalize);
     }
 
+    public void setQuickTurn(boolean value) {
+        isQuickTurn = value;
+    }
+
     double mQuickStopAccumulator;
     public static final double kThrottleDeadband = 0.02;
     private static final double kTurnSensitivity = 1.0;
     /**
      * Slightly adapted from 254's 2016 CheesyDriveHelper.java.
      */
-    public void cheesyDrive(double translation, double rotation, boolean isQuickTurn) {
+    public void cheesyDrive(double translation, double rotation) {
         
         double overPower;
         double angularPower;

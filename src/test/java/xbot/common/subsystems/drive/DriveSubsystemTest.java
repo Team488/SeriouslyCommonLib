@@ -108,7 +108,31 @@ public class DriveSubsystemTest extends BaseWPITest {
         
         drive.drive(new XYPair(1, 1), 1);
     }
+
+    @Test
+    public void testCheesyDriveNoQuickTurn() {
+        drive.cheesyDrive(0, 1);
+        verifyTankDrive(0, 0);
+    }
     
+    @Test
+    public void testCheesyDriveYesQuickTurn() {
+        drive.setQuickTurn(true);
+        drive.cheesyDrive(0, 1);
+        verifyTankDrive(-1, 1);
+    }
+
+    @Test
+    public void testCheesyDriveTypicalDrive() {
+        drive.cheesyDrive(1, 0);
+        verifyTankDrive(1, 1);
+
+        drive.cheesyDrive(0.5, 0);
+        verifyTankDrive(0.5, 0.5);
+
+        drive.cheesyDrive(0.5, 0.5);
+        verifyTankDrive(0.25, 0.75);
+    }
     
     protected void verifyTankDrive(double left, double right) {
         assertEquals(left, getOutputPercent(drive.leftTank), 0.001);
