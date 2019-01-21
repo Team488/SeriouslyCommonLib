@@ -46,6 +46,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     private boolean isNavXReady = false;
     
     private BooleanProperty rioRotated;
+    private boolean firstUpdate = true;
     
     private double lastSetHeadingTime;
 
@@ -93,10 +94,20 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     private void updateOdometry(double currentLeftDistance, double currentRightDistance) {
         leftDriveDistance.set(currentLeftDistance);
         rightDriveDistance.set(currentRightDistance);
+
+        if (firstUpdate)
+        {
+            // For the very first update, we set the previous distance to the current distance - that way,
+            // if the drive system initially reports non-zero travel distance, we will still report 0 initial
+            // distance traveled.
+            firstUpdate = false;
+            previousLeftDistance = currentLeftDistance;
+            previousRightDistance = currentRightDistance;
+        }
         
         double deltaLeft = currentLeftDistance - previousLeftDistance;
         double deltaRight = currentRightDistance - previousRightDistance;
-        
+
         double totalDistance = (deltaLeft + deltaRight) / 2;
         
         // get X and Y        
