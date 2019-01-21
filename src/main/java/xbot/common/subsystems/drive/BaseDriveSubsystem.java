@@ -167,45 +167,21 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem implements Period
         double angularPower;
 
         if (isQuickTurn) {
-            // In QuickTurn, the robot essentially behaves like a classic tank/arcade drive.
-            // There is some special logic related to keeping the robot turning for a tiny bit after 
-            // it exits QuickTurn, but it doesn't seem impactful.   
-            if (Math.abs(translation) < 0.2) {
-                // If the robot is driving slowly, we want to rapidly transition into "quick turn" mode.
-                double alpha = 0.1;
-                // With an alpha of 0.1, the accumulator is equal to 90% of its previous value, plus 20% of the intended rotation.
-                // That takes about 10 ticks to reach 100% power, and maxes out at 200% power at roughly 38 ticks. (assuming full
-                // turning force).
-                // I wonder why they multiply the rotation by 2? It seems guaranteed to saturate your controller.
-                mQuickStopAccumulator = (1 - alpha) * mQuickStopAccumulator + alpha * MathUtils.constrainDouble(rotation, -1, 1) * 2;
-            }
-            // In quick turn mode, overpower is forced on. This means outputs will be scaled to make sure
-            // the robot can turn 
             overPower = 1.0;
-            // additionally, rotation is directly proportional to rotation input - more like classic tank/arcade drive.
+            // Rotation is directly proportional to rotation input - more like classic tank/arcade drive.
             angularPower = rotation;
         } else {
             // If the robot isn't in QuickTurn, then we want smooth, controlled motion. The core concept is that
             // rotational force is scaled proportionately to translation force.
-
             // overPower is disabled - this means that if the robot hits any sort of saturation point,
             // it just ignores it an continues.
             overPower = 0.0;
             // This is the core bit of logic - our rotation power is proportional to our translation power.
             // The downside is that you cannot turn if you aren't moving - but if you wanted to do that, you would
             // engage quick turn mode.
-            // There's also a bit of the quick stop accumulator, which as far as I can tell, just means the robot keeps turning for
-            // 2 ticks (1/30th of a second?) or so if you just transitioned out of quick turn mode. This seems pointless?
-            angularPower = Math.abs(translation) * rotation * kTurnSensitivity + mQuickStopAccumulator;
+            angularPower = Math.abs(translation) * rotation * kTurnSensitivity;
             // Since we are no longer commanding quickTurn, this causes the quickStopAccumulator to decay much faster.
             // In quick turn mode, it decays by 10% each tick - here, it's rapidly set to 0.
-            if (mQuickStopAccumulator > 1) {
-                mQuickStopAccumulator -= 1;
-            } else if (mQuickStopAccumulator < -1) {
-                mQuickStopAccumulator += 1;
-            } else {
-                mQuickStopAccumulator = 0.0;
-            }
         }
 
         double rightPwm = translation + angularPower;
