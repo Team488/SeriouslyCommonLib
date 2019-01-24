@@ -56,12 +56,9 @@ public class HeadingModule {
         
         targetHeading.setValue(desiredHeading);
         double errorInDegrees = targetHeading.difference(pose.getCurrentHeading());
-        
-        // Let's normalize the error into a -1 to 1 range. Convenient for further math.
-        double normalizedError = errorInDegrees / 180;
-        
+                
         // Now we feed it into a PID system, where the goal is to have 0 error.
-        double rotationalPower = headingDrivePid.calculate(0, normalizedError);
+        double rotationalPower = headingDrivePid.calculate(0, errorInDegrees);
         
         return rotationalPower;        
     }
