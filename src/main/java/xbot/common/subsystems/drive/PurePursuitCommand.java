@@ -71,10 +71,10 @@ public abstract class PurePursuitCommand extends BaseCommand {
      * You will see references to rabbits, or "chasing the rabbit". This is alluding to how greyhoud races use mechanical rabbits,
      * which is designed to always stay ahead of them, regardless of their speed. This is similiar to how, as the robot uses pure
      * pursuit, it is always chasing a point it can never reach.
-     * @param clf
-     * @param pose
-     * @param drive
-     * @param propMan
+     * @param clf CommonLibFactory
+     * @param pose BasePoseSubsystem
+     * @param drive BaseDriveSubsystem
+     * @param propMan PropertyManager
      */
     @Inject
     public PurePursuitCommand(CommonLibFactory clf, BasePoseSubsystem pose, BaseDriveSubsystem drive,
@@ -202,7 +202,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
      * The robot tries to be a little smart here - if you want to visit a point behind you, but facing forward, it will
      * just drive backwards instead of turning around, driving to the point, and turning around again.
      * This needs to be "sticky" so that the robot doesn't turn a bunch if it overshoots the point in either direction.
-     * @param point
+     * @param point Point to be evaulated against the robot's current position
      */
     private void chooseStickyPursuitForward(RabbitPoint point) {
         double distanceRemainingToPointAlongPath = 
@@ -249,7 +249,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
 
     /**
      * Just uses the HeadingModule to rotate. Nothing special here.
-     * @param target
+     * @param target Point we are rotating to
      * @return
      */
     private RabbitChaseInfo rotateToRabbit(RabbitPoint target) {
