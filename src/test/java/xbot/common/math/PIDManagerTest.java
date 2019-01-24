@@ -10,6 +10,7 @@ import org.junit.Test;
 import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.injection.BaseWPITest;
 import xbot.common.logging.RobotAssertionException;
+import xbot.common.math.PID.OffTargetReason;
 
 public class PIDManagerTest extends BaseWPITest {
     
@@ -66,12 +67,15 @@ public class PIDManagerTest extends BaseWPITest {
         
         manager.calculate(100, 0);
         assertFalse(manager.isOnTarget());
+        assertEquals(OffTargetReason.DerivativeTooLarge, manager.getOffTargetReason());
         
         manager.calculate(100, 99.5);
         assertFalse(manager.isOnTarget());
+        assertEquals(OffTargetReason.DerivativeTooLarge, manager.getOffTargetReason());
         
         manager.calculate(100, 100);
         assertTrue(manager.isOnTarget());
+        assertEquals(OffTargetReason.OnTarget, manager.getOffTargetReason());
     }
     
     @Test
@@ -219,24 +223,30 @@ public class PIDManagerTest extends BaseWPITest {
         
         manager.calculate(100, 0);
         assertFalse(manager.isOnTarget());
+        assertEquals(OffTargetReason.ErrorTooLarge, manager.getOffTargetReason());
         
         // Get within error threshold, and for some time
         manager.calculate(100, 100);
+        assertEquals(OffTargetReason.NotTimeStable, manager.getOffTargetReason());
         mockTimer.setTimeInSeconds(1.5);
         manager.calculate(100, 100);
         assertTrue(manager.isOnTarget());
+        assertEquals(OffTargetReason.OnTarget, manager.getOffTargetReason());
         
         // Lose error threshold, should no longer be on target
         manager.calculate(100, 50);
         assertFalse(manager.isOnTarget());
+        assertEquals(OffTargetReason.ErrorTooLarge, manager.getOffTargetReason());
         
         // get within error threshold, should still be off target
         manager.calculate(100, 100);
         assertFalse(manager.isOnTarget());
+        assertEquals(OffTargetReason.NotTimeStable, manager.getOffTargetReason());
         
         // then wait a bit
         mockTimer.setTimeInSeconds(3.0);
         manager.calculate(100, 100);
         assertTrue(manager.isOnTarget());
+        assertEquals(OffTargetReason.OnTarget, manager.getOffTargetReason());
     }
 }

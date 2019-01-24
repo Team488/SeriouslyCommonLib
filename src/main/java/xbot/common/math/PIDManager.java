@@ -3,10 +3,11 @@ package xbot.common.math;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.logging.RobotAssertionManager;
+import xbot.common.math.PID.OffTargetReason;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.StringProperty;
 import xbot.common.properties.XPropertyManager;
 
 /**
@@ -20,6 +21,7 @@ public class PIDManager extends PIDPropertyManager {
     private DoubleProperty minOutput;
     private BooleanProperty isEnabled;
     private boolean isIMasked = false;
+    private StringProperty offTargetReasonProp;
     
     @AssistedInject
     public PIDManager(
@@ -43,6 +45,7 @@ public class PIDManager extends PIDPropertyManager {
         maxOutput = propMan.createPersistentProperty(functionName + " Max Output", defaultMaxOutput);
         minOutput = propMan.createPersistentProperty(functionName + " Min Output", defaultMinOutput);
         isEnabled = propMan.createPersistentProperty(functionName + " Is Enabled", true);
+        offTargetReasonProp = propMan.createEphemeralProperty(functionName + " OffTargetReason", "");
 
         pid = new PID();
         sendTolerancesToInternalPID();
@@ -106,6 +109,7 @@ public class PIDManager extends PIDPropertyManager {
         
         if(isEnabled.get()) {
             double pidResult = pid.calculate(goal, current, getP(), isIMasked ? 0 : getI(), getD(), getF());
+            offTargetReasonProp.set(pid.getOffTargetReason().toString());
             return MathUtils.constrainDouble(pidResult, minOutput.get(), maxOutput.get());
         } else {
             return 0;
@@ -116,6 +120,7 @@ public class PIDManager extends PIDPropertyManager {
         pid.reset();
     }
 
+    @Deprecated
     /**
      * Legacy method to support old callers.
      */
@@ -134,6 +139,10 @@ public class PIDManager extends PIDPropertyManager {
      */
     public boolean isOnTarget() {
         return pid.isOnTarget();
+    }
+
+    public OffTargetReason getOffTargetReason() {
+        return pid.getOffTargetReason();
     }
 
     public void setIMask(boolean isMasked) {
