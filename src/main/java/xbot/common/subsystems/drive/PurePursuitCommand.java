@@ -93,7 +93,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         // and translation can have what's left over.
         // The goal was to reduce the "whiplash" when the robot tried to head to a point that required an immediate large turn and full speed motion.
         // In practice, it diddn't really work.
-        motionBudget = propMan.createPersistentProperty(getPrefix() + "Motion Budget", 2);
+        motionBudget = propMan.createPersistentProperty(getPrefix() + "Motion Budget", 1);
         defaultHeadingModule = clf.createHeadingModule(drive.getRotateToHeadingPid());
         defaultPositionalPid = drive.getPositionalPid();
         setPIDsToDefault();
