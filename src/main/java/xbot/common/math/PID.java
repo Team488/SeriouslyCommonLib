@@ -230,7 +230,8 @@ public class PID
     }
 
     /**
-     * Returns an enum explaining the reason the PID is not on target. It has the following priority list if there are multiple reasons (higher ones overrule lower ones):
+     * Returns an enum explaining the reason the PID is not on target. 
+     * It has the following priority list if there are multiple reasons (higher ones overrule lower ones):
      * - Too much error
      * - Too much derivative
      * - Waiting for time stability
