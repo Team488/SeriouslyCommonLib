@@ -22,4 +22,24 @@ public class MockDigitalOutput extends XDigitalOutput {
     public void set(boolean value) {
         mockRobotIO.setDigital(channel, value);
     }
+
+    @Override
+    public void setPWMRate(double frequency) {
+        // Unsupported in mock implementation.
+    }
+
+    @Override
+    public void enablePWM(double initialDutyCycle) {
+        // Unsupported in mock implementation.
+    }
+
+    @Override
+    public void updateDutyCycle(double dutyCycle) {
+        // Unsupported in mock implementation.
+    }
+
+    @Override
+    public void disablePWM() {
+        // Unsupported in mock implementation.
+    }
 }

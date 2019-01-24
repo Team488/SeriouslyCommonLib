@@ -25,4 +25,24 @@ public class DigitalOutputWPIAdapter extends XDigitalOutput {
         return adapter;
     }
 
+    @Override
+    public void setPWMRate(double frequency) {
+        adapter.setPWMRate(frequency);
+    }
+
+    @Override
+    public void enablePWM(double initialDutyCycle) {
+        adapter.enablePWM(initialDutyCycle);
+    }
+
+    @Override
+    public void updateDutyCycle(double dutyCycle) {
+        adapter.updateDutyCycle(dutyCycle);
+    }
+
+    @Override
+    public void disablePWM() {
+        adapter.disablePWM();
+    }
+
 }
