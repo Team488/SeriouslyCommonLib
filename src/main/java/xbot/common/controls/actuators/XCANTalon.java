@@ -21,8 +21,6 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 
-import edu.wpi.first.wpilibj.MotorSafety;
-import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
@@ -32,7 +30,7 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
 
-public abstract class XCANTalon extends SendableBase implements IMotorControllerEnhanced, MotorSafety {
+public abstract class XCANTalon extends SendableBase implements IMotorControllerEnhanced {
     /*
      * Functions currently omitted:
      * 
@@ -55,16 +53,11 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     private DoubleProperty positionProperty = null;
     private DoubleProperty velocityProperty = null;
     
-    private MotorSafetyHelper _safetyHelper;
     private String _description;
     
     public XCANTalon(int deviceId, XPropertyManager propMan, DevicePolice police) {
         this.deviceId = deviceId;
         this.propMan = propMan;
-        
-        _safetyHelper = new MotorSafetyHelper(this);
-		_safetyHelper.setExpiration(0.0);
-		_safetyHelper.setSafetyEnabled(false);
         
         LiveWindow.add(this);
         setName("Talon SRX ", deviceId);
@@ -330,37 +323,60 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
 	public void stopMotor() {
 		neutralOutput();
 	}
+        
+    /***
+     * Convenience function to rapidly configure two CANTalons to work in tandem; often used for drive motors.
+     * @param prefix Prefix for network tables; typically, fill this with getPrefix() if calling this from a Subsystem or Command.
+     * @param masterName Motor name for network tables
+     * @param master Talon that will control overall operations
+     * @param follower Talon that will follow the master
+     * @param masterInverted Should the master be inverted?
+     * @param followerInverted Should the follower be inverted RELATIVE TO THE MASTER?
+     * @param sensorPhase Is the encoder in phase with the master?
+     */
+    public static void configureMotorTeam(String prefix, String masterName, XCANTalon master, XCANTalon follower, boolean masterInverted,
+            boolean followerInverted, boolean sensorPhase) {
+        master.configureAsMasterMotor(prefix, masterName, masterInverted, sensorPhase);
+        follower.configureAsFollowerMotor(master, followerInverted);
+    }
 
-	@Override
-	public void setExpiration(double timeout) {
-		_safetyHelper.setExpiration(timeout);		
-	}
+    /**
+     * Convenience function to rapidly configure a CANTalon as a Master motor. Uses some typical configurations that can be
+     * overriden later (for example, it sets typical maximum/minimum output values to 1 and -1)
+     * @param prefix Prefix for network tables; typically, fill this with getPrefix() if calling this from a Subsystem or Command.
+     * @param masterName Motor name for network tables
+     * @param masterInverted Should the master be inverted?
+     * @param sensorPhase Is the encoder in phase with the master?
+     */
+    public void configureAsMasterMotor(String prefix, String masterName, boolean masterInverted, boolean sensorPhase) {
+        this.setInverted(masterInverted);
+        this.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        this.setSensorPhase(sensorPhase);
+        this.createTelemetryProperties(prefix, masterName);
 
-	@Override
-	public double getExpiration() {
-		// TODO Auto-generated method stub
-		return _safetyHelper.getExpiration();
-	}
+        this.setNeutralMode(NeutralMode.Coast);
+        this.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, 0);
+        this.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, 0);
 
-	@Override
-	public boolean isAlive() {
-		// TODO Auto-generated method stub
-		return _safetyHelper.isAlive();
-	}
+        this.configPeakOutputForward(1, 0);
+        this.configPeakOutputReverse(-1, 0);
+    }
 
-	@Override
-	public void setSafetyEnabled(boolean enabled) {
-		_safetyHelper.setSafetyEnabled(enabled);
-	}
+    /**
+     * Convenience function to rapidly configure a XCANTalon to follow another XCANTalon. Uses some typical configurations that can be
+     * overriden later (for example, it sets typical maximum/minimum output values to 1 and -1)
+     * @param master The master XCANTalon that this should follow
+     * @param followerInverted Should the follower be inverted RELATIVE TO THE MASTER?
+     */
+    public void configureAsFollowerMotor(XCANTalon master, boolean followerInverted) {
+        this.follow(master);
+        this.setInverted(followerInverted);
 
-	@Override
-	public boolean isSafetyEnabled() {
-		// TODO Auto-generated method stub
-		return _safetyHelper.isSafetyEnabled();
-	}
+        this.setNeutralMode(NeutralMode.Coast);
+        this.configPeakOutputForward(1, 0);
+        this.configPeakOutputReverse(-1, 0);
 
-	@Override
-	public String getDescription() {
-		return _description;
-	}
+        this.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, 0);
+        this.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, 0);
+    }
 }

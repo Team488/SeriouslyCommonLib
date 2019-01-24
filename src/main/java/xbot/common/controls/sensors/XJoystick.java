@@ -124,6 +124,11 @@ public abstract class XJoystick
         }
     }
     
+    /**
+     * Uses the d-pad as a button source.
+     * @param povNumber 0 == Up, 90 == Right, 180 == down, 270 == left
+     * @return
+     */
     public AdvancedButton getPovIfAvailable(int povNumber) {
         if (povNumber < -1 || povNumber > 315) {
             return handleInvalidButton("button " + povNumber + " is out of range!");

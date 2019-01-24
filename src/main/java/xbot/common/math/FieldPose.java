@@ -96,4 +96,11 @@ public class FieldPose {
         // then rotate that point to 90 degrees
         return normalizedPoint.rotate(90 - other.getHeading().getValue());
     }
+    
+    @Override
+    public String toString() {
+        String xyString = fieldPosition == null ? "null, null" : fieldPosition.x + ", " + fieldPosition.y;
+        String headingString = heading == null ? "null" : Double.toString(heading.getValue());
+        return "FieldPose(" + xyString + ", "+ headingString + ")";
+    }
 }

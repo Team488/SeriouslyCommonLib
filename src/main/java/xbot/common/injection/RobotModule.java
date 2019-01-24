@@ -1,5 +1,9 @@
 package xbot.common.injection;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
+
 import xbot.common.command.RealSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.actuators.XCANTalon;
@@ -26,6 +30,7 @@ import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
+import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater;
 import xbot.common.controls.sensors.wpi_adapters.DigitalInputWPIAdapter;
@@ -35,6 +40,7 @@ import xbot.common.controls.sensors.wpi_adapters.InertialMeasurementUnitAdapter;
 import xbot.common.controls.sensors.wpi_adapters.JoystickWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter;
+import xbot.common.controls.sensors.wpi_adapters.TimerWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.XboxControllerWpiAdapter;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.logging.RobotAssertionManager;
@@ -44,20 +50,19 @@ import xbot.common.properties.ITableProxy;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.PreferenceStorage;
 import xbot.common.properties.SmartDashboardTableWrapper;
-import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 public class RobotModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class).in(Singleton.class);;
+        this.bind(XTimerImpl.class).to(TimerWpiAdapter.class);
+        this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class).in(Singleton.class);
+        ;
         this.bind(PermanentStorage.class).to(PreferenceStorage.class);
         this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);
         this.bind(RobotAssertionManager.class).to(SilentRobotAssertionManager.class);
         this.install(new FactoryModuleBuilder().build(PIDFactory.class));
-        
+
         this.install(new FactoryModuleBuilder()
                 .implement(XPowerDistributionPanel.class, PowerDistributionPanelWPIAdapter.class)
                 .implement(XJoystick.class, JoystickWPIAdapter.class)
@@ -73,10 +78,8 @@ public class RobotModule extends AbstractModule {
                 .implement(XCANTalon.class, CANTalonWPIAdapter.class)
                 .implement(XGyro.class, InertialMeasurementUnitAdapter.class)
                 .implement(XLidarLite.class, LidarLiteWpiAdapter.class)
-                .implement(XCompressor.class, CompressorWPIAdapter.class)
-                .implement(XRelay.class, RelayWPIAdapter.class)
-                .implement(XPWM.class, PWMWPIAdapter.class)
-                .build(CommonLibFactory.class));
+                .implement(XCompressor.class, CompressorWPIAdapter.class).implement(XRelay.class, RelayWPIAdapter.class)
+                .implement(XPWM.class, PWMWPIAdapter.class).build(CommonLibFactory.class));
     }
 
 }

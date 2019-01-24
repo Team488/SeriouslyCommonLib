@@ -9,7 +9,6 @@
 
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'checkstyle'
 
 // In this section you declare where to find the dependencies of your project
@@ -22,6 +21,7 @@ repositories {
     maven { url "http://first.wpi.edu/FRC/roborio/maven/release"}
     maven { url uri ("../SeriouslyCommonLib/lib/")}
     maven { url "http://www.kauailabs.com/maven2" }
+    maven { url "http://devsite.ctr-electronics.com/maven/release/"}
     
    /* 
    flatDir {
@@ -40,22 +40,29 @@ dependencies {
     // 'test.useTestNG()' to your build script.
     compile 'junit:junit:4.12'
     
-    compile group: 'com.google.inject', name: 'guice', version: '4.1.0'
-    compile group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.1.0'
+    compile group: 'com.google.inject', name: 'guice', version: '4.2.2'
+    compile group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.2.2'
     
     compile group: 'log4j', name: 'log4j', version: '1.2.17'
     
-    compile 'edu.wpi.first.wpiutil:wpiutil-java:3.+'
-    compile 'edu.wpi.first.wpilibj:wpilibj-java:+'
-    compile 'edu.wpi.first.ntcore:ntcore-java:+'
-        
-    /*compile files('lib/CTRE_Phoenix.jar')
-    compile files('lib/CTRE_Phoenix-sources.jar')*/
-    compile 'a.b:CTRE_Phoenix:1.0'
-    compile files('lib/ntcore-jni-4.0.0-all.jar')
-    compile files('lib/wpilibj-jni-2018.1.1-all.jar')
+    compile 'edu.wpi.first.wpiutil:wpiutil-java:2019.2.1'
+    compile 'edu.wpi.first.wpilibj:wpilibj-java:2019.2.1'
+    compile 'edu.wpi.first.ntcore:ntcore-java:2019.2.1'
+    compile 'com.ctre.phoenix:wpiapi-java:5.12.1'
+    compile 'com.ctre.phoenix:api-java:5.12.1'
+
+    compile 'edu.wpi.first.ntcore:ntcore-jni:2019.2.1:all'
+    compile 'edu.wpi.first.hal:hal-jni:2019.2.1:all'
     
-    compile 'com.kauailabs.navx.frc:navx_frc:+'
+    compile 'com.kauailabs.navx.frc:navx-java:3.1.344'
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ["src/main/resources"]
+        }
+    }
 }
 
 
@@ -77,10 +84,24 @@ task checkstyle(type: Checkstyle) {
     classpath = files()
 }
 
+checkstyleMain{
+    logging.setLevel(LogLevel.WARN)
+}
+
+checkstyleTest{
+    logging.setLevel(LogLevel.WARN)
+}
+
 tasks.withType(Test) {
     testLogging.showStandardStreams = true
     
     afterTest { desc, result -> 
         logger.quiet "Executed test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+    }
+
+    afterSuite { desc, result ->
+      if (!desc.parent) { // will match the outermost suite
+        println "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+      }
     }
 }

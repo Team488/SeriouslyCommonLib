@@ -1,6 +1,6 @@
 package xbot.common.math;
 
-import edu.wpi.first.wpilibj.Timer;
+import xbot.common.controls.sensors.XTimer;
 
 /**
  * This PID was extracted from WPILib. It has all the same functionality, but
@@ -8,6 +8,15 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class PID
 {
+    public enum OffTargetReason {
+        Unknown,
+        OffTargetNotConfigured,
+        ErrorTooLarge,
+        DerivativeTooLarge,
+        NotTimeStable,
+        OnTarget
+    }
+
     private double m_error = 0.0;
     private double m_maximumOutput = 1.0; // |maximum output|
     private double m_minimumOutput = -1.0; // |minimum output|
@@ -32,8 +41,9 @@ public class PID
     private double startTime = 0;
     
     private boolean onTarget = false;
-    
-    
+    private OffTargetReason offTargetReason = OffTargetReason.Unknown;
+
+
     /**
      * Resets the PID controller.
      */
@@ -181,26 +191,33 @@ public class PID
             // In this case, we return FALSE, as it promotes robot action (the command using this will complete
             // its activity, even if it doesn't signal that it is done to allow other actions to proceed).
             onTarget = false;
+            offTargetReason = OffTargetReason.OffTargetNotConfigured;
             return;
         }
         
+        // Assume we are on target, and then look for reasons we may not be.
+        offTargetReason = OffTargetReason.OnTarget;
         onTarget = true;
         
-        if (checkErrorThreshold) {
-            onTarget &= errorIsSmall;
-        }
         if (checkDerivativeThreshold) {
             onTarget &= derivativeIsSmall;
+            offTargetReason = derivativeIsSmall ? offTargetReason : OffTargetReason.DerivativeTooLarge;
         }
+        if (checkErrorThreshold) {
+            onTarget &= errorIsSmall;
+            offTargetReason = errorIsSmall ? offTargetReason : OffTargetReason.ErrorTooLarge;
+        }        
         
         if (checkTimeThreshold) {
             if(onTarget){
                 if(waitingToStabilize == false){
                     waitingToStabilize = true;
-                    startTime = Timer.getFPGATimestamp();
+                    startTime = XTimer.getFPGATimestamp();
                     onTarget = false;
+                    offTargetReason = OffTargetReason.NotTimeStable;
                 } else {
-                    onTarget =  (Timer.getFPGATimestamp() - startTime) > timeToleranceInSeconds;
+                    onTarget =  (XTimer.getFPGATimestamp() - startTime) > timeToleranceInSeconds;
+                    offTargetReason = onTarget ? OffTargetReason.OnTarget : OffTargetReason.NotTimeStable;
                 }
             } else {
                 waitingToStabilize = false;
@@ -211,5 +228,18 @@ public class PID
     
     public boolean isOnTarget() {
         return onTarget;
+    }
+
+    /**
+     * Returns an enum explaining the reason the PID is not on target. 
+     * It has the following priority list if there are multiple reasons (higher ones overrule lower ones):
+     * - Too much error
+     * - Too much derivative
+     * - Waiting for time stability
+     * - On Target
+     * @return
+     */
+    public OffTargetReason getOffTargetReason() {
+        return offTargetReason;
     }
 }

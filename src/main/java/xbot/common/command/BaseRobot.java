@@ -13,11 +13,13 @@ import com.google.inject.Injector;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import xbot.common.controls.sensors.XTimer;
+import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.RobotModule;
+import xbot.common.logging.RobotSession;
 import xbot.common.logging.TimeLogger;
 import xbot.common.logic.Latch;
 import xbot.common.logic.Latch.EdgeType;
@@ -51,6 +53,8 @@ public class BaseRobot extends TimedRobot {
     protected Map<PeriodicDataSource, TimeLogger> sourceAndTimers;
     TimeLogger schedulerMonitor;
     TimeLogger outsidePeriodicMonitor;
+
+    protected RobotSession robotSession;
 
     public BaseRobot() {
         super();
@@ -101,6 +105,7 @@ public class BaseRobot extends TimedRobot {
         frequencyReportInterval = injector.getInstance(XPropertyManager.class).createPersistentProperty("Robot loop frequency report interval", 20);
         schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get());
         outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20);
+        robotSession = injector.getInstance(RobotSession.class);
     }
     
     protected String getEnableTypeString() {
@@ -138,10 +143,12 @@ public class BaseRobot extends TimedRobot {
     protected void initializeSystems() {
         updateLoggingContext();
         // override with additional systems (but call this one too)
+        XTimerImpl timerimpl = injector.getInstance(XTimerImpl.class);
+        XTimer.setImplementation(timerimpl);
 
         // Get the property manager and get all properties from the robot disk
         propertyManager = this.injector.getInstance(XPropertyManager.class);
-        xScheduler = this.injector.getInstance(XScheduler.class);
+        xScheduler = this.injector.getInstance(XScheduler.class);        
     }
 
     @Override
@@ -172,6 +179,7 @@ public class BaseRobot extends TimedRobot {
     }
 
     public void autonomousInit() {
+        robotSession.autoInit();
         updateLoggingContext();
         log.info("Autonomous init (" + getMatchContextString() + ")");
         if(this.autonomousCommand != null) {
@@ -190,6 +198,7 @@ public class BaseRobot extends TimedRobot {
     }
 
     public void teleopInit() {
+        robotSession.teleopInit();
         updateLoggingContext();
         log.info("Teleop init (" + getMatchContextString() + ")");
         if(this.autonomousCommand != null) {
@@ -222,15 +231,15 @@ public class BaseRobot extends TimedRobot {
         brownoutLatch.setValue(RobotController.isBrownedOut());
         
         loopCycleCounter++;
-        double timeSinceLastLog = Timer.getFPGATimestamp() - lastFreqCounterResetTime;
+        double timeSinceLastLog = XTimer.getFPGATimestamp() - lastFreqCounterResetTime;
         if(lastFreqCounterResetTime <= 0) {
-            lastFreqCounterResetTime = Timer.getFPGATimestamp();
+            lastFreqCounterResetTime = XTimer.getFPGATimestamp();
         }
         else if(timeSinceLastLog >= frequencyReportInterval.get()) {
             double loopsPerSecond = loopCycleCounter / timeSinceLastLog; 
             
             loopCycleCounter = 0;
-            lastFreqCounterResetTime = Timer.getFPGATimestamp();
+            lastFreqCounterResetTime = XTimer.getFPGATimestamp();
             
             log.info("Robot loops per second: " + loopsPerSecond);
         }

@@ -1,26 +1,26 @@
 package xbot.common.subsystems.drive.control_logic;
 
-import org.apache.log4j.Logger;
-
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import edu.wpi.first.wpilibj.Timer;
+import org.apache.log4j.Logger;
+
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 /**
- * Encaspulates a useful bit of driving logic:
- * - The robot should attempt to hold its current heading, even if it's temporarily rotated by outside
- *   forces.
- * - If the human driver wants the robot to turn (above some small threshold), then the robot should turn
- *   according to human desires.
- * - After a few moments, the robot should memorize its current heading, and attempt to hold it again.
+ * Encaspulates a useful bit of driving logic: - The robot should attempt to
+ * hold its current heading, even if it's temporarily rotated by outside forces.
+ * - If the human driver wants the robot to turn (above some small threshold),
+ * then the robot should turn according to human desires. - After a few moments,
+ * the robot should memorize its current heading, and attempt to hold it again.
  * 
- * The automatic response can take one of two forms:
- * - Hold a specific heading, as mentioned above, using a PID controller
- * - Resist changes in rotational velocity using a D-only controller.
+ * The automatic response can take one of two forms: - Hold a specific heading,
+ * as mentioned above, using a PID controller - Resist changes in rotational
+ * velocity using a D-only controller.
+ * 
  * @author jogilber
  *
  */
@@ -91,13 +91,13 @@ public class HeadingAssistModule {
         // Also, update a timestamp that says this happened recently
         if (Math.abs(humanRotationalPower) > humanThreshold.get()) {
             inAutomaticMode = false;
-            lastHumanInput = Timer.getFPGATimestamp();
+            lastHumanInput = XTimer.getFPGATimestamp();
             return humanRotationalPower;
         }
 
         // If not under threshold, but too close to timestamp,
         // "coast"
-        double timeSinceHumanInput = Timer.getFPGATimestamp() - lastHumanInput;
+        double timeSinceHumanInput = XTimer.getFPGATimestamp() - lastHumanInput;
 
         if (timeSinceHumanInput < coastTime.get()) {
             return 0;

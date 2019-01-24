@@ -6,9 +6,9 @@ import com.google.inject.assistedinject.Assisted;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import xbot.common.controls.sensors.XLidarLite;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.XPropertyManager;
-import edu.wpi.first.wpilibj.Timer;
 
 public class LidarLiteWpiAdapter extends XLidarLite{
 
@@ -25,9 +25,9 @@ public class LidarLiteWpiAdapter extends XLidarLite{
     // Update distance variable
     public void update() {
         i2c.write(lidar_config_register, 0x04); // Initiate measurement
-        Timer.delay(0.04); // Delay for measurement to be taken
+        XTimer.delay(0.04); // Delay for measurement to be taken
         i2c.read(lidar_distance_register, 2, distance); // Read in measurement
-        Timer.delay(0.01); // Delay to prevent over polling
+        XTimer.delay(0.01); // Delay to prevent over polling
     }
 
 }

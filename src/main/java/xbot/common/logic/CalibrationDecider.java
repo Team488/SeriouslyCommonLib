@@ -3,7 +3,7 @@ package xbot.common.logic;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import edu.wpi.first.wpilibj.Timer;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.XPropertyManager;
 
@@ -23,7 +23,7 @@ public class CalibrationDecider {
     }
 
     public void reset() {
-        startTime = Timer.getFPGATimestamp();
+        startTime = XTimer.getFPGATimestamp();
     }
 
     public CalibrationMode decideMode(boolean isCalibrated) {
@@ -31,7 +31,7 @@ public class CalibrationDecider {
             return CalibrationMode.Calibrated;
         }
 
-        if (Timer.getFPGATimestamp() - startTime > calibrationTimeProp.get()) {
+        if (XTimer.getFPGATimestamp() - startTime > calibrationTimeProp.get()) {
             return CalibrationMode.GaveUp;
         }
 
