@@ -42,6 +42,7 @@ public class PIDManagerTest extends BaseWPITest {
         
         output = manager.calculate(-100, 0);
         assertEquals(-0.25, output, 0.001);
+        assertEquals(OffTargetReason.OffTargetNotConfigured, manager.getOffTargetReason());
     }
     
     @Test

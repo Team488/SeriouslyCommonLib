@@ -10,6 +10,7 @@ public class PID
 {
     public enum OffTargetReason {
         Unknown,
+        OffTargetNotConfigured,
         ErrorTooLarge,
         DerivativeTooLarge,
         NotTimeStable,
@@ -190,7 +191,7 @@ public class PID
             // In this case, we return FALSE, as it promotes robot action (the command using this will complete
             // its activity, even if it doesn't signal that it is done to allow other actions to proceed).
             onTarget = false;
-            offTargetReason = OffTargetReason.Unknown;
+            offTargetReason = OffTargetReason.OffTargetNotConfigured;
             return;
         }
         
