@@ -41,6 +41,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createRelay(5);
         clf.createPWM(3);
         clf.createFieldPosePropertyManager("testo", 1, 2, 3);
+        clf.createZeromqListener("testo", "testo");
     }
     
     @Test(expected = RobotAssertionException.class)

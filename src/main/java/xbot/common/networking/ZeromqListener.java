@@ -18,8 +18,10 @@ public class ZeromqListener implements OffboardCommunicationClient {
     private final String topic;
 
     /**
-     * 
+     * This is the wrapper class for the actual ZeroMQ subscriber, based on http://zguide.zeromq.org/java:wuclient and our 2017 ethernet implementation.
+     * It represents the Subscriber half of the Publisher/Subscriber 0MQ model, reading packets as strings.
      * @param connectionString Typically something like "tcp://localhost:5556"; read the ZeroMQ documentation.
+     * @param topic Will filter to messages beginning with this topic. Empty string will read all messages posted ot the given connectionString.
      */
     @AssistedInject
     public ZeromqListener(@Assisted("connectionString") String connectionString, @Assisted("topic") String topic) {
