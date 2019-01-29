@@ -20,7 +20,9 @@ public class ZeromqTestServer implements Runnable {
         Random srandom = new Random(System.currentTimeMillis());
         while (!Thread.currentThread ().isInterrupted ()) {
             //  Get values that will fool the boss
-            int zipcode, temperature, relhumidity;
+            int zipcode;
+            int temperature;
+            int relhumidity;
             zipcode = 10000 + srandom.nextInt(10000) ;
             temperature = srandom.nextInt(215) - 80 + 1;
             relhumidity = srandom.nextInt(50) + 10 + 1;
