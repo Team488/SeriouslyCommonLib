@@ -297,6 +297,7 @@ public class MockCANTalon extends XCANTalon {
     @Override
     public ErrorCode setSelectedSensorPosition(int sensorPos, int pidIdx, int timeoutMs) {
         // TODO Auto-generated method stub
+        setPosition(sensorPos);
         return null;
     }
 
