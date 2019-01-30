@@ -324,7 +324,9 @@ public abstract class PurePursuitCommand extends BaseCommand {
         
         // Once we are very close to the point, we force the final heading. Most of the time, proper rotation is more important than proper
         // translation. However, if your task requires very precise lateral positioning, you should consider reducing the pointDistanceThreshold to 0.
-        if (Math.abs(distanceRemainingToPointAlongPath) < pointDistanceThreshold.get()) {
+        // We should only do this on final points - super-precise rotation is not important for intermediate points.
+        if ((Math.abs(distanceRemainingToPointAlongPath) < pointDistanceThreshold.get()) &&
+            (target.terminatingType == PointTerminatingType.Stop)) {
             goalAngle = target.pose.getHeading().getValue();
         }
         
