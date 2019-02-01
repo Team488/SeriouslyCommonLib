@@ -16,9 +16,9 @@ public class MockCommunicationClient implements OffboardCommunicationClient {
 
     @Override
     public void setNewPacketHandler(Consumer<String> handler) {
-		this.handler = handler;
+        this.handler = handler;
     }
-    
+
     public void sendPacket(String packet) {
         handler.accept(packet);
     }
