@@ -83,7 +83,6 @@ public abstract class XLidarLite implements DistanceSensor {
 
     @Override
     public void setAveraging(boolean shouldAverage) {
-        // TODO: Implement
     }
 
 }

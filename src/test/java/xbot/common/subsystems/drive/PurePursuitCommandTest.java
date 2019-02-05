@@ -11,6 +11,8 @@ import xbot.common.math.ContiguousHeading;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
 import xbot.common.subsystems.drive.PurePursuitCommand.PointLoadingMode;
+import xbot.common.subsystems.drive.RabbitPoint.PointTerminatingType;
+import xbot.common.subsystems.drive.RabbitPoint.PointType;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.MockBasePoseSubsystem;
 
@@ -137,6 +139,14 @@ public class PurePursuitCommandTest extends BaseWPITest {
         // Need to turn hard to the left, so -1, 1
         // should balance to -1, 0
         verifyTankDrive(-1, 1);
+    }
+
+    @Test
+    public void testDriveToPoint() {
+        command.addPoint(new RabbitPoint(new FieldPose(new XYPair(10, 10), new ContiguousHeading(90)), PointType.PositionOnly, PointTerminatingType.Stop));
+        command.initialize();
+        command.execute();
+        verifyTankDrive(1, -1);
     }
     
     protected void verifyPose(RabbitPoint poseToTest, double x, double y, double heading) {

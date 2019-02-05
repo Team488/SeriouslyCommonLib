@@ -24,6 +24,16 @@ public class FieldPosePropertyManager {
         headingProp = propMan.createPersistentProperty(poseName + "/" + "Heading", heading);
     }
 
+    @AssistedInject
+    public FieldPosePropertyManager(
+        @Assisted("poseName") String poseName, 
+        @Assisted("fieldPose") FieldPose fieldPose,
+        XPropertyManager propMan) {
+        xProp = propMan.createPersistentProperty(poseName + "/" + "X", fieldPose.getPoint().x);
+        yProp = propMan.createPersistentProperty(poseName + "/" + "Y", fieldPose.getPoint().y);
+        headingProp = propMan.createPersistentProperty(poseName + "/" + "Heading", fieldPose.getHeading().getValue());
+    }
+
     public FieldPose getPose() {
         return new FieldPose(new XYPair(xProp.get(), yProp.get()), new ContiguousHeading(headingProp.get()));
     }

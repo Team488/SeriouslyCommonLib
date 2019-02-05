@@ -129,7 +129,6 @@ public class ContiguousDouble {
         }
         
         // Find the shortest path to the target (smallest difference)
-        // TODO: Find a better way to compare these values (more efficient)
         double aboveDiff = otherValue.getValue() - this.unwrapAbove();
         double belowDiff = otherValue.getValue() - this.unwrapBelow();
         double stdDiff = otherValue.getValue() - this.getValue();
