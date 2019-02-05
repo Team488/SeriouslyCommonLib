@@ -36,6 +36,10 @@ public class ConfigurablePurePursuitCommand extends PurePursuitCommand {
     public void setMode(PointLoadingMode mode) {
         this.mode = mode;
     }
+
+    public void setPoints(List<RabbitPoint> points) {
+        this.originalPoints = points;
+    }
     
     public void setPointSupplier(Supplier<List<RabbitPoint>> externalPointSource) {
         this.externalPointSource = externalPointSource;

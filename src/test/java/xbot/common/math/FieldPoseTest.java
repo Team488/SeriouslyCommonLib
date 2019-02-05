@@ -107,4 +107,40 @@ public class FieldPoseTest {
         double angle = goal.getDeltaAngleToRabbit(robotPose, 5);
         assertEquals(-90, angle, 1);
     }
+
+    @Test
+    public void testGetAngleToPoint() {
+        FieldPose robotPose = new FieldPose(new XYPair(0, 0), new ContiguousHeading(90));
+        XYPair goalPoint = new XYPair(10, 10);
+        assertEquals(45, robotPose.getAngleToPoint(goalPoint), 0.001);
+
+        robotPose = new FieldPose(new XYPair(10, 0), new ContiguousHeading(90));
+        assertEquals(90, robotPose.getAngleToPoint(goalPoint), 0.001);
+
+        robotPose = new FieldPose(new XYPair(10, 10), new ContiguousHeading(90));
+        assertEquals(0, robotPose.getAngleToPoint(goalPoint), 0.001);
+
+        robotPose = new FieldPose(new XYPair(10, 9.99999999), new ContiguousHeading(90));
+        assertEquals(90, robotPose.getAngleToPoint(goalPoint), 0.001);
+
+        robotPose = new FieldPose(new XYPair(20, 20), new ContiguousHeading(90));
+        assertEquals(-135, robotPose.getAngleToPoint(goalPoint), 0.001);
+    }
+
+    @Test
+    public void testGetPointAlongPose() {
+        FieldPose robotPose = new FieldPose(new XYPair(0, 0), new ContiguousHeading(90));
+        FieldPose slidPose = robotPose.getPointAlongPoseLine(10);
+        assertEquals(0, slidPose.getPoint().x, 0.001);
+        assertEquals(10, slidPose.getPoint().y, 0.001);
+
+        slidPose = robotPose.getPointAlongPoseLine(-10);
+        assertEquals(0, slidPose.getPoint().x, 0.001);
+        assertEquals(-10, slidPose.getPoint().y, 0.001);
+
+        robotPose = new FieldPose(new XYPair(Math.sqrt(2), Math.sqrt(2)), new ContiguousHeading(45));
+        slidPose = robotPose.getPointAlongPoseLine(-2);
+        assertEquals(0, slidPose.getPoint().x, 0.001);
+        assertEquals(0, slidPose.getPoint().y, 0.001);
+    }
 }

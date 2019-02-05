@@ -84,6 +84,10 @@ public class FieldPose {
         FieldPose rabbitPose = getRabbitPose(other.getPoint(), lookaheadDistance);
         return rabbitPose.getPoint().add(other.getPoint().clone().scale(-1));
     }
+
+    public double getAngleToPoint(XYPair point) {
+        return point.clone().add(this.getPoint().clone().scale(-1)).getAngle();
+    }
     
     public double getDistanceToLineFromPoint(XYPair currentPoint) {
         return getPointAlongPoseClosestToPoint(currentPoint).getDistanceToPoint(currentPoint);
@@ -95,6 +99,23 @@ public class FieldPose {
         
         // then rotate that point to 90 degrees
         return normalizedPoint.rotate(90 - other.getHeading().getValue());
+    }
+
+    /**
+     * Projects along the line created by the X,Y pair and the Heading.
+     * Positive distances are in front, negative are behind. Keeps the
+     * original heading.
+     * @param distance Positive distances are in front, negative are behind.
+     * @return
+     */
+    public FieldPose getPointAlongPoseLine(double distance) {
+        double simpleHeading = this.heading.getValue();
+        double deltaX = Math.cos(simpleHeading / 180 * Math.PI) * distance;
+        double deltaY = Math.sin(simpleHeading / 180 * Math.PI) * distance;
+        double updatedX = this.getPoint().x + deltaX;
+        double updatedY = this.getPoint().y + deltaY;
+
+        return new FieldPose(new XYPair(updatedX, updatedY), new ContiguousHeading(simpleHeading));
     }
     
     @Override

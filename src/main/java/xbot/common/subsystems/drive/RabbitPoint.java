@@ -11,7 +11,8 @@ public class RabbitPoint {
 
     public enum PointType {
         PositionAndHeading,
-        HeadingOnly
+        HeadingOnly,
+        PositionOnly
     }
     
     public enum PointTerminatingType {
@@ -34,13 +35,14 @@ public class RabbitPoint {
     }
     
     public RabbitPoint(FieldPose pose) {
-        this.pose = pose;
-        pointType = PointType.PositionAndHeading;
-        terminatingType = PointTerminatingType.Continue;
-        driveStyle = PointDriveStyle.Macro;
+        this(pose, PointType.PositionAndHeading, PointTerminatingType.Continue, PointDriveStyle.Macro);
     }
-    
-    public RabbitPoint(FieldPose pose, PointType pointType, PointTerminatingType terminatingType, PointDriveStyle driveStyle) {
+
+    public RabbitPoint(FieldPose pose, PointType pointType, PointTerminatingType terminatingType) {
+        this(pose, pointType, terminatingType, PointDriveStyle.Macro);
+    }
+
+	public RabbitPoint(FieldPose pose, PointType pointType, PointTerminatingType terminatingType, PointDriveStyle driveStyle) {
         this.pose = pose;
         this.pointType = pointType;
         this.terminatingType = terminatingType;
