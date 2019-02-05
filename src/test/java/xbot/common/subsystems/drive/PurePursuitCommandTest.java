@@ -1,6 +1,7 @@
 package xbot.common.subsystems.drive;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -143,10 +144,22 @@ public class PurePursuitCommandTest extends BaseWPITest {
 
     @Test
     public void testDriveToPoint() {
-        command.addPoint(new RabbitPoint(new FieldPose(new XYPair(10, 10), new ContiguousHeading(90)), PointType.PositionOnly, PointTerminatingType.Stop));
+        command.addPoint(
+            new RabbitPoint(new FieldPose(new XYPair(10, 10), new ContiguousHeading(90)), PointType.PositionOnly, PointTerminatingType.Stop));
         command.initialize();
         command.execute();
         verifyTankDrive(1, -1);
+    }
+
+    @Test
+    public void testDriveOffset() {
+        pose.setCurrentHeading(0);
+        command.addPoint(
+            new RabbitPoint(new FieldPose(new XYPair(100, 0), new ContiguousHeading(-90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
+        command.initialize();
+        command.execute();
+        // Even though we're pointed right at the goal, we should veer left because we are completely perpindicular to it.
+        verifyTankDrive(-1, 1);
     }
     
     protected void verifyPose(RabbitPoint poseToTest, double x, double y, double heading) {
@@ -160,3 +173,4 @@ public class PurePursuitCommandTest extends BaseWPITest {
         assertEquals("Checking Right Drive", right, drive.rightTank.getMotorOutputPercent(), 0.001);
     }
 }
+
