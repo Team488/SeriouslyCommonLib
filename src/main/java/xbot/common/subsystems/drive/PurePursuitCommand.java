@@ -31,16 +31,22 @@ public abstract class PurePursuitCommand extends BaseCommand {
         public double rotation;
         public FieldPose rabbit;
         public FieldPose target;
+        public double distanceRemaining;
         
         public RabbitChaseInfo(double translation, double rotation) {
-            this.translation = translation;
-            this.rotation = rotation;
+            this(translation, rotation, null, null, 0);
         }
         
         public RabbitChaseInfo(double translation, double rotation, FieldPose target, FieldPose rabbit) {
-            this(translation, rotation);
+            this(translation, rotation, target, rabbit, 0);
+        }
+
+        public RabbitChaseInfo(double translation, double rotation, FieldPose target, FieldPose rabbit, double distanceRemaining) {
+            this.translation = translation;
+            this.rotation = rotation;
             this.rabbit = rabbit;
             this.target = target;
+            this.distanceRemaining = distanceRemaining;
         }
     }
 
@@ -270,6 +276,16 @@ public abstract class PurePursuitCommand extends BaseCommand {
      * @return
      */
     private RabbitChaseInfo driveToPoint(RabbitPoint target, FieldPose robotPose) {
+        RabbitChaseInfo r = driveToPointLogic(target, robotPose);
+
+        if (Math.abs(r.distanceRemaining) < pointDistanceThreshold.get()) {
+            advancePointIfNotAtLastPoint();
+        }
+
+        return r;
+    }
+
+    private RabbitChaseInfo driveToPointLogic(RabbitPoint target, FieldPose robotPose) {
         double desiredHeading = robotPose.getAngleToPoint(target.pose.getPoint());
         double turnPower = headingModule.calculateHeadingPower(desiredHeading);
 
@@ -279,7 +295,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         }
         double translationPower = positionalPid.calculate(distanceRemaining, 0);
         double constrainedTranslation = constrainToMotionBudget(turnPower, translationPower);
-        return new RabbitChaseInfo(constrainedTranslation, turnPower, target.pose, target.pose);
+        return new RabbitChaseInfo(constrainedTranslation, turnPower, target.pose, target.pose, distanceRemaining);
     }
     
     /**
@@ -325,8 +341,24 @@ public abstract class PurePursuitCommand extends BaseCommand {
      */
     private RabbitChaseInfo chaseRabbit(RabbitPoint target, FieldPose robot) {
         double distanceRemainingToPointAlongPath = -target.pose.getDistanceAlongPoseLine(robot.getPoint());
+        double distanceRemainingToPointPerpindicularToPath = target.pose.getDistanceToLineFromPoint(robot.getPoint());
         double trueDistanceRemaining = distanceRemainingToPointAlongPath;
-        // If this distance is positive, that means there is still some distance to go
+        double crowFliesDistance = robot.getPoint().getDistanceToPoint(target.pose.getPoint());
+
+        // Sometimes, we can get into degenerate states where we are commanded to go to a point that is
+        // directly in front of the robot, but angled about 90 degrees to the robot. This causes two problems:
+        // 1) The logic to advance points thinks we are very close, so it goes to the next point
+        // 2) Even if (1) didn't happen, we still are not going to get the smooth change to the proper heading.
+        // As a solution, if the ratio of "distance to pose line" vs "distance along path" is too high, we instead go into a
+        // stupider mode until that ratio is reduced, as long as we are far away from the point.
+        double perpindicularRatio = Math.abs(distanceRemainingToPointPerpindicularToPath / distanceRemainingToPointAlongPath);
+        if (perpindicularRatio > 2 && Math.abs(crowFliesDistance) > pointDistanceThreshold.get()) {
+            FieldPose adjustedPoint = target.pose.getPointAlongPoseLine(-4*12);
+            RabbitPoint temporaryTarget = new RabbitPoint(adjustedPoint, PointType.HeadingOnly, PointTerminatingType.Continue);
+            return driveToPointLogic(temporaryTarget, robot);
+        }
+
+        // If this distanceRemainingToPointAlongPath is positive, that means there is still some distance to go
         // until the robot reaches the point. We will use standard math.
 
         // if the distance is negative, the goal is behind the robot. This can happen for two reasons:
