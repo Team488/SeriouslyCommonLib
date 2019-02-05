@@ -1,6 +1,5 @@
 package xbot.common.networking;
 
-import java.util.StringTokenizer;
 import java.util.function.Consumer;
 
 import com.google.inject.assistedinject.Assisted;
