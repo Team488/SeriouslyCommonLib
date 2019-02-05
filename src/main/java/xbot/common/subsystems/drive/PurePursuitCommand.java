@@ -27,20 +27,26 @@ public abstract class PurePursuitCommand extends BaseCommand {
     }
     
     public class RabbitChaseInfo {
-        public final double translation;
-        public final double rotation;
+        public double translation;
+        public double rotation;
         public FieldPose rabbit;
         public FieldPose target;
+        public double distanceRemaining;
         
         public RabbitChaseInfo(double translation, double rotation) {
-            this.translation = translation;
-            this.rotation = rotation;
+            this(translation, rotation, null, null, 0);
         }
         
         public RabbitChaseInfo(double translation, double rotation, FieldPose target, FieldPose rabbit) {
-            this(translation, rotation);
+            this(translation, rotation, target, rabbit, 0);
+        }
+
+        public RabbitChaseInfo(double translation, double rotation, FieldPose target, FieldPose rabbit, double distanceRemaining) {
+            this.translation = translation;
+            this.rotation = rotation;
             this.rabbit = rabbit;
             this.target = target;
+            this.distanceRemaining = distanceRemaining;
         }
     }
 
@@ -92,7 +98,8 @@ public abstract class PurePursuitCommand extends BaseCommand {
         // The motion budget was an attempt to smooth out driving. Essentially, requested rotation is subtracted from the budget, 
         // and translation can have what's left over.
         // The goal was to reduce the "whiplash" when the robot tried to head to a point that required an immediate large turn and full speed motion.
-        // In practice, it diddn't really work.
+        // In practice, it didn't really work, but it did help the robot get oriented in roughly the right direction
+        // before zooming off.
         motionBudget = propMan.createPersistentProperty(getPrefix() + "Motion Budget", 1);
         defaultHeadingModule = clf.createHeadingModule(drive.getRotateToHeadingPid());
         defaultPositionalPid = drive.getPositionalPid();
@@ -242,6 +249,8 @@ public abstract class PurePursuitCommand extends BaseCommand {
             recommendedAction = rotateToRabbit(target);
         } else if (target.pointType == PointType.PositionAndHeading) {
             recommendedAction = chaseRabbit(target, robot);
+        } else if (target.pointType == PointType.PositionOnly) {
+            recommendedAction = driveToPoint(target, robot);
         }
         
         return recommendedAction;
@@ -258,6 +267,35 @@ public abstract class PurePursuitCommand extends BaseCommand {
             advancePointIfNotAtLastPoint();
         }
         return new RabbitChaseInfo(0, turnPower);
+    }
+
+    /**
+     * Uses the heading module to rotate to aim straight at the target, and drives straight there. This isn't pure
+     * pursuit at all, but sometimes we want to drive straight towards a point and don't care about our orientation.
+     * @param target The point you are trying to reach. Will drive straight there.
+     * @return
+     */
+    private RabbitChaseInfo driveToPoint(RabbitPoint target, FieldPose robotPose) {
+        RabbitChaseInfo r = driveToPointLogic(target, robotPose);
+
+        if (Math.abs(r.distanceRemaining) < pointDistanceThreshold.get()) {
+            advancePointIfNotAtLastPoint();
+        }
+
+        return r;
+    }
+
+    private RabbitChaseInfo driveToPointLogic(RabbitPoint target, FieldPose robotPose) {
+        double desiredHeading = robotPose.getAngleToPoint(target.pose.getPoint());
+        double turnPower = headingModule.calculateHeadingPower(desiredHeading);
+
+        double distanceRemaining = robotPose.getPoint().getDistanceToPoint(target.pose.getPoint());
+        if (target.terminatingType != PointTerminatingType.Stop) {
+            distanceRemaining = 144;
+        }
+        double translationPower = positionalPid.calculate(distanceRemaining, 0);
+        double constrainedTranslation = constrainToMotionBudget(turnPower, translationPower);
+        return new RabbitChaseInfo(constrainedTranslation, turnPower, target.pose, target.pose, distanceRemaining);
     }
     
     /**
@@ -280,6 +318,22 @@ public abstract class PurePursuitCommand extends BaseCommand {
     }
 
     /**
+     *  // If the robot wants to turn, we can lower the translationPower to allow more stable turning. When
+        // the turn value decreases, we can allow more translationPower. This essentially slows down the robot
+        // in curves, and gives it full throttle on long stretches.        
+        // Essentially, there is a total motion budget, and turning has first access to this budget.
+        // If this budget is 2 or higher, that's the same as having no budget at all.       
+     * @param rotation The desired turn power
+     * @param translation The desired translation power, which will be constrained by the budget.
+     * @return 
+     */
+    private double constrainToMotionBudget(double rotation, double translation) {
+        double remainingBudget = motionBudget.get() - Math.abs(rotation);
+        double constrainedRemainingBudget = MathUtils.constrainDouble(remainingBudget, 0, 1);
+        return translation * constrainedRemainingBudget;
+    }
+
+    /**
      * All the math for rotating/translating towards the rabbit, which should lead us to our desired point.
      * @param target The point we want to reach
      * @param robot The current pose of the robot
@@ -287,8 +341,24 @@ public abstract class PurePursuitCommand extends BaseCommand {
      */
     private RabbitChaseInfo chaseRabbit(RabbitPoint target, FieldPose robot) {
         double distanceRemainingToPointAlongPath = -target.pose.getDistanceAlongPoseLine(robot.getPoint());
+        double distanceRemainingToPointPerpindicularToPath = target.pose.getDistanceToLineFromPoint(robot.getPoint());
         double trueDistanceRemaining = distanceRemainingToPointAlongPath;
-        // If this distance is positive, that means there is still some distance to go
+        double crowFliesDistance = robot.getPoint().getDistanceToPoint(target.pose.getPoint());
+
+        // Sometimes, we can get into degenerate states where we are commanded to go to a point that is
+        // directly in front of the robot, but angled about 90 degrees to the robot. This causes two problems:
+        // 1) The logic to advance points thinks we are very close, so it goes to the next point
+        // 2) Even if (1) didn't happen, we still are not going to get the smooth change to the proper heading.
+        // As a solution, if the ratio of "distance to pose line" vs "distance along path" is too high, we instead go into a
+        // stupider mode until that ratio is reduced, as long as we are far away from the point.
+        double perpindicularRatio = Math.abs(distanceRemainingToPointPerpindicularToPath / distanceRemainingToPointAlongPath);
+        if (perpindicularRatio > 2 && Math.abs(crowFliesDistance) > pointDistanceThreshold.get()) {
+            FieldPose adjustedPoint = target.pose.getPointAlongPoseLine(-4*12);
+            RabbitPoint temporaryTarget = new RabbitPoint(adjustedPoint, PointType.HeadingOnly, PointTerminatingType.Continue);
+            return driveToPointLogic(temporaryTarget, robot);
+        }
+
+        // If this distanceRemainingToPointAlongPath is positive, that means there is still some distance to go
         // until the robot reaches the point. We will use standard math.
 
         // if the distance is negative, the goal is behind the robot. This can happen for two reasons:
@@ -346,20 +416,12 @@ public abstract class PurePursuitCommand extends BaseCommand {
         }
 
         double translationPower = positionalPid.calculate(distanceRemainingToPointAlongPath, 0);
-        
-        // If the robot wants to turn, we can lower the translationPower to allow more stable turning. When
-        // the turn value decreases, we can allow more translationPower. This essentially slows down the robot
-        // in curves, and gives it full throttle on long stretches.        
-        // Essentially, there is a total motion budget, and turning has first access to this budget.
-        // If this budget is 2 or higher, that's the same as having no budget at all.        
-        double remainingBudget = motionBudget.get() - Math.abs(turnPower);
-        double constrainedRemainingBudget = MathUtils.constrainDouble(remainingBudget, 0, 1);
-        translationPower = translationPower * constrainedRemainingBudget;
+        double constrainedTranslation = constrainToMotionBudget(turnPower, translationPower);
         
         // Log the output. This could be commented out, but for now, it has been very useful for debugging why the robot is driving
         // somewhere... unexpected.
         log.info(String.format("Point: %d, DistanceR: %.2f, Power: %.2f", 
-                pointIndex, trueDistanceRemaining, translationPower));
+                pointIndex, trueDistanceRemaining, constrainedTranslation));
         
         // In Micro mode, we want to be very, very sure we get to these points accurately, so we reduce the threshold to 25%.
         double distanceThreshold = pointDistanceThreshold.get();
@@ -372,7 +434,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
                 advancePointIfNotAtLastPoint();
         }
         
-        return new RabbitChaseInfo(translationPower, turnPower, target.pose, rabbitLocation);
+        return new RabbitChaseInfo(constrainedTranslation, turnPower, target.pose, rabbitLocation);
     }
     
     @Override

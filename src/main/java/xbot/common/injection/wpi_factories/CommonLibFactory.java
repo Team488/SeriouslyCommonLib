@@ -30,6 +30,7 @@ import xbot.common.controls.sensors.XXboxController;
 import xbot.common.logic.CalibrationDecider;
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.VelocityThrottleModule;
+import xbot.common.math.FieldPose;
 import xbot.common.math.FieldPosePropertyManager;
 import xbot.common.math.PIDManager;
 import xbot.common.networking.ZeromqListener;
@@ -141,6 +142,10 @@ public interface CommonLibFactory {
             @Assisted("x") double x,
             @Assisted("y") double y,
             @Assisted("heading") double heading);
+
+    public FieldPosePropertyManager createFieldPosePropertyManager(
+        @Assisted("poseName") String poseName,
+        @Assisted("fieldPose") FieldPose fieldPose);
 
     public ZeromqListener createZeromqListener(
             @Assisted("connectionString") String connectionString, 
