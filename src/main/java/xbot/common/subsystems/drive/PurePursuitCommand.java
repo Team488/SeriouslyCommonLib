@@ -266,7 +266,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
     /**
      * Uses the heading module to rotate to aim straight at the target, and drives straight there. This isn't pure
      * pursuit at all, but sometimes we want to drive straight towards a point and don't care about our orientation.
-     * @param target
+     * @param target The point you are trying to reach. Will drive straight there.
      * @return
      */
     private RabbitChaseInfo driveToPoint(RabbitPoint target, FieldPose robotPose) {
