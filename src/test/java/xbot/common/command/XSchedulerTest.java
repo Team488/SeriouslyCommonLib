@@ -40,7 +40,7 @@ public class XSchedulerTest extends BaseWPITest {
         xScheduler.run();
         // shouldn't have crashed
 
-        // scheduler should have been emptied. TODO: Find a way of testing this
+        // scheduler should have been emptied.
     }
 
     @Test 
