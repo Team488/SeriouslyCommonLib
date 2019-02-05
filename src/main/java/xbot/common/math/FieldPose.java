@@ -19,6 +19,11 @@ public class FieldPose {
         this.fieldPosition = point.clone();
         this.heading = heading.clone();
     }
+
+    public FieldPose(double x, double y, double heading) {
+        this.fieldPosition = new XYPair(x, y);
+        this.heading = new ContiguousHeading(heading);
+    }
     
     public ContiguousHeading getHeading() {
         return heading;
