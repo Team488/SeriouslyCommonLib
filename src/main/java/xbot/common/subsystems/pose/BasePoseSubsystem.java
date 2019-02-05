@@ -231,11 +231,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     public double getYawAngularVelocity(){
         return imu.getYawAngularVelocity();
     }
-
-    public ContiguousHeading getHeadingToPoint(FieldPose pose) {
-        
-        return null;
-    }
     
     public boolean getNavXReady() {
         return isNavXReady;
