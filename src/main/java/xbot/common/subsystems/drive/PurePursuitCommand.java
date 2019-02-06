@@ -288,14 +288,18 @@ public abstract class PurePursuitCommand extends BaseCommand {
     private RabbitChaseInfo driveToPointLogic(RabbitPoint target, FieldPose robotPose) {
         double desiredHeading = robotPose.getAngleToPoint(target.pose.getPoint());
         double turnPower = headingModule.calculateHeadingPower(desiredHeading);
-
         double distanceRemaining = robotPose.getPoint().getDistanceToPoint(target.pose.getPoint());
+        double trueDistanceRemaining = distanceRemaining;
         if (target.terminatingType != PointTerminatingType.Stop) {
             distanceRemaining = 144;
         }
         double translationPower = positionalPid.calculate(distanceRemaining, 0);
         double constrainedTranslation = constrainToMotionBudget(turnPower, translationPower);
-        return new RabbitChaseInfo(constrainedTranslation, turnPower, target.pose, target.pose, distanceRemaining);
+
+        log.info(String.format("Mode: DriveToPoint. Point: %d, X:%.2f, Y:%.2f, DistanceR: %.2f, Power: %.2f", 
+                pointIndex, target.pose.getPoint().x, target.pose.getPoint().y, 
+                trueDistanceRemaining, constrainedTranslation));
+        return new RabbitChaseInfo(constrainedTranslation, turnPower, target.pose, target.pose, trueDistanceRemaining);
     }
     
     /**
@@ -351,12 +355,13 @@ public abstract class PurePursuitCommand extends BaseCommand {
         // 2) Even if (1) didn't happen, we still are not going to get the smooth change to the proper heading.
         // As a solution, if the ratio of "distance to pose line" vs "distance along path" is too high, we instead go into a
         // stupider mode until that ratio is reduced, as long as we are far away from the point.
-        double perpindicularRatio = Math.abs(distanceRemainingToPointPerpindicularToPath / distanceRemainingToPointAlongPath);
+        /*double perpindicularRatio = Math.abs(distanceRemainingToPointPerpindicularToPath / distanceRemainingToPointAlongPath);
         if (perpindicularRatio > 2 && Math.abs(crowFliesDistance) > pointDistanceThreshold.get()) {
+            log.info("Perpindicular ratio: " + perpindicularRatio + ". Forcing to DriveToPoint.");
             FieldPose adjustedPoint = target.pose.getPointAlongPoseLine(-4*12);
             RabbitPoint temporaryTarget = new RabbitPoint(adjustedPoint, PointType.HeadingOnly, PointTerminatingType.Continue);
             return driveToPointLogic(temporaryTarget, robot);
-        }
+        }*/
 
         // If this distanceRemainingToPointAlongPath is positive, that means there is still some distance to go
         // until the robot reaches the point. We will use standard math.
@@ -420,8 +425,9 @@ public abstract class PurePursuitCommand extends BaseCommand {
         
         // Log the output. This could be commented out, but for now, it has been very useful for debugging why the robot is driving
         // somewhere... unexpected.
-        log.info(String.format("Point: %d, DistanceR: %.2f, Power: %.2f", 
-                pointIndex, trueDistanceRemaining, constrainedTranslation));
+        log.info(String.format("Mode: DriveToPoint. Point: %d, X:%.2f, Y:%.2f, DistanceR: %.2f, Power: %.2f", 
+                pointIndex, target.pose.getPoint().x, target.pose.getPoint().y, 
+                trueDistanceRemaining, constrainedTranslation));
         
         // In Micro mode, we want to be very, very sure we get to these points accurately, so we reduce the threshold to 25%.
         double distanceThreshold = pointDistanceThreshold.get();
