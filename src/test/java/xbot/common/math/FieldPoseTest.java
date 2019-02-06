@@ -150,6 +150,6 @@ public class FieldPoseTest {
         FieldPose endingPose = new FieldPose(290, 40, -90);
         double distance = endingPose.getDistanceAlongPoseLine(startingPose.getPoint());
 
-        assertEquals(-20, distance, 0.001);
+        assertEquals(40, distance, 0.001);
     }
 }
