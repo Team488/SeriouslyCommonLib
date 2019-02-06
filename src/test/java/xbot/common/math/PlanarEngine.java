@@ -4,18 +4,19 @@ public class PlanarEngine {
 
     double friction = 0.005;
     double power_factor = 0.1;
+    double heading_factor = 0.1;
     double rotate_factor = 3;
     int loops;
     
     XYPair robotPosition;
-    XYPair velocityVector;
-    
+    double velocity;
+    ContiguousHeading heading;
     XYPair goalPoint;
     XYPair goalVector;
     
     public PlanarEngine() {
-        velocityVector = new XYPair();
         robotPosition = new XYPair();
+        heading = new ContiguousHeading(90);
         
         goalPoint = new XYPair(10, 0);
         goalVector = new XYPair(1, 0);
@@ -26,29 +27,34 @@ public class PlanarEngine {
     }
 
     public XYPair step(double forwardPower, double rotatePower) {
-        // apply motor power
-        velocityVector = velocityVector.addMagnitude(forwardPower*power_factor);
-        velocityVector.rotate(rotatePower*rotate_factor);
+        double left = MathUtils.constrainDoubleToRobotScale(forwardPower-rotatePower);
+        double right = MathUtils.constrainDoubleToRobotScale(forwardPower+rotatePower);
+        velocity += ((left+right)/2*power_factor);
+        heading.shiftValue(rotatePower*rotate_factor);
         
         // apply friction model to velocity
-        if(Math.abs(velocityVector.getMagnitude()) > friction) {
-            velocityVector = velocityVector.addMagnitude(-friction);
+        if(Math.abs(velocity) > friction) {
+            velocity -= friction;
         }
         else {
-            velocityVector = new XYPair(0, 0);
+            velocity = 0;
         }
+
+        // sharp turns also murder velocity
+        velocity -= (Math.abs(rotatePower))*velocity*.05;
         
-        robotPosition = robotPosition.add(velocityVector);
+        robotPosition.x += Math.cos(heading.getValue() / 180 * Math.PI)*velocity;
+        robotPosition.y += Math.sin(heading.getValue() / 180 * Math.PI)*velocity;
         loops++;
         return robotPosition;
     }
     
-    public XYPair getVelocity() {
-        return velocityVector;
+    public double getVelocity() {
+        return velocity;
     }
     
     public FieldPose getRobotPose() {
-        return new FieldPose(robotPosition, new ContiguousHeading(velocityVector.getAngle()));
+        return new FieldPose(robotPosition, heading);
     }
     
     public int getLoops() {

@@ -224,12 +224,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         }
     }
 
-    /**
-     * This is the core method that looks at the point list, figures out which point to be heading towards,
-     * and doing the math on how to get there.
-     * @return Information about what the robot would like to do in order to reach its points.
-     */
-    public RabbitChaseInfo evaluateCurrentPoint() {
+    public RabbitChaseInfo evaluateCurrentPoint(FieldPose robotPose) {
         // If for some reason we have no points, or we go beyond our list, don't do anything. It would be good to add a
         // logging latch here.
         if (pointsToVisit.size() == 0 || pointIndex == pointsToVisit.size()) {
@@ -238,7 +233,6 @@ public abstract class PurePursuitCommand extends BaseCommand {
         
         // Get our current state, as well as the point that says what we should be doing
         RabbitPoint target = pointsToVisit.get(pointIndex);
-        FieldPose robot = poseSystem.getCurrentFieldPose();
         RabbitChaseInfo recommendedAction = new RabbitChaseInfo(0, 0);
         
         // Depending on the PointType, take the appropriate action.
@@ -248,12 +242,21 @@ public abstract class PurePursuitCommand extends BaseCommand {
         if (target.pointType == PointType.HeadingOnly) {
             recommendedAction = rotateToRabbit(target);
         } else if (target.pointType == PointType.PositionAndHeading) {
-            recommendedAction = chaseRabbit(target, robot);
+            recommendedAction = chaseRabbit(target, robotPose);
         } else if (target.pointType == PointType.PositionOnly) {
-            recommendedAction = driveToPoint(target, robot);
+            recommendedAction = driveToPoint(target, robotPose);
         }
         
         return recommendedAction;
+    }
+
+    /**
+     * This is the core method that looks at the point list, figures out which point to be heading towards,
+     * and doing the math on how to get there.
+     * @return Information about what the robot would like to do in order to reach its points.
+     */
+    public RabbitChaseInfo evaluateCurrentPoint() {
+        return evaluateCurrentPoint(poseSystem.getCurrentFieldPose());
     }
 
     /**
