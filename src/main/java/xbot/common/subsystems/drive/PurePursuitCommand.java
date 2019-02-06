@@ -358,13 +358,13 @@ public abstract class PurePursuitCommand extends BaseCommand {
         // 2) Even if (1) didn't happen, we still are not going to get the smooth change to the proper heading.
         // As a solution, if the ratio of "distance to pose line" vs "distance along path" is too high, we instead go into a
         // stupider mode until that ratio is reduced, as long as we are far away from the point.
-        /*double perpindicularRatio = Math.abs(distanceRemainingToPointPerpindicularToPath / distanceRemainingToPointAlongPath);
-        if (perpindicularRatio > 2 && Math.abs(crowFliesDistance) > pointDistanceThreshold.get()) {
+        double perpindicularRatio = Math.abs(distanceRemainingToPointPerpindicularToPath / distanceRemainingToPointAlongPath);
+        if (perpindicularRatio > 1.5 && Math.abs(crowFliesDistance) > pointDistanceThreshold.get()) {
             log.info("Perpindicular ratio: " + perpindicularRatio + ". Forcing to DriveToPoint.");
             FieldPose adjustedPoint = target.pose.getPointAlongPoseLine(-4*12);
             RabbitPoint temporaryTarget = new RabbitPoint(adjustedPoint, PointType.HeadingOnly, PointTerminatingType.Continue);
             return driveToPointLogic(temporaryTarget, robot);
-        }*/
+        }
 
         // If this distanceRemainingToPointAlongPath is positive, that means there is still some distance to go
         // until the robot reaches the point. We will use standard math.

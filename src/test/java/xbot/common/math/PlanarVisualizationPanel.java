@@ -22,8 +22,8 @@ public class PlanarVisualizationPanel extends JPanel {
     private FieldPose rabbitPosition = new FieldPose(new XYPair(0,0), new ContiguousHeading(0));
     private String rabbitStats = "...";
 
-    private int preferredWidth = 500;
-    private int minimumWidth = 500;
+    private int preferredWidth = 300;
+    private int minimumWidth = 300;
 
     public PlanarVisualizationPanel() {
 
@@ -59,7 +59,7 @@ public class PlanarVisualizationPanel extends JPanel {
         centerX = this.getWidth() / 4;
         centerY = this.getHeight() / 2;
         
-        int linearFactor = 5;
+        int linearFactor = 1;
         
         // draw start
         graphics.setColor(Color.GREEN);

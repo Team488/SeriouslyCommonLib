@@ -143,4 +143,13 @@ public class FieldPoseTest {
         assertEquals(0, slidPose.getPoint().x, 0.001);
         assertEquals(0, slidPose.getPoint().y, 0.001);
     }
+
+    @Test
+    public void testDistanceAlongPoseLine() {
+        FieldPose startingPose = new FieldPose(0, 0, 90);
+        FieldPose endingPose = new FieldPose(290, 40, -90);
+        double distance = endingPose.getDistanceAlongPoseLine(startingPose.getPoint());
+
+        assertEquals(-20, distance, 0.001);
+    }
 }

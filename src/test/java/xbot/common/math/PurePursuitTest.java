@@ -1,5 +1,6 @@
 package xbot.common.math;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -8,6 +9,7 @@ import xbot.common.subsystems.drive.BaseDriveSubsystem;
 import xbot.common.subsystems.drive.ConfigurablePurePursuitCommand;
 import xbot.common.subsystems.drive.MockDriveSubsystem;
 import xbot.common.subsystems.drive.PurePursuitCommand.RabbitChaseInfo;
+import xbot.common.subsystems.drive.RabbitPoint;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.MockBasePoseSubsystem;
 
@@ -21,6 +23,11 @@ public class PurePursuitTest extends BaseWPITest {
     FieldPose goalOne;
     FieldPose goalTwo;
     boolean pastOne;
+    List<RabbitPoint> points;
+    public PurePursuitTest(List<RabbitPoint> points)
+    {
+        this.points = points;
+    }
         
     public static class PursuitEnvironmentState {
         public FieldPose robot;
@@ -57,7 +64,7 @@ public class PurePursuitTest extends BaseWPITest {
         }
     }
 
-    private ConfigurablePurePursuitCommand command;
+    protected ConfigurablePurePursuitCommand command;
     MockBasePoseSubsystem poseSystem;
     
     public void vizRun() {
@@ -69,17 +76,16 @@ public class PurePursuitTest extends BaseWPITest {
         b.changeRotationalPid(pf.createPIDManager("testRot", 0.05, 0, 0));
         b.changePositionalPid(pf.createPIDManager("testPos", 0.1, 0, 0.1));
         command = injector.getInstance(ConfigurablePurePursuitCommand.class);
-        
-        command.addPoint(new FieldPose(new XYPair(10, 70), new ContiguousHeading(90)));
-        command.addPoint(new FieldPose(new XYPair(50, 0), new ContiguousHeading(-90)));
+        setPoints();
         command.initialize();
         startAsyncTimer();    
     }
+
+    public void setPoints() {
+        command.setPoints(points);
+    }
     
     public void startAsyncTimer() {
-        
-        
-        
         asyncTimer = new Timer();
         asyncTimer.schedule(
             new TimerTask() {
@@ -87,6 +93,7 @@ public class PurePursuitTest extends BaseWPITest {
                 public void run() {
                     FieldPose robot = engine.getRobotPose();
                     poseSystem.setCurrentHeading(robot.getHeading().getValue());
+                    poseSystem.setCurrentPosition(robot.getPoint().x, robot.getPoint().y);
                     RabbitChaseInfo info = command.evaluateCurrentPoint(robot);
                     FieldPose target = info.target;
                     double angleToRabbit = target.getDeltaAngleToRabbit(robot, 5);

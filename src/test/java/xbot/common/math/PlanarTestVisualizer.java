@@ -1,6 +1,9 @@
 package xbot.common.math;
 
 import java.awt.EventQueue;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -8,19 +11,22 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 
+import xbot.common.subsystems.drive.RabbitPoint;
+
 
 public class PlanarTestVisualizer {
     
-    private JFrame frmLinearTestVisualizer;
-    private PlanarVisualizationPanel vizPanel;
-    private JPanel controlPanel;
-    private JSlider speedSlider;
+    public JFrame frmLinearTestVisualizer;
+    public PlanarVisualizationPanel vizPanel;
+    public JPanel controlPanel;
+    public JSlider speedSlider;
     
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    PlanarTestVisualizer window = new PlanarTestVisualizer();
+                    RabbitPoint p = new RabbitPoint(new FieldPose(new XYPair(144, 0), new ContiguousHeading(90)));
+                    PlanarTestVisualizer window = new PlanarTestVisualizer(new ArrayList<RabbitPoint>(Arrays.asList(p)));
                     window.frmLinearTestVisualizer.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -29,22 +35,22 @@ public class PlanarTestVisualizer {
         });
     }
     
-    public PlanarTestVisualizer() {
-        initialize();
+    public PlanarTestVisualizer(List<RabbitPoint> points) {
+        initialize(points);
     }
     
-    private void initialize() {
+    private void initialize(List<RabbitPoint> points) {
         frmLinearTestVisualizer = new JFrame();
         
         frmLinearTestVisualizer.setTitle("Linear test visualizer");
-        frmLinearTestVisualizer.setBounds(100, 100, 800, 400);
+        frmLinearTestVisualizer.setBounds(100, 100, 1600, 1000);
         frmLinearTestVisualizer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmLinearTestVisualizer.getContentPane().setLayout(new BoxLayout(frmLinearTestVisualizer.getContentPane(), BoxLayout.Y_AXIS));
         
         JSplitPane splitPane = new JSplitPane();
         frmLinearTestVisualizer.getContentPane().add(splitPane);
         
-        vizPanel = new PlanarVisualizationPanel(800, 500);
+        vizPanel = new PlanarVisualizationPanel(1200, 1200);
         splitPane.setLeftComponent(vizPanel);
         
         controlPanel = new JPanel();
@@ -55,11 +61,11 @@ public class PlanarTestVisualizer {
         speedSlider.setValue(10);
         controlPanel.add(speedSlider);
         
-        startTest();
+        startTest(points);
     }
         
-    private void startTest() {
-        PurePursuitTest test = new PurePursuitTest();
+    private void startTest(List<RabbitPoint> points) {
+        PurePursuitTest test = new PurePursuitTest(points);
         test.setAsAsync((envState) -> {
             vizPanel.updateViz(envState);
             vizPanel.repaint();
