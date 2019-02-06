@@ -67,7 +67,7 @@ public class PurePursuitTest extends BaseWPITest {
         MockDriveSubsystem b = (MockDriveSubsystem)injector.getInstance(BaseDriveSubsystem.class);
         this.poseSystem = (MockBasePoseSubsystem)injector.getInstance(BasePoseSubsystem.class);
         b.changeRotationalPid(pf.createPIDManager("testRot", 0.05, 0, 0));
-        b.changePositionalPid(pf.createPIDManager("testPos", 0.1, 0, 0));
+        b.changePositionalPid(pf.createPIDManager("testPos", 0.1, 0, 0.1));
         command = injector.getInstance(ConfigurablePurePursuitCommand.class);
         
         command.addPoint(new FieldPose(new XYPair(10, 70), new ContiguousHeading(90)));

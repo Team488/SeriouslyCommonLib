@@ -33,12 +33,7 @@ public class PlanarEngine {
         heading.shiftValue(rotatePower*rotate_factor);
         
         // apply friction model to velocity
-        if(Math.abs(velocity) > friction) {
-            velocity -= friction;
-        }
-        else {
-            velocity = 0;
-        }
+        velocity *= 0.9;
 
         // sharp turns also murder velocity
         velocity -= (Math.abs(rotatePower))*velocity*.05;
