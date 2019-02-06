@@ -24,6 +24,10 @@ public class FieldPose {
         this.fieldPosition = new XYPair(x, y);
         this.heading = new ContiguousHeading(heading);
     }
+
+    public FieldPose clone() {
+        return new FieldPose(fieldPosition.clone(), heading.clone());
+    }
     
     public ContiguousHeading getHeading() {
         return heading;
