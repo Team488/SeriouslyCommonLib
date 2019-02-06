@@ -67,6 +67,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
     protected int pointIndex = 0;
     private int processedPointIndex = -1;
     private boolean stickyPursueForward = true;
+    private boolean wasForcingDriveToPoint = false;
 
     /**
      * An implementation of Pure Pursuit for FRC. We got the basic idea from here:
@@ -363,7 +364,14 @@ public abstract class PurePursuitCommand extends BaseCommand {
             log.info("Perpindicular ratio: " + perpindicularRatio + ". Forcing to DriveToPoint.");
             FieldPose adjustedPoint = target.pose.getPointAlongPoseLine(-4*12);
             RabbitPoint temporaryTarget = new RabbitPoint(adjustedPoint, PointType.HeadingOnly, PointTerminatingType.Continue);
+            wasForcingDriveToPoint = true;
             return driveToPointLogic(temporaryTarget, robot);
+        }
+        if (wasForcingDriveToPoint) {
+            // We force drive to point in situations where we are highly perpindicular. Our sticky pursuit may have chosen 
+            // very poorly, so we need to give it one more shot now that we are out of the cone of disaster.
+            wasForcingDriveToPoint = false;
+            chooseStickyPursuitForward(target);
         }
 
         // If this distanceRemainingToPointAlongPath is positive, that means there is still some distance to go
