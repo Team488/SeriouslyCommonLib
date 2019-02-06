@@ -46,6 +46,8 @@ import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.logging.SilentRobotAssertionManager;
 import xbot.common.math.PIDFactory;
+import xbot.common.networking.OffboardCommunicationClient;
+import xbot.common.networking.ZeromqListener;
 import xbot.common.properties.ITableProxy;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.PreferenceStorage;
@@ -78,8 +80,12 @@ public class RobotModule extends AbstractModule {
                 .implement(XCANTalon.class, CANTalonWPIAdapter.class)
                 .implement(XGyro.class, InertialMeasurementUnitAdapter.class)
                 .implement(XLidarLite.class, LidarLiteWpiAdapter.class)
-                .implement(XCompressor.class, CompressorWPIAdapter.class).implement(XRelay.class, RelayWPIAdapter.class)
-                .implement(XPWM.class, PWMWPIAdapter.class).build(CommonLibFactory.class));
+                .implement(XCompressor.class, CompressorWPIAdapter.class)
+                .implement(XRelay.class, RelayWPIAdapter.class)
+                .implement(OffboardCommunicationClient.class, ZeromqListener.class)
+                .implement(XPWM.class, PWMWPIAdapter.class)
+                .build(CommonLibFactory.class)
+                );
     }
 
 }
