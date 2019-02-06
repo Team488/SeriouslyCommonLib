@@ -1,9 +1,17 @@
 package xbot.common.math;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import xbot.common.injection.BaseWPITest;
+import xbot.common.subsystems.drive.BaseDriveSubsystem;
+import xbot.common.subsystems.drive.ConfigurablePurePursuitCommand;
+import xbot.common.subsystems.drive.MockDriveSubsystem;
+import xbot.common.subsystems.drive.PurePursuitCommand.RabbitChaseInfo;
+import xbot.common.subsystems.drive.RabbitPoint;
+import xbot.common.subsystems.pose.BasePoseSubsystem;
+import xbot.common.subsystems.pose.MockBasePoseSubsystem;
 
 public class PurePursuitTest extends BaseWPITest {
 
@@ -15,6 +23,11 @@ public class PurePursuitTest extends BaseWPITest {
     FieldPose goalOne;
     FieldPose goalTwo;
     boolean pastOne;
+    List<RabbitPoint> points;
+    public PurePursuitTest(List<RabbitPoint> points)
+    {
+        this.points = points;
+    }
         
     public static class PursuitEnvironmentState {
         public FieldPose robot;
@@ -50,51 +63,50 @@ public class PurePursuitTest extends BaseWPITest {
             startAsyncTimer();
         }
     }
+
+    protected ConfigurablePurePursuitCommand command;
+    MockBasePoseSubsystem poseSystem;
     
     public void vizRun() {
-                
+        super.setUp();        
         engine = new PlanarEngine();
-        goalOne = new FieldPose(new XYPair(10, 70), new ContiguousHeading(90));
-        goalTwo = new FieldPose(new XYPair(50, 0), new ContiguousHeading(-90));
-        
+        PIDFactory pf = injector.getInstance(PIDFactory.class);
+        MockDriveSubsystem b = (MockDriveSubsystem)injector.getInstance(BaseDriveSubsystem.class);
+        this.poseSystem = (MockBasePoseSubsystem)injector.getInstance(BasePoseSubsystem.class);
+        b.changeRotationalPid(pf.createPIDManager("testRot", 0.05, 0, 0));
+        b.changePositionalPid(pf.createPIDManager("testPos", 0.1, 0, 0.1));
+        command = injector.getInstance(ConfigurablePurePursuitCommand.class);
+        setPoints();
+        command.initialize();
         startAsyncTimer();    
+    }
+
+    public void setPoints() {
+        command.setPoints(points);
     }
     
     public void startAsyncTimer() {
-        
-        
-        
         asyncTimer = new Timer();
         asyncTimer.schedule(
             new TimerTask() {
                 @Override
                 public void run() {
-                                        
-                    FieldPose target = goalOne;
-                    if (pastOne) {
-                        target = goalTwo; 
-                    }
-                    
                     FieldPose robot = engine.getRobotPose();
-                    
-                    double distanceLeft = robot.getPoint().clone().add(target.getPoint().clone().scale(-1)).getMagnitude();
-                    if (distanceLeft < 3)
-                    {
-                        pastOne = true;
-                    }
-                    
+                    poseSystem.setCurrentHeading(robot.getHeading().getValue());
+                    poseSystem.setCurrentPosition(robot.getPoint().x, robot.getPoint().y);
+                    RabbitChaseInfo info = command.evaluateCurrentPoint(robot);
+                    FieldPose target = info.target;
                     double angleToRabbit = target.getDeltaAngleToRabbit(robot, 5);
-                    double turnFactorA = angleToRabbit / 180 * 15;
                                         
-                    engine.step(0.1, turnFactorA);
+                    engine.step(info.translation, info.rotation);
                     
                     PursuitEnvironmentState state = new PursuitEnvironmentState(
                             engine.getRobotPose(),
                             target,
-                            target.getRabbitPose(robot.getPoint(), 5),
+                            info.rabbit,
                             engine.loops,
                             angleToRabbit,
-                            turnFactorA);
+                            info.rotation);
                     
                     asyncJob.onNewStep(state);
                 }

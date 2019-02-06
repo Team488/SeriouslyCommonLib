@@ -54,6 +54,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
     private final BaseDriveSubsystem drive;
 
     protected final DoubleProperty rabbitLookAhead;
+    protected final DoubleProperty perpindicularRatioProp;
     final DoubleProperty pointDistanceThreshold;
     final DoubleProperty motionBudget;
     
@@ -67,6 +68,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
     protected int pointIndex = 0;
     private int processedPointIndex = -1;
     private boolean stickyPursueForward = true;
+    private boolean wasForcingDriveToPoint = false;
 
     /**
      * An implementation of Pure Pursuit for FRC. We got the basic idea from here:
@@ -101,6 +103,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         // In practice, it didn't really work, but it did help the robot get oriented in roughly the right direction
         // before zooming off.
         motionBudget = propMan.createPersistentProperty(getPrefix() + "Motion Budget", 1);
+        perpindicularRatioProp = propMan.createPersistentProperty(getPrefix() + "PerpindicularRatio", 1.5);
         defaultHeadingModule = clf.createHeadingModule(drive.getRotateToHeadingPid());
         defaultPositionalPid = drive.getPositionalPid();
         setPIDsToDefault();
@@ -224,12 +227,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         }
     }
 
-    /**
-     * This is the core method that looks at the point list, figures out which point to be heading towards,
-     * and doing the math on how to get there.
-     * @return Information about what the robot would like to do in order to reach its points.
-     */
-    public RabbitChaseInfo evaluateCurrentPoint() {
+    public RabbitChaseInfo evaluateCurrentPoint(FieldPose robotPose) {
         // If for some reason we have no points, or we go beyond our list, don't do anything. It would be good to add a
         // logging latch here.
         if (pointsToVisit.size() == 0 || pointIndex == pointsToVisit.size()) {
@@ -238,7 +236,6 @@ public abstract class PurePursuitCommand extends BaseCommand {
         
         // Get our current state, as well as the point that says what we should be doing
         RabbitPoint target = pointsToVisit.get(pointIndex);
-        FieldPose robot = poseSystem.getCurrentFieldPose();
         RabbitChaseInfo recommendedAction = new RabbitChaseInfo(0, 0);
         
         // Depending on the PointType, take the appropriate action.
@@ -248,12 +245,21 @@ public abstract class PurePursuitCommand extends BaseCommand {
         if (target.pointType == PointType.HeadingOnly) {
             recommendedAction = rotateToRabbit(target);
         } else if (target.pointType == PointType.PositionAndHeading) {
-            recommendedAction = chaseRabbit(target, robot);
+            recommendedAction = chaseRabbit(target, robotPose);
         } else if (target.pointType == PointType.PositionOnly) {
-            recommendedAction = driveToPoint(target, robot);
+            recommendedAction = driveToPoint(target, robotPose);
         }
         
         return recommendedAction;
+    }
+
+    /**
+     * This is the core method that looks at the point list, figures out which point to be heading towards,
+     * and doing the math on how to get there.
+     * @return Information about what the robot would like to do in order to reach its points.
+     */
+    public RabbitChaseInfo evaluateCurrentPoint() {
+        return evaluateCurrentPoint(poseSystem.getCurrentFieldPose());
     }
 
     /**
@@ -355,13 +361,20 @@ public abstract class PurePursuitCommand extends BaseCommand {
         // 2) Even if (1) didn't happen, we still are not going to get the smooth change to the proper heading.
         // As a solution, if the ratio of "distance to pose line" vs "distance along path" is too high, we instead go into a
         // stupider mode until that ratio is reduced, as long as we are far away from the point.
-        /*double perpindicularRatio = Math.abs(distanceRemainingToPointPerpindicularToPath / distanceRemainingToPointAlongPath);
-        if (perpindicularRatio > 2 && Math.abs(crowFliesDistance) > pointDistanceThreshold.get()) {
+        double perpindicularRatio = Math.abs(distanceRemainingToPointPerpindicularToPath / distanceRemainingToPointAlongPath);
+        if (perpindicularRatio > perpindicularRatioProp.get() && Math.abs(crowFliesDistance) > pointDistanceThreshold.get()) {
             log.info("Perpindicular ratio: " + perpindicularRatio + ". Forcing to DriveToPoint.");
             FieldPose adjustedPoint = target.pose.getPointAlongPoseLine(-4*12);
             RabbitPoint temporaryTarget = new RabbitPoint(adjustedPoint, PointType.HeadingOnly, PointTerminatingType.Continue);
+            wasForcingDriveToPoint = true;
             return driveToPointLogic(temporaryTarget, robot);
-        }*/
+        }
+        if (wasForcingDriveToPoint) {
+            // We force drive to point in situations where we are highly perpindicular. Our sticky pursuit may have chosen 
+            // very poorly, so we need to give it one more shot now that we are out of the cone of disaster.
+            wasForcingDriveToPoint = false;
+            chooseStickyPursuitForward(target);
+        }
 
         // If this distanceRemainingToPointAlongPath is positive, that means there is still some distance to go
         // until the robot reaches the point. We will use standard math.
