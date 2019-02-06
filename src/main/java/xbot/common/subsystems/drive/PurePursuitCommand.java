@@ -54,6 +54,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
     private final BaseDriveSubsystem drive;
 
     protected final DoubleProperty rabbitLookAhead;
+    protected final DoubleProperty perpindicularRatioProp;
     final DoubleProperty pointDistanceThreshold;
     final DoubleProperty motionBudget;
     
@@ -102,6 +103,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         // In practice, it didn't really work, but it did help the robot get oriented in roughly the right direction
         // before zooming off.
         motionBudget = propMan.createPersistentProperty(getPrefix() + "Motion Budget", 1);
+        perpindicularRatioProp = propMan.createPersistentProperty(getPrefix() + "PerpindicularRatio", 1.5);
         defaultHeadingModule = clf.createHeadingModule(drive.getRotateToHeadingPid());
         defaultPositionalPid = drive.getPositionalPid();
         setPIDsToDefault();
@@ -360,7 +362,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         // As a solution, if the ratio of "distance to pose line" vs "distance along path" is too high, we instead go into a
         // stupider mode until that ratio is reduced, as long as we are far away from the point.
         double perpindicularRatio = Math.abs(distanceRemainingToPointPerpindicularToPath / distanceRemainingToPointAlongPath);
-        if (perpindicularRatio > 1.5 && Math.abs(crowFliesDistance) > pointDistanceThreshold.get()) {
+        if (perpindicularRatio > perpindicularRatioProp.get() && Math.abs(crowFliesDistance) > pointDistanceThreshold.get()) {
             log.info("Perpindicular ratio: " + perpindicularRatio + ". Forcing to DriveToPoint.");
             FieldPose adjustedPoint = target.pose.getPointAlongPoseLine(-4*12);
             RabbitPoint temporaryTarget = new RabbitPoint(adjustedPoint, PointType.HeadingOnly, PointTerminatingType.Continue);
