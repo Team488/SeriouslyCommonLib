@@ -360,6 +360,9 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
 
         this.configPeakOutputForward(1, 0);
         this.configPeakOutputReverse(-1, 0);
+
+        this.configForwardSoftLimitEnable(false, 0);
+        this.configReverseSoftLimitEnable(false, 0);
     }
 
     /**
@@ -378,5 +381,8 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
 
         this.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, 0);
         this.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, 0);
+
+        this.configForwardSoftLimitEnable(false, 0);
+        this.configReverseSoftLimitEnable(false, 0);
     }
 }
