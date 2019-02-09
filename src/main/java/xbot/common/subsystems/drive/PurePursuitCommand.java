@@ -439,8 +439,10 @@ public abstract class PurePursuitCommand extends BaseCommand {
         // rather than turn in place. And, when we are at 90 degrees to the rabbit, we shouldn't be driving forward
         // or backward at all.
         XYPair robotUnitVector = robot.getHeading().getUnitVector();
+        double dotProduct = robotUnitVector.dotProduct(vectorToRabbit.clone().scale(1/vectorToRabbit.getMagnitude()));
 
         double translationPower = positionalPid.calculate(distanceRemainingToPointAlongPath, 0);
+        translationPower *= dotProduct;
         double constrainedTranslation = constrainToMotionBudget(turnPower, translationPower);
         
         // Log the output. This could be commented out, but for now, it has been very useful for debugging why the robot is driving

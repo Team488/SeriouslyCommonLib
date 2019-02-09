@@ -99,7 +99,7 @@ public class XYPair {
     }
 
     public double dotProduct(XYPair otherPoint) {
-        
+        return (this.x * otherPoint.x) + (this.y * otherPoint.y);
     }
 
     @Override
