@@ -2,11 +2,11 @@ package xbot.common.subsystems.pose;
 
 import com.google.inject.Inject;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import xbot.common.command.BaseCommandGroup;
 import xbot.common.subsystems.pose.commands.ResetDistanceCommand;
 import xbot.common.subsystems.pose.commands.SetRobotHeadingCommand;
 
-public class ResetHeadingAndDistanceCommandGroup extends CommandGroup {
+public class ResetHeadingAndDistanceCommandGroup extends BaseCommandGroup {
     
     @Inject
     public ResetHeadingAndDistanceCommandGroup(BasePoseSubsystem poseSubsystem,
