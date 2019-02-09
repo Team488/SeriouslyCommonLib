@@ -69,6 +69,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
     private int processedPointIndex = -1;
     private boolean stickyPursueForward = true;
     private boolean wasForcingDriveToPoint = false;
+    private boolean useDotProductDriving = false;
 
     /**
      * An implementation of Pure Pursuit for FRC. We got the basic idea from here:
@@ -123,6 +124,10 @@ public abstract class PurePursuitCommand extends BaseCommand {
     public void setPIDsToDefault() {
         this.headingModule = defaultHeadingModule;
         this.positionalPid = defaultPositionalPid;
+    }
+
+    public void setDotProductDrivingEnabled(boolean enabled) {
+        useDotProductDriving = enabled;
     }
     
     protected abstract List<RabbitPoint> getOriginalPoints();
@@ -300,7 +305,8 @@ public abstract class PurePursuitCommand extends BaseCommand {
             distanceRemaining = 144;
         }
         double translationPower = positionalPid.calculate(distanceRemaining, 0);
-        double constrainedTranslation = constrainToMotionBudget(turnPower, translationPower);
+        double constrainedTranslation = constrainTranslation(
+            turnPower, translationPower, getDotProductWithRabbit(robotPose, target.pose.getPoint(), 1));
 
         log.info(String.format("Mode: DriveToPoint. Point: %d, X:%.2f, Y:%.2f, DistanceR: %.2f, Power: %.2f", 
                 pointIndex, target.pose.getPoint().x, target.pose.getPoint().y, 
@@ -337,10 +343,24 @@ public abstract class PurePursuitCommand extends BaseCommand {
      * @param translation The desired translation power, which will be constrained by the budget.
      * @return 
      */
-    private double constrainToMotionBudget(double rotation, double translation) {
-        double remainingBudget = motionBudget.get() - Math.abs(rotation);
-        double constrainedRemainingBudget = MathUtils.constrainDouble(remainingBudget, 0, 1);
-        return translation * constrainedRemainingBudget;
+    private double constrainTranslation(double rotation, double translation, double dotProduct) {
+        if (useDotProductDriving) {
+            return translation *= dotProduct;
+        } else {
+            double remainingBudget = motionBudget.get() - Math.abs(rotation);
+            double constrainedRemainingBudget = MathUtils.constrainDouble(remainingBudget, 0, 1);
+            return translation * constrainedRemainingBudget;
+        }
+    }
+
+    private double getDotProductWithRabbit(FieldPose robot, XYPair vectorToRabbit, double lookaheadFactor) {
+        // We want to drive towards the rabbit, but what if the rabbit is behind us and we need to rotate?
+        // We should perform a quick 3-point maneuver (back up while rotating, then drive forward while rotating)
+        // rather than turn in place. And, when we are at 90 degrees to the rabbit, we shouldn't be driving forward
+        // or backward at all.
+        XYPair robotUnitVector = robot.getHeading().getUnitVector();
+        return robotUnitVector.dotProduct(
+            vectorToRabbit.clone().scale(1/vectorToRabbit.getMagnitude())) * lookaheadFactor;
     }
 
     /**
@@ -434,16 +454,10 @@ public abstract class PurePursuitCommand extends BaseCommand {
             }
         }
 
-        // We want to drive towards the rabbit, but what if the rabbit is behind us and we need to rotate?
-        // We should perform a quick 3-point maneuver (back up while rotating, then drive forward while rotating)
-        // rather than turn in place. And, when we are at 90 degrees to the rabbit, we shouldn't be driving forward
-        // or backward at all.
-        XYPair robotUnitVector = robot.getHeading().getUnitVector();
-        double dotProduct = robotUnitVector.dotProduct(vectorToRabbit.clone().scale(1/vectorToRabbit.getMagnitude()));
-
+        
+        double dotProduct = getDotProductWithRabbit(robot, vectorToRabbit, lookaheadFactor);
         double translationPower = positionalPid.calculate(distanceRemainingToPointAlongPath, 0);
-        translationPower *= dotProduct;
-        double constrainedTranslation = constrainToMotionBudget(turnPower, translationPower);
+        double constrainedTranslation = constrainTranslation(turnPower, translationPower, dotProduct);
         
         // Log the output. This could be commented out, but for now, it has been very useful for debugging why the robot is driving
         // somewhere... unexpected.

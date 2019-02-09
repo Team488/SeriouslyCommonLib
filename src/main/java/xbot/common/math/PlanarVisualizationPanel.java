@@ -48,7 +48,8 @@ public class PlanarVisualizationPanel extends JPanel {
                 robotCurrentPosition.getPoint().x, 
                 robotCurrentPosition.getPoint().y, 
                 robotCurrentPosition.getHeading().getValue());;
-        rabbitStats = String.format("Angle to Rabbit: %.2f, TurnPower: %.2f", state.rabbitAngle, state.turnPower);
+        rabbitStats = String.format("Angle to Rabbit: %.2f, TurnPower: %.2f, Translate: %.2f", 
+            state.rabbitAngle, state.turnPower, state.translatePower);
     }
     
     @Override
