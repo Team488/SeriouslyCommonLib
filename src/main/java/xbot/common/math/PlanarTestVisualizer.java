@@ -25,7 +25,7 @@ public class PlanarTestVisualizer {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    RabbitPoint p = new RabbitPoint(new FieldPose(new XYPair(144, 0), new ContiguousHeading(90)));
+                    RabbitPoint p = new RabbitPoint(new FieldPose(new XYPair(50, -100), new ContiguousHeading(90)));
                     PlanarTestVisualizer window = new PlanarTestVisualizer(new ArrayList<RabbitPoint>(Arrays.asList(p)));
                     window.frmLinearTestVisualizer.setVisible(true);
                 } catch (Exception e) {

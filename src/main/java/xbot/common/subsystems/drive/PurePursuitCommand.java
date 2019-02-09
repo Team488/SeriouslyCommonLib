@@ -407,7 +407,8 @@ public abstract class PurePursuitCommand extends BaseCommand {
         // These functions calculate the absolute position of the rabbit, and then the angle the robot needs
         // to rotate to in order to face the rabbit.
         FieldPose rabbitLocation = target.pose.getRabbitPose(robot.getPoint(), candidateLookahead*lookaheadFactor);
-        double angleToRabbit = target.pose.getVectorToRabbit(robot, candidateLookahead*lookaheadFactor).getAngle() + aimFactor;
+        XYPair vectorToRabbit = target.pose.getVectorToRabbit(robot, candidateLookahead*lookaheadFactor);
+        double angleToRabbit = vectorToRabbit.getAngle() + aimFactor;
         double goalAngle = angleToRabbit;
         
         // Once we are very close to the point, we force the final heading. Most of the time, proper rotation is more important than proper
@@ -432,6 +433,12 @@ public abstract class PurePursuitCommand extends BaseCommand {
                 distanceRemainingToPointAlongPath = 144 * lookaheadFactor;
             }
         }
+
+        // We want to drive towards the rabbit, but what if the rabbit is behind us and we need to rotate?
+        // We should perform a quick 3-point maneuver (back up while rotating, then drive forward while rotating)
+        // rather than turn in place. And, when we are at 90 degrees to the rabbit, we shouldn't be driving forward
+        // or backward at all.
+        XYPair robotUnitVector = robot.getHeading().getUnitVector();
 
         double translationPower = positionalPid.calculate(distanceRemainingToPointAlongPath, 0);
         double constrainedTranslation = constrainToMotionBudget(turnPower, translationPower);

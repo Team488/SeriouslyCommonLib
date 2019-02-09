@@ -20,5 +20,11 @@ public class ContiguousHeading extends ContiguousDouble {
         super.shiftValue(shiftMagnitude);
         return this;
     }
+
+    public XYPair getUnitVector() {
+        double x = Math.cos(this.getValue() / 180 * Math.PI);
+        double y = Math.sin(this.getValue() / 180 * Math.PI);
+        return new XYPair(x, y);
+    }
     
 }
