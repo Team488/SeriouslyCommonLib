@@ -98,6 +98,10 @@ public class XYPair {
         return normalizedPoint.getMagnitude();
     }
 
+    public double dotProduct(XYPair otherPoint) {
+        return (this.x * otherPoint.x) + (this.y * otherPoint.y);
+    }
+
     @Override
     public String toString() {
         return "(X:" + x + ", Y:" + y + ")";

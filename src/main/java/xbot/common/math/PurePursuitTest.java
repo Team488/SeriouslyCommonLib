@@ -36,14 +36,17 @@ public class PurePursuitTest extends BaseWPITest {
         public int loops;
         public double rabbitAngle;
         public double turnPower;
+        public double translatePower;
                 
-        public PursuitEnvironmentState(FieldPose robot, FieldPose goal, FieldPose rabbit, int loops, double rabbitAngle, double turnPower) {
+        public PursuitEnvironmentState(FieldPose robot, FieldPose goal, FieldPose rabbit, 
+        int loops, double rabbitAngle, double turnPower, double translatePower) {
             this.robot = robot;
             this.goal = goal;
             this.loops = loops;
             this.rabbit = rabbit;
             this.rabbitAngle = rabbitAngle;
             this.turnPower = turnPower;
+            this.translatePower = translatePower;
         }
     }
     
@@ -76,6 +79,7 @@ public class PurePursuitTest extends BaseWPITest {
         b.changeRotationalPid(pf.createPIDManager("testRot", 0.05, 0, 0));
         b.changePositionalPid(pf.createPIDManager("testPos", 0.1, 0, 0.1));
         command = injector.getInstance(ConfigurablePurePursuitCommand.class);
+        command.setDotProductDrivingEnabled(true);
         setPoints();
         command.initialize();
         startAsyncTimer();    
@@ -106,7 +110,8 @@ public class PurePursuitTest extends BaseWPITest {
                             info.rabbit,
                             engine.loops,
                             angleToRabbit,
-                            info.rotation);
+                            info.rotation,
+                            info.translation);
                     
                     asyncJob.onNewStep(state);
                 }

@@ -153,7 +153,6 @@ public class PurePursuitCommandTest extends BaseWPITest {
     }
 
     @Test
-    @Ignore
     public void testDriveOffset() {
         pose.setCurrentHeading(0);
         command.addPoint(
@@ -162,6 +161,30 @@ public class PurePursuitCommandTest extends BaseWPITest {
         command.execute();
         // Even though we're pointed right at the goal, we should veer left because we are completely perpindicular to it.
         verifyTankDrive(-1, 1);
+    }
+
+    @Test
+    public void testThreePointBehind() {
+        command.addPoint(
+            new RabbitPoint(new FieldPose(new XYPair(100, -100), new ContiguousHeading(90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
+        command.setDotProductDrivingEnabled(true);
+        command.initialize();
+        command.execute();
+
+        verifyDirection(false);
+        verifyRotation(true);
+    }
+
+    @Test
+    public void testThreePointDirect() {
+        command.addPoint(
+            new RabbitPoint(new FieldPose(new XYPair(100, 0), new ContiguousHeading(-90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
+        command.setDotProductDrivingEnabled(true);
+        command.initialize();
+        command.execute();
+
+        verifyDirection(true);
+        verifyRotation(false);
     }
     
     protected void verifyPose(RabbitPoint poseToTest, double x, double y, double heading) {
@@ -173,6 +196,16 @@ public class PurePursuitCommandTest extends BaseWPITest {
     protected void verifyTankDrive(double left, double right) {
         assertEquals("Checking Left Drive", left, drive.leftTank.getMotorOutputPercent(), 0.001);
         assertEquals("Checking Right Drive", right, drive.rightTank.getMotorOutputPercent(), 0.001);
+    }
+
+    protected void verifyDirection(boolean forward) {
+        double translation = drive.leftTank.getMotorOutputPercent() + drive.rightTank.getMotorOutputPercent();
+        assertTrue("Checking Driving Forward",  translation > 0 == forward);
+    }
+
+    protected void verifyRotation(boolean turningLeft) {
+        double rotation = -drive.leftTank.getMotorOutputPercent() + drive.rightTank.getMotorOutputPercent();
+        assertTrue("Checking Driving Forward",  rotation > 0 == turningLeft);
     }
 }
 
