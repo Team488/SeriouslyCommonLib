@@ -1,19 +1,26 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import xbot.common.controls.sensors.XAnalogInput;
+import xbot.common.injection.ElectricalContract.DeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class AnalogInputWPIAdapater extends XAnalogInput {
     AnalogInput input;
 
-    @Inject
+    @AssistedInject
     public AnalogInputWPIAdapater(@Assisted("channel") int channel, DevicePolice police) {
         super(channel, police);
         input = new AnalogInput(channel);
+    }
+
+    @AssistedInject
+    public AnalogInputWPIAdapater(@Assisted("deviceInfo") DeviceInfo deviceInfo, DevicePolice police) {
+        super(deviceInfo.channel, police);
+        input = new AnalogInput(deviceInfo.channel);
     }
 
     public int getValue() {

@@ -2,8 +2,10 @@ package edu.wpi.first.wpilibj;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import xbot.common.controls.sensors.XDigitalInput;
+import xbot.common.injection.ElectricalContract.DeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class MockDigitalInput extends XDigitalInput {
@@ -11,10 +13,17 @@ public class MockDigitalInput extends XDigitalInput {
     protected boolean value;
     final int channel;
 
-    @Inject
+    @AssistedInject
     public MockDigitalInput(@Assisted("channel") int channel, DevicePolice police) {
         super(police, channel);
         this.channel = channel;
+    }
+
+    @AssistedInject
+    public MockDigitalInput(@Assisted("deviceInfo") DeviceInfo deviceInfo, DevicePolice police) {
+        super(police, deviceInfo.channel);
+        this.channel = deviceInfo.channel;
+        this.setInverted(deviceInfo.inverted);
     }
 
     public void setValue(boolean value) {

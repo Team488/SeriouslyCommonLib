@@ -18,6 +18,7 @@ import xbot.common.controls.sensors.AdvancedPovButton;
 import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
+import xbot.common.injection.ElectricalContract.DeviceInfo;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
@@ -39,115 +40,94 @@ import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
 public interface CommonLibFactory {
 
-    public XPowerDistributionPanel createPowerDistributionPanel();
-    
-    public XJoystick createJoystick(
-            @Assisted("port") int port,
-            @Assisted("numButtons") int numButtons);
-    
-    public XFTCGamepad createGamepad(
-            @Assisted("port") int port,
-            @Assisted("numButtons") int numButtons);    
-    
-    public XEncoder createEncoder(
-            @Assisted("name")String name, 
-            @Assisted("aChannel") int aChannel, 
-            @Assisted("bChannel") int bChannel, 
-            @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse);
-    
-    public XDigitalInput createDigitalInput(
-            @Assisted("channel") int channel);
-    
-    public XAnalogInput createAnalogInput(
-            @Assisted("channel") int channel);
-    
-    public XXboxController createXboxController(
-            @Assisted("port") int port);
-    
-    public XSolenoid createSolenoid(
-            @Assisted("channel") int channel);
-    
-    public XDigitalOutput createDigitalOutput(
-            @Assisted("channel") int channel);
+        public XPowerDistributionPanel createPowerDistributionPanel();
 
-    public XServo createServo(
-            @Assisted("channel") int channel);
+        public XJoystick createJoystick(@Assisted("port") int port, @Assisted("numButtons") int numButtons);
 
-    public XPWM createPWM(
-            @Assisted("channel") int channel);
-    
-    public XRelay createRelay(
-            @Assisted("channel") int channel);
-    
-    public XSpeedController createSpeedController(
-            @Assisted("channel") int channel);
-    
-    public XCANTalon createCANTalon(
-            @Assisted("deviceId") int deviceId);
-    
-    public XGyro createGyro();
-    
-    public XCompressor createCompressor();
-    
-    public XLidarLite createLidarLite(
-            @Assisted("port") I2C.Port port);
-    
-    public AnalogDistanceSensor createAnalogDistanceSensor(
-            @Assisted("channel") int channel,
-            @Assisted("voltageMap") DoubleFunction<Double> voltageMap);
-    
-    public AdvancedJoystickButton createAdvancedJoystickButton(
-            @Assisted("joystick") XJoystick joystick, 
-            @Assisted("buttonNumber")int buttonNumber);
-    
-    public AnalogHIDButton createAnalogHIDButton(
-            @Assisted("joystick") XJoystick joystick, 
-            @Assisted("axisNumber") int axisNumber,
-            @Assisted("analogMinThreshold") double analogMinThreshold, 
-            @Assisted("analogMaxThreshold") double analogMaxThreshold);
-    
-    public AnalogHIDButton createAnalogHIDButton(
-            @Assisted("joystick") XJoystick joystick, 
-            @Assisted("desc") AnalogHIDDescription desc);
-    
-    public AdvancedPovButton createAdvancedPovButton(
-            @Assisted("joystick") XJoystick joystick, 
-            @Assisted("povNumber")int povNumber);
-    
-    public HeadingModule createHeadingModule(
-            @Assisted("headingDrivePid") PIDManager headingDrivePid);
-    
-    /**
-     * Creates a heading assist module. Can either hold an orientation, or resist rotational motion.
-     * @param headingModule Tune this one to rotate to a target orientation (PD, or PID controller)
-     * @param decayModule Tune this one to resist rotation (D controller)
-     * @return
-     */
-    public HeadingAssistModule createHeadingAssistModule(
-            @Assisted("headingModule") HeadingModule headingModule,
-            @Assisted("decayModule") HeadingModule decayModule);
-    
-    public HumanVsMachineDecider createHumanVsMachineDecider(
-            @Assisted("name") String name);
+        public XFTCGamepad createGamepad(@Assisted("port") int port, @Assisted("numButtons") int numButtons);
 
-    public CalibrationDecider createCalibrationDecider(
-            @Assisted("name") String name);
-    
-    public VelocityThrottleModule createVelocityThrottleModule(
-            @Assisted("name") String name,
-            @Assisted("velocityPid") PIDManager velocityPid);
+        public XEncoder createEncoder(@Assisted("name") String name, @Assisted("aChannel") int aChannel,
+                        @Assisted("bChannel") int bChannel,
+                        @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse);
 
-    public FieldPosePropertyManager createFieldPosePropertyManager(
-            @Assisted("poseName") String poseName,
-            @Assisted("x") double x,
-            @Assisted("y") double y,
-            @Assisted("heading") double heading);
+        public XDigitalInput createDigitalInput(@Assisted("channel") int channel);
+        public XDigitalInput createDigitalInput(@Assisted("deviceInfo") DeviceInfo deviceInfo);
 
-    public FieldPosePropertyManager createFieldPosePropertyManager(
-        @Assisted("poseName") String poseName,
-        @Assisted("fieldPose") FieldPose fieldPose);
+        public XAnalogInput createAnalogInput(@Assisted("channel") int channel);
+        public XAnalogInput createAnalogInput(@Assisted("deviceInfo") DeviceInfo deviceInfo);
 
-    public ZeromqListener createZeromqListener(
-            @Assisted("connectionString") String connectionString, 
-            @Assisted("topic") String topic);
+        public XXboxController createXboxController(@Assisted("port") int port);
+
+        public XSolenoid createSolenoid(@Assisted("channel") int channel);
+        public XSolenoid createSolenoid(@Assisted("deviceInfo") DeviceInfo deviceInfo);
+
+        public XDigitalOutput createDigitalOutput(@Assisted("channel") int channel);
+        //public XDigitalOutput createDigitalOutput(@Assisted("deviceInfo") DeviceInfo deviceInfo);
+
+        public XServo createServo(@Assisted("channel") int channel);
+        //public XServo createServo(@Assisted("deviceInfo") DeviceInfo deviceInfo);
+
+        public XPWM createPWM(@Assisted("channel") int channel);
+        //public XPWM createPWM(@Assisted("deviceInfo") DeviceInfo deviceInfo);
+
+        public XRelay createRelay(@Assisted("channel") int channel);
+        //public XRelay createRelay(@Assisted("deviceInfo") DeviceInfo deviceInfo);
+
+        public XSpeedController createSpeedController(@Assisted("channel") int channel);
+
+        public XCANTalon createCANTalon(@Assisted("deviceId") int deviceId);
+        public XCANTalon createCANTalon(@Assisted("deviceInfo") DeviceInfo deviceInfo);
+
+        public XGyro createGyro();
+
+        public XCompressor createCompressor();
+
+        public XLidarLite createLidarLite(@Assisted("port") I2C.Port port);
+
+        public AnalogDistanceSensor createAnalogDistanceSensor(@Assisted("channel") int channel,
+                        @Assisted("voltageMap") DoubleFunction<Double> voltageMap);
+
+        public AdvancedJoystickButton createAdvancedJoystickButton(@Assisted("joystick") XJoystick joystick,
+                        @Assisted("buttonNumber") int buttonNumber);
+
+        public AnalogHIDButton createAnalogHIDButton(@Assisted("joystick") XJoystick joystick,
+                        @Assisted("axisNumber") int axisNumber,
+                        @Assisted("analogMinThreshold") double analogMinThreshold,
+                        @Assisted("analogMaxThreshold") double analogMaxThreshold);
+
+        public AnalogHIDButton createAnalogHIDButton(@Assisted("joystick") XJoystick joystick,
+                        @Assisted("desc") AnalogHIDDescription desc);
+
+        public AdvancedPovButton createAdvancedPovButton(@Assisted("joystick") XJoystick joystick,
+                        @Assisted("povNumber") int povNumber);
+
+        public HeadingModule createHeadingModule(@Assisted("headingDrivePid") PIDManager headingDrivePid);
+
+        /**
+         * Creates a heading assist module. Can either hold an orientation, or resist
+         * rotational motion.
+         * 
+         * @param headingModule Tune this one to rotate to a target orientation (PD, or
+         *                      PID controller)
+         * @param decayModule   Tune this one to resist rotation (D controller)
+         * @return
+         */
+        public HeadingAssistModule createHeadingAssistModule(@Assisted("headingModule") HeadingModule headingModule,
+                        @Assisted("decayModule") HeadingModule decayModule);
+
+        public HumanVsMachineDecider createHumanVsMachineDecider(@Assisted("name") String name);
+
+        public CalibrationDecider createCalibrationDecider(@Assisted("name") String name);
+
+        public VelocityThrottleModule createVelocityThrottleModule(@Assisted("name") String name,
+                        @Assisted("velocityPid") PIDManager velocityPid);
+
+        public FieldPosePropertyManager createFieldPosePropertyManager(@Assisted("poseName") String poseName,
+                        @Assisted("x") double x, @Assisted("y") double y, @Assisted("heading") double heading);
+
+        public FieldPosePropertyManager createFieldPosePropertyManager(@Assisted("poseName") String poseName,
+                        @Assisted("fieldPose") FieldPose fieldPose);
+
+        public ZeromqListener createZeromqListener(@Assisted("connectionString") String connectionString,
+                        @Assisted("topic") String topic);
 }

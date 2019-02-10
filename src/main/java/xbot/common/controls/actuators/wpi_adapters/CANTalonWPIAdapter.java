@@ -25,8 +25,10 @@ import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.injection.ElectricalContract.DeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.XPropertyManager;
 
@@ -34,10 +36,33 @@ public class CANTalonWPIAdapter extends XCANTalon {
 
     private TalonSRX internalTalon;
 
-    @Inject
+    @AssistedInject
     public CANTalonWPIAdapter(@Assisted("deviceId") int deviceId, XPropertyManager propMan, DevicePolice police) {
         super(deviceId, propMan, police);
-        internalTalon = new TalonSRX(deviceId);
+    }
+
+    @AssistedInject
+    public CANTalonWPIAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo, XPropertyManager propMan,
+            DevicePolice police) {
+        super(deviceInfo, propMan, police);
+    }
+
+    @AssistedInject
+    public CANTalonWPIAdapter(@Assisted("masterInfo") DeviceInfo masterInfo,
+            @Assisted("encoderInfo") DeviceInfo encoderInfo, @Assisted("prefix") String prefix,
+            @Assisted("masterName") String masterName, XPropertyManager propMan, DevicePolice police) {
+        super(masterInfo, encoderInfo, prefix, masterName, propMan, police);
+    }
+
+    @AssistedInject
+    public CANTalonWPIAdapter(@Assisted("followerInfo") DeviceInfo followerInfo,
+            @Assisted("masterMotor") XCANTalon masterMotor, XPropertyManager propMan, DevicePolice police) {
+        super(followerInfo, masterMotor, propMan, police);
+    }
+
+    @Override
+    protected void initializeDevice(int channel) {
+        internalTalon = new TalonSRX(channel);
     }
 
     public ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs) {
@@ -280,11 +305,11 @@ public class CANTalonWPIAdapter extends XCANTalon {
     public void overrideSoftLimitsEnable(boolean enable) {
         internalTalon.overrideSoftLimitsEnable(enable);
     }
-    
+
     public boolean isFwdLimitSwitchClosed() {
         return internalTalon.getSensorCollection().isFwdLimitSwitchClosed();
     }
-    
+
     public boolean isRevLimitSwitchClosed() {
         return internalTalon.getSensorCollection().isRevLimitSwitchClosed();
     }
@@ -490,6 +515,6 @@ public class CANTalonWPIAdapter extends XCANTalon {
     @Override
     public ErrorCode configMotionProfileTrajectoryPeriod(int baseTrajDurationMs, int timeoutMs) {
         return internalTalon.configMotionProfileTrajectoryPeriod(baseTrajDurationMs, timeoutMs);
-	}
-   
+    }
+
 }

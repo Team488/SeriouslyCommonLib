@@ -24,6 +24,7 @@ import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import xbot.common.injection.ElectricalContract.DeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.properties.DoubleProperty;
@@ -64,10 +65,28 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
         
         _description = "Talon SRX " + deviceId;
         police.registerDevice(DeviceType.CAN, deviceId);
+        initializeDevice(deviceId);
     }
-    
-    
-    
+
+    public XCANTalon(DeviceInfo info, XPropertyManager propMan, DevicePolice police) {
+        this(info.channel, propMan, police);
+        this.setInverted(info.inverted);
+    }
+
+    public XCANTalon(DeviceInfo masterInfo, DeviceInfo encoderInfo, 
+    String prefix, String masterName,
+    XPropertyManager propMan, DevicePolice police) {
+        this(masterInfo, propMan, police);
+        this.configureAsMasterMotor(prefix, masterName, masterInfo.inverted, encoderInfo.inverted);
+    }
+
+    public XCANTalon(DeviceInfo followerInfo, XCANTalon masterMotor, XPropertyManager propMan, DevicePolice police) {
+        this(followerInfo, propMan, police);
+        this.configureAsFollowerMotor(masterMotor, followerInfo.inverted);
+    }
+
+    protected abstract void initializeDevice(int channel);
+
     public void createTelemetryProperties(String callingSystemPrefix, String deviceName) {
         // Creates nice prefixes for the SmartDashboard.
         deviceName = callingSystemPrefix + deviceName + "/";

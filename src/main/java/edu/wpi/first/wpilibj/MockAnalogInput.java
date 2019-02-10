@@ -1,24 +1,30 @@
 package edu.wpi.first.wpilibj;
 
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.sensors.XAnalogInput;
+import xbot.common.injection.ElectricalContract.DeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class MockAnalogInput extends XAnalogInput {
     MockRobotIO mockRobotIO;
     int channel;
 
-    @Inject
-    public MockAnalogInput(
-            @Assisted("channel") int channel, 
-            MockRobotIO mockRobotIO,
-            DevicePolice police) {
+    @AssistedInject
+    public MockAnalogInput(@Assisted("channel") int channel, MockRobotIO mockRobotIO, DevicePolice police) {
         super(channel, police);
         this.mockRobotIO = mockRobotIO;
         this.channel = channel;
+    }
+
+    @AssistedInject
+    public MockAnalogInput(@Assisted("deviceInfo") DeviceInfo deviceInfo, MockRobotIO mockRobotIO,
+            DevicePolice police) {
+        super(deviceInfo.channel, police);
+        this.mockRobotIO = mockRobotIO;
+        this.channel = deviceInfo.channel;
     }
 
     @Deprecated

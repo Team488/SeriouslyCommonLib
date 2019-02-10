@@ -1,10 +1,11 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import xbot.common.controls.sensors.XDigitalInput;
+import xbot.common.injection.ElectricalContract.DeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class DigitalInputWPIAdapter extends XDigitalInput {
@@ -17,10 +18,17 @@ public class DigitalInputWPIAdapter extends XDigitalInput {
      * @param channel
      *            the DIO channel for the digital input 0-9 are on-board, 10-25 are on the MXP
      */
-    @Inject
+    @AssistedInject
     public DigitalInputWPIAdapter(@Assisted("channel") int channel, DevicePolice police) {
         super(police, channel);
         adapter = new DigitalInput(channel);
+    }
+
+    @AssistedInject
+    public DigitalInputWPIAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo, DevicePolice police) {
+        super(police, deviceInfo.channel);
+        adapter = new DigitalInput(deviceInfo.channel);
+        this.setInverted(deviceInfo.inverted);
     }
 
     /**

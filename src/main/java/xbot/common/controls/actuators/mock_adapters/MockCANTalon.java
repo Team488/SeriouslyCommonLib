@@ -1,7 +1,5 @@
 package xbot.common.controls.actuators.mock_adapters;
 
-import org.apache.log4j.Logger;
-
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motion.MotionProfileStatus;
@@ -24,13 +22,16 @@ import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
+
+import org.apache.log4j.Logger;
 
 import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
+import xbot.common.injection.ElectricalContract.DeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.math.MathUtils;
 import xbot.common.properties.XPropertyManager;
@@ -39,7 +40,7 @@ public class MockCANTalon extends XCANTalon {
 
     private static Logger log = Logger.getLogger(MockCANTalon.class);
 
-    public final int deviceId;
+    public int deviceId;
     private double setpoint = 0;
     private double throttlePercent = 0;
     MockRobotIO mockRobotIO;
@@ -54,7 +55,7 @@ public class MockCANTalon extends XCANTalon {
     double kd;
     double kf;
 
-    @Inject
+    @AssistedInject
     public MockCANTalon(@Assisted("deviceId") int deviceId, MockRobotIO mockRobotIO, XPropertyManager propMan,
             DevicePolice police) {
         super(deviceId, propMan, police);
@@ -62,7 +63,38 @@ public class MockCANTalon extends XCANTalon {
 
         this.deviceId = deviceId;
         this.mockRobotIO = mockRobotIO;
-        // mockRobotIO.setCANTalon(deviceId, this);
+    }
+    @AssistedInject
+    public MockCANTalon(@Assisted("deviceId") int deviceId, XPropertyManager propMan, DevicePolice police, MockRobotIO mockRobotIO) {
+        super(deviceId, propMan, police);
+        this.mockRobotIO = mockRobotIO;
+    }
+
+    @AssistedInject
+    public MockCANTalon(@Assisted("deviceInfo") DeviceInfo deviceInfo, XPropertyManager propMan,
+            DevicePolice police, MockRobotIO mockRobotIO) {
+        super(deviceInfo, propMan, police);
+        this.mockRobotIO = mockRobotIO;
+    }
+
+    @AssistedInject
+    public MockCANTalon(@Assisted("masterInfo") DeviceInfo masterInfo,
+            @Assisted("encoderInfo") DeviceInfo encoderInfo, @Assisted("prefix") String prefix,
+            @Assisted("masterName") String masterName, XPropertyManager propMan, DevicePolice police, MockRobotIO mockRobotIO) {
+        super(masterInfo, encoderInfo, prefix, masterName, propMan, police);
+        this.mockRobotIO = mockRobotIO;
+    }
+
+    @AssistedInject
+    public MockCANTalon(@Assisted("followerInfo") DeviceInfo followerInfo,
+            @Assisted("masterMotor") XCANTalon masterMotor, XPropertyManager propMan, DevicePolice police, MockRobotIO mockRobotIO) {
+        super(followerInfo, masterMotor, propMan, police);
+        this.mockRobotIO = mockRobotIO;
+    }
+
+    @Override
+    protected void initializeDevice(int channel) {
+        this.deviceId = channel;
     }
 
     @Override
