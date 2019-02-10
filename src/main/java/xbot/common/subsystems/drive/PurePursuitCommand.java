@@ -50,8 +50,8 @@ public abstract class PurePursuitCommand extends BaseCommand {
         }
     }
 
-    private final BasePoseSubsystem poseSystem;
-    private final BaseDriveSubsystem drive;
+    protected final BasePoseSubsystem poseSystem;
+    protected final BaseDriveSubsystem drive;
 
     protected final DoubleProperty rabbitLookAhead;
     protected final DoubleProperty perpindicularRatioProp;
