@@ -39,8 +39,6 @@ public class PIDManager extends PIDPropertyManager {
             @Assisted("timeThreshold") double timeThreshold) {
         super(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold, derivativeThreshold, timeThreshold);
         
-        // This creates nice prefixes for SmartDashboard.
-        propMan.setPrefx(functionName);
         
         maxOutput = propMan.createPersistentProperty("Max Output", defaultMaxOutput);
         minOutput = propMan.createPersistentProperty("Min Output", defaultMinOutput);

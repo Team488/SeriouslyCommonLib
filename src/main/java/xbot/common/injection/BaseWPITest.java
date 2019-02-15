@@ -21,7 +21,7 @@ public class BaseWPITest {
 
     public MockRobotIO mockRobotIO;
 
-    public PropertyFactory propertyManager;
+    public PropertyFactory propertyFactory;
 
     protected AbstractModule guiceModule = new SeriouslyCommonLibTestModule();
     
@@ -37,7 +37,7 @@ public class BaseWPITest {
         timer = injector.getInstance(MockTimer.class);
         XTimer.setImplementation(timer);
 
-        propertyManager = injector.getInstance(PropertyFactory.class);
+        propertyFactory = injector.getInstance(PropertyFactory.class);
         
         clf = injector.getInstance(CommonLibFactory.class);
         pf = injector.getInstance(PIDFactory.class);
