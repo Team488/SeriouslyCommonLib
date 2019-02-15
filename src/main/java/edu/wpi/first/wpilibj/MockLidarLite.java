@@ -6,12 +6,13 @@ import com.google.inject.assistedinject.Assisted;
 import edu.wpi.first.wpilibj.I2C.Port;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.properties.PropertyFactory;
 import xbot.common.properties.XPropertyManager;
 
 public class MockLidarLite extends XLidarLite {
 
     @Inject
-    public MockLidarLite(@Assisted("port") Port port, XPropertyManager propMan, DevicePolice police) {
+    public MockLidarLite(@Assisted("port") Port port, PropertyFactory propMan, DevicePolice police) {
         super(port, propMan, police);
     }
 

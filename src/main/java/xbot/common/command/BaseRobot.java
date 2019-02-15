@@ -24,6 +24,7 @@ import xbot.common.logging.TimeLogger;
 import xbot.common.logic.Latch;
 import xbot.common.logic.Latch.EdgeType;
 import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.PropertyFactory;
 import xbot.common.properties.XPropertyManager;
 
 /**
@@ -102,7 +103,7 @@ public class BaseRobot extends TimedRobot {
         this.initializeSystems();
         SmartDashboard.putData(Scheduler.getInstance());
         
-        frequencyReportInterval = injector.getInstance(XPropertyManager.class).createPersistentProperty("Robot loop frequency report interval", 20);
+        frequencyReportInterval = injector.getInstance(PropertyFactory.class).createPersistentProperty("Robot loop frequency report interval", 20);
         schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get());
         outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20);
         robotSession = injector.getInstance(RobotSession.class);
