@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 /**
@@ -48,7 +48,7 @@ public class HeadingAssistModule {
     public HeadingAssistModule(
             @Assisted("headingModule") HeadingModule headingModule,
             @Assisted("decayModule") HeadingModule decayModule,
-            XPropertyManager propMan,
+            PropertyFactory propMan,
             BasePoseSubsystem pose) {
         this.headingModule = headingModule;
         this.decayModule = decayModule;

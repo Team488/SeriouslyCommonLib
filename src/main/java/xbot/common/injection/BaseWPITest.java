@@ -13,7 +13,7 @@ import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.PIDFactory;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 @Ignore
 public class BaseWPITest {
@@ -21,7 +21,7 @@ public class BaseWPITest {
 
     public MockRobotIO mockRobotIO;
 
-    public XPropertyManager propertyManager;
+    public PropertyFactory propertyManager;
 
     protected AbstractModule guiceModule = new SeriouslyCommonLibTestModule();
     
@@ -37,7 +37,7 @@ public class BaseWPITest {
         timer = injector.getInstance(MockTimer.class);
         XTimer.setImplementation(timer);
 
-        propertyManager = injector.getInstance(XPropertyManager.class);
+        propertyManager = injector.getInstance(PropertyFactory.class);
         
         clf = injector.getInstance(CommonLibFactory.class);
         pf = injector.getInstance(PIDFactory.class);

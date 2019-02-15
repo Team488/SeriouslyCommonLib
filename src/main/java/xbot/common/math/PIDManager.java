@@ -8,7 +8,7 @@ import xbot.common.math.PID.OffTargetReason;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.StringProperty;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 /**
  * Wrapper for PID class which automatically puts the P, I and D values on
@@ -26,7 +26,7 @@ public class PIDManager extends PIDPropertyManager {
     @AssistedInject
     public PIDManager(
             @Assisted String functionName, 
-            XPropertyManager propMan, 
+            PropertyFactory propMan, 
             RobotAssertionManager assertionManager,
             @Assisted("defaultP") double defaultP, 
             @Assisted("defaultI") double defaultI, 
@@ -40,12 +40,12 @@ public class PIDManager extends PIDPropertyManager {
         super(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold, derivativeThreshold, timeThreshold);
         
         // This creates nice prefixes for SmartDashboard.
-        functionName = functionName + "/";
+        propMan.setPrefx(functionName);
         
-        maxOutput = propMan.createPersistentProperty(functionName + " Max Output", defaultMaxOutput);
-        minOutput = propMan.createPersistentProperty(functionName + " Min Output", defaultMinOutput);
-        isEnabled = propMan.createPersistentProperty(functionName + " Is Enabled", true);
-        offTargetReasonProp = propMan.createEphemeralProperty(functionName + " OffTargetReason", "");
+        maxOutput = propMan.createPersistentProperty("Max Output", defaultMaxOutput);
+        minOutput = propMan.createPersistentProperty("Min Output", defaultMinOutput);
+        isEnabled = propMan.createPersistentProperty("Is Enabled", true);
+        offTargetReasonProp = propMan.createEphemeralProperty("OffTargetReason", "");
 
         pid = new PID();
         sendTolerancesToInternalPID();
@@ -55,7 +55,7 @@ public class PIDManager extends PIDPropertyManager {
     @AssistedInject
     public PIDManager(
             @Assisted String functionName,
-            XPropertyManager propMan,
+            PropertyFactory propMan,
             RobotAssertionManager assertionManager,
             @Assisted("defaultP") double defaultP, 
             @Assisted("defaultI") double defaultI, 
@@ -69,7 +69,7 @@ public class PIDManager extends PIDPropertyManager {
     @AssistedInject
     public PIDManager(
             @Assisted String functionName, 
-            XPropertyManager propMan,
+            PropertyFactory propMan,
             RobotAssertionManager assertionManager,
             @Assisted("defaultP") double defaultP, 
             @Assisted("defaultI") double defaultI, 
@@ -82,7 +82,7 @@ public class PIDManager extends PIDPropertyManager {
     @AssistedInject
     public PIDManager(
             @Assisted String functionName, 
-            XPropertyManager propMan,
+            PropertyFactory propMan,
             RobotAssertionManager assertionManager,
             @Assisted("defaultP") double defaultP, 
             @Assisted("defaultI") double defaultI, 
@@ -93,7 +93,7 @@ public class PIDManager extends PIDPropertyManager {
     @AssistedInject
     public PIDManager(
             @Assisted String functionName, 
-            XPropertyManager propMan,
+            PropertyFactory propMan,
             RobotAssertionManager assertionManager) {
         this(functionName, propMan, assertionManager, 0, 0, 0);
     }

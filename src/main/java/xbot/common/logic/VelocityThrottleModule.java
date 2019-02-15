@@ -6,7 +6,7 @@ import com.google.inject.assistedinject.Assisted;
 import xbot.common.math.MathUtils;
 import xbot.common.math.PIDManager;
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 public class VelocityThrottleModule {
 
@@ -16,10 +16,11 @@ public class VelocityThrottleModule {
     private double throttle;
     
     @Inject
-    public VelocityThrottleModule(@Assisted("name") String name, @Assisted("velocityPid") PIDManager velocityPid, XPropertyManager propMan) {
+    public VelocityThrottleModule(@Assisted("name") String name, @Assisted("velocityPid") PIDManager velocityPid, PropertyFactory propMan) {
         this.velocityPid = velocityPid;
-        throttleUpperLimitProp = propMan.createPersistentProperty(name + "/ThrottleModule/ThrottleUpperLimit", 1);
-        throttleLowerLimitProp = propMan.createPersistentProperty(name + "/ThrottleModule/ThrottleLowerLimit", -1);
+        propMan.setPrefix(name);
+        throttleUpperLimitProp = propMan.createPersistentProperty("ThrottleModule/ThrottleUpperLimit", 1);
+        throttleLowerLimitProp = propMan.createPersistentProperty("ThrottleModule/ThrottleLowerLimit", -1);
     }
     
     public void setThrottleLimits(double lowerLimit, double upperLimit) {

@@ -8,7 +8,7 @@ import com.google.inject.Inject;
 
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.FieldPose;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 public class ConfigurablePurePursuitCommand extends PurePursuitCommand {
@@ -18,7 +18,7 @@ public class ConfigurablePurePursuitCommand extends PurePursuitCommand {
 
     @Inject
     public ConfigurablePurePursuitCommand(CommonLibFactory clf, BasePoseSubsystem pose, BaseDriveSubsystem drive,
-            XPropertyManager propMan) {
+            PropertyFactory propMan) {
         super(clf, pose, drive, propMan);
         mode = PointLoadingMode.Absolute;
         originalPoints = new ArrayList<>();

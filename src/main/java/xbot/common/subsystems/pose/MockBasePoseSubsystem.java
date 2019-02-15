@@ -8,7 +8,7 @@ import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 @Singleton
 public class MockBasePoseSubsystem extends BasePoseSubsystem {
@@ -17,7 +17,7 @@ public class MockBasePoseSubsystem extends BasePoseSubsystem {
     private XCANTalon right;
     
     @Inject
-    public MockBasePoseSubsystem(CommonLibFactory factory, XPropertyManager propManager) {
+    public MockBasePoseSubsystem(CommonLibFactory factory, PropertyFactory propManager) {
         super(factory, propManager);
     }
     

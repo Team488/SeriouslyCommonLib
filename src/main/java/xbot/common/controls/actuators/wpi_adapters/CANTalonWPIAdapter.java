@@ -28,14 +28,14 @@ import com.google.inject.assistedinject.Assisted;
 
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.injection.wpi_factories.DevicePolice;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 public class CANTalonWPIAdapter extends XCANTalon {
 
     private TalonSRX internalTalon;
 
     @Inject
-    public CANTalonWPIAdapter(@Assisted("deviceId") int deviceId, XPropertyManager propMan, DevicePolice police) {
+    public CANTalonWPIAdapter(@Assisted("deviceId") int deviceId, PropertyFactory propMan, DevicePolice police) {
         super(deviceId, propMan, police);
         internalTalon = new TalonSRX(deviceId);
     }

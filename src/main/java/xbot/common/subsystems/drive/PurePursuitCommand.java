@@ -13,7 +13,7 @@ import xbot.common.math.MathUtils;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.drive.RabbitPoint.PointDriveStyle;
 import xbot.common.subsystems.drive.RabbitPoint.PointTerminatingType;
 import xbot.common.subsystems.drive.RabbitPoint.PointType;
@@ -87,7 +87,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
      */
     @Inject
     public PurePursuitCommand(CommonLibFactory clf, BasePoseSubsystem pose, BaseDriveSubsystem drive,
-            XPropertyManager propMan) {
+            PropertyFactory propMan) {
         this.poseSystem = pose;
         this.drive = drive;
         this.requires(drive);

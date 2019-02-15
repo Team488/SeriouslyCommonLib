@@ -4,7 +4,7 @@ import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.PIDPropertyManager;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 public class BaseXCANTalonPairSpeedControlledSubsystem extends BaseXCANTalonSpeedControlledSubsystem {
 
@@ -16,7 +16,7 @@ public class BaseXCANTalonPairSpeedControlledSubsystem extends BaseXCANTalonSpee
      * @param followChannel The CAN index of the follow motor (-1 if no follow motor)
      * @param factory The WPIFactory
      * @param pidPropertyManager The default PIDF values the system should use
-     * @param propManager The XPropertyManager
+     * @param propManager The PropertyFactory
      */
     public BaseXCANTalonPairSpeedControlledSubsystem(
             String name,
@@ -27,7 +27,7 @@ public class BaseXCANTalonPairSpeedControlledSubsystem extends BaseXCANTalonSpee
             boolean invertFollower,
             CommonLibFactory factory,
             PIDPropertyManager pidPropertyManager,
-            XPropertyManager propManager) {
+            PropertyFactory propManager) {
         super(name, masterChannel, invertMaster, invertMasterSensor, factory, pidPropertyManager, propManager);
         
         followerMotor = factory.createCANTalon(followChannel);

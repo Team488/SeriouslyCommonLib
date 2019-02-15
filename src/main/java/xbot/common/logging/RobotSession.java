@@ -5,7 +5,7 @@ import com.google.inject.Singleton;
 
 import xbot.common.logging.WordGenerator;
 import xbot.common.properties.StringProperty;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 @Singleton
 public class RobotSession {
@@ -18,7 +18,7 @@ public class RobotSession {
     String propertyName = "RobotSession";
 
     @Inject
-    public RobotSession(WordGenerator wg, XPropertyManager propMan) {
+    public RobotSession(WordGenerator wg, PropertyFactory propMan) {
         this.wg = wg;
         sessionProp = propMan.createEphemeralProperty(propertyName, "NoSessionSetYet");
         reset();
