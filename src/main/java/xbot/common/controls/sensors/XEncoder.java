@@ -17,13 +17,14 @@ public abstract class XEncoder {
             double defaultDistancePerPulse, 
             PropertyFactory propMan,
             DevicePolice police) {
-        distancePerPulse = propMan.createPersistentProperty(name + "-DistancePerPulse", defaultDistancePerPulse);
+        propMan.setPrefix(name);
+        distancePerPulse = propMan.createPersistentProperty("DistancePerPulse", defaultDistancePerPulse);
         police.registerDevice(DeviceType.DigitalIO, aChannel);
         police.registerDevice(DeviceType.DigitalIO, bChannel);
     }
     
     public XEncoder(PropertyFactory propMan) {
-        distancePerPulse = propMan.createPersistentProperty("Test" + "-DistancePerPulse", 1);
+        distancePerPulse = propMan.createPersistentProperty("Test" + "DistancePerPulse", 1);
     }
     
     public double getAdjustedDistance() {

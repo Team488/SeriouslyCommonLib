@@ -91,20 +91,21 @@ public abstract class PurePursuitCommand extends BaseCommand {
         this.poseSystem = pose;
         this.drive = drive;
         this.requires(drive);
+        propMan.setPrefix(this);
 
         // The lookahead is particularly important - for large values, driving will be very smooth, but it may take a very long time
         // to converge to the proper path. Small values converge very quickly, but run a major risk of oscillation.
-        rabbitLookAhead = propMan.createPersistentProperty(getPrefix() + "Rabbit lookahead (in)", 12);
+        rabbitLookAhead = propMan.createPersistentProperty("Rabbit lookahead (in)", 12);
         // Once under the pointDistanceThreshold, the algorithm prioritizes orientation over position. Essentially, if your point requests
         // 15 degrees, and your robot is at 20 degrees by the time it gets here, it will immediately rotate to 15 degrees and drive "straight".
-        pointDistanceThreshold = propMan.createPersistentProperty(getPrefix() + "Rabbit distance threshold", 12.0);
+        pointDistanceThreshold = propMan.createPersistentProperty("Rabbit distance threshold", 12.0);
         // The motion budget was an attempt to smooth out driving. Essentially, requested rotation is subtracted from the budget, 
         // and translation can have what's left over.
         // The goal was to reduce the "whiplash" when the robot tried to head to a point that required an immediate large turn and full speed motion.
         // In practice, it didn't really work, but it did help the robot get oriented in roughly the right direction
         // before zooming off.
-        motionBudget = propMan.createPersistentProperty(getPrefix() + "Motion Budget", 1);
-        perpindicularRatioProp = propMan.createPersistentProperty(getPrefix() + "PerpindicularRatio", 1.5);
+        motionBudget = propMan.createPersistentProperty("Motion Budget", 1);
+        perpindicularRatioProp = propMan.createPersistentProperty("PerpindicularRatio", 1.5);
         defaultHeadingModule = clf.createHeadingModule(drive.getRotateToHeadingPid());
         defaultPositionalPid = drive.getPositionalPid();
         setPIDsToDefault();

@@ -18,7 +18,8 @@ public class CalibrationDecider {
 
     @Inject
     public CalibrationDecider(@Assisted("name") String name, PropertyFactory propMan) {
-        calibrationTimeProp = propMan.createPersistentProperty(name + "CalibrationDecider/Attempt Time", 3);
+        propMan.setPrefix(name);
+        calibrationTimeProp = propMan.createPersistentProperty("CalibrationDecider/Attempt Time", 3);
         reset();
     }
 
