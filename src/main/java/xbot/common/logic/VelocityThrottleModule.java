@@ -18,9 +18,9 @@ public class VelocityThrottleModule {
     @Inject
     public VelocityThrottleModule(@Assisted("name") String name, @Assisted("velocityPid") PIDManager velocityPid, PropertyFactory propMan) {
         this.velocityPid = velocityPid;
-        propMan.setPrefix(name);
-        throttleUpperLimitProp = propMan.createPersistentProperty("ThrottleModule/ThrottleUpperLimit", 1);
-        throttleLowerLimitProp = propMan.createPersistentProperty("ThrottleModule/ThrottleLowerLimit", -1);
+        propMan.setPrefix(name + "/ThrottleModule");
+        throttleUpperLimitProp = propMan.createPersistentProperty("ThrottleUpperLimit", 1);
+        throttleLowerLimitProp = propMan.createPersistentProperty("ThrottleLowerLimit", -1);
     }
     
     public void setThrottleLimits(double lowerLimit, double upperLimit) {
