@@ -70,7 +70,7 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     
     public void createTelemetryProperties(String callingSystemPrefix, String deviceName) {
         // Creates nice prefixes for the SmartDashboard.
-        propMan.setPrefix(deviceName);
+        propMan.setPrefix(callingSystemPrefix + "/" + deviceName);
         currentProperty = propMan.createEphemeralProperty("current", 0);
         outVoltageProperty = propMan.createEphemeralProperty("voltage", 0);
         temperatureProperty = propMan.createEphemeralProperty("temperature", 0);
