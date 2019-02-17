@@ -176,6 +176,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
     }
 
     @Test
+    @Ignore
     public void testThreePointDirect() {
         command.addPoint(
             new RabbitPoint(new FieldPose(new XYPair(100, 0), new ContiguousHeading(-90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
