@@ -308,9 +308,10 @@ public abstract class PurePursuitCommand extends BaseCommand {
         double constrainedTranslation = constrainTranslation(
             turnPower, translationPower, getDotProductWithRabbit(robotPose, target.pose.getPoint(), 1));
 
-        log.info(String.format("Mode: DriveToPoint. Point: %d, X:%.2f, Y:%.2f, DistanceR: %.2f, Power: %.2f", 
+        log.info(String.format("Mode: DriveToPoint. Point: %d, X:%.2f, Y:%.2f, DistanceR: %.2f, Rotate: %.2f, Power: %.2f", 
                 pointIndex, target.pose.getPoint().x, target.pose.getPoint().y, 
-                trueDistanceRemaining, constrainedTranslation));
+                trueDistanceRemaining, turnPower,
+                constrainedTranslation));
         return new RabbitChaseInfo(constrainedTranslation, turnPower, target.pose, target.pose, trueDistanceRemaining);
     }
     
@@ -345,6 +346,9 @@ public abstract class PurePursuitCommand extends BaseCommand {
      */
     private double constrainTranslation(double rotation, double translation, double dotProduct) {
         if (useDotProductDriving) {
+            if (dotProduct < 0.75) {
+                return 0;
+            }
             return translation *= dotProduct;
         } else {
             double remainingBudget = motionBudget.get() - Math.abs(rotation);
@@ -461,9 +465,10 @@ public abstract class PurePursuitCommand extends BaseCommand {
         
         // Log the output. This could be commented out, but for now, it has been very useful for debugging why the robot is driving
         // somewhere... unexpected.
-        log.info(String.format("Mode: DriveToPoint. Point: %d, X:%.2f, Y:%.2f, DistanceR: %.2f, Power: %.2f", 
+        log.info(String.format("Mode: PurePursuit. Point: %d, X:%.2f, Y:%.2f, DistanceR: %.2f, Rotate: %.2f, Power: %.2f", 
                 pointIndex, target.pose.getPoint().x, target.pose.getPoint().y, 
-                trueDistanceRemaining, constrainedTranslation));
+                trueDistanceRemaining, turnPower,
+                constrainedTranslation));
         
         // In Micro mode, we want to be very, very sure we get to these points accurately, so we reduce the threshold to 25%.
         double distanceThreshold = pointDistanceThreshold.get();
