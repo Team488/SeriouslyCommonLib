@@ -11,8 +11,8 @@ public class MockCompressor extends XCompressor {
     private double current;
 
     @Inject
-    public MockCompressor(double initialCurrent) {
-        current = initialCurrent;
+    public MockCompressor() {
+        current = 0;
     }
 
     public double getCompressorCurrent(){

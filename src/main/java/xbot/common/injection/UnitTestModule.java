@@ -68,6 +68,7 @@ public class UnitTestModule extends AbstractModule {
         this.bind(SmartDashboardCommandPutter.class).to(MockSmartDashboardCommandPutter.class);
         this.bind(RobotAssertionManager.class).to(LoudRobotAssertionManager.class);
         this.bind(OffboardCommunicationClient.class).to(MockCommunicationClient.class);
+        this.bind(XCompressor.class).to(MockCompressor.class);
 
         this.install(new FactoryModuleBuilder().build(PIDFactory.class));
 
@@ -80,7 +81,7 @@ public class UnitTestModule extends AbstractModule {
                 .implement(XSolenoid.class, MockSolenoid.class).implement(XDigitalOutput.class, MockDigitalOutput.class)
                 .implement(XServo.class, MockServo.class).implement(XSpeedController.class, MockSpeedController.class)
                 .implement(XCANTalon.class, MockCANTalon.class).implement(XGyro.class, MockGyro.class)
-                .implement(XLidarLite.class, MockLidarLite.class).implement(XCompressor.class, MockCompressor.class)
+                .implement(XLidarLite.class, MockLidarLite.class)
                 .implement(XRelay.class, MockRelay.class).implement(XPWM.class, MockPWM.class)
                 .build(CommonLibFactory.class));
     }

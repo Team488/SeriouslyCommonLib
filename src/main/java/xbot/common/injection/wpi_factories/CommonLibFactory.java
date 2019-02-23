@@ -87,8 +87,6 @@ public interface CommonLibFactory {
     
     public XGyro createGyro();
     
-    public XCompressor createCompressor();
-    
     public XLidarLite createLidarLite(
             @Assisted("port") I2C.Port port);
     

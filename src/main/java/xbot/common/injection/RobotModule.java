@@ -63,6 +63,7 @@ public class RobotModule extends AbstractModule {
         this.bind(PermanentStorage.class).to(PreferenceStorage.class);
         this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);
         this.bind(RobotAssertionManager.class).to(SilentRobotAssertionManager.class);
+        this.bind(XCompressor.class).to(CompressorWPIAdapter.class);
         this.install(new FactoryModuleBuilder().build(PIDFactory.class));
 
         this.install(new FactoryModuleBuilder()
@@ -80,7 +81,6 @@ public class RobotModule extends AbstractModule {
                 .implement(XCANTalon.class, CANTalonWPIAdapter.class)
                 .implement(XGyro.class, InertialMeasurementUnitAdapter.class)
                 .implement(XLidarLite.class, LidarLiteWpiAdapter.class)
-                .implement(XCompressor.class, CompressorWPIAdapter.class)
                 .implement(XRelay.class, RelayWPIAdapter.class)
                 .implement(OffboardCommunicationClient.class, ZeromqListener.class)
                 .implement(XPWM.class, PWMWPIAdapter.class)
