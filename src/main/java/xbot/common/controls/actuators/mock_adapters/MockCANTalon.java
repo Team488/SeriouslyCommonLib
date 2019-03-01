@@ -45,6 +45,8 @@ public class MockCANTalon extends XCANTalon {
     MockRobotIO mockRobotIO;
     public XEncoder internalEncoder = null;
     double current = 0;
+    int continuousCurrentLimit = 1000;
+    double openLoopRamp = 0;
 
     private boolean forwardLimitSwitch;
     private boolean reverseLimitSwitch;
@@ -155,8 +157,12 @@ public class MockCANTalon extends XCANTalon {
 
     @Override
     public ErrorCode configOpenloopRamp(double secondsFromNeutralToFull, int timeoutMs) {
-
+        openLoopRamp = secondsFromNeutralToFull;
         return null;
+    }
+
+    public double getOpenLoopRamp() {
+        return openLoopRamp;
     }
 
     @Override
@@ -429,8 +435,12 @@ public class MockCANTalon extends XCANTalon {
 
     @Override
     public ErrorCode configContinuousCurrentLimit(int amps, int timeoutMs) {
-
+        continuousCurrentLimit = amps;
         return null;
+    }
+
+    public int getContinuousCurrentLimit() {
+        return continuousCurrentLimit;
     }
 
     @Override
