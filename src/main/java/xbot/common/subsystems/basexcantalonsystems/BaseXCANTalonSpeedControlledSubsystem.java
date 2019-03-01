@@ -1,4 +1,4 @@
-package xbot.common.subsystems;
+package xbot.common.subsystems.basexcantalonsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;

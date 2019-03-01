@@ -1,4 +1,4 @@
-package xbot.common.subsystems;
+package xbot.common.subsystems.basexcantalonsystems;
 
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XTimer;
