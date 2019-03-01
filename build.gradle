@@ -20,9 +20,10 @@ repositories {
     maven { url "https://mvnrepository.com/artifact/com.google.inject/guice" }
     maven { url "https://mvnrepository.com/artifact/org.zeromq/jeromq" }
     maven { url "http://first.wpi.edu/FRC/roborio/maven/release"}
-    maven { url uri ("../SeriouslyCommonLib/lib/")}
-    maven { url "http://www.kauailabs.com/maven2" }
     maven { url "http://devsite.ctr-electronics.com/maven/release/"}
+    maven { url "http://www.kauailabs.com/maven2" }
+    maven { url uri ("../SeriouslyCommonLib/lib/")}
+
     
    /* 
    flatDir {
