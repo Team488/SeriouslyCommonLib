@@ -11,7 +11,7 @@ import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.PIDPropertyManager;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 /**
  * We have a few Subsystems that have one primary goal:
@@ -50,7 +50,7 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
      * @param masterChannel The CAN index of the master motor (or the only motor, for a simple system)
      * @param factory The WPIFactory
      * @param pidPropertyManager The default PIDF values the system should use
-     * @param propManager The XPropertyManager
+     * @param propManager The PropertyFactory
      */
     public BaseXCANTalonSpeedControlledSubsystem(
             String name,
@@ -59,7 +59,7 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
             boolean invertMasterSensor,
             CommonLibFactory factory, 
             PIDPropertyManager pidPropertyManager,
-            XPropertyManager propManager){
+            PropertyFactory propManager){
         super(name);
         log.info("Creating");
         

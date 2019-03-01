@@ -4,7 +4,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 public class FieldPosePropertyManager {
     
@@ -18,20 +18,22 @@ public class FieldPosePropertyManager {
         @Assisted("x") double x,
         @Assisted("y") double y,
         @Assisted("heading") double heading,
-        XPropertyManager propMan) {
-        xProp = propMan.createPersistentProperty(poseName + "/" + "X", x);
-        yProp = propMan.createPersistentProperty(poseName + "/" + "Y", y);
-        headingProp = propMan.createPersistentProperty(poseName + "/" + "Heading", heading);
+        PropertyFactory propMan) {
+        propMan.setPrefix(poseName);
+        xProp = propMan.createPersistentProperty("X", x);
+        yProp = propMan.createPersistentProperty("Y", y);
+        headingProp = propMan.createPersistentProperty("/" + "Heading", heading);
     }
 
     @AssistedInject
     public FieldPosePropertyManager(
         @Assisted("poseName") String poseName, 
         @Assisted("fieldPose") FieldPose fieldPose,
-        XPropertyManager propMan) {
-        xProp = propMan.createPersistentProperty(poseName + "/" + "X", fieldPose.getPoint().x);
-        yProp = propMan.createPersistentProperty(poseName + "/" + "Y", fieldPose.getPoint().y);
-        headingProp = propMan.createPersistentProperty(poseName + "/" + "Heading", fieldPose.getHeading().getValue());
+        PropertyFactory propMan) {
+        propMan.setPrefix(poseName);
+        xProp = propMan.createPersistentProperty("X", fieldPose.getPoint().x);
+        yProp = propMan.createPersistentProperty("Y", fieldPose.getPoint().y);
+        headingProp = propMan.createPersistentProperty("Heading", fieldPose.getHeading().getValue());
     }
 
     public FieldPose getPose() {

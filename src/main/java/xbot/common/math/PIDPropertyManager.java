@@ -6,7 +6,7 @@ import com.google.inject.assistedinject.AssistedInject;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 public class PIDPropertyManager {
     
@@ -28,7 +28,7 @@ public class PIDPropertyManager {
     @AssistedInject
     public PIDPropertyManager(
             @Assisted String functionName, 
-            XPropertyManager propMan, 
+            PropertyFactory propMan, 
             RobotAssertionManager assertionManager,
             @Assisted("defaultP") double defaultP, 
             @Assisted("defaultI") double defaultI, 
@@ -37,29 +37,27 @@ public class PIDPropertyManager {
             @Assisted("errorThreshold") double errorThreshold, 
             @Assisted("derivativeThreshold") double derivativeThreshold,
             @Assisted("timeThreshold") double timeThreshold) {
+        propMan.setPrefix(functionName);
         
-        // This creates nice automatic prefixes for the SmartDashboard.
-        functionName = functionName + "/";
-        
-        propP = propMan.createPersistentProperty(functionName + " P", defaultP);
-        propI = propMan.createPersistentProperty(functionName + " I", defaultI);
-        propD = propMan.createPersistentProperty(functionName + " D", defaultD);
-        propF = propMan.createPersistentProperty(functionName + " F", defaultF);
+        propP = propMan.createPersistentProperty("P", defaultP);
+        propI = propMan.createPersistentProperty("I", defaultI);
+        propD = propMan.createPersistentProperty("D", defaultD);
+        propF = propMan.createPersistentProperty("F", defaultF);
         
         propErrorThreshold = 
-                propMan.createPersistentProperty(functionName + " Error threshold", errorThreshold);
+                propMan.createPersistentProperty("Error threshold", errorThreshold);
         propDerivativeThreshold = 
-                propMan.createPersistentProperty(functionName + " Derivative threshold", derivativeThreshold);
+                propMan.createPersistentProperty("Derivative threshold", derivativeThreshold);
         propTimeThreshold = 
-                propMan.createPersistentProperty(functionName + " Time threshold", timeThreshold);
+                propMan.createPersistentProperty("Time threshold", timeThreshold);
         
         
         propEnableErrorThreshold = 
-                propMan.createPersistentProperty(functionName + " Enable error threshold", errorThreshold > 0);
+                propMan.createPersistentProperty("Enable error threshold", errorThreshold > 0);
         propEnableDerivativeThreshold = 
-                propMan.createPersistentProperty(functionName + " Enable derivative threshold", derivativeThreshold > 0);
+                propMan.createPersistentProperty("Enable derivative threshold", derivativeThreshold > 0);
         propEnableTimeThreshold = 
-                propMan.createPersistentProperty(functionName + " Enable time threshold", timeThreshold > 0);
+                propMan.createPersistentProperty("Enable time threshold", timeThreshold > 0);
         
         this.assertionManager = assertionManager;
     }
@@ -67,7 +65,7 @@ public class PIDPropertyManager {
     @AssistedInject
     public PIDPropertyManager(
             @Assisted String functionName, 
-            XPropertyManager propMan, 
+            PropertyFactory propMan, 
             RobotAssertionManager assertionManager,
             @Assisted("defaultP") double defaultP, 
             @Assisted("defaultI") double defaultI, 

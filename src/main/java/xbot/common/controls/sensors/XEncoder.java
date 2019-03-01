@@ -3,7 +3,7 @@ package xbot.common.controls.sensors;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 public abstract class XEncoder {
 
@@ -15,15 +15,16 @@ public abstract class XEncoder {
             int aChannel, 
             int bChannel, 
             double defaultDistancePerPulse, 
-            XPropertyManager propMan,
+            PropertyFactory propMan,
             DevicePolice police) {
-        distancePerPulse = propMan.createPersistentProperty(name + "-DistancePerPulse", defaultDistancePerPulse);
+        propMan.setPrefix(name);
+        distancePerPulse = propMan.createPersistentProperty("DistancePerPulse", defaultDistancePerPulse);
         police.registerDevice(DeviceType.DigitalIO, aChannel);
         police.registerDevice(DeviceType.DigitalIO, bChannel);
     }
     
-    public XEncoder(XPropertyManager propMan) {
-        distancePerPulse = propMan.createPersistentProperty("Test" + "-DistancePerPulse", 1);
+    public XEncoder(PropertyFactory propMan) {
+        distancePerPulse = propMan.createPersistentProperty("Test" + "DistancePerPulse", 1);
     }
     
     public double getAdjustedDistance() {

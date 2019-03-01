@@ -11,7 +11,7 @@ import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 public abstract class BasePoseSubsystem extends BaseSubsystem implements PeriodicDataSource {
 
@@ -50,7 +50,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     private double lastSetHeadingTime;
 
-    public BasePoseSubsystem(CommonLibFactory factory, XPropertyManager propManager) {
+    public BasePoseSubsystem(CommonLibFactory factory, PropertyFactory propManager) {
         log.info("Creating");
         imu = factory.createGyro();
         this.classInstantiationTime = XTimer.getFPGATimestamp();

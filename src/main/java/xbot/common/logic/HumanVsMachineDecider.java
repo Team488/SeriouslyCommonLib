@@ -5,7 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 public class HumanVsMachineDecider {
 
@@ -22,9 +22,10 @@ public class HumanVsMachineDecider {
     private boolean inAutomaticMode;
     
     @Inject
-    public HumanVsMachineDecider(@Assisted("name") String name, XPropertyManager propMan) {
-        deadbandProp = propMan.createPersistentProperty(name + "Decider/Deadband", 0.1);
-        coastTimeProp = propMan.createPersistentProperty(name + "Decider/Coast Time", 0.3);
+    public HumanVsMachineDecider(@Assisted("name") String name, PropertyFactory propMan) {
+        propMan.setPrefix(name);
+        deadbandProp = propMan.createPersistentProperty("Decider/Deadband", 0.1);
+        coastTimeProp = propMan.createPersistentProperty("Decider/Coast Time", 0.3);
         reset();
     }
     

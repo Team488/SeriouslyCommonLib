@@ -4,7 +4,7 @@ import xbot.common.controls.sensors.XTimer;
 import xbot.common.logic.Latch.EdgeType;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 public class WatchdogTimer {
     private double lastKick = Double.NEGATIVE_INFINITY;
@@ -22,10 +22,11 @@ public class WatchdogTimer {
         latch = new Latch(false, EdgeType.Both, this::handleLatchUpdate);
     }
     
-    public WatchdogTimer(double timeout, String name, XPropertyManager propMan) {
+    public WatchdogTimer(double timeout, String name, PropertyFactory propMan) {
         this(timeout);
-        this.isUpProp = propMan.createEphemeralProperty(name + "/Is up?", false);
-        this.timeSinceKickProp = propMan.createEphemeralProperty(name + "/Time since kick", Double.POSITIVE_INFINITY);
+        propMan.setPrefix(name);
+        this.isUpProp = propMan.createEphemeralProperty("Is up?", false);
+        this.timeSinceKickProp = propMan.createEphemeralProperty("Time since kick", Double.POSITIVE_INFINITY);
     }
 
     public WatchdogTimer(double timeout, Runnable onUp, Runnable onDown) {
@@ -34,7 +35,7 @@ public class WatchdogTimer {
         this.onDown = onDown;
     }
     
-    public WatchdogTimer(double timeout, Runnable onUp, Runnable onDown, String name, XPropertyManager propMan) {
+    public WatchdogTimer(double timeout, Runnable onUp, Runnable onDown, String name, PropertyFactory propMan) {
         this(timeout, name, propMan);
         this.onUp = onUp;
         this.onDown = onDown;

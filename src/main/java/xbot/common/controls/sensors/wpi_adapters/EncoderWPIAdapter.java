@@ -6,7 +6,7 @@ import com.google.inject.assistedinject.Assisted;
 import edu.wpi.first.wpilibj.Encoder;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.injection.wpi_factories.DevicePolice;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 public class EncoderWPIAdapter extends XEncoder {
 
@@ -18,7 +18,7 @@ public class EncoderWPIAdapter extends XEncoder {
             @Assisted("aChannel") int aChannel, 
             @Assisted("bChannel") int bChannel, 
             @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse, 
-            XPropertyManager propMan,
+            PropertyFactory propMan,
             DevicePolice police) {
         super(name, aChannel, bChannel, defaultDistancePerPulse, propMan, police);
         internalEncoder = new Encoder(aChannel, bChannel);

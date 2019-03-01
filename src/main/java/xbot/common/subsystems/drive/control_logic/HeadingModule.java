@@ -5,7 +5,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 import xbot.common.math.ContiguousHeading;
 import xbot.common.math.PIDManager;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 /**
@@ -28,7 +28,7 @@ public class HeadingModule {
     public HeadingModule(
             @Assisted("headingDrivePid") PIDManager headingDrivePid, 
             BasePoseSubsystem pose, 
-            XPropertyManager propMan)
+            PropertyFactory propMan)
     {
         this.pose = pose;
         

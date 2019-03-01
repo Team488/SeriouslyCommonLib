@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 import edu.wpi.first.wpilibj.I2C.Port;
 
 public abstract class XLidarLite implements DistanceSensor {
@@ -24,7 +24,7 @@ public abstract class XLidarLite implements DistanceSensor {
 
     private DoubleProperty lidarPollDuration;
 
-    public XLidarLite(Port port, XPropertyManager propMan, DevicePolice police) {
+    public XLidarLite(Port port, PropertyFactory propMan, DevicePolice police) {
 
         log.info("Creating Lidar on port: " + port.toString());
         lidarPollDuration = propMan.createPersistentProperty("LidarPollDurationMs", 100d);

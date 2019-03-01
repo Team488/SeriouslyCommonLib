@@ -30,7 +30,7 @@ import edu.wpi.first.wpilibj.Victor;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
     RobotAssertionManager assertionManager;
@@ -41,7 +41,7 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
     public VictorAppearingAsTalonWPIAdapter(
             @Assisted("deviceId") int deviceId,
             RobotAssertionManager assertionManager,
-            XPropertyManager propMan, 
+            PropertyFactory propMan, 
             DevicePolice police) {
         super(deviceId, propMan, police);
         internalSpeedController = new Victor(deviceId);

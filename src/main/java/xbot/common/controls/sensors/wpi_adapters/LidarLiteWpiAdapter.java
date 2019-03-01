@@ -8,14 +8,14 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.wpi_factories.DevicePolice;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 public class LidarLiteWpiAdapter extends XLidarLite{
 
     private I2C i2c;
     
     @Inject
-    public LidarLiteWpiAdapter(@Assisted("port") Port port, XPropertyManager propMan, DevicePolice police) {
+    public LidarLiteWpiAdapter(@Assisted("port") Port port, PropertyFactory propMan, DevicePolice police) {
         super(port, propMan, police);
 
       i2c = new I2C(port, lidar_address);

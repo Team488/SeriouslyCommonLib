@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 
 public abstract class XCANTalon extends SendableBase implements IMotorControllerEnhanced {
@@ -45,7 +45,7 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
      */
     
     protected int deviceId;
-    protected XPropertyManager propMan;
+    protected PropertyFactory propMan;
     
     private DoubleProperty currentProperty = null;
     private DoubleProperty outVoltageProperty = null;
@@ -55,7 +55,7 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     
     private String _description;
     
-    public XCANTalon(int deviceId, XPropertyManager propMan, DevicePolice police) {
+    public XCANTalon(int deviceId, PropertyFactory propMan, DevicePolice police) {
         this.deviceId = deviceId;
         this.propMan = propMan;
         
@@ -70,12 +70,12 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     
     public void createTelemetryProperties(String callingSystemPrefix, String deviceName) {
         // Creates nice prefixes for the SmartDashboard.
-        deviceName = callingSystemPrefix + deviceName + "/";
-        currentProperty = propMan.createEphemeralProperty(deviceName + " current", 0);
-        outVoltageProperty = propMan.createEphemeralProperty(deviceName + " voltage", 0);
-        temperatureProperty = propMan.createEphemeralProperty(deviceName + " temperature", 0);
-        positionProperty = propMan.createEphemeralProperty(deviceName + " position", 0);
-        velocityProperty = propMan.createEphemeralProperty(deviceName + " velocity", 0);
+        propMan.setPrefix(callingSystemPrefix + "/" + deviceName);
+        currentProperty = propMan.createEphemeralProperty("current", 0);
+        outVoltageProperty = propMan.createEphemeralProperty("voltage", 0);
+        temperatureProperty = propMan.createEphemeralProperty("temperature", 0);
+        positionProperty = propMan.createEphemeralProperty("position", 0);
+        velocityProperty = propMan.createEphemeralProperty("velocity", 0);
     }
     
     public void updateTelemetryProperties() {

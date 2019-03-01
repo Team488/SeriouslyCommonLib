@@ -7,7 +7,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 import java.util.function.DoubleFunction;
 
@@ -31,7 +31,7 @@ public class AnalogDistanceSensor implements DistanceSensor {
             CommonLibFactory clf, 
             @Assisted("channel") int channel, 
             @Assisted("voltageMap") DoubleFunction<Double> voltageMap, 
-            XPropertyManager propMan) {
+            PropertyFactory propMan) {
                 
         log.info("Initializing...");
         this.input = clf.createAnalogInput(channel);

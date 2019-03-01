@@ -5,7 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 
 public class CalibrationDecider {
 
@@ -17,8 +17,9 @@ public class CalibrationDecider {
     double startTime;
 
     @Inject
-    public CalibrationDecider(@Assisted("name") String name, XPropertyManager propMan) {
-        calibrationTimeProp = propMan.createPersistentProperty(name + "CalibrationDecider/Attempt Time", 3);
+    public CalibrationDecider(@Assisted("name") String name, PropertyFactory propMan) {
+        propMan.setPrefix(name);
+        calibrationTimeProp = propMan.createPersistentProperty("CalibrationDecider/Attempt Time", 3);
         reset();
     }
 

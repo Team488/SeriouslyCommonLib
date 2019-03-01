@@ -2,7 +2,7 @@ package xbot.common.controls.sensors;
 
 import org.apache.log4j.Logger;
 
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.PropertyFactory;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 
@@ -25,7 +25,7 @@ public class MultiplexedLidarPair implements DistanceSensorPair {
     private DistanceSensor sensorA;
     private DistanceSensor sensorB;
 
-    public MultiplexedLidarPair(Port port, byte lidarMuxIdA, byte lidarMuxIdB, XPropertyManager propMan) {
+    public MultiplexedLidarPair(Port port, byte lidarMuxIdA, byte lidarMuxIdB, PropertyFactory propMan) {
 
         log.info("Creating MultiplexedLidarPair on port: " + port.toString());
         
