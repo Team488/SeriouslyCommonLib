@@ -4,6 +4,7 @@ import xbot.common.command.BaseCommand;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.logic.HumanVsMachineDecider;
+import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
 import xbot.common.properties.PropertyFactory;
 
 public abstract class BasePositionalMaintainerCommand extends BaseCommand {
@@ -30,6 +31,8 @@ public abstract class BasePositionalMaintainerCommand extends BaseCommand {
 
     public abstract double getCalibrationAttemptDuration();
 
+    public abstract double getHumanPowerInput();
+
     @Override
     public void initialize() {
         log.info("Initializing with " + subsystem.getTargetInDomainUnits() + " as a target");
@@ -41,7 +44,7 @@ public abstract class BasePositionalMaintainerCommand extends BaseCommand {
         }
         else {
             log.info(subsystem.getName() + " is already calibrated. Setting current position as target position.");
-            subsystem.setTargetInDomainUnits(subsystem.getCurrentPositionInDomainUnits());
+            subsystem.setCurrentPositionAsTargetPosition();
         }
     }
 
@@ -64,5 +67,40 @@ public abstract class BasePositionalMaintainerCommand extends BaseCommand {
         } else {
             mode = MaintainerMode.GaveUp;
         }
+
+        HumanVsMachineMode deciderMode = decider.getRecommendedMode(getHumanPowerInput());
+        double power = 0;
+
+        if (mode == MaintainerMode.Calibrated) {
+            switch (deciderMode) {
+            case HumanControl:
+                power = getHumanPowerInput();
+                break;
+            case Coast:
+                power = 0;
+                break;
+            case InitializeMachineControl:
+                power = 0;
+                subsystem.setCurrentPositionAsTargetPosition();
+                break;
+            case MachineControl:
+                double positionOutput = elevator.getPositionalPid().calculate(elevator.getTargetHeight(), elevator.getCurrentHeightInInches());
+                double powerDelta = elevator.getVelocityPid().calculate(positionOutput * velocityPIDMaxPower.get(), elevator.getVelocityInchesPerSecond());
+                throttle += powerDelta;
+                throttle = MathUtils.constrainDouble(throttle, -.8, 1);
+                power = throttle;
+
+                break;
+            default: 
+                power = 0;
+                break;
+            }
+            subsystem.setPower(power);
+        } else if (currentMode == MaintainerMode.Calibrating) {
+            elevator.lower();
+        } else if (currentMode == MaintainerMode.GaveUp) {
+            subsystem.setPower(getHumanPowerInput());
+        }
+
     }
 }

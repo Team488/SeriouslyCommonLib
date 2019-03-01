@@ -37,7 +37,6 @@ public abstract class BaseXCANTalonPositionControlledSubsystem extends BaseSetpo
             }
         });
 
-        createMasterTalon();
         log.info("BaseXCANTalonPositionControlledSubsystem creation complete.");
     }
 
@@ -45,7 +44,10 @@ public abstract class BaseXCANTalonPositionControlledSubsystem extends BaseSetpo
         return targetInDomainUnits;
     }
 
-    public abstract void createMasterTalon();
+    public abstract XCANTalon getMasterTalon();
+
+    protected abstract void internalSetPower(double power);
+    protected abstract void insanelyDangerousInternalSetPower(double power);
 
     public abstract double getMaximumPositionValueInDomainUnits();
 
@@ -68,11 +70,11 @@ public abstract class BaseXCANTalonPositionControlledSubsystem extends BaseSetpo
     }
 
     public void calibrateHere() {
-        calibrateAt(master.getSelectedSensorPosition(0));
+        calibrateAt(getMasterTalon().getSelectedSensorPosition(0));
     }
 
     public int getCurrentTicks() {
-        return master.getSelectedSensorPosition(0);
+        return getMasterTalon().getSelectedSensorPosition(0);
     }
 
     public void calibrateAt(int lowestPosition) {
@@ -80,7 +82,7 @@ public abstract class BaseXCANTalonPositionControlledSubsystem extends BaseSetpo
         calibrationOffset = lowestPosition;
         isCalibrated = true;
 
-        master.configReverseSoftLimitThreshold(lowestPosition, 0);
+        getMasterTalon().configReverseSoftLimitThreshold(lowestPosition, 0);
 
         // calculate the upper limit and set safeties.
         double mechanismRangeInUnits = getMaximumPositionValueInDomainUnits() - getMinimumPositionValueInDomainUnits();
@@ -88,7 +90,7 @@ public abstract class BaseXCANTalonPositionControlledSubsystem extends BaseSetpo
         int upperLimit = tickRange + lowestPosition;
 
         log.info("Upper limit set at: " + upperLimit);
-        master.configForwardSoftLimitThreshold(upperLimit, 0);
+        getMasterTalon().configForwardSoftLimitThreshold(upperLimit, 0);
 
         setSoftLimitsEnabled(true);
 
@@ -97,6 +99,10 @@ public abstract class BaseXCANTalonPositionControlledSubsystem extends BaseSetpo
 
     public void setTargetInDomainUnits(double targetInDomainUnits) {
         this.targetInDomainUnits = targetInDomainUnits;
+    }
+
+    public void setCurrentPositionAsTargetPosition() {
+        setTargetInDomainUnits(getCurrentPositionInDomainUnits());
     }
 
     public double getCurrentPositionInDomainUnits() {
@@ -108,13 +114,13 @@ public abstract class BaseXCANTalonPositionControlledSubsystem extends BaseSetpo
     }
 
     public void setSoftLimitsEnabled(boolean on) {
-        master.configReverseSoftLimitEnable(on, 0);
-        master.configForwardSoftLimitEnable(on, 0);
+        getMasterTalon().configReverseSoftLimitEnable(on, 0);
+        getMasterTalon().configForwardSoftLimitEnable(on, 0);
     }
 
     public void insanelyDangerousSetPower(double power) {
         setSoftLimitsEnabled(false);
-        master.simpleSet(power);
+        insanelyDangerousInternalSetPower(power);
     }
 
     public void setPower(double power) {
@@ -157,18 +163,17 @@ public abstract class BaseXCANTalonPositionControlledSubsystem extends BaseSetpo
                 reason = PowerRestrictionReason.BelowMinPosition;
             }
         }
-
-        master.simpleSet(power);
-        setRestrictionReason(reason);
+        internalSetPower(power);
+        setRestrictionReason(reason.toString());
     }
 
-    private void setRestrictionReason(PowerRestrictionReason reason) {
-        elevatorRestrictionReasonProp.set(reason.toString());
+    private void setRestrictionReason(String reason) {
+        elevatorRestrictionReasonProp.set(reason);
     }
 
     @Override
     public void updatePeriodicData() {
-
+        getMasterTalon().updateTelemetryProperties();
     }
 
 }
