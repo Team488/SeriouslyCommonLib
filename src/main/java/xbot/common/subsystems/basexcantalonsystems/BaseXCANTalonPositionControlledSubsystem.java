@@ -63,6 +63,10 @@ public abstract class BaseXCANTalonPositionControlledSubsystem extends BaseSetpo
 
     public abstract PIDManager getPidManager();
 
+    public boolean getIsCalibrated() {
+        return isCalibrated;
+    }
+
     public void calibrateHere() {
         calibrateAt(master.getSelectedSensorPosition(0));
     }
