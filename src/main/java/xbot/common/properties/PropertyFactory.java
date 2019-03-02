@@ -31,6 +31,11 @@ public class PropertyFactory {
         if(this.prefix == null || this.prefix.isEmpty()) {
             return key;
         }
+        if (prefix.charAt(prefix.length() -1) == '/')
+        {
+            // If somebody already put a slash as a trailing character, then we don't have much to do.
+            return this.getPrefix() + key;
+        }
         return this.getPrefix() + "/" + key;
     }
 
