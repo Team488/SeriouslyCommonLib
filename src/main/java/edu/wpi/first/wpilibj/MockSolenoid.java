@@ -20,7 +20,7 @@ public class MockSolenoid extends XSolenoid {
 
     @Override
     public void set(boolean on) {
-        this.mockRobotIO.setSolenoid(this.channel, on ^ isInverted);
+        this.mockRobotIO.setSolenoid(this.channel, on);
     }
 
     public boolean get() {
