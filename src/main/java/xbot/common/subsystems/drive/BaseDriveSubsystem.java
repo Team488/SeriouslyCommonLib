@@ -232,6 +232,7 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem implements Period
         getAllMasterTalons().keySet().stream().forEach(t -> {
                 t.enableCurrentLimit(isEnabled);
                 t.configContinuousCurrentLimit(maxCurrentInAmps, 0);
+                t.configPeakCurrentLimit(0, 0);
         });
     }
     
