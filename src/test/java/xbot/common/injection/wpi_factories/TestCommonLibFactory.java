@@ -42,6 +42,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createPWM(3);
         clf.createFieldPosePropertyManager("testo", 1, 2, 3);
         clf.createZeromqListener("testo", "testo");
+        clf.createChordButton(clf.createAdvancedJoystickButton(j, 2), clf.createAdvancedJoystickButton(j, 3));
     }
     
     @Test(expected = RobotAssertionException.class)
