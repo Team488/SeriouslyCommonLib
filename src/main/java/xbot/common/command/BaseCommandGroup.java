@@ -39,5 +39,15 @@ public class BaseCommandGroup extends CommandGroup {
         log.info("Interrupted");
         end();
     }
+
+    @Override
+    public void initialize() {
+        super.initialize();
+    }
+
+    @Override
+    public void execute() {
+        super.execute();
+    }
     
 }
