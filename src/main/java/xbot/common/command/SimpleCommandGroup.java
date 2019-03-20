@@ -1,5 +1,7 @@
 package xbot.common.command;
 
+import edu.wpi.first.wpilibj.command.Command;
+
 public class SimpleCommandGroup extends BaseCommandGroup {
 
     public enum ExecutionType {
@@ -7,7 +9,7 @@ public class SimpleCommandGroup extends BaseCommandGroup {
         Parallel
     }
 
-    public SimpleCommandGroup(String name, Iterable<BaseCommand> commands, ExecutionType executionType) {
+    public SimpleCommandGroup(String name, Iterable<Command> commands, ExecutionType executionType) {
         super(name);
         commands.forEach((command) -> {
             switch(executionType) {
