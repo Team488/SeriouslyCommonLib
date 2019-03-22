@@ -22,7 +22,7 @@ public class FieldPosePropertyManager {
         propMan.setPrefix(poseName);
         xProp = propMan.createPersistentProperty("X", x);
         yProp = propMan.createPersistentProperty("Y", y);
-        headingProp = propMan.createPersistentProperty("/" + "Heading", heading);
+        headingProp = propMan.createPersistentProperty("Heading", heading);
     }
 
     @AssistedInject
