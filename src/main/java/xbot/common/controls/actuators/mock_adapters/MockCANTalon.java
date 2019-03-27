@@ -31,7 +31,7 @@ import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
-import xbot.common.injection.ElectricalContract.DeviceInfo;
+import xbot.common.injection.DeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.math.MathUtils;
 import xbot.common.properties.XPropertyManager;
@@ -64,37 +64,12 @@ public class MockCANTalon extends XCANTalon {
         this.deviceId = deviceId;
         this.mockRobotIO = mockRobotIO;
     }
-    @AssistedInject
-    public MockCANTalon(@Assisted("deviceId") int deviceId, XPropertyManager propMan, DevicePolice police, MockRobotIO mockRobotIO) {
-        super(deviceId, propMan, police);
-        this.mockRobotIO = mockRobotIO;
-    }
 
     @AssistedInject
     public MockCANTalon(@Assisted("deviceInfo") DeviceInfo deviceInfo, XPropertyManager propMan,
             DevicePolice police, MockRobotIO mockRobotIO) {
-        super(deviceInfo, propMan, police);
-        this.mockRobotIO = mockRobotIO;
-    }
-
-    @AssistedInject
-    public MockCANTalon(@Assisted("masterInfo") DeviceInfo masterInfo,
-            @Assisted("encoderInfo") DeviceInfo encoderInfo, @Assisted("prefix") String prefix,
-            @Assisted("masterName") String masterName, XPropertyManager propMan, DevicePolice police, MockRobotIO mockRobotIO) {
-        super(masterInfo, encoderInfo, prefix, masterName, propMan, police);
-        this.mockRobotIO = mockRobotIO;
-    }
-
-    @AssistedInject
-    public MockCANTalon(@Assisted("followerInfo") DeviceInfo followerInfo,
-            @Assisted("masterMotor") XCANTalon masterMotor, XPropertyManager propMan, DevicePolice police, MockRobotIO mockRobotIO) {
-        super(followerInfo, masterMotor, propMan, police);
-        this.mockRobotIO = mockRobotIO;
-    }
-
-    @Override
-    protected void initializeDevice(int channel) {
-        this.deviceId = channel;
+        this(deviceInfo.channel, mockRobotIO, propMan, police);
+        this.setInverted(deviceInfo.inverted);
     }
 
     @Override

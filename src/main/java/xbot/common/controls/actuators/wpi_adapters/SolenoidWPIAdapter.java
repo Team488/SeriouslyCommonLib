@@ -5,7 +5,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import xbot.common.controls.actuators.XSolenoid;
-import xbot.common.injection.ElectricalContract.DeviceInfo;
+import xbot.common.injection.DeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class SolenoidWPIAdapter extends XSolenoid {

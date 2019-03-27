@@ -5,7 +5,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import xbot.common.controls.sensors.XDigitalInput;
-import xbot.common.injection.ElectricalContract.DeviceInfo;
+import xbot.common.injection.DeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class DigitalInputWPIAdapter extends XDigitalInput {

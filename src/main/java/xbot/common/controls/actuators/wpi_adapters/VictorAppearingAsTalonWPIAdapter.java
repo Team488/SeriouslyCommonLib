@@ -44,7 +44,6 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
             XPropertyManager propMan, 
             DevicePolice police) {
         super(deviceId, propMan, police);
-        internalSpeedController = new Victor(deviceId);
         this.deviceId = deviceId;
         this.assertionManager = assertionManager; 
     }

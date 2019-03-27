@@ -1,11 +1,10 @@
 package edu.wpi.first.wpilibj;
 
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import xbot.common.controls.sensors.XDigitalInput;
-import xbot.common.injection.ElectricalContract.DeviceInfo;
+import xbot.common.injection.DeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class MockDigitalInput extends XDigitalInput {

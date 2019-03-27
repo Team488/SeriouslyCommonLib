@@ -18,7 +18,7 @@ import xbot.common.controls.sensors.AdvancedPovButton;
 import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
-import xbot.common.injection.ElectricalContract.DeviceInfo;
+import xbot.common.injection.DeviceInfo;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;

@@ -5,7 +5,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.sensors.XAnalogInput;
-import xbot.common.injection.ElectricalContract.DeviceInfo;
+import xbot.common.injection.DeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class MockAnalogInput extends XAnalogInput {
