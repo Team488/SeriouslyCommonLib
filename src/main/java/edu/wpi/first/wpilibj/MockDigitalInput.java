@@ -4,7 +4,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import xbot.common.controls.sensors.XDigitalInput;
-import xbot.common.injection.DeviceInfo;
+import xbot.common.injection.deviceinfo.SimpleDeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class MockDigitalInput extends XDigitalInput {
@@ -19,7 +19,7 @@ public class MockDigitalInput extends XDigitalInput {
     }
 
     @AssistedInject
-    public MockDigitalInput(@Assisted("deviceInfo") DeviceInfo deviceInfo, DevicePolice police) {
+    public MockDigitalInput(@Assisted("deviceInfo") SimpleDeviceInfo deviceInfo, DevicePolice police) {
         super(police, deviceInfo.channel);
         this.channel = deviceInfo.channel;
         this.setInverted(deviceInfo.inverted);

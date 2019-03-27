@@ -5,7 +5,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import xbot.common.controls.actuators.XSolenoid;
-import xbot.common.injection.DeviceInfo;
+import xbot.common.injection.deviceinfo.SimpleDeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class SolenoidWPIAdapter extends XSolenoid {
@@ -19,7 +19,7 @@ public class SolenoidWPIAdapter extends XSolenoid {
     }
 
     @AssistedInject
-    public SolenoidWPIAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo, DevicePolice police) {
+    public SolenoidWPIAdapter(@Assisted("deviceInfo") SimpleDeviceInfo deviceInfo, DevicePolice police) {
         super(deviceInfo.channel, police);
         this.solenoid = new Solenoid(deviceInfo.channel);
         this.setInverted(deviceInfo.inverted);

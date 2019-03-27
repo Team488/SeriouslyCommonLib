@@ -18,7 +18,6 @@ import xbot.common.controls.sensors.AdvancedPovButton;
 import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
-import xbot.common.injection.DeviceInfo;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
@@ -28,6 +27,8 @@ import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XXboxController;
+import xbot.common.injection.deviceinfo.CANTalonDeviceInfo;
+import xbot.common.injection.deviceinfo.SimpleDeviceInfo;
 import xbot.common.logic.CalibrationDecider;
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.VelocityThrottleModule;
@@ -51,32 +52,30 @@ public interface CommonLibFactory {
                         @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse);
 
         public XDigitalInput createDigitalInput(@Assisted("channel") int channel);
-        public XDigitalInput createDigitalInput(@Assisted("deviceInfo") DeviceInfo deviceInfo);
+        public XDigitalInput createDigitalInput(@Assisted("deviceInfo") SimpleDeviceInfo deviceInfo);
 
         public XAnalogInput createAnalogInput(@Assisted("channel") int channel);
-        public XAnalogInput createAnalogInput(@Assisted("deviceInfo") DeviceInfo deviceInfo);
+        public XAnalogInput createAnalogInput(@Assisted("deviceInfo") SimpleDeviceInfo deviceInfo);
 
         public XXboxController createXboxController(@Assisted("port") int port);
 
         public XSolenoid createSolenoid(@Assisted("channel") int channel);
-        public XSolenoid createSolenoid(@Assisted("deviceInfo") DeviceInfo deviceInfo);
+        public XSolenoid createSolenoid(@Assisted("deviceInfo") SimpleDeviceInfo deviceInfo);
 
         public XDigitalOutput createDigitalOutput(@Assisted("channel") int channel);
-        //public XDigitalOutput createDigitalOutput(@Assisted("deviceInfo") DeviceInfo deviceInfo);
 
         public XServo createServo(@Assisted("channel") int channel);
-        //public XServo createServo(@Assisted("deviceInfo") DeviceInfo deviceInfo);
 
         public XPWM createPWM(@Assisted("channel") int channel);
-        //public XPWM createPWM(@Assisted("deviceInfo") DeviceInfo deviceInfo);
 
         public XRelay createRelay(@Assisted("channel") int channel);
-        //public XRelay createRelay(@Assisted("deviceInfo") DeviceInfo deviceInfo);
 
         public XSpeedController createSpeedController(@Assisted("channel") int channel);
 
         public XCANTalon createCANTalon(@Assisted("deviceId") int deviceId);
-        public XCANTalon createCANTalon(@Assisted("deviceInfo") DeviceInfo deviceInfo);
+        public XCANTalon createCANTalon(@Assisted("deviceInfo") SimpleDeviceInfo deviceInfo);
+        public XCANTalon createCANTalon(@Assisted("deviceInfo") CANTalonDeviceInfo masterInfo);
+        public XCANTalon createCANTalon(@Assisted("deviceInfo") CANTalonDeviceInfo masterInfo);
 
         public XGyro createGyro();
 

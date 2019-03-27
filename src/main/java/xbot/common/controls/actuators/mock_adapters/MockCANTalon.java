@@ -31,7 +31,7 @@ import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
-import xbot.common.injection.DeviceInfo;
+import xbot.common.injection.deviceinfo.SimpleDeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.math.MathUtils;
 import xbot.common.properties.XPropertyManager;
@@ -66,7 +66,7 @@ public class MockCANTalon extends XCANTalon {
     }
 
     @AssistedInject
-    public MockCANTalon(@Assisted("deviceInfo") DeviceInfo deviceInfo, XPropertyManager propMan,
+    public MockCANTalon(@Assisted("deviceInfo") SimpleDeviceInfo deviceInfo, XPropertyManager propMan,
             DevicePolice police, MockRobotIO mockRobotIO) {
         this(deviceInfo.channel, mockRobotIO, propMan, police);
         this.setInverted(deviceInfo.inverted);

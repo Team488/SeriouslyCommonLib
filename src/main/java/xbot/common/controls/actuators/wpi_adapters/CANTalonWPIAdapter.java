@@ -27,7 +27,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import xbot.common.controls.actuators.XCANTalon;
-import xbot.common.injection.DeviceInfo;
+import xbot.common.injection.deviceinfo.SimpleDeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.XPropertyManager;
 
@@ -41,7 +41,7 @@ public class CANTalonWPIAdapter extends XCANTalon {
     }
 
     @AssistedInject
-    public CANTalonWPIAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo, XPropertyManager propMan,
+    public CANTalonWPIAdapter(@Assisted("deviceInfo") SimpleDeviceInfo deviceInfo, XPropertyManager propMan,
             DevicePolice police) {
         this(deviceInfo.channel, propMan, police);
         this.setInverted(deviceInfo.inverted);

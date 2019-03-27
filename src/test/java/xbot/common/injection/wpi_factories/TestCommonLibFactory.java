@@ -7,7 +7,7 @@ import org.junit.Test;
 import edu.wpi.first.wpilibj.I2C;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.BaseWPITest;
-import xbot.common.injection.DeviceInfo;
+import xbot.common.injection.deviceinfo.SimpleDeviceInfo;
 import xbot.common.logging.RobotAssertionException;
 import xbot.common.math.PIDFactory;
 
@@ -47,9 +47,9 @@ public class TestCommonLibFactory extends BaseWPITest {
 
     @Test
     public void makeOneOfEverythingWithDeviceInfo() {
-        clf.createDigitalInput(new DeviceInfo(1, true));
-        clf.createAnalogInput(new DeviceInfo(1, true));
-        clf.createCANTalon(new DeviceInfo(1, true));
+        clf.createDigitalInput(new SimpleDeviceInfo(1, true));
+        clf.createAnalogInput(new SimpleDeviceInfo(1, true));
+        clf.createCANTalon(new SimpleDeviceInfo(1, true));
     }
     
     @Test(expected = RobotAssertionException.class)

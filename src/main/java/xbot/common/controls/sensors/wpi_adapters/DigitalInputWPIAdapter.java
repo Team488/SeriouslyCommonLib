@@ -5,7 +5,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import xbot.common.controls.sensors.XDigitalInput;
-import xbot.common.injection.DeviceInfo;
+import xbot.common.injection.deviceinfo.SimpleDeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class DigitalInputWPIAdapter extends XDigitalInput {
@@ -25,7 +25,7 @@ public class DigitalInputWPIAdapter extends XDigitalInput {
     }
 
     @AssistedInject
-    public DigitalInputWPIAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo, DevicePolice police) {
+    public DigitalInputWPIAdapter(@Assisted("deviceInfo") SimpleDeviceInfo deviceInfo, DevicePolice police) {
         super(police, deviceInfo.channel);
         adapter = new DigitalInput(deviceInfo.channel);
         this.setInverted(deviceInfo.inverted);
