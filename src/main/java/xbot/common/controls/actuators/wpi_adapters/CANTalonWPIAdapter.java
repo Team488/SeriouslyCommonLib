@@ -27,6 +27,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.injection.deviceinfo.MasterCANTalonDeviceInfo;
 import xbot.common.injection.deviceinfo.SimpleDeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.XPropertyManager;
@@ -38,6 +39,7 @@ public class CANTalonWPIAdapter extends XCANTalon {
     @AssistedInject
     public CANTalonWPIAdapter(@Assisted("deviceId") int deviceId, XPropertyManager propMan, DevicePolice police) {
         super(deviceId, propMan, police);
+        internalTalon = new TalonSRX(deviceId);
     }
 
     @AssistedInject
@@ -45,6 +47,21 @@ public class CANTalonWPIAdapter extends XCANTalon {
             DevicePolice police) {
         this(deviceInfo.channel, propMan, police);
         this.setInverted(deviceInfo.inverted);
+    }
+
+    @AssistedInject
+    public CANTalonWPIAdapter(@Assisted("masterInfo") MasterCANTalonDeviceInfo masterInfo, XPropertyManager propMan,
+            DevicePolice police) {
+        this((SimpleDeviceInfo) masterInfo, propMan, police);
+        this.configureAsMasterMotor(masterInfo.owningSystemPrefix, masterInfo.name, masterInfo.inverted,
+                masterInfo.sensorInverted);
+    }
+
+    @AssistedInject
+    public CANTalonWPIAdapter(@Assisted("followerInfo") SimpleDeviceInfo followerInfo,
+            @Assisted("master") XCANTalon master, XPropertyManager propMan, DevicePolice police) {
+        this(followerInfo, propMan, police);
+        this.configureAsFollowerMotor(master, followerInfo.inverted);
     }
 
     public ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs) {

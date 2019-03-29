@@ -5,8 +5,10 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import edu.wpi.first.wpilibj.I2C;
+import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.deviceinfo.MasterCANTalonDeviceInfo;
 import xbot.common.injection.deviceinfo.SimpleDeviceInfo;
 import xbot.common.logging.RobotAssertionException;
 import xbot.common.math.PIDFactory;
@@ -50,6 +52,8 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createDigitalInput(new SimpleDeviceInfo(1, true));
         clf.createAnalogInput(new SimpleDeviceInfo(1, true));
         clf.createCANTalon(new SimpleDeviceInfo(1, true));
+        XCANTalon x = clf.createMasterCANTalon(new MasterCANTalonDeviceInfo(2, true, true, "owningSystemPrefix", "name"));
+        clf.createFollowerCANTalon(new SimpleDeviceInfo(3, true), x);
     }
     
     @Test(expected = RobotAssertionException.class)

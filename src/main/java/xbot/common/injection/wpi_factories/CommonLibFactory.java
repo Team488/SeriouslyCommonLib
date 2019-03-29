@@ -27,7 +27,7 @@ import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XXboxController;
-import xbot.common.injection.deviceinfo.CANTalonDeviceInfo;
+import xbot.common.injection.deviceinfo.MasterCANTalonDeviceInfo;
 import xbot.common.injection.deviceinfo.SimpleDeviceInfo;
 import xbot.common.logic.CalibrationDecider;
 import xbot.common.logic.HumanVsMachineDecider;
@@ -74,8 +74,8 @@ public interface CommonLibFactory {
 
         public XCANTalon createCANTalon(@Assisted("deviceId") int deviceId);
         public XCANTalon createCANTalon(@Assisted("deviceInfo") SimpleDeviceInfo deviceInfo);
-        public XCANTalon createCANTalon(@Assisted("deviceInfo") CANTalonDeviceInfo masterInfo);
-        public XCANTalon createCANTalon(@Assisted("deviceInfo") CANTalonDeviceInfo masterInfo);
+        public XCANTalon createMasterCANTalon(@Assisted("masterInfo") MasterCANTalonDeviceInfo masterInfo);
+        public XCANTalon createFollowerCANTalon(@Assisted("followerInfo") SimpleDeviceInfo followerInfo, @Assisted("master") XCANTalon master);
 
         public XGyro createGyro();
 
