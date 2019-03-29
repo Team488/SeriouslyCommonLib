@@ -10,7 +10,7 @@ import xbot.common.math.PIDManager;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.properties.StringProperty;
 
-public abstract class BaseXCANTalonPositionControlledSubsystem extends BaseSetpointSubsystem implements PeriodicDataSource {
+public abstract class BaseElevatorSubsystem extends BaseSetpointSubsystem implements PeriodicDataSource {
 
     public enum PowerRestrictionReason {
         FullPowerAvailable, LowerLimitSwitch, UpperLimitSwitch, Uncalibrated, AboveMaxPosition, NearMaxPosition,
@@ -25,8 +25,8 @@ public abstract class BaseXCANTalonPositionControlledSubsystem extends BaseSetpo
     private double calibrationOffset;
     private double targetInDomainUnits;
 
-    public BaseXCANTalonPositionControlledSubsystem(PropertyFactory propFactory, String prefix) {
-        log.info("Creating a BaseXCANTalonPositionControlledSubsystem");
+    public BaseElevatorSubsystem(PropertyFactory propFactory, String prefix) {
+        log.info("Creation started.");
         log.info("Creating properties using the implementation class's name...");
         propFactory.setPrefix(prefix);
         elevatorRestrictionReasonProp = propFactory.createEphemeralProperty("PowerRestrictionReason", "No Reason Yet");
@@ -37,7 +37,7 @@ public abstract class BaseXCANTalonPositionControlledSubsystem extends BaseSetpo
             }
         });
 
-        log.info("BaseXCANTalonPositionControlledSubsystem creation complete.");
+        log.info("Creation complete.");
     }
 
     public double getTargetInDomainUnits() {
@@ -46,24 +46,22 @@ public abstract class BaseXCANTalonPositionControlledSubsystem extends BaseSetpo
 
     public abstract XCANTalon getMasterTalon();
 
-    protected abstract void internalSetPower(double power);
-    protected abstract void insanelyDangerousInternalSetPower(double power);
+    protected abstract void setDevicePower(double power);
+    protected abstract void insanelyDangerousSetDevicePower(double power);
 
     public abstract double getMaximumPositionValueInDomainUnits();
-
     public abstract double getMinimumPositionValueInDomainUnits();
-
     public abstract double getTicksPerDomainUnit();
 
     protected abstract boolean isSystemReady();
 
     public abstract boolean lowerLimitHit();
-
     public abstract boolean upperLimitHit();
 
     public abstract double getUncalibratedPower();
 
-    public abstract PIDManager getPidManager();
+    public abstract PIDManager getPositionalPidManager();
+    public abstract PIDManager getVelocityPidManager();
 
     public boolean getIsCalibrated() {
         return isCalibrated;
@@ -113,6 +111,17 @@ public abstract class BaseXCANTalonPositionControlledSubsystem extends BaseSetpo
         + getMinimumPositionValueInDomainUnits();
     }
 
+    public double getCurrentVelocityInTicks() {
+        return getMasterTalon().getSelectedSensorVelocity(0);
+    }
+
+    public double getCurrentVelocityInDomainUnits() {
+        if (Math.abs(getTicksPerDomainUnit()) < 0.001 ) {
+            return getCurrentVelocityInTicks();
+        }
+        return getCurrentVelocityInTicks() / getTicksPerDomainUnit();
+    }
+
     public void setSoftLimitsEnabled(boolean on) {
         getMasterTalon().configReverseSoftLimitEnable(on, 0);
         getMasterTalon().configForwardSoftLimitEnable(on, 0);
@@ -120,7 +129,7 @@ public abstract class BaseXCANTalonPositionControlledSubsystem extends BaseSetpo
 
     public void insanelyDangerousSetPower(double power) {
         setSoftLimitsEnabled(false);
-        insanelyDangerousInternalSetPower(power);
+        insanelyDangerousSetDevicePower(power);
     }
 
     public void setPower(double power) {
@@ -163,7 +172,7 @@ public abstract class BaseXCANTalonPositionControlledSubsystem extends BaseSetpo
                 reason = PowerRestrictionReason.BelowMinPosition;
             }
         }
-        internalSetPower(power);
+        setDevicePower(power);
         setRestrictionReason(reason.toString());
     }
 
