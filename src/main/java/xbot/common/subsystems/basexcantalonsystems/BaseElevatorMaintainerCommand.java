@@ -99,7 +99,9 @@ public abstract class BaseElevatorMaintainerCommand extends BaseCommand {
                         positionOutput * getMaximumVelocityInDomainUnits(),
                         elevator.getCurrentVelocityInDomainUnits());
                 
-                throttle += powerDelta;
+                double powerDeltaTimeAdjusted = 1 / (50 * getTimeToMaxPower());
+
+                throttle += powerDeltaTimeAdjusted;
                 throttle = MathUtils.constrainDouble(throttle, getMinimumOutputPower(), getMaximumOutputPower());
                 power = throttle;
                 break;
