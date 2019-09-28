@@ -96,6 +96,12 @@ checkstyleTest{
     logging.setLevel(LogLevel.WARN)
 }
 
+test {
+    reports {
+        junitXml.enabled = true
+    }               
+}
+
 tasks.withType(Test) {
     testLogging.showStandardStreams = true
     

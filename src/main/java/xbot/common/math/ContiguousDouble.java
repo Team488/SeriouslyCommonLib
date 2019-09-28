@@ -21,13 +21,14 @@ public class ContiguousDouble {
     private double upperBound;
 
     public ContiguousDouble(double value, double lowerBound, double upperBound) {
-        this.value = value;
+        throw new RuntimeException("Testing");
+        // this.value = value;
 
-        this.lowerBound = lowerBound;
-        this.upperBound = upperBound;
+        // this.lowerBound = lowerBound;
+        // this.upperBound = upperBound;
 
-        this.validateBounds();
-        this.reboundValue();
+        // this.validateBounds();
+        // this.reboundValue();
     }
 
     public ContiguousDouble(double lowerBound, double upperBound) {
