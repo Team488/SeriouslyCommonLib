@@ -1,6 +1,15 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
-    "java.test.defaultConfig": "default",
+    "java.test.defaultConfig": "SeriouslyCommonLib",
+    "java.test.config": [
+        {
+            "name": "SeriouslyCommonLib",
+            "workingDirectory": "${workspaceFolder}",
+            "args": [ ],
+            "vmargs": [ ],
+            "env": { },
+        }
+    ],
     "coverage-gutters.coverageReportFileName": "**/jacoco/**/html/index.html",
     "coverage-gutters.xmlname": "**/jacocoTestReport.xml"
 }
