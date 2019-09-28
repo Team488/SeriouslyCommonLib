@@ -88,7 +88,8 @@ public class XYPair {
         double currentMagnitude = this.getMagnitude();
         
         if (currentMagnitude == 0) {
-            return new XYPair(0, magnitudeToAdd);
+            this.y = magnitudeToAdd;
+            return this;
         }
         
         double totalMagnitude = currentMagnitude + magnitudeToAdd;

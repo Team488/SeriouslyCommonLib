@@ -39,6 +39,13 @@ public class XYPairTest extends BaseWPITest {
     }
 
     @Test
+    public void testFromUnitPolar() {
+        XYPair a = XYPair.fromUnitPolar(45);
+        assertEquals(Math.sqrt(2)/2.0, a.x, 0.001);
+        assertEquals(Math.sqrt(2)/2.0, a.y, 0.001);
+    }
+
+    @Test
     public void testScale() {
         XYPair a = new XYPair(1.5, -1.5);
 
@@ -50,6 +57,11 @@ public class XYPairTest extends BaseWPITest {
         a.scale(0.5);
         assertEquals(0.75, a.x, 0.001);
         assertEquals(-0.75, a.y, 0.001);
+
+        a = new XYPair(1.0, 1.0);
+        a.scale(0.5, 2.0);
+        assertEquals(0.5, a.x, 0.001);
+        assertEquals(2.0, a.y, 0.001);
     }
 
     @Test
@@ -83,6 +95,11 @@ public class XYPairTest extends BaseWPITest {
         assertEquals(5.0, vector.getMagnitude(), 0.001);
         vector.addMagnitude(5.0);
         assertEquals(10.0, vector.getMagnitude(), 0.001);
+
+        XYPair zeroVector = new XYPair();
+        zeroVector.addMagnitude(1.0);
+        assertEquals(1.0, zeroVector.getMagnitude(), 0.001);
+        assertEquals(90.0, zeroVector.getAngle(), 0.001);
     }
 
     @Test
@@ -112,5 +129,11 @@ public class XYPairTest extends BaseWPITest {
         b = new XYPair(-1,0);
 
         assertEquals(-1, a.dotProduct(b), 0.001);
+    }
+
+    @Test
+    public void testToString() {
+        XYPair a = new XYPair(1.0, 2.0);
+        assertEquals("(X:1.0, Y:2.0)", a.toString());
     }
 }
