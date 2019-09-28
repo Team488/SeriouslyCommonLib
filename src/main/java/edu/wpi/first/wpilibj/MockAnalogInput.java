@@ -3,35 +3,31 @@ package edu.wpi.first.wpilibj;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class MockAnalogInput extends XAnalogInput {
-    MockRobotIO mockRobotIO;
     int channel;
+    double voltage;
 
     @Inject
     public MockAnalogInput(
-            @Assisted("channel") int channel, 
-            MockRobotIO mockRobotIO,
+            @Assisted("channel") int channel,
             DevicePolice police) {
         super(channel, police);
-        this.mockRobotIO = mockRobotIO;
         this.channel = channel;
     }
 
-    @Deprecated
-    public int getValue() {
-        return this.mockRobotIO.getAnalog(channel);
+    public void setVoltage(double voltage) {
+        this.voltage = voltage;
     }
 
     public double getVoltage() {
-        return this.mockRobotIO.getAnalogVoltage(channel);
+        return voltage;
     }
 
     public double getAverageVoltage() {
-        return this.mockRobotIO.getAnalogVoltage(channel);
+        return voltage;
     }
 
     public void setAverageBits(int bits) {
@@ -40,7 +36,7 @@ public class MockAnalogInput extends XAnalogInput {
 
     @Override
     public int getChannel() {
-        return 0;
+        return channel;
     }
 
     @Override

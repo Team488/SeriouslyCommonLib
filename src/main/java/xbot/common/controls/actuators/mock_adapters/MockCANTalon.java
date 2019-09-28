@@ -26,8 +26,6 @@ import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
@@ -42,7 +40,6 @@ public class MockCANTalon extends XCANTalon {
     public final int deviceId;
     private double setpoint = 0;
     private double throttlePercent = 0;
-    MockRobotIO mockRobotIO;
     public XEncoder internalEncoder = null;
     double current = 0;
     int continuousCurrentLimit = 1000;
@@ -56,14 +53,15 @@ public class MockCANTalon extends XCANTalon {
     double kd;
     double kf;
 
+    private MockCANTalon master;
+
     @Inject
-    public MockCANTalon(@Assisted("deviceId") int deviceId, MockRobotIO mockRobotIO, PropertyFactory propMan,
+    public MockCANTalon(@Assisted("deviceId") int deviceId, PropertyFactory propMan,
             DevicePolice police) {
         super(deviceId, propMan, police);
         log.info("Creating CAN talon with device ID: " + deviceId);
 
         this.deviceId = deviceId;
-        this.mockRobotIO = mockRobotIO;
         // mockRobotIO.setCANTalon(deviceId, this);
     }
 
@@ -92,7 +90,7 @@ public class MockCANTalon extends XCANTalon {
         case Current:
             // Guess voltage by assuming a linear relationship between current and voltage,
             // bypassing PID
-            throttlePercent = setpoint / MockRobotIO.NOMINAL_MOTOR_CURRENT;
+            throttlePercent = setpoint / 40.0;
             break;
         case MotionProfile:
             // This mode isn't supported in by the mock implementation (nor the real one)
@@ -116,13 +114,11 @@ public class MockCANTalon extends XCANTalon {
             }
             break;
         case Follower:
-            throttlePercent = mockRobotIO.getCANTalon((int) setpoint).getThrottlePercent();
+            throttlePercent = master.getMotorOutputPercent();
             break;
         default:
             throttlePercent = 0;
         }
-
-        mockRobotIO.setPWM(-deviceId, this.getMotorOutputVoltage() / this.getBusVoltage());
     }
 
     public double getThrottlePercent() {
@@ -682,7 +678,7 @@ public class MockCANTalon extends XCANTalon {
 
     @Override
     public void follow(IMotorController masterToFollow) {
-
+        masterToFollow = (MockCANTalon)masterToFollow;
     }
 
     @Override

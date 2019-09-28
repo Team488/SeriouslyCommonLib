@@ -4,18 +4,22 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.injection.BaseWPITest;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule.HeadingAssistMode;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
+import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 public class HeadingAssistModuleTest extends BaseWPITest {
 
     HeadingAssistModule ham;
+    BasePoseSubsystem pose;
     
     @Override
     public void setUp() {
         super.setUp();
+        pose = injector.getInstance(BasePoseSubsystem.class);
         
         HeadingModule hold = clf.createHeadingModule(pf.createPIDManager("Hold", 1000, 0, 0));
         HeadingModule decay = clf.createHeadingModule(pf.createPIDManager("Decay", 0, 0, 1000));
@@ -39,7 +43,7 @@ public class HeadingAssistModuleTest extends BaseWPITest {
         step4_robotRotated();
         
         // robot is returned to original position
-        mockRobotIO.setGyroHeading(0);
+        setHeading(0);
         double power = ham.calculateHeadingPower(0);
         assertEquals(0, power, 0.001);
     }
@@ -126,7 +130,7 @@ public class HeadingAssistModuleTest extends BaseWPITest {
     private void step4_robotRotated() {
         
         // the robot undergoes some automatic rotation
-        mockRobotIO.setGyroHeading(mockRobotIO.getGyroHeading()+90);
+        setHeading(pose.getCurrentHeading().getValue()+90);
         double power = ham.calculateHeadingPower(0);
         assertEquals(-1, power, 0.001);
     }
@@ -143,8 +147,12 @@ public class HeadingAssistModuleTest extends BaseWPITest {
         step4_robotRotated();     
         
         // However, unlike the position-based one, this one will try and turn left if the robot is suddenly rotated right.
-        mockRobotIO.setGyroHeading(mockRobotIO.getGyroHeading()-90);
+        setHeading(pose.getCurrentHeading().getValue()-90);
         double power = ham.calculateHeadingPower(0);
         assertEquals(1, power, 0.001);
+    }
+
+    protected void setHeading(double heading) {
+        ((MockGyro)pose.imu).setYaw(heading);
     }
 }
