@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.I2C;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
+import xbot.common.controls.actuators.XDoubleSolenoid;
 import xbot.common.controls.actuators.XPWM;
 import xbot.common.controls.actuators.XRelay;
 import xbot.common.controls.actuators.XServo;
@@ -126,4 +127,6 @@ public interface CommonLibFactory {
 
         public ZeromqListener createZeromqListener(@Assisted("connectionString") String connectionString,
                         @Assisted("topic") String topic);
+
+        public XDoubleSolenoid createDoubleSolenoid(@Assisted("forwardSolenoid") XSolenoid forwardSolenoid, @Assisted("reverseSolenoid") XSolenoid reverseSolenoid);
 }

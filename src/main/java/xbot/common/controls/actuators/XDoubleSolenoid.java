@@ -1,23 +1,18 @@
 package xbot.common.controls.actuators;
 
-import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import xbot.common.controls.XBaseIO;
-import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.injection.wpi_factories.DevicePolice;
-import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
-
-public abstract class XDoubleSolenoid implements XBaseIO {
+public class XDoubleSolenoid {
 
     protected boolean isInverted = false;
     public XSolenoid xSolenoid1;
     public XSolenoid xSolenoid2;
     
     @AssistedInject
-    public XDoubleSolenoid(XSolenoid xSol1, XSolenoid xSol2, DevicePolice police, CommonLibFactory factory) {
-        xSolenoid1 = xSol1;
-        xSolenoid2 = xSol2;
+    public XDoubleSolenoid(@Assisted("forwardSolenoid") XSolenoid forwardSolenoid, @Assisted("xSol2") XSolenoid reverseSolenoid) {
+        xSolenoid1 = forwardSolenoid;
+        xSolenoid2 = reverseSolenoid;
     }
 
     public void setInverted(boolean isInverted) {
