@@ -26,7 +26,7 @@ jobs:
         gradleOptions: '-Xmx3072m'
         publishJUnitResults: true
         testResultsFiles: '**/TEST-*.xml'
-        tasks: 'build jacocoTestReport --stacktrace --info'
+        tasks: 'build --stacktrace --info'
         # checkStyleRunAnalysis: true
         # pmdRunAnalysis: true
     - task: PublishCodeCoverageResults@1
