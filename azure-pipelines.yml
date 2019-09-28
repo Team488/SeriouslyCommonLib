@@ -29,10 +29,3 @@ jobs:
         tasks: 'build --stacktrace --info'
         # checkStyleRunAnalysis: true
         # pmdRunAnalysis: true
-    # Publish Test Results
-    # Publish test results to Azure Pipelines
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFormat: 'JUnit' 
-        testResultsFiles: '**/TEST-*.xml' 
-        searchFolder: 'build/test-results' # Optional
