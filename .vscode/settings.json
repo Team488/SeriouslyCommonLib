@@ -9,5 +9,7 @@
             "vmargs": [ ],
             "env": { },
         }
-    ]
+    ],
+    "coverage-gutters.coverageReportFileName": "**/jacoco/**/html/index.html",
+    "coverage-gutters.xmlname": "**/jacocoTestReport.xml"
 }
