@@ -33,3 +33,4 @@ jobs:
       inputs:
         codeCoverageTool: 'JaCoCo'
         summaryFileLocation: 'build/reports/jacoco/test/jacocoTestReport.xml'
+        reportDirectory: 'build/reports/jacoco/test/html'
