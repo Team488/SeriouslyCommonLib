@@ -32,4 +32,4 @@ jobs:
     - task: PublishCodeCoverageResults@1
       inputs:
         codeCoverageTool: 'JaCoCo'
-        summaryFileLocation: 'build/jacoco/test.exec'
+        summaryFileLocation: 'build/reports/jacoco/test/jacocoTestReport.xml'
