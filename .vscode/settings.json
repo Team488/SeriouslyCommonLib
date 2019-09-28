@@ -1,4 +1,6 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
-    "java.test.defaultConfig": "default"
+    "java.test.defaultConfig": "default",
+    "coverage-gutters.coverageReportFileName": "**/jacoco/**/html/index.html",
+    "coverage-gutters.xmlname": "**/jacocoTestReport.xml"
 }
