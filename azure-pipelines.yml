@@ -29,3 +29,7 @@ jobs:
         tasks: 'build --stacktrace --info'
         # checkStyleRunAnalysis: true
         # pmdRunAnalysis: true
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        codeCoverageTool: 'JaCoCo'
+        summaryFileLocation: 'build/jacoco/test.exec'
