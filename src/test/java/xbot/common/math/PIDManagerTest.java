@@ -113,19 +113,6 @@ public class PIDManagerTest extends BaseWPITest {
         assertFalse(manager.isOnTarget());
     }
     
-    @Test
-    public void testLegacyIsOnTarget() {
-        PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25);
-        
-        assertFalse(manager.isOnTarget(1));
-        
-        manager.calculate(100, 0);
-        assertFalse(manager.isOnTarget(1));
-        
-        manager.calculate(100, 99.5);
-        assertTrue(manager.isOnTarget(1));
-    }
-    
     @Test(expected=RobotAssertionException.class)
     public void testAttemptNegativeThreshold() {
         PIDManager manager = factory.createPIDManager("test", 1, 0, 0, 0, 0.5, -0.25, 1, 1, -1);

@@ -90,10 +90,6 @@ public class CANTalonWPIAdapter extends XCANTalon {
         return internalTalon.configContinuousCurrentLimit(amps, timeoutMs);
     }
 
-    public void set(ControlMode mode, double demand0, double demand1) {
-        internalTalon.set(mode, demand0, demand1);
-    }
-
     public boolean equals(Object obj) {
         return internalTalon.equals(obj);
     }
