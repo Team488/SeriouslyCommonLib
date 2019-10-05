@@ -1,6 +1,7 @@
 package xbot.common.subsystems.drive;
 
 import java.util.Map;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import xbot.common.command.BaseSubsystem;
@@ -8,7 +9,6 @@ import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.logging.LoggingLatch;
 import xbot.common.logic.Latch.EdgeType;
-import xbot.common.math.MathUtils;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
 

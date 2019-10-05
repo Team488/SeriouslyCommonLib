@@ -90,10 +90,6 @@ public class CANTalonWPIAdapter extends XCANTalon {
         return internalTalon.configContinuousCurrentLimit(amps, timeoutMs);
     }
 
-    public void set(ControlMode mode, double demand0, double demand1) {
-        internalTalon.set(mode, demand0, demand1);
-    }
-
     public boolean equals(Object obj) {
         return internalTalon.equals(obj);
     }
@@ -108,14 +104,6 @@ public class CANTalonWPIAdapter extends XCANTalon {
 
     public void setNeutralMode(NeutralMode neutralMode) {
         internalTalon.setNeutralMode(neutralMode);
-    }
-
-    public void enableHeadingHold(boolean enable) {
-        internalTalon.enableHeadingHold(enable);
-    }
-
-    public void selectDemandType(boolean value) {
-        internalTalon.selectDemandType(value);
     }
 
     public void setSensorPhase(boolean PhaseSensor) {
@@ -345,6 +333,7 @@ public class CANTalonWPIAdapter extends XCANTalon {
         return internalTalon.getActiveTrajectoryVelocity();
     }
 
+    @Deprecated
     public double getActiveTrajectoryHeading() {
         return internalTalon.getActiveTrajectoryHeading();
     }
