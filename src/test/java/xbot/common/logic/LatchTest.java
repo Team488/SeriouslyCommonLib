@@ -1,13 +1,14 @@
 package xbot.common.logic;
 
+import static junit.framework.TestCase.assertEquals;
+
+import java.util.function.Consumer;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.Observable;
-import java.util.Observer;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
+import xbot.common.logic.Latch.EdgeType;
 
 public class LatchTest {
 
@@ -151,7 +152,7 @@ public class LatchTest {
         assertEquals(expected, latchTestObserver.getLastUpdateEdgeType());
     }
 
-    class LatchTestObserver implements Observer {
+    class LatchTestObserver implements Consumer<EdgeType> {
 
         private Latch.EdgeType lastUpdateEdgeType = null;
         private int numTimesUpdated = 0;
@@ -165,11 +166,9 @@ public class LatchTest {
         }
 
         @Override
-        public void update(Observable o, Object arg) {
-            assertTrue("Latch is the only class that should be observed", o instanceof Latch);
-            assertTrue("Latch must provide an argument of type EdgeType", arg instanceof Latch.EdgeType);
+        public void accept(EdgeType e) {
             numTimesUpdated++;
-            lastUpdateEdgeType = (Latch.EdgeType) arg;
+            lastUpdateEdgeType = e;
         }
     }
 }
