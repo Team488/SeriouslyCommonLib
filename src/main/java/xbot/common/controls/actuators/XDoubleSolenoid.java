@@ -6,13 +6,13 @@ import com.google.inject.assistedinject.AssistedInject;
 public class XDoubleSolenoid {
 
     protected boolean isInverted = false;
-    public XSolenoid xSolenoid1;
-    public XSolenoid xSolenoid2;
+    public XSolenoid forwardSolenoid;
+    public XSolenoid reverseSolenoid;
     
     @AssistedInject
-    public XDoubleSolenoid(@Assisted("forwardSolenoid") XSolenoid forwardSolenoid, @Assisted("xSol2") XSolenoid reverseSolenoid) {
-        xSolenoid1 = forwardSolenoid;
-        xSolenoid2 = reverseSolenoid;
+    public XDoubleSolenoid(@Assisted("forwardSolenoid") XSolenoid forwardSolenoid, @Assisted("reverseSolenoid") XSolenoid reverseSolenoid) {
+        this.forwardSolenoid = forwardSolenoid;
+        this.reverseSolenoid = reverseSolenoid;
     }
 
     public void setInverted(boolean isInverted) {
@@ -49,17 +49,17 @@ public class XDoubleSolenoid {
     }
     
     public void setOff() {
-        xSolenoid1.setOn(false);
-        xSolenoid2.setOn(false);
+        forwardSolenoid.setOn(false);
+        reverseSolenoid.setOn(false);
     }
 
     public void setForward() {
-        xSolenoid1.setOn(true);
-        xSolenoid2.setOn(false);
+        forwardSolenoid.setOn(true);
+        reverseSolenoid.setOn(false);
     }
 
     public void setReverse() {
-        xSolenoid1.setOn(false);
-        xSolenoid2.setOn(true);
+        forwardSolenoid.setOn(false);
+        reverseSolenoid.setOn(true);
     }
 }
