@@ -1,14 +1,11 @@
 package xbot.common.logging;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
-
-import static junit.framework.TestCase.assertEquals;
 
 public class WordGeneratorTest extends BaseWPITest {
 

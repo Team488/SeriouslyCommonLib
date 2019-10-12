@@ -1,10 +1,11 @@
 package xbot.common.properties;
 
-import xbot.common.properties.Property.PropertyPersistenceType;
 import java.util.ArrayList;
-import org.apache.log4j.Logger;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import org.apache.log4j.Logger;
 
 /**
  * The PropertyManager keeps track of all properties in CoreCode. All properties are implicitly added into its storage.

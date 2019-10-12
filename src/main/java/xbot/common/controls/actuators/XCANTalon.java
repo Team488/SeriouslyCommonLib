@@ -53,8 +53,6 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     private DoubleProperty positionProperty = null;
     private DoubleProperty velocityProperty = null;
     
-    private String _description;
-    
     public XCANTalon(int deviceId, PropertyFactory propMan, DevicePolice police) {
         this.deviceId = deviceId;
         this.propMan = propMan;
@@ -62,7 +60,6 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
         LiveWindow.add(this);
         setName("Talon SRX ", deviceId);
         
-        _description = "Talon SRX " + deviceId;
         police.registerDevice(DeviceType.CAN, deviceId);
     }
     
@@ -112,7 +109,9 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
  // ------ Set output routines. ----------//
     public abstract void set(ControlMode Mode, double demand);
 
-    public abstract void set(ControlMode Mode, double demand0, double demand1);
+    public void set(ControlMode mode, double demand1, double demand2) {
+        // Deliberately do nothing.
+    }
 
     public abstract void neutralOutput();
 
@@ -309,7 +308,6 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     
     @Override
 	public void initSendable(SendableBuilder builder) {
-		// TODO Auto-generated method stub
 		builder.setSmartDashboardType("CANTalon");
 		builder.setSmartDashboardType("Speed Controller");
 		builder.setSafeState(this::stopMotor);
