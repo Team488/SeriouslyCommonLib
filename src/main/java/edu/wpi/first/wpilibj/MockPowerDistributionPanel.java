@@ -23,4 +23,9 @@ public class MockPowerDistributionPanel extends XPowerDistributionPanel {
     public double getCurrent(int channel) {
         return outputCurrents.getOrDefault(channel, 0d);
     }
+
+    public double getTotalCurrent()
+    {
+        return 1;
+    }
 }
