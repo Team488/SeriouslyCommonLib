@@ -128,5 +128,6 @@ public interface CommonLibFactory {
         public ZeromqListener createZeromqListener(@Assisted("connectionString") String connectionString,
                         @Assisted("topic") String topic);
 
-        public XDoubleSolenoid createDoubleSolenoid(@Assisted("forwardSolenoid") XSolenoid forwardSolenoid, @Assisted("reverseSolenoid") XSolenoid reverseSolenoid);
+        public XDoubleSolenoid createDoubleSolenoid(@Assisted("forwardSolenoid") XSolenoid forwardSolenoid, 
+                        @Assisted("reverseSolenoid") XSolenoid reverseSolenoid);
 }

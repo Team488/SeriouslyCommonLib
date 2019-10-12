@@ -36,13 +36,14 @@ public class XDoubleSolenoid {
         }
 
         switch (mode) {
+
             case FORWARD: 
                 setForward();
                 break;
             case REVERSE:
                 setReverse();
                 break;
-            case OFF:
+            default:
                 setOff();
                 break;
         }
