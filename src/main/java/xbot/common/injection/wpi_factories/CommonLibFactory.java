@@ -34,6 +34,7 @@ import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.VelocityThrottleModule;
 import xbot.common.math.FieldPose;
 import xbot.common.math.FieldPosePropertyManager;
+import xbot.common.math.PIDFactory;
 import xbot.common.math.PIDManager;
 import xbot.common.networking.ZeromqListener;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
