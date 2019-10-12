@@ -39,7 +39,7 @@ import xbot.common.networking.ZeromqListener;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
-public interface CommonLibFactory {
+public interface CommonLibFactory extends PIDFactory {
 
         public XPowerDistributionPanel createPowerDistributionPanel();
 
