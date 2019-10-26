@@ -45,9 +45,9 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createFieldPosePropertyManager("testo", 1, 2, 3);
         clf.createZeromqListener("testo", "testo");
         clf.createChordButton(clf.createAdvancedJoystickButton(j, 2), clf.createAdvancedJoystickButton(j, 3));
-        
+        clf.createDoubleSolenoid(clf.createSolenoid(2), clf.createSolenoid(3));
         // test that inherited methods are present
-        clf.createPIDManager("Rotate");        
+        clf.createPIDManager("Rotate");
     }
     
     @Test(expected = RobotAssertionException.class)
