@@ -26,4 +26,9 @@ public class MockSolenoid extends XSolenoid {
     public boolean get() {
         return this.mockRobotIO.getSolenoid(channel);
     }
+
+    @Override
+    public int getMaxSupportedChannel() {
+        return 7;
+    }
 }
