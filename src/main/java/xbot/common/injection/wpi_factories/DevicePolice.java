@@ -63,7 +63,8 @@ public class DevicePolice {
      */
     public void registerDevice(DeviceType type, int id, int minId, int maxId) {
         if (id > maxId || id < minId) {
-            assertionManager.fail("A device has been added with an invalid id that uses " + type.toString() + " port/id " + id + ". Allowed range: [" + minId + ", " + maxId + "]");
+            assertionManager.fail("A device has been added with an invalid id that uses " + type.toString() + " port/id " + id + ". "
+                + "Allowed range: [" + minId + ", " + maxId + "]");
         }
 
         registerDevice(type, id);
