@@ -16,11 +16,11 @@ public abstract class XFTCGamepad extends XJoystick {
         super(port, clf, assertionManager, numButtons, police);
     }
 
-    public XYPair getRightVector() {
+    public XYPair getRightVector() { // Right joystick
         return new XYPair(getRightStickX(), getRightStickY());
     }
 
-    public XYPair getLeftVector() {
+    public XYPair getLeftVector() { // the Left part means left joystick
         return this.getVector();
     }
     
