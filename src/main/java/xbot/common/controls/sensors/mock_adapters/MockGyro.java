@@ -11,7 +11,7 @@ public class MockGyro extends XGyro {
     private double yaw;
     private double pitch;
     private double roll;
-    private double angularVelocity;
+    private double yawAngularVelocity;
 
     @AssistedInject
     public MockGyro() {
@@ -60,12 +60,12 @@ public class MockGyro extends XGyro {
         return pitch;
     }
 
-    public void setYawAngularVelocity(double angularVelocity) {
-        this.angularVelocity = angularVelocity;
+    public void setYawAngularVelocity(double yawAngularVelocity) {
+        this.yawAngularVelocity = yawAngularVelocity;
     }
     
     public double getDeviceYawAngularVelocity(){
-        return angularVelocity;
+        return yawAngularVelocity;
     }
 
 }
