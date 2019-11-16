@@ -1,7 +1,6 @@
 package xbot.common.subsystems;
 
 import xbot.common.controls.actuators.XCANTalon;
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.PIDPropertyManager;
 import xbot.common.properties.PropertyFactory;

@@ -8,8 +8,9 @@
  */
 
 // Apply the java plugin to add support for Java
-apply plugin: 'java'
+apply plugin: 'scala'
 apply plugin: 'checkstyle'
+apply plugin: 'jacoco'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -59,6 +60,9 @@ dependencies {
     compile 'edu.wpi.first.hal:hal-jni:2019.2.1:all'
     
     compile 'com.kauailabs.navx.frc:navx-java:3.1.344'
+
+    implementation 'org.scala-lang:scala-library:2.11.12'
+    testImplementation 'org.scalatest:scalatest_2.11:3.0.0'
 }
 
 sourceSets {
@@ -96,6 +100,12 @@ checkstyleTest{
     logging.setLevel(LogLevel.WARN)
 }
 
+test {
+    reports {
+        junitXml.enabled = true
+    }               
+}
+
 tasks.withType(Test) {
     testLogging.showStandardStreams = true
     
@@ -109,3 +119,12 @@ tasks.withType(Test) {
       }
     }
 }
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+
+// always generate the coverage report after the tests run
+test.finalizedBy { jacocoTestReport }

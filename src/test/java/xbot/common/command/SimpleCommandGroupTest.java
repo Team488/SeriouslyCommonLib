@@ -23,7 +23,7 @@ public class SimpleCommandGroupTest extends BaseWPITest {
         group.initialize();
 
         group.execute();
-
+        group.close();
     }
 
     @Test
@@ -40,6 +40,7 @@ public class SimpleCommandGroupTest extends BaseWPITest {
         group.initialize();
 
         group.execute();
+        group.close();
 
     }
 

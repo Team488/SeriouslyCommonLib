@@ -57,7 +57,6 @@ public class ZeromqListener implements OffboardCommunicationClient {
         private static Logger log = Logger.getLogger(ZeromqClient.class);
         private volatile boolean isRunning = false;
         private volatile Consumer<String> packetHandler;
-        private volatile boolean lastHandlerState = true;
         private String connectionString;
         private String topic;
         private ZMQ.Context context;

@@ -23,4 +23,9 @@ public class MockSolenoid extends XSolenoid {
     public boolean get() {
         return on;
     }
+
+    @Override
+    public int getMaxSupportedChannel() {
+        return 7;
+    }
 }

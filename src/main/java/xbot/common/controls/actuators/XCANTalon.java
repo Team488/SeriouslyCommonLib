@@ -33,7 +33,7 @@ import xbot.common.properties.PropertyFactory;
 public abstract class XCANTalon extends SendableBase implements IMotorControllerEnhanced {
     /*
      * Functions currently omitted:
-     * 
+     *
      * - enableControl/disableControl
      * - delete
      * - motion control frame mode
@@ -43,31 +43,28 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
      * - setPID w/ special args
      * - setParameter/getParameter
      */
-    
+
     protected int deviceId;
     protected PropertyFactory propMan;
-    
+
     private DoubleProperty currentProperty = null;
     private DoubleProperty outVoltageProperty = null;
     private DoubleProperty temperatureProperty = null;
     private DoubleProperty positionProperty = null;
     private DoubleProperty velocityProperty = null;
-    
-    private String _description;
-    
+
     public XCANTalon(int deviceId, PropertyFactory propMan, DevicePolice police) {
         this.deviceId = deviceId;
         this.propMan = propMan;
-        
+
         LiveWindow.add(this);
         setName("Talon SRX ", deviceId);
-        
-        _description = "Talon SRX " + deviceId;
+
         police.registerDevice(DeviceType.CAN, deviceId);
     }
-    
-    
-    
+
+
+
     public void createTelemetryProperties(String callingSystemPrefix, String deviceName) {
         // Creates nice prefixes for the SmartDashboard.
         propMan.setPrefix(callingSystemPrefix + "/" + deviceName);
@@ -77,7 +74,7 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
         positionProperty = propMan.createEphemeralProperty("position", 0);
         velocityProperty = propMan.createEphemeralProperty("velocity", 0);
     }
-    
+
     public void updateTelemetryProperties() {
         if(currentProperty == null
                 || outVoltageProperty == null
@@ -86,11 +83,11 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
                 || velocityProperty == null) {
             return;
         }
-        
+
         currentProperty.set(this.getOutputCurrent());
         outVoltageProperty.set(this.getMotorOutputVoltage());
         temperatureProperty.set(this.getTemperature());
-        
+
         positionProperty.set(this.getSelectedSensorPosition(0));
         velocityProperty.set(this.getSelectedSensorVelocity(0));
     }
@@ -112,7 +109,9 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
  // ------ Set output routines. ----------//
     public abstract void set(ControlMode Mode, double demand);
 
-    public abstract void set(ControlMode Mode, double demand0, double demand1);
+    public void set(ControlMode mode, double demand1, double demand2) {
+        // Deliberately do nothing.
+    }
 
     public abstract void neutralOutput();
 
@@ -165,7 +164,7 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
             int timeoutMs);
 
     public abstract ErrorCode configSensorTerm(SensorTerm sensorTerm, FeedbackDevice feedbackDevice, int timeoutMs);
-    
+
     public abstract ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs );
 
     // ------- sensor status --------- //
@@ -174,15 +173,15 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     public abstract int getSelectedSensorVelocity(int pidIdx);
 
     public abstract ErrorCode setSelectedSensorPosition(int sensorPos, int pidIdx, int timeoutMs);
-    
+
     // ------ status frame period changes ----------//
     public abstract ErrorCode setControlFramePeriod(ControlFrame frame, int periodMs);
 
     public abstract ErrorCode setStatusFramePeriod(StatusFrame frame, int periodMs, int timeoutMs);
     public abstract ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs );
-    
+
     public abstract int getStatusFramePeriod(StatusFrame frame, int timeoutMs);
-    public abstract int getStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs );    
+    public abstract int getStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs );
 
     //----- velocity signal conditionaing ------//
     public abstract ErrorCode configVelocityMeasurementPeriod(VelocityMeasPeriod period, int timeoutMs );
@@ -200,7 +199,7 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     // ------ local limit switch ----------//
     public abstract ErrorCode configForwardLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int timeoutMs );
     public abstract ErrorCode configReverseLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int timeoutMs );
-    
+
     public abstract boolean isFwdLimitSwitchClosed();
     public abstract boolean isRevLimitSwitchClosed();
 
@@ -208,7 +207,7 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     public abstract ErrorCode configForwardSoftLimitThreshold(int forwardSensorLimit, int timeoutMs);
 
     public abstract ErrorCode configReverseSoftLimitThreshold(int reverseSensorLimit, int timeoutMs);
-    
+
     public abstract ErrorCode configForwardSoftLimitEnable(boolean enable, int timeoutMs);
 
     public abstract ErrorCode configReverseSoftLimitEnable(boolean enable, int timeoutMs);
@@ -304,26 +303,25 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     // ----- Follower ------//
     public abstract void follow(IMotorController masterToFollow);
     public abstract void valueUpdated();
-    
+
     // WPI Compatibility for LiveWindow.
-    
+
     @Override
 	public void initSendable(SendableBuilder builder) {
-		// TODO Auto-generated method stub
 		builder.setSmartDashboardType("CANTalon");
 		builder.setSmartDashboardType("Speed Controller");
 		builder.setSafeState(this::stopMotor);
 		builder.addDoubleProperty("Value", this::getMotorOutputPercent, this::simpleSet);
 	}
-    
+
     public void simpleSet(double percentInput) {
     	set(ControlMode.PercentOutput, percentInput);
     }
-	
+
 	public void stopMotor() {
 		neutralOutput();
 	}
-        
+
     /***
      * Convenience function to rapidly configure two CANTalons to work in tandem; often used for drive motors.
      * @param prefix Prefix for network tables; typically, fill this with getPrefix() if calling this from a Subsystem or Command.
@@ -338,6 +336,21 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
             boolean followerInverted, boolean sensorPhase) {
         master.configureAsMasterMotor(prefix, masterName, masterInverted, sensorPhase);
         follower.configureAsFollowerMotor(master, followerInverted);
+    }
+
+    public static void configureMotorTeam(String prefix, String masterName, XCANTalon master, XCANTalon follower1, XCANTalon follower2, boolean masterInverted,
+            boolean follower1Inverted, boolean follower2Inverted, boolean sensorPhase) {
+        master.configureAsMasterMotor(prefix, masterName, masterInverted, sensorPhase);
+        follower1.configureAsFollowerMotor(master, follower1Inverted);
+        follower2.configureAsFollowerMotor(master, follower2Inverted);
+    }
+
+    public static void configureMotorTeam(String prefix, String masterName, XCANTalon master, XCANTalon follower1, XCANTalon follower2, XCANTalon follower3, boolean masterInverted,
+            boolean follower1Inverted, boolean follower2Inverted, boolean follower3Inverted, boolean sensorPhase) {
+        master.configureAsMasterMotor(prefix, masterName, masterInverted, sensorPhase);
+        follower1.configureAsFollowerMotor(master, follower1Inverted);
+        follower2.configureAsFollowerMotor(master, follower2Inverted);
+        follower3.configureAsFollowerMotor(master, follower3Inverted);
     }
 
     /**
