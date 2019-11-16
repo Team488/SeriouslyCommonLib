@@ -109,7 +109,7 @@ public class MockCANTalon extends XCANTalon {
                 throttlePercent = 0;
             } else {
                 // Highly efficient P(IDF) implementation
-                throttlePercent = this.getClosedLoopError(0) * this.kp;
+                throttlePercent = (this.setpoint - getPosition()) * this.kp;
             }
             break;
         case Follower:
@@ -445,7 +445,7 @@ public class MockCANTalon extends XCANTalon {
 
     @Override
     public ErrorCode config_kP(int slotIdx, double value, int timeoutMs) {
-
+        this.kp = value;
         return null;
     }
 
@@ -699,6 +699,14 @@ public class MockCANTalon extends XCANTalon {
             log.warn("Position set before setting feedback device!");
         } else {
             ((MockEncoder) internalEncoder).setDistance(pos);
+        }
+    }
+
+    public void setRate(double rate) {
+        if (internalEncoder == null) {
+            log.warn("Rate set before setting feedback device!");
+        } else {
+            ((MockEncoder) internalEncoder).setRate(rate);
         }
     }
 
