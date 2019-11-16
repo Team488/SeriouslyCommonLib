@@ -62,7 +62,6 @@ public class MockCANTalon extends XCANTalon {
         log.info("Creating CAN talon with device ID: " + deviceId);
 
         this.deviceId = deviceId;
-        // mockRobotIO.setCANTalon(deviceId, this);
     }
 
     @Override
