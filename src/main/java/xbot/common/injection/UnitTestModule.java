@@ -68,6 +68,7 @@ public class UnitTestModule extends AbstractModule {
         this.bind(SmartDashboardCommandPutter.class).to(MockSmartDashboardCommandPutter.class);
         this.bind(RobotAssertionManager.class).to(LoudRobotAssertionManager.class);
         this.bind(OffboardCommunicationClient.class).to(MockCommunicationClient.class);
+        this.bind(XPowerDistributionPanel.class).to(MockPowerDistributionPanel.class);
 
         this.install(new FactoryModuleBuilder().build(PIDFactory.class));
 

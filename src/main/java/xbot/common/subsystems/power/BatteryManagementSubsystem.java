@@ -1,41 +1,53 @@
+package xbot.common.subsystems.power;
+
 import com.google.inject.Inject;
 
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
-import xbot.common.controls.sensors.XAnalogInput;
-import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XTimer;
+import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.drive.BaseDriveSubsystem;
 
-public class BatteryManagement extends BaseSubsystem implements PeriodicDataSource {
+public class BatteryManagementSubsystem extends BaseSubsystem implements PeriodicDataSource {
 
-    double lastPowerRecorded;
-    double periodicData;
-    double totalPowerUsed;
-    XPowerDistributionPanel panel;
-    XAnalogInput analogInput;
-    BaseDriveSubsystem baseDrive;
+    private double lastPowerRecorded;
+    private double totalPowerUsed;
+    private double lastTime;
+    private XPowerDistributionPanel panel;
+    private BaseDriveSubsystem baseDrive;
+    private final DoubleProperty wattsUsedProp;
+    private final DoubleProperty estimatedCapacityProp;
 
     @Inject
-    public BatteryManagement(XPowerDistributionPanel panel, XAnalogInput analogInput, BaseDriveSubsystem baseDrive)
+    public BatteryManagementSubsystem(XPowerDistributionPanel panel, BaseDriveSubsystem baseDrive, PropertyFactory pf)
     {
+        pf.setPrefix(this);
         this.panel = panel;
-        this.analogInput = analogInput;
         lastPowerRecorded = 0;
         totalPowerUsed = 0;
         this.baseDrive = baseDrive;
+
+        wattsUsedProp = pf.createEphemeralProperty("WattsUsed", 0);
+        estimatedCapacityProp = pf.createPersistentProperty("EstimatedCapacity", defaultValue);
     }
 
     //update the total power and current power
     public void updatePeriodicData()
     {
+        double currentTime = XTimer.getFPGATimestamp();
+        double deltaTime = lastTime = currentTime;
         //equation for power is Current * voltage
         //getTotalCurrent gets the current from all the input panels
-        double power = panel.getTotalCurrent() * analogInput.getVoltage();
-        periodicData = power;
-        totalPowerUsed += power;
-        //periodicData = Abs(lastPowerRecorded - power);
+        double power = panel.getTotalCurrent() * panel.getVoltage();
+        totalPowerUsed += power * deltaTime;
+        lastTime = currentTime;
+        wattsUsedProp.set(totalPowerUsed);
+    }
+
+    public double getTotalPowerUsed() {
+        return wattsUsedProp.get();
     }
 
 /*

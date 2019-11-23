@@ -2,11 +2,16 @@ package edu.wpi.first.wpilibj;
 
 import java.util.HashMap;
 
+import com.google.inject.Singleton;
+
 import org.apache.log4j.Logger;
+
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 
+@Singleton
 public class MockPowerDistributionPanel extends XPowerDistributionPanel {
     private HashMap<Integer, Double> outputCurrents;
+    private double inputVoltage;
 
     private static Logger log = Logger.getLogger(MockPowerDistributionPanel.class);
 
@@ -26,6 +31,15 @@ public class MockPowerDistributionPanel extends XPowerDistributionPanel {
 
     public double getTotalCurrent()
     {
-        return 1;
+        return outputCurrents.values().stream().mapToDouble(d->d).sum();
+    }
+
+    public void setVoltage(double value) {
+        inputVoltage = value;
+    }
+
+    @Override
+    public double getVoltage() {
+        return inputVoltage;
     }
 }

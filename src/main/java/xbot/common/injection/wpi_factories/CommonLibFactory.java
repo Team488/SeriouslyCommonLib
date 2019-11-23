@@ -43,8 +43,6 @@ import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
 public interface CommonLibFactory extends PIDFactory {
 
-        public XPowerDistributionPanel createPowerDistributionPanel();
-
         public XJoystick createJoystick(@Assisted("port") int port, @Assisted("numButtons") int numButtons);
 
         public XFTCGamepad createGamepad(@Assisted("port") int port, @Assisted("numButtons") int numButtons);

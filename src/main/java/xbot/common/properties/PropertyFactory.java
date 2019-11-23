@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import org.apache.log4j.Logger;
 
 import xbot.common.command.BaseCommand;
+import xbot.common.command.BaseSubsystem;
 import xbot.common.properties.Property.PropertyPersistenceType;
 
 public class PropertyFactory {
@@ -25,6 +26,10 @@ public class PropertyFactory {
 
     public void setPrefix(BaseCommand baseCommand) {
         this.prefix = baseCommand.getPrefix();
+    }
+
+    public void setPrefix(BaseSubsystem baseSubsystem) {
+        this.prefix = baseSubsystem.getPrefix();
     }
 
     public String getPrefix() {
