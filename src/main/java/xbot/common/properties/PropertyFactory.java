@@ -2,17 +2,21 @@ package xbot.common.properties;
 
 import com.google.inject.Inject;
 
+import org.apache.log4j.Logger;
+
 import xbot.common.command.BaseCommand;
 import xbot.common.properties.Property.PropertyPersistenceType;
 
 public class PropertyFactory {
 
+    protected Logger log;
     private final XPropertyManager propertyManager;
     private String prefix = "";
 
     @Inject
     PropertyFactory(XPropertyManager propertyManager) {
         this.propertyManager = propertyManager;
+        log = Logger.getLogger(PropertyFactory.class);
     }
 
     public void setPrefix(String prefix) {
@@ -28,15 +32,23 @@ public class PropertyFactory {
     }
 
     public String createFullKey(String key) {
+        String fullKey = null;
         if(this.prefix == null || this.prefix.isEmpty()) {
-            return key;
+            fullKey = key;
         }
-        if (prefix.charAt(prefix.length() -1) == '/')
+        else if (prefix.charAt(prefix.length() -1) == '/')
         {
             // If somebody already put a slash as a trailing character, then we don't have much to do.
-            return this.getPrefix() + key;
+            fullKey = this.getPrefix() + key;
+        } else {
+            fullKey = this.getPrefix() + "/" + key;
         }
-        return this.getPrefix() + "/" + key;
+        // We've seen issues with badly assembled keys where slashes are getting doubled up
+        String cleanedKey = fullKey.replaceAll("/+", "/");
+        if (fullKey != cleanedKey) {
+            log.warn("Property key '" + fullKey + "' had double slashes that were stripped out. Please fix the key logic to not create double slashes.");
+        }
+        return cleanedKey;
     }
 
 

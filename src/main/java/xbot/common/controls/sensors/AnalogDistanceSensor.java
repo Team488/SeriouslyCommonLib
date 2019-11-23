@@ -15,7 +15,7 @@ public class AnalogDistanceSensor implements DistanceSensor {
     
     private static final int NUM_AVERAGE_BITS = 2;
 
-    XAnalogInput input;
+    public XAnalogInput input;
     DoubleFunction<Double> voltageMap;
     
     private DoubleProperty voltageOffset;

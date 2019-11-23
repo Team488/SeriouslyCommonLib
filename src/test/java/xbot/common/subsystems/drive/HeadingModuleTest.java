@@ -1,11 +1,12 @@
 package xbot.common.subsystems.drive;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.injection.BaseWPITest;
 import xbot.common.math.PIDManager;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
@@ -15,7 +16,7 @@ public class HeadingModuleTest extends BaseWPITest {
 
     HeadingModule headingModule;
     BasePoseSubsystem pose;
-    
+
     @Override
     public void setUp() {
         super.setUp();
@@ -30,33 +31,37 @@ public class HeadingModuleTest extends BaseWPITest {
     
     @Test
     public void testTurnLeft() {
-        mockRobotIO.setGyroHeading(0);
+        setHeading(0);
         double power = headingModule.calculateHeadingPower(90);
         assertEquals(1, power, 0.001);
         
-        mockRobotIO.setGyroHeading(179);
+        setHeading(179);
         power = headingModule.calculateHeadingPower(-179);
         assertEquals(1, power, 0.001);
     }
     
     @Test
     public void testTurnRight() {
-        mockRobotIO.setGyroHeading(0);
+        setHeading(0);
         double power = headingModule.calculateHeadingPower(-90);
         assertEquals(-1, power, 0.001);
         
-        mockRobotIO.setGyroHeading(-179);
+        setHeading(-179);
         power = headingModule.calculateHeadingPower(179);
         assertEquals(-1, power, 0.001);
     }
     
     @Test
     public void onTarget() {
-        mockRobotIO.setGyroHeading(0);
+        setHeading(0);
         headingModule.reset();
         assertFalse(headingModule.isOnTarget());
         
         headingModule.calculateHeadingPower(1);
         assertTrue(headingModule.isOnTarget());
+    }
+
+    protected void setHeading(double heading) {
+        ((MockGyro)pose.imu).setYaw(heading);
     }
 }

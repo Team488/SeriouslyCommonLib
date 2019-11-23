@@ -9,6 +9,8 @@ import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class SolenoidWPIAdapter extends XSolenoid {
 
+    private static final int SOLENOID_CHANNEL_COUNT = 8;
+
     Solenoid solenoid;
 
     @Inject
@@ -25,5 +27,10 @@ public class SolenoidWPIAdapter extends XSolenoid {
     @Override
     public boolean get() {
         return this.solenoid.get();
+    }
+
+    @Override
+    public int getMaxSupportedChannel() {
+        return SOLENOID_CHANNEL_COUNT - 1;
     }
 }

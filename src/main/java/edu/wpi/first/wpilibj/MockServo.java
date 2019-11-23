@@ -3,26 +3,24 @@ package edu.wpi.first.wpilibj;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class MockServo extends XServo {
-    
-    MockRobotIO mockRobotIO;
+
+    protected double value;
 
     @Inject
-    public MockServo(@Assisted("channel") int channel, MockRobotIO mockRobotIO, DevicePolice police) {
+    public MockServo(@Assisted("channel") int channel, DevicePolice police) {
         super(channel, police);
-        this.mockRobotIO = mockRobotIO;
     }
 
     @Override
     public void set(double value) {
-        mockRobotIO.setPWM(this.channel, value);
+        this.value = value;
     }
     
     public double getValue(){
-        return mockRobotIO.getPWM(channel);
+        return value;
     }
 }

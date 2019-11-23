@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 
 import edu.wpi.first.wpilibj.MockTimer;
-import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.PIDFactory;
@@ -18,8 +17,6 @@ import xbot.common.properties.PropertyFactory;
 @Ignore
 public class BaseWPITest {
     public Injector injector;
-
-    public MockRobotIO mockRobotIO;
 
     public PropertyFactory propertyFactory;
 
@@ -33,7 +30,6 @@ public class BaseWPITest {
     @Before
     public void setUp() {
         injector = Guice.createInjector(guiceModule);
-        mockRobotIO = injector.getInstance(MockRobotIO.class);
         timer = injector.getInstance(MockTimer.class);
         XTimer.setImplementation(timer);
 

@@ -1,17 +1,12 @@
 package edu.wpi.first.wpilibj;
 
-import xbot.common.controls.MockRobotIO;
 import xbot.common.controls.sensors.DistanceSensor;
 
 public class MockDistanceSensor implements DistanceSensor {
 
     double distance;
 
-    public MockDistanceSensor(MockRobotIO mockRobotIO) {
-    }
-
     public MockDistanceSensor() {
-
     }
 
     public double getDistance() {
@@ -28,7 +23,7 @@ public class MockDistanceSensor implements DistanceSensor {
 
     @Override
     public void setAveraging(boolean shouldAverage) {
-
+        // Nothing to do in mock implementation
     }
 
 }

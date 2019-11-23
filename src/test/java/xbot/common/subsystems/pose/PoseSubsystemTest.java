@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import xbot.common.controls.sensors.mock_adapters.MockGyro;
+
 public class PoseSubsystemTest extends BasePoseTest {
         
     MockBasePoseSubsystem pose;
@@ -60,16 +62,20 @@ public class PoseSubsystemTest extends BasePoseTest {
     
     @Test
     public void testTilt() {
-        mockRobotIO.setGyroPitch(100);
+        setMockGyroPitch(100);
         assertEquals(100, pose.getRobotPitch(), 0.001);
     }
     
     protected void setMockGyroHeading(double heading) {
-        mockRobotIO.setGyroHeading(heading);
+        ((MockGyro)pose.imu).setYaw(heading);
+    }
+
+    protected void setMockGyroPitch(double pitch) {
+        ((MockGyro)pose.imu).setPitch(pitch);
     }
     
     protected void changeMockGyroHeading(double delta) {
-        double oldHeading = mockRobotIO.getGyroHeading();
+        double oldHeading = ((MockGyro)pose.imu).getDeviceYaw();
         double newHeading = oldHeading + delta;
         setMockGyroHeading(newHeading);
     }

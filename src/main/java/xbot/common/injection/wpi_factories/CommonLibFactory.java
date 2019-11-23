@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.I2C;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
+import xbot.common.controls.actuators.XDoubleSolenoid;
 import xbot.common.controls.actuators.XPWM;
 import xbot.common.controls.actuators.XRelay;
 import xbot.common.controls.actuators.XServo;
@@ -34,12 +35,13 @@ import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.VelocityThrottleModule;
 import xbot.common.math.FieldPose;
 import xbot.common.math.FieldPosePropertyManager;
+import xbot.common.math.PIDFactory;
 import xbot.common.math.PIDManager;
 import xbot.common.networking.ZeromqListener;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
-public interface CommonLibFactory {
+public interface CommonLibFactory extends PIDFactory {
 
         public XPowerDistributionPanel createPowerDistributionPanel();
 
@@ -126,4 +128,7 @@ public interface CommonLibFactory {
 
         public ZeromqListener createZeromqListener(@Assisted("connectionString") String connectionString,
                         @Assisted("topic") String topic);
+
+        public XDoubleSolenoid createDoubleSolenoid(@Assisted("forwardSolenoid") XSolenoid forwardSolenoid, 
+                        @Assisted("reverseSolenoid") XSolenoid reverseSolenoid);
 }
