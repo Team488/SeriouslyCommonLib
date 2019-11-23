@@ -3,6 +3,7 @@ package xbot.common.controls.sensors;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.wpi.first.wpilibj.MockAnalogInput;
 import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.injection.BaseWPITest;
 import static org.junit.Assert.assertEquals;
@@ -18,7 +19,7 @@ public class AnalogDistanceSensorTest extends BaseWPITest {
 
     @Test
     public void testSensor() {
-        mockRobotIO.setAnalogVoltage(0, 0.6d);
+        ((MockAnalogInput)sensor.input).setVoltage(0.6d);
         assertEquals(3.93700787d, sensor.getDistance(), 0.2);
     }
 }
