@@ -22,6 +22,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     
     protected final DoubleProperty totalDistanceX;
     protected final DoubleProperty totalDistanceY;
+    protected final DoubleProperty totalDistanceYRobotPerspective;
     private final DoubleProperty totalVelocity;
     
     private ContiguousHeading currentHeading;
@@ -52,6 +53,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
 
     public BasePoseSubsystem(CommonLibFactory factory, PropertyFactory propManager) {
         log.info("Creating");
+        propManager.setPrefix(this);
         imu = factory.createGyro();
         this.classInstantiationTime = XTimer.getFPGATimestamp();
         
@@ -59,23 +61,24 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         // the same as the current value, to avoid any sudden changes later
         currentHeading = new ContiguousHeading(0);
         
-        currentHeadingProp = propManager.createEphemeralProperty(getPrefix()+"CurrentHeading", currentHeading.getValue());
-        currentCompassHeadingProp = propManager.createEphemeralProperty(getPrefix()+"Current compass heading", getCompassHeading(currentHeading));
+        currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", currentHeading.getValue());
+        currentCompassHeadingProp = propManager.createEphemeralProperty("Current compass heading", getCompassHeading(currentHeading));
         
-        currentPitch = propManager.createEphemeralProperty(getPrefix()+"Current pitch", 0.0);
-        currentRoll = propManager.createEphemeralProperty(getPrefix()+"Current roll", 0.0);
+        currentPitch = propManager.createEphemeralProperty("Current pitch", 0.0);
+        currentRoll = propManager.createEphemeralProperty("Current roll", 0.0);
         
-        leftDriveDistance = propManager.createEphemeralProperty(getPrefix()+"Left drive distance", 0.0);
-        rightDriveDistance = propManager.createEphemeralProperty(getPrefix()+"Right drive distance", 0.0);
+        leftDriveDistance = propManager.createEphemeralProperty("Left drive distance", 0.0);
+        rightDriveDistance = propManager.createEphemeralProperty("Right drive distance", 0.0);
         
-        totalDistanceX = propManager.createEphemeralProperty(getPrefix()+"Total distance X", 0.0);
-        totalDistanceY = propManager.createEphemeralProperty(getPrefix()+"Total distance Y", 0.0);
+        totalDistanceX = propManager.createEphemeralProperty("Total distance X", 0.0);
+        totalDistanceY = propManager.createEphemeralProperty("Total distance Y", 0.0);
+        totalDistanceYRobotPerspective = propManager.createEphemeralProperty("Total distance Y Robot Perspective", 0.0);
         
-        totalVelocity = propManager.createEphemeralProperty(getPrefix()+"Total Velocity", 0.0);
+        totalVelocity = propManager.createEphemeralProperty("Total Velocity", 0.0);
         
-        rioRotated = propManager.createPersistentProperty(getPrefix()+"RIO rotated", false);
-        inherentRioPitch = propManager.createPersistentProperty(getPrefix()+"Inherent RIO pitch", 0.0);
-        inherentRioRoll = propManager.createPersistentProperty(getPrefix()+"Inherent RIO roll", 0.0);
+        rioRotated = propManager.createPersistentProperty("RIO rotated", false);
+        inherentRioPitch = propManager.createPersistentProperty("Inherent RIO pitch", 0.0);
+        inherentRioRoll = propManager.createPersistentProperty("Inherent RIO roll", 0.0);
     }
     
     private double getCompassHeading(ContiguousDouble standardHeading) {
@@ -109,6 +112,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         double deltaRight = currentRightDistance - previousRightDistance;
 
         double totalDistance = (deltaLeft + deltaRight) / 2;
+        totalDistanceYRobotPerspective.set(totalDistanceYRobotPerspective.get() + totalDistance);
         
         // get X and Y        
         double deltaY = Math.sin(Math.toRadians(currentHeading.getValue())) * totalDistance;
@@ -145,16 +149,19 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         return new FieldPose(getTravelVector(), getCurrentHeading());
     }
     
-    public XYPair getRobotOrientedTotalDistanceTraveled() {
-        // if we are facing 90 degrees, no change.
-        // if we are facing 0 degrees (right), this rotates left by 90. Makes sense - if you rotate right, you want
-        // your perception of distance traveled to be that you have gone "leftward."
-        return getTravelVector().rotate(90 - currentHeading.getValue()).clone();
+    /**
+     * Returns the distance the robot has traveled forward. Rotations are ignored - if you drove forward 100 inches,
+     * then turned 180 degrees and drove another 100 inches, this would tell you that you have traveled 200 inches.
+     * @return Distance in inches traveled forward from the robot perspective
+     */
+    public double getRobotOrientedTotalDistanceTraveled() {
+        return totalDistanceYRobotPerspective.get();
     }
     
     public void resetDistanceTraveled() {
         totalDistanceX.set(0);
         totalDistanceY.set(0);
+        totalDistanceYRobotPerspective.set(0);
     }
     
     public void setCurrentHeading(double headingInDegrees){

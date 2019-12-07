@@ -65,6 +65,28 @@ public class PoseSubsystemTest extends BasePoseTest {
         setMockGyroPitch(100);
         assertEquals(100, pose.getRobotPitch(), 0.001);
     }
+
+    @Test
+    public void testRobotOrientedMotion() {
+        // If we drive forward 100, we should see 100 units of travel
+        pose.setCurrentHeading(90);
+        verifyRobotOrientedDistance(0);
+        pose.setDriveEncoderDistances(100, 100);
+        verifyRobotOrientedDistance(100);
+
+        // If we turn around and drive forward 100 more, we should see 200 total units of travel
+        pose.setCurrentHeading(270);
+        pose.setDriveEncoderDistances(200, 200);
+        verifyRobotOrientedDistance(200);
+
+        // If we turn "with encoders", this should not appear as any motion at all.
+        pose.setDriveEncoderDistances(300, 100);
+        verifyRobotOrientedDistance(200);
+
+        // Reset should reset this too.
+        pose.resetDistanceTraveled();
+        verifyRobotOrientedDistance(0);
+    }
     
     protected void setMockGyroHeading(double heading) {
         ((MockGyro)pose.imu).setYaw(heading);
