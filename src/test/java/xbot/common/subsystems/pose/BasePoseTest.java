@@ -38,7 +38,7 @@ public class BasePoseTest extends BaseWPITest {
     }
     
     protected void verifyRobotOrientedDistance(double expectedDistance) {
-        assertEquals(expectedDistance, pose.getRobotOrientedTotalDistanceTraveled().y, 0.001);
+        assertEquals(expectedDistance, pose.getRobotOrientedTotalDistanceTraveled(), 0.001);
     }
     
     protected void verifyAbsoluteDistance(double x, double y) {

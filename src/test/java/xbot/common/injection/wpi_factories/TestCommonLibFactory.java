@@ -1,6 +1,5 @@
 package xbot.common.injection.wpi_factories;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -10,7 +9,6 @@ import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.BaseWPITest;
 import xbot.common.logging.RobotAssertionException;
 import xbot.common.math.PIDFactory;
-import xbot.common.math.PIDManager;
 
 public class TestCommonLibFactory extends BaseWPITest {
 
