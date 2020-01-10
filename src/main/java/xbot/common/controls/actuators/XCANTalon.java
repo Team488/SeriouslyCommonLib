@@ -1,6 +1,7 @@
 package xbot.common.controls.actuators;
 
-import com.ctre.phoenix.*;
+import com.ctre.phoenix.ErrorCode;
+import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.ControlFrame;
@@ -21,16 +22,13 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 
-import edu.wpi.first.wpilibj.SendableBase;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
 
-public abstract class XCANTalon extends SendableBase implements IMotorControllerEnhanced {
+public abstract class XCANTalon implements IMotorControllerEnhanced {
     /*
      * Functions currently omitted:
      *
@@ -56,10 +54,6 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     public XCANTalon(int deviceId, PropertyFactory propMan, DevicePolice police) {
         this.deviceId = deviceId;
         this.propMan = propMan;
-
-        LiveWindow.add(this);
-        setName("Talon SRX ", deviceId);
-
         police.registerDevice(DeviceType.CAN, deviceId);
     }
 
@@ -303,16 +297,6 @@ public abstract class XCANTalon extends SendableBase implements IMotorController
     // ----- Follower ------//
     public abstract void follow(IMotorController masterToFollow);
     public abstract void valueUpdated();
-
-    // WPI Compatibility for LiveWindow.
-
-    @Override
-	public void initSendable(SendableBuilder builder) {
-		builder.setSmartDashboardType("CANTalon");
-		builder.setSmartDashboardType("Speed Controller");
-		builder.setSafeState(this::stopMotor);
-		builder.addDoubleProperty("Value", this::getMotorOutputPercent, this::simpleSet);
-	}
 
     public void simpleSet(double percentInput) {
     	set(ControlMode.PercentOutput, percentInput);

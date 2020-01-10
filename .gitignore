@@ -38,3 +38,4 @@ WPI_Native_Libraries.properties
 .settings/
 .classpath
 .project
+*.dll

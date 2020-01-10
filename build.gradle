@@ -20,7 +20,7 @@ repositories {
     
     maven { url "https://mvnrepository.com/artifact/com.google.inject/guice" }
     maven { url "https://mvnrepository.com/artifact/org.zeromq/jeromq" }
-    maven { url "http://first.wpi.edu/FRC/roborio/maven/release"}
+    maven { url "https://frcmaven.wpi.edu/artifactory/release/"}
     maven { url "http://devsite.ctr-electronics.com/maven/release/"}
     maven { url "http://www.kauailabs.com/maven2" }
     maven { url uri ("../SeriouslyCommonLib/lib/")}
@@ -30,6 +30,10 @@ repositories {
    flatDir {
        dirs 'lib'
    }*/
+}
+
+configurations {
+    nativeBundle
 }
 
 // In this section you declare the dependencies for your production and test code
@@ -50,16 +54,19 @@ dependencies {
 
     compile group: 'org.zeromq', name: 'jeromq', version: '0.4.3'
     
-    compile 'edu.wpi.first.wpiutil:wpiutil-java:2019.2.1'
-    compile 'edu.wpi.first.wpilibj:wpilibj-java:2019.2.1'
-    compile 'edu.wpi.first.ntcore:ntcore-java:2019.2.1'
+    compile 'edu.wpi.first.wpiutil:wpiutil-java:2020.1.2'
+    compile 'edu.wpi.first.wpilibj:wpilibj-java:2020.1.2'
+    compile 'edu.wpi.first.ntcore:ntcore-java:2020.1.2'
+    compile 'edu.wpi.first.wpilibOldCommands:wpilibOldCommands-java:2020.1.2'
+
     compile 'com.ctre.phoenix:wpiapi-java:5.12.1'
     compile 'com.ctre.phoenix:api-java:5.12.1'
 
-    compile 'edu.wpi.first.ntcore:ntcore-jni:2019.2.1:all'
-    compile 'edu.wpi.first.hal:hal-jni:2019.2.1:all'
-    
-    compile 'com.kauailabs.navx.frc:navx-java:3.1.344'
+    compile 'edu.wpi.first.ntcore:ntcore-jni:2020.1.2'
+    implementation 'edu.wpi.first.hal:hal-jni:2020.1.2'
+    implementation 'edu.wpi.first.hal:hal-java:2020.1.2'
+
+    compile 'com.kauailabs.navx.frc:navx-java:3.1.400'
 
     implementation 'org.scala-lang:scala-library:2.11.12'
     testImplementation 'org.scalatest:scalatest_2.11:3.0.0'
