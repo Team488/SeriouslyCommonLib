@@ -16,7 +16,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
-import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -614,11 +613,6 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
     }
 
     @Override
-    public SensorCollection getSensorCollection() {
-        return null;
-    }
-
-    @Override
     public ErrorCode configSelectedFeedbackCoefficient(double coefficient, int pidIdx, int timeoutMs) {
         return null;
     }
@@ -650,6 +644,11 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
 
     @Override
     public ControlMode getControlMode() {
+        return null;
+    }
+
+    @Override
+    public ErrorCode configMotionSCurveStrength(int curveStrength, int timeoutMs) {
         return null;
     }
 

@@ -1,7 +1,5 @@
 package xbot.common.controls.actuators.mock_adapters;
 
-import org.apache.log4j.Logger;
-
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motion.MotionProfileStatus;
@@ -18,7 +16,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
-import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -26,6 +23,9 @@ import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import org.apache.log4j.Logger;
+
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
@@ -711,11 +711,6 @@ public class MockCANTalon extends XCANTalon {
     }
 
     @Override
-    public SensorCollection getSensorCollection() {
-        return null;
-    }
-
-    @Override
     public void set(ControlMode Mode, double demand0, DemandType demand1Type, double demand1) {
 
     }
@@ -752,6 +747,11 @@ public class MockCANTalon extends XCANTalon {
 
     @Override
     public ControlMode getControlMode() {
+        return null;
+    }
+
+    @Override
+    public ErrorCode configMotionSCurveStrength(int curveStrength, int timeoutMs) {
         return null;
     }
 }

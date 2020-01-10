@@ -59,8 +59,8 @@ dependencies {
     compile 'edu.wpi.first.ntcore:ntcore-java:2020.1.2'
     compile 'edu.wpi.first.wpilibOldCommands:wpilibOldCommands-java:2020.1.2'
 
-    compile 'com.ctre.phoenix:wpiapi-java:5.12.1'
-    compile 'com.ctre.phoenix:api-java:5.12.1'
+    compile 'com.ctre.phoenix:wpiapi-java:5.17.3'
+    compile 'com.ctre.phoenix:api-java:5.17.3'
 
     compile 'edu.wpi.first.ntcore:ntcore-jni:2020.1.2'
     implementation 'edu.wpi.first.hal:hal-jni:2020.1.2'
