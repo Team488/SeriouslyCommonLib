@@ -88,7 +88,7 @@ public class BaseRobot extends TimedRobot {
 
         // Get our logging config
         try {
-            DOMConfigurator.configure("/home/lvuser/log4j.xml");
+            DOMConfigurator.configure("/home/lvuser/deploy/log4j.xml");
         } catch (Exception e) {
             // Had a problem loading the config. Robot should continue!
             final String errorString = "Couldn't configure logging - file probably missing or malformed";
