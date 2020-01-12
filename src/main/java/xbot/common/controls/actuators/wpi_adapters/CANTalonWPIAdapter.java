@@ -175,7 +175,7 @@ public class CANTalonWPIAdapter extends XCANTalon {
     }
 
     public double getOutputCurrent() {
-        return internalTalon.getOutputCurrent();
+        return internalTalon.getStatorCurrent();
     }
 
     public double getTemperature() {
@@ -480,5 +480,10 @@ public class CANTalonWPIAdapter extends XCANTalon {
     public ErrorCode configMotionProfileTrajectoryPeriod(int baseTrajDurationMs, int timeoutMs) {
         return internalTalon.configMotionProfileTrajectoryPeriod(baseTrajDurationMs, timeoutMs);
 	}
+
+    @Override
+    public ErrorCode configMotionSCurveStrength(int curveStrength, int timeoutMs) {
+        return internalTalon.configMotionSCurveStrength(curveStrength, timeoutMs);
+    }
    
 }
