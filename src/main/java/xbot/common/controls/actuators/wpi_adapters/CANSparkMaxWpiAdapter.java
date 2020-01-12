@@ -7,7 +7,6 @@ import com.revrobotics.CANAnalog;
 import com.revrobotics.CANAnalog.AnalogMode;
 import com.revrobotics.CANDigitalInput;
 import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANError;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
@@ -19,12 +18,15 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.EncoderType;
 
 import xbot.common.controls.actuators.XCANSparkMax;
+import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.wpi_adapters.CANEncoderWpiAdapter;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.PropertyFactory;
 
 public class CANSparkMaxWpiAdapter extends XCANSparkMax {
 
     private CANSparkMax internalSpark;
+    private XEncoder internalEncoder;
 
     @Inject
     public CANSparkMaxWpiAdapter(@Assisted("deviceId") int deviceId, PropertyFactory propMan, DevicePolice police) {
@@ -73,23 +75,29 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     }
 
     @Override
-    public CANEncoder getEncoder() {
-        return internalSpark.getEncoder();
+    public XEncoder getEncoder() {
+        if (internalEncoder == null) {
+            internalEncoder = new CANEncoderWpiAdapter(internalSpark.getEncoder());
+        }
+        return internalEncoder;
     }
 
     @Override
-    public CANEncoder getEncoder(EncoderType sensorType, int counts_per_rev) {
-        return internalSpark.getEncoder();
+    public XEncoder getEncoder(EncoderType sensorType, int counts_per_rev) {
+        if (internalEncoder == null) {
+            internalEncoder = new CANEncoderWpiAdapter(internalSpark.getEncoder());
+        }
+        return internalEncoder;
     }
 
     @Override
-    public CANEncoder getAlternateEncoder() {
-        return internalSpark.getAlternateEncoder();
+    public XEncoder getAlternateEncoder() {
+        return null;
     }
 
     @Override
-    public CANEncoder getAlternateEncoder(AlternateEncoderType sensorType, int counts_per_rev) {
-        return internalSpark.getAlternateEncoder(sensorType, counts_per_rev);
+    public XEncoder getAlternateEncoder(AlternateEncoderType sensorType, int counts_per_rev) {
+        return null;
     }
 
     @Override

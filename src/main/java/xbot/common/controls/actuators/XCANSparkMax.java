@@ -2,18 +2,18 @@ package xbot.common.controls.actuators;
 
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANAnalog;
+import com.revrobotics.CANAnalog.AnalogMode;
 import com.revrobotics.CANDigitalInput;
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANError;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.EncoderType;
-import com.revrobotics.CANAnalog.AnalogMode;
 import com.revrobotics.CANSparkMax.ExternalFollower;
 import com.revrobotics.CANSparkMax.FaultID;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
+import com.revrobotics.EncoderType;
 
+import xbot.common.controls.sensors.XEncoder;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.properties.PropertyFactory;
@@ -98,7 +98,7 @@ public  abstract class XCANSparkMax {
      * 
      * @return An object for interfacing with the integrated encoder.
      */
-    public abstract CANEncoder getEncoder() ;
+    public abstract XEncoder getEncoder() ;
 
     /**
      * Returns and object for interfacing with the encoder connected to the 
@@ -111,7 +111,7 @@ public  abstract class XCANSparkMax {
      * @param counts_per_rev The counts per revolution of the encoder
      * @return An object for interfacing with an encoder
      */
-    public abstract CANEncoder getEncoder(EncoderType sensorType, int counts_per_rev) ;
+    public abstract XEncoder getEncoder(EncoderType sensorType, int counts_per_rev) ;
 
     /**
      * Returns an object for interfacing with an encoder connected to the alternate 
@@ -124,7 +124,7 @@ public  abstract class XCANSparkMax {
      * @return Returns an object for interfacing with an encoder connected to the alternate 
      * data port configured pins
      */
-    public abstract CANEncoder getAlternateEncoder() ;
+    public abstract XEncoder getAlternateEncoder() ;
 
     /**
      * Returns an object for interfacing with an encoder connected to the alternate 
@@ -140,7 +140,7 @@ public  abstract class XCANSparkMax {
      * @return Returns an object for interfacing with an encoder connected to the alternate 
      * data port configured pins
      */
-    public abstract CANEncoder getAlternateEncoder(AlternateEncoderType sensorType, int counts_per_rev) ;
+    public abstract XEncoder getAlternateEncoder(AlternateEncoderType sensorType, int counts_per_rev) ;
 
     /**
      * @param mode The mode of the analog sensor, either absolute or relative

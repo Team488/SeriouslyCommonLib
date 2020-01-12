@@ -7,7 +7,6 @@ import com.revrobotics.CANAnalog;
 import com.revrobotics.CANAnalog.AnalogMode;
 import com.revrobotics.CANDigitalInput;
 import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANError;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
@@ -17,58 +16,66 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.EncoderType;
 
+import org.apache.log4j.Logger;
+
 import xbot.common.controls.actuators.XCANSparkMax;
+import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.PropertyFactory;
-import org.apache.log4j.Logger;
 
 public class MockCANSparkMax extends XCANSparkMax {
 
     private static Logger log = Logger.getLogger(MockCANSparkMax.class);
+    private double power = 0;
+    boolean inverted = false;
+    public XEncoder internalEncoder = null;
 
     @Inject
     public MockCANSparkMax(@Assisted("deviceId") int deviceId, PropertyFactory propMan, DevicePolice police) {
         super(deviceId, propMan, police);
         log.info("Creating CAN talon with device ID: " + deviceId);
-
+        internalEncoder = new MockEncoder(propMan);
         this.deviceId = deviceId;
+    }
+
+    protected double inversionFactor() {
+        return this.getInverted() ? -1 : 1;
     }
 
     @Override
     public void set(double speed) {
-
+        power = speed;
     }
 
     @Override
     public void setVoltage(double outputVolts) {
-
+        power = outputVolts/12;
     }
 
     @Override
     public double get() {
-
-        return 0;
+        return power;
     }
 
     @Override
     public void setInverted(boolean isInverted) {
-
+        inverted = isInverted;
     }
 
     @Override
     public boolean getInverted() {
-
-        return false;
+        return inverted;
     }
 
     @Override
     public void disable() {
-
+        power = 0;
     }
 
     @Override
     public void stopMotor() {
-
+        power = 0;
     }
 
     @Override
@@ -77,27 +84,23 @@ public class MockCANSparkMax extends XCANSparkMax {
     }
 
     @Override
-    public CANEncoder getEncoder() {
-
-        return null;
+    public XEncoder getEncoder() {
+        return internalEncoder;
     }
 
     @Override
-    public CANEncoder getEncoder(EncoderType sensorType, int counts_per_rev) {
-
-        return null;
+    public XEncoder getEncoder(EncoderType sensorType, int counts_per_rev) {
+        return internalEncoder;
     }
 
     @Override
-    public CANEncoder getAlternateEncoder() {
-
-        return null;
+    public XEncoder getAlternateEncoder() {
+        return internalEncoder;
     }
 
     @Override
-    public CANEncoder getAlternateEncoder(AlternateEncoderType sensorType, int counts_per_rev) {
-
-        return null;
+    public XEncoder getAlternateEncoder(AlternateEncoderType sensorType, int counts_per_rev) {
+        return internalEncoder;
     }
 
     @Override
