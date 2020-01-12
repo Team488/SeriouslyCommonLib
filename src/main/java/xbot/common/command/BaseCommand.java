@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 
 import org.apache.log4j.Logger;
 
-import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import xbot.common.logging.TimeLogger;
 
@@ -16,6 +15,7 @@ public abstract class BaseCommand extends CommandBase {
 
     protected Logger log;
     protected TimeLogger monitor;
+    private boolean configurableRunWhenDisabled;
     
     @Inject
     SmartDashboardCommandPutter commandPutter;
@@ -23,6 +23,15 @@ public abstract class BaseCommand extends CommandBase {
     public BaseCommand() {
         log = Logger.getLogger(this.getName());
         monitor = new TimeLogger(this.getName(), 20);
+    }
+
+    @Override
+    public boolean runsWhenDisabled() {
+        return configurableRunWhenDisabled;
+    }
+
+    public void setRunsWhenDisabled(boolean value) {
+        configurableRunWhenDisabled = value;
     }
     
     public String getPrefix() {

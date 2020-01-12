@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import xbot.common.injection.BaseWPITest;
 
 public class XSchedulerTest extends BaseWPITest {
@@ -24,7 +24,7 @@ public class XSchedulerTest extends BaseWPITest {
     @Test
     public void testXSchedulerDoesntCrash() {
         BaseCommand crashingCommand = new CrashingOnInitCommand();
-        Scheduler.getInstance().add(crashingCommand);
+        CommandScheduler.getInstance().schedule(crashingCommand);
         XScheduler xScheduler = this.injector.getInstance(XScheduler.class);
         xScheduler.run();
         xScheduler.run();
@@ -34,7 +34,7 @@ public class XSchedulerTest extends BaseWPITest {
     @Test
     public void testXSchedulerDoesntCrashAndRecovers() {
         BaseCommand crashingCommand = new CrashingInExecCommand();
-        Scheduler.getInstance().add(crashingCommand);
+        CommandScheduler.getInstance().schedule(crashingCommand);
         XScheduler xScheduler = this.injector.getInstance(XScheduler.class);
         xScheduler.run();
         xScheduler.run();
@@ -47,18 +47,18 @@ public class XSchedulerTest extends BaseWPITest {
     @Ignore("I can't make the scheduler crash - this needs more investigation later.")
     public void testSchedulerCrashes() {
         BaseCommand crashingCommand = new CrashingInExecCommand();
-        Scheduler.getInstance().add(crashingCommand);
+        CommandScheduler.getInstance().schedule(crashingCommand);
 
         boolean hitCrash = false;
 
-        Scheduler.getInstance().run();
+        CommandScheduler.getInstance().run();
 
         try {
             // Note - the below call will never fully execute (and show up red on
-            Scheduler.getInstance().run();
-            Scheduler.getInstance().run();
-            Scheduler.getInstance().run();
-            Scheduler.getInstance().run();
+            CommandScheduler.getInstance().run();
+            CommandScheduler.getInstance().run();
+            CommandScheduler.getInstance().run();
+            CommandScheduler.getInstance().run();
             
         } catch (Exception e) {
             hitCrash = true;

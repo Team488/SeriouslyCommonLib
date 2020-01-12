@@ -4,6 +4,10 @@ public abstract class BaseSetpointCommand extends BaseCommand {
 
     public BaseSetpointCommand(SupportsSetpointLock system) {
         this.addRequirements(system.getSetpointLock());
-        this.withTimeout(1);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 }
