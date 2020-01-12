@@ -21,7 +21,7 @@ import xbot.common.properties.PropertyFactory;
 
 public  abstract class XCANSparkMax {
 
-    int deviceId;
+    protected int deviceId;
     PropertyFactory propertyFactory;
 
     public XCANSparkMax(int deviceId, PropertyFactory propertyFactory, DevicePolice police) {
@@ -580,13 +580,6 @@ public  abstract class XCANSparkMax {
      * @return true if the soft limit is enabled.
      */
     public abstract boolean isSoftLimitEnabled(SoftLimitDirection direction) ;
-
-    /**
-     * Gets the feedback device ID that was set on SparkMax itself.
-     * 
-     * @return Feedback device ID on the SparkMax
-     */
-    protected abstract int getFeedbackDeviceID() ;
 
     /**
      * All device errors are tracked on a per thread basis for all

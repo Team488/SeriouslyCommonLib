@@ -23,6 +23,7 @@ repositories {
     maven { url "https://frcmaven.wpi.edu/artifactory/release/"}
     maven { url "http://devsite.ctr-electronics.com/maven/release/"}
     maven { url "http://www.kauailabs.com/maven2" }
+    maven { url "http://www.revrobotics.com/content/sw/max/sdk/maven/"}
     maven { url uri ("../SeriouslyCommonLib/lib/")}
 
     
@@ -61,6 +62,8 @@ dependencies {
 
     compile 'com.ctre.phoenix:wpiapi-java:5.12.1'
     compile 'com.ctre.phoenix:api-java:5.12.1'
+
+    compile 'com.revrobotics.frc:SparkMax-java:1.5.1'
 
     compile 'edu.wpi.first.ntcore:ntcore-jni:2020.1.2'
     implementation 'edu.wpi.first.hal:hal-jni:2020.1.2'

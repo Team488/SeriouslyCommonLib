@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.MockTimer;
 import edu.wpi.first.wpilibj.MockXboxControllerAdapter;
 import xbot.common.command.MockSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
+import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
@@ -28,6 +29,7 @@ import xbot.common.controls.actuators.XRelay;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.actuators.XSpeedController;
+import xbot.common.controls.actuators.mock_adapters.MockCANSparkMax;
 import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
 import xbot.common.controls.actuators.mock_adapters.MockRelay;
 import xbot.common.controls.sensors.XAnalogInput;
@@ -82,6 +84,7 @@ public class UnitTestModule extends AbstractModule {
                 .implement(XCANTalon.class, MockCANTalon.class).implement(XGyro.class, MockGyro.class)
                 .implement(XLidarLite.class, MockLidarLite.class).implement(XCompressor.class, MockCompressor.class)
                 .implement(XRelay.class, MockRelay.class).implement(XPWM.class, MockPWM.class)
+                .implement(XCANSparkMax.class, MockCANSparkMax.class)
                 .build(CommonLibFactory.class));
     }
 }
