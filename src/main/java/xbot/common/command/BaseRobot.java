@@ -3,19 +3,19 @@ package xbot.common.command;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.RobotModule;
@@ -101,7 +101,7 @@ public class BaseRobot extends TimedRobot {
 
         this.injector = Guice.createInjector(this.injectionModule);
         this.initializeSystems();
-        SmartDashboard.putData(Scheduler.getInstance());
+        SmartDashboard.putData(CommandScheduler.getInstance());
         
         frequencyReportInterval = injector.getInstance(PropertyFactory.class).createPersistentProperty("Robot loop frequency report interval", 20);
         schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get());
@@ -185,7 +185,7 @@ public class BaseRobot extends TimedRobot {
         log.info("Autonomous init (" + getMatchContextString() + ")");
         if(this.autonomousCommand != null) {
             log.info("Starting autonomous command: " + this.autonomousCommand);
-            this.autonomousCommand.start();
+            this.autonomousCommand.schedule();
         } else {
             log.warn("No autonomous command set.");
         }

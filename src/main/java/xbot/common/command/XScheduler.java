@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import org.apache.log4j.Logger;
 
-import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * Wrapper for base Scheduler which intelligently manages exceptions.
@@ -18,10 +18,10 @@ public class XScheduler {
     
     int numberOfCrashes = 0;
     
-    Scheduler scheduler;
+    CommandScheduler scheduler;
     
     public XScheduler() {
-        this.scheduler = Scheduler.getInstance();
+        this.scheduler = CommandScheduler.getInstance();
     }
     
     public int getNumberOfCrashes()
@@ -40,7 +40,7 @@ public class XScheduler {
                     Arrays.toString(t.getStackTrace())));
             if(crashedPreviously) {
                 log.error("Due to repeated exceptions, clearing Scheduler queue completely");
-                scheduler.removeAll();
+                scheduler.cancelAll();
             }
             crashedPreviously = true;
             numberOfCrashes++;
@@ -48,6 +48,6 @@ public class XScheduler {
     }
 
     public void removeAll() {
-        scheduler.removeAll();
+        scheduler.cancelAll();
     }
 }

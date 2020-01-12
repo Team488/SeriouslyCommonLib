@@ -4,14 +4,15 @@ import com.google.inject.Inject;
 
 import org.apache.log4j.Logger;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import xbot.common.logging.TimeLogger;
 
 /**
- * Enhanced version of WPILib's Command that allows for extension
- * of existing functionality.
+ * Enhanced version of WPILib's Command that allows for extension of existing
+ * functionality.
  */
-public abstract class BaseCommand extends Command {
+public abstract class BaseCommand extends CommandBase {
 
     protected Logger log;
     protected TimeLogger monitor;
@@ -23,11 +24,6 @@ public abstract class BaseCommand extends Command {
         log = Logger.getLogger(this.getName());
         monitor = new TimeLogger(this.getName(), 20);
     }
-
-    public BaseCommand(String name) {
-        super(name);
-        log = Logger.getLogger(this.getName());
-    }
     
     public String getPrefix() {
         return this.getName() + "/";
@@ -37,23 +33,7 @@ public abstract class BaseCommand extends Command {
     public abstract void initialize();
 
     @Override
-    public abstract void execute();
-
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-
-    @Override
-    public void end() {
-        log.info("Ending");
-    }
-
-    @Override
-    public void interrupted() {
-        log.info("Interrupted");
-        end();
-    }
+    public abstract void execute();    
 
     public void includeOnSmartDashboard() {
         if (commandPutter != null) {

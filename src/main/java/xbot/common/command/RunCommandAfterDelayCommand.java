@@ -2,7 +2,7 @@ package xbot.common.command;
 
 import com.google.inject.Provider;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.Command;
 
 public class RunCommandAfterDelayCommand extends BaseCommandGroup {
     public RunCommandAfterDelayCommand(Command command, double delay, double commandTimeout, Provider<TimeoutCommand> timeoutProvider) {
