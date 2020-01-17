@@ -5,6 +5,7 @@ import java.util.function.DoubleFunction;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.I2C;
+import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
@@ -131,4 +132,6 @@ public interface CommonLibFactory extends PIDFactory {
 
         public XDoubleSolenoid createDoubleSolenoid(@Assisted("forwardSolenoid") XSolenoid forwardSolenoid, 
                         @Assisted("reverseSolenoid") XSolenoid reverseSolenoid);
+
+        public XCANSparkMax createCANSparkMax(@Assisted("deviceId") int deviceId);
 }
