@@ -2,10 +2,10 @@ package xbot.common.subsystems.feedback;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.sensors.XFTCGamepad;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XTimer;
@@ -13,8 +13,7 @@ import xbot.common.controls.sensors.XTimer;
 /**
  * Wrappers around gamepad rumble behavior to control intensity and duration.
  */
-@Singleton
-public class RumbleManager implements PeriodicDataSource {
+public class RumbleManager {
     private double lastRequestEndTime = -1;
     private XJoystick gamepad;
     private boolean isRumbling;
@@ -24,7 +23,7 @@ public class RumbleManager implements PeriodicDataSource {
      * @param gamepad The gamepad in which to control rumble on.
      */
     @Inject
-    public RumbleManager(XFTCGamepad gamepad) {
+    public RumbleManager(@Assisted("gamepad") XJoystick gamepad) {
         this.gamepad = gamepad;
     }
     

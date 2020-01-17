@@ -3,15 +3,15 @@ package xbot.common.controls.sensors;
 import java.util.HashMap;
 
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.logging.RobotAssertionManager;
-import xbot.common.math.XYPair;
+import xbot.common.subsystems.feedback.IRumbler;
 
-public abstract class XXboxController {
+public abstract class XXboxController extends XFTCGamepad implements IRumbler{
     
     protected int port;
     RobotAssertionManager assertionManager;
@@ -19,17 +19,16 @@ public abstract class XXboxController {
     HashMap<XboxButton, AdvancedXboxButton> allocatedButtons;
     
     @Inject
-    public XXboxController(@Assisted("port") int port, RobotAssertionManager assertionManager, DevicePolice police) {
+    public XXboxController(int port, 
+        CommonLibFactory clf, 
+        RobotAssertionManager assertionManager, 
+        DevicePolice police) {
+        super(port, clf, assertionManager, 10, police);
         this.port = port;
         this.assertionManager = assertionManager;
         allocatedButtons = new HashMap<XboxButton, AdvancedXboxButton>();
         police.registerDevice(DeviceType.USB, port);
     }
-    
-    private boolean xRightInverted = false;
-    private boolean yRightInverted = false;
-    private boolean xLeftInverted = false;
-    private boolean yLeftInverted = false;
         
     public enum XboxButton {
         A(1),
@@ -84,28 +83,12 @@ public abstract class XXboxController {
     }
 
     //Joysticks---------------------------------------------------------------------------------------------
-    public XYPair getRightVector() {
-        return new XYPair(getRightStickX(), getRightStickY());
-    }
-
-    public XYPair getLeftVector() {
-        return new XYPair(getLeftStickX(),getLeftStickY());
-    }
-    
     public double getLeftStickX(){
         return this.getX(Hand.kLeft) * (getLeftStickXInversion() ? -1 : 1);
     }
     
     public double getRightStickX(){
         return this.getX(Hand.kRight) * (getRightStickXInversion() ? -1 : 1);
-        // Note - we've seen the Xbox controllers behave differently depending on if they
-        // are used as bluetooth controllers, or as USB wired controllers (we think).
-        // In any case, in one of these mods the axes are different, and that
-        // difference is respected in the commented out code below.
-        // We need to find out exactly which way they will be represented on our drive
-        // laptop, and then choose accordingly.
-        
-        //return this.getRawAxis(3) * (getRightStickYInversion() ? -1 : 1);
     }
 
     public double getLeftStickY(){
@@ -114,58 +97,15 @@ public abstract class XXboxController {
    
     public double getRightStickY(){
         return this.getY(Hand.kRight) * (getRightStickYInversion() ? -1 : 1);
-        // see note in getRightStickX() above in relation to the code below.
-        //return this.getRawAxis(4) * (getRightStickYInversion() ? -1 : 1);
     }
 
-    public boolean getLeftStickXInversion() {
-        return xLeftInverted;
-    }
-
-    public void setLeftStickXInversion(boolean inverted) {
-        xLeftInverted = inverted;
-    }
-
-    public boolean getRightStickXInversion() {
-        return xRightInverted;
-    }
-
-    public void setRightStickXInversion(boolean inverted) {
-        xRightInverted = inverted;
-    }
-
-    public boolean getLeftStickYInversion() {
-        return yLeftInverted;
-    }
-
-    public void setLeftStickYInversion(boolean inverted) {
-        yLeftInverted = inverted;        
-    }
-   
-    public boolean getRightStickYInversion() {
-        return yRightInverted;
-    }
-
-    public void setRightStickYInversion(boolean inverted) {
-        yRightInverted = inverted;        
-    }
    //Triggers-----------------------------------------------------------------------------------------------
-    public double getLeftTriggerAxis() {  
+    public double getLeftTrigger() {  
         return this.getTriggerAxis(Hand.kLeft);
     }
    
-    public double getRightTriggerAxis() {
+    public double getRightTrigger() {
         return this.getTriggerAxis(Hand.kRight);
-    }
-
-   
-    public XYPair getLeftStick() {
-        return new XYPair(getLeftStickX(), getLeftStickY());
-    }
-
-    
-    public XYPair getRightStick() {
-        return new XYPair(getRightStickX(), getRightStickY());
     }
 
     protected abstract double getTriggerAxis(Hand hand);

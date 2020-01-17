@@ -1,5 +1,6 @@
 package xbot.common.subsystems.pose;
 
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.sensors.XGyro;
@@ -13,7 +14,7 @@ import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
-public abstract class BasePoseSubsystem extends BaseSubsystem implements PeriodicDataSource {
+public abstract class BasePoseSubsystem extends BaseSubsystem {
 
     public final XGyro imu;
     
@@ -79,6 +80,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
         rioRotated = propManager.createPersistentProperty("RIO rotated", false);
         inherentRioPitch = propManager.createPersistentProperty("Inherent RIO pitch", 0.0);
         inherentRioRoll = propManager.createPersistentProperty("Inherent RIO roll", 0.0);
+
+        CommandScheduler.getInstance().registerSubsystem(this);
     }
     
     private double getCompassHeading(ContiguousDouble standardHeading) {
@@ -242,13 +245,13 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements Periodi
     public boolean getNavXReady() {
         return isNavXReady;
     }
-    
+
     @Override
-    public void updatePeriodicData() {
+    public void periodic() {
         if (!isNavXReady && (classInstantiationTime + 1 < XTimer.getFPGATimestamp())) {
             setCurrentHeading(FACING_AWAY_FROM_DRIVERS);
             isNavXReady = true;
         }   
-        updatePose();      
+        updatePose();
     }
 }

@@ -34,7 +34,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
         pose.setDriveTalons(drive.leftTank, drive.rightTank);
         
         timer.advanceTimeInSecondsBy(10);
-        pose.updatePeriodicData();
+        pose.periodic();
         
         drive.getPositionalPid().setMaxOutput(1);
         drive.getPositionalPid().setMinOutput(-1);

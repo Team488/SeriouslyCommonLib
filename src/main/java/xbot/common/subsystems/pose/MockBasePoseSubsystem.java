@@ -41,7 +41,7 @@ public class MockBasePoseSubsystem extends BasePoseSubsystem {
     public void setDriveEncoderDistances(int left, int right) {
         ((MockCANTalon)this.left).setPosition(left);
         ((MockCANTalon)this.right).setPosition(right);
-        updatePeriodicData();
+        periodic();
     }
     
     public void forceTotalXandY(double x, double y) {
