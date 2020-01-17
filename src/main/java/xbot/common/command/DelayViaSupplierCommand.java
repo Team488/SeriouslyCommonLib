@@ -4,12 +4,15 @@ import java.util.function.Supplier;
 
 import com.google.inject.Inject;
 
-public class DelayViaSupplierCommand extends BaseCommand {
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+
+public class DelayViaSupplierCommand extends WaitCommand {
 
     Supplier<Double> waitTime;
     
     @Inject
-    public DelayViaSupplierCommand() {
+    public DelayViaSupplierCommand(Supplier<Double> source) {
+        super(0);
     }
     
     public void setDelaySupplier(Supplier<Double> source) {
@@ -17,20 +20,7 @@ public class DelayViaSupplierCommand extends BaseCommand {
     }
 
     @Override
-    public void initialize() {
-        if (waitTime != null) {
-            log.info("Setting wait time of " + waitTime.get());
-            this.setTimeout(waitTime.get());
-        }
-    }
-
-    @Override
-    public void execute() {
-    }
-    
-    @Override
     public boolean isFinished() {
-        return this.isTimedOut();
+        return m_timer.hasPeriodPassed(waitTime.get());
     }
-    
 }

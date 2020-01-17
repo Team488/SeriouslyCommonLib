@@ -1,5 +1,10 @@
 package xbot.common.controls.sensors;
 
+import java.util.HashMap;
+
+import org.apache.log4j.Logger;
+
+import edu.wpi.first.wpilibj.GenericHID;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.mock_adapters.MockJoystick;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
@@ -7,13 +12,6 @@ import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
-
-import java.util.HashMap;
-
-import org.apache.log4j.Logger;
-
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.buttons.Button;
 
 public abstract class XJoystick
 {
@@ -148,7 +146,7 @@ public abstract class XJoystick
         return new AdvancedJoystickButton(mj, 1);
     }
 
-    public Button getAnalogIfAvailable(AnalogHIDDescription desc) {
+    public AnalogHIDButton getAnalogIfAvailable(AnalogHIDDescription desc) {
         if (analogButtonMap.containsKey(desc)) {
             return analogButtonMap.remove(desc);
         } else {

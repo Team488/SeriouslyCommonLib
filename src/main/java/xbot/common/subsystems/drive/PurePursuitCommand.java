@@ -90,7 +90,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
             PropertyFactory propMan) {
         this.poseSystem = pose;
         this.drive = drive;
-        this.requires(drive);
+        this.addRequirements(drive);
         propMan.setPrefix(this);
 
         // The lookahead is particularly important - for large values, driving will be very smooth, but it may take a very long time
@@ -486,7 +486,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
     }
     
     @Override
-    public void end() {
+    public void end(boolean interrupted) {
         drive.stop();
     }
     

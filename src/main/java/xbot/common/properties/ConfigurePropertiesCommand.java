@@ -12,7 +12,11 @@ public class ConfigurePropertiesCommand extends BaseCommand {
     @Inject
     public ConfigurePropertiesCommand(ITableProxy table) {
         this.table = table;
-        this.setRunWhenDisabled(true);
+    }
+
+    @Override
+    public boolean runsWhenDisabled() {
+        return true;
     }
     
     public void setFastMode(boolean on) {

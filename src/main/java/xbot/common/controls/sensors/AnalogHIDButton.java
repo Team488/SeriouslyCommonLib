@@ -3,7 +3,7 @@ package xbot.common.controls.sensors;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class AnalogHIDButton extends Button {
 

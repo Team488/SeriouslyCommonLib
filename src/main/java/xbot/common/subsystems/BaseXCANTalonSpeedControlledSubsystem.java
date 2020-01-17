@@ -60,7 +60,7 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
             CommonLibFactory factory, 
             PIDPropertyManager pidPropertyManager,
             PropertyFactory propManager){
-        super(name);
+        super();
         log.info("Creating");
         
         this.pidPropertyManager = pidPropertyManager;

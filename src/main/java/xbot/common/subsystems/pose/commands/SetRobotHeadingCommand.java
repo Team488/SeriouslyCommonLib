@@ -14,7 +14,11 @@ public class SetRobotHeadingCommand extends BaseCommand {
     public SetRobotHeadingCommand(BasePoseSubsystem poseSubsystem) {
         this.poseSubsystem = poseSubsystem;
         heading = BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS;
-        this.setRunWhenDisabled(true);
+    }
+
+    @Override
+    public boolean runsWhenDisabled() {
+        return true;
     }
     
     public void setHeadingToApply(double heading) {
