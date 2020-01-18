@@ -5,75 +5,66 @@ import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 
-public abstract class XFTCGamepad extends XJoystick {
-
-    // All of the "Left Joystick" inversions are kept track of by the base XJoystick class.
-    // We just need to redirect any calls to the base class.
-    private boolean xRightInverted = false;
-    private boolean yRightInverted = false;
+public abstract class XFTCGamepad extends XJoystick implements IGamepad {
 
     public XFTCGamepad(int port, CommonLibFactory clf, RobotAssertionManager assertionManager, int numButtons, DevicePolice police) {
         super(port, clf, assertionManager, numButtons, police);
     }
 
-    public XYPair getRightVector() {
-        return new XYPair(getRightStickX(), getRightStickY());
-    }
-
-    public XYPair getLeftVector() {
-        return this.getVector();
+    protected int getLeftJoystickXAxis() {
+        return 0;
     }
     
+    protected int getLeftJoystickYAxis() {
+        return 1;
+    }
+
+    protected int getRightJoystickXAxis() {
+        return 4;
+    }
+
+    protected int getRightJoystickYAxis() {
+        return 5;
+    }
+
+    protected int getLeftTriggerAxis() {
+        return 2;
+    }
+
+    protected int getRightTriggerAxis() {
+        return 3;
+    }
+    
+    public XYPair getLeftVector() {
+        return this.getVectorForAxisPair(
+            getLeftJoystickXAxis(),
+            getLeftJoystickYAxis()
+        );
+    }
+
+    public XYPair getRightVector() {
+        return this.getVectorForAxisPair(
+            getRightJoystickXAxis(),
+            getRightJoystickYAxis()
+        );
+    }
+
+    
     public double getLeftTrigger() {
-        return this.getRawAxis(2);
+        return getRawAxis(getLeftTriggerAxis());
     }
     
     public double getRightTrigger() {
-        return this.getRawAxis(3);
-    }
-    
-    public double getRightStickX(){
-        return this.getRawAxis(4) * (getRightStickXInversion() ? -1 : 1);
+        return getRawAxis(getRightTriggerAxis());
     }
 
-    public double getRightStickY(){
-        return this.getRawAxis(5) * (getRightStickYInversion() ? -1 : 1);
+    public void setLeftInversion(boolean xInverted, boolean yInverted) {
+        setAxisInverted(getLeftJoystickXAxis(), xInverted);
+        setAxisInverted(getLeftJoystickYAxis(), yInverted);
     }
 
-    // Redirect calls to the base class
-    public boolean getLeftStickXInversion() {
-        return this.getXInversion();
-    }
-
-    // Redirect calls to the base class
-    public void setLeftStickXInversion(boolean inverted) {
-        this.setXInversion(inverted);
-    }
-
-    // Redirect calls to the base class
-    public boolean getLeftStickYInversion() {
-        return this.getYInversion();
-    }
-
-    // Redirect calls to the base class
-    public void setLeftStickYInversion(boolean inverted) {
-        this.setYInversion(inverted);
-    }
-
-    // We do need to keep track of the right joystick.
-    public boolean getRightStickXInversion() {
-        return xRightInverted;
-    }
-
-    public void setRightStickXInversion(boolean inverted) {
-        xRightInverted = inverted;
-    }
-
-    public boolean getRightStickYInversion() {
-        return yRightInverted;
-    }
-
-    public void setRightStickYInversion(boolean inverted) {
-        yRightInverted = inverted;        
+    public void setRightInversion(boolean xInverted, boolean yInverted) {
+        setAxisInverted(getRightJoystickXAxis(), xInverted);
+        setAxisInverted(getRightJoystickYAxis(), yInverted);
     }
 }

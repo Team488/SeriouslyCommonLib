@@ -1,12 +1,10 @@
 package xbot.common.subsystems.feedback;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import xbot.common.controls.sensors.XFTCGamepad;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XTimer;
 
@@ -52,7 +50,7 @@ public class RumbleManager {
      */
     private void writeRumble(XJoystick joystick, double intensity) {
 
-        GenericHID internalJoystick = joystick.getRawWPILibJoystick();
+        GenericHID internalJoystick = joystick.getGenericHID();
         isRumbling = intensity > 0;
         if (internalJoystick == null) {
             return;
@@ -72,20 +70,11 @@ public class RumbleManager {
     /**
      * Called periodically to update the rumble state.
      */
-    @Override
-    public void updatePeriodicData() {
+    public void periodic() {
         if (isRumbling && lastRequestEndTime > 0 && XTimer.getFPGATimestamp() > lastRequestEndTime) {
             writeRumble(gamepad, 0);
             lastRequestEndTime = -1;
             isRumbling = false;
         }
-    }
-
-    /**
-     * Gets the name of the data source.
-     */
-    @Override
-    public String getName() {
-        return "RumbleManager";
     }
 }

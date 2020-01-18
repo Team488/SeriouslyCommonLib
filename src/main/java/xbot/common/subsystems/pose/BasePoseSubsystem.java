@@ -2,7 +2,6 @@ package xbot.common.subsystems.pose;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import xbot.common.command.BaseSubsystem;
-import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.wpi_factories.CommonLibFactory;

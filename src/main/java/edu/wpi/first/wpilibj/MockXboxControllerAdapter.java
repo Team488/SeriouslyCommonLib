@@ -5,9 +5,11 @@ import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import xbot.common.controls.sensors.XXboxController;
+import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
+import xbot.common.subsystems.feedback.RumbleManager;
 
 public class MockXboxControllerAdapter extends XXboxController {
 
@@ -25,8 +27,8 @@ public class MockXboxControllerAdapter extends XXboxController {
     }
     
     @Inject
-    public MockXboxControllerAdapter(@Assisted("port") int port, RobotAssertionManager manager, DevicePolice police) {
-        super(port, manager, police);
+    public MockXboxControllerAdapter(@Assisted("port") int port, CommonLibFactory clf, RobotAssertionManager manager, DevicePolice police) {
+        super(port, clf, manager, police);
         leftStick = new XYPair();
         rightStick = new XYPair();
     }
@@ -37,7 +39,7 @@ public class MockXboxControllerAdapter extends XXboxController {
     }
 
     @Override
-    protected boolean getRawButton(int button) {
+    protected boolean getButton(int button) {
         return false;
     }
 
@@ -61,4 +63,22 @@ public class MockXboxControllerAdapter extends XXboxController {
         }
         return rightStick.x;
     }
+
+    @Override
+    public int getPOV() {
+        return 0;
+    }
+
+    @Override
+    public GenericHID getGenericHID() {
+        // We don't have the HID.
+        return null;
+    }
+
+    @Override
+    public RumbleManager getRumbleManager() {
+        // no actual rumble manager
+        return null;
+    }
+
 }

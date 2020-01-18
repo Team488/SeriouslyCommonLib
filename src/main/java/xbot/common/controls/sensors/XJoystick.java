@@ -16,8 +16,8 @@ import xbot.common.math.XYPair;
 public abstract class XJoystick
 {
     protected int port;
-    private boolean xInverted = false;
-    private boolean yInverted = false;
+
+    private boolean[] axisInversion;
     
     private static final Logger log = Logger.getLogger(XJoystick.class);
 
@@ -46,6 +46,7 @@ public abstract class XJoystick
         this.buttonMap = new HashMap<Integer, AdvancedJoystickButton>(numButtons);
         this.analogButtonMap = new HashMap<>();
         this.povButtonMap = new HashMap<Integer, AdvancedPovButton>();
+        this.axisInversion = new boolean[6];
 
         for (int i = 1; i <= numButtons; i++) {
             this.set(i, clf.createAdvancedJoystickButton(this, i));
@@ -62,37 +63,33 @@ public abstract class XJoystick
         return port;
     }
 
-    public boolean getXInversion() {
-        return xInverted;
+    public boolean getAxisInverted(int axisNumber) {
+        if (axisNumber >= 0 && axisNumber < axisInversion.length)
+        {
+            return axisInversion[axisNumber];
+        }
+        return false;
     }
 
-    public void setXInversion(boolean inverted) {
-        xInverted = inverted;
-        
+    
+    public void setAxisInverted(int axisNumber, boolean inverted) {
+        if (axisNumber >= 0 && axisNumber < axisInversion.length)
+        {
+            axisInversion[axisNumber] = inverted;
+        }
     }
 
-    public boolean getYInversion() {
-        return yInverted;
+    protected XYPair getVectorForAxisPair(int xAxis, int yAxis) {
+        double x = getRawAxis(xAxis) * (getAxisInverted(xAxis) ? -1 : 1);
+        double y = getRawAxis(xAxis) * (getAxisInverted(yAxis) ? -1 : 1);
+        return new XYPair(x, y);
     }
 
-    public void setYInversion(boolean inverted) {
-        yInverted = inverted;        
-    }
-    
-    public XYPair getVector() {
-        return new XYPair(
-                getX() * (getXInversion() ? -1 : 1),
-                getY() * (getYInversion() ? -1 : 1));
-    }
-    
-    protected abstract double getX();
-    protected abstract double getY();
-    
     protected abstract boolean getButton(int button);
     
     protected abstract double getRawAxis(int axisNumber);
     
-    public abstract GenericHID getRawWPILibJoystick();
+    public abstract GenericHID getGenericHID();
     
     public abstract int getPOV();    
 
@@ -154,7 +151,6 @@ public abstract class XJoystick
             log.error("analog button " + desc + " is already used! Cannot be used twice!");
             return null;
         }
-
     }
 
     // sets without checking
