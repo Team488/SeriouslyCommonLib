@@ -9,12 +9,10 @@
 
 plugins {
     id "edu.wpi.first.GradleRIO" version "2020.2.2" 
+    id 'scala'
+    id 'checkstyle'
+    id 'jacoco'
 }
-
-// Apply the java plugin to add support for Java
-apply plugin: 'scala'
-apply plugin: 'checkstyle'
-apply plugin: 'jacoco'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -29,12 +27,6 @@ repositories {
     maven { url "http://www.kauailabs.com/maven2" }
     maven { url "http://www.revrobotics.com/content/sw/max/sdk/maven/"}
     maven { url uri ("../SeriouslyCommonLib/lib/")}
-
-    
-   /* 
-   flatDir {
-       dirs 'lib'
-   }*/
 }
 
 configurations {
