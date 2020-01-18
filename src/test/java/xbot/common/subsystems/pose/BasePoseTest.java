@@ -30,7 +30,7 @@ public class BasePoseTest extends BaseWPITest {
         pose.setDriveTalons(left, right);
         
         mockTimer.advanceTimeInSecondsBy(10);
-        pose.updatePeriodicData();
+        pose.periodic();
     }
     
     protected void verifyRobotHeading(double expectedHeading) {

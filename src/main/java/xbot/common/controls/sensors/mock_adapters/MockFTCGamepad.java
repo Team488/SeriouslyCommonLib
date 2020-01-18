@@ -67,24 +67,21 @@ public class MockFTCGamepad extends XFTCGamepad {
         return rawAxis.get(which);
     }
 
-    @Override
-    protected double getX() {
-        return getRawAxis(0);
-    }
-
-    @Override
-    protected double getY() {
-        return getRawAxis(1);
+    private void setStick(XYPair vector, int xAxis, int yAxis) {
+        setRawAxis(xAxis, getAxisInverted(xAxis) ? -vector.x : vector.x);
+        setY(getAxisInverted(getLeftJoystickYAxis()) ? -vector.y : vector.y);
     }
     
     public void setLeftStick(XYPair vector) {
-        setX(getLeftStickXInversion() ? -vector.x : vector.x);
-        setY(getLeftStickYInversion() ? -vector.y : vector.y);
+        int xAxis = getLeftJoystickXAxis();
+        int yAxis = getLeftJoystickYAxis();
+        setStick(vector, xAxis, yAxis);
     }
     
     public void setRightStick(XYPair vector) {
-        setRawAxis(4, getLeftStickXInversion() ? -vector.x : vector.x);
-        setRawAxis(5, getLeftStickYInversion() ? -vector.y : vector.y);
+        int xAxis = getRightJoystickXAxis();
+        int yAxis = getRightJoystickYAxis();
+        setStick(vector, xAxis, yAxis);
     }
 
     @Override
@@ -93,7 +90,7 @@ public class MockFTCGamepad extends XFTCGamepad {
     }
 
     @Override
-    public GenericHID getRawWPILibJoystick() {
+    public GenericHID getGenericHID() {
         // We don't have a real HID
         return null;
     }

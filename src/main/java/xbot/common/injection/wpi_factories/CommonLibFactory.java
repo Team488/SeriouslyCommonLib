@@ -41,6 +41,7 @@ import xbot.common.math.PIDManager;
 import xbot.common.networking.ZeromqListener;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
+import xbot.common.subsystems.feedback.RumbleManager;
 
 public interface CommonLibFactory extends PIDFactory {
 
@@ -134,4 +135,6 @@ public interface CommonLibFactory extends PIDFactory {
                         @Assisted("reverseSolenoid") XSolenoid reverseSolenoid);
 
         public XCANSparkMax createCANSparkMax(@Assisted("deviceId") int deviceId);
+
+        public RumbleManager createRumbleManager(@Assisted("gamepad") XJoystick gamepad);
 }

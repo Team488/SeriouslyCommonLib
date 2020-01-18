@@ -55,5 +55,15 @@ public abstract class BaseCommand extends CommandBase {
             commandPutter.addCommandToSmartDashboard(label, this);
         }
     }
+    
+    /**
+     * @deprecated
+     * Suggest use {@link #addRequirements(edu.wpi.first.wpilibj2.command.Subsystem...)} instead.
+     * @param subsystem Requirement to add
+     */
+    @Deprecated
+    public void requires(BaseSubsystem subsystem) {
+        this.addRequirements(subsystem);
+    }
 
 }

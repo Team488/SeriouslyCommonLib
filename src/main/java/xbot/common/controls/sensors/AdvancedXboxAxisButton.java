@@ -18,10 +18,10 @@ public class AdvancedXboxAxisButton extends AdvancedXboxButton {
         
         switch(buttonName) {
             case LeftTrigger:
-                value = controller.getLeftTriggerAxis();
+                value = controller.getLeftTrigger();
                 break;
             case RightTrigger:
-                value = controller.getRightTriggerAxis();
+                value = controller.getRightTrigger();
                 break;
             default: 
                 break;

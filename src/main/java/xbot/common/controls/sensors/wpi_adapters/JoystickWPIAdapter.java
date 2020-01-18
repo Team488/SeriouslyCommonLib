@@ -49,7 +49,7 @@ public class JoystickWPIAdapter extends XJoystick {
     }
 
     @Override
-    public GenericHID getRawWPILibJoystick() {
+    public GenericHID getGenericHID() {
         return internalHID;
     }
 }

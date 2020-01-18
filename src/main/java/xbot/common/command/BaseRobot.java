@@ -1,8 +1,5 @@
 package xbot.common.command;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -51,7 +48,6 @@ public class BaseRobot extends TimedRobot {
     protected double lastFreqCounterResetTime = -1;
     protected int loopCycleCounter = 0;
     
-    protected Map<PeriodicDataSource, TimeLogger> sourceAndTimers;
     TimeLogger schedulerMonitor;
     TimeLogger outsidePeriodicMonitor;
 
@@ -61,7 +57,6 @@ public class BaseRobot extends TimedRobot {
         super();
         
         setupInjectionModule();
-        sourceAndTimers = new HashMap<PeriodicDataSource, TimeLogger>();
         
         brownoutLatch = new Latch(false, EdgeType.Both, edge -> {
             if(edge == EdgeType.RisingEdge) {
@@ -227,8 +222,6 @@ public class BaseRobot extends TimedRobot {
         xScheduler.run();
         schedulerMonitor.stop();
         
-        this.updatePeriodicDataSources();
-        
         brownoutLatch.setValue(RobotController.isBrownedOut());
         
         loopCycleCounter++;
@@ -246,20 +239,5 @@ public class BaseRobot extends TimedRobot {
         }
         
         outsidePeriodicMonitor.start();
-    }
-    
-    protected void registerPeriodicDataSource(PeriodicDataSource telemetrySource) {
-        log.info("Adding periodic watcher for " + telemetrySource.getName());
-        sourceAndTimers.put(
-                telemetrySource, new TimeLogger(telemetrySource.getName(), 20));
-    }
-    
-    protected void updatePeriodicDataSources() {
-        for (PeriodicDataSource periodicDataSource: this.sourceAndTimers.keySet()) {
-            TimeLogger monitor = sourceAndTimers.get(periodicDataSource);
-            monitor.start();
-            periodicDataSource.updatePeriodicData();
-            monitor.stop();
-        }
     }
 }

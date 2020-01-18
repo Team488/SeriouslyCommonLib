@@ -46,7 +46,7 @@ public class RumbleManagerTest extends BaseWPITest {
         assertTrue(rumbleManager.getIsRumbling());
 
         timer.advanceTimeInSecondsBy(rumbleDuration + 0.01);
-        rumbleManager.updatePeriodicData();
+        rumbleManager.periodic();
         assertFalse(rumbleManager.getIsRumbling());
     }
 }

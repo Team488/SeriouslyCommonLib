@@ -19,6 +19,6 @@ public class AdvancedXboxButton extends AdvancedButton {
 
     @Override
     public boolean get() {
-        return controller.getRawXboxButton(this.buttonName.getValue());
+        return controller.getButton(this.buttonName.getValue());
     }
 }
