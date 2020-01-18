@@ -67,22 +67,12 @@ public class MockJoystick extends XJoystick {
     }
 
     @Override
-    protected double getX() {
-        return getRawAxis(0);
-    }
-
-    @Override
-    protected double getY() {
-        return getRawAxis(1);
-    }
-
-    @Override
     public int getPOV() {
         return 0;
     }
 
     @Override
-    public GenericHID getRawWPILibJoystick() {
+    public GenericHID getGenericHID() {
         // We don't have a real HID
         return null;
     }

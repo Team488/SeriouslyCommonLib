@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import xbot.common.command.BaseSubsystem;
-import xbot.common.command.PeriodicDataSource;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
@@ -27,7 +26,7 @@ import xbot.common.properties.PropertyFactory;
  * @author John
  *
  */
-public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsystem implements PeriodicDataSource {
+public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsystem {
     
     protected final XCANTalon masterMotor;
     protected XCANTalon followerMotor;
@@ -140,7 +139,8 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
         return systemTargetSpeed.get();
     }
 
-    public void updatePeriodicData() {
+    @Override
+    public void periodic() {
         masterMotor.updateTelemetryProperties();        
         atSpeedProp.set(isAtSpeed());
         systemCurrentSpeed.set(getSpeed());

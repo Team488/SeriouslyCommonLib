@@ -48,7 +48,7 @@ public class FTCGamepadWpiAdapter extends XFTCGamepad {
     }
 
     @Override
-    public GenericHID getRawWPILibJoystick() {
+    public GenericHID getGenericHID() {
         return internalHID;
     }
 }
