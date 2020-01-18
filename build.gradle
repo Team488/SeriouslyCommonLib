@@ -7,10 +7,12 @@
  * user guide available at https://docs.gradle.org/2.14.1/userguide/tutorial_java_projects.html
  */
 
-// Apply the java plugin to add support for Java
-apply plugin: 'scala'
-apply plugin: 'checkstyle'
-apply plugin: 'jacoco'
+plugins {
+    id "edu.wpi.first.GradleRIO" version "2020.2.2" 
+    id 'scala'
+    id 'checkstyle'
+    id 'jacoco'
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -25,16 +27,18 @@ repositories {
     maven { url "http://www.kauailabs.com/maven2" }
     maven { url "http://www.revrobotics.com/content/sw/max/sdk/maven/"}
     maven { url uri ("../SeriouslyCommonLib/lib/")}
-
-    
-   /* 
-   flatDir {
-       dirs 'lib'
-   }*/
 }
 
 configurations {
     nativeBundle
+}
+
+List<String> wpilibDesktopJni(String platform) {
+    return ["edu.wpi.first.thirdparty.frc2020.opencv:opencv-jni:${wpi.opencvVersion}:${platform}@jar".toString(),
+            "edu.wpi.first.hal:hal-jni:${wpi.wpilibVersion}:${platform}@jar".toString(),
+            "edu.wpi.first.wpiutil:wpiutil-jni:${wpi.wpilibVersion}:${platform}@jar".toString(),
+            "edu.wpi.first.ntcore:ntcore-jni:${wpi.wpilibVersion}:${platform}@jar".toString(),
+            "edu.wpi.first.cscore:cscore-jni:${wpi.wpilibVersion}:${platform}@jar".toString()]
 }
 
 // In this section you declare the dependencies for your production and test code
@@ -68,6 +72,8 @@ dependencies {
     compile 'edu.wpi.first.ntcore:ntcore-jni:2020.1.2'
     implementation 'edu.wpi.first.hal:hal-jni:2020.1.2'
     implementation 'edu.wpi.first.hal:hal-java:2020.1.2'
+    testImplementation(wpilibDesktopJni(wpi.platforms.desktop))
+    testImplementation(wpi.deps.vendor.jni(wpi.platforms.desktop))
 
     compile 'com.kauailabs.navx.frc:navx-java:3.1.400'
 
