@@ -14,6 +14,8 @@ import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.EncoderType;
 
 import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.XSparkMaxPIDManager;
+import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.properties.PropertyFactory;
@@ -21,12 +23,27 @@ import xbot.common.properties.PropertyFactory;
 public abstract class XCANSparkMax {
 
     protected int deviceId;
+    protected String prefix = "";
     PropertyFactory propertyFactory;
+    XSparkMaxPIDManager pidManager;
 
-    public XCANSparkMax(int deviceId, PropertyFactory propertyFactory, DevicePolice police) {
+    public XCANSparkMax(int deviceId, String owningSystemPrefix, String name, PropertyFactory propertyFactory, 
+        DevicePolice police, CommonLibFactory clf) {
+
         this.deviceId = deviceId;
         this.propertyFactory = propertyFactory;
+        //this.propertyFactory.setPrefix(owningSystemPrefix);
+        //this.propertyFactory.appendPrefix(name);
         police.registerDevice(DeviceType.CAN, deviceId);
+        pidManager = clf.createXSparkMaxPIDManager(getPIDController(), getPrefix());
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public XSparkMaxPIDManager getPIDManager() {
+        return pidManager;
     }
 
     /**** Speed Controller Interface ****/

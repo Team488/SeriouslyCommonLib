@@ -24,6 +24,10 @@ public class PropertyFactory {
         this.prefix = prefix;
     }
 
+    public void appendPrefix(String toAppend) {
+        prefix = prefix + "/" + toAppend;
+    }
+
     public void setPrefix(BaseCommand baseCommand) {
         this.prefix = baseCommand.getPrefix();
     }

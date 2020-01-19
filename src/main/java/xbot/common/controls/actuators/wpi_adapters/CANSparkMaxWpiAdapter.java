@@ -20,6 +20,7 @@ import com.revrobotics.EncoderType;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.wpi_adapters.CANEncoderWpiAdapter;
+import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.PropertyFactory;
 
@@ -29,8 +30,14 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     private XEncoder internalEncoder;
 
     @Inject
-    public CANSparkMaxWpiAdapter(@Assisted("deviceId") int deviceId, PropertyFactory propMan, DevicePolice police) {
-        super(deviceId, propMan, police);
+    public CANSparkMaxWpiAdapter(
+        @Assisted("deviceId") int deviceId, 
+    @Assisted("owningSystemPrefix") String owningSystemPrefix, 
+    @Assisted("name") String name, 
+    PropertyFactory propMan,
+    DevicePolice police, 
+    CommonLibFactory clf) {
+        super(deviceId, owningSystemPrefix, name, propMan, police, clf);
         internalSpark = new CANSparkMax(deviceId, MotorType.kBrushless);
     }
 

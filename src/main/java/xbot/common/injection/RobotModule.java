@@ -6,6 +6,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 import xbot.common.command.RealSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
+import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
@@ -14,6 +15,7 @@ import xbot.common.controls.actuators.XRelay;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.actuators.XSpeedController;
+import xbot.common.controls.actuators.wpi_adapters.CANSparkMaxWpiAdapter;
 import xbot.common.controls.actuators.wpi_adapters.CANTalonWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.CompressorWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.DigitalOutputWPIAdapter;
@@ -84,6 +86,7 @@ public class RobotModule extends AbstractModule {
                 .implement(XRelay.class, RelayWPIAdapter.class)
                 .implement(OffboardCommunicationClient.class, ZeromqListener.class)
                 .implement(XPWM.class, PWMWPIAdapter.class)
+                .implement(XCANSparkMax.class, CANSparkMaxWpiAdapter.class)
                 .build(CommonLibFactory.class)
                 );
     }

@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
+import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.PropertyFactory;
 
@@ -32,8 +33,15 @@ public class MockCANSparkMax extends XCANSparkMax {
     public XEncoder internalEncoder = null;
 
     @Inject
-    public MockCANSparkMax(@Assisted("deviceId") int deviceId, PropertyFactory propMan, DevicePolice police) {
-        super(deviceId, propMan, police);
+    public MockCANSparkMax(
+            @Assisted("deviceId") int deviceId, 
+            @Assisted("owningSystemPrefix") String owningSystemPrefix, 
+            @Assisted("name") String name, 
+            PropertyFactory propMan,
+            DevicePolice police, 
+            CommonLibFactory clf) {
+
+        super(deviceId, owningSystemPrefix, name, propMan, police, clf);
         log.info("Creating CAN talon with device ID: " + deviceId);
         internalEncoder = new MockEncoder(propMan);
         this.deviceId = deviceId;
