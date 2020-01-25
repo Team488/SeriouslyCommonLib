@@ -21,7 +21,6 @@ public class PreferenceStorage implements PermanentStorage {
     
     @Override
     public void setDouble(String key, double value) {
-        log.info("Setting " + key + " to value " + value);
         Preferences.getInstance().putDouble(key, value);
     }
 
