@@ -391,6 +391,7 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return internalSpark.getPIDController().setFF(gain, slotID);
     }
 
+    //CHECKSTYLE:OFF
     public CANError setIZone(double IZone) {
         return internalSpark.getPIDController().setIZone(IZone);
     }
@@ -398,6 +399,7 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     public CANError setIZone(double IZone, int slotID) {
         return internalSpark.getPIDController().setIZone(IZone, slotID);
     }
+    //CHECKSTYLE:ON
 
     public CANError setOutputRange(double min, double max) {
         return internalSpark.getPIDController().setOutputRange(min, max);

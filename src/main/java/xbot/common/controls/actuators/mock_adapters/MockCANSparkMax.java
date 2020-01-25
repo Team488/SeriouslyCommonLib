@@ -413,6 +413,7 @@ public class MockCANSparkMax extends XCANSparkMax {
         return null;
     }
 
+    //CHECKSTYLE:OFF
     @Override
     public CANError setIZone(double IZone) {
         return null;
@@ -422,6 +423,7 @@ public class MockCANSparkMax extends XCANSparkMax {
     public CANError setIZone(double IZone, int slotID) {
         return null;
     }
+    //CHECKSTYLE:ON
 
     @Override
     public CANError setOutputRange(double min, double max) {

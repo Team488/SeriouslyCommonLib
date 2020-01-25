@@ -648,11 +648,11 @@ public abstract class XCANSparkMax {
     public abstract CANError setFF(double gain);
 
     public abstract CANError setFF(double gain, int slotID);
-
+    //CHECKSTYLE:OFF
     public abstract CANError setIZone(double IZone);
 
     public abstract CANError setIZone(double IZone, int slotID);
-
+    //CHECKSTYLE:ON
     public abstract CANError setOutputRange(double min, double max);
 
     public abstract CANError setOutputRange(double min, double max, int slotID) ;
