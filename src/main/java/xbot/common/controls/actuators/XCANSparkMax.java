@@ -13,7 +13,6 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.ControlType;
 
-import xbot.common.controls.sensors.XSparkMaxPIDManager;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
@@ -25,7 +24,6 @@ public abstract class XCANSparkMax {
     protected int deviceId;
     protected String prefix = "";
     PropertyFactory propertyFactory;
-    XSparkMaxPIDManager pidManager;
     CommonLibFactory clf;
 
     final DoubleProperty kPprop;

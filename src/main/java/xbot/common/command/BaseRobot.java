@@ -217,10 +217,10 @@ public class BaseRobot extends TimedRobot {
     }
     
     protected void sharedPeriodic() {
-        //outsidePeriodicMonitor.stop();
-        //schedulerMonitor.start();
+        outsidePeriodicMonitor.stop();
+        schedulerMonitor.start();
         xScheduler.run();
-        //schedulerMonitor.stop();
+        schedulerMonitor.stop();
         
         brownoutLatch.setValue(RobotController.isBrownedOut());
         
@@ -235,9 +235,9 @@ public class BaseRobot extends TimedRobot {
             loopCycleCounter = 0;
             lastFreqCounterResetTime = XTimer.getFPGATimestamp();
             
-            //log.info("Robot loops per second: " + loopsPerSecond);
+            log.info("Robot loops per second: " + loopsPerSecond);
         }
         
-        //outsidePeriodicMonitor.start();
+        outsidePeriodicMonitor.start();
     }
 }

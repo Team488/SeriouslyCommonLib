@@ -3,7 +3,6 @@ package xbot.common.injection.wpi_factories;
 import java.util.function.DoubleFunction;
 
 import com.google.inject.assistedinject.Assisted;
-import com.revrobotics.CANPIDController;
 
 import edu.wpi.first.wpilibj.I2C;
 import xbot.common.controls.actuators.XCANSparkMax;
@@ -31,7 +30,6 @@ import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
-import xbot.common.controls.sensors.XSparkMaxPIDManager;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.logic.CalibrationDecider;
 import xbot.common.logic.HumanVsMachineDecider;
@@ -142,8 +140,4 @@ public interface CommonLibFactory extends PIDFactory {
                 @Assisted("name") String name); 
 
         public RumbleManager createRumbleManager(@Assisted("gamepad") XJoystick gamepad);
-
-        public XSparkMaxPIDManager createXSparkMaxPIDManager(
-                @Assisted("controller") CANPIDController controller,
-                @Assisted("sparkPrefix") String sparkPrefix);
 }
