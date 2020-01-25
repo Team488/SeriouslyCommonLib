@@ -134,7 +134,10 @@ public interface CommonLibFactory extends PIDFactory {
         public XDoubleSolenoid createDoubleSolenoid(@Assisted("forwardSolenoid") XSolenoid forwardSolenoid, 
                         @Assisted("reverseSolenoid") XSolenoid reverseSolenoid);
 
-        public XCANSparkMax createCANSparkMax(@Assisted("deviceId") int deviceId);
+        public XCANSparkMax createCANSparkMax(
+                @Assisted("deviceId") int deviceId, 
+                @Assisted("owningSystemPrefix") String owningSystemPrefix, 
+                @Assisted("name") String name); 
 
         public RumbleManager createRumbleManager(@Assisted("gamepad") XJoystick gamepad);
 }

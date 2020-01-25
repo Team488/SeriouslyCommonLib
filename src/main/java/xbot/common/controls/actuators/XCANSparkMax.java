@@ -1,32 +1,88 @@
 package xbot.common.controls.actuators;
 
-import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANAnalog;
 import com.revrobotics.CANAnalog.AnalogMode;
 import com.revrobotics.CANDigitalInput;
 import com.revrobotics.CANError;
-import com.revrobotics.CANPIDController;
+import com.revrobotics.CANPIDController.AccelStrategy;
+import com.revrobotics.CANPIDController.ArbFFUnits;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ExternalFollower;
 import com.revrobotics.CANSparkMax.FaultID;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
-import com.revrobotics.EncoderType;
+import com.revrobotics.ControlType;
 
-import xbot.common.controls.sensors.XEncoder;
+import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
+import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
 public abstract class XCANSparkMax {
 
     protected int deviceId;
+    protected String prefix = "";
     PropertyFactory propertyFactory;
+    CommonLibFactory clf;
 
-    public XCANSparkMax(int deviceId, PropertyFactory propertyFactory, DevicePolice police) {
+    final DoubleProperty kPprop;
+    final DoubleProperty kIprop;
+    final DoubleProperty kDprop;
+    final DoubleProperty kIzProp;
+    final DoubleProperty kFFprop;
+    final DoubleProperty kMaxOutputProp;
+    final DoubleProperty kMinOutoutProp;
+
+    protected boolean firstPeriodicCall = true;
+
+    public XCANSparkMax(int deviceId, String owningSystemPrefix, String name, PropertyFactory pf, DevicePolice police,
+            CommonLibFactory clf) {
+        this.clf = clf;
         this.deviceId = deviceId;
-        this.propertyFactory = propertyFactory;
+        this.propertyFactory = pf;
+        this.propertyFactory.setPrefix(owningSystemPrefix);
+        this.propertyFactory.appendPrefix(name);
+        prefix = pf.getPrefix();
         police.registerDevice(DeviceType.CAN, deviceId);
+
+        kPprop = pf.createPersistentProperty("kP", 0);
+        kIprop = pf.createPersistentProperty("kI", 0);
+        kDprop = pf.createPersistentProperty("kD", 0);
+        kIzProp = pf.createPersistentProperty("kIzone", 0);
+        kFFprop = pf.createPersistentProperty("kFeedForward", 0);
+        kMaxOutputProp = pf.createPersistentProperty("kMaxOutput", 1);
+        kMinOutoutProp = pf.createPersistentProperty("kMinOutput", -1);
+    }
+
+    ///
+    // Our own methods
+    ///
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    private void setAllProperties() {
+        setP(kPprop.get());
+        setI(kIprop.get());
+        setD(kDprop.get());
+        setIZone(kIzProp.get());
+        setFF(kFFprop.get());
+        setOutputRange(kMinOutoutProp.get(), kMaxOutputProp.get());
+    }
+
+    public void periodic() {
+        if (firstPeriodicCall) {
+            setAllProperties();
+        }
+        kPprop.hasChangedSinceLastCheck((value) -> setP(value));
+        kIprop.hasChangedSinceLastCheck((value) -> setI(value));
+        kDprop.hasChangedSinceLastCheck((value) -> setD(value));
+        kIzProp.hasChangedSinceLastCheck((value) -> setIZone(value));
+        kFFprop.hasChangedSinceLastCheck((value) -> setFF(value));
+        kMaxOutputProp.hasChangedSinceLastCheck((value) -> setOutputRange(kMinOutoutProp.get(), value));
+        kMinOutoutProp.hasChangedSinceLastCheck((value) -> setOutputRange(value, kMaxOutputProp.get()));
     }
 
     /**** Speed Controller Interface ****/
@@ -82,74 +138,11 @@ public abstract class XCANSparkMax {
 
     public abstract void pidWrite(double output);
 
-    /******* Extended Functions *******/
-    /**
-     * Returns and object for interfacing with the encoder connected to the encoder
-     * pins or front port of the SPARK MAX.
-     * 
-     * The default encoder type is assumed to be the hall effect for brushless. This
-     * can be modified for brushed DC to use a quadrature encoder.
-     * 
-     * Assumes that the encoder the is integrated encoder, configured as:
-     * EncoderType.kHallEffect, 0 counts per revolution.
-     * 
-     * @return An object for interfacing with the integrated encoder.
-     */
-    public abstract XEncoder getEncoder();
-
-    /**
-     * Returns and object for interfacing with the encoder connected to the encoder
-     * pins or front port of the SPARK MAX.
-     * 
-     * The default encoder type is assumed to be the hall effect for brushless. This
-     * can be modified for brushed DC to use a quadrature encoder.
-     * 
-     * @param sensorType     The encoder type for the motor: kHallEffect or
-     *                       kQuadrature
-     * @param counts_per_rev The counts per revolution of the encoder
-     * @return An object for interfacing with an encoder
-     */
-    public abstract XEncoder getEncoder(EncoderType sensorType, int counts_per_rev);
-
-    /**
-     * Returns an object for interfacing with an encoder connected to the alternate
-     * data port configured pins. This is defined as :
-     * 
-     * Mutli-function Pin: Encoder A Limit Switch Reverse: Encoder B
-     * 
-     * This call will disable the limit switch inputs
-     * 
-     * @return Returns an object for interfacing with an encoder connected to the
-     *         alternate data port configured pins
-     */
-    public abstract XEncoder getAlternateEncoder();
-
-    /**
-     * Returns an object for interfacing with an encoder connected to the alternate
-     * data port configured pins. This is defined as :
-     * 
-     * Mutli-function Pin: Encoder A Limit Switch Reverse: Encoder B
-     * 
-     * This call will disable the limit switch inputs.
-     * 
-     * @param counts_per_rev the Counts per revolution of the encoder
-     * @param sensorType     The encoder type for the motor: currently only
-     *                       kQuadrature
-     * @return Returns an object for interfacing with an encoder connected to the
-     *         alternate data port configured pins
-     */
-    public abstract XEncoder getAlternateEncoder(AlternateEncoderType sensorType, int counts_per_rev);
-
     /**
      * @param mode The mode of the analog sensor, either absolute or relative
      * @return An object for interfacing with a connected analog sensor.
      */
     public abstract CANAnalog getAnalog(AnalogMode mode);
-
-    /**
-     * @return An object for interfacing with the integrated PID controller.
-     */
-    public abstract CANPIDController getPIDController();
 
     /**
      * @return An object for interfacing with the integrated forward limit switch.
@@ -588,4 +581,137 @@ public abstract class XCANSparkMax {
      * @return the last error that was generated.
      */
     public abstract CANError getLastError();
+
+    public abstract CANError restoreFactoryDefaults();
+
+    ///
+    // CAN Encoder Block
+    ///
+    public abstract double getPosition();
+
+    public abstract double getVelocity();
+
+    public abstract CANError setPosition(double position);
+
+    public abstract CANError setPositionConversionFactor(double factor);
+
+    public abstract CANError setVelocityConversionFactor(double factor);
+
+    public abstract double getPositionConversionFactor();
+
+    public abstract double getVelocityConversionFactor();
+
+    public abstract CANError setAverageDepth(int depth);
+
+    public abstract int getAverageDepth();
+
+    public abstract CANError setMeasurementPeriod(int period_us);
+
+    public abstract int getMeasurementPeriod();
+
+    public abstract int getCPR();
+
+    public abstract int getCountsPerRevolution();
+
+    public abstract CANError setEncoderInverted(boolean inverted);
+
+
+    ///
+    // CAN PID Controller
+    ///
+
+    public abstract CANError setReference(double value, ControlType ctrl);
+
+    public abstract CANError setReference(double value, ControlType ctrl, int pidSlot);
+
+    public abstract CANError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward);
+
+    public abstract CANError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward,
+            ArbFFUnits arbFFUnits);
+
+    public abstract CANError setP(double gain);
+
+    public abstract CANError setP(double gain, int slotID);
+
+    public abstract CANError setI(double gain);
+
+    public abstract CANError setI(double gain, int slotID);
+
+    public abstract CANError setD(double gain);
+
+    public abstract CANError setD(double gain, int slotID);
+
+    public abstract CANError setDFilter(double gain);
+
+    public abstract CANError setDFilter(double gain, int slotID);
+
+    public abstract CANError setFF(double gain);
+
+    public abstract CANError setFF(double gain, int slotID);
+    //CHECKSTYLE:OFF
+    public abstract CANError setIZone(double IZone);
+
+    public abstract CANError setIZone(double IZone, int slotID);
+    //CHECKSTYLE:ON
+    public abstract CANError setOutputRange(double min, double max);
+
+    public abstract CANError setOutputRange(double min, double max, int slotID) ;
+
+    public abstract double getP();
+
+    public abstract double getP(int slotID);
+
+    public abstract double getI();
+
+    public abstract double getI(int slotID);
+
+    public abstract double getD();
+
+    public abstract double getD(int slotID);
+
+    public abstract double getDFilter(int slotID);
+
+    public abstract double getFF();
+
+    public abstract double getFF(int slotID);
+
+    public abstract double getIZone();
+
+    public abstract double getIZone(int slotID);
+
+    public abstract double getOutputMin();
+
+    public abstract double getOutputMin(int slotID);
+
+    public abstract double getOutputMax();
+
+    public abstract double getOutputMax(int slotID);
+
+    public abstract CANError setSmartMotionMaxVelocity(double maxVel, int slotID);
+
+    public abstract CANError setSmartMotionMaxAccel(double maxAccel, int slotID);
+
+    public abstract CANError setSmartMotionMinOutputVelocity(double minVel, int slotID);
+
+    public abstract CANError setSmartMotionAllowedClosedLoopError(double allowedErr, int slotID);
+
+    public abstract CANError setSmartMotionAccelStrategy(AccelStrategy accelStrategy, int slotID);
+
+    public abstract double getSmartMotionMaxVelocity(int slotID);
+
+    public abstract double getSmartMotionMaxAccel(int slotID);
+
+    public abstract double getSmartMotionMinOutputVelocity(int slotID);
+
+    public abstract double getSmartMotionAllowedClosedLoopError(int slotID);
+
+    public abstract AccelStrategy getSmartMotionAccelStrategy(int slotID);
+
+    public abstract CANError setIMaxAccum(double iMaxAccum, int slotID);
+
+    public abstract double getIMaxAccum(int slotID);
+
+    public abstract CANError setIAccum(double iAccum);
+
+    public abstract double getIAccum();
 }

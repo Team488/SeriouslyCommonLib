@@ -32,12 +32,12 @@ public class XboxControllerWpiAdapter extends XXboxController {
     }
 
     @Override
-    protected double getRawAxis(int axis) {
+    public double getRawAxis(int axis) {
         return controller.getRawAxis(axis);
     }
 
     @Override
-    protected boolean getButton(int button) {
+    public boolean getButton(int button) {
         return controller.getRawButton(button);
     }
 

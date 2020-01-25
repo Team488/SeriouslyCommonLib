@@ -2,35 +2,35 @@ package xbot.common.controls.actuators.wpi_adapters;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANAnalog;
 import com.revrobotics.CANAnalog.AnalogMode;
 import com.revrobotics.CANDigitalInput;
 import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANError;
-import com.revrobotics.CANPIDController;
+import com.revrobotics.CANPIDController.AccelStrategy;
+import com.revrobotics.CANPIDController.ArbFFUnits;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ExternalFollower;
 import com.revrobotics.CANSparkMax.FaultID;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.EncoderType;
+import com.revrobotics.ControlType;
 
 import xbot.common.controls.actuators.XCANSparkMax;
-import xbot.common.controls.sensors.XEncoder;
-import xbot.common.controls.sensors.wpi_adapters.CANEncoderWpiAdapter;
+import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.PropertyFactory;
 
 public class CANSparkMaxWpiAdapter extends XCANSparkMax {
 
     private CANSparkMax internalSpark;
-    private XEncoder internalEncoder;
 
     @Inject
-    public CANSparkMaxWpiAdapter(@Assisted("deviceId") int deviceId, PropertyFactory propMan, DevicePolice police) {
-        super(deviceId, propMan, police);
+    public CANSparkMaxWpiAdapter(@Assisted("deviceId") int deviceId,
+            @Assisted("owningSystemPrefix") String owningSystemPrefix, @Assisted("name") String name,
+            PropertyFactory propMan, DevicePolice police, CommonLibFactory clf) {
+        super(deviceId, owningSystemPrefix, name, propMan, police, clf);
         internalSpark = new CANSparkMax(deviceId, MotorType.kBrushless);
     }
 
@@ -75,39 +75,8 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     }
 
     @Override
-    public XEncoder getEncoder() {
-        if (internalEncoder == null) {
-            internalEncoder = new CANEncoderWpiAdapter(internalSpark.getEncoder());
-        }
-        return internalEncoder;
-    }
-
-    @Override
-    public XEncoder getEncoder(EncoderType sensorType, int counts_per_rev) {
-        if (internalEncoder == null) {
-            internalEncoder = new CANEncoderWpiAdapter(internalSpark.getEncoder());
-        }
-        return internalEncoder;
-    }
-
-    @Override
-    public XEncoder getAlternateEncoder() {
-        return null;
-    }
-
-    @Override
-    public XEncoder getAlternateEncoder(AlternateEncoderType sensorType, int counts_per_rev) {
-        return null;
-    }
-
-    @Override
     public CANAnalog getAnalog(AnalogMode mode) {
         return internalSpark.getAnalog(mode);
-    }
-
-    @Override
-    public CANPIDController getPIDController() {
-        return internalSpark.getPIDController();
     }
 
     @Override
@@ -293,5 +262,266 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     @Override
     public CANError getLastError() {
         return internalSpark.getLastError();
+    }
+
+    @Override
+    public CANError restoreFactoryDefaults() {
+        return internalSpark.restoreFactoryDefaults();
+    }
+
+    public double getPosition() {
+        return internalSpark.getEncoder().getPosition();
+    }
+
+    public double getVelocity() {
+        return internalSpark.getEncoder().getVelocity();
+    }
+
+    public CANError setPosition(double position) {
+        return internalSpark.getEncoder().setPosition(position);
+    }
+
+    public CANError setPositionConversionFactor(double factor) {
+        return internalSpark.getEncoder().setPositionConversionFactor(factor);
+    }
+
+    public CANError setVelocityConversionFactor(double factor) {
+        return internalSpark.getEncoder().setVelocityConversionFactor(factor);
+    }
+
+    public double getPositionConversionFactor() {
+        return internalSpark.getEncoder().getPositionConversionFactor();
+    }
+
+    public double getVelocityConversionFactor() {
+        return internalSpark.getEncoder().getVelocityConversionFactor();
+    }
+
+    public CANError setAverageDepth(int depth) {
+        return internalSpark.getEncoder().setAverageDepth(depth);
+    }
+
+    public int getAverageDepth() {
+        return internalSpark.getEncoder().getAverageDepth();
+    }
+
+    public CANError setMeasurementPeriod(int period_us) {
+        return internalSpark.getEncoder().setMeasurementPeriod(period_us);
+    }
+
+    public int getMeasurementPeriod() {
+        return internalSpark.getEncoder().getMeasurementPeriod();
+    }
+
+    @Deprecated
+    public int getCPR() {
+        return internalSpark.getEncoder().getCPR();
+    }
+
+    public int getCountsPerRevolution() {
+        return internalSpark.getEncoder().getCountsPerRevolution();
+    }
+
+    public int hashCode() {
+        return internalSpark.getEncoder().hashCode();
+    }
+
+    public CANError setEncoderInverted(boolean inverted) {
+        return internalSpark.getEncoder().setInverted(inverted);
+    }
+
+    public String toString() {
+        return internalSpark.getEncoder().toString();
+    }
+
+    public CANError setReference(double value, ControlType ctrl) {
+        return internalSpark.getPIDController().setReference(value, ctrl);
+    }
+
+    public CANError setReference(double value, ControlType ctrl, int pidSlot) {
+        return internalSpark.getPIDController().setReference(value, ctrl, pidSlot);
+    }
+
+    public CANError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward) {
+        return internalSpark.getPIDController().setReference(value, ctrl, pidSlot, arbFeedforward);
+    }
+
+    public CANError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward,
+            ArbFFUnits arbFFUnits) {
+        return internalSpark.getPIDController().setReference(value, ctrl, pidSlot, arbFeedforward, arbFFUnits);
+    }
+
+    public CANError setP(double gain) {
+        return internalSpark.getPIDController().setP(gain);
+    }
+
+    public CANError setP(double gain, int slotID) {
+        return internalSpark.getPIDController().setP(gain, slotID);
+    }
+
+    public CANError setI(double gain) {
+        return internalSpark.getPIDController().setI(gain);
+    }
+
+    public CANError setI(double gain, int slotID) {
+        return internalSpark.getPIDController().setI(gain, slotID);
+    }
+
+    public CANError setD(double gain) {
+        return internalSpark.getPIDController().setD(gain);
+    }
+
+    public CANError setD(double gain, int slotID) {
+        return internalSpark.getPIDController().setD(gain, slotID);
+    }
+
+    public CANError setDFilter(double gain) {
+        return internalSpark.getPIDController().setDFilter(gain);
+    }
+
+    public CANError setDFilter(double gain, int slotID) {
+        return internalSpark.getPIDController().setDFilter(gain, slotID);
+    }
+
+    public CANError setFF(double gain) {
+        return internalSpark.getPIDController().setFF(gain);
+    }
+
+    public CANError setFF(double gain, int slotID) {
+        return internalSpark.getPIDController().setFF(gain, slotID);
+    }
+
+    //CHECKSTYLE:OFF
+    public CANError setIZone(double IZone) {
+        return internalSpark.getPIDController().setIZone(IZone);
+    }
+
+    public CANError setIZone(double IZone, int slotID) {
+        return internalSpark.getPIDController().setIZone(IZone, slotID);
+    }
+    //CHECKSTYLE:ON
+
+    public CANError setOutputRange(double min, double max) {
+        return internalSpark.getPIDController().setOutputRange(min, max);
+    }
+
+    public CANError setOutputRange(double min, double max, int slotID) {
+        return internalSpark.getPIDController().setOutputRange(min, max, slotID);
+    }
+
+    public double getP() {
+        return internalSpark.getPIDController().getP();
+    }
+
+    public double getP(int slotID) {
+        return internalSpark.getPIDController().getP(slotID);
+    }
+
+    public double getI() {
+        return internalSpark.getPIDController().getI();
+    }
+
+    public double getI(int slotID) {
+        return internalSpark.getPIDController().getI(slotID);
+    }
+
+    public double getD() {
+        return internalSpark.getPIDController().getD();
+    }
+
+    public double getD(int slotID) {
+        return internalSpark.getPIDController().getD(slotID);
+    }
+
+    public double getDFilter(int slotID) {
+        return internalSpark.getPIDController().getDFilter(slotID);
+    }
+
+    public double getFF() {
+        return internalSpark.getPIDController().getFF();
+    }
+
+    public double getFF(int slotID) {
+        return internalSpark.getPIDController().getFF(slotID);
+    }
+
+    public double getIZone() {
+        return internalSpark.getPIDController().getIZone();
+    }
+
+    public double getIZone(int slotID) {
+        return internalSpark.getPIDController().getIZone(slotID);
+    }
+
+    public double getOutputMin() {
+        return internalSpark.getPIDController().getOutputMin();
+    }
+
+    public double getOutputMin(int slotID) {
+        return internalSpark.getPIDController().getOutputMin(slotID);
+    }
+
+    public double getOutputMax() {
+        return internalSpark.getPIDController().getOutputMax();
+    }
+
+    public double getOutputMax(int slotID) {
+        return internalSpark.getPIDController().getOutputMax(slotID);
+    }
+
+    public CANError setSmartMotionMaxVelocity(double maxVel, int slotID) {
+        return internalSpark.getPIDController().setSmartMotionMaxVelocity(maxVel, slotID);
+    }
+
+    public CANError setSmartMotionMaxAccel(double maxAccel, int slotID) {
+        return internalSpark.getPIDController().setSmartMotionMaxAccel(maxAccel, slotID);
+    }
+
+    public CANError setSmartMotionMinOutputVelocity(double minVel, int slotID) {
+        return internalSpark.getPIDController().setSmartMotionMinOutputVelocity(minVel, slotID);
+    }
+
+    public CANError setSmartMotionAllowedClosedLoopError(double allowedErr, int slotID) {
+        return internalSpark.getPIDController().setSmartMotionAllowedClosedLoopError(allowedErr, slotID);
+    }
+
+    public CANError setSmartMotionAccelStrategy(AccelStrategy accelStrategy, int slotID) {
+        return internalSpark.getPIDController().setSmartMotionAccelStrategy(accelStrategy, slotID);
+    }
+
+    public double getSmartMotionMaxVelocity(int slotID) {
+        return internalSpark.getPIDController().getSmartMotionMaxVelocity(slotID);
+    }
+
+    public double getSmartMotionMaxAccel(int slotID) {
+        return internalSpark.getPIDController().getSmartMotionMaxAccel(slotID);
+    }
+
+    public double getSmartMotionMinOutputVelocity(int slotID) {
+        return internalSpark.getPIDController().getSmartMotionMinOutputVelocity(slotID);
+    }
+
+    public double getSmartMotionAllowedClosedLoopError(int slotID) {
+        return internalSpark.getPIDController().getSmartMotionAllowedClosedLoopError(slotID);
+    }
+
+    public AccelStrategy getSmartMotionAccelStrategy(int slotID) {
+        return internalSpark.getPIDController().getSmartMotionAccelStrategy(slotID);
+    }
+
+    public CANError setIMaxAccum(double iMaxAccum, int slotID) {
+        return internalSpark.getPIDController().setIMaxAccum(iMaxAccum, slotID);
+    }
+
+    public double getIMaxAccum(int slotID) {
+        return internalSpark.getPIDController().getIMaxAccum(slotID);
+    }
+
+    public CANError setIAccum(double iAccum) {
+        return internalSpark.getPIDController().setIAccum(iAccum);
+    }
+
+    public double getIAccum() {
+        return internalSpark.getPIDController().getIAccum();
     }
 }
