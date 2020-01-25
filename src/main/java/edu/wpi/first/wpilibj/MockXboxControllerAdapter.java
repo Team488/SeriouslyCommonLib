@@ -39,12 +39,12 @@ public class MockXboxControllerAdapter extends XXboxController {
     }
 
     @Override
-    protected boolean getButton(int button) {
+    public boolean getButton(int button) {
         return false;
     }
 
     @Override
-    protected double getRawAxis(int axis) {
+    public double getRawAxis(int axis) {
         return 0;
     }
 
