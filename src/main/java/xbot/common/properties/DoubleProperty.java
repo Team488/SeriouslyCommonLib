@@ -38,7 +38,8 @@ public class DoubleProperty extends Property {
                     + " IF THIS IS AN IMPORTANT ROBOT PROPERTY, MAKE SURE IT HAS A SANE VALUE BEFORE ENABLING THE ROBOT!");
             return defaultValue;
         }
-        return lastValue;
+        
+        return nullableTableValue.doubleValue();
     }
     
     public void set(double value) {

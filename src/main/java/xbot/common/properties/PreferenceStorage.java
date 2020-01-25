@@ -16,11 +16,12 @@ import edu.wpi.first.wpilibj.Preferences;
  */
 public class PreferenceStorage implements PermanentStorage {
 
-    protected static Logger log;
+    protected static Logger log = Logger.getLogger(PreferenceStorage.class);
     boolean fastMode = false;
     
     @Override
     public void setDouble(String key, double value) {
+        log.info("Setting " + key + " to value " + value);
         Preferences.getInstance().putDouble(key, value);
     }
 

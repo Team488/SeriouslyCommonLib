@@ -47,7 +47,6 @@ public class TestCommonLibFactory extends BaseWPITest {
         // test that inherited methods are present
         clf.createPIDManager("Rotate");
         var spark = clf.createCANSparkMax(10, "drive", "left");
-        clf.createXSparkMaxPIDManager(spark.getPIDController(), spark.getPrefix());
     }
     
     @Test(expected = RobotAssertionException.class)
