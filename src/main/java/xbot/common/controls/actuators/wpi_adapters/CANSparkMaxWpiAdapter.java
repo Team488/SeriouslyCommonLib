@@ -5,8 +5,10 @@ import com.google.inject.assistedinject.Assisted;
 import com.revrobotics.CANAnalog;
 import com.revrobotics.CANAnalog.AnalogMode;
 import com.revrobotics.CANDigitalInput;
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANError;
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANPIDController.AccelStrategy;
 import com.revrobotics.CANPIDController.ArbFFUnits;
 import com.revrobotics.CANSparkMax;
@@ -269,259 +271,271 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return internalSpark.restoreFactoryDefaults();
     }
 
+    CANEncoder ce;
+    private CANEncoder getEncoderInstance() {
+        if (ce == null) {
+            ce = internalSpark.getEncoder();
+        }
+        return ce;
+    }
+
     public double getPosition() {
-        return internalSpark.getEncoder().getPosition();
+        return getEncoderInstance().getPosition();
     }
 
     public double getVelocity() {
-        return internalSpark.getEncoder().getVelocity();
+        return getEncoderInstance().getVelocity();
     }
 
     public CANError setPosition(double position) {
-        return internalSpark.getEncoder().setPosition(position);
+        return getEncoderInstance().setPosition(position);
     }
 
     public CANError setPositionConversionFactor(double factor) {
-        return internalSpark.getEncoder().setPositionConversionFactor(factor);
+        return getEncoderInstance().setPositionConversionFactor(factor);
     }
 
     public CANError setVelocityConversionFactor(double factor) {
-        return internalSpark.getEncoder().setVelocityConversionFactor(factor);
+        return getEncoderInstance().setVelocityConversionFactor(factor);
     }
 
     public double getPositionConversionFactor() {
-        return internalSpark.getEncoder().getPositionConversionFactor();
+        return getEncoderInstance().getPositionConversionFactor();
     }
 
     public double getVelocityConversionFactor() {
-        return internalSpark.getEncoder().getVelocityConversionFactor();
+        return getEncoderInstance().getVelocityConversionFactor();
     }
 
     public CANError setAverageDepth(int depth) {
-        return internalSpark.getEncoder().setAverageDepth(depth);
+        return getEncoderInstance().setAverageDepth(depth);
     }
 
     public int getAverageDepth() {
-        return internalSpark.getEncoder().getAverageDepth();
+        return getEncoderInstance().getAverageDepth();
     }
 
     public CANError setMeasurementPeriod(int period_us) {
-        return internalSpark.getEncoder().setMeasurementPeriod(period_us);
+        return getEncoderInstance().setMeasurementPeriod(period_us);
     }
 
     public int getMeasurementPeriod() {
-        return internalSpark.getEncoder().getMeasurementPeriod();
+        return getEncoderInstance().getMeasurementPeriod();
     }
 
     @Deprecated
     public int getCPR() {
-        return internalSpark.getEncoder().getCPR();
+        return getEncoderInstance().getCPR();
     }
 
     public int getCountsPerRevolution() {
-        return internalSpark.getEncoder().getCountsPerRevolution();
+        return getEncoderInstance().getCountsPerRevolution();
     }
 
     public int hashCode() {
-        return internalSpark.getEncoder().hashCode();
+        return getEncoderInstance().hashCode();
     }
 
     public CANError setEncoderInverted(boolean inverted) {
-        return internalSpark.getEncoder().setInverted(inverted);
+        return getEncoderInstance().setInverted(inverted);
     }
 
-    public String toString() {
-        return internalSpark.getEncoder().toString();
+    private CANPIDController cpc;
+    private CANPIDController getCANPIDControllerInstance() {
+        if (cpc == null) {
+            cpc = internalSpark.getPIDController();
+        }
+        return cpc;
     }
 
     public CANError setReference(double value, ControlType ctrl) {
-        return internalSpark.getPIDController().setReference(value, ctrl);
+        return getCANPIDControllerInstance().setReference(value, ctrl);
     }
 
     public CANError setReference(double value, ControlType ctrl, int pidSlot) {
-        return internalSpark.getPIDController().setReference(value, ctrl, pidSlot);
+        return getCANPIDControllerInstance().setReference(value, ctrl, pidSlot);
     }
 
     public CANError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward) {
-        return internalSpark.getPIDController().setReference(value, ctrl, pidSlot, arbFeedforward);
+        return getCANPIDControllerInstance().setReference(value, ctrl, pidSlot, arbFeedforward);
     }
 
     public CANError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward,
             ArbFFUnits arbFFUnits) {
-        return internalSpark.getPIDController().setReference(value, ctrl, pidSlot, arbFeedforward, arbFFUnits);
+        return getCANPIDControllerInstance().setReference(value, ctrl, pidSlot, arbFeedforward, arbFFUnits);
     }
 
     public CANError setP(double gain) {
-        return internalSpark.getPIDController().setP(gain);
+        return getCANPIDControllerInstance().setP(gain);
     }
 
     public CANError setP(double gain, int slotID) {
-        return internalSpark.getPIDController().setP(gain, slotID);
+        return getCANPIDControllerInstance().setP(gain, slotID);
     }
 
     public CANError setI(double gain) {
-        return internalSpark.getPIDController().setI(gain);
+        return getCANPIDControllerInstance().setI(gain);
     }
 
     public CANError setI(double gain, int slotID) {
-        return internalSpark.getPIDController().setI(gain, slotID);
+        return getCANPIDControllerInstance().setI(gain, slotID);
     }
 
     public CANError setD(double gain) {
-        return internalSpark.getPIDController().setD(gain);
+        return getCANPIDControllerInstance().setD(gain);
     }
 
     public CANError setD(double gain, int slotID) {
-        return internalSpark.getPIDController().setD(gain, slotID);
+        return getCANPIDControllerInstance().setD(gain, slotID);
     }
 
     public CANError setDFilter(double gain) {
-        return internalSpark.getPIDController().setDFilter(gain);
+        return getCANPIDControllerInstance().setDFilter(gain);
     }
 
     public CANError setDFilter(double gain, int slotID) {
-        return internalSpark.getPIDController().setDFilter(gain, slotID);
+        return getCANPIDControllerInstance().setDFilter(gain, slotID);
     }
 
     public CANError setFF(double gain) {
-        return internalSpark.getPIDController().setFF(gain);
+        return getCANPIDControllerInstance().setFF(gain);
     }
 
     public CANError setFF(double gain, int slotID) {
-        return internalSpark.getPIDController().setFF(gain, slotID);
+        return getCANPIDControllerInstance().setFF(gain, slotID);
     }
 
     //CHECKSTYLE:OFF
     public CANError setIZone(double IZone) {
-        return internalSpark.getPIDController().setIZone(IZone);
+        return getCANPIDControllerInstance().setIZone(IZone);
     }
 
     public CANError setIZone(double IZone, int slotID) {
-        return internalSpark.getPIDController().setIZone(IZone, slotID);
+        return getCANPIDControllerInstance().setIZone(IZone, slotID);
     }
     //CHECKSTYLE:ON
 
     public CANError setOutputRange(double min, double max) {
-        return internalSpark.getPIDController().setOutputRange(min, max);
+        return getCANPIDControllerInstance().setOutputRange(min, max);
     }
 
     public CANError setOutputRange(double min, double max, int slotID) {
-        return internalSpark.getPIDController().setOutputRange(min, max, slotID);
+        return getCANPIDControllerInstance().setOutputRange(min, max, slotID);
     }
 
     public double getP() {
-        return internalSpark.getPIDController().getP();
+        return getCANPIDControllerInstance().getP();
     }
 
     public double getP(int slotID) {
-        return internalSpark.getPIDController().getP(slotID);
+        return getCANPIDControllerInstance().getP(slotID);
     }
 
     public double getI() {
-        return internalSpark.getPIDController().getI();
+        return getCANPIDControllerInstance().getI();
     }
 
     public double getI(int slotID) {
-        return internalSpark.getPIDController().getI(slotID);
+        return getCANPIDControllerInstance().getI(slotID);
     }
 
     public double getD() {
-        return internalSpark.getPIDController().getD();
+        return getCANPIDControllerInstance().getD();
     }
 
     public double getD(int slotID) {
-        return internalSpark.getPIDController().getD(slotID);
+        return getCANPIDControllerInstance().getD(slotID);
     }
 
     public double getDFilter(int slotID) {
-        return internalSpark.getPIDController().getDFilter(slotID);
+        return getCANPIDControllerInstance().getDFilter(slotID);
     }
 
     public double getFF() {
-        return internalSpark.getPIDController().getFF();
+        return getCANPIDControllerInstance().getFF();
     }
 
     public double getFF(int slotID) {
-        return internalSpark.getPIDController().getFF(slotID);
+        return getCANPIDControllerInstance().getFF(slotID);
     }
 
     public double getIZone() {
-        return internalSpark.getPIDController().getIZone();
+        return getCANPIDControllerInstance().getIZone();
     }
 
     public double getIZone(int slotID) {
-        return internalSpark.getPIDController().getIZone(slotID);
+        return getCANPIDControllerInstance().getIZone(slotID);
     }
 
     public double getOutputMin() {
-        return internalSpark.getPIDController().getOutputMin();
+        return getCANPIDControllerInstance().getOutputMin();
     }
 
     public double getOutputMin(int slotID) {
-        return internalSpark.getPIDController().getOutputMin(slotID);
+        return getCANPIDControllerInstance().getOutputMin(slotID);
     }
 
     public double getOutputMax() {
-        return internalSpark.getPIDController().getOutputMax();
+        return getCANPIDControllerInstance().getOutputMax();
     }
 
     public double getOutputMax(int slotID) {
-        return internalSpark.getPIDController().getOutputMax(slotID);
+        return getCANPIDControllerInstance().getOutputMax(slotID);
     }
 
     public CANError setSmartMotionMaxVelocity(double maxVel, int slotID) {
-        return internalSpark.getPIDController().setSmartMotionMaxVelocity(maxVel, slotID);
+        return getCANPIDControllerInstance().setSmartMotionMaxVelocity(maxVel, slotID);
     }
 
     public CANError setSmartMotionMaxAccel(double maxAccel, int slotID) {
-        return internalSpark.getPIDController().setSmartMotionMaxAccel(maxAccel, slotID);
+        return getCANPIDControllerInstance().setSmartMotionMaxAccel(maxAccel, slotID);
     }
 
     public CANError setSmartMotionMinOutputVelocity(double minVel, int slotID) {
-        return internalSpark.getPIDController().setSmartMotionMinOutputVelocity(minVel, slotID);
+        return getCANPIDControllerInstance().setSmartMotionMinOutputVelocity(minVel, slotID);
     }
 
     public CANError setSmartMotionAllowedClosedLoopError(double allowedErr, int slotID) {
-        return internalSpark.getPIDController().setSmartMotionAllowedClosedLoopError(allowedErr, slotID);
+        return getCANPIDControllerInstance().setSmartMotionAllowedClosedLoopError(allowedErr, slotID);
     }
 
     public CANError setSmartMotionAccelStrategy(AccelStrategy accelStrategy, int slotID) {
-        return internalSpark.getPIDController().setSmartMotionAccelStrategy(accelStrategy, slotID);
+        return getCANPIDControllerInstance().setSmartMotionAccelStrategy(accelStrategy, slotID);
     }
 
     public double getSmartMotionMaxVelocity(int slotID) {
-        return internalSpark.getPIDController().getSmartMotionMaxVelocity(slotID);
+        return getCANPIDControllerInstance().getSmartMotionMaxVelocity(slotID);
     }
 
     public double getSmartMotionMaxAccel(int slotID) {
-        return internalSpark.getPIDController().getSmartMotionMaxAccel(slotID);
+        return getCANPIDControllerInstance().getSmartMotionMaxAccel(slotID);
     }
 
     public double getSmartMotionMinOutputVelocity(int slotID) {
-        return internalSpark.getPIDController().getSmartMotionMinOutputVelocity(slotID);
+        return getCANPIDControllerInstance().getSmartMotionMinOutputVelocity(slotID);
     }
 
     public double getSmartMotionAllowedClosedLoopError(int slotID) {
-        return internalSpark.getPIDController().getSmartMotionAllowedClosedLoopError(slotID);
+        return getCANPIDControllerInstance().getSmartMotionAllowedClosedLoopError(slotID);
     }
 
     public AccelStrategy getSmartMotionAccelStrategy(int slotID) {
-        return internalSpark.getPIDController().getSmartMotionAccelStrategy(slotID);
+        return getCANPIDControllerInstance().getSmartMotionAccelStrategy(slotID);
     }
 
     public CANError setIMaxAccum(double iMaxAccum, int slotID) {
-        return internalSpark.getPIDController().setIMaxAccum(iMaxAccum, slotID);
+        return getCANPIDControllerInstance().setIMaxAccum(iMaxAccum, slotID);
     }
 
     public double getIMaxAccum(int slotID) {
-        return internalSpark.getPIDController().getIMaxAccum(slotID);
+        return getCANPIDControllerInstance().getIMaxAccum(slotID);
     }
 
     public CANError setIAccum(double iAccum) {
-        return internalSpark.getPIDController().setIAccum(iAccum);
+        return getCANPIDControllerInstance().setIAccum(iAccum);
     }
 
     public double getIAccum() {
-        return internalSpark.getPIDController().getIAccum();
+        return getCANPIDControllerInstance().getIAccum();
     }
 }
