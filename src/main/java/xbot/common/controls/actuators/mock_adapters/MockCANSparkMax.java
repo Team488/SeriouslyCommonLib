@@ -168,12 +168,12 @@ public class MockCANSparkMax extends XCANSparkMax {
     }
 
     @Override
-    public CANError follow(CANSparkMax leader) {
+    public CANError follow(XCANSparkMax leader) {
         return null;
     }
 
     @Override
-    public CANError follow(CANSparkMax leader, boolean invert) {
+    public CANError follow(XCANSparkMax leader, boolean invert) {
         return null;
     }
 
@@ -582,6 +582,11 @@ public class MockCANSparkMax extends XCANSparkMax {
 
     @Override
     public CANError restoreFactoryDefaults() {
+        return null;
+    }
+
+    @Override
+    public CANSparkMax getInternalSparkMax() {
         return null;
     }
 }

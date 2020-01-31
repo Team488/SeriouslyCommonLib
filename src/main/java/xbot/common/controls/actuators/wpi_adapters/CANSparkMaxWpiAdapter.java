@@ -162,13 +162,13 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     }
 
     @Override
-    public CANError follow(CANSparkMax leader) {
-        return internalSpark.follow(leader);
+    public CANError follow(XCANSparkMax leader) {
+        return internalSpark.follow(leader.getInternalSparkMax());
     }
 
     @Override
-    public CANError follow(CANSparkMax leader, boolean invert) {
-        return internalSpark.follow(leader, invert);
+    public CANError follow(XCANSparkMax leader, boolean invert) {
+        return internalSpark.follow(leader.getInternalSparkMax(), invert);
     }
 
     @Override
@@ -537,5 +537,10 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
 
     public double getIAccum() {
         return getCANPIDControllerInstance().getIAccum();
+    }
+
+    @Override
+    public CANSparkMax getInternalSparkMax() {
+        return internalSpark;
     }
 }
