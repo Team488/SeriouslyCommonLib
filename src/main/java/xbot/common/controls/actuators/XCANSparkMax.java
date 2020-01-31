@@ -393,7 +393,7 @@ public abstract class XCANSparkMax {
      *
      * @return CANError Set to CANError.kOK if successful
      */
-    public abstract CANError follow(final CANSparkMax leader);
+    public abstract CANError follow(final XCANSparkMax leader);
 
     /**
      * Causes this controller's output to mirror the provided leader.
@@ -408,7 +408,7 @@ public abstract class XCANSparkMax {
      *
      * @return CANError Set to CANError.kOK if successful
      */
-    public abstract CANError follow(final CANSparkMax leader, boolean invert);
+    public abstract CANError follow(final XCANSparkMax leader, boolean invert);
 
     /**
      * Causes this controller's output to mirror the provided leader.
@@ -714,4 +714,7 @@ public abstract class XCANSparkMax {
     public abstract CANError setIAccum(double iAccum);
 
     public abstract double getIAccum();
+
+    /// Get true value. Should not be called in competition code.
+    public abstract CANSparkMax getInternalSparkMax();
 }
