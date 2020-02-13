@@ -49,7 +49,7 @@ public class PropertyFactory {
         // We've seen issues with badly assembled keys where slashes are getting doubled up
         String cleanedKey = fullKey.replaceAll("/+", "/");
         if (fullKey != cleanedKey) {
-            log.warn("Property key '" + fullKey + "' had double slashes that were stripped out. Please fix the key logic to not create double slashes.");
+            //log.warn("Property key '" + fullKey + "' had double slashes that were stripped out. Please fix the key logic to not create double slashes.");
         }
         return cleanedKey;
     }
