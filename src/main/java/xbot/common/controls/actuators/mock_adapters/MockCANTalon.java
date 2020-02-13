@@ -37,6 +37,8 @@ public class MockCANTalon extends XCANTalon {
 
     private static Logger log = Logger.getLogger(MockCANTalon.class);
 
+    private int pulseWidthRiseToFallUs = 0;
+
     public final int deviceId;
     private double setpoint = 0;
     private double throttlePercent = 0;
@@ -753,5 +755,14 @@ public class MockCANTalon extends XCANTalon {
     @Override
     public ErrorCode configMotionSCurveStrength(int curveStrength, int timeoutMs) {
         return null;
+    }
+
+    @Override
+    public int getPulseWidthRiseToFallUs() {
+        return pulseWidthRiseToFallUs;
+    }
+
+    public void setPulseWidthRiseToFallUs(int value) {
+        pulseWidthRiseToFallUs = value;
     }
 }

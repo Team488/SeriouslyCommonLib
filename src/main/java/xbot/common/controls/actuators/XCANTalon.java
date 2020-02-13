@@ -382,4 +382,6 @@ public abstract class XCANTalon implements IMotorControllerEnhanced {
         this.configForwardSoftLimitEnable(false, 0);
         this.configReverseSoftLimitEnable(false, 0);
     }
+
+    public abstract int getPulseWidthRiseToFallUs();
 }
