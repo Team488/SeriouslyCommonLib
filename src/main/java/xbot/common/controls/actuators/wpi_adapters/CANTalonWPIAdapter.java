@@ -33,6 +33,7 @@ import xbot.common.properties.PropertyFactory;
 public class CANTalonWPIAdapter extends XCANTalon {
 
     private TalonSRX internalTalon;
+    SensorCollection sensorCollection;
 
     @Inject
     public CANTalonWPIAdapter(@Assisted("deviceId") int deviceId, PropertyFactory propMan, DevicePolice police) {
@@ -484,6 +485,18 @@ public class CANTalonWPIAdapter extends XCANTalon {
     @Override
     public ErrorCode configMotionSCurveStrength(int curveStrength, int timeoutMs) {
         return internalTalon.configMotionSCurveStrength(curveStrength, timeoutMs);
+    }
+
+    private SensorCollection getSensorCollectionInstance() {
+        if (sensorCollection == null) {
+            sensorCollection = internalTalon.getSensorCollection();
+        }
+        return sensorCollection;
+    }
+
+    @Override
+    public int getPulseWidthRiseToFallUs() {
+        return getSensorCollectionInstance().getPulseWidthRiseToRiseUs();
     }
    
 }

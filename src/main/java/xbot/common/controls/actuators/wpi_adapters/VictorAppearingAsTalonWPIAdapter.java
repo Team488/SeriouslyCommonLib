@@ -652,4 +652,9 @@ public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
         return null;
     }
 
+    @Override
+    public int getPulseWidthRiseToFallUs() {
+        return 0;
+    }
+
 }

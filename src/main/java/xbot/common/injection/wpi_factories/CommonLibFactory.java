@@ -22,6 +22,7 @@ import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.ChordButton;
+import xbot.common.controls.sensors.XAS5600;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
@@ -140,4 +141,6 @@ public interface CommonLibFactory extends PIDFactory {
                 @Assisted("name") String name); 
 
         public RumbleManager createRumbleManager(@Assisted("gamepad") XJoystick gamepad);
+
+        public XAS5600 createXAS5600(@Assisted("talon") XCANTalon talon);
 }
