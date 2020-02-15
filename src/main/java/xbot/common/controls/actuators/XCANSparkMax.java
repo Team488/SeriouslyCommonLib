@@ -34,6 +34,10 @@ public abstract class XCANSparkMax {
     final DoubleProperty kMaxOutputProp;
     final DoubleProperty kMinOutoutProp;
 
+    final DoubleProperty percentProp;
+    final DoubleProperty voltageProp;
+    final DoubleProperty currentProp;
+
     protected boolean firstPeriodicCall = true;
 
     public XCANSparkMax(int deviceId, String owningSystemPrefix, String name, PropertyFactory pf, DevicePolice police,
@@ -53,6 +57,10 @@ public abstract class XCANSparkMax {
         kFFprop = pf.createPersistentProperty("kFeedForward", 0);
         kMaxOutputProp = pf.createPersistentProperty("kMaxOutput", 1);
         kMinOutoutProp = pf.createPersistentProperty("kMinOutput", -1);
+
+        percentProp = pf.createEphemeralProperty("Percent", 0);
+        voltageProp = pf.createEphemeralProperty("Voltage", 0);
+        currentProp = pf.createEphemeralProperty("Current", 0);
     }
 
     ///
@@ -83,6 +91,10 @@ public abstract class XCANSparkMax {
         kFFprop.hasChangedSinceLastCheck((value) -> setFF(value));
         kMaxOutputProp.hasChangedSinceLastCheck((value) -> setOutputRange(kMinOutoutProp.get(), value));
         kMinOutoutProp.hasChangedSinceLastCheck((value) -> setOutputRange(value, kMaxOutputProp.get()));
+
+        percentProp.set(getAppliedOutput());
+        voltageProp.set(getAppliedOutput() * getBusVoltage());
+        currentProp.set(getOutputCurrent());
     }
 
     /**** Speed Controller Interface ****/
