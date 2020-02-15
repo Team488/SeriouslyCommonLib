@@ -7,6 +7,7 @@ import com.google.inject.assistedinject.Assisted;
 import edu.wpi.first.wpilibj.I2C;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.controls.actuators.XCANVictorSPX;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XDoubleSolenoid;
@@ -143,4 +144,6 @@ public interface CommonLibFactory extends PIDFactory {
         public RumbleManager createRumbleManager(@Assisted("gamepad") XJoystick gamepad);
 
         public XAS5600 createXAS5600(@Assisted("talon") XCANTalon talon);
+
+        public XCANVictorSPX createCANVictorSPX(@Assisted("deviceId") int deviceId);
 }

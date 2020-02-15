@@ -49,6 +49,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createPIDManager("Rotate");
         clf.createCANSparkMax(10, "drive", "left");
         clf.createXAS5600(talon);
+        clf.createCANVictorSPX(5);
     }
     
     @Test(expected = RobotAssertionException.class)
