@@ -22,11 +22,14 @@ public class HumanVsMachineDecider {
     private boolean inAutomaticMode;
     
     @Inject
-    public HumanVsMachineDecider(@Assisted("name") String name, PropertyFactory propMan) {
-        propMan.setPrefix(name);
-        deadbandProp = propMan.createPersistentProperty("Decider/Deadband", 0.1);
-        coastTimeProp = propMan.createPersistentProperty("Decider/Coast Time", 0.3);
+    public HumanVsMachineDecider(@Assisted("prefix") String prefix, PropertyFactory propMan) {
+        propMan.setPrefix(prefix);
+        propMan.appendPrefix("Decider");
+        deadbandProp = propMan.createPersistentProperty("Deadband", 0.1);
+        coastTimeProp = propMan.createPersistentProperty("Coast Time", 0.3);
         reset();
+
+
     }
     
     public void reset() {

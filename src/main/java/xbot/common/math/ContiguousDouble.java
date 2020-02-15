@@ -152,10 +152,11 @@ public class ContiguousDouble {
      * @param shiftMagnitude
      *            the amount to add to each bound
      */
-    public void shiftBounds(double shiftMagnitude) {
+    public ContiguousDouble shiftBounds(double shiftMagnitude) {
         upperBound += shiftMagnitude;
         lowerBound += shiftMagnitude;
         reboundValue();
+        return this;
     }
 
     /**
