@@ -116,7 +116,7 @@ public interface CommonLibFactory extends PIDFactory {
         public HeadingAssistModule createHeadingAssistModule(@Assisted("headingModule") HeadingModule headingModule,
                         @Assisted("decayModule") HeadingModule decayModule);
 
-        public HumanVsMachineDecider createHumanVsMachineDecider(@Assisted("name") String name);
+        public HumanVsMachineDecider createHumanVsMachineDecider(@Assisted("prefix") String prefix);
 
         public CalibrationDecider createCalibrationDecider(@Assisted("name") String name);
 
