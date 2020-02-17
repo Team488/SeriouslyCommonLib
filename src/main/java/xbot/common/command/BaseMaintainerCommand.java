@@ -4,10 +4,6 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
 
     BaseSetpointSubsystem subsystemToMaintan;
 
-    /**
-     * 
-     * @param subsystemToMaintain
-     */
     public BaseMaintainerCommand(BaseSetpointSubsystem subsystemToMaintain) {
         this.subsystemToMaintan = subsystemToMaintain;
         this.addRequirements(subsystemToMaintain);
