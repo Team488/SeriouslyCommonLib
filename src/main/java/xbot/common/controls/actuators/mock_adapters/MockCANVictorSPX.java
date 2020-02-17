@@ -37,6 +37,8 @@ public class MockCANVictorSPX extends XCANVictorSPX {
         super(deviceId, propMan, police);
     }
 
+    //CHECKSTYLE:OFF
+
     @Override
     public void set(ControlMode Mode, double demand0, DemandType demand1Type, double demand1) {
         power = demand0;
@@ -551,4 +553,6 @@ public class MockCANVictorSPX extends XCANVictorSPX {
     public int getPulseWidthRiseToFallUs() {
         return 0;
     }
+
+    //CHECKSTYLE:ON
 }

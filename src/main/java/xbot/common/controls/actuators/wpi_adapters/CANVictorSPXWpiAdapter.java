@@ -46,6 +46,8 @@ public class CANVictorSPXWpiAdapter extends XCANVictorSPX {
         internalVictor = new VictorSPX(deviceId);
     }
 
+    //CHECKSTYLE:OFF
+
     public ErrorCode DestroyObject() {
         return internalVictor.DestroyObject();
     }
@@ -78,6 +80,7 @@ public class CANVictorSPXWpiAdapter extends XCANVictorSPX {
         internalVictor.getPIDConfigs(pid);
     }
 
+    @Deprecated
     public void set(ControlMode mode, double demand0, double demand1) {
         internalVictor.set(mode, demand0, demand1);
     }
@@ -110,10 +113,12 @@ public class CANVictorSPXWpiAdapter extends XCANVictorSPX {
         internalVictor.getAllConfigs(allConfigs);
     }
 
+    @Deprecated
     public void enableHeadingHold(boolean enable) {
         internalVictor.enableHeadingHold(enable);
     }
 
+    @Deprecated
     public void selectDemandType(boolean value) {
         internalVictor.selectDemandType(value);
     }
@@ -581,6 +586,7 @@ public class CANVictorSPXWpiAdapter extends XCANVictorSPX {
         return internalVictor.getActiveTrajectoryVelocity(pidIdx);
     }
 
+    @Deprecated
     public double getActiveTrajectoryHeading() {
         return internalVictor.getActiveTrajectoryHeading();
     }
@@ -816,10 +822,12 @@ public class CANVictorSPXWpiAdapter extends XCANVictorSPX {
         internalVictor.valueUpdated();
     }
 
+    @Deprecated
     public ErrorCode configureSlot(SlotConfiguration slot) {
         return internalVictor.configureSlot(slot);
     }
 
+    @Deprecated
     public ErrorCode configureSlot(SlotConfiguration slot, int slotIdx, int timeoutMs) {
         return internalVictor.configureSlot(slot, slotIdx, timeoutMs);
     }
@@ -832,15 +840,18 @@ public class CANVictorSPXWpiAdapter extends XCANVictorSPX {
         internalVictor.getSlotConfigs(slot);
     }
 
+    @Deprecated
     public ErrorCode configureFilter(FilterConfiguration filter, int ordinal, int timeoutMs,
             boolean enableOptimizations) {
         return internalVictor.configureFilter(filter, ordinal, timeoutMs, enableOptimizations);
     }
 
+    @Deprecated
     public ErrorCode configureFilter(FilterConfiguration filter, int ordinal, int timeoutMs) {
         return internalVictor.configureFilter(filter, ordinal, timeoutMs);
     }
 
+    @Deprecated
     public ErrorCode configureFilter(FilterConfiguration filter) {
         return internalVictor.configureFilter(filter);
     }
@@ -908,4 +919,5 @@ public class CANVictorSPXWpiAdapter extends XCANVictorSPX {
         return 0;
     }
 
+    //CHECKSTYLE:ON
 }
