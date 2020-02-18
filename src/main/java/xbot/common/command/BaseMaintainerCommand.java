@@ -12,13 +12,13 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
 
     BaseSetpointSubsystem subsystemToMaintan;
 
-    final protected BooleanProperty errorWithinToleranceProp;
-    final protected DoubleProperty errorToleranceProp;
-    final protected BooleanProperty errorIsTimeStableProp;
-    final protected DoubleProperty errorTimeStableWindowProp;
+    protected final BooleanProperty errorWithinToleranceProp;
+    protected final DoubleProperty errorToleranceProp;
+    protected final BooleanProperty errorIsTimeStableProp;
+    protected final DoubleProperty errorTimeStableWindowProp;
 
-    final protected TimeStableValidator timeStableValidator;
-    final HumanVsMachineDecider decider;
+    protected final TimeStableValidator timeStableValidator;
+    protected final HumanVsMachineDecider decider;
 
     public BaseMaintainerCommand(BaseSetpointSubsystem subsystemToMaintain, PropertyFactory pf, CommonLibFactory clf, 
         double defaultErrorTolerance, double defaultTimeStableWindow) {
