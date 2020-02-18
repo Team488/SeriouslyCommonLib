@@ -46,7 +46,6 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
      * at its goal.
      */
     protected void maintain() {
-        double power = 0;
         double humanInput = getHumanInput();
         HumanVsMachineMode mode = decider.getRecommendedMode(humanInput);
 
@@ -55,10 +54,10 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
                 coastAction();
                 break;
             case HumanControl:
-                power = humanInput;
+                humanControlAction();
                 break;
             case InitializeMachineControl:
-                
+                initializeMachineControlAction();
                 break;
             case MachineControl:
                 if (subsystemToMaintan.isCalibrated()){
@@ -70,10 +69,7 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
             default:
                 // How did you get here?!?!
                 break;
-    
         }
-
-        subsystemToMaintan.setPower(power);
     }
 
     protected void coastAction() {
