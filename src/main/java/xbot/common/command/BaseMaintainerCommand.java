@@ -7,6 +7,7 @@ import xbot.common.logic.TimeStableValidator;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.StringProperty;
 
 public abstract class BaseMaintainerCommand extends BaseCommand {
 
@@ -20,6 +21,8 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
     protected final TimeStableValidator timeStableValidator;
     protected final HumanVsMachineDecider decider;
 
+    private final StringProperty currentModeProp;
+
     public BaseMaintainerCommand(BaseSetpointSubsystem subsystemToMaintain, PropertyFactory pf, CommonLibFactory clf, 
         double defaultErrorTolerance, double defaultTimeStableWindow) {
         this.subsystemToMaintan = subsystemToMaintain;
@@ -30,6 +33,7 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
         errorWithinToleranceProp = pf.createEphemeralProperty("Error Within Tolerance", false);
         errorTimeStableWindowProp = pf.createPersistentProperty("Error Time Stable Window", defaultTimeStableWindow);
         errorIsTimeStableProp = pf.createEphemeralProperty("Error Is Time Stable", false);
+        currentModeProp = pf.createEphemeralProperty("Current Mode", "Not Yet Run");
 
         timeStableValidator = new TimeStableValidator(() -> errorTimeStableWindowProp.get());
         decider = clf.createHumanVsMachineDecider(this.getPrefix());
@@ -48,7 +52,8 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
     protected void maintain() {
         double humanInput = getHumanInput();
         HumanVsMachineMode mode = decider.getRecommendedMode(humanInput);
-
+        currentModeProp.set(mode.toString());
+        
         switch (mode) {
             case Coast:
                 coastAction();
