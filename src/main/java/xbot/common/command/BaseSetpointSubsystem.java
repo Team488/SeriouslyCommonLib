@@ -29,4 +29,14 @@ public abstract class BaseSetpointSubsystem extends BaseSubsystem implements Sup
         lastUpdateTimeFromMaintainer = XTimer.getFPGATimestamp();
         this.atGoal = atGoal;
     }
+
+    public abstract double getCurrentValue();
+
+    public abstract double getTargetValue();
+
+    public abstract void setTargetValue(double value);
+
+    public abstract void setPower(double power);
+
+    public abstract boolean isCalibrated();
 }
