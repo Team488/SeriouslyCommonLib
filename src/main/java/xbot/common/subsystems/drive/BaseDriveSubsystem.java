@@ -1,13 +1,6 @@
 package xbot.common.subsystems.drive;
 
-import java.util.Map;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import xbot.common.command.BaseSubsystem;
-import xbot.common.controls.actuators.XCANTalon;
-import xbot.common.logging.LoggingLatch;
-import xbot.common.logic.Latch.EdgeType;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
 
@@ -17,48 +10,27 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     public abstract PIDManager getRotateToHeadingPid();
     public abstract PIDManager getRotateDecayPid();
     boolean isQuickTurn;
-        
-    private final LoggingLatch baseDriveSubsystemLoggingLatch = 
-            new LoggingLatch(this.getName(), "XCanTalon(s) in DriveSubsystem is null", EdgeType.RisingEdge);
-    
-    /**
-     * Each drive motor has an associated MotionRegistration, which keeps track of how much
-     * total motor power (in power units from -1 to 1) should be used to respond to 
-     * translation/rotation requests.
-     * 
-     * For example, the "left" motor in a tank drive configuration would be configured as having:
-     * X response: 0 (requests to move in the +X direction (strafing) have no response).
-     * Y response: 1 (requests to move in the +Y direction (forward) are matched 100%).
-     * W response: -1 (requests to move in the +W direction (rotating to the left) are reversed at 100%).
-     * 
-     * This works well for tank and mecanum drives, but is a bit too simple to track some more
-     * exotic drives (like 3-wheel omni, or any kind of swerve)
-     * 
-     * @author jogilber
-     *
-     */
-    public class MotionRegistration {
 
-        public double x;
-        public double y;
-        public double w;
-        
-        public MotionRegistration(double x, double y, double w) {
-            this.x = x;
-            this.y = y;
-            this.w = w;
-        }        
-        
-        public double calculateTotalImpact(double x, double y, double w) {
-            return this.x * x + this.y*y + this.w * w;
-        }
+    private XYPair translationIntent = new XYPair(0,0);
+    private double rotationIntent = 0;
+
+    private void setTranslationIntent(XYPair translationIntent) {
+        this.translationIntent = translationIntent;
     }
-    
-    /**
-     * This is the "heart" of the DriveSubsystem - the rest of the class depends on returning this
-     * list of Talons and how they respond to drive inputs.
-     */
-    protected abstract Map<XCANTalon, MotionRegistration> getAllMasterTalons();
+
+    private void setRotationIntent(double rotationIntent) {
+        this.rotationIntent = rotationIntent;
+    }
+
+    public XYPair getTranslationIntent() {
+        return translationIntent.clone();
+    }
+
+    public double getRotationIntent() {
+        return rotationIntent;
+    }
+
+    public abstract void move(XYPair translate, double rotate);
     
     /**
      * Returns the total distance tracked by the encoder
@@ -91,21 +63,19 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
      *        normalized so that 1 is the maximum?
      */
     public void drive(XYPair translation, double rotation, boolean normalize) {
-        updateLoggingLatch();
-        Map<XCANTalon, MotionRegistration> talons = getAllMasterTalons();
-        
-        if (talons != null) {
-            double normalizationFactor = 1;
-            if (normalize) {
-                normalizationFactor = Math.max(1, getMaxOutput(translation, rotation));
-            }            
-            
-            for(Map.Entry<XCANTalon, MotionRegistration> entry : talons.entrySet()) {
-               double power = entry.getValue()
-                       .calculateTotalImpact(translation.x, translation.y, rotation) / normalizationFactor;
-               entry.getKey().set(ControlMode.PercentOutput, power);
-            }
+    
+        double normalizationFactor = 1;
+        if (normalize) {
+            normalizationFactor = Math.max(1, getMaxOutput(translation, rotation));
         }
+
+        XYPair translationIntent = translation.clone().scale(1/normalizationFactor);
+        double rotationIntent = rotation / normalizationFactor;
+
+        setTranslationIntent(translationIntent);
+        setRotationIntent(rotationIntent);
+
+        move(translationIntent, rotationIntent);
     }
     
     /**
@@ -216,41 +186,6 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
      * rotate at full speed.
      */
     protected double getMaxOutput(XYPair translation, double rotation) {
-        return getAllMasterTalons().values().stream()
-        .map(motionRegistration -> motionRegistration.calculateTotalImpact(translation.x, translation.y, rotation))
-        .map(e -> Math.abs(e))
-        .max(Double::compare).get().doubleValue();
-    }
-    
-    /**
-     * Limits the available motor current. Oddly enough, the limit must be a whole
-     * number of amps.
-     */
-    public void setCurrentLimits(int maxCurrentInAmps, boolean isEnabled) {
-        updateLoggingLatch();
-        getAllMasterTalons().keySet().stream().forEach(t -> {
-                t.enableCurrentLimit(isEnabled);
-                t.configContinuousCurrentLimit(maxCurrentInAmps, 0);
-                t.configPeakCurrentLimit(0, 0);
-        });
-    }
-    
-    public void setVoltageRamp(double secondsFromNeutralToFull) {
-        getAllMasterTalons().keySet().stream().forEach(t -> {
-            t.configOpenloopRamp(secondsFromNeutralToFull, 0);
-            t.configClosedloopRamp(secondsFromNeutralToFull, 0);
-        });
-    }
- 
-    private void updateLoggingLatch() {
-        baseDriveSubsystemLoggingLatch.checkValue(getAllMasterTalons() == null);
-    }
-    
-    public void updatePeriodicData() {
-        getAllMasterTalons().keySet().stream().forEach((t) -> t.updateTelemetryProperties());
-    }
-    
-    public void resetEncoders() {
-        getAllMasterTalons().keySet().stream().forEach((t) -> t.setSelectedSensorPosition(0, 0, 0));
+        return Math.abs(translation.x) + Math.abs(translation.y) + Math.abs(rotation);
     }
 }

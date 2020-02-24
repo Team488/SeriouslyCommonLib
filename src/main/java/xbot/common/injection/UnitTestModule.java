@@ -22,6 +22,7 @@ import xbot.common.command.MockSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.controls.actuators.XCANVictorSPX;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XPWM;
@@ -31,6 +32,7 @@ import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.actuators.mock_adapters.MockCANSparkMax;
 import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
+import xbot.common.controls.actuators.mock_adapters.MockCANVictorSPX;
 import xbot.common.controls.actuators.mock_adapters.MockRelay;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
@@ -72,7 +74,6 @@ public class UnitTestModule extends AbstractModule {
         this.bind(OffboardCommunicationClient.class).to(MockCommunicationClient.class);
 
         this.install(new FactoryModuleBuilder().build(PIDFactory.class));
-
         this.install(new FactoryModuleBuilder()
                 .implement(XPowerDistributionPanel.class, MockPowerDistributionPanel.class)
                 .implement(XJoystick.class, MockJoystick.class).implement(XFTCGamepad.class, MockFTCGamepad.class)
@@ -85,6 +86,7 @@ public class UnitTestModule extends AbstractModule {
                 .implement(XLidarLite.class, MockLidarLite.class).implement(XCompressor.class, MockCompressor.class)
                 .implement(XRelay.class, MockRelay.class).implement(XPWM.class, MockPWM.class)
                 .implement(XCANSparkMax.class, MockCANSparkMax.class)
+                .implement(XCANVictorSPX.class, MockCANVictorSPX.class)
                 .build(CommonLibFactory.class));
     }
 }
