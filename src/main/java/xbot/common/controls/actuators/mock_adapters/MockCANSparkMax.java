@@ -28,6 +28,7 @@ public class MockCANSparkMax extends XCANSparkMax {
     private double power = 0;
     boolean inverted = false;
     public XEncoder internalEncoder = null;
+    double position = 0;
 
     @Inject
     public MockCANSparkMax(@Assisted("deviceId") int deviceId,
@@ -274,7 +275,7 @@ public class MockCANSparkMax extends XCANSparkMax {
 
     @Override
     public double getPosition() {
-        return 0;
+        return position;
     }
 
     @Override
@@ -284,6 +285,7 @@ public class MockCANSparkMax extends XCANSparkMax {
 
     @Override
     public CANError setPosition(double position) {
+        this.position = position;
         return null;
     }
 
