@@ -81,4 +81,17 @@ public abstract class XGyro
      * In degrees per second
      */
     protected abstract double getDeviceYawAngularVelocity();
+    
+
+    protected abstract double getDeviceVelocityX();
+
+    protected abstract double getDeviceVelocityY();
+
+    protected abstract double getDeviceVelocityZ();
+
+    protected abstract double getDeviceRawAccelX();
+
+    protected abstract double getDeviceRawAccelY();
+
+    protected abstract double getDeviceRawAccelZ();
 }
