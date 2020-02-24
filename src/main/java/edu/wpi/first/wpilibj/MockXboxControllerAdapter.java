@@ -15,6 +15,9 @@ public class MockXboxControllerAdapter extends XXboxController {
 
     private XYPair leftStick;
     private XYPair rightStick;
+
+    private double leftTrigger;
+    private double rightTrigger;
     
     public void setLeftStick(double x, double y) {
         leftStick.x = x;
@@ -35,7 +38,18 @@ public class MockXboxControllerAdapter extends XXboxController {
 
     @Override
     protected double getTriggerAxis(Hand hand) {
-        return 0;
+        if (hand == Hand.kLeft) {
+            return leftTrigger;
+        }
+        return rightTrigger;
+    }
+
+    public void setLeftTrigger(double left) {
+        leftTrigger = left;
+    }
+
+    public void setRightTrigger(double right) {
+        rightTrigger = right;
     }
 
     @Override
