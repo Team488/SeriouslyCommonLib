@@ -87,6 +87,11 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
     }
 
     protected void initializeMachineControlAction() {
+        // When we re-initialize machine control, we need to briefly "take" the setpoint lock. In practice,
+        // we can't require and then un-require a subsystem, so instead we just cancel any running command that
+        // is trying to maniuplate the setpoint.
+        subsystemToMaintan.getSetpointLock().getCurrentCommand().cancel();
+
         // Typically set the goal to the current position, to avoid sudden extreme changes
         // as soon as Coast is complete.
         subsystemToMaintan.setTargetValue(subsystemToMaintan.getCurrentValue());
