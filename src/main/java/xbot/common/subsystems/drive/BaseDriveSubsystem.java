@@ -11,25 +11,6 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     public abstract PIDManager getRotateDecayPid();
     boolean isQuickTurn;
 
-    private XYPair translationIntent = new XYPair(0,0);
-    private double rotationIntent = 0;
-
-    private void setTranslationIntent(XYPair translationIntent) {
-        this.translationIntent = translationIntent;
-    }
-
-    private void setRotationIntent(double rotationIntent) {
-        this.rotationIntent = rotationIntent;
-    }
-
-    public XYPair getTranslationIntent() {
-        return translationIntent.clone();
-    }
-
-    public double getRotationIntent() {
-        return rotationIntent;
-    }
-
     public abstract void move(XYPair translate, double rotate);
     
     /**
@@ -71,9 +52,6 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
 
         XYPair translationIntent = translation.clone().scale(1/normalizationFactor);
         double rotationIntent = rotation / normalizationFactor;
-
-        setTranslationIntent(translationIntent);
-        setRotationIntent(rotationIntent);
 
         move(translationIntent, rotationIntent);
     }
@@ -177,6 +155,24 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     
     public void stop() {
         drive(new XYPair(0, 0), 0);
+    }
+
+    /**
+     * Classic arcade drive
+     * @param yTranslation Translation power. Range between -1 and 1.
+     * @param rotation Rotation power. Range between -1 and 1.
+     */
+    public void arcadeDrive(double yTranslation, double rotation) {
+        drive(new XYPair(0, yTranslation), rotation);
+    }
+
+    /**
+     * Classic tank drive.
+     * @param left Power to the left drive motor. Range between -1 and 1.
+     * @param right Power to the right drive motor. Range between -1 and 1.
+     */
+    public void tankDrive(double left, double right) {
+        drive(left, right);
     }
     
     /**
