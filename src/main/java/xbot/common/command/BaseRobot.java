@@ -23,6 +23,7 @@ import xbot.common.logic.Latch.EdgeType;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.properties.XPropertyManager;
+import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
 
 /**
  * Core Robot class which configures logging, properties,
@@ -43,6 +44,7 @@ public class BaseRobot extends TimedRobot {
     protected Injector injector;
     
     protected Command autonomousCommand;
+    protected AutonomousCommandSelector autonomousCommandSelector;
     
     protected DoubleProperty frequencyReportInterval;
     protected double lastFreqCounterResetTime = -1;
@@ -145,6 +147,7 @@ public class BaseRobot extends TimedRobot {
         // Get the property manager and get all properties from the robot disk
         propertyManager = this.injector.getInstance(XPropertyManager.class);
         xScheduler = this.injector.getInstance(XScheduler.class);        
+        autonomousCommandSelector = this.injector.getInstance(AutonomousCommandSelector.class);
     }
 
     @Override
@@ -178,6 +181,7 @@ public class BaseRobot extends TimedRobot {
         robotSession.autoInit();
         updateLoggingContext();
         log.info("Autonomous init (" + getMatchContextString() + ")");
+        this.autonomousCommand = this.autonomousCommandSelector.getCurrentAutonomousCommand();
         if(this.autonomousCommand != null) {
             log.info("Starting autonomous command: " + this.autonomousCommand);
             this.autonomousCommand.schedule();
