@@ -54,7 +54,7 @@ public class BaseRobot extends TimedRobot {
     protected RobotSession robotSession;
 
     public BaseRobot() {
-        super();
+        super(0.1);
         
         setupInjectionModule();
         
