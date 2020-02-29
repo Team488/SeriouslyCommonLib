@@ -2,25 +2,33 @@ package xbot.common.command;
 
 import java.util.function.Supplier;
 
-import com.google.inject.Inject;
+import xbot.common.controls.sensors.XTimer;
 
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+public class DelayViaSupplierCommand extends BaseCommand {
 
-public class DelayViaSupplierCommand extends WaitCommand {
+    protected double startTime;
+    protected Supplier<Double> delaySupplier;
 
-    Supplier<Double> waitTime;
-    
-    @Inject
-    public DelayViaSupplierCommand(Supplier<Double> source) {
-        super(0);
+    public DelayViaSupplierCommand(Supplier<Double> delaySupplier) {
+        this.delaySupplier = delaySupplier;
     }
-    
-    public void setDelaySupplier(Supplier<Double> source) {
-        waitTime = source;
+
+    @Override
+    public void initialize() {
+        this.startTime = XTimer.getFPGATimestamp();
+    }
+
+    @Override
+    public void execute() {
+        // Do nothing
     }
 
     @Override
     public boolean isFinished() {
-        return m_timer.hasPeriodPassed(waitTime.get());
+        return isTimeoutExpired();
+    }
+
+    private boolean isTimeoutExpired() {
+        return XTimer.getFPGATimestamp() > startTime + delaySupplier.get();
     }
 }
