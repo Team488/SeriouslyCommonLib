@@ -17,6 +17,7 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
     protected final DoubleProperty errorToleranceProp;
     protected final BooleanProperty errorIsTimeStableProp;
     protected final DoubleProperty errorTimeStableWindowProp;
+    protected final BooleanProperty subsystemReportsReadyProp;
 
     protected final TimeStableValidator timeStableValidator;
     protected final HumanVsMachineDecider decider;
@@ -34,6 +35,7 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
         errorTimeStableWindowProp = pf.createPersistentProperty("Error Time Stable Window", defaultTimeStableWindow);
         errorIsTimeStableProp = pf.createEphemeralProperty("Error Is Time Stable", false);
         currentModeProp = pf.createEphemeralProperty("Current Mode", "Not Yet Run");
+        subsystemReportsReadyProp = pf.createEphemeralProperty("Subsystem Ready", false);
 
         timeStableValidator = new TimeStableValidator(() -> errorTimeStableWindowProp.get());
         decider = clf.createHumanVsMachineDecider(this.getPrefix());
@@ -79,6 +81,7 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
 
     protected void coastAction() {
         // Typically do nothing.
+        subsystemToMaintan.setPower(0);
     }
 
     protected void humanControlAction() {
@@ -90,7 +93,9 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
         // When we re-initialize machine control, we need to briefly "take" the setpoint lock. In practice,
         // we can't require and then un-require a subsystem, so instead we just cancel any running command that
         // is trying to maniuplate the setpoint.
-        subsystemToMaintan.getSetpointLock().getCurrentCommand().cancel();
+        if (subsystemToMaintan.getSetpointLock().getCurrentCommand() != null) {
+            subsystemToMaintan.getSetpointLock().getCurrentCommand().cancel();
+        }
 
         // Typically set the goal to the current position, to avoid sudden extreme changes
         // as soon as Coast is complete.
@@ -115,6 +120,7 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
         // Let everybody know
         errorWithinToleranceProp.set(withinErrorTolerance);
         errorIsTimeStableProp.set(isStable);
+        subsystemReportsReadyProp.set(subsystemToMaintan.isMaintainerAtGoal());
         return isStable;
     }
 
