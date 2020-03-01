@@ -49,7 +49,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         // test that inherited methods are present
         clf.createPIDManager("Rotate");
         clf.createCANSparkMax(10, "drive", "left");
-        clf.createCANSparkMax(10, "drive", "left", new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
+        clf.createCANSparkMax(11, "drive", "left", new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
         clf.createXAS5600(talon);
         clf.createCANVictorSPX(5);
     }
