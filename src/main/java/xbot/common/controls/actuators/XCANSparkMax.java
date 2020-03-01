@@ -40,8 +40,20 @@ public abstract class XCANSparkMax {
 
     protected boolean firstPeriodicCall = true;
 
-    public XCANSparkMax(int deviceId, String owningSystemPrefix, String name, PropertyFactory pf, DevicePolice police,
-            CommonLibFactory clf) {
+    public XCANSparkMax(
+        int deviceId, 
+        String owningSystemPrefix, 
+        String name, 
+        PropertyFactory pf, 
+        DevicePolice police,
+        CommonLibFactory clf,
+        double defaultP,
+        double defaultI,
+        double defaultD,
+        double defaultIZone,
+        double defaultFeedForward,
+        double defaultMaxOutput,
+        double defaultMinOutput) {
         this.clf = clf;
         this.deviceId = deviceId;
         this.propertyFactory = pf;
@@ -50,17 +62,22 @@ public abstract class XCANSparkMax {
         prefix = pf.getPrefix();
         police.registerDevice(DeviceType.CAN, deviceId);
 
-        kPprop = pf.createPersistentProperty("kP", 0);
-        kIprop = pf.createPersistentProperty("kI", 0);
-        kDprop = pf.createPersistentProperty("kD", 0);
-        kIzProp = pf.createPersistentProperty("kIzone", 0);
-        kFFprop = pf.createPersistentProperty("kFeedForward", 0);
-        kMaxOutputProp = pf.createPersistentProperty("kMaxOutput", 1);
-        kMinOutoutProp = pf.createPersistentProperty("kMinOutput", -1);
+        kPprop = pf.createPersistentProperty("kP", defaultP);
+        kIprop = pf.createPersistentProperty("kI", defaultI);
+        kDprop = pf.createPersistentProperty("kD", defaultD);
+        kIzProp = pf.createPersistentProperty("kIzone", defaultIZone);
+        kFFprop = pf.createPersistentProperty("kFeedForward", defaultFeedForward);
+        kMaxOutputProp = pf.createPersistentProperty("kMaxOutput", defaultMaxOutput);
+        kMinOutoutProp = pf.createPersistentProperty("kMinOutput", defaultMinOutput);
 
         percentProp = pf.createEphemeralProperty("Percent", 0);
         voltageProp = pf.createEphemeralProperty("Voltage", 0);
         currentProp = pf.createEphemeralProperty("Current", 0);
+    }
+
+    public XCANSparkMax(int deviceId, String owningSystemPrefix, String name, PropertyFactory pf, DevicePolice police,
+            CommonLibFactory clf) {
+        this(deviceId, owningSystemPrefix, name, pf, police, clf, 0, 0, 0, 0, 0, 1, -1);
     }
 
     ///
