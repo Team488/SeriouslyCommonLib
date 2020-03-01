@@ -55,9 +55,7 @@ public class BaseRobot extends TimedRobot {
 
     protected RobotSession robotSession;
 
-    public BaseRobot() {
-        super(0.1);
-        
+    public BaseRobot() {        
         setupInjectionModule();
         
         brownoutLatch = new Latch(false, EdgeType.Both, edge -> {

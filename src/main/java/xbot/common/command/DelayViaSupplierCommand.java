@@ -16,6 +16,7 @@ public class DelayViaSupplierCommand extends BaseCommand {
     @Override
     public void initialize() {
         this.startTime = XTimer.getFPGATimestamp();
+        log.info("Initializing with intial time: " + startTime);
     }
 
     @Override
