@@ -40,8 +40,14 @@ public abstract class XCANSparkMax {
 
     protected boolean firstPeriodicCall = true;
 
-    public XCANSparkMax(int deviceId, String owningSystemPrefix, String name, PropertyFactory pf, DevicePolice police,
-            CommonLibFactory clf) {
+    public XCANSparkMax(
+        int deviceId, 
+        String owningSystemPrefix, 
+        String name, 
+        PropertyFactory pf, 
+        DevicePolice police,
+        CommonLibFactory clf,
+        XCANSparkMaxPIDProperties defaultPIDProperties) {
         this.clf = clf;
         this.deviceId = deviceId;
         this.propertyFactory = pf;
@@ -50,17 +56,22 @@ public abstract class XCANSparkMax {
         prefix = pf.getPrefix();
         police.registerDevice(DeviceType.CAN, deviceId);
 
-        kPprop = pf.createPersistentProperty("kP", 0);
-        kIprop = pf.createPersistentProperty("kI", 0);
-        kDprop = pf.createPersistentProperty("kD", 0);
-        kIzProp = pf.createPersistentProperty("kIzone", 0);
-        kFFprop = pf.createPersistentProperty("kFeedForward", 0);
-        kMaxOutputProp = pf.createPersistentProperty("kMaxOutput", 1);
-        kMinOutoutProp = pf.createPersistentProperty("kMinOutput", -1);
+        kPprop = pf.createPersistentProperty("kP", defaultPIDProperties.p);
+        kIprop = pf.createPersistentProperty("kI", defaultPIDProperties.i);
+        kDprop = pf.createPersistentProperty("kD", defaultPIDProperties.d);
+        kIzProp = pf.createPersistentProperty("kIzone", defaultPIDProperties.iZone);
+        kFFprop = pf.createPersistentProperty("kFeedForward", defaultPIDProperties.feedForward);
+        kMaxOutputProp = pf.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxOutput);
+        kMinOutoutProp = pf.createPersistentProperty("kMinOutput", defaultPIDProperties.minOutput);
 
         percentProp = pf.createEphemeralProperty("Percent", 0);
         voltageProp = pf.createEphemeralProperty("Voltage", 0);
         currentProp = pf.createEphemeralProperty("Current", 0);
+    }
+
+    public XCANSparkMax(int deviceId, String owningSystemPrefix, String name, PropertyFactory pf, DevicePolice police,
+            CommonLibFactory clf) {
+        this(deviceId, owningSystemPrefix, name, pf, police, clf, new XCANSparkMaxPIDProperties());
     }
 
     ///
