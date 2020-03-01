@@ -6,6 +6,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.I2C;
 import xbot.common.controls.actuators.XCANSparkMax;
+import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCANVictorSPX;
 import xbot.common.controls.actuators.XCompressor;
@@ -140,6 +141,12 @@ public interface CommonLibFactory extends PIDFactory {
                 @Assisted("deviceId") int deviceId, 
                 @Assisted("owningSystemPrefix") String owningSystemPrefix, 
                 @Assisted("name") String name); 
+
+        public XCANSparkMax createCANSparkMax(
+                @Assisted("deviceId") int deviceId, 
+                @Assisted("owningSystemPrefix") String owningSystemPrefix, 
+                @Assisted("name") String name,
+                @Assisted("defaultPIDProperties") XCANSparkMaxPIDProperties defaultPIDProperties); 
 
         public RumbleManager createRumbleManager(@Assisted("gamepad") XJoystick gamepad);
 
