@@ -46,6 +46,7 @@ public class BaseRobot extends TimedRobot {
     protected Command autonomousCommand;
     protected AutonomousCommandSelector autonomousCommandSelector;
     
+    protected DoubleProperty batteryVoltage;
     protected DoubleProperty frequencyReportInterval;
     protected double lastFreqCounterResetTime = -1;
     protected int loopCycleCounter = 0;
@@ -100,7 +101,9 @@ public class BaseRobot extends TimedRobot {
         this.initializeSystems();
         SmartDashboard.putData(CommandScheduler.getInstance());
         
-        frequencyReportInterval = injector.getInstance(PropertyFactory.class).createPersistentProperty("Robot loop frequency report interval", 20);
+        PropertyFactory pf = injector.getInstance(PropertyFactory.class);
+        frequencyReportInterval = pf.createPersistentProperty("Robot loop frequency report interval", 20);
+        batteryVoltage = pf.createEphemeralProperty("Battery Voltage", 0);
         schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get());
         outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20);
         robotSession = injector.getInstance(RobotSession.class);
@@ -225,6 +228,8 @@ public class BaseRobot extends TimedRobot {
         schedulerMonitor.start();
         xScheduler.run();
         schedulerMonitor.stop();
+
+        batteryVoltage.set(RobotController.getBatteryVoltage());
         
         brownoutLatch.setValue(RobotController.isBrownedOut());
         
