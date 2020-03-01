@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import edu.wpi.first.wpilibj.I2C;
+import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.BaseWPITest;
@@ -48,6 +49,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         // test that inherited methods are present
         clf.createPIDManager("Rotate");
         clf.createCANSparkMax(10, "drive", "left");
+        clf.createCANSparkMax(10, "drive", "left", new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
         clf.createXAS5600(talon);
         clf.createCANVictorSPX(5);
     }
