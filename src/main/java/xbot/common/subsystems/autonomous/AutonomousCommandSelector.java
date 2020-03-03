@@ -38,7 +38,7 @@ public class AutonomousCommandSelector extends BaseSubsystem {
     public void setCurrentAutonomousCommand(Command currentAutonomousCommand) {
         log.info("Setting CurrentAutonomousCommand to " + currentAutonomousCommand);
         this.currentAutonomousCommandName
-                .set(currentAutonomousCommand == null ? "No command set" : currentAutonomousCommand.toString());
+                .set(currentAutonomousCommand == null ? "No command set" : currentAutonomousCommand.getName());
 
         this.currentAutonomousCommand = currentAutonomousCommand;
         commandSupplier = null;
