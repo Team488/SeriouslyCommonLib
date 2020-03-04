@@ -83,15 +83,15 @@ public abstract class XGyro
     protected abstract double getDeviceYawAngularVelocity();
     
 
-    protected abstract double getDeviceVelocityX();
+    public abstract double getDeviceVelocityX();
 
-    protected abstract double getDeviceVelocityY();
+    public abstract double getDeviceVelocityY();
 
-    protected abstract double getDeviceVelocityZ();
+    public abstract double getDeviceVelocityZ();
 
-    protected abstract double getDeviceRawAccelX();
+    public abstract double getDeviceRawAccelX();
 
-    protected abstract double getDeviceRawAccelY();
+    public abstract double getDeviceRawAccelY();
 
-    protected abstract double getDeviceRawAccelZ();
+    public abstract double getDeviceRawAccelZ();
 }
