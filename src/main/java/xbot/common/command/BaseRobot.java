@@ -96,7 +96,9 @@ public class BaseRobot extends TimedRobot {
         log.info("========== BASE ROBOT INITIALIZING ==========");
 
         this.injector = Guice.createInjector(this.injectionModule);
+        log.info("========== INJECTOR CREATED ==========");
         this.initializeSystems();
+        log.info("========== SYSTEMS INITIALIZED ==========");
         SmartDashboard.putData(CommandScheduler.getInstance());
         
         PropertyFactory pf = injector.getInstance(PropertyFactory.class);
