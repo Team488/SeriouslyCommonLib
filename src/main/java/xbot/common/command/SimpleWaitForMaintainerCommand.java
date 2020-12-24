@@ -4,19 +4,20 @@ import java.util.function.Supplier;
 
 import xbot.common.controls.sensors.XTimer;
 
-public class DelayViaSupplierCommand extends BaseCommand {
+public class SimpleWaitForMaintainerCommand extends BaseCommand {
 
-    protected double startTime;
-    protected Supplier<Double> delaySupplier;
+    private final BaseSetpointSubsystem subsystem;
+    private double startTime;
+    private Supplier<Double> delaySupplier;
 
-    public DelayViaSupplierCommand(Supplier<Double> delaySupplier) {
+    public SimpleWaitForMaintainerCommand(BaseSetpointSubsystem subsystem, Supplier<Double> delaySupplier) {
+        this.subsystem = subsystem;
         this.delaySupplier = delaySupplier;
     }
 
     @Override
     public void initialize() {
         this.startTime = XTimer.getFPGATimestamp();
-        log.info("Initializing with intial time: " + startTime + " and waiting for " + delaySupplier.get() + " seconds");
     }
 
     @Override
@@ -26,7 +27,7 @@ public class DelayViaSupplierCommand extends BaseCommand {
 
     @Override
     public boolean isFinished() {
-        return isTimeoutExpired();
+        return isTimeoutExpired() || subsystem.isMaintainerAtGoal();
     }
 
     private boolean isTimeoutExpired() {

@@ -17,7 +17,7 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
     protected int port;
     RobotAssertionManager assertionManager;
 
-    HashMap<XboxButton, AdvancedXboxButton> allocatedButtons;
+    public HashMap<XboxButton, AdvancedXboxButton> allocatedButtons;
 
     boolean leftXInversion = false;
     boolean leftYInversion = false;
@@ -56,22 +56,23 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
         }
     }
 
-    public AdvancedButton getifAvailable(XboxButton buttonName) {
-        // If we're trying to use the triggers as buttons, then we need to do some extra work.
-        if (buttonName == XboxButton.LeftTrigger || buttonName == XboxButton.RightTrigger) {
-            if (!allocatedButtons.containsKey(buttonName)) {
+    public AdvancedXboxButton getifAvailable(XboxButton buttonName) {
+        if (!allocatedButtons.containsKey(buttonName)) {
+            // If we're trying to use the triggers as buttons, then we need to do some extra work.
+            if (buttonName == XboxButton.LeftTrigger || buttonName == XboxButton.RightTrigger) {
                 AdvancedXboxAxisButton candidate = new AdvancedXboxAxisButton(this, buttonName, 0.75);
                 allocatedButtons.put(buttonName, candidate);
+            } else {
+                AdvancedXboxButton candidate = new AdvancedXboxButton(this, buttonName);
+                allocatedButtons.put(buttonName, candidate);
             }
-            else {
-                // button already used!
-                assertionManager.assertTrue(false, "Button " + buttonName + " has already been allocated!");
-            }
-            return allocatedButtons.get(buttonName);
-        // However, most of the time, we're using the standard 10 button set.
-        } else {
-            return getifAvailable(buttonName.value);
         }
+        else {
+            // button already used!
+            assertionManager.assertTrue(false, "Button " + buttonName + " has already been allocated!");
+        }
+
+        return allocatedButtons.get(buttonName);
     }
 
     public AdvancedXboxButton getXboxButton(XboxButton buttonName) {

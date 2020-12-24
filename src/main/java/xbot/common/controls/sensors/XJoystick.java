@@ -85,9 +85,9 @@ public abstract class XJoystick
         return new XYPair(x, y);
     }
 
-    protected abstract boolean getButton(int button);
+    public abstract boolean getButton(int button);
     
-    protected abstract double getRawAxis(int axisNumber);
+    public abstract double getRawAxis(int axisNumber);
     
     public abstract GenericHID getGenericHID();
     

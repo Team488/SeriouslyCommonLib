@@ -4,23 +4,29 @@
  */
 package xbot.common.properties;
 
+import java.util.function.Consumer;
+
 /**
  * This manages a double in the property system.
+ * 
  * @author Alex
  */
 public class DoubleProperty extends Property {
     double defaultValue;
+    double lastValue;
 
     public DoubleProperty(String name, double defaultValue, XPropertyManager manager) {
         super(name, manager);
         this.defaultValue = defaultValue;
         load();
+        lastValue = get();
     }
     
     public DoubleProperty(String name, double defaultValue, PropertyPersistenceType persistenceType, XPropertyManager manager) {
         super(name, manager, persistenceType);
         this.defaultValue = defaultValue;
         load();
+        lastValue = get();
     }
     
 
@@ -61,4 +67,11 @@ public class DoubleProperty extends Property {
         }
     }
     
+    public void hasChangedSinceLastCheck(Consumer<Double> callback) {
+        double currentValue = get();
+        if (Math.abs(currentValue - lastValue) > 0.001) {
+            callback.accept(currentValue);
+        }
+        lastValue = currentValue;
+    }
 }
