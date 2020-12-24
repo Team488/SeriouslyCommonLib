@@ -86,7 +86,7 @@ public class BaseRobot extends TimedRobot {
             if(BaseRobot.isReal()) {
                 DOMConfigurator.configure("/home/lvuser/deploy/log4j.xml");
             } else {
-                DOMConfigurator.configure("lib/log4jConfig/log4j4unitTesting.xml");
+                DOMConfigurator.configure("SeriouslyCommonLib/lib/log4jConfig/log4j4unitTesting.xml");
             }
         } catch (Exception e) {
             // Had a problem loading the config. Robot should continue!
