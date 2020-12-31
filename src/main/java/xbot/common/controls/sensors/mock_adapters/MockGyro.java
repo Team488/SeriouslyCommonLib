@@ -12,6 +12,12 @@ public class MockGyro extends XGyro {
     private double pitch;
     private double roll;
     private double yawAngularVelocity;
+    private double velocityX;
+    private double velocityY;
+    private double velocityZ;
+    private double rawAccelX;
+    private double rawAccelY;
+    private double rawAccelZ;
 
     @AssistedInject
     public MockGyro() {
@@ -66,6 +72,60 @@ public class MockGyro extends XGyro {
     
     public double getDeviceYawAngularVelocity(){
         return yawAngularVelocity;
+    }
+
+    @Override
+    public double getDeviceVelocityX() {
+        return this.velocityX;
+    }
+
+    public void setDeviceVelocityX(double velocity) {
+        this.velocityX = velocity;
+    }
+
+    @Override
+    public double getDeviceVelocityY() {
+        return this.velocityY;
+    }
+
+    public void setDeviceVelocityY(double velocity) {
+        this.velocityY = velocity;
+    }
+
+    @Override
+    public double getDeviceVelocityZ() {
+        return this.velocityZ;
+    }
+
+    public void setDeviceVelocityZ(double velocity) {
+        this.velocityZ = velocity;
+    }
+
+    @Override
+    public double getDeviceRawAccelX() {
+        return this.rawAccelX;
+    }
+
+    public void setDeviceRawAccelX(double accel) {
+        this.rawAccelX = accel;
+    }
+
+    @Override
+    public double getDeviceRawAccelY() {
+        return this.rawAccelY;
+    }
+
+    public void setDeviceRawAccelY(double accel) {
+        this.rawAccelY = accel;
+    }
+
+    @Override
+    public double getDeviceRawAccelZ() {
+        return this.rawAccelZ;
+    }
+
+    public void setDeviceRawAccelZ(double accel) {
+        this.rawAccelZ = accel;
     }
 
 }

@@ -17,7 +17,7 @@ public class LoggingLatch {
         latch.addObserver((e) -> {
             EdgeType edge =e;
             if(edge == edgeType) {
-                log.error(callerName + ": " + message);
+                log.info(callerName + ": " + message);
             }
         });
     }

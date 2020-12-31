@@ -23,11 +23,14 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     protected final DoubleProperty totalDistanceX;
     protected final DoubleProperty totalDistanceY;
     protected final DoubleProperty totalDistanceYRobotPerspective;
+    private final DoubleProperty velocityX;
+    private final DoubleProperty velocityY;
     private final DoubleProperty totalVelocity;
     
     private ContiguousHeading currentHeading;
     private final DoubleProperty currentHeadingProp;
     private final DoubleProperty currentCompassHeadingProp;
+    private final DoubleProperty headingAngularVelocityProp;
     private double headingOffset;
     
     // These are two common robot starting positions - kept here as convenient shorthand.
@@ -42,6 +45,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     
     private double previousLeftDistance;
     private double previousRightDistance;
+
+    private ContiguousHeading previousHeading;
     
     private final double classInstantiationTime;
     private boolean isNavXReady = false;
@@ -60,10 +65,12 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
         currentHeading = new ContiguousHeading(0);
+        previousHeading = new ContiguousHeading(0);
         
         currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", currentHeading.getValue());
         currentCompassHeadingProp = propManager.createEphemeralProperty("Current compass heading", getCompassHeading(currentHeading));
-        
+        headingAngularVelocityProp = propManager.createEphemeralProperty("Heading Rotational Velocity", 0.0);
+
         currentPitch = propManager.createEphemeralProperty("Current pitch", 0.0);
         currentRoll = propManager.createEphemeralProperty("Current roll", 0.0);
         
@@ -74,6 +81,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         totalDistanceY = propManager.createEphemeralProperty("Total distance Y", 0.0);
         totalDistanceYRobotPerspective = propManager.createEphemeralProperty("Total distance Y Robot Perspective", 0.0);
         
+        velocityX = propManager.createEphemeralProperty("X Velocity", 0.0);
+        velocityY = propManager.createEphemeralProperty("Y Velocity", 0.0);
         totalVelocity = propManager.createEphemeralProperty("Total Velocity", 0.0);
         
         rioRotated = propManager.createPersistentProperty("RIO rotated", false);
@@ -88,12 +97,18 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     }
     
     private void updateCurrentHeading() {
-        currentHeading.setValue(getRobotYaw().getValue() + headingOffset);
+        currentHeading = new ContiguousHeading(getRobotYaw().getValue() + headingOffset);
+
         currentHeadingProp.set(currentHeading.getValue());
         currentCompassHeadingProp.set(getCompassHeading(currentHeading));
+
+        headingAngularVelocityProp.set(previousHeading.difference(currentHeading));
         
         currentPitch.set(getRobotPitch());
         currentRoll.set(getRobotRoll());
+
+        // save values for next round
+        previousHeading = currentHeading;
     }  
     
     private void updateOdometry(double currentLeftDistance, double currentRightDistance) {
@@ -124,6 +139,9 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         
         totalDistanceX.set(totalDistanceX.get() + deltaX);
         totalDistanceY.set(totalDistanceY.get() + deltaY);
+
+        velocityX.set(deltaX);
+        velocityY.set(deltaY);
         totalVelocity.set(instantVelocity);
         
         // save values for next round
@@ -149,6 +167,14 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     
     public FieldPose getCurrentFieldPose() {
         return new FieldPose(getTravelVector(), getCurrentHeading());
+    }
+
+    public XYPair getCurrentVelocity() {
+        return new XYPair(velocityX.get(), velocityY.get());
+    }
+
+    public double getCurrentHeadingAngularVelocity() {
+        return headingAngularVelocityProp.get();
     }
     
     /**

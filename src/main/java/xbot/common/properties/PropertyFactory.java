@@ -4,8 +4,6 @@ import com.google.inject.Inject;
 
 import org.apache.log4j.Logger;
 
-import xbot.common.command.BaseCommand;
-import xbot.common.command.BaseSubsystem;
 import xbot.common.properties.Property.PropertyPersistenceType;
 
 public class PropertyFactory {
@@ -24,12 +22,12 @@ public class PropertyFactory {
         this.prefix = prefix;
     }
 
-    public void setPrefix(BaseCommand baseCommand) {
-        this.prefix = baseCommand.getPrefix();
+    public void setPrefix(IPropertySupport prefixSource) {
+        this.prefix = prefixSource.getPrefix();
     }
 
-    public void setPrefix(BaseSubsystem baseSubsystem) {
-        this.prefix = baseSubsystem.getPrefix();
+    public void appendPrefix(String toAppend) {
+        prefix = prefix + "/" + toAppend;
     }
 
     public String getPrefix() {
@@ -51,7 +49,7 @@ public class PropertyFactory {
         // We've seen issues with badly assembled keys where slashes are getting doubled up
         String cleanedKey = fullKey.replaceAll("/+", "/");
         if (fullKey != cleanedKey) {
-            log.warn("Property key '" + fullKey + "' had double slashes that were stripped out. Please fix the key logic to not create double slashes.");
+            //log.warn("Property key '" + fullKey + "' had double slashes that were stripped out. Please fix the key logic to not create double slashes.");
         }
         return cleanedKey;
     }

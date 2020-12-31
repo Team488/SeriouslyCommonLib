@@ -29,6 +29,11 @@ public class MathUtils
         double squared = Math.pow(value, 2);
         return value < 0 ? -squared : squared;
     }
+
+    public static double exponentAndRetainSign(double value, int exponent) {
+        double raised = Math.pow(value, exponent);
+        return (value < 0 && raised > 0) ? -raised : raised; 
+    }
     
     public static double deadband(double input, double deadband) {
         if (Math.abs(input) < deadband) {

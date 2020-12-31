@@ -67,7 +67,6 @@ public class InertialMeasurementUnitAdapter extends XGyro {
     @Override
     public double getDevicePitch() {
         return -this.ahrs.getPitch();
-        
     }
 
     @Override
@@ -80,5 +79,35 @@ public class InertialMeasurementUnitAdapter extends XGyro {
      */
     public double getDeviceYawAngularVelocity(){
         return ahrs.getRate();
+    }
+
+    @Override
+    public double getDeviceVelocityX() {
+        return ahrs.getVelocityX();
+    }
+
+    @Override
+    public double getDeviceVelocityY() {
+        return ahrs.getVelocityY();
+    }
+
+    @Override
+    public double getDeviceVelocityZ() {
+        return ahrs.getVelocityZ();
+    }
+
+    @Override
+    public double getDeviceRawAccelX() {
+        return ahrs.getRawAccelX();
+    }
+
+    @Override
+    public double getDeviceRawAccelY() {
+        return ahrs.getRawAccelY();
+    }
+
+    @Override
+    public double getDeviceRawAccelZ() {
+        return ahrs.getRawAccelZ();
     }
 }
