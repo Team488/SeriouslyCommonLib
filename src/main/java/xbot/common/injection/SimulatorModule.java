@@ -58,39 +58,5 @@ import xbot.common.properties.PreferenceStorage;
 import xbot.common.properties.SmartDashboardTableWrapper;
 
 public class SimulatorModule extends UnitTestModule {
-
-    // @Override
-    // protected void configure() {
-    //     this.bind(XTimerImpl.class).to(TimerWpiAdapter.class);
-    //     this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class).in(Singleton.class);
-    //     ;
-    //     this.bind(PermanentStorage.class).to(PreferenceStorage.class);
-    //     this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);
-    //     this.bind(RobotAssertionManager.class).to(SilentRobotAssertionManager.class);
-    //     this.install(new FactoryModuleBuilder().build(PIDFactory.class));
-
-    //     this.install(new FactoryModuleBuilder()
-    //             .implement(XPowerDistributionPanel.class, PowerDistributionPanelWPIAdapter.class)
-    //             .implement(XJoystick.class, JoystickWPIAdapter.class)
-    //             .implement(XFTCGamepad.class, FTCGamepadWpiAdapter.class)
-    //             .implement(XEncoder.class, EncoderWPIAdapter.class)
-    //             .implement(XDigitalInput.class, DigitalInputWPIAdapter.class)
-    //             .implement(XAnalogInput.class, AnalogInputWPIAdapater.class)
-    //             .implement(XXboxController.class, XboxControllerWpiAdapter.class)
-    //             .implement(XSolenoid.class, SolenoidWPIAdapter.class)
-    //             .implement(XDigitalOutput.class, DigitalOutputWPIAdapter.class)
-    //             .implement(XServo.class, ServoWPIAdapter.class)
-    //             .implement(XSpeedController.class, SpeedControllerWPIAdapter.class)
-    //             .implement(XCANTalon.class, MockCANTalon.class)
-    //             .implement(XGyro.class, MockGyro.class)
-    //             .implement(XLidarLite.class, LidarLiteWpiAdapter.class)
-    //             .implement(XCompressor.class, CompressorWPIAdapter.class)
-    //             .implement(XRelay.class, RelayWPIAdapter.class)
-    //             .implement(OffboardCommunicationClient.class, ZeromqListener.class)
-    //             .implement(XPWM.class, PWMWPIAdapter.class)
-    //             .implement(XCANSparkMax.class, MockCANSparkMax.class)
-    //             .build(CommonLibFactory.class)
-    //             );
-    // }
-
+    // TODO: Future home of simulator specifc SCL implementations 
 }
