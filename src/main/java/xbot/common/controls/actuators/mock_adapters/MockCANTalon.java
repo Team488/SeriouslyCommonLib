@@ -123,7 +123,11 @@ public class MockCANTalon extends XCANTalon {
     }
 
     public double getThrottlePercent() {
-        return this.throttlePercent;
+        if(master == null){
+            return this.throttlePercent;
+        } else {
+            return this.master.getThrottlePercent();
+        }
     }
 
     @Override
@@ -679,7 +683,7 @@ public class MockCANTalon extends XCANTalon {
 
     @Override
     public void follow(IMotorController masterToFollow) {
-        masterToFollow = (MockCANTalon)masterToFollow;
+        master = (MockCANTalon)masterToFollow;
     }
 
     @Override
