@@ -23,6 +23,7 @@ import xbot.common.logic.Latch.EdgeType;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.properties.XPropertyManager;
+import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
 
 /**
  * Core Robot class which configures logging, properties,
@@ -43,7 +44,9 @@ public class BaseRobot extends TimedRobot {
     protected Injector injector;
     
     protected Command autonomousCommand;
+    protected AutonomousCommandSelector autonomousCommandSelector;
     
+    protected DoubleProperty batteryVoltage;
     protected DoubleProperty frequencyReportInterval;
     protected double lastFreqCounterResetTime = -1;
     protected int loopCycleCounter = 0;
@@ -53,9 +56,7 @@ public class BaseRobot extends TimedRobot {
 
     protected RobotSession robotSession;
 
-    public BaseRobot() {
-        super();
-        
+    public BaseRobot() {        
         setupInjectionModule();
         
         brownoutLatch = new Latch(false, EdgeType.Both, edge -> {
@@ -99,10 +100,14 @@ public class BaseRobot extends TimedRobot {
         log.info("========== BASE ROBOT INITIALIZING ==========");
 
         this.injector = Guice.createInjector(this.injectionModule);
+        log.info("========== INJECTOR CREATED ==========");
         this.initializeSystems();
+        log.info("========== SYSTEMS INITIALIZED ==========");
         SmartDashboard.putData(CommandScheduler.getInstance());
         
-        frequencyReportInterval = injector.getInstance(PropertyFactory.class).createPersistentProperty("Robot loop frequency report interval", 20);
+        PropertyFactory pf = injector.getInstance(PropertyFactory.class);
+        frequencyReportInterval = pf.createPersistentProperty("Robot loop frequency report interval", 20);
+        batteryVoltage = pf.createEphemeralProperty("Battery Voltage", 0);
         schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get());
         outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20);
         robotSession = injector.getInstance(RobotSession.class);
@@ -149,6 +154,7 @@ public class BaseRobot extends TimedRobot {
         // Get the property manager and get all properties from the robot disk
         propertyManager = this.injector.getInstance(XPropertyManager.class);
         xScheduler = this.injector.getInstance(XScheduler.class);        
+        autonomousCommandSelector = this.injector.getInstance(AutonomousCommandSelector.class);
     }
 
     @Override
@@ -182,6 +188,7 @@ public class BaseRobot extends TimedRobot {
         robotSession.autoInit();
         updateLoggingContext();
         log.info("Autonomous init (" + getMatchContextString() + ")");
+        this.autonomousCommand = this.autonomousCommandSelector.getCurrentAutonomousCommand();
         if(this.autonomousCommand != null) {
             log.info("Starting autonomous command: " + this.autonomousCommand);
             this.autonomousCommand.schedule();
@@ -225,6 +232,8 @@ public class BaseRobot extends TimedRobot {
         schedulerMonitor.start();
         xScheduler.run();
         schedulerMonitor.stop();
+
+        batteryVoltage.set(RobotController.getBatteryVoltage());
         
         brownoutLatch.setValue(RobotController.isBrownedOut());
         

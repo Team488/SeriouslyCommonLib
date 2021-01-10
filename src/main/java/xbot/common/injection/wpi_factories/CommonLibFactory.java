@@ -6,7 +6,9 @@ import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.I2C;
 import xbot.common.controls.actuators.XCANSparkMax;
+import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.controls.actuators.XCANVictorSPX;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XDoubleSolenoid;
@@ -22,6 +24,7 @@ import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.ChordButton;
+import xbot.common.controls.sensors.XAS5600;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
@@ -115,7 +118,7 @@ public interface CommonLibFactory extends PIDFactory {
         public HeadingAssistModule createHeadingAssistModule(@Assisted("headingModule") HeadingModule headingModule,
                         @Assisted("decayModule") HeadingModule decayModule);
 
-        public HumanVsMachineDecider createHumanVsMachineDecider(@Assisted("name") String name);
+        public HumanVsMachineDecider createHumanVsMachineDecider(@Assisted("prefix") String prefix);
 
         public CalibrationDecider createCalibrationDecider(@Assisted("name") String name);
 
@@ -134,7 +137,20 @@ public interface CommonLibFactory extends PIDFactory {
         public XDoubleSolenoid createDoubleSolenoid(@Assisted("forwardSolenoid") XSolenoid forwardSolenoid, 
                         @Assisted("reverseSolenoid") XSolenoid reverseSolenoid);
 
-        public XCANSparkMax createCANSparkMax(@Assisted("deviceId") int deviceId);
+        public XCANSparkMax createCANSparkMax(
+                @Assisted("deviceId") int deviceId, 
+                @Assisted("owningSystemPrefix") String owningSystemPrefix, 
+                @Assisted("name") String name); 
+
+        public XCANSparkMax createCANSparkMax(
+                @Assisted("deviceId") int deviceId, 
+                @Assisted("owningSystemPrefix") String owningSystemPrefix, 
+                @Assisted("name") String name,
+                @Assisted("defaultPIDProperties") XCANSparkMaxPIDProperties defaultPIDProperties); 
 
         public RumbleManager createRumbleManager(@Assisted("gamepad") XJoystick gamepad);
+
+        public XAS5600 createXAS5600(@Assisted("talon") XCANTalon talon);
+
+        public XCANVictorSPX createCANVictorSPX(@Assisted("deviceId") int deviceId);
 }

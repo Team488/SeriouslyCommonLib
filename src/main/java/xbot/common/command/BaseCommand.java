@@ -6,12 +6,13 @@ import org.apache.log4j.Logger;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import xbot.common.logging.TimeLogger;
+import xbot.common.properties.IPropertySupport;
 
 /**
  * Enhanced version of WPILib's Command that allows for extension of existing
  * functionality.
  */
-public abstract class BaseCommand extends CommandBase {
+public abstract class BaseCommand extends CommandBase implements IPropertySupport {
 
     protected Logger log;
     protected TimeLogger monitor;

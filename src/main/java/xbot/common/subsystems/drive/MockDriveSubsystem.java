@@ -1,8 +1,5 @@
 package xbot.common.subsystems.drive;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -10,34 +7,34 @@ import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.PIDFactory;
 import xbot.common.math.PIDManager;
+import xbot.common.math.XYPair;
 
 @Singleton
 public class MockDriveSubsystem extends BaseDriveSubsystem {
 
-    Map<XCANTalon, MotionRegistration> masterTalons;
     CommonLibFactory clf;
-    
+
     public double leftTotalDistance;
     public double rightTotalDistance;
     public double transverseTotalDistance;
-    
+
     public XCANTalon leftTank;
     public XCANTalon rightTank;
-    
+
     public XCANTalon fl;
     public XCANTalon fr;
     public XCANTalon rl;
     public XCANTalon rr;
-    
+
     private PIDManager positionalPid;
     private PIDManager rotateToHeadingPid;
     private PIDManager rotateDecayPid;
-    
+
     @Inject
     public MockDriveSubsystem(CommonLibFactory clf, PIDFactory pf) {
         this.clf = clf;
         changeIntoTankDrive();
-        
+
         positionalPid = pf.createPIDManager("Drive to position", 100, 0, 0, 0, 0.5, -0.5, 3, 1, 0.5);
         rotateToHeadingPid = pf.createPIDManager("DriveHeading", 100, 0, 0);
         rotateDecayPid = pf.createPIDManager("DriveDecay", 100, 0, 1);
@@ -50,43 +47,42 @@ public class MockDriveSubsystem extends BaseDriveSubsystem {
     public void changeRotationalPid(PIDManager p) {
         rotateToHeadingPid = p;
     }
-    
-    public void changeIntoNoDrive() {
-        masterTalons = new HashMap<XCANTalon, MotionRegistration>();
-    }
-    
-    public void changeIntoTankDrive() {
-        masterTalons = new HashMap<XCANTalon, MotionRegistration>();
-        
-        leftTank = clf.createCANTalon(0);
-        masterTalons.put(leftTank, new MotionRegistration(0, 1, -1));
 
-        rightTank = clf.createCANTalon(1);
-        masterTalons.put(rightTank, new MotionRegistration(0, 1, 1));
+    @Override
+    public void move(XYPair translate, double rotate) {
+        if (leftTank != null) {
+            leftTank.simpleSet(translate.y - rotate);
+            rightTank.simpleSet(translate.y + rotate);
+        }
+        if (fl != null) {
+            fl.simpleSet(translate.y + translate.x - rotate);
+            fr.simpleSet(translate.y - translate.x + rotate);
+            rl.simpleSet(translate.y - translate.x - rotate);
+            rr.simpleSet(translate.y + translate.x + rotate);
+        }
     }
-    
+
+    public void changeIntoNoDrive() {
+        leftTank = null;
+        rightTank = null;
+
+        fl = null;
+        fr = null;
+        rl = null;
+        rr = null;
+    }
+
+    public void changeIntoTankDrive() {
+        leftTank = clf.createCANTalon(0);
+        rightTank = clf.createCANTalon(1);
+    }
+
     public void changeIntoMecanum() {
-        masterTalons = new HashMap<XCANTalon, MotionRegistration>();
-        
         // for simple tests, assume tank drive.
         fl = clf.createCANTalon(2);
         rl = clf.createCANTalon(3);
         fr = clf.createCANTalon(4);
-        rr = clf.createCANTalon(5);        
-        
-        // front left talon
-        masterTalons.put(fl, new MotionRegistration(1, 1, -1));
-        // rear left talon
-        masterTalons.put(rl, new MotionRegistration(-1, 1, -1));
-        // front right talon
-        masterTalons.put(fr, new MotionRegistration(-1, 1, 1));
-        // rear right talon
-        masterTalons.put(rr, new MotionRegistration(1, 1, 1));
-    }
-    
-    @Override
-    protected Map<XCANTalon, MotionRegistration> getAllMasterTalons() {
-        return masterTalons;
+        rr = clf.createCANTalon(5);
     }
 
     @Override

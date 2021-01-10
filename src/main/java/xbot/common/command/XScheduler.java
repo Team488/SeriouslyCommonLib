@@ -4,7 +4,9 @@ import java.util.Arrays;
 
 import org.apache.log4j.Logger;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
  * Wrapper for base Scheduler which intelligently manages exceptions.
@@ -49,5 +51,13 @@ public class XScheduler {
 
     public void removeAll() {
         scheduler.cancelAll();
+    }
+
+    public void registerSubsystem(Subsystem... subsystems) {
+        scheduler.registerSubsystem(subsystems);
+    }
+
+    public void setDefaultCommand(Subsystem subsystem, Command defaultCommand) {
+        scheduler.setDefaultCommand(subsystem, defaultCommand);
     }
 }
