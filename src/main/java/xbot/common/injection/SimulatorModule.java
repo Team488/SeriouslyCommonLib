@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.MockServo;
 import edu.wpi.first.wpilibj.MockSolenoid;
 import edu.wpi.first.wpilibj.MockSpeedController;
 import edu.wpi.first.wpilibj.MockTimer;
-import edu.wpi.first.wpilibj.MockXboxControllerAdapter;
 import xbot.common.command.MockSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.actuators.XCANSparkMax;
@@ -45,9 +44,7 @@ import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
-import xbot.common.controls.sensors.mock_adapters.MockFTCGamepad;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
-import xbot.common.controls.sensors.mock_adapters.MockJoystick;
 import xbot.common.controls.sensors.wpi_adapters.FTCGamepadWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.JoystickWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.XboxControllerWpiAdapter;
@@ -61,7 +58,6 @@ import xbot.common.properties.ITableProxy;
 import xbot.common.properties.MockPermamentStorage;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.TableProxy;
-import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 @Ignore
 public class SimulatorModule extends AbstractModule {
