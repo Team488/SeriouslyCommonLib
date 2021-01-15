@@ -1,6 +1,8 @@
 package xbot.common.injection.wpi_factories;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.inject.Inject;
@@ -15,7 +17,18 @@ import xbot.common.logging.RobotAssertionManager;
 public class DevicePolice {
 
     RobotAssertionManager assertionManager;
-    public Map<String, Object> registeredDevices;
+    /**
+     * A list of all the channels in use, and what device is using them.
+     */
+    public Map<String, Object> registeredChannels;
+    /**
+     * A list of all the devices in use
+     */
+    public List<Object> registeredDevices;
+    /**
+     * A mapping to get the device associated with a given ID
+     */
+    //private Map<Object, String> deviceToId;
     
     /**
      * Types of devices
@@ -36,15 +49,18 @@ public class DevicePolice {
      */
     @Inject
     public DevicePolice(RobotAssertionManager assertionManager) {
-        this.assertionManager = assertionManager;
-        registeredDevices = new HashMap<String, Object>();
+        this.assertionManager = assertionManager; 
+        registeredChannels = new HashMap<String, Object>();
+        registeredDevices = new ArrayList<>();
     }
     
+    
     /**
-     * Register a device
+     * Register a device. Please use {@link #registerDevice(DeviceType, int, Object)} instead
      * @param type Device type
      * @param id Device id
      */
+    @Deprecated
     public void registerDevice(DeviceType type, int id) {
         this.registerDevice(type, id, null);
     }
@@ -55,11 +71,20 @@ public class DevicePolice {
      * @param id Device id
      */
     public void registerDevice(DeviceType type, int id, Object device) {
+        // First, check to see if the overall device has already been registered once. We only
+        // want there to be one "main" entry for a given device, like an Encoder, which may use two channels.
+        // That way, when we ask the DevicePolice how many devices have been registered, it wouldn't return the 
+        // same Encoder twice.
+        if (!registeredDevices.contains(device)) {
+            registeredDevices.add(device);
+        }
+        
         String entry = type.toString() + id;
-        if (registeredDevices.keySet().contains(entry)) {
+        if (registeredChannels.keySet().contains(entry)) {
             assertionManager.fail("A device has already been created that uses " + type.toString() + " port/id " + id);
         } else {
-            registeredDevices.put(entry, device);
+            registeredChannels.put(entry, device);
+            //deviceToId.put(device, entry);
         }
     }
 
