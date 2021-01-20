@@ -1,5 +1,6 @@
 package xbot.common.controls.sensors;
 
+import java.math.BigDecimal;
 import java.util.function.DoubleFunction;
 
 import com.google.inject.Inject;
@@ -48,7 +49,9 @@ public class SimulatedAnalogDistanceSensor extends XAnalogDistanceSensor impleme
 
     @Override
     public void ingestSimulationData(JSONObject payload) {
-        setDistance((double)payload.get("Distance"));
+        // Some sort of BigDecimal issue
+        BigDecimal intermediate = (BigDecimal)payload.get("Distance");
+        setDistance(intermediate.doubleValue());
     }
 
 }
