@@ -9,9 +9,9 @@ import org.json.JSONObject;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.PropertyFactory;
-import xbot.common.simulation.IWebotsSensor;
+import xbot.common.simulation.ISimulatableSensor;
 
-public class MockEncoder extends XEncoder implements IWebotsSensor {
+public class MockEncoder extends XEncoder implements ISimulatableSensor {
 
     private double distance;
     private double rate;

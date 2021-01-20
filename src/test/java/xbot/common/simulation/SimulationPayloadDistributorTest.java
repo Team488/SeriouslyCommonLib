@@ -32,7 +32,6 @@ public class SimulationPayloadDistributorTest extends BaseWPITest {
         sensorList.put(singleSensor);
         overallPayload.put("Sensors", sensorList);
 
-
         System.out.println(overallPayload.toString());
 
         distributor.distributeSimulationPayload(overallPayload);
