@@ -3,17 +3,18 @@ package edu.wpi.first.wpilibj;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.json.JSONObject;
+
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.simulation.ISimulatableSensor;
 
-public class MockAnalogInput extends XAnalogInput {
+public class MockAnalogInput extends XAnalogInput implements ISimulatableSensor {
     int channel;
     double voltage;
 
     @Inject
-    public MockAnalogInput(
-            @Assisted("channel") int channel,
-            DevicePolice police) {
+    public MockAnalogInput(@Assisted("channel") int channel, DevicePolice police) {
         super(channel, police);
         this.channel = channel;
     }
@@ -42,5 +43,10 @@ public class MockAnalogInput extends XAnalogInput {
     @Override
     public boolean getAsDigital(double threshold) {
         return getVoltage() >= threshold;
+    }
+
+    @Override
+    public void ingestSimulationData(JSONObject payload) {
+        setVoltage((double)payload.get("Voltage"));
     }
 }

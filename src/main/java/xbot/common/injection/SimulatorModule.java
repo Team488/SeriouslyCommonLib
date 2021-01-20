@@ -33,6 +33,8 @@ import xbot.common.controls.actuators.mock_adapters.MockCANSparkMax;
 import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
 import xbot.common.controls.actuators.mock_adapters.MockCANVictorSPX;
 import xbot.common.controls.actuators.mock_adapters.MockRelay;
+import xbot.common.controls.sensors.SimulatedAnalogDistanceSensor;
+import xbot.common.controls.sensors.XAnalogDistanceSensor;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
@@ -88,6 +90,7 @@ public class SimulatorModule extends AbstractModule {
                 .implement(XRelay.class, MockRelay.class).implement(XPWM.class, MockPWM.class)
                 .implement(XCANSparkMax.class, MockCANSparkMax.class)
                 .implement(XCANVictorSPX.class, MockCANVictorSPX.class)
+                .implement(XAnalogDistanceSensor.class, SimulatedAnalogDistanceSensor.class)
                 .build(CommonLibFactory.class));
     }
 }
