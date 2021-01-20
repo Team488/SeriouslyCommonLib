@@ -11,6 +11,12 @@
 			"Payload": {
                 "Voltage": 2.45784
             }
+		},
+		{
+            "ID": "Analog6",
+			"Payload": {
+                "Distance": 129.323
+            }
         }
 	]
 }

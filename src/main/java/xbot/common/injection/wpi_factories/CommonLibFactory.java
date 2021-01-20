@@ -20,11 +20,11 @@ import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.AdvancedButton;
 import xbot.common.controls.sensors.AdvancedJoystickButton;
 import xbot.common.controls.sensors.AdvancedPovButton;
-import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.ChordButton;
 import xbot.common.controls.sensors.XAS5600;
+import xbot.common.controls.sensors.XAnalogDistanceSensor;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
@@ -84,7 +84,7 @@ public interface CommonLibFactory extends PIDFactory {
 
         public XLidarLite createLidarLite(@Assisted("port") I2C.Port port);
 
-        public AnalogDistanceSensor createAnalogDistanceSensor(@Assisted("channel") int channel,
+        public XAnalogDistanceSensor createAnalogDistanceSensor(@Assisted("channel") int channel,
                         @Assisted("voltageMap") DoubleFunction<Double> voltageMap);
 
         public AdvancedJoystickButton createAdvancedJoystickButton(@Assisted("joystick") XJoystick joystick,

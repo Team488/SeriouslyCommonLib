@@ -1,12 +1,12 @@
 package xbot.common.controls.sensors;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import edu.wpi.first.wpilibj.MockAnalogInput;
-import xbot.common.controls.sensors.AnalogDistanceSensor;
 import xbot.common.injection.BaseWPITest;
-import static org.junit.Assert.assertEquals;
 
 public class AnalogDistanceSensorTest extends BaseWPITest {
 
@@ -14,7 +14,7 @@ public class AnalogDistanceSensorTest extends BaseWPITest {
 
     @Before
     public void setup() {
-        sensor = clf.createAnalogDistanceSensor(0, AnalogDistanceSensor.VoltageMaps::sharp0A51SK);
+        sensor = (AnalogDistanceSensor)clf.createAnalogDistanceSensor(0, AnalogDistanceSensor.VoltageMaps::sharp0A51SK);
     }
 
     @Test

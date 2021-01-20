@@ -6,37 +6,35 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
 
-import xbot.common.controls.sensors.mock_adapters.MockEncoder;
+import xbot.common.controls.sensors.SimulatedAnalogDistanceSensor;
 
-public class SimulationPayloadDistributorTest extends BaseSimulationTest {
+public class SimulatedDistanceSensorTest extends BaseSimulationTest {
 
-    MockEncoder encoder;
+    SimulatedAnalogDistanceSensor distanceSensor;
     SimulationPayloadDistributor distributor;
 
     @Override
     public void setUp() {
         super.setUp();
 
-        encoder = (MockEncoder)clf.createEncoder("Test", 3, 4, 1);
+        distanceSensor = (SimulatedAnalogDistanceSensor)clf.createAnalogDistanceSensor(1, xbot.common.controls.sensors.XAnalogDistanceSensor.VoltageMaps::sharp0A51SK);
         distributor = injector.getInstance(SimulationPayloadDistributor.class);
     }
 
     @Test
-    public void simpleTest() {
+    public void basicTest() {
         JSONObject overallPayload = new JSONObject();
         JSONObject singleSensor = new JSONObject();
-        singleSensor.put("ID", "DigitalIO3");
+        singleSensor.put("ID", "Analog1");
         JSONObject singleSensorPayload = new JSONObject();
-        singleSensorPayload.put("EncoderTicks", 123.0);
+        singleSensorPayload.put("Distance", 123.0);
         singleSensor.put("Payload", singleSensorPayload);
         JSONArray sensorList = new JSONArray();
         sensorList.put(singleSensor);
         overallPayload.put("Sensors", sensorList);
 
-        System.out.println(overallPayload.toString());
-
         distributor.distributeSimulationPayload(overallPayload);
 
-        assertEquals(123.0, encoder.getAdjustedDistance(), 0.001);
+        assertEquals(123.0, distanceSensor.getDistance(), 0.001);
     }
 }

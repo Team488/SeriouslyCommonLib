@@ -10,7 +10,7 @@ public abstract class XAnalogInput implements XBaseIO {
     
     public XAnalogInput(int channel, DevicePolice police) {
         this.channel = channel;
-        police.registerDevice(DeviceType.Analog, channel);
+        police.registerDevice(DeviceType.Analog, channel, this);
     }
 
     public abstract double getVoltage();

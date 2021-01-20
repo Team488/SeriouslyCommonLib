@@ -11,12 +11,11 @@ import xbot.common.properties.PropertyFactory;
 
 import java.util.function.DoubleFunction;
 
-public class AnalogDistanceSensor implements DistanceSensor {
+public class AnalogDistanceSensor extends XAnalogDistanceSensor {
     
     private static final int NUM_AVERAGE_BITS = 2;
 
     public XAnalogInput input;
-    DoubleFunction<Double> voltageMap;
     
     private DoubleProperty voltageOffset;
     private DoubleProperty distanceOffset;
@@ -32,10 +31,10 @@ public class AnalogDistanceSensor implements DistanceSensor {
             @Assisted("channel") int channel, 
             @Assisted("voltageMap") DoubleFunction<Double> voltageMap, 
             PropertyFactory propMan) {
-                
+        super(channel, voltageMap);
+        
         log.info("Initializing...");
         this.input = clf.createAnalogInput(channel);
-        this.voltageMap = voltageMap;
         voltageOffset = propMan.createPersistentProperty("Distance sensor " + input.getChannel() + " voltage offset", 0d);
         distanceOffset = propMan.createPersistentProperty("Distance sensor " + input.getChannel() + " distance offset", 0d);
         scalarMultiplier = propMan.createPersistentProperty("Distance sensor " + input.getChannel() + "scalar multiplier", 1d);
@@ -61,18 +60,5 @@ public class AnalogDistanceSensor implements DistanceSensor {
     public void setDistanceOffset(double offset)
     {
         distanceOffset.set(offset);
-    }
-    
-    public static class VoltageMaps
-    {
-        public static final double sharp0A51SK(double voltage)
-        {
-            // 3.6601x4 - 20.375x3 + 41.593x2 - 38.528x + 15.848
-            return (3.6601 * Math.pow(voltage, 4d))
-                    - (20.375 * Math.pow(voltage, 3d))
-                    + (41.593 * Math.pow(voltage, 2d))
-                    - (38.528 * voltage)
-                    + 15.848;
-        }
     }
 }
