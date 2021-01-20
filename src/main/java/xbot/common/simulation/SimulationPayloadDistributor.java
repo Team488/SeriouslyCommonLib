@@ -25,27 +25,29 @@ public class SimulationPayloadDistributor {
      */
     public void distributeSimulationPayload(JSONObject allSensorsPayload) {
         
-        // This assumes that the element containing the array of sensor data is called "Sensors".
-        JSONArray allSensorsArray = (JSONArray)allSensorsPayload.get("Sensors");
-        allSensorsArray.forEach(item -> {
-            JSONObject sensorJson = (JSONObject)item;
-            String id = (String)sensorJson.get("ID");
-            JSONObject payload = (JSONObject)sensorJson.get("Payload");
+        if (allSensorsPayload != null) {
+            // This assumes that the element containing the array of sensor data is called "Sensors".
+            JSONArray allSensorsArray = (JSONArray)allSensorsPayload.get("Sensors");
+            allSensorsArray.forEach(item -> {
+                JSONObject sensorJson = (JSONObject)item;
+                String id = (String)sensorJson.get("ID");
+                JSONObject payload = (JSONObject)sensorJson.get("Payload");
 
-            Object device = police.registeredChannels.get(id);
-            if (device == null) {
-                log.error("Unable to find device with ID" + id + " in the DevicePolice. Make sure it's being properly created somewhere.");
-            } else {
-                ISimulatableSensor robotSensor = null;
-                try {
-                    robotSensor = (ISimulatableSensor)device;
+                Object device = police.registeredChannels.get(id);
+                if (device == null) {
+                    log.error("Unable to find device with ID" + id + " in the DevicePolice. Make sure it's being properly created somewhere.");
+                } else {
+                    ISimulatableSensor robotSensor = null;
+                    try {
+                        robotSensor = (ISimulatableSensor)device;
+                    }
+                    catch (Exception e) {
+                        log.error("Unable to cast device with ID " + id + " to an ISimulatableSensor. Make sure that sensor implements ISimulatableSensor.");
+                        throw e;
+                    }
+                    robotSensor.ingestSimulationData(payload);
                 }
-                catch (Exception e) {
-                    log.error("Unable to cast device with ID " + id + " to an ISimulatableSensor. Make sure that sensor implements ISimulatableSensor.");
-                    throw e;
-                }
-                robotSensor.ingestSimulationData(payload);
-            }
-        });
+            });
+        }
     }
 }
