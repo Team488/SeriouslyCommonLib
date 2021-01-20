@@ -23,8 +23,8 @@ public abstract class XEncoder {
         propMan.setPrefix(name);
         distancePerPulse = propMan.createPersistentProperty("DistancePerPulse", defaultDistancePerPulse);
         setDistancePerPulseSupplier(() -> distancePerPulse.get());
-        police.registerDevice(DeviceType.DigitalIO, aChannel);
-        police.registerDevice(DeviceType.DigitalIO, bChannel);
+        police.registerDevice(DeviceType.DigitalIO, aChannel, this);
+        police.registerDevice(DeviceType.DigitalIO, bChannel, this);
     }
 
     public void setDistancePerPulseSupplier(Supplier<Double> supplier) {
