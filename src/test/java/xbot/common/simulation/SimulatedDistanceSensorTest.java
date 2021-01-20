@@ -2,6 +2,8 @@ package xbot.common.simulation;
 
 import static org.junit.Assert.assertEquals;
 
+import java.math.BigDecimal;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -17,17 +19,19 @@ public class SimulatedDistanceSensorTest extends BaseSimulationTest {
     public void setUp() {
         super.setUp();
 
-        distanceSensor = (SimulatedAnalogDistanceSensor)clf.createAnalogDistanceSensor(1, xbot.common.controls.sensors.XAnalogDistanceSensor.VoltageMaps::sharp0A51SK);
+        distanceSensor = (SimulatedAnalogDistanceSensor) clf.createAnalogDistanceSensor(1,
+                xbot.common.controls.sensors.XAnalogDistanceSensor.VoltageMaps::sharp0A51SK);
         distributor = injector.getInstance(SimulationPayloadDistributor.class);
     }
 
     @Test
     public void basicTest() {
+
         JSONObject overallPayload = new JSONObject();
         JSONObject singleSensor = new JSONObject();
         singleSensor.put("ID", "Analog1");
         JSONObject singleSensorPayload = new JSONObject();
-        singleSensorPayload.put("Distance", 123.0);
+        singleSensorPayload.put("Distance", new BigDecimal("123.002"));
         singleSensor.put("Payload", singleSensorPayload);
         JSONArray sensorList = new JSONArray();
         sensorList.put(singleSensor);
@@ -35,6 +39,6 @@ public class SimulatedDistanceSensorTest extends BaseSimulationTest {
 
         distributor.distributeSimulationPayload(overallPayload);
 
-        assertEquals(123.0, distanceSensor.getDistance(), 0.001);
+        assertEquals(123.002, distanceSensor.getDistance(), 0.001);
     }
 }
