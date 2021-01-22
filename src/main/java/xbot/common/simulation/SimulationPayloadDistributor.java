@@ -35,7 +35,8 @@ public class SimulationPayloadDistributor {
 
                 Object device = police.registeredChannels.get(id);
                 if (device == null) {
-                    log.error("Unable to find device with ID" + id + " in the DevicePolice. Make sure it's being properly created somewhere.");
+                    // skip for now
+                    //log.error("Unable to find device with ID" + id + " in the DevicePolice. Make sure it's being properly created somewhere.");
                 } else {
                     ISimulatableSensor robotSensor = null;
                     try {

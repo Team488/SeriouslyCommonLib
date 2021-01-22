@@ -2,14 +2,15 @@ package xbot.common.subsystems.pose;
 
 import static org.junit.Assert.assertEquals;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+
 import org.junit.Before;
 import org.junit.Ignore;
-
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.electrical_contract.CANTalonInfo;
 
 @Ignore
 public class BasePoseTest extends BaseWPITest {
@@ -22,9 +23,9 @@ public class BasePoseTest extends BaseWPITest {
         mockTimer = injector.getInstance(MockTimer.class);
         pose = injector.getInstance(MockBasePoseSubsystem.class);
         
-        XCANTalon left = clf.createCANTalon(0);
+        XCANTalon left = clf.createCANTalon(new CANTalonInfo(0));
         left.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-        XCANTalon right = clf.createCANTalon(1);
+        XCANTalon right = clf.createCANTalon(new CANTalonInfo(1));
         right.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         
         pose.setDriveTalons(left, right);

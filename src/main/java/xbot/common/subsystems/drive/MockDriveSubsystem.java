@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.injection.electrical_contract.CANTalonInfo;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.PIDFactory;
 import xbot.common.math.PIDManager;
@@ -73,16 +74,16 @@ public class MockDriveSubsystem extends BaseDriveSubsystem {
     }
 
     public void changeIntoTankDrive() {
-        leftTank = clf.createCANTalon(0);
-        rightTank = clf.createCANTalon(1);
+        leftTank = clf.createCANTalon(new CANTalonInfo(0));
+        rightTank = clf.createCANTalon(new CANTalonInfo(1));
     }
 
     public void changeIntoMecanum() {
         // for simple tests, assume tank drive.
-        fl = clf.createCANTalon(2);
-        rl = clf.createCANTalon(3);
-        fr = clf.createCANTalon(4);
-        rr = clf.createCANTalon(5);
+        fl = clf.createCANTalon(new CANTalonInfo(2));
+        rl = clf.createCANTalon(new CANTalonInfo(3));
+        fr = clf.createCANTalon(new CANTalonInfo(4));
+        rr = clf.createCANTalon(new CANTalonInfo(5));
     }
 
     @Override

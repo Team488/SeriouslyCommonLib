@@ -17,6 +17,12 @@
 			"Payload": {
                 "Distance": 129.323
             }
-        }
+		},
+		{
+			"ID": "CAN12",
+			"Payload": {
+				"EncoderTicks": 224
+			}
+		}
 	]
 }

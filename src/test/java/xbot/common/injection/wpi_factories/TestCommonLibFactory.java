@@ -9,6 +9,7 @@ import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.electrical_contract.CANTalonInfo;
 import xbot.common.logging.RobotAssertionException;
 import xbot.common.math.PIDFactory;
 
@@ -29,7 +30,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createDigitalOutput(3);
         clf.createServo(1);
         clf.createSpeedController(2);
-        XCANTalon talon = clf.createCANTalon(1);
+        XCANTalon talon = clf.createCANTalon(new CANTalonInfo(1));
         clf.createGyro();
         clf.createLidarLite(I2C.Port.kOnboard);
         clf.createAdvancedJoystickButton(j, 1);
@@ -56,8 +57,8 @@ public class TestCommonLibFactory extends BaseWPITest {
     
     @Test(expected = RobotAssertionException.class)
     public void doubleAllocate() {
-        clf.createCANTalon(1);    
-        clf.createCANTalon(1);
+        clf.createCANTalon(new CANTalonInfo(1));    
+        clf.createCANTalon(new CANTalonInfo(1));
         assertTrue("You shouldn't be able to double-allocate!", false);
     }
 }

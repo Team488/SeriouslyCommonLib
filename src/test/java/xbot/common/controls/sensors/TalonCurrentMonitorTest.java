@@ -4,11 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
-import xbot.common.controls.sensors.TalonCurrentMonitor;
 import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.electrical_contract.CANTalonInfo;
 
 public class TalonCurrentMonitorTest extends BaseWPITest {
 
@@ -18,7 +17,7 @@ public class TalonCurrentMonitorTest extends BaseWPITest {
     @Override
     public void setUp() {
         super.setUp();
-        talon = clf.createCANTalon(1);
+        talon = clf.createCANTalon(new CANTalonInfo(1));
         currentMonitor = new TalonCurrentMonitor(talon);
     }
 
