@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import org.junit.Test;
 
 import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
+import xbot.common.injection.electrical_contract.CANTalonInfo;
 
 public class SimulateMockCANTalonTest extends BaseSimulationTest {
 
@@ -21,8 +22,7 @@ public class SimulateMockCANTalonTest extends BaseSimulationTest {
     public void setUp() {
         super.setUp();
 
-        mockCANTalon = (MockCANTalon)clf.createCANTalon(34);
-        mockCANTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
+        mockCANTalon = (MockCANTalon)clf.createCANTalon(new CANTalonInfo(34, false, FeedbackDevice.CTRE_MagEncoder_Absolute, false, 1));
         distributor = injector.getInstance(SimulationPayloadDistributor.class);
     }
 

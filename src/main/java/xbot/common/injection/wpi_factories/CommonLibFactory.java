@@ -34,6 +34,7 @@ import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XXboxController;
+import xbot.common.injection.electrical_contract.CANTalonInfo;
 import xbot.common.logic.CalibrationDecider;
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.VelocityThrottleModule;
@@ -76,7 +77,7 @@ public interface CommonLibFactory extends PIDFactory {
 
         public XSpeedController createSpeedController(@Assisted("channel") int channel);
 
-        public XCANTalon createCANTalon(@Assisted("deviceId") int deviceId);
+        public XCANTalon createCANTalon(@Assisted("deviceInfo") CANTalonInfo deviceInfo);
 
         public XGyro createGyro();
 

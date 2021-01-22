@@ -10,12 +10,13 @@ import org.junit.Test;
 
 import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
 import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.electrical_contract.CANTalonInfo;
 
 public class MockCANTalonTest extends BaseWPITest {
     
     @Test
     public void testSpeedControl() {
-        XCANTalon talon = clf.createCANTalon(1);
+        XCANTalon talon = clf.createCANTalon(new CANTalonInfo(1));
        
         talon.config_kP(0, 0.5, 0);
         
@@ -30,7 +31,7 @@ public class MockCANTalonTest extends BaseWPITest {
 
     @Test
     public void testPositionControl() {
-        XCANTalon talon = clf.createCANTalon(1);
+        XCANTalon talon = clf.createCANTalon(new CANTalonInfo(1));
        
         talon.config_kP(0, 0.5, 0);
         
@@ -45,7 +46,7 @@ public class MockCANTalonTest extends BaseWPITest {
     
     @Test
     public void internalEncoderTest() {
-    	MockCANTalon motor = (MockCANTalon)clf.createCANTalon(1);
+    	MockCANTalon motor = (MockCANTalon)clf.createCANTalon(new CANTalonInfo(1));
     	motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
     	motor.setPosition(100);
     	

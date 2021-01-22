@@ -27,6 +27,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.injection.electrical_contract.CANTalonInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.PropertyFactory;
 
@@ -36,9 +37,14 @@ public class CANTalonWPIAdapter extends XCANTalon {
     SensorCollection sensorCollection;
 
     @Inject
-    public CANTalonWPIAdapter(@Assisted("deviceId") int deviceId, PropertyFactory propMan, DevicePolice police) {
-        super(deviceId, propMan, police);
-        internalTalon = new TalonSRX(deviceId);
+    public CANTalonWPIAdapter(@Assisted("deviceInfo") CANTalonInfo deviceInfo, PropertyFactory propMan, DevicePolice police) {
+        super(deviceInfo.channel, propMan, police);
+        internalTalon = new TalonSRX(deviceInfo.channel);
+        setInverted(deviceInfo.inverted);
+        if (deviceInfo.feedbackDevice != null) {
+            configSelectedFeedbackSensor(deviceInfo.feedbackDevice, 0, 0);
+            setSensorPhase(deviceInfo.feedbackDeviceInverted);
+        }
     }
 
     public ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs) {

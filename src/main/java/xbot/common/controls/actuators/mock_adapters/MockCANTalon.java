@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
+import xbot.common.injection.electrical_contract.CANTalonInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.MathUtils;
@@ -63,14 +64,27 @@ public class MockCANTalon extends XCANTalon implements ISimulatableSensor {
     private MockCANTalon master;
     private RobotAssertionManager assertionManager;
 
-    @Inject
-    public MockCANTalon(@Assisted("deviceId") int deviceId, PropertyFactory propMan, DevicePolice police,
-    RobotAssertionManager assertionManager) {
-        super(deviceId, propMan, police);
-        log.info("Creating CAN talon with device ID: " + deviceId);
+    private double simulationScalingValue;
 
-        this.deviceId = deviceId;
+    @Inject
+    public MockCANTalon(@Assisted("deviceInfo") CANTalonInfo deviceInfo, PropertyFactory propMan, DevicePolice police,
+    RobotAssertionManager assertionManager) {
+        super(deviceInfo.channel, propMan, police);
+        log.info("Creating CAN talon with device ID: " + deviceInfo.channel);
+
+        this.deviceId = deviceInfo.channel;
         this.assertionManager = assertionManager;
+        this.simulationScalingValue = deviceInfo.simulationScalingValue;
+        double simulationScalingFloor = 0.00001;
+        if (Math.abs(simulationScalingValue) < simulationScalingFloor) {
+            log.error("Your scaling value was suspiciously low. Are you sure it should be smaller than " + simulationScalingFloor + "?");
+        }
+
+        setInverted(deviceInfo.inverted);
+        if (deviceInfo.feedbackDevice != null) {
+            configSelectedFeedbackSensor(deviceInfo.feedbackDevice, 0, 0);
+            setSensorPhase(deviceInfo.feedbackDeviceInverted);
+        }
     }
 
     @Override
@@ -782,6 +796,6 @@ public class MockCANTalon extends XCANTalon implements ISimulatableSensor {
     @Override
     public void ingestSimulationData(JSONObject payload) {
         BigDecimal intermediate = (BigDecimal)payload.get("EncoderTicks");
-        setPosition(intermediate.intValue());
+        setPosition((int)(intermediate.doubleValue() * simulationScalingValue));
     }
 }
