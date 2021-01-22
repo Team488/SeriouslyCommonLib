@@ -1,5 +1,7 @@
 package xbot.common.controls.actuators.mock_adapters;
 
+import java.math.BigDecimal;
+
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motion.MotionProfileStatus;
@@ -25,15 +27,18 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.MathUtils;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.simulation.ISimulatableSensor;
 
-public class MockCANTalon extends XCANTalon {
+public class MockCANTalon extends XCANTalon implements ISimulatableSensor {
 
     private static Logger log = Logger.getLogger(MockCANTalon.class);
 
@@ -56,14 +61,16 @@ public class MockCANTalon extends XCANTalon {
     double kf;
 
     private MockCANTalon master;
+    private RobotAssertionManager assertionManager;
 
     @Inject
-    public MockCANTalon(@Assisted("deviceId") int deviceId, PropertyFactory propMan,
-            DevicePolice police) {
+    public MockCANTalon(@Assisted("deviceId") int deviceId, PropertyFactory propMan, DevicePolice police,
+    RobotAssertionManager assertionManager) {
         super(deviceId, propMan, police);
         log.info("Creating CAN talon with device ID: " + deviceId);
 
         this.deviceId = deviceId;
+        this.assertionManager = assertionManager;
     }
 
     @Override
@@ -123,7 +130,7 @@ public class MockCANTalon extends XCANTalon {
     }
 
     public double getThrottlePercent() {
-        if(master == null){
+        if (master == null) {
             return this.throttlePercent;
         } else {
             return this.master.getThrottlePercent();
@@ -277,8 +284,10 @@ public class MockCANTalon extends XCANTalon {
 
     @Override
     public ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) {
-        if (feedbackDevice == FeedbackDevice.QuadEncoder || feedbackDevice == FeedbackDevice.CTRE_MagEncoder_Relative) {
+        if (feedbackDevice == FeedbackDevice.QuadEncoder || feedbackDevice == FeedbackDevice.CTRE_MagEncoder_Relative || feedbackDevice == FeedbackDevice.CTRE_MagEncoder_Absolute) {
             this.internalEncoder = new MockEncoder(propMan);
+        } else {
+            assertionManager.fail("Whatever you supplied is not supported by the test infrastructure! Update MockCANTalon to handle your scenario.");
         }
 
         return ErrorCode.OK;
@@ -683,7 +692,7 @@ public class MockCANTalon extends XCANTalon {
 
     @Override
     public void follow(IMotorController masterToFollow) {
-        master = (MockCANTalon)masterToFollow;
+        master = (MockCANTalon) masterToFollow;
     }
 
     @Override
@@ -693,7 +702,7 @@ public class MockCANTalon extends XCANTalon {
 
     public double getPosition() {
         if (internalEncoder == null) {
-            log.warn("Position requested before setting feedback device!");
+            assertionManager.fail("Position requested before setting feedback device!");
             return 0;
         }
 
@@ -702,7 +711,7 @@ public class MockCANTalon extends XCANTalon {
 
     public void setPosition(int pos) {
         if (internalEncoder == null) {
-            log.warn("Position set before setting feedback device!");
+            assertionManager.fail("Position set before setting feedback device!");
         } else {
             ((MockEncoder) internalEncoder).setDistance(pos);
         }
@@ -710,7 +719,7 @@ public class MockCANTalon extends XCANTalon {
 
     public void setRate(double rate) {
         if (internalEncoder == null) {
-            log.warn("Rate set before setting feedback device!");
+            assertionManager.fail("Rate set before setting feedback device!");
         } else {
             ((MockEncoder) internalEncoder).setRate(rate);
         }
@@ -768,5 +777,11 @@ public class MockCANTalon extends XCANTalon {
 
     public void setPulseWidthRiseToFallUs(int value) {
         pulseWidthRiseToFallUs = value;
+    }
+
+    @Override
+    public void ingestSimulationData(JSONObject payload) {
+        BigDecimal intermediate = (BigDecimal)payload.get("EncoderTicks");
+        setPosition(intermediate.intValue());
     }
 }
