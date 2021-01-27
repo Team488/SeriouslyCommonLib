@@ -81,6 +81,8 @@ public interface CommonLibFactory extends PIDFactory {
 
         public XGyro createGyro();
 
+        public XGyro createGyro(@Assisted("channel") int channel);
+
         public XCompressor createCompressor();
 
         public XLidarLite createLidarLite(@Assisted("port") I2C.Port port);
