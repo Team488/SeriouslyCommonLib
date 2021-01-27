@@ -57,9 +57,9 @@ import xbot.common.math.PIDFactory;
 import xbot.common.networking.MockCommunicationClient;
 import xbot.common.networking.OffboardCommunicationClient;
 import xbot.common.properties.ITableProxy;
-import xbot.common.properties.MockPermamentStorage;
 import xbot.common.properties.PermanentStorage;
-import xbot.common.properties.TableProxy;
+import xbot.common.properties.PreferenceStorage;
+import xbot.common.properties.SmartDashboardTableWrapper;
 
 @Ignore
 public class SimulatorModule extends AbstractModule {
@@ -69,8 +69,8 @@ public class SimulatorModule extends AbstractModule {
     @Override
     protected void configure() {
         this.bind(XTimerImpl.class).to(MockTimer.class);
-        this.bind(ITableProxy.class).to(TableProxy.class).in(Singleton.class);
-        this.bind(PermanentStorage.class).to(MockPermamentStorage.class).in(Singleton.class);
+        this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class).in(Singleton.class);
+        this.bind(PermanentStorage.class).to(PreferenceStorage.class).in(Singleton.class);
         this.bind(SmartDashboardCommandPutter.class).to(MockSmartDashboardCommandPutter.class);
         this.bind(RobotAssertionManager.class).to(LoudRobotAssertionManager.class);
         this.bind(OffboardCommunicationClient.class).to(MockCommunicationClient.class);

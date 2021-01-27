@@ -16,14 +16,12 @@ import xbot.common.injection.electrical_contract.CANTalonInfo;
 public class SimulateMockCANTalonTest extends BaseSimulationTest {
 
     MockCANTalon mockCANTalon;
-    SimulationPayloadDistributor distributor;
 
     @Override
     public void setUp() {
         super.setUp();
 
         mockCANTalon = (MockCANTalon)clf.createCANTalon(new CANTalonInfo(34, false, FeedbackDevice.CTRE_MagEncoder_Absolute, false, 1));
-        distributor = injector.getInstance(SimulationPayloadDistributor.class);
     }
 
     @Test

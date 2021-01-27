@@ -11,14 +11,12 @@ import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 public class SimulationPayloadDistributorTest extends BaseSimulationTest {
 
     MockEncoder encoder;
-    SimulationPayloadDistributor distributor;
 
     @Override
     public void setUp() {
         super.setUp();
 
         encoder = (MockEncoder)clf.createEncoder("Test", 3, 4, 1);
-        distributor = injector.getInstance(SimulationPayloadDistributor.class);
     }
 
     @Test

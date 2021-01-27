@@ -41,7 +41,8 @@ public class DevicePolice {
         Analog,
         SPI,
         I2C,
-        USB
+        USB,
+        IMU
     }
     
     /**
