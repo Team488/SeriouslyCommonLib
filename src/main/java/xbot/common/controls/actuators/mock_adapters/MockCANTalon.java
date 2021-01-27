@@ -66,6 +66,9 @@ public class MockCANTalon extends XCANTalon implements ISimulatableSensor {
 
     private double simulationScalingValue;
 
+    private boolean inverted;
+    private boolean sensorPhaseInverted;
+
     @Inject
     public MockCANTalon(@Assisted("deviceInfo") CANTalonInfo deviceInfo, PropertyFactory propMan, DevicePolice police,
     RobotAssertionManager assertionManager) {
@@ -99,7 +102,7 @@ public class MockCANTalon extends XCANTalon implements ISimulatableSensor {
     @Override
     public void set(ControlMode Mode, double demand0, double demand1) {
 
-        this.setpoint = demand0;
+        this.setpoint = demand0 * (this.getInverted() ? -1 : 1);
 
         switch (Mode) {
         case Disabled:
@@ -163,18 +166,17 @@ public class MockCANTalon extends XCANTalon implements ISimulatableSensor {
 
     @Override
     public void setSensorPhase(boolean PhaseSensor) {
-
+        this.sensorPhaseInverted = PhaseSensor;
     }
 
     @Override
     public void setInverted(boolean invert) {
-
+        this.inverted = invert;
     }
 
     @Override
     public boolean getInverted() {
-
-        return false;
+        return this.inverted;
     }
 
     @Override
@@ -310,7 +312,7 @@ public class MockCANTalon extends XCANTalon implements ISimulatableSensor {
     @Override
     public int getSelectedSensorPosition(int pidIdx) {
 
-        return (int) getPosition();
+        return (int) getPosition() * (sensorPhaseInverted ? -1 : 1);
     }
 
     @Override

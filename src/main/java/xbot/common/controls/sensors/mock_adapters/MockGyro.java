@@ -1,11 +1,18 @@
 package xbot.common.controls.sensors.mock_adapters;
 
+import java.math.BigDecimal;
+
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import xbot.common.controls.sensors.XGyro;
+import org.json.JSONObject;
 
-public class MockGyro extends XGyro {
+import xbot.common.controls.sensors.XGyro;
+import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
+import xbot.common.simulation.ISimulatableSensor;
+
+public class MockGyro extends XGyro implements ISimulatableSensor {
     private boolean isBroken;
 
     private double yaw;
@@ -20,14 +27,24 @@ public class MockGyro extends XGyro {
     private double rawAccelZ;
 
     @AssistedInject
-    public MockGyro() {
+    public MockGyro(DevicePolice police) {
         super(ImuType.mock);
+        police.registerDevice(DeviceType.IMU, 1, this);
     }
-    
+
     @AssistedInject
-    public MockGyro(@Assisted("isBroken") boolean isBroken) {
+    public MockGyro(@Assisted("isBroken") boolean isBroken, DevicePolice police) {
         super(ImuType.mock);
         setIsBroken(isBroken);
+        // So far we've been living in a world with a single IMU, the NavX - if this changes, we'll need to 
+        // handle passing the channel value in instead of assuming "1".
+        police.registerDevice(DeviceType.IMU, 1, this);
+    }
+
+    @AssistedInject
+    public MockGyro(@Assisted("channel") int channel, DevicePolice police) {
+        super(ImuType.mock);
+        police.registerDevice(DeviceType.IMU, channel, this);
     }
 
     public boolean isConnected() {
@@ -69,8 +86,8 @@ public class MockGyro extends XGyro {
     public void setYawAngularVelocity(double yawAngularVelocity) {
         this.yawAngularVelocity = yawAngularVelocity;
     }
-    
-    public double getDeviceYawAngularVelocity(){
+
+    public double getDeviceYawAngularVelocity() {
         return yawAngularVelocity;
     }
 
@@ -126,6 +143,14 @@ public class MockGyro extends XGyro {
 
     public void setDeviceRawAccelZ(double accel) {
         this.rawAccelZ = accel;
+    }
+
+    @Override
+    public void ingestSimulationData(JSONObject payload) {
+        BigDecimal intermediateYaw = (BigDecimal)payload.get("Yaw");
+        this.setYaw(intermediateYaw.doubleValue());
+
+        // Eventually we will have more of these for more IMU elements
     }
 
 }

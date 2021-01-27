@@ -13,7 +13,6 @@ import xbot.common.controls.sensors.SimulatedAnalogDistanceSensor;
 public class SimulatedDistanceSensorTest extends BaseSimulationTest {
 
     SimulatedAnalogDistanceSensor distanceSensor;
-    SimulationPayloadDistributor distributor;
 
     @Override
     public void setUp() {
@@ -21,7 +20,6 @@ public class SimulatedDistanceSensorTest extends BaseSimulationTest {
 
         distanceSensor = (SimulatedAnalogDistanceSensor) clf.createAnalogDistanceSensor(1,
                 xbot.common.controls.sensors.XAnalogDistanceSensor.VoltageMaps::sharp0A51SK);
-        distributor = injector.getInstance(SimulationPayloadDistributor.class);
     }
 
     @Test

@@ -31,7 +31,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createServo(1);
         clf.createSpeedController(2);
         XCANTalon talon = clf.createCANTalon(new CANTalonInfo(1));
-        clf.createGyro();
+        clf.createGyro(2);
         clf.createLidarLite(I2C.Port.kOnboard);
         clf.createAdvancedJoystickButton(j, 1);
         clf.createAnalogHIDButton(j, 1, -1, 1);

@@ -1,10 +1,14 @@
 package xbot.common.simulation;
 
+import java.math.BigDecimal;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import org.apache.log4j.xml.DOMConfigurator;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Ignore;
 
@@ -27,6 +31,8 @@ public class BaseSimulationTest {
     
     protected MockTimer timer;
 
+    SimulationPayloadDistributor distributor;
+
     @Before
     public void setUp() {
         injector = Guice.createInjector(guiceModule);
@@ -39,5 +45,19 @@ public class BaseSimulationTest {
         pf = injector.getInstance(PIDFactory.class);
         
         DOMConfigurator.configure(getClass().getClassLoader().getResource("log4j4unitTesting.xml"));
+
+        distributor = injector.getInstance(SimulationPayloadDistributor.class);
+    }
+
+    protected JSONObject createSimpleSensorPayload(String id, JSONObject keysAndValues) {
+        JSONObject overallPayload = new JSONObject();
+        JSONObject singleSensor = new JSONObject();
+        singleSensor.put("ID", id);
+        singleSensor.put("Payload", keysAndValues);
+        JSONArray sensorList = new JSONArray();
+        sensorList.put(singleSensor);
+        overallPayload.put("Sensors", sensorList);
+
+        return overallPayload;
     }
 }
