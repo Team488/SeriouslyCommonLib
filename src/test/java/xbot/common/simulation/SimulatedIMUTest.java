@@ -23,7 +23,7 @@ public class SimulatedIMUTest extends BaseSimulationTest {
     @Test
     public void basicTest() {
         JSONObject imuPayload = new JSONObject();
-        imuPayload.put("Yaw", new BigDecimal(45.223));
+        imuPayload.put("Yaw", new BigDecimal(45.223 / 180.0 * Math.PI));
         JSONObject fullSensorPayload = createSimpleSensorPayload("IMU1", imuPayload);
         
         this.distributor.distributeSimulationPayload(fullSensorPayload);
