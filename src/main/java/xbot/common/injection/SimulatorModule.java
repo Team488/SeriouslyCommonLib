@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.MockServo;
 import edu.wpi.first.wpilibj.MockSolenoid;
 import edu.wpi.first.wpilibj.MockSpeedController;
 import edu.wpi.first.wpilibj.MockTimer;
-import xbot.common.command.MockSmartDashboardCommandPutter;
+import xbot.common.command.RealSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANTalon;
@@ -71,7 +71,7 @@ public class SimulatorModule extends AbstractModule {
         this.bind(XTimerImpl.class).to(MockTimer.class);
         this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class).in(Singleton.class);
         this.bind(PermanentStorage.class).to(PreferenceStorage.class).in(Singleton.class);
-        this.bind(SmartDashboardCommandPutter.class).to(MockSmartDashboardCommandPutter.class);
+        this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);
         this.bind(RobotAssertionManager.class).to(LoudRobotAssertionManager.class);
         this.bind(OffboardCommunicationClient.class).to(MockCommunicationClient.class);
 
