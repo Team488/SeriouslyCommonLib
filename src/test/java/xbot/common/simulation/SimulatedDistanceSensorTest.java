@@ -19,7 +19,7 @@ public class SimulatedDistanceSensorTest extends BaseSimulationTest {
         super.setUp();
 
         distanceSensor = (SimulatedAnalogDistanceSensor) clf.createAnalogDistanceSensor(1,
-                xbot.common.controls.sensors.XAnalogDistanceSensor.VoltageMaps::sharp0A51SK);
+                xbot.common.controls.sensors.XAnalogDistanceSensor.VoltageMaps::sharp0A51SK, "Test");
     }
 
     @Test

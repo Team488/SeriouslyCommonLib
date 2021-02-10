@@ -14,7 +14,7 @@ public class AnalogDistanceSensorTest extends BaseWPITest {
 
     @Before
     public void setup() {
-        sensor = (AnalogDistanceSensor)clf.createAnalogDistanceSensor(0, AnalogDistanceSensor.VoltageMaps::sharp0A51SK);
+        sensor = (AnalogDistanceSensor)clf.createAnalogDistanceSensor(0, AnalogDistanceSensor.VoltageMaps::sharp0A51SK, "Test");
     }
 
     @Test
