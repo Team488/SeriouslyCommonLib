@@ -36,7 +36,7 @@ public class MockCANSparkMax extends XCANSparkMax {
             PropertyFactory propMan, DevicePolice police, CommonLibFactory clf) {
         super(deviceId, owningSystemPrefix, name, propMan, police, clf);
         log.info("Creating CAN talon with device ID: " + deviceId);
-        internalEncoder = new MockEncoder(propMan);
+        internalEncoder = new MockEncoder("Test", propMan);
         this.deviceId = deviceId;
     }
 

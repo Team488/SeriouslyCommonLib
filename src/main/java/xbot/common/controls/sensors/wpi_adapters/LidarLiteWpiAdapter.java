@@ -1,7 +1,7 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -14,9 +14,9 @@ public class LidarLiteWpiAdapter extends XLidarLite{
 
     private I2C i2c;
     
-    @Inject
-    public LidarLiteWpiAdapter(@Assisted("port") Port port, PropertyFactory propMan, DevicePolice police) {
-        super(port, propMan, police);
+    @AssistedInject
+    public LidarLiteWpiAdapter(@Assisted("port") Port port, PropertyFactory propMan, DevicePolice police, @Assisted("prefix") String prefix) {
+        super(port, propMan, police, prefix);
 
       i2c = new I2C(port, lidar_address);
     }

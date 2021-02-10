@@ -301,7 +301,7 @@ public class MockCANTalon extends XCANTalon implements ISimulatableSensor {
     @Override
     public ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) {
         if (feedbackDevice == FeedbackDevice.QuadEncoder || feedbackDevice == FeedbackDevice.CTRE_MagEncoder_Relative || feedbackDevice == FeedbackDevice.CTRE_MagEncoder_Absolute) {
-            this.internalEncoder = new MockEncoder(propMan);
+            this.internalEncoder = new MockEncoder("Test", propMan);
         } else {
             assertionManager.fail("Whatever you supplied is not supported by the test infrastructure! Update MockCANTalon to handle your scenario.");
         }

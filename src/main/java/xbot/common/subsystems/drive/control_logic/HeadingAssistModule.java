@@ -48,11 +48,13 @@ public class HeadingAssistModule {
     public HeadingAssistModule(
             @Assisted("headingModule") HeadingModule headingModule,
             @Assisted("decayModule") HeadingModule decayModule,
+            @Assisted("prefix") String prefix,
             PropertyFactory propMan,
             BasePoseSubsystem pose) {
         this.headingModule = headingModule;
         this.decayModule = decayModule;
         this.pose = pose;
+        propMan.setPrefix(prefix);
         humanThreshold = propMan.createPersistentProperty("HeadingAssistModule/Human Threshold", 0.05);
         coastTime = propMan.createPersistentProperty("Heading Assist Module/Coast Time", 0.5);
         lastHumanInput = 0;

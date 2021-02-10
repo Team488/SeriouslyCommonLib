@@ -17,6 +17,7 @@ public class PropertyTest extends BaseWPITest {
     public void setUp() {
         super.setUp();
         this.propertyManager = injector.getInstance(XPropertyManager.class);
+        propertyFactory.setTopLevelPrefix();
     }
 
     @Test
