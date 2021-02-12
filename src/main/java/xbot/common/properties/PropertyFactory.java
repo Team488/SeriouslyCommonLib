@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 
 import org.apache.log4j.Logger;
 
+import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.Property.PropertyPersistenceType;
 
 public class PropertyFactory {
@@ -11,23 +12,34 @@ public class PropertyFactory {
     protected Logger log;
     private final XPropertyManager propertyManager;
     private String prefix = "";
+    private RobotAssertionManager assertionManager;
+    private boolean prefixSet;
 
     @Inject
-    PropertyFactory(XPropertyManager propertyManager) {
+    PropertyFactory(XPropertyManager propertyManager, RobotAssertionManager assertionManager) {
         this.propertyManager = propertyManager;
+        this.assertionManager = assertionManager;
         log = Logger.getLogger(PropertyFactory.class);
     }
 
     public void setPrefix(String prefix) {
         this.prefix = prefix;
+        prefixSet = true;
     }
 
     public void setPrefix(IPropertySupport prefixSource) {
         this.prefix = prefixSource.getPrefix();
+        prefixSet = true;
     }
 
     public void appendPrefix(String toAppend) {
         prefix = prefix + "/" + toAppend;
+        prefixSet = true;
+    }
+
+    public void setTopLevelPrefix() {
+        prefix = "";
+        prefixSet = true;
     }
 
     public String getPrefix() {
@@ -54,6 +66,15 @@ public class PropertyFactory {
         return cleanedKey;
     }
 
+    private void checkPrefixSet() {
+        if (!prefixSet) {
+            assertionManager.fail("You should always call setPrefix() on PropertyFactory before creating new properties; "
+            + "otherwise, all properties will be at the root level."
+            + "If you meant to have the property at the root level, call setTopLevelPrefix() first."
+            );
+        }
+    }
+
 
     /**
      * @deprecated You should use createProperty(String key, boolean defaultValue, PropertyPersistenceType
@@ -61,6 +82,7 @@ public class PropertyFactory {
      * 
      */
     public BooleanProperty createProperty(String key, boolean defaultValue) {
+        checkPrefixSet();
         return new BooleanProperty(this.createFullKey(key), defaultValue, this.propertyManager);
     }
 
@@ -70,6 +92,7 @@ public class PropertyFactory {
      * 
      */
     public StringProperty createProperty(String key, String defaultValue) {
+        checkPrefixSet();
         return new StringProperty(this.createFullKey(key), defaultValue, this.propertyManager);
     }
 
@@ -79,6 +102,7 @@ public class PropertyFactory {
      * 
      */
     public DoubleProperty createProperty(String key, double defaultValue) {
+        checkPrefixSet();
         return new DoubleProperty(this.createFullKey(key), defaultValue, this.propertyManager);
     }
 
@@ -88,6 +112,7 @@ public class PropertyFactory {
      * @author Marc
      */
     public BooleanProperty createEphemeralProperty(String key, boolean defaultValue) {
+        checkPrefixSet();
         return new BooleanProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager);
     }
 
@@ -97,6 +122,7 @@ public class PropertyFactory {
      * @author Marc
      */
     public StringProperty createEphemeralProperty(String key, String defaultValue) {
+        checkPrefixSet();
         return new StringProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager);
     }
 
@@ -106,6 +132,7 @@ public class PropertyFactory {
      * @author Marc
      */
     public DoubleProperty createEphemeralProperty(String key, double defaultValue) {
+        checkPrefixSet();
         return new DoubleProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager);
     }
 
@@ -115,6 +142,7 @@ public class PropertyFactory {
      * @author Marc
      */
     public BooleanProperty createPersistentProperty(String key, boolean defaultValue) {
+        checkPrefixSet();
         return new BooleanProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager);
     }
 
@@ -124,6 +152,7 @@ public class PropertyFactory {
      * @author Marc
      */
     public StringProperty createPersistentProperty(String key, String defaultValue) {
+        checkPrefixSet();
         return new StringProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager);
     }
 
@@ -133,6 +162,7 @@ public class PropertyFactory {
      * @author Marc
      */
     public DoubleProperty createPersistentProperty(String key, double defaultValue) {
+        checkPrefixSet();
         return new DoubleProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager);
     }
 

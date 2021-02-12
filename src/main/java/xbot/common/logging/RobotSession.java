@@ -20,6 +20,7 @@ public class RobotSession {
     @Inject
     public RobotSession(WordGenerator wg, PropertyFactory propMan) {
         this.wg = wg;
+        propMan.setTopLevelPrefix();
         sessionProp = propMan.createEphemeralProperty(propertyName, "NoSessionSetYet");
         reset();
     }

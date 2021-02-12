@@ -29,12 +29,14 @@ public class AnalogDistanceSensor extends XAnalogDistanceSensor {
     public AnalogDistanceSensor(
             CommonLibFactory clf, 
             @Assisted("channel") int channel, 
-            @Assisted("voltageMap") DoubleFunction<Double> voltageMap, 
+            @Assisted("voltageMap") DoubleFunction<Double> voltageMap,
+            @Assisted("prefix") String prefix, 
             PropertyFactory propMan) {
         super(channel, voltageMap);
         
         log.info("Initializing...");
         this.input = clf.createAnalogInput(channel);
+        propMan.setPrefix(prefix);
         voltageOffset = propMan.createPersistentProperty("Distance sensor " + input.getChannel() + " voltage offset", 0d);
         distanceOffset = propMan.createPersistentProperty("Distance sensor " + input.getChannel() + " distance offset", 0d);
         scalarMultiplier = propMan.createPersistentProperty("Distance sensor " + input.getChannel() + "scalar multiplier", 1d);

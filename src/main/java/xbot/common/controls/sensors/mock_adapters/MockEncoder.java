@@ -24,8 +24,8 @@ public class MockEncoder extends XEncoder implements ISimulatableSensor {
     }
 
     @AssistedInject
-    public MockEncoder(PropertyFactory propMan) {
-        super(propMan);
+    public MockEncoder(String prefix, PropertyFactory propMan) {
+        super(prefix, propMan);
     }
 
     public void setDistance(double distance) {

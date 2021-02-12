@@ -85,10 +85,10 @@ public interface CommonLibFactory extends PIDFactory {
 
         public XCompressor createCompressor();
 
-        public XLidarLite createLidarLite(@Assisted("port") I2C.Port port);
+        public XLidarLite createLidarLite(@Assisted("port") I2C.Port port, @Assisted("prefix") String prefix);
 
         public XAnalogDistanceSensor createAnalogDistanceSensor(@Assisted("channel") int channel,
-                        @Assisted("voltageMap") DoubleFunction<Double> voltageMap);
+                        @Assisted("voltageMap") DoubleFunction<Double> voltageMap, @Assisted("prefix") String prefix);
 
         public AdvancedJoystickButton createAdvancedJoystickButton(@Assisted("joystick") XJoystick joystick,
                         @Assisted("buttonNumber") int buttonNumber);
@@ -119,7 +119,7 @@ public interface CommonLibFactory extends PIDFactory {
          * @return
          */
         public HeadingAssistModule createHeadingAssistModule(@Assisted("headingModule") HeadingModule headingModule,
-                        @Assisted("decayModule") HeadingModule decayModule);
+                        @Assisted("decayModule") HeadingModule decayModule, @Assisted("prefix") String prefix);
 
         public HumanVsMachineDecider createHumanVsMachineDecider(@Assisted("prefix") String prefix);
 

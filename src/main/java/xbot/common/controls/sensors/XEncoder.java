@@ -31,7 +31,8 @@ public abstract class XEncoder {
         distancePerPulseSupplier = supplier;
     }
     
-    public XEncoder(PropertyFactory propMan) {
+    public XEncoder(String prefix, PropertyFactory propMan) {
+        propMan.setPrefix(prefix);
         var distancePerPulseProp = propMan.createPersistentProperty("Test" + "DistancePerPulse", 1);
         setDistancePerPulseSupplier(() -> distancePerPulseProp.get());
     }

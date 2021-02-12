@@ -23,7 +23,7 @@ public class HeadingAssistModuleTest extends BaseWPITest {
         
         HeadingModule hold = clf.createHeadingModule(pf.createPIDManager("Hold", 1000, 0, 0));
         HeadingModule decay = clf.createHeadingModule(pf.createPIDManager("Decay", 0, 0, 1000));
-        ham = clf.createHeadingAssistModule(hold, decay);
+        ham = clf.createHeadingAssistModule(hold, decay, "Test");
         ham.setMode(HeadingAssistMode.HoldOrientation);
     }
     

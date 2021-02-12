@@ -24,9 +24,10 @@ public abstract class XLidarLite implements DistanceSensor {
 
     private DoubleProperty lidarPollDuration;
 
-    public XLidarLite(Port port, PropertyFactory propMan, DevicePolice police) {
+    public XLidarLite(Port port, PropertyFactory propMan, DevicePolice police, String prefix) {
 
         log.info("Creating Lidar on port: " + port.toString());
+        propMan.setPrefix(prefix);
         lidarPollDuration = propMan.createPersistentProperty("LidarPollDurationMs", 100d);
 
         distance = new byte[2];

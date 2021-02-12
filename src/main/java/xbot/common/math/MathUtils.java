@@ -1,5 +1,7 @@
 package xbot.common.math;
 
+import java.util.function.Function;
+
 public class MathUtils
 {
     public static double constrainDouble(double value, double lowerBound, double upperBound)
@@ -40,5 +42,25 @@ public class MathUtils
             return 0;
         }
         return input;
+    }
+
+    public static double deadband(double input, double deadband, Function<Double, Double> function) {
+        if (Math.abs(input) < deadband) {
+            return 0;
+        }
+
+        // Subtract the input from the deadband to get a new "zero"
+        double reducedInput = 0;
+        if (input > 0) {
+            reducedInput = input - deadband;
+        } else {
+            reducedInput = input + deadband;
+        }
+
+        // Divide the input by the remaining range to scale it back to a (0, 1) range.
+        double scaledInput = reducedInput / (1-deadband);
+
+        // Apply whatever further function is appropriate
+        return function.apply(scaledInput);
     }
 }
