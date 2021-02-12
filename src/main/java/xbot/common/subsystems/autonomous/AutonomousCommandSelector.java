@@ -24,6 +24,7 @@ public class AutonomousCommandSelector extends BaseSubsystem {
 
     @Inject
     public AutonomousCommandSelector(PropertyFactory propFactory) {
+        propFactory.setTopLevelPrefix();
         currentAutonomousCommandName = propFactory.createEphemeralProperty("Current autonomous command name",
                 "No command set");
     }

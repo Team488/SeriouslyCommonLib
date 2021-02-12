@@ -106,6 +106,7 @@ public class BaseRobot extends TimedRobot {
         SmartDashboard.putData(CommandScheduler.getInstance());
         
         PropertyFactory pf = injector.getInstance(PropertyFactory.class);
+        pf.setTopLevelPrefix();
         frequencyReportInterval = pf.createPersistentProperty("Robot loop frequency report interval", 20);
         batteryVoltage = pf.createEphemeralProperty("Battery Voltage", 0);
         schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get());
