@@ -61,19 +61,19 @@ dependencies {
 
     compile group: 'org.zeromq', name: 'jeromq', version: '0.4.3'
     
-    compile 'edu.wpi.first.wpiutil:wpiutil-java:2020.3.2'
-    compile 'edu.wpi.first.wpilibj:wpilibj-java:2020.3.2'
-    compile 'edu.wpi.first.ntcore:ntcore-java:2020.3.2'
-    compile 'edu.wpi.first.wpilibNewCommands:wpilibNewCommands-java:2020.3.2'
+    compile "edu.wpi.first.wpiutil:wpiutil-java:${wpi.wpilibVersion}"
+    compile "edu.wpi.first.wpilibj:wpilibj-java:${wpi.wpilibVersion}"
+    compile "edu.wpi.first.ntcore:ntcore-java:${wpi.wpilibVersion}"
+    compile "edu.wpi.first.wpilibNewCommands:wpilibNewCommands-java:${wpi.wpilibVersion}"
 
     compile 'com.ctre.phoenix:wpiapi-java:5.17.3'
     compile 'com.ctre.phoenix:api-java:5.17.3'
 
     compile 'com.revrobotics.frc:SparkMax-java:1.5.1'
 
-    compile 'edu.wpi.first.ntcore:ntcore-jni:2020.3.2'
-    implementation 'edu.wpi.first.hal:hal-jni:2020.3.2'
-    implementation 'edu.wpi.first.hal:hal-java:2020.3.2'
+    compile "edu.wpi.first.ntcore:ntcore-jni:${wpi.wpilibVersion}"
+    implementation "edu.wpi.first.hal:hal-jni:${wpi.wpilibVersion}"
+    implementation "edu.wpi.first.hal:hal-java:${wpi.wpilibVersion}"
     testImplementation(wpilibDesktopJni(wpi.platforms.desktop))
     testImplementation(wpi.deps.vendor.jni(wpi.platforms.desktop))
 
