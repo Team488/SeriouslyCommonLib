@@ -70,8 +70,6 @@ public class BaseRobot extends TimedRobot {
 
     public BaseRobot() {        
         setupInjectionModule();
-
-        DriverStation.getInstance().silenceJoystickConnectionWarning(true);
         
         brownoutLatch = new Latch(false, EdgeType.Both, edge -> {
             if(edge == EdgeType.RisingEdge) {
