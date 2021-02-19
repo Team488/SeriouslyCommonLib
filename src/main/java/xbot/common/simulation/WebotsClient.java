@@ -26,7 +26,7 @@ public class WebotsClient {
     final DoubleProperty simulatorPoseX;
     final DoubleProperty simulatorPoseY;
     final DoubleProperty simulatorPoseYaw;
-    final String hostname = "localhost";
+    final String hostname = "127.0.0.1";
     final int supervisorPort = 10001;
     int robotPort = -1;
 
@@ -45,7 +45,7 @@ public class WebotsClient {
         JSONObject data = new JSONObject();
         data.put("template", "HttpRobotTemplate");
 
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://127.0.0.1:" + supervisorPort + "/robot"))
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://" + hostname + ":" + supervisorPort + "/robot"))
                 .header("Content-Type", "application/json").POST(BodyPublishers.ofString(data.toString())).build();
         HttpResponse<String> response;
         try {
@@ -75,7 +75,7 @@ public class WebotsClient {
 
         data.put("motors", motorValues);
 
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://127.0.0.1:" + robotPort + "/motors"))
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://" + hostname + ":" + robotPort + "/motors"))
                 .header("Content-Type", "application/json").PUT(BodyPublishers.ofString(data.toString())).build();
         HttpResponse<String> response;
         try {
@@ -115,7 +115,7 @@ public class WebotsClient {
         data.put("position", positionArray);
         data.put("rotation", rotationArray);
         // TODO: Support passing in position and or rotation here
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://127.0.0.1:" + robotPort + "/position"))
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://" + hostname + ":" + robotPort + "/position"))
                 .header("Content-Type", "application/json").PUT(BodyPublishers.ofString(data.toString())).build();
         HttpResponse<String> response;
         try {
