@@ -1,11 +1,15 @@
 package xbot.common.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.json.JSONObject;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
@@ -13,9 +17,11 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.RobotModule;
+import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotSession;
 import xbot.common.logging.TimeLogger;
 import xbot.common.logic.Latch;
@@ -23,6 +29,8 @@ import xbot.common.logic.Latch.EdgeType;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.properties.XPropertyManager;
+import xbot.common.simulation.SimulationPayloadDistributor;
+import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
 
 /**
@@ -50,6 +58,10 @@ public class BaseRobot extends TimedRobot {
     protected DoubleProperty frequencyReportInterval;
     protected double lastFreqCounterResetTime = -1;
     protected int loopCycleCounter = 0;
+
+    protected WebotsClient webots;
+    protected DevicePolice devicePolice;
+    protected SimulationPayloadDistributor simulationPayloadDistributor;
     
     TimeLogger schedulerMonitor;
     TimeLogger outsidePeriodicMonitor;
@@ -112,6 +124,8 @@ public class BaseRobot extends TimedRobot {
         schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get());
         outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20);
         robotSession = injector.getInstance(RobotSession.class);
+        devicePolice = injector.getInstance(DevicePolice.class);
+        simulationPayloadDistributor = injector.getInstance(SimulationPayloadDistributor.class);
     }
     
     protected String getEnableTypeString() {
@@ -253,5 +267,27 @@ public class BaseRobot extends TimedRobot {
         }
         
         outsidePeriodicMonitor.start();
+    }
+
+    
+    @Override
+    public void simulationInit() {
+        webots = this.injector.getInstance(WebotsClient.class);
+        webots.initialize();
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        // find all CANTalons
+        List<MockCANTalon> talons = new ArrayList<MockCANTalon>();        
+        for (Object o : devicePolice.registeredChannels.values()) {
+            if(o instanceof MockCANTalon) {
+                talons.add((MockCANTalon)o);
+            }
+        }
+
+        JSONObject response = webots.sendMotors(talons);
+
+        simulationPayloadDistributor.distributeSimulationPayload(response);
     }
 }
