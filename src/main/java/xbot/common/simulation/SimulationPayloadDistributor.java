@@ -56,9 +56,14 @@ public class SimulationPayloadDistributor {
             });
 
             // This assumes that the element containing the world pose is called "WorldPose".
-            JSONObject worldPose = (JSONObject)allSensorsPayload.get("WorldPose");
-            BigDecimal timeInSeconds = (BigDecimal)worldPose.get("Time");
-            this.timer.setTimeInSeconds(timeInSeconds.doubleValue());
+            JSONObject worldPose = allSensorsPayload.optJSONObject("WorldPose");
+            if (worldPose != null) {
+                // Only update the simulation time is present and valid
+                BigDecimal timeInSeconds = worldPose.optBigDecimal("Time", BigDecimal.valueOf(-1));
+                if (timeInSeconds.compareTo(BigDecimal.ZERO) >= 0) {
+                    this.timer.setTimeInSeconds(timeInSeconds.doubleValue());
+                }
+            }
         }
     }
 }
