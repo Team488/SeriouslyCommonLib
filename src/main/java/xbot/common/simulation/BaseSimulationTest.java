@@ -57,6 +57,18 @@ public class BaseSimulationTest {
         JSONArray sensorList = new JSONArray();
         sensorList.put(singleSensor);
         overallPayload.put("Sensors", sensorList);
+        JSONObject worldPose = new JSONObject();
+        worldPose.put("Time", new BigDecimal(1.23));
+        overallPayload.put("WorldPose", worldPose);
+
+        return overallPayload;
+    }
+
+    protected JSONObject createSimpleWorldPosePayload(JSONObject keysAndValues) {
+        JSONObject overallPayload = new JSONObject();
+        overallPayload.put("Sensors", new JSONArray());
+        JSONObject worldPose = keysAndValues;
+        overallPayload.put("WorldPose", worldPose);
 
         return overallPayload;
     }

@@ -1,5 +1,7 @@
 package xbot.common.simulation;
 
+import java.math.BigDecimal;
+
 import com.google.inject.Inject;
 
 import org.json.JSONArray;
@@ -7,16 +9,19 @@ import org.json.JSONObject;
 
 import org.apache.log4j.Logger;
 
+import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class SimulationPayloadDistributor {
 
     private DevicePolice police;
+    private XSettableTimerImpl timer;
     private static Logger log = Logger.getLogger(SimulationPayloadDistributor.class);
 
     @Inject
-    public SimulationPayloadDistributor(DevicePolice police) {
+    public SimulationPayloadDistributor(DevicePolice police, XSettableTimerImpl timer) {
         this.police = police;
+        this.timer = timer;
     }
 
     /**
@@ -49,6 +54,16 @@ public class SimulationPayloadDistributor {
                     robotSensor.ingestSimulationData(payload);
                 }
             });
+
+            // This assumes that the element containing the world pose is called "WorldPose".
+            JSONObject worldPose = allSensorsPayload.optJSONObject("WorldPose");
+            if (worldPose != null) {
+                // Only update the simulation time is present and valid
+                BigDecimal timeInSeconds = worldPose.optBigDecimal("Time", BigDecimal.valueOf(-1));
+                if (timeInSeconds.compareTo(BigDecimal.ZERO) >= 0) {
+                    this.timer.setTimeInSeconds(timeInSeconds.doubleValue());
+                }
+            }
         }
     }
 }
