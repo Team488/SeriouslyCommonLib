@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
 import edu.wpi.first.wpilibj.MockServo;
 import edu.wpi.first.wpilibj.MockSolenoid;
 import edu.wpi.first.wpilibj.MockSpeedController;
+import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.command.RealSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.actuators.XCANSparkMax;
@@ -47,7 +48,6 @@ import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
-import xbot.common.controls.sensors.mock_adapters.MockSettableTimer;
 import xbot.common.controls.sensors.wpi_adapters.FTCGamepadWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.JoystickWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.XboxControllerWpiAdapter;
@@ -69,8 +69,8 @@ public class SimulatorModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        this.bind(XTimerImpl.class).to(MockSettableTimer.class);
-        this.bind(XSettableTimerImpl.class).to(MockSettableTimer.class);
+        this.bind(XTimerImpl.class).to(MockTimer.class);
+        this.bind(XSettableTimerImpl.class).to(MockTimer.class);
         this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class).in(Singleton.class);
         this.bind(PermanentStorage.class).to(PreferenceStorage.class).in(Singleton.class);
         this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);
