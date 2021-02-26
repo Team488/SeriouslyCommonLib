@@ -2,17 +2,19 @@ package edu.wpi.first.wpilibj;
 
 import com.google.inject.Singleton;
 
-import xbot.common.controls.sensors.XTimerImpl;
+import xbot.common.controls.sensors.XSettableTimerImpl;
 
 @Singleton
-public class MockTimer implements XTimerImpl {
+public class MockTimer implements XSettableTimerImpl {
 
     double timeInSeconds;
 
+    @Override
     public void setTimeInSeconds(double time) {
         timeInSeconds = time;
     }
 
+    @Override
     public void advanceTimeInSecondsBy(double time) {
         timeInSeconds += time;
     }

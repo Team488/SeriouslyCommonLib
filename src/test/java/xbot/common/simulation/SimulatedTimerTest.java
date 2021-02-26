@@ -7,18 +7,18 @@ import java.math.BigDecimal;
 import org.json.JSONObject;
 import org.junit.Test;
 
+import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.controls.sensors.XSettableTimerImpl;
-import xbot.common.controls.sensors.mock_adapters.MockSettableTimer;
 
 public class SimulatedTimerTest extends BaseSimulationTest {
 
-    MockSettableTimer simulatedTimer;
+    MockTimer simulatedTimer;
 
     @Override
     public void setUp() {
         super.setUp();
 
-        simulatedTimer = (MockSettableTimer)injector.getInstance(XSettableTimerImpl.class);
+        simulatedTimer = (MockTimer)injector.getInstance(XSettableTimerImpl.class);
     }
 
     @Test
