@@ -18,6 +18,9 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
+import xbot.common.math.ContiguousHeading;
+import xbot.common.math.FieldPose;
+import xbot.common.math.XYPair;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
@@ -30,6 +33,9 @@ public class WebotsClient {
     final int supervisorPort = 10001;
     int robotPort = -1;
 
+    private FieldPose fieldOffset;
+    private final double INCHES_IN_A_METER = 39.3701;
+
     HttpClient client = HttpClient.newBuilder().version(Version.HTTP_1_1).build();
 
     @Inject
@@ -38,6 +44,25 @@ public class WebotsClient {
         simulatorPoseX = propertyFactory.createEphemeralProperty("Simulator Pose X", 0);
         simulatorPoseY = propertyFactory.createEphemeralProperty("Simulator Pose Y", 0);
         simulatorPoseYaw = propertyFactory.createEphemeralProperty("Simulator Pose Yaw", 0);
+
+        fieldOffset = new FieldPose();
+    }
+
+    /**
+     * In the case where the origin of the field doesn't match our traditional convention (with 0,0
+     * on the bottom-left vertex of the rectangular FRC field if viewed from above with your alliance
+     * driver station at the bottom), then we need to shift X,Y coordinates to get everything to line up.
+     * @param offset
+     */
+    public void setFieldPoseOffset(FieldPose offset) {
+        this.fieldOffset = offset;
+    }
+
+    public FieldPose getSimulatorTruePosition() {
+        return new FieldPose(
+            new XYPair(simulatorPoseX.get()*INCHES_IN_A_METER, simulatorPoseY.get()*INCHES_IN_A_METER), 
+            new ContiguousHeading(simulatorPoseYaw.get())
+        ).getFieldPoseOffsetBy(fieldOffset);
     }
 
     public void initialize() {

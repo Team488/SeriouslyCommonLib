@@ -14,6 +14,11 @@ public class FieldPose {
 
     private ContiguousHeading heading;
     private final XYPair fieldPosition;
+
+    public FieldPose() {
+        this.fieldPosition = new XYPair();
+        this.heading = new ContiguousHeading();
+    }
     
     public FieldPose(XYPair point, ContiguousHeading heading) {
         this.fieldPosition = point.clone();
@@ -126,7 +131,21 @@ public class FieldPose {
 
         return new FieldPose(new XYPair(updatedX, updatedY), new ContiguousHeading(simpleHeading));
     }
-    
+
+    /**
+     * Returns a FieldPose that's "subtracted" by the offset FieldPose. Useful for setting your current position
+     * as 0,0 and measuring relative to that as you move around the field.
+     * @param offset
+     * @return
+     */
+    public FieldPose getFieldPoseOffsetBy(FieldPose offset) {
+        XYPair changedPoint = this.getPoint().clone().add(offset.getPoint().clone().scale(-1));
+        // Currently only handling point offsets, not heading offsets
+        ContiguousHeading changedHeading = this.getHeading().clone();
+
+        return new FieldPose(changedPoint, changedHeading);
+    }
+
     @Override
     public String toString() {
         String xyString = fieldPosition == null ? "null, null" : fieldPosition.x + ", " + fieldPosition.y;

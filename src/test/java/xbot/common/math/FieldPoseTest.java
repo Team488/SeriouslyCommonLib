@@ -152,4 +152,14 @@ public class FieldPoseTest {
 
         assertEquals(40, distance, 0.001);
     }
+
+    @Test
+    public void testFieldPoseOffset() {
+        FieldPose startingPose = new FieldPose(10, 10, 90);
+        FieldPose offsetpPose = new FieldPose(7,8, 90);
+
+        FieldPose deltaPose = startingPose.getFieldPoseOffsetBy(offsetpPose);
+        assertEquals(3, deltaPose.getPoint().x, 0.001);
+        assertEquals(2, deltaPose.getPoint().y, 0.001);
+    }
 }
