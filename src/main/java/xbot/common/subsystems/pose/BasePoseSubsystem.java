@@ -36,6 +36,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     // These are two common robot starting positions - kept here as convenient shorthand.
     public static final double FACING_AWAY_FROM_DRIVERS = 90;
     public static final double FACING_TOWARDS_DRIVERS = -90;
+    public static final double INCHES_IN_A_METER = 39.3701;
     
     private final DoubleProperty currentPitch;
     private final DoubleProperty currentRoll;

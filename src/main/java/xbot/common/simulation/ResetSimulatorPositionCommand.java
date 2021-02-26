@@ -6,16 +6,19 @@ import xbot.common.command.BaseCommand;
 import xbot.common.math.ContiguousHeading;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
+import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 public class ResetSimulatorPositionCommand extends BaseCommand {
 
     final WebotsClient webots;
+    final BasePoseSubsystem pose;
 
     private FieldPose targetPose;
 
     @Inject
-    public ResetSimulatorPositionCommand(WebotsClient webots) {
+    public ResetSimulatorPositionCommand(WebotsClient webots, BasePoseSubsystem pose) {
         this.webots = webots;
+        this.pose = pose;
         targetPose = new FieldPose(new XYPair(0,0), new ContiguousHeading());
     }
 
@@ -27,6 +30,8 @@ public class ResetSimulatorPositionCommand extends BaseCommand {
     public void initialize() {
         log.info("Initializing");
         webots.resetPosition(targetPose.getPoint().x, targetPose.getPoint().y, targetPose.getHeading().getValue());
+        pose.setCurrentPosition(targetPose.getPoint().x, targetPose.getPoint().y);
+        pose.setCurrentHeading(targetPose.getHeading().getValue());
     }
 
     @Override

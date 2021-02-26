@@ -18,8 +18,12 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
+import xbot.common.math.ContiguousHeading;
+import xbot.common.math.FieldPose;
+import xbot.common.math.XYPair;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 @Singleton
 public class WebotsClient {
@@ -30,6 +34,8 @@ public class WebotsClient {
     final int supervisorPort = 10001;
     int robotPort = -1;
 
+    private FieldPose fieldOffset;
+
     HttpClient client = HttpClient.newBuilder().version(Version.HTTP_1_1).build();
 
     @Inject
@@ -38,6 +44,18 @@ public class WebotsClient {
         simulatorPoseX = propertyFactory.createEphemeralProperty("Simulator Pose X", 0);
         simulatorPoseY = propertyFactory.createEphemeralProperty("Simulator Pose Y", 0);
         simulatorPoseYaw = propertyFactory.createEphemeralProperty("Simulator Pose Yaw", 0);
+
+        fieldOffset = new FieldPose();
+    }
+
+    /**
+     * In the case where the origin of the field doesn't match our traditional convention (with 0,0
+     * on the bottom-left vertex of the rectangular FRC field if viewed from above with your alliance
+     * driver station at the bottom), then we need to shift X,Y coordinates to get everything to line up.
+     * @param offset A FieldPose that represents the bottom-left part of the field in Webots (in absolute inches)
+     */
+    public void setFieldPoseOffset(FieldPose offset) {
+        this.fieldOffset = offset;
     }
 
     public void initialize() {
@@ -97,9 +115,14 @@ public class WebotsClient {
 
     public void handleSimulatorPose(JSONObject worldPose) {
         JSONArray positionArray = worldPose.getJSONArray("Position");
-        simulatorPoseX.set(positionArray.getDouble(0));
-        simulatorPoseY.set(positionArray.getDouble(1));
-        simulatorPoseYaw.set(worldPose.getDouble("Yaw"));
+        FieldPose truePose = new FieldPose(
+            positionArray.getDouble(0)*BasePoseSubsystem.INCHES_IN_A_METER, 
+            positionArray.getDouble(1)*BasePoseSubsystem.INCHES_IN_A_METER, 
+            worldPose.getDouble("Yaw"));
+        FieldPose calibratedPose = truePose.getFieldPoseOffsetBy(fieldOffset);
+        simulatorPoseX.set(calibratedPose.getPoint().x);
+        simulatorPoseY.set(calibratedPose.getPoint().y);
+        simulatorPoseYaw.set(calibratedPose.getHeading().getValue());
     }
 
     public void resetPosition() {
@@ -108,6 +131,13 @@ public class WebotsClient {
 
     public void resetPosition(double x, double y, double rotationInDegrees) {
         
+        x += fieldOffset.getPoint().x;
+        y += fieldOffset.getPoint().y;
+        rotationInDegrees += fieldOffset.getHeading().getValue();
+        
+        x /= BasePoseSubsystem.INCHES_IN_A_METER;
+        y /= BasePoseSubsystem.INCHES_IN_A_METER;
+
         JSONArray positionArray = new JSONArray(new double[] {x, y, 0.1});
         JSONArray rotationArray = new JSONArray(new double[] {0, 0, 1, Math.toRadians(rotationInDegrees)});
 
