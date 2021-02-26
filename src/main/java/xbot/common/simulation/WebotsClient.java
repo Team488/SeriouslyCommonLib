@@ -23,6 +23,7 @@ import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 @Singleton
 public class WebotsClient {
@@ -34,7 +35,6 @@ public class WebotsClient {
     int robotPort = -1;
 
     private FieldPose fieldOffset;
-    private final double INCHES_IN_A_METER = 39.3701;
 
     HttpClient client = HttpClient.newBuilder().version(Version.HTTP_1_1).build();
 
@@ -52,7 +52,7 @@ public class WebotsClient {
      * In the case where the origin of the field doesn't match our traditional convention (with 0,0
      * on the bottom-left vertex of the rectangular FRC field if viewed from above with your alliance
      * driver station at the bottom), then we need to shift X,Y coordinates to get everything to line up.
-     * @param offset
+     * @param offset A FieldPose that represents the bottom-left part of the field in Webots (in absolute inches)
      */
     public void setFieldPoseOffset(FieldPose offset) {
         this.fieldOffset = offset;
@@ -115,7 +115,10 @@ public class WebotsClient {
 
     public void handleSimulatorPose(JSONObject worldPose) {
         JSONArray positionArray = worldPose.getJSONArray("Position");
-        FieldPose truePose = new FieldPose(positionArray.getDouble(0)*INCHES_IN_A_METER, positionArray.getDouble(1)*INCHES_IN_A_METER, worldPose.getDouble("Yaw"));
+        FieldPose truePose = new FieldPose(
+            positionArray.getDouble(0)*BasePoseSubsystem.INCHES_IN_A_METER, 
+            positionArray.getDouble(1)*BasePoseSubsystem.INCHES_IN_A_METER, 
+            worldPose.getDouble("Yaw"));
         FieldPose calibratedPose = truePose.getFieldPoseOffsetBy(fieldOffset);
         simulatorPoseX.set(calibratedPose.getPoint().x);
         simulatorPoseY.set(calibratedPose.getPoint().y);
@@ -132,8 +135,8 @@ public class WebotsClient {
         y += fieldOffset.getPoint().y;
         rotationInDegrees += fieldOffset.getHeading().getValue();
         
-        x /= INCHES_IN_A_METER;
-        y /= INCHES_IN_A_METER;
+        x /= BasePoseSubsystem.INCHES_IN_A_METER;
+        y /= BasePoseSubsystem.INCHES_IN_A_METER;
 
         JSONArray positionArray = new JSONArray(new double[] {x, y, 0.1});
         JSONArray rotationArray = new JSONArray(new double[] {0, 0, 1, Math.toRadians(rotationInDegrees)});

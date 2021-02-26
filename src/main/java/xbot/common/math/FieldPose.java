@@ -135,7 +135,7 @@ public class FieldPose {
     /**
      * Returns a FieldPose that's "subtracted" by the offset FieldPose. Useful for setting your current position
      * as 0,0 and measuring relative to that as you move around the field.
-     * @param offset
+     * @param offset The offset location
      * @return
      */
     public FieldPose getFieldPoseOffsetBy(FieldPose offset) {
