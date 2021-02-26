@@ -58,13 +58,6 @@ public class WebotsClient {
         this.fieldOffset = offset;
     }
 
-    public FieldPose getSimulatorTruePosition() {
-        return new FieldPose(
-            new XYPair(simulatorPoseX.get()*INCHES_IN_A_METER, simulatorPoseY.get()*INCHES_IN_A_METER), 
-            new ContiguousHeading(simulatorPoseYaw.get())
-        ).getFieldPoseOffsetBy(fieldOffset);
-    }
-
     public void initialize() {
         // Spawn a robot in the sim
         JSONObject data = new JSONObject();
@@ -122,9 +115,11 @@ public class WebotsClient {
 
     public void handleSimulatorPose(JSONObject worldPose) {
         JSONArray positionArray = worldPose.getJSONArray("Position");
-        simulatorPoseX.set(positionArray.getDouble(0));
-        simulatorPoseY.set(positionArray.getDouble(1));
-        simulatorPoseYaw.set(worldPose.getDouble("Yaw"));
+        FieldPose truePose = new FieldPose(positionArray.getDouble(0)*INCHES_IN_A_METER, positionArray.getDouble(1)*INCHES_IN_A_METER, worldPose.getDouble("Yaw"));
+        FieldPose calibratedPose = truePose.getFieldPoseOffsetBy(fieldOffset);
+        simulatorPoseX.set(calibratedPose.getPoint().x);
+        simulatorPoseY.set(calibratedPose.getPoint().y);
+        simulatorPoseYaw.set(calibratedPose.getHeading().getValue());
     }
 
     public void resetPosition() {
@@ -133,6 +128,13 @@ public class WebotsClient {
 
     public void resetPosition(double x, double y, double rotationInDegrees) {
         
+        x += fieldOffset.getPoint().x;
+        y += fieldOffset.getPoint().y;
+        rotationInDegrees += fieldOffset.getHeading().getValue();
+        
+        x /= INCHES_IN_A_METER;
+        y /= INCHES_IN_A_METER;
+
         JSONArray positionArray = new JSONArray(new double[] {x, y, 0.1});
         JSONArray rotationArray = new JSONArray(new double[] {0, 0, 1, Math.toRadians(rotationInDegrees)});
 
