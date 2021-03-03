@@ -160,4 +160,25 @@ public class WebotsClient {
         }
     }
 
+    public void drawLine(String name, XYPair point1, XYPair point2) {
+        JSONObject data = new JSONObject();
+        data.put("name", name);
+        data.put("point_1", new JSONArray(new double[] {point1.x, point1.y, 0.1}));
+        data.put("point_2", new JSONArray(new double[] {point2.x, point2.y, 0.1}));
+        // TODO: Support passing in position and or rotation here
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://" + hostname + ":" + robotPort + "/overlay/line"))
+                .header("Content-Type", "application/json").PUT(BodyPublishers.ofString(data.toString())).build();
+        HttpResponse<String> response;
+        try {
+            response = client.send(request, BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                // ok
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
