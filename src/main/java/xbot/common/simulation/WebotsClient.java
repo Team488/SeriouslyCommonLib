@@ -166,7 +166,7 @@ public class WebotsClient {
         XYPair point2Meters = point2.clone().add(this.fieldOffset.getPoint()).scale(1 / BasePoseSubsystem.INCHES_IN_A_METER);
         data.put("point_1", new JSONArray(new double[] {point1Meters.x, point1Meters.y, 0.5}));
         data.put("point_2", new JSONArray(new double[] {point2Meters.x, point2Meters.y, 0.5}));
-        // TODO: Support passing in position and or rotation here
+
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://" + hostname + ":" + robotPort + "/overlay/line"))
                 .header("Content-Type", "application/json").PUT(BodyPublishers.ofString(data.toString())).build();
         HttpResponse<String> response;
