@@ -1,8 +1,14 @@
 package xbot.common.simulation;
 
+import java.util.ArrayList;
+
 import com.google.inject.Inject;
 
+import org.json.JSONObject;
+
 import xbot.common.command.BaseCommand;
+import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
 import xbot.common.math.ContiguousHeading;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
@@ -14,12 +20,15 @@ public class ResetSimulatorPositionCommand extends BaseCommand {
     final BasePoseSubsystem pose;
 
     private FieldPose targetPose;
+    SimulationPayloadDistributor distributor;
 
     @Inject
-    public ResetSimulatorPositionCommand(WebotsClient webots, BasePoseSubsystem pose) {
+    public ResetSimulatorPositionCommand(WebotsClient webots, BasePoseSubsystem pose,
+            SimulationPayloadDistributor distributor) {
         this.webots = webots;
         this.pose = pose;
-        targetPose = new FieldPose(new XYPair(0,0), new ContiguousHeading());
+        this.distributor = distributor;
+        targetPose = new FieldPose(new XYPair(0, 0), new ContiguousHeading());
     }
 
     public void setTargetPose(FieldPose p) {
@@ -30,6 +39,16 @@ public class ResetSimulatorPositionCommand extends BaseCommand {
     public void initialize() {
         log.info("Initializing");
         webots.resetPosition(targetPose.getPoint().x, targetPose.getPoint().y, targetPose.getHeading().getValue());
+        // Need to add a tiny sleep to let Webots update itself, since there are async elements on that end. If that gets ironed out, we can remove this delay.
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        JSONObject response = webots.sendMotors(new ArrayList<MockCANTalon>());
+        distributor.distributeSimulationPayload(response);
+        pose.periodic();
+
         pose.setCurrentPosition(targetPose.getPoint().x, targetPose.getPoint().y);
         pose.setCurrentHeading(targetPose.getHeading().getValue());
     }
