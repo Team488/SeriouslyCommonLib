@@ -36,7 +36,7 @@ public abstract class XLidarLite implements DistanceSensor {
         updater = new java.util.Timer();
 
         this.start();
-        police.registerDevice(DeviceType.I2C, port.value);
+        police.registerDevice(DeviceType.I2C, port.value, this);
     }
     
     protected abstract void update();

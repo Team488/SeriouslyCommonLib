@@ -18,9 +18,7 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
-import xbot.common.math.ContiguousHeading;
 import xbot.common.math.FieldPose;
-import xbot.common.math.XYPair;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
@@ -101,8 +99,8 @@ public class WebotsClient {
             if (response.statusCode() == 200) {
                 // parse response for sensor values
                 JSONObject responseData = new JSONObject(response.body());
-                JSONArray sensors = (JSONArray) responseData.get("Sensors");
-                handleSimulatorPose((JSONObject)responseData.get("WorldPose"));
+                JSONArray sensors = responseData.getJSONArray("Sensors");
+                handleSimulatorPose(responseData.getJSONObject("WorldPose"));
                 return responseData;
             }
         } catch (IOException e) {

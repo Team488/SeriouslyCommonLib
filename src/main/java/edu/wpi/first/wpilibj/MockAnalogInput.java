@@ -47,6 +47,6 @@ public class MockAnalogInput extends XAnalogInput implements ISimulatableSensor 
 
     @Override
     public void ingestSimulationData(JSONObject payload) {
-        setVoltage((double)payload.get("Voltage"));
+        setVoltage(payload.getDouble("Voltage"));
     }
 }

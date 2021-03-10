@@ -56,7 +56,7 @@ public abstract class XJoystick
             povButtonMap.put(i, clf.createAdvancedPovButton(this, i));
         }
         
-        police.registerDevice(DeviceType.USB, port);
+        police.registerDevice(DeviceType.USB, port, this);
     }
     
     public int getPort() {

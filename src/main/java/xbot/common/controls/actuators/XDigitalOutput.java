@@ -10,7 +10,7 @@ public abstract class XDigitalOutput implements XBaseIO {
     
     public XDigitalOutput(int channel, DevicePolice police) {
         this.channel = channel;
-        police.registerDevice(DeviceType.DigitalIO, channel);
+        police.registerDevice(DeviceType.DigitalIO, channel, this);
     }
     
     public int getChannel() {
