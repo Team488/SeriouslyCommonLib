@@ -167,8 +167,8 @@ public class WebotsClient {
         data.put("name", name);
         XYPair point1Meters = point1.clone().add(this.fieldOffset.getPoint()).scale(1 / BasePoseSubsystem.INCHES_IN_A_METER);
         XYPair point2Meters = point2.clone().add(this.fieldOffset.getPoint()).scale(1 / BasePoseSubsystem.INCHES_IN_A_METER);
-        data.put("point_1", new JSONArray(new double[] {point1Meters.x, point1Meters.y, zIndex}));
-        data.put("point_2", new JSONArray(new double[] {point2Meters.x, point2Meters.y, zIndex}));
+        data.put("point_1", new JSONArray(new double[] {point1Meters.x, point1Meters.y, zIndex / BasePoseSubsystem.INCHES_IN_A_METER}));
+        data.put("point_2", new JSONArray(new double[] {point2Meters.x, point2Meters.y, zIndex / BasePoseSubsystem.INCHES_IN_A_METER}));
         data.put("color", new JSONArray(new double[] {color.red, color.green, color.blue}));
 
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://" + hostname + ":" + robotPort + "/overlay/line"))
