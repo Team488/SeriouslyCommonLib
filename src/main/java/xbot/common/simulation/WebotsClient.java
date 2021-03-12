@@ -210,4 +210,27 @@ public class WebotsClient {
         }
     }
 
+    public void drawCircle(String name, XYPair center, float radius, Color color, float zIndex) {
+        JSONObject data = new JSONObject();
+        data.put("name", name);
+        XYPair centerMeters = center.clone().add(this.fieldOffset.getPoint()).scale(1 / BasePoseSubsystem.INCHES_IN_A_METER);
+        data.put("center", new JSONArray(new double[] {centerMeters.x, centerMeters.y, zIndex / BasePoseSubsystem.INCHES_IN_A_METER}));
+        data.put("color", new JSONArray(new double[] {color.red, color.green, color.blue}));
+        data.put("radius", radius);
+
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://" + hostname + ":" + robotPort + "/overlay/circle"))
+                .header("Content-Type", "application/json").PUT(BodyPublishers.ofString(data.toString())).build();
+        HttpResponse<String> response;
+        try {
+            response = client.send(request, BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                // ok
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
