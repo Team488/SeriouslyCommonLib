@@ -186,4 +186,28 @@ public class WebotsClient {
         }
     }
 
+    public void drawArrow(String name, XYPair point1, XYPair point2, Color color, float zIndex) {
+        JSONObject data = new JSONObject();
+        data.put("name", name);
+        XYPair point1Meters = point1.clone().add(this.fieldOffset.getPoint()).scale(1 / BasePoseSubsystem.INCHES_IN_A_METER);
+        XYPair point2Meters = point2.clone().add(this.fieldOffset.getPoint()).scale(1 / BasePoseSubsystem.INCHES_IN_A_METER);
+        data.put("point_1", new JSONArray(new double[] {point1Meters.x, point1Meters.y, zIndex / BasePoseSubsystem.INCHES_IN_A_METER}));
+        data.put("point_2", new JSONArray(new double[] {point2Meters.x, point2Meters.y, zIndex / BasePoseSubsystem.INCHES_IN_A_METER}));
+        data.put("color", new JSONArray(new double[] {color.red, color.green, color.blue}));
+
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://" + hostname + ":" + robotPort + "/overlay/arrow"))
+                .header("Content-Type", "application/json").PUT(BodyPublishers.ofString(data.toString())).build();
+        HttpResponse<String> response;
+        try {
+            response = client.send(request, BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                // ok
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
