@@ -34,11 +34,11 @@ public class SimulationPayloadDistributor {
         
         if (allSensorsPayload != null) {
             // This assumes that the element containing the array of sensor data is called "Sensors".
-            JSONArray allSensorsArray = (JSONArray)allSensorsPayload.get("Sensors");
+            JSONArray allSensorsArray = allSensorsPayload.getJSONArray("Sensors");
             allSensorsArray.forEach(item -> {
                 JSONObject sensorJson = (JSONObject)item;
-                String id = (String)sensorJson.get("ID");
-                JSONObject payload = (JSONObject)sensorJson.get("Payload");
+                String id = sensorJson.getString("ID");
+                JSONObject payload = sensorJson.getJSONObject("Payload");
 
                 Object device = police.registeredChannels.get(id);
                 if (device == null) {

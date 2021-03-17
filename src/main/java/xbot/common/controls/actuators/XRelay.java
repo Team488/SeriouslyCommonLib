@@ -11,7 +11,7 @@ public abstract class XRelay {
     
     public XRelay(int channel, DevicePolice police) {
         this.channel = channel;
-        police.registerDevice(DeviceType.PWM, channel);
+        police.registerDevice(DeviceType.PWM, channel, this);
     }
     
     public void setForward() {
