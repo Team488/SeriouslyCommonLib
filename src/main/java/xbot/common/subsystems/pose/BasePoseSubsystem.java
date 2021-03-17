@@ -103,7 +103,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         currentHeadingProp.set(currentHeading.getValue());
         currentCompassHeadingProp.set(getCompassHeading(currentHeading));
 
-        headingAngularVelocityProp.set(previousHeading.difference(currentHeading));
+        headingAngularVelocityProp.set(getYawAngularVelocity());
         
         currentPitch.set(getRobotPitch());
         currentRoll.set(getRobotRoll());

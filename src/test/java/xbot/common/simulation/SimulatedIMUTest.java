@@ -24,10 +24,12 @@ public class SimulatedIMUTest extends BaseSimulationTest {
     public void basicTest() {
         JSONObject imuPayload = new JSONObject();
         imuPayload.put("Yaw", new BigDecimal(45.223 / 180.0 * Math.PI));
+        imuPayload.put("YawVelocity", new BigDecimal(12 / 180.0 * Math.PI));
         JSONObject fullSensorPayload = createSimpleSensorPayload("IMU1", imuPayload);
         
         this.distributor.distributeSimulationPayload(fullSensorPayload);
 
         assertEquals(45.223, simulatedGyro.getHeading().getValue(), 0.001);
+        assertEquals(12, simulatedGyro.getYawAngularVelocity(), 0.001);
     }
 }

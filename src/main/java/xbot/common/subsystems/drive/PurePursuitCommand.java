@@ -14,6 +14,7 @@ import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.drive.RabbitPoint.PointDriveStyle;
 import xbot.common.subsystems.drive.RabbitPoint.PointTerminatingType;
 import xbot.common.subsystems.drive.RabbitPoint.PointType;
@@ -70,6 +71,8 @@ public abstract class PurePursuitCommand extends BaseCommand {
     private boolean stickyPursueForward = true;
     private boolean wasForcingDriveToPoint = false;
     private boolean useDotProductDriving = false;
+
+    protected RabbitChaseInfo chaseData;
 
     /**
      * An implementation of Pure Pursuit for FRC. We got the basic idea from here:
@@ -210,7 +213,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
 
     @Override
     public void execute() {
-        RabbitChaseInfo chaseData = evaluateCurrentPoint();
+        chaseData = evaluateCurrentPoint();
         drive.drive(new XYPair(0, chaseData.translation), chaseData.rotation);
     }
     

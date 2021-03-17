@@ -148,12 +148,15 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
     @Override
     public void ingestSimulationData(JSONObject payload) {
         BigDecimal intermediateYaw = (BigDecimal)payload.get("Yaw");
+        BigDecimal intermediateYawVelocity = (BigDecimal)payload.get("YawVelocity");
 
         // The simulation returns values between -pi and pi, which is just like the NavX returning -180 to 180. We just need
         // to do a quick conversion.
         double yawInDegrees = intermediateYaw.doubleValue() * 180.0 / Math.PI;
+        double yawVelocityInDegrees = intermediateYawVelocity.doubleValue() * 180.0 / Math.PI;
 
         this.setYaw(yawInDegrees);
+        this.setYawAngularVelocity(yawVelocityInDegrees);
 
         // Eventually we will have more of these for more IMU elements
     }
