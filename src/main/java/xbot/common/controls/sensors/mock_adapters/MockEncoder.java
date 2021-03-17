@@ -3,7 +3,6 @@ package xbot.common.controls.sensors.mock_adapters;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import xbot.common.controls.sensors.XEncoder;

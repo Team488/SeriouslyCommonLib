@@ -54,7 +54,7 @@ public abstract class XCANSparkMax {
         this.propertyFactory.setPrefix(owningSystemPrefix);
         this.propertyFactory.appendPrefix(name);
         prefix = pf.getPrefix();
-        police.registerDevice(DeviceType.CAN, deviceId);
+        police.registerDevice(DeviceType.CAN, deviceId, this);
 
         kPprop = pf.createPersistentProperty("kP", defaultPIDProperties.p);
         kIprop = pf.createPersistentProperty("kI", defaultPIDProperties.i);

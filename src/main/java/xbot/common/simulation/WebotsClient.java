@@ -103,8 +103,8 @@ public class WebotsClient {
             if (response.statusCode() == 200) {
                 // parse response for sensor values
                 JSONObject responseData = new JSONObject(response.body());
-                JSONArray sensors = (JSONArray) responseData.get("Sensors");
-                handleSimulatorPose((JSONObject)responseData.get("WorldPose"));
+                JSONArray sensors = responseData.getJSONArray("Sensors");
+                handleSimulatorPose(responseData.getJSONObject("WorldPose"));
                 return responseData;
             }
         } catch (IOException e) {

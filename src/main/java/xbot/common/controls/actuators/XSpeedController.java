@@ -11,7 +11,7 @@ public abstract class XSpeedController implements XBaseIO
     
     public XSpeedController(int channel, DevicePolice police) {
         this.channel = channel;
-        police.registerDevice(DeviceType.PWM, channel);
+        police.registerDevice(DeviceType.PWM, channel, this);
     }
     
     public int getChannel() {

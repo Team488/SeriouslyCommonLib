@@ -12,7 +12,7 @@ public abstract class XDigitalInput implements XBaseIO {
     
     @Inject
     public XDigitalInput(DevicePolice police, int channel) {
-        police.registerDevice(DeviceType.DigitalIO, channel);
+        police.registerDevice(DeviceType.DigitalIO, channel, this);
     }
     
     public boolean get() {
