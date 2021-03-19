@@ -44,6 +44,7 @@ import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
+import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
@@ -69,6 +70,7 @@ public class UnitTestModule extends AbstractModule {
     @Override
     protected void configure() {
         this.bind(XTimerImpl.class).to(MockTimer.class);
+        this.bind(XSettableTimerImpl.class).to(MockTimer.class);
         this.bind(ITableProxy.class).to(TableProxy.class).in(Singleton.class);
         this.bind(PermanentStorage.class).to(MockPermamentStorage.class).in(Singleton.class);
         this.bind(SmartDashboardCommandPutter.class).to(MockSmartDashboardCommandPutter.class);

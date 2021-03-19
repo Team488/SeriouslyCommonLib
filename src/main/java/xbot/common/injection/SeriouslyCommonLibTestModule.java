@@ -10,7 +10,6 @@ public class SeriouslyCommonLibTestModule extends UnitTestModule {
     @Override
     protected void configure() {
         super.configure();
-        
         this.bind(BasePoseSubsystem.class).to(MockBasePoseSubsystem.class);
         this.bind(BaseDriveSubsystem.class).to(MockDriveSubsystem.class);
     }

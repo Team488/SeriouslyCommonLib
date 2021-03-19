@@ -1,6 +1,5 @@
 package xbot.common.injection;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -19,17 +18,19 @@ public class BaseWPITest {
     public Injector injector;
 
     public PropertyFactory propertyFactory;
-
-    protected AbstractModule guiceModule = new SeriouslyCommonLibTestModule();
     
     protected CommonLibFactory clf;
     protected PIDFactory pf;
     
     protected MockTimer timer;
 
+    protected Injector createInjector() {
+        return Guice.createInjector(new SeriouslyCommonLibTestModule());
+    }
+
     @Before
     public void setUp() {
-        injector = Guice.createInjector(guiceModule);
+        injector = createInjector();
         timer = injector.getInstance(MockTimer.class);
         XTimer.setImplementation(timer);
 
