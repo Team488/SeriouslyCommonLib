@@ -6,7 +6,6 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
-import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.BaseWPITest;
 import xbot.common.logging.RobotAssertionManager;
 

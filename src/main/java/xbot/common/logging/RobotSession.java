@@ -3,9 +3,8 @@ package xbot.common.logging;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import xbot.common.logging.WordGenerator;
-import xbot.common.properties.StringProperty;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.StringProperty;
 
 @Singleton
 public class RobotSession {
