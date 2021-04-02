@@ -9,7 +9,6 @@ import xbot.common.math.XYPair;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
-import xbot.common.subsystems.drive.RabbitPoint;
 
 public class SimulatedPurePursuitCommand extends ConfigurablePurePursuitCommand {
 
@@ -49,9 +48,8 @@ public class SimulatedPurePursuitCommand extends ConfigurablePurePursuitCommand 
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
-
-        int i = 1;
-        for (RabbitPoint plannedPoint : this.getPlannedPointsToVisit()) {
+        // Clear out all the nav markers when this command is no longer active
+        for (int i = 0; i < this.getPlannedPointsToVisit().size(); i++){
             webots.drawLine("PlannedPointAhead"+i, new XYPair(0,0), new XYPair(0,0), Color.kBlue, 60);
             webots.drawLine("PlannedPointBehind"+i, new XYPair(0,0), new XYPair(0,0), Color.kRed, 60);
             i++;

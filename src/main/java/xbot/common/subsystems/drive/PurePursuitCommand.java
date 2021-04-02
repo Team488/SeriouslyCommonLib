@@ -14,7 +14,6 @@ import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
-import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.drive.RabbitPoint.PointDriveStyle;
 import xbot.common.subsystems.drive.RabbitPoint.PointTerminatingType;
 import xbot.common.subsystems.drive.RabbitPoint.PointType;
