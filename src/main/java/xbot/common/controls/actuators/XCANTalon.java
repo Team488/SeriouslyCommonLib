@@ -51,10 +51,12 @@ public abstract class XCANTalon implements IMotorControllerEnhanced {
     private DoubleProperty positionProperty = null;
     private DoubleProperty velocityProperty = null;
 
+    protected String policeTicket;
+
     public XCANTalon(int deviceId, PropertyFactory propMan, DevicePolice police) {
         this.deviceId = deviceId;
         this.propMan = propMan;
-        police.registerDevice(DeviceType.CAN, deviceId, this);
+        policeTicket = police.registerDevice(DeviceType.CAN, deviceId, this);
     }
 
 

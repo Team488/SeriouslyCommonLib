@@ -71,7 +71,7 @@ public class DevicePolice {
      * @param type Device type
      * @param id Device id
      */
-    public void registerDevice(DeviceType type, int id, Object device) {
+    public String registerDevice(DeviceType type, int id, Object device) {
         // First, check to see if the overall device has already been registered once. We only
         // want there to be one "main" entry for a given device, like an Encoder, which may use two channels.
         // That way, when we ask the DevicePolice how many devices have been registered, it wouldn't return the 
@@ -87,6 +87,8 @@ public class DevicePolice {
             registeredChannels.put(entry, device);
             //deviceToId.put(device, entry);
         }
+
+        return entry;
     }
 
     /**
