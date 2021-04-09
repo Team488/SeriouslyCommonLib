@@ -78,21 +78,8 @@ public class WebotsClient {
         }
     }
 
-    public JSONObject buildMotorObject(String motor, float value) {
-        JSONObject result = new JSONObject();
-        result.put("id", motor);
-        result.put("val", value);
-        return result;
-    }
-
-    public JSONObject sendMotors(List<MockCANTalon> motors) {
+    public JSONObject sendMotors(List<JSONObject> motorValues) {
         JSONObject data = new JSONObject();
-        List<JSONObject> motorValues = new ArrayList<JSONObject>();
-
-        for (MockCANTalon motor : motors) {
-            motorValues.add(buildMotorObject("Motor" + motor.deviceId, (float) motor.getThrottlePercent()));
-        }
-
         data.put("motors", motorValues);
 
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://" + hostname + ":" + robotPort + "/motors"))

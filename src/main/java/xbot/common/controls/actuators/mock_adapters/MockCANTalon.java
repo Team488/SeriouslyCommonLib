@@ -37,9 +37,10 @@ import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.MathUtils;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.simulation.ISimulatableMotor;
 import xbot.common.simulation.ISimulatableSensor;
 
-public class MockCANTalon extends XCANTalon implements ISimulatableSensor {
+public class MockCANTalon extends XCANTalon implements ISimulatableSensor, ISimulatableMotor {
 
     private static Logger log = Logger.getLogger(MockCANTalon.class);
 
@@ -71,7 +72,7 @@ public class MockCANTalon extends XCANTalon implements ISimulatableSensor {
 
     @Inject
     public MockCANTalon(@Assisted("deviceInfo") CANTalonInfo deviceInfo, PropertyFactory propMan, DevicePolice police,
-    RobotAssertionManager assertionManager) {
+            RobotAssertionManager assertionManager) {
         super(deviceInfo.channel, propMan, police);
         log.info("Creating CAN talon with device ID: " + deviceInfo.channel);
 
@@ -80,7 +81,8 @@ public class MockCANTalon extends XCANTalon implements ISimulatableSensor {
         this.simulationScalingValue = deviceInfo.simulationScalingValue;
         double simulationScalingFloor = 0.00001;
         if (Math.abs(simulationScalingValue) < simulationScalingFloor) {
-            log.error("Your scaling value was suspiciously low. Are you sure it should be smaller than " + simulationScalingFloor + "?");
+            log.error("Your scaling value was suspiciously low. Are you sure it should be smaller than "
+                    + simulationScalingFloor + "?");
         }
 
         setInverted(deviceInfo.inverted);
@@ -146,6 +148,15 @@ public class MockCANTalon extends XCANTalon implements ISimulatableSensor {
         }
     }
 
+    /**
+     * Returns the low-level throttle percentage that would typically be sent to a motor.
+     * For example, if a motor is configured as Inverted, and it was set to a value of 0.75:
+     * getThrottlePercent (this method) would return -0.75
+     * getMotorOutputPercent would return 0.75
+     * As such, this is the method you would want to hook into consumers like a simulator, so that
+     * changing inversion would affect them.
+     * @return Motor throttle percentage (potentially inverted)
+     */
     public double getThrottlePercent() {
         if (master == null) {
             return this.throttlePercent;
@@ -300,10 +311,12 @@ public class MockCANTalon extends XCANTalon implements ISimulatableSensor {
 
     @Override
     public ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) {
-        if (feedbackDevice == FeedbackDevice.QuadEncoder || feedbackDevice == FeedbackDevice.CTRE_MagEncoder_Relative || feedbackDevice == FeedbackDevice.CTRE_MagEncoder_Absolute) {
+        if (feedbackDevice == FeedbackDevice.QuadEncoder || feedbackDevice == FeedbackDevice.CTRE_MagEncoder_Relative
+                || feedbackDevice == FeedbackDevice.CTRE_MagEncoder_Absolute) {
             this.internalEncoder = new MockEncoder("Test", propMan);
         } else {
-            assertionManager.fail("Whatever you supplied is not supported by the test infrastructure! Update MockCANTalon to handle your scenario.");
+            assertionManager.fail(
+                    "Whatever you supplied is not supported by the test infrastructure! Update MockCANTalon to handle your scenario.");
         }
 
         return ErrorCode.OK;
@@ -797,7 +810,12 @@ public class MockCANTalon extends XCANTalon implements ISimulatableSensor {
 
     @Override
     public void ingestSimulationData(JSONObject payload) {
-        BigDecimal intermediate = (BigDecimal)payload.get("EncoderTicks");
-        setPosition((int)(intermediate.doubleValue() * simulationScalingValue));
+        BigDecimal intermediate = (BigDecimal) payload.get("EncoderTicks");
+        setPosition((int) (intermediate.doubleValue() * simulationScalingValue));
+    }
+
+    @Override
+    public JSONObject getSimulationData() {
+        return buildMotorObject(policeTicket, (float)getThrottlePercent());
     }
 }

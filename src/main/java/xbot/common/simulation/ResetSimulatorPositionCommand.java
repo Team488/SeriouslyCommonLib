@@ -44,7 +44,7 @@ public class ResetSimulatorPositionCommand extends BaseCommand {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        JSONObject response = webots.sendMotors(new ArrayList<MockCANTalon>());
+        JSONObject response = webots.sendMotors(new ArrayList<JSONObject>());
         distributor.distributeSimulationPayload(response);
         pose.periodic();
 

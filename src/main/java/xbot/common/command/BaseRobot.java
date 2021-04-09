@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.RobotModule;
@@ -29,6 +28,7 @@ import xbot.common.logic.Latch.EdgeType;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.properties.XPropertyManager;
+import xbot.common.simulation.ISimulatableMotor;
 import xbot.common.simulation.SimulationPayloadDistributor;
 import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
@@ -278,15 +278,16 @@ public class BaseRobot extends TimedRobot {
 
     @Override
     public void simulationPeriodic() {
-        // find all CANTalons
-        List<MockCANTalon> talons = new ArrayList<MockCANTalon>();        
-        for (Object o : devicePolice.registeredChannels.values()) {
-            if(o instanceof MockCANTalon) {
-                talons.add((MockCANTalon)o);
+        // find all simulatable motors
+        List<JSONObject> motors = new ArrayList<JSONObject>();
+        
+        for (String deviceId: devicePolice.registeredChannels.keySet()) {
+            Object device = devicePolice.registeredChannels.get(deviceId);
+            if (device instanceof ISimulatableMotor) {
+                motors.add(((ISimulatableMotor)device).getSimulationData());
             }
         }
-
-        JSONObject response = webots.sendMotors(talons);
+        JSONObject response = webots.sendMotors(motors);
 
         simulationPayloadDistributor.distributeSimulationPayload(response);
     }
