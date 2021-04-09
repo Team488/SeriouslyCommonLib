@@ -22,8 +22,8 @@ public class TestDevicePolice extends BaseWPITest {
         RobotAssertionManager ram = injector.getInstance(RobotAssertionManager.class);
         DevicePolice police = new DevicePolice(ram);
 
-        police.registerDevice(DeviceType.Solenoid, 0);
-        police.registerDevice(DeviceType.Solenoid, 0);
+        police.registerDevice(DeviceType.Solenoid, 0, this);
+        police.registerDevice(DeviceType.Solenoid, 0, this);
         assertTrue("You shouldn't be able to double-allocate!", false);
     }
 

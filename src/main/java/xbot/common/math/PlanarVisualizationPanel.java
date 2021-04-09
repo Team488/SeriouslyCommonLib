@@ -8,8 +8,6 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import xbot.common.math.XYPair;
-
 @SuppressWarnings("serial")
 public class PlanarVisualizationPanel extends JPanel {
     private int centerX;
