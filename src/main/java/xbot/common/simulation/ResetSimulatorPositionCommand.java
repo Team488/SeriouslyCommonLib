@@ -7,7 +7,6 @@ import com.google.inject.Inject;
 import org.json.JSONObject;
 
 import xbot.common.command.BaseCommand;
-import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
 import xbot.common.math.ContiguousHeading;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
