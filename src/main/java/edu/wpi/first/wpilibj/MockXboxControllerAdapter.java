@@ -20,25 +20,23 @@ public class MockXboxControllerAdapter extends XXboxController {
     private double rightTrigger;
     
     public void setLeftStick(double x, double y) {
-        leftStick.x = x;
-        leftStick.y = y;
+        leftStick.x = x * (leftXInversion ? -1 : 1);
+        leftStick.y = y * (leftYInversion ? -1 : 1);
     }
 
     public void setLeftStick(XYPair xy) {
-        leftStick.x = xy.x;
-        leftStick.y = xy.y;
+        setLeftStick(xy.x, xy.y);
     }
     
     public void setRightStick(double x, double y) {
-        rightStick.x = x;
-        rightStick.y = y;
+        rightStick.x = x * (rightXInversion ? -1 : 1);
+        rightStick.y = y * (rightYInversion ? -1 : 1);
     }
 
     public void setRightStick(XYPair xy) {
-        rightStick.x = xy.x;
-        rightStick.y = xy.y;
+        setRightStick(xy.x, xy.y);
     }
-    
+
     @Inject
     public MockXboxControllerAdapter(@Assisted("port") int port, CommonLibFactory clf, RobotAssertionManager manager, DevicePolice police) {
         super(port, clf, manager, police);
