@@ -19,10 +19,10 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
 
     public HashMap<XboxButton, AdvancedXboxButton> allocatedButtons;
 
-    boolean leftXInversion = false;
-    boolean leftYInversion = false;
-    boolean rightXInversion = false;
-    boolean rightYInversion = false;
+    protected boolean leftXInversion = false;
+    protected boolean leftYInversion = false;
+    protected boolean rightXInversion = false;
+    protected boolean rightYInversion = false;
 
     RumbleManager rumbleManager;
 
