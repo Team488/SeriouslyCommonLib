@@ -27,6 +27,11 @@ public class MockXboxControllerAdapter extends XXboxController {
     public void setLeftStick(XYPair xy) {
         setLeftStick(xy.x, xy.y);
     }
+
+    public void setLeftStick(XYPair xy) {
+        leftStick.x = xy.x;
+        leftStick.y = xy.y;
+    }
     
     public void setRightStick(double x, double y) {
         rightStick.x = x * (rightXInversion ? -1 : 1);
@@ -35,6 +40,11 @@ public class MockXboxControllerAdapter extends XXboxController {
 
     public void setRightStick(XYPair xy) {
         setRightStick(xy.x, xy.y);
+    }
+
+    public void setRightStick(XYPair xy) {
+        rightStick.x = xy.x;
+        rightStick.y = xy.y;
     }
     
     @Inject
