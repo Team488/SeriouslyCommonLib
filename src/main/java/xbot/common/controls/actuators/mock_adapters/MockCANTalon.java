@@ -738,7 +738,7 @@ public class MockCANTalon extends XCANTalon implements ISimulatableSensor, ISimu
         return internalEncoder.getAdjustedDistance();
     }
 
-    public void setPosition(int pos) {
+    public void setPosition(double pos) {
         if (internalEncoder == null) {
             assertionManager.fail("Position set before setting feedback device!");
         } else {
