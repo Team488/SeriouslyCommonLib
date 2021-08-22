@@ -161,6 +161,10 @@ public class XYPair {
         return (this.x * otherPoint.x) + (this.y * otherPoint.y);
     }
 
+    public double getAngleToPoint(XYPair point) {
+        return point.clone().add(this.clone().scale(-1)).getAngle();
+    }
+
     @Override
     public String toString() {
         return "(X:" + x + ", Y:" + y + ")";

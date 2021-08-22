@@ -170,5 +170,11 @@ public class FieldPoseTest {
 
         assertEquals(2, result.x, 0.001);
         assertEquals(2, result.y, 0.001);
+
+        pose = new FieldPose(0, 0, 180);
+        result = pose.getCenterOfCircleConnectingFieldPoseAndPoint(new XYPair(-2, -2));
+
+        assertEquals(0, result.x, 0.001);
+        assertEquals(-2, result.y, 0.001);
     }
 }
