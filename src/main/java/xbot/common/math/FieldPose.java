@@ -146,6 +146,44 @@ public class FieldPose {
         return new FieldPose(changedPoint, changedHeading);
     }
 
+    //https://stackoverflow.com/questions/4543506/algorithm-for-intersection-of-2-lines
+
+    public XYPair getCenterOfCircleConnectingFieldPoseAndPoint(XYPair point) {
+        // General formula:
+        // 1) Find the midpoint between the fieldPose and the point
+        // 2) Get the general equation of the perpindicular bisector (Form ax + by = c)
+        // 3) Get the general equation of a line perpindicular to the fieldPose (Form ax + by = c)
+        // 4) Find where these two points connect
+
+        // 1)
+        double distanceToPoint = this.fieldPosition.getDistanceToPoint(point);
+        double angleToPoint = point.clone().add(this.fieldPosition.clone().scale(-1)).getAngle();
+        XYPair midpoint = new XYPair((this.fieldPosition.x + point.x)/2, (this.fieldPosition.y + point.y)/2);
+        FieldPose perpindicularBisector = new FieldPose(midpoint, new ContiguousHeading(angleToPoint+90));
+
+        // 2)
+        double pb_m = perpindicularBisector.getHeadingSine() / perpindicularBisector.getHeadingCosine();
+        double A1 = -pb_m;
+        double B1 = 1;
+        double C1 = -pb_m*perpindicularBisector.getPoint().x + perpindicularBisector.getPoint().y;
+
+        // 3)
+        FieldPose perpindicularPose = this.clone();
+        perpindicularPose.heading.shiftValue(90);
+
+        double pp_m = perpindicularPose.getHeadingSine() / perpindicularPose.getHeadingCosine();
+        double A2 = -pp_m;
+        double B2 = 1;
+        double C2 = -pp_m*perpindicularPose.getPoint().x + perpindicularPose.getPoint().y;
+
+        // 4)
+        double delta = A1 * B2 - A2 * B1;
+        double x = (B2 * C1 - B1 * C2) / delta;
+        double y = (A1 * C2 - A2 * C1) / delta;
+
+        return new XYPair(x, y);
+    }
+
     @Override
     public String toString() {
         String xyString = fieldPosition == null ? "null, null" : fieldPosition.x + ", " + fieldPosition.y;

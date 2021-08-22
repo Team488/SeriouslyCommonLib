@@ -50,6 +50,10 @@ public class WebotsClient {
         fieldOffset = new FieldPose();
     }
 
+    public XYPair getTruePosition() {
+        return new XYPair(simulatorPoseX.get(), simulatorPoseY.get());
+    }
+
     /**
      * In the case where the origin of the field doesn't match our traditional convention (with 0,0
      * on the bottom-left vertex of the rectangular FRC field if viewed from above with your alliance
@@ -157,7 +161,7 @@ public class WebotsClient {
         data.put("point_2", new JSONArray(new double[] {point2Meters.x, point2Meters.y, zIndex / BasePoseSubsystem.INCHES_IN_A_METER}));
         data.put("color", new JSONArray(new double[] {color.red, color.green, color.blue}));
 
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://" + hostname + ":" + robotPort + "/overlay/line"))
+        HttpRequest request = HttpRequest.newBuilder().version(Version.HTTP_1_1).uri(URI.create("http://" + hostname + ":" + robotPort + "/overlay/line"))
                 .header("Content-Type", "application/json").PUT(BodyPublishers.ofString(data.toString())).build();
         HttpResponse<String> response;
         try {

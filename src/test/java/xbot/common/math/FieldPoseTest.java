@@ -162,4 +162,13 @@ public class FieldPoseTest {
         assertEquals(3, deltaPose.getPoint().x, 0.001);
         assertEquals(2, deltaPose.getPoint().y, 0.001);
     }
+
+    @Test
+    public void testFindCircleCenter() {
+        FieldPose pose = new FieldPose(1, 1, 135);
+        XYPair result = pose.getCenterOfCircleConnectingFieldPoseAndPoint(new XYPair(3, 1));
+
+        assertEquals(2, result.x, 0.001);
+        assertEquals(2, result.y, 0.001);
+    }
 }
