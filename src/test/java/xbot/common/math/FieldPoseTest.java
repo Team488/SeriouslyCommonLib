@@ -177,4 +177,12 @@ public class FieldPoseTest {
         assertEquals(0, result.x, 0.001);
         assertEquals(-2, result.y, 0.001);
     }
+
+    @Test
+    public void testGetRelativeAngleToPoint() {
+        FieldPose pose = new FieldPose(0, 0, 180);
+        double result = pose.getRelativeAngleToPoint(new XYPair(0, 1));
+
+        assertEquals(-90, result, 0.001);
+    }
 }

@@ -99,8 +99,23 @@ public class FieldPose {
         return rabbitPose.getPoint().add(other.getPoint().clone().scale(-1));
     }
 
+    /**
+     * Gets the direct angle between the FieldPose point and the other point.
+     * @param point Other point
+     * @return Direct bearing to the other point
+     */
     public double getAngleToPoint(XYPair point) {
         return point.clone().add(this.getPoint().clone().scale(-1)).getAngle();
+    }
+
+    /**
+     * Gets the angle difference between the FieldPose heading and the other point
+     * @param point Other point
+     * @return How much the heading would have to rotate to point directly at the other point.
+     */
+    public double getRelativeAngleToPoint(XYPair point) {
+        double directAngle = getAngleToPoint(point);
+        return heading.difference(directAngle);
     }
     
     public double getDistanceToLineFromPoint(XYPair currentPoint) {
