@@ -43,6 +43,7 @@ import xbot.common.math.FieldPosePropertyManager;
 import xbot.common.math.PIDFactory;
 import xbot.common.math.PIDManager;
 import xbot.common.networking.ZeromqListener;
+import xbot.common.subsystems.drive.control_logic.CircleFollowingModule;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import xbot.common.subsystems.feedback.RumbleManager;
@@ -156,4 +157,6 @@ public interface CommonLibFactory extends PIDFactory {
         public XAS5600 createXAS5600(@Assisted("talon") XCANTalon talon);
 
         public XCANVictorSPX createCANVictorSPX(@Assisted("deviceId") int deviceId);
+
+        public CircleFollowingModule createCircleFollowingModule(@Assisted("prefix") String prefix);
 }
