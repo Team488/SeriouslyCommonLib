@@ -10,12 +10,42 @@
 plugins {
     id "edu.wpi.first.GradleRIO" version "2022.1.1-beta-3" 
     id 'scala'
-    id 'checkstyle'
-    id 'jacoco'
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
+
+
+def ROBOT_MAIN_CLASS = "frc.robot.Main"
+// Define my targets (RoboRIO) and artifacts (deployable files)
+// This is added by GradleRIO's backing project DeployUtils.
+deploy {
+    targets {
+        roborio(getTargetTypeClass('RoboRIO')) {
+            // Team number is loaded either from the .wpilib/wpilib_preferences.json
+            // or from command line. If not found an exception will be thrown.
+            // You can use getTeamOrDefault(team) instead of getTeamNumber if you
+            // want to store a team number in this file.
+            team = project.frc.getTeamNumber()
+            debug = project.frc.getDebugOrDefault(false)
+
+            artifacts {
+                // First part is artifact name, 2nd is artifact type
+                // getTargetTypeClass is a shortcut to get the class type using a string
+
+                frcJava(getArtifactTypeClass('FRCJavaArtifact')) {
+                }
+
+                // Static files artifact
+                frcStaticFileDeploy(getArtifactTypeClass('FileTreeArtifact')) {
+                    files = project.fileTree('src/main/deploy')
+                    directory = '/home/lvuser/deploy'
+                }
+            }
+        }
+    }
+}
+def deployArtifact = deploy.targets.roborio.artifacts.frcJava
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -29,10 +59,7 @@ repositories {
     maven { url "https://devsite.ctr-electronics.com/maven/release/"}
     maven { url "https://www.kauailabs.com/maven2" }
     maven { url "https://www.revrobotics.com/content/sw/max/sdk/maven/"}
-}
-
-configurations {
-    nativeBundle
+    maven { url uri ("../SeriouslyCommonLib/lib/")}
 }
 
 // Set this to true to enable desktop support.
@@ -42,6 +69,12 @@ def includeDesktopSupport = true
 dependencies {
     implementation wpi.java.deps.wpilib()
     implementation wpi.java.vendor.java()
+
+    roborioDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.roborio)
+    roborioDebug wpi.java.vendor.jniDebug(wpi.platforms.roborio)
+
+    roborioRelease wpi.java.deps.wpilibJniRelease(wpi.platforms.roborio)
+    roborioRelease wpi.java.vendor.jniRelease(wpi.platforms.roborio)
 
     nativeDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.desktop)
     nativeDebug wpi.java.vendor.jniDebug(wpi.platforms.desktop)
@@ -110,9 +143,14 @@ tasks.withType(Test) {
         logger.quiet "Executed test ${desc.name} [${desc.className}] with result: ${result.resultType}"
     }
 
-    afterSuite { desc, result ->
+    afterSuite { desc, result ->    
       if (!desc.parent) { // will match the outermost suite
         println "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
       }
     }
 }
+
+// Configure jar and deploy tasks
+deployArtifact.jarTask = jar
+wpi.java.configureExecutableTasks(jar)
+wpi.java.configureTestTasks(test)
