@@ -14,6 +14,9 @@ plugins {
     id 'jacoco'
 }
 
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use 'jcenter' for resolving your dependencies.
@@ -23,61 +26,58 @@ repositories {
     maven { url "https://mvnrepository.com/artifact/com.google.inject/guice" }
     maven { url "https://mvnrepository.com/artifact/org.zeromq/jeromq" }
     maven { url "https://frcmaven.wpi.edu/artifactory/release/"}
-    maven { url "http://devsite.ctr-electronics.com/maven/release/"}
-    maven { url "http://www.kauailabs.com/maven2" }
-    maven { url "http://www.revrobotics.com/content/sw/max/sdk/maven/"}
-    maven { url uri ("../SeriouslyCommonLib/lib/")}
+    maven { url "https://devsite.ctr-electronics.com/maven/release/"}
+    maven { url "https://www.kauailabs.com/maven2" }
+    maven { url "https://www.revrobotics.com/content/sw/max/sdk/maven/"}
 }
 
 configurations {
     nativeBundle
 }
 
-List<String> wpilibDesktopJni(String platform) {
-    return ["edu.wpi.first.thirdparty.frc2020.opencv:opencv-jni:${wpi.opencvVersion}:${platform}@jar".toString(),
-            "edu.wpi.first.hal:hal-jni:${wpi.wpilibVersion}:${platform}@jar".toString(),
-            "edu.wpi.first.wpiutil:wpiutil-jni:${wpi.wpilibVersion}:${platform}@jar".toString(),
-            "edu.wpi.first.ntcore:ntcore-jni:${wpi.wpilibVersion}:${platform}@jar".toString(),
-            "edu.wpi.first.cscore:cscore-jni:${wpi.wpilibVersion}:${platform}@jar".toString()]
-}
+// Set this to true to enable desktop support.
+def includeDesktopSupport = true
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
+    implementation wpi.java.deps.wpilib()
+    implementation wpi.java.vendor.java()
+
+    nativeDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.desktop)
+    nativeDebug wpi.java.vendor.jniDebug(wpi.platforms.desktop)
+    simulationDebug wpi.sim.enableDebug()
+
+    nativeRelease wpi.java.deps.wpilibJniRelease(wpi.platforms.desktop)
+    nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
+    simulationRelease wpi.sim.enableRelease()
+
+    testImplementation 'junit:junit:4.12'
+
     // The production code uses the SLF4J logging API at compile time
-    compile 'org.slf4j:slf4j-api:1.7.21'
+    implementation 'org.slf4j:slf4j-api:1.7.21'
 
     // Declare the dependency for your favourite test framework you want to use in your tests.
     // TestNG is also supported by the Gradle Test task. Just change the
     // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
     // 'test.useTestNG()' to your build script.
-    compile 'junit:junit:4.12'
+    implementation 'junit:junit:4.12'
     
-    compile group: 'com.google.inject', name: 'guice', version: '4.2.2'
-    compile group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.2.2'
+    implementation group: 'com.google.inject', name: 'guice', version: '4.2.2'
+    implementation group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.2.2'
     
-    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+    implementation group: 'log4j', name: 'log4j', version: '1.2.17'
 
-    compile group: 'org.json', name:'json', version: '20201115'
+    implementation group: 'org.json', name:'json', version: '20201115'
 
-    compile group: 'org.zeromq', name: 'jeromq', version: '0.4.3'
-    
-    compile "edu.wpi.first.wpiutil:wpiutil-java:${wpi.wpilibVersion}"
-    compile "edu.wpi.first.wpilibj:wpilibj-java:${wpi.wpilibVersion}"
-    compile "edu.wpi.first.ntcore:ntcore-java:${wpi.wpilibVersion}"
-    compile "edu.wpi.first.wpilibNewCommands:wpilibNewCommands-java:${wpi.wpilibVersion}"
+    implementation group: 'org.zeromq', name: 'jeromq', version: '0.4.3'
 
-    compile 'com.ctre.phoenix:wpiapi-java:5.17.3'
-    compile 'com.ctre.phoenix:api-java:5.17.3'
 
-    compile 'com.revrobotics.frc:SparkMax-java:1.5.1'
+    implementation 'com.ctre.phoenix:wpiapi-java:5.17.3'
+    implementation 'com.ctre.phoenix:api-java:5.17.3'
 
-    compile "edu.wpi.first.ntcore:ntcore-jni:${wpi.wpilibVersion}"
-    implementation "edu.wpi.first.hal:hal-jni:${wpi.wpilibVersion}"
-    implementation "edu.wpi.first.hal:hal-java:${wpi.wpilibVersion}"
-    testImplementation(wpilibDesktopJni(wpi.platforms.desktop))
-    testImplementation(wpi.deps.vendor.jni(wpi.platforms.desktop))
+    implementation 'com.revrobotics.frc:SparkMax-java:1.5.1'
 
-    compile 'com.kauailabs.navx.frc:navx-java:3.1.400'
+    implementation 'com.kauailabs.navx.frc:navx-java:3.1.400'
 
     implementation 'org.scala-lang:scala-library:2.11.12'
     testImplementation 'org.scalatest:scalatest_2.11:3.0.0'
@@ -95,27 +95,6 @@ sourceSets {
 task jarSources(type:Jar){
     from sourceSets.main.allSource
     classifier = 'source'
-}
-
-checkstyle {
-    toolVersion = '8.7'
-    configFile = file('./xbotcheckstyle.xml')
-}
-
-task checkstyle(type: Checkstyle) {
-    source 'src/main/java'
-    configProperties.basedir = file('.')
-    
-    // Empty classpath
-    classpath = files()
-}
-
-checkstyleMain{
-    logging.setLevel(LogLevel.WARN)
-}
-
-checkstyleTest{
-    logging.setLevel(LogLevel.WARN)
 }
 
 test {
@@ -137,12 +116,3 @@ tasks.withType(Test) {
       }
     }
 }
-
-jacocoTestReport {
-    reports {
-        xml.enabled true
-    }
-}
-
-// always generate the coverage report after the tests run
-test.finalizedBy { jacocoTestReport }
