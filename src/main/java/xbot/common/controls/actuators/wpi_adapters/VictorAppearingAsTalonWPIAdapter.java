@@ -24,8 +24,8 @@ import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.motorcontrol.PWMMotorController;
+import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
@@ -33,7 +33,7 @@ import xbot.common.properties.PropertyFactory;
 
 public class VictorAppearingAsTalonWPIAdapter extends XCANTalon {
     RobotAssertionManager assertionManager;
-    SpeedController internalSpeedController;
+    PWMMotorController internalSpeedController;
     int deviceId;
 
     @Inject

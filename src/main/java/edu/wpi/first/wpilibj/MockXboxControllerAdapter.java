@@ -3,7 +3,6 @@ package edu.wpi.first.wpilibj;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
@@ -44,14 +43,6 @@ public class MockXboxControllerAdapter extends XXboxController {
         rightStick = new XYPair();
     }
 
-    @Override
-    protected double getTriggerAxis(Hand hand) {
-        if (hand == Hand.kLeft) {
-            return leftTrigger;
-        }
-        return rightTrigger;
-    }
-
     public void setLeftTrigger(double left) {
         leftTrigger = left;
     }
@@ -71,22 +62,6 @@ public class MockXboxControllerAdapter extends XXboxController {
     }
 
     @Override
-    protected double getY(Hand hand) {
-        if (hand == Hand.kLeft) {
-            return leftStick.y;
-        }
-        return rightStick.y;
-    }
-
-    @Override
-    protected double getX(Hand hand) {
-        if (hand == Hand.kLeft) {
-            return leftStick.x;
-        }
-        return rightStick.x;
-    }
-
-    @Override
     public int getPOV() {
         return 0;
     }
@@ -101,6 +76,36 @@ public class MockXboxControllerAdapter extends XXboxController {
     public RumbleManager getRumbleManager() {
         // no actual rumble manager
         return null;
+    }
+
+    @Override
+    protected double getLeftRawTriggerAxis() {
+        return leftTrigger;
+    }
+
+    @Override
+    protected double getRightRawTriggerAxis() {
+        return rightTrigger;
+    }
+
+    @Override
+    protected double getLeftRawX() {
+        return leftStick.x;
+    }
+
+    @Override
+    protected double getLeftRawY() {
+        return leftStick.y;
+    }
+
+    @Override
+    protected double getRightRawX() {
+        return rightStick.x;
+    }
+
+    @Override
+    protected double getRightRawY() {
+        return rightStick.y;
     }
 
 }

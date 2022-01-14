@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import com.google.inject.Inject;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
@@ -117,33 +116,39 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
     }
 
     public double getLeftStickX() {
-        return this.getX(Hand.kLeft) * (leftXInversion ? -1 : 1);
+        return this.getLeftRawX() * (leftXInversion ? -1 : 1);
     }
 
     public double getRightStickX() {
-        return this.getX(Hand.kRight) * (rightXInversion ? -1 : 1);
+        return this.getRightRawX() * (rightXInversion ? -1 : 1);
     }
 
     public double getLeftStickY() {
-        return this.getY(Hand.kLeft) * (leftYInversion ? -1 : 1);
+        return this.getLeftRawY() * (leftYInversion ? -1 : 1);
     }
 
     public double getRightStickY() {
-        return this.getY(Hand.kRight) * (rightYInversion ? -1 : 1);
+        return this.getRightRawY() * (rightYInversion ? -1 : 1);
     }
 
     // Triggers-----------------------------------------------------------------------------------------------
     public double getLeftTrigger() {
-        return this.getTriggerAxis(Hand.kLeft);
+        return this.getLeftRawTriggerAxis();
     }
 
     public double getRightTrigger() {
-        return this.getTriggerAxis(Hand.kRight);
+        return this.getRightRawTriggerAxis();
     }
 
-    protected abstract double getTriggerAxis(Hand hand);
+    protected abstract double getLeftRawTriggerAxis();
 
-    protected abstract double getY(Hand hand);
+    protected abstract double getRightRawTriggerAxis();
 
-    protected abstract double getX(Hand hand);
+    protected abstract double getLeftRawX();
+
+    protected abstract double getLeftRawY();
+
+    protected abstract double getRightRawX();
+
+    protected abstract double getRightRawY();
 }
