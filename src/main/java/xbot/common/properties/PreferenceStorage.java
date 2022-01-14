@@ -21,49 +21,49 @@ public class PreferenceStorage implements PermanentStorage {
     
     @Override
     public void setDouble(String key, double value) {
-        Preferences.getInstance().putDouble(key, value);
+        Preferences.setDouble(key, value);
     }
 
     @Override
     public void setBoolean(String key, boolean value) {
-        Preferences.getInstance().putBoolean(key, value);
+        Preferences.setBoolean(key, value);
     }
 
     @Override
     public void setString(String key, String value) {
-        Preferences.getInstance().putString(key, value);
+        Preferences.setString(key, value);
     }
 
     @Override
     public Double getDouble(String key) {
-        if (Preferences.getInstance().containsKey(key))
+        if (Preferences.containsKey(key))
         {
-            return Preferences.getInstance().getDouble(key, 0);
+            return Preferences.getDouble(key, 0);
         }
         return null;
     }
 
     @Override
     public Boolean getBoolean(String key) {
-        if (Preferences.getInstance().containsKey(key))
+        if (Preferences.containsKey(key))
         {
-            return Preferences.getInstance().getBoolean(key, false);
+            return Preferences.getBoolean(key, false);
         }
         return null;
     }
 
     @Override
     public String getString(String key) {
-        if (Preferences.getInstance().containsKey(key))
+        if (Preferences.containsKey(key))
         {
-            return Preferences.getInstance().getString(key, null);
+            return Preferences.getString(key, null);
         }
         return null;
     }
 
     @Override
     public void clear() {
-        Preferences.getInstance().getKeys().clear();
+        Preferences.getKeys().clear();
     }
 
     @Override

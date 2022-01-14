@@ -129,20 +129,19 @@ public class BaseRobot extends TimedRobot {
     }
     
     protected String getEnableTypeString() {
-        DriverStation ds = DriverStation.getInstance();
-        if (!ds.isEnabled()) {
+        if (!DriverStation.isEnabled()) {
             return "disabled";
         }
         
-        if (ds.isAutonomous()) {
+        if (DriverStation.isAutonomous()) {
             return "auto";
         }
         
-        if (ds.isOperatorControl()) {
+        if (DriverStation.isTeleop()) {
             return "teleop";
         }
         
-        if (ds.isTest()) {
+        if (DriverStation.isTest()) {
             return "test";
         }
         
@@ -150,11 +149,9 @@ public class BaseRobot extends TimedRobot {
     }
     
     protected void updateLoggingContext() {
-        DriverStation ds = DriverStation.getInstance();
-
-        String dsStatus = ds.isDSAttached() ? "DS" : "no DS";
-        String fmsStatus = ds.isFMSAttached() ? "FMS" : "no FMS";
-        String matchStatus = ds.getMatchType().toString() + " " + ds.getMatchNumber() + " " + ds.getReplayNumber();
+        String dsStatus = DriverStation.isDSAttached() ? "DS" : "no DS";
+        String fmsStatus = DriverStation.isFMSAttached() ? "FMS" : "no FMS";
+        String matchStatus = DriverStation.getMatchType().toString() + " " + DriverStation.getMatchNumber() + " " + DriverStation.getReplayNumber();
         String enableStatus = getEnableTypeString();
         String matchContext = dsStatus + ", " + fmsStatus + ", " + enableStatus + ", " + matchStatus;
         org.apache.log4j.MDC.put("matchContext", matchContext);
@@ -184,16 +181,15 @@ public class BaseRobot extends TimedRobot {
     }
     
     protected String getMatchContextString() {
-        DriverStation ds = DriverStation.getInstance();
-        return ds.getAlliance().toString() + ds.getLocation() + ", "
-            + ds.getMatchTime() + "s, "
-            + (ds.isDSAttached() ? "DS connected" : "DS disconnected") + ", "
-            + (ds.isFMSAttached() ? "FMS connected" : "FMS disconnected") + ", "
-            + "Is disabled: " + ds.isDisabled() + ", "
-            + "Is enabled: " + ds.isEnabled() + ", "
-            + "Is auto: " + ds.isAutonomous() + ", "
-            + "Is teleop: " + ds.isOperatorControl() + ", "
-            + "Is test: " + ds.isTest() + ", "
+        return DriverStation.getAlliance().toString() + DriverStation.getLocation() + ", "
+            + DriverStation.getMatchTime() + "s, "
+            + (DriverStation.isDSAttached() ? "DS connected" : "DS disconnected") + ", "
+            + (DriverStation.isFMSAttached() ? "FMS connected" : "FMS disconnected") + ", "
+            + "Is disabled: " + DriverStation.isDisabled() + ", "
+            + "Is enabled: " + DriverStation.isEnabled() + ", "
+            + "Is auto: " + DriverStation.isAutonomous() + ", "
+            + "Is teleop: " + DriverStation.isTeleop() + ", "
+            + "Is test: " + DriverStation.isTest() + ", "
             + "Is browned out: " + RobotController.isBrownedOut() + ", "
             + "Is output enabled: " + RobotController.isSysActive() + ", "
             + "Battery voltage: " + RobotController.getBatteryVoltage();
