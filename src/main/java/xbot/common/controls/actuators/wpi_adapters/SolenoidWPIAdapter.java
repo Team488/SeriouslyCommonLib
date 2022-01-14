@@ -3,6 +3,7 @@ package xbot.common.controls.actuators.wpi_adapters;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.injection.wpi_factories.DevicePolice;
@@ -16,7 +17,7 @@ public class SolenoidWPIAdapter extends XSolenoid {
     @Inject
     public SolenoidWPIAdapter(@Assisted("channel") int channel, DevicePolice police) {
         super(channel, police);
-        this.solenoid = new Solenoid(channel);
+        this.solenoid = new Solenoid(PneumaticsModuleType.CTREPCM, channel);
     }
 
     @Override

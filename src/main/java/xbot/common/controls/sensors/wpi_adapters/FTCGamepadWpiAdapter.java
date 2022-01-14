@@ -27,11 +27,11 @@ public class FTCGamepadWpiAdapter extends XFTCGamepad {
     }
 
     protected double getX() {
-        return internalHID.getX();
+        return internalHID.getRawAxis(0);
     }
 
     protected double getY() {
-        return internalHID.getY();
+        return internalHID.getRawAxis(1);
     }
 
     public double getRawAxis(int axisNumber) {

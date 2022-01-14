@@ -3,7 +3,6 @@ package xbot.common.controls.sensors.wpi_adapters;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
@@ -22,16 +21,6 @@ public class XboxControllerWpiAdapter extends XXboxController {
     }
 
     @Override
-    protected double getX(Hand hand) {
-        return controller.getX(hand);
-    }
-
-    @Override
-    protected double getY(Hand hand) {
-        return controller.getY(hand);
-    }
-
-    @Override
     public double getRawAxis(int axis) {
         return controller.getRawAxis(axis);
     }
@@ -42,11 +31,6 @@ public class XboxControllerWpiAdapter extends XXboxController {
     }
 
     @Override
-    protected double getTriggerAxis(Hand hand) {
-        return controller.getTriggerAxis(hand);
-    }
-
-    @Override
     public GenericHID getGenericHID() {
         return controller;
     }
@@ -54,5 +38,35 @@ public class XboxControllerWpiAdapter extends XXboxController {
     @Override
     public int getPOV() {
         return controller.getPOV();
+    }
+
+    @Override
+    protected double getLeftRawTriggerAxis() {
+        return controller.getLeftTriggerAxis();
+    }
+
+    @Override
+    protected double getRightRawTriggerAxis() {
+        return controller.getRightTriggerAxis();
+    }
+
+    @Override
+    protected double getLeftRawX() {
+        return controller.getLeftX();
+    }
+
+    @Override
+    protected double getLeftRawY() {
+        return controller.getLeftY();
+    }
+
+    @Override
+    protected double getRightRawX() {
+        return controller.getRightX();
+    }
+
+    @Override
+    protected double getRightRawY() {
+        return controller.getRightY();
     }
 }
