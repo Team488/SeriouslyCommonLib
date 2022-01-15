@@ -96,7 +96,7 @@ public class PurePursuitTest extends BaseWPITest {
                 @Override
                 public void run() {
                     FieldPose robot = engine.getRobotPose();
-                    poseSystem.setCurrentHeading(robot.getHeading().getValue());
+                    poseSystem.setCurrentHeading(robot.getHeading().getDegrees());
                     poseSystem.setCurrentPosition(robot.getPoint().x, robot.getPoint().y);
                     RabbitChaseInfo info = command.evaluateCurrentPoint(robot);
                     FieldPose target = info.target;

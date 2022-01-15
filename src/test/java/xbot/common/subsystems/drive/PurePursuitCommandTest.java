@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import xbot.common.injection.BaseWPITest;
-import xbot.common.math.ContiguousHeading;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
 import xbot.common.subsystems.drive.PurePursuitCommand.PointLoadingMode;
@@ -48,7 +48,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
     
     @Test
     public void goStraightAheadTest() {
-        command.addPoint(new FieldPose(new XYPair(0, 10), new ContiguousHeading(90)));
+        command.addPoint(new FieldPose(new XYPair(0, 10), Rotation2d.fromDegrees(90)));
         
         command.initialize();
         command.execute();
@@ -58,7 +58,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
     
     @Test
     public void turnRightTest() {
-        command.addPoint(new FieldPose(new XYPair(10, 10), new ContiguousHeading(0)));
+        command.addPoint(new FieldPose(new XYPair(10, 10), Rotation2d.fromDegrees(0)));
         
         command.initialize();
         command.execute();
@@ -68,8 +68,8 @@ public class PurePursuitCommandTest extends BaseWPITest {
     
     @Test
     public void changePoints() {
-        command.addPoint(new FieldPose(new XYPair(0, 0.1), new ContiguousHeading(90)));
-        command.addPoint(new FieldPose(new XYPair(-10, 0), new ContiguousHeading(180)));
+        command.addPoint(new FieldPose(new XYPair(0, 0.1), Rotation2d.fromDegrees(90)));
+        command.addPoint(new FieldPose(new XYPair(-10, 0), Rotation2d.fromDegrees(180)));
         
         command.initialize();
         
@@ -84,8 +84,8 @@ public class PurePursuitCommandTest extends BaseWPITest {
     
     @Test
     public void testSimpleRelative() {
-        command.addPoint(new FieldPose(new XYPair(0, 10), new ContiguousHeading(90)));
-        command.addPoint(new FieldPose(new XYPair(10, 10), new ContiguousHeading(90)));
+        command.addPoint(new FieldPose(new XYPair(0, 10), Rotation2d.fromDegrees(90)));
+        command.addPoint(new FieldPose(new XYPair(10, 10), Rotation2d.fromDegrees(90)));
         
         command.setMode(PointLoadingMode.Relative);
         command.initialize();
@@ -96,8 +96,8 @@ public class PurePursuitCommandTest extends BaseWPITest {
     
     @Test
     public void testComplexRelative() {
-        command.addPoint(new FieldPose(new XYPair(0, 10), new ContiguousHeading(90)));
-        command.addPoint(new FieldPose(new XYPair(10, 10), new ContiguousHeading(90)));
+        command.addPoint(new FieldPose(new XYPair(0, 10), Rotation2d.fromDegrees(90)));
+        command.addPoint(new FieldPose(new XYPair(10, 10), Rotation2d.fromDegrees(90)));
         
         // rotate the robot
         pose.setCurrentHeading(180);
@@ -112,8 +112,8 @@ public class PurePursuitCommandTest extends BaseWPITest {
     
     @SuppressWarnings("serial")
     public void testSupplier() {
-        command.addPoint(new FieldPose(new XYPair(0, 10), new ContiguousHeading(90)));
-        command.addPoint(new FieldPose(new XYPair(10, 10), new ContiguousHeading(90)));
+        command.addPoint(new FieldPose(new XYPair(0, 10), Rotation2d.fromDegrees(90)));
+        command.addPoint(new FieldPose(new XYPair(10, 10), Rotation2d.fromDegrees(90)));
         
         command.setPointSupplier(() -> 
         new ArrayList<RabbitPoint>() {{
@@ -128,7 +128,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
     
     @Test
     public void testStickyMode() {
-        command.addPoint(new FieldPose(new XYPair(0, 10), new ContiguousHeading(90)));
+        command.addPoint(new FieldPose(new XYPair(0, 10), Rotation2d.fromDegrees(90)));
         command.initialize();
         command.execute();
         verifyTankDrive(1, 1);
@@ -146,7 +146,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
     @Test
     public void testDriveToPoint() {
         command.addPoint(
-            new RabbitPoint(new FieldPose(new XYPair(10, 10), new ContiguousHeading(90)), PointType.PositionOnly, PointTerminatingType.Stop));
+            new RabbitPoint(new FieldPose(new XYPair(10, 10), Rotation2d.fromDegrees(90)), PointType.PositionOnly, PointTerminatingType.Stop));
         command.initialize();
         command.execute();
         verifyTankDrive(1, -1);
@@ -156,7 +156,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
     public void testDriveOffset() {
         pose.setCurrentHeading(0);
         command.addPoint(
-            new RabbitPoint(new FieldPose(new XYPair(100, 0), new ContiguousHeading(-90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
+            new RabbitPoint(new FieldPose(new XYPair(100, 0), Rotation2d.fromDegrees(-90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
         command.initialize();
         command.execute();
         // Even though we're pointed right at the goal, we should veer left because we are completely perpindicular to it.
@@ -166,7 +166,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
     @Test
     public void testThreePointBehind() {
         command.addPoint(
-            new RabbitPoint(new FieldPose(new XYPair(100, -100), new ContiguousHeading(90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
+            new RabbitPoint(new FieldPose(new XYPair(100, -100), Rotation2d.fromDegrees(90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
         command.setDotProductDrivingEnabled(true);
         command.initialize();
         command.execute();
@@ -179,7 +179,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
     @Ignore
     public void testThreePointDirect() {
         command.addPoint(
-            new RabbitPoint(new FieldPose(new XYPair(100, 0), new ContiguousHeading(-90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
+            new RabbitPoint(new FieldPose(new XYPair(100, 0), Rotation2d.fromDegrees(-90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
         command.setDotProductDrivingEnabled(true);
         command.initialize();
         command.execute();
@@ -191,7 +191,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
     protected void verifyPose(RabbitPoint poseToTest, double x, double y, double heading) {
         assertEquals("Looking at X", x, poseToTest.pose.getPoint().x, 0.001);
         assertEquals("Looking at Y", y, poseToTest.pose.getPoint().y, 0.001);
-        assertEquals("Looking at Heading", heading, poseToTest.pose.getHeading().getValue(), 0.001);
+        assertEquals("Looking at Heading", heading, poseToTest.pose.getHeading().getDegrees(), 0.001);
     }
     
     protected void verifyTankDrive(double left, double right) {

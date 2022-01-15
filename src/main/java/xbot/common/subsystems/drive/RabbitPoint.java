@@ -3,7 +3,7 @@ package xbot.common.subsystems.drive;
 import java.util.ArrayList;
 import java.util.List;
 
-import xbot.common.math.ContiguousHeading;
+import edu.wpi.first.math.geometry.Rotation2d;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
 
@@ -27,7 +27,7 @@ public class RabbitPoint {
     public FieldPose pose;
 
     public RabbitPoint(double x, double y, double heading) {
-        this(new FieldPose(new XYPair(x, y), new ContiguousHeading(heading)));
+        this(new FieldPose(new XYPair(x, y), Rotation2d.fromDegrees(heading)));
     }
 
     public RabbitPoint(FieldPose pose) {

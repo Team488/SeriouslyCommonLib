@@ -1,6 +1,6 @@
 package xbot.common.controls.sensors;
 
-import xbot.common.math.ContiguousHeading;
+import xbot.common.math.WrappedRotation2d;
 
 public abstract class XGyro
 {   
@@ -29,11 +29,11 @@ public abstract class XGyro
     /**
      * In degrees
      */
-    public ContiguousHeading getHeading() {
+    public WrappedRotation2d getHeading() {
         if (!isBroken()) {
-            return new ContiguousHeading(getDeviceYaw());
+            return WrappedRotation2d.fromDegrees(getDeviceYaw());
         }
-        return new ContiguousHeading(0);
+        return WrappedRotation2d.fromDegrees(0);
     }
     
     public double getRoll() {

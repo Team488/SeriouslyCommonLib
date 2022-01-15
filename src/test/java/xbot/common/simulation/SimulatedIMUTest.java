@@ -29,7 +29,7 @@ public class SimulatedIMUTest extends BaseSimulationTest {
         
         this.distributor.distributeSimulationPayload(fullSensorPayload);
 
-        assertEquals(45.223, simulatedGyro.getHeading().getValue(), 0.001);
+        assertEquals(45.223, simulatedGyro.getHeading().getDegrees(), 0.001);
         assertEquals(12, simulatedGyro.getYawAngularVelocity(), 0.001);
     }
 }

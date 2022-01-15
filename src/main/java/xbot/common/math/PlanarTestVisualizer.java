@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import xbot.common.subsystems.drive.RabbitPoint;
 
 
@@ -25,7 +26,7 @@ public class PlanarTestVisualizer {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    RabbitPoint p = new RabbitPoint(new FieldPose(new XYPair(100, 100), new ContiguousHeading(135)));
+                    RabbitPoint p = new RabbitPoint(new FieldPose(new XYPair(100, 100), Rotation2d.fromDegrees(135)));
                     PlanarTestVisualizer window = new PlanarTestVisualizer(new ArrayList<RabbitPoint>(Arrays.asList(p)));
                     window.frmLinearTestVisualizer.setVisible(true);
                 } catch (Exception e) {

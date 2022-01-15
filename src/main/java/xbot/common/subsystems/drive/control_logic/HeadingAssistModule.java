@@ -105,7 +105,7 @@ public class HeadingAssistModule {
             return 0;
         } 
         else if (timeSinceHumanInput >= coastTime.get() && !inAutomaticMode) {
-            desiredHeading = pose.getCurrentHeading().getValue();
+            desiredHeading = pose.getCurrentHeading().getDegrees();
             inAutomaticMode = true;
             headingModule.reset();
             decayModule.reset();

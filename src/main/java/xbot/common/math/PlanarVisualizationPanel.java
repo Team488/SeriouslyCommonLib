@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+
 @SuppressWarnings("serial")
 public class PlanarVisualizationPanel extends JPanel {
     private int centerX;
@@ -15,9 +17,9 @@ public class PlanarVisualizationPanel extends JPanel {
     
     private String loops = "0";
     private String robotStats = "0, 0";
-    private FieldPose robotCurrentPosition = new FieldPose(new XYPair(0,0), new ContiguousHeading(0));
+    private FieldPose robotCurrentPosition = new FieldPose(new XYPair(0,0), new Rotation2d());
     private XYPair goalPosition = new XYPair(0,0);
-    private FieldPose rabbitPosition = new FieldPose(new XYPair(0,0), new ContiguousHeading(0));
+    private FieldPose rabbitPosition = new FieldPose(new XYPair(0,0), new Rotation2d());
     private String rabbitStats = "...";
 
     private int preferredWidth = 300;
@@ -45,7 +47,7 @@ public class PlanarVisualizationPanel extends JPanel {
         robotStats = String.format("%.2f, %.2f, Angle: %.2f", 
                 robotCurrentPosition.getPoint().x, 
                 robotCurrentPosition.getPoint().y, 
-                robotCurrentPosition.getHeading().getValue());;
+                robotCurrentPosition.getHeading().getDegrees());
         rabbitStats = String.format("Angle to Rabbit: %.2f, TurnPower: %.2f, Translate: %.2f", 
             state.rabbitAngle, state.turnPower, state.translatePower);
     }

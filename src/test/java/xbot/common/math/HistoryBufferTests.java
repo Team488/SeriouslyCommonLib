@@ -25,7 +25,7 @@ public class HistoryBufferTests extends BaseWPITest {
         b.insert(new FieldPose(20, 20, 180));
         assertEquals(10, b.getPoseAtTime(0.5).getPoint().x, 0.001);
         assertEquals(10, b.getPoseAtTime(0.5).getPoint().y, 0.001);
-        assertEquals(135, b.getPoseAtTime(0.5).getHeading().getValue(), 0.001);
+        assertEquals(135, b.getPoseAtTime(0.5).getHeading().getDegrees(), 0.001);
     }
 
     @Test
@@ -36,6 +36,6 @@ public class HistoryBufferTests extends BaseWPITest {
         b.insert(new FieldPose(20, 20, -130));
         assertEquals(10, b.getPoseAtTime(0.5).getPoint().x, 0.001);
         assertEquals(10, b.getPoseAtTime(0.5).getPoint().y, 0.001);
-        assertEquals(-175, b.getPoseAtTime(0.5).getHeading().getValue(), 0.001);
+        assertEquals(-175, b.getPoseAtTime(0.5).getHeading().getDegrees(), 0.001);
     }
 }
