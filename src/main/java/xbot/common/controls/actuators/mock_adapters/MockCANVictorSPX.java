@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.IMotorController;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -20,7 +21,11 @@ import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
+import com.ctre.phoenix.motorcontrol.can.BaseTalon;
+import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -211,12 +216,12 @@ public class MockCANVictorSPX extends XCANVictorSPX {
     }
 
     @Override
-    public int getSelectedSensorPosition(int pidIdx) {
+    public double getSelectedSensorPosition(int pidIdx) {
         return 0;
     }
 
     @Override
-    public int getSelectedSensorVelocity(int pidIdx) {
+    public double getSelectedSensorVelocity(int pidIdx) {
         return 0;
     }
 
@@ -385,7 +390,7 @@ public class MockCANVictorSPX extends XCANVictorSPX {
     }
 
     @Override
-    public int getClosedLoopError(int pidIdx) {
+    public double getClosedLoopError(int pidIdx) {
         return 0;
     }
 
@@ -405,12 +410,12 @@ public class MockCANVictorSPX extends XCANVictorSPX {
     }
 
     @Override
-    public int getActiveTrajectoryPosition() {
+    public double getActiveTrajectoryPosition() {
         return 0;
     }
 
     @Override
-    public int getActiveTrajectoryVelocity() {
+    public double getActiveTrajectoryVelocity() {
         return 0;
     }
 
@@ -552,6 +557,78 @@ public class MockCANVictorSPX extends XCANVictorSPX {
     @Override
     public int getPulseWidthRiseToFallUs() {
         return 0;
+    }
+
+    @Override
+    public ErrorCode configSupplyCurrentLimit(SupplyCurrentLimitConfiguration currLimitCfg, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setInverted(InvertType invertType) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public ErrorCode configRemoteFeedbackFilter(CANCoder canCoderRef, int remoteOrdinal, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configRemoteFeedbackFilter(BaseTalon talonRef, int remoteOrdinal, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode setSelectedSensorPosition(double sensorPos, int pidIdx, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configForwardSoftLimitThreshold(double forwardSensorLimit, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configReverseSoftLimitThreshold(double reverseSensorLimit, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode config_IntegralZone(int slotIdx, double izone, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configAllowableClosedloopError(int slotIdx, double allowableCloseLoopError, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configMotionCruiseVelocity(double sensorUnitsPer100ms, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configMotionAcceleration(double sensorUnitsPer100msPerSec, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configVelocityMeasurementPeriod(SensorVelocityMeasPeriod period, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     //CHECKSTYLE:ON

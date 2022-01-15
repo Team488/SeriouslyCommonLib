@@ -34,6 +34,7 @@ import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
+import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater;
@@ -62,6 +63,7 @@ public class RobotModule extends AbstractModule {
     @Override
     protected void configure() {
         this.bind(XTimerImpl.class).to(TimerWpiAdapter.class);
+        this.bind(XSettableTimerImpl.class).to(TimerWpiAdapter.class);
         this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class).in(Singleton.class);
         ;
         this.bind(PermanentStorage.class).to(PreferenceStorage.class);
