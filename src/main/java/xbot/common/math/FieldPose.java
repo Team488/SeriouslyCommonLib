@@ -36,7 +36,7 @@ public class FieldPose {
         return new FieldPose(fieldPosition.clone(), heading);
     }
     
-    public Rotation2d getHeading() {
+    public WrappedRotation2d getHeading() {
         return heading;
     }
     
@@ -44,9 +44,9 @@ public class FieldPose {
         return fieldPosition;
     }
     
-    public Rotation2d getPerpendicularHeadingTowardsPoint(FieldPose other) {
+    public WrappedRotation2d getPerpendicularHeadingTowardsPoint(FieldPose other) {
         boolean direction = getPoseRelativeDisplacement(other).y > 0;
-        return heading.rotateBy(Rotation2d.fromDegrees(direction ? -90 : 90));
+        return WrappedRotation2d.fromRotation2d(heading.rotateBy(Rotation2d.fromDegrees(direction ? -90 : 90)));
     }
     
     public XYPair getPointAlongPoseClosestToPoint(XYPair other) {
@@ -93,7 +93,7 @@ public class FieldPose {
     }
     
     public double getDeltaAngleToRabbit(FieldPose other, double lookaheadDistance) {
-        return Rotation2d.fromDegrees(getVectorToRabbit(other, lookaheadDistance).getAngle()).minus(other.getHeading()).getDegrees();
+        return WrappedRotation2d.fromDegrees(getVectorToRabbit(other, lookaheadDistance).getAngle()).minus(other.getHeading()).getDegrees();
     }
     
     public XYPair getVectorToRabbit(FieldPose other, double lookaheadDistance) {
@@ -142,7 +142,7 @@ public class FieldPose {
     public FieldPose getFieldPoseOffsetBy(FieldPose offset) {
         XYPair changedPoint = this.getPoint().clone().add(offset.getPoint().clone().scale(-1));
         // Currently only handling point offsets, not heading offsets
-        Rotation2d changedHeading = this.getHeading();
+        WrappedRotation2d changedHeading = this.getHeading();
 
         return new FieldPose(changedPoint, changedHeading);
     }
