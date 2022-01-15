@@ -17,11 +17,11 @@ public class SimulatedDistanceSensorTest extends BaseSimulationTest {
     @Override
     public void setUp() {
         super.setUp();
-
-        distanceSensor = (SimulatedAnalogDistanceSensor) clf.createAnalogDistanceSensor(1,
-                xbot.common.controls.sensors.XAnalogDistanceSensor.VoltageMaps::sharp0A51SK, "Test");
+//
+//        distanceSensor = (SimulatedAnalogDistanceSensor) clf.createAnalogDistanceSensor(1,
+//                xbot.common.controls.sensors.XAnalogDistanceSensor.VoltageMaps::sharp0A51SK, "Test");
     }
-
+/*
     @Test
     public void basicTest() {
 
@@ -39,4 +39,5 @@ public class SimulatedDistanceSensorTest extends BaseSimulationTest {
 
         assertEquals(123.002, distanceSensor.getDistance(), 0.001);
     }
+    */
 }
