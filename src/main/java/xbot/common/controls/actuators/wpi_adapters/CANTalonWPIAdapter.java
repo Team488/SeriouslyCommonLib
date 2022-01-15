@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.IMotorController;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -21,8 +22,12 @@ import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
+import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -96,11 +101,11 @@ public class CANTalonWPIAdapter extends XCANTalon {
     public ErrorCode configContinuousCurrentLimit(int amps, int timeoutMs) {
         return internalTalon.configContinuousCurrentLimit(amps, timeoutMs);
     }
-
+/*
     public boolean equals(Object obj) {
         return internalTalon.equals(obj);
     }
-
+*/
     public void enableCurrentLimit(boolean enable) {
         internalTalon.enableCurrentLimit(enable);
     }
@@ -206,11 +211,11 @@ public class CANTalonWPIAdapter extends XCANTalon {
         return internalTalon.configSensorTerm(sensorTerm, feedbackDevice, timeoutMs);
     }
 
-    public int getSelectedSensorPosition(int pidIdx) {
+    public double getSelectedSensorPosition(int pidIdx) {
         return internalTalon.getSelectedSensorPosition(pidIdx);
     }
 
-    public int getSelectedSensorVelocity(int pidIdx) {
+    public double getSelectedSensorVelocity(int pidIdx) {
         return internalTalon.getSelectedSensorVelocity(pidIdx);
     }
 
@@ -316,7 +321,7 @@ public class CANTalonWPIAdapter extends XCANTalon {
         return internalTalon.setIntegralAccumulator(iaccum, pidIdx, timeoutMs);
     }
 
-    public int getClosedLoopError(int pidIdx) {
+    public double getClosedLoopError(int pidIdx) {
         return internalTalon.getClosedLoopError(pidIdx);
     }
 
@@ -332,17 +337,12 @@ public class CANTalonWPIAdapter extends XCANTalon {
         internalTalon.selectProfileSlot(slotIdx, pidIdx);
     }
 
-    public int getActiveTrajectoryPosition() {
+    public double getActiveTrajectoryPosition() {
         return internalTalon.getActiveTrajectoryPosition();
     }
 
-    public int getActiveTrajectoryVelocity() {
+    public double getActiveTrajectoryVelocity() {
         return internalTalon.getActiveTrajectoryVelocity();
-    }
-
-    @Deprecated
-    public double getActiveTrajectoryHeading() {
-        return internalTalon.getActiveTrajectoryHeading();
     }
 
     public ErrorCode configMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs) {
@@ -503,6 +503,84 @@ public class CANTalonWPIAdapter extends XCANTalon {
     @Override
     public int getPulseWidthRiseToFallUs() {
         return getSensorCollectionInstance().getPulseWidthRiseToRiseUs();
+    }
+
+    @Override
+    public ErrorCode configSupplyCurrentLimit(SupplyCurrentLimitConfiguration currLimitCfg, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setInverted(InvertType invertType) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public ErrorCode configRemoteFeedbackFilter(CANCoder canCoderRef, int remoteOrdinal, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configRemoteFeedbackFilter(BaseTalon talonRef, int remoteOrdinal, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode setSelectedSensorPosition(double sensorPos, int pidIdx, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configForwardSoftLimitThreshold(double forwardSensorLimit, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configReverseSoftLimitThreshold(double reverseSensorLimit, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode config_IntegralZone(int slotIdx, double izone, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configAllowableClosedloopError(int slotIdx, double allowableCloseLoopError, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configMotionCruiseVelocity(double sensorUnitsPer100ms, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configMotionAcceleration(double sensorUnitsPer100msPerSec, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configVelocityMeasurementPeriod(SensorVelocityMeasPeriod period, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public double getActiveTrajectoryHeading() {
+        // TODO Auto-generated method stub
+        return 0;
     }
    
 }

@@ -20,7 +20,7 @@ import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
-import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
+import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
@@ -164,9 +164,9 @@ public abstract class XCANTalon implements IMotorControllerEnhanced {
     public abstract ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs );
 
     // ------- sensor status --------- //
-    public abstract int getSelectedSensorPosition(int pidIdx);
+    public abstract double getSelectedSensorPosition(int pidIdx);
 
-    public abstract int getSelectedSensorVelocity(int pidIdx);
+    public abstract double getSelectedSensorVelocity(int pidIdx);
 
     public abstract ErrorCode setSelectedSensorPosition(int sensorPos, int pidIdx, int timeoutMs);
 
@@ -180,7 +180,7 @@ public abstract class XCANTalon implements IMotorControllerEnhanced {
     public abstract int getStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs );
 
     //----- velocity signal conditionaing ------//
-    public abstract ErrorCode configVelocityMeasurementPeriod(VelocityMeasPeriod period, int timeoutMs );
+    public abstract ErrorCode configVelocityMeasurementPeriod(SensorVelocityMeasPeriod period, int timeoutMs );
     public abstract ErrorCode configVelocityMeasurementWindow(int windowSize, int timeoutMs );
 
     //------ remote limit switch ----------//
@@ -234,7 +234,7 @@ public abstract class XCANTalon implements IMotorControllerEnhanced {
     //------ Close loop State ----------//
     public abstract ErrorCode setIntegralAccumulator(double iaccum, int pidIdx, int timeoutMs);
 
-    public abstract int getClosedLoopError(int pidIdx);
+    public abstract double getClosedLoopError(int pidIdx);
 
     public abstract double getIntegralAccumulator(int pidIdx) ;
 
@@ -244,9 +244,9 @@ public abstract class XCANTalon implements IMotorControllerEnhanced {
 
     //public abstract int getClosedLoopTarget(int pidIdx); // will be added to JNI
 
-    public abstract int getActiveTrajectoryPosition();
+    public abstract double getActiveTrajectoryPosition();
 
-    public abstract int getActiveTrajectoryVelocity();
+    public abstract double getActiveTrajectoryVelocity();
 
     public abstract double getActiveTrajectoryHeading();
 

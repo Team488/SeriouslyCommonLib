@@ -1,15 +1,17 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
-import org.apache.log4j.Logger;
-
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import com.kauailabs.navx.frc.AHRS;
+
+import org.apache.log4j.Logger;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
 import xbot.common.controls.sensors.XGyro;
+import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 
 public class InertialMeasurementUnitAdapter extends XGyro {
 
@@ -30,6 +32,12 @@ public class InertialMeasurementUnitAdapter extends XGyro {
             isBroken = true;
             log.warn("AHRS could not be created - gyro is broken!");
         }
+    }
+
+    @AssistedInject
+    public InertialMeasurementUnitAdapter(@Assisted("channel") int channel, DevicePolice police) {
+        super(ImuType.navX);
+        police.registerDevice(DeviceType.IMU, channel, this);
     }
 
     @AssistedInject
