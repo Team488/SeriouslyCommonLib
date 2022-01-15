@@ -87,8 +87,8 @@ public interface CommonLibFactory extends PIDFactory {
 
         public XLidarLite createLidarLite(@Assisted("port") I2C.Port port, @Assisted("prefix") String prefix);
 
-        public XAnalogDistanceSensor createAnalogDistanceSensor(@Assisted("channel") int channel,
-                        @Assisted("voltageMap") DoubleFunction<Double> voltageMap, @Assisted("prefix") String prefix);
+        //public XAnalogDistanceSensor createAnalogDistanceSensor(@Assisted("channel") int channel,
+        //                @Assisted("voltageMap") DoubleFunction<Double> voltageMap, @Assisted("prefix") String prefix);
 
         public AdvancedJoystickButton createAdvancedJoystickButton(@Assisted("joystick") XJoystick joystick,
                         @Assisted("buttonNumber") int buttonNumber);

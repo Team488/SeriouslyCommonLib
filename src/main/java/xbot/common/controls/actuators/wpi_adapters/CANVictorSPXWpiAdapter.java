@@ -23,12 +23,16 @@ import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
+import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.motorcontrol.can.FilterConfiguration;
 import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.VictorSPXPIDSetConfiguration;
+import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -80,11 +84,6 @@ public class CANVictorSPXWpiAdapter extends XCANVictorSPX {
         internalVictor.getPIDConfigs(pid);
     }
 
-    @Deprecated
-    public void set(ControlMode mode, double demand0, double demand1) {
-        internalVictor.set(mode, demand0, demand1);
-    }
-
     public ErrorCode configAllSettings(VictorSPXConfiguration allConfigs, int timeoutMs) {
         return internalVictor.configAllSettings(allConfigs, timeoutMs);
     }
@@ -111,16 +110,6 @@ public class CANVictorSPXWpiAdapter extends XCANVictorSPX {
 
     public void getAllConfigs(VictorSPXConfiguration allConfigs) {
         internalVictor.getAllConfigs(allConfigs);
-    }
-
-    @Deprecated
-    public void enableHeadingHold(boolean enable) {
-        internalVictor.enableHeadingHold(enable);
-    }
-
-    @Deprecated
-    public void selectDemandType(boolean value) {
-        internalVictor.selectDemandType(value);
     }
 
     public void setSensorPhase(boolean PhaseSensor) {
@@ -289,19 +278,19 @@ public class CANVictorSPXWpiAdapter extends XCANVictorSPX {
         return internalVictor.configSensorTerm(sensorTerm, feedbackDevice);
     }
 
-    public int getSelectedSensorPosition(int pidIdx) {
+    public double getSelectedSensorPosition(int pidIdx) {
         return internalVictor.getSelectedSensorPosition(pidIdx);
     }
 
-    public int getSelectedSensorPosition() {
+    public double getSelectedSensorPosition() {
         return internalVictor.getSelectedSensorPosition();
     }
 
-    public int getSelectedSensorVelocity(int pidIdx) {
+    public double getSelectedSensorVelocity(int pidIdx) {
         return internalVictor.getSelectedSensorVelocity(pidIdx);
     }
 
-    public int getSelectedSensorVelocity() {
+    public double getSelectedSensorVelocity() {
         return internalVictor.getSelectedSensorVelocity();
     }
 
@@ -534,11 +523,11 @@ public class CANVictorSPXWpiAdapter extends XCANVictorSPX {
         return internalVictor.setIntegralAccumulator(iaccum);
     }
 
-    public int getClosedLoopError(int pidIdx) {
+    public double getClosedLoopError(int pidIdx) {
         return internalVictor.getClosedLoopError(pidIdx);
     }
 
-    public int getClosedLoopError() {
+    public double getClosedLoopError() {
         return internalVictor.getClosedLoopError();
     }
 
@@ -570,25 +559,20 @@ public class CANVictorSPXWpiAdapter extends XCANVictorSPX {
         return internalVictor.getClosedLoopTarget();
     }
 
-    public int getActiveTrajectoryPosition() {
+    public double getActiveTrajectoryPosition() {
         return internalVictor.getActiveTrajectoryPosition();
     }
 
-    public int getActiveTrajectoryPosition(int pidIdx) {
+    public double getActiveTrajectoryPosition(int pidIdx) {
         return internalVictor.getActiveTrajectoryPosition(pidIdx);
     }
 
-    public int getActiveTrajectoryVelocity() {
+    public double getActiveTrajectoryVelocity() {
         return internalVictor.getActiveTrajectoryVelocity();
     }
 
-    public int getActiveTrajectoryVelocity(int pidIdx) {
+    public double getActiveTrajectoryVelocity(int pidIdx) {
         return internalVictor.getActiveTrajectoryVelocity(pidIdx);
-    }
-
-    @Deprecated
-    public double getActiveTrajectoryHeading() {
-        return internalVictor.getActiveTrajectoryHeading();
     }
 
     public double getActiveTrajectoryArbFeedFwd() {
@@ -916,6 +900,78 @@ public class CANVictorSPXWpiAdapter extends XCANVictorSPX {
 
     @Override
     public int getPulseWidthRiseToFallUs() {
+        return 0;
+    }
+
+    @Override
+    public ErrorCode configSupplyCurrentLimit(SupplyCurrentLimitConfiguration currLimitCfg, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configRemoteFeedbackFilter(CANCoder canCoderRef, int remoteOrdinal, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configRemoteFeedbackFilter(BaseTalon talonRef, int remoteOrdinal, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode setSelectedSensorPosition(double sensorPos, int pidIdx, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configForwardSoftLimitThreshold(double forwardSensorLimit, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configReverseSoftLimitThreshold(double reverseSensorLimit, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode config_IntegralZone(int slotIdx, double izone, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configAllowableClosedloopError(int slotIdx, double allowableCloseLoopError, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configMotionCruiseVelocity(double sensorUnitsPer100ms, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configMotionAcceleration(double sensorUnitsPer100msPerSec, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ErrorCode configVelocityMeasurementPeriod(SensorVelocityMeasPeriod period, int timeoutMs) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public double getActiveTrajectoryHeading() {
+        // TODO Auto-generated method stub
         return 0;
     }
 
