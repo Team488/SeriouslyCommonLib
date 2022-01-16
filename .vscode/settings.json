@@ -10,6 +10,9 @@
                 "DYLD_LIBRARY_PATH": "${workspaceFolder}/build/jni/release" }
         },
     ],
-    "coverage-gutters.coverageReportFileName": "**/jacoco/**/html/index.html",
-    "coverage-gutters.xmlname": "**/jacocoTestReport.xml"
+    "coverage-gutters.coverageReportFileName": "html/index.html",
+    "coverage-gutters.coverageBaseDir": "build/reports/jacoco/test",
+    "coverage-gutters.coverageFileNames": [
+        "jacocoTestReport.xml"
+    ]
 }
