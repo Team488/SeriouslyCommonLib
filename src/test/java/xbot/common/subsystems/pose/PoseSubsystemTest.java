@@ -103,7 +103,7 @@ public class PoseSubsystemTest extends BasePoseTest {
     }
     
     protected void verifyRobotHeading(double expectedHeading) {
-        assertEquals(expectedHeading, pose.getCurrentHeading().getValue(), 0.001);
+        assertEquals(expectedHeading, pose.getCurrentHeading().getDegrees(), 0.001);
     }
     
     @Test

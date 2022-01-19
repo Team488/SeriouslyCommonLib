@@ -3,6 +3,7 @@ package xbot.common.math;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
@@ -33,10 +34,10 @@ public class FieldPosePropertyManager {
         propMan.setPrefix(poseName);
         xProp = propMan.createPersistentProperty("X", fieldPose.getPoint().x);
         yProp = propMan.createPersistentProperty("Y", fieldPose.getPoint().y);
-        headingProp = propMan.createPersistentProperty("Heading", fieldPose.getHeading().getValue());
+        headingProp = propMan.createPersistentProperty("Heading", fieldPose.getHeading().getDegrees());
     }
 
     public FieldPose getPose() {
-        return new FieldPose(new XYPair(xProp.get(), yProp.get()), new ContiguousHeading(headingProp.get()));
+        return new FieldPose(new XYPair(xProp.get(), yProp.get()), Rotation2d.fromDegrees(headingProp.get()));
     }
 }

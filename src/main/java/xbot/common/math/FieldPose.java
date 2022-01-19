@@ -1,5 +1,7 @@
 package xbot.common.math;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+
 /**
  * The FieldPose class represents a point on the field as well as a heading.
  * 
@@ -12,29 +14,29 @@ package xbot.common.math;
  */
 public class FieldPose {
 
-    private ContiguousHeading heading;
+    private WrappedRotation2d heading;
     private final XYPair fieldPosition;
 
     public FieldPose() {
         this.fieldPosition = new XYPair();
-        this.heading = new ContiguousHeading();
+        this.heading = WrappedRotation2d.fromDegrees(0);
     }
     
-    public FieldPose(XYPair point, ContiguousHeading heading) {
+    public FieldPose(XYPair point, Rotation2d heading) {
         this.fieldPosition = point.clone();
-        this.heading = heading.clone();
+        this.heading = new WrappedRotation2d(heading.getRadians());
     }
 
     public FieldPose(double x, double y, double heading) {
         this.fieldPosition = new XYPair(x, y);
-        this.heading = new ContiguousHeading(heading);
+        this.heading = WrappedRotation2d.fromDegrees(heading);
     }
 
     public FieldPose clone() {
-        return new FieldPose(fieldPosition.clone(), heading.clone());
+        return new FieldPose(fieldPosition.clone(), heading);
     }
     
-    public ContiguousHeading getHeading() {
+    public WrappedRotation2d getHeading() {
         return heading;
     }
     
@@ -42,9 +44,9 @@ public class FieldPose {
         return fieldPosition;
     }
     
-    public ContiguousHeading getPerpendicularHeadingTowardsPoint(FieldPose other) {
+    public WrappedRotation2d getPerpendicularHeadingTowardsPoint(FieldPose other) {
         boolean direction = getPoseRelativeDisplacement(other).y > 0;
-        return heading.clone().shiftValue(direction ? -90 : 90);
+        return WrappedRotation2d.fromRotation2d(heading.rotateBy(Rotation2d.fromDegrees(direction ? -90 : 90)));
     }
     
     public XYPair getPointAlongPoseClosestToPoint(XYPair other) {
@@ -77,11 +79,11 @@ public class FieldPose {
     }
     
     private double getHeadingCosine() {
-        return  Math.cos(Math.toRadians(heading.getValue()));
+        return heading.getCos();
     }
     
     private double getHeadingSine() {
-        return Math.sin(Math.toRadians(heading.getValue()));
+        return heading.getSin();
     }
     
     public FieldPose getRabbitPose(XYPair other, double lookaheadDistance) {
@@ -91,7 +93,7 @@ public class FieldPose {
     }
     
     public double getDeltaAngleToRabbit(FieldPose other, double lookaheadDistance) {
-        return other.getHeading().difference(getVectorToRabbit(other, lookaheadDistance).getAngle());    
+        return WrappedRotation2d.fromDegrees(getVectorToRabbit(other, lookaheadDistance).getAngle()).minus(other.getHeading()).getDegrees();
     }
     
     public XYPair getVectorToRabbit(FieldPose other, double lookaheadDistance) {
@@ -112,7 +114,7 @@ public class FieldPose {
         XYPair normalizedPoint = clonedPoint.add(other.getPoint().scale(-1));
         
         // then rotate that point to 90 degrees
-        return normalizedPoint.rotate(90 - other.getHeading().getValue());
+        return normalizedPoint.rotate(90 - other.getHeading().getDegrees());
     }
 
     /**
@@ -123,13 +125,12 @@ public class FieldPose {
      * @return
      */
     public FieldPose getPointAlongPoseLine(double distance) {
-        double simpleHeading = this.heading.getValue();
-        double deltaX = Math.cos(simpleHeading / 180 * Math.PI) * distance;
-        double deltaY = Math.sin(simpleHeading / 180 * Math.PI) * distance;
+        double deltaX = this.heading.getCos() * distance;
+        double deltaY = this.heading.getSin() * distance;
         double updatedX = this.getPoint().x + deltaX;
         double updatedY = this.getPoint().y + deltaY;
 
-        return new FieldPose(new XYPair(updatedX, updatedY), new ContiguousHeading(simpleHeading));
+        return new FieldPose(new XYPair(updatedX, updatedY), new Rotation2d(deltaX, deltaY));
     }
 
     /**
@@ -141,7 +142,7 @@ public class FieldPose {
     public FieldPose getFieldPoseOffsetBy(FieldPose offset) {
         XYPair changedPoint = this.getPoint().clone().add(offset.getPoint().clone().scale(-1));
         // Currently only handling point offsets, not heading offsets
-        ContiguousHeading changedHeading = this.getHeading().clone();
+        WrappedRotation2d changedHeading = this.getHeading();
 
         return new FieldPose(changedPoint, changedHeading);
     }
@@ -149,7 +150,7 @@ public class FieldPose {
     @Override
     public String toString() {
         String xyString = fieldPosition == null ? "null, null" : fieldPosition.x + ", " + fieldPosition.y;
-        String headingString = heading == null ? "null" : Double.toString(heading.getValue());
+        String headingString = heading == null ? "null" : Double.toString(heading.getDegrees());
         return "FieldPose(" + xyString + ", "+ headingString + ")";
     }
 }

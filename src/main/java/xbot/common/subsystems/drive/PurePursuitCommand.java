@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import xbot.common.command.BaseCommand;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.math.ContiguousHeading;
 import xbot.common.math.FieldPose;
 import xbot.common.math.MathUtils;
 import xbot.common.math.PIDManager;
@@ -181,17 +181,17 @@ public abstract class PurePursuitCommand extends BaseCommand {
                 for (RabbitPoint originalPoint : originalPoints) {
                     // First, rotate the point according to the robot's current heading - 90
                     XYPair updatedPoint = originalPoint.pose.getPoint().clone().rotate(
-                            currentRobotPose.getHeading().getValue()-BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS);
+                            currentRobotPose.getHeading().getDegrees()-BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS);
                     
                     // Then, translate the point according to the robot's current field position
                     updatedPoint.add(currentRobotPose.getPoint());
                     
                     // Finally, rotate the original's goal heading by the robot's current heading -90
-                    double updatedHeading = originalPoint.pose.getHeading().getValue() 
-                            + currentRobotPose.getHeading().getValue() 
+                    double updatedHeading = originalPoint.pose.getHeading().getDegrees() 
+                            + currentRobotPose.getHeading().getDegrees() 
                             - BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS;
                     
-                    FieldPose updatedPose = new FieldPose(updatedPoint, new ContiguousHeading(updatedHeading));
+                    FieldPose updatedPose = new FieldPose(updatedPoint, Rotation2d.fromDegrees(updatedHeading));
                     pointsToVisit.add(new RabbitPoint(
                             updatedPose, 
                             originalPoint.pointType, 
@@ -276,7 +276,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
      * @return
      */
     private RabbitChaseInfo rotateToRabbit(RabbitPoint target) {
-        double turnPower = headingModule.calculateHeadingPower(target.pose.getHeading().getValue());
+        double turnPower = headingModule.calculateHeadingPower(target.pose.getHeading().getDegrees());
         if (headingModule.isOnTarget()) {
             advancePointIfNotAtLastPoint();
         }
@@ -365,7 +365,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         // We should perform a quick 3-point maneuver (back up while rotating, then drive forward while rotating)
         // rather than turn in place. And, when we are at 90 degrees to the rabbit, we shouldn't be driving forward
         // or backward at all.
-        XYPair robotUnitVector = robot.getHeading().getUnitVector();
+        XYPair robotUnitVector = new XYPair(robot.getHeading());
         return robotUnitVector.dotProduct(
             vectorToRabbit.clone().scale(1/vectorToRabbit.getMagnitude())) * lookaheadFactor;
     }
@@ -444,7 +444,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         if ((Math.abs(distanceRemainingToPointAlongPath) < pointDistanceThreshold.get()) 
             &&
             (target.terminatingType == PointTerminatingType.Stop)) {
-            goalAngle = target.pose.getHeading().getValue();
+            goalAngle = target.pose.getHeading().getDegrees();
         }
         
         double turnPower = headingModule.calculateHeadingPower(goalAngle);

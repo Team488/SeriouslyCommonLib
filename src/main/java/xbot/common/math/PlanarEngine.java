@@ -1,5 +1,7 @@
 package xbot.common.math;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+
 public class PlanarEngine {
 
     double friction = 0.005;
@@ -10,13 +12,13 @@ public class PlanarEngine {
     
     XYPair robotPosition;
     double velocity;
-    ContiguousHeading heading;
+    Rotation2d heading;
     XYPair goalPoint;
     XYPair goalVector;
     
     public PlanarEngine() {
         robotPosition = new XYPair();
-        heading = new ContiguousHeading(90);
+        heading = Rotation2d.fromDegrees(90);
         
         goalPoint = new XYPair(10, 0);
         goalVector = new XYPair(1, 0);
@@ -30,7 +32,7 @@ public class PlanarEngine {
         double left = MathUtils.constrainDoubleToRobotScale(forwardPower-rotatePower);
         double right = MathUtils.constrainDoubleToRobotScale(forwardPower+rotatePower);
         velocity += ((left+right)/2*power_factor);
-        heading.shiftValue(rotatePower*rotate_factor);
+        heading = heading.plus(Rotation2d.fromDegrees(rotatePower*rotate_factor));
         
         // apply friction model to velocity
         velocity *= 0.9;
@@ -38,8 +40,8 @@ public class PlanarEngine {
         // sharp turns also murder velocity
         velocity -= (Math.abs(rotatePower))*velocity*.05;
         
-        robotPosition.x += Math.cos(heading.getValue() / 180 * Math.PI)*velocity;
-        robotPosition.y += Math.sin(heading.getValue() / 180 * Math.PI)*velocity;
+        robotPosition.x += heading.getCos()*velocity;
+        robotPosition.y += heading.getSin()*velocity;
         loops++;
         return robotPosition;
     }

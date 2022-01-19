@@ -130,7 +130,7 @@ public class HeadingAssistModuleTest extends BaseWPITest {
     private void step4_robotRotated() {
         
         // the robot undergoes some automatic rotation
-        setHeading(pose.getCurrentHeading().getValue()+90);
+        setHeading(pose.getCurrentHeading().getDegrees()+90);
         double power = ham.calculateHeadingPower(0);
         assertEquals(-1, power, 0.001);
     }
@@ -147,7 +147,7 @@ public class HeadingAssistModuleTest extends BaseWPITest {
         step4_robotRotated();     
         
         // However, unlike the position-based one, this one will try and turn left if the robot is suddenly rotated right.
-        setHeading(pose.getCurrentHeading().getValue()-90);
+        setHeading(pose.getCurrentHeading().getDegrees()-90);
         double power = ham.calculateHeadingPower(0);
         assertEquals(1, power, 0.001);
     }

@@ -3,7 +3,7 @@ package xbot.common.subsystems.drive.control_logic;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import xbot.common.math.ContiguousHeading;
+import edu.wpi.first.math.geometry.Rotation2d;
 import xbot.common.math.PIDManager;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
@@ -20,7 +20,7 @@ public class HeadingModule {
     final BasePoseSubsystem pose;
     private final PIDManager headingDrivePid;
     
-    private ContiguousHeading targetHeading;
+    private Rotation2d targetHeading;
     
     public final double defaultPValue = 1/80d;
     
@@ -33,7 +33,7 @@ public class HeadingModule {
         this.pose = pose;
         
         this.headingDrivePid = headingDrivePid;
-        targetHeading = new ContiguousHeading();
+        targetHeading = new Rotation2d();
     }
     
     public boolean isOnTarget() {
@@ -54,8 +54,8 @@ public class HeadingModule {
         // class, which is aware of such circular effects), and then feed that into a PID where
         // Goal is 0 and Current is our error.
         
-        targetHeading.setValue(desiredHeading);
-        double errorInDegrees = targetHeading.difference(pose.getCurrentHeading());
+        targetHeading = Rotation2d.fromDegrees(desiredHeading);
+        double errorInDegrees = pose.getCurrentHeading().minus(targetHeading).getDegrees();
                 
         // Now we feed it into a PID system, where the goal is to have 0 error.
         double rotationalPower = headingDrivePid.calculate(0, errorInDegrees);

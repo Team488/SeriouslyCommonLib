@@ -106,7 +106,7 @@ public class WebotsClient {
         FieldPose calibratedPose = truePose.getFieldPoseOffsetBy(fieldOffset);
         simulatorPoseX.set(calibratedPose.getPoint().x);
         simulatorPoseY.set(calibratedPose.getPoint().y);
-        simulatorPoseYaw.set(calibratedPose.getHeading().getValue());
+        simulatorPoseYaw.set(calibratedPose.getHeading().getDegrees());
     }
 
     public void resetPosition() {
@@ -117,7 +117,7 @@ public class WebotsClient {
         
         x += fieldOffset.getPoint().x;
         y += fieldOffset.getPoint().y;
-        rotationInDegrees += fieldOffset.getHeading().getValue();
+        rotationInDegrees += fieldOffset.getHeading().getDegrees();
         
         x /= BasePoseSubsystem.INCHES_IN_A_METER;
         y /= BasePoseSubsystem.INCHES_IN_A_METER;

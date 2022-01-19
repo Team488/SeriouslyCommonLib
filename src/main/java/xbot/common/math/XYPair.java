@@ -1,5 +1,7 @@
 package xbot.common.math;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+
 /**
  * Pair of X and Y coordinates. Can be used for points, vectors, or anything
  * else that requires a coordinate pair.
@@ -18,6 +20,15 @@ public class XYPair {
     public XYPair(double x, double y) {
         this.x = x;
         this.y = y;
+    }
+
+    /**
+     * Creates a coordinate representing the unit vector for a rotation.
+     * @param rotation The rotation value.
+     */
+    public XYPair(Rotation2d rotation) {
+        this.x = rotation.getCos();
+        this.y = rotation.getSin();
     }
 
     /**

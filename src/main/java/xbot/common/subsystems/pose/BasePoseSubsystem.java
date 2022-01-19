@@ -1,13 +1,13 @@
 package xbot.common.subsystems.pose;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.math.ContiguousDouble;
-import xbot.common.math.ContiguousHeading;
 import xbot.common.math.FieldPose;
+import xbot.common.math.WrappedRotation2d;
 import xbot.common.math.XYPair;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
@@ -27,7 +27,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     private final DoubleProperty velocityY;
     private final DoubleProperty totalVelocity;
     
-    private ContiguousHeading currentHeading;
+    private WrappedRotation2d currentHeading;
+    private WrappedRotation2d previousHeading;
     private final DoubleProperty currentHeadingProp;
     private final DoubleProperty currentCompassHeadingProp;
     private final DoubleProperty headingAngularVelocityProp;
@@ -47,8 +48,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     private double previousLeftDistance;
     private double previousRightDistance;
 
-    private ContiguousHeading previousHeading;
-    
     private final double classInstantiationTime;
     private boolean isNavXReady = false;
     
@@ -65,10 +64,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
-        currentHeading = new ContiguousHeading(0);
-        previousHeading = new ContiguousHeading(0);
+        currentHeading = WrappedRotation2d.fromDegrees(0);
+        previousHeading = WrappedRotation2d.fromDegrees(0);
         
-        currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", currentHeading.getValue());
+        currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", currentHeading.getDegrees());
         currentCompassHeadingProp = propManager.createEphemeralProperty("Current compass heading", getCompassHeading(currentHeading));
         headingAngularVelocityProp = propManager.createEphemeralProperty("Heading Rotational Velocity", 0.0);
 
@@ -93,14 +92,14 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         CommandScheduler.getInstance().registerSubsystem(this);
     }
     
-    private double getCompassHeading(ContiguousDouble standardHeading) {
-        return new ContiguousDouble(currentHeading.getValue() - 90, 0, 360).getValue();
+    private double getCompassHeading(Rotation2d standardHeading) {
+        return Rotation2d.fromDegrees(currentHeading.getDegrees() - 90).getDegrees();
     }
     
     private void updateCurrentHeading() {
-        currentHeading = new ContiguousHeading(getRobotYaw().getValue() + headingOffset);
+        currentHeading = WrappedRotation2d.fromDegrees(getRobotYaw().getDegrees() + headingOffset);
 
-        currentHeadingProp.set(currentHeading.getValue());
+        currentHeadingProp.set(currentHeading.getDegrees());
         currentCompassHeadingProp.set(getCompassHeading(currentHeading));
 
         headingAngularVelocityProp.set(getYawAngularVelocity());
@@ -133,8 +132,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         totalDistanceYRobotPerspective.set(totalDistanceYRobotPerspective.get() + totalDistance);
         
         // get X and Y        
-        double deltaY = Math.sin(Math.toRadians(currentHeading.getValue())) * totalDistance;
-        double deltaX = Math.cos(Math.toRadians(currentHeading.getValue())) * totalDistance;
+        double deltaY = currentHeading.getSin() * totalDistance;
+        double deltaX = currentHeading.getCos() * totalDistance;
         
         double instantVelocity = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
         
@@ -153,9 +152,9 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     /**
      * @return Current heading but if the navX is still booting up it will return 0
      */
-    public ContiguousHeading getCurrentHeading() {
+    public WrappedRotation2d getCurrentHeading() {
         updateCurrentHeading();
-        return currentHeading.clone();
+        return currentHeading;
     }
     
     public XYPair getFieldOrientedTotalDistanceTraveled() {
@@ -195,7 +194,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     
     public void setCurrentHeading(double headingInDegrees){
         log.info("Forcing heading to: " + headingInDegrees);
-        double rawHeading = getRobotYaw().getValue();
+        double rawHeading = getRobotYaw().getDegrees();
         log.info("Raw heading is: " + rawHeading);
         headingOffset = -rawHeading + headingInDegrees;
         log.info("Offset calculated to be: " + headingOffset);
@@ -241,7 +240,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
      * If the RoboRIO is mounted in a position other than "flat" (e.g. with the pins facing upward)
      * then this method will need to be overridden.
      */
-    private ContiguousHeading getRobotYaw() {
+    private WrappedRotation2d getRobotYaw() {
         return imu.getHeading();
     }
     
