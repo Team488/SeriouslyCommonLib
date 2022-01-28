@@ -53,7 +53,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createCANSparkMax(11, "drive", "left", new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
         clf.createXAS5600(talon);
         clf.createCANVictorSPX(5);
-        clf.createAbsoluteEncoderCoder(6);
+        clf.createAbsoluteEncoder(6);
     }
     
     @Test(expected = RobotAssertionException.class)
