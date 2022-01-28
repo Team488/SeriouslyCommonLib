@@ -1,9 +1,11 @@
-package xbot.common.controls.sensors;
+package xbot.common.controls.sensors.wpi_adapters;
 
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+import xbot.common.controls.sensors.XAbsoluteEncoder;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 
@@ -13,7 +15,7 @@ public class CANCoderAdapter extends XAbsoluteEncoder {
 
     @AssistedInject
     public CANCoderAdapter(@Assisted("deviceId") int deviceId, DevicePolice police) {
-        this.cancoder = new CANCoder(deviceId);
+        this.cancoder = new WPI_CANCoder(deviceId);
         
         police.registerDevice(DeviceType.CAN, deviceId, this);
     }
