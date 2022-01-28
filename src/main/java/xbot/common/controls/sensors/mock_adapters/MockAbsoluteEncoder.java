@@ -1,8 +1,11 @@
 package xbot.common.controls.sensors.mock_adapters;
 
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import xbot.common.controls.sensors.XAbsoluteEncoder;
+import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.math.WrappedRotation2d;
 
 public class MockAbsoluteEncoder extends XAbsoluteEncoder {
@@ -12,11 +15,14 @@ public class MockAbsoluteEncoder extends XAbsoluteEncoder {
     private double positionOffset;
     private WrappedRotation2d absolutePosition;
 
-    public MockAbsoluteEncoder(@Assisted("deviceId") int deviceId) {
+    @AssistedInject
+    public MockAbsoluteEncoder(@Assisted("deviceId") int deviceId, DevicePolice police) {
         this.deviceId = deviceId;
         this.velocity = 0;
         this.absolutePosition = new WrappedRotation2d(0);
         this.positionOffset = 0;
+
+        police.registerDevice(DeviceType.CAN, deviceId, this);
     }
 
     @Override

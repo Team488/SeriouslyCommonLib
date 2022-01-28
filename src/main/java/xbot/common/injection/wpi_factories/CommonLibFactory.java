@@ -158,5 +158,5 @@ public interface CommonLibFactory extends PIDFactory {
 
         public XCANVictorSPX createCANVictorSPX(@Assisted("deviceId") int deviceId);
 
-        public XAbsoluteEncoder createAbsoluteEncoderCoder(@Assisted("DeviceId") int deviceId);
+        public XAbsoluteEncoder createAbsoluteEncoderCoder(@Assisted("deviceId") int deviceId);
 }
