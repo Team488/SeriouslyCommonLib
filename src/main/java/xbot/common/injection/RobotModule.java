@@ -26,6 +26,7 @@ import xbot.common.controls.actuators.wpi_adapters.RelayWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.ServoWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.SolenoidWPIAdapter;
 import xbot.common.controls.actuators.wpi_adapters.SpeedControllerWPIAdapter;
+import xbot.common.controls.sensors.XAbsoluteEncoder;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
@@ -38,6 +39,7 @@ import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater;
+import xbot.common.controls.sensors.wpi_adapters.CANCoderAdapter;
 import xbot.common.controls.sensors.wpi_adapters.DigitalInputWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.FTCGamepadWpiAdapter;
@@ -92,6 +94,7 @@ public class RobotModule extends AbstractModule {
                 .implement(XPWM.class, PWMWPIAdapter.class)
                 .implement(XCANSparkMax.class, CANSparkMaxWpiAdapter.class)
                 .implement(XCANVictorSPX.class, CANVictorSPXWpiAdapter.class)
+                .implement(XAbsoluteEncoder.class, CANCoderAdapter.class)
                 .build(CommonLibFactory.class)
                 );
     }

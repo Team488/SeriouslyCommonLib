@@ -24,6 +24,7 @@ import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.ChordButton;
 import xbot.common.controls.sensors.XAS5600;
+import xbot.common.controls.sensors.XAbsoluteEncoder;
 import xbot.common.controls.sensors.XAnalogDistanceSensor;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
@@ -156,4 +157,6 @@ public interface CommonLibFactory extends PIDFactory {
         public XAS5600 createXAS5600(@Assisted("talon") XCANTalon talon);
 
         public XCANVictorSPX createCANVictorSPX(@Assisted("deviceId") int deviceId);
+
+        public XAbsoluteEncoder createAbsoluteEncoder(@Assisted("deviceId") int deviceId);
 }

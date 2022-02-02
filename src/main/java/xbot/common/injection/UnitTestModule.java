@@ -35,6 +35,7 @@ import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
 import xbot.common.controls.actuators.mock_adapters.MockCANVictorSPX;
 import xbot.common.controls.actuators.mock_adapters.MockRelay;
 import xbot.common.controls.sensors.AnalogDistanceSensor;
+import xbot.common.controls.sensors.XAbsoluteEncoder;
 import xbot.common.controls.sensors.XAnalogDistanceSensor;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
@@ -47,6 +48,7 @@ import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.XXboxController;
+import xbot.common.controls.sensors.mock_adapters.MockAbsoluteEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockFTCGamepad;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
@@ -92,6 +94,7 @@ public class UnitTestModule extends AbstractModule {
                 .implement(XCANSparkMax.class, MockCANSparkMax.class)
                 .implement(XCANVictorSPX.class, MockCANVictorSPX.class)
                 .implement(XAnalogDistanceSensor.class, AnalogDistanceSensor.class)
+                .implement(XAbsoluteEncoder.class, MockAbsoluteEncoder.class)
                 .build(CommonLibFactory.class));
     }
 }
