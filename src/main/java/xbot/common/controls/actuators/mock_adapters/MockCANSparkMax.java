@@ -6,7 +6,7 @@ import com.revrobotics.CANAnalog;
 import com.revrobotics.CANAnalog.AnalogMode;
 import com.revrobotics.CANDigitalInput;
 import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
-import com.revrobotics.CANError;
+import com.revrobotics.REVLibError;
 import com.revrobotics.CANPIDController.AccelStrategy;
 import com.revrobotics.CANPIDController.ArbFFUnits;
 import com.revrobotics.CANSparkMax;
@@ -80,10 +80,6 @@ public class MockCANSparkMax extends XCANSparkMax {
     }
 
     @Override
-    public void pidWrite(double output) {
-    }
-
-    @Override
     public CANAnalog getAnalog(AnalogMode mode) {
         return null;
     }
@@ -99,32 +95,32 @@ public class MockCANSparkMax extends XCANSparkMax {
     }
 
     @Override
-    public CANError setSmartCurrentLimit(int limit) {
+    public REVLibError setSmartCurrentLimit(int limit) {
         return null;
     }
 
     @Override
-    public CANError setSmartCurrentLimit(int stallLimit, int freeLimit) {
+    public REVLibError setSmartCurrentLimit(int stallLimit, int freeLimit) {
         return null;
     }
 
     @Override
-    public CANError setSmartCurrentLimit(int stallLimit, int freeLimit, int limitRPM) {
+    public REVLibError setSmartCurrentLimit(int stallLimit, int freeLimit, int limitRPM) {
         return null;
     }
 
     @Override
-    public CANError setSecondaryCurrentLimit(double limit) {
+    public REVLibError setSecondaryCurrentLimit(double limit) {
         return null;
     }
 
     @Override
-    public CANError setSecondaryCurrentLimit(double limit, int chopCycles) {
+    public REVLibError setSecondaryCurrentLimit(double limit, int chopCycles) {
         return null;
     }
 
     @Override
-    public CANError setIdleMode(IdleMode mode) {
+    public REVLibError setIdleMode(IdleMode mode) {
         return null;
     }
 
@@ -134,12 +130,12 @@ public class MockCANSparkMax extends XCANSparkMax {
     }
 
     @Override
-    public CANError enableVoltageCompensation(double nominalVoltage) {
+    public REVLibError enableVoltageCompensation(double nominalVoltage) {
         return null;
     }
 
     @Override
-    public CANError disableVoltageCompensation() {
+    public REVLibError disableVoltageCompensation() {
         return null;
     }
 
@@ -149,12 +145,12 @@ public class MockCANSparkMax extends XCANSparkMax {
     }
 
     @Override
-    public CANError setOpenLoopRampRate(double rate) {
+    public REVLibError setOpenLoopRampRate(double rate) {
         return null;
     }
 
     @Override
-    public CANError setClosedLoopRampRate(double rate) {
+    public REVLibError setClosedLoopRampRate(double rate) {
         return null;
     }
 
@@ -169,22 +165,22 @@ public class MockCANSparkMax extends XCANSparkMax {
     }
 
     @Override
-    public CANError follow(XCANSparkMax leader) {
+    public REVLibError follow(XCANSparkMax leader) {
         return null;
     }
 
     @Override
-    public CANError follow(XCANSparkMax leader, boolean invert) {
+    public REVLibError follow(XCANSparkMax leader, boolean invert) {
         return null;
     }
 
     @Override
-    public CANError follow(ExternalFollower leader, int deviceID) {
+    public REVLibError follow(ExternalFollower leader, int deviceID) {
         return null;
     }
 
     @Override
-    public CANError follow(ExternalFollower leader, int deviceID, boolean invert) {
+    public REVLibError follow(ExternalFollower leader, int deviceID, boolean invert) {
         return null;
     }
 
@@ -234,27 +230,27 @@ public class MockCANSparkMax extends XCANSparkMax {
     }
 
     @Override
-    public CANError clearFaults() {
+    public REVLibError clearFaults() {
         return null;
     }
 
     @Override
-    public CANError burnFlash() {
+    public REVLibError burnFlash() {
         return null;
     }
 
     @Override
-    public CANError setCANTimeout(int milliseconds) {
+    public REVLibError setCANTimeout(int milliseconds) {
         return null;
     }
 
     @Override
-    public CANError enableSoftLimit(SoftLimitDirection direction, boolean enable) {
+    public REVLibError enableSoftLimit(SoftLimitDirection direction, boolean enable) {
         return null;
     }
 
     @Override
-    public CANError setSoftLimit(SoftLimitDirection direction, float limit) {
+    public REVLibError setSoftLimit(SoftLimitDirection direction, float limit) {
         return null;
     }
 
@@ -269,7 +265,7 @@ public class MockCANSparkMax extends XCANSparkMax {
     }
 
     @Override
-    public CANError getLastError() {
+    public REVLibError getLastError() {
         return null;
     }
 
@@ -284,18 +280,18 @@ public class MockCANSparkMax extends XCANSparkMax {
     }
 
     @Override
-    public CANError setPosition(double position) {
+    public REVLibError setPosition(double position) {
         this.position = position;
         return null;
     }
 
     @Override
-    public CANError setPositionConversionFactor(double factor) {
+    public REVLibError setPositionConversionFactor(double factor) {
         return null;
     }
 
     @Override
-    public CANError setVelocityConversionFactor(double factor) {
+    public REVLibError setVelocityConversionFactor(double factor) {
         return null;
     }
 
@@ -310,7 +306,7 @@ public class MockCANSparkMax extends XCANSparkMax {
     }
 
     @Override
-    public CANError setAverageDepth(int depth) {
+    public REVLibError setAverageDepth(int depth) {
         return null;
     }
 
@@ -320,7 +316,7 @@ public class MockCANSparkMax extends XCANSparkMax {
     }
 
     @Override
-    public CANError setMeasurementPeriod(int period_us) {
+    public REVLibError setMeasurementPeriod(int period_us) {
         return null;
     }
 
@@ -330,110 +326,105 @@ public class MockCANSparkMax extends XCANSparkMax {
     }
 
     @Override
-    public int getCPR() {
-        return 0;
-    }
-
-    @Override
     public int getCountsPerRevolution() {
         return 0;
     }
 
     @Override
-    public CANError setEncoderInverted(boolean inverted) {
+    public REVLibError setEncoderInverted(boolean inverted) {
         return null;
     }
 
     @Override
-    public CANError setReference(double value, ControlType ctrl) {
+    public REVLibError setReference(double value, ControlType ctrl) {
         return null;
     }
 
     @Override
-    public CANError setReference(double value, ControlType ctrl, int pidSlot) {
+    public REVLibError setReference(double value, ControlType ctrl, int pidSlot) {
         return null;
     }
 
     @Override
-    public CANError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward) {
+    public REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward) {
         return null;
     }
 
     @Override
-    public CANError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward,
+    public REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward,
             ArbFFUnits arbFFUnits) {
         return null;
     }
 
     @Override
-    public CANError setP(double gain) {
+    public REVLibError setP(double gain) {
         return null;
     }
 
     @Override
-    public CANError setP(double gain, int slotID) {
+    public REVLibError setP(double gain, int slotID) {
         return null;
     }
 
     @Override
-    public CANError setI(double gain) {
+    public REVLibError setI(double gain) {
         return null;
     }
 
     @Override
-    public CANError setI(double gain, int slotID) {
+    public REVLibError setI(double gain, int slotID) {
         return null;
     }
 
     @Override
-    public CANError setD(double gain) {
+    public REVLibError setD(double gain) {
         return null;
     }
 
     @Override
-    public CANError setD(double gain, int slotID) {
+    public REVLibError setD(double gain, int slotID) {
         return null;
     }
 
     @Override
-    public CANError setDFilter(double gain) {
+    public REVLibError setDFilter(double gain) {
         return null;
     }
 
     @Override
-    public CANError setDFilter(double gain, int slotID) {
+    public REVLibError setDFilter(double gain, int slotID) {
         return null;
     }
 
     @Override
-    public CANError setFF(double gain) {
+    public REVLibError setFF(double gain) {
         return null;
     }
 
     @Override
-    public CANError setFF(double gain, int slotID) {
+    public REVLibError setFF(double gain, int slotID) {
         return null;
     }
 
     //CHECKSTYLE:OFF
     @Override
-    public CANError setIZone(double IZone) {
+    public REVLibError setIZone(double IZone) {
         return null;
     }
 
     @Override
-    public CANError setIZone(double IZone, int slotID) {
+    public REVLibError setIZone(double IZone, int slotID) {
         return null;
     }
     //CHECKSTYLE:ON
 
     @Override
-    public CANError setOutputRange(double min, double max) {
+    public REVLibError setOutputRange(double min, double max) {
         return null;
     }
 
     @Override
-    public CANError setOutputRange(double min, double max, int slotID) {
+    public REVLibError setOutputRange(double min, double max, int slotID) {
         return null;
     }
 
@@ -513,27 +504,27 @@ public class MockCANSparkMax extends XCANSparkMax {
     }
 
     @Override
-    public CANError setSmartMotionMaxVelocity(double maxVel, int slotID) {
+    public REVLibError setSmartMotionMaxVelocity(double maxVel, int slotID) {
         return null;
     }
 
     @Override
-    public CANError setSmartMotionMaxAccel(double maxAccel, int slotID) {
+    public REVLibError setSmartMotionMaxAccel(double maxAccel, int slotID) {
         return null;
     }
 
     @Override
-    public CANError setSmartMotionMinOutputVelocity(double minVel, int slotID) {
+    public REVLibError setSmartMotionMinOutputVelocity(double minVel, int slotID) {
         return null;
     }
 
     @Override
-    public CANError setSmartMotionAllowedClosedLoopError(double allowedErr, int slotID) {
+    public REVLibError setSmartMotionAllowedClosedLoopError(double allowedErr, int slotID) {
         return null;
     }
 
     @Override
-    public CANError setSmartMotionAccelStrategy(AccelStrategy accelStrategy, int slotID) {
+    public REVLibError setSmartMotionAccelStrategy(AccelStrategy accelStrategy, int slotID) {
         return null;
     }
 
@@ -556,14 +547,9 @@ public class MockCANSparkMax extends XCANSparkMax {
     public double getSmartMotionAllowedClosedLoopError(int slotID) {
         return 0;
     }
-
+    
     @Override
-    public AccelStrategy getSmartMotionAccelStrategy(int slotID) {
-        return null;
-    }
-
-    @Override
-    public CANError setIMaxAccum(double iMaxAccum, int slotID) {
+    public REVLibError setIMaxAccum(double iMaxAccum, int slotID) {
         return null;
     }
 
@@ -573,7 +559,7 @@ public class MockCANSparkMax extends XCANSparkMax {
     }
 
     @Override
-    public CANError setIAccum(double iAccum) {
+    public REVLibError setIAccum(double iAccum) {
         return null;
     }
 
@@ -583,7 +569,7 @@ public class MockCANSparkMax extends XCANSparkMax {
     }
 
     @Override
-    public CANError restoreFactoryDefaults() {
+    public REVLibError restoreFactoryDefaults() {
         return null;
     }
 

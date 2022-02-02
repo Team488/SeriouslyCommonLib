@@ -3,7 +3,7 @@ package xbot.common.controls.actuators;
 import com.revrobotics.CANAnalog;
 import com.revrobotics.CANAnalog.AnalogMode;
 import com.revrobotics.CANDigitalInput;
-import com.revrobotics.CANError;
+import com.revrobotics.REVLibError;
 import com.revrobotics.CANPIDController.AccelStrategy;
 import com.revrobotics.CANPIDController.ArbFFUnits;
 import com.revrobotics.CANSparkMax;
@@ -159,8 +159,6 @@ public abstract class XCANSparkMax {
 
     public abstract void stopMotor();
 
-    public abstract void pidWrite(double output);
-
     /**
      * @param mode The mode of the analog sensor, either absolute or relative
      * @return An object for interfacing with a connected analog sensor.
@@ -196,10 +194,10 @@ public abstract class XCANSparkMax {
      *
      * @param limit The current limit in Amps.
      *
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      *
      */
-    public abstract CANError setSmartCurrentLimit(int limit);
+    public abstract REVLibError setSmartCurrentLimit(int limit);
 
     /**
      * Sets the current limit in Amps.
@@ -221,9 +219,9 @@ public abstract class XCANSparkMax {
      * @param stallLimit The current limit in Amps at 0 RPM.
      * @param freeLimit  The current limit at free speed (5700RPM for NEO).
      *
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError setSmartCurrentLimit(int stallLimit, int freeLimit);
+    public abstract REVLibError setSmartCurrentLimit(int stallLimit, int freeLimit);
 
     /**
      * Sets the current limit in Amps.
@@ -248,9 +246,9 @@ public abstract class XCANSparkMax {
      *                   values greater than limitRPM will scale linearly to
      *                   freeLimit
      *
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError setSmartCurrentLimit(int stallLimit, int freeLimit, int limitRPM);
+    public abstract REVLibError setSmartCurrentLimit(int stallLimit, int freeLimit, int limitRPM);
 
     /**
      * Sets the secondary current limit in Amps.
@@ -277,9 +275,9 @@ public abstract class XCANSparkMax {
      *
      * @param limit The current limit in Amps.
      *
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError setSecondaryCurrentLimit(double limit);
+    public abstract REVLibError setSecondaryCurrentLimit(double limit);
 
     /**
      * Sets the secondary current limit in Amps.
@@ -308,18 +306,18 @@ public abstract class XCANSparkMax {
      * @param chopCycles The number of additional PWM cycles to turn the driver off
      *                   after overcurrent is detected.
      *
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError setSecondaryCurrentLimit(double limit, int chopCycles);
+    public abstract REVLibError setSecondaryCurrentLimit(double limit, int chopCycles);
 
     /**
      * Sets the idle mode setting for the SPARK MAX.
      *
      * @param mode Idle mode (coast or brake).
      *
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError setIdleMode(IdleMode mode);
+    public abstract REVLibError setIdleMode(IdleMode mode);
 
     /**
      * Gets the idle mode setting for the SPARK MAX.
@@ -339,16 +337,16 @@ public abstract class XCANSparkMax {
      *
      * @param nominalVoltage Nominal voltage to compensate output to
      *
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError enableVoltageCompensation(double nominalVoltage);
+    public abstract REVLibError enableVoltageCompensation(double nominalVoltage);
 
     /**
      * Disables the voltage compensation setting for all modes on the SPARK MAX.
      *
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError disableVoltageCompensation();
+    public abstract REVLibError disableVoltageCompensation();
 
     /**
      * Get the configured voltage compensation nominal voltage value
@@ -365,9 +363,9 @@ public abstract class XCANSparkMax {
      *
      * @param rate Time in seconds to go from 0 to full throttle.
      *
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError setOpenLoopRampRate(double rate);
+    public abstract REVLibError setOpenLoopRampRate(double rate);
 
     /**
      * Sets the ramp rate for closed loop control modes.
@@ -377,9 +375,9 @@ public abstract class XCANSparkMax {
      *
      * @param rate Time in seconds to go from 0 to full throttle.
      *
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError setClosedLoopRampRate(double rate);
+    public abstract REVLibError setClosedLoopRampRate(double rate);
 
     /**
      * Get the configured open loop ramp rate
@@ -414,9 +412,9 @@ public abstract class XCANSparkMax {
      *
      * @param leader The motor controller to follow.
      *
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError follow(final XCANSparkMax leader);
+    public abstract REVLibError follow(final XCANSparkMax leader);
 
     /**
      * Causes this controller's output to mirror the provided leader.
@@ -429,9 +427,9 @@ public abstract class XCANSparkMax {
      * @param leader The motor controller to follow.
      * @param invert Set the follower to output opposite of the leader
      *
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError follow(final XCANSparkMax leader, boolean invert);
+    public abstract REVLibError follow(final XCANSparkMax leader, boolean invert);
 
     /**
      * Causes this controller's output to mirror the provided leader.
@@ -448,9 +446,9 @@ public abstract class XCANSparkMax {
      *                 etc.).
      * @param deviceID The CAN ID of the device to follow.
      *
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError follow(ExternalFollower leader, int deviceID);
+    public abstract REVLibError follow(ExternalFollower leader, int deviceID);
 
     /**
      * Causes this controller's output to mirror the provided leader.
@@ -466,9 +464,9 @@ public abstract class XCANSparkMax {
      *
      * @param invert   Set the follower to output opposite of the leader
      *
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError follow(ExternalFollower leader, int deviceID, boolean invert);
+    public abstract REVLibError follow(ExternalFollower leader, int deviceID, boolean invert);
 
     /**
      * Returns whether the controller is following another controller
@@ -528,16 +526,16 @@ public abstract class XCANSparkMax {
     /**
      * Clears all sticky faults.
      *
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError clearFaults();
+    public abstract REVLibError clearFaults();
 
     /**
      * Writes all settings to flash.
      *
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError burnFlash();
+    public abstract REVLibError burnFlash();
 
     /**
      * Sets timeout for sending CAN messages with SetParameter* and GetParameter*
@@ -549,9 +547,9 @@ public abstract class XCANSparkMax {
      *
      * @param milliseconds The timeout in milliseconds.
      *
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError setCANTimeout(int milliseconds);
+    public abstract REVLibError setCANTimeout(int milliseconds);
 
     /**
      * Enable soft limits
@@ -560,9 +558,9 @@ public abstract class XCANSparkMax {
      * 
      * @param enable    set true to enable soft limits
      * 
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError enableSoftLimit(SoftLimitDirection direction, boolean enable);
+    public abstract REVLibError enableSoftLimit(SoftLimitDirection direction, boolean enable);
 
     /**
      * Set the soft limit based on position. The default unit is rotations, but will
@@ -575,9 +573,9 @@ public abstract class XCANSparkMax {
      * 
      * @param limit     position soft limit of the controller
      * 
-     * @return CANError Set to CANError.kOK if successful
+     * @return REVLibError Set to REVLibError.kOK if successful
      */
-    public abstract CANError setSoftLimit(SoftLimitDirection direction, float limit);
+    public abstract REVLibError setSoftLimit(SoftLimitDirection direction, float limit);
 
     /**
      * Get the soft limit setting in the controller
@@ -603,9 +601,9 @@ public abstract class XCANSparkMax {
      * 
      * @return the last error that was generated.
      */
-    public abstract CANError getLastError();
+    public abstract REVLibError getLastError();
 
-    public abstract CANError restoreFactoryDefaults();
+    public abstract REVLibError restoreFactoryDefaults();
 
     ///
     // CAN Encoder Block
@@ -614,71 +612,69 @@ public abstract class XCANSparkMax {
 
     public abstract double getVelocity();
 
-    public abstract CANError setPosition(double position);
+    public abstract REVLibError setPosition(double position);
 
-    public abstract CANError setPositionConversionFactor(double factor);
+    public abstract REVLibError setPositionConversionFactor(double factor);
 
-    public abstract CANError setVelocityConversionFactor(double factor);
+    public abstract REVLibError setVelocityConversionFactor(double factor);
 
     public abstract double getPositionConversionFactor();
 
     public abstract double getVelocityConversionFactor();
 
-    public abstract CANError setAverageDepth(int depth);
+    public abstract REVLibError setAverageDepth(int depth);
 
     public abstract int getAverageDepth();
 
-    public abstract CANError setMeasurementPeriod(int period_us);
+    public abstract REVLibError setMeasurementPeriod(int period_us);
 
     public abstract int getMeasurementPeriod();
 
-    public abstract int getCPR();
-
     public abstract int getCountsPerRevolution();
 
-    public abstract CANError setEncoderInverted(boolean inverted);
+    public abstract REVLibError setEncoderInverted(boolean inverted);
 
 
     ///
     // CAN PID Controller
     ///
 
-    public abstract CANError setReference(double value, ControlType ctrl);
+    public abstract REVLibError setReference(double value, ControlType ctrl);
 
-    public abstract CANError setReference(double value, ControlType ctrl, int pidSlot);
+    public abstract REVLibError setReference(double value, ControlType ctrl, int pidSlot);
 
-    public abstract CANError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward);
+    public abstract REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward);
 
-    public abstract CANError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward,
+    public abstract REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward,
             ArbFFUnits arbFFUnits);
 
-    public abstract CANError setP(double gain);
+    public abstract REVLibError setP(double gain);
 
-    public abstract CANError setP(double gain, int slotID);
+    public abstract REVLibError setP(double gain, int slotID);
 
-    public abstract CANError setI(double gain);
+    public abstract REVLibError setI(double gain);
 
-    public abstract CANError setI(double gain, int slotID);
+    public abstract REVLibError setI(double gain, int slotID);
 
-    public abstract CANError setD(double gain);
+    public abstract REVLibError setD(double gain);
 
-    public abstract CANError setD(double gain, int slotID);
+    public abstract REVLibError setD(double gain, int slotID);
 
-    public abstract CANError setDFilter(double gain);
+    public abstract REVLibError setDFilter(double gain);
 
-    public abstract CANError setDFilter(double gain, int slotID);
+    public abstract REVLibError setDFilter(double gain, int slotID);
 
-    public abstract CANError setFF(double gain);
+    public abstract REVLibError setFF(double gain);
 
-    public abstract CANError setFF(double gain, int slotID);
+    public abstract REVLibError setFF(double gain, int slotID);
     //CHECKSTYLE:OFF
-    public abstract CANError setIZone(double IZone);
+    public abstract REVLibError setIZone(double IZone);
 
-    public abstract CANError setIZone(double IZone, int slotID);
+    public abstract REVLibError setIZone(double IZone, int slotID);
     //CHECKSTYLE:ON
-    public abstract CANError setOutputRange(double min, double max);
+    public abstract REVLibError setOutputRange(double min, double max);
 
-    public abstract CANError setOutputRange(double min, double max, int slotID) ;
+    public abstract REVLibError setOutputRange(double min, double max, int slotID) ;
 
     public abstract double getP();
 
@@ -710,15 +706,15 @@ public abstract class XCANSparkMax {
 
     public abstract double getOutputMax(int slotID);
 
-    public abstract CANError setSmartMotionMaxVelocity(double maxVel, int slotID);
+    public abstract REVLibError setSmartMotionMaxVelocity(double maxVel, int slotID);
 
-    public abstract CANError setSmartMotionMaxAccel(double maxAccel, int slotID);
+    public abstract REVLibError setSmartMotionMaxAccel(double maxAccel, int slotID);
 
-    public abstract CANError setSmartMotionMinOutputVelocity(double minVel, int slotID);
+    public abstract REVLibError setSmartMotionMinOutputVelocity(double minVel, int slotID);
 
-    public abstract CANError setSmartMotionAllowedClosedLoopError(double allowedErr, int slotID);
+    public abstract REVLibError setSmartMotionAllowedClosedLoopError(double allowedErr, int slotID);
 
-    public abstract CANError setSmartMotionAccelStrategy(AccelStrategy accelStrategy, int slotID);
+    public abstract REVLibError setSmartMotionAccelStrategy(AccelStrategy accelStrategy, int slotID);
 
     public abstract double getSmartMotionMaxVelocity(int slotID);
 
@@ -728,13 +724,11 @@ public abstract class XCANSparkMax {
 
     public abstract double getSmartMotionAllowedClosedLoopError(int slotID);
 
-    public abstract AccelStrategy getSmartMotionAccelStrategy(int slotID);
-
-    public abstract CANError setIMaxAccum(double iMaxAccum, int slotID);
+    public abstract REVLibError setIMaxAccum(double iMaxAccum, int slotID);
 
     public abstract double getIMaxAccum(int slotID);
 
-    public abstract CANError setIAccum(double iAccum);
+    public abstract REVLibError setIAccum(double iAccum);
 
     public abstract double getIAccum();
 
