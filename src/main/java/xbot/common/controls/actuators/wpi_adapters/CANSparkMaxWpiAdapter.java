@@ -5,9 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.revrobotics.CANAnalog;
 import com.revrobotics.CANAnalog.AnalogMode;
 import com.revrobotics.CANDigitalInput;
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
-import com.revrobotics.CANError;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANPIDController.AccelStrategy;
 import com.revrobotics.CANPIDController.ArbFFUnits;
@@ -18,6 +16,8 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ControlType;
+import com.revrobotics.REVLibError;
+import com.revrobotics.RelativeEncoder;
 
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
@@ -72,11 +72,6 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     }
 
     @Override
-    public void pidWrite(double output) {
-        internalSpark.pidWrite(output);
-    }
-
-    @Override
     public CANAnalog getAnalog(AnalogMode mode) {
         return internalSpark.getAnalog(mode);
     }
@@ -92,32 +87,32 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     }
 
     @Override
-    public CANError setSmartCurrentLimit(int limit) {
+    public REVLibError setSmartCurrentLimit(int limit) {
         return internalSpark.setSmartCurrentLimit(limit);
     }
 
     @Override
-    public CANError setSmartCurrentLimit(int stallLimit, int freeLimit) {
+    public REVLibError setSmartCurrentLimit(int stallLimit, int freeLimit) {
         return internalSpark.setSmartCurrentLimit(stallLimit, freeLimit);
     }
 
     @Override
-    public CANError setSmartCurrentLimit(int stallLimit, int freeLimit, int limitRPM) {
+    public REVLibError setSmartCurrentLimit(int stallLimit, int freeLimit, int limitRPM) {
         return internalSpark.setSmartCurrentLimit(stallLimit, freeLimit, limitRPM);
     }
 
     @Override
-    public CANError setSecondaryCurrentLimit(double limit) {
+    public REVLibError setSecondaryCurrentLimit(double limit) {
         return internalSpark.setSecondaryCurrentLimit(limit);
     }
 
     @Override
-    public CANError setSecondaryCurrentLimit(double limit, int chopCycles) {
+    public REVLibError setSecondaryCurrentLimit(double limit, int chopCycles) {
         return internalSpark.setSecondaryCurrentLimit(limit, chopCycles);
     }
 
     @Override
-    public CANError setIdleMode(IdleMode mode) {
+    public REVLibError setIdleMode(IdleMode mode) {
         return internalSpark.setIdleMode(mode);
     }
 
@@ -127,12 +122,12 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     }
 
     @Override
-    public CANError enableVoltageCompensation(double nominalVoltage) {
+    public REVLibError enableVoltageCompensation(double nominalVoltage) {
         return internalSpark.enableVoltageCompensation(nominalVoltage);
     }
 
     @Override
-    public CANError disableVoltageCompensation() {
+    public REVLibError disableVoltageCompensation() {
         return internalSpark.disableVoltageCompensation();
     }
 
@@ -142,12 +137,12 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     }
 
     @Override
-    public CANError setOpenLoopRampRate(double rate) {
+    public REVLibError setOpenLoopRampRate(double rate) {
         return internalSpark.setOpenLoopRampRate(rate);
     }
 
     @Override
-    public CANError setClosedLoopRampRate(double rate) {
+    public REVLibError setClosedLoopRampRate(double rate) {
         return internalSpark.setClosedLoopRampRate(rate);
     }
 
@@ -162,22 +157,22 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     }
 
     @Override
-    public CANError follow(XCANSparkMax leader) {
+    public REVLibError follow(XCANSparkMax leader) {
         return internalSpark.follow(leader.getInternalSparkMax());
     }
 
     @Override
-    public CANError follow(XCANSparkMax leader, boolean invert) {
+    public REVLibError follow(XCANSparkMax leader, boolean invert) {
         return internalSpark.follow(leader.getInternalSparkMax(), invert);
     }
 
     @Override
-    public CANError follow(ExternalFollower leader, int deviceID) {
+    public REVLibError follow(ExternalFollower leader, int deviceID) {
         return internalSpark.follow(leader, deviceID);
     }
 
     @Override
-    public CANError follow(ExternalFollower leader, int deviceID, boolean invert) {
+    public REVLibError follow(ExternalFollower leader, int deviceID, boolean invert) {
         return internalSpark.follow(leader, deviceID, invert);
     }
 
@@ -227,27 +222,27 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     }
 
     @Override
-    public CANError clearFaults() {
+    public REVLibError clearFaults() {
         return internalSpark.clearFaults();
     }
 
     @Override
-    public CANError burnFlash() {
+    public REVLibError burnFlash() {
         return internalSpark.burnFlash();
     }
 
     @Override
-    public CANError setCANTimeout(int milliseconds) {
+    public REVLibError setCANTimeout(int milliseconds) {
         return internalSpark.setCANTimeout(milliseconds);
     }
 
     @Override
-    public CANError enableSoftLimit(SoftLimitDirection direction, boolean enable) {
+    public REVLibError enableSoftLimit(SoftLimitDirection direction, boolean enable) {
         return internalSpark.enableSoftLimit(direction, enable);
     }
 
     @Override
-    public CANError setSoftLimit(SoftLimitDirection direction, float limit) {
+    public REVLibError setSoftLimit(SoftLimitDirection direction, float limit) {
         return internalSpark.setSoftLimit(direction, limit);
     }
 
@@ -262,17 +257,17 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     }
 
     @Override
-    public CANError getLastError() {
+    public REVLibError getLastError() {
         return internalSpark.getLastError();
     }
 
     @Override
-    public CANError restoreFactoryDefaults() {
+    public REVLibError restoreFactoryDefaults() {
         return internalSpark.restoreFactoryDefaults();
     }
 
-    CANEncoder ce;
-    private CANEncoder getEncoderInstance() {
+    RelativeEncoder ce;
+    private RelativeEncoder getEncoderInstance() {
         if (ce == null) {
             ce = internalSpark.getEncoder();
         }
@@ -287,15 +282,15 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return getEncoderInstance().getVelocity();
     }
 
-    public CANError setPosition(double position) {
+    public REVLibError setPosition(double position) {
         return getEncoderInstance().setPosition(position);
     }
 
-    public CANError setPositionConversionFactor(double factor) {
+    public REVLibError setPositionConversionFactor(double factor) {
         return getEncoderInstance().setPositionConversionFactor(factor);
     }
 
-    public CANError setVelocityConversionFactor(double factor) {
+    public REVLibError setVelocityConversionFactor(double factor) {
         return getEncoderInstance().setVelocityConversionFactor(factor);
     }
 
@@ -307,7 +302,7 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return getEncoderInstance().getVelocityConversionFactor();
     }
 
-    public CANError setAverageDepth(int depth) {
+    public REVLibError setAverageDepth(int depth) {
         return getEncoderInstance().setAverageDepth(depth);
     }
 
@@ -315,17 +310,12 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return getEncoderInstance().getAverageDepth();
     }
 
-    public CANError setMeasurementPeriod(int period_us) {
+    public REVLibError setMeasurementPeriod(int period_us) {
         return getEncoderInstance().setMeasurementPeriod(period_us);
     }
 
     public int getMeasurementPeriod() {
         return getEncoderInstance().getMeasurementPeriod();
-    }
-
-    @Deprecated
-    public int getCPR() {
-        return getEncoderInstance().getCPR();
     }
 
     public int getCountsPerRevolution() {
@@ -336,7 +326,7 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return getEncoderInstance().hashCode();
     }
 
-    public CANError setEncoderInverted(boolean inverted) {
+    public REVLibError setEncoderInverted(boolean inverted) {
         return getEncoderInstance().setInverted(inverted);
     }
 
@@ -348,78 +338,78 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return cpc;
     }
 
-    public CANError setReference(double value, ControlType ctrl) {
+    public REVLibError setReference(double value, ControlType ctrl) {
         return getCANPIDControllerInstance().setReference(value, ctrl);
     }
 
-    public CANError setReference(double value, ControlType ctrl, int pidSlot) {
+    public REVLibError setReference(double value, ControlType ctrl, int pidSlot) {
         return getCANPIDControllerInstance().setReference(value, ctrl, pidSlot);
     }
 
-    public CANError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward) {
+    public REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward) {
         return getCANPIDControllerInstance().setReference(value, ctrl, pidSlot, arbFeedforward);
     }
 
-    public CANError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward,
+    public REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward,
             ArbFFUnits arbFFUnits) {
         return getCANPIDControllerInstance().setReference(value, ctrl, pidSlot, arbFeedforward, arbFFUnits);
     }
 
-    public CANError setP(double gain) {
+    public REVLibError setP(double gain) {
         return getCANPIDControllerInstance().setP(gain);
     }
 
-    public CANError setP(double gain, int slotID) {
+    public REVLibError setP(double gain, int slotID) {
         return getCANPIDControllerInstance().setP(gain, slotID);
     }
 
-    public CANError setI(double gain) {
+    public REVLibError setI(double gain) {
         return getCANPIDControllerInstance().setI(gain);
     }
 
-    public CANError setI(double gain, int slotID) {
+    public REVLibError setI(double gain, int slotID) {
         return getCANPIDControllerInstance().setI(gain, slotID);
     }
 
-    public CANError setD(double gain) {
+    public REVLibError setD(double gain) {
         return getCANPIDControllerInstance().setD(gain);
     }
 
-    public CANError setD(double gain, int slotID) {
+    public REVLibError setD(double gain, int slotID) {
         return getCANPIDControllerInstance().setD(gain, slotID);
     }
 
-    public CANError setDFilter(double gain) {
+    public REVLibError setDFilter(double gain) {
         return getCANPIDControllerInstance().setDFilter(gain);
     }
 
-    public CANError setDFilter(double gain, int slotID) {
+    public REVLibError setDFilter(double gain, int slotID) {
         return getCANPIDControllerInstance().setDFilter(gain, slotID);
     }
 
-    public CANError setFF(double gain) {
+    public REVLibError setFF(double gain) {
         return getCANPIDControllerInstance().setFF(gain);
     }
 
-    public CANError setFF(double gain, int slotID) {
+    public REVLibError setFF(double gain, int slotID) {
         return getCANPIDControllerInstance().setFF(gain, slotID);
     }
 
     //CHECKSTYLE:OFF
-    public CANError setIZone(double IZone) {
+    public REVLibError setIZone(double IZone) {
         return getCANPIDControllerInstance().setIZone(IZone);
     }
 
-    public CANError setIZone(double IZone, int slotID) {
+    public REVLibError setIZone(double IZone, int slotID) {
         return getCANPIDControllerInstance().setIZone(IZone, slotID);
     }
     //CHECKSTYLE:ON
 
-    public CANError setOutputRange(double min, double max) {
+    public REVLibError setOutputRange(double min, double max) {
         return getCANPIDControllerInstance().setOutputRange(min, max);
     }
 
-    public CANError setOutputRange(double min, double max, int slotID) {
+    public REVLibError setOutputRange(double min, double max, int slotID) {
         return getCANPIDControllerInstance().setOutputRange(min, max, slotID);
     }
 
@@ -483,23 +473,23 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return getCANPIDControllerInstance().getOutputMax(slotID);
     }
 
-    public CANError setSmartMotionMaxVelocity(double maxVel, int slotID) {
+    public REVLibError setSmartMotionMaxVelocity(double maxVel, int slotID) {
         return getCANPIDControllerInstance().setSmartMotionMaxVelocity(maxVel, slotID);
     }
 
-    public CANError setSmartMotionMaxAccel(double maxAccel, int slotID) {
+    public REVLibError setSmartMotionMaxAccel(double maxAccel, int slotID) {
         return getCANPIDControllerInstance().setSmartMotionMaxAccel(maxAccel, slotID);
     }
 
-    public CANError setSmartMotionMinOutputVelocity(double minVel, int slotID) {
+    public REVLibError setSmartMotionMinOutputVelocity(double minVel, int slotID) {
         return getCANPIDControllerInstance().setSmartMotionMinOutputVelocity(minVel, slotID);
     }
 
-    public CANError setSmartMotionAllowedClosedLoopError(double allowedErr, int slotID) {
+    public REVLibError setSmartMotionAllowedClosedLoopError(double allowedErr, int slotID) {
         return getCANPIDControllerInstance().setSmartMotionAllowedClosedLoopError(allowedErr, slotID);
     }
 
-    public CANError setSmartMotionAccelStrategy(AccelStrategy accelStrategy, int slotID) {
+    public REVLibError setSmartMotionAccelStrategy(AccelStrategy accelStrategy, int slotID) {
         return getCANPIDControllerInstance().setSmartMotionAccelStrategy(accelStrategy, slotID);
     }
 
@@ -519,11 +509,7 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return getCANPIDControllerInstance().getSmartMotionAllowedClosedLoopError(slotID);
     }
 
-    public AccelStrategy getSmartMotionAccelStrategy(int slotID) {
-        return getCANPIDControllerInstance().getSmartMotionAccelStrategy(slotID);
-    }
-
-    public CANError setIMaxAccum(double iMaxAccum, int slotID) {
+    public REVLibError setIMaxAccum(double iMaxAccum, int slotID) {
         return getCANPIDControllerInstance().setIMaxAccum(iMaxAccum, slotID);
     }
 
@@ -531,7 +517,7 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return getCANPIDControllerInstance().getIMaxAccum(slotID);
     }
 
-    public CANError setIAccum(double iAccum) {
+    public REVLibError setIAccum(double iAccum) {
         return getCANPIDControllerInstance().setIAccum(iAccum);
     }
 
