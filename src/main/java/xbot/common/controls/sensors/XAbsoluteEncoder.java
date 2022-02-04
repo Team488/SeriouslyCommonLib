@@ -2,6 +2,8 @@ package xbot.common.controls.sensors;
 
 public abstract class XAbsoluteEncoder {
     
+    public abstract int getDeviceId();
+
     public abstract double getPosition();
 
     public abstract double getAbsolutePosition();

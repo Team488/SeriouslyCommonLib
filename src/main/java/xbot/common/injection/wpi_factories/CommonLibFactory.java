@@ -1,7 +1,5 @@
 package xbot.common.injection.wpi_factories;
 
-import java.util.function.DoubleFunction;
-
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.I2C;
@@ -25,7 +23,6 @@ import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.ChordButton;
 import xbot.common.controls.sensors.XAS5600;
 import xbot.common.controls.sensors.XAbsoluteEncoder;
-import xbot.common.controls.sensors.XAnalogDistanceSensor;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
@@ -36,6 +33,7 @@ import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
+import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.logic.CalibrationDecider;
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.VelocityThrottleModule;
@@ -158,5 +156,5 @@ public interface CommonLibFactory extends PIDFactory {
 
         public XCANVictorSPX createCANVictorSPX(@Assisted("deviceId") int deviceId);
 
-        public XAbsoluteEncoder createAbsoluteEncoder(@Assisted("deviceId") int deviceId);
+        public XAbsoluteEncoder createAbsoluteEncoder(@Assisted("deviceInfo") DeviceInfo deviceInfo, @Assisted("owningSystemPrefix") String owningSystemPrefix);
 }
