@@ -58,8 +58,6 @@ repositories {
     maven { url "https://frcmaven.wpi.edu/artifactory/release/"}
     maven { url "https://devsite.ctr-electronics.com/maven/release/"}
     maven { url "https://www.kauailabs.com/maven2" }
-    //maven { url "https://www.revrobotics.com/content/sw/max/sdk/maven/"}
-    //maven { url "https://maven.revrobotics.com/"}
     maven { url "https://frcmaven.wpi.edu/artifactory/release/"}
     maven { url "https://frcmaven.wpi.edu/rev-mvn-remote-cache/" }
 
