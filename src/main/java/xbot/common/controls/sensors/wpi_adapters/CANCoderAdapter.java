@@ -19,9 +19,11 @@ public class CANCoderAdapter extends XAbsoluteEncoder {
     private final BooleanProperty inverted;
 
     @AssistedInject
-    public CANCoderAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo, @Assisted("owningSystemPrefix") String owningSystemPrefix, DevicePolice police, PropertyFactory pf) {
+    public CANCoderAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo,
+            @Assisted("owningSystemPrefix") String owningSystemPrefix,
+            DevicePolice police, PropertyFactory pf) {
         pf.setPrefix(owningSystemPrefix);
-        
+
         this.cancoder = new WPI_CANCoder(deviceInfo.channel);
         
         this.inverted = pf.createEphemeralProperty("Inverted", deviceInfo.inverted);

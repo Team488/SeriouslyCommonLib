@@ -26,7 +26,9 @@ public class MockAbsoluteEncoder extends XAbsoluteEncoder implements ISimulatabl
     private WrappedRotation2d absolutePosition;
 
     @AssistedInject
-    public MockAbsoluteEncoder(@Assisted("deviceInfo") DeviceInfo deviceInfo, @Assisted("owningSystemPrefix") String owningSystemPrefix, DevicePolice police, PropertyFactory pf) {
+    public MockAbsoluteEncoder(@Assisted("deviceInfo") DeviceInfo deviceInfo,
+            @Assisted("owningSystemPrefix") String owningSystemPrefix,
+            DevicePolice police, PropertyFactory pf) {
         pf.setPrefix(owningSystemPrefix);
 
         this.deviceId = deviceInfo.channel;
