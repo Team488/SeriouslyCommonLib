@@ -24,9 +24,10 @@ public class CANCoderAdapter extends XAbsoluteEncoder {
             DevicePolice police, PropertyFactory pf) {
         pf.setPrefix(owningSystemPrefix);
 
-        this.cancoder = new WPI_CANCoder(deviceInfo.channel);
-        
         this.inverted = pf.createEphemeralProperty("Inverted", deviceInfo.inverted);
+        
+        this.cancoder = new WPI_CANCoder(deviceInfo.channel);
+        this.cancoder.configSensorDirection(this.inverted.get());
         
         this.deviceId = deviceInfo.channel;
 
@@ -40,21 +41,21 @@ public class CANCoderAdapter extends XAbsoluteEncoder {
 
     @Override
     public double getPosition() {
-        return this.cancoder.getPosition() * (inverted.get() ? -1 : 1);
+        return this.cancoder.getPosition();
     }
 
     @Override
     public double getAbsolutePosition() {
-        return this.cancoder.getAbsolutePosition() * (inverted.get() ? -1 : 1);
+        return this.cancoder.getAbsolutePosition();
     }
 
     @Override
     public double getVelocity() {
-        return this.cancoder.getVelocity() * (inverted.get() ? -1 : 1);
+        return this.cancoder.getVelocity();
     }
 
     @Override
     public void setPosition(double newPosition) {
-        this.cancoder.setPosition(newPosition * (inverted.get() ? -1 : 1));
+        this.cancoder.setPosition(newPosition);
     }
 }
