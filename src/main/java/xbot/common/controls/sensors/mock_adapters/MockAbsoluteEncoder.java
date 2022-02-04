@@ -75,6 +75,6 @@ public class MockAbsoluteEncoder extends XAbsoluteEncoder implements ISimulatabl
 
     @Override
     public void ingestSimulationData(JSONObject payload) {
-        setAbsolutePosition(payload.getDouble("EncoderTicks") * this.simulationScale.get());
+        setAbsolutePosition(payload.getBigDecimal("EncoderTicks").doubleValue() * this.simulationScale.get());
     }
 }
