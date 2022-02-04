@@ -140,12 +140,12 @@ public interface CommonLibFactory extends PIDFactory {
                         @Assisted("reverseSolenoid") XSolenoid reverseSolenoid);
 
         public XCANSparkMax createCANSparkMax(
-                @Assisted("deviceId") int deviceId, 
+                @Assisted("deviceInfo") DeviceInfo deviceInfo, 
                 @Assisted("owningSystemPrefix") String owningSystemPrefix, 
                 @Assisted("name") String name); 
 
         public XCANSparkMax createCANSparkMax(
-                @Assisted("deviceId") int deviceId, 
+                @Assisted("deviceInfo") DeviceInfo deviceInfo, 
                 @Assisted("owningSystemPrefix") String owningSystemPrefix, 
                 @Assisted("name") String name,
                 @Assisted("defaultPIDProperties") XCANSparkMaxPIDProperties defaultPIDProperties); 

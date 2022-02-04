@@ -1,5 +1,7 @@
 package xbot.common.controls.actuators.mock_adapters;
 
+import java.math.BigDecimal;
+
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.revrobotics.CANAnalog;
@@ -16,28 +18,40 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.ControlType;
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
+
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
+import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.simulation.ISimulatableMotor;
+import xbot.common.simulation.ISimulatableSensor;
 
-public class MockCANSparkMax extends XCANSparkMax {
+public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, ISimulatableSensor {
     private static Logger log = Logger.getLogger(MockCANSparkMax.class);
     private double power = 0;
+    private double simulationScalingValue;
     boolean inverted = false;
     public XEncoder internalEncoder = null;
     double position = 0;
 
     @Inject
-    public MockCANSparkMax(@Assisted("deviceId") int deviceId,
+    public MockCANSparkMax(@Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix, @Assisted("name") String name,
             PropertyFactory propMan, DevicePolice police, CommonLibFactory clf) {
-        super(deviceId, owningSystemPrefix, name, propMan, police, clf);
+        super(deviceInfo, owningSystemPrefix, name, propMan, police, clf);
         log.info("Creating CAN talon with device ID: " + deviceId);
         internalEncoder = new MockEncoder("Test", propMan);
-        this.deviceId = deviceId;
+
+        this.simulationScalingValue = deviceInfo.simulationScalingValue;
+        double simulationScalingFloor = 0.00001;
+        if (Math.abs(simulationScalingValue) < simulationScalingFloor) {
+            log.error("Your scaling value was suspiciously low. Are you sure it should be smaller than "
+                    + simulationScalingFloor + "?");
+        }
     }
 
     protected double inversionFactor() {
@@ -576,5 +590,16 @@ public class MockCANSparkMax extends XCANSparkMax {
     @Override
     public CANSparkMax getInternalSparkMax() {
         return null;
+    }
+
+    @Override
+    public JSONObject getSimulationData() {
+        return buildMotorObject(policeTicket, (float)get());
+    }
+
+    @Override
+    public void ingestSimulationData(JSONObject payload) {
+        BigDecimal intermediate = (BigDecimal) payload.get("EncoderTicks");
+        setPosition((int) (intermediate.doubleValue() * simulationScalingValue));
     }
 }

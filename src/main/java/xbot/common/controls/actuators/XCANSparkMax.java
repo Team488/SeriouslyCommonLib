@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.ControlType;
 
+import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
@@ -38,10 +39,12 @@ public abstract class XCANSparkMax {
     final DoubleProperty voltageProp;
     final DoubleProperty currentProp;
 
+    protected final String policeTicket;
+
     protected boolean firstPeriodicCall = true;
 
     public XCANSparkMax(
-        int deviceId, 
+        DeviceInfo deviceInfo, 
         String owningSystemPrefix, 
         String name, 
         PropertyFactory pf, 
@@ -49,12 +52,14 @@ public abstract class XCANSparkMax {
         CommonLibFactory clf,
         XCANSparkMaxPIDProperties defaultPIDProperties) {
         this.clf = clf;
-        this.deviceId = deviceId;
+        this.deviceId = deviceInfo.channel;
         this.propertyFactory = pf;
         this.propertyFactory.setPrefix(owningSystemPrefix);
         this.propertyFactory.appendPrefix(name);
         prefix = pf.getPrefix();
-        police.registerDevice(DeviceType.CAN, deviceId, this);
+        policeTicket = police.registerDevice(DeviceType.CAN, deviceId, this);
+
+        setInverted(deviceInfo.inverted);
 
         kPprop = pf.createPersistentProperty("kP", defaultPIDProperties.p);
         kIprop = pf.createPersistentProperty("kI", defaultPIDProperties.i);
@@ -69,9 +74,9 @@ public abstract class XCANSparkMax {
         currentProp = pf.createEphemeralProperty("Current", 0);
     }
 
-    public XCANSparkMax(int deviceId, String owningSystemPrefix, String name, PropertyFactory pf, DevicePolice police,
+    public XCANSparkMax(DeviceInfo deviceInfo, String owningSystemPrefix, String name, PropertyFactory pf, DevicePolice police,
             CommonLibFactory clf) {
-        this(deviceId, owningSystemPrefix, name, pf, police, clf, new XCANSparkMaxPIDProperties());
+        this(deviceInfo, owningSystemPrefix, name, pf, police, clf, new XCANSparkMaxPIDProperties());
     }
 
     ///

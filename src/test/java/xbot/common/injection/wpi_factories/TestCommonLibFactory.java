@@ -50,8 +50,8 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createDoubleSolenoid(clf.createSolenoid(2), clf.createSolenoid(3));
         // test that inherited methods are present
         clf.createPIDManager("Rotate");
-        clf.createCANSparkMax(10, "drive", "left");
-        clf.createCANSparkMax(11, "drive", "left", new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
+        clf.createCANSparkMax(new DeviceInfo(10), "drive", "left");
+        clf.createCANSparkMax(new DeviceInfo(11), "drive", "left", new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
         clf.createXAS5600(talon);
         clf.createCANVictorSPX(5);
         clf.createAbsoluteEncoder(new DeviceInfo(6), "test");
