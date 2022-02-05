@@ -147,4 +147,9 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
     }
 
     protected abstract double getHumanInput();
+
+    @Override
+    public String getPrefix() {
+        return subsystemToMaintan.getPrefix() + getName() + "/";
+    }
 }

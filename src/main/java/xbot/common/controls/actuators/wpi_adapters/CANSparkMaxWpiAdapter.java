@@ -20,6 +20,7 @@ import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
 
 import xbot.common.controls.actuators.XCANSparkMax;
+import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.PropertyFactory;
@@ -29,11 +30,12 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     private CANSparkMax internalSpark;
 
     @Inject
-    public CANSparkMaxWpiAdapter(@Assisted("deviceId") int deviceId,
+    public CANSparkMaxWpiAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix, @Assisted("name") String name,
             PropertyFactory propMan, DevicePolice police, CommonLibFactory clf) {
-        super(deviceId, owningSystemPrefix, name, propMan, police, clf);
-        internalSpark = new CANSparkMax(deviceId, MotorType.kBrushless);
+        super(deviceInfo, owningSystemPrefix, name, propMan, police, clf);
+        internalSpark = new CANSparkMax(deviceInfo.channel, MotorType.kBrushless);
+        setInverted(deviceInfo.inverted);
     }
 
     @Override
