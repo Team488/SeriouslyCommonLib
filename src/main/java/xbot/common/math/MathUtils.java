@@ -63,4 +63,6 @@ public class MathUtils
         // Apply whatever further function is appropriate
         return function.apply(scaledInput);
     }
+
+    public static double Tau = Math.PI * 2;
 }
