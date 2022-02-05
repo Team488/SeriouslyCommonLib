@@ -35,6 +35,7 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
             PropertyFactory propMan, DevicePolice police, CommonLibFactory clf) {
         super(deviceInfo, owningSystemPrefix, name, propMan, police, clf);
         internalSpark = new CANSparkMax(deviceInfo.channel, MotorType.kBrushless);
+        setInverted(deviceInfo.inverted);
     }
 
     @Override

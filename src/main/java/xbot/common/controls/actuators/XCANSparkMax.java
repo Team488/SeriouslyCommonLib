@@ -59,8 +59,6 @@ public abstract class XCANSparkMax {
         prefix = pf.getPrefix();
         policeTicket = police.registerDevice(DeviceType.CAN, deviceId, this);
 
-        setInverted(deviceInfo.inverted);
-
         kPprop = pf.createPersistentProperty("kP", defaultPIDProperties.p);
         kIprop = pf.createPersistentProperty("kI", defaultPIDProperties.i);
         kDprop = pf.createPersistentProperty("kD", defaultPIDProperties.d);

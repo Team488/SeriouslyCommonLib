@@ -45,6 +45,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
         super(deviceInfo, owningSystemPrefix, name, propMan, police, clf);
         log.info("Creating CAN talon with device ID: " + deviceId);
         internalEncoder = new MockEncoder("Test", propMan);
+        setInverted(deviceInfo.inverted);
 
         this.simulationScalingValue = deviceInfo.simulationScalingValue;
         double simulationScalingFloor = 0.00001;
