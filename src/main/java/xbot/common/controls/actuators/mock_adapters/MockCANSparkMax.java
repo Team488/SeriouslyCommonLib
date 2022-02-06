@@ -4,19 +4,13 @@ import java.math.BigDecimal;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.revrobotics.CANAnalog;
-import com.revrobotics.CANAnalog.AnalogMode;
-import com.revrobotics.CANDigitalInput;
-import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
-import com.revrobotics.REVLibError;
-import com.revrobotics.CANPIDController.AccelStrategy;
-import com.revrobotics.CANPIDController.ArbFFUnits;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ExternalFollower;
 import com.revrobotics.CANSparkMax.FaultID;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
-import com.revrobotics.ControlType;
+import com.revrobotics.REVLibError;
+
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
@@ -92,21 +86,6 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     @Override
     public void stopMotor() {
         power = 0;
-    }
-
-    @Override
-    public CANAnalog getAnalog(AnalogMode mode) {
-        return null;
-    }
-
-    @Override
-    public CANDigitalInput getForwardLimitSwitch(LimitSwitchPolarity polarity) {
-        return null;
-    }
-
-    @Override
-    public CANDigitalInput getReverseLimitSwitch(LimitSwitchPolarity polarity) {
-        return null;
     }
 
     @Override
@@ -351,27 +330,6 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     }
 
     @Override
-    public REVLibError setReference(double value, ControlType ctrl) {
-        return null;
-    }
-
-    @Override
-    public REVLibError setReference(double value, ControlType ctrl, int pidSlot) {
-        return null;
-    }
-
-    @Override
-    public REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward) {
-        return null;
-    }
-
-    @Override
-    public REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward,
-            ArbFFUnits arbFFUnits) {
-        return null;
-    }
-
-    @Override
     public REVLibError setP(double gain) {
         return null;
     }
@@ -535,11 +493,6 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError setSmartMotionAllowedClosedLoopError(double allowedErr, int slotID) {
-        return null;
-    }
-
-    @Override
-    public REVLibError setSmartMotionAccelStrategy(AccelStrategy accelStrategy, int slotID) {
         return null;
     }
 

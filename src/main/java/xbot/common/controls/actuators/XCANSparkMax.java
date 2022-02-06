@@ -1,17 +1,11 @@
 package xbot.common.controls.actuators;
 
-import com.revrobotics.CANAnalog;
-import com.revrobotics.CANAnalog.AnalogMode;
-import com.revrobotics.CANDigitalInput;
-import com.revrobotics.REVLibError;
-import com.revrobotics.CANPIDController.AccelStrategy;
-import com.revrobotics.CANPIDController.ArbFFUnits;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ExternalFollower;
 import com.revrobotics.CANSparkMax.FaultID;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
-import com.revrobotics.ControlType;
+import com.revrobotics.REVLibError;
 
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
@@ -161,27 +155,7 @@ public abstract class XCANSparkMax {
     public abstract void disable();
 
     public abstract void stopMotor();
-
-    /**
-     * @param mode The mode of the analog sensor, either absolute or relative
-     * @return An object for interfacing with a connected analog sensor.
-     */
-    public abstract CANAnalog getAnalog(AnalogMode mode);
-
-    /**
-     * @return An object for interfacing with the integrated forward limit switch.
-     *
-     * @param polarity Whether the limit switch is normally open or normally closed.
-     */
-    public abstract CANDigitalInput getForwardLimitSwitch(CANDigitalInput.LimitSwitchPolarity polarity);
-
-    /**
-     * @return An object for interfacing with the integrated reverse limit switch.
-     *
-     * @param polarity Whether the limit switch is normally open or normally closed.
-     */
-    public abstract CANDigitalInput getReverseLimitSwitch(CANDigitalInput.LimitSwitchPolarity polarity);
-
+    
     /**
      * Sets the current limit in Amps.
      *
@@ -642,15 +616,6 @@ public abstract class XCANSparkMax {
     // CAN PID Controller
     ///
 
-    public abstract REVLibError setReference(double value, ControlType ctrl);
-
-    public abstract REVLibError setReference(double value, ControlType ctrl, int pidSlot);
-
-    public abstract REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward);
-
-    public abstract REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward,
-            ArbFFUnits arbFFUnits);
-
     public abstract REVLibError setP(double gain);
 
     public abstract REVLibError setP(double gain, int slotID);
@@ -671,9 +636,9 @@ public abstract class XCANSparkMax {
 
     public abstract REVLibError setFF(double gain, int slotID);
     //CHECKSTYLE:OFF
-    public abstract REVLibError setIZone(double IZone);
+    public abstract REVLibError setIZone(double iZone);
 
-    public abstract REVLibError setIZone(double IZone, int slotID);
+    public abstract REVLibError setIZone(double iZone, int slotID);
     //CHECKSTYLE:ON
     public abstract REVLibError setOutputRange(double min, double max);
 
@@ -716,8 +681,6 @@ public abstract class XCANSparkMax {
     public abstract REVLibError setSmartMotionMinOutputVelocity(double minVel, int slotID);
 
     public abstract REVLibError setSmartMotionAllowedClosedLoopError(double allowedErr, int slotID);
-
-    public abstract REVLibError setSmartMotionAccelStrategy(AccelStrategy accelStrategy, int slotID);
 
     public abstract double getSmartMotionMaxVelocity(int slotID);
 

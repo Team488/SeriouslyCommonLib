@@ -23,7 +23,6 @@ import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.CANCoder;
@@ -60,7 +59,8 @@ public class CANTalonWPIAdapter extends XCANTalon {
         return internalTalon.getStatusFramePeriod(frame, timeoutMs);
     }
 
-    public ErrorCode configVelocityMeasurementPeriod(VelocityMeasPeriod period, int timeoutMs) {
+    @SuppressWarnings("deprecation")
+    public ErrorCode configVelocityMeasurementPeriod(com.ctre.phoenix.motorcontrol.VelocityMeasPeriod period, int timeoutMs) {
         return internalTalon.configVelocityMeasurementPeriod(period, timeoutMs);
     }
 
@@ -507,79 +507,66 @@ public class CANTalonWPIAdapter extends XCANTalon {
 
     @Override
     public ErrorCode configSupplyCurrentLimit(SupplyCurrentLimitConfiguration currLimitCfg, int timeoutMs) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void setInverted(InvertType invertType) {
-        // TODO Auto-generated method stub
         
     }
 
     @Override
     public ErrorCode configRemoteFeedbackFilter(CANCoder canCoderRef, int remoteOrdinal, int timeoutMs) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ErrorCode configRemoteFeedbackFilter(BaseTalon talonRef, int remoteOrdinal, int timeoutMs) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ErrorCode setSelectedSensorPosition(double sensorPos, int pidIdx, int timeoutMs) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ErrorCode configForwardSoftLimitThreshold(double forwardSensorLimit, int timeoutMs) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ErrorCode configReverseSoftLimitThreshold(double reverseSensorLimit, int timeoutMs) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ErrorCode config_IntegralZone(int slotIdx, double izone, int timeoutMs) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ErrorCode configAllowableClosedloopError(int slotIdx, double allowableCloseLoopError, int timeoutMs) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ErrorCode configMotionCruiseVelocity(double sensorUnitsPer100ms, int timeoutMs) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ErrorCode configMotionAcceleration(double sensorUnitsPer100msPerSec, int timeoutMs) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ErrorCode configVelocityMeasurementPeriod(SensorVelocityMeasPeriod period, int timeoutMs) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public double getActiveTrajectoryHeading() {
-        // TODO Auto-generated method stub
         return 0;
     }
    

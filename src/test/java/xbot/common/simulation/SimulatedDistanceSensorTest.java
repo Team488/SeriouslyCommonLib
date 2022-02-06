@@ -1,13 +1,5 @@
 package xbot.common.simulation;
 
-import static org.junit.Assert.assertEquals;
-
-import java.math.BigDecimal;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.junit.Test;
-
 import xbot.common.controls.sensors.SimulatedAnalogDistanceSensor;
 
 public class SimulatedDistanceSensorTest extends BaseSimulationTest {
