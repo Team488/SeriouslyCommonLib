@@ -1,11 +1,8 @@
 package xbot.common.controls.sensors;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.wpi.first.wpilibj.MockAnalogInput;
 import xbot.common.injection.BaseWPITest;
 
 public class AnalogDistanceSensorTest extends BaseWPITest {

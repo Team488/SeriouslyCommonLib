@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
-@SuppressWarnings("serial")
+//@SuppressWarnings("serial")
 public class PlanarVisualizationPanel extends JPanel {
     private int centerX;
     private int centerY;
