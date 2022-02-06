@@ -36,6 +36,7 @@ public class SimulatedMockAbsoluteEncoderTest extends BaseSimulationTest {
         
         distributor.distributeSimulationPayload(overallPayload);
 
-        assertEquals(43.2, this.simulatedEncoder.getAbsolutePosition(), 0.001);
+        // 1.12 would normally map to 43.2, but since we add an extra 90 degrees, that takes us to 133.2
+        assertEquals(133.2, this.simulatedEncoder.getAbsolutePosition(), 0.001);
     }
 }
