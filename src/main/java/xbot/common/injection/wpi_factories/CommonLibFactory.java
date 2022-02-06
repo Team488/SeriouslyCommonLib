@@ -1,7 +1,5 @@
 package xbot.common.injection.wpi_factories;
 
-import java.util.function.DoubleFunction;
-
 import com.google.inject.assistedinject.Assisted;
 
 import edu.wpi.first.wpilibj.I2C;
@@ -25,7 +23,6 @@ import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.ChordButton;
 import xbot.common.controls.sensors.XAS5600;
 import xbot.common.controls.sensors.XAbsoluteEncoder;
-import xbot.common.controls.sensors.XAnalogDistanceSensor;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;

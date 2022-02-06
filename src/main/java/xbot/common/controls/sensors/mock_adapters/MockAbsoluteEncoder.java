@@ -10,14 +10,12 @@ import xbot.common.math.WrappedRotation2d;
 
 public class MockAbsoluteEncoder extends XAbsoluteEncoder {
 
-    private final int deviceId;
     private double velocity;
     private double positionOffset;
     private WrappedRotation2d absolutePosition;
 
     @AssistedInject
     public MockAbsoluteEncoder(@Assisted("deviceId") int deviceId, DevicePolice police) {
-        this.deviceId = deviceId;
         this.velocity = 0;
         this.absolutePosition = new WrappedRotation2d(0);
         this.positionOffset = 0;

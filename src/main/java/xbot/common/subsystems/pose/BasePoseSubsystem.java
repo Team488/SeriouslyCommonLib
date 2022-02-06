@@ -28,7 +28,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     private final DoubleProperty totalVelocity;
     
     private WrappedRotation2d currentHeading;
-    private WrappedRotation2d previousHeading;
     private final DoubleProperty currentHeadingProp;
     private final DoubleProperty currentCompassHeadingProp;
     private final DoubleProperty headingAngularVelocityProp;
@@ -65,7 +64,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
         currentHeading = WrappedRotation2d.fromDegrees(0);
-        previousHeading = WrappedRotation2d.fromDegrees(0);
         
         currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", currentHeading.getDegrees());
         currentCompassHeadingProp = propManager.createEphemeralProperty("Current compass heading", getCompassHeading(currentHeading));
@@ -106,9 +104,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         
         currentPitch.set(getRobotPitch());
         currentRoll.set(getRobotRoll());
-
-        // save values for next round
-        previousHeading = currentHeading;
     }  
     
     private void updateOdometry(double currentLeftDistance, double currentRightDistance) {

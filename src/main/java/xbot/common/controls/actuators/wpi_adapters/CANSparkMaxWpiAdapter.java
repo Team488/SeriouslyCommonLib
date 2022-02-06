@@ -9,12 +9,14 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
+import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxAnalogSensor;
 import com.revrobotics.SparkMaxAnalogSensor.Mode;
 import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkMaxPIDController.AccelStrategy;
 import com.revrobotics.SparkMaxRelativeEncoder.Type;
 
 import xbot.common.controls.actuators.XCANSparkMax;
@@ -41,6 +43,32 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
 
     public void close() {
         internalSpark.close();
+    }
+
+    @Override
+    public REVLibError follow(XCANSparkMax leader) {
+        return internalSpark.follow(leader.getInternalSparkMax());
+    }
+
+    @Override
+    public REVLibError follow(XCANSparkMax leader, boolean invert) {
+        return internalSpark.follow(leader.getInternalSparkMax(), invert);
+    }
+
+    public REVLibError follow(CANSparkMax leader) {
+        return internalSpark.follow(leader);
+    }
+
+    public REVLibError follow(CANSparkMax leader, boolean invert) {
+        return internalSpark.follow(leader, invert);
+    }
+
+    public REVLibError follow(ExternalFollower leader, int deviceID) {
+        return internalSpark.follow(leader, deviceID);
+    }
+
+    public REVLibError follow(ExternalFollower leader, int deviceID, boolean invert) {
+        return internalSpark.follow(leader, deviceID, invert);
     }
 
     public boolean equals(Object obj) {
@@ -204,22 +232,6 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return internalSpark.getClosedLoopRampRate();
     }
 
-    public REVLibError follow(CANSparkMax leader) {
-        return internalSpark.follow(leader);
-    }
-
-    public REVLibError follow(CANSparkMax leader, boolean invert) {
-        return internalSpark.follow(leader, invert);
-    }
-
-    public REVLibError follow(ExternalFollower leader, int deviceID) {
-        return internalSpark.follow(leader, deviceID);
-    }
-
-    public REVLibError follow(ExternalFollower leader, int deviceID, boolean invert) {
-        return internalSpark.follow(leader, deviceID, invert);
-    }
-
     public boolean isFollower() {
         return internalSpark.isFollower();
     }
@@ -354,5 +366,185 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
             pc = internalSpark.getPIDController();
         }
         return pc;
+    }
+
+    public REVLibError setP(double gain) {
+        return getPIDControllerInstance().setP(gain);
+    }
+
+    public REVLibError setP(double gain, int slotID) {
+        return getPIDControllerInstance().setP(gain, slotID);
+    }
+
+    public REVLibError setI(double gain) {
+        return getPIDControllerInstance().setI(gain);
+    }
+
+    public REVLibError setI(double gain, int slotID) {
+        return getPIDControllerInstance().setI(gain, slotID);
+    }
+
+    public REVLibError setD(double gain) {
+        return getPIDControllerInstance().setD(gain);
+    }
+
+    public REVLibError setD(double gain, int slotID) {
+        return getPIDControllerInstance().setD(gain, slotID);
+    }
+
+    public REVLibError setDFilter(double gain) {
+        return getPIDControllerInstance().setDFilter(gain);
+    }
+
+    public REVLibError setDFilter(double gain, int slotID) {
+        return getPIDControllerInstance().setDFilter(gain, slotID);
+    }
+
+    public REVLibError setFF(double gain) {
+        return getPIDControllerInstance().setFF(gain);
+    }
+
+    public REVLibError setFF(double gain, int slotID) {
+        return getPIDControllerInstance().setFF(gain, slotID);
+    }
+
+    public REVLibError setIZone(double iZone) {
+        return getPIDControllerInstance().setIZone(iZone);
+    }
+
+    public REVLibError setIZone(double iZone, int slotID) {
+        return getPIDControllerInstance().setIZone(iZone, slotID);
+    }
+
+    public REVLibError setOutputRange(double min, double max) {
+        return getPIDControllerInstance().setOutputRange(min, max);
+    }
+
+    public REVLibError setOutputRange(double min, double max, int slotID) {
+        return getPIDControllerInstance().setOutputRange(min, max, slotID);
+    }
+
+    public double getP() {
+        return getPIDControllerInstance().getP();
+    }
+
+    public double getP(int slotID) {
+        return getPIDControllerInstance().getP(slotID);
+    }
+
+    public double getI() {
+        return getPIDControllerInstance().getI();
+    }
+
+    public double getI(int slotID) {
+        return getPIDControllerInstance().getI(slotID);
+    }
+
+    public double getD() {
+        return getPIDControllerInstance().getD();
+    }
+
+    public double getD(int slotID) {
+        return getPIDControllerInstance().getD(slotID);
+    }
+
+    public double getDFilter(int slotID) {
+        return getPIDControllerInstance().getDFilter(slotID);
+    }
+
+    public double getFF() {
+        return getPIDControllerInstance().getFF();
+    }
+
+    public double getFF(int slotID) {
+        return getPIDControllerInstance().getFF(slotID);
+    }
+
+    public double getIZone() {
+        return getPIDControllerInstance().getIZone();
+    }
+
+    public double getIZone(int slotID) {
+        return getPIDControllerInstance().getIZone(slotID);
+    }
+
+    public double getOutputMin() {
+        return getPIDControllerInstance().getOutputMin();
+    }
+
+    public double getOutputMin(int slotID) {
+        return getPIDControllerInstance().getOutputMin(slotID);
+    }
+
+    public double getOutputMax() {
+        return getPIDControllerInstance().getOutputMax();
+    }
+
+    public double getOutputMax(int slotID) {
+        return getPIDControllerInstance().getOutputMax(slotID);
+    }
+
+    public REVLibError setSmartMotionMaxVelocity(double maxVel, int slotID) {
+        return getPIDControllerInstance().setSmartMotionMaxVelocity(maxVel, slotID);
+    }
+
+    public REVLibError setSmartMotionMaxAccel(double maxAccel, int slotID) {
+        return getPIDControllerInstance().setSmartMotionMaxAccel(maxAccel, slotID);
+    }
+
+    public REVLibError setSmartMotionMinOutputVelocity(double minVel, int slotID) {
+        return getPIDControllerInstance().setSmartMotionMinOutputVelocity(minVel, slotID);
+    }
+
+    public REVLibError setSmartMotionAllowedClosedLoopError(double allowedErr, int slotID) {
+        return getPIDControllerInstance().setSmartMotionAllowedClosedLoopError(allowedErr, slotID);
+    }
+
+    public REVLibError setSmartMotionAccelStrategy(AccelStrategy accelStrategy, int slotID) {
+        return getPIDControllerInstance().setSmartMotionAccelStrategy(accelStrategy, slotID);
+    }
+
+    public double getSmartMotionMaxVelocity(int slotID) {
+        return getPIDControllerInstance().getSmartMotionMaxVelocity(slotID);
+    }
+
+    public double getSmartMotionMaxAccel(int slotID) {
+        return getPIDControllerInstance().getSmartMotionMaxAccel(slotID);
+    }
+
+    public double getSmartMotionMinOutputVelocity(int slotID) {
+        return getPIDControllerInstance().getSmartMotionMinOutputVelocity(slotID);
+    }
+
+    public double getSmartMotionAllowedClosedLoopError(int slotID) {
+        return getPIDControllerInstance().getSmartMotionAllowedClosedLoopError(slotID);
+    }
+
+    public AccelStrategy getSmartMotionAccelStrategy(int slotID) {
+        return getPIDControllerInstance().getSmartMotionAccelStrategy(slotID);
+    }
+
+    public REVLibError setIMaxAccum(double iMaxAccum, int slotID) {
+        return getPIDControllerInstance().setIMaxAccum(iMaxAccum, slotID);
+    }
+
+    public double getIMaxAccum(int slotID) {
+        return getPIDControllerInstance().getIMaxAccum(slotID);
+    }
+
+    public REVLibError setIAccum(double iAccum) {
+        return getPIDControllerInstance().setIAccum(iAccum);
+    }
+
+    public double getIAccum() {
+        return getPIDControllerInstance().getIAccum();
+    }
+
+    public REVLibError setFeedbackDevice(MotorFeedbackSensor sensor) {
+        return getPIDControllerInstance().setFeedbackDevice(sensor);
+    }
+
+    public String toString() {
+        return getPIDControllerInstance().toString();
     }
 }

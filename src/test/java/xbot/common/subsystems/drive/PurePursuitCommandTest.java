@@ -110,7 +110,7 @@ public class PurePursuitCommandTest extends BaseWPITest {
         verifyPose(command.getPlannedPointsToVisit().get(1), -20, 10, 180); 
     }
     
-    @SuppressWarnings("serial")
+    //@SuppressWarnings("serial")
     public void testSupplier() {
         command.addPoint(new FieldPose(new XYPair(0, 10), Rotation2d.fromDegrees(90)));
         command.addPoint(new FieldPose(new XYPair(10, 10), Rotation2d.fromDegrees(90)));
