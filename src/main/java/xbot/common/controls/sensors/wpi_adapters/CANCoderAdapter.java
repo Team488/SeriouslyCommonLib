@@ -6,18 +6,37 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import xbot.common.controls.sensors.XAbsoluteEncoder;
+import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
+import xbot.common.properties.BooleanProperty;
+import xbot.common.properties.PropertyFactory;
 
 public class CANCoderAdapter extends XAbsoluteEncoder {
     
-    private CANCoder cancoder;
+    private final int deviceId;
+    private final CANCoder cancoder;
+    private final BooleanProperty inverted;
 
     @AssistedInject
-    public CANCoderAdapter(@Assisted("deviceId") int deviceId, DevicePolice police) {
-        this.cancoder = new WPI_CANCoder(deviceId);
+    public CANCoderAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo,
+            @Assisted("owningSystemPrefix") String owningSystemPrefix,
+            DevicePolice police, PropertyFactory pf) {
+        pf.setPrefix(owningSystemPrefix);
+
+        this.inverted = pf.createEphemeralProperty("Inverted", deviceInfo.inverted);
         
-        police.registerDevice(DeviceType.CAN, deviceId, this);
+        this.cancoder = new WPI_CANCoder(deviceInfo.channel);
+        this.cancoder.configSensorDirection(this.inverted.get());
+        
+        this.deviceId = deviceInfo.channel;
+
+        police.registerDevice(DeviceType.CAN, deviceInfo.channel, this);
+    }
+
+    @Override
+    public int getDeviceId() {
+        return this.deviceId;
     }
 
     @Override

@@ -1,8 +1,11 @@
 package xbot.common.simulation;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.ProxySelector;
 import java.net.URI;
 import java.net.http.HttpClient;
+import java.net.http.HttpClient.Builder;
 import java.net.http.HttpClient.Version;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
@@ -19,8 +22,10 @@ import org.json.JSONObject;
 import edu.wpi.first.wpilibj.util.Color;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
+import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.StringProperty;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 @Singleton
@@ -28,13 +33,16 @@ public class WebotsClient {
     final DoubleProperty simulatorPoseX;
     final DoubleProperty simulatorPoseY;
     final DoubleProperty simulatorPoseYaw;
+    final StringProperty simulatorRobotTemplate;
+    final BooleanProperty enableProxy;
+    final DoubleProperty proxyPort;
     final String hostname = "127.0.0.1";
     final int supervisorPort = 10001;
+    final HttpClient client;
+
     int robotPort = -1;
 
     private FieldPose fieldOffset;
-
-    HttpClient client = HttpClient.newBuilder().version(Version.HTTP_1_1).build();
 
     @Inject
     public WebotsClient(PropertyFactory propertyFactory) {
@@ -42,8 +50,12 @@ public class WebotsClient {
         simulatorPoseX = propertyFactory.createEphemeralProperty("Simulator Pose X", 0);
         simulatorPoseY = propertyFactory.createEphemeralProperty("Simulator Pose Y", 0);
         simulatorPoseYaw = propertyFactory.createEphemeralProperty("Simulator Pose Yaw", 0);
+        simulatorRobotTemplate = propertyFactory.createPersistentProperty("Robot Template", "HttpRobotTemplate");
+        enableProxy = propertyFactory.createPersistentProperty("Enable Proxy", false);
+        proxyPort = propertyFactory.createPersistentProperty("Proxy Port", 8888);
 
         fieldOffset = new FieldPose();
+        client = buildHttpClient(enableProxy.get(), (int)proxyPort.get());
     }
 
     /**
@@ -59,7 +71,7 @@ public class WebotsClient {
     public void initialize() {
         // Spawn a robot in the sim
         JSONObject data = new JSONObject();
-        data.put("template", "HttpRobotTemplate");
+        data.put("template", simulatorRobotTemplate.get());
 
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://" + hostname + ":" + supervisorPort + "/robot"))
                 .header("Content-Type", "application/json").POST(BodyPublishers.ofString(data.toString())).build();
@@ -213,6 +225,16 @@ public class WebotsClient {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private static HttpClient buildHttpClient(boolean enableProxy, int proxyPort) {
+        Builder clientBuilder = HttpClient.newBuilder().version(Version.HTTP_1_1);
+
+        if (enableProxy) {
+            clientBuilder.proxy(ProxySelector.of(InetSocketAddress.createUnresolved("localhost", proxyPort)));
+        }
+
+        return clientBuilder.build();
     }
 
 }
