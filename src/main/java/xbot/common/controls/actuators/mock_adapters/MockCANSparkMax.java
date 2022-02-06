@@ -548,12 +548,12 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public JSONObject getSimulationData() {
-        return buildMotorObject(policeTicket, (float)get());
+        return buildMotorObject(policeTicket, (float)(get() * inversionFactor()));
     }
 
     @Override
     public void ingestSimulationData(JSONObject payload) {
         BigDecimal intermediate = (BigDecimal) payload.get("EncoderTicks");
-        setPosition((int) (intermediate.doubleValue() * simulationScalingValue));
+        setPosition((int) (intermediate.doubleValue() * simulationScalingValue * inversionFactor()));
     }
 }
