@@ -73,10 +73,6 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return internalSpark.follow(leader, deviceID, invert);
     }
 
-    public boolean equals(Object obj) {
-        return internalSpark.equals(obj);
-    }
-
     public int getFirmwareVersion() {
         return internalSpark.getFirmwareVersion();
     }
