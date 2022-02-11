@@ -3,6 +3,7 @@ package xbot.common.controls.actuators.wpi_adapters;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.ExternalFollower;
 import com.revrobotics.CANSparkMax.FaultID;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -17,6 +18,7 @@ import com.revrobotics.SparkMaxAnalogSensor.Mode;
 import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.SparkMaxPIDController.AccelStrategy;
+import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 import com.revrobotics.SparkMaxRelativeEncoder.Type;
 
 import xbot.common.controls.actuators.XCANSparkMax;
@@ -359,6 +361,7 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     }    
 
     SparkMaxPIDController pc;
+
     private SparkMaxPIDController getPIDControllerInstance() {
         if (pc==null) {
             pc = internalSpark.getPIDController();
@@ -540,6 +543,23 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
 
     public REVLibError setFeedbackDevice(MotorFeedbackSensor sensor) {
         return getPIDControllerInstance().setFeedbackDevice(sensor);
+    }
+
+    public REVLibError setReference(double value, ControlType ctrl) {
+        return pc.setReference(value, ctrl);
+    }
+
+    public REVLibError setReference(double value, ControlType ctrl, int pidSlot) {
+        return pc.setReference(value, ctrl, pidSlot);
+    }
+
+    public REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward) {
+        return pc.setReference(value, ctrl, pidSlot, arbFeedforward);
+    }
+
+    public REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward,
+            ArbFFUnits arbFFUnits) {
+        return pc.setReference(value, ctrl, pidSlot, arbFeedforward, arbFFUnits);
     }
 
     public String toString() {
