@@ -13,6 +13,7 @@ import xbot.common.math.WrappedRotation2d;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.resiliency.DeviceHealth;
 import xbot.common.simulation.ISimulatableSensor;
 
 public class MockAbsoluteEncoder extends XAbsoluteEncoder implements ISimulatableSensor {
@@ -80,5 +81,10 @@ public class MockAbsoluteEncoder extends XAbsoluteEncoder implements ISimulatabl
         setAbsolutePosition(
             payload.getBigDecimal("EncoderTicks").doubleValue() * this.simulationScale.get() + 90
         ); //temporary hack; simulation reports 0 when facing forward.";
+    }
+
+    @Override
+    public DeviceHealth getHealth() {
+        return DeviceHealth.Healthy;
     }
 }
