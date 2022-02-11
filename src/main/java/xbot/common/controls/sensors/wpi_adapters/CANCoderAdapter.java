@@ -11,6 +11,7 @@ import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.resiliency.DeviceHealth;
 
 public class CANCoderAdapter extends XAbsoluteEncoder {
     
@@ -26,7 +27,7 @@ public class CANCoderAdapter extends XAbsoluteEncoder {
 
         this.inverted = pf.createEphemeralProperty("Inverted", deviceInfo.inverted);
         
-        this.cancoder = new WPI_CANCoder(deviceInfo.channel);
+        this.cancoder = new WPI_CANCoder(deviceInfo.channel, "rio");
         this.cancoder.configSensorDirection(this.inverted.get());
         
         this.deviceId = deviceInfo.channel;
@@ -52,6 +53,13 @@ public class CANCoderAdapter extends XAbsoluteEncoder {
     @Override
     public double getVelocity() {
         return this.cancoder.getVelocity();
+    }
+
+    public DeviceHealth getHealth() {
+        if (this.cancoder.getFirmwareVersion() == -1) {
+            return DeviceHealth.Unhealthy;
+        }
+        return DeviceHealth.Healthy;
     }
 
     @Override
