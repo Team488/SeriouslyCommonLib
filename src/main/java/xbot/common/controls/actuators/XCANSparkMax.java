@@ -1,11 +1,13 @@
 package xbot.common.controls.actuators;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.ExternalFollower;
 import com.revrobotics.CANSparkMax.FaultID;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.REVLibError;
+import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
@@ -697,6 +699,15 @@ public abstract class XCANSparkMax {
     public abstract REVLibError setIAccum(double iAccum);
 
     public abstract double getIAccum();
+
+    public abstract REVLibError setReference(double value, ControlType ctrl);
+
+    public abstract REVLibError setReference(double value, ControlType ctrl, int pidSlot);
+
+    public abstract REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward);
+
+    public abstract REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward,
+            ArbFFUnits arbFFUnits);
 
     /// Get true value. Should not be called in competition code.
     public abstract CANSparkMax getInternalSparkMax();
