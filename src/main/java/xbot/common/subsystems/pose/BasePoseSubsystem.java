@@ -106,7 +106,11 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         currentRoll.set(getRobotRoll());
     }  
     
-    private void updateOdometry(double currentLeftDistance, double currentRightDistance) {
+    protected void updateOdometry() {
+
+        double currentLeftDistance = getLeftDriveDistance();
+        double currentRightDistance = getRightDriveDistance();
+        
         leftDriveDistance.set(currentLeftDistance);
         rightDriveDistance.set(currentRightDistance);
 
@@ -217,7 +221,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
      */
     private void updatePose() {
         updateCurrentHeading();
-        updateOdometry(getLeftDriveDistance(), getRightDriveDistance());
+        updateOdometry();
     }
     
     protected abstract double getLeftDriveDistance();
