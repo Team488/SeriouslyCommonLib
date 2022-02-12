@@ -1,10 +1,14 @@
 package xbot.common.logging;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import xbot.common.injection.BaseWPITest;
 
 public class SafeRobotAssertionTest extends BaseWPITest {
+
+    private static Logger log = Logger.getLogger(SafeRobotAssertionTest.class);
+
     @Test
     public void testNoExceptionOnRobot() {
         RobotAssertionManager assertMan = new SilentRobotAssertionManager();
@@ -25,6 +29,7 @@ public class SafeRobotAssertionTest extends BaseWPITest {
         
         assertMan.assertTrue(true, "The world is ending");
         assertMan.assertTrue(false, "false != true");
+        log.info("Yet the world keeps turning");
     }
     
     @Test(expected=RobotAssertionException.class)
