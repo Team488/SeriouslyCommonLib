@@ -10,14 +10,14 @@ import xbot.common.injection.wpi_factories.DevicePolice;
 
 public class SolenoidWPIAdapter extends XSolenoid {
 
-    private static final int SOLENOID_CHANNEL_COUNT = 8;
+    private static final int SOLENOID_CHANNEL_COUNT = 16;
 
     Solenoid solenoid;
 
     @Inject
     public SolenoidWPIAdapter(@Assisted("channel") int channel, DevicePolice police) {
         super(channel, police);
-        this.solenoid = new Solenoid(PneumaticsModuleType.CTREPCM, channel);
+        this.solenoid = new Solenoid(PneumaticsModuleType.REVPH, channel);
     }
 
     @Override
