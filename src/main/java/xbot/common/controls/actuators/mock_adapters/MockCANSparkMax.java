@@ -41,6 +41,8 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     double kFF = 0;
     double kMinOutput = -1.0;
     double kMaxOutput = 1.0;
+    double referenceValue = 0;
+    ControlType controlType = null;
 
     @Inject
     public MockCANSparkMax(@Assisted("deviceInfo") DeviceInfo deviceInfo,
@@ -65,11 +67,13 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public void set(double speed) {
+        clearPid();
         power = speed;
     }
 
     @Override
     public void setVoltage(double outputVolts) {
+        clearPid();
         power = outputVolts / 12;
     }
 
@@ -90,11 +94,13 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public void disable() {
+        clearPid();
         power = 0;
     }
 
     @Override
     public void stopMotor() {
+        clearPid();
         power = 0;
     }
 
@@ -581,22 +587,43 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError setReference(double value, ControlType ctrl) {
+        referenceValue = value;
+        controlType = ctrl;
         return null;
     }
 
     @Override
     public REVLibError setReference(double value, ControlType ctrl, int pidSlot) {
+        referenceValue = value;
+        controlType = ctrl;
         return null;
     }
 
     @Override
     public REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward) {
+        referenceValue = value;
+        controlType = ctrl;
         return null;
     }
 
     @Override
     public REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward,
             ArbFFUnits arbFFUnits) {
+        referenceValue = value;
+        controlType = ctrl;
         return null;
+    }
+
+    public double getReference() {
+        return referenceValue;
+    }
+
+    public ControlType getControlType() {
+        return controlType;
+    }
+
+    private void clearPid() {
+        referenceValue = 0;
+        controlType = null;
     }
 }
