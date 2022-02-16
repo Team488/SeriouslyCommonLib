@@ -34,6 +34,16 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     public XEncoder internalEncoder = null;
     double position = 0;
 
+    // PID parameters
+    double kP = 0;
+    double kI = 0; 
+    double kD = 0;
+    double kFF = 0;
+    double kMinOutput = -1.0;
+    double kMaxOutput = 1.0;
+    double referenceValue = 0;
+    ControlType controlType = null;
+
     @Inject
     public MockCANSparkMax(@Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix, @Assisted("name") String name,
@@ -57,11 +67,13 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public void set(double speed) {
+        clearPid();
         power = speed;
     }
 
     @Override
     public void setVoltage(double outputVolts) {
+        clearPid();
         power = outputVolts / 12;
     }
 
@@ -82,11 +94,13 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public void disable() {
+        clearPid();
         power = 0;
     }
 
     @Override
     public void stopMotor() {
+        clearPid();
         power = 0;
     }
 
@@ -333,31 +347,37 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError setP(double gain) {
+        kP = gain;
         return null;
     }
 
     @Override
     public REVLibError setP(double gain, int slotID) {
+        kP = gain;
         return null;
     }
 
     @Override
     public REVLibError setI(double gain) {
+        kI = gain;
         return null;
     }
 
     @Override
     public REVLibError setI(double gain, int slotID) {
+        kI = gain;
         return null;
     }
 
     @Override
     public REVLibError setD(double gain) {
+        kD = gain;
         return null;
     }
 
     @Override
     public REVLibError setD(double gain, int slotID) {
+        kD = gain;
         return null;
     }
 
@@ -373,11 +393,13 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError setFF(double gain) {
+        kFF = gain;
         return null;
     }
 
     @Override
     public REVLibError setFF(double gain, int slotID) {
+        kFF = gain;
         return null;
     }
 
@@ -395,42 +417,46 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError setOutputRange(double min, double max) {
+        kMinOutput = min;
+        kMaxOutput = max;
         return null;
     }
 
     @Override
     public REVLibError setOutputRange(double min, double max, int slotID) {
+        kMinOutput = min;
+        kMaxOutput = max;
         return null;
     }
 
     @Override
     public double getP() {
-        return 0;
+        return kP;
     }
 
     @Override
     public double getP(int slotID) {
-        return 0;
+        return kP;
     }
 
     @Override
     public double getI() {
-        return 0;
+        return kI;
     }
 
     @Override
     public double getI(int slotID) {
-        return 0;
+        return kI;
     }
 
     @Override
     public double getD() {
-        return 0;
+        return kD;
     }
 
     @Override
     public double getD(int slotID) {
-        return 0;
+        return kD;
     }
 
     @Override
@@ -440,12 +466,12 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public double getFF() {
-        return 0;
+        return kFF;
     }
 
     @Override
     public double getFF(int slotID) {
-        return 0;
+        return kFF;
     }
 
     @Override
@@ -460,22 +486,22 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public double getOutputMin() {
-        return 0;
+        return kMinOutput;
     }
 
     @Override
     public double getOutputMin(int slotID) {
-        return 0;
+        return kMinOutput;
     }
 
     @Override
     public double getOutputMax() {
-        return 0;
+        return kMaxOutput;
     }
 
     @Override
     public double getOutputMax(int slotID) {
-        return 0;
+        return kMaxOutput;
     }
 
     @Override
@@ -561,22 +587,43 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError setReference(double value, ControlType ctrl) {
+        referenceValue = value;
+        controlType = ctrl;
         return null;
     }
 
     @Override
     public REVLibError setReference(double value, ControlType ctrl, int pidSlot) {
+        referenceValue = value;
+        controlType = ctrl;
         return null;
     }
 
     @Override
     public REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward) {
+        referenceValue = value;
+        controlType = ctrl;
         return null;
     }
 
     @Override
     public REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward,
             ArbFFUnits arbFFUnits) {
+        referenceValue = value;
+        controlType = ctrl;
         return null;
+    }
+
+    public double getReference() {
+        return referenceValue;
+    }
+
+    public ControlType getControlType() {
+        return controlType;
+    }
+
+    private void clearPid() {
+        referenceValue = 0;
+        controlType = null;
     }
 }
