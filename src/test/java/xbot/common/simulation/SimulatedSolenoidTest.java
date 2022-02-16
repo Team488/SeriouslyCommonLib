@@ -10,13 +10,13 @@ import edu.wpi.first.wpilibj.MockSolenoid;
 public class SimulatedSolenoidTest extends BaseSimulationTest {
 
     MockSolenoid mockSolenoid;
-    final int CHANNEL = 1;
+    final int channel = 1;
 
     @Override
     public void setUp() {
         super.setUp();
 
-        mockSolenoid = (MockSolenoid)clf.createSolenoid(CHANNEL);
+        mockSolenoid = (MockSolenoid)clf.createSolenoid(channel);
     }
 
     @Test
