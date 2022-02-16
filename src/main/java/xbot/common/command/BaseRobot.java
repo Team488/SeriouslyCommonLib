@@ -29,6 +29,7 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.properties.XPropertyManager;
 import xbot.common.simulation.ISimulatableMotor;
+import xbot.common.simulation.ISimulatableSolenoid;
 import xbot.common.simulation.SimulationPayloadDistributor;
 import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
@@ -281,6 +282,9 @@ public class BaseRobot extends TimedRobot {
             Object device = devicePolice.registeredChannels.get(deviceId);
             if (device instanceof ISimulatableMotor) {
                 motors.add(((ISimulatableMotor)device).getSimulationData());
+            }
+            if (device instanceof ISimulatableSolenoid) {
+                motors.add(((ISimulatableSolenoid)device).getSimulationData());
             }
         }
         JSONObject response = webots.sendMotors(motors);
