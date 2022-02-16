@@ -35,6 +35,6 @@ public class MockSolenoid extends XSolenoid implements ISimulatableSolenoid {
 
     @Override
     public JSONObject getSimulationData() {
-        return buildMotorObject("Solenoid" + channel, get());
+        return buildMotorObject(channel, get());
     }
 }

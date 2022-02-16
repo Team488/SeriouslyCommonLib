@@ -4,12 +4,13 @@ import org.json.JSONObject;
 
 public interface ISimulatableSolenoid {
     public JSONObject getSimulationData();
+    public final String SOLENOID_POWER_MODE = "VIRTUAL_SOLENOID";
 
-    default JSONObject buildMotorObject(String name, boolean isOn) {
+    default JSONObject buildMotorObject(int channel, boolean isOn) {
         JSONObject result = new JSONObject();
 
-        result.put("id", name); 
-        result.put("mode", 3);
+        result.put("id", "Solenoid" + channel); 
+        result.put("mode", SOLENOID_POWER_MODE);
         if(isOn) {
             result.put("val", "ON");
         } else {
