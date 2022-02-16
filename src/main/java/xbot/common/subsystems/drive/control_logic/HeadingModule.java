@@ -62,4 +62,8 @@ public class HeadingModule {
         
         return rotationalPower;        
     }
+
+    public double calculateHeadingPower(Rotation2d desiredHeading) { 
+        return calculateHeadingPower(desiredHeading.getDegrees());
+    }
 }
