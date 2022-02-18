@@ -15,6 +15,7 @@ public abstract class SimpleMotorSubsystem extends BaseSubsystem {
         pf.setPrefix(name);
         this.forwardPower = pf.createPersistentProperty("Forward Power", 1.0);
         this.reversePower = pf.createPersistentProperty("Reverse Power", -1.0);
+        setDefaultCommand(getStopCommand());
     }
 
     public abstract void setPower(double power);
