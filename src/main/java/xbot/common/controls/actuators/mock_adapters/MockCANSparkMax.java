@@ -32,7 +32,8 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     private double simulationScalingValue;
     boolean inverted = false;
     public XEncoder internalEncoder = null;
-    double position = 0;
+    double positionOffset = 0;
+    double simulationPosition = 0;
 
     // PID parameters
     double kP = 0;
@@ -281,7 +282,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public double getPosition() {
-        return position;
+        return positionOffset + simulationPosition;
     }
 
     @Override
@@ -291,7 +292,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError setPosition(double position) {
-        this.position = position;
+        this.positionOffset = position - simulationPosition;
         return null;
     }
 
@@ -575,33 +576,22 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     }
 
     @Override
-    public JSONObject getSimulationData() {
-        return buildMotorObject(policeTicket, (float)(get() * inversionFactor()));
-    }
-
-    @Override
-    public void ingestSimulationData(JSONObject payload) {
-        BigDecimal intermediate = (BigDecimal) payload.get("EncoderTicks");
-        setPosition((int) (intermediate.doubleValue() * simulationScalingValue * inversionFactor()));
-    }
-
-    @Override
     public REVLibError setReference(double value, ControlType ctrl) {
-        referenceValue = value;
+        referenceValue = value - positionOffset;
         controlType = ctrl;
         return null;
     }
 
     @Override
     public REVLibError setReference(double value, ControlType ctrl, int pidSlot) {
-        referenceValue = value;
+        referenceValue = value - positionOffset;
         controlType = ctrl;
         return null;
     }
 
     @Override
     public REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward) {
-        referenceValue = value;
+        referenceValue = value - positionOffset;
         controlType = ctrl;
         return null;
     }
@@ -609,13 +599,13 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     @Override
     public REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward,
             ArbFFUnits arbFFUnits) {
-        referenceValue = value;
+        referenceValue = value - positionOffset;
         controlType = ctrl;
         return null;
     }
 
     public double getReference() {
-        return referenceValue;
+        return referenceValue + positionOffset;
     }
 
     public ControlType getControlType() {
@@ -625,5 +615,25 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     private void clearPid() {
         referenceValue = 0;
         controlType = null;
+    }
+
+    @Override
+    public JSONObject getSimulationData() {
+        JSONObject motorObject;
+
+        if (controlType == ControlType.kPosition) {
+            motorObject = buildMotorObject(policeTicket, (float)(referenceValue / simulationScalingValue * inversionFactor()));
+            motorObject.put("mode", "POSITION");
+        } else {
+            motorObject = buildMotorObject(policeTicket, (float)(get() * inversionFactor()));
+        }
+
+        return motorObject;
+    }
+
+    @Override
+    public void ingestSimulationData(JSONObject payload) {
+        BigDecimal intermediate = (BigDecimal) payload.get("EncoderTicks");
+        simulationPosition = (intermediate.doubleValue() * simulationScalingValue * inversionFactor());
     }
 }
