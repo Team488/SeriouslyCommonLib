@@ -27,4 +27,5 @@ public abstract class XDigitalOutput implements XBaseIO {
     public abstract void enablePWM(double initialDutyCycle);
     public abstract void updateDutyCycle(double dutyCycle);
     public abstract void disablePWM();
+    public abstract boolean get();
 }

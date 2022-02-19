@@ -39,4 +39,9 @@ public class MockDigitalOutput extends XDigitalOutput {
     public void disablePWM() {
         // Unsupported in mock implementation.
     }
+
+    @Override
+    public boolean get() {
+        return value;
+    }
 }

@@ -45,4 +45,8 @@ public class DigitalOutputWPIAdapter extends XDigitalOutput {
         adapter.disablePWM();
     }
 
+    @Override
+    public boolean get() {
+        return adapter.get();
+    }
 }
