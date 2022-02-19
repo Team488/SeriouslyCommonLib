@@ -30,7 +30,7 @@ public class MockSolenoid extends XSolenoid implements ISimulatableSolenoid {
 
     @Override
     public int getMaxSupportedChannel() {
-        return 7;
+        return 15;
     }
 
     @Override
