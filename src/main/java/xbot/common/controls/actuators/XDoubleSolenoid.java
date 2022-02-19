@@ -48,6 +48,28 @@ public class XDoubleSolenoid {
                 break;
         }
     }
+
+    public DoubleSolenoidMode getDoubleSolenoidMode() {
+        if(forwardSolenoid.getAdjusted()) {
+            return DoubleSolenoidMode.FORWARD;
+        } else if(reverseSolenoid.getAdjusted()) {
+            return DoubleSolenoidMode.REVERSE;
+        } else {
+            return DoubleSolenoidMode.OFF;
+        }
+    }
+
+    public boolean getIsForward() {
+        return getDoubleSolenoidMode() == DoubleSolenoidMode.FORWARD;
+    }
+
+    public boolean getIsReverse() {
+        return getDoubleSolenoidMode() == DoubleSolenoidMode.REVERSE;
+    }
+
+    public boolean getIsOff() {
+        return getDoubleSolenoidMode() == DoubleSolenoidMode.OFF;
+    }
     
     public void setOff() {
         forwardSolenoid.setOn(false);
