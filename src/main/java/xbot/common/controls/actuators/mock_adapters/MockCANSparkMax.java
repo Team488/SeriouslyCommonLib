@@ -107,32 +107,32 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError setSmartCurrentLimit(int limit) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setSmartCurrentLimit(int stallLimit, int freeLimit) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setSmartCurrentLimit(int stallLimit, int freeLimit, int limitRPM) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setSecondaryCurrentLimit(double limit) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setSecondaryCurrentLimit(double limit, int chopCycles) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setIdleMode(IdleMode mode) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
@@ -142,12 +142,12 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError enableVoltageCompensation(double nominalVoltage) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError disableVoltageCompensation() {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
@@ -157,12 +157,12 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError setOpenLoopRampRate(double rate) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setClosedLoopRampRate(double rate) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
@@ -177,22 +177,22 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError follow(XCANSparkMax leader) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError follow(XCANSparkMax leader, boolean invert) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError follow(ExternalFollower leader, int deviceID) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError follow(ExternalFollower leader, int deviceID, boolean invert) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
@@ -242,27 +242,27 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError clearFaults() {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError burnFlash() {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setCANTimeout(int milliseconds) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError enableSoftLimit(SoftLimitDirection direction, boolean enable) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setSoftLimit(SoftLimitDirection direction, float limit) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
@@ -277,7 +277,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError getLastError() {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
@@ -293,17 +293,17 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     @Override
     public REVLibError setPosition(double position) {
         this.positionOffset = position - simulationPosition;
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setPositionConversionFactor(double factor) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setVelocityConversionFactor(double factor) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
@@ -318,7 +318,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError setAverageDepth(int depth) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
@@ -328,7 +328,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError setMeasurementPeriod(int period_us) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
@@ -343,76 +343,76 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError setEncoderInverted(boolean inverted) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setP(double gain) {
         kP = gain;
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setP(double gain, int slotID) {
         kP = gain;
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setI(double gain) {
         kI = gain;
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setI(double gain, int slotID) {
         kI = gain;
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setD(double gain) {
         kD = gain;
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setD(double gain, int slotID) {
         kD = gain;
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setDFilter(double gain) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setDFilter(double gain, int slotID) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setFF(double gain) {
         kFF = gain;
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setFF(double gain, int slotID) {
         kFF = gain;
-        return null;
+        return REVLibError.kOk;
     }
 
     //CHECKSTYLE:OFF
     @Override
     public REVLibError setIZone(double IZone) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setIZone(double IZone, int slotID) {
-        return null;
+        return REVLibError.kOk;
     }
     //CHECKSTYLE:ON
 
@@ -420,14 +420,14 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     public REVLibError setOutputRange(double min, double max) {
         kMinOutput = min;
         kMaxOutput = max;
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setOutputRange(double min, double max, int slotID) {
         kMinOutput = min;
         kMaxOutput = max;
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
@@ -507,22 +507,22 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError setSmartMotionMaxVelocity(double maxVel, int slotID) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setSmartMotionMaxAccel(double maxAccel, int slotID) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setSmartMotionMinOutputVelocity(double minVel, int slotID) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setSmartMotionAllowedClosedLoopError(double allowedErr, int slotID) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
@@ -547,7 +547,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     
     @Override
     public REVLibError setIMaxAccum(double iMaxAccum, int slotID) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
@@ -557,7 +557,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError setIAccum(double iAccum) {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
@@ -567,7 +567,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public REVLibError restoreFactoryDefaults() {
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
@@ -579,21 +579,21 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     public REVLibError setReference(double value, ControlType ctrl) {
         referenceValue = value - positionOffset;
         controlType = ctrl;
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setReference(double value, ControlType ctrl, int pidSlot) {
         referenceValue = value - positionOffset;
         controlType = ctrl;
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
     public REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward) {
         referenceValue = value - positionOffset;
         controlType = ctrl;
-        return null;
+        return REVLibError.kOk;
     }
 
     @Override
@@ -601,7 +601,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
             ArbFFUnits arbFFUnits) {
         referenceValue = value - positionOffset;
         controlType = ctrl;
-        return null;
+        return REVLibError.kOk;
     }
 
     public double getReference() {
