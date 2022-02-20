@@ -546,20 +546,20 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     }
 
     public REVLibError setReference(double value, ControlType ctrl) {
-        return pc.setReference(value, ctrl);
+        return getPIDControllerInstance().setReference(value, ctrl);
     }
 
     public REVLibError setReference(double value, ControlType ctrl, int pidSlot) {
-        return pc.setReference(value, ctrl, pidSlot);
+        return getPIDControllerInstance().setReference(value, ctrl, pidSlot);
     }
 
     public REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward) {
-        return pc.setReference(value, ctrl, pidSlot, arbFeedforward);
+        return getPIDControllerInstance().setReference(value, ctrl, pidSlot, arbFeedforward);
     }
 
     public REVLibError setReference(double value, ControlType ctrl, int pidSlot, double arbFeedforward,
             ArbFFUnits arbFFUnits) {
-        return pc.setReference(value, ctrl, pidSlot, arbFeedforward, arbFFUnits);
+        return getPIDControllerInstance().setReference(value, ctrl, pidSlot, arbFeedforward, arbFFUnits);
     }
 
     public String toString() {
