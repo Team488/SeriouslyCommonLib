@@ -29,6 +29,7 @@ import xbot.common.simulation.ISimulatableSensor;
 public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, ISimulatableSensor {
     private static Logger log = Logger.getLogger(MockCANSparkMax.class);
     private double power = 0;
+    private double velocity = 0;
     private double simulationScalingValue;
     boolean inverted = false;
     public XEncoder internalEncoder = null;
@@ -287,7 +288,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public double getVelocity() {
-        return 0;
+        return velocity;
     }
 
     @Override
@@ -610,6 +611,10 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     public ControlType getControlType() {
         return controlType;
+    }
+
+    public void setVelocity(double velocity) {
+        this.velocity = velocity;
     }
 
     private void clearPid() {
