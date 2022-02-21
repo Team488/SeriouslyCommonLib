@@ -36,6 +36,26 @@ public class MockXboxControllerAdapter extends XXboxController {
         setRightStick(xy.x, xy.y);
     }
 
+    /**
+     * Needed for a few scenarios where we want to emulate the underlying joystick behavior
+     * and not the intent after inversion.
+     * @param xy XYPair to directly set. (Remember that by default, most joysticks have an inverted Y axis!)
+     */
+    public void setRawLeftStick(XYPair xy) {
+        leftStick.x = xy.x;
+        leftStick.y = xy.y;
+    }
+
+    /**
+     * Needed for a few scenarios where we want to emulate the underlying joystick behavior
+     * and not the intent after inversion.
+     * @param xy XYPair to directly set. (Remember that by default, most joysticks have an inverted Y axis!)
+     */
+    public void setRawRightStick(XYPair xy) {
+        rightStick.x = xy.x;
+        rightStick.y = xy.y;
+    }
+
     @Inject
     public MockXboxControllerAdapter(@Assisted("port") int port, CommonLibFactory clf, RobotAssertionManager manager, DevicePolice police) {
         super(port, clf, manager, police);
