@@ -118,6 +118,26 @@ public class PropertyFactory {
     }
 
     /**
+     * Method for creating a boolean ephemeral property
+     * 
+     * @author Marc
+     */
+    public BooleanProperty createEphemeralProperty(String key, boolean defaultValue, PropertyLevel level) {
+        checkPrefixSet();
+        return new BooleanProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager, level);
+    }
+
+    /**
+     * Method for creating a string ephemeral property
+     * 
+     * @author Marc
+     */
+    public StringProperty createEphemeralProperty(String key, String defaultValue, PropertyLevel level) {
+        checkPrefixSet();
+        return new StringProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager);
+    }
+
+    /**
      * Method for creating a string ephemeral property
      * 
      * @author Marc
@@ -162,6 +182,16 @@ public class PropertyFactory {
      * 
      * @author Marc
      */
+    public BooleanProperty createPersistentProperty(String key, boolean defaultValue, PropertyLevel level) {
+        checkPrefixSet();
+        return new BooleanProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager, level);
+    }
+
+    /**
+     * Method for creating a double persistent property
+     * 
+     * @author Marc
+     */
     public StringProperty createPersistentProperty(String key, String defaultValue) {
         checkPrefixSet();
         return new StringProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager);
@@ -172,9 +202,29 @@ public class PropertyFactory {
      * 
      * @author Marc
      */
+    public StringProperty createPersistentProperty(String key, String defaultValue, PropertyLevel level) {
+        checkPrefixSet();
+        return new StringProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager, level);
+    }
+
+    /**
+     * Method for creating a double persistent property
+     * 
+     * @author Marc
+     */
     public DoubleProperty createPersistentProperty(String key, double defaultValue) {
         checkPrefixSet();
         return new DoubleProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager);
+    }
+
+    /**
+     * Method for creating a double persistent property
+     * 
+     * @author Marc
+     */
+    public DoubleProperty createPersistentProperty(String key, double defaultValue, PropertyLevel level) {
+        checkPrefixSet();
+        return new DoubleProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager, level);
     }
 
 

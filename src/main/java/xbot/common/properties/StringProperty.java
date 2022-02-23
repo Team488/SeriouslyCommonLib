@@ -24,6 +24,12 @@ public class StringProperty extends Property {
         this.defaultValue = defaultValue;
         load();
     }
+
+    public StringProperty(String name, String defaultValue, PropertyPersistenceType persistenceType, XPropertyManager manager, PropertyLevel level) {
+        super(name, manager, persistenceType, level);
+        this.defaultValue = defaultValue;
+        load();
+    }
     
     public String get() {
         String nullableTableValue = randomAccessStore.getString(key);
