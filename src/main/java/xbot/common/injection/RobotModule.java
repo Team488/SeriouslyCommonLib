@@ -61,15 +61,31 @@ import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.PreferenceStorage;
 import xbot.common.properties.SmartDashboardTableWrapper;
 import xbot.common.properties.TableProxy;
+import xbot.common.properties.XPropertyManager;
 
 public class RobotModule extends AbstractModule {
+
+    protected final boolean debugMode;
+
+    public RobotModule() {
+        debugMode = false;
+    }
+
+    public RobotModule(boolean debugMode) {
+        this.debugMode = debugMode;
+    }
 
     @Override
     protected void configure() {
         this.bind(XTimerImpl.class).to(TimerWpiAdapter.class);
         this.bind(XSettableTimerImpl.class).to(TimerWpiAdapter.class);
         this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class).in(Singleton.class);
-        this.bind(ITableProxy.class).annotatedWith(Names.named("InMemory")).to(TableProxy.class).in(Singleton.class);
+        if(debugMode) {
+            // send all debug properties to the smart dashboard
+            this.bind(ITableProxy.class).annotatedWith(Names.named(XPropertyManager.IN_MEMORY_STORE_NAME)).to(SmartDashboardTableWrapper.class).in(Singleton.class);
+        } else {
+            this.bind(ITableProxy.class).annotatedWith(Names.named(XPropertyManager.IN_MEMORY_STORE_NAME)).to(TableProxy.class).in(Singleton.class);
+        }
         this.bind(PermanentStorage.class).to(PreferenceStorage.class);
         this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);
         this.bind(RobotAssertionManager.class).to(SilentRobotAssertionManager.class);
