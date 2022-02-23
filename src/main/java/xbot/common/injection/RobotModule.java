@@ -3,6 +3,7 @@ package xbot.common.injection;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.google.inject.name.Names;
 
 import xbot.common.command.RealSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
@@ -59,6 +60,7 @@ import xbot.common.properties.ITableProxy;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.PreferenceStorage;
 import xbot.common.properties.SmartDashboardTableWrapper;
+import xbot.common.properties.TableProxy;
 
 public class RobotModule extends AbstractModule {
 
@@ -67,7 +69,7 @@ public class RobotModule extends AbstractModule {
         this.bind(XTimerImpl.class).to(TimerWpiAdapter.class);
         this.bind(XSettableTimerImpl.class).to(TimerWpiAdapter.class);
         this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class).in(Singleton.class);
-        ;
+        this.bind(ITableProxy.class).annotatedWith(Names.named("InMemory")).to(TableProxy.class).in(Singleton.class);
         this.bind(PermanentStorage.class).to(PreferenceStorage.class);
         this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);
         this.bind(RobotAssertionManager.class).to(SilentRobotAssertionManager.class);

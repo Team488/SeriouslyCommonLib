@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import org.apache.log4j.Logger;
 
 import xbot.common.logging.RobotAssertionManager;
+import xbot.common.properties.Property.PropertyLevel;
 import xbot.common.properties.Property.PropertyPersistenceType;
 
 public class PropertyFactory {
@@ -134,6 +135,16 @@ public class PropertyFactory {
     public DoubleProperty createEphemeralProperty(String key, double defaultValue) {
         checkPrefixSet();
         return new DoubleProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager);
+    }
+
+    /**
+     * Method for creating a double ephemeral property
+     * 
+     * @author Marc
+     */
+    public DoubleProperty createEphemeralProperty(String key, double defaultValue, PropertyLevel level) {
+        checkPrefixSet();
+        return new DoubleProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager, level);
     }
 
     /**

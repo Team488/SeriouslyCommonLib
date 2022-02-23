@@ -32,9 +32,37 @@ public abstract class Property {
         Ephemeral,
         Persistent
     }
+
+    public enum PropertyLevel {
+        Important,
+        Debug
+    }
     
     public PropertyPersistenceType persistenceType;
+    public PropertyLevel level;
     protected static Logger log;
+
+    /**
+     * The name of the property. This should be unique unless you really know
+     * what you're doing.
+     * New builder with persistence type. Old builder will be deprecated.
+     * @author Marc
+     */
+    public Property(String key, XPropertyManager manager, PropertyPersistenceType persistenceType, PropertyLevel level) {
+        this.key = sanitizeKey(key);
+        log =  Logger.getLogger(this.getClass().getSimpleName() + " (\"" + this.key + "\")");
+        
+        this.permanentStore = manager.permanentStore;
+
+        if(level == PropertyLevel.Debug){
+            this.randomAccessStore = manager.inMemoryRandomAccessStore;
+        } else {
+            this.randomAccessStore = manager.randomAccessStore;
+        }
+
+        this.persistenceType = persistenceType;
+        manager.registerProperty(this);
+    }
     
     /**
      * The name of the property. This should be unique unless you really know
@@ -43,13 +71,7 @@ public abstract class Property {
      * @author Marc
      */
     public Property(String key, XPropertyManager manager, PropertyPersistenceType persistenceType) {
-        this.key = sanitizeKey(key);
-        log =  Logger.getLogger(this.getClass().getSimpleName() + " (\"" + this.key + "\")");
-        
-        this.permanentStore = manager.permanentStore;
-        this.randomAccessStore = manager.randomAccessStore;
-        this.persistenceType = persistenceType;
-        manager.registerProperty(this);
+        this(key, manager, persistenceType, PropertyLevel.Important);
     }
 
     /**
