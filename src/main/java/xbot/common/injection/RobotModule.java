@@ -82,9 +82,15 @@ public class RobotModule extends AbstractModule {
         this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class).in(Singleton.class);
         if(debugMode) {
             // send all debug properties to the smart dashboard
-            this.bind(ITableProxy.class).annotatedWith(Names.named(XPropertyManager.IN_MEMORY_STORE_NAME)).to(SmartDashboardTableWrapper.class).in(Singleton.class);
+            this.bind(ITableProxy.class)
+                .annotatedWith(Names.named(XPropertyManager.IN_MEMORY_STORE_NAME))
+                .to(SmartDashboardTableWrapper.class)
+                .in(Singleton.class);
         } else {
-            this.bind(ITableProxy.class).annotatedWith(Names.named(XPropertyManager.IN_MEMORY_STORE_NAME)).to(TableProxy.class).in(Singleton.class);
+            this.bind(ITableProxy.class)
+                .annotatedWith(Names.named(XPropertyManager.IN_MEMORY_STORE_NAME))
+                .to(TableProxy.class)
+                .in(Singleton.class);
         }
         this.bind(PermanentStorage.class).to(PreferenceStorage.class);
         this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);
