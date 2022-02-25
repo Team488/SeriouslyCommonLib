@@ -2,6 +2,6 @@
     "recommendations": [
       "ryanluker.vscode-coverage-gutters",
       "vscjava.vscode-java-test",
-	  "shengchen.vscode-checkstyle"
+	    "shengchen.vscode-checkstyle"
     ]
   }

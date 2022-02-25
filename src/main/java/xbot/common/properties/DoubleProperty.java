@@ -28,6 +28,13 @@ public class DoubleProperty extends Property {
         load();
         lastValue = get();
     }
+
+    public DoubleProperty(String name, double defaultValue, PropertyPersistenceType persistenceType, XPropertyManager manager, PropertyLevel level) {
+        super(name, manager, persistenceType, level);
+        this.defaultValue = defaultValue;
+        load();
+        lastValue = get();
+    }
     
 
     public double get() {

@@ -27,6 +27,13 @@ public class BooleanProperty extends Property {
         load();
     }
 
+    public BooleanProperty(String name, boolean defaultValue, PropertyPersistenceType persistenceType,
+            XPropertyManager manager, PropertyLevel level) {
+        super(name, manager, persistenceType, level);
+        this.defaultValue = defaultValue;
+        load();
+    }
+
     /**
      * 
      * @return the current boolean value
