@@ -9,7 +9,7 @@ public class VirtualButton extends AdvancedButton {
     private boolean pressed;
 
     public VirtualButton() {
-        this(true);
+        this(false);
     }
 
     public VirtualButton(boolean defaultPressed) {
