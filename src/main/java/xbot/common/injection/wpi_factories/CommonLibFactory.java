@@ -21,6 +21,7 @@ import xbot.common.controls.sensors.AdvancedPovButton;
 import xbot.common.controls.sensors.AnalogHIDButton;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.ChordButton;
+import xbot.common.controls.sensors.VirtualButton;
 import xbot.common.controls.sensors.XAS5600;
 import xbot.common.controls.sensors.XAbsoluteEncoder;
 import xbot.common.controls.sensors.XAnalogInput;
@@ -94,6 +95,8 @@ public interface CommonLibFactory extends PIDFactory {
 
         public ChordButton createChordButton(@Assisted("a") AdvancedButton a,
                         @Assisted("b") AdvancedButton b);
+
+        public VirtualButton createVirtualButton();
 
         public AnalogHIDButton createAnalogHIDButton(@Assisted("joystick") XJoystick joystick,
                         @Assisted("axisNumber") int axisNumber,
