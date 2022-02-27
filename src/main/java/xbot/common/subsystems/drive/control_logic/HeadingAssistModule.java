@@ -129,7 +129,9 @@ public class HeadingAssistModule {
             desiredHeading = pose.getCurrentHeading().getDegrees();
             inAutomaticMode = true;
             headingModule.reset();
-            decayModule.reset();
+            if (decayModule != null) {
+                decayModule.reset();
+            }
             return 0;
         }
         // by this point, the only option left is that the machine is in automatic mode.
