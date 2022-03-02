@@ -38,25 +38,33 @@ public class XDoubleSolenoid {
         switch (mode) {
 
             case FORWARD: 
-                setForward();
+                setForwardInternal();
                 break;
             case REVERSE:
-                setReverse();
+                setReverseInternal();
                 break;
             default:
-                setOff();
+                setOffInternal();
                 break;
         }
     }
 
     public DoubleSolenoidMode getDoubleSolenoidMode() {
+        DoubleSolenoidMode modeCandidate = DoubleSolenoidMode.OFF;
+        
         if(forwardSolenoid.getAdjusted()) {
-            return DoubleSolenoidMode.FORWARD;
+            modeCandidate = DoubleSolenoidMode.FORWARD;
         } else if(reverseSolenoid.getAdjusted()) {
-            return DoubleSolenoidMode.REVERSE;
-        } else {
-            return DoubleSolenoidMode.OFF;
+            modeCandidate = DoubleSolenoidMode.REVERSE;
         }
+
+        if (isInverted && modeCandidate == DoubleSolenoidMode.FORWARD) {
+            modeCandidate = DoubleSolenoidMode.REVERSE;
+        } else if (isInverted && modeCandidate == DoubleSolenoidMode.REVERSE) {
+            modeCandidate = DoubleSolenoidMode.FORWARD;
+        }
+
+        return modeCandidate;
     }
 
     public boolean getIsForward() {
@@ -72,16 +80,28 @@ public class XDoubleSolenoid {
     }
     
     public void setOff() {
+        setDoubleSolenoid(DoubleSolenoidMode.OFF);
+    }
+
+    public void setForward() {
+        setDoubleSolenoid(DoubleSolenoidMode.FORWARD);
+    }
+
+    public void setReverse() {
+        setDoubleSolenoid(DoubleSolenoidMode.REVERSE);
+    }
+
+    private void setOffInternal() {
         forwardSolenoid.setOn(false);
         reverseSolenoid.setOn(false);
     }
 
-    public void setForward() {
+    private void setForwardInternal() {
         forwardSolenoid.setOn(true);
         reverseSolenoid.setOn(false);
     }
 
-    public void setReverse() {
+    private void setReverseInternal() {
         forwardSolenoid.setOn(false);
         reverseSolenoid.setOn(true);
     }
