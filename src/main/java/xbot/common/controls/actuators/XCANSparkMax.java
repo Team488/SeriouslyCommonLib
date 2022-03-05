@@ -93,6 +93,7 @@ public abstract class XCANSparkMax {
     public void periodic() {
         if (firstPeriodicCall) {
             setAllProperties();
+            firstPeriodicCall = false;
         }
         kPprop.hasChangedSinceLastCheck((value) -> setP(value));
         kIprop.hasChangedSinceLastCheck((value) -> setI(value));
