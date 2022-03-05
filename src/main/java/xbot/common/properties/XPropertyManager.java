@@ -55,7 +55,7 @@ public class XPropertyManager {
             prop.load();
 
             escape++;
-            if (escape > 500) {
+            if (escape > 2000) {
                 break;
             }
         }
@@ -82,7 +82,7 @@ public class XPropertyManager {
             prop.save();
 
             escape++;
-            if (escape > 500) {
+            if (escape > 2000) {
                 break;
             }
         }
