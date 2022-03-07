@@ -25,6 +25,7 @@ import xbot.common.controls.sensors.VirtualButton;
 import xbot.common.controls.sensors.XAS5600;
 import xbot.common.controls.sensors.XAbsoluteEncoder;
 import xbot.common.controls.sensors.XAnalogInput;
+import xbot.common.controls.sensors.XCANCoder;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XFTCGamepad;
@@ -163,4 +164,6 @@ public interface CommonLibFactory extends PIDFactory {
         public XCANVictorSPX createCANVictorSPX(@Assisted("deviceId") int deviceId);
 
         public XAbsoluteEncoder createAbsoluteEncoder(@Assisted("deviceInfo") DeviceInfo deviceInfo, @Assisted("owningSystemPrefix") String owningSystemPrefix);
+        
+        public XCANCoder createCANCoder(@Assisted("deviceInfo") DeviceInfo deviceInfo, @Assisted("owningSystemPrefix") String owningSystemPrefix);
 }

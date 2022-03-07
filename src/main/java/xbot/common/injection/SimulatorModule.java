@@ -38,6 +38,7 @@ import xbot.common.controls.sensors.SimulatedAnalogDistanceSensor;
 import xbot.common.controls.sensors.XAbsoluteEncoder;
 import xbot.common.controls.sensors.XAnalogDistanceSensor;
 import xbot.common.controls.sensors.XAnalogInput;
+import xbot.common.controls.sensors.XCANCoder;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XFTCGamepad;
@@ -49,6 +50,7 @@ import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.mock_adapters.MockAbsoluteEncoder;
+import xbot.common.controls.sensors.mock_adapters.MockCANCoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.controls.sensors.wpi_adapters.FTCGamepadWpiAdapter;
@@ -64,7 +66,6 @@ import xbot.common.properties.ITableProxy;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.PreferenceStorage;
 import xbot.common.properties.SmartDashboardTableWrapper;
-import xbot.common.properties.TableProxy;
 import xbot.common.properties.XPropertyManager;
 
 @Ignore
@@ -100,6 +101,7 @@ public class SimulatorModule extends AbstractModule {
                 .implement(XCANVictorSPX.class, MockCANVictorSPX.class)
                 .implement(XAnalogDistanceSensor.class, SimulatedAnalogDistanceSensor.class)
                 .implement(XAbsoluteEncoder.class, MockAbsoluteEncoder.class)
+                .implement(XCANCoder.class, MockCANCoder.class)
                 .build(CommonLibFactory.class));
     }
 }
