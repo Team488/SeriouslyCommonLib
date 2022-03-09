@@ -16,4 +16,6 @@ public abstract class XCANCoder extends XAbsoluteEncoder {
     public abstract ErrorCode getStickyFaults(CANCoderStickyFaults toFill);
 
     public abstract ErrorCode clearStickyFaults();
+
+    public abstract boolean hasResetOccurred();
 }
