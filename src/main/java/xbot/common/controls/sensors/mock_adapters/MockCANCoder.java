@@ -117,4 +117,8 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
         return ErrorCode.OK;
     }
     
+    @Override
+    public boolean hasResetOccurred() {
+        return false;
+    }
 }

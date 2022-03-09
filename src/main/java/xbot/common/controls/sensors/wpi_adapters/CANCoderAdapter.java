@@ -129,4 +129,9 @@ public class CANCoderAdapter extends XCANCoder {
     public ErrorCode clearStickyFaults() {
         return this.cancoder.clearStickyFaults();
     }
+
+    @Override
+    public boolean hasResetOccurred() {
+        return this.cancoder.hasResetOccurred();
+    }
 }
