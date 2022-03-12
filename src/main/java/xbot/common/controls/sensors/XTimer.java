@@ -8,6 +8,10 @@ public class XTimer
         impl = implementation;
     }
 
+    /**
+     * Returns the current time in seconds since the FPGA was powered on.
+     * @return Time in seconds
+     */
     public static double getFPGATimestamp() {
         return impl.getFPGATimestamp();
     }
