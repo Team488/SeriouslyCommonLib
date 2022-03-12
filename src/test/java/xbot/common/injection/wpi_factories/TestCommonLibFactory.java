@@ -57,6 +57,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createCANVictorSPX(5);
         clf.createAbsoluteEncoder(new DeviceInfo(6), "test");
         clf.createStallDetector("owningSystem");
+        clf.createCANCoder(new DeviceInfo(7), "test");
     }
     
     @Test(expected = RobotAssertionException.class)

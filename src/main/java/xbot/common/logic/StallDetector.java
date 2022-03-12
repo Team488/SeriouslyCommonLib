@@ -52,7 +52,7 @@ public class StallDetector {
         tryingHardVoltagePercentThreshold = pf.createPersistentProperty("TryingHardVoltagePercentThreshold", 10);
         littleMotionThreshold = pf.createPersistentProperty("LittleMotionThreshold", 1000.0);
 
-        stallCoolDown = pf.createPersistentProperty("StallCoolDown", 2);
+        stallCoolDown = pf.createPersistentProperty("StallCoolDown", 0.);
 
         currentLimitValidator = new TimeStableValidator(() -> currentTimeWindow.get());
         noMotionValidator = new TimeStableValidator(() -> noMotionTimeWindow.get());
