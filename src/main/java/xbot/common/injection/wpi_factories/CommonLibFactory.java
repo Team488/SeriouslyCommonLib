@@ -37,6 +37,7 @@ import xbot.common.injection.electrical_contract.CANTalonInfo;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.logic.CalibrationDecider;
 import xbot.common.logic.HumanVsMachineDecider;
+import xbot.common.logic.StallDetector;
 import xbot.common.logic.VelocityThrottleModule;
 import xbot.common.math.FieldPose;
 import xbot.common.math.FieldPosePropertyManager;
@@ -163,4 +164,6 @@ public interface CommonLibFactory extends PIDFactory {
         public XCANVictorSPX createCANVictorSPX(@Assisted("deviceId") int deviceId);
 
         public XAbsoluteEncoder createAbsoluteEncoder(@Assisted("deviceInfo") DeviceInfo deviceInfo, @Assisted("owningSystemPrefix") String owningSystemPrefix);
+
+        public StallDetector createStallDetector(@Assisted("owningSystemPrefix") String owningSystemPrefix);
 }
