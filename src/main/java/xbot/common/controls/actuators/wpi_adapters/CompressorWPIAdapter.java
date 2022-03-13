@@ -11,7 +11,7 @@ public class CompressorWPIAdapter extends XCompressor {
 
     @Inject
     public CompressorWPIAdapter() {
-        this.compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+        this.compressor = new Compressor(PneumaticsModuleType.REVPH);
     }
 
     @Override
