@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.NamedRunCommand;
 import xbot.common.controls.actuators.XCompressor;
@@ -20,6 +21,8 @@ public class CompressorSubsystem extends BaseSubsystem {
     public CompressorSubsystem(CommonLibFactory clf, PropertyFactory pf) {
         this.compressor = clf.createCompressor();
         this.isEnabledProperty = pf.createEphemeralProperty("Compressor Enabled", compressor.isEnabled());
+
+        CommandScheduler.getInstance().registerSubsystem(this);
     }
 
     public Command getEnableCommand() {
