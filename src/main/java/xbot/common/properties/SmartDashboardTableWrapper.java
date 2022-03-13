@@ -90,4 +90,9 @@ public class SmartDashboardTableWrapper implements ITableProxy {
         fastMode = on;
     }
 
+    public void remove(String key) {
+        if (SmartDashboard.containsKey(key)) {
+            SmartDashboard.delete(key);
+        }
+    }
 }

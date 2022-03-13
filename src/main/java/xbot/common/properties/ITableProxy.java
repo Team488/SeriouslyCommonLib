@@ -26,4 +26,6 @@ public interface ITableProxy {
     public void clear();
     
     public void setFastMode(boolean on);
+
+    public void remove(String key);
 }

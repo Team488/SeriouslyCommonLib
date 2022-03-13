@@ -106,4 +106,10 @@ public abstract class Property {
      * expensive).
      */
     public abstract void load();
+
+    /**
+     * Checks if the property's current value matches the default.
+     * @return True if the current value is the default.
+     */
+    public abstract boolean isSetToDefault();
 }

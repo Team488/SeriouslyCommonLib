@@ -58,7 +58,11 @@ public class DoubleProperty extends Property {
      */
     public void save() {
         if(persistenceType == PropertyPersistenceType.Persistent) {
-            permanentStore.setDouble(key, get());
+            if (!isSetToDefault()) {
+                permanentStore.setDouble(key, get());
+            } else {
+                permanentStore.remove(key);
+            }
         }
     }
 
@@ -80,5 +84,9 @@ public class DoubleProperty extends Property {
             callback.accept(currentValue);
         }
         lastValue = currentValue;
+    }
+
+    public boolean isSetToDefault() {
+        return get() == defaultValue;
     }
 }
