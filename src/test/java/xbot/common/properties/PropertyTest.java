@@ -1,6 +1,7 @@
 package xbot.common.properties;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
 import org.junit.Before;
@@ -62,9 +63,32 @@ public class PropertyTest extends BaseWPITest {
 
         propertyManager.saveOutAllProperties();
 
-        assertEquals(0.5, propertyManager.permanentStore.getDouble("speed").doubleValue(), 0.001);
-        assertEquals(false, propertyManager.permanentStore.getBoolean("isTrue").booleanValue());
-        assertEquals("test2", propertyManager.permanentStore.getString("string"));
+        // default values shouldn't exist in permanent store
+        assertNull(propertyManager.permanentStore.getDouble("speed"));
+        assertNull(propertyManager.permanentStore.getBoolean("isTrue"));
+        assertNull(propertyManager.permanentStore.getString("string"));
+
+        dbl.set(1.0);
+        bool.set(true);
+        str.set("new");
+        
+        propertyManager.saveOutAllProperties();
+
+        // non-defaults should save
+        assertEquals(1.0, propertyManager.permanentStore.getDouble("speed").doubleValue(), 0.001);
+        assertEquals(true, propertyManager.permanentStore.getBoolean("isTrue").booleanValue());
+        assertEquals("new", propertyManager.permanentStore.getString("string"));
+
+        dbl.set(0.5);
+        bool.set(false);
+        str.set("test2");
+
+        propertyManager.saveOutAllProperties();
+
+        // default values should be removed from permanent store
+        assertNull(propertyManager.permanentStore.getDouble("speed"));
+        assertNull(propertyManager.permanentStore.getBoolean("isTrue"));
+        assertNull(propertyManager.permanentStore.getString("string"));
     }
 
     @Test
@@ -109,8 +133,8 @@ public class PropertyTest extends BaseWPITest {
 
         propertyManager.loadPropertiesFromStorage();
 
-        assertEquals(0.5, dbl.get(), 0.001);
-        assertEquals(true, bool.get());
-        assertEquals("teststring", str.get());
+        assertEquals(1.0, dbl.get(), 0.001);
+        assertEquals(false, bool.get());
+        assertEquals("blahblah", str.get());
     }
 }

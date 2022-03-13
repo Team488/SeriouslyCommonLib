@@ -69,4 +69,12 @@ public class PreferenceStorage implements PermanentStorage {
     @Override
     public void setFastMode(boolean on) {
     }
+
+    @Override
+    public void remove(String key) {
+        if (Preferences.containsKey(key))
+        {
+            Preferences.remove(key);
+        }
+    }
 }
