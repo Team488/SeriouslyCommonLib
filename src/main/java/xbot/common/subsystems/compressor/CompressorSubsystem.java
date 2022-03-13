@@ -24,6 +24,14 @@ public class CompressorSubsystem extends BaseSubsystem {
         this.register();
     }
 
+    public void enable() {
+        this.compressor.enable();
+    }
+
+    public void disable() {
+        this.compressor.disable();
+    }
+
     public Command getEnableCommand() {
         return new NamedRunCommand(getName() + "-Enable", ()->compressor.enable(), this);
     }
