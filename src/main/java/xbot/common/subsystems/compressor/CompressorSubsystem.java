@@ -19,6 +19,7 @@ public class CompressorSubsystem extends BaseSubsystem {
     
     @Inject
     public CompressorSubsystem(CommonLibFactory clf, PropertyFactory pf) {
+        pf.setPrefix("CompressorSubsystem");
         this.compressor = clf.createCompressor();
         this.isEnabledProperty = pf.createEphemeralProperty("Compressor Enabled", compressor.isEnabled());
         this.register();
