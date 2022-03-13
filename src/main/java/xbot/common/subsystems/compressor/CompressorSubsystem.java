@@ -8,14 +8,18 @@ import xbot.common.command.BaseSubsystem;
 import xbot.common.command.NamedRunCommand;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
+import xbot.common.properties.BooleanProperty;
+import xbot.common.properties.PropertyFactory;
 
 @Singleton
 public class CompressorSubsystem extends BaseSubsystem {
     final XCompressor compressor;
+    final BooleanProperty isEnabledProperty;
     
     @Inject
-    public CompressorSubsystem(CommonLibFactory clf) {
+    public CompressorSubsystem(CommonLibFactory clf, PropertyFactory pf) {
         this.compressor = clf.createCompressor();
+        this.isEnabledProperty = pf.createEphemeralProperty("Compressor Enabled", compressor.isEnabled());
     }
 
     public Command getEnableCommand() {
@@ -24,5 +28,11 @@ public class CompressorSubsystem extends BaseSubsystem {
 
     public Command getDisableCommand() {
         return new NamedRunCommand(getName() + "-Disable", ()->compressor.disable(), this);
+    }
+
+    @Override
+    public void periodic() {
+        super.periodic();
+        isEnabledProperty.set(compressor.isEnabled());
     }
 }
