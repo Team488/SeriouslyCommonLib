@@ -21,8 +21,7 @@ public class CompressorSubsystem extends BaseSubsystem {
     public CompressorSubsystem(CommonLibFactory clf, PropertyFactory pf) {
         this.compressor = clf.createCompressor();
         this.isEnabledProperty = pf.createEphemeralProperty("Compressor Enabled", compressor.isEnabled());
-
-        CommandScheduler.getInstance().registerSubsystem(this);
+        this.register();
     }
 
     public Command getEnableCommand() {
