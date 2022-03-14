@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax.FaultID;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.REVLibError;
+import com.revrobotics.SparkMaxLimitSwitch.Type;
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
 import org.apache.log4j.Logger;
@@ -640,5 +641,23 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     public void ingestSimulationData(JSONObject payload) {
         BigDecimal intermediate = (BigDecimal) payload.get("EncoderTicks");
         simulationPosition = (intermediate.doubleValue() * simulationScalingValue * inversionFactor());
+    }
+
+    @Override
+    public void setForwardLimitSwitch(Type switchType, boolean enabled) {        
+    }
+
+    @Override
+    public void setReverseLimitSwitch(Type switchType, boolean enabled) {
+    }
+
+    @Override
+    public boolean getForwardLimitSwitchPressed(Type switchType) {
+        return false;
+    }
+
+    @Override
+    public boolean getReverseLimitSwitchPressed(Type switchType) {
+        return false;
     }
 }

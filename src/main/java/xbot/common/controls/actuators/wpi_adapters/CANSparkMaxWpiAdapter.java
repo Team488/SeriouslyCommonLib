@@ -565,4 +565,24 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     public String toString() {
         return getPIDControllerInstance().toString();
     }
+
+    @Override
+    public void setForwardLimitSwitch(com.revrobotics.SparkMaxLimitSwitch.Type switchType, boolean enabled) {
+        internalSpark.getForwardLimitSwitch(switchType).enableLimitSwitch(enabled);
+    }
+
+    @Override
+    public void setReverseLimitSwitch(com.revrobotics.SparkMaxLimitSwitch.Type switchType, boolean enabled) {
+        internalSpark.getReverseLimitSwitch(switchType).enableLimitSwitch(enabled);
+    }
+
+    @Override
+    public boolean getForwardLimitSwitchPressed(com.revrobotics.SparkMaxLimitSwitch.Type switchType) {
+        return internalSpark.getForwardLimitSwitch(switchType).isPressed();
+    }
+
+    @Override
+    public boolean getReverseLimitSwitchPressed(com.revrobotics.SparkMaxLimitSwitch.Type switchType) {
+        return internalSpark.getReverseLimitSwitch(switchType).isPressed();
+    }
 }
