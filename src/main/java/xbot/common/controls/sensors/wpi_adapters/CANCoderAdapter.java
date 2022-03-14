@@ -2,13 +2,16 @@ package xbot.common.controls.sensors.wpi_adapters;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.CANCoderFaults;
+import com.ctre.phoenix.sensors.CANCoderStatusFrame;
+import com.ctre.phoenix.sensors.CANCoderStickyFaults;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import org.apache.log4j.Logger;
 
-import xbot.common.controls.sensors.XAbsoluteEncoder;
+import xbot.common.controls.sensors.XCANCoder;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
@@ -17,7 +20,7 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
-public class CANCoderAdapter extends XAbsoluteEncoder {
+public class CANCoderAdapter extends XCANCoder {
     
     private static final Logger log = Logger.getLogger(CANCoderAdapter.class);
 
@@ -100,5 +103,35 @@ public class CANCoderAdapter extends XAbsoluteEncoder {
             this.magnetOffset.set(offsetInDegrees);
             return true;
         }
+    }
+
+    @Override
+    public ErrorCode setStatusFramePeriod(CANCoderStatusFrame frame, int periodMs) {
+        return this.cancoder.setStatusFramePeriod(frame, periodMs);
+    }
+
+    @Override
+    public int getStatusFramePeriod(CANCoderStatusFrame frame) {
+        return this.cancoder.getStatusFramePeriod(frame);
+    }
+
+    @Override
+    public ErrorCode getFaults(CANCoderFaults toFill) {
+        return this.cancoder.getFaults(toFill);
+    }
+
+    @Override
+    public ErrorCode getStickyFaults(CANCoderStickyFaults toFill) {
+        return this.cancoder.getStickyFaults(toFill);
+    }
+
+    @Override
+    public ErrorCode clearStickyFaults() {
+        return this.cancoder.clearStickyFaults();
+    }
+
+    @Override
+    public boolean hasResetOccurred() {
+        return this.cancoder.hasResetOccurred();
     }
 }

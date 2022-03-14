@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -127,6 +128,7 @@ public class BaseRobot extends TimedRobot {
         robotSession = injector.getInstance(RobotSession.class);
         devicePolice = injector.getInstance(DevicePolice.class);
         simulationPayloadDistributor = injector.getInstance(SimulationPayloadDistributor.class);
+        LiveWindow.disableAllTelemetry();
     }
     
     protected String getEnableTypeString() {

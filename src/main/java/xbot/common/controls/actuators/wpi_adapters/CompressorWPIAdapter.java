@@ -11,6 +11,21 @@ public class CompressorWPIAdapter extends XCompressor {
 
     @Inject
     public CompressorWPIAdapter() {
-        this.compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+        this.compressor = new Compressor(PneumaticsModuleType.REVPH);
+    }
+
+    @Override
+    public void disable() {
+        compressor.disable();
+    }
+
+    @Override
+    public void enable() {
+        compressor.enableDigital();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return compressor.enabled();
     }
 }

@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import org.apache.log4j.Logger;
 
 import xbot.common.logging.RobotAssertionManager;
+import xbot.common.properties.Property.PropertyLevel;
 import xbot.common.properties.Property.PropertyPersistenceType;
 
 public class PropertyFactory {
@@ -117,6 +118,26 @@ public class PropertyFactory {
     }
 
     /**
+     * Method for creating a boolean ephemeral property
+     * 
+     * @author Marc
+     */
+    public BooleanProperty createEphemeralProperty(String key, boolean defaultValue, PropertyLevel level) {
+        checkPrefixSet();
+        return new BooleanProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager, level);
+    }
+
+    /**
+     * Method for creating a string ephemeral property
+     * 
+     * @author Marc
+     */
+    public StringProperty createEphemeralProperty(String key, String defaultValue, PropertyLevel level) {
+        checkPrefixSet();
+        return new StringProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager);
+    }
+
+    /**
      * Method for creating a string ephemeral property
      * 
      * @author Marc
@@ -137,6 +158,16 @@ public class PropertyFactory {
     }
 
     /**
+     * Method for creating a double ephemeral property
+     * 
+     * @author Marc
+     */
+    public DoubleProperty createEphemeralProperty(String key, double defaultValue, PropertyLevel level) {
+        checkPrefixSet();
+        return new DoubleProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager, level);
+    }
+
+    /**
      * Method for creating a double persistent property
      * 
      * @author Marc
@@ -144,6 +175,16 @@ public class PropertyFactory {
     public BooleanProperty createPersistentProperty(String key, boolean defaultValue) {
         checkPrefixSet();
         return new BooleanProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager);
+    }
+
+    /**
+     * Method for creating a double persistent property
+     * 
+     * @author Marc
+     */
+    public BooleanProperty createPersistentProperty(String key, boolean defaultValue, PropertyLevel level) {
+        checkPrefixSet();
+        return new BooleanProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager, level);
     }
 
     /**
@@ -161,9 +202,29 @@ public class PropertyFactory {
      * 
      * @author Marc
      */
+    public StringProperty createPersistentProperty(String key, String defaultValue, PropertyLevel level) {
+        checkPrefixSet();
+        return new StringProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager, level);
+    }
+
+    /**
+     * Method for creating a double persistent property
+     * 
+     * @author Marc
+     */
     public DoubleProperty createPersistentProperty(String key, double defaultValue) {
         checkPrefixSet();
         return new DoubleProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager);
+    }
+
+    /**
+     * Method for creating a double persistent property
+     * 
+     * @author Marc
+     */
+    public DoubleProperty createPersistentProperty(String key, double defaultValue, PropertyLevel level) {
+        checkPrefixSet();
+        return new DoubleProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager, level);
     }
 
 

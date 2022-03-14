@@ -37,7 +37,7 @@ public abstract class SimpleMotorSubsystem extends BaseSubsystem {
     }
 
     public Command getReverseCommand() {
-        return new NamedRunCommand(getName() + "-Reverse", ()->setPower(forwardPower.get()), this);
+        return new NamedRunCommand(getName() + "-Reverse", ()->setPower(reversePower.get()), this);
     }
 
     public Command getStopCommand() {

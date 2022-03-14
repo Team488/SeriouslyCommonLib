@@ -3,6 +3,7 @@ package xbot.common.injection;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.google.inject.name.Names;
 
 import org.junit.Ignore;
 
@@ -37,6 +38,7 @@ import xbot.common.controls.sensors.SimulatedAnalogDistanceSensor;
 import xbot.common.controls.sensors.XAbsoluteEncoder;
 import xbot.common.controls.sensors.XAnalogDistanceSensor;
 import xbot.common.controls.sensors.XAnalogInput;
+import xbot.common.controls.sensors.XCANCoder;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XFTCGamepad;
@@ -48,6 +50,7 @@ import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.mock_adapters.MockAbsoluteEncoder;
+import xbot.common.controls.sensors.mock_adapters.MockCANCoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.controls.sensors.wpi_adapters.FTCGamepadWpiAdapter;
@@ -63,6 +66,7 @@ import xbot.common.properties.ITableProxy;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.PreferenceStorage;
 import xbot.common.properties.SmartDashboardTableWrapper;
+import xbot.common.properties.XPropertyManager;
 
 @Ignore
 public class SimulatorModule extends AbstractModule {
@@ -74,6 +78,7 @@ public class SimulatorModule extends AbstractModule {
         this.bind(XTimerImpl.class).to(MockTimer.class);
         this.bind(XSettableTimerImpl.class).to(MockTimer.class);
         this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class).in(Singleton.class);
+        this.bind(ITableProxy.class).annotatedWith(Names.named(XPropertyManager.IN_MEMORY_STORE_NAME)).to(SmartDashboardTableWrapper.class).in(Singleton.class);
         this.bind(PermanentStorage.class).to(PreferenceStorage.class).in(Singleton.class);
         this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);
         this.bind(RobotAssertionManager.class).to(LoudRobotAssertionManager.class);
@@ -96,6 +101,7 @@ public class SimulatorModule extends AbstractModule {
                 .implement(XCANVictorSPX.class, MockCANVictorSPX.class)
                 .implement(XAnalogDistanceSensor.class, SimulatedAnalogDistanceSensor.class)
                 .implement(XAbsoluteEncoder.class, MockAbsoluteEncoder.class)
+                .implement(XCANCoder.class, MockCANCoder.class)
                 .build(CommonLibFactory.class));
     }
 }

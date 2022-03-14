@@ -28,6 +28,13 @@ public class DoubleProperty extends Property {
         load();
         lastValue = get();
     }
+
+    public DoubleProperty(String name, double defaultValue, PropertyPersistenceType persistenceType, XPropertyManager manager, PropertyLevel level) {
+        super(name, manager, persistenceType, level);
+        this.defaultValue = defaultValue;
+        load();
+        lastValue = get();
+    }
     
 
     public double get() {
@@ -51,7 +58,11 @@ public class DoubleProperty extends Property {
      */
     public void save() {
         if(persistenceType == PropertyPersistenceType.Persistent) {
-            permanentStore.setDouble(key, get());
+            if (!isSetToDefault()) {
+                permanentStore.setDouble(key, get());
+            } else {
+                permanentStore.remove(key);
+            }
         }
     }
 
@@ -73,5 +84,9 @@ public class DoubleProperty extends Property {
             callback.accept(currentValue);
         }
         lastValue = currentValue;
+    }
+
+    public boolean isSetToDefault() {
+        return get() == defaultValue;
     }
 }

@@ -27,6 +27,13 @@ public class BooleanProperty extends Property {
         load();
     }
 
+    public BooleanProperty(String name, boolean defaultValue, PropertyPersistenceType persistenceType,
+            XPropertyManager manager, PropertyLevel level) {
+        super(name, manager, persistenceType, level);
+        this.defaultValue = defaultValue;
+        load();
+    }
+
     /**
      * 
      * @return the current boolean value
@@ -57,7 +64,11 @@ public class BooleanProperty extends Property {
      */
     public void save() {
         if(persistenceType == PropertyPersistenceType.Persistent) {
-            permanentStore.setBoolean(key, get());
+            if (!isSetToDefault()) {
+                permanentStore.setBoolean(key, get());
+            } else {
+                permanentStore.remove(key);
+            }
         }
     }
 
@@ -71,5 +82,10 @@ public class BooleanProperty extends Property {
         } else {
             set(defaultValue);
         }
+    }
+
+    @Override
+    public boolean isSetToDefault() {
+        return get() == defaultValue;
     }
 }

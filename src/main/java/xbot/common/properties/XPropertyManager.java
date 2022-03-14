@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
 import org.apache.log4j.Logger;
 
@@ -16,18 +17,24 @@ import org.apache.log4j.Logger;
  */
 @Singleton
 public class XPropertyManager {
-
+    public static final String IN_MEMORY_STORE_NAME = "InMemoryStore";
     private static final Logger log = Logger.getLogger(XPropertyManager.class);
 
-    public ArrayList<Property> properties;
-    public PermanentStorage permanentStore;
-    public ITableProxy randomAccessStore;
+    public final ArrayList<Property> properties;
+    public final PermanentStorage permanentStore;
+    public final ITableProxy randomAccessStore;
+    public final ITableProxy inMemoryRandomAccessStore;
 
     @Inject
-    public XPropertyManager(PermanentStorage permanentStore, ITableProxy randomAccessStore) {
+    public XPropertyManager(
+        PermanentStorage permanentStore, 
+        ITableProxy randomAccessStore, 
+        @Named(IN_MEMORY_STORE_NAME) ITableProxy inMemoryRandomAccessStore
+    ) {
         this.properties = new ArrayList<Property>();
         this.permanentStore = permanentStore;
         this.randomAccessStore = randomAccessStore;
+        this.inMemoryRandomAccessStore = inMemoryRandomAccessStore;
     }
 
     /**
@@ -48,7 +55,7 @@ public class XPropertyManager {
             prop.load();
 
             escape++;
-            if (escape > 500) {
+            if (escape > 2000) {
                 break;
             }
         }
@@ -75,7 +82,7 @@ public class XPropertyManager {
             prop.save();
 
             escape++;
-            if (escape > 500) {
+            if (escape > 2000) {
                 break;
             }
         }

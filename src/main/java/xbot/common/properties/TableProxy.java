@@ -66,4 +66,8 @@ public class TableProxy implements ITableProxy {
     @Override
     public void setFastMode(boolean on) {
     }
+
+    public void remove(String key) {
+        table.remove(key);
+    }
 }

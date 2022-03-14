@@ -24,6 +24,12 @@ public class StringProperty extends Property {
         this.defaultValue = defaultValue;
         load();
     }
+
+    public StringProperty(String name, String defaultValue, PropertyPersistenceType persistenceType, XPropertyManager manager, PropertyLevel level) {
+        super(name, manager, persistenceType, level);
+        this.defaultValue = defaultValue;
+        load();
+    }
     
     public String get() {
         String nullableTableValue = randomAccessStore.getString(key);
@@ -46,7 +52,11 @@ public class StringProperty extends Property {
      */
     public void save() {
         if(persistenceType == PropertyPersistenceType.Persistent) {
-            permanentStore.setString(key, get());
+            if (!isSetToDefault()) {
+                permanentStore.setString(key, get());
+            } else {
+                permanentStore.remove(key);
+            }
         }
     }
 
@@ -57,5 +67,9 @@ public class StringProperty extends Property {
         } else {
             set(defaultValue);
         }
+    }
+
+    public boolean isSetToDefault() {
+        return get().equals(defaultValue);
     }
 }
