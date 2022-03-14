@@ -712,4 +712,12 @@ public abstract class XCANSparkMax {
 
     /// Get true value. Should not be called in competition code.
     public abstract CANSparkMax getInternalSparkMax();
+
+    public abstract void setForwardLimitSwitch(com.revrobotics.SparkMaxLimitSwitch.Type switchType, boolean enabled);
+
+    public abstract void setReverseLimitSwitch(com.revrobotics.SparkMaxLimitSwitch.Type switchType, boolean enabled);
+
+    public abstract boolean getForwardLimitSwitchPressed(com.revrobotics.SparkMaxLimitSwitch.Type switchType);
+
+    public abstract boolean getReverseLimitSwitchPressed(com.revrobotics.SparkMaxLimitSwitch.Type switchType);
 }
