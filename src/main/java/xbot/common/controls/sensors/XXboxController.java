@@ -58,7 +58,7 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
     public AdvancedXboxButton getifAvailable(XboxButton buttonName) {
         if (!allocatedButtons.containsKey(buttonName)) {
             // If we're trying to use the triggers as buttons, then we need to do some extra work.
-            if (buttonName == XboxButton.LeftTrigger || buttonName == XboxButton.RightTrigger) {
+            if (buttonName.value == -1) {
                 AdvancedXboxAxisButton candidate = new AdvancedXboxAxisButton(this, buttonName, 0.75);
                 allocatedButtons.put(buttonName, candidate);
             } else {
