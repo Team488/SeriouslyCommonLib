@@ -42,7 +42,7 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
 
     public enum XboxButton {
         A(1), B(2), X(3), Y(4), LeftBumper(5), RightBumper(6), Back(7), Start(8), LeftStick(9), RightStick(10),
-        LeftTrigger(-1), RightTrigger(-1);
+        LeftTrigger(-1), RightTrigger(-1), LeftJoystickYAxis(-1), RightJoystickYAxis(-1);
 
         private int value;
 
@@ -81,7 +81,7 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
             AdvancedXboxButton candidate;
 
             // If it's a trigger button, create it in a different way
-            if (buttonName == XboxButton.LeftTrigger || buttonName == XboxButton.RightTrigger) {
+            if (buttonName.value == -1) {
                 candidate = new AdvancedXboxAxisButton(this, buttonName, 0.75);
             } else {
                 candidate = new AdvancedXboxButton(this, buttonName);
