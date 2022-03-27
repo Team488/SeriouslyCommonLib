@@ -80,7 +80,8 @@ public class DoubleProperty extends Property {
     
     public void hasChangedSinceLastCheck(Consumer<Double> callback) {
         double currentValue = get();
-        if (Math.abs(currentValue - lastValue) > 0.001) {
+        // TODO: Check if we can just use direct equality here, since we are in fact comparing a value to itself.
+        if (Math.abs(currentValue - lastValue) > 0.00000000001) {
             callback.accept(currentValue);
         }
         lastValue = currentValue;

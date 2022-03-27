@@ -18,6 +18,7 @@ public class AutonomousCommandSelector extends BaseSubsystem {
     private static Logger log = Logger.getLogger(AutonomousCommandSelector.class);
 
     public final StringProperty currentAutonomousCommandName;
+    public final StringProperty currentAutonomousState;
     Supplier<Command> commandSupplier;
 
     Command currentAutonomousCommand;
@@ -27,6 +28,7 @@ public class AutonomousCommandSelector extends BaseSubsystem {
         propFactory.setTopLevelPrefix();
         currentAutonomousCommandName = propFactory.createEphemeralProperty("Current autonomous command name",
                 "No command set");
+        currentAutonomousState = propFactory.createEphemeralProperty("Auto Program State", "Not set");
     }
 
     public Command getCurrentAutonomousCommand() {
@@ -48,6 +50,10 @@ public class AutonomousCommandSelector extends BaseSubsystem {
     public void setCurrentAutonomousCommandSupplier(Supplier<Command> supplier) {
         commandSupplier = supplier;
         this.currentAutonomousCommand = null;
+    }
+
+    public void setAutonomousState(String state) {
+        currentAutonomousState.set(state);
     }
 
 }

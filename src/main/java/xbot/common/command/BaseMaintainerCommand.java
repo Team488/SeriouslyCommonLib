@@ -124,6 +124,8 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
         return isStable;
     }
 
+    
+
     /**
      * Maintainer systems already check for error tolerance and time stability. If there
      * are any other checks that should be made, override this method and place them here.
@@ -151,5 +153,9 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
     @Override
     public String getPrefix() {
         return subsystemToMaintan.getPrefix() + getName() + "/";
+    }
+
+    protected void setErrorTolerance(double tolerance) {
+        errorToleranceProp.set(tolerance);
     }
 }
