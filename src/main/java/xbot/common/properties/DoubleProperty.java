@@ -72,6 +72,7 @@ public class DoubleProperty extends Property {
     public void load() {
         Double value = permanentStore.getDouble(key);
         if(value != null) {
+            log.info("Property " + key + " has the non-default value " + value.doubleValue());
             randomAccessStore.setDouble(key, value.doubleValue());
         } else {
             set(defaultValue);
