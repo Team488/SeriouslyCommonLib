@@ -38,14 +38,14 @@ public class PIDPropertyManager {
             @Assisted("errorThreshold") double errorThreshold, 
             @Assisted("derivativeThreshold") double derivativeThreshold,
             @Assisted("timeThreshold") double timeThreshold,
-            @Assisted("iZone") double iZone) {
+            @Assisted("iZone") double defaultIZone) {
         propMan.setPrefix(functionName);
         
         propP = propMan.createPersistentProperty("P", defaultP);
         propI = propMan.createPersistentProperty("I", defaultI);
         propD = propMan.createPersistentProperty("D", defaultD);
         propF = propMan.createPersistentProperty("F", defaultF);
-        propIZone = propMan.createPersistentProperty("IZone", iZone);
+        propIZone = propMan.createPersistentProperty("IZone", defaultIZone);
         
         propErrorThreshold = 
                 propMan.createPersistentProperty("Error threshold", errorThreshold);
