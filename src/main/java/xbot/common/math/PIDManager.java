@@ -36,8 +36,9 @@ public class PIDManager extends PIDPropertyManager {
             @Assisted("defaultMinOutput") double defaultMinOutput,
             @Assisted("errorThreshold") double errorThreshold, 
             @Assisted("derivativeThreshold") double derivativeThreshold,
-            @Assisted("timeThreshold") double timeThreshold) {
-        super(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold, derivativeThreshold, timeThreshold);
+            @Assisted("timeThreshold") double timeThreshold,
+            @Assisted("iZone") double iZone) {
+        super(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold, derivativeThreshold, timeThreshold, iZone);
         
         
         maxOutput = propMan.createPersistentProperty("Max Output", defaultMaxOutput);
@@ -47,6 +48,24 @@ public class PIDManager extends PIDPropertyManager {
 
         pid = new PID();
         sendTolerancesToInternalPID();
+    }
+
+    @AssistedInject
+    public PIDManager(
+            @Assisted String functionName, 
+            PropertyFactory propMan, 
+            RobotAssertionManager assertionManager,
+            @Assisted("defaultP") double defaultP, 
+            @Assisted("defaultI") double defaultI, 
+            @Assisted("defaultD") double defaultD, 
+            @Assisted("defaultF") double defaultF,
+            @Assisted("defaultMaxOutput") double defaultMaxOutput, 
+            @Assisted("defaultMinOutput") double defaultMinOutput,
+            @Assisted("errorThreshold") double errorThreshold, 
+            @Assisted("derivativeThreshold") double derivativeThreshold,
+            @Assisted("timeThreshold") double timeThreshold) {
+        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, defaultMaxOutput,
+                defaultMinOutput, errorThreshold, derivativeThreshold, timeThreshold, -1);
     }
     
     // And now, the wall of constructors to support simpler PIDManagers.
@@ -106,7 +125,7 @@ public class PIDManager extends PIDPropertyManager {
         sendTolerancesToInternalPID();
         
         if(isEnabled.get()) {
-            double pidResult = pid.calculate(goal, current, getP(), isIMasked ? 0 : getI(), getD(), getF());
+            double pidResult = pid.calculate(goal, current, getP(), isIMasked ? 0 : getI(), getD(), getF(), getIZone());
             offTargetReasonProp.set(pid.getOffTargetReason().toString());
             return MathUtils.constrainDouble(pidResult, minOutput.get(), maxOutput.get());
         } else {
