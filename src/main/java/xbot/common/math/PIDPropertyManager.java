@@ -14,6 +14,7 @@ public class PIDPropertyManager {
     private final DoubleProperty propI;
     private final DoubleProperty propD;
     private final DoubleProperty propF;
+    private final DoubleProperty propIZone;
     
     private final DoubleProperty propErrorThreshold;
     private final DoubleProperty propDerivativeThreshold;
@@ -36,13 +37,15 @@ public class PIDPropertyManager {
             @Assisted("defaultF") double defaultF,
             @Assisted("errorThreshold") double errorThreshold, 
             @Assisted("derivativeThreshold") double derivativeThreshold,
-            @Assisted("timeThreshold") double timeThreshold) {
+            @Assisted("timeThreshold") double timeThreshold,
+            @Assisted("iZone") double defaultIZone) {
         propMan.setPrefix(functionName);
         
         propP = propMan.createPersistentProperty("P", defaultP);
         propI = propMan.createPersistentProperty("I", defaultI);
         propD = propMan.createPersistentProperty("D", defaultD);
         propF = propMan.createPersistentProperty("F", defaultF);
+        propIZone = propMan.createPersistentProperty("IZone", defaultIZone);
         
         propErrorThreshold = 
                 propMan.createPersistentProperty("Error threshold", errorThreshold);
@@ -60,6 +63,22 @@ public class PIDPropertyManager {
                 propMan.createPersistentProperty("Enable time threshold", timeThreshold > 0);
         
         this.assertionManager = assertionManager;
+    }
+
+    @AssistedInject
+    public PIDPropertyManager(
+            @Assisted String functionName,
+            PropertyFactory propMan,
+            RobotAssertionManager assertionManager,
+            @Assisted("defaultP") double defaultP,
+            @Assisted("defaultI") double defaultI,
+            @Assisted("defaultD") double defaultD,
+            @Assisted("defaultF") double defaultF,
+            @Assisted("errorThreshold") double errorThreshold,
+            @Assisted("derivativeThreshold") double derivativeThreshold,
+            @Assisted("timeThreshold") double timeThreshold) {
+        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold,
+                derivativeThreshold, timeThreshold, -1);
     }
     
     @AssistedInject
@@ -104,6 +123,14 @@ public class PIDPropertyManager {
 
     public void setF(double f) {
         propF.set(f);
+    }
+
+    public double getIZone() {
+        return propIZone.get();
+    }
+
+    public void setIZone(double iZone) {
+        propIZone.set(iZone);
     }
     
     public double getErrorThreshold() {

@@ -108,7 +108,7 @@ public class PID
      * @return The output value to achieve goal
      */
     public double calculate(double goal, double current,
-            double p, double i, double d, double f)
+            double p, double i, double d, double f, double iZone)
     {
         m_targetInputValue = goal;
         m_currentInputValue = current;
@@ -134,7 +134,10 @@ public class PID
         }
 
         m_derivativeValue = m_error - m_prevError;
-        m_result = p * m_error + i * m_totalError + d * (m_derivativeValue) + f * goal;
+        m_result = p * m_error + d * (m_derivativeValue) + f * goal;
+        if(iZone <= 0 || Math.abs(m_error) < iZone) {
+            m_result +=  i * m_totalError;
+        }
         m_prevError = m_error;
 
         if (m_result > m_maximumOutput)
@@ -152,6 +155,28 @@ public class PID
         checkIsOnTarget();
         
         return result;
+    }
+
+    /**
+     * Calculates the output value given P,I,D, a process variable and a goal
+     * 
+     * @param goal
+     *            What value you are trying to achieve
+     * @param current
+     *            What the value under observation currently is
+     * @param p
+     *            Proportionate response
+     * @param i
+     *            Integral response.
+     * @param d
+     *            Derivative response.
+     * @param f
+     *            Feed-forward response.
+     * @return The output value to achieve goal
+     */
+    public double calculate(double goal, double current,
+            double p, double i, double d, double f) {
+        return calculate(goal, current, p, i, d, f, 0);
     }
     
     /**

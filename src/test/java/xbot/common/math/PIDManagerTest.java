@@ -182,6 +182,28 @@ public class PIDManagerTest extends BaseWPITest {
         output = manager.calculate(100, 0);
         assertEquals(0.3 * 3, output, 1e-6);
     }
+
+    @Test
+    public void testIZone() {
+        double iZone = 100;
+        PIDManager manager = factory.createPIDManager("test", 0, 1, 0, 0, 1, -1, 0, 0, 0, iZone);
+        // build up some error history
+        manager.calculate(1000, 0);
+        manager.calculate(1000, 0);
+        // with error outside the iZone, i is not applied
+        double output = manager.calculate(iZone + 1, 0);
+        assertEquals(0, output, 1e-6);
+
+        output = manager.calculate(-(iZone + 1), 0);
+        assertEquals(0, output, 1e-6);
+
+        // with error inside the iZone, i is applied
+        output = manager.calculate(iZone -1, 0);
+        assertTrue(output > 0);
+
+        output = manager.calculate(-(iZone -1), 0);
+        assertTrue(output < 0);
+    }
     
     @Test
     public void testSimpleTimeThresholding() {
