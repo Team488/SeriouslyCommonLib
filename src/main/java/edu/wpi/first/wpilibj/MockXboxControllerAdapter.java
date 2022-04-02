@@ -17,6 +17,8 @@ public class MockXboxControllerAdapter extends XXboxController {
 
     private double leftTrigger;
     private double rightTrigger;
+
+    private final RumbleManager rumbleManager;
     
     public void setLeftStick(double x, double y) {
         leftStick.x = x * (leftXInversion ? -1 : 1);
@@ -61,6 +63,7 @@ public class MockXboxControllerAdapter extends XXboxController {
         super(port, clf, manager, police);
         leftStick = new XYPair();
         rightStick = new XYPair();
+        this.rumbleManager = new RumbleManager(this);
     }
 
     public void setLeftTrigger(double left) {
@@ -94,8 +97,7 @@ public class MockXboxControllerAdapter extends XXboxController {
 
     @Override
     public RumbleManager getRumbleManager() {
-        // no actual rumble manager
-        return null;
+        return this.rumbleManager;
     }
 
     @Override
