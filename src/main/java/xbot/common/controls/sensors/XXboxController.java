@@ -88,9 +88,6 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
             }
 
             allocatedButtons.put(buttonName, candidate);
-        } else {
-            // key exists!
-            assertionManager.assertTrue(false, "Button " + buttonName + " has already been allocated!");
         }
 
         return allocatedButtons.get(buttonName);
