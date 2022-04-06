@@ -14,7 +14,7 @@ public class XboxControllerTest extends BaseWPITest {
         
         // We expect the robot to get mad if we try to get the same button twice
         //thrown.expect(RobotAssertionException.class);
-        controller.getXboxButton(XboxButton.A);
-        controller.getXboxButton(XboxButton.A);
+        controller.getifAvailable(XboxButton.A);
+        controller.getifAvailable(XboxButton.A);
     }
 }
