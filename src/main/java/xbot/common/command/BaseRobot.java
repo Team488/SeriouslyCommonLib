@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
+import xbot.common.injection.BaseComponent;
+import xbot.common.injection.DaggerRobotComponent;
 import xbot.common.injection.RobotModule;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotSession;
@@ -49,6 +51,7 @@ public class BaseRobot extends TimedRobot {
     protected XScheduler xScheduler;
 
     protected AbstractModule injectionModule;
+    protected BaseComponent injectorComponent;
 
     // Other than initially creating required systems, you should never use the injector again
     protected Injector injector;
@@ -88,7 +91,7 @@ public class BaseRobot extends TimedRobot {
      * Override if you need a different module
      */
     protected void setupInjectionModule() {
-        this.injectionModule = new RobotModule();
+        this.injectionModule = new RobotModule(injectorComponent);
     }
 
     /**
@@ -162,8 +165,9 @@ public class BaseRobot extends TimedRobot {
 
     protected void initializeSystems() {
         updateLoggingContext();
+        injectorComponent = DaggerRobotComponent.create();
         // override with additional systems (but call this one too)
-        XTimerImpl timerimpl = injector.getInstance(XTimerImpl.class);
+        XTimerImpl timerimpl = injectorComponent.timerImplementation();
         XTimer.setImplementation(timerimpl);
 
         // Get the property manager and get all properties from the robot disk

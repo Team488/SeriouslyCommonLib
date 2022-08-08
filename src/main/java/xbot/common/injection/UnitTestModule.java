@@ -1,7 +1,6 @@
 package xbot.common.injection;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 
@@ -19,7 +18,6 @@ import edu.wpi.first.wpilibj.MockSolenoid;
 import edu.wpi.first.wpilibj.MockSpeedController;
 import edu.wpi.first.wpilibj.MockTimer;
 import edu.wpi.first.wpilibj.MockXboxControllerAdapter;
-import xbot.common.command.MockSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANTalon;
@@ -57,31 +55,35 @@ import xbot.common.controls.sensors.mock_adapters.MockFTCGamepad;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.controls.sensors.mock_adapters.MockJoystick;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.logging.LoudRobotAssertionManager;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.PIDFactory;
 import xbot.common.networking.MockCommunicationClient;
 import xbot.common.networking.OffboardCommunicationClient;
 import xbot.common.properties.ITableProxy;
-import xbot.common.properties.MockPermamentStorage;
 import xbot.common.properties.PermanentStorage;
-import xbot.common.properties.TableProxy;
 import xbot.common.properties.XPropertyManager;
 
 @Ignore
 public class UnitTestModule extends AbstractModule {
 
+    private BaseComponent daggerInjector;
     public boolean useRealDatabaseForPropertyStorage = false;
+
+    public UnitTestModule(BaseComponent daggerInjector) {
+        this.daggerInjector = daggerInjector;
+    }
 
     @Override
     protected void configure() {
-        this.bind(XTimerImpl.class).to(MockTimer.class);
-        this.bind(XSettableTimerImpl.class).to(MockTimer.class);
-        this.bind(ITableProxy.class).to(TableProxy.class).in(Singleton.class);
-        this.bind(ITableProxy.class).annotatedWith(Names.named(XPropertyManager.IN_MEMORY_STORE_NAME)).to(TableProxy.class).in(Singleton.class);
-        this.bind(PermanentStorage.class).to(MockPermamentStorage.class).in(Singleton.class);
-        this.bind(SmartDashboardCommandPutter.class).to(MockSmartDashboardCommandPutter.class);
-        this.bind(RobotAssertionManager.class).to(LoudRobotAssertionManager.class);
+        this.bind(XTimerImpl.class).toInstance(daggerInjector.timerImplementation());
+        this.bind(XSettableTimerImpl.class).toInstance((MockTimer)daggerInjector.timerImplementation());
+        this.bind(ITableProxy.class).toInstance(daggerInjector.tableProxy());
+        this.bind(ITableProxy.class)
+            .annotatedWith(Names.named(XPropertyManager.IN_MEMORY_STORE_NAME))
+            .toInstance(daggerInjector.inMemoryTableProxy());
+        this.bind(PermanentStorage.class).toInstance(daggerInjector.permanentStorage());
+        this.bind(SmartDashboardCommandPutter.class).toInstance(daggerInjector.smartDashboardCommandPutter());
+        this.bind(RobotAssertionManager.class).toInstance(daggerInjector.robotAssertionManager());
         this.bind(OffboardCommunicationClient.class).to(MockCommunicationClient.class);
 
         this.install(new FactoryModuleBuilder().build(PIDFactory.class));

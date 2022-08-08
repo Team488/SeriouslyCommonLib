@@ -1,12 +1,16 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import edu.wpi.first.wpilibj.Timer;
 import xbot.common.controls.sensors.XSettableTimerImpl;
 
 @Singleton
 public class TimerWpiAdapter implements XSettableTimerImpl {
+
+    @Inject
+    public TimerWpiAdapter() {}
 
     @Override
     public double getFPGATimestamp() {

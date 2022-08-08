@@ -1,11 +1,9 @@
 package xbot.common.injection;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 
-import xbot.common.command.RealSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANTalon;
@@ -49,53 +47,41 @@ import xbot.common.controls.sensors.wpi_adapters.InertialMeasurementUnitAdapter;
 import xbot.common.controls.sensors.wpi_adapters.JoystickWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter;
-import xbot.common.controls.sensors.wpi_adapters.TimerWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.XboxControllerWpiAdapter;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.logging.RobotAssertionManager;
-import xbot.common.logging.SilentRobotAssertionManager;
 import xbot.common.math.PIDFactory;
 import xbot.common.networking.OffboardCommunicationClient;
 import xbot.common.networking.ZeromqListener;
 import xbot.common.properties.ITableProxy;
 import xbot.common.properties.PermanentStorage;
-import xbot.common.properties.PreferenceStorage;
-import xbot.common.properties.SmartDashboardTableWrapper;
-import xbot.common.properties.TableProxy;
 import xbot.common.properties.XPropertyManager;
 
 public class RobotModule extends AbstractModule {
 
+    private BaseComponent daggerInjector;
     protected final boolean debugMode;
 
-    public RobotModule() {
-        debugMode = false;
+    public RobotModule(BaseComponent daggerInjector) {
+        this(daggerInjector, false);
     }
 
-    public RobotModule(boolean debugMode) {
+    public RobotModule(BaseComponent daggerInjector, boolean debugMode) {
         this.debugMode = debugMode;
+        this.daggerInjector = daggerInjector;
     }
 
     @Override
     protected void configure() {
-        this.bind(XTimerImpl.class).to(TimerWpiAdapter.class);
-        this.bind(XSettableTimerImpl.class).to(TimerWpiAdapter.class);
-        this.bind(ITableProxy.class).to(SmartDashboardTableWrapper.class).in(Singleton.class);
-        if(debugMode) {
-            // send all debug properties to the smart dashboard
-            this.bind(ITableProxy.class)
-                .annotatedWith(Names.named(XPropertyManager.IN_MEMORY_STORE_NAME))
-                .to(SmartDashboardTableWrapper.class)
-                .in(Singleton.class);
-        } else {
-            this.bind(ITableProxy.class)
-                .annotatedWith(Names.named(XPropertyManager.IN_MEMORY_STORE_NAME))
-                .to(TableProxy.class)
-                .in(Singleton.class);
-        }
-        this.bind(PermanentStorage.class).to(PreferenceStorage.class);
-        this.bind(SmartDashboardCommandPutter.class).to(RealSmartDashboardCommandPutter.class);
-        this.bind(RobotAssertionManager.class).to(SilentRobotAssertionManager.class);
+        this.bind(XTimerImpl.class).toInstance(daggerInjector.timerImplementation());
+        this.bind(XSettableTimerImpl.class).toInstance((XSettableTimerImpl)daggerInjector.timerImplementation());
+        this.bind(ITableProxy.class).toInstance(daggerInjector.tableProxy());
+        this.bind(ITableProxy.class)
+            .annotatedWith(Names.named(XPropertyManager.IN_MEMORY_STORE_NAME))
+            .toInstance(daggerInjector.inMemoryTableProxy());
+        this.bind(PermanentStorage.class).toInstance(daggerInjector.permanentStorage());
+        this.bind(SmartDashboardCommandPutter.class).toInstance(daggerInjector.smartDashboardCommandPutter());
+        this.bind(RobotAssertionManager.class).toInstance(daggerInjector.robotAssertionManager());
         this.install(new FactoryModuleBuilder().build(PIDFactory.class));
 
         this.install(new FactoryModuleBuilder()

@@ -20,7 +20,7 @@ public class BasePoseTest extends BaseWPITest {
     
     @Before
     public void setup() {
-        mockTimer = injector.getInstance(MockTimer.class);
+        mockTimer = (MockTimer)injectorComponent.timerImplementation();
         pose = injector.getInstance(MockBasePoseSubsystem.class);
         
         XCANTalon left = clf.createCANTalon(new CANTalonInfo(0));

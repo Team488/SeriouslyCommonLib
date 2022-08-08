@@ -1,6 +1,11 @@
 package xbot.common.command;
 
+import javax.inject.Inject;
+
 public class MockSmartDashboardCommandPutter implements SmartDashboardCommandPutter {
+
+    @Inject
+    public MockSmartDashboardCommandPutter() {}
 
     @Override
     public void addCommandToSmartDashboard(BaseCommand command) {

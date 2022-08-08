@@ -7,6 +7,10 @@ import xbot.common.subsystems.pose.MockBasePoseSubsystem;
 
 public class SeriouslyCommonLibTestModule extends UnitTestModule {
 
+    public SeriouslyCommonLibTestModule(BaseComponent daggerInjector) {
+        super(daggerInjector);
+    }
+
     @Override
     protected void configure() {
         super.configure();

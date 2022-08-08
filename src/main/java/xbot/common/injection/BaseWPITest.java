@@ -16,6 +16,7 @@ import xbot.common.properties.PropertyFactory;
 @Ignore
 public class BaseWPITest {
     public Injector injector;
+    public BaseComponent injectorComponent;
 
     public PropertyFactory propertyFactory;
     
@@ -25,13 +26,14 @@ public class BaseWPITest {
     protected MockTimer timer;
 
     protected Injector createInjector() {
-        return Guice.createInjector(new SeriouslyCommonLibTestModule());
+        return Guice.createInjector(new SeriouslyCommonLibTestModule(injectorComponent));
     }
 
     @Before
     public void setUp() {
+        injectorComponent = DaggerUnitTestComponent.create();
+        timer = (MockTimer)injectorComponent.timerImplementation();
         injector = createInjector();
-        timer = injector.getInstance(MockTimer.class);
         XTimer.setImplementation(timer);
 
         propertyFactory = injector.getInstance(PropertyFactory.class);

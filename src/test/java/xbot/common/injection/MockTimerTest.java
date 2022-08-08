@@ -19,7 +19,7 @@ public class MockTimerTest extends BaseWPITest {
 
     @Before
     public void setup() {
-        timer = injector.getInstance(MockTimer.class);
+        timer = new MockTimer();
     }
 
     @Test

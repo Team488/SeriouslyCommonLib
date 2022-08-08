@@ -54,6 +54,8 @@ repositories {
     mavenCentral()
     
     maven { url "https://mvnrepository.com/artifact/com.google.inject/guice" }
+    maven { url "https://mvnrepository.com/artifact/com.google.dagger/dagger" }
+    maven { url "https://mvnrepository.com/artifact/com.google.dagger/dagger-compiler" }
     maven { url "https://mvnrepository.com/artifact/org.zeromq/jeromq" }
     maven { url "https://frcmaven.wpi.edu/artifactory/release/"}
     maven { url "https://devsite.ctr-electronics.com/maven/release/"}
@@ -101,6 +103,9 @@ dependencies {
     // 'test.useTestNG()' to your build script.
     implementation 'junit:junit:4.12'
     
+    implementation 'com.google.dagger:dagger:2.43.2'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.43.2'
+    
     implementation group: 'com.google.inject', name: 'guice', version: '4.2.2'
     implementation group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.2.2'
     
@@ -129,7 +134,7 @@ sourceSets {
         }
     }
 }
-
+sourceSets.main.java.srcDirs += "build/generated/sources/annotationProcessor/java/main"
 
 task jarSources(type:Jar){
     from sourceSets.main.allSource
@@ -164,7 +169,7 @@ checkstyle {
 task checkstyle(type: Checkstyle) {
     source 'src/main/java'
     configProperties.basedir = file('.')
-    
+
     // Empty classpath
     classpath = files()
 }

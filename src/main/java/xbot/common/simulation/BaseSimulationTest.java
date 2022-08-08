@@ -2,7 +2,6 @@ package xbot.common.simulation;
 
 import java.math.BigDecimal;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -14,6 +13,8 @@ import org.junit.Ignore;
 
 import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.controls.sensors.XTimer;
+import xbot.common.injection.BaseComponent;
+import xbot.common.injection.DaggerSimulationComponent;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.PIDFactory;
 import xbot.common.properties.PropertyFactory;
@@ -21,10 +22,9 @@ import xbot.common.properties.PropertyFactory;
 @Ignore
 public class BaseSimulationTest {
     public Injector injector;
+    public BaseComponent injectorComponent;
 
     public PropertyFactory propertyFactory;
-
-    protected AbstractModule guiceModule = new SimulationTestModule();
     
     protected CommonLibFactory clf;
     protected PIDFactory pf;
@@ -33,10 +33,15 @@ public class BaseSimulationTest {
 
     SimulationPayloadDistributor distributor;
 
+    private Injector createInjector() {
+        return Guice.createInjector(new SimulationTestModule(injectorComponent));
+    }
+
     @Before
     public void setUp() {
-        injector = Guice.createInjector(guiceModule);
-        timer = injector.getInstance(MockTimer.class);
+        injectorComponent = DaggerSimulationComponent.create();
+        injector = createInjector();
+        timer = (MockTimer)injectorComponent.timerImplementation();
         XTimer.setImplementation(timer);
 
         propertyFactory = injector.getInstance(PropertyFactory.class);

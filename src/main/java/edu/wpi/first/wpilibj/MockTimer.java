@@ -1,11 +1,15 @@
 package edu.wpi.first.wpilibj;
 
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import xbot.common.controls.sensors.XSettableTimerImpl;
 
 @Singleton
 public class MockTimer implements XSettableTimerImpl {
+
+    @Inject
+    public MockTimer() {}
 
     double timeInSeconds;
 

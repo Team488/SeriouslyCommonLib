@@ -21,7 +21,7 @@ public class SimulationPayloadDistributorTest extends BaseSimulationTest {
         super.setUp();
 
         encoder = (MockEncoder)clf.createEncoder("Test", 3, 4, 1);
-        timer = this.injector.getInstance(XTimerImpl.class);
+        timer = injectorComponent.timerImplementation();
     }
 
     @Test
