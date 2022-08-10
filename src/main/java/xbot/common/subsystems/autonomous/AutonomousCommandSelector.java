@@ -2,12 +2,12 @@ package xbot.common.subsystems.autonomous;
 
 import java.util.function.Supplier;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.apache.log4j.Logger;
 
 import edu.wpi.first.wpilibj2.command.Command;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import xbot.common.command.BaseSubsystem;
 import xbot.common.properties.PropertyFactory;

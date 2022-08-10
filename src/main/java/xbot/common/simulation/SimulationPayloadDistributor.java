@@ -2,8 +2,8 @@ package xbot.common.simulation;
 
 import java.math.BigDecimal;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

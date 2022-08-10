@@ -2,11 +2,11 @@ package xbot.common.networking;
 
 import java.util.function.Consumer;
 
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
-
 import org.apache.log4j.Logger;
 import org.zeromq.ZMQ;
+
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedInject;
 
 public class ZeromqListener implements OffboardCommunicationClient {
 

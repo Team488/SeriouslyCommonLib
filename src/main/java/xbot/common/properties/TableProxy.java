@@ -7,14 +7,12 @@ package xbot.common.properties;
 import java.util.Hashtable;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
  * A simple implementation of ITableProxy. Uses a HashTable as the table to store and save properties.
  * 
  * @author Alex
  */
-@Singleton
 public class TableProxy implements ITableProxy {
 
     public Hashtable<String, String> table;

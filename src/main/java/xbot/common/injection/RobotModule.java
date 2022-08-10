@@ -1,10 +1,7 @@
 package xbot.common.injection;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import com.google.inject.name.Names;
 
-import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCANVictorSPX;
@@ -35,8 +32,6 @@ import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
-import xbot.common.controls.sensors.XSettableTimerImpl;
-import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater;
 import xbot.common.controls.sensors.wpi_adapters.CANCoderAdapter;
@@ -48,18 +43,14 @@ import xbot.common.controls.sensors.wpi_adapters.JoystickWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.XboxControllerWpiAdapter;
+import xbot.common.injection.components.BaseComponent;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.PIDFactory;
 import xbot.common.networking.OffboardCommunicationClient;
 import xbot.common.networking.ZeromqListener;
-import xbot.common.properties.ITableProxy;
-import xbot.common.properties.PermanentStorage;
-import xbot.common.properties.XPropertyManager;
 
-public class RobotModule extends AbstractModule {
+public class RobotModule extends BaseModule {
 
-    private BaseComponent daggerInjector;
     protected final boolean debugMode;
 
     public RobotModule(BaseComponent daggerInjector) {
@@ -67,21 +58,13 @@ public class RobotModule extends AbstractModule {
     }
 
     public RobotModule(BaseComponent daggerInjector, boolean debugMode) {
+        super(daggerInjector);
         this.debugMode = debugMode;
-        this.daggerInjector = daggerInjector;
     }
 
     @Override
     protected void configure() {
-        this.bind(XTimerImpl.class).toInstance(daggerInjector.timerImplementation());
-        this.bind(XSettableTimerImpl.class).toInstance((XSettableTimerImpl)daggerInjector.timerImplementation());
-        this.bind(ITableProxy.class).toInstance(daggerInjector.tableProxy());
-        this.bind(ITableProxy.class)
-            .annotatedWith(Names.named(XPropertyManager.IN_MEMORY_STORE_NAME))
-            .toInstance(daggerInjector.inMemoryTableProxy());
-        this.bind(PermanentStorage.class).toInstance(daggerInjector.permanentStorage());
-        this.bind(SmartDashboardCommandPutter.class).toInstance(daggerInjector.smartDashboardCommandPutter());
-        this.bind(RobotAssertionManager.class).toInstance(daggerInjector.robotAssertionManager());
+        super.configure();
         this.install(new FactoryModuleBuilder().build(PIDFactory.class));
 
         this.install(new FactoryModuleBuilder()

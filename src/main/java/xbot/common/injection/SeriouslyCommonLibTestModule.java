@@ -1,5 +1,6 @@
 package xbot.common.injection;
 
+import xbot.common.injection.components.BaseComponent;
 import xbot.common.subsystems.drive.BaseDriveSubsystem;
 import xbot.common.subsystems.drive.MockDriveSubsystem;
 import xbot.common.subsystems.pose.BasePoseSubsystem;

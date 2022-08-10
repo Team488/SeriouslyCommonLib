@@ -20,9 +20,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
-import xbot.common.injection.BaseComponent;
-import xbot.common.injection.DaggerRobotComponent;
 import xbot.common.injection.RobotModule;
+import xbot.common.injection.components.BaseComponent;
+import xbot.common.injection.components.DaggerRobotComponent;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotSession;
 import xbot.common.logging.TimeLogger;
@@ -73,9 +73,7 @@ public class BaseRobot extends TimedRobot {
 
     protected RobotSession robotSession;
 
-    public BaseRobot() {        
-        setupInjectionModule();
-        
+    public BaseRobot() {                
         brownoutLatch = new Latch(false, EdgeType.Both, edge -> {
             if(edge == EdgeType.RisingEdge) {
                 log.warn("Entering brownout");
@@ -91,6 +89,7 @@ public class BaseRobot extends TimedRobot {
      * Override if you need a different module
      */
     protected void setupInjectionModule() {
+        injectorComponent = DaggerRobotComponent.create();
         this.injectionModule = new RobotModule(injectorComponent);
     }
 
@@ -115,22 +114,22 @@ public class BaseRobot extends TimedRobot {
         
         log = Logger.getLogger(BaseRobot.class);
         log.info("========== BASE ROBOT INITIALIZING ==========");
-
+        setupInjectionModule();
         this.injector = Guice.createInjector(this.injectionModule);
         log.info("========== INJECTOR CREATED ==========");
         this.initializeSystems();
         log.info("========== SYSTEMS INITIALIZED ==========");
         SmartDashboard.putData(CommandScheduler.getInstance());
         
-        PropertyFactory pf = injector.getInstance(PropertyFactory.class);
+        PropertyFactory pf = injectorComponent.propertyFactory();
         pf.setTopLevelPrefix();
         frequencyReportInterval = pf.createPersistentProperty("Robot loop frequency report interval", 20);
         batteryVoltage = pf.createEphemeralProperty("Battery Voltage", 0);
         schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get());
         outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20);
-        robotSession = injector.getInstance(RobotSession.class);
-        devicePolice = injector.getInstance(DevicePolice.class);
-        simulationPayloadDistributor = injector.getInstance(SimulationPayloadDistributor.class);
+        robotSession = injectorComponent.robotSession();
+        devicePolice = injectorComponent.devicePolice();
+        simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
         LiveWindow.disableAllTelemetry();
     }
     
@@ -165,15 +164,14 @@ public class BaseRobot extends TimedRobot {
 
     protected void initializeSystems() {
         updateLoggingContext();
-        injectorComponent = DaggerRobotComponent.create();
         // override with additional systems (but call this one too)
         XTimerImpl timerimpl = injectorComponent.timerImplementation();
         XTimer.setImplementation(timerimpl);
 
         // Get the property manager and get all properties from the robot disk
-        propertyManager = this.injector.getInstance(XPropertyManager.class);
-        xScheduler = this.injector.getInstance(XScheduler.class);        
-        autonomousCommandSelector = this.injector.getInstance(AutonomousCommandSelector.class);
+        propertyManager = injectorComponent.propertyManager();
+        xScheduler = injectorComponent.scheduler();
+        autonomousCommandSelector = injectorComponent.autonomousCommandSelector();
     }
 
     @Override
@@ -275,7 +273,7 @@ public class BaseRobot extends TimedRobot {
     
     @Override
     public void simulationInit() {
-        webots = this.injector.getInstance(WebotsClient.class);
+        webots = injectorComponent.webotsClient();
         webots.initialize();
     }
 

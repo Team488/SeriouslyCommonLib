@@ -1,7 +1,7 @@
 package xbot.common.logging;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import xbot.common.properties.PropertyFactory;
 import xbot.common.properties.StringProperty;

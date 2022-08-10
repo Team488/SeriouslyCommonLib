@@ -44,7 +44,7 @@ import xbot.common.math.FieldPose;
 import xbot.common.math.FieldPosePropertyManager;
 import xbot.common.math.PIDFactory;
 import xbot.common.math.PIDManager;
-import xbot.common.networking.ZeromqListener;
+import xbot.common.networking.OffboardCommunicationClient;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import xbot.common.subsystems.feedback.RumbleManager;
@@ -141,7 +141,7 @@ public interface CommonLibFactory extends PIDFactory {
         public FieldPosePropertyManager createFieldPosePropertyManager(@Assisted("poseName") String poseName,
                         @Assisted("fieldPose") FieldPose fieldPose);
 
-        public ZeromqListener createZeromqListener(@Assisted("connectionString") String connectionString,
+        public OffboardCommunicationClient createZeromqListener(@Assisted("connectionString") String connectionString,
                         @Assisted("topic") String topic);
 
         public XDoubleSolenoid createDoubleSolenoid(@Assisted("forwardSolenoid") XSolenoid forwardSolenoid, 

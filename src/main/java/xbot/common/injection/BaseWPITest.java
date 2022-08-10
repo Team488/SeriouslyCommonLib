@@ -9,6 +9,8 @@ import org.junit.Ignore;
 
 import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.controls.sensors.XTimer;
+import xbot.common.injection.components.BaseComponent;
+import xbot.common.injection.components.DaggerUnitTestComponent;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.PIDFactory;
 import xbot.common.properties.PropertyFactory;
@@ -36,7 +38,7 @@ public class BaseWPITest {
         injector = createInjector();
         XTimer.setImplementation(timer);
 
-        propertyFactory = injector.getInstance(PropertyFactory.class);
+        propertyFactory = injectorComponent.propertyFactory();
         
         clf = injector.getInstance(CommonLibFactory.class);
         pf = injector.getInstance(PIDFactory.class);
