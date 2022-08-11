@@ -14,9 +14,9 @@ import org.junit.Ignore;
 import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.components.DaggerSimulationComponent;
+import xbot.common.injection.factories.PIDFactory;
 import xbot.common.injection.components.BaseComponent;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.math.PIDFactory;
 import xbot.common.properties.PropertyFactory;
 
 @Ignore
@@ -47,7 +47,7 @@ public class BaseSimulationTest {
         propertyFactory = injectorComponent.propertyFactory();
         
         clf = injector.getInstance(CommonLibFactory.class);
-        pf = injector.getInstance(PIDFactory.class);
+        pf = injectorComponent.pidFactory();
         
         DOMConfigurator.configure(getClass().getClassLoader().getResource("log4j4unitTesting.xml"));
 

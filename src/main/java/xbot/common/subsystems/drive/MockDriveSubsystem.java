@@ -5,8 +5,8 @@ import com.google.inject.Singleton;
 
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
+import xbot.common.injection.factories.PIDFactory;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.math.PIDFactory;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
 
@@ -36,9 +36,9 @@ public class MockDriveSubsystem extends BaseDriveSubsystem {
         this.clf = clf;
         changeIntoTankDrive();
 
-        positionalPid = pf.createPIDManager("Drive to position", 100, 0, 0, 0, 0.5, -0.5, 3, 1, 0.5);
-        rotateToHeadingPid = pf.createPIDManager("DriveHeading", 100, 0, 0);
-        rotateDecayPid = pf.createPIDManager("DriveDecay", 100, 0, 1);
+        positionalPid = pf.create("Drive to position", 100, 0, 0, 0, 0.5, -0.5, 3, 1, 0.5);
+        rotateToHeadingPid = pf.create("DriveHeading", 100, 0, 0);
+        rotateDecayPid = pf.create("DriveDecay", 100, 0, 1);
     }
 
     public void changePositionalPid(PIDManager p) {

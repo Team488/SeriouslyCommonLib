@@ -12,14 +12,12 @@ import xbot.common.injection.BaseWPITest;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.logging.RobotAssertionException;
-import xbot.common.math.PIDFactory;
 
 public class TestCommonLibFactory extends BaseWPITest {
 
     @Test
     public void makeOneOfEverything() {
         CommonLibFactory clf = injector.getInstance(CommonLibFactory.class);
-        PIDFactory pf = injector.getInstance(PIDFactory.class);
         
         clf.createPowerDistributionPanel();
         XJoystick j = clf.createJoystick(1, 12);
@@ -39,9 +37,9 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createGamepad(3, 10);
         clf.createAdvancedPovButton(j, 1);
         clf.createHumanVsMachineDecider("Agent Smith");
-        clf.createHeadingModule(pf.createPIDManager("bar", 1, 0, 0));
+        clf.createHeadingModule(pf.create("bar", 1, 0, 0));
         clf.createCalibrationDecider("calibration");
-        clf.createVelocityThrottleModule("velocityThrottleThing", pf.createPIDManager("velocity", 1, 0, 0));
+        clf.createVelocityThrottleModule("velocityThrottleThing", pf.create("velocity", 1, 0, 0));
         clf.createRelay(5);
         clf.createPWM(3);
         clf.createFieldPosePropertyManager("testo", 1, 2, 3);
@@ -49,8 +47,6 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createChordButton(clf.createAdvancedJoystickButton(j, 2), clf.createAdvancedJoystickButton(j, 3));
         clf.createVirtualButton();
         clf.createDoubleSolenoid(clf.createSolenoid(2), clf.createSolenoid(3));
-        // test that inherited methods are present
-        clf.createPIDManager("Rotate");
         clf.createCANSparkMax(new DeviceInfo(10), "drive", "left");
         clf.createCANSparkMax(new DeviceInfo(11), "drive", "left", new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
         clf.createXAS5600(talon);

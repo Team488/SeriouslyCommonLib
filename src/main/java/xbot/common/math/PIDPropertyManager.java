@@ -1,8 +1,7 @@
 package xbot.common.math;
 
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
-
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedInject;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
@@ -63,34 +62,6 @@ public class PIDPropertyManager {
                 propMan.createPersistentProperty("Enable time threshold", timeThreshold > 0);
         
         this.assertionManager = assertionManager;
-    }
-
-    @AssistedInject
-    public PIDPropertyManager(
-            @Assisted String functionName,
-            PropertyFactory propMan,
-            RobotAssertionManager assertionManager,
-            @Assisted("defaultP") double defaultP,
-            @Assisted("defaultI") double defaultI,
-            @Assisted("defaultD") double defaultD,
-            @Assisted("defaultF") double defaultF,
-            @Assisted("errorThreshold") double errorThreshold,
-            @Assisted("derivativeThreshold") double derivativeThreshold,
-            @Assisted("timeThreshold") double timeThreshold) {
-        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold,
-                derivativeThreshold, timeThreshold, -1);
-    }
-    
-    @AssistedInject
-    public PIDPropertyManager(
-            @Assisted String functionName, 
-            PropertyFactory propMan, 
-            RobotAssertionManager assertionManager,
-            @Assisted("defaultP") double defaultP, 
-            @Assisted("defaultI") double defaultI, 
-            @Assisted("defaultD") double defaultD, 
-            @Assisted("defaultF") double defaultF) {
-        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, -1, -1, -1);
     }
 
     public double getP() {

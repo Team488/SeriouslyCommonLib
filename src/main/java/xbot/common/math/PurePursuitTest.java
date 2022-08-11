@@ -5,6 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.factories.PIDFactory;
 import xbot.common.subsystems.drive.BaseDriveSubsystem;
 import xbot.common.subsystems.drive.ConfigurablePurePursuitCommand;
 import xbot.common.subsystems.drive.MockDriveSubsystem;
@@ -76,8 +77,8 @@ public class PurePursuitTest extends BaseWPITest {
         PIDFactory pf = injector.getInstance(PIDFactory.class);
         MockDriveSubsystem b = (MockDriveSubsystem)injector.getInstance(BaseDriveSubsystem.class);
         this.poseSystem = (MockBasePoseSubsystem)injector.getInstance(BasePoseSubsystem.class);
-        b.changeRotationalPid(pf.createPIDManager("testRot", 0.05, 0, 0));
-        b.changePositionalPid(pf.createPIDManager("testPos", 0.1, 0, 0.1));
+        b.changeRotationalPid(pf.create("testRot", 0.05, 0, 0));
+        b.changePositionalPid(pf.create("testPos", 0.1, 0, 0.1));
         command = injector.getInstance(ConfigurablePurePursuitCommand.class);
         command.setDotProductDrivingEnabled(true);
         setPoints();

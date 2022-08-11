@@ -42,14 +42,13 @@ import xbot.common.logic.StallDetector;
 import xbot.common.logic.VelocityThrottleModule;
 import xbot.common.math.FieldPose;
 import xbot.common.math.FieldPosePropertyManager;
-import xbot.common.math.PIDFactory;
 import xbot.common.math.PIDManager;
 import xbot.common.networking.OffboardCommunicationClient;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import xbot.common.subsystems.feedback.RumbleManager;
 
-public interface CommonLibFactory extends PIDFactory {
+public interface CommonLibFactory {
 
         public XPowerDistributionPanel createPowerDistributionPanel();
 

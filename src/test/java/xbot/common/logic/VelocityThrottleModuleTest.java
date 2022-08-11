@@ -13,7 +13,7 @@ public class VelocityThrottleModuleTest extends BaseWPITest {
     @Override
     public void setUp() {
         super.setUp();
-        module = clf.createVelocityThrottleModule("testModule", pf.createPIDManager("testVelocityPid", 1, 0, 0));
+        module = clf.createVelocityThrottleModule("testModule", pf.create("testVelocityPid", 1, 0, 0));
     }
     
     @Test

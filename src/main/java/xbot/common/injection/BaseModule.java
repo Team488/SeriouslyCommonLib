@@ -7,6 +7,9 @@ import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.components.BaseComponent;
+import xbot.common.injection.factories.PIDFactory;
+import xbot.common.injection.factories.PIDPropertyManagerFactory;
+import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.ITableProxy;
 import xbot.common.properties.PermanentStorage;
@@ -32,6 +35,9 @@ public abstract class BaseModule extends AbstractModule {
         this.bind(SmartDashboardCommandPutter.class).toInstance(daggerInjector.smartDashboardCommandPutter());
         this.bind(RobotAssertionManager.class).toInstance(daggerInjector.robotAssertionManager());
         this.bind(XPropertyManager.class).toInstance(daggerInjector.propertyManager());
+        this.bind(DevicePolice.class).toInstance(daggerInjector.devicePolice());
+        this.bind(PIDFactory.class).toInstance(daggerInjector.pidFactory());
+        this.bind(PIDPropertyManagerFactory.class).toInstance(daggerInjector.pidPropertyManagerFactory());
     }
     
 }

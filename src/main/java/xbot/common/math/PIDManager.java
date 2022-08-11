@@ -1,7 +1,7 @@
 package xbot.common.math;
 
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedInject;
 
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.PID.OffTargetReason;
@@ -48,71 +48,6 @@ public class PIDManager extends PIDPropertyManager {
 
         pid = new PID();
         sendTolerancesToInternalPID();
-    }
-
-    @AssistedInject
-    public PIDManager(
-            @Assisted String functionName, 
-            PropertyFactory propMan, 
-            RobotAssertionManager assertionManager,
-            @Assisted("defaultP") double defaultP, 
-            @Assisted("defaultI") double defaultI, 
-            @Assisted("defaultD") double defaultD, 
-            @Assisted("defaultF") double defaultF,
-            @Assisted("defaultMaxOutput") double defaultMaxOutput, 
-            @Assisted("defaultMinOutput") double defaultMinOutput,
-            @Assisted("errorThreshold") double errorThreshold, 
-            @Assisted("derivativeThreshold") double derivativeThreshold,
-            @Assisted("timeThreshold") double timeThreshold) {
-        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, defaultMaxOutput,
-                defaultMinOutput, errorThreshold, derivativeThreshold, timeThreshold, -1);
-    }
-    
-    // And now, the wall of constructors to support simpler PIDManagers.
-    @AssistedInject
-    public PIDManager(
-            @Assisted String functionName,
-            PropertyFactory propMan,
-            RobotAssertionManager assertionManager,
-            @Assisted("defaultP") double defaultP, 
-            @Assisted("defaultI") double defaultI, 
-            @Assisted("defaultD") double defaultD, 
-            @Assisted("defaultF") double defaultF,
-            @Assisted("defaultMaxOutput") double defaultMaxOutput, 
-            @Assisted("defaultMinOutput") double defaultMinOutput) {
-        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, defaultMaxOutput, defaultMinOutput, -1, -1, -1);
-    }
-
-    @AssistedInject
-    public PIDManager(
-            @Assisted String functionName, 
-            PropertyFactory propMan,
-            RobotAssertionManager assertionManager,
-            @Assisted("defaultP") double defaultP, 
-            @Assisted("defaultI") double defaultI, 
-            @Assisted("defaultD") double defaultD, 
-            @Assisted("defaultMaxOutput") double defaultMaxOutput, 
-            @Assisted("defaultMinOutput") double defaultMinOutput) {
-        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, 0, 1.0, -1.0, -1, -1, -1);
-    }
-    
-    @AssistedInject
-    public PIDManager(
-            @Assisted String functionName, 
-            PropertyFactory propMan,
-            RobotAssertionManager assertionManager,
-            @Assisted("defaultP") double defaultP, 
-            @Assisted("defaultI") double defaultI, 
-            @Assisted("defaultD") double defaultD) {
-        this(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, 1.0, -1.0);
-    }
-
-    @AssistedInject
-    public PIDManager(
-            @Assisted String functionName, 
-            PropertyFactory propMan,
-            RobotAssertionManager assertionManager) {
-        this(functionName, propMan, assertionManager, 0, 0, 0);
     }
     
     private void sendTolerancesToInternalPID() {

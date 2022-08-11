@@ -21,7 +21,7 @@ public class HeadingModuleTest extends BaseWPITest {
     public void setUp() {
         super.setUp();
         
-        PIDManager pid = pf.createPIDManager("Testo", 100, 0, 0);
+        PIDManager pid = pf.create("Testo", 100, 0, 0);
         pid.setErrorThreshold(3);
         pid.setEnableErrorThreshold(true);
         

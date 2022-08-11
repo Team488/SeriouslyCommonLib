@@ -45,7 +45,6 @@ import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapte
 import xbot.common.controls.sensors.wpi_adapters.XboxControllerWpiAdapter;
 import xbot.common.injection.components.BaseComponent;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.math.PIDFactory;
 import xbot.common.networking.OffboardCommunicationClient;
 import xbot.common.networking.ZeromqListener;
 
@@ -65,7 +64,6 @@ public class RobotModule extends BaseModule {
     @Override
     protected void configure() {
         super.configure();
-        this.install(new FactoryModuleBuilder().build(PIDFactory.class));
 
         this.install(new FactoryModuleBuilder()
                 .implement(XPowerDistributionPanel.class, PowerDistributionPanelWPIAdapter.class)

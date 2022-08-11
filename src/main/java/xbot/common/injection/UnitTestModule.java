@@ -50,7 +50,6 @@ import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.controls.sensors.mock_adapters.MockJoystick;
 import xbot.common.injection.components.BaseComponent;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.math.PIDFactory;
 import xbot.common.networking.MockCommunicationClient;
 import xbot.common.networking.OffboardCommunicationClient;
 
@@ -67,7 +66,6 @@ public class UnitTestModule extends BaseModule {
     protected void configure() {
         super.configure();
 
-        this.install(new FactoryModuleBuilder().build(PIDFactory.class));
         this.install(new FactoryModuleBuilder()
                 .implement(OffboardCommunicationClient.class, MockCommunicationClient.class)
                 .implement(XPowerDistributionPanel.class, MockPowerDistributionPanel.class)
