@@ -1,7 +1,8 @@
 package edu.wpi.first.wpilibj;
 
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.wpilibj.I2C.Port;
 import xbot.common.controls.sensors.XLidarLite;
@@ -9,6 +10,11 @@ import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.PropertyFactory;
 
 public class MockLidarLite extends XLidarLite {
+
+    @AssistedFactory
+    public abstract static class MockLidarLiteFactory implements XLidarLiteFactory {
+        public abstract MockLidarLite create(@Assisted("port") Port port, @Assisted("prefix") String prefix);
+    }
 
     @AssistedInject
     public MockLidarLite(@Assisted("port") Port port, PropertyFactory propMan, DevicePolice police, @Assisted("prefix") String prefix) {

@@ -9,6 +9,10 @@ public abstract class XSpeedController implements XBaseIO
     protected int channel;
     protected boolean isInverted;
     
+    public interface XSpeedControllerFactory {
+        XSpeedController create(int channel);
+    }
+
     public XSpeedController(int channel, DevicePolice police) {
         this.channel = channel;
         police.registerDevice(DeviceType.PWM, channel, this);

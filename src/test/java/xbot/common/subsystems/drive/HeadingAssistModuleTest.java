@@ -19,11 +19,11 @@ public class HeadingAssistModuleTest extends BaseWPITest {
     @Override
     public void setUp() {
         super.setUp();
-        pose = injector.getInstance(BasePoseSubsystem.class);
+        pose = injectorComponent.poseSubsystem();
         
-        HeadingModule hold = clf.createHeadingModule(pf.create("Hold", 1000, 0, 0));
-        HeadingModule decay = clf.createHeadingModule(pf.create("Decay", 0, 0, 1000));
-        ham = clf.createHeadingAssistModule(hold, decay, "Test");
+        HeadingModule hold = injectorComponent.headingModuleFactory().create(pf.create("Hold", 1000, 0, 0));
+        HeadingModule decay = injectorComponent.headingModuleFactory().create(pf.create("Decay", 0, 0, 1000));
+        ham = injectorComponent.headingAssistModuleFactory().create(hold, decay, "Test");
         ham.setMode(HeadingAssistMode.HoldOrientation);
     }
     

@@ -37,7 +37,7 @@ public class MockTimerTest extends BaseWPITest {
     @Ignore("Changes to WPI's Timer render this non-functional, until we find a way to inject depeer into their library")
     public void test_command_timed_out() {
         Command timeOut = new WaitCommand(5);
-        XScheduler xScheduler = this.injector.getInstance(XScheduler.class);
+        XScheduler xScheduler = injectorComponent.scheduler();
 
         CommandScheduler.getInstance().schedule(timeOut);
         // Okay, so this is kind of weird. Basically, you need to call the scheduler twice for it

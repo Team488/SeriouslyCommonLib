@@ -16,7 +16,7 @@ public class DriveSubsystemTest extends BaseWPITest {
     public void setUp() {
         super.setUp();
         
-        this.drive = (MockDriveSubsystem)injector.getInstance(BaseDriveSubsystem.class);
+        this.drive = (MockDriveSubsystem)injectorComponent.driveSubsystem();
     }
     
     @Test

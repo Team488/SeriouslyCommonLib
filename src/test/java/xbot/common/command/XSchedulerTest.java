@@ -18,14 +18,14 @@ public class XSchedulerTest extends BaseWPITest {
 
     @After
     public void tearDown() {
-        this.injector.getInstance(XScheduler.class).removeAll();
+        injectorComponent.scheduler().removeAll();
     }
 
     @Test
     public void testXSchedulerDoesntCrash() {
         BaseCommand crashingCommand = new CrashingOnInitCommand();
         CommandScheduler.getInstance().schedule(crashingCommand);
-        XScheduler xScheduler = this.injector.getInstance(XScheduler.class);
+        XScheduler xScheduler = injectorComponent.scheduler();
         xScheduler.run();
         xScheduler.run();
         // shouldn't have crashed
@@ -35,7 +35,7 @@ public class XSchedulerTest extends BaseWPITest {
     public void testXSchedulerDoesntCrashAndRecovers() {
         BaseCommand crashingCommand = new CrashingInExecCommand();
         CommandScheduler.getInstance().schedule(crashingCommand);
-        XScheduler xScheduler = this.injector.getInstance(XScheduler.class);
+        XScheduler xScheduler = injectorComponent.scheduler();
         xScheduler.run();
         xScheduler.run();
         // shouldn't have crashed

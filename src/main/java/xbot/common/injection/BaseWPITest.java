@@ -9,8 +9,8 @@ import org.junit.Ignore;
 
 import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.controls.sensors.XTimer;
-import xbot.common.injection.components.BaseComponent;
 import xbot.common.injection.components.DaggerUnitTestComponent;
+import xbot.common.injection.components.UnitTestComponent;
 import xbot.common.injection.factories.PIDFactory;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.properties.PropertyFactory;
@@ -18,7 +18,7 @@ import xbot.common.properties.PropertyFactory;
 @Ignore
 public class BaseWPITest {
     public Injector injector;
-    public BaseComponent injectorComponent;
+    public UnitTestComponent injectorComponent;
 
     public PropertyFactory propertyFactory;
     
@@ -28,7 +28,7 @@ public class BaseWPITest {
     protected MockTimer timer;
 
     protected Injector createInjector() {
-        return Guice.createInjector(new SeriouslyCommonLibTestModule(injectorComponent));
+        return Guice.createInjector(new UnitTestModule(injectorComponent));
     }
 
     @Before

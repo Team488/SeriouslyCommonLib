@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
-import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.FieldPose;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.subsystems.drive.control_logic.HeadingModule.HeadingModuleFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 public class ConfigurablePurePursuitCommand extends PurePursuitCommand {
@@ -17,9 +17,9 @@ public class ConfigurablePurePursuitCommand extends PurePursuitCommand {
     private Supplier<List<RabbitPoint>> externalPointSource;
 
     @Inject
-    public ConfigurablePurePursuitCommand(CommonLibFactory clf, BasePoseSubsystem pose, BaseDriveSubsystem drive,
+    public ConfigurablePurePursuitCommand(HeadingModuleFactory headingModuleFactory, BasePoseSubsystem pose, BaseDriveSubsystem drive,
             PropertyFactory propMan) {
-        super(clf, pose, drive, propMan);
+        super(headingModuleFactory, pose, drive, propMan);
         mode = PointLoadingMode.Absolute;
         originalPoints = new ArrayList<>();
         externalPointSource = null;

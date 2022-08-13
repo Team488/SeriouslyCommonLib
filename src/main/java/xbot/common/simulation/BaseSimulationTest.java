@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.components.DaggerSimulationComponent;
 import xbot.common.injection.factories.PIDFactory;
+import xbot.common.injection.SimulatorModule;
 import xbot.common.injection.components.BaseComponent;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.properties.PropertyFactory;
@@ -34,7 +35,7 @@ public class BaseSimulationTest {
     SimulationPayloadDistributor distributor;
 
     private Injector createInjector() {
-        return Guice.createInjector(new SimulationTestModule(injectorComponent));
+        return Guice.createInjector(new SimulatorModule(injectorComponent));
     }
 
     @Before

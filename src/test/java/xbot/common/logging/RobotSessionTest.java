@@ -16,7 +16,7 @@ public class RobotSessionTest extends BaseWPITest {
     @Override
     public void setUp() {
         super.setUp();
-        rs = injector.getInstance(RobotSession.class);
+        rs = injectorComponent.robotSession();
     }
 
     @Test

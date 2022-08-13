@@ -21,11 +21,11 @@ public class BasePoseTest extends BaseWPITest {
     @Before
     public void setup() {
         mockTimer = (MockTimer)injectorComponent.timerImplementation();
-        pose = injector.getInstance(MockBasePoseSubsystem.class);
+        pose = (MockBasePoseSubsystem)injectorComponent.poseSubsystem();
         
-        XCANTalon left = clf.createCANTalon(new CANTalonInfo(0));
+        XCANTalon left = injectorComponent.canTalonFactory().create(new CANTalonInfo(0));
         left.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-        XCANTalon right = clf.createCANTalon(new CANTalonInfo(1));
+        XCANTalon right = injectorComponent.canTalonFactory().create(new CANTalonInfo(1));
         right.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         
         pose.setDriveTalons(left, right);

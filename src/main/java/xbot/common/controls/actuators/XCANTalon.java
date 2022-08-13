@@ -22,6 +22,7 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 
+import xbot.common.injection.electrical_contract.CANTalonInfo;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.properties.DoubleProperty;
@@ -52,6 +53,10 @@ public abstract class XCANTalon implements IMotorControllerEnhanced {
     private DoubleProperty velocityProperty = null;
 
     protected String policeTicket;
+
+    public interface XCANTalonFactory {
+        XCANTalon create(CANTalonInfo deviceInfo);
+    }
 
     public XCANTalon(int deviceId, PropertyFactory propMan, DevicePolice police) {
         this.deviceId = deviceId;

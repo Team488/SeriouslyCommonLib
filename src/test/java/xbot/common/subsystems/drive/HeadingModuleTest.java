@@ -25,8 +25,8 @@ public class HeadingModuleTest extends BaseWPITest {
         pid.setErrorThreshold(3);
         pid.setEnableErrorThreshold(true);
         
-        headingModule = clf.createHeadingModule(pid);
-        pose = injector.getInstance(BasePoseSubsystem.class);
+        headingModule = injectorComponent.headingModuleFactory().create(pid);
+        pose = injectorComponent.poseSubsystem();
     }     
     
     @Test

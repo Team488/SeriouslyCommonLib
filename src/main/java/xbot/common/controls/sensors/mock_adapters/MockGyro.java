@@ -2,11 +2,15 @@ package xbot.common.controls.sensors.mock_adapters;
 
 import java.math.BigDecimal;
 
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
-
 import org.json.JSONObject;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
+
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SerialPort;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
@@ -26,25 +30,22 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
     private double rawAccelY;
     private double rawAccelZ;
 
-    @AssistedInject
-    public MockGyro(DevicePolice police) {
-        super(ImuType.mock);
-        police.registerDevice(DeviceType.IMU, 1, this);
+    @AssistedFactory
+    public abstract static class MockGyroFactory extends XGyroFactory {
+        @Override
+        public abstract MockGyro create(@Assisted SPI.Port spiPort, @Assisted SerialPort.Port serialPort, @Assisted I2C.Port i2cPort);
     }
 
     @AssistedInject
-    public MockGyro(@Assisted("isBroken") boolean isBroken, DevicePolice police) {
+    public MockGyro(DevicePolice police, @Assisted SPI.Port spiPort, @Assisted SerialPort.Port serialPort, @Assisted I2C.Port i2cPort) {
         super(ImuType.mock);
-        setIsBroken(isBroken);
-        // So far we've been living in a world with a single IMU, the NavX - if this changes, we'll need to 
-        // handle passing the channel value in instead of assuming "1".
-        police.registerDevice(DeviceType.IMU, 1, this);
-    }
-
-    @AssistedInject
-    public MockGyro(@Assisted("channel") int channel, DevicePolice police) {
-        super(ImuType.mock);
-        police.registerDevice(DeviceType.IMU, channel, this);
+        if (spiPort != null) {
+            police.registerDevice(DeviceType.IMU, spiPort.value, this);
+        } else if (serialPort != null) {
+            police.registerDevice(DeviceType.IMU, serialPort.value, this);
+        } else if (i2cPort != null) {
+            police.registerDevice(DeviceType.IMU, i2cPort.value, this);
+        }
     }
 
     public boolean isConnected() {

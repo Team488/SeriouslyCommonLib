@@ -17,7 +17,7 @@ public class TalonCurrentMonitorTest extends BaseWPITest {
     @Override
     public void setUp() {
         super.setUp();
-        talon = clf.createCANTalon(new CANTalonInfo(1));
+        talon = injectorComponent.canTalonFactory().create(new CANTalonInfo(1));
         currentMonitor = new TalonCurrentMonitor(talon);
     }
 

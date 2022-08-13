@@ -1,10 +1,12 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import com.kauailabs.navx.frc.AHRS;
 
 import org.apache.log4j.Logger;
+
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
@@ -20,42 +22,34 @@ public class InertialMeasurementUnitAdapter extends XGyro {
 
     static Logger log = Logger.getLogger(InertialMeasurementUnitAdapter.class);
     
+    @AssistedFactory
+    public abstract static class InertialMeasurementUnitAdapterFactory extends XGyroFactory {
+        public abstract InertialMeasurementUnitAdapter create(@Assisted SPI.Port spiPort, @Assisted SerialPort.Port serialPort, @Assisted I2C.Port i2cPort);
+    }
+
     @AssistedInject
-    public InertialMeasurementUnitAdapter() {
+    public InertialMeasurementUnitAdapter(DevicePolice police, @Assisted SPI.Port spiPort, @Assisted SerialPort.Port serialPort, @Assisted I2C.Port i2cPort) {
         super(ImuType.navX);
         /* Options: Port.kMXP, SPI.kMXP, I2C.kMXP or SerialPort.kUSB */
         try {
-            this.ahrs = new AHRS(SPI.Port.kMXP);
+            if (spiPort != null) {
+                this.ahrs = new AHRS(spiPort);
+                police.registerDevice(DeviceType.SPI, spiPort.value, this);
+            } else if (serialPort != null) {
+                this.ahrs = new AHRS(serialPort);
+                police.registerDevice(DeviceType.IMU, serialPort.value, this);
+            } else if (i2cPort != null) {
+                this.ahrs = new AHRS(i2cPort);
+                police.registerDevice(DeviceType.I2C, i2cPort.value, this);
+            } else {
+                throw new Exception("No port provided");
+            }
             log.info("AHRS successfully created");
         }
         catch (Exception e){
             isBroken = true;
             log.warn("AHRS could not be created - gyro is broken!");
         }
-    }
-
-    @AssistedInject
-    public InertialMeasurementUnitAdapter(@Assisted("channel") int channel, DevicePolice police) {
-        super(ImuType.navX);
-        police.registerDevice(DeviceType.IMU, channel, this);
-    }
-
-    @AssistedInject
-    public InertialMeasurementUnitAdapter(@Assisted("spi-port") SPI.Port spi_port_id) {
-        super(ImuType.navX);
-        this.ahrs = new AHRS(spi_port_id);
-    }
-
-    @AssistedInject
-    public InertialMeasurementUnitAdapter(@Assisted("i2c-port") I2C.Port i2c_port_id) {
-        super(ImuType.navX);
-        this.ahrs = new AHRS(i2c_port_id);
-    }
-
-    @AssistedInject
-    public InertialMeasurementUnitAdapter(@Assisted("serial-port") SerialPort.Port serial_port_id) {
-        super(ImuType.navX);
-        this.ahrs = new AHRS(serial_port_id);
     }
 
     @Override

@@ -8,7 +8,7 @@ public class BaseCommandTest extends BaseWPITest {
 
     @Test
     public void testPuttingOnSmartDashboardDoesntCrashTest() {
-        BaseCommand command = injector.getInstance(MockCommand.class);
+        BaseCommand command = new MockCommand();
         command.includeOnSmartDashboard("label");
         command.includeOnSmartDashboard();
     }

@@ -22,7 +22,6 @@ import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.RobotModule;
 import xbot.common.injection.components.BaseComponent;
-import xbot.common.injection.components.DaggerRobotComponent;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotSession;
 import xbot.common.logging.TimeLogger;
@@ -42,7 +41,7 @@ import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
  * scheduling, and the injector. Required for a fair amount
  * of CommonLib functionality.
  */
-public class BaseRobot extends TimedRobot {
+public abstract class BaseRobot extends TimedRobot {
 
     Logger log;
     Latch brownoutLatch;
@@ -89,9 +88,14 @@ public class BaseRobot extends TimedRobot {
      * Override if you need a different module
      */
     protected void setupInjectionModule() {
-        injectorComponent = DaggerRobotComponent.create();
+        injectorComponent = getDaggerComponent();
         this.injectionModule = new RobotModule(injectorComponent);
     }
+
+    /**
+     * Returns the {@link BaseComponent} instance used for dependency injection
+     */
+    protected abstract BaseComponent getDaggerComponent();
 
     /**
      * This function is run when the robot is first started up and should be used for any initialization code.

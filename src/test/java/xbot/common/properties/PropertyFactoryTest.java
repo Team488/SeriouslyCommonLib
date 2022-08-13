@@ -10,7 +10,7 @@ public class PropertyFactoryTest extends BaseWPITest {
     
     @Test
     public void testNoDoubleSlashes() {
-        PropertyFactory factory = injector.getInstance(PropertyFactory.class);
+        PropertyFactory factory = injectorComponent.propertyFactory();
         assertEquals(-1, factory.createFullKey("my//mykey").indexOf("//"));
 
         factory.setPrefix("prefix");

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XTimer;
-import xbot.common.injection.wpi_factories.CommonLibFactory;
+import xbot.common.controls.sensors.XGyro.XGyroFactory;
 import xbot.common.math.FieldPose;
 import xbot.common.math.WrappedRotation2d;
 import xbot.common.math.XYPair;
@@ -55,10 +55,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     
     private double lastSetHeadingTime;
 
-    public BasePoseSubsystem(CommonLibFactory factory, PropertyFactory propManager) {
+    public BasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {
         log.info("Creating");
         propManager.setPrefix(this);
-        imu = factory.createGyro();
+        imu = gyroFactory.create();
         this.classInstantiationTime = XTimer.getFPGATimestamp();
         
         // Right when the system is initialized, we need to have the old value be

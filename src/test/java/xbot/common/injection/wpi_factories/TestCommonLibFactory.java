@@ -12,6 +12,7 @@ import xbot.common.injection.BaseWPITest;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.logging.RobotAssertionException;
+import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
 public class TestCommonLibFactory extends BaseWPITest {
 
@@ -27,16 +28,17 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createSolenoid(1);
         clf.createDigitalOutput(3);
         clf.createServo(1);
-        clf.createSpeedController(2);
-        clf.createGyro(2);
-        clf.createLidarLite(I2C.Port.kOnboard, "Test");
+        injectorComponent.speedControllerFactory().create(2);
+        injectorComponent.gyroFactory().create(I2C.Port.kMXP);
+        injectorComponent.lidarLiteFactory().create(I2C.Port.kOnboard, "Test");
         XJoystick j = injectorComponent.joystickFactory().create(1, 12);
         injectorComponent.joystickButtonFactory().create(j, 1);
         injectorComponent.analogHidButtonFactory().create(j, 1, -1, 1);
         injectorComponent.povButtonFactory().create(j, 1);
         injectorComponent.ftcGamepadFactory().create(3, 10);
         injectorComponent.humanVsMachineDeciderFactory().create("Agent Smith");
-        clf.createHeadingModule(pf.create("bar", 1, 0, 0));
+        HeadingModule h = injectorComponent.headingModuleFactory().create(pf.create("bar", 1, 0, 0));
+        injectorComponent.headingAssistModuleFactory().create(h, "heading");
         injectorComponent.calibrationDeciderFactory().create("calibration");
         injectorComponent.velocityThrottleModuleFactory().create("velocityThrottleThing", pf.create("velocity", 1, 0, 0));
         injectorComponent.compressorFactory().create();
@@ -51,7 +53,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createDoubleSolenoid(clf.createSolenoid(2), clf.createSolenoid(3));
         clf.createCANSparkMax(new DeviceInfo(10), "drive", "left");
         clf.createCANSparkMax(new DeviceInfo(11), "drive", "left", new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
-        XCANTalon talon = clf.createCANTalon(new CANTalonInfo(1));
+        XCANTalon talon = injectorComponent.canTalonFactory().create(new CANTalonInfo(1));
         clf.createXAS5600(talon);
         clf.createCANVictorSPX(5);
         clf.createAbsoluteEncoder(new DeviceInfo(6), "test");
@@ -61,8 +63,8 @@ public class TestCommonLibFactory extends BaseWPITest {
     
     @Test(expected = RobotAssertionException.class)
     public void doubleAllocate() {
-        clf.createCANTalon(new CANTalonInfo(1));    
-        clf.createCANTalon(new CANTalonInfo(1));
+        injectorComponent.canTalonFactory().create(new CANTalonInfo(1));    
+        injectorComponent.canTalonFactory().create(new CANTalonInfo(1));
         assertTrue("You shouldn't be able to double-allocate!", false);
     }
 }

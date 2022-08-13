@@ -5,9 +5,9 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.controls.actuators.XCANTalon.XCANTalonFactory;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
-import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.PIDPropertyManager;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
@@ -57,7 +57,7 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
             int masterChannel,
             boolean invertMaster,
             boolean invertMasterSensor,
-            CommonLibFactory factory, 
+            XCANTalonFactory factory, 
             PIDPropertyManager pidPropertyManager,
             PropertyFactory propManager){
         super();
@@ -78,7 +78,7 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
         systemTalonError = propManager.createEphemeralProperty(name + " speed error", 0);
         enablesystemLogging = propManager.createEphemeralProperty("Is " + name + " logging enabled?", false);
         
-        masterMotor = factory.createCANTalon(new CANTalonInfo(masterChannel, false));
+        masterMotor = factory.create(new CANTalonInfo(masterChannel, false));
         initializeMasterMotorConfiguration(invertMaster, invertMasterSensor);
         masterMotor.createTelemetryProperties(name + "/", name + "  master");
     }

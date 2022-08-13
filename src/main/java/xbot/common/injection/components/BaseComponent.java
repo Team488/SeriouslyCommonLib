@@ -4,7 +4,9 @@ import javax.inject.Named;
 
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.command.XScheduler;
+import xbot.common.controls.actuators.XCANTalon.XCANTalonFactory;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
+import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
 import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
@@ -14,7 +16,9 @@ import xbot.common.controls.sensors.ChordButton.ChordButtonFactory;
 import xbot.common.controls.sensors.VirtualButton.VirtualButtonFactory;
 import xbot.common.controls.sensors.XDigitalInput.XDigitalInputFactory;
 import xbot.common.controls.sensors.XFTCGamepad.XFTCGamepadFactory;
+import xbot.common.controls.sensors.XGyro.XGyroFactory;
 import xbot.common.controls.sensors.XJoystick.XJoystickFactory;
+import xbot.common.controls.sensors.XLidarLite.XLidarLiteFactory;
 import xbot.common.controls.sensors.XPowerDistributionPanel.XPowerDistributionPanelFactory;
 import xbot.common.controls.sensors.XXboxController.XXboxControllerFactory;
 import xbot.common.injection.factories.PIDFactory;
@@ -33,6 +37,10 @@ import xbot.common.properties.XPropertyManager;
 import xbot.common.simulation.SimulationPayloadDistributor;
 import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
+import xbot.common.subsystems.drive.BaseDriveSubsystem;
+import xbot.common.subsystems.drive.control_logic.HeadingAssistModule.HeadingAssistModuleFactory;
+import xbot.common.subsystems.drive.control_logic.HeadingModule.HeadingModuleFactory;
+import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 /**
  * Base class for all Components that provides methods to get implementations from DI.
@@ -103,4 +111,20 @@ public abstract class BaseComponent {
     public abstract XDigitalInputFactory digitalInputFactory();
 
     public abstract XCompressorFactory compressorFactory();
+
+    public abstract XGyroFactory gyroFactory();
+
+    public abstract HeadingModuleFactory headingModuleFactory();
+
+    public abstract HeadingAssistModuleFactory headingAssistModuleFactory();
+
+    public abstract XCANTalonFactory canTalonFactory();
+
+    public abstract XLidarLiteFactory lidarLiteFactory();
+
+    public abstract XSpeedControllerFactory speedControllerFactory();
+
+    public abstract BaseDriveSubsystem driveSubsystem();
+    
+    public abstract BasePoseSubsystem poseSubsystem();
 }

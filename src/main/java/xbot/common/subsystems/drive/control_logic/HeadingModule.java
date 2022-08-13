@@ -1,7 +1,8 @@
 package xbot.common.subsystems.drive.control_logic;
 
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import xbot.common.math.PIDManager;
@@ -23,7 +24,12 @@ public class HeadingModule {
     private Rotation2d targetHeading;
     
     public final double defaultPValue = 1/80d;
-    
+
+    @AssistedFactory
+    public abstract static class HeadingModuleFactory {
+        public abstract HeadingModule create(@Assisted("headingDrivePid") PIDManager headingDrivePid);
+    }
+
     @AssistedInject
     public HeadingModule(
             @Assisted("headingDrivePid") PIDManager headingDrivePid, 

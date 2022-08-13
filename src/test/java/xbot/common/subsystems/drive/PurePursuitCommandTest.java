@@ -15,7 +15,6 @@ import xbot.common.math.XYPair;
 import xbot.common.subsystems.drive.PurePursuitCommand.PointLoadingMode;
 import xbot.common.subsystems.drive.RabbitPoint.PointTerminatingType;
 import xbot.common.subsystems.drive.RabbitPoint.PointType;
-import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.MockBasePoseSubsystem;
 
 public class PurePursuitCommandTest extends BaseWPITest {
@@ -27,9 +26,9 @@ public class PurePursuitCommandTest extends BaseWPITest {
     @Override
     public void setUp() {
         super.setUp();
-        command = injector.getInstance(ConfigurablePurePursuitCommand.class);
-        this.drive = (MockDriveSubsystem)injector.getInstance(BaseDriveSubsystem.class);
-        this.pose = (MockBasePoseSubsystem)injector.getInstance(BasePoseSubsystem.class);
+        command = injectorComponent.configurablePurePursuitCommand();
+        this.drive = (MockDriveSubsystem)injectorComponent.driveSubsystem();
+        this.pose = (MockBasePoseSubsystem)injectorComponent.poseSubsystem();
         
         pose.setDriveTalons(drive.leftTank, drive.rightTank);
         

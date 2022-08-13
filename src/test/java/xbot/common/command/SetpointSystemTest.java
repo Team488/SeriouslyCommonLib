@@ -25,7 +25,7 @@ public class SetpointSystemTest extends BaseWPITest {
     @Test
     @Ignore
     public void testSetpointCommandsCollide() {
-        XScheduler xScheduler = this.injector.getInstance(XScheduler.class);
+        XScheduler xScheduler = injectorComponent.scheduler();
         xScheduler.removeAll();
         xScheduler.removeAll();
         xScheduler.removeAll();

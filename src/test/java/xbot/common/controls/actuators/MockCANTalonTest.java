@@ -16,7 +16,7 @@ public class MockCANTalonTest extends BaseWPITest {
     
     @Test
     public void testSpeedControl() {
-        XCANTalon talon = clf.createCANTalon(new CANTalonInfo(1));
+        XCANTalon talon = injectorComponent.canTalonFactory().create(new CANTalonInfo(1));
        
         talon.config_kP(0, 0.5, 0);
         
@@ -31,7 +31,7 @@ public class MockCANTalonTest extends BaseWPITest {
 
     @Test
     public void testPositionControl() {
-        XCANTalon talon = clf.createCANTalon(new CANTalonInfo(1));
+        XCANTalon talon = injectorComponent.canTalonFactory().create(new CANTalonInfo(1));
        
         talon.config_kP(0, 0.5, 0);
         
@@ -46,7 +46,7 @@ public class MockCANTalonTest extends BaseWPITest {
     
     @Test
     public void internalEncoderTest() {
-    	MockCANTalon motor = (MockCANTalon)clf.createCANTalon(new CANTalonInfo(1));
+    	MockCANTalon motor = (MockCANTalon)injectorComponent.canTalonFactory().create(new CANTalonInfo(1));
     	motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
     	motor.setPosition(100);
     	
