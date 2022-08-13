@@ -19,7 +19,7 @@ import xbot.common.properties.TableProxy;
 import xbot.common.properties.XPropertyManager;
 
 /**
- * Module mapping interfaces to impelementations for unit tests.
+ * Module mapping interfaces to implementations for unit tests.
  */
 @Module
 public abstract class UnitTestModule {

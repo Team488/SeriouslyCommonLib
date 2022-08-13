@@ -19,7 +19,7 @@ import xbot.common.properties.SmartDashboardTableWrapper;
 import xbot.common.properties.XPropertyManager;
 
 /**
- * Module mapping interfaces to impelementations for a simulated robot.
+ * Module mapping interfaces to implementations for a simulated robot.
  */
 @Module
 public abstract class SimulationModule {

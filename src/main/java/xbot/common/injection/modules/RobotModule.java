@@ -20,7 +20,7 @@ import xbot.common.properties.TableProxy;
 import xbot.common.properties.XPropertyManager;
 
 /**
- * Module mapping interfaces to impelementations for a real robot.
+ * Module mapping interfaces to implementations for a real robot.
  */
 @Module
 public abstract class RobotModule {
