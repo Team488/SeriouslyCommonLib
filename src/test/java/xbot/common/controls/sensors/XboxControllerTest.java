@@ -10,7 +10,7 @@ public class XboxControllerTest extends BaseWPITest {
 
     @Test(expected = RobotAssertionException.class)
     public void doubleAllocateButton() {
-        XXboxController controller = clf.createXboxController(0);
+        XXboxController controller = injectorComponent.xboxControllerFactory().create(0);
         
         // We expect the robot to get mad if we try to get the same button twice
         //thrown.expect(RobotAssertionException.class);

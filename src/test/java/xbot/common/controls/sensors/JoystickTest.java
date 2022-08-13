@@ -16,7 +16,7 @@ public class JoystickTest extends BaseWPITest {
     public void setUp() {
         super.setUp();
         
-        joystick = (MockJoystick)clf.createJoystick(0, 10);
+        joystick = (MockJoystick)injectorComponent.joystickFactory().create(0, 10);
     }
     
     @Test

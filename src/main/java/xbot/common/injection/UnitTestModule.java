@@ -10,11 +10,9 @@ import edu.wpi.first.wpilibj.MockDigitalInput;
 import edu.wpi.first.wpilibj.MockDigitalOutput;
 import edu.wpi.first.wpilibj.MockLidarLite;
 import edu.wpi.first.wpilibj.MockPWM;
-import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
 import edu.wpi.first.wpilibj.MockServo;
 import edu.wpi.first.wpilibj.MockSolenoid;
 import edu.wpi.first.wpilibj.MockSpeedController;
-import edu.wpi.first.wpilibj.MockXboxControllerAdapter;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCANVictorSPX;
@@ -38,16 +36,12 @@ import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XFTCGamepad;
 import xbot.common.controls.sensors.XGyro;
-import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
-import xbot.common.controls.sensors.XPowerDistributionPanel;
-import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.mock_adapters.MockAbsoluteEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockCANCoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockFTCGamepad;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
-import xbot.common.controls.sensors.mock_adapters.MockJoystick;
 import xbot.common.injection.components.BaseComponent;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.networking.MockCommunicationClient;
@@ -68,11 +62,9 @@ public class UnitTestModule extends BaseModule {
 
         this.install(new FactoryModuleBuilder()
                 .implement(OffboardCommunicationClient.class, MockCommunicationClient.class)
-                .implement(XPowerDistributionPanel.class, MockPowerDistributionPanel.class)
-                .implement(XJoystick.class, MockJoystick.class).implement(XFTCGamepad.class, MockFTCGamepad.class)
+                .implement(XFTCGamepad.class, MockFTCGamepad.class)
                 .implement(XEncoder.class, MockEncoder.class).implement(XDigitalInput.class, MockDigitalInput.class)
                 .implement(XAnalogInput.class, MockAnalogInput.class)
-                .implement(XXboxController.class, MockXboxControllerAdapter.class)
                 .implement(XSolenoid.class, MockSolenoid.class).implement(XDigitalOutput.class, MockDigitalOutput.class)
                 .implement(XServo.class, MockServo.class).implement(XSpeedController.class, MockSpeedController.class)
                 .implement(XCANTalon.class, MockCANTalon.class).implement(XGyro.class, MockGyro.class)

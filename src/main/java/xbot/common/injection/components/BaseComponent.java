@@ -6,9 +6,15 @@ import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.command.XScheduler;
 import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
+import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
+import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
+import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
 import xbot.common.injection.factories.PIDFactory;
 import xbot.common.injection.factories.PIDPropertyManagerFactory;
+import xbot.common.injection.factories.XFTCGamepadFactory;
+import xbot.common.injection.factories.XJoystickFactory;
 import xbot.common.injection.factories.XPowerDistributionPanelFactory;
+import xbot.common.injection.factories.XXboxControllerFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.logging.RobotSession;
@@ -61,4 +67,16 @@ public abstract class BaseComponent {
     public abstract PIDPropertyManagerFactory pidPropertyManagerFactory();
 
     public abstract XPowerDistributionPanelFactory powerDistributionPanelFactory();
+
+    public abstract XJoystickFactory joystickFactory();
+
+    public abstract AdvancedJoystickButtonFactory joystickButtonFactory();
+
+    public abstract AdvancedPovButtonFactory povButtonFactory();
+
+    public abstract AnalogHIDButtonFactory analogHidButtonFactory();
+
+    public abstract XXboxControllerFactory xboxControllerFactory();
+
+    public abstract XFTCGamepadFactory ftcGamepadFactory();
 }

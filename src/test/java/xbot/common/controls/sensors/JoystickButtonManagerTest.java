@@ -19,8 +19,8 @@ public class JoystickButtonManagerTest extends BaseWPITest {
     public void setup() {
         super.setUp();
         
-        testJoystick = clf.createJoystick(1, 12);
-        assertion = this.injector.getInstance(RobotAssertionManager.class);
+        testJoystick = injectorComponent.joystickFactory().create(1, 12);
+        assertion = injectorComponent.robotAssertionManager();
     }
     
     @Test(expected = RuntimeException.class)

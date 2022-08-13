@@ -2,8 +2,9 @@ package xbot.common.controls.sensors;
 
 import org.apache.log4j.Logger;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 public class AdvancedJoystickButton extends AdvancedButton
 {
@@ -12,7 +13,14 @@ public class AdvancedJoystickButton extends AdvancedButton
     XJoystick joystick;
     int buttonNumber;
     
-    @Inject
+    @AssistedFactory
+    public abstract static class AdvancedJoystickButtonFactory {
+        public abstract AdvancedJoystickButton create(
+            @Assisted("joystick") XJoystick joystick,
+            @Assisted("buttonNumber") int buttonNumber);
+    }
+
+    @AssistedInject
     public AdvancedJoystickButton(
             @Assisted("joystick") XJoystick joystick, 
             @Assisted("buttonNumber")int buttonNumber) {

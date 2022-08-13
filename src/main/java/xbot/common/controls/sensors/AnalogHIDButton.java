@@ -1,7 +1,8 @@
 package xbot.common.controls.sensors;
 
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.wpilibj2.command.button.Button;
 
@@ -13,6 +14,19 @@ public class AnalogHIDButton extends Button {
     double m_analogMinThreshold;
     double m_analogMaxThreshold;
 
+    @AssistedFactory
+    public abstract static class AnalogHIDButtonFactory {
+        public abstract AnalogHIDButton create(
+            @Assisted("joystick") XJoystick joystick, 
+            @Assisted("axisNumber") int axisNumber,
+            @Assisted("analogMinThreshold") double analogMinThreshold, 
+            @Assisted("analogMaxThreshold") double analogMaxThreshold);
+
+        public AnalogHIDButton create(XJoystick joystick, AnalogHIDDescription desc) {
+            return create(joystick, desc.axisNumber, desc.analogMinThreshold, desc.analogMaxThreshold);
+        }
+    }
+
     /**
      * Create a joystick button for triggering commands based off of an analog axis
      * 
@@ -23,7 +37,6 @@ public class AnalogHIDButton extends Button {
      * @param analogThreshold
      *            Analog threshold to trigger binary button state
      */
-    
     @AssistedInject
     public AnalogHIDButton(
             @Assisted("joystick") XJoystick joystick, 
@@ -34,16 +47,6 @@ public class AnalogHIDButton extends Button {
         m_axisNumber = axisNumber;
         m_analogMinThreshold = analogMinThreshold;
         m_analogMaxThreshold = analogMaxThreshold;
-    }
-
-    @AssistedInject
-    public AnalogHIDButton(
-            @Assisted("joystick") XJoystick joystick, 
-            @Assisted("desc") AnalogHIDDescription desc) {
-        m_joystick = joystick;
-        m_axisNumber = desc.axisNumber;
-        m_analogMinThreshold = desc.analogMinThreshold;
-        m_analogMaxThreshold = desc.analogMaxThreshold;
     }
 
     /**

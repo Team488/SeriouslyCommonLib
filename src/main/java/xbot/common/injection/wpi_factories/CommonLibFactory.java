@@ -16,10 +16,6 @@ import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.controls.sensors.AdvancedButton;
-import xbot.common.controls.sensors.AdvancedJoystickButton;
-import xbot.common.controls.sensors.AdvancedPovButton;
-import xbot.common.controls.sensors.AnalogHIDButton;
-import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.ChordButton;
 import xbot.common.controls.sensors.VirtualButton;
 import xbot.common.controls.sensors.XAS5600;
@@ -28,11 +24,8 @@ import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XCANCoder;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
-import xbot.common.controls.sensors.XFTCGamepad;
 import xbot.common.controls.sensors.XGyro;
-import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
-import xbot.common.controls.sensors.XXboxController;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.logic.CalibrationDecider;
@@ -45,14 +38,8 @@ import xbot.common.math.PIDManager;
 import xbot.common.networking.OffboardCommunicationClient;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
-import xbot.common.subsystems.feedback.RumbleManager;
 
 public interface CommonLibFactory {
-
-        public XJoystick createJoystick(@Assisted("port") int port, @Assisted("numButtons") int numButtons);
-
-        public XFTCGamepad createGamepad(@Assisted("port") int port, @Assisted("numButtons") int numButtons);
-
         public XEncoder createEncoder(@Assisted("name") String name, @Assisted("aChannel") int aChannel,
                         @Assisted("bChannel") int bChannel,
                         @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse);
@@ -60,8 +47,6 @@ public interface CommonLibFactory {
         public XDigitalInput createDigitalInput(@Assisted("channel") int channel);
 
         public XAnalogInput createAnalogInput(@Assisted("channel") int channel);
-
-        public XXboxController createXboxController(@Assisted("port") int port);
 
         public XSolenoid createSolenoid(@Assisted("channel") int channel);
 
@@ -88,24 +73,10 @@ public interface CommonLibFactory {
         //public XAnalogDistanceSensor createAnalogDistanceSensor(@Assisted("channel") int channel,
         //                @Assisted("voltageMap") DoubleFunction<Double> voltageMap, @Assisted("prefix") String prefix);
 
-        public AdvancedJoystickButton createAdvancedJoystickButton(@Assisted("joystick") XJoystick joystick,
-                        @Assisted("buttonNumber") int buttonNumber);
-
         public ChordButton createChordButton(@Assisted("a") AdvancedButton a,
                         @Assisted("b") AdvancedButton b);
 
         public VirtualButton createVirtualButton();
-
-        public AnalogHIDButton createAnalogHIDButton(@Assisted("joystick") XJoystick joystick,
-                        @Assisted("axisNumber") int axisNumber,
-                        @Assisted("analogMinThreshold") double analogMinThreshold,
-                        @Assisted("analogMaxThreshold") double analogMaxThreshold);
-
-        public AnalogHIDButton createAnalogHIDButton(@Assisted("joystick") XJoystick joystick,
-                        @Assisted("desc") AnalogHIDDescription desc);
-
-        public AdvancedPovButton createAdvancedPovButton(@Assisted("joystick") XJoystick joystick,
-                        @Assisted("povNumber") int povNumber);
 
         public HeadingModule createHeadingModule(@Assisted("headingDrivePid") PIDManager headingDrivePid);
 
@@ -153,8 +124,6 @@ public interface CommonLibFactory {
                 @Assisted("owningSystemPrefix") String owningSystemPrefix, 
                 @Assisted("name") String name,
                 @Assisted("defaultPIDProperties") XCANSparkMaxPIDProperties defaultPIDProperties); 
-
-        public RumbleManager createRumbleManager(@Assisted("gamepad") XJoystick gamepad);
 
         public XAS5600 createXAS5600(@Assisted("talon") XCANTalon talon);
 

@@ -3,12 +3,16 @@ package xbot.common.controls.sensors.mock_adapters;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import xbot.common.controls.sensors.XJoystick;
-import xbot.common.injection.wpi_factories.CommonLibFactory;
+import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
+import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
+import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
+import xbot.common.injection.factories.XJoystickFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 
@@ -17,15 +21,23 @@ public class MockJoystick extends XJoystick {
     Map<Integer, Boolean> buttons = new HashMap<Integer, Boolean>();
     Map<Integer, Double> rawAxis = new HashMap<Integer, Double>();
 
-    @Inject
+    @AssistedFactory
+    public abstract static class MockJoystickFactory implements XJoystickFactory {
+        @Override
+        public abstract MockJoystick create(@Assisted("port") int port, @Assisted("numButtons") int numButtons);
+    }
+
+    @AssistedInject
     public MockJoystick(
             @Assisted("port") int port, 
-            CommonLibFactory clf, 
+            AdvancedJoystickButtonFactory joystickButtonFactory,
+            AdvancedPovButtonFactory povButtonFactory,
+            AnalogHIDButtonFactory analogHidButtonFactory,
             RobotAssertionManager assertionManager, 
             @Assisted("numButtons") int numButtons,
             DevicePolice police) {
         
-        super(port, clf, assertionManager, numButtons, police);
+        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, assertionManager, numButtons, police);
         
         for(int i = 0; i < 6; i++)
         {

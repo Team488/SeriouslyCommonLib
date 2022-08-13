@@ -19,7 +19,7 @@ public class TestDevicePolice extends BaseWPITest {
      */
     @Test(expected = RobotAssertionException.class)
     public void doubleAllocate() {
-        RobotAssertionManager ram = injector.getInstance(RobotAssertionManager.class);
+        RobotAssertionManager ram = injectorComponent.robotAssertionManager();
         DevicePolice police = new DevicePolice(ram);
 
         police.registerDevice(DeviceType.Solenoid, 0, this);
@@ -32,7 +32,7 @@ public class TestDevicePolice extends BaseWPITest {
      */
     @Test(expected = RobotAssertionException.class)
     public void allocateGreaterThanMax() {
-        RobotAssertionManager ram = injector.getInstance(RobotAssertionManager.class);
+        RobotAssertionManager ram = injectorComponent.robotAssertionManager();
         DevicePolice police = new DevicePolice(ram);
 
         police.registerDevice(DeviceType.Solenoid, 9000, 0, 7);
@@ -44,7 +44,7 @@ public class TestDevicePolice extends BaseWPITest {
      */
     @Test(expected = RobotAssertionException.class)
     public void allocateLessThanMin() {
-        RobotAssertionManager ram = injector.getInstance(RobotAssertionManager.class);
+        RobotAssertionManager ram = injectorComponent.robotAssertionManager();
         DevicePolice police = new DevicePolice(ram);
 
         police.registerDevice(DeviceType.Solenoid, 0, 3, 7);

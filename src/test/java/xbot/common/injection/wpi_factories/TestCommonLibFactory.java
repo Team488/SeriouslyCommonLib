@@ -20,22 +20,21 @@ public class TestCommonLibFactory extends BaseWPITest {
         CommonLibFactory clf = injector.getInstance(CommonLibFactory.class);
         
         injectorComponent.powerDistributionPanelFactory().create();
-        XJoystick j = clf.createJoystick(1, 12);
         clf.createEncoder("foo", 1, 2, 1);
         clf.createDigitalInput(5);
         clf.createAnalogInput(1);
-        clf.createXboxController(2);
+        injectorComponent.xboxControllerFactory().create(2);
         clf.createSolenoid(1);
         clf.createDigitalOutput(3);
         clf.createServo(1);
         clf.createSpeedController(2);
-        XCANTalon talon = clf.createCANTalon(new CANTalonInfo(1));
         clf.createGyro(2);
         clf.createLidarLite(I2C.Port.kOnboard, "Test");
-        clf.createAdvancedJoystickButton(j, 1);
-        clf.createAnalogHIDButton(j, 1, -1, 1);
-        clf.createGamepad(3, 10);
-        clf.createAdvancedPovButton(j, 1);
+        XJoystick j = injectorComponent.joystickFactory().create(1, 12);
+        injectorComponent.joystickButtonFactory().create(j, 1);
+        injectorComponent.analogHidButtonFactory().create(j, 1, -1, 1);
+        injectorComponent.povButtonFactory().create(j, 1);
+        injectorComponent.ftcGamepadFactory().create(3, 10);
         clf.createHumanVsMachineDecider("Agent Smith");
         clf.createHeadingModule(pf.create("bar", 1, 0, 0));
         clf.createCalibrationDecider("calibration");
@@ -44,11 +43,14 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createPWM(3);
         clf.createFieldPosePropertyManager("testo", 1, 2, 3);
         clf.createZeromqListener("testo", "testo");
-        clf.createChordButton(clf.createAdvancedJoystickButton(j, 2), clf.createAdvancedJoystickButton(j, 3));
+        clf.createChordButton(
+            injectorComponent.joystickButtonFactory().create(j, 2),
+            injectorComponent.joystickButtonFactory().create(j, 3));
         clf.createVirtualButton();
         clf.createDoubleSolenoid(clf.createSolenoid(2), clf.createSolenoid(3));
         clf.createCANSparkMax(new DeviceInfo(10), "drive", "left");
         clf.createCANSparkMax(new DeviceInfo(11), "drive", "left", new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
+        XCANTalon talon = clf.createCANTalon(new CANTalonInfo(1));
         clf.createXAS5600(talon);
         clf.createCANVictorSPX(5);
         clf.createAbsoluteEncoder(new DeviceInfo(6), "test");

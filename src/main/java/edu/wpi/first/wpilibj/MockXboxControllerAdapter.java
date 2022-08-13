@@ -1,14 +1,18 @@
 package edu.wpi.first.wpilibj;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 import xbot.common.controls.sensors.XXboxController;
-import xbot.common.injection.wpi_factories.CommonLibFactory;
+import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
+import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
+import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
+import xbot.common.injection.factories.XRumbleManagerFactory;
+import xbot.common.injection.factories.XXboxControllerFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
-import xbot.common.subsystems.feedback.RumbleManager;
+import xbot.common.subsystems.feedback.XRumbleManager;
 
 public class MockXboxControllerAdapter extends XXboxController {
 
@@ -18,8 +22,26 @@ public class MockXboxControllerAdapter extends XXboxController {
     private double leftTrigger;
     private double rightTrigger;
 
-    private final RumbleManager rumbleManager;
+    private final XRumbleManager rumbleManager;
+
+    @AssistedFactory
+    public abstract static class MockXboxControllerFactory implements XXboxControllerFactory {
+        public abstract MockXboxControllerAdapter create(@Assisted("port") int port);
+    }
     
+    @AssistedInject
+    public MockXboxControllerAdapter(@Assisted("port") int port,
+            AdvancedJoystickButtonFactory joystickButtonFactory,
+            AdvancedPovButtonFactory povButtonFactory,
+            AnalogHIDButtonFactory analogHidButtonFactory, XRumbleManagerFactory rumbleManagerFactory,
+            RobotAssertionManager manager, DevicePolice police) {
+        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, rumbleManagerFactory, manager,
+                police);
+        leftStick = new XYPair();
+        rightStick = new XYPair();
+        this.rumbleManager = rumbleManagerFactory.create(this);
+    }
+
     public void setLeftStick(double x, double y) {
         leftStick.x = x * (leftXInversion ? -1 : 1);
         leftStick.y = y * (leftYInversion ? -1 : 1);
@@ -28,7 +50,7 @@ public class MockXboxControllerAdapter extends XXboxController {
     public void setLeftStick(XYPair xy) {
         setLeftStick(xy.x, xy.y);
     }
-    
+
     public void setRightStick(double x, double y) {
         rightStick.x = x * (rightXInversion ? -1 : 1);
         rightStick.y = y * (rightYInversion ? -1 : 1);
@@ -39,9 +61,12 @@ public class MockXboxControllerAdapter extends XXboxController {
     }
 
     /**
-     * Needed for a few scenarios where we want to emulate the underlying joystick behavior
+     * Needed for a few scenarios where we want to emulate the underlying joystick
+     * behavior
      * and not the intent after inversion.
-     * @param xy XYPair to directly set. (Remember that by default, most joysticks have an inverted Y axis!)
+     * 
+     * @param xy XYPair to directly set. (Remember that by default, most joysticks
+     *           have an inverted Y axis!)
      */
     public void setRawLeftStick(XYPair xy) {
         leftStick.x = xy.x;
@@ -49,21 +74,16 @@ public class MockXboxControllerAdapter extends XXboxController {
     }
 
     /**
-     * Needed for a few scenarios where we want to emulate the underlying joystick behavior
+     * Needed for a few scenarios where we want to emulate the underlying joystick
+     * behavior
      * and not the intent after inversion.
-     * @param xy XYPair to directly set. (Remember that by default, most joysticks have an inverted Y axis!)
+     * 
+     * @param xy XYPair to directly set. (Remember that by default, most joysticks
+     *           have an inverted Y axis!)
      */
     public void setRawRightStick(XYPair xy) {
         rightStick.x = xy.x;
         rightStick.y = xy.y;
-    }
-
-    @Inject
-    public MockXboxControllerAdapter(@Assisted("port") int port, CommonLibFactory clf, RobotAssertionManager manager, DevicePolice police) {
-        super(port, clf, manager, police);
-        leftStick = new XYPair();
-        rightStick = new XYPair();
-        this.rumbleManager = new RumbleManager(this);
     }
 
     public void setLeftTrigger(double left) {
@@ -96,7 +116,7 @@ public class MockXboxControllerAdapter extends XXboxController {
     }
 
     @Override
-    public RumbleManager getRumbleManager() {
+    public XRumbleManager getRumbleManager() {
         return this.rumbleManager;
     }
 

@@ -1,20 +1,25 @@
 package xbot.common.controls.sensors;
 
-import xbot.common.injection.wpi_factories.CommonLibFactory;
+import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
+import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
+import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 
 public abstract class XFTCGamepad extends XJoystick implements IGamepad {
 
-    public XFTCGamepad(int port, CommonLibFactory clf, RobotAssertionManager assertionManager, int numButtons, DevicePolice police) {
-        super(port, clf, assertionManager, numButtons, police);
+    public XFTCGamepad(int port, AdvancedJoystickButtonFactory joystickButtonFactory,
+            AdvancedPovButtonFactory povButtonFactory, AnalogHIDButtonFactory analogHidButtonFactory,
+            RobotAssertionManager assertionManager, int numButtons, DevicePolice police) {
+        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, assertionManager, numButtons,
+                police);
     }
 
     protected int getLeftJoystickXAxis() {
         return 0;
     }
-    
+
     protected int getLeftJoystickYAxis() {
         return 1;
     }
@@ -34,26 +39,23 @@ public abstract class XFTCGamepad extends XJoystick implements IGamepad {
     protected int getRightTriggerAxis() {
         return 3;
     }
-    
+
     public XYPair getLeftVector() {
         return this.getVectorForAxisPair(
-            getLeftJoystickXAxis(),
-            getLeftJoystickYAxis()
-        );
+                getLeftJoystickXAxis(),
+                getLeftJoystickYAxis());
     }
 
     public XYPair getRightVector() {
         return this.getVectorForAxisPair(
-            getRightJoystickXAxis(),
-            getRightJoystickYAxis()
-        );
+                getRightJoystickXAxis(),
+                getRightJoystickYAxis());
     }
 
-    
     public double getLeftTrigger() {
         return getRawAxis(getLeftTriggerAxis());
     }
-    
+
     public double getRightTrigger() {
         return getRawAxis(getRightTriggerAxis());
     }

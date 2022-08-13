@@ -29,20 +29,14 @@ import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XFTCGamepad;
 import xbot.common.controls.sensors.XGyro;
-import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
-import xbot.common.controls.sensors.XPowerDistributionPanel;
-import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater;
 import xbot.common.controls.sensors.wpi_adapters.CANCoderAdapter;
 import xbot.common.controls.sensors.wpi_adapters.DigitalInputWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.FTCGamepadWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.InertialMeasurementUnitAdapter;
-import xbot.common.controls.sensors.wpi_adapters.JoystickWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter;
-import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter;
-import xbot.common.controls.sensors.wpi_adapters.XboxControllerWpiAdapter;
 import xbot.common.injection.components.BaseComponent;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.networking.OffboardCommunicationClient;
@@ -66,13 +60,10 @@ public class RobotModule extends BaseModule {
         super.configure();
 
         this.install(new FactoryModuleBuilder()
-                .implement(XPowerDistributionPanel.class, PowerDistributionPanelWPIAdapter.class)
-                .implement(XJoystick.class, JoystickWPIAdapter.class)
                 .implement(XFTCGamepad.class, FTCGamepadWpiAdapter.class)
                 .implement(XEncoder.class, EncoderWPIAdapter.class)
                 .implement(XDigitalInput.class, DigitalInputWPIAdapter.class)
                 .implement(XAnalogInput.class, AnalogInputWPIAdapater.class)
-                .implement(XXboxController.class, XboxControllerWpiAdapter.class)
                 .implement(XSolenoid.class, SolenoidWPIAdapter.class)
                 .implement(XDigitalOutput.class, DigitalOutputWPIAdapter.class)
                 .implement(XServo.class, ServoWPIAdapter.class)
