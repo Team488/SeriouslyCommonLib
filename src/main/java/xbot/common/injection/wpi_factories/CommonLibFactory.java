@@ -32,7 +32,6 @@ import xbot.common.controls.sensors.XFTCGamepad;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XLidarLite;
-import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
 import xbot.common.injection.electrical_contract.DeviceInfo;
@@ -49,8 +48,6 @@ import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import xbot.common.subsystems.feedback.RumbleManager;
 
 public interface CommonLibFactory {
-
-        public XPowerDistributionPanel createPowerDistributionPanel();
 
         public XJoystick createJoystick(@Assisted("port") int port, @Assisted("numButtons") int numButtons);
 

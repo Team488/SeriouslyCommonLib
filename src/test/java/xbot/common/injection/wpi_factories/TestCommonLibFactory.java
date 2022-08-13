@@ -19,7 +19,7 @@ public class TestCommonLibFactory extends BaseWPITest {
     public void makeOneOfEverything() {
         CommonLibFactory clf = injector.getInstance(CommonLibFactory.class);
         
-        clf.createPowerDistributionPanel();
+        injectorComponent.powerDistributionPanelFactory().create();
         XJoystick j = clf.createJoystick(1, 12);
         clf.createEncoder("foo", 1, 2, 1);
         clf.createDigitalInput(5);
