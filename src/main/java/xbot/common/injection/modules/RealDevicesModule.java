@@ -4,6 +4,8 @@ import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
+import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
+import xbot.common.controls.actuators.wpi_adapters.CompressorWPIAdapter.CompressorWPIAdapterFactory;
 import xbot.common.controls.sensors.XDigitalInput.XDigitalInputFactory;
 import xbot.common.controls.sensors.XPowerDistributionPanel.XPowerDistributionPanelFactory;
 import xbot.common.controls.sensors.wpi_adapters.DigitalInputWPIAdapter.DigitalInputWPIAdapterFactory;
@@ -18,4 +20,8 @@ public abstract class RealDevicesModule {
     @Binds
     @Singleton
     public abstract XDigitalInputFactory getDigitalInputFactory(DigitalInputWPIAdapterFactory impl);
+
+    @Binds
+    @Singleton
+    public abstract XCompressorFactory getCompressorFactory(CompressorWPIAdapterFactory impl);
 }

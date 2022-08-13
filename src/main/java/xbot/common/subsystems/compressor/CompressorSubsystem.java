@@ -1,13 +1,13 @@
 package xbot.common.subsystems.compressor;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.NamedRunCommand;
 import xbot.common.controls.actuators.XCompressor;
-import xbot.common.injection.wpi_factories.CommonLibFactory;
+import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.PropertyFactory;
 
@@ -17,9 +17,9 @@ public class CompressorSubsystem extends BaseSubsystem {
     final BooleanProperty isEnabledProperty;
     
     @Inject
-    public CompressorSubsystem(CommonLibFactory clf, PropertyFactory pf) {
+    public CompressorSubsystem(XCompressorFactory compressorFactory, PropertyFactory pf) {
         pf.setPrefix("CompressorSubsystem");
-        this.compressor = clf.createCompressor();
+        this.compressor = compressorFactory.create();
         this.isEnabledProperty = pf.createEphemeralProperty("Compressor Enabled", compressor.isEnabled());
         this.register();
     }

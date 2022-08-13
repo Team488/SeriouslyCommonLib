@@ -7,7 +7,6 @@ import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCANVictorSPX;
-import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.controls.actuators.XDoubleSolenoid;
 import xbot.common.controls.actuators.XPWM;
@@ -24,7 +23,6 @@ import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
 import xbot.common.injection.electrical_contract.DeviceInfo;
-import xbot.common.logic.VelocityThrottleModule;
 import xbot.common.math.FieldPose;
 import xbot.common.math.FieldPosePropertyManager;
 import xbot.common.math.PIDManager;
@@ -57,8 +55,6 @@ public interface CommonLibFactory {
 
         public XGyro createGyro(@Assisted("channel") int channel);
 
-        public XCompressor createCompressor();
-
         public XLidarLite createLidarLite(@Assisted("port") I2C.Port port, @Assisted("prefix") String prefix);
 
         //public XAnalogDistanceSensor createAnalogDistanceSensor(@Assisted("channel") int channel,
@@ -80,9 +76,6 @@ public interface CommonLibFactory {
 
         public HeadingAssistModule createHeadingAssistModule(@Assisted("headingModule") HeadingModule headingModule,
                         @Assisted("prefix") String prefix);
-
-        public VelocityThrottleModule createVelocityThrottleModule(@Assisted("name") String name,
-                        @Assisted("velocityPid") PIDManager velocityPid);
 
         public FieldPosePropertyManager createFieldPosePropertyManager(@Assisted("poseName") String poseName,
                         @Assisted("x") double x, @Assisted("y") double y, @Assisted("heading") double heading);

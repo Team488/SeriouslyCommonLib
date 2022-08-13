@@ -1,7 +1,8 @@
 package xbot.common.logic;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import xbot.common.math.MathUtils;
 import xbot.common.math.PIDManager;
@@ -15,7 +16,14 @@ public class VelocityThrottleModule {
     final DoubleProperty throttleLowerLimitProp;
     private double throttle;
     
-    @Inject
+    @AssistedFactory
+    public abstract static class VelocityThrottleModuleFactory {
+        public abstract VelocityThrottleModule create(
+            @Assisted("name") String name,
+            @Assisted("velocityPid") PIDManager velocityPid);
+    }
+
+    @AssistedInject
     public VelocityThrottleModule(@Assisted("name") String name, @Assisted("velocityPid") PIDManager velocityPid, PropertyFactory propMan) {
         this.velocityPid = velocityPid;
         propMan.setPrefix(name + "/ThrottleModule");

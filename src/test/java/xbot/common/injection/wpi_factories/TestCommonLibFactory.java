@@ -38,7 +38,8 @@ public class TestCommonLibFactory extends BaseWPITest {
         injectorComponent.humanVsMachineDeciderFactory().create("Agent Smith");
         clf.createHeadingModule(pf.create("bar", 1, 0, 0));
         injectorComponent.calibrationDeciderFactory().create("calibration");
-        clf.createVelocityThrottleModule("velocityThrottleThing", pf.create("velocity", 1, 0, 0));
+        injectorComponent.velocityThrottleModuleFactory().create("velocityThrottleThing", pf.create("velocity", 1, 0, 0));
+        injectorComponent.compressorFactory().create();
         clf.createRelay(5);
         clf.createPWM(3);
         clf.createFieldPosePropertyManager("testo", 1, 2, 3);

@@ -4,6 +4,7 @@ import javax.inject.Named;
 
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.command.XScheduler;
+import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
 import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
@@ -24,6 +25,7 @@ import xbot.common.logging.RobotSession;
 import xbot.common.logic.CalibrationDecider.CalibrationDeciderFactory;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.logic.StallDetector.StallDetectorFactory;
+import xbot.common.logic.VelocityThrottleModule.VelocityThrottleModuleFactory;
 import xbot.common.properties.ITableProxy;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.PropertyFactory;
@@ -96,5 +98,9 @@ public abstract class BaseComponent {
 
     public abstract StallDetectorFactory stallDetectorFactory();
 
+    public abstract VelocityThrottleModuleFactory velocityThrottleModuleFactory();
+
     public abstract XDigitalInputFactory digitalInputFactory();
+
+    public abstract XCompressorFactory compressorFactory();
 }
