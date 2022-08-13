@@ -1,9 +1,10 @@
 package edu.wpi.first.wpilibj;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-
 import org.json.JSONObject;
+
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.injection.wpi_factories.DevicePolice;
@@ -14,7 +15,13 @@ public class MockDigitalInput extends XDigitalInput implements ISimulatableSenso
     protected boolean value;
     final int channel;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class MockDigitalInputFactory implements XDigitalInputFactory
+    {
+        public abstract MockDigitalInput create(@Assisted("channel") int channel);
+    }
+
+    @AssistedInject
     public MockDigitalInput(@Assisted("channel") int channel, DevicePolice police) {
         super(police, channel);
         this.channel = channel;

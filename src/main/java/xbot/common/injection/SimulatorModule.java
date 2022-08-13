@@ -34,14 +34,12 @@ import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XCANCoder;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
-import xbot.common.controls.sensors.XFTCGamepad;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.mock_adapters.MockAbsoluteEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockCANCoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
-import xbot.common.controls.sensors.wpi_adapters.FTCGamepadWpiAdapter;
 import xbot.common.injection.components.BaseComponent;
 import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.networking.MockCommunicationClient;
@@ -62,7 +60,6 @@ public class SimulatorModule extends BaseModule {
 
         this.install(new FactoryModuleBuilder()
                 .implement(OffboardCommunicationClient.class, MockCommunicationClient.class)
-                .implement(XFTCGamepad.class, FTCGamepadWpiAdapter.class)
                 .implement(XEncoder.class, MockEncoder.class).implement(XDigitalInput.class, MockDigitalInput.class)
                 .implement(XAnalogInput.class, MockAnalogInput.class)
                 .implement(XSolenoid.class, MockSolenoid.class).implement(XDigitalOutput.class, MockDigitalOutput.class)

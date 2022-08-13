@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XTimer;
-import xbot.common.injection.factories.XRumbleManagerFactory;
 
 /**
  * Wrappers around gamepad rumble behavior to control intensity and duration.

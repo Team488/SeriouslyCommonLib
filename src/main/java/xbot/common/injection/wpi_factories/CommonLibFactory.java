@@ -15,22 +15,15 @@ import xbot.common.controls.actuators.XRelay;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.controls.actuators.XSpeedController;
-import xbot.common.controls.sensors.AdvancedButton;
-import xbot.common.controls.sensors.ChordButton;
-import xbot.common.controls.sensors.VirtualButton;
 import xbot.common.controls.sensors.XAS5600;
 import xbot.common.controls.sensors.XAbsoluteEncoder;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XCANCoder;
-import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
 import xbot.common.injection.electrical_contract.DeviceInfo;
-import xbot.common.logic.CalibrationDecider;
-import xbot.common.logic.HumanVsMachineDecider;
-import xbot.common.logic.StallDetector;
 import xbot.common.logic.VelocityThrottleModule;
 import xbot.common.math.FieldPose;
 import xbot.common.math.FieldPosePropertyManager;
@@ -43,8 +36,6 @@ public interface CommonLibFactory {
         public XEncoder createEncoder(@Assisted("name") String name, @Assisted("aChannel") int aChannel,
                         @Assisted("bChannel") int bChannel,
                         @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse);
-
-        public XDigitalInput createDigitalInput(@Assisted("channel") int channel);
 
         public XAnalogInput createAnalogInput(@Assisted("channel") int channel);
 
@@ -73,11 +64,6 @@ public interface CommonLibFactory {
         //public XAnalogDistanceSensor createAnalogDistanceSensor(@Assisted("channel") int channel,
         //                @Assisted("voltageMap") DoubleFunction<Double> voltageMap, @Assisted("prefix") String prefix);
 
-        public ChordButton createChordButton(@Assisted("a") AdvancedButton a,
-                        @Assisted("b") AdvancedButton b);
-
-        public VirtualButton createVirtualButton();
-
         public HeadingModule createHeadingModule(@Assisted("headingDrivePid") PIDManager headingDrivePid);
 
         /**
@@ -94,10 +80,6 @@ public interface CommonLibFactory {
 
         public HeadingAssistModule createHeadingAssistModule(@Assisted("headingModule") HeadingModule headingModule,
                         @Assisted("prefix") String prefix);
-
-        public HumanVsMachineDecider createHumanVsMachineDecider(@Assisted("prefix") String prefix);
-
-        public CalibrationDecider createCalibrationDecider(@Assisted("name") String name);
 
         public VelocityThrottleModule createVelocityThrottleModule(@Assisted("name") String name,
                         @Assisted("velocityPid") PIDManager velocityPid);
@@ -131,7 +113,5 @@ public interface CommonLibFactory {
 
         public XAbsoluteEncoder createAbsoluteEncoder(@Assisted("deviceInfo") DeviceInfo deviceInfo, @Assisted("owningSystemPrefix") String owningSystemPrefix);
 
-        public StallDetector createStallDetector(@Assisted("owningSystemPrefix") String owningSystemPrefix);
-        
         public XCANCoder createCANCoder(@Assisted("deviceInfo") DeviceInfo deviceInfo, @Assisted("owningSystemPrefix") String owningSystemPrefix);
 }

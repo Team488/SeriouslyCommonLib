@@ -21,7 +21,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         
         injectorComponent.powerDistributionPanelFactory().create();
         clf.createEncoder("foo", 1, 2, 1);
-        clf.createDigitalInput(5);
+        injectorComponent.digitalInputFactory().create(5);
         clf.createAnalogInput(1);
         injectorComponent.xboxControllerFactory().create(2);
         clf.createSolenoid(1);
@@ -35,18 +35,18 @@ public class TestCommonLibFactory extends BaseWPITest {
         injectorComponent.analogHidButtonFactory().create(j, 1, -1, 1);
         injectorComponent.povButtonFactory().create(j, 1);
         injectorComponent.ftcGamepadFactory().create(3, 10);
-        clf.createHumanVsMachineDecider("Agent Smith");
+        injectorComponent.humanVsMachineDeciderFactory().create("Agent Smith");
         clf.createHeadingModule(pf.create("bar", 1, 0, 0));
-        clf.createCalibrationDecider("calibration");
+        injectorComponent.calibrationDeciderFactory().create("calibration");
         clf.createVelocityThrottleModule("velocityThrottleThing", pf.create("velocity", 1, 0, 0));
         clf.createRelay(5);
         clf.createPWM(3);
         clf.createFieldPosePropertyManager("testo", 1, 2, 3);
         clf.createZeromqListener("testo", "testo");
-        clf.createChordButton(
+        injectorComponent.chordButtonFactory().create(
             injectorComponent.joystickButtonFactory().create(j, 2),
             injectorComponent.joystickButtonFactory().create(j, 3));
-        clf.createVirtualButton();
+        injectorComponent.virtualButtonFactory().create();
         clf.createDoubleSolenoid(clf.createSolenoid(2), clf.createSolenoid(3));
         clf.createCANSparkMax(new DeviceInfo(10), "drive", "left");
         clf.createCANSparkMax(new DeviceInfo(11), "drive", "left", new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
@@ -54,7 +54,7 @@ public class TestCommonLibFactory extends BaseWPITest {
         clf.createXAS5600(talon);
         clf.createCANVictorSPX(5);
         clf.createAbsoluteEncoder(new DeviceInfo(6), "test");
-        clf.createStallDetector("owningSystem");
+        injectorComponent.stallDetectorFactory().create("owningSystem");
         clf.createCANCoder(new DeviceInfo(7), "test");
     }
     

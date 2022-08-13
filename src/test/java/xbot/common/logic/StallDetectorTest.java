@@ -14,7 +14,7 @@ public class StallDetectorTest extends BaseWPITest {
     @Override
     public void setUp() {
         super.setUp();
-        stallDetector = clf.createStallDetector("OwningSystem");
+        stallDetector = injectorComponent.stallDetectorFactory().create("OwningSystem");
 
         stallDetector.setAllParameters(
             1.0, // current time window

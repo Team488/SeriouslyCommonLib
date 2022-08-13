@@ -4,7 +4,6 @@ import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
 import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
-import xbot.common.injection.factories.XJoystickFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 

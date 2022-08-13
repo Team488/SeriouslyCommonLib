@@ -1,6 +1,13 @@
 package xbot.common.subsystems.feedback;
 
+import xbot.common.controls.sensors.XJoystick;
+
 public interface XRumbleManager {
+
+    public interface XRumbleManagerFactory {
+        XRumbleManager create(XJoystick gamepad);
+    }
+
     /**
      * Rumbles the gamepad at the specified intensity for the given duration.
      * @param intensity Rumble intensity, between 0 and 1.

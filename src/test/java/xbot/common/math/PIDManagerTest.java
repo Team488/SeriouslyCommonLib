@@ -21,7 +21,7 @@ public class PIDManagerTest extends BaseWPITest {
     @Before
     public void setUp() {
         super.setUp();
-        factory = injector.getInstance(PIDFactory.class);
+        factory = injectorComponent.pidFactory();
         mockTimer = (MockTimer)injectorComponent.timerImplementation();
     }
     

@@ -27,14 +27,12 @@ import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XCANCoder;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.controls.sensors.XEncoder;
-import xbot.common.controls.sensors.XFTCGamepad;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater;
 import xbot.common.controls.sensors.wpi_adapters.CANCoderAdapter;
 import xbot.common.controls.sensors.wpi_adapters.DigitalInputWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter;
-import xbot.common.controls.sensors.wpi_adapters.FTCGamepadWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.InertialMeasurementUnitAdapter;
 import xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter;
 import xbot.common.injection.components.BaseComponent;
@@ -60,7 +58,6 @@ public class RobotModule extends BaseModule {
         super.configure();
 
         this.install(new FactoryModuleBuilder()
-                .implement(XFTCGamepad.class, FTCGamepadWpiAdapter.class)
                 .implement(XEncoder.class, EncoderWPIAdapter.class)
                 .implement(XDigitalInput.class, DigitalInputWPIAdapter.class)
                 .implement(XAnalogInput.class, AnalogInputWPIAdapater.class)

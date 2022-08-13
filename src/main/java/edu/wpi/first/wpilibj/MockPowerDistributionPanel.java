@@ -8,7 +8,6 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XPowerDistributionPanel;
-import xbot.common.injection.factories.XPowerDistributionPanelFactory;
 
 public class MockPowerDistributionPanel extends XPowerDistributionPanel {
     private HashMap<Integer, Double> outputCurrents;

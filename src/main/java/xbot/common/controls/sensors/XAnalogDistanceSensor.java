@@ -2,14 +2,11 @@ package xbot.common.controls.sensors;
 
 import java.util.function.DoubleFunction;
 
-import com.google.inject.Inject;
-
 public abstract class XAnalogDistanceSensor implements DistanceSensor {
 
     DoubleFunction<Double> voltageMap;
     
-    @Inject
-    public XAnalogDistanceSensor(
+    protected XAnalogDistanceSensor(
             int channel, 
             DoubleFunction<Double> voltageMap) {
                 this.voltageMap = voltageMap;

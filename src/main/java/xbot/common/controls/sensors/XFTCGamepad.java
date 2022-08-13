@@ -9,6 +9,10 @@ import xbot.common.math.XYPair;
 
 public abstract class XFTCGamepad extends XJoystick implements IGamepad {
 
+    public interface XFTCGamepadFactory {
+        XFTCGamepad create(int port, int numButtons);
+    }
+
     public XFTCGamepad(int port, AdvancedJoystickButtonFactory joystickButtonFactory,
             AdvancedPovButtonFactory povButtonFactory, AnalogHIDButtonFactory analogHidButtonFactory,
             RobotAssertionManager assertionManager, int numButtons, DevicePolice police) {

@@ -14,7 +14,7 @@ public class HumanVsMachineDeciderTest extends BaseWPITest {
     @Override
     public void setUp() {
         super.setUp();
-        decider = clf.createHumanVsMachineDecider("Test");
+        decider = injectorComponent.humanVsMachineDeciderFactory().create("Test");
     }
     
     @Test

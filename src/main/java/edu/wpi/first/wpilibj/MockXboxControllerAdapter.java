@@ -7,12 +7,11 @@ import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
 import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
-import xbot.common.injection.factories.XRumbleManagerFactory;
-import xbot.common.injection.factories.XXboxControllerFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 import xbot.common.subsystems.feedback.XRumbleManager;
+import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
 
 public class MockXboxControllerAdapter extends XXboxController {
 

@@ -5,12 +5,12 @@ import java.util.HashMap;
 import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
 import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
-import xbot.common.injection.factories.XRumbleManagerFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 import xbot.common.subsystems.feedback.IRumbler;
 import xbot.common.subsystems.feedback.XRumbleManager;
+import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
 
 public abstract class XXboxController extends XJoystick implements IRumbler, IGamepad {
 
@@ -25,6 +25,10 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
     protected boolean rightYInversion = false;
 
     protected final XRumbleManager rumbleManager;
+
+    public interface XXboxControllerFactory {
+        XXboxController create(int port);
+    }
 
     protected XXboxController(int port, AdvancedJoystickButtonFactory joystickButtonFactory,
             AdvancedPovButtonFactory advancedPovButtonFactory, AnalogHIDButtonFactory analogHidButtonFactory,

@@ -35,6 +35,10 @@ public abstract class XJoystick
     private RobotAssertionManager assertionManager;
     private DevicePolice police;
     
+    public interface XJoystickFactory {
+        XJoystick create(int port, int numButtons);
+    }
+
     public XJoystick(
             int port, 
             AdvancedJoystickButtonFactory joystickButtonFactory,

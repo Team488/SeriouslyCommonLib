@@ -1,7 +1,7 @@
 package xbot.common.command;
 
-import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.logic.HumanVsMachineDecider;
+import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
 import xbot.common.logic.TimeStableValidator;
 import xbot.common.properties.BooleanProperty;
@@ -24,8 +24,9 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
 
     private final StringProperty currentModeProp;
 
-    public BaseMaintainerCommand(BaseSetpointSubsystem subsystemToMaintain, PropertyFactory pf, CommonLibFactory clf, 
-        double defaultErrorTolerance, double defaultTimeStableWindow) {
+    public BaseMaintainerCommand(BaseSetpointSubsystem subsystemToMaintain, PropertyFactory pf,
+            HumanVsMachineDeciderFactory humanVsMachineDeciderFactory,
+            double defaultErrorTolerance, double defaultTimeStableWindow) {
         this.subsystemToMaintan = subsystemToMaintain;
         this.addRequirements(subsystemToMaintain);
 
@@ -38,7 +39,7 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
         subsystemReportsReadyProp = pf.createEphemeralProperty("Subsystem Ready", false);
 
         timeStableValidator = new TimeStableValidator(() -> errorTimeStableWindowProp.get());
-        decider = clf.createHumanVsMachineDecider(this.getPrefix());
+        decider = humanVsMachineDeciderFactory.create(this.getPrefix());
     }
 
     @Override
@@ -55,7 +56,7 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
         double humanInput = getHumanInput();
         HumanVsMachineMode mode = decider.getRecommendedMode(humanInput);
         currentModeProp.set(mode.toString());
-        
+
         switch (mode) {
             case Coast:
                 coastAction();
@@ -67,7 +68,7 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
                 initializeMachineControlAction();
                 break;
             case MachineControl:
-                if (subsystemToMaintan.isCalibrated()){
+                if (subsystemToMaintan.isCalibrated()) {
                     calibratedMachineControlAction();
                 } else {
                     uncalibratedMachineControlAction();
@@ -90,14 +91,17 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
     }
 
     protected void initializeMachineControlAction() {
-        // When we re-initialize machine control, we need to briefly "take" the setpoint lock. In practice,
-        // we can't require and then un-require a subsystem, so instead we just cancel any running command that
+        // When we re-initialize machine control, we need to briefly "take" the setpoint
+        // lock. In practice,
+        // we can't require and then un-require a subsystem, so instead we just cancel
+        // any running command that
         // is trying to maniuplate the setpoint.
         if (subsystemToMaintan.getSetpointLock().getCurrentCommand() != null) {
             subsystemToMaintan.getSetpointLock().getCurrentCommand().cancel();
         }
 
-        // Typically set the goal to the current position, to avoid sudden extreme changes
+        // Typically set the goal to the current position, to avoid sudden extreme
+        // changes
         // as soon as Coast is complete.
         subsystemToMaintan.setTargetValue(subsystemToMaintan.getCurrentValue());
     }
@@ -124,11 +128,12 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
         return isStable;
     }
 
-    
-
     /**
-     * Maintainer systems already check for error tolerance and time stability. If there
-     * are any other checks that should be made, override this method and place them here.
+     * Maintainer systems already check for error tolerance and time stability. If
+     * there
+     * are any other checks that should be made, override this method and place them
+     * here.
+     * 
      * @return
      */
     protected boolean additionalAtGoalChecks() {
@@ -136,13 +141,17 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
     }
 
     /**
-     * Performs a simple difference between goal and target in order to see if we are close.
-     * if your subsystem needs to do something more complicated (for example, if you needed to
-     * compute difference via a ContiguousDouble) then override this method with a better
+     * Performs a simple difference between goal and target in order to see if we
+     * are close.
+     * if your subsystem needs to do something more complicated (for example, if you
+     * needed to
+     * compute difference via a ContiguousDouble) then override this method with a
+     * better
      * computation.
      */
     protected boolean getErrorWithinTolerance() {
-        if (Math.abs(subsystemToMaintan.getCurrentValue() - subsystemToMaintan.getTargetValue()) < errorToleranceProp.get()) {
+        if (Math.abs(subsystemToMaintan.getCurrentValue() - subsystemToMaintan.getTargetValue()) < errorToleranceProp
+                .get()) {
             return true;
         }
         return false;

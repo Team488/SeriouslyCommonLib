@@ -9,15 +9,21 @@ import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
 import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
+import xbot.common.controls.sensors.ChordButton.ChordButtonFactory;
+import xbot.common.controls.sensors.VirtualButton.VirtualButtonFactory;
+import xbot.common.controls.sensors.XDigitalInput.XDigitalInputFactory;
+import xbot.common.controls.sensors.XFTCGamepad.XFTCGamepadFactory;
+import xbot.common.controls.sensors.XJoystick.XJoystickFactory;
+import xbot.common.controls.sensors.XPowerDistributionPanel.XPowerDistributionPanelFactory;
+import xbot.common.controls.sensors.XXboxController.XXboxControllerFactory;
 import xbot.common.injection.factories.PIDFactory;
 import xbot.common.injection.factories.PIDPropertyManagerFactory;
-import xbot.common.injection.factories.XFTCGamepadFactory;
-import xbot.common.injection.factories.XJoystickFactory;
-import xbot.common.injection.factories.XPowerDistributionPanelFactory;
-import xbot.common.injection.factories.XXboxControllerFactory;
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.logging.RobotSession;
+import xbot.common.logic.CalibrationDecider.CalibrationDeciderFactory;
+import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
+import xbot.common.logic.StallDetector.StallDetectorFactory;
 import xbot.common.properties.ITableProxy;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.PropertyFactory;
@@ -79,4 +85,16 @@ public abstract class BaseComponent {
     public abstract XXboxControllerFactory xboxControllerFactory();
 
     public abstract XFTCGamepadFactory ftcGamepadFactory();
+
+    public abstract ChordButtonFactory chordButtonFactory();
+
+    public abstract VirtualButtonFactory virtualButtonFactory();
+
+    public abstract HumanVsMachineDeciderFactory humanVsMachineDeciderFactory();
+
+    public abstract CalibrationDeciderFactory calibrationDeciderFactory();
+
+    public abstract StallDetectorFactory stallDetectorFactory();
+
+    public abstract XDigitalInputFactory digitalInputFactory();
 }
