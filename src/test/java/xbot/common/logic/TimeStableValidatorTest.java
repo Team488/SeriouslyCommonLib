@@ -5,9 +5,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class TimeStableValidatorTest extends BaseWPITest {
+public class TimeStableValidatorTest extends BaseCommonLibTest {
 
     TimeStableValidator tsv;
 

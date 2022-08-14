@@ -7,7 +7,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.actuators.XSolenoid;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 import xbot.common.simulation.ISimulatableSolenoid;
 
 public class MockSolenoid extends XSolenoid implements ISimulatableSolenoid {

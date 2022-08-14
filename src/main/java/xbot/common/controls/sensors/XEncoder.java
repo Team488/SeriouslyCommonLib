@@ -2,8 +2,8 @@ package xbot.common.controls.sensors;
 
 import java.util.function.Supplier;
 
-import xbot.common.injection.wpi_factories.DevicePolice;
-import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
+import xbot.common.injection.DevicePolice;
+import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 

@@ -6,7 +6,7 @@ import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
 import xbot.common.controls.actuators.XDigitalOutput;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 
 public class DigitalOutputWPIAdapter extends XDigitalOutput {
 

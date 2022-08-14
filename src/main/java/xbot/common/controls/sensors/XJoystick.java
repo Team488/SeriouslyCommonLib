@@ -10,8 +10,8 @@ import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.mock_adapters.MockJoystick;
-import xbot.common.injection.wpi_factories.DevicePolice;
-import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
+import xbot.common.injection.DevicePolice;
+import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 

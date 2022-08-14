@@ -7,12 +7,12 @@ import org.junit.Test;
 
 import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.controls.sensors.mock_adapters.MockFTCGamepad;
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
 /**
  * Unit tests for RumbleManager
  */
-public class RumbleManagerTest extends BaseWPITest {
+public class RumbleManagerTest extends BaseCommonLibTest {
 
     MockFTCGamepad gamepad;
     RumbleManager rumbleManager;
@@ -22,9 +22,9 @@ public class RumbleManagerTest extends BaseWPITest {
     public void setUp() {
         super.setUp();
         
-        this.gamepad = (MockFTCGamepad)injectorComponent.ftcGamepadFactory().create(0, 10);
+        this.gamepad = (MockFTCGamepad)getInjectorComponent().ftcGamepadFactory().create(0, 10);
         this.rumbleManager = new RumbleManager(this.gamepad);
-        this.timer = (MockTimer)injectorComponent.timerImplementation();
+        this.timer = (MockTimer)getInjectorComponent().timerImplementation();
     }
     
     @Test

@@ -7,17 +7,17 @@ import static org.junit.Assert.assertSame;
 import org.junit.Before;
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
 @SuppressWarnings("deprecation")
-public class PropertyTest extends BaseWPITest {
+public class PropertyTest extends BaseCommonLibTest {
 
     XPropertyManager propertyManager;
 
     @Before
     public void setUp() {
         super.setUp();
-        this.propertyManager = injectorComponent.propertyManager();
+        this.propertyManager = getInjectorComponent().propertyManager();
         propertyFactory.setTopLevelPrefix();
     }
 

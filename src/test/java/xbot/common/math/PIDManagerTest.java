@@ -8,21 +8,21 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.wpi.first.wpilibj.MockTimer;
-import xbot.common.injection.BaseWPITest;
-import xbot.common.injection.factories.PIDFactory;
+import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.logging.RobotAssertionException;
 import xbot.common.math.PID.OffTargetReason;
+import xbot.common.math.PIDManager.PIDManagerFactory;
 
-public class PIDManagerTest extends BaseWPITest {
+public class PIDManagerTest extends BaseCommonLibTest {
     
-    PIDFactory factory;
+    PIDManagerFactory factory;
     MockTimer mockTimer;
     
     @Before
     public void setUp() {
         super.setUp();
-        factory = injectorComponent.pidFactory();
-        mockTimer = (MockTimer)injectorComponent.timerImplementation();
+        factory = getInjectorComponent().pidFactory();
+        mockTimer = (MockTimer)getInjectorComponent().timerImplementation();
     }
     
     @Test

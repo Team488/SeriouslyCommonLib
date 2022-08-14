@@ -2,7 +2,7 @@ package xbot.common.simulation;
 
 import java.util.ArrayList;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import org.json.JSONObject;
 

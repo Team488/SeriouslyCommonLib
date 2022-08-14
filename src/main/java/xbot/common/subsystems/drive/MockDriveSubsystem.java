@@ -6,9 +6,9 @@ import javax.inject.Singleton;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.XCANTalon.XCANTalonFactory;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
-import xbot.common.injection.factories.PIDFactory;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
+import xbot.common.math.PIDManager.PIDManagerFactory;
 
 @Singleton
 public class MockDriveSubsystem extends BaseDriveSubsystem {
@@ -32,7 +32,7 @@ public class MockDriveSubsystem extends BaseDriveSubsystem {
     private PIDManager rotateDecayPid;
 
     @Inject
-    public MockDriveSubsystem(XCANTalonFactory canTalonFactory, PIDFactory pf) {
+    public MockDriveSubsystem(XCANTalonFactory canTalonFactory, PIDManagerFactory pf) {
         this.canTalonFactory = canTalonFactory;
         changeIntoTankDrive();
 

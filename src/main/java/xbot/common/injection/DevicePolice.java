@@ -1,4 +1,4 @@
-package xbot.common.injection.wpi_factories;
+package xbot.common.injection;
 
 import java.util.ArrayList;
 import java.util.HashMap;

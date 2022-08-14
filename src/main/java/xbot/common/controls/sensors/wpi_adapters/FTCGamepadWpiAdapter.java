@@ -10,7 +10,7 @@ import xbot.common.controls.sensors.XFTCGamepad;
 import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
 import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 
 public class FTCGamepadWpiAdapter extends XFTCGamepad {

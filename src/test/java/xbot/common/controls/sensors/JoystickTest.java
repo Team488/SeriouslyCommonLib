@@ -6,9 +6,9 @@ import org.junit.Test;
 
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.mock_adapters.MockJoystick;
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class JoystickTest extends BaseWPITest {
+public class JoystickTest extends BaseCommonLibTest {
 
     MockJoystick joystick;
     
@@ -16,7 +16,7 @@ public class JoystickTest extends BaseWPITest {
     public void setUp() {
         super.setUp();
         
-        joystick = (MockJoystick)injectorComponent.joystickFactory().create(0, 10);
+        joystick = (MockJoystick)getInjectorComponent().joystickFactory().create(0, 10);
     }
     
     @Test

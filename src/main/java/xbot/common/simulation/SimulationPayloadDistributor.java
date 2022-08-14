@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import org.apache.log4j.Logger;
 
 import xbot.common.controls.sensors.XSettableTimerImpl;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 
 @Singleton
 public class SimulationPayloadDistributor {

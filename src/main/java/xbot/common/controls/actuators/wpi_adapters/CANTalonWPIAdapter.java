@@ -33,8 +33,8 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
-import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.PropertyFactory;
 
 public class CANTalonWPIAdapter extends XCANTalon {

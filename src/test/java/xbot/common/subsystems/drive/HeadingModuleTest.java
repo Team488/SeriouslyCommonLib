@@ -7,12 +7,12 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.math.PIDManager;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
-public class HeadingModuleTest extends BaseWPITest {
+public class HeadingModuleTest extends BaseCommonLibTest {
 
     HeadingModule headingModule;
     BasePoseSubsystem pose;
@@ -25,8 +25,8 @@ public class HeadingModuleTest extends BaseWPITest {
         pid.setErrorThreshold(3);
         pid.setEnableErrorThreshold(true);
         
-        headingModule = injectorComponent.headingModuleFactory().create(pid);
-        pose = injectorComponent.poseSubsystem();
+        headingModule = getInjectorComponent().headingModuleFactory().create(pid);
+        pose = getInjectorComponent().poseSubsystem();
     }     
     
     @Test

@@ -4,9 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class ContiguousDoubleTest extends BaseWPITest {
+public class ContiguousDoubleTest extends BaseCommonLibTest {
     @Test
     public void testCore() {
         ContiguousDouble testInstance = new ContiguousDouble(5, 0, 10);

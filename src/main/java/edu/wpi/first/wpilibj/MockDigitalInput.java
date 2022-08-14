@@ -7,7 +7,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XDigitalInput;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 import xbot.common.simulation.ISimulatableSensor;
 
 public class MockDigitalInput extends XDigitalInput implements ISimulatableSensor {

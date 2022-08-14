@@ -5,7 +5,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import edu.wpi.first.wpilibj.AnalogInput;
 import xbot.common.controls.sensors.XAnalogInput;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 
 public class AnalogInputWPIAdapater extends XAnalogInput {
     AnalogInput input;

@@ -7,7 +7,7 @@ import dagger.assisted.AssistedInject;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Value;
 import xbot.common.controls.actuators.XRelay;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 
 public class RelayWPIAdapter extends XRelay {
 

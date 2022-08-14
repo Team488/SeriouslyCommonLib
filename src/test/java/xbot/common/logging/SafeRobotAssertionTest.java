@@ -3,9 +3,9 @@ package xbot.common.logging;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class SafeRobotAssertionTest extends BaseWPITest {
+public class SafeRobotAssertionTest extends BaseCommonLibTest {
 
     private static Logger log = Logger.getLogger(SafeRobotAssertionTest.class);
 

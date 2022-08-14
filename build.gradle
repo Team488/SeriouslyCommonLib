@@ -53,7 +53,6 @@ repositories {
     // You can declare any Maven/Ivy/file repository here.
     mavenCentral()
     
-    maven { url "https://mvnrepository.com/artifact/com.google.inject/guice" }
     maven { url "https://mvnrepository.com/artifact/com.google.dagger/dagger" }
     maven { url "https://mvnrepository.com/artifact/com.google.dagger/dagger-compiler" }
     maven { url "https://mvnrepository.com/artifact/org.zeromq/jeromq" }
@@ -105,9 +104,7 @@ dependencies {
     
     implementation 'com.google.dagger:dagger:2.43.2'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.43.2'
-    
-    implementation group: 'com.google.inject', name: 'guice', version: '4.2.2'
-    implementation group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.2.2'
+    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.43.2'
     
     implementation group: 'log4j', name: 'log4j', version: '1.2.17'
 
@@ -135,6 +132,7 @@ sourceSets {
     }
 }
 sourceSets.main.java.srcDirs += "build/generated/sources/annotationProcessor/java/main"
+sourceSets.test.java.srcDirs += "build/generated/sources/annotationProcessor/java/test"
 
 task jarSources(type:Jar){
     from sourceSets.main.allSource

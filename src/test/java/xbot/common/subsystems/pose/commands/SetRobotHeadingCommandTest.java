@@ -13,7 +13,7 @@ public class SetRobotHeadingCommandTest extends BasePoseTest {
     @Before
     public void setup() {
         super.setup();
-        setHeading = injectorComponent.setRobotHeadingCommand();
+        setHeading = getInjectorComponent().setRobotHeadingCommand();
     }
     
     @Test

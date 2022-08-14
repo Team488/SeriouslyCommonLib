@@ -6,9 +6,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class RobotSessionTest extends BaseWPITest {
+public class RobotSessionTest extends BaseCommonLibTest {
 
     RobotSession rs;
 
@@ -16,7 +16,7 @@ public class RobotSessionTest extends BaseWPITest {
     @Override
     public void setUp() {
         super.setUp();
-        rs = injectorComponent.robotSession();
+        rs = getInjectorComponent().robotSession();
     }
 
     @Test

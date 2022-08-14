@@ -1,9 +1,13 @@
 package xbot.common.command;
 
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
-public class MockSetpointSystem extends BaseSetpointSubsystem {
+public class MockSetpointSubsystem extends BaseSetpointSubsystem {
+
+    @Inject
+    public MockSetpointSubsystem() {}
 
     @Override
     public double getCurrentValue() {

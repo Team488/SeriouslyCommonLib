@@ -9,10 +9,9 @@ import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
+import xbot.common.injection.DevicePolice;
+import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
-import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.injection.wpi_factories.DevicePolice;
-import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
@@ -21,7 +20,6 @@ public abstract class XCANSparkMax {
     protected int deviceId;
     protected String prefix = "";
     PropertyFactory propertyFactory;
-    CommonLibFactory clf;
 
     final DoubleProperty kPprop;
     final DoubleProperty kIprop;
@@ -39,15 +37,25 @@ public abstract class XCANSparkMax {
 
     protected boolean firstPeriodicCall = true;
 
-    public XCANSparkMax(
-        DeviceInfo deviceInfo, 
-        String owningSystemPrefix, 
-        String name, 
-        PropertyFactory pf, 
-        DevicePolice police,
-        CommonLibFactory clf,
-        XCANSparkMaxPIDProperties defaultPIDProperties) {
-        this.clf = clf;
+    public abstract static class XCANSparkMaxFactory {
+        public abstract XCANSparkMax create(
+                DeviceInfo deviceInfo,
+                String owningSystemPrefix,
+                String name,
+                XCANSparkMaxPIDProperties defaultPIDProperties);
+
+        public XCANSparkMax create(DeviceInfo deviceInfo, String owningSystemPrefix, String name) {
+            return create(deviceInfo, owningSystemPrefix, name, new XCANSparkMaxPIDProperties());
+        }
+    }
+
+    protected XCANSparkMax(
+            DeviceInfo deviceInfo,
+            String owningSystemPrefix,
+            String name,
+            PropertyFactory pf,
+            DevicePolice police,
+            XCANSparkMaxPIDProperties defaultPIDProperties) {
         this.deviceId = deviceInfo.channel;
         this.propertyFactory = pf;
         this.propertyFactory.setPrefix(owningSystemPrefix);
@@ -66,11 +74,6 @@ public abstract class XCANSparkMax {
         percentProp = pf.createEphemeralProperty("Percent", 0);
         voltageProp = pf.createEphemeralProperty("Voltage", 0);
         currentProp = pf.createEphemeralProperty("Current", 0);
-    }
-
-    public XCANSparkMax(DeviceInfo deviceInfo, String owningSystemPrefix, String name, PropertyFactory pf, DevicePolice police,
-            CommonLibFactory clf) {
-        this(deviceInfo, owningSystemPrefix, name, pf, police, clf, new XCANSparkMaxPIDProperties());
     }
 
     ///
@@ -158,7 +161,7 @@ public abstract class XCANSparkMax {
     public abstract void disable();
 
     public abstract void stopMotor();
-    
+
     /**
      * Sets the current limit in Amps.
      *
@@ -614,7 +617,6 @@ public abstract class XCANSparkMax {
 
     public abstract REVLibError setEncoderInverted(boolean inverted);
 
-
     ///
     // CAN PID Controller
     ///
@@ -638,14 +640,16 @@ public abstract class XCANSparkMax {
     public abstract REVLibError setFF(double gain);
 
     public abstract REVLibError setFF(double gain, int slotID);
-    //CHECKSTYLE:OFF
+
+    // CHECKSTYLE:OFF
     public abstract REVLibError setIZone(double iZone);
 
     public abstract REVLibError setIZone(double iZone, int slotID);
-    //CHECKSTYLE:ON
+
+    // CHECKSTYLE:ON
     public abstract REVLibError setOutputRange(double min, double max);
 
-    public abstract REVLibError setOutputRange(double min, double max, int slotID) ;
+    public abstract REVLibError setOutputRange(double min, double max, int slotID);
 
     public abstract double getP();
 

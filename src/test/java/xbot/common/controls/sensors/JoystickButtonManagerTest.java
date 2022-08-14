@@ -6,11 +6,11 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.logging.RobotAssertionManager;
 
 
-public class JoystickButtonManagerTest extends BaseWPITest {
+public class JoystickButtonManagerTest extends BaseCommonLibTest {
     
     XJoystick testJoystick;
     RobotAssertionManager assertion;
@@ -19,8 +19,8 @@ public class JoystickButtonManagerTest extends BaseWPITest {
     public void setup() {
         super.setUp();
         
-        testJoystick = injectorComponent.joystickFactory().create(1, 12);
-        assertion = injectorComponent.robotAssertionManager();
+        testJoystick = getInjectorComponent().joystickFactory().create(1, 12);
+        assertion = getInjectorComponent().robotAssertionManager();
     }
     
     @Test(expected = RuntimeException.class)

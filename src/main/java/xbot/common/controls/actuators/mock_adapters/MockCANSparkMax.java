@@ -2,8 +2,6 @@ package xbot.common.controls.actuators.mock_adapters;
 
 import java.math.BigDecimal;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.ExternalFollower;
@@ -17,12 +15,15 @@ import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 import xbot.common.controls.actuators.XCANSparkMax;
+import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
+import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
-import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.simulation.ISimulatableMotor;
 import xbot.common.simulation.ISimulatableSensor;
@@ -47,11 +48,21 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     double referenceValue = 0;
     ControlType controlType = null;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class MockCANSparkMaxFactory extends XCANSparkMaxFactory {
+        public abstract MockCANSparkMax create(
+            @Assisted("deviceInfo") DeviceInfo deviceInfo,
+            @Assisted("owningSystemPrefix") String owningSystemPrefix,
+            @Assisted("name") String name,
+            @Assisted("defaultPIDProperties") XCANSparkMaxPIDProperties defaultPIDProperties);
+    }
+
+    @AssistedInject
     public MockCANSparkMax(@Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix, @Assisted("name") String name,
-            PropertyFactory propMan, DevicePolice police, CommonLibFactory clf) {
-        super(deviceInfo, owningSystemPrefix, name, propMan, police, clf);
+            PropertyFactory propMan, DevicePolice police,
+            @Assisted("defaultPIDProperties") XCANSparkMaxPIDProperties defaultPIDProperties) {
+        super(deviceInfo, owningSystemPrefix, name, propMan, police, defaultPIDProperties);
         log.info("Creating CAN talon with device ID: " + deviceId);
         internalEncoder = new MockEncoder("Test", propMan);
         setInverted(deviceInfo.inverted);

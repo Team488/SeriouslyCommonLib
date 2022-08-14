@@ -7,14 +7,14 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class SetpointSystemTest extends BaseWPITest {
+public class SetpointSystemTest extends BaseCommonLibTest {
 
     @SuppressWarnings("unused")
     @Test
     public void testSetpointSystemCanBeCreated() {
-        MockSetpointCommand first = injector.getInstance(MockSetpointCommand.class);
+        MockSetpointCommand first = getInjectorComponent().mockSetpointCommand();
     }
     
     // I think this test is failing because the robot isn't "enabled."
@@ -25,7 +25,7 @@ public class SetpointSystemTest extends BaseWPITest {
     @Test
     @Ignore
     public void testSetpointCommandsCollide() {
-        XScheduler xScheduler = injectorComponent.scheduler();
+        XScheduler xScheduler = getInjectorComponent().scheduler();
         xScheduler.removeAll();
         xScheduler.removeAll();
         xScheduler.removeAll();
@@ -33,8 +33,8 @@ public class SetpointSystemTest extends BaseWPITest {
         xScheduler.run();
         xScheduler.run();
 
-        MockSetpointCommand first = injector.getInstance(MockSetpointCommand.class);
-        MockSetpointCommand second = injector.getInstance(MockSetpointCommand.class);
+        MockSetpointCommand first = getInjectorComponent().mockSetpointCommand();
+        MockSetpointCommand second = getInjectorComponent().mockSetpointCommand();
 
         first.setRunsWhenDisabled(true);
         second.setRunsWhenDisabled(true);

@@ -1,6 +1,6 @@
 package xbot.common.subsystems.autonomous;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import xbot.common.command.BaseCommand;

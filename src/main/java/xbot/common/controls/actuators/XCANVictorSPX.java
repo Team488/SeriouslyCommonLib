@@ -1,6 +1,6 @@
 package xbot.common.controls.actuators;
 
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 import xbot.common.properties.PropertyFactory;
 
 public abstract class XCANVictorSPX extends XCANTalon {

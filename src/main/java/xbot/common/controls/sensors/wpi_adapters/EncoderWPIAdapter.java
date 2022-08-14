@@ -5,7 +5,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import edu.wpi.first.wpilibj.Encoder;
 import xbot.common.controls.sensors.XEncoder;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 import xbot.common.properties.PropertyFactory;
 
 public class EncoderWPIAdapter extends XEncoder {

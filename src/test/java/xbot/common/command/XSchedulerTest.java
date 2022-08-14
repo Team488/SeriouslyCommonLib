@@ -7,9 +7,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class XSchedulerTest extends BaseWPITest {
+public class XSchedulerTest extends BaseCommonLibTest {
 
     @Before
     public void setUp() {
@@ -18,14 +18,14 @@ public class XSchedulerTest extends BaseWPITest {
 
     @After
     public void tearDown() {
-        injectorComponent.scheduler().removeAll();
+        getInjectorComponent().scheduler().removeAll();
     }
 
     @Test
     public void testXSchedulerDoesntCrash() {
         BaseCommand crashingCommand = new CrashingOnInitCommand();
         CommandScheduler.getInstance().schedule(crashingCommand);
-        XScheduler xScheduler = injectorComponent.scheduler();
+        XScheduler xScheduler = getInjectorComponent().scheduler();
         xScheduler.run();
         xScheduler.run();
         // shouldn't have crashed
@@ -35,7 +35,7 @@ public class XSchedulerTest extends BaseWPITest {
     public void testXSchedulerDoesntCrashAndRecovers() {
         BaseCommand crashingCommand = new CrashingInExecCommand();
         CommandScheduler.getInstance().schedule(crashingCommand);
-        XScheduler xScheduler = injectorComponent.scheduler();
+        XScheduler xScheduler = getInjectorComponent().scheduler();
         xScheduler.run();
         xScheduler.run();
         // shouldn't have crashed

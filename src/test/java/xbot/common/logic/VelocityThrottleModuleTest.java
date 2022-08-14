@@ -4,16 +4,16 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class VelocityThrottleModuleTest extends BaseWPITest {
+public class VelocityThrottleModuleTest extends BaseCommonLibTest {
 
     VelocityThrottleModule module;
     
     @Override
     public void setUp() {
         super.setUp();
-        module = injectorComponent.velocityThrottleModuleFactory().create("testModule", pf.create("testVelocityPid", 1, 0, 0));
+        module = getInjectorComponent().velocityThrottleModuleFactory().create("testModule", pf.create("testVelocityPid", 1, 0, 0));
     }
     
     @Test

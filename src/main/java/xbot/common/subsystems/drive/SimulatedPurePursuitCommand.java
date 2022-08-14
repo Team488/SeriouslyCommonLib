@@ -1,6 +1,6 @@
 package xbot.common.subsystems.drive;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import edu.wpi.first.wpilibj.util.Color;
 import xbot.common.math.FieldPose;

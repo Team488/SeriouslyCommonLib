@@ -5,10 +5,10 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import xbot.common.controls.actuators.XCANTalon;
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.math.XYPair;
 
-public class DriveSubsystemTest extends BaseWPITest {
+public class DriveSubsystemTest extends BaseCommonLibTest {
 
     MockDriveSubsystem drive;
     
@@ -16,7 +16,7 @@ public class DriveSubsystemTest extends BaseWPITest {
     public void setUp() {
         super.setUp();
         
-        this.drive = (MockDriveSubsystem)injectorComponent.driveSubsystem();
+        this.drive = (MockDriveSubsystem)getInjectorComponent().driveSubsystem();
     }
     
     @Test

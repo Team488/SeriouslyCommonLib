@@ -7,7 +7,7 @@ import dagger.assisted.AssistedInject;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import xbot.common.controls.actuators.XSolenoid;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 
 public class SolenoidWPIAdapter extends XSolenoid {
 

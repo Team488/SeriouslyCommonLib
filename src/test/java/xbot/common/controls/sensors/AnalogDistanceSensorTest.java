@@ -3,9 +3,9 @@ package xbot.common.controls.sensors;
 import org.junit.Before;
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class AnalogDistanceSensorTest extends BaseWPITest {
+public class AnalogDistanceSensorTest extends BaseCommonLibTest {
 
     AnalogDistanceSensor sensor;
 

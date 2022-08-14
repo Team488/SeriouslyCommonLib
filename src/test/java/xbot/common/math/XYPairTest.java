@@ -5,9 +5,9 @@ import static org.junit.Assert.assertNotSame;
 
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class XYPairTest extends BaseWPITest {
+public class XYPairTest extends BaseCommonLibTest {
 
     @Test
     public void testClone() {

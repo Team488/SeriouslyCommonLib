@@ -1,8 +1,8 @@
 package xbot.common.controls.sensors;
 
 import xbot.common.controls.XBaseIO;
-import xbot.common.injection.wpi_factories.DevicePolice;
-import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
+import xbot.common.injection.DevicePolice;
+import xbot.common.injection.DevicePolice.DeviceType;
 
 public abstract class XDigitalInput implements XBaseIO {
 

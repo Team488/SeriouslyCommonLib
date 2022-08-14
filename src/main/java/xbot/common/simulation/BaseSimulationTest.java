@@ -2,9 +2,6 @@ package xbot.common.simulation;
 
 import java.math.BigDecimal;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
 import org.apache.log4j.xml.DOMConfigurator;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,40 +11,30 @@ import org.junit.Ignore;
 import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.components.DaggerSimulationComponent;
-import xbot.common.injection.factories.PIDFactory;
-import xbot.common.injection.SimulatorModule;
+import xbot.common.math.PIDManager.PIDManagerFactory;
 import xbot.common.injection.components.BaseComponent;
-import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.properties.PropertyFactory;
 
 @Ignore
 public class BaseSimulationTest {
-    public Injector injector;
     public BaseComponent injectorComponent;
 
     public PropertyFactory propertyFactory;
     
-    protected CommonLibFactory clf;
-    protected PIDFactory pf;
+    protected PIDManagerFactory pf;
     
     protected MockTimer timer;
 
     SimulationPayloadDistributor distributor;
 
-    private Injector createInjector() {
-        return Guice.createInjector(new SimulatorModule(injectorComponent));
-    }
-
     @Before
     public void setUp() {
         injectorComponent = DaggerSimulationComponent.create();
-        injector = createInjector();
         timer = (MockTimer)injectorComponent.timerImplementation();
         XTimer.setImplementation(timer);
 
         propertyFactory = injectorComponent.propertyFactory();
         
-        clf = injector.getInstance(CommonLibFactory.class);
         pf = injectorComponent.pidFactory();
         
         DOMConfigurator.configure(getClass().getClassLoader().getResource("log4j4unitTesting.xml"));

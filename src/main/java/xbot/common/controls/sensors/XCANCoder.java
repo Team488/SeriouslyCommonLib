@@ -7,6 +7,8 @@ import com.ctre.phoenix.sensors.CANCoderStickyFaults;
 
 public abstract class XCANCoder extends XAbsoluteEncoder {
 
+    public interface XCANCoderFactory extends XAbsoluteEncoderFactory {}
+
     public abstract ErrorCode setStatusFramePeriod(CANCoderStatusFrame frame, int periodMs);
 
     public abstract int getStatusFramePeriod(CANCoderStatusFrame frame);

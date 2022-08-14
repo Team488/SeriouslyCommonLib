@@ -2,9 +2,9 @@ package xbot.common.networking;
 
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class ZeromqListenerTest extends BaseWPITest {
+public class ZeromqListenerTest extends BaseCommonLibTest {
 
     int packets = 0;
 

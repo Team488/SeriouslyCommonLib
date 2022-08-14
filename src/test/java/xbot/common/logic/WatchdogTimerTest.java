@@ -3,11 +3,11 @@ package xbot.common.logic;
 import org.junit.Before;
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class WatchdogTimerTest extends BaseWPITest {
+public class WatchdogTimerTest extends BaseCommonLibTest {
 
     private WatchdogTimer watchdog;
     int upCount;

@@ -6,7 +6,7 @@ import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.wpilibj.I2C.Port;
 import xbot.common.controls.sensors.XLidarLite;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 import xbot.common.properties.PropertyFactory;
 
 public class MockLidarLite extends XLidarLite {

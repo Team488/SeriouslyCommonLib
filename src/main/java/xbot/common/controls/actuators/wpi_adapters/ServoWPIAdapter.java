@@ -1,8 +1,7 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
 import xbot.common.controls.actuators.XServo;
-import xbot.common.injection.wpi_factories.DevicePolice;
-
+import xbot.common.injection.DevicePolice;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;

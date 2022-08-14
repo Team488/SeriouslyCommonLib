@@ -3,10 +3,6 @@ package xbot.common.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.json.JSONObject;
@@ -20,9 +16,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
-import xbot.common.injection.RobotModule;
+import xbot.common.injection.DevicePolice;
 import xbot.common.injection.components.BaseComponent;
-import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotSession;
 import xbot.common.logging.TimeLogger;
 import xbot.common.logic.Latch;
@@ -49,12 +44,9 @@ public abstract class BaseRobot extends TimedRobot {
     protected XPropertyManager propertyManager;
     protected XScheduler xScheduler;
 
-    protected AbstractModule injectionModule;
+    // Other than initially creating required systems, you should never use the injector again
     protected BaseComponent injectorComponent;
 
-    // Other than initially creating required systems, you should never use the injector again
-    protected Injector injector;
-    
     protected Command autonomousCommand;
     protected AutonomousCommandSelector autonomousCommandSelector;
     
@@ -89,7 +81,6 @@ public abstract class BaseRobot extends TimedRobot {
      */
     protected void setupInjectionModule() {
         injectorComponent = getDaggerComponent();
-        this.injectionModule = new RobotModule(injectorComponent);
     }
 
     /**
@@ -119,7 +110,6 @@ public abstract class BaseRobot extends TimedRobot {
         log = Logger.getLogger(BaseRobot.class);
         log.info("========== BASE ROBOT INITIALIZING ==========");
         setupInjectionModule();
-        this.injector = Guice.createInjector(this.injectionModule);
         log.info("========== INJECTOR CREATED ==========");
         this.initializeSystems();
         log.info("========== SYSTEMS INITIALIZED ==========");

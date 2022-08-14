@@ -4,6 +4,7 @@ import javax.inject.Named;
 
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.command.XScheduler;
+import xbot.common.controls.actuators.XCANSparkMax.XCANSparkMaxFactory;
 import xbot.common.controls.actuators.XCANTalon.XCANTalonFactory;
 import xbot.common.controls.actuators.XCANVictorSPX.XCANVictorSPXFactory;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
@@ -22,8 +23,10 @@ import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
 import xbot.common.controls.sensors.ChordButton.ChordButtonFactory;
 import xbot.common.controls.sensors.VirtualButton.VirtualButtonFactory;
 import xbot.common.controls.sensors.XAS5600.XAS5600Factory;
+import xbot.common.controls.sensors.XAbsoluteEncoder.XAbsoluteEncoderFactory;
 import xbot.common.controls.sensors.XAnalogDistanceSensor.XAnalogDistanceSensorFactory;
 import xbot.common.controls.sensors.XAnalogInput.XAnalogInputFactory;
+import xbot.common.controls.sensors.XCANCoder.XCANCoderFactory;
 import xbot.common.controls.sensors.XDigitalInput.XDigitalInputFactory;
 import xbot.common.controls.sensors.XEncoder.XEncoderFactory;
 import xbot.common.controls.sensors.XFTCGamepad.XFTCGamepadFactory;
@@ -32,9 +35,7 @@ import xbot.common.controls.sensors.XJoystick.XJoystickFactory;
 import xbot.common.controls.sensors.XLidarLite.XLidarLiteFactory;
 import xbot.common.controls.sensors.XPowerDistributionPanel.XPowerDistributionPanelFactory;
 import xbot.common.controls.sensors.XXboxController.XXboxControllerFactory;
-import xbot.common.injection.factories.PIDFactory;
-import xbot.common.injection.factories.PIDPropertyManagerFactory;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.logging.RobotSession;
 import xbot.common.logic.CalibrationDecider.CalibrationDeciderFactory;
@@ -42,6 +43,9 @@ import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.logic.StallDetector.StallDetectorFactory;
 import xbot.common.logic.VelocityThrottleModule.VelocityThrottleModuleFactory;
 import xbot.common.math.FieldPosePropertyManager.FieldPosePropertyManagerFactory;
+import xbot.common.math.PIDManager.PIDManagerFactory;
+import xbot.common.math.PIDPropertyManager.PIDPropertyManagerFactory;
+import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
 import xbot.common.properties.ITableProxy;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.PropertyFactory;
@@ -52,6 +56,7 @@ import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
 import xbot.common.subsystems.drive.BaseDriveSubsystem;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule.HeadingAssistModuleFactory;
 import xbot.common.subsystems.drive.control_logic.HeadingModule.HeadingModuleFactory;
+import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 /**
@@ -92,7 +97,7 @@ public abstract class BaseComponent {
 
     public abstract SimulationPayloadDistributor simulationPayloadDistributor();
 
-    public abstract PIDFactory pidFactory();
+    public abstract PIDManagerFactory pidFactory();
 
     public abstract PIDPropertyManagerFactory pidPropertyManagerFactory();
 
@@ -109,6 +114,8 @@ public abstract class BaseComponent {
     public abstract XXboxControllerFactory xboxControllerFactory();
 
     public abstract XFTCGamepadFactory ftcGamepadFactory();
+
+    public abstract XRumbleManagerFactory rumbleManagerFactory();
 
     public abstract ChordButtonFactory chordButtonFactory();
 
@@ -142,6 +149,10 @@ public abstract class BaseComponent {
 
     public abstract XEncoderFactory encoderFactory();
 
+    public abstract XAbsoluteEncoderFactory absoluteEncoderFactory();
+
+    public abstract XCANCoderFactory canCoderFactory();
+
     public abstract XSolenoidFactory solenoidFactory();
 
     public abstract XRelayFactory relayFactory();
@@ -156,9 +167,13 @@ public abstract class BaseComponent {
 
     public abstract XCANVictorSPXFactory canVictorSpxFactory();
 
+    public abstract XCANSparkMaxFactory canSparkMaxFactory();
+
     public abstract XLidarLiteFactory lidarLiteFactory();
 
     public abstract XSpeedControllerFactory speedControllerFactory();
+
+    public abstract XZeromqListenerFactory zeromqListenerFactory();
 
     public abstract BaseDriveSubsystem driveSubsystem();
     

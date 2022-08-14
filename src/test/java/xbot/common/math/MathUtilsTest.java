@@ -4,9 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class MathUtilsTest extends BaseWPITest {
+public class MathUtilsTest extends BaseCommonLibTest {
 
     @Test
     public void testSquareRetainSign() {
