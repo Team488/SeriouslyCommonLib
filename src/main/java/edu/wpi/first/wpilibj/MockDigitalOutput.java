@@ -1,7 +1,8 @@
 package edu.wpi.first.wpilibj;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.injection.wpi_factories.DevicePolice;
@@ -10,7 +11,12 @@ public class MockDigitalOutput extends XDigitalOutput {
     protected int channel;
     protected boolean value;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class MockDigitalOutputFactory implements XDigitalOutputFactory {
+        public abstract MockDigitalOutput create(@Assisted("channel") int channel);
+    }
+
+    @AssistedInject
     public MockDigitalOutput(@Assisted("channel") int channel, DevicePolice police) {
         super(channel, police);
     }

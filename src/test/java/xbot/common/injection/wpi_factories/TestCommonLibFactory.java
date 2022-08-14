@@ -18,16 +18,14 @@ public class TestCommonLibFactory extends BaseWPITest {
 
     @Test
     public void makeOneOfEverything() {
-        CommonLibFactory clf = injector.getInstance(CommonLibFactory.class);
-        
         injectorComponent.powerDistributionPanelFactory().create();
-        clf.createEncoder("foo", 1, 2, 1);
+        injectorComponent.encoderFactory().create("foo", 1, 2, 1);
         injectorComponent.digitalInputFactory().create(5);
-        clf.createAnalogInput(1);
+        injectorComponent.analogInputFactory().create(1);
         injectorComponent.xboxControllerFactory().create(2);
-        clf.createSolenoid(1);
-        clf.createDigitalOutput(3);
-        clf.createServo(1);
+        injectorComponent.solenoidFactory().create(1);
+        injectorComponent.digitalOutputFactory().create(3);
+        injectorComponent.servoFactory().create(1);
         injectorComponent.speedControllerFactory().create(2);
         injectorComponent.gyroFactory().create(I2C.Port.kMXP);
         injectorComponent.lidarLiteFactory().create(I2C.Port.kOnboard, "Test");
@@ -42,20 +40,22 @@ public class TestCommonLibFactory extends BaseWPITest {
         injectorComponent.calibrationDeciderFactory().create("calibration");
         injectorComponent.velocityThrottleModuleFactory().create("velocityThrottleThing", pf.create("velocity", 1, 0, 0));
         injectorComponent.compressorFactory().create();
-        clf.createRelay(5);
-        clf.createPWM(3);
-        clf.createFieldPosePropertyManager("testo", 1, 2, 3);
+        injectorComponent.relayFactory().create(5);
+        injectorComponent.pwmFactory().create(3);
+        injectorComponent.fieldPosePropertyManagerFactory().create("testo", 1, 2, 3);
         clf.createZeromqListener("testo", "testo");
         injectorComponent.chordButtonFactory().create(
             injectorComponent.joystickButtonFactory().create(j, 2),
             injectorComponent.joystickButtonFactory().create(j, 3));
         injectorComponent.virtualButtonFactory().create();
-        clf.createDoubleSolenoid(clf.createSolenoid(2), clf.createSolenoid(3));
+        injectorComponent.doubleSolenoidFactory().create(
+            injectorComponent.solenoidFactory().create(2),
+            injectorComponent.solenoidFactory().create(3));
         clf.createCANSparkMax(new DeviceInfo(10), "drive", "left");
         clf.createCANSparkMax(new DeviceInfo(11), "drive", "left", new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
         XCANTalon talon = injectorComponent.canTalonFactory().create(new CANTalonInfo(1));
-        clf.createXAS5600(talon);
-        clf.createCANVictorSPX(5);
+        injectorComponent.as5600Factory().create(talon);
+        injectorComponent.canVictorSpxFactory().create(5);
         clf.createAbsoluteEncoder(new DeviceInfo(6), "test");
         injectorComponent.stallDetectorFactory().create("owningSystem");
         clf.createCANCoder(new DeviceInfo(7), "test");

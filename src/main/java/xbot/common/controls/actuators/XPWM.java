@@ -8,7 +8,11 @@ public abstract class XPWM implements XBaseIO
 {
     protected int channel;
     
-    public XPWM(int channel, DevicePolice police) {
+    public interface XPWMFactory {
+        XPWM create(int channel);
+    }
+
+    protected XPWM(int channel, DevicePolice police) {
         this.channel = channel;
         police.registerDevice(DeviceType.PWM, channel, this);
     }

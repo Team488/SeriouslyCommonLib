@@ -20,7 +20,7 @@ public class SimulationPayloadDistributorTest extends BaseSimulationTest {
     public void setUp() {
         super.setUp();
 
-        encoder = (MockEncoder)clf.createEncoder("Test", 3, 4, 1);
+        encoder = (MockEncoder)injectorComponent.encoderFactory().create("Test", 3, 4, 1);
         timer = injectorComponent.timerImplementation();
     }
 

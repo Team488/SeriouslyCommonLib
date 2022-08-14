@@ -1,9 +1,10 @@
 package xbot.common.controls.sensors.mock_adapters;
 
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
-
 import org.json.JSONObject;
+
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.injection.wpi_factories.DevicePolice;
@@ -15,6 +16,15 @@ public class MockEncoder extends XEncoder implements ISimulatableSensor {
     private double distance;
     private double rate;
 
+    @AssistedFactory
+    public abstract static class MockEncoderFactory implements XEncoderFactory {
+        public abstract MockEncoder create(
+            @Assisted("name") String name,
+            @Assisted("aChannel") int aChannel,
+            @Assisted("bChannel") int bChannel,
+            @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse);
+    }
+
     @AssistedInject
     public MockEncoder(@Assisted("name") String name, @Assisted("aChannel") int aChannel,
             @Assisted("bChannel") int bChannel, @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse,
@@ -22,7 +32,6 @@ public class MockEncoder extends XEncoder implements ISimulatableSensor {
         super(name, aChannel, bChannel, defaultDistancePerPulse, propMan, police);
     }
 
-    @AssistedInject
     public MockEncoder(String prefix, PropertyFactory propMan) {
         super(prefix, propMan);
     }

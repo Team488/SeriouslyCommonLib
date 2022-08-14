@@ -1,7 +1,8 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
 import xbot.common.controls.actuators.XDigitalOutput;
@@ -11,7 +12,12 @@ public class DigitalOutputWPIAdapter extends XDigitalOutput {
 
     DigitalOutput adapter;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class DigitalOutputWPIAdapterFactory implements XDigitalOutputFactory {
+        public abstract DigitalOutputWPIAdapter create(@Assisted("channel") int channel);
+    }
+
+    @AssistedInject
     public DigitalOutputWPIAdapter(@Assisted("channel") int channel, DevicePolice police) {
         super(channel, police);
         adapter = new DigitalOutput(channel);

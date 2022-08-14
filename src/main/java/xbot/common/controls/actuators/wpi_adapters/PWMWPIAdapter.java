@@ -1,7 +1,8 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.wpilibj.PWM;
 import xbot.common.controls.actuators.XPWM;
@@ -11,7 +12,12 @@ public class PWMWPIAdapter extends XPWM
 {
     private PWM pwm;
     
-    @Inject
+    @AssistedFactory
+    public abstract static class PWMWPIAdapterFactory implements XPWMFactory {
+        public abstract PWMWPIAdapter create(@Assisted("channel") int channel);
+    }
+
+    @AssistedInject
     public PWMWPIAdapter(@Assisted("channel") int channel, DevicePolice police)
     {
         super(channel, police);

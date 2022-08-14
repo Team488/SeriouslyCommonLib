@@ -21,9 +21,9 @@ public class XDoubleSolenoidTest extends BaseWPITest {
     {
         super.setUp();
 
-        forwardSolenoid = (MockSolenoid)clf.createSolenoid(1);
-        reverseSolenoid = (MockSolenoid)clf.createSolenoid(2);
-        xDoubleSol = clf.createDoubleSolenoid(forwardSolenoid, reverseSolenoid);
+        forwardSolenoid = (MockSolenoid)injectorComponent.solenoidFactory().create(1);
+        reverseSolenoid = (MockSolenoid)injectorComponent.solenoidFactory().create(2);
+        xDoubleSol = injectorComponent.doubleSolenoidFactory().create(forwardSolenoid, reverseSolenoid);
     }
 
     @Test

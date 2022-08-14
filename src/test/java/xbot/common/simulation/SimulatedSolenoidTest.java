@@ -16,7 +16,7 @@ public class SimulatedSolenoidTest extends BaseSimulationTest {
     public void setUp() {
         super.setUp();
 
-        mockSolenoid = (MockSolenoid)clf.createSolenoid(channel);
+        mockSolenoid = (MockSolenoid)injectorComponent.solenoidFactory().create(channel);
     }
 
     @Test

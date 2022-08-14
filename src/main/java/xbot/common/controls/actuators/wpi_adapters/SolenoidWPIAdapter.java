@@ -1,7 +1,8 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -14,7 +15,12 @@ public class SolenoidWPIAdapter extends XSolenoid {
 
     Solenoid solenoid;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class SolenoidWPIAdapterFactory implements XSolenoidFactory {
+        public abstract SolenoidWPIAdapter create(@Assisted("channel") int channel);
+    }
+
+    @AssistedInject
     public SolenoidWPIAdapter(@Assisted("channel") int channel, DevicePolice police) {
         super(channel, police);
         this.solenoid = new Solenoid(PneumaticsModuleType.REVPH, channel);

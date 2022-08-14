@@ -7,6 +7,10 @@ import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 public abstract class XAnalogInput implements XBaseIO {
     
     protected int channel;
+
+    public interface XAnalogInputFactory {
+        XAnalogInput create(int channel);
+    }
     
     public XAnalogInput(int channel, DevicePolice police) {
         this.channel = channel;

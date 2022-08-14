@@ -1,7 +1,8 @@
 package edu.wpi.first.wpilibj;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.actuators.XServo;
 import xbot.common.injection.wpi_factories.DevicePolice;
@@ -10,7 +11,12 @@ public class MockServo extends XServo {
 
     protected double value;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class MockServoFactory implements XServoFactory {
+        public abstract MockServo create(@Assisted("channel") int channel);
+    }
+
+    @AssistedInject
     public MockServo(@Assisted("channel") int channel, DevicePolice police) {
         super(channel, police);
     }

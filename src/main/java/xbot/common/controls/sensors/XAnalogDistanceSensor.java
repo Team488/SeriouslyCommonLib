@@ -6,6 +6,13 @@ public abstract class XAnalogDistanceSensor implements DistanceSensor {
 
     DoubleFunction<Double> voltageMap;
     
+    public interface XAnalogDistanceSensorFactory {
+        XAnalogDistanceSensor create(
+            int channel,
+            DoubleFunction<Double> voltageMap,
+            String prefix);
+    }
+
     protected XAnalogDistanceSensor(
             int channel, 
             DoubleFunction<Double> voltageMap) {

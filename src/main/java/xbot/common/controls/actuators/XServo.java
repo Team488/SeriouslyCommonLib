@@ -8,7 +8,11 @@ public abstract class XServo implements XBaseIO {
 
     protected int channel;
     
-    public XServo(int channel, DevicePolice police) {
+    public interface XServoFactory {
+        XServo create(int channel);
+    }
+
+    protected XServo(int channel, DevicePolice police) {
         this.channel = channel;
         police.registerDevice(DeviceType.PWM, channel, this);
     }

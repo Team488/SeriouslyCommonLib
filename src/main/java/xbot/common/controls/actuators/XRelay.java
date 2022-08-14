@@ -9,7 +9,11 @@ public abstract class XRelay {
     protected int channel;
     protected boolean inverted;
     
-    public XRelay(int channel, DevicePolice police) {
+    public interface XRelayFactory {
+        XRelay create(int channel);
+    }
+
+    protected XRelay(int channel, DevicePolice police) {
         this.channel = channel;
         police.registerDevice(DeviceType.PWM, channel, this);
     }

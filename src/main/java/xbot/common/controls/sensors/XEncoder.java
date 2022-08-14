@@ -13,6 +13,14 @@ public abstract class XEncoder {
     protected DoubleProperty distancePerPulse;
     protected Supplier<Double> distancePerPulseSupplier;
 
+    public interface XEncoderFactory {
+        XEncoder create(
+            String name,
+            int aChannel,
+            int bChannel,
+            double defaultDistancePerPulse);
+    }
+
     public XEncoder(
             String name, 
             int aChannel, 
@@ -26,15 +34,15 @@ public abstract class XEncoder {
         police.registerDevice(DeviceType.DigitalIO, aChannel, this);
         police.registerDevice(DeviceType.DigitalIO, bChannel, this);
     }
-
-    public void setDistancePerPulseSupplier(Supplier<Double> supplier) {
-        distancePerPulseSupplier = supplier;
-    }
     
     public XEncoder(String prefix, PropertyFactory propMan) {
         propMan.setPrefix(prefix);
         var distancePerPulseProp = propMan.createPersistentProperty("Test" + "DistancePerPulse", 1);
         setDistancePerPulseSupplier(() -> distancePerPulseProp.get());
+    }
+
+    public void setDistancePerPulseSupplier(Supplier<Double> supplier) {
+        distancePerPulseSupplier = supplier;
     }
 
     public XEncoder(Supplier<Double> distancePerPulse) {

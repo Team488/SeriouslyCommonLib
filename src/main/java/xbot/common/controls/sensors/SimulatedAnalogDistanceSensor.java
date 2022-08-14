@@ -3,12 +3,12 @@ package xbot.common.controls.sensors;
 import java.math.BigDecimal;
 import java.util.function.DoubleFunction;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-
 import org.json.JSONObject;
 
-import xbot.common.injection.wpi_factories.CommonLibFactory;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
+
 import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.properties.PropertyFactory;
@@ -18,11 +18,20 @@ public class SimulatedAnalogDistanceSensor extends XAnalogDistanceSensor impleme
 
     private double distance;
 
-    @Inject
-    public SimulatedAnalogDistanceSensor(CommonLibFactory clf, @Assisted("channel") int channel,
-            @Assisted("voltageMap") DoubleFunction<Double> voltageMap, PropertyFactory propMan, DevicePolice police) {
+    @AssistedFactory
+    public abstract static class SimulatedAnalogDistanceSensorFactory implements XAnalogDistanceSensorFactory {
+        public abstract SimulatedAnalogDistanceSensor create(
+                @Assisted("channel") int channel,
+                @Assisted("voltageMap") DoubleFunction<Double> voltageMap,
+                @Assisted("prefix") String prefix);
+    }
+
+    @AssistedInject
+    public SimulatedAnalogDistanceSensor(@Assisted("channel") int channel,
+            @Assisted("voltageMap") DoubleFunction<Double> voltageMap, @Assisted("prefix") String prefix,
+            PropertyFactory propMan, DevicePolice police) {
         super(channel, voltageMap);
-        
+
         police.registerDevice(DeviceType.Analog, channel, this);
     }
 
@@ -50,7 +59,7 @@ public class SimulatedAnalogDistanceSensor extends XAnalogDistanceSensor impleme
     @Override
     public void ingestSimulationData(JSONObject payload) {
         // Some sort of BigDecimal issue
-        BigDecimal intermediate = (BigDecimal)payload.get("Distance");
+        BigDecimal intermediate = (BigDecimal) payload.get("Distance");
         setDistance(intermediate.doubleValue());
     }
 

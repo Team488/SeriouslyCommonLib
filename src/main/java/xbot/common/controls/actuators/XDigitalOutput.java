@@ -8,7 +8,11 @@ public abstract class XDigitalOutput implements XBaseIO {
 
     protected int channel;
     
-    public XDigitalOutput(int channel, DevicePolice police) {
+    public interface XDigitalOutputFactory {
+        XDigitalOutput create(int channel);
+    }
+
+    protected XDigitalOutput(int channel, DevicePolice police) {
         this.channel = channel;
         police.registerDevice(DeviceType.DigitalIO, channel, this);
     }

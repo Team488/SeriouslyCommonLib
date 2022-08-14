@@ -1,7 +1,8 @@
 package edu.wpi.first.wpilibj;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.actuators.XPWM;
 import xbot.common.injection.wpi_factories.DevicePolice;
@@ -10,7 +11,12 @@ public class MockPWM extends XPWM {
     protected int channel;
     protected double value;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class MockPWMFactory implements XPWMFactory {
+        public abstract MockPWM create(@Assisted("channel") int channel);
+    }
+
+    @AssistedInject
     public MockPWM(@Assisted("channel") int channel, DevicePolice police) {
         super(channel, police);
     }

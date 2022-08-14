@@ -1,9 +1,10 @@
 package xbot.common.controls.sensors;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-
 import org.apache.log4j.Logger;
+
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.actuators.XCANTalon;
 
@@ -13,7 +14,12 @@ public class XAS5600 {
     int lastValue = Integer.MIN_VALUE;
     protected Logger log = Logger.getLogger(XAS5600.class);
 
-    @Inject
+    @AssistedFactory
+    public abstract static class XAS5600Factory {
+        public abstract XAS5600 create(@Assisted("talon") XCANTalon talon);
+    }
+
+    @AssistedInject
     public XAS5600(@Assisted("talon") XCANTalon talon) {
         this.talon = talon;
         log.info("Creating XAS5600 using Talon with ID:" + talon.getDeviceID());

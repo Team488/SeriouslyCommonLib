@@ -9,7 +9,11 @@ public abstract class XSolenoid implements XBaseIO {
     protected boolean isInverted = false;
     protected final int channel;
 
-    public XSolenoid(int channel, DevicePolice police) {
+    public interface XSolenoidFactory {
+        XSolenoid create(int channel);
+    }
+
+    protected XSolenoid(int channel, DevicePolice police) {
         this.channel = channel;
         police.registerDevice(DeviceType.Solenoid, this.channel, 0, getMaxSupportedChannel());
     }

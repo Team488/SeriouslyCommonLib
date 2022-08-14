@@ -1,8 +1,8 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 import edu.wpi.first.wpilibj.AnalogInput;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.injection.wpi_factories.DevicePolice;
@@ -10,7 +10,12 @@ import xbot.common.injection.wpi_factories.DevicePolice;
 public class AnalogInputWPIAdapater extends XAnalogInput {
     AnalogInput input;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class AnalogInputWPIAdapaterFactory implements XAnalogInputFactory {
+        public abstract AnalogInputWPIAdapater create(@Assisted("channel") int channel);
+    }
+
+    @AssistedInject
     public AnalogInputWPIAdapater(@Assisted("channel") int channel, DevicePolice police) {
         super(channel, police);
         input = new AnalogInput(channel);

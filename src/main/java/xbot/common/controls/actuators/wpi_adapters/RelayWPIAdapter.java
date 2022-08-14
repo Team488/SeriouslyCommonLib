@@ -1,7 +1,8 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Value;
@@ -12,7 +13,12 @@ public class RelayWPIAdapter extends XRelay {
 
     Relay internalRelay;
     
-    @Inject
+    @AssistedFactory
+    public abstract static class RelayWPIAdapterFactory implements XRelayFactory {
+        public abstract RelayWPIAdapter create(@Assisted("channel") int channel);
+    }
+
+    @AssistedInject
     public RelayWPIAdapter(@Assisted("channel") int channel, DevicePolice police) {
         super(channel, police);
         internalRelay = new Relay(channel);
