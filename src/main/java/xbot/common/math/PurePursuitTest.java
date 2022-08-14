@@ -5,6 +5,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.components.BaseComponent;
+import xbot.common.injection.components.DaggerPurePursuitTestComponent;
+import xbot.common.injection.components.PurePursuitTestComponent;
 import xbot.common.math.PIDManager.PIDManagerFactory;
 import xbot.common.subsystems.drive.ConfigurablePurePursuitCommand;
 import xbot.common.subsystems.drive.MockDriveSubsystem;
@@ -27,6 +30,15 @@ public class PurePursuitTest extends BaseWPITest {
     public PurePursuitTest(List<RabbitPoint> points)
     {
         this.points = points;
+    }
+
+    @Override
+    protected BaseComponent createDaggerComponent() {
+        return DaggerPurePursuitTestComponent.create();
+    }
+
+    protected PurePursuitTestComponent getInjectorComponent() {
+        return (PurePursuitTestComponent)super.getInjectorComponent();
     }
 
     public static class PursuitEnvironmentState {

@@ -7,14 +7,12 @@ import org.junit.Ignore;
 import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.components.BaseComponent;
-import xbot.common.injection.components.DaggerUnitTestComponent;
-import xbot.common.injection.components.UnitTestComponent;
 import xbot.common.math.PIDManager.PIDManagerFactory;
 import xbot.common.properties.PropertyFactory;
 
 @Ignore
 public abstract class BaseWPITest {
-    private UnitTestComponent injectorComponent;
+    private BaseComponent injectorComponent;
 
     public PropertyFactory propertyFactory;
 
@@ -25,11 +23,9 @@ public abstract class BaseWPITest {
     /**
      * Returns the {@link BaseComponent} instance used for dependency injection
      */
-    protected UnitTestComponent createDaggerComponent() {
-        return DaggerUnitTestComponent.create();
-    }
+    protected abstract BaseComponent createDaggerComponent();
 
-    protected UnitTestComponent getInjectorComponent() {
+    protected BaseComponent getInjectorComponent() {
         return injectorComponent;
     }
 
