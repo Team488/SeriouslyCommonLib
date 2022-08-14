@@ -45,7 +45,7 @@ public abstract class BaseRobot extends TimedRobot {
     protected XScheduler xScheduler;
 
     // Other than initially creating required systems, you should never use the injector again
-    protected BaseComponent injectorComponent;
+    private BaseComponent injectorComponent;
 
     protected Command autonomousCommand;
     protected AutonomousCommandSelector autonomousCommandSelector;
@@ -80,13 +80,21 @@ public abstract class BaseRobot extends TimedRobot {
      * Override if you need a different module
      */
     protected void setupInjectionModule() {
-        injectorComponent = getDaggerComponent();
+        injectorComponent = createDaggerComponent();
     }
 
     /**
      * Returns the {@link BaseComponent} instance used for dependency injection
      */
-    protected abstract BaseComponent getDaggerComponent();
+    protected abstract BaseComponent createDaggerComponent();
+
+    /**
+     * Get the dependency injection component
+     * @return
+     */
+    protected BaseComponent getInjectorComponent() {
+        return injectorComponent;
+    }
 
     /**
      * This function is run when the robot is first started up and should be used for any initialization code.
