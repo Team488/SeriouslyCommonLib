@@ -3,11 +3,8 @@ package xbot.common.subsystems.drive;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.inject.Inject;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import xbot.common.command.BaseCommand;
-import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.FieldPose;
 import xbot.common.math.MathUtils;
 import xbot.common.math.PIDManager;
@@ -18,6 +15,7 @@ import xbot.common.subsystems.drive.RabbitPoint.PointDriveStyle;
 import xbot.common.subsystems.drive.RabbitPoint.PointTerminatingType;
 import xbot.common.subsystems.drive.RabbitPoint.PointType;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
+import xbot.common.subsystems.drive.control_logic.HeadingModule.HeadingModuleFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 public abstract class PurePursuitCommand extends BaseCommand {
@@ -82,13 +80,12 @@ public abstract class PurePursuitCommand extends BaseCommand {
      * You will see references to rabbits, or "chasing the rabbit". This is alluding to how greyhoud races use mechanical rabbits,
      * which is designed to always stay ahead of them, regardless of their speed. This is similiar to how, as the robot uses pure
      * pursuit, it is always chasing a point it can never reach.
-     * @param clf CommonLibFactory
+     * @param headingModuleFactory HeadingModuleFactory
      * @param pose BasePoseSubsystem
      * @param drive BaseDriveSubsystem
      * @param propMan PropertyManager
      */
-    @Inject
-    public PurePursuitCommand(CommonLibFactory clf, BasePoseSubsystem pose, BaseDriveSubsystem drive,
+    public PurePursuitCommand(HeadingModuleFactory headingModuleFactory, BasePoseSubsystem pose, BaseDriveSubsystem drive,
             PropertyFactory propMan) {
         this.poseSystem = pose;
         this.drive = drive;
@@ -108,7 +105,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         // before zooming off.
         motionBudget = propMan.createPersistentProperty("Motion Budget", 1);
         perpindicularRatioProp = propMan.createPersistentProperty("PerpindicularRatio", 1.5);
-        defaultHeadingModule = clf.createHeadingModule(drive.getRotateToHeadingPid());
+        defaultHeadingModule = headingModuleFactory.create(drive.getRotateToHeadingPid());
         defaultPositionalPid = drive.getPositionalPid();
         setPIDsToDefault();
     }

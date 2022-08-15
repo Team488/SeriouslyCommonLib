@@ -1,19 +1,25 @@
 package edu.wpi.first.wpilibj;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-
 import org.json.JSONObject;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
+
 import xbot.common.controls.actuators.XSolenoid;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 import xbot.common.simulation.ISimulatableSolenoid;
 
 public class MockSolenoid extends XSolenoid implements ISimulatableSolenoid {
     final int channel;
     protected boolean on;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class MockSolenoidFactory implements XSolenoidFactory {
+        public abstract MockSolenoid create(@Assisted("channel") int channel);
+    }
+
+    @AssistedInject
     public MockSolenoid(@Assisted("channel") int channel, DevicePolice police) {
         super(channel, police);
         this.channel = channel;

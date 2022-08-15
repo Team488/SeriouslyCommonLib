@@ -5,9 +5,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import xbot.common.controls.sensors.XTimer;
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class HistoryBufferTests extends BaseWPITest {
+public class HistoryBufferTests extends BaseCommonLibTest {
 
     @Test
     public void simpleBufferTest() {

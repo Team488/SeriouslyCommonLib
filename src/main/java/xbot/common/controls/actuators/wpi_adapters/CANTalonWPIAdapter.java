@@ -27,12 +27,14 @@ import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
-import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.PropertyFactory;
 
 public class CANTalonWPIAdapter extends XCANTalon {
@@ -40,7 +42,12 @@ public class CANTalonWPIAdapter extends XCANTalon {
     private TalonSRX internalTalon;
     SensorCollection sensorCollection;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class CANTalonWPIAdapterFactory implements XCANTalonFactory {
+        public abstract CANTalonWPIAdapter create(@Assisted("deviceInfo") CANTalonInfo deviceInfo);
+    }
+
+    @AssistedInject
     public CANTalonWPIAdapter(@Assisted("deviceInfo") CANTalonInfo deviceInfo, PropertyFactory propMan, DevicePolice police) {
         super(deviceInfo.channel, propMan, police);
         internalTalon = new TalonSRX(deviceInfo.channel);

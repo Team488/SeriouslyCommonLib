@@ -1,16 +1,17 @@
 package xbot.common.controls.sensors;
 
-import com.google.inject.Inject;
-
 import xbot.common.controls.XBaseIO;
-import xbot.common.injection.wpi_factories.DevicePolice;
-import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
+import xbot.common.injection.DevicePolice;
+import xbot.common.injection.DevicePolice.DeviceType;
 
 public abstract class XDigitalInput implements XBaseIO {
 
     boolean inverted;
     
-    @Inject
+    public interface XDigitalInputFactory {
+        XDigitalInput create(int channel);
+    }
+
     public XDigitalInput(DevicePolice police, int channel) {
         police.registerDevice(DeviceType.DigitalIO, channel, this);
     }

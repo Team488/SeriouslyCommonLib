@@ -2,9 +2,9 @@ package xbot.common.logging;
 
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class TimeLoggerTest extends BaseWPITest {
+public class TimeLoggerTest extends BaseCommonLibTest {
 
     TimeLogger tl;
     

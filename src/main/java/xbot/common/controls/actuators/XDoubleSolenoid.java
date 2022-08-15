@@ -1,13 +1,21 @@
 package xbot.common.controls.actuators;
 
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 public class XDoubleSolenoid {
 
     protected boolean isInverted = false;
     public XSolenoid forwardSolenoid;
     public XSolenoid reverseSolenoid;
+
+    @AssistedFactory
+    public abstract static class XDoubleSolenoidFactory {
+        public abstract XDoubleSolenoid create(
+            @Assisted("forwardSolenoid") XSolenoid forwardSolenoid,
+            @Assisted("reverseSolenoid") XSolenoid reverseSolenoid);
+    }
     
     @AssistedInject
     public XDoubleSolenoid(@Assisted("forwardSolenoid") XSolenoid forwardSolenoid, @Assisted("reverseSolenoid") XSolenoid reverseSolenoid) {

@@ -1,14 +1,18 @@
 package xbot.common.controls.actuators;
 
 import xbot.common.controls.XBaseIO;
-import xbot.common.injection.wpi_factories.DevicePolice;
-import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
+import xbot.common.injection.DevicePolice;
+import xbot.common.injection.DevicePolice.DeviceType;
 
 public abstract class XSpeedController implements XBaseIO
 {
     protected int channel;
     protected boolean isInverted;
     
+    public interface XSpeedControllerFactory {
+        XSpeedController create(int channel);
+    }
+
     public XSpeedController(int channel, DevicePolice police) {
         this.channel = channel;
         police.registerDevice(DeviceType.PWM, channel, this);

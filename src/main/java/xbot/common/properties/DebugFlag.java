@@ -1,6 +1,6 @@
 package xbot.common.properties;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 public class DebugFlag {

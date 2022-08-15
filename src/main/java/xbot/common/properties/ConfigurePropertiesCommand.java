@@ -1,6 +1,6 @@
 package xbot.common.properties;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import xbot.common.command.BaseCommand;
 

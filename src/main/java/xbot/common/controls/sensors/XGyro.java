@@ -1,5 +1,8 @@
 package xbot.common.controls.sensors;
 
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SerialPort;
 import xbot.common.math.WrappedRotation2d;
 
 public abstract class XGyro
@@ -12,7 +15,27 @@ public abstract class XGyro
     
     protected ImuType imuType;
     
-    public XGyro(ImuType imuType) 
+    public abstract static class XGyroFactory {
+        protected abstract XGyro create(SPI.Port spiPort, SerialPort.Port serialPort, I2C.Port i2cPort);
+
+        public XGyro create() {
+            return create(SPI.Port.kMXP);
+        }
+
+        public XGyro create(SPI.Port spiPort) {
+            return create(spiPort, null, null);
+        }
+
+        public XGyro create(SerialPort.Port serialPort) {
+            return create(null, serialPort, null);
+        }
+
+        public XGyro create(I2C.Port i2cPort) {
+            return create(null, null, i2cPort);
+        }
+    }
+
+    protected XGyro(ImuType imuType) 
     {
         this.imuType = imuType;
     }
@@ -21,8 +44,8 @@ public abstract class XGyro
     
     protected ImuType getImuType() {
         return imuType;
-    }    
-    
+    }
+
     // Below are the "safe" methods that return gyro information. They pay attention
     // to the state of the gyro, and as such will ideally not cause exceptions.
     

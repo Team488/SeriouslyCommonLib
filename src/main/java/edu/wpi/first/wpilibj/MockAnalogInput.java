@@ -1,19 +1,25 @@
 package edu.wpi.first.wpilibj;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-
 import org.json.JSONObject;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
+
 import xbot.common.controls.sensors.XAnalogInput;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 import xbot.common.simulation.ISimulatableSensor;
 
 public class MockAnalogInput extends XAnalogInput implements ISimulatableSensor {
     int channel;
     double voltage;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class MockAnalogInputFactory implements XAnalogInputFactory {
+        public abstract MockAnalogInput create(@Assisted("channel") int channel);
+    }
+
+    @AssistedInject
     public MockAnalogInput(@Assisted("channel") int channel, DevicePolice police) {
         super(channel, police);
         this.channel = channel;

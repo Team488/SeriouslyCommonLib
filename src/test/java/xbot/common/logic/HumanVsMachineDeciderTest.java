@@ -4,17 +4,17 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
 
-public class HumanVsMachineDeciderTest extends BaseWPITest {
+public class HumanVsMachineDeciderTest extends BaseCommonLibTest {
 
     HumanVsMachineDecider decider;
     
     @Override
     public void setUp() {
         super.setUp();
-        decider = clf.createHumanVsMachineDecider("Test");
+        decider = getInjectorComponent().humanVsMachineDeciderFactory().create("Test");
     }
     
     @Test

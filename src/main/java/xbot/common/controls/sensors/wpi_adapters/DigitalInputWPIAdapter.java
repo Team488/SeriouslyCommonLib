@@ -1,15 +1,22 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import xbot.common.controls.sensors.XDigitalInput;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 
 public class DigitalInputWPIAdapter extends XDigitalInput {
 
     protected DigitalInput adapter;
+
+    @AssistedFactory
+    public abstract static class DigitalInputWPIAdapterFactory implements XDigitalInputFactory
+    {
+        public abstract DigitalInputWPIAdapter create(@Assisted("channel") int channel);
+    }
 
     /**
      * Create an instance of a Digital Input class. Creates a digital input given a channel.
@@ -17,7 +24,7 @@ public class DigitalInputWPIAdapter extends XDigitalInput {
      * @param channel
      *            the DIO channel for the digital input 0-9 are on-board, 10-25 are on the MXP
      */
-    @Inject
+    @AssistedInject
     public DigitalInputWPIAdapter(@Assisted("channel") int channel, DevicePolice police) {
         super(police, channel);
         adapter = new DigitalInput(channel);

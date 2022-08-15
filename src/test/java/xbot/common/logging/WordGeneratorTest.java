@@ -5,9 +5,9 @@ import static org.junit.Assert.assertFalse;
 import org.junit.Before;
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class WordGeneratorTest extends BaseWPITest {
+public class WordGeneratorTest extends BaseCommonLibTest {
 
     @Before
     public void setUp() {

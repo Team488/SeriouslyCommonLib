@@ -12,8 +12,8 @@ public class PoseSubsystemTest extends BasePoseTest {
     
     public void setup() {
         super.setup();
-        pose = injector.getInstance(MockBasePoseSubsystem.class);
-    }    
+        pose = (MockBasePoseSubsystem)getInjectorComponent().poseSubsystem();
+    }
     
     @Test
     public void testInitialHeading() {

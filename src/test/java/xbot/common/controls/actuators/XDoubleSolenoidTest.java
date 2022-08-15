@@ -8,9 +8,9 @@ import org.junit.Test;
 
 import edu.wpi.first.wpilibj.MockSolenoid;
 import xbot.common.controls.actuators.XDoubleSolenoid.DoubleSolenoidMode;
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class XDoubleSolenoidTest extends BaseWPITest {
+public class XDoubleSolenoidTest extends BaseCommonLibTest {
 
     MockSolenoid forwardSolenoid;   
     MockSolenoid reverseSolenoid;
@@ -21,9 +21,9 @@ public class XDoubleSolenoidTest extends BaseWPITest {
     {
         super.setUp();
 
-        forwardSolenoid = (MockSolenoid)clf.createSolenoid(1);
-        reverseSolenoid = (MockSolenoid)clf.createSolenoid(2);
-        xDoubleSol = clf.createDoubleSolenoid(forwardSolenoid, reverseSolenoid);
+        forwardSolenoid = (MockSolenoid)getInjectorComponent().solenoidFactory().create(1);
+        reverseSolenoid = (MockSolenoid)getInjectorComponent().solenoidFactory().create(2);
+        xDoubleSol = getInjectorComponent().doubleSolenoidFactory().create(forwardSolenoid, reverseSolenoid);
     }
 
     @Test

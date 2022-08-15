@@ -1,7 +1,8 @@
 package xbot.common.logic;
 
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.DoubleProperty;
@@ -40,6 +41,11 @@ public class StallDetector {
     final DoubleProperty stallCoolDown;
 
     double timeOfLastDetectedStall;
+
+    @AssistedFactory
+    public abstract static class StallDetectorFactory {
+        public abstract StallDetector create(@Assisted("owningSystemPrefix") String owningSystemPrefix);
+    }
 
     @AssistedInject
     public StallDetector(PropertyFactory pf, @Assisted("owningSystemPrefix") String owningSystemPrefix) {

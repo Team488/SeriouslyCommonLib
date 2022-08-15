@@ -1,5 +1,8 @@
 package xbot.common.properties;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.apache.log4j.Logger;
 
 import edu.wpi.first.wpilibj.Preferences;
@@ -14,11 +17,15 @@ import edu.wpi.first.wpilibj.Preferences;
  * /home/lvuser/networktables.ini
  * 
  */
+@Singleton
 public class PreferenceStorage implements PermanentStorage {
 
     protected static Logger log = Logger.getLogger(PreferenceStorage.class);
     boolean fastMode = false;
     
+    @Inject
+    public PreferenceStorage() {}
+
     @Override
     public void setDouble(String key, double value) {
         Preferences.setDouble(key, value);

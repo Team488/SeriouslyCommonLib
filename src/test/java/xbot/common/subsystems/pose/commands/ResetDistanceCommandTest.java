@@ -12,7 +12,7 @@ public class ResetDistanceCommandTest extends BasePoseTest {
     @Before
     public void setup() {
         super.setup();
-        reset = injector.getInstance(ResetDistanceCommand.class);
+        reset = getInjectorComponent().resetDistanceCommand();
     }
     
     @Test

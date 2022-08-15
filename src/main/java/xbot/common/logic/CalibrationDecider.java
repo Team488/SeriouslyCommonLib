@@ -1,7 +1,8 @@
 package xbot.common.logic;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.DoubleProperty;
@@ -16,7 +17,12 @@ public class CalibrationDecider {
     final DoubleProperty calibrationTimeProp;
     double startTime;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class CalibrationDeciderFactory {
+        public abstract CalibrationDecider create(@Assisted("name") String name);
+    }
+
+    @AssistedInject
     public CalibrationDecider(@Assisted("name") String name, PropertyFactory propMan) {
         propMan.setPrefix(name);
         calibrationTimeProp = propMan.createPersistentProperty("CalibrationDecider/Attempt Time", 3);

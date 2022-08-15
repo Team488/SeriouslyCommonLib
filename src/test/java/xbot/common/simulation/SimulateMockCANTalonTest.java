@@ -21,7 +21,7 @@ public class SimulateMockCANTalonTest extends BaseSimulationTest {
     public void setUp() {
         super.setUp();
 
-        mockCANTalon = (MockCANTalon)clf.createCANTalon(new CANTalonInfo(34, false, FeedbackDevice.CTRE_MagEncoder_Absolute, false, 1));
+        mockCANTalon = (MockCANTalon)injectorComponent.canTalonFactory().create(new CANTalonInfo(34, false, FeedbackDevice.CTRE_MagEncoder_Absolute, false, 1));
     }
 
     @Test

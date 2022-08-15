@@ -5,12 +5,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import xbot.common.injection.BaseWPITest;
-import xbot.common.subsystems.drive.BaseDriveSubsystem;
+import xbot.common.injection.components.BaseComponent;
+import xbot.common.injection.components.DaggerPurePursuitTestComponent;
+import xbot.common.injection.components.PurePursuitTestComponent;
+import xbot.common.math.PIDManager.PIDManagerFactory;
 import xbot.common.subsystems.drive.ConfigurablePurePursuitCommand;
 import xbot.common.subsystems.drive.MockDriveSubsystem;
 import xbot.common.subsystems.drive.PurePursuitCommand.RabbitChaseInfo;
 import xbot.common.subsystems.drive.RabbitPoint;
-import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.MockBasePoseSubsystem;
 
 public class PurePursuitTest extends BaseWPITest {
@@ -24,11 +26,21 @@ public class PurePursuitTest extends BaseWPITest {
     FieldPose goalTwo;
     boolean pastOne;
     List<RabbitPoint> points;
+
     public PurePursuitTest(List<RabbitPoint> points)
     {
         this.points = points;
     }
-        
+
+    @Override
+    protected BaseComponent createDaggerComponent() {
+        return DaggerPurePursuitTestComponent.create();
+    }
+
+    protected PurePursuitTestComponent getInjectorComponent() {
+        return (PurePursuitTestComponent)super.getInjectorComponent();
+    }
+
     public static class PursuitEnvironmentState {
         public FieldPose robot;
         public FieldPose goal;
@@ -73,12 +85,12 @@ public class PurePursuitTest extends BaseWPITest {
     public void vizRun() {
         super.setUp();        
         engine = new PlanarEngine();
-        PIDFactory pf = injector.getInstance(PIDFactory.class);
-        MockDriveSubsystem b = (MockDriveSubsystem)injector.getInstance(BaseDriveSubsystem.class);
-        this.poseSystem = (MockBasePoseSubsystem)injector.getInstance(BasePoseSubsystem.class);
-        b.changeRotationalPid(pf.createPIDManager("testRot", 0.05, 0, 0));
-        b.changePositionalPid(pf.createPIDManager("testPos", 0.1, 0, 0.1));
-        command = injector.getInstance(ConfigurablePurePursuitCommand.class);
+        PIDManagerFactory pf = getInjectorComponent().pidFactory();
+        MockDriveSubsystem b = (MockDriveSubsystem)getInjectorComponent().driveSubsystem();
+        this.poseSystem = (MockBasePoseSubsystem)getInjectorComponent().poseSubsystem();
+        b.changeRotationalPid(pf.create("testRot", 0.05, 0, 0));
+        b.changePositionalPid(pf.create("testPos", 0.1, 0, 0.1));
+        command = getInjectorComponent().configurablePurePursuitCommand();
         command.setDotProductDrivingEnabled(true);
         setPoints();
         command.initialize();

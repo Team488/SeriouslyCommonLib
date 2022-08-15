@@ -4,17 +4,17 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.logic.StallDetector.StallState;
 
-public class StallDetectorTest extends BaseWPITest {
+public class StallDetectorTest extends BaseCommonLibTest {
     
     StallDetector stallDetector;
 
     @Override
     public void setUp() {
         super.setUp();
-        stallDetector = clf.createStallDetector("OwningSystem");
+        stallDetector = getInjectorComponent().stallDetectorFactory().create("OwningSystem");
 
         stallDetector.setAllParameters(
             1.0, // current time window

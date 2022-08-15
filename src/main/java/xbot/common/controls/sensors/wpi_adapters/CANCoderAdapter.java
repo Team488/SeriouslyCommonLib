@@ -6,15 +6,17 @@ import com.ctre.phoenix.sensors.CANCoderFaults;
 import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 import com.ctre.phoenix.sensors.CANCoderStickyFaults;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 
 import org.apache.log4j.Logger;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
+
 import xbot.common.controls.sensors.XCANCoder;
+import xbot.common.injection.DevicePolice;
+import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
-import xbot.common.injection.wpi_factories.DevicePolice;
-import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
@@ -29,6 +31,13 @@ public class CANCoderAdapter extends XCANCoder {
 
     private final DoubleProperty magnetOffset;
     private final BooleanProperty inverted;
+
+    @AssistedFactory
+    public abstract static class CANCoderAdapterFactory implements XCANCoderFactory {
+        public abstract CANCoderAdapter create(
+            @Assisted("deviceInfo") DeviceInfo deviceInfo,
+            @Assisted("owningSystemPrefix") String owningSystemPrefix);
+    }
 
     @AssistedInject
     public CANCoderAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo,

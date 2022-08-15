@@ -1,8 +1,8 @@
 package xbot.common.logic;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
@@ -21,7 +21,12 @@ public class HumanVsMachineDecider {
     private final DoubleProperty coastTimeProp;
     private boolean inAutomaticMode;
     
-    @Inject
+    @AssistedFactory
+    public abstract static class HumanVsMachineDeciderFactory {
+        public abstract HumanVsMachineDecider create(@Assisted("prefix") String prefix);
+    }
+
+    @AssistedInject
     public HumanVsMachineDecider(@Assisted("prefix") String prefix, PropertyFactory propMan) {
         propMan.setPrefix(prefix);
         propMan.appendPrefix("Decider");

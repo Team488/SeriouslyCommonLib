@@ -1,13 +1,13 @@
 package xbot.common.subsystems.drive;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import edu.wpi.first.wpilibj.util.Color;
-import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.simulation.WebotsClient;
+import xbot.common.subsystems.drive.control_logic.HeadingModule.HeadingModuleFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 public class SimulatedPurePursuitCommand extends ConfigurablePurePursuitCommand {
@@ -15,9 +15,9 @@ public class SimulatedPurePursuitCommand extends ConfigurablePurePursuitCommand 
     private final WebotsClient webots;
 
     @Inject
-    public SimulatedPurePursuitCommand(CommonLibFactory clf, BasePoseSubsystem pose, BaseDriveSubsystem drive,
+    public SimulatedPurePursuitCommand(HeadingModuleFactory headingModuleFactory, BasePoseSubsystem pose, BaseDriveSubsystem drive,
     PropertyFactory propMan, WebotsClient webots) {
-        super(clf, pose, drive, propMan);
+        super(headingModuleFactory, pose, drive, propMan);
         this.webots = webots;
     }
 

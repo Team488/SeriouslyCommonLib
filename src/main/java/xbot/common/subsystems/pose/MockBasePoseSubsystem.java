@@ -1,12 +1,13 @@
 package xbot.common.subsystems.pose;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
-import xbot.common.injection.wpi_factories.CommonLibFactory;
+import xbot.common.controls.sensors.XGyro.XGyroFactory;
 import xbot.common.properties.PropertyFactory;
 
 @Singleton
@@ -16,8 +17,8 @@ public class MockBasePoseSubsystem extends BasePoseSubsystem {
     private XCANTalon right;
     
     @Inject
-    public MockBasePoseSubsystem(CommonLibFactory factory, PropertyFactory propManager) {
-        super(factory, propManager);
+    public MockBasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {
+        super(gyroFactory, propManager);
     }
     
     public void setDriveTalons(XCANTalon left, XCANTalon right) {

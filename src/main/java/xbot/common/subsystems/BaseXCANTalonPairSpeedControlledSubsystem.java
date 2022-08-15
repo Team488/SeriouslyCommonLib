@@ -1,8 +1,8 @@
 package xbot.common.subsystems;
 
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.controls.actuators.XCANTalon.XCANTalonFactory;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
-import xbot.common.injection.wpi_factories.CommonLibFactory;
 import xbot.common.math.PIDPropertyManager;
 import xbot.common.properties.PropertyFactory;
 
@@ -25,12 +25,12 @@ public class BaseXCANTalonPairSpeedControlledSubsystem extends BaseXCANTalonSpee
             boolean invertMaster,
             boolean invertMasterSensor,
             boolean invertFollower,
-            CommonLibFactory factory,
+            XCANTalonFactory factory,
             PIDPropertyManager pidPropertyManager,
             PropertyFactory propManager) {
         super(name, masterChannel, invertMaster, invertMasterSensor, factory, pidPropertyManager, propManager);
         
-        followerMotor = factory.createCANTalon(new CANTalonInfo(followChannel, false));
+        followerMotor = factory.create(new CANTalonInfo(followChannel, false));
         initializeFollowerMotorConfiguration(invertFollower);
     }
     

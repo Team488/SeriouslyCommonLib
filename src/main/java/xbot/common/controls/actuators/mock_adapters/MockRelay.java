@@ -1,17 +1,23 @@
 package xbot.common.controls.actuators.mock_adapters;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.wpilibj.Relay.Value;
 import xbot.common.controls.actuators.XRelay;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 
 public class MockRelay extends XRelay {
 
     private Value internalValue;
     
-    @Inject
+    @AssistedFactory
+    public abstract static class MockRelayFactory implements XRelayFactory {
+        public abstract MockRelay create(@Assisted("channel") int channel);
+    }
+
+    @AssistedInject
     public MockRelay(@Assisted("channel") int channel, DevicePolice police) {
         super(channel, police);
         

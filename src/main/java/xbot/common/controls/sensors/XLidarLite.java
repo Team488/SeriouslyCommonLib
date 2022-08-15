@@ -4,8 +4,8 @@ import java.util.TimerTask;
 
 import org.apache.log4j.Logger;
 
-import xbot.common.injection.wpi_factories.DevicePolice;
-import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
+import xbot.common.injection.DevicePolice;
+import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -23,6 +23,10 @@ public abstract class XLidarLite implements DistanceSensor {
     protected final int lidar_distance_register = 0x8f;
 
     private DoubleProperty lidarPollDuration;
+
+    public interface XLidarLiteFactory {
+        public abstract XLidarLite create(Port port, String prefix);
+    }
 
     public XLidarLite(Port port, PropertyFactory propMan, DevicePolice police, String prefix) {
 

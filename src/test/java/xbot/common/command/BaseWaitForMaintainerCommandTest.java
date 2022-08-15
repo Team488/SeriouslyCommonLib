@@ -5,14 +5,14 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class BaseWaitForMaintainerCommandTest extends BaseWPITest {
+public class BaseWaitForMaintainerCommandTest extends BaseCommonLibTest {
 
     @Test
     public void testReachedGoal() {
-        BaseSetpointSubsystem subsystem = injector.getInstance(MockSetpointSystem.class);
-        BaseWaitForMaintainerCommand command = injector.getInstance(MockWaitForMaintainerCommand.class);
+        BaseSetpointSubsystem subsystem = getInjectorComponent().mockSetpointSubsystem();
+        BaseWaitForMaintainerCommand command = getInjectorComponent().mockWaitForMaintainerCommand();
 
         command.initialize();
 
@@ -25,8 +25,8 @@ public class BaseWaitForMaintainerCommandTest extends BaseWPITest {
     
     @Test
     public void testTimeout() {
-        BaseSetpointSubsystem subsystem = injector.getInstance(MockSetpointSystem.class);
-        BaseWaitForMaintainerCommand command = injector.getInstance(MockWaitForMaintainerCommand.class);
+        BaseSetpointSubsystem subsystem = getInjectorComponent().mockSetpointSubsystem();
+        BaseWaitForMaintainerCommand command = getInjectorComponent().mockWaitForMaintainerCommand();
 
         command.initialize();
 

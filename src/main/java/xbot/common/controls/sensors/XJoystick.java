@@ -5,11 +5,13 @@ import java.util.HashMap;
 import org.apache.log4j.Logger;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
+import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
+import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
 import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
 import xbot.common.controls.sensors.mock_adapters.MockJoystick;
-import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.injection.wpi_factories.DevicePolice;
-import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
+import xbot.common.injection.DevicePolice;
+import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 
@@ -26,20 +28,30 @@ public abstract class XJoystick
     private HashMap<Integer, AdvancedPovButton> povButtonMap;
     private int maxButtons;
 
-    private CommonLibFactory clf;
+    private AdvancedJoystickButtonFactory joystickButtonFactory;
+    private AdvancedPovButtonFactory povButtonFactory;
+    private AnalogHIDButtonFactory analogHidButtonFactory;
 
     private RobotAssertionManager assertionManager;
     private DevicePolice police;
     
+    public interface XJoystickFactory {
+        XJoystick create(int port, int numButtons);
+    }
+
     public XJoystick(
             int port, 
-            CommonLibFactory clf, 
+            AdvancedJoystickButtonFactory joystickButtonFactory,
+            AdvancedPovButtonFactory povButtonFactory,
+            AnalogHIDButtonFactory analogHidButtonFactory,
             RobotAssertionManager assertionManager, 
             int numButtons,
             DevicePolice police) {
         this.port = port;
         this.police = police;
-        this.clf = clf;
+        this.joystickButtonFactory = joystickButtonFactory;
+        this.povButtonFactory = povButtonFactory;
+        this.analogHidButtonFactory = analogHidButtonFactory;
         this.assertionManager = assertionManager;
         maxButtons = numButtons;
         
@@ -49,11 +61,11 @@ public abstract class XJoystick
         this.axisInversion = new boolean[6];
 
         for (int i = 1; i <= numButtons; i++) {
-            this.set(i, clf.createAdvancedJoystickButton(this, i));
+            this.set(i, joystickButtonFactory.create(this, i));
         }
         
         for (int i = 0; i < 360; i+=45) {
-            povButtonMap.put(i, clf.createAdvancedPovButton(this, i));
+            povButtonMap.put(i, povButtonFactory.create(this, i));
         }
         
         police.registerDevice(DeviceType.USB, port, this);
@@ -98,7 +110,7 @@ public abstract class XJoystick
     }
 
     public void addAnalogButton(AnalogHIDDescription desc) {
-        setAnalog(clf.createAnalogHIDButton(this, desc));
+        setAnalog(analogHidButtonFactory.create(this, desc));
     }
     
     public enum ButtonSource {
@@ -139,7 +151,7 @@ public abstract class XJoystick
     private AdvancedButton handleInvalidButton(String message) {
         assertionManager.throwException(message, new Exception());
         
-        MockJoystick mj = new MockJoystick(0, clf, assertionManager, 12, police);
+        MockJoystick mj = new MockJoystick(0, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, assertionManager, 12, police);
         return new AdvancedJoystickButton(mj, 1);
     }
 

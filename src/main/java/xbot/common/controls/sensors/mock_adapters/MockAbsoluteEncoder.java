@@ -1,14 +1,15 @@
 package xbot.common.controls.sensors.mock_adapters;
 
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
-
 import org.json.JSONObject;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
+
 import xbot.common.controls.sensors.XAbsoluteEncoder;
+import xbot.common.injection.DevicePolice;
+import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
-import xbot.common.injection.wpi_factories.DevicePolice;
-import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
 import xbot.common.math.WrappedRotation2d;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
@@ -25,6 +26,13 @@ public class MockAbsoluteEncoder extends XAbsoluteEncoder implements ISimulatabl
 
     private double velocity;
     private WrappedRotation2d absolutePosition;
+
+    @AssistedFactory
+    public abstract static class MockAbsoluteEncoderFactory implements XAbsoluteEncoderFactory {
+        public abstract MockAbsoluteEncoder create(
+            @Assisted("deviceInfo") DeviceInfo deviceInfo,
+            @Assisted("owningSystemPrefix") String owningSystemPrefix);
+    }
 
     @AssistedInject
     public MockAbsoluteEncoder(@Assisted("deviceInfo") DeviceInfo deviceInfo,

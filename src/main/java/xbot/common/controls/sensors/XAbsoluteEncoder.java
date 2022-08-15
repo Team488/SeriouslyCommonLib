@@ -1,8 +1,13 @@
 package xbot.common.controls.sensors;
 
+import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.resiliency.DeviceHealth;
 
 public abstract class XAbsoluteEncoder {
+
+    public interface XAbsoluteEncoderFactory {
+        XAbsoluteEncoder create(DeviceInfo deviceInfo, String owningSystemPrefix);
+    }
 
     public abstract int getDeviceId();
 

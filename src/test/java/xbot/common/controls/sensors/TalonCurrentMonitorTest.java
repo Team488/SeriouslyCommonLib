@@ -6,10 +6,10 @@ import org.junit.Test;
 
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
 
-public class TalonCurrentMonitorTest extends BaseWPITest {
+public class TalonCurrentMonitorTest extends BaseCommonLibTest {
 
     TalonCurrentMonitor currentMonitor;
     XCANTalon talon;
@@ -17,7 +17,7 @@ public class TalonCurrentMonitorTest extends BaseWPITest {
     @Override
     public void setUp() {
         super.setUp();
-        talon = clf.createCANTalon(new CANTalonInfo(1));
+        talon = getInjectorComponent().canTalonFactory().create(new CANTalonInfo(1));
         currentMonitor = new TalonCurrentMonitor(talon);
     }
 

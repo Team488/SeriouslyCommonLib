@@ -1,7 +1,5 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.ExternalFollower;
@@ -21,21 +19,34 @@ import com.revrobotics.SparkMaxPIDController.AccelStrategy;
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 import com.revrobotics.SparkMaxRelativeEncoder.Type;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 import xbot.common.controls.actuators.XCANSparkMax;
+import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
+import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
-import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.properties.PropertyFactory;
 
 public class CANSparkMaxWpiAdapter extends XCANSparkMax {
 
     private CANSparkMax internalSpark;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class CANSparkMaxWpiAdapterFactory extends XCANSparkMaxFactory {
+        public abstract CANSparkMaxWpiAdapter create(
+            @Assisted("deviceInfo") DeviceInfo deviceInfo,
+            @Assisted("owningSystemPrefix") String owningSystemPrefix,
+            @Assisted("name") String name,
+            @Assisted("defaultPIDProperties") XCANSparkMaxPIDProperties defaultPIDProperties);
+    }
+
+    @AssistedInject
     public CANSparkMaxWpiAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix, @Assisted("name") String name,
-            PropertyFactory propMan, DevicePolice police, CommonLibFactory clf) {
-        super(deviceInfo, owningSystemPrefix, name, propMan, police, clf);
+            PropertyFactory propMan, DevicePolice police,
+            @Assisted("defaultPIDProperties") XCANSparkMaxPIDProperties defaultPIDProperties) {
+        super(deviceInfo, owningSystemPrefix, name, propMan, police, defaultPIDProperties);
         internalSpark = new CANSparkMax(deviceInfo.channel, MotorType.kBrushless);
         setInverted(deviceInfo.inverted);
     }

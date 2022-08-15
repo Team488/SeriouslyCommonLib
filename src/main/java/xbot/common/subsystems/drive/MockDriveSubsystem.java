@@ -1,19 +1,19 @@
 package xbot.common.subsystems.drive;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.controls.actuators.XCANTalon.XCANTalonFactory;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
-import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.math.PIDFactory;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
+import xbot.common.math.PIDManager.PIDManagerFactory;
 
 @Singleton
 public class MockDriveSubsystem extends BaseDriveSubsystem {
 
-    CommonLibFactory clf;
+    final XCANTalonFactory canTalonFactory;
 
     public double leftTotalDistance;
     public double rightTotalDistance;
@@ -32,13 +32,13 @@ public class MockDriveSubsystem extends BaseDriveSubsystem {
     private PIDManager rotateDecayPid;
 
     @Inject
-    public MockDriveSubsystem(CommonLibFactory clf, PIDFactory pf) {
-        this.clf = clf;
+    public MockDriveSubsystem(XCANTalonFactory canTalonFactory, PIDManagerFactory pf) {
+        this.canTalonFactory = canTalonFactory;
         changeIntoTankDrive();
 
-        positionalPid = pf.createPIDManager("Drive to position", 100, 0, 0, 0, 0.5, -0.5, 3, 1, 0.5);
-        rotateToHeadingPid = pf.createPIDManager("DriveHeading", 100, 0, 0);
-        rotateDecayPid = pf.createPIDManager("DriveDecay", 100, 0, 1);
+        positionalPid = pf.create("Drive to position", 100, 0, 0, 0, 0.5, -0.5, 3, 1, 0.5);
+        rotateToHeadingPid = pf.create("DriveHeading", 100, 0, 0);
+        rotateDecayPid = pf.create("DriveDecay", 100, 0, 1);
     }
 
     public void changePositionalPid(PIDManager p) {
@@ -74,16 +74,16 @@ public class MockDriveSubsystem extends BaseDriveSubsystem {
     }
 
     public void changeIntoTankDrive() {
-        leftTank = clf.createCANTalon(new CANTalonInfo(0));
-        rightTank = clf.createCANTalon(new CANTalonInfo(1));
+        leftTank = canTalonFactory.create(new CANTalonInfo(0));
+        rightTank = canTalonFactory.create(new CANTalonInfo(1));
     }
 
     public void changeIntoMecanum() {
         // for simple tests, assume tank drive.
-        fl = clf.createCANTalon(new CANTalonInfo(2));
-        rl = clf.createCANTalon(new CANTalonInfo(3));
-        fr = clf.createCANTalon(new CANTalonInfo(4));
-        rr = clf.createCANTalon(new CANTalonInfo(5));
+        fl = canTalonFactory.create(new CANTalonInfo(2));
+        rl = canTalonFactory.create(new CANTalonInfo(3));
+        fr = canTalonFactory.create(new CANTalonInfo(4));
+        rr = canTalonFactory.create(new CANTalonInfo(5));
     }
 
     @Override

@@ -1,11 +1,11 @@
 package xbot.common.command;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class MockSetpointCommand extends BaseSetpointCommand {
 
     @Inject
-    public MockSetpointCommand(MockSetpointSystem system) {
+    public MockSetpointCommand(MockSetpointSubsystem system) {
         super(system);
     }
     

@@ -27,17 +27,18 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
+import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
-import xbot.common.injection.wpi_factories.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.MathUtils;
 import xbot.common.properties.PropertyFactory;
@@ -74,7 +75,12 @@ public class MockCANTalon extends XCANTalon implements ISimulatableSensor, ISimu
     private boolean inverted;
     private boolean sensorPhaseInverted;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class MockCANTalonFactory implements XCANTalonFactory {
+        public abstract MockCANTalon create(@Assisted("deviceInfo") CANTalonInfo deviceInfo);
+    }
+
+    @AssistedInject
     public MockCANTalon(@Assisted("deviceInfo") CANTalonInfo deviceInfo, PropertyFactory propMan, DevicePolice police,
             RobotAssertionManager assertionManager) {
         super(deviceInfo.channel, propMan, police);

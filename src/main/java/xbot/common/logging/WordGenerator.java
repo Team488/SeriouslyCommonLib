@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 

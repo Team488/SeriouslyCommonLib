@@ -9,23 +9,23 @@ import org.junit.Ignore;
 
 import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.controls.actuators.XCANTalon;
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
 
 @Ignore
-public class BasePoseTest extends BaseWPITest {
+public class BasePoseTest extends BaseCommonLibTest {
 
     protected MockBasePoseSubsystem pose;
     protected MockTimer mockTimer;
     
     @Before
     public void setup() {
-        mockTimer = injector.getInstance(MockTimer.class);
-        pose = injector.getInstance(MockBasePoseSubsystem.class);
+        mockTimer = (MockTimer)getInjectorComponent().timerImplementation();
+        pose = (MockBasePoseSubsystem)getInjectorComponent().poseSubsystem();
         
-        XCANTalon left = clf.createCANTalon(new CANTalonInfo(0));
+        XCANTalon left = getInjectorComponent().canTalonFactory().create(new CANTalonInfo(0));
         left.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-        XCANTalon right = clf.createCANTalon(new CANTalonInfo(1));
+        XCANTalon right = getInjectorComponent().canTalonFactory().create(new CANTalonInfo(1));
         right.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         
         pose.setDriveTalons(left, right);

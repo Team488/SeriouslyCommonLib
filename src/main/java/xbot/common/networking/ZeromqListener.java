@@ -2,13 +2,14 @@ package xbot.common.networking;
 
 import java.util.function.Consumer;
 
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
-
 import org.apache.log4j.Logger;
 import org.zeromq.ZMQ;
 
-public class ZeromqListener implements OffboardCommunicationClient {
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
+
+public class ZeromqListener implements XZeromqListener {
 
     private static Logger log = Logger.getLogger(ZeromqListener.class);
     private Consumer<String> packetHandler;
@@ -16,11 +17,24 @@ public class ZeromqListener implements OffboardCommunicationClient {
     private final String connectionString;
     private final String topic;
 
+    @AssistedFactory
+    public abstract static class ZeromqListenerFactory implements XZeromqListenerFactory {
+        public abstract ZeromqListener create(
+                @Assisted("connectionString") String connectionString,
+                @Assisted("topic") String topic);
+    }
+
     /**
-     * This is the wrapper class for the actual ZeroMQ subscriber, based on http://zguide.zeromq.org/java:wuclient and our 2017 ethernet implementation.
-     * It represents the Subscriber half of the Publisher/Subscriber 0MQ model, reading packets as strings.
-     * @param connectionString Typically something like "tcp://localhost:5556"; read the ZeroMQ documentation.
-     * @param topic Will filter to messages beginning with this topic. Empty string will read all messages posted ot the given connectionString.
+     * This is the wrapper class for the actual ZeroMQ subscriber, based on
+     * http://zguide.zeromq.org/java:wuclient and our 2017 ethernet implementation.
+     * It represents the Subscriber half of the Publisher/Subscriber 0MQ model,
+     * reading packets as strings.
+     * 
+     * @param connectionString Typically something like "tcp://localhost:5556"; read
+     *                         the ZeroMQ documentation.
+     * @param topic            Will filter to messages beginning with this topic.
+     *                         Empty string will read all messages posted ot the
+     *                         given connectionString.
      */
     @AssistedInject
     public ZeromqListener(@Assisted("connectionString") String connectionString, @Assisted("topic") String topic) {
@@ -30,11 +44,11 @@ public class ZeromqListener implements OffboardCommunicationClient {
 
     @Override
     public void start() {
-        if(client != null) {
+        if (client != null) {
             log.warn("Server already running; cannot start again.");
             return;
         }
-        
+
         client = new ZeromqClient(connectionString, topic);
         client.setNewPacketHandler(this.packetHandler);
         client.startClient();
@@ -85,7 +99,8 @@ public class ZeromqListener implements OffboardCommunicationClient {
             context = ZMQ.context(1);
             log.info("Creating ZMQ Subscriber Socket");
             socket = context.socket(ZMQ.SUB);
-            // SetConflate to True means we only get the most recent value. It will also be need to set server-side, I think.
+            // SetConflate to True means we only get the most recent value. It will also be
+            // need to set server-side, I think.
             socket.setConflate(true);
             log.info("Connecting Socket with connection string: " + connectionString);
             boolean result = socket.connect(connectionString);
@@ -106,7 +121,7 @@ public class ZeromqListener implements OffboardCommunicationClient {
 
             socket.close();
             context.term();
-        }    
+        }
 
         @Override
         public void run() {

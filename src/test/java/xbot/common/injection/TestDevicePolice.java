@@ -1,25 +1,24 @@
-package xbot.common.injection.wpi_factories;
+package xbot.common.injection;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
-import xbot.common.injection.wpi_factories.DevicePolice.DeviceType;
+import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.logging.RobotAssertionException;
 import xbot.common.logging.RobotAssertionManager;
 
 /**
  * Unit tests for DevicePolice
  */
-public class TestDevicePolice extends BaseWPITest {
+public class TestDevicePolice extends BaseCommonLibTest {
 
     /**
      * Test that the same device cannot be registered twice
      */
     @Test(expected = RobotAssertionException.class)
     public void doubleAllocate() {
-        RobotAssertionManager ram = injector.getInstance(RobotAssertionManager.class);
+        RobotAssertionManager ram = getInjectorComponent().robotAssertionManager();
         DevicePolice police = new DevicePolice(ram);
 
         police.registerDevice(DeviceType.Solenoid, 0, this);
@@ -32,7 +31,7 @@ public class TestDevicePolice extends BaseWPITest {
      */
     @Test(expected = RobotAssertionException.class)
     public void allocateGreaterThanMax() {
-        RobotAssertionManager ram = injector.getInstance(RobotAssertionManager.class);
+        RobotAssertionManager ram = getInjectorComponent().robotAssertionManager();
         DevicePolice police = new DevicePolice(ram);
 
         police.registerDevice(DeviceType.Solenoid, 9000, 0, 7);
@@ -44,7 +43,7 @@ public class TestDevicePolice extends BaseWPITest {
      */
     @Test(expected = RobotAssertionException.class)
     public void allocateLessThanMin() {
-        RobotAssertionManager ram = injector.getInstance(RobotAssertionManager.class);
+        RobotAssertionManager ram = getInjectorComponent().robotAssertionManager();
         DevicePolice police = new DevicePolice(ram);
 
         police.registerDevice(DeviceType.Solenoid, 0, 3, 7);

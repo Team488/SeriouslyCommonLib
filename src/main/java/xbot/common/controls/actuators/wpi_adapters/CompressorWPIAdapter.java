@@ -1,6 +1,7 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
-import com.google.inject.Inject;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -9,7 +10,12 @@ import xbot.common.controls.actuators.XCompressor;
 public class CompressorWPIAdapter extends XCompressor {
     Compressor compressor;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class CompressorWPIAdapterFactory implements XCompressorFactory {
+        public abstract CompressorWPIAdapter create();
+    }
+
+    @AssistedInject
     public CompressorWPIAdapter() {
         this.compressor = new Compressor(PneumaticsModuleType.REVPH);
     }

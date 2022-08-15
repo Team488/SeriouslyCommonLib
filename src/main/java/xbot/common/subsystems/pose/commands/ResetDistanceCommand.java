@@ -1,6 +1,6 @@
 package xbot.common.subsystems.pose.commands;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import xbot.common.command.BaseCommand;
 import xbot.common.subsystems.pose.BasePoseSubsystem;

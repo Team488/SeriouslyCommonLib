@@ -1,6 +1,7 @@
 package edu.wpi.first.wpilibj;
 
-import com.google.inject.Inject;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.actuators.XCompressor;
 
@@ -8,7 +9,12 @@ public class MockCompressor extends XCompressor {
     
     private boolean isEnabled = true;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class MockCompressorFactory implements XCompressorFactory {
+        public abstract MockCompressor create();
+    }
+
+    @AssistedInject
     public MockCompressor() {
 
     }

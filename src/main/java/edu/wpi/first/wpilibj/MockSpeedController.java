@@ -2,18 +2,24 @@ package edu.wpi.first.wpilibj;
 
 import org.apache.log4j.Logger;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.actuators.XSpeedController;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 
 public class MockSpeedController extends XSpeedController {
 
     private static Logger log = Logger.getLogger(MockSpeedController.class);
     protected double value;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class MockSpeedControllerFactory implements XSpeedControllerFactory {
+        public abstract MockSpeedController create(@Assisted("channel") int channel);
+    }
+
+    @AssistedInject
     public MockSpeedController(@Assisted("channel") int channel, DevicePolice police) {
         super(channel, police);
         log.info("Creating speed controller on channel:" + channel);

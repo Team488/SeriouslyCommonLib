@@ -1,12 +1,16 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-
 import xbot.common.controls.sensors.XXboxController;
-import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
+import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
+import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
+import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
+import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -14,9 +18,17 @@ public class XboxControllerWpiAdapter extends XXboxController {
 
     protected XboxController controller;
 
-    @Inject
-    public XboxControllerWpiAdapter(@Assisted("port") int port, CommonLibFactory clf, RobotAssertionManager manager, DevicePolice police) {
-        super(port, clf, manager, police);
+    @AssistedFactory
+    public abstract static class XboxControllerWpiAdapterFactory implements XXboxControllerFactory {
+        public abstract XboxControllerWpiAdapter create(@Assisted("port") int port);
+    }
+
+    @AssistedInject
+    public XboxControllerWpiAdapter(@Assisted("port") int port, AdvancedJoystickButtonFactory joystickButtonFactory,
+            AdvancedPovButtonFactory povButtonFactory, AnalogHIDButtonFactory analogHidButtonFactory,
+            XRumbleManagerFactory rumbleManagerFactory, RobotAssertionManager manager, DevicePolice police) {
+        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, rumbleManagerFactory, manager,
+                police);
         controller = new XboxController(port);
     }
 

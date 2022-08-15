@@ -1,19 +1,24 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
-
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XTimer;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 import xbot.common.properties.PropertyFactory;
 
 public class LidarLiteWpiAdapter extends XLidarLite{
 
     private I2C i2c;
     
+    @AssistedFactory
+    public abstract static class LidarLiteWpiAdapterFactory implements XLidarLiteFactory {
+        public abstract LidarLiteWpiAdapter create(@Assisted("port") Port port, @Assisted("prefix") String prefix);
+    }
+
     @AssistedInject
     public LidarLiteWpiAdapter(@Assisted("port") Port port, PropertyFactory propMan, DevicePolice police, @Assisted("prefix") String prefix) {
         super(port, propMan, police, prefix);

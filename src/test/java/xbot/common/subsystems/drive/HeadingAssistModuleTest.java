@@ -5,13 +5,13 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule.HeadingAssistMode;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
-public class HeadingAssistModuleTest extends BaseWPITest {
+public class HeadingAssistModuleTest extends BaseCommonLibTest {
 
     HeadingAssistModule ham;
     BasePoseSubsystem pose;
@@ -19,11 +19,11 @@ public class HeadingAssistModuleTest extends BaseWPITest {
     @Override
     public void setUp() {
         super.setUp();
-        pose = injector.getInstance(BasePoseSubsystem.class);
+        pose = getInjectorComponent().poseSubsystem();
         
-        HeadingModule hold = clf.createHeadingModule(pf.createPIDManager("Hold", 1000, 0, 0));
-        HeadingModule decay = clf.createHeadingModule(pf.createPIDManager("Decay", 0, 0, 1000));
-        ham = clf.createHeadingAssistModule(hold, decay, "Test");
+        HeadingModule hold = getInjectorComponent().headingModuleFactory().create(pf.create("Hold", 1000, 0, 0));
+        HeadingModule decay = getInjectorComponent().headingModuleFactory().create(pf.create("Decay", 0, 0, 1000));
+        ham = getInjectorComponent().headingAssistModuleFactory().create(hold, decay, "Test");
         ham.setMode(HeadingAssistMode.HoldOrientation);
     }
     

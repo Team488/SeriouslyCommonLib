@@ -1,8 +1,11 @@
 package xbot.common.subsystems.drive.control_logic;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
+
 
 import org.apache.log4j.Logger;
+
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.DoubleProperty;
@@ -43,6 +46,27 @@ public class HeadingAssistModule {
 
     private Logger log = Logger.getLogger("HeadingAssistModule");
 
+    @AssistedFactory
+    public abstract static class HeadingAssistModuleFactory {
+        /**
+         * Creates a heading assist module. Can either hold an orientation, or resist
+         * rotational motion.
+         * 
+         * @param headingModule Tune this one to rotate to a target orientation (PD, or
+         *                      PID controller)
+         * @param decayModule   Tune this one to resist rotation (D controller)
+         * @return
+         */
+        public abstract HeadingAssistModule create(
+            @Assisted("headingModule") HeadingModule headingModule,
+            @Assisted("decayModule") HeadingModule decayModule,
+            @Assisted("prefix") String prefix);
+
+        public HeadingAssistModule create(HeadingModule headingModule, String prefix) {
+            return create(headingModule, null, prefix);
+        }
+    }
+
     @AssistedInject
     public HeadingAssistModule(
             @Assisted("headingModule") HeadingModule headingModule,
@@ -52,22 +76,6 @@ public class HeadingAssistModule {
             BasePoseSubsystem pose) {
         this.headingModule = headingModule;
         this.decayModule = decayModule;
-        this.pose = pose;
-        propMan.setPrefix(prefix);
-        humanThreshold = propMan.createPersistentProperty("HeadingAssistModule/Human Threshold", 0.05);
-        coastTime = propMan.createPersistentProperty("Heading Assist Module/Coast Time", 0.5);
-        lastHumanInput = 0;
-        this.headingMode = HeadingAssistMode.HoldOrientation;
-    }
-
-    @AssistedInject
-    public HeadingAssistModule(
-            @Assisted("headingModule") HeadingModule headingModule,
-            @Assisted("prefix") String prefix,
-            PropertyFactory propMan,
-            BasePoseSubsystem pose) {
-        this.headingModule = headingModule;
-        this.decayModule = null;
         this.pose = pose;
         propMan.setPrefix(prefix);
         humanThreshold = propMan.createPersistentProperty("HeadingAssistModule/Human Threshold", 0.05);

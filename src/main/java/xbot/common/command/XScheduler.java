@@ -2,6 +2,9 @@ package xbot.common.command;
 
 import java.util.Arrays;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.apache.log4j.Logger;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -10,8 +13,8 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
  * Wrapper for base Scheduler which intelligently manages exceptions.
- *
  */
+@Singleton
 public class XScheduler {
     
     private static Logger log = Logger.getLogger(XScheduler.class);
@@ -22,6 +25,7 @@ public class XScheduler {
     
     CommandScheduler scheduler;
     
+    @Inject
     public XScheduler() {
         this.scheduler = CommandScheduler.getInstance();
     }

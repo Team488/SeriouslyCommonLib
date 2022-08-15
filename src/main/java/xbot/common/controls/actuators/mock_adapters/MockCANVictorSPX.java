@@ -25,18 +25,25 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.actuators.XCANVictorSPX;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 import xbot.common.properties.PropertyFactory;
 
 public class MockCANVictorSPX extends XCANVictorSPX {
 
     double power;
 
-    @Inject
+    @AssistedFactory
+    public abstract static class MockCANVictorSPXFactory implements XCANVictorSPXFactory {
+        public abstract MockCANVictorSPX create(@Assisted("deviceId") int deviceId);
+    }
+
+    @AssistedInject
     public MockCANVictorSPX(@Assisted("deviceId") int deviceId, PropertyFactory propMan, DevicePolice police) {
         super(deviceId, propMan, police);
     }

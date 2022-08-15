@@ -1,18 +1,24 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.wpilibj.motorcontrol.PWMMotorController;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import xbot.common.controls.actuators.XSpeedController;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
 
 public class SpeedControllerWPIAdapter extends XSpeedController
 {
     private PWMMotorController controller;
     
-    @Inject
+    @AssistedFactory
+    public abstract static class SpeedControllerWPIAdapterFactory implements XSpeedControllerFactory {
+        public abstract SpeedControllerWPIAdapter create(@Assisted("channel") int channel);
+    }
+
+    @AssistedInject
     public SpeedControllerWPIAdapter(@Assisted("channel") int channel, DevicePolice police)
     {
         super(channel, police);

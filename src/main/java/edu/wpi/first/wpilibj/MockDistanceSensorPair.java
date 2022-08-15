@@ -1,6 +1,6 @@
 package edu.wpi.first.wpilibj;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import xbot.common.controls.sensors.DistanceSensor;
 import xbot.common.controls.sensors.DistanceSensorPair;

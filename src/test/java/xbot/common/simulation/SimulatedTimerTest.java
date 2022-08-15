@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import org.junit.Test;
 
 import edu.wpi.first.wpilibj.MockTimer;
-import xbot.common.controls.sensors.XSettableTimerImpl;
 
 public class SimulatedTimerTest extends BaseSimulationTest {
 
@@ -18,7 +17,7 @@ public class SimulatedTimerTest extends BaseSimulationTest {
     public void setUp() {
         super.setUp();
 
-        simulatedTimer = (MockTimer)injector.getInstance(XSettableTimerImpl.class);
+        simulatedTimer = (MockTimer)injectorComponent.timerImplementation();
     }
 
     @Test

@@ -1,16 +1,16 @@
 package xbot.common.properties;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class PropertyFactoryTest extends BaseWPITest {
+public class PropertyFactoryTest extends BaseCommonLibTest {
     
     @Test
     public void testNoDoubleSlashes() {
-        PropertyFactory factory = injector.getInstance(PropertyFactory.class);
+        PropertyFactory factory = getInjectorComponent().propertyFactory();
         assertEquals(-1, factory.createFullKey("my//mykey").indexOf("//"));
 
         factory.setPrefix("prefix");

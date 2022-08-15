@@ -2,13 +2,13 @@ package xbot.common.command;
 
 import org.junit.Test;
 
-import xbot.common.injection.BaseWPITest;
+import xbot.common.injection.BaseCommonLibTest;
 
-public class BaseCommandTest extends BaseWPITest {
+public class BaseCommandTest extends BaseCommonLibTest {
 
     @Test
     public void testPuttingOnSmartDashboardDoesntCrashTest() {
-        BaseCommand command = injector.getInstance(MockCommand.class);
+        BaseCommand command = new MockCommand();
         command.includeOnSmartDashboard("label");
         command.includeOnSmartDashboard();
     }

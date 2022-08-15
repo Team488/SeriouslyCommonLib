@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import org.json.JSONObject;
 import org.junit.Test;
 
+import edu.wpi.first.wpilibj.SerialPort;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
 
 public class SimulatedIMUTest extends BaseSimulationTest {
@@ -17,7 +18,7 @@ public class SimulatedIMUTest extends BaseSimulationTest {
     public void setUp() {
         super.setUp();
 
-        simulatedGyro = (MockGyro)clf.createGyro();
+        simulatedGyro = (MockGyro)injectorComponent.gyroFactory().create(SerialPort.Port.kMXP);
     }
 
     @Test

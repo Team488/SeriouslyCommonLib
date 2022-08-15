@@ -3,10 +3,6 @@ package xbot.common.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.json.JSONObject;
@@ -20,8 +16,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
-import xbot.common.injection.RobotModule;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.injection.DevicePolice;
+import xbot.common.injection.components.BaseComponent;
 import xbot.common.logging.RobotSession;
 import xbot.common.logging.TimeLogger;
 import xbot.common.logic.Latch;
@@ -40,7 +36,7 @@ import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
  * scheduling, and the injector. Required for a fair amount
  * of CommonLib functionality.
  */
-public class BaseRobot extends TimedRobot {
+public abstract class BaseRobot extends TimedRobot {
 
     Logger log;
     Latch brownoutLatch;
@@ -48,11 +44,9 @@ public class BaseRobot extends TimedRobot {
     protected XPropertyManager propertyManager;
     protected XScheduler xScheduler;
 
-    protected AbstractModule injectionModule;
-
     // Other than initially creating required systems, you should never use the injector again
-    protected Injector injector;
-    
+    private BaseComponent injectorComponent;
+
     protected Command autonomousCommand;
     protected AutonomousCommandSelector autonomousCommandSelector;
     
@@ -70,9 +64,7 @@ public class BaseRobot extends TimedRobot {
 
     protected RobotSession robotSession;
 
-    public BaseRobot() {        
-        setupInjectionModule();
-        
+    public BaseRobot() {                
         brownoutLatch = new Latch(false, EdgeType.Both, edge -> {
             if(edge == EdgeType.RisingEdge) {
                 log.warn("Entering brownout");
@@ -88,7 +80,20 @@ public class BaseRobot extends TimedRobot {
      * Override if you need a different module
      */
     protected void setupInjectionModule() {
-        this.injectionModule = new RobotModule();
+        injectorComponent = createDaggerComponent();
+    }
+
+    /**
+     * Returns the {@link BaseComponent} instance used for dependency injection
+     */
+    protected abstract BaseComponent createDaggerComponent();
+
+    /**
+     * Get the dependency injection component
+     * @return
+     */
+    protected BaseComponent getInjectorComponent() {
+        return injectorComponent;
     }
 
     /**
@@ -112,22 +117,21 @@ public class BaseRobot extends TimedRobot {
         
         log = Logger.getLogger(BaseRobot.class);
         log.info("========== BASE ROBOT INITIALIZING ==========");
-
-        this.injector = Guice.createInjector(this.injectionModule);
+        setupInjectionModule();
         log.info("========== INJECTOR CREATED ==========");
         this.initializeSystems();
         log.info("========== SYSTEMS INITIALIZED ==========");
         SmartDashboard.putData(CommandScheduler.getInstance());
         
-        PropertyFactory pf = injector.getInstance(PropertyFactory.class);
+        PropertyFactory pf = injectorComponent.propertyFactory();
         pf.setTopLevelPrefix();
         frequencyReportInterval = pf.createPersistentProperty("Robot loop frequency report interval", 20);
         batteryVoltage = pf.createEphemeralProperty("Battery Voltage", 0);
         schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get());
         outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20);
-        robotSession = injector.getInstance(RobotSession.class);
-        devicePolice = injector.getInstance(DevicePolice.class);
-        simulationPayloadDistributor = injector.getInstance(SimulationPayloadDistributor.class);
+        robotSession = injectorComponent.robotSession();
+        devicePolice = injectorComponent.devicePolice();
+        simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
         LiveWindow.disableAllTelemetry();
     }
     
@@ -163,13 +167,13 @@ public class BaseRobot extends TimedRobot {
     protected void initializeSystems() {
         updateLoggingContext();
         // override with additional systems (but call this one too)
-        XTimerImpl timerimpl = injector.getInstance(XTimerImpl.class);
+        XTimerImpl timerimpl = injectorComponent.timerImplementation();
         XTimer.setImplementation(timerimpl);
 
         // Get the property manager and get all properties from the robot disk
-        propertyManager = this.injector.getInstance(XPropertyManager.class);
-        xScheduler = this.injector.getInstance(XScheduler.class);        
-        autonomousCommandSelector = this.injector.getInstance(AutonomousCommandSelector.class);
+        propertyManager = injectorComponent.propertyManager();
+        xScheduler = injectorComponent.scheduler();
+        autonomousCommandSelector = injectorComponent.autonomousCommandSelector();
     }
 
     @Override
@@ -271,7 +275,7 @@ public class BaseRobot extends TimedRobot {
     
     @Override
     public void simulationInit() {
-        webots = this.injector.getInstance(WebotsClient.class);
+        webots = injectorComponent.webotsClient();
         webots.initialize();
     }
 

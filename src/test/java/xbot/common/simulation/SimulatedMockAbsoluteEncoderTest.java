@@ -19,7 +19,7 @@ public class SimulatedMockAbsoluteEncoderTest extends BaseSimulationTest {
     public void setUp() {
         super.setUp();
 
-        simulatedEncoder = (MockAbsoluteEncoder)clf.createAbsoluteEncoder(new DeviceInfo(34, false, 360.0), "test");
+        simulatedEncoder = (MockAbsoluteEncoder)injectorComponent.absoluteEncoderFactory().create(new DeviceInfo(34, false, 360.0), "test");
     }
 
     @Test

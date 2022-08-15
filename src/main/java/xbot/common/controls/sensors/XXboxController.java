@@ -2,41 +2,47 @@ package xbot.common.controls.sensors;
 
 import java.util.HashMap;
 
-import com.google.inject.Inject;
-
-import xbot.common.injection.wpi_factories.CommonLibFactory;
-import xbot.common.injection.wpi_factories.DevicePolice;
+import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
+import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
+import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
+import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 import xbot.common.subsystems.feedback.IRumbler;
-import xbot.common.subsystems.feedback.RumbleManager;
+import xbot.common.subsystems.feedback.XRumbleManager;
+import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
 
 public abstract class XXboxController extends XJoystick implements IRumbler, IGamepad {
 
-    protected int port;
-    RobotAssertionManager assertionManager;
+    protected final int port;
+    protected final RobotAssertionManager assertionManager;
 
-    public HashMap<XboxButton, AdvancedXboxButton> allocatedButtons;
+    public final HashMap<XboxButton, AdvancedXboxButton> allocatedButtons;
 
     protected boolean leftXInversion = false;
     protected boolean leftYInversion = false;
     protected boolean rightXInversion = false;
     protected boolean rightYInversion = false;
 
-    RumbleManager rumbleManager;
+    protected final XRumbleManager rumbleManager;
 
-    @Inject
-    public XXboxController(int port, CommonLibFactory clf, RobotAssertionManager assertionManager,
+    public interface XXboxControllerFactory {
+        XXboxController create(int port);
+    }
+
+    protected XXboxController(int port, AdvancedJoystickButtonFactory joystickButtonFactory,
+            AdvancedPovButtonFactory advancedPovButtonFactory, AnalogHIDButtonFactory analogHidButtonFactory,
+            XRumbleManagerFactory rumbleManagerFactory, RobotAssertionManager assertionManager,
             DevicePolice police) {
-        super(port, clf, assertionManager, 10, police);
+        super(port, joystickButtonFactory, advancedPovButtonFactory, analogHidButtonFactory, assertionManager, 10, police);
         this.port = port;
         this.assertionManager = assertionManager;
         allocatedButtons = new HashMap<XboxButton, AdvancedXboxButton>();
-        rumbleManager = clf.createRumbleManager(this);
+        rumbleManager = rumbleManagerFactory.create(this);
     }
 
     @Override
-    public RumbleManager getRumbleManager() {
+    public XRumbleManager getRumbleManager() {
         return rumbleManager;
     }
 
@@ -57,7 +63,8 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
 
     public AdvancedXboxButton getifAvailable(XboxButton buttonName) {
         if (!allocatedButtons.containsKey(buttonName)) {
-            // If we're trying to use the triggers as buttons, then we need to do some extra work.
+            // If we're trying to use the triggers as buttons, then we need to do some extra
+            // work.
             if (buttonName.value == -1) {
                 AdvancedXboxAxisButton candidate = new AdvancedXboxAxisButton(this, buttonName, 0.75);
                 allocatedButtons.put(buttonName, candidate);
@@ -65,8 +72,7 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
                 AdvancedXboxButton candidate = new AdvancedXboxButton(this, buttonName);
                 allocatedButtons.put(buttonName, candidate);
             }
-        }
-        else {
+        } else {
             // button already used!
             assertionManager.assertTrue(false, "Button " + buttonName + " has already been allocated!");
         }
