@@ -5,9 +5,13 @@ import com.ctre.phoenix.sensors.CANCoderFaults;
 import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 import com.ctre.phoenix.sensors.CANCoderStickyFaults;
 
+import xbot.common.injection.electrical_contract.DeviceInfo;
+
 public abstract class XCANCoder extends XAbsoluteEncoder {
 
-    public interface XCANCoderFactory extends XAbsoluteEncoderFactory {}
+    public interface XCANCoderFactory extends XAbsoluteEncoderFactory {
+        XCANCoder create(DeviceInfo deviceInfo, String owningSystemPrefix);
+    }
 
     public abstract ErrorCode setStatusFramePeriod(CANCoderStatusFrame frame, int periodMs);
 
