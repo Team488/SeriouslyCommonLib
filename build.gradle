@@ -9,7 +9,8 @@ import edu.wpi.first.gradlerio.deploy.roborio.RoboRIO
  */
 
 plugins {
-    id "edu.wpi.first.GradleRIO" version "2022.3.1" 
+    id "edu.wpi.first.GradleRIO" version "2022.3.1"
+    id "eclipse"
     id 'scala'
     id 'checkstyle'
     id 'jacoco'
@@ -156,6 +157,16 @@ tasks.withType(Test) {
       if (!desc.parent) { // will match the outermost suite
         println "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
       }
+    }
+}
+
+eclipse.classpath.file {
+    whenMerged { classpath ->
+        classpath.entries.each { entry -> 
+            if (entry.path.contains('build/generated')) {
+                entry.entryAttributes['ignore_optional_problems'] = true
+            }
+        }
     }
 }
 
