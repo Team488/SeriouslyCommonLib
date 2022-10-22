@@ -9,7 +9,7 @@ import edu.wpi.first.gradlerio.deploy.roborio.RoboRIO
  */
 
 plugins {
-    id "edu.wpi.first.GradleRIO" version "2022.3.1"
+    id "edu.wpi.first.GradleRIO" version "2022.4.1"
     id "eclipse"
     id "com.diffplug.eclipse.apt" version "3.39.0"
     id 'scala'
@@ -133,8 +133,6 @@ sourceSets {
         }
     }
 }
-sourceSets.main.java.srcDirs += "bin/generated/sources/annotationProcessor/java/main"
-sourceSets.test.java.srcDirs += "bin/generated/sources/annotationProcessor/java/test"
 
 task jarSources(type:Jar){
     from sourceSets.main.allSource
@@ -171,6 +169,11 @@ eclipse {
     }
 
     classpath.file {
+        beforeMerged { classpath -> 
+            sourceSets.main.java.srcDirs += "bin/generated/sources/annotationProcessor/java/main"
+            sourceSets.test.java.srcDirs += "bin/generated/sources/annotationProcessor/java/test"
+        }
+
         whenMerged { classpath ->
             classpath.entries.each { entry -> 
                 if (entry.path.contains('bin/generated')) {
