@@ -35,6 +35,7 @@ WPI_Native_Libraries.properties
 #Gradle
 .gradle/
 
+#Eclipse (build tools used by VS Code)
 .settings/
 .classpath
 .factorypath
