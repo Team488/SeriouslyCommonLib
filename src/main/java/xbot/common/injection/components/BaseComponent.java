@@ -17,11 +17,6 @@ import xbot.common.controls.actuators.XSolenoid.XSolenoidFactory;
 import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
 import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
-import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
-import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
-import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
-import xbot.common.controls.sensors.ChordButton.ChordButtonFactory;
-import xbot.common.controls.sensors.VirtualButton.VirtualButtonFactory;
 import xbot.common.controls.sensors.XAS5600.XAS5600Factory;
 import xbot.common.controls.sensors.XAbsoluteEncoder.XAbsoluteEncoderFactory;
 import xbot.common.controls.sensors.XAnalogDistanceSensor.XAnalogDistanceSensorFactory;
@@ -35,6 +30,11 @@ import xbot.common.controls.sensors.XJoystick.XJoystickFactory;
 import xbot.common.controls.sensors.XLidarLite.XLidarLiteFactory;
 import xbot.common.controls.sensors.XPowerDistributionPanel.XPowerDistributionPanelFactory;
 import xbot.common.controls.sensors.XXboxController.XXboxControllerFactory;
+import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.ChordTrigger.ChordTriggerFactory;
+import xbot.common.controls.sensors.buttons.VirtualTrigger.VirtualTriggerFactory;
 import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.logging.RobotSession;
@@ -105,11 +105,11 @@ public abstract class BaseComponent {
 
     public abstract XJoystickFactory joystickFactory();
 
-    public abstract AdvancedJoystickButtonFactory joystickButtonFactory();
+    public abstract AdvancedJoystickButtonTriggerFactory joystickButtonFactory();
 
-    public abstract AdvancedPovButtonFactory povButtonFactory();
+    public abstract AdvancedPovButtonTriggerFactory povButtonFactory();
 
-    public abstract AnalogHIDButtonFactory analogHidButtonFactory();
+    public abstract AnalogHIDButtonTriggerFactory analogHidButtonFactory();
 
     public abstract XXboxControllerFactory xboxControllerFactory();
 
@@ -117,9 +117,9 @@ public abstract class BaseComponent {
 
     public abstract XRumbleManagerFactory rumbleManagerFactory();
 
-    public abstract ChordButtonFactory chordButtonFactory();
+    public abstract ChordTriggerFactory chordButtonFactory();
 
-    public abstract VirtualButtonFactory virtualButtonFactory();
+    public abstract VirtualTriggerFactory virtualButtonFactory();
 
     public abstract HumanVsMachineDeciderFactory humanVsMachineDeciderFactory();
 

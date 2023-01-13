@@ -1,19 +1,17 @@
-package xbot.common.controls.sensors;
+package xbot.common.controls.sensors.buttons;
 
+import java.util.function.BooleanSupplier;
+
+import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.XXboxController.XboxButton;
 
-public class AdvancedXboxAxisButton extends AdvancedXboxButton {
+public class AdvancedXboxAxisTrigger extends AdvancedXboxButtonTrigger {
 
-    private double threshold;
-    
-    public AdvancedXboxAxisButton(XXboxController controller, XboxButton buttonName, double threshold) {
-        super(controller, buttonName);
-        
-        this.threshold = threshold;
+    public AdvancedXboxAxisTrigger(XXboxController controller, XboxButton buttonName, double threshold) {
+        super(controller, buttonName, (BooleanSupplier)(() -> getValue(controller, buttonName, threshold)));
     }
     
-    @Override 
-    public boolean get(){
+    private static boolean getValue(XXboxController controller, XboxButton buttonName, double threshold) {
         double value = 0;
         
         switch(buttonName) {

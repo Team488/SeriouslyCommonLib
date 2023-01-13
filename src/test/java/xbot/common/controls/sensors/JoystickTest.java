@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
+import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDDescription;
 import xbot.common.controls.sensors.mock_adapters.MockJoystick;
 import xbot.common.injection.BaseCommonLibTest;
 

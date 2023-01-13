@@ -1,31 +1,27 @@
-package xbot.common.controls.sensors;
+package xbot.common.controls.sensors.buttons;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import edu.wpi.first.wpilibj2.command.button.Button;
+import xbot.common.controls.sensors.XJoystick;
 
-public class AnalogHIDButton extends Button {
-
-    XJoystick m_joystick;
-    int m_axisNumber;
-
-    double m_analogMinThreshold;
-    double m_analogMaxThreshold;
+public class AnalogHIDButtonTrigger extends AdvancedTrigger {
 
     @AssistedFactory
-    public abstract static class AnalogHIDButtonFactory {
-        public abstract AnalogHIDButton create(
+    public abstract static class AnalogHIDButtonTriggerFactory {
+        public abstract AnalogHIDButtonTrigger create(
             @Assisted("joystick") XJoystick joystick, 
             @Assisted("axisNumber") int axisNumber,
             @Assisted("analogMinThreshold") double analogMinThreshold, 
             @Assisted("analogMaxThreshold") double analogMaxThreshold);
 
-        public AnalogHIDButton create(XJoystick joystick, AnalogHIDDescription desc) {
+        public AnalogHIDButtonTrigger create(XJoystick joystick, AnalogHIDDescription desc) {
             return create(joystick, desc.axisNumber, desc.analogMinThreshold, desc.analogMaxThreshold);
         }
     }
+
+    private AnalogHIDButtonConfiguration m_configuration;
 
     /**
      * Create a joystick button for triggering commands based off of an analog axis
@@ -38,30 +34,24 @@ public class AnalogHIDButton extends Button {
      *            Analog threshold to trigger binary button state
      */
     @AssistedInject
-    public AnalogHIDButton(
+    public AnalogHIDButtonTrigger(
             @Assisted("joystick") XJoystick joystick, 
             @Assisted("axisNumber") int axisNumber,
             @Assisted("analogMinThreshold") double analogMinThreshold, 
             @Assisted("analogMaxThreshold") double analogMaxThreshold) {
-        m_joystick = joystick;
-        m_axisNumber = axisNumber;
-        m_analogMinThreshold = analogMinThreshold;
-        m_analogMaxThreshold = analogMaxThreshold;
+        this(new AnalogHIDButtonConfiguration(joystick, axisNumber, analogMinThreshold, analogMaxThreshold));
     }
 
-    /**
-     * Indicates whether the analog value is in the button's range
-     * 
-     * @return The value of the joystick button
-     */
-    public boolean get() {
-        double data = m_joystick.getRawAxis(m_axisNumber);
-        return data >= m_analogMinThreshold && data <= m_analogMaxThreshold;
+    private AnalogHIDButtonTrigger(AnalogHIDButtonConfiguration configuration) {
+        super(configuration.getSupplier());
+        m_configuration = configuration;
     }
 
     public AnalogHIDDescription getDescription() {
-        return new AnalogHIDDescription(m_axisNumber, m_analogMinThreshold,
-                m_analogMaxThreshold);
+        return new AnalogHIDDescription(
+            m_configuration.m_axisNumber,
+            m_configuration.m_analogMinThreshold,
+            m_configuration.m_analogMaxThreshold);
     }
 
     public static class AnalogHIDDescription {

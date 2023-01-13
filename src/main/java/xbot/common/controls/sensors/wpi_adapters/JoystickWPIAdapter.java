@@ -1,9 +1,9 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
 import xbot.common.controls.sensors.XJoystick;
-import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
-import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
-import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
+import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 
@@ -28,9 +28,9 @@ public class JoystickWPIAdapter extends XJoystick {
     public JoystickWPIAdapter(
             @Assisted("port") int port, 
             @Assisted("numButtons") int numButtons,
-            AdvancedJoystickButtonFactory joystickButtonFactory,
-            AdvancedPovButtonFactory povButtonFactory,
-            AnalogHIDButtonFactory analogHidButtonFactory,
+            AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
+            AdvancedPovButtonTriggerFactory povButtonFactory,
+            AnalogHIDButtonTriggerFactory analogHidButtonFactory,
             RobotAssertionManager assertionManager, 
             DevicePolice police) {
         super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, assertionManager, numButtons, police);

@@ -1,8 +1,8 @@
 package xbot.common.controls.sensors;
 
-import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
-import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
-import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
+import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
@@ -13,8 +13,8 @@ public abstract class XFTCGamepad extends XJoystick implements IGamepad {
         XFTCGamepad create(int port, int numButtons);
     }
 
-    public XFTCGamepad(int port, AdvancedJoystickButtonFactory joystickButtonFactory,
-            AdvancedPovButtonFactory povButtonFactory, AnalogHIDButtonFactory analogHidButtonFactory,
+    public XFTCGamepad(int port, AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
+            AdvancedPovButtonTriggerFactory povButtonFactory, AnalogHIDButtonTriggerFactory analogHidButtonFactory,
             RobotAssertionManager assertionManager, int numButtons, DevicePolice police) {
         super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, assertionManager, numButtons,
                 police);

@@ -76,37 +76,6 @@ public class PropertyFactory {
         }
     }
 
-
-    /**
-     * @deprecated You should use createProperty(String key, boolean defaultValue, PropertyPersistenceType
-     *             persistenceType) instead, which includes persistenceType to determine if the property is persistent
-     * 
-     */
-    public BooleanProperty createProperty(String key, boolean defaultValue) {
-        checkPrefixSet();
-        return new BooleanProperty(this.createFullKey(key), defaultValue, this.propertyManager);
-    }
-
-    /**
-     * @deprecated You should use createProperty(String key, String defaultValue, PropertyPersistenceType
-     *             persistenceType) instead, which includes persistenceType to determine if the property is persistent
-     * 
-     */
-    public StringProperty createProperty(String key, String defaultValue) {
-        checkPrefixSet();
-        return new StringProperty(this.createFullKey(key), defaultValue, this.propertyManager);
-    }
-
-    /**
-     * @deprecated You should use createProperty(String key, double defaultValue, PropertyPersistenceType
-     *             persistenceType) instead, which includes persistenceType to determine if the property is persistent
-     * 
-     */
-    public DoubleProperty createProperty(String key, double defaultValue) {
-        checkPrefixSet();
-        return new DoubleProperty(this.createFullKey(key), defaultValue, this.propertyManager);
-    }
-
     /**
      * Method for creating a boolean ephemeral property
      * 

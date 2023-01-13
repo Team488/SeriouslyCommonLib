@@ -2,9 +2,11 @@ package xbot.common.controls.sensors;
 
 import java.util.HashMap;
 
-import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
-import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
-import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
+import xbot.common.controls.sensors.buttons.AdvancedXboxAxisTrigger;
+import xbot.common.controls.sensors.buttons.AdvancedXboxButtonTrigger;
+import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
@@ -17,7 +19,7 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
     protected final int port;
     protected final RobotAssertionManager assertionManager;
 
-    public final HashMap<XboxButton, AdvancedXboxButton> allocatedButtons;
+    public final HashMap<XboxButton, AdvancedXboxButtonTrigger> allocatedButtons;
 
     protected boolean leftXInversion = false;
     protected boolean leftYInversion = false;
@@ -30,14 +32,14 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
         XXboxController create(int port);
     }
 
-    protected XXboxController(int port, AdvancedJoystickButtonFactory joystickButtonFactory,
-            AdvancedPovButtonFactory advancedPovButtonFactory, AnalogHIDButtonFactory analogHidButtonFactory,
+    protected XXboxController(int port, AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
+            AdvancedPovButtonTriggerFactory advancedPovButtonFactory, AnalogHIDButtonTriggerFactory analogHidButtonFactory,
             XRumbleManagerFactory rumbleManagerFactory, RobotAssertionManager assertionManager,
             DevicePolice police) {
         super(port, joystickButtonFactory, advancedPovButtonFactory, analogHidButtonFactory, assertionManager, 10, police);
         this.port = port;
         this.assertionManager = assertionManager;
-        allocatedButtons = new HashMap<XboxButton, AdvancedXboxButton>();
+        allocatedButtons = new HashMap<XboxButton, AdvancedXboxButtonTrigger>();
         rumbleManager = rumbleManagerFactory.create(this);
     }
 
@@ -61,15 +63,15 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
         }
     }
 
-    public AdvancedXboxButton getifAvailable(XboxButton buttonName) {
+    public AdvancedXboxButtonTrigger getifAvailable(XboxButton buttonName) {
         if (!allocatedButtons.containsKey(buttonName)) {
             // If we're trying to use the triggers as buttons, then we need to do some extra
             // work.
             if (buttonName.value == -1) {
-                AdvancedXboxAxisButton candidate = new AdvancedXboxAxisButton(this, buttonName, 0.75);
+                AdvancedXboxAxisTrigger candidate = new AdvancedXboxAxisTrigger(this, buttonName, 0.75);
                 allocatedButtons.put(buttonName, candidate);
             } else {
-                AdvancedXboxButton candidate = new AdvancedXboxButton(this, buttonName);
+                AdvancedXboxButtonTrigger candidate = new AdvancedXboxButtonTrigger(this, buttonName);
                 allocatedButtons.put(buttonName, candidate);
             }
         } else {
@@ -80,17 +82,17 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
         return allocatedButtons.get(buttonName);
     }
 
-    public AdvancedXboxButton getXboxButton(XboxButton buttonName) {
+    public AdvancedXboxButtonTrigger getXboxButton(XboxButton buttonName) {
 
         if (!allocatedButtons.containsKey(buttonName)) {
             // key does not exist. Create button!
-            AdvancedXboxButton candidate;
+            AdvancedXboxButtonTrigger candidate;
 
             // If it's a trigger button, create it in a different way
             if (buttonName.value == -1) {
-                candidate = new AdvancedXboxAxisButton(this, buttonName, 0.75);
+                candidate = new AdvancedXboxAxisTrigger(this, buttonName, 0.75);
             } else {
-                candidate = new AdvancedXboxButton(this, buttonName);
+                candidate = new AdvancedXboxButtonTrigger(this, buttonName);
             }
 
             allocatedButtons.put(buttonName, candidate);

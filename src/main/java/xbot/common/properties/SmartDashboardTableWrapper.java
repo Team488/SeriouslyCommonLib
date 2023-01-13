@@ -94,7 +94,7 @@ public class SmartDashboardTableWrapper implements ITableProxy {
 
     public void remove(String key) {
         if (SmartDashboard.containsKey(key)) {
-            SmartDashboard.delete(key);
+            SmartDashboard.getEntry(key).unpublish();
         }
     }
 }
