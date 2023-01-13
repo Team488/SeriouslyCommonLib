@@ -11,7 +11,7 @@ import edu.wpi.first.gradlerio.deploy.roborio.RoboRIO
 plugins {
     id "edu.wpi.first.GradleRIO" version "2023.1.1"
     id "eclipse"
-    id "com.diffplug.eclipse.apt" version "3.39.0"
+    id "com.diffplug.eclipse.apt" version "3.40.0"
     id 'scala'
     id 'checkstyle'
     id 'jacoco'
@@ -96,15 +96,15 @@ dependencies {
     // In future, sync with WPILib, using junit 5
     implementation 'junit:junit:4.12'
 
-    implementation 'com.google.dagger:dagger:2.43.2'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.43.2'
-    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.43.2'
+    implementation 'com.google.dagger:dagger:2.44.2'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.44.2'
+    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.44.2'
     
     implementation group: 'log4j', name: 'log4j', version: '1.2.17'
 
-    implementation group: 'org.json', name:'json', version: '20201115'
+    implementation group: 'org.json', name:'json', version: '20220924'
 
-    implementation group: 'org.zeromq', name: 'jeromq', version: '0.4.3'
+    implementation group: 'org.zeromq', name: 'jeromq', version: '0.5.3'
 
     implementation 'org.scala-lang:scala-library:2.11.12'
     testImplementation 'org.scalatest:scalatest_2.11:3.0.0'
