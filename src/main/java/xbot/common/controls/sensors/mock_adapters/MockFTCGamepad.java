@@ -8,9 +8,9 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import edu.wpi.first.wpilibj.GenericHID;
 import xbot.common.controls.sensors.XFTCGamepad;
-import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
-import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
-import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
+import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
@@ -30,9 +30,9 @@ public class MockFTCGamepad extends XFTCGamepad {
     @AssistedInject
     public MockFTCGamepad(
             @Assisted("port") int port, 
-            AdvancedJoystickButtonFactory joystickButtonFactory,
-            AdvancedPovButtonFactory povButtonFactory,
-            AnalogHIDButtonFactory analogHidButtonFactory,
+            AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
+            AdvancedPovButtonTriggerFactory povButtonFactory,
+            AnalogHIDButtonTriggerFactory analogHidButtonFactory,
             RobotAssertionManager assertionManager, 
             @Assisted("numButtons") int numButtons, 
             DevicePolice police) {

@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
 
-@SuppressWarnings("deprecation")
 public class PropertyTest extends BaseCommonLibTest {
 
     XPropertyManager propertyManager;
@@ -23,9 +22,9 @@ public class PropertyTest extends BaseCommonLibTest {
 
     @Test
     public void testDefaultValue() {
-        DoubleProperty dbl = propertyFactory.createProperty("speed", 1.0);
-        BooleanProperty bool = propertyFactory.createProperty("isTrue", true);
-        StringProperty str = propertyFactory.createProperty("string", "teststring");
+        DoubleProperty dbl = propertyFactory.createEphemeralProperty("speed", 1.0);
+        BooleanProperty bool = propertyFactory.createEphemeralProperty("isTrue", true);
+        StringProperty str = propertyFactory.createEphemeralProperty("string", "teststring");
 
         assertEquals(1.0, dbl.get(), 0.001);
         assertEquals(true, bool.get());
@@ -34,9 +33,9 @@ public class PropertyTest extends BaseCommonLibTest {
 
     @Test
     public void testChangingValue() {
-        DoubleProperty dbl = propertyFactory.createProperty("speed", 1.0);
-        BooleanProperty bool = propertyFactory.createProperty("isTrue", true);
-        StringProperty str = propertyFactory.createProperty("string", "teststring");
+        DoubleProperty dbl = propertyFactory.createEphemeralProperty("speed", 1.0);
+        BooleanProperty bool = propertyFactory.createEphemeralProperty("isTrue", true);
+        StringProperty str = propertyFactory.createEphemeralProperty("string", "teststring");
 
         dbl.set(0.5);
         bool.set(false);
@@ -49,9 +48,9 @@ public class PropertyTest extends BaseCommonLibTest {
 
     @Test
     public void testSavingValue() {
-        DoubleProperty dbl = propertyFactory.createProperty("speed", 0.5);
-        BooleanProperty bool = propertyFactory.createProperty("isTrue", false);
-        StringProperty str = propertyFactory.createProperty("string", "test2");
+        DoubleProperty dbl = propertyFactory.createPersistentProperty("speed", 0.5);
+        BooleanProperty bool = propertyFactory.createPersistentProperty("isTrue", false);
+        StringProperty str = propertyFactory.createPersistentProperty("string", "test2");
 
         assertSame(null, propertyManager.permanentStore.getDouble("speed"));
         assertSame(null, propertyManager.permanentStore.getBoolean("isTrue"));
@@ -93,10 +92,10 @@ public class PropertyTest extends BaseCommonLibTest {
 
     @Test
     public void testBadPropertyName() {
-        DoubleProperty dbl = propertyFactory.createProperty("commas are bad ,", 0.5);
+        DoubleProperty dbl = propertyFactory.createEphemeralProperty("commas are bad ,", 0.5);
         assertEquals("commas are bad ", dbl.key);
 
-        DoubleProperty dbl2 = propertyFactory.createProperty("new lines are bad too\n", 0.5);
+        DoubleProperty dbl2 = propertyFactory.createEphemeralProperty("new lines are bad too\n", 0.5);
         assertEquals("new lines are bad too", dbl2.key);
 
     }
@@ -109,9 +108,9 @@ public class PropertyTest extends BaseCommonLibTest {
 
         propertyManager.loadPropertiesFromStorage();
 
-        DoubleProperty dbl = propertyFactory.createProperty("speed", 1.0);
-        BooleanProperty bool = propertyFactory.createProperty("isTrue", false);
-        StringProperty str = propertyFactory.createProperty("string", "blahblah");
+        DoubleProperty dbl = propertyFactory.createPersistentProperty("speed", 1.0);
+        BooleanProperty bool = propertyFactory.createPersistentProperty("isTrue", false);
+        StringProperty str = propertyFactory.createPersistentProperty("string", "blahblah");
 
         assertEquals(0.5, dbl.get(), 0.001);
         assertEquals(true, bool.get());
@@ -121,15 +120,15 @@ public class PropertyTest extends BaseCommonLibTest {
     @Test
     public void testLoadingValueAfterCreation() {
 
-        propertyFactory.createProperty("speed", 0.5);
-        propertyFactory.createProperty("isTrue", true);
-        propertyFactory.createProperty("string", "teststring");
+        propertyFactory.createPersistentProperty("speed", 0.5);
+        propertyFactory.createPersistentProperty("isTrue", true);
+        propertyFactory.createPersistentProperty("string", "teststring");
 
         propertyManager.saveOutAllProperties();
 
-        DoubleProperty dbl = propertyFactory.createProperty("speed", 1.0);
-        BooleanProperty bool = propertyFactory.createProperty("isTrue", false);
-        StringProperty str = propertyFactory.createProperty("string", "blahblah");
+        DoubleProperty dbl = propertyFactory.createPersistentProperty("speed", 1.0);
+        BooleanProperty bool = propertyFactory.createPersistentProperty("isTrue", false);
+        StringProperty str = propertyFactory.createPersistentProperty("string", "blahblah");
 
         propertyManager.loadPropertiesFromStorage();
 

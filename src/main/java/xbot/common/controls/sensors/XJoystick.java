@@ -5,10 +5,14 @@ import java.util.HashMap;
 import org.apache.log4j.Logger;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
-import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
-import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
-import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDDescription;
+import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger;
+import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger;
+import xbot.common.controls.sensors.buttons.AdvancedTrigger;
+import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger;
+import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDDescription;
 import xbot.common.controls.sensors.mock_adapters.MockJoystick;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
@@ -23,14 +27,14 @@ public abstract class XJoystick
     
     private static final Logger log = Logger.getLogger(XJoystick.class);
 
-    private HashMap<Integer, AdvancedJoystickButton> buttonMap;
-    private HashMap<AnalogHIDButton.AnalogHIDDescription, AnalogHIDButton> analogButtonMap;
-    private HashMap<Integer, AdvancedPovButton> povButtonMap;
+    private HashMap<Integer, AdvancedJoystickButtonTrigger> buttonMap;
+    private HashMap<AnalogHIDButtonTrigger.AnalogHIDDescription, AnalogHIDButtonTrigger> analogButtonMap;
+    private HashMap<Integer, AdvancedPovButtonTrigger> povButtonMap;
     private int maxButtons;
 
-    private AdvancedJoystickButtonFactory joystickButtonFactory;
-    private AdvancedPovButtonFactory povButtonFactory;
-    private AnalogHIDButtonFactory analogHidButtonFactory;
+    private AdvancedJoystickButtonTriggerFactory joystickButtonFactory;
+    private AdvancedPovButtonTriggerFactory povButtonFactory;
+    private AnalogHIDButtonTriggerFactory analogHidButtonFactory;
 
     private RobotAssertionManager assertionManager;
     private DevicePolice police;
@@ -41,9 +45,9 @@ public abstract class XJoystick
 
     public XJoystick(
             int port, 
-            AdvancedJoystickButtonFactory joystickButtonFactory,
-            AdvancedPovButtonFactory povButtonFactory,
-            AnalogHIDButtonFactory analogHidButtonFactory,
+            AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
+            AdvancedPovButtonTriggerFactory povButtonFactory,
+            AnalogHIDButtonTriggerFactory analogHidButtonFactory,
             RobotAssertionManager assertionManager, 
             int numButtons,
             DevicePolice police) {
@@ -55,9 +59,9 @@ public abstract class XJoystick
         this.assertionManager = assertionManager;
         maxButtons = numButtons;
         
-        this.buttonMap = new HashMap<Integer, AdvancedJoystickButton>(numButtons);
+        this.buttonMap = new HashMap<Integer, AdvancedJoystickButtonTrigger>(numButtons);
         this.analogButtonMap = new HashMap<>();
-        this.povButtonMap = new HashMap<Integer, AdvancedPovButton>();
+        this.povButtonMap = new HashMap<Integer, AdvancedPovButtonTrigger>();
         this.axisInversion = new boolean[6];
 
         for (int i = 1; i <= numButtons; i++) {
@@ -118,7 +122,7 @@ public abstract class XJoystick
         POV
     }
 
-    public AdvancedButton getifAvailable(int buttonNumber) {
+    public AdvancedTrigger getifAvailable(int buttonNumber) {
         
         if (buttonNumber < 1 || buttonNumber > maxButtons) {
             return handleInvalidButton("button " + buttonNumber + " is out of range!");
@@ -136,7 +140,7 @@ public abstract class XJoystick
      * @param povNumber 0 == Up, 90 == Right, 180 == down, 270 == left
      * @return
      */
-    public AdvancedButton getPovIfAvailable(int povNumber) {
+    public AdvancedTrigger getPovIfAvailable(int povNumber) {
         if (povNumber < -1 || povNumber > 315) {
             return handleInvalidButton("button " + povNumber + " is out of range!");
         }
@@ -148,14 +152,14 @@ public abstract class XJoystick
         }
     }
     
-    private AdvancedButton handleInvalidButton(String message) {
+    private AdvancedTrigger handleInvalidButton(String message) {
         assertionManager.throwException(message, new Exception());
         
         MockJoystick mj = new MockJoystick(0, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, assertionManager, 12, police);
-        return new AdvancedJoystickButton(mj, 1);
+        return new AdvancedJoystickButtonTrigger(mj, 1);
     }
 
-    public AnalogHIDButton getAnalogIfAvailable(AnalogHIDDescription desc) {
+    public AnalogHIDButtonTrigger getAnalogIfAvailable(AnalogHIDDescription desc) {
         if (analogButtonMap.containsKey(desc)) {
             return analogButtonMap.remove(desc);
         } else {
@@ -167,13 +171,13 @@ public abstract class XJoystick
 
     // sets without checking
     // intended only for initializing buttons from factory.
-    private void set(int buttonNumber, AdvancedJoystickButton button) {
+    private void set(int buttonNumber, AdvancedJoystickButtonTrigger button) {
         buttonMap.put(buttonNumber, button);
     }
 
     // sets without checking
     // intended only for initializing buttons from factory.
-    private void setAnalog(AnalogHIDButton button) {
+    private void setAnalog(AnalogHIDButtonTrigger button) {
         analogButtonMap.put(button.getDescription(), button);
     }
 }

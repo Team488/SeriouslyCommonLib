@@ -32,6 +32,6 @@ public class CompressorWPIAdapter extends XCompressor {
 
     @Override
     public boolean isEnabled() {
-        return compressor.enabled();
+        return compressor.isEnabled();
     }
 }

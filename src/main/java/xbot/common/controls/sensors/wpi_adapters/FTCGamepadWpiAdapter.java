@@ -7,9 +7,9 @@ import dagger.assisted.AssistedInject;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import xbot.common.controls.sensors.XFTCGamepad;
-import xbot.common.controls.sensors.AdvancedJoystickButton.AdvancedJoystickButtonFactory;
-import xbot.common.controls.sensors.AdvancedPovButton.AdvancedPovButtonFactory;
-import xbot.common.controls.sensors.AnalogHIDButton.AnalogHIDButtonFactory;
+import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 
@@ -28,9 +28,9 @@ public class FTCGamepadWpiAdapter extends XFTCGamepad {
     public FTCGamepadWpiAdapter(
             @Assisted("port") int port, 
             @Assisted("numButtons") int numButtons,
-            AdvancedJoystickButtonFactory joystickButtonFactory,
-            AdvancedPovButtonFactory povButtonFactory,
-            AnalogHIDButtonFactory analogHidButtonFactory,
+            AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
+            AdvancedPovButtonTriggerFactory povButtonFactory,
+            AnalogHIDButtonTriggerFactory analogHidButtonFactory,
             RobotAssertionManager assertionManager, 
             DevicePolice police) {
         super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, assertionManager, numButtons, police);
