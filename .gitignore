@@ -40,4 +40,5 @@ WPI_Native_Libraries.properties
 .classpath
 .factorypath
 .project
+.apt_generated*
 *.dll
