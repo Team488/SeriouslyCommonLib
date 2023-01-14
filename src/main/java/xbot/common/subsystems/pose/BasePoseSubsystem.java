@@ -1,7 +1,6 @@
 package xbot.common.subsystems.pose;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XTimer;
@@ -86,8 +85,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         rioRotated = propManager.createPersistentProperty("RIO rotated", false);
         inherentRioPitch = propManager.createPersistentProperty("Inherent RIO pitch", 0.0);
         inherentRioRoll = propManager.createPersistentProperty("Inherent RIO roll", 0.0);
-
-        CommandScheduler.getInstance().registerSubsystem(this);
     }
     
     private double getCompassHeading(Rotation2d standardHeading) {

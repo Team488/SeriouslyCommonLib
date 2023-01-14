@@ -3,6 +3,7 @@ package xbot.common.networking;
 import java.util.function.Consumer;
 
 import org.apache.log4j.Logger;
+import org.zeromq.SocketType;
 import org.zeromq.ZMQ;
 
 import dagger.assisted.Assisted;
@@ -98,7 +99,7 @@ public class ZeromqListener implements XZeromqListener {
             log.info("Creating ZMQ Context");
             context = ZMQ.context(1);
             log.info("Creating ZMQ Subscriber Socket");
-            socket = context.socket(ZMQ.SUB);
+            socket = context.socket(SocketType.SUB);
             // SetConflate to True means we only get the most recent value. It will also be
             // need to set server-side, I think.
             socket.setConflate(true);
