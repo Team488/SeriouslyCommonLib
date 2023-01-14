@@ -2,6 +2,7 @@ package xbot.common.networking;
 
 import java.util.Random;
 
+import org.zeromq.SocketType;
 import org.zeromq.ZMQ;
 
 public class ZeromqTestServer implements Runnable {
@@ -11,7 +12,7 @@ public class ZeromqTestServer implements Runnable {
         //  Prepare our context and publisher
         ZMQ.Context context = ZMQ.context(1);
 
-        ZMQ.Socket publisher = context.socket(ZMQ.PUB);
+        ZMQ.Socket publisher = context.socket(SocketType.PUB);
         publisher.setConflate(true);
         publisher.bind("tcp://*:5556");
         publisher.bind("ipc://weather");

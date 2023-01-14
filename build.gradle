@@ -150,26 +150,26 @@ tasks.withType(Test) {
 
 eclipse {
 	// re-generate APT configuration on Gradle project synchronisation
-	synchronizationTasks eclipseJdtApt, eclipseJdt, eclipseFactorypath
+	//synchronizationTasks eclipseJdtApt, eclipseJdt, eclipseFactorypath
 
-	jdt.apt {
-        genSrcDir = file('bin/generated/sources/annotationProcessor/java/main')
-        genTestSrcDir = file('bin/generated/sources/annotationProcessor/java/test')
-    }
+	//jdt.apt {
+    //    genSrcDir = file('bin/generated/sources/annotationProcessor/java/main')
+    //    genTestSrcDir = file('bin/generated/sources/annotationProcessor/java/test')
+    //}
 
     classpath.file {
-        beforeMerged { classpath -> 
-            sourceSets.main.java.srcDirs += "bin/generated/sources/annotationProcessor/java/main"
-            sourceSets.test.java.srcDirs += "bin/generated/sources/annotationProcessor/java/test"
-        }
+        //beforeMerged { classpath -> 
+        //    sourceSets.main.java.srcDirs += "bin/generated/sources/annotationProcessor/java/main"
+        //    sourceSets.test.java.srcDirs += "bin/generated/sources/annotationProcessor/java/test"
+        //}
 
-        whenMerged { classpath ->
-            classpath.entries.each { entry -> 
-                if (entry.path.contains('bin/generated')) {
-                    entry.entryAttributes['ignore_optional_problems'] = true
-                }
-            }
-        }
+        //whenMerged { classpath ->
+        //    classpath.entries.each { entry -> 
+        //        if (entry.path.contains('.apt_generated')) {
+        //            entry.entryAttributes['ignore_optional_problems'] = true
+        //        }
+        //    }
+        //}
     }
 }
 
