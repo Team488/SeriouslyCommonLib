@@ -176,17 +176,16 @@ public abstract class PurePursuitCommand extends BaseCommand {
                 pointsToVisit = new ArrayList<>();
                 FieldPose currentRobotPose = poseSystem.getCurrentFieldPose();
                 for (RabbitPoint originalPoint : originalPoints) {
-                    // First, rotate the point according to the robot's current heading - 90
+                    // First, rotate the point according to the robot's current heading
                     XYPair updatedPoint = originalPoint.pose.getPoint().clone().rotate(
-                            currentRobotPose.getHeading().getDegrees()-BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS);
+                            currentRobotPose.getHeading().getDegrees());
                     
                     // Then, translate the point according to the robot's current field position
                     updatedPoint.add(currentRobotPose.getPoint());
                     
-                    // Finally, rotate the original's goal heading by the robot's current heading -90
+                    // Finally, rotate the original's goal heading by the robot's current heading
                     double updatedHeading = originalPoint.pose.getHeading().getDegrees() 
-                            + currentRobotPose.getHeading().getDegrees() 
-                            - BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS;
+                            + currentRobotPose.getHeading().getDegrees();
                     
                     FieldPose updatedPose = new FieldPose(updatedPoint, Rotation2d.fromDegrees(updatedHeading));
                     pointsToVisit.add(new RabbitPoint(

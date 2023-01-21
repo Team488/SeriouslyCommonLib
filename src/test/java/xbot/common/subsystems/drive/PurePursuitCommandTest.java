@@ -33,7 +33,9 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
         pose.setDriveTalons(drive.leftTank, drive.rightTank);
         
         timer.advanceTimeInSecondsBy(10);
+
         pose.periodic();
+        pose.setCurrentHeading(90);
         
         drive.getPositionalPid().setMaxOutput(1);
         drive.getPositionalPid().setMinOutput(-1);
@@ -83,6 +85,7 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
     
     @Test
     public void testSimpleRelative() {
+        pose.setCurrentHeading(0);
         command.addPoint(new FieldPose(new XYPair(0, 10), Rotation2d.fromDegrees(90)));
         command.addPoint(new FieldPose(new XYPair(10, 10), Rotation2d.fromDegrees(90)));
         
@@ -95,18 +98,19 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
     
     @Test
     public void testComplexRelative() {
-        command.addPoint(new FieldPose(new XYPair(0, 10), Rotation2d.fromDegrees(90)));
+        pose.setCurrentHeading(0);
+        command.addPoint(new FieldPose(new XYPair(10, 0), Rotation2d.fromDegrees(0)));
         command.addPoint(new FieldPose(new XYPair(10, 10), Rotation2d.fromDegrees(90)));
         
         // rotate the robot
-        pose.setCurrentHeading(180);
+        pose.setCurrentHeading(90);
         pose.setDriveEncoderDistances(10, 10);
         
         command.setMode(PointLoadingMode.Relative);
         command.initialize();
         
-        verifyPose(command.getPlannedPointsToVisit().get(0), -20, 0, 180);
-        verifyPose(command.getPlannedPointsToVisit().get(1), -20, 10, 180); 
+        verifyPose(command.getPlannedPointsToVisit().get(0), 0, 20, 90);
+        verifyPose(command.getPlannedPointsToVisit().get(1), -10, 20, 180);
     }
     
     //@SuppressWarnings("serial")

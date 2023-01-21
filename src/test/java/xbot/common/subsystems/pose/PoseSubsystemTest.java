@@ -17,23 +17,23 @@ public class PoseSubsystemTest extends BasePoseTest {
     
     @Test
     public void testInitialHeading() {
-        // IMU initially starts at 0, robot starts at 90.
+        // IMU initially starts at 0, robot starts at 0.
         verifyRobotHeading(BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS);
     }
     
     @Test
     public void testGyroRotate() {
         changeMockGyroHeading(45);
-        verifyRobotHeading(135);
+        verifyRobotHeading(BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS + 45);
         
         changeMockGyroHeading(-45);
-        verifyRobotHeading(90);
+        verifyRobotHeading(BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS);
     }
     
     @Test
     public void testCalibrate() {
         changeMockGyroHeading(45);
-        verifyRobotHeading(135);
+        verifyRobotHeading(BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS+45);
 
         pose.setCurrentHeading(90);
         verifyRobotHeading(90);
@@ -42,7 +42,7 @@ public class PoseSubsystemTest extends BasePoseTest {
     @Test
     public void testCalibrateAndMove() {
         changeMockGyroHeading(45);
-        verifyRobotHeading(135);
+        verifyRobotHeading(BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS+45);
         
         pose.setCurrentHeading(90);
         verifyRobotHeading(90);
@@ -53,6 +53,8 @@ public class PoseSubsystemTest extends BasePoseTest {
     
     @Test
     public void testCrossBounds () {
+        pose.setCurrentHeading(90);
+
         changeMockGyroHeading(180);
         verifyRobotHeading(-90);
         

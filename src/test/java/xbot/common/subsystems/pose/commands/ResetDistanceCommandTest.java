@@ -22,7 +22,7 @@ public class ResetDistanceCommandTest extends BasePoseTest {
         
         pose.setDriveEncoderDistances(100, 100);
         verifyRobotOrientedDistance(100);
-        verifyAbsoluteDistance(0, 100);
+        verifyAbsoluteDistance(100, 0);
         
         reset.isFinished();
         reset.initialize();
@@ -39,7 +39,7 @@ public class ResetDistanceCommandTest extends BasePoseTest {
         
         pose.setDriveEncoderDistances(100, 100);
         verifyRobotOrientedDistance(100);
-        verifyAbsoluteDistance(0, 100);
+        verifyAbsoluteDistance(100, 0);
         
         reset.isFinished();
         reset.initialize();
@@ -59,7 +59,7 @@ public class ResetDistanceCommandTest extends BasePoseTest {
         
         pose.setDriveEncoderDistances(100, 100);
         verifyRobotOrientedDistance(100);
-        verifyAbsoluteDistance(0, 100);
+        verifyAbsoluteDistance(100, 0);
         
         reset.isFinished();
         reset.initialize();
@@ -67,7 +67,7 @@ public class ResetDistanceCommandTest extends BasePoseTest {
         
         pose.setDriveEncoderDistances(200, 200);
         verifyRobotOrientedDistance(100);
-        verifyAbsoluteDistance(0, 100);
+        verifyAbsoluteDistance(100, 0);
         
         reset.isFinished();
         reset.initialize();
