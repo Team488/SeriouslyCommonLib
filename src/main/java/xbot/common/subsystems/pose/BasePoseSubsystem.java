@@ -33,8 +33,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     private double headingOffset;
     
     // These are two common robot starting positions - kept here as convenient shorthand.
-    public static final double FACING_AWAY_FROM_DRIVERS = 90;
-    public static final double FACING_TOWARDS_DRIVERS = -90;
+    public static final double FACING_AWAY_FROM_DRIVERS = 0;
+    public static final double FACING_TOWARDS_DRIVERS = -180;
     public static final double INCHES_IN_A_METER = 39.3701;
     
     private final DoubleProperty currentPitch;
@@ -88,7 +88,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     }
     
     private double getCompassHeading(Rotation2d standardHeading) {
-        return Rotation2d.fromDegrees(currentHeading.getDegrees() - 90).getDegrees();
+        return Rotation2d.fromDegrees(currentHeading.getDegrees()).getDegrees();
     }
     
     private void updateCurrentHeading() {
