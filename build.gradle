@@ -9,9 +9,7 @@ import edu.wpi.first.gradlerio.deploy.roborio.RoboRIO
  */
 
 plugins {
-    id "edu.wpi.first.GradleRIO" version "2023.1.1"
-    id "eclipse"
-    id "com.diffplug.eclipse.apt" version "3.40.0"
+    id "edu.wpi.first.GradleRIO" version "2023.2.1"
     id 'scala'
     id 'checkstyle'
     id 'jacoco'
@@ -145,31 +143,6 @@ tasks.withType(Test) {
       if (!desc.parent) { // will match the outermost suite
         println "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
       }
-    }
-}
-
-eclipse {
-	// re-generate APT configuration on Gradle project synchronisation
-	//synchronizationTasks eclipseJdtApt, eclipseJdt, eclipseFactorypath
-
-	//jdt.apt {
-    //    genSrcDir = file('bin/generated/sources/annotationProcessor/java/main')
-    //    genTestSrcDir = file('bin/generated/sources/annotationProcessor/java/test')
-    //}
-
-    classpath.file {
-        //beforeMerged { classpath -> 
-        //    sourceSets.main.java.srcDirs += "bin/generated/sources/annotationProcessor/java/main"
-        //    sourceSets.test.java.srcDirs += "bin/generated/sources/annotationProcessor/java/test"
-        //}
-
-        //whenMerged { classpath ->
-        //    classpath.entries.each { entry -> 
-        //        if (entry.path.contains('.apt_generated')) {
-        //            entry.entryAttributes['ignore_optional_problems'] = true
-        //        }
-        //    }
-        //}
     }
 }
 

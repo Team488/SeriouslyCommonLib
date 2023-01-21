@@ -1,6 +1,5 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
-    "java.import.generatesMetadataFilesAtProjectRoot": true,
     "java.test.defaultConfig": "SeriouslyCommonLib",
     "java.test.config": [
         {
