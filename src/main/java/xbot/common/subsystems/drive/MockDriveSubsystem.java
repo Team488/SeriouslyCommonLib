@@ -56,10 +56,10 @@ public class MockDriveSubsystem extends BaseDriveSubsystem {
             rightTank.simpleSet(translate.y + rotate);
         }
         if (fl != null) {
-            fl.simpleSet(translate.y + translate.x - rotate);
-            fr.simpleSet(translate.y - translate.x + rotate);
-            rl.simpleSet(translate.y - translate.x - rotate);
-            rr.simpleSet(translate.y + translate.x + rotate);
+            fl.simpleSet(translate.x - translate.y - rotate);
+            fr.simpleSet(translate.x + translate.y + rotate);
+            rl.simpleSet(translate.x + translate.y - rotate);
+            rr.simpleSet(translate.x - translate.y + rotate);
         }
     }
 
