@@ -42,10 +42,10 @@ public class DriveSubsystemTest extends BaseCommonLibTest {
         
         verifyHolonomicDrive(0, 0, 0, 0);
         
-        drive.drive(new XYPair(0, 1), 0);
+        drive.drive(new XYPair(1, 0), 0);
         verifyHolonomicDrive(1, 1, 1, 1);
         
-        drive.drive(new XYPair(1, 0), 0);
+        drive.drive(new XYPair(0, -1), 0);
         verifyHolonomicDrive(1, -1, -1, 1);
         
         drive.drive(new XYPair(0, 0), 1);
