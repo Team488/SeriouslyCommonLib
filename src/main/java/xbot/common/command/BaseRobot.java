@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import org.littletonrobotics.junction.LoggedRobot;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.DevicePolice;
@@ -36,7 +37,7 @@ import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
  * scheduling, and the injector. Required for a fair amount
  * of CommonLib functionality.
  */
-public abstract class BaseRobot extends TimedRobot {
+public abstract class BaseRobot extends LoggedRobot {
 
     Logger log;
     Latch brownoutLatch;
@@ -100,6 +101,8 @@ public abstract class BaseRobot extends TimedRobot {
      * This function is run when the robot is first started up and should be used for any initialization code.
      */
     public void robotInit() {
+
+        Logger.getin getInstance().recordMetadata("ProjectName", "MyProject"); // Set a metadata value
 
         // Get our logging config
         try {
