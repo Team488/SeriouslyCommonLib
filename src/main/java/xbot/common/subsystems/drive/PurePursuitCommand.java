@@ -136,7 +136,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
     /**
      * If you want to see where this command is heading in the future (for visualization purposes, perhaps) you can 
      * get that information here.
-     * @return
+     * @return List of points to visit
      */
     public List<RabbitPoint> getPlannedPointsToVisit() {
         return new ArrayList<RabbitPoint>(pointsToVisit);
@@ -269,7 +269,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
     /**
      * Just uses the HeadingModule to rotate. Nothing special here.
      * @param target Point we are rotating to
-     * @return
+     * @return Information about what the robot would like to do in order to aim at the target point.
      */
     private RabbitChaseInfo rotateToRabbit(RabbitPoint target) {
         double turnPower = headingModule.calculateHeadingPower(target.pose.getHeading().getDegrees());
@@ -283,7 +283,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
      * Uses the heading module to rotate to aim straight at the target, and drives straight there. This isn't pure
      * pursuit at all, but sometimes we want to drive straight towards a point and don't care about our orientation.
      * @param target The point you are trying to reach. Will drive straight there.
-     * @return
+     * @return Information about what the robot should do in order to drive directly at the target point.
      */
     private RabbitChaseInfo driveToPoint(RabbitPoint target, FieldPose robotPose) {
         RabbitChaseInfo r = driveToPointLogic(target, robotPose);
@@ -341,7 +341,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         // If this budget is 2 or higher, that's the same as having no budget at all.       
      * @param rotation The desired turn power
      * @param translation The desired translation power, which will be constrained by the budget.
-     * @return 
+     * @return The translation power, reduced by the rotation power in context of the total budget.
      */
     private double constrainTranslation(double rotation, double translation, double dotProduct) {
         if (useDotProductDriving) {
@@ -370,7 +370,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
      * All the math for rotating/translating towards the rabbit, which should lead us to our desired point.
      * @param target The point we want to reach
      * @param robot The current pose of the robot
-     * @return
+     * @return Information about what the robot should do in order to drive towards the target point.
      */
     private RabbitChaseInfo chaseRabbit(RabbitPoint target, FieldPose robot) {
         double distanceRemainingToPointAlongPath = -target.pose.getDistanceAlongPoseLine(robot.getPoint());

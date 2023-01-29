@@ -122,7 +122,7 @@ public class FieldPose {
      * Positive distances are in front, negative are behind. Keeps the
      * original heading.
      * @param distance Positive distances are in front, negative are behind.
-     * @return
+     * @return FieldPose projected along the line
      */
     public FieldPose getPointAlongPoseLine(double distance) {
         double deltaX = this.heading.getCos() * distance;
@@ -137,7 +137,7 @@ public class FieldPose {
      * Returns a FieldPose that's "subtracted" by the offset FieldPose. Useful for setting your current position
      * as 0,0 and measuring relative to that as you move around the field.
      * @param offset The offset location
-     * @return
+     * @return The FieldPose shifted by the given offset
      */
     public FieldPose getFieldPoseOffsetBy(FieldPose offset) {
         XYPair changedPoint = this.getPoint().clone().add(offset.getPoint().clone().scale(-1));
