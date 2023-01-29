@@ -138,7 +138,7 @@ public abstract class XJoystick
     /**
      * Uses the d-pad as a button source.
      * @param povNumber 0 == Up, 90 == Right, 180 == down, 270 == left
-     * @return
+     * @return A trigger that represents the given POV direction.
      */
     public AdvancedTrigger getPovIfAvailable(int povNumber) {
         if (povNumber < -1 || povNumber > 315) {

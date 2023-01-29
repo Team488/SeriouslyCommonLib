@@ -90,7 +90,7 @@ public abstract class BaseRobot extends TimedRobot {
 
     /**
      * Get the dependency injection component
-     * @return
+     * @return an implementation of BaseComponent that will be used throughout the robot.
      */
     protected BaseComponent getInjectorComponent() {
         return injectorComponent;

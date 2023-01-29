@@ -262,7 +262,7 @@ public class PID
      * - Too much derivative
      * - Waiting for time stability
      * - On Target
-     * @return
+     * @return The reason the PID is not on target.
      */
     public OffTargetReason getOffTargetReason() {
         return offTargetReason;

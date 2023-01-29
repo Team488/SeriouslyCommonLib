@@ -55,7 +55,7 @@ public class HeadingAssistModule {
          * @param headingModule Tune this one to rotate to a target orientation (PD, or
          *                      PID controller)
          * @param decayModule   Tune this one to resist rotation (D controller)
-         * @return
+         * @return HeadingAssistModule instance
          */
         public abstract HeadingAssistModule create(
             @Assisted("headingModule") HeadingModule headingModule,

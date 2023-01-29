@@ -109,7 +109,7 @@ tasks.withType(Test) {
 }
 
 checkstyle {
-    toolVersion = '8.7'
+    toolVersion = '10.6.0'
     configFile = file('./xbotcheckstyle.xml')
 }
 
