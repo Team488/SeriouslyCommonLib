@@ -134,7 +134,7 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
      * are any other checks that should be made, override this method and place them
      * here.
      * 
-     * @return
+     * @return true by default, can be overridden by child classes.
      */
     protected boolean additionalAtGoalChecks() {
         return true;
