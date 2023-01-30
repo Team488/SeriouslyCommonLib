@@ -64,7 +64,9 @@ public abstract class BaseRobot extends TimedRobot {
 
     protected RobotSession robotSession;
 
-    public BaseRobot() {                
+    public BaseRobot() {
+        super(10);
+        addPeriodic(super::loopFunc, 0.02);
         brownoutLatch = new Latch(false, EdgeType.Both, edge -> {
             if(edge == EdgeType.RisingEdge) {
                 log.warn("Entering brownout");
@@ -75,7 +77,17 @@ public abstract class BaseRobot extends TimedRobot {
         });
         
     }
-    
+
+    @Override
+    protected void loopFunc() {
+        // noop
+    }
+
+    @Override
+    public double getPeriod() {
+        return 0.02;
+    }
+
     /**
      * Override if you need a different module
      */
@@ -122,7 +134,10 @@ public abstract class BaseRobot extends TimedRobot {
         this.initializeSystems();
         log.info("========== SYSTEMS INITIALIZED ==========");
         SmartDashboard.putData(CommandScheduler.getInstance());
-        
+
+        if (this.isReal()) {
+            DriverStation.silenceJoystickConnectionWarning(true);
+        }
         PropertyFactory pf = injectorComponent.propertyFactory();
         pf.setTopLevelPrefix();
         frequencyReportInterval = pf.createPersistentProperty("Robot loop frequency report interval", 20);
@@ -173,6 +188,7 @@ public abstract class BaseRobot extends TimedRobot {
         // Get the property manager and get all properties from the robot disk
         propertyManager = injectorComponent.propertyManager();
         xScheduler = injectorComponent.scheduler();
+        CommandScheduler.getInstance().setPeriod(0.05);
         autonomousCommandSelector = injectorComponent.autonomousCommandSelector();
     }
 
