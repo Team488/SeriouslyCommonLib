@@ -65,7 +65,11 @@ public abstract class BaseRobot extends TimedRobot {
     protected RobotSession robotSession;
 
     public BaseRobot() {
+        // The IterativeRobot uses the period below to trigger some timeouts. We find these to be more annoying
+        // than helpful, so we set the period (typically 0.02) to something dramatically larger (10 seconds).
         super(10);
+        // However, we want to make sure that we actually do call the loopFunc quickly and periodically at
+        // 50hz, so we make this call to addPeriodic.
         addPeriodic(super::loopFunc, 0.02);
         brownoutLatch = new Latch(false, EdgeType.Both, edge -> {
             if(edge == EdgeType.RisingEdge) {
@@ -80,11 +84,12 @@ public abstract class BaseRobot extends TimedRobot {
 
     @Override
     protected void loopFunc() {
-        // noop
+        // Do nothing. This is part of some shenanigans to avoid loop overrun notifications.
     }
 
     @Override
     public double getPeriod() {
+        // In case anything was depending on reading the period, we use the typical 50hz value.
         return 0.02;
     }
 
@@ -136,6 +141,7 @@ public abstract class BaseRobot extends TimedRobot {
         SmartDashboard.putData(CommandScheduler.getInstance());
 
         if (this.isReal()) {
+            // We're just so tired of seeing these in logs. We may re-enable this at competition time.
             DriverStation.silenceJoystickConnectionWarning(true);
         }
         PropertyFactory pf = injectorComponent.propertyFactory();
@@ -188,6 +194,7 @@ public abstract class BaseRobot extends TimedRobot {
         // Get the property manager and get all properties from the robot disk
         propertyManager = injectorComponent.propertyManager();
         xScheduler = injectorComponent.scheduler();
+        // All this does is set the timeout period for the scheduler - the actual loop still runs at 50hz.
         CommandScheduler.getInstance().setPeriod(0.05);
         autonomousCommandSelector = injectorComponent.autonomousCommandSelector();
     }
