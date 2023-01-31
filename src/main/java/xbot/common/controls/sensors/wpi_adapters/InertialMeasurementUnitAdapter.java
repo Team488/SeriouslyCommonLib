@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
 import xbot.common.controls.sensors.XGyro;
+import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 
@@ -52,7 +53,6 @@ public class InertialMeasurementUnitAdapter extends XGyro {
         }
     }
 
-    @Override
     public boolean isConnected() {
         return this.ahrs.isConnected();
     }
@@ -61,14 +61,21 @@ public class InertialMeasurementUnitAdapter extends XGyro {
         return -this.ahrs.getYaw();
     }
 
-    @Override
     public double getDeviceRoll() {
         return -this.ahrs.getRoll();
     }
 
-    @Override
     public double getDevicePitch() {
         return -this.ahrs.getPitch();
+    }
+
+    @Override
+    protected void updateInputs(XGyroIoInputs inputs) {
+        inputs.yaw = getDeviceYaw();
+        inputs.yawAngularVelocity = getDeviceYawAngularVelocity();
+        inputs.pitch = getDevicePitch();
+        inputs.roll = getDeviceRoll();
+        inputs.isConnected = isConnected();
     }
 
     @Override
@@ -83,32 +90,26 @@ public class InertialMeasurementUnitAdapter extends XGyro {
         return ahrs.getRate();
     }
 
-    @Override
     public double getDeviceVelocityX() {
         return ahrs.getVelocityX();
     }
 
-    @Override
     public double getDeviceVelocityY() {
         return ahrs.getVelocityY();
     }
 
-    @Override
     public double getDeviceVelocityZ() {
         return ahrs.getVelocityZ();
     }
 
-    @Override
     public double getDeviceRawAccelX() {
         return ahrs.getRawAccelX();
     }
 
-    @Override
     public double getDeviceRawAccelY() {
         return ahrs.getRawAccelY();
     }
 
-    @Override
     public double getDeviceRawAccelZ() {
         return ahrs.getRawAccelZ();
     }

@@ -20,6 +20,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
+import xbot.common.controls.io_inputs.XCANSparkMaxInputs;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 import xbot.common.injection.DevicePolice;
@@ -34,7 +35,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     private double velocity = 0;
     private double simulationScalingValue;
     boolean inverted = false;
-    public XEncoder internalEncoder = null;
+    public XEncoder internalEncoder;
     double positionOffset = 0;
     double simulationPosition = 0;
 
@@ -219,16 +220,10 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     }
 
     @Override
-    public short getStickyFaults() {
-        return 0;
-    }
-
-    @Override
     public boolean getFault(FaultID faultID) {
         return false;
     }
 
-    @Override
     public boolean getStickyFault(FaultID faultID) {
         return false;
     }
@@ -670,5 +665,16 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     @Override
     public boolean getReverseLimitSwitchPressed(Type switchType) {
         return false;
+    }
+
+    @Override
+    protected void updateInputs(XCANSparkMaxInputs inputs) {
+        inputs.stickyFaultHasReset = getStickyFault(FaultID.kHasReset);
+        inputs.lastErrorId = getLastError().value;
+        inputs.velocity = getVelocity();
+        inputs.position = getPosition();
+        inputs.appliedOutput = getAppliedOutput();
+        inputs.busVoltage = getBusVoltage();
+        inputs.outputCurrent = getOutputCurrent();
     }
 }

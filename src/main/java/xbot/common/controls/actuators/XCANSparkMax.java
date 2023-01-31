@@ -9,6 +9,9 @@ import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
+import org.littletonrobotics.junction.Logger;
+import xbot.common.controls.io_inputs.XCANSparkMaxInputs;
+import xbot.common.controls.io_inputs.XCANSparkMaxInputsAutoLogged;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
@@ -19,6 +22,7 @@ public abstract class XCANSparkMax {
 
     protected int deviceId;
     protected String prefix = "";
+    protected DeviceInfo info;
     PropertyFactory propertyFactory;
 
     final DoubleProperty kPprop;
@@ -36,6 +40,8 @@ public abstract class XCANSparkMax {
     protected final String policeTicket;
 
     protected boolean firstPeriodicCall = true;
+
+    protected XCANSparkMaxInputsAutoLogged inputs;
 
     public abstract static class XCANSparkMaxFactory {
         public abstract XCANSparkMax create(
@@ -56,6 +62,7 @@ public abstract class XCANSparkMax {
             PropertyFactory pf,
             DevicePolice police,
             XCANSparkMaxPIDProperties defaultPIDProperties) {
+        this.info = deviceInfo;
         this.deviceId = deviceInfo.channel;
         this.propertyFactory = pf;
         this.propertyFactory.setPrefix(owningSystemPrefix);
@@ -74,6 +81,8 @@ public abstract class XCANSparkMax {
         percentProp = pf.createEphemeralProperty("Percent", 0);
         voltageProp = pf.createEphemeralProperty("Voltage", 0);
         currentProp = pf.createEphemeralProperty("Current", 0);
+
+        inputs = new XCANSparkMaxInputsAutoLogged();
     }
 
     ///
@@ -463,10 +472,9 @@ public abstract class XCANSparkMax {
      */
     public abstract short getFaults();
 
-    /**
-     * @return All sticky fault bits as a short
-     */
-    public abstract short getStickyFaults();
+    public boolean getStickyFaultHasReset() {
+        return inputs.stickyFaultHasReset;
+    }
 
     /**
      * Get the value of a specific fault
@@ -478,28 +486,25 @@ public abstract class XCANSparkMax {
     public abstract boolean getFault(FaultID faultID);
 
     /**
-     * Get the value of a specific sticky fault
-     *
-     * @param faultID The ID of the sticky fault to retrive
-     *
-     * @return True if the sticky fault with the given ID occurred.
-     */
-    public abstract boolean getStickyFault(FaultID faultID);
-
-    /**
      * @return The voltage fed into the motor controller.
      */
-    public abstract double getBusVoltage();
+    public double getBusVoltage() {
+        return inputs.busVoltage;
+    }
 
     /**
      * @return The motor controller's applied output duty cycle.
      */
-    public abstract double getAppliedOutput();
+    public double getAppliedOutput() {
+        return inputs.appliedOutput;
+    }
 
     /**
      * @return The motor controller's output current in Amps.
      */
-    public abstract double getOutputCurrent();
+    public double getOutputCurrent() {
+        return inputs.outputCurrent;
+    }
 
     /**
      * @return The motor temperature in Celsius.
@@ -581,19 +586,25 @@ public abstract class XCANSparkMax {
      * thread. This is meant to be called immediately following another call that
      * has the possibility of returning an error to validate if an error has
      * occurred.
-     * 
+     *
      * @return the last error that was generated.
      */
-    public abstract REVLibError getLastError();
+    public REVLibError getLastError() {
+        return REVLibError.fromInt((int)inputs.lastErrorId);
+    }
 
     public abstract REVLibError restoreFactoryDefaults();
 
     ///
     // CAN Encoder Block
     ///
-    public abstract double getPosition();
+    public double getPosition() {
+        return inputs.position;
+    }
 
-    public abstract double getVelocity();
+    public double getVelocity() {
+        return inputs.velocity;
+    }
 
     public abstract REVLibError setPosition(double position);
 
@@ -724,4 +735,16 @@ public abstract class XCANSparkMax {
     public abstract boolean getForwardLimitSwitchPressed(com.revrobotics.SparkMaxLimitSwitch.Type switchType);
 
     public abstract boolean getReverseLimitSwitchPressed(com.revrobotics.SparkMaxLimitSwitch.Type switchType);
+
+    // Methods for integrating with AdvantageKit
+    protected abstract void updateInputs(XCANSparkMaxInputs inputs);
+
+    public void refreshDataFrame() {
+        updateInputs(inputs);
+        Logger.getInstance().processInputs(info.name+"SparkMax", inputs);
+    }
+
+    public XCANSparkMaxInputs getCurrentDataFrame() {
+        return inputs;
+    }
 }

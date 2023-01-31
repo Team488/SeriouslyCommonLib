@@ -1,6 +1,9 @@
 package xbot.common.subsystems.pose;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.geometry.Rotation2d;
+import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XTimer;
@@ -12,7 +15,7 @@ import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
-public abstract class BasePoseSubsystem extends BaseSubsystem {
+public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable {
 
     public final XGyro imu;
     
@@ -274,5 +277,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
             isNavXReady = true;
         }   
         updatePose();
+    }
+
+    @Override
+    public void refreshDataFrame() {
+        imu.refreshDataFrame();
     }
 }

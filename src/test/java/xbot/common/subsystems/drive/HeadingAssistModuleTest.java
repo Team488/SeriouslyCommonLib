@@ -1,15 +1,20 @@
 package xbot.common.subsystems.drive;
 
-import static org.junit.Assert.assertEquals;
-
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import edu.wpi.first.wpilibj.MockTimer;
 import org.junit.Test;
-
+import xbot.common.controls.actuators.XCANTalon;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.injection.BaseCommonLibTest;
+import xbot.common.injection.electrical_contract.CANTalonInfo;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule.HeadingAssistMode;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
+import xbot.common.subsystems.pose.MockBasePoseSubsystem;
+
+import static org.junit.Assert.assertEquals;
 
 public class HeadingAssistModuleTest extends BaseCommonLibTest {
 
@@ -25,6 +30,18 @@ public class HeadingAssistModuleTest extends BaseCommonLibTest {
         HeadingModule decay = getInjectorComponent().headingModuleFactory().create(pf.create("Decay", 0, 0, 1000));
         ham = getInjectorComponent().headingAssistModuleFactory().create(hold, decay, "Test");
         ham.setMode(HeadingAssistMode.HoldOrientation);
+
+        XCANTalon left = getInjectorComponent().canTalonFactory().create(new CANTalonInfo(0));
+        left.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+        XCANTalon right = getInjectorComponent().canTalonFactory().create(new CANTalonInfo(1));
+        right.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+
+        ((MockBasePoseSubsystem)pose).setDriveTalons(left, right);
+
+        ((MockTimer)getInjectorComponent().timerImplementation()).advanceTimeInSecondsBy(10);
+        pose.refreshDataFrame();
+        pose.periodic();
+
     }
     
     @Test
@@ -154,5 +171,7 @@ public class HeadingAssistModuleTest extends BaseCommonLibTest {
 
     protected void setHeading(double heading) {
         ((MockGyro)pose.imu).setYaw(heading);
+        pose.refreshDataFrame();
+        pose.periodic();
     }
 }

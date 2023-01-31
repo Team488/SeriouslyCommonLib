@@ -3,18 +3,25 @@ package xbot.common.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import edu.wpi.first.hal.DriverStationJNI;
+import edu.wpi.first.hal.NotifierJNI;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.json.JSONObject;
+import org.littletonrobotics.junction.LogFileUtil;
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import org.littletonrobotics.junction.LoggedRobot;
+import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.DevicePolice;
@@ -39,7 +46,7 @@ import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
  */
 public abstract class BaseRobot extends LoggedRobot {
 
-    Logger log;
+    org.apache.log4j.Logger log;
     Latch brownoutLatch;
 
     protected XPropertyManager propertyManager;
@@ -65,13 +72,9 @@ public abstract class BaseRobot extends LoggedRobot {
 
     protected RobotSession robotSession;
 
+    protected List<DataFrameRefreshable> dataFrameRefreshables = new ArrayList<>();
+
     public BaseRobot() {
-        // The IterativeRobot uses the period below to trigger some timeouts. We find these to be more annoying
-        // than helpful, so we set the period (typically 0.02) to something dramatically larger (10 seconds).
-        super(10);
-        // However, we want to make sure that we actually do call the loopFunc quickly and periodically at
-        // 50hz, so we make this call to addPeriodic.
-        addPeriodic(super::loopFunc, 0.02);
         brownoutLatch = new Latch(false, EdgeType.Both, edge -> {
             if(edge == EdgeType.RisingEdge) {
                 log.warn("Entering brownout");
@@ -81,17 +84,6 @@ public abstract class BaseRobot extends LoggedRobot {
             }
         });
         
-    }
-
-    @Override
-    protected void loopFunc() {
-        // Do nothing. This is part of some shenanigans to avoid loop overrun notifications.
-    }
-
-    @Override
-    public double getPeriod() {
-        // In case anything was depending on reading the period, we use the typical 50hz value.
-        return 0.02;
     }
 
     /**
@@ -119,9 +111,23 @@ public abstract class BaseRobot extends LoggedRobot {
      */
     public void robotInit() {
 
-        Logger.getin getInstance().recordMetadata("ProjectName", "MyProject"); // Set a metadata value
+        Logger.getInstance().recordMetadata("ProjectName", "XbotProject"); // Set a metadata value
 
-        // Get our logging config
+        if (isReal()) {
+            Logger.getInstance().addDataReceiver(new WPILOGWriter("/media/sda1/")); // Log to a USB stick
+            Logger.getInstance().addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+            new PowerDistribution(1, PowerDistribution.ModuleType.kRev); // Enables power distribution logging
+        } else {
+            setUseTiming(false); // Run as fast as possible
+            String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
+            Logger.getInstance().setReplaySource(new WPILOGReader(logPath)); // Read replay log
+            Logger.getInstance().addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
+        }
+
+        Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
+
+        // Setup log4j config - will be interesting to integrate this with AdvantageKit. May not be needed depending on how it intercepts
+        // system.out.println?
         try {
             if(BaseRobot.isReal()) {
                 DOMConfigurator.configure("/home/lvuser/deploy/log4j.xml");
@@ -134,8 +140,8 @@ public abstract class BaseRobot extends LoggedRobot {
             System.out.println(errorString);
             DriverStation.reportError(errorString, false);
         }
-        
-        log = Logger.getLogger(BaseRobot.class);
+
+        log = org.apache.log4j.Logger.getLogger(BaseRobot.class);
         log.info("========== BASE ROBOT INITIALIZING ==========");
         setupInjectionModule();
         log.info("========== INJECTOR CREATED ==========");
@@ -273,6 +279,10 @@ public abstract class BaseRobot extends LoggedRobot {
     
     protected void sharedPeriodic() {
         outsidePeriodicMonitor.stop();
+        // Get a fresh data frame from all top-level components (typically large subsystems or shared sensors)
+        for (DataFrameRefreshable refreshable : dataFrameRefreshables) {
+            refreshable.refreshDataFrame();
+        }
         schedulerMonitor.start();
         xScheduler.run();
         schedulerMonitor.stop();
@@ -301,14 +311,14 @@ public abstract class BaseRobot extends LoggedRobot {
     
     @Override
     public void simulationInit() {
-        webots = injectorComponent.webotsClient();
-        webots.initialize();
+        //webots = injectorComponent.webotsClient();
+        //webots.initialize();
     }
 
     @Override
     public void simulationPeriodic() {
         // find all simulatable motors
-        List<JSONObject> motors = new ArrayList<JSONObject>();
+        /*List<JSONObject> motors = new ArrayList<JSONObject>();
         
         for (String deviceId: devicePolice.registeredChannels.keySet()) {
             Object device = devicePolice.registeredChannels.get(deviceId);
@@ -322,5 +332,6 @@ public abstract class BaseRobot extends LoggedRobot {
         JSONObject response = webots.sendMotors(motors);
 
         simulationPayloadDistributor.distributeSimulationPayload(response);
+        */
     }
 }
