@@ -42,7 +42,7 @@ public abstract class XAbsoluteEncoder {
 
     public abstract void updateInputs(XAbsoluteEncoderInputs inputs);
 
-    public void pullDataFrame() {
+    public void refreshDataFrame() {
         updateInputs(inputs);
         Logger.getInstance().processInputs(info.name+"AbsoluteEncoder", inputs);
     }

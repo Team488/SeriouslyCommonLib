@@ -6,7 +6,6 @@ import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 import com.ctre.phoenix.sensors.CANCoderStickyFaults;
 
 import org.littletonrobotics.junction.Logger;
-import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
 import xbot.common.controls.io_inputs.XCANCoderInputs;
 import xbot.common.controls.io_inputs.XCANCoderInputsAutoLogged;
 import xbot.common.injection.electrical_contract.DeviceInfo;
@@ -40,8 +39,8 @@ public abstract class XCANCoder extends XAbsoluteEncoder {
 
     public abstract void updateInputs(XCANCoderInputs inputs);
 
-    public void pullDataFrame() {
-        super.pullDataFrame();
+    public void refreshDataFrame() {
+        super.refreshDataFrame();
         updateInputs(inputs);
         Logger.getInstance().processInputs(info.name+"CANCoder", inputs);
     }
