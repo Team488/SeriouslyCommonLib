@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMax.ExternalFollower;
 import com.revrobotics.CANSparkMax.FaultID;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
+import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
@@ -755,6 +756,29 @@ public abstract class XCANSparkMax {
     public abstract boolean getForwardLimitSwitchPressed(com.revrobotics.SparkMaxLimitSwitch.Type switchType);
 
     public abstract boolean getReverseLimitSwitchPressed(com.revrobotics.SparkMaxLimitSwitch.Type switchType);
+
+    public abstract REVLibError setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame frame, int periodMs);
+
+    /**
+     * // See https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces#periodic-status-frames
+     * // for description of the different status frames. kStatus2 is the only frame with data needed for software PID.
+     */
+    public void setupStatusFramesIfControllerHasRecentRecently(int status0PeriodMs, int status1PeriodMs, int status2PeriodMs, int status3PeriodMs) {
+            // We need to re-set frame intervals after a device reset.
+            if (getStickyFaultHasReset() && getLastError() != REVLibError.kHALError) {
+                log.info("Setting status frame periods.");
+
+                // See https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces#periodic-status-frames
+                // for description of the different status frames. kStatus2 is the only frame with data needed for software PID.
+
+                setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, status0PeriodMs /* default 10 */);
+                setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, status1PeriodMs /* default 20 */);
+                setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, status2PeriodMs /* default 20 */);
+                setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, status3PeriodMs /* default 50 */);
+
+                clearFaults();
+            }
+    }
 
     // Methods for integrating with AdvantageKit
     protected abstract void updateInputs(XCANSparkMaxInputs inputs);
