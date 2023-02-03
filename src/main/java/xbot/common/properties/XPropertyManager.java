@@ -31,7 +31,7 @@ public class XPropertyManager {
         ITableProxy randomAccessStore, 
         @Named(IN_MEMORY_STORE_NAME) ITableProxy inMemoryRandomAccessStore
     ) {
-        this.properties = new ArrayList<Property>();
+        this.properties = new ArrayList<>();
         this.permanentStore = permanentStore;
         this.randomAccessStore = randomAccessStore;
         this.inMemoryRandomAccessStore = inMemoryRandomAccessStore;
@@ -50,9 +50,8 @@ public class XPropertyManager {
     public void loadPropertiesFromStorage() {
         // We need to somehow get the random store and force load everything in that.
         int escape = 0;
-        for (int i = 0; i < properties.size(); i++) {
-            Property prop = (Property) properties.get(i);
-            prop.load();
+        for (Property property : properties) {
+            property.load();
 
             escape++;
             if (escape > 2000) {
@@ -77,9 +76,8 @@ public class XPropertyManager {
 
         int escape = 0;
 
-        for (int i = 0; i < properties.size(); i++) {
-            Property prop = (Property) properties.get(i);
-            prop.save();
+        for (Property property : properties) {
+            property.save();
 
             escape++;
             if (escape > 2000) {
