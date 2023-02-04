@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.hal.NotifierJNI;
+import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.json.JSONObject;
 import org.littletonrobotics.junction.LogFileUtil;
@@ -112,8 +113,8 @@ public abstract class BaseRobot extends LoggedRobot {
     public void robotInit() {
 
         Logger.getInstance().recordMetadata("ProjectName", "XbotProject"); // Set a metadata value
-
-        if (isReal()) {
+        boolean forceWebots = true;
+        if (isReal() || forceWebots) {
             Logger.getInstance().addDataReceiver(new WPILOGWriter("/media/sda1/")); // Log to a USB stick
             Logger.getInstance().addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
             new PowerDistribution(1, PowerDistribution.ModuleType.kRev); // Enables power distribution logging
@@ -125,6 +126,7 @@ public abstract class BaseRobot extends LoggedRobot {
         }
 
         Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
+        DriverStation.silenceJoystickConnectionWarning(true);
 
         // Setup log4j config - will be interesting to integrate this with AdvantageKit. May not be needed depending on how it intercepts
         // system.out.println?
@@ -311,14 +313,17 @@ public abstract class BaseRobot extends LoggedRobot {
     
     @Override
     public void simulationInit() {
-        //webots = injectorComponent.webotsClient();
-        //webots.initialize();
+        // TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
+        webots = injectorComponent.webotsClient();
+        webots.initialize();
+        DriverStationSim.setEnabled(true);
     }
 
     @Override
     public void simulationPeriodic() {
+        // TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
         // find all simulatable motors
-        /*List<JSONObject> motors = new ArrayList<JSONObject>();
+        List<JSONObject> motors = new ArrayList<JSONObject>();
         
         for (String deviceId: devicePolice.registeredChannels.keySet()) {
             Object device = devicePolice.registeredChannels.get(deviceId);
@@ -332,6 +337,6 @@ public abstract class BaseRobot extends LoggedRobot {
         JSONObject response = webots.sendMotors(motors);
 
         simulationPayloadDistributor.distributeSimulationPayload(response);
-        */
+
     }
 }

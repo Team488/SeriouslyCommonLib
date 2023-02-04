@@ -71,7 +71,7 @@ public class WebotsClient {
     public void initialize() {
         // Spawn a robot in the sim
         JSONObject data = new JSONObject();
-        data.put("template", simulatorRobotTemplate.get());
+        data.put("template", "RobotTemplate2022");   //simulatorRobotTemplate.get());
 
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://" + hostname + ":" + supervisorPort + "/robot"))
                 .header("Content-Type", "application/json").POST(BodyPublishers.ofString(data.toString())).build();
