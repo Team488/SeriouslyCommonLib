@@ -7,7 +7,8 @@ package xbot.common.properties;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -18,7 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 @Singleton
 public class SmartDashboardTableWrapper implements ITableProxy {
 
-    private static final Logger log = Logger.getLogger(SmartDashboardTableWrapper.class);
+    private static final Logger log = LogManager.getLogger(SmartDashboardTableWrapper.class);
     boolean fastMode = false;
     private TableProxy fastTable;
 

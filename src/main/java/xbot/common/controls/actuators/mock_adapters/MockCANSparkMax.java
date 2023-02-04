@@ -13,7 +13,8 @@ import com.revrobotics.REVLibError;
 import com.revrobotics.SparkMaxLimitSwitch.Type;
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import dagger.assisted.Assisted;
@@ -31,7 +32,7 @@ import xbot.common.simulation.ISimulatableMotor;
 import xbot.common.simulation.ISimulatableSensor;
 
 public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, ISimulatableSensor {
-    private static Logger log = Logger.getLogger(MockCANSparkMax.class);
+    private static Logger log = LogManager.getLogger(MockCANSparkMax.class);
     private double power = 0;
     private double velocity = 0;
     private double simulationScalingValue;

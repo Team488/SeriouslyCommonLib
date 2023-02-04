@@ -7,7 +7,8 @@ import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 import com.ctre.phoenix.sensors.CANCoderStickyFaults;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -26,7 +27,7 @@ import xbot.common.resiliency.DeviceHealth;
 
 public class CANCoderAdapter extends XCANCoder {
     
-    private static final Logger log = Logger.getLogger(CANCoderAdapter.class);
+    private static final Logger log = LogManager.getLogger(CANCoderAdapter.class);
 
     private final int deviceId;
     private final CANCoder cancoder;

@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.wpi.first.wpilibj.simulation.DriverStationSim;
-import org.apache.log4j.xml.DOMConfigurator;
+
+import org.apache.logging.log4j.LogManager;
 import org.json.JSONObject;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
@@ -44,7 +45,7 @@ import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
  */
 public abstract class BaseRobot extends LoggedRobot {
 
-    org.apache.log4j.Logger log;
+    org.apache.logging.log4j.Logger log;
     Latch brownoutLatch;
 
     protected XPropertyManager propertyManager;
@@ -125,22 +126,8 @@ public abstract class BaseRobot extends LoggedRobot {
         Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
         DriverStation.silenceJoystickConnectionWarning(true);
 
-        // Setup log4j config - will be interesting to integrate this with AdvantageKit. May not be needed depending on how it intercepts
-        // system.out.println?
-        try {
-            if(BaseRobot.isReal()) {
-                DOMConfigurator.configure("/home/lvuser/deploy/log4j.xml");
-            } else {
-                DOMConfigurator.configure("SeriouslyCommonLib/lib/log4jConfig/log4j4unitTesting.xml");
-            }
-        } catch (Exception e) {
-            // Had a problem loading the config. Robot should continue!
-            final String errorString = "Couldn't configure logging - file probably missing or malformed";
-            System.out.println(errorString);
-            DriverStation.reportError(errorString, false);
-        }
 
-        log = org.apache.log4j.Logger.getLogger(BaseRobot.class);
+        log = LogManager.getLogger(BaseRobot.class);
         log.info("========== BASE ROBOT INITIALIZING ==========");
         setupInjectionModule();
         log.info("========== INJECTOR CREATED ==========");
@@ -190,7 +177,6 @@ public abstract class BaseRobot extends LoggedRobot {
         String matchStatus = DriverStation.getMatchType().toString() + " " + DriverStation.getMatchNumber() + " " + DriverStation.getReplayNumber();
         String enableStatus = getEnableTypeString();
         String matchContext = dsStatus + ", " + fmsStatus + ", " + enableStatus + ", " + matchStatus;
-        org.apache.log4j.MDC.put("matchContext", matchContext);
     }
 
     protected void initializeSystems() {
