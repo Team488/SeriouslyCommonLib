@@ -147,10 +147,10 @@ public abstract class BaseRobot extends LoggedRobot {
         outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20);
         refreshDataFrameMonitor = new TimeLogger("RefreshDataFrame", 20);
         devicePolice = injectorComponent.devicePolice();
-        simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
+        //simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
         LiveWindow.disableAllTelemetry();
     }
-    
+
     protected String getEnableTypeString() {
         if (!DriverStation.isEnabled()) {
             return "disabled";

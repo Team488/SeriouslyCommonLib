@@ -1,4 +1,4 @@
-<Configuration>
+<Configuration status="ERROR">
    <Appenders>
       <Console name="STDOUT" target="SYSTEM_OUT">
          <PatternLayout pattern="%5p | %d | %L | %-40c{1} | %m%n"/>
@@ -6,7 +6,7 @@
    </Appenders>
    <Loggers>
       <Logger name="org.apache.log4j.xml" level="info"/>
-      <Root level="debug">
+      <Root level="off">
          <AppenderRef ref="STDOUT"/>
       </Root>
    </Loggers>
