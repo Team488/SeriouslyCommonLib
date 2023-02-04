@@ -3,8 +3,6 @@ package xbot.common.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wpi.first.hal.DriverStationJNI;
-import edu.wpi.first.hal.NotifierJNI;
 import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.json.JSONObject;
@@ -27,7 +25,6 @@ import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.components.BaseComponent;
-import xbot.common.logging.RobotSession;
 import xbot.common.logging.TimeLogger;
 import xbot.common.logic.Latch;
 import xbot.common.logic.Latch.EdgeType;
@@ -71,7 +68,7 @@ public abstract class BaseRobot extends LoggedRobot {
     TimeLogger schedulerMonitor;
     TimeLogger outsidePeriodicMonitor;
 
-    protected RobotSession robotSession;
+    TimeLogger refreshDataFrameMonitor;
 
     protected List<DataFrameRefreshable> dataFrameRefreshables = new ArrayList<>();
 
@@ -159,9 +156,9 @@ public abstract class BaseRobot extends LoggedRobot {
         pf.setTopLevelPrefix();
         frequencyReportInterval = pf.createPersistentProperty("Robot loop frequency report interval", 20);
         batteryVoltage = pf.createEphemeralProperty("Battery Voltage", 0);
-        schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get());
+        schedulerMonitor = new TimeLogger("XScheduler", 20);
         outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20);
-        robotSession = injectorComponent.robotSession();
+        refreshDataFrameMonitor = new TimeLogger("RefreshDataFrame", 20);
         devicePolice = injectorComponent.devicePolice();
         simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
         LiveWindow.disableAllTelemetry();
@@ -237,7 +234,6 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     public void autonomousInit() {
-        robotSession.autoInit();
         updateLoggingContext();
         log.info("Autonomous init (" + getMatchContextString() + ")");
         this.autonomousCommand = this.autonomousCommandSelector.getCurrentAutonomousCommand();
@@ -257,7 +253,6 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     public void teleopInit() {
-        robotSession.teleopInit();
         updateLoggingContext();
         log.info("Teleop init (" + getMatchContextString() + ")");
         if(this.autonomousCommand != null) {
@@ -282,9 +277,11 @@ public abstract class BaseRobot extends LoggedRobot {
     protected void sharedPeriodic() {
         outsidePeriodicMonitor.stop();
         // Get a fresh data frame from all top-level components (typically large subsystems or shared sensors)
+        refreshDataFrameMonitor.start();
         for (DataFrameRefreshable refreshable : dataFrameRefreshables) {
             refreshable.refreshDataFrame();
         }
+        refreshDataFrameMonitor.stop();
         schedulerMonitor.start();
         xScheduler.run();
         schedulerMonitor.stop();
@@ -313,17 +310,19 @@ public abstract class BaseRobot extends LoggedRobot {
     
     @Override
     public void simulationInit() {
-        // TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
+        /*// TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
         webots = injectorComponent.webotsClient();
         webots.initialize();
         DriverStationSim.setEnabled(true);
+
+         */
     }
 
     @Override
     public void simulationPeriodic() {
         // TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
         // find all simulatable motors
-        List<JSONObject> motors = new ArrayList<JSONObject>();
+        /*List<JSONObject> motors = new ArrayList<JSONObject>();
         
         for (String deviceId: devicePolice.registeredChannels.keySet()) {
             Object device = devicePolice.registeredChannels.get(deviceId);
@@ -338,5 +337,7 @@ public abstract class BaseRobot extends LoggedRobot {
 
         simulationPayloadDistributor.distributeSimulationPayload(response);
 
+
+         */
     }
 }
