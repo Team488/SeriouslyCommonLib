@@ -1,6 +1,7 @@
 package edu.wpi.first.wpilibj;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -11,7 +12,7 @@ import xbot.common.injection.DevicePolice;
 
 public class MockSpeedController extends XSpeedController {
 
-    private static Logger log = Logger.getLogger(MockSpeedController.class);
+    private static Logger log = LogManager.getLogger(MockSpeedController.class);
     protected double value;
 
     @AssistedFactory

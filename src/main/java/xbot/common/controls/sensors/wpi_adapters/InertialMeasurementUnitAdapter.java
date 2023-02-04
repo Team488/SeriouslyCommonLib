@@ -2,7 +2,8 @@ package xbot.common.controls.sensors.wpi_adapters;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -20,7 +21,7 @@ public class InertialMeasurementUnitAdapter extends XGyro {
     AHRS ahrs;
     boolean isBroken = false;
 
-    static Logger log = Logger.getLogger(InertialMeasurementUnitAdapter.class);
+    static Logger log = LogManager.getLogger(InertialMeasurementUnitAdapter.class);
     
     @AssistedFactory
     public abstract static class InertialMeasurementUnitAdapterFactory extends XGyroFactory {

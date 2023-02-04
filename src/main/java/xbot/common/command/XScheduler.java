@@ -5,7 +5,8 @@ import java.util.Arrays;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -17,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 @Singleton
 public class XScheduler {
     
-    private static Logger log = Logger.getLogger(XScheduler.class);
+    private static Logger log = LogManager.getLogger(XScheduler.class);
     
     boolean crashedPreviously = false;
     

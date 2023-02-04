@@ -8,13 +8,14 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class WordGenerator {
     
     String[] wordArray;
-    private Logger log = Logger.getLogger("WordGenerator");
+    private Logger log = LogManager.getLogger("WordGenerator");
     Random rand = new Random();
 
     @Inject

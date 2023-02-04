@@ -5,7 +5,8 @@ import java.util.function.Supplier;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -15,7 +16,7 @@ import xbot.common.properties.StringProperty;
 
 @Singleton
 public class AutonomousCommandSelector extends BaseSubsystem {
-    private static Logger log = Logger.getLogger(AutonomousCommandSelector.class);
+    private static Logger log = LogManager.getLogger(AutonomousCommandSelector.class);
 
     public final StringProperty currentAutonomousCommandName;
     public final StringProperty currentAutonomousState;

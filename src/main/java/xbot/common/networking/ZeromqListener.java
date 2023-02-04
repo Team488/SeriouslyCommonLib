@@ -2,7 +2,8 @@ package xbot.common.networking;
 
 import java.util.function.Consumer;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.zeromq.SocketType;
 import org.zeromq.ZMQ;
 
@@ -12,7 +13,7 @@ import dagger.assisted.AssistedInject;
 
 public class ZeromqListener implements XZeromqListener {
 
-    private static Logger log = Logger.getLogger(ZeromqListener.class);
+    private static Logger log = LogManager.getLogger(ZeromqListener.class);
     private Consumer<String> packetHandler;
     private ZeromqClient client;
     private final String connectionString;
@@ -69,7 +70,7 @@ public class ZeromqListener implements XZeromqListener {
     }
 
     private static class ZeromqClient extends Thread {
-        private static Logger log = Logger.getLogger(ZeromqClient.class);
+        private static Logger log = LogManager.getLogger(ZeromqClient.class);
         private volatile boolean isRunning = false;
         private volatile Consumer<String> packetHandler;
         private String connectionString;

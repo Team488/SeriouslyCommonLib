@@ -3,8 +3,8 @@ package xbot.common.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -117,22 +117,8 @@ public abstract class BaseRobot extends TimedRobot {
      * This function is run when the robot is first started up and should be used for any initialization code.
      */
     public void robotInit() {
-
-        // Get our logging config
-        try {
-            if(BaseRobot.isReal()) {
-                DOMConfigurator.configure("/home/lvuser/deploy/log4j.xml");
-            } else {
-                DOMConfigurator.configure("SeriouslyCommonLib/lib/log4jConfig/log4j4unitTesting.xml");
-            }
-        } catch (Exception e) {
-            // Had a problem loading the config. Robot should continue!
-            final String errorString = "Couldn't configure logging - file probably missing or malformed";
-            System.out.println(errorString);
-            DriverStation.reportError(errorString, false);
-        }
         
-        log = Logger.getLogger(BaseRobot.class);
+        log = LogManager.getLogger(BaseRobot.class);
         log.info("========== BASE ROBOT INITIALIZING ==========");
         setupInjectionModule();
         log.info("========== INJECTOR CREATED ==========");
@@ -182,7 +168,6 @@ public abstract class BaseRobot extends TimedRobot {
         String matchStatus = DriverStation.getMatchType().toString() + " " + DriverStation.getMatchNumber() + " " + DriverStation.getReplayNumber();
         String enableStatus = getEnableTypeString();
         String matchContext = dsStatus + ", " + fmsStatus + ", " + enableStatus + ", " + matchStatus;
-        org.apache.log4j.MDC.put("matchContext", matchContext);
     }
 
     protected void initializeSystems() {

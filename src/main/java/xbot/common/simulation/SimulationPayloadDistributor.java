@@ -5,10 +5,11 @@ import java.math.BigDecimal;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.apache.logging.log4j.LogManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.injection.DevicePolice;
@@ -18,7 +19,7 @@ public class SimulationPayloadDistributor {
 
     private DevicePolice police;
     private XSettableTimerImpl timer;
-    private static Logger log = Logger.getLogger(SimulationPayloadDistributor.class);
+    private static Logger log = LogManager.getLogger(SimulationPayloadDistributor.class);
 
     @Inject
     public SimulationPayloadDistributor(DevicePolice police, XSettableTimerImpl timer) {
