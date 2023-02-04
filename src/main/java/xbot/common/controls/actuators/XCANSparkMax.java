@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
+import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.controls.io_inputs.XCANSparkMaxInputs;
 import xbot.common.controls.io_inputs.XCANSparkMaxInputsAutoLogged;
@@ -46,7 +47,7 @@ public abstract class XCANSparkMax {
 
     protected XCANSparkMaxInputsAutoLogged inputs;
 
-    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(XCANSparkMax.class);
+    private static org.apache.logging.log4j.Logger log = LogManager.getLogger(XCANSparkMax.class);
 
     public abstract static class XCANSparkMaxFactory {
         public abstract XCANSparkMax create(
