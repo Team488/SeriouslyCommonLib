@@ -44,6 +44,6 @@ public abstract class XAbsoluteEncoder {
 
     public void refreshDataFrame() {
         updateInputs(inputs);
-        Logger.getInstance().processInputs(info.name+"AbsoluteEncoder", inputs);
+        Logger.getInstance().processInputs(info.name+"/AbsoluteEncoder", inputs);
     }
 }
