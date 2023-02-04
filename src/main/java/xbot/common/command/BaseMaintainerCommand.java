@@ -9,7 +9,7 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.properties.StringProperty;
 
-public abstract class BaseMaintainerCommand extends BaseCommand {
+public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
     BaseSetpointSubsystem subsystemToMaintan;
 
@@ -53,7 +53,7 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
      * at its goal.
      */
     protected void maintain() {
-        double humanInput = getHumanInput();
+        double humanInput = getHumanInputMagnitude();
         HumanVsMachineMode mode = decider.getRecommendedMode(humanInput);
         currentModeProp.set(mode.toString());
 
@@ -80,10 +80,8 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
         }
     }
 
-    protected void coastAction() {
-        // Typically do nothing.
-        subsystemToMaintan.setPower(0);
-    }
+    // Typically do nothing.
+    protected abstract void coastAction();
 
     protected void humanControlAction() {
         // Typically simply assign human input
@@ -150,14 +148,18 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
      * computation.
      */
     protected boolean getErrorWithinTolerance() {
-        if (Math.abs(subsystemToMaintan.getCurrentValue() - subsystemToMaintan.getTargetValue()) < errorToleranceProp
+        if (Math.abs(getErrorMagnitude()) < errorToleranceProp
                 .get()) {
             return true;
         }
         return false;
     }
 
-    protected abstract double getHumanInput();
+    protected abstract double getErrorMagnitude();
+
+    protected abstract T getHumanInput();
+
+    protected abstract double getHumanInputMagnitude();
 
     @Override
     public String getPrefix() {
