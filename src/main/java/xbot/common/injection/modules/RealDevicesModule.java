@@ -30,6 +30,7 @@ import xbot.common.controls.sensors.XAnalogDistanceSensor.XAnalogDistanceSensorF
 import xbot.common.controls.sensors.XAnalogInput.XAnalogInputFactory;
 import xbot.common.controls.sensors.XCANCoder.XCANCoderFactory;
 import xbot.common.controls.sensors.XDigitalInput.XDigitalInputFactory;
+import xbot.common.controls.sensors.XDutyCycleEncoder;
 import xbot.common.controls.sensors.XEncoder.XEncoderFactory;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
 import xbot.common.controls.sensors.XLidarLite.XLidarLiteFactory;
@@ -37,6 +38,7 @@ import xbot.common.controls.sensors.XPowerDistributionPanel.XPowerDistributionPa
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater.AnalogInputWPIAdapaterFactory;
 import xbot.common.controls.sensors.wpi_adapters.CANCoderAdapter.CANCoderAdapterFactory;
 import xbot.common.controls.sensors.wpi_adapters.DigitalInputWPIAdapter.DigitalInputWPIAdapterFactory;
+import xbot.common.controls.sensors.wpi_adapters.DutyCycleEncoderWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter.EncoderWPIAdapterFactory;
 import xbot.common.controls.sensors.wpi_adapters.InertialMeasurementUnitAdapter.InertialMeasurementUnitAdapterFactory;
 import xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter.LidarLiteWpiAdapterFactory;
@@ -125,4 +127,8 @@ public abstract class RealDevicesModule {
     @Binds
     @Singleton
     public abstract XZeromqListenerFactory getZeromqListenerFactory(ZeromqListenerFactory impl);
+
+    @Binds
+    @Singleton
+    public abstract XDutyCycleEncoder.XDutyCycleEncoderFactory getDutyCycleEncoderFactory(DutyCycleEncoderWpiAdapter.DutyCycleEncoderWpiAdapterFactory impl);
 }
