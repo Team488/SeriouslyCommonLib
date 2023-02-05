@@ -4,32 +4,32 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class MockSetpointSubsystem extends BaseSetpointSubsystem {
+public class MockSetpointSubsystem extends BaseSetpointSubsystem<Double> {
 
     @Inject
     public MockSetpointSubsystem() {}
 
     @Override
-    public double getCurrentValue() {
-        return 0;
+    public Double getCurrentValue() {
+        return 0.0;
     }
 
     @Override
-    public double getTargetValue() {
-        return 0;
+    public Double getTargetValue() {
+        return 0.0;
     }
 
     @Override
-    public void setPower(double power) {
+    public void setTargetValue(Double value) {
+
+    }
+
+    @Override
+    public void setPower(Double power) {
     }
 
     @Override
     public boolean isCalibrated() {
         return false;
     }
-
-    @Override
-    public void setTargetValue(double value) {
-    }
-
 }
