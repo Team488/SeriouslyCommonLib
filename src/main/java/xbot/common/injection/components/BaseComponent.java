@@ -15,6 +15,7 @@ import xbot.common.controls.actuators.XRelay.XRelayFactory;
 import xbot.common.controls.actuators.XServo.XServoFactory;
 import xbot.common.controls.actuators.XSolenoid.XSolenoidFactory;
 import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
+import xbot.common.controls.sensors.XDutyCycleEncoder;
 import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.XAS5600.XAS5600Factory;
@@ -175,4 +176,6 @@ public abstract class BaseComponent {
     public abstract BaseDriveSubsystem driveSubsystem();
     
     public abstract BasePoseSubsystem poseSubsystem();
+
+    public abstract XDutyCycleEncoder.XDutyCycleEncoderFactory dutyCycleEncoderFactory();
 }

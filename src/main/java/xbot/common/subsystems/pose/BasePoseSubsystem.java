@@ -18,44 +18,40 @@ import xbot.common.properties.PropertyFactory;
 public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable {
 
     public final XGyro imu;
-    
-    private double leftDriveDistance;
-    private double rightDriveDistance;
+    protected double leftDriveDistance;
+    protected double rightDriveDistance;
     
     protected double totalDistanceX;
     protected double totalDistanceY;
     protected double totalDistanceYRobotPerspective;
-    private double velocityX;
-    private double velocityY;
-    private double totalVelocity;
-    
-    private WrappedRotation2d currentHeading;
-    private double currentHeadingProp;
-    private double currentCompassHeadingProp;
-    private double headingAngularVelocityProp;
-    private double headingOffset;
+    protected double velocityX;
+    protected double velocityY;
+    protected double totalVelocity;
+
+    protected WrappedRotation2d currentHeading;
+    protected double currentHeadingProp;
+    protected double currentCompassHeadingProp;
+    protected double headingAngularVelocityProp;
+    protected double headingOffset;
     
     // These are two common robot starting positions - kept here as convenient shorthand.
     public static final double FACING_AWAY_FROM_DRIVERS = 0;
     public static final double FACING_TOWARDS_DRIVERS = -180;
     public static final double INCHES_IN_A_METER = 39.3701;
-    
-    private double currentPitch;
-    private double currentRoll;
-    
-    private final DoubleProperty inherentRioPitch;
-    private final DoubleProperty inherentRioRoll;
-    
-    private double previousLeftDistance;
-    private double previousRightDistance;
+    protected double currentPitch;
+    protected double currentRoll;
+    protected final DoubleProperty inherentRioPitch;
+    protected final DoubleProperty inherentRioRoll;
+    protected double previousLeftDistance;
+    protected double previousRightDistance;
 
-    private final double classInstantiationTime;
-    private boolean isNavXReady = false;
+    protected final double classInstantiationTime;
+    protected boolean isNavXReady = false;
     
-    private BooleanProperty rioRotated;
-    private boolean firstUpdate = true;
+    protected BooleanProperty rioRotated;
+    protected boolean firstUpdate = true;
     
-    private double lastSetHeadingTime;
+    protected double lastSetHeadingTime;
 
     public BasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {
         log.info("Creating");
@@ -72,11 +68,11 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
         inherentRioRoll = propManager.createPersistentProperty("Inherent RIO roll", 0.0);
     }
     
-    private double getCompassHeading(Rotation2d standardHeading) {
+    protected double getCompassHeading(Rotation2d standardHeading) {
         return Rotation2d.fromDegrees(currentHeading.getDegrees()).getDegrees();
     }
     
-    private void updateCurrentHeading() {
+    protected void updateCurrentHeading() {
         currentHeading = WrappedRotation2d.fromDegrees(getRobotYaw().getDegrees() + headingOffset);
 
         Logger.getInstance().recordOutput(this.getPrefix()+"AdjustedHeadingDegrees", currentHeading.getDegrees());
@@ -139,11 +135,11 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     public XYPair getFieldOrientedTotalDistanceTraveled() {
         return getTravelVector().clone();
     }
-    
-    private XYPair getTravelVector() {
+
+    protected XYPair getTravelVector() {
         return new XYPair(totalDistanceX, totalDistanceY);
     }
-    
+
     public FieldPose getCurrentFieldPose() {
         return new FieldPose(getTravelVector(), getCurrentHeading());
     }
@@ -199,7 +195,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
      * values need to be in inches, and should never be reset - any resetting should be done here
      * in the PoseSubsystem
      */
-    private void updatePose() {
+    protected void updatePose() {
         updateCurrentHeading();
         updateOdometry();
     }
@@ -219,18 +215,18 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
      * If the RoboRIO is mounted in a position other than "flat" (e.g. with the pins facing upward)
      * then this method will need to be overridden.
      */
-    private WrappedRotation2d getRobotYaw() {
+    protected WrappedRotation2d getRobotYaw() {
         return imu.getHeading();
     }
     
-    private double getUntrimmedPitch() {
+    protected double getUntrimmedPitch() {
         if (rioRotated.get()) {
             return imu.getRoll();
         }
         return imu.getPitch();
     }
     
-    private double getUntrimmedRoll() {
+    protected double getUntrimmedRoll() {
         if (rioRotated.get()) {
             return imu.getPitch();
         }
