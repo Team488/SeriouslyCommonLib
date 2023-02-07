@@ -259,38 +259,26 @@ public abstract class BaseRobot extends LoggedRobot {
      */
     public void testPeriodic() {
     }
+
+    double outsidePeriodicStart = 0;
     
     protected void sharedPeriodic() {
-        outsidePeriodicMonitor.stop();
+        double outsidePeriodicEnd = getPerformanceTimestampInMs();
+        Logger.getInstance().recordOutput("OutsidePeriodicMs", outsidePeriodicEnd - outsidePeriodicStart);
         // Get a fresh data frame from all top-level components (typically large subsystems or shared sensors)
-        refreshDataFrameMonitor.start();
+        double dataFrameStart = getPerformanceTimestampInMs();
         for (DataFrameRefreshable refreshable : dataFrameRefreshables) {
             refreshable.refreshDataFrame();
         }
-        refreshDataFrameMonitor.stop();
-        schedulerMonitor.start();
-        xScheduler.run();
-        schedulerMonitor.stop();
+        double dataFrameEnd = getPerformanceTimestampInMs();
+        Logger.getInstance().recordOutput("RefreshDataFrameMs", dataFrameEnd - dataFrameStart);
 
-        batteryVoltage.set(RobotController.getBatteryVoltage());
+        double schedulerStart = getPerformanceTimestampInMs();
+        xScheduler.run();
+        double schedulerEnd = getPerformanceTimestampInMs();
+        Logger.getInstance().recordOutput("SchedulerMs", schedulerEnd - schedulerStart);
         
-        brownoutLatch.setValue(RobotController.isBrownedOut());
-        
-        loopCycleCounter++;
-        double timeSinceLastLog = XTimer.getFPGATimestamp() - lastFreqCounterResetTime;
-        if(lastFreqCounterResetTime <= 0) {
-            lastFreqCounterResetTime = XTimer.getFPGATimestamp();
-        }
-        else if(timeSinceLastLog >= frequencyReportInterval.get()) {
-            double loopsPerSecond = loopCycleCounter / timeSinceLastLog; 
-            
-            loopCycleCounter = 0;
-            lastFreqCounterResetTime = XTimer.getFPGATimestamp();
-            
-            log.info("Robot loops per second: " + loopsPerSecond);
-        }
-        
-        outsidePeriodicMonitor.start();
+        outsidePeriodicStart = getPerformanceTimestampInMs();
     }
 
     
@@ -325,5 +313,9 @@ public abstract class BaseRobot extends LoggedRobot {
 
 
          */
+    }
+
+    private double getPerformanceTimestampInMs() {
+        return org.littletonrobotics.junction.Logger.getInstance().getRealTimestamp()*1.0 / 1000.0;
     }
 }

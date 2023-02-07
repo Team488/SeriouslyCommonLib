@@ -84,7 +84,8 @@ dependencies {
     implementation 'org.scala-lang:scala-library:2.11.12'
     testImplementation 'org.scalatest:scalatest_2.11:3.0.0'
 
-    annotationProcessor "org.littletonrobotics.akit.junction:junction-autolog:2.1.1"
+    def akitJson = new groovy.json.JsonSlurper().parseText(new File(projectDir.getAbsolutePath() + "/vendordeps/AdvantageKit.json").text)
+    annotationProcessor "org.littletonrobotics.akit.junction:junction-autolog:$akitJson.version"
 }
 
 sourceSets {
