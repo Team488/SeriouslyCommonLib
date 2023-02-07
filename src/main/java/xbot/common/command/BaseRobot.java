@@ -46,7 +46,6 @@ import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
 public abstract class BaseRobot extends LoggedRobot {
 
     org.apache.logging.log4j.Logger log;
-    Latch brownoutLatch;
 
     protected XPropertyManager propertyManager;
     protected XScheduler xScheduler;
@@ -56,33 +55,16 @@ public abstract class BaseRobot extends LoggedRobot {
 
     protected Command autonomousCommand;
     protected AutonomousCommandSelector autonomousCommandSelector;
-    
-    protected DoubleProperty batteryVoltage;
-    protected DoubleProperty frequencyReportInterval;
-    protected double lastFreqCounterResetTime = -1;
-    protected int loopCycleCounter = 0;
 
     protected WebotsClient webots;
     protected DevicePolice devicePolice;
     protected SimulationPayloadDistributor simulationPayloadDistributor;
-    
-    TimeLogger schedulerMonitor;
-    TimeLogger outsidePeriodicMonitor;
-
-    TimeLogger refreshDataFrameMonitor;
 
     protected List<DataFrameRefreshable> dataFrameRefreshables = new ArrayList<>();
 
+    boolean forceWebots = false; // TODO: figure out a better way to swap between simulation and replay.
+
     public BaseRobot() {
-        brownoutLatch = new Latch(false, EdgeType.Both, edge -> {
-            if(edge == EdgeType.RisingEdge) {
-                log.warn("Entering brownout");
-            }
-            else if(edge == EdgeType.FallingEdge) {
-                log.info("Leaving brownout");
-            }
-        });
-        
     }
 
     /**
@@ -111,7 +93,6 @@ public abstract class BaseRobot extends LoggedRobot {
     public void robotInit() {
 
         Logger.getInstance().recordMetadata("ProjectName", "XbotProject"); // Set a metadata value
-        boolean forceWebots = true;
         if (isReal() || forceWebots) {
             Logger.getInstance().addDataReceiver(new WPILOGWriter("/media/sda1/")); // Log to a USB stick
             Logger.getInstance().addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
@@ -140,14 +121,11 @@ public abstract class BaseRobot extends LoggedRobot {
             DriverStation.silenceJoystickConnectionWarning(true);
         }
         PropertyFactory pf = injectorComponent.propertyFactory();
-        pf.setTopLevelPrefix();
-        frequencyReportInterval = pf.createPersistentProperty("Robot loop frequency report interval", 20);
-        batteryVoltage = pf.createEphemeralProperty("Battery Voltage", 0);
-        schedulerMonitor = new TimeLogger("XScheduler", 20);
-        outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20);
-        refreshDataFrameMonitor = new TimeLogger("RefreshDataFrame", 20);
+
         devicePolice = injectorComponent.devicePolice();
-        //simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
+        if (forceWebots) {
+            simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
+        }
         LiveWindow.disableAllTelemetry();
     }
 
@@ -284,35 +262,34 @@ public abstract class BaseRobot extends LoggedRobot {
     
     @Override
     public void simulationInit() {
-        /*// TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
-        webots = injectorComponent.webotsClient();
-        webots.initialize();
-        DriverStationSim.setEnabled(true);
-
-         */
+        // TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
+        if (forceWebots) {
+            webots = injectorComponent.webotsClient();
+            webots.initialize();
+            DriverStationSim.setEnabled(true);
+        }
     }
 
     @Override
     public void simulationPeriodic() {
         // TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
-        // find all simulatable motors
-        /*List<JSONObject> motors = new ArrayList<JSONObject>();
-        
-        for (String deviceId: devicePolice.registeredChannels.keySet()) {
-            Object device = devicePolice.registeredChannels.get(deviceId);
-            if (device instanceof ISimulatableMotor) {
-                motors.add(((ISimulatableMotor)device).getSimulationData());
+        if (forceWebots) {
+            // find all simulatable motors
+            List<JSONObject> motors = new ArrayList<JSONObject>();
+
+            for (String deviceId : devicePolice.registeredChannels.keySet()) {
+                Object device = devicePolice.registeredChannels.get(deviceId);
+                if (device instanceof ISimulatableMotor) {
+                    motors.add(((ISimulatableMotor) device).getSimulationData());
+                }
+                if (device instanceof ISimulatableSolenoid) {
+                    motors.add(((ISimulatableSolenoid) device).getSimulationData());
+                }
             }
-            if (device instanceof ISimulatableSolenoid) {
-                motors.add(((ISimulatableSolenoid)device).getSimulationData());
-            }
+            JSONObject response = webots.sendMotors(motors);
+
+            simulationPayloadDistributor.distributeSimulationPayload(response);
         }
-        JSONObject response = webots.sendMotors(motors);
-
-        simulationPayloadDistributor.distributeSimulationPayload(response);
-
-
-         */
     }
 
     private double getPerformanceTimestampInMs() {

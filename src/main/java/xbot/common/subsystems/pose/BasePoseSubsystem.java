@@ -20,37 +20,26 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     public final XGyro imu;
     protected double leftDriveDistance;
     protected double rightDriveDistance;
-    
     protected double totalDistanceX;
     protected double totalDistanceY;
     protected double totalDistanceYRobotPerspective;
     protected double velocityX;
     protected double velocityY;
     protected double totalVelocity;
-
     protected WrappedRotation2d currentHeading;
-    protected double currentHeadingProp;
-    protected double currentCompassHeadingProp;
-    protected double headingAngularVelocityProp;
     protected double headingOffset;
-    
     // These are two common robot starting positions - kept here as convenient shorthand.
     public static final double FACING_AWAY_FROM_DRIVERS = 0;
     public static final double FACING_TOWARDS_DRIVERS = -180;
     public static final double INCHES_IN_A_METER = 39.3701;
-    protected double currentPitch;
-    protected double currentRoll;
     protected final DoubleProperty inherentRioPitch;
     protected final DoubleProperty inherentRioRoll;
     protected double previousLeftDistance;
     protected double previousRightDistance;
-
     protected final double classInstantiationTime;
     protected boolean isNavXReady = false;
-    
     protected BooleanProperty rioRotated;
     protected boolean firstUpdate = true;
-    
     protected double lastSetHeadingTime;
 
     public BasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {

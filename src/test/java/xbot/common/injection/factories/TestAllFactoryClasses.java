@@ -63,6 +63,7 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().absoluteEncoderFactory().create(new DeviceInfo("test",6), "test");
         getInjectorComponent().stallDetectorFactory().create("owningSystem");
         getInjectorComponent().canCoderFactory().create(new DeviceInfo("test",7), "test");
+        getInjectorComponent().dutyCycleEncoderFactory().create(new DeviceInfo("test",8));
     }
     
     @Test(expected = RobotAssertionException.class)

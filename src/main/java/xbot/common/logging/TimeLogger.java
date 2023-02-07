@@ -28,7 +28,6 @@ public class TimeLogger {
         accumulatedTime = 0;
         callCount = 0;
         lastReportTime = getPerformanceTimestamp();
-
     }
     
     public void start() {
