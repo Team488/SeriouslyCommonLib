@@ -6,9 +6,14 @@ import com.revrobotics.CANSparkMax.ExternalFollower;
 import com.revrobotics.CANSparkMax.FaultID;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
+import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
+import org.apache.logging.log4j.LogManager;
+import org.littletonrobotics.junction.Logger;
+import xbot.common.controls.io_inputs.XCANSparkMaxInputs;
+import xbot.common.controls.io_inputs.XCANSparkMaxInputsAutoLogged;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
@@ -19,23 +24,30 @@ public abstract class XCANSparkMax {
 
     protected int deviceId;
     protected String prefix = "";
+    protected DeviceInfo info;
     PropertyFactory propertyFactory;
 
-    final DoubleProperty kPprop;
-    final DoubleProperty kIprop;
-    final DoubleProperty kDprop;
-    final DoubleProperty kIzProp;
-    final DoubleProperty kFFprop;
-    final DoubleProperty kMaxOutputProp;
-    final DoubleProperty kMinOutoutProp;
+    protected boolean usesPropertySystem = true;
 
-    final DoubleProperty percentProp;
-    final DoubleProperty voltageProp;
-    final DoubleProperty currentProp;
+    private DoubleProperty kPprop;
+    private DoubleProperty kIprop;
+    private DoubleProperty kDprop;
+    private DoubleProperty kIzProp;
+    private DoubleProperty kFFprop;
+    private DoubleProperty kMaxOutputProp;
+    private DoubleProperty kMinOutoutProp;
+
+    private DoubleProperty percentProp;
+    private DoubleProperty voltageProp;
+    private DoubleProperty currentProp;
 
     protected final String policeTicket;
 
     protected boolean firstPeriodicCall = true;
+
+    protected XCANSparkMaxInputsAutoLogged inputs;
+
+    private static org.apache.logging.log4j.Logger log = LogManager.getLogger(XCANSparkMax.class);
 
     public abstract static class XCANSparkMaxFactory {
         public abstract XCANSparkMax create(
@@ -47,6 +59,11 @@ public abstract class XCANSparkMax {
         public XCANSparkMax create(DeviceInfo deviceInfo, String owningSystemPrefix, String name) {
             return create(deviceInfo, owningSystemPrefix, name, new XCANSparkMaxPIDProperties());
         }
+
+        public XCANSparkMax createWithoutProperties(DeviceInfo deviceInfo, String owningSystemPrefix, String name) {
+            return create(deviceInfo, owningSystemPrefix, name, null);
+        }
+
     }
 
     protected XCANSparkMax(
@@ -56,24 +73,32 @@ public abstract class XCANSparkMax {
             PropertyFactory pf,
             DevicePolice police,
             XCANSparkMaxPIDProperties defaultPIDProperties) {
+        this.info = deviceInfo;
         this.deviceId = deviceInfo.channel;
-        this.propertyFactory = pf;
-        this.propertyFactory.setPrefix(owningSystemPrefix);
-        this.propertyFactory.appendPrefix(name);
-        prefix = pf.getPrefix();
+        if (defaultPIDProperties == null) {
+            usesPropertySystem = false;
+        } else {
+            this.propertyFactory = pf;
+            this.propertyFactory.setPrefix(owningSystemPrefix);
+            this.propertyFactory.appendPrefix(name);
+            prefix = pf.getPrefix();
+
+            kPprop = pf.createPersistentProperty("kP", defaultPIDProperties.p);
+            kIprop = pf.createPersistentProperty("kI", defaultPIDProperties.i);
+            kDprop = pf.createPersistentProperty("kD", defaultPIDProperties.d);
+            kIzProp = pf.createPersistentProperty("kIzone", defaultPIDProperties.iZone);
+            kFFprop = pf.createPersistentProperty("kFeedForward", defaultPIDProperties.feedForward);
+            kMaxOutputProp = pf.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxOutput);
+            kMinOutoutProp = pf.createPersistentProperty("kMinOutput", defaultPIDProperties.minOutput);
+
+            percentProp = pf.createEphemeralProperty("Percent", 0);
+            voltageProp = pf.createEphemeralProperty("Voltage", 0);
+            currentProp = pf.createEphemeralProperty("Current", 0);
+        }
+
         policeTicket = police.registerDevice(DeviceType.CAN, deviceId, this);
 
-        kPprop = pf.createPersistentProperty("kP", defaultPIDProperties.p);
-        kIprop = pf.createPersistentProperty("kI", defaultPIDProperties.i);
-        kDprop = pf.createPersistentProperty("kD", defaultPIDProperties.d);
-        kIzProp = pf.createPersistentProperty("kIzone", defaultPIDProperties.iZone);
-        kFFprop = pf.createPersistentProperty("kFeedForward", defaultPIDProperties.feedForward);
-        kMaxOutputProp = pf.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxOutput);
-        kMinOutoutProp = pf.createPersistentProperty("kMinOutput", defaultPIDProperties.minOutput);
-
-        percentProp = pf.createEphemeralProperty("Percent", 0);
-        voltageProp = pf.createEphemeralProperty("Voltage", 0);
-        currentProp = pf.createEphemeralProperty("Current", 0);
+        inputs = new XCANSparkMaxInputsAutoLogged();
     }
 
     ///
@@ -85,30 +110,36 @@ public abstract class XCANSparkMax {
     }
 
     private void setAllProperties() {
-        setP(kPprop.get());
-        setI(kIprop.get());
-        setD(kDprop.get());
-        setIZone(kIzProp.get());
-        setFF(kFFprop.get());
-        setOutputRange(kMinOutoutProp.get(), kMaxOutputProp.get());
+        if (usesPropertySystem) {
+            setP(kPprop.get());
+            setI(kIprop.get());
+            setD(kDprop.get());
+            setIZone(kIzProp.get());
+            setFF(kFFprop.get());
+            setOutputRange(kMinOutoutProp.get(), kMaxOutputProp.get());
+        } else {
+            log.warn("setAllProperties called on a SparkMax that doesn't use the property system");
+        }
     }
 
     public void periodic() {
-        if (firstPeriodicCall) {
-            setAllProperties();
-            firstPeriodicCall = false;
-        }
-        kPprop.hasChangedSinceLastCheck((value) -> setP(value));
-        kIprop.hasChangedSinceLastCheck((value) -> setI(value));
-        kDprop.hasChangedSinceLastCheck((value) -> setD(value));
-        kIzProp.hasChangedSinceLastCheck((value) -> setIZone(value));
-        kFFprop.hasChangedSinceLastCheck((value) -> setFF(value));
-        kMaxOutputProp.hasChangedSinceLastCheck((value) -> setOutputRange(kMinOutoutProp.get(), value));
-        kMinOutoutProp.hasChangedSinceLastCheck((value) -> setOutputRange(value, kMaxOutputProp.get()));
+        if (usesPropertySystem) {
+            if (firstPeriodicCall) {
+                setAllProperties();
+                firstPeriodicCall = false;
+            }
+            kPprop.hasChangedSinceLastCheck((value) -> setP(value));
+            kIprop.hasChangedSinceLastCheck((value) -> setI(value));
+            kDprop.hasChangedSinceLastCheck((value) -> setD(value));
+            kIzProp.hasChangedSinceLastCheck((value) -> setIZone(value));
+            kFFprop.hasChangedSinceLastCheck((value) -> setFF(value));
+            kMaxOutputProp.hasChangedSinceLastCheck((value) -> setOutputRange(kMinOutoutProp.get(), value));
+            kMinOutoutProp.hasChangedSinceLastCheck((value) -> setOutputRange(value, kMaxOutputProp.get()));
 
-        percentProp.set(getAppliedOutput());
-        voltageProp.set(getAppliedOutput() * getBusVoltage());
-        currentProp.set(getOutputCurrent());
+            percentProp.set(getAppliedOutput());
+            voltageProp.set(getAppliedOutput() * getBusVoltage());
+            currentProp.set(getOutputCurrent());
+        }
     }
 
     /**** Speed Controller Interface ****/
@@ -463,10 +494,9 @@ public abstract class XCANSparkMax {
      */
     public abstract short getFaults();
 
-    /**
-     * @return All sticky fault bits as a short
-     */
-    public abstract short getStickyFaults();
+    public boolean getStickyFaultHasReset() {
+        return inputs.stickyFaultHasReset;
+    }
 
     /**
      * Get the value of a specific fault
@@ -478,28 +508,25 @@ public abstract class XCANSparkMax {
     public abstract boolean getFault(FaultID faultID);
 
     /**
-     * Get the value of a specific sticky fault
-     *
-     * @param faultID The ID of the sticky fault to retrive
-     *
-     * @return True if the sticky fault with the given ID occurred.
-     */
-    public abstract boolean getStickyFault(FaultID faultID);
-
-    /**
      * @return The voltage fed into the motor controller.
      */
-    public abstract double getBusVoltage();
+    public double getBusVoltage() {
+        return inputs.busVoltage;
+    }
 
     /**
      * @return The motor controller's applied output duty cycle.
      */
-    public abstract double getAppliedOutput();
+    public double getAppliedOutput() {
+        return inputs.appliedOutput;
+    }
 
     /**
      * @return The motor controller's output current in Amps.
      */
-    public abstract double getOutputCurrent();
+    public double getOutputCurrent() {
+        return inputs.outputCurrent;
+    }
 
     /**
      * @return The motor temperature in Celsius.
@@ -581,19 +608,25 @@ public abstract class XCANSparkMax {
      * thread. This is meant to be called immediately following another call that
      * has the possibility of returning an error to validate if an error has
      * occurred.
-     * 
+     *
      * @return the last error that was generated.
      */
-    public abstract REVLibError getLastError();
+    public REVLibError getLastError() {
+        return REVLibError.fromInt((int)inputs.lastErrorId);
+    }
 
     public abstract REVLibError restoreFactoryDefaults();
 
     ///
     // CAN Encoder Block
     ///
-    public abstract double getPosition();
+    public double getPosition() {
+        return inputs.position;
+    }
 
-    public abstract double getVelocity();
+    public double getVelocity() {
+        return inputs.velocity;
+    }
 
     public abstract REVLibError setPosition(double position);
 
@@ -724,4 +757,39 @@ public abstract class XCANSparkMax {
     public abstract boolean getForwardLimitSwitchPressed(com.revrobotics.SparkMaxLimitSwitch.Type switchType);
 
     public abstract boolean getReverseLimitSwitchPressed(com.revrobotics.SparkMaxLimitSwitch.Type switchType);
+
+    public abstract REVLibError setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame frame, int periodMs);
+
+    /**
+     * // See https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces#periodic-status-frames
+     * // for description of the different status frames. kStatus2 is the only frame with data needed for software PID.
+     */
+    public void setupStatusFramesIfControllerHasRecentRecently(int status0PeriodMs, int status1PeriodMs, int status2PeriodMs, int status3PeriodMs) {
+            // We need to re-set frame intervals after a device reset.
+            if (getStickyFaultHasReset() && getLastError() != REVLibError.kHALError) {
+                log.info("Setting status frame periods.");
+
+                // See https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces#periodic-status-frames
+                // for description of the different status frames. kStatus2 is the only frame with data needed for software PID.
+
+                setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, status0PeriodMs /* default 10 */);
+                setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, status1PeriodMs /* default 20 */);
+                setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, status2PeriodMs /* default 20 */);
+                setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, status3PeriodMs /* default 50 */);
+
+                clearFaults();
+            }
+    }
+
+    // Methods for integrating with AdvantageKit
+    protected abstract void updateInputs(XCANSparkMaxInputs inputs);
+
+    public void refreshDataFrame() {
+        updateInputs(inputs);
+        Logger.getInstance().processInputs(info.name+"SparkMax", inputs);
+    }
+
+    public XCANSparkMaxInputs getCurrentDataFrame() {
+        return inputs;
+    }
 }

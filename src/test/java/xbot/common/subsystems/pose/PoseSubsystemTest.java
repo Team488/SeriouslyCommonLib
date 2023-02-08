@@ -90,18 +90,22 @@ public class PoseSubsystemTest extends BasePoseTest {
         verifyRobotOrientedDistance(0);
     }
     
-    protected void setMockGyroHeading(double heading) {
+    protected void setMockGyroHeading(double heading)
+    {
         ((MockGyro)pose.imu).setYaw(heading);
+        refreshPoseSubsystem();
     }
 
     protected void setMockGyroPitch(double pitch) {
         ((MockGyro)pose.imu).setPitch(pitch);
+        refreshPoseSubsystem();
     }
     
     protected void changeMockGyroHeading(double delta) {
         double oldHeading = ((MockGyro)pose.imu).getDeviceYaw();
         double newHeading = oldHeading + delta;
         setMockGyroHeading(newHeading);
+        refreshPoseSubsystem();
     }
     
     protected void verifyRobotHeading(double expectedHeading) {
@@ -117,5 +121,10 @@ public class PoseSubsystemTest extends BasePoseTest {
         pose.setCurrentPosition(20, 30);
         assertEquals(20, pose.getFieldOrientedTotalDistanceTraveled().x, .01);
         assertEquals(30, pose.getFieldOrientedTotalDistanceTraveled().y, .01);
+    }
+
+    private void refreshPoseSubsystem() {
+        pose.refreshDataFrame();
+        pose.periodic();
     }
 }

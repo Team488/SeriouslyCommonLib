@@ -11,7 +11,7 @@ import xbot.common.properties.StringProperty;
 
 public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
-    BaseSetpointSubsystem subsystemToMaintan;
+    BaseSetpointSubsystem subsystemToMaintain;
 
     protected final BooleanProperty errorWithinToleranceProp;
     protected final DoubleProperty errorToleranceProp;
@@ -27,7 +27,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
     public BaseMaintainerCommand(BaseSetpointSubsystem subsystemToMaintain, PropertyFactory pf,
             HumanVsMachineDeciderFactory humanVsMachineDeciderFactory,
             double defaultErrorTolerance, double defaultTimeStableWindow) {
-        this.subsystemToMaintan = subsystemToMaintain;
+        this.subsystemToMaintain = subsystemToMaintain;
         this.addRequirements(subsystemToMaintain);
 
         pf.setPrefix(this);
@@ -45,7 +45,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
     @Override
     public void execute() {
         maintain();
-        subsystemToMaintan.setMaintainerIsAtGoal(isMaintainerAtGoal());
+        subsystemToMaintain.setMaintainerIsAtGoal(isMaintainerAtGoal());
     }
 
     /**
@@ -68,7 +68,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
                 initializeMachineControlAction();
                 break;
             case MachineControl:
-                if (subsystemToMaintan.isCalibrated()) {
+                if (subsystemToMaintain.isCalibrated()) {
                     calibratedMachineControlAction();
                 } else {
                     uncalibratedMachineControlAction();
@@ -85,7 +85,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
     protected void humanControlAction() {
         // Typically simply assign human input
-        subsystemToMaintan.setPower(getHumanInput());
+        subsystemToMaintain.setPower(getHumanInput());
     }
 
     protected void initializeMachineControlAction() {
@@ -94,14 +94,14 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         // we can't require and then un-require a subsystem, so instead we just cancel
         // any running command that
         // is trying to maniuplate the setpoint.
-        if (subsystemToMaintan.getSetpointLock().getCurrentCommand() != null) {
-            subsystemToMaintan.getSetpointLock().getCurrentCommand().cancel();
+        if (subsystemToMaintain.getSetpointLock().getCurrentCommand() != null) {
+            subsystemToMaintain.getSetpointLock().getCurrentCommand().cancel();
         }
 
         // Typically set the goal to the current position, to avoid sudden extreme
         // changes
         // as soon as Coast is complete.
-        subsystemToMaintan.setTargetValue(subsystemToMaintan.getCurrentValue());
+        subsystemToMaintain.setTargetValue(subsystemToMaintain.getCurrentValue());
     }
 
     protected abstract void calibratedMachineControlAction();
@@ -122,7 +122,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         // Let everybody know
         errorWithinToleranceProp.set(withinErrorTolerance);
         errorIsTimeStableProp.set(isStable);
-        subsystemReportsReadyProp.set(subsystemToMaintan.isMaintainerAtGoal());
+        subsystemReportsReadyProp.set(subsystemToMaintain.isMaintainerAtGoal());
         return isStable;
     }
 
@@ -163,7 +163,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
     @Override
     public String getPrefix() {
-        return subsystemToMaintan.getPrefix() + getName() + "/";
+        return subsystemToMaintain.getPrefix() + getName() + "/";
     }
 
     protected void setErrorTolerance(double tolerance) {

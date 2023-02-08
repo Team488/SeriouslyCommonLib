@@ -2,7 +2,8 @@ package xbot.common.controls.sensors;
 
 import java.util.TimerTask;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
@@ -12,7 +13,7 @@ import edu.wpi.first.wpilibj.I2C.Port;
 
 public abstract class XLidarLite implements DistanceSensor {
 
-    private Logger log = Logger.getLogger(XLidarLite.class);
+    private Logger log = LogManager.getLogger(XLidarLite.class);
     
     protected byte[] distance;
     private java.util.Timer updater;

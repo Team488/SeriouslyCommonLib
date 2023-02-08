@@ -8,7 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -16,7 +17,7 @@ import org.apache.log4j.Logger;
  */
 public abstract class DatabaseStorageBase implements PermanentStorage {
 
-    private static Logger log = Logger.getLogger(DatabaseStorageBase.class);
+    private static Logger log = LogManager.getLogger(DatabaseStorageBase.class);
 
     private String dbUrlPreFormat = "jdbc:derby:%1s;create=true";
     private final String dbUrl;

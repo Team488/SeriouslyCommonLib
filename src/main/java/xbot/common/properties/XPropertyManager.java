@@ -6,7 +6,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The PropertyManager keeps track of all properties in CoreCode. All properties are implicitly added into its storage.
@@ -18,7 +19,7 @@ import org.apache.log4j.Logger;
 @Singleton
 public class XPropertyManager {
     public static final String IN_MEMORY_STORE_NAME = "InMemoryStore";
-    private static final Logger log = Logger.getLogger(XPropertyManager.class);
+    private static final Logger log = LogManager.getLogger(XPropertyManager.class);
 
     public final ArrayList<Property> properties;
     public final PermanentStorage permanentStore;
@@ -31,7 +32,7 @@ public class XPropertyManager {
         ITableProxy randomAccessStore, 
         @Named(IN_MEMORY_STORE_NAME) ITableProxy inMemoryRandomAccessStore
     ) {
-        this.properties = new ArrayList<Property>();
+        this.properties = new ArrayList<>();
         this.permanentStore = permanentStore;
         this.randomAccessStore = randomAccessStore;
         this.inMemoryRandomAccessStore = inMemoryRandomAccessStore;
@@ -50,9 +51,8 @@ public class XPropertyManager {
     public void loadPropertiesFromStorage() {
         // We need to somehow get the random store and force load everything in that.
         int escape = 0;
-        for (int i = 0; i < properties.size(); i++) {
-            Property prop = (Property) properties.get(i);
-            prop.load();
+        for (Property property : properties) {
+            property.load();
 
             escape++;
             if (escape > 2000) {
@@ -77,9 +77,8 @@ public class XPropertyManager {
 
         int escape = 0;
 
-        for (int i = 0; i < properties.size(); i++) {
-            Property prop = (Property) properties.get(i);
-            prop.save();
+        for (Property property : properties) {
+            property.save();
 
             escape++;
             if (escape > 2000) {

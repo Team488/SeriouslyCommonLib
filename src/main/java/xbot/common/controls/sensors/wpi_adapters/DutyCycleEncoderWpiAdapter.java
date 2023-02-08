@@ -4,6 +4,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import xbot.common.controls.io_inputs.XDutyCycleEncoderInputs;
 import xbot.common.controls.sensors.XDutyCycleEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockDutyCycleEncoder;
 import xbot.common.injection.DevicePolice;
@@ -25,7 +26,7 @@ public class DutyCycleEncoderWpiAdapter extends XDutyCycleEncoder {
     }
 
     @Override
-    protected double getAbsoluteRawPosition() {
-        return internalEncoder.getAbsolutePosition();
+    public void updateInputs(XDutyCycleEncoderInputs inputs) {
+        inputs.absoluteRawPosition = internalEncoder.getAbsolutePosition();
     }
 }

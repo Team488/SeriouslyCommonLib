@@ -3,7 +3,8 @@ package xbot.common.properties;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import edu.wpi.first.wpilibj.Preferences;
 
@@ -20,7 +21,7 @@ import edu.wpi.first.wpilibj.Preferences;
 @Singleton
 public class PreferenceStorage implements PermanentStorage {
 
-    protected static Logger log = Logger.getLogger(PreferenceStorage.class);
+    protected static Logger log = LogManager.getLogger(PreferenceStorage.class);
     boolean fastMode = false;
     
     @Inject
