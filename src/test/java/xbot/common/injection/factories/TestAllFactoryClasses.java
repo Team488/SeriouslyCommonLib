@@ -53,14 +53,17 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().doubleSolenoidFactory().create(
             getInjectorComponent().solenoidFactory().create(2),
             getInjectorComponent().solenoidFactory().create(3));
-        getInjectorComponent().canSparkMaxFactory().create(new DeviceInfo(10), "drive", "left");
-        getInjectorComponent().canSparkMaxFactory().create(new DeviceInfo(11), "drive", "left", new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
+        getInjectorComponent().canSparkMaxFactory().create(new DeviceInfo("left", 10), "drive", "left");
+        getInjectorComponent().canSparkMaxFactory().create(
+                new DeviceInfo("left", 11), "drive", "left",
+                new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
         XCANTalon talon = getInjectorComponent().canTalonFactory().create(new CANTalonInfo(1));
         getInjectorComponent().as5600Factory().create(talon);
         getInjectorComponent().canVictorSpxFactory().create(5);
-        getInjectorComponent().absoluteEncoderFactory().create(new DeviceInfo(6), "test");
+        getInjectorComponent().absoluteEncoderFactory().create(new DeviceInfo("test",6), "test");
         getInjectorComponent().stallDetectorFactory().create("owningSystem");
-        getInjectorComponent().canCoderFactory().create(new DeviceInfo(7), "test");
+        getInjectorComponent().canCoderFactory().create(new DeviceInfo("test",7), "test");
+        getInjectorComponent().dutyCycleEncoderFactory().create(new DeviceInfo("test",8));
     }
     
     @Test(expected = RobotAssertionException.class)

@@ -1,0 +1,13 @@
+<Configuration>
+   <Appenders>
+      <Console name="STDOUT" target="SYSTEM_OUT">
+         <PatternLayout pattern="%5p | %d | %L | %-40c{1} | %m%n"/>
+      </Console>
+   </Appenders>
+   <Loggers>
+      <Logger name="org.apache.log4j.xml" level="info"/>
+      <Root level="info">
+         <AppenderRef ref="STDOUT"/>
+      </Root>
+   </Loggers>
+</Configuration>

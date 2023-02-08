@@ -2,7 +2,8 @@ package edu.wpi.first.wpilibj;
 
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
@@ -12,7 +13,7 @@ import xbot.common.controls.sensors.XPowerDistributionPanel;
 public class MockPowerDistributionPanel extends XPowerDistributionPanel {
     private HashMap<Integer, Double> outputCurrents;
 
-    private static Logger log = Logger.getLogger(MockPowerDistributionPanel.class);
+    private static Logger log = LogManager.getLogger(MockPowerDistributionPanel.class);
 
     @AssistedFactory
     public abstract static class MockPowerDistributionPanelFactory implements XPowerDistributionPanelFactory {

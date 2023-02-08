@@ -2,7 +2,8 @@ package xbot.common.controls.sensors;
 
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger;
@@ -25,7 +26,7 @@ public abstract class XJoystick
 
     private boolean[] axisInversion;
     
-    private static final Logger log = Logger.getLogger(XJoystick.class);
+    private static final Logger log = LogManager.getLogger(XJoystick.class);
 
     private HashMap<Integer, AdvancedJoystickButtonTrigger> buttonMap;
     private HashMap<AnalogHIDButtonTrigger.AnalogHIDDescription, AnalogHIDButtonTrigger> analogButtonMap;
