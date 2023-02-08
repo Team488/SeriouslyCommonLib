@@ -764,7 +764,7 @@ public abstract class XCANSparkMax {
      * // See https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces#periodic-status-frames
      * // for description of the different status frames. kStatus2 is the only frame with data needed for software PID.
      */
-    public void setupStatusFramesIfReset(int status0PeriodMs, int status1PeriodMs, int status2PeriodMs, int status3PeriodMs) {
+    public void setupStatusFramesIfControllerHasRecentRecently(int status0PeriodMs, int status1PeriodMs, int status2PeriodMs, int status3PeriodMs) {
             // We need to re-set frame intervals after a device reset.
             if (getStickyFaultHasReset() && getLastError() != REVLibError.kHALError) {
                 log.info("Setting status frame periods.");
