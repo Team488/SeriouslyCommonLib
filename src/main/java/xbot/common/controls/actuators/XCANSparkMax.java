@@ -27,7 +27,7 @@ public abstract class XCANSparkMax {
     protected DeviceInfo info;
     PropertyFactory propertyFactory;
 
-    private boolean usesPropertySystem = true;
+    protected boolean usesPropertySystem = true;
 
     private DoubleProperty kPprop;
     private DoubleProperty kIprop;
