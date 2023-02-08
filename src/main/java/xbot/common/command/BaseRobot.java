@@ -3,29 +3,22 @@ package xbot.common.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wpi.first.wpilibj.simulation.DriverStationSim;
-
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.json.JSONObject;
-import org.littletonrobotics.junction.LogFileUtil;
-import org.littletonrobotics.junction.LoggedRobot;
-import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.networktables.NT4Publisher;
-import org.littletonrobotics.junction.wpilog.WPILOGReader;
-import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.components.BaseComponent;
+import xbot.common.logging.RobotSession;
 import xbot.common.logging.TimeLogger;
 import xbot.common.logic.Latch;
 import xbot.common.logic.Latch.EdgeType;
@@ -43,9 +36,10 @@ import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
  * scheduling, and the injector. Required for a fair amount
  * of CommonLib functionality.
  */
-public abstract class BaseRobot extends LoggedRobot {
+public abstract class BaseRobot extends TimedRobot {
 
-    org.apache.logging.log4j.Logger log;
+    Logger log;
+    Latch brownoutLatch;
 
     protected XPropertyManager propertyManager;
     protected XScheduler xScheduler;
@@ -55,16 +49,48 @@ public abstract class BaseRobot extends LoggedRobot {
 
     protected Command autonomousCommand;
     protected AutonomousCommandSelector autonomousCommandSelector;
+    
+    protected DoubleProperty batteryVoltage;
+    protected DoubleProperty frequencyReportInterval;
+    protected double lastFreqCounterResetTime = -1;
+    protected int loopCycleCounter = 0;
 
     protected WebotsClient webots;
     protected DevicePolice devicePolice;
     protected SimulationPayloadDistributor simulationPayloadDistributor;
+    
+    TimeLogger schedulerMonitor;
+    TimeLogger outsidePeriodicMonitor;
 
-    protected List<DataFrameRefreshable> dataFrameRefreshables = new ArrayList<>();
-
-    boolean forceWebots = false; // TODO: figure out a better way to swap between simulation and replay.
+    protected RobotSession robotSession;
 
     public BaseRobot() {
+        // The IterativeRobot uses the period below to trigger some timeouts. We find these to be more annoying
+        // than helpful, so we set the period (typically 0.02) to something dramatically larger (10 seconds).
+        super(10);
+        // However, we want to make sure that we actually do call the loopFunc quickly and periodically at
+        // 50hz, so we make this call to addPeriodic.
+        addPeriodic(super::loopFunc, 0.02);
+        brownoutLatch = new Latch(false, EdgeType.Both, edge -> {
+            if(edge == EdgeType.RisingEdge) {
+                log.warn("Entering brownout");
+            }
+            else if(edge == EdgeType.FallingEdge) {
+                log.info("Leaving brownout");
+            }
+        });
+        
+    }
+
+    @Override
+    protected void loopFunc() {
+        // Do nothing. This is part of some shenanigans to avoid loop overrun notifications.
+    }
+
+    @Override
+    public double getPeriod() {
+        // In case anything was depending on reading the period, we use the typical 50hz value.
+        return 0.02;
     }
 
     /**
@@ -92,23 +118,21 @@ public abstract class BaseRobot extends LoggedRobot {
      */
     public void robotInit() {
 
-        Logger.getInstance().recordMetadata("ProjectName", "XbotProject"); // Set a metadata value
-        if (isReal() || forceWebots) {
-            Logger.getInstance().addDataReceiver(new WPILOGWriter("/media/sda1/")); // Log to a USB stick
-            Logger.getInstance().addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
-            new PowerDistribution(1, PowerDistribution.ModuleType.kRev); // Enables power distribution logging
-        } else {
-            setUseTiming(false); // Run as fast as possible
-            String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
-            Logger.getInstance().setReplaySource(new WPILOGReader(logPath)); // Read replay log
-            Logger.getInstance().addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
+        // Get our logging config
+        try {
+            if(BaseRobot.isReal()) {
+                DOMConfigurator.configure("/home/lvuser/deploy/log4j.xml");
+            } else {
+                DOMConfigurator.configure("SeriouslyCommonLib/lib/log4jConfig/log4j4unitTesting.xml");
+            }
+        } catch (Exception e) {
+            // Had a problem loading the config. Robot should continue!
+            final String errorString = "Couldn't configure logging - file probably missing or malformed";
+            System.out.println(errorString);
+            DriverStation.reportError(errorString, false);
         }
-
-        Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
-        DriverStation.silenceJoystickConnectionWarning(true);
-
-
-        log = LogManager.getLogger(BaseRobot.class);
+        
+        log = Logger.getLogger(BaseRobot.class);
         log.info("========== BASE ROBOT INITIALIZING ==========");
         setupInjectionModule();
         log.info("========== INJECTOR CREATED ==========");
@@ -121,14 +145,17 @@ public abstract class BaseRobot extends LoggedRobot {
             DriverStation.silenceJoystickConnectionWarning(true);
         }
         PropertyFactory pf = injectorComponent.propertyFactory();
-
+        pf.setTopLevelPrefix();
+        frequencyReportInterval = pf.createPersistentProperty("Robot loop frequency report interval", 20);
+        batteryVoltage = pf.createEphemeralProperty("Battery Voltage", 0);
+        schedulerMonitor = new TimeLogger("XScheduler", (int)frequencyReportInterval.get());
+        outsidePeriodicMonitor = new TimeLogger("OutsidePeriodic", 20);
+        robotSession = injectorComponent.robotSession();
         devicePolice = injectorComponent.devicePolice();
-        if (forceWebots) {
-            simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
-        }
+        simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
         LiveWindow.disableAllTelemetry();
     }
-
+    
     protected String getEnableTypeString() {
         if (!DriverStation.isEnabled()) {
             return "disabled";
@@ -155,6 +182,7 @@ public abstract class BaseRobot extends LoggedRobot {
         String matchStatus = DriverStation.getMatchType().toString() + " " + DriverStation.getMatchNumber() + " " + DriverStation.getReplayNumber();
         String enableStatus = getEnableTypeString();
         String matchContext = dsStatus + ", " + fmsStatus + ", " + enableStatus + ", " + matchStatus;
+        org.apache.log4j.MDC.put("matchContext", matchContext);
     }
 
     protected void initializeSystems() {
@@ -198,6 +226,7 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     public void autonomousInit() {
+        robotSession.autoInit();
         updateLoggingContext();
         log.info("Autonomous init (" + getMatchContextString() + ")");
         this.autonomousCommand = this.autonomousCommandSelector.getCurrentAutonomousCommand();
@@ -217,6 +246,7 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     public void teleopInit() {
+        robotSession.teleopInit();
         updateLoggingContext();
         log.info("Teleop init (" + getMatchContextString() + ")");
         if(this.autonomousCommand != null) {
@@ -237,62 +267,57 @@ public abstract class BaseRobot extends LoggedRobot {
      */
     public void testPeriodic() {
     }
-
-    double outsidePeriodicStart = 0;
     
     protected void sharedPeriodic() {
-        double outsidePeriodicEnd = getPerformanceTimestampInMs();
-        Logger.getInstance().recordOutput("OutsidePeriodicMs", outsidePeriodicEnd - outsidePeriodicStart);
-        // Get a fresh data frame from all top-level components (typically large subsystems or shared sensors)
-        double dataFrameStart = getPerformanceTimestampInMs();
-        for (DataFrameRefreshable refreshable : dataFrameRefreshables) {
-            refreshable.refreshDataFrame();
-        }
-        double dataFrameEnd = getPerformanceTimestampInMs();
-        Logger.getInstance().recordOutput("RefreshDataFrameMs", dataFrameEnd - dataFrameStart);
-
-        double schedulerStart = getPerformanceTimestampInMs();
+        outsidePeriodicMonitor.stop();
+        schedulerMonitor.start();
         xScheduler.run();
-        double schedulerEnd = getPerformanceTimestampInMs();
-        Logger.getInstance().recordOutput("SchedulerMs", schedulerEnd - schedulerStart);
+        schedulerMonitor.stop();
+
+        batteryVoltage.set(RobotController.getBatteryVoltage());
         
-        outsidePeriodicStart = getPerformanceTimestampInMs();
+        brownoutLatch.setValue(RobotController.isBrownedOut());
+        
+        loopCycleCounter++;
+        double timeSinceLastLog = XTimer.getFPGATimestamp() - lastFreqCounterResetTime;
+        if(lastFreqCounterResetTime <= 0) {
+            lastFreqCounterResetTime = XTimer.getFPGATimestamp();
+        }
+        else if(timeSinceLastLog >= frequencyReportInterval.get()) {
+            double loopsPerSecond = loopCycleCounter / timeSinceLastLog; 
+            
+            loopCycleCounter = 0;
+            lastFreqCounterResetTime = XTimer.getFPGATimestamp();
+            
+            log.info("Robot loops per second: " + loopsPerSecond);
+        }
+        
+        outsidePeriodicMonitor.start();
     }
 
     
     @Override
     public void simulationInit() {
-        // TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
-        if (forceWebots) {
-            webots = injectorComponent.webotsClient();
-            webots.initialize();
-            DriverStationSim.setEnabled(true);
-        }
+        webots = injectorComponent.webotsClient();
+        webots.initialize();
     }
 
     @Override
     public void simulationPeriodic() {
-        // TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
-        if (forceWebots) {
-            // find all simulatable motors
-            List<JSONObject> motors = new ArrayList<JSONObject>();
-
-            for (String deviceId : devicePolice.registeredChannels.keySet()) {
-                Object device = devicePolice.registeredChannels.get(deviceId);
-                if (device instanceof ISimulatableMotor) {
-                    motors.add(((ISimulatableMotor) device).getSimulationData());
-                }
-                if (device instanceof ISimulatableSolenoid) {
-                    motors.add(((ISimulatableSolenoid) device).getSimulationData());
-                }
+        // find all simulatable motors
+        List<JSONObject> motors = new ArrayList<JSONObject>();
+        
+        for (String deviceId: devicePolice.registeredChannels.keySet()) {
+            Object device = devicePolice.registeredChannels.get(deviceId);
+            if (device instanceof ISimulatableMotor) {
+                motors.add(((ISimulatableMotor)device).getSimulationData());
             }
-            JSONObject response = webots.sendMotors(motors);
-
-            simulationPayloadDistributor.distributeSimulationPayload(response);
+            if (device instanceof ISimulatableSolenoid) {
+                motors.add(((ISimulatableSolenoid)device).getSimulationData());
+            }
         }
-    }
+        JSONObject response = webots.sendMotors(motors);
 
-    private double getPerformanceTimestampInMs() {
-        return org.littletonrobotics.junction.Logger.getInstance().getRealTimestamp()*1.0 / 1000.0;
+        simulationPayloadDistributor.distributeSimulationPayload(response);
     }
 }

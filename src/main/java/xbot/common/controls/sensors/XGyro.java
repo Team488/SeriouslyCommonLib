@@ -3,13 +3,10 @@ package xbot.common.controls.sensors;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
-import org.littletonrobotics.junction.Logger;
-import xbot.common.controls.io_inputs.XGyroIoInputs;
-import xbot.common.controls.io_inputs.XGyroIoInputsAutoLogged;
 import xbot.common.math.WrappedRotation2d;
 
 public abstract class XGyro
-{
+{   
     public enum ImuType {
         nav6,
         navX,
@@ -17,8 +14,6 @@ public abstract class XGyro
     }
     
     protected ImuType imuType;
-
-    protected XGyroIoInputsAutoLogged io;
     
     public abstract static class XGyroFactory {
         protected abstract XGyro create(SPI.Port spiPort, SerialPort.Port serialPort, I2C.Port i2cPort);
@@ -43,7 +38,6 @@ public abstract class XGyro
     protected XGyro(ImuType imuType) 
     {
         this.imuType = imuType;
-        io = new XGyroIoInputsAutoLogged();
     }
     
     public abstract boolean isBroken();
@@ -89,74 +83,38 @@ public abstract class XGyro
     // What follows are the primitive "gets" for the gyro. These aren't protected,
     // and could cause exceptions if called while they gyro is not connected.
     
-    public boolean isConnected() {
-        return io.isConnected;
-    }
+    public abstract boolean isConnected();
     
     /**
      * In degrees
      */
-    private double getDeviceRoll() {
-        return io.roll;
-    }
+    protected abstract double getDeviceRoll();
     
     /**
      * In degrees
      */
-    private double getDevicePitch() {
-        return io.pitch;
-    }
+    protected abstract double getDevicePitch();
     
     /**
      * In degrees
      */
-    private double getDeviceYaw() {
-        return io.yaw;
-    }
+    protected abstract double getDeviceYaw();
     
     /**
      * In degrees per second
      */
-    private double getDeviceYawAngularVelocity() {
-        return io.yawAngularVelocity;
-    }
+    protected abstract double getDeviceYawAngularVelocity();
+    
 
+    public abstract double getDeviceVelocityX();
 
-    private double getDeviceVelocityX() {
-        // Not yet part of the io system
-        return 0;
-    }
+    public abstract double getDeviceVelocityY();
 
-    private double getDeviceVelocityY() {
-        // Not yet part of the io system
-        return 0;
-    }
+    public abstract double getDeviceVelocityZ();
 
-    private double getDeviceVelocityZ() {
-        // Not yet part of the io system
-        return 0;
-    }
+    public abstract double getDeviceRawAccelX();
 
-    private double getDeviceRawAccelX() {
-        // Not yet part of the io system
-        return 0;
-    }
+    public abstract double getDeviceRawAccelY();
 
-    private double getDeviceRawAccelY() {
-        // Not yet part of the io system
-        return 0;
-    }
-
-    private double getDeviceRawAccelZ() {
-        // Not yet part of the io system
-        return 0;
-    }
-
-    protected abstract void updateInputs(XGyroIoInputs inputs);
-
-    public void refreshDataFrame() {
-        updateInputs(io);
-        // TODO: get a name for the gyro so we don't have to use a hardcoded one.
-        Logger.getInstance().processInputs("IMU", io);
-    }
+    public abstract double getDeviceRawAccelZ();
 }

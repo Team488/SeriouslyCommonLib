@@ -1,7 +1,6 @@
 package xbot.common.controls.sensors.buttons;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -10,7 +9,7 @@ import xbot.common.controls.sensors.XJoystick;
 
 public class AdvancedPovButtonTrigger extends AdvancedTrigger {
 
-    private static final Logger log = LogManager.getLogger(AdvancedPovButtonTrigger.class);
+    private static final Logger log = Logger.getLogger(AdvancedPovButtonTrigger.class);
     
     XJoystick joystick;
     int povNumber;

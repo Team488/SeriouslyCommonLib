@@ -29,7 +29,7 @@ public class SimulatedIMUTest extends BaseSimulationTest {
         JSONObject fullSensorPayload = createSimpleSensorPayload("IMU1", imuPayload);
         
         this.distributor.distributeSimulationPayload(fullSensorPayload);
-        simulatedGyro.refreshDataFrame();
+
         assertEquals(45.223, simulatedGyro.getHeading().getDegrees(), 0.001);
         assertEquals(12, simulatedGyro.getYawAngularVelocity(), 0.001);
     }

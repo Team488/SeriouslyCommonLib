@@ -28,8 +28,7 @@ import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
 import dagger.assisted.Assisted;
@@ -48,7 +47,7 @@ import xbot.common.simulation.ISimulatableSensor;
 
 public class MockCANTalon extends XCANTalon implements ISimulatableSensor, ISimulatableMotor {
 
-    private static Logger log = LogManager.getLogger(MockCANTalon.class);
+    private static Logger log = Logger.getLogger(MockCANTalon.class);
 
     private int pulseWidthRiseToFallUs = 0;
 

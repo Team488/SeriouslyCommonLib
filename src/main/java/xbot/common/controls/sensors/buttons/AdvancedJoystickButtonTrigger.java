@@ -2,8 +2,7 @@ package xbot.common.controls.sensors.buttons;
 
 import java.util.function.BooleanSupplier;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -12,7 +11,7 @@ import xbot.common.controls.sensors.XJoystick;
 
 public class AdvancedJoystickButtonTrigger extends AdvancedTrigger
 {
-    private static final Logger log = LogManager.getLogger(AdvancedJoystickButtonTrigger.class);
+    private static final Logger log = Logger.getLogger(AdvancedJoystickButtonTrigger.class);
     
     XJoystick joystick;
     int buttonNumber;

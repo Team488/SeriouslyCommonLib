@@ -46,7 +46,7 @@ public class MockBasePoseSubsystem extends BasePoseSubsystem {
     }
     
     public void forceTotalXandY(double x, double y) {
-        totalDistanceX = x;
-        totalDistanceY = y;
+        totalDistanceX.set(x);
+        totalDistanceY.set(y);
     }
 }

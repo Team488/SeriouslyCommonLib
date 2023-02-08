@@ -1,7 +1,6 @@
 package xbot.common.controls.sensors;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -25,7 +24,7 @@ public class AnalogDistanceSensor extends XAnalogDistanceSensor {
 
     private boolean isAveragingEnabled = false;
 
-    private static final Logger log = LogManager.getLogger(AnalogDistanceSensor.class);
+    private static final Logger log = Logger.getLogger(AnalogDistanceSensor.class);
 
     @AssistedFactory
     public abstract static class AnalogDistanceSensorFactory implements XAnalogDistanceSensorFactory {

@@ -50,7 +50,7 @@ public class WebotsClient {
         simulatorPoseX = propertyFactory.createEphemeralProperty("Simulator Pose X", 0);
         simulatorPoseY = propertyFactory.createEphemeralProperty("Simulator Pose Y", 0);
         simulatorPoseYaw = propertyFactory.createEphemeralProperty("Simulator Pose Yaw", 0);
-        simulatorRobotTemplate = propertyFactory.createPersistentProperty("Robot Template", "RobotTemplate2022");
+        simulatorRobotTemplate = propertyFactory.createPersistentProperty("Robot Template", "HttpRobotTemplate");
         enableProxy = propertyFactory.createPersistentProperty("Enable Proxy", false);
         proxyPort = propertyFactory.createPersistentProperty("Proxy Port", 8888);
 

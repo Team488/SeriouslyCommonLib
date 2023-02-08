@@ -1,13 +1,12 @@
 package xbot.common.logging;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 
 import xbot.common.controls.sensors.XTimer;
 
 public class TimeLogger {
     
-    private static Logger log = LogManager.getLogger(TimeLogger.class);
+    private static Logger log = Logger.getLogger(TimeLogger.class);
 
     boolean firstCall;
     double lastReportTime;
@@ -27,11 +26,11 @@ public class TimeLogger {
     private void reset() {
         accumulatedTime = 0;
         callCount = 0;
-        lastReportTime = getPerformanceTimestamp();
+        lastReportTime = XTimer.getFPGATimestamp();
     }
     
     public void start() {
-        startTime = getPerformanceTimestamp();
+        startTime = XTimer.getFPGATimestamp();
         
         if (firstCall) {
             firstCall = false;
@@ -40,20 +39,16 @@ public class TimeLogger {
     }
     
     public void stop() {
-        double duration = getPerformanceTimestamp() - startTime;
+        double duration = XTimer.getFPGATimestamp() - startTime;
         
         accumulatedTime += duration;
         callCount++;
         
-        if (getPerformanceTimestamp() - lastReportTime > reportingIntervalInSeconds && callCount > 0) {
+        if (XTimer.getFPGATimestamp() - lastReportTime > reportingIntervalInSeconds && callCount > 0) {
             double averageLoopDuration = accumulatedTime / (double)callCount;
             log.info("Average duration for " + name + " was: " + averageLoopDuration);
             
             reset();
         }
-    }
-
-    private double getPerformanceTimestamp() {
-        return org.littletonrobotics.junction.Logger.getInstance().getRealTimestamp()*1.0 / 1000000.0;
     }
 }

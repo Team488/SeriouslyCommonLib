@@ -4,18 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import edu.wpi.first.wpilibj.MockTimer;
 import org.junit.Test;
 
-import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.injection.BaseCommonLibTest;
-import xbot.common.injection.electrical_contract.CANTalonInfo;
 import xbot.common.math.PIDManager;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
-import xbot.common.subsystems.pose.MockBasePoseSubsystem;
 
 public class HeadingModuleTest extends BaseCommonLibTest {
 
@@ -32,18 +27,6 @@ public class HeadingModuleTest extends BaseCommonLibTest {
         
         headingModule = getInjectorComponent().headingModuleFactory().create(pid);
         pose = getInjectorComponent().poseSubsystem();
-
-        XCANTalon left = getInjectorComponent().canTalonFactory().create(new CANTalonInfo(0));
-        left.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-        XCANTalon right = getInjectorComponent().canTalonFactory().create(new CANTalonInfo(1));
-        right.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-
-        ((MockBasePoseSubsystem)pose).setDriveTalons(left, right);
-
-        ((MockTimer)getInjectorComponent().timerImplementation()).advanceTimeInSecondsBy(10);
-        pose.periodic();
-
-
     }     
     
     @Test
@@ -78,10 +61,7 @@ public class HeadingModuleTest extends BaseCommonLibTest {
         assertTrue(headingModule.isOnTarget());
     }
 
-    protected void setHeading(double heading)
-    {
+    protected void setHeading(double heading) {
         ((MockGyro)pose.imu).setYaw(heading);
-        pose.refreshDataFrame();
-        pose.periodic();
     }
 }

@@ -24,7 +24,6 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
-import xbot.common.controls.io_inputs.XCANSparkMaxInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.properties.PropertyFactory;
@@ -260,19 +259,19 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return internalSpark.getFault(faultID);
     }
 
-    public boolean getStickyFault_internal(FaultID faultID) {
+    public boolean getStickyFault(FaultID faultID) {
         return internalSpark.getStickyFault(faultID);
     }
 
-    public double getBusVoltage_internal() {
+    public double getBusVoltage() {
         return internalSpark.getBusVoltage();
     }
 
-    public double getAppliedOutput_internal() {
+    public double getAppliedOutput() {
         return internalSpark.getAppliedOutput();
     }
 
-    public double getOutputCurrent_internal() {
+    public double getOutputCurrent() {
         return internalSpark.getOutputCurrent();
     }
 
@@ -308,16 +307,16 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return internalSpark.isSoftLimitEnabled(direction);
     }
 
-    public REVLibError getLastError_internal() {
+    public REVLibError getLastError() {
         return internalSpark.getLastError();
     }
 
     RelativeEncoder ce;
-    public double getPosition_internal() {
+    public double getPosition() {
         return getEncoderInstance().getPosition();
     }
 
-    public double getVelocity_internal() {
+    public double getVelocity() {
         return getEncoderInstance().getVelocity();
     }
 
@@ -596,16 +595,5 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     @Override
     public boolean getReverseLimitSwitchPressed(com.revrobotics.SparkMaxLimitSwitch.Type switchType) {
         return internalSpark.getReverseLimitSwitch(switchType).isPressed();
-    }
-
-    @Override
-    protected void updateInputs(XCANSparkMaxInputs inputs) {
-        inputs.stickyFaultHasReset = getStickyFault_internal(FaultID.kHasReset);
-        inputs.lastErrorId = getLastError_internal().value;
-        inputs.velocity = getVelocity_internal();
-        inputs.position = getPosition_internal();
-        inputs.appliedOutput = getAppliedOutput_internal();
-        inputs.busVoltage = getBusVoltage_internal();
-        inputs.outputCurrent = getOutputCurrent_internal();
     }
 }

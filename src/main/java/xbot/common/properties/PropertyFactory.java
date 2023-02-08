@@ -2,8 +2,7 @@ package xbot.common.properties;
 
 import javax.inject.Inject;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.Property.PropertyLevel;
@@ -21,7 +20,7 @@ public class PropertyFactory {
     PropertyFactory(XPropertyManager propertyManager, RobotAssertionManager assertionManager) {
         this.propertyManager = propertyManager;
         this.assertionManager = assertionManager;
-        log = LogManager.getLogger(PropertyFactory.class);
+        log = Logger.getLogger(PropertyFactory.class);
     }
 
     public void setPrefix(String prefix) {

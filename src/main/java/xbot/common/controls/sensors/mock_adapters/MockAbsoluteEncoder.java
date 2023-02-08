@@ -6,7 +6,6 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
 import xbot.common.controls.sensors.XAbsoluteEncoder;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
@@ -39,7 +38,6 @@ public class MockAbsoluteEncoder extends XAbsoluteEncoder implements ISimulatabl
     public MockAbsoluteEncoder(@Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
             DevicePolice police, PropertyFactory pf) {
-        super(deviceInfo);
         pf.setPrefix(owningSystemPrefix);
 
         this.deviceId = deviceInfo.channel;
@@ -57,15 +55,18 @@ public class MockAbsoluteEncoder extends XAbsoluteEncoder implements ISimulatabl
         return this.deviceId;
     }
 
-    public double getPosition_internal() {
+    @Override
+    public double getPosition() {
         return WrappedRotation2d.fromDegrees(this.absolutePosition.getDegrees() + this.positionOffset.get()).getDegrees() * (inverted.get() ? -1 : 1);
     }
 
-    public double getAbsolutePosition_internal() {
+    @Override
+    public double getAbsolutePosition() {
         return this.absolutePosition.getDegrees() * (inverted.get() ? -1 : 1);
     }
 
-    public double getVelocity_internal() {
+    @Override
+    public double getVelocity() {
         return this.velocity * (inverted.get() ? -1 : 1);
     }
 
@@ -90,15 +91,8 @@ public class MockAbsoluteEncoder extends XAbsoluteEncoder implements ISimulatabl
         );
     }
 
-    public DeviceHealth getHealth_internal() {
-        return DeviceHealth.Healthy;
-    }
-
     @Override
-    public void updateInputs(XAbsoluteEncoderInputs inputs) {
-        inputs.position = getPosition_internal();
-        inputs.absolutePosition = getAbsolutePosition_internal();
-        inputs.velocity = getVelocity_internal();
-        inputs.deviceHealth = getHealth_internal().toString();
+    public DeviceHealth getHealth() {
+        return DeviceHealth.Healthy;
     }
 }

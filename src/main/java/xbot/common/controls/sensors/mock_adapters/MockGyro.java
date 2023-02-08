@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
 import xbot.common.controls.sensors.XGyro;
-import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.simulation.ISimulatableSensor;
@@ -33,6 +32,7 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
 
     @AssistedFactory
     public abstract static class MockGyroFactory extends XGyroFactory {
+        @Override
         public abstract MockGyro create(@Assisted SPI.Port spiPort, @Assisted SerialPort.Port serialPort, @Assisted I2C.Port i2cPort);
     }
 
@@ -64,15 +64,6 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
         this.isBroken = broken;
     }
 
-    @Override
-    protected void updateInputs(XGyroIoInputs inputs) {
-        inputs.yaw = yaw;
-        inputs.pitch = pitch;
-        inputs.roll = roll;
-        inputs.yawAngularVelocity = yawAngularVelocity;
-        inputs.isConnected = true;
-    }
-
     public boolean isBroken() {
         return isBroken;
     }
@@ -101,6 +92,7 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
         return yawAngularVelocity;
     }
 
+    @Override
     public double getDeviceVelocityX() {
         return this.velocityX;
     }
@@ -109,6 +101,7 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
         this.velocityX = velocity;
     }
 
+    @Override
     public double getDeviceVelocityY() {
         return this.velocityY;
     }
@@ -117,6 +110,7 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
         this.velocityY = velocity;
     }
 
+    @Override
     public double getDeviceVelocityZ() {
         return this.velocityZ;
     }
@@ -125,6 +119,7 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
         this.velocityZ = velocity;
     }
 
+    @Override
     public double getDeviceRawAccelX() {
         return this.rawAccelX;
     }
@@ -133,6 +128,7 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
         this.rawAccelX = accel;
     }
 
+    @Override
     public double getDeviceRawAccelY() {
         return this.rawAccelY;
     }
@@ -141,6 +137,7 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
         this.rawAccelY = accel;
     }
 
+    @Override
     public double getDeviceRawAccelZ() {
         return this.rawAccelZ;
     }

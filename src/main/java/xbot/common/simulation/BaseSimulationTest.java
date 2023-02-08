@@ -2,6 +2,7 @@ package xbot.common.simulation;
 
 import java.math.BigDecimal;
 
+import org.apache.log4j.xml.DOMConfigurator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -35,6 +36,8 @@ public class BaseSimulationTest {
         propertyFactory = injectorComponent.propertyFactory();
         
         pf = injectorComponent.pidFactory();
+        
+        DOMConfigurator.configure(getClass().getClassLoader().getResource("log4j4unitTesting.xml"));
 
         distributor = injectorComponent.simulationPayloadDistributor();
     }

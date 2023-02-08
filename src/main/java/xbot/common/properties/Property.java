@@ -4,8 +4,7 @@
  */
 package xbot.common.properties;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 
 /**
  * There are many values on the robot that we want to configure on the fly as
@@ -51,7 +50,7 @@ public abstract class Property {
      */
     public Property(String key, XPropertyManager manager, PropertyPersistenceType persistenceType, PropertyLevel level) {
         this.key = sanitizeKey(key);
-        log =  LogManager.getLogger(this.getClass().getSimpleName() + " (\"" + this.key + "\")");
+        log =  Logger.getLogger(this.getClass().getSimpleName() + " (\"" + this.key + "\")");
         
         this.permanentStore = manager.permanentStore;
 

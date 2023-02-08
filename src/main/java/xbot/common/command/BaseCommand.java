@@ -2,8 +2,7 @@ package xbot.common.command;
 
 import javax.inject.Inject;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import xbot.common.logging.TimeLogger;
@@ -23,7 +22,7 @@ public abstract class BaseCommand extends CommandBase implements IPropertySuppor
     SmartDashboardCommandPutter commandPutter;
 
     public BaseCommand() {
-        log = LogManager.getLogger(this.getName());
+        log = Logger.getLogger(this.getName());
         monitor = new TimeLogger(this.getName(), 20);
     }
 

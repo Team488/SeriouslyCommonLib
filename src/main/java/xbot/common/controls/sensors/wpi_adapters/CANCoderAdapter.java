@@ -7,15 +7,12 @@ import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 import com.ctre.phoenix.sensors.CANCoderStickyFaults;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
-import xbot.common.controls.io_inputs.XCANCoderInputs;
 import xbot.common.controls.sensors.XCANCoder;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
@@ -27,7 +24,7 @@ import xbot.common.resiliency.DeviceHealth;
 
 public class CANCoderAdapter extends XCANCoder {
     
-    private static final Logger log = LogManager.getLogger(CANCoderAdapter.class);
+    private static final Logger log = Logger.getLogger(CANCoderAdapter.class);
 
     private final int deviceId;
     private final CANCoder cancoder;
@@ -46,7 +43,6 @@ public class CANCoderAdapter extends XCANCoder {
     public CANCoderAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
             DevicePolice police, PropertyFactory pf) {
-        super(deviceInfo);
         pf.setPrefix(owningSystemPrefix);
 
         this.inverted = pf.createEphemeralProperty("Inverted", deviceInfo.inverted);
@@ -66,19 +62,22 @@ public class CANCoderAdapter extends XCANCoder {
         return this.deviceId;
     }
 
-    public double getPosition_internal() {
+    @Override
+    public double getPosition() {
         return this.cancoder.getPosition();
     }
 
-    public double getAbsolutePosition_internal() {
+    @Override
+    public double getAbsolutePosition() {
         return this.cancoder.getAbsolutePosition();
     }
 
-    public double getVelocity_internal() {
+    @Override
+    public double getVelocity() {
         return this.cancoder.getVelocity();
     }
 
-    public DeviceHealth getHealth_internal() {
+    public DeviceHealth getHealth() {
         if (this.cancoder.getFirmwareVersion() == -1) {
             return DeviceHealth.Unhealthy;
         }
@@ -140,20 +139,8 @@ public class CANCoderAdapter extends XCANCoder {
         return this.cancoder.clearStickyFaults();
     }
 
-    public boolean hasResetOccurred_internal() {
+    @Override
+    public boolean hasResetOccurred() {
         return this.cancoder.hasResetOccurred();
-    }
-
-    @Override
-    public void updateInputs(XAbsoluteEncoderInputs inputs) {
-        inputs.deviceHealth = this.getHealth_internal().toString();
-        inputs.position = this.getPosition_internal();
-        inputs.absolutePosition = this.getAbsolutePosition_internal();
-        inputs.velocity = this.getVelocity_internal();
-    }
-
-    @Override
-    public void updateInputs(XCANCoderInputs inputs) {
-        inputs.hasResetOccurred = this.hasResetOccurred_internal();
     }
 }

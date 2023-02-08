@@ -11,8 +11,6 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
-import xbot.common.controls.io_inputs.XCANCoderInputs;
 import xbot.common.controls.sensors.XCANCoder;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
@@ -45,7 +43,6 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
     public MockCANCoder(@Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
             DevicePolice police, PropertyFactory pf) {
-        super(deviceInfo);
         pf.setPrefix(owningSystemPrefix);
 
         this.deviceId = deviceInfo.channel;
@@ -63,15 +60,18 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
         return this.deviceId;
     }
 
-    public double getPosition_internal() {
+    @Override
+    public double getPosition() {
         return WrappedRotation2d.fromDegrees(this.absolutePosition.getDegrees() + this.positionOffset.get()).getDegrees() * (inverted.get() ? -1 : 1);
     }
 
-    public double getAbsolutePosition_internal() {
+    @Override
+    public double getAbsolutePosition() {
         return this.absolutePosition.getDegrees() * (inverted.get() ? -1 : 1);
     }
 
-    public double getVelocity_internal() {
+    @Override
+    public double getVelocity() {
         return this.velocity * (inverted.get() ? -1 : 1);
     }
 
@@ -96,11 +96,10 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
         );
     }
 
-    public DeviceHealth getHealth_internal() {
+    @Override
+    public DeviceHealth getHealth() {
         return DeviceHealth.Healthy;
     }
-
-
 
     @Override
     public ErrorCode setStatusFramePeriod(CANCoderStatusFrame frame, int periodMs) {
@@ -127,19 +126,8 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
         return ErrorCode.OK;
     }
     
-    public boolean hasResetOccurred_internal() {
+    @Override
+    public boolean hasResetOccurred() {
         return false;
-    }
-
-    @Override
-    public void updateInputs(XAbsoluteEncoderInputs inputs) {
-        inputs.absolutePosition = getAbsolutePosition_internal();
-        inputs.velocity = getVelocity_internal();
-        inputs.position = getPosition_internal();
-        inputs.deviceHealth = getHealth_internal().toString();
-    }
-    @Override
-    public void updateInputs(XCANCoderInputs inputs) {
-        inputs.hasResetOccurred = hasResetOccurred_internal();
     }
 }

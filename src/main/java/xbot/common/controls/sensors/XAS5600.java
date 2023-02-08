@@ -1,7 +1,6 @@
 package xbot.common.controls.sensors;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -13,7 +12,7 @@ public class XAS5600 {
 
     XCANTalon talon;
     int lastValue = Integer.MIN_VALUE;
-    protected Logger log = LogManager.getLogger(XAS5600.class);
+    protected Logger log = Logger.getLogger(XAS5600.class);
 
     @AssistedFactory
     public abstract static class XAS5600Factory {

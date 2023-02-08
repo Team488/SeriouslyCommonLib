@@ -1,5 +1,6 @@
 package xbot.common.injection;
 
+import org.apache.log4j.xml.DOMConfigurator;
 import org.junit.Before;
 import org.junit.Ignore;
 
@@ -37,5 +38,7 @@ public abstract class BaseWPITest {
         propertyFactory = injectorComponent.propertyFactory();
         
         pf = injectorComponent.pidFactory();
+        
+        DOMConfigurator.configure(getClass().getClassLoader().getResource("log4j4unitTesting.xml"));
     }
 }

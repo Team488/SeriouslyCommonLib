@@ -1,14 +1,13 @@
 package xbot.common.logging;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
 
 public class SafeRobotAssertionTest extends BaseCommonLibTest {
 
-    private static Logger log = LogManager.getLogger(SafeRobotAssertionTest.class);
+    private static Logger log = Logger.getLogger(SafeRobotAssertionTest.class);
 
     @Test
     public void testNoExceptionOnRobot() {
