@@ -32,7 +32,7 @@ public abstract class XDutyCycleEncoder implements XBaseIO {
         return new Rotation2d(getAbsoluteRawPosition()*2*Math.PI * inversionFactor());
     }
 
-    protected double getAbsoluteDegrees() {
+    public double getAbsoluteDegrees() {
         return getAbsoluteRawPosition() * 360 * inversionFactor();
     }
 
@@ -41,10 +41,6 @@ public abstract class XDutyCycleEncoder implements XBaseIO {
      */
     public WrappedRotation2d getWrappedPosition() {
         return WrappedRotation2d.fromRotation2d(getAbsolutePosition());
-    }
-
-    public ContiguousDouble getContiguousPosition(double lowerBoundInDegrees, double upperBoundInDegrees) {
-        return new ContiguousDouble(getAbsoluteDegrees(), lowerBoundInDegrees, upperBoundInDegrees);
     }
 
     @Override
