@@ -50,6 +50,11 @@ public class ContiguousDouble {
      * @return the new value for chaining functions
      */
     public double reboundValue() {
+        value = reboundValue(this.value, this.lowerBound, this.upperBound);
+        return value;
+    }
+
+    public static double reboundValue(double value, double lowerBound, double upperBound) {
         if (value < lowerBound) {
             value = upperBound
                     + ((value - lowerBound) % (upperBound - lowerBound));

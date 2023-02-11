@@ -15,7 +15,7 @@ public class DutyCycleEncoderWpiAdapter extends XDutyCycleEncoder {
 
     @AssistedFactory
     public abstract static class DutyCycleEncoderWpiAdapterFactory implements XDutyCycleEncoder.XDutyCycleEncoderFactory {
-        public abstract MockDutyCycleEncoder create(@Assisted("info") DeviceInfo info);
+        public abstract DutyCycleEncoderWpiAdapter create(@Assisted("info") DeviceInfo info);
     }
 
     @AssistedInject
@@ -26,6 +26,6 @@ public class DutyCycleEncoderWpiAdapter extends XDutyCycleEncoder {
 
     @Override
     protected double getAbsoluteRawPosition() {
-        return internalEncoder.getAbsolutePosition();
+        return internalEncoder.get();
     }
 }
