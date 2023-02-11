@@ -16,6 +16,7 @@ public abstract class XDutyCycleEncoder implements XBaseIO {
     protected int channel;
     XDutyCycleEncoderInputsAutoLogged inputs;
     DeviceInfo info;
+    protected boolean inverted;
 
     public interface XDutyCycleEncoderFactory {
         XDutyCycleEncoder create(DeviceInfo deviceInfo);
@@ -25,6 +26,8 @@ public abstract class XDutyCycleEncoder implements XBaseIO {
         this.info = info;
         this.channel = info.channel;
         police.registerDevice(DevicePolice.DeviceType.DigitalIO, channel, this);
+        setInverted(info.inverted);
+
         inputs = new XDutyCycleEncoderInputsAutoLogged();
     }
 
@@ -33,7 +36,11 @@ public abstract class XDutyCycleEncoder implements XBaseIO {
      * @return the absolute position of the encoder in degrees from (0, 360)
      */
     public Rotation2d getAbsolutePosition() {
-        return new Rotation2d(inputs.absoluteRawPosition*2*Math.PI);
+        return new Rotation2d(inputs.absoluteRawPosition*2*Math.PI * inversionFactor());
+    }
+
+    public double getAbsoluteDegrees() {
+        return inputs.absoluteRawPosition * 360 * inversionFactor();
     }
 
     /**
@@ -48,10 +55,19 @@ public abstract class XDutyCycleEncoder implements XBaseIO {
         return channel;
     }
 
+    public void setInverted(boolean inverted) {
+        this.inverted = inverted;
+    }
+
+    protected double inversionFactor() {
+        return inverted ? -1 : 1;
+    }
+
     public abstract void updateInputs(XDutyCycleEncoderInputs inputs);
 
     public void refreshDataFrame() {
         updateInputs(inputs);
-        Logger.getInstance().processInputs(info.name+"/DutyCycleEncoder", inputs);
+        Logger.getInstance().processInputs(info.name + "/DutyCycleEncoder", inputs);
     }
+
 }
