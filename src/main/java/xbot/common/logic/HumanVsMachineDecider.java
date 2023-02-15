@@ -61,4 +61,8 @@ public class HumanVsMachineDecider {
         
         return HumanVsMachineMode.MachineControl;
     }
+
+    public double getDeadband() {
+        return deadbandProp.get();
+    }
 }
