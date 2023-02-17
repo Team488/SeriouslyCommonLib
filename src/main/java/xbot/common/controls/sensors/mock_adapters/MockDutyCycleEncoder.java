@@ -29,7 +29,7 @@ public class MockDutyCycleEncoder extends XDutyCycleEncoder {
     }
 
     public void setRawPosition(double rawPosition) {
-        this.rawPosition = rawPosition;
+        this.rawPosition = rawPosition * inversionFactor();
     }
 
     @Override
