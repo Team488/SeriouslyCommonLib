@@ -20,6 +20,13 @@ public class InertialMeasurementUnitAdapter extends XGyro {
     AHRS ahrs;
     boolean isBroken = false;
 
+    /**
+     * NavX update rate.
+     * NavX1 accepts any frequency, but NavX2 only accepts 33, 40, 50, 66, 100, and 200 Hz.
+     * See: https://www.chiefdelphi.com/t/navx2-disconnecting-reconnecting-intermittently-not-browning-out/425487/38
+     */
+    private static final byte NAVX_UPDATE_RATE_HZ = 50;
+
     static Logger log = Logger.getLogger(InertialMeasurementUnitAdapter.class);
     
     @AssistedFactory
@@ -33,13 +40,13 @@ public class InertialMeasurementUnitAdapter extends XGyro {
         /* Options: Port.kMXP, SPI.kMXP, I2C.kMXP or SerialPort.kUSB */
         try {
             if (spiPort != null) {
-                this.ahrs = new AHRS(spiPort);
+                this.ahrs = new AHRS(spiPort, NAVX_UPDATE_RATE_HZ);
                 police.registerDevice(DeviceType.SPI, spiPort.value, this);
             } else if (serialPort != null) {
-                this.ahrs = new AHRS(serialPort);
+                this.ahrs = new AHRS(serialPort, AHRS.SerialDataType.kProcessedData, NAVX_UPDATE_RATE_HZ);
                 police.registerDevice(DeviceType.IMU, serialPort.value, this);
             } else if (i2cPort != null) {
-                this.ahrs = new AHRS(i2cPort);
+                this.ahrs = new AHRS(i2cPort, NAVX_UPDATE_RATE_HZ);
                 police.registerDevice(DeviceType.I2C, i2cPort.value, this);
             } else {
                 throw new Exception("No port provided");
