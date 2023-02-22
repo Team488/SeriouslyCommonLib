@@ -5,15 +5,17 @@ import javax.inject.Inject;
 import xbot.common.command.BaseCommand;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
+import java.util.function.Supplier;
+
 public class SetRobotHeadingCommand extends BaseCommand {
 
     protected final BasePoseSubsystem poseSubsystem;
-    private double heading;
+    private Supplier<Double> headingSupplier;
     
     @Inject
     public SetRobotHeadingCommand(BasePoseSubsystem poseSubsystem) {
         this.poseSubsystem = poseSubsystem;
-        heading = BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS;
+        headingSupplier = () -> BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS;
     }
 
     @Override
@@ -22,14 +24,18 @@ public class SetRobotHeadingCommand extends BaseCommand {
     }
     
     public void setHeadingToApply(double heading) {
-        this.heading = heading;
+        this.headingSupplier = () -> heading;
+    }
+
+    public void setHeadingToApply(Supplier<Double> headingSupplier) {
+        this.headingSupplier = headingSupplier;
     }
 
     @Override
     public void initialize() {
         log.info("Initializing");
-        log.info("Setting heading to " + heading);
-        poseSubsystem.setCurrentHeading(heading);
+        log.info("Setting heading to " + headingSupplier.get());
+        poseSubsystem.setCurrentHeading(headingSupplier.get());
     }
 
     @Override
