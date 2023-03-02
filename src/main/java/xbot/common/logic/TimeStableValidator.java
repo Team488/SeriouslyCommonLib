@@ -49,5 +49,13 @@ public class TimeStableValidator {
         return (duration > getStableWindow()) && value;
     }
 
+    /**
+     * Used if you want the validator to start in a stable state
+     */
+    public void setStable() {
+        latch.setValue(true);
+        risingEdgeTime = -10000;
+    }
+
 
 }
