@@ -24,8 +24,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     protected final DoubleProperty totalDistanceX;
     protected final DoubleProperty totalDistanceY;
     protected final DoubleProperty totalDistanceYRobotPerspective;
-    protected final DoubleProperty velocityX;
-    protected final DoubleProperty velocityY;
+    public final DoubleProperty velocityX;
+    public final DoubleProperty velocityY;
     protected final DoubleProperty totalVelocity;
     
     protected WrappedRotation2d currentHeading;
