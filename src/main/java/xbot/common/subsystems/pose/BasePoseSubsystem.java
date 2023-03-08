@@ -25,8 +25,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     protected double totalDistanceX;
     protected double totalDistanceY;
     protected double totalDistanceYRobotPerspective;
-    protected double velocityX;
-    protected double velocityY;
+    public double velocityX;
+    public double velocityY;
     protected double totalVelocity;
     protected WrappedRotation2d currentHeading;
     protected double headingOffset;
