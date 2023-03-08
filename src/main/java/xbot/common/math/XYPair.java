@@ -1,6 +1,7 @@
 package xbot.common.math;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 
 /**
  * Pair of X and Y coordinates. Can be used for points, vectors, or anything
@@ -175,5 +176,9 @@ public class XYPair {
     @Override
     public String toString() {
         return "(X:" + x + ", Y:" + y + ")";
+    }
+
+    public Translation2d toTranslation2d() {
+        return new Translation2d(x, y);
     }
 }

@@ -118,7 +118,7 @@ public abstract class BaseRobot extends LoggedRobot {
 
         if (this.isReal()) {
             // We're just so tired of seeing these in logs. We may re-enable this at competition time.
-            DriverStation.silenceJoystickConnectionWarning(true);
+            DriverStation.silenceJoystickConnectionWarning(false);
         }
         PropertyFactory pf = injectorComponent.propertyFactory();
 

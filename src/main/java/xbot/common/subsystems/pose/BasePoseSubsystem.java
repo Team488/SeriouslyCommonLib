@@ -1,9 +1,11 @@
 package xbot.common.subsystems.pose;
 
 import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import xbot.common.advantage.DataFrameRefreshable;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XTimer;
@@ -133,6 +135,15 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
         return new FieldPose(getTravelVector(), getCurrentHeading());
     }
 
+    public Pose2d getCurrentPose2d() {
+        var travelVector = getTravelVector();
+        return new Pose2d(
+                travelVector.x,
+                travelVector.y,
+                Rotation2d.fromDegrees(getCurrentHeading().getDegrees())
+        );
+    }
+
     public XYPair getCurrentVelocity() {
         return new XYPair(velocityX, velocityY);
     }
@@ -167,6 +178,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     }
     
     public void setCurrentPosition(double newXPosition, double newYPosition) {
+        log.info("Setting Robot Position. X:" + newXPosition + ", Y:" +newYPosition);
         totalDistanceX = newXPosition;
         totalDistanceY = newYPosition;
     }
