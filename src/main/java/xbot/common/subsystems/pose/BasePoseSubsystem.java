@@ -210,6 +210,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     }
     
     public void setCurrentPosition(double newXPosition, double newYPosition) {
+        log.info("Setting Robot Position. X:" + newXPosition + ", Y:" +newYPosition);
         totalDistanceX.set(newXPosition);
         totalDistanceY.set(newYPosition);
     }
