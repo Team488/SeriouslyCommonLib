@@ -62,7 +62,7 @@ public abstract class BaseRobot extends LoggedRobot {
 
     protected List<DataFrameRefreshable> dataFrameRefreshables = new ArrayList<>();
 
-    boolean forceWebots = false; // TODO: figure out a better way to swap between simulation and replay.
+    boolean forceWebots = true; // TODO: figure out a better way to swap between simulation and replay.
 
     public BaseRobot() {
     }
@@ -263,17 +263,17 @@ public abstract class BaseRobot extends LoggedRobot {
     @Override
     public void simulationInit() {
         // TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
-        if (forceWebots) {
+        /*if (forceWebots) {
             webots = injectorComponent.webotsClient();
             webots.initialize();
             DriverStationSim.setEnabled(true);
-        }
+        }*/
     }
 
     @Override
     public void simulationPeriodic() {
         // TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
-        if (forceWebots) {
+        /*if (forceWebots) {
             // find all simulatable motors
             List<JSONObject> motors = new ArrayList<JSONObject>();
 
@@ -289,7 +289,7 @@ public abstract class BaseRobot extends LoggedRobot {
             JSONObject response = webots.sendMotors(motors);
 
             simulationPayloadDistributor.distributeSimulationPayload(response);
-        }
+        }*/
     }
 
     private double getPerformanceTimestampInMs() {
