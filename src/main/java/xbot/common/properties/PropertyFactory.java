@@ -118,7 +118,7 @@ public class PropertyFactory {
      */
     public StringProperty createEphemeralProperty(String key, String defaultValue) {
         checkPrefixSet();
-        return new StringProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager);
+        return new StringProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager, defaultLevel);
     }
 
     /**
@@ -128,7 +128,7 @@ public class PropertyFactory {
      */
     public DoubleProperty createEphemeralProperty(String key, double defaultValue) {
         checkPrefixSet();
-        return new DoubleProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager);
+        return new DoubleProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager, defaultLevel);
     }
 
     /**
@@ -148,7 +148,7 @@ public class PropertyFactory {
      */
     public BooleanProperty createPersistentProperty(String key, boolean defaultValue) {
         checkPrefixSet();
-        return new BooleanProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager);
+        return new BooleanProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager, defaultLevel);
     }
 
     /**
@@ -168,7 +168,7 @@ public class PropertyFactory {
      */
     public StringProperty createPersistentProperty(String key, String defaultValue) {
         checkPrefixSet();
-        return new StringProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager);
+        return new StringProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager, defaultLevel);
     }
 
     /**
@@ -188,7 +188,7 @@ public class PropertyFactory {
      */
     public DoubleProperty createPersistentProperty(String key, double defaultValue) {
         checkPrefixSet();
-        return new DoubleProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager);
+        return new DoubleProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager, defaultLevel);
     }
 
     /**
