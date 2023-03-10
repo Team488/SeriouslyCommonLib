@@ -15,6 +15,7 @@ public class PropertyFactory {
     private String prefix = "";
     private RobotAssertionManager assertionManager;
     private boolean prefixSet;
+    private PropertyLevel defaultLevel = PropertyLevel.Important;
 
     @Inject
     PropertyFactory(XPropertyManager propertyManager, RobotAssertionManager assertionManager) {
@@ -76,6 +77,10 @@ public class PropertyFactory {
         }
     }
 
+    public void setDefaultLevel(PropertyLevel level) {
+        this.defaultLevel = level;
+    }
+
     /**
      * Method for creating a boolean ephemeral property
      * 
@@ -83,7 +88,7 @@ public class PropertyFactory {
      */
     public BooleanProperty createEphemeralProperty(String key, boolean defaultValue) {
         checkPrefixSet();
-        return new BooleanProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager);
+        return new BooleanProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager, defaultLevel);
     }
 
     /**
@@ -113,7 +118,7 @@ public class PropertyFactory {
      */
     public StringProperty createEphemeralProperty(String key, String defaultValue) {
         checkPrefixSet();
-        return new StringProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager);
+        return new StringProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager, defaultLevel);
     }
 
     /**
@@ -123,7 +128,7 @@ public class PropertyFactory {
      */
     public DoubleProperty createEphemeralProperty(String key, double defaultValue) {
         checkPrefixSet();
-        return new DoubleProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager);
+        return new DoubleProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Ephemeral, this.propertyManager, defaultLevel);
     }
 
     /**
@@ -143,7 +148,7 @@ public class PropertyFactory {
      */
     public BooleanProperty createPersistentProperty(String key, boolean defaultValue) {
         checkPrefixSet();
-        return new BooleanProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager);
+        return new BooleanProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager, defaultLevel);
     }
 
     /**
@@ -163,7 +168,7 @@ public class PropertyFactory {
      */
     public StringProperty createPersistentProperty(String key, String defaultValue) {
         checkPrefixSet();
-        return new StringProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager);
+        return new StringProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager, defaultLevel);
     }
 
     /**
@@ -183,7 +188,7 @@ public class PropertyFactory {
      */
     public DoubleProperty createPersistentProperty(String key, double defaultValue) {
         checkPrefixSet();
-        return new DoubleProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager);
+        return new DoubleProperty(this.createFullKey(key), defaultValue, PropertyPersistenceType.Persistent, this.propertyManager, defaultLevel);
     }
 
     /**
