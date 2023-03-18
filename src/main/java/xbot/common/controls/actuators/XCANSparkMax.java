@@ -24,6 +24,8 @@ public abstract class XCANSparkMax {
 
     protected int deviceId;
     protected String prefix = "";
+    protected String owningSystemPrefix = "";
+    protected String akitName = "";
     protected DeviceInfo info;
     PropertyFactory propertyFactory;
 
@@ -70,6 +72,8 @@ public abstract class XCANSparkMax {
             XCANSparkMaxPIDProperties defaultPIDProperties) {
         this.info = deviceInfo;
         this.deviceId = deviceInfo.channel;
+        this.owningSystemPrefix = owningSystemPrefix;
+        this.akitName = owningSystemPrefix+ "/" + info.name+"SparkMax";
         if (defaultPIDProperties == null) {
             usesPropertySystem = false;
         } else {
@@ -773,7 +777,7 @@ public abstract class XCANSparkMax {
 
     public void refreshDataFrame() {
         updateInputs(inputs);
-        Logger.getInstance().processInputs(info.name+"SparkMax", inputs);
+        Logger.getInstance().processInputs(akitName, inputs);
     }
 
     public XCANSparkMaxInputs getCurrentDataFrame() {

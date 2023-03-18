@@ -1,29 +1,25 @@
 package xbot.common.command;
 
+import org.littletonrobotics.junction.Logger;
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
 import xbot.common.logic.TimeStableValidator;
-import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
-import xbot.common.properties.StringProperty;
 
 public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
     BaseSetpointSubsystem subsystemToMaintain;
 
-    protected final BooleanProperty errorWithinToleranceProp;
     protected final DoubleProperty errorToleranceProp;
-    protected final BooleanProperty errorIsTimeStableProp;
     protected final DoubleProperty errorTimeStableWindowProp;
-    protected final BooleanProperty subsystemReportsReadyProp;
+    protected boolean subsystemReportsReady;
 
     protected final TimeStableValidator timeStableValidator;
     protected final HumanVsMachineDecider decider;
 
-    private final StringProperty currentModeProp;
 
     public BaseMaintainerCommand(BaseSetpointSubsystem subsystemToMaintain, PropertyFactory pf,
             HumanVsMachineDeciderFactory humanVsMachineDeciderFactory,
@@ -34,12 +30,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         pf.setPrefix(this);
         pf.setDefaultLevel(Property.PropertyLevel.Debug);
         errorToleranceProp = pf.createPersistentProperty("Error Tolerance", defaultErrorTolerance);
-        errorWithinToleranceProp = pf.createEphemeralProperty("Error Within Tolerance", false);
         errorTimeStableWindowProp = pf.createPersistentProperty("Error Time Stable Window", defaultTimeStableWindow);
-        errorIsTimeStableProp = pf.createEphemeralProperty("Error Is Time Stable", false);
-        currentModeProp = pf.createEphemeralProperty("Current Mode", "Not Yet Run");
-        subsystemReportsReadyProp = pf.createEphemeralProperty("Subsystem Ready", false);
-
         timeStableValidator = new TimeStableValidator(() -> errorTimeStableWindowProp.get());
         decider = humanVsMachineDeciderFactory.create(this.getPrefix());
     }
@@ -57,7 +48,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
     protected void maintain() {
         double humanInput = getHumanInputMagnitude();
         HumanVsMachineMode mode = decider.getRecommendedMode(humanInput);
-        currentModeProp.set(mode.toString());
+        Logger.getInstance().recordOutput(getPrefix()+"CurrentMode", mode.toString());
 
         switch (mode) {
             case Coast:
@@ -122,9 +113,11 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
         boolean isStable = timeStableValidator.checkStable(totalAtGoal);
         // Let everybody know
-        errorWithinToleranceProp.set(withinErrorTolerance);
-        errorIsTimeStableProp.set(isStable);
-        subsystemReportsReadyProp.set(subsystemToMaintain.isMaintainerAtGoal());
+
+        Logger.getInstance().recordOutput(this.getPrefix() + "ErrorWithinTotalTolerance", withinErrorTolerance);
+        Logger.getInstance().recordOutput(this.getPrefix() + "ErrorIsTimeStable", isStable);
+        Logger.getInstance().recordOutput(this.getPrefix() + "SubsystemReportsReady", subsystemReportsReady);
+
         return isStable;
     }
 
@@ -168,7 +161,4 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         return subsystemToMaintain.getPrefix() + getName() + "/";
     }
 
-    protected void setErrorTolerance(double tolerance) {
-        errorToleranceProp.set(tolerance);
-    }
 }
