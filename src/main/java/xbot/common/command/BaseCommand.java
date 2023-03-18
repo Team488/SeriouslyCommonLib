@@ -59,26 +59,6 @@ public abstract class BaseCommand extends CommandBase implements IPropertySuppor
         }
     }
 
-    @Override
-    public void initSendable(SendableBuilder builder) {
-        builder.setSmartDashboardType("Command");
-        builder.addStringProperty(".name", this::getName, null);
-        builder.addBooleanProperty(
-                "running",
-                this::isScheduled,
-                value -> {
-                    if (value) {
-                        if (!isScheduled()) {
-                            schedule();
-                        }
-                    } else {
-                        if (isScheduled()) {
-                            cancel();
-                        }
-                    }
-                });
-    }
-
     /**
      * @deprecated
      * Suggest use {@link #addRequirements(edu.wpi.first.wpilibj2.command.Subsystem...)} instead.
