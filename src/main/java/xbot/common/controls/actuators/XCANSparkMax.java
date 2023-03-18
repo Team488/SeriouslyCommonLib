@@ -36,11 +36,6 @@ public abstract class XCANSparkMax {
     private DoubleProperty kFFprop;
     private DoubleProperty kMaxOutputProp;
     private DoubleProperty kMinOutoutProp;
-
-    private DoubleProperty percentProp;
-    private DoubleProperty voltageProp;
-    private DoubleProperty currentProp;
-
     protected final String policeTicket;
 
     protected boolean firstPeriodicCall = true;
@@ -90,10 +85,6 @@ public abstract class XCANSparkMax {
             kFFprop = pf.createPersistentProperty("kFeedForward", defaultPIDProperties.feedForward);
             kMaxOutputProp = pf.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxOutput);
             kMinOutoutProp = pf.createPersistentProperty("kMinOutput", defaultPIDProperties.minOutput);
-
-            percentProp = pf.createEphemeralProperty("Percent", 0);
-            voltageProp = pf.createEphemeralProperty("Voltage", 0);
-            currentProp = pf.createEphemeralProperty("Current", 0);
         }
 
         policeTicket = police.registerDevice(DeviceType.CAN, deviceId, this);
@@ -135,10 +126,6 @@ public abstract class XCANSparkMax {
             kFFprop.hasChangedSinceLastCheck((value) -> setFF(value));
             kMaxOutputProp.hasChangedSinceLastCheck((value) -> setOutputRange(kMinOutoutProp.get(), value));
             kMinOutoutProp.hasChangedSinceLastCheck((value) -> setOutputRange(value, kMaxOutputProp.get()));
-
-            percentProp.set(getAppliedOutput());
-            voltageProp.set(getAppliedOutput() * getBusVoltage());
-            currentProp.set(getOutputCurrent());
         }
     }
 

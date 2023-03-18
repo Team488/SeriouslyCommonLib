@@ -20,6 +20,7 @@ import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.math.WrappedRotation2d;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 import xbot.common.simulation.ISimulatableSensor;
@@ -51,6 +52,7 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
         this.deviceId = deviceInfo.channel;
         this.velocity = 0;
         this.absolutePosition = new WrappedRotation2d(0);
+        pf.setDefaultLevel(Property.PropertyLevel.Debug);
         this.positionOffset = pf.createEphemeralProperty("PositionOffset", 0);
         this.inverted = pf.createEphemeralProperty("Inverted", deviceInfo.inverted);
         this.simulationScale = pf.createEphemeralProperty("SimulationScale", deviceInfo.simulationScalingValue);

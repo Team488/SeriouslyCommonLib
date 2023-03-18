@@ -8,6 +8,7 @@ import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.PID.OffTargetReason;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.Property;
 import xbot.common.properties.StringProperty;
 import xbot.common.properties.PropertyFactory;
 
@@ -108,8 +109,11 @@ public class PIDManager extends PIDPropertyManager {
         super(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold,
                 derivativeThreshold, timeThreshold, iZone);
 
+        propMan.setDefaultLevel(Property.PropertyLevel.Important);
         maxOutput = propMan.createPersistentProperty("Max Output", defaultMaxOutput);
         minOutput = propMan.createPersistentProperty("Min Output", defaultMinOutput);
+
+        propMan.setDefaultLevel(Property.PropertyLevel.Debug);
         isEnabled = propMan.createPersistentProperty("Is Enabled", true);
         offTargetReasonProp = propMan.createEphemeralProperty("OffTargetReason", "");
 

@@ -5,6 +5,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 
 public class HumanVsMachineDecider {
@@ -30,6 +31,7 @@ public class HumanVsMachineDecider {
     public HumanVsMachineDecider(@Assisted("prefix") String prefix, PropertyFactory propMan) {
         propMan.setPrefix(prefix);
         propMan.appendPrefix("Decider");
+        propMan.setDefaultLevel(Property.PropertyLevel.Debug);
         deadbandProp = propMan.createPersistentProperty("Deadband", 0.1);
         coastTimeProp = propMan.createPersistentProperty("Coast Time", 0.3);
         reset();

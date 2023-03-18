@@ -6,6 +6,7 @@ import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
 import xbot.common.logic.TimeStableValidator;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.properties.StringProperty;
 
@@ -31,6 +32,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         this.addRequirements(subsystemToMaintain);
 
         pf.setPrefix(this);
+        pf.setDefaultLevel(Property.PropertyLevel.Debug);
         errorToleranceProp = pf.createPersistentProperty("Error Tolerance", defaultErrorTolerance);
         errorWithinToleranceProp = pf.createEphemeralProperty("Error Within Tolerance", false);
         errorTimeStableWindowProp = pf.createPersistentProperty("Error Time Stable Window", defaultTimeStableWindow);

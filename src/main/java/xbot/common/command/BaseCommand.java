@@ -2,6 +2,7 @@ package xbot.common.command;
 
 import javax.inject.Inject;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -57,7 +58,27 @@ public abstract class BaseCommand extends CommandBase implements IPropertySuppor
             commandPutter.addCommandToSmartDashboard(label, this);
         }
     }
-    
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("Command");
+        builder.addStringProperty(".name", this::getName, null);
+        builder.addBooleanProperty(
+                "running",
+                this::isScheduled,
+                value -> {
+                    if (value) {
+                        if (!isScheduled()) {
+                            schedule();
+                        }
+                    } else {
+                        if (isScheduled()) {
+                            cancel();
+                        }
+                    }
+                });
+    }
+
     /**
      * @deprecated
      * Suggest use {@link #addRequirements(edu.wpi.first.wpilibj2.command.Subsystem...)} instead.
