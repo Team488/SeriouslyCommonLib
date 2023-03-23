@@ -42,6 +42,10 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         decider = humanVsMachineDeciderFactory.create(this.getPrefix());
     }
 
+    protected void resetDecider(boolean startInAutomaticMode) {
+        decider.reset(startInAutomaticMode);
+    }
+
     @Override
     public void execute() {
         maintain();

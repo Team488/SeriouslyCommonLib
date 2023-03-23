@@ -38,8 +38,12 @@ public class HumanVsMachineDecider {
     }
     
     public void reset() {
+        reset(true);
+    }
+
+    public void reset(boolean startInAutomaticMode) {
         lastHumanTime = XTimer.getFPGATimestamp()-100;
-        inAutomaticMode = true;
+        inAutomaticMode = startInAutomaticMode;
     }
     
     public HumanVsMachineMode getRecommendedMode(double humanInput) {
