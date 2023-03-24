@@ -34,7 +34,7 @@ public class XPropertyManager {
         this.properties = new ArrayList<Property>();
         this.permanentStore = permanentStore;
         this.randomAccessStore = randomAccessStore;
-        this.inMemoryRandomAccessStore = inMemoryRandomAccessStore;
+        this.inMemoryRandomAccessStore = new TableProxy();
     }
 
     /**
