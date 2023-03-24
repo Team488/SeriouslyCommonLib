@@ -7,6 +7,7 @@ import dagger.assisted.AssistedInject;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 
 public class PIDPropertyManager {
@@ -82,6 +83,8 @@ public class PIDPropertyManager {
         propP = propMan.createPersistentProperty("P", defaultP);
         propI = propMan.createPersistentProperty("I", defaultI);
         propD = propMan.createPersistentProperty("D", defaultD);
+
+        propMan.setDefaultLevel(Property.PropertyLevel.Debug);
         propF = propMan.createPersistentProperty("F", defaultF);
         propIZone = propMan.createPersistentProperty("IZone", defaultIZone);
         

@@ -13,6 +13,7 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 
 public abstract class XCANSparkMax {
@@ -66,14 +67,15 @@ public abstract class XCANSparkMax {
         kPprop = pf.createPersistentProperty("kP", defaultPIDProperties.p);
         kIprop = pf.createPersistentProperty("kI", defaultPIDProperties.i);
         kDprop = pf.createPersistentProperty("kD", defaultPIDProperties.d);
-        kIzProp = pf.createPersistentProperty("kIzone", defaultPIDProperties.iZone);
-        kFFprop = pf.createPersistentProperty("kFeedForward", defaultPIDProperties.feedForward);
         kMaxOutputProp = pf.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxOutput);
         kMinOutoutProp = pf.createPersistentProperty("kMinOutput", defaultPIDProperties.minOutput);
 
+        pf.setDefaultLevel(Property.PropertyLevel.Debug);
         percentProp = pf.createEphemeralProperty("Percent", 0);
         voltageProp = pf.createEphemeralProperty("Voltage", 0);
         currentProp = pf.createEphemeralProperty("Current", 0);
+        kIzProp = pf.createPersistentProperty("kIzone", defaultPIDProperties.iZone);
+        kFFprop = pf.createPersistentProperty("kFeedForward", defaultPIDProperties.feedForward);
     }
 
     ///
