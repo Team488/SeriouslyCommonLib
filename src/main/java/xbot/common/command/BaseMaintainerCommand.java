@@ -1,5 +1,6 @@
 package xbot.common.command;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
@@ -101,7 +102,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         // we can't require and then un-require a subsystem, so instead we just cancel
         // any running command that
         // is trying to maniuplate the setpoint.
-        if (subsystemToMaintan.getSetpointLock().getCurrentCommand() != null) {
+        if (subsystemToMaintan.getSetpointLock().getCurrentCommand() != null && !DriverStation.isAutonomous()) {
             subsystemToMaintan.getSetpointLock().getCurrentCommand().cancel();
         }
 
