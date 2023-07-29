@@ -149,7 +149,7 @@ publishing {
             groupId 'xbot' 
             artifactId 'common' 
             version System.getenv('BUILD_BUILDNUMBER') ?: '1.0.0'  
-            artifact 'build/libs/SeriouslyCommonLib-' + (System.getenv('BUILD_BUILDNUMBER') ?: '1.0.0') + '.jar'   
+            artifact 'build/libs/SeriouslyCommonLib.jar'   
         } 
     }
     repositories {
