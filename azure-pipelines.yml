@@ -34,4 +34,4 @@ jobs:
         gradleWrapperFile: 'gradlew'
         gradleOptions: '-Xmx3072m'
         publishJUnitResults: true
-        tasks: 'publish --info'
+        tasks: 'jar publish --info'
