@@ -28,3 +28,10 @@ jobs:
         codeCoverageTool: 'JaCoCo'
         summaryFileLocation: 'build/reports/jacoco/test/jacocoTestReport.xml'
         reportDirectory: 'build/reports/jacoco/test/html'
+    - task: Gradle@2
+      inputs:
+        workingDirectory: ''
+        gradleWrapperFile: 'gradlew'
+        gradleOptions: '-Xmx3072m'
+        publishJUnitResults: true
+        tasks: 'publish --info'

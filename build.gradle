@@ -13,6 +13,7 @@ plugins {
     id 'scala'
     id 'checkstyle'
     id 'jacoco'
+    id "net.linguica.maven-settings" version "0.5"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -23,6 +24,11 @@ repositories {
     // Use 'mavenCentral' for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     mavenCentral()
+
+    maven {
+        url 'https://pkgs.dev.azure.com/Team488/2ef6eee3-1df0-441a-9af8-5edc5c3cb203/_packaging/XBot/maven/v1'
+        name 'XBot'
+    }
     
     maven { url "https://mvnrepository.com/artifact/com.google.dagger/dagger" }
     maven { url "https://mvnrepository.com/artifact/com.google.dagger/dagger-compiler" }
@@ -134,3 +140,25 @@ test.finalizedBy { jacocoTestReport }
 // Configure jar and deploy tasks
 wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
+
+apply plugin: 'maven-publish'
+
+publishing {
+    publications { 
+        myPublication(MavenPublication) { 
+            groupId 'xbot' 
+            artifactId 'common' 
+            version System.getenv('BUILD_BUILDNUMBER') || '1.0.0'  
+            artifact 'build/libs/SeriouslyCommonLib.jar'   
+        } 
+    }
+    repositories {
+        maven {
+            url 'https://pkgs.dev.azure.com/Team488/2ef6eee3-1df0-441a-9af8-5edc5c3cb203/_packaging/XBot/maven/v1'
+            name 'XBot'
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
+}
