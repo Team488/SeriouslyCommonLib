@@ -146,8 +146,8 @@ apply plugin: 'maven-publish'
 publishing {
     publications { 
         myPublication(MavenPublication) { 
-            groupId 'xbot' 
-            artifactId 'common' 
+            groupId 'xbot.common' 
+            artifactId 'SeriouslyCommonLib' 
             version System.getenv('BUILD_BUILDNUMBER') ?: '1.0.0'  
             artifact 'build/libs/SeriouslyCommonLib.jar'   
         } 
