@@ -148,8 +148,8 @@ publishing {
         myPublication(MavenPublication) { 
             groupId 'xbot' 
             artifactId 'common' 
-            version System.getenv('BUILD_BUILDNUMBER') || '1.0.0'  
-            artifact 'build/libs/SeriouslyCommonLib-true.jar'   
+            version System.getenv('BUILD_BUILDNUMBER') ?: '1.0.0'  
+            artifact 'build/libs/SeriouslyCommonLib-' + (System.getenv('BUILD_BUILDNUMBER') ?: '1.0.0') + '.jar'   
         } 
     }
     repositories {
