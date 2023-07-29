@@ -28,10 +28,15 @@ jobs:
         codeCoverageTool: 'JaCoCo'
         summaryFileLocation: 'build/reports/jacoco/test/jacocoTestReport.xml'
         reportDirectory: 'build/reports/jacoco/test/html'
+    - task: MavenAuthenticate@0
+      displayName: 'Maven Authenticate'
+      inputs:
+        artifactsFeeds: XBot
     - task: Gradle@2
+      displayName: 'Publish artifact'
       inputs:
         workingDirectory: ''
         gradleWrapperFile: 'gradlew'
         gradleOptions: '-Xmx3072m'
         publishJUnitResults: true
-        tasks: 'jar publish --info'
+        tasks: 'publish --info'
