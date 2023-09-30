@@ -30,7 +30,9 @@ public class AnalogHIDButtonTrigger extends AdvancedTrigger {
      *            The GenericHID object that has the analog axis to use
      * @param axisNumber
      *            The axis number (appears to usually be [X=0,Y=1,Z=2])
-     * @param analogThreshold
+     * @param analogMinThreshold
+     *            Analog threshold to trigger binary button state
+     * @param analogMaxThreshold
      *            Analog threshold to trigger binary button state
      */
     @AssistedInject
