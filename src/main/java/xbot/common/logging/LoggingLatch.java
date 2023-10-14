@@ -14,7 +14,7 @@ public class LoggingLatch {
     public LoggingLatch(String callerName, String message, EdgeType edgeType) {
         this.latch = new Latch(false, edgeType);
         
-        latch.addObserver((e) -> {
+        latch.setObserver((e) -> {
             EdgeType edge =e;
             if(edge == edgeType) {
                 log.info(callerName + ": " + message);
