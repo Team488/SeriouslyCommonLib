@@ -133,6 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">TimeStableValidator</span>
 extends java.lang.Object</pre>
+<div class="block">Checks that a value is stable for a given amount of time.</div>
 </li>
 </ul>
 </div>
@@ -154,11 +155,15 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(double)">TimeStableValidator</a></span>&#8203;(double&nbsp;stableWindow)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Creates a new TimeStableValidator using a constant value.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.util.function.Supplier)">TimeStableValidator</a></span>&#8203;(java.util.function.Supplier&lt;java.lang.Double&gt;&nbsp;stableWindowProvider)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Creates a new TimeStableValidator using a window from a supplier.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -181,24 +186,30 @@ extends java.lang.Object</pre>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#checkStable(boolean)">checkStable</a></span>&#8203;(boolean&nbsp;value)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Checks if the value has been stable for the entire stable window duration.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setStable()">setStable</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Used if you want the validator to start in a stable state</div>
+<div class="block">Used if you want the validator to start in a stable state.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setStableWindow(double)">setStableWindow</a></span>&#8203;(double&nbsp;stableWindow)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Update the stable window using a constant value.</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setStableWindowProvider(java.util.function.Supplier)">setStableWindowProvider</a></span>&#8203;(java.util.function.Supplier&lt;java.lang.Double&gt;&nbsp;stableWindowProvider)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Update the stable window using a supplier.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -231,6 +242,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>TimeStableValidator</h4>
 <pre>public&nbsp;TimeStableValidator&#8203;(double&nbsp;stableWindow)</pre>
+<div class="block">Creates a new TimeStableValidator using a constant value.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>stableWindow</code> - The time window, in seconds.</dd>
+</dl>
 </li>
 </ul>
 <a id="&lt;init&gt;(java.util.function.Supplier)">
@@ -240,6 +256,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>TimeStableValidator</h4>
 <pre>public&nbsp;TimeStableValidator&#8203;(java.util.function.Supplier&lt;java.lang.Double&gt;&nbsp;stableWindowProvider)</pre>
+<div class="block">Creates a new TimeStableValidator using a window from a supplier.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>stableWindowProvider</code> - A supplier that provides a time window, in seconds.</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -259,6 +280,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setStableWindowProvider</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setStableWindowProvider&#8203;(java.util.function.Supplier&lt;java.lang.Double&gt;&nbsp;stableWindowProvider)</pre>
+<div class="block">Update the stable window using a supplier.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>stableWindowProvider</code> - A supplier that provides a time window, in seconds.</dd>
+</dl>
 </li>
 </ul>
 <a id="setStableWindow(double)">
@@ -268,6 +294,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setStableWindow</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setStableWindow&#8203;(double&nbsp;stableWindow)</pre>
+<div class="block">Update the stable window using a constant value.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>stableWindow</code> - The time window, in seconds.</dd>
+</dl>
 </li>
 </ul>
 <a id="checkStable(boolean)">
@@ -277,6 +308,13 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>checkStable</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;checkStable&#8203;(boolean&nbsp;value)</pre>
+<div class="block">Checks if the value has been stable for the entire stable window duration.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>value</code> - The value to test.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>True if the value has been stable for the entire window duration.</dd>
+</dl>
 </li>
 </ul>
 <a id="setStable()">
@@ -286,7 +324,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setStable</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setStable()</pre>
-<div class="block">Used if you want the validator to start in a stable state</div>
+<div class="block">Used if you want the validator to start in a stable state.</div>
 </li>
 </ul>
 </li>

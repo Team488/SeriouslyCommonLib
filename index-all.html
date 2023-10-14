@@ -135,8 +135,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Add the magnitude to the vector represented by the coordinate.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="xbot/common/logic/Latch.html#addObserver(java.util.function.Consumer)">addObserver(Consumer&lt;Latch.EdgeType&gt;)</a></span> - Method in class xbot.common.logic.<a href="xbot/common/logic/Latch.html" title="class in xbot.common.logic">Latch</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/subsystems/drive/ConfigurablePurePursuitCommand.html#addPoint(xbot.common.math.FieldPose)">addPoint(FieldPose)</a></span> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/ConfigurablePurePursuitCommand.html" title="class in xbot.common.subsystems.drive">ConfigurablePurePursuitCommand</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/subsystems/drive/ConfigurablePurePursuitCommand.html#addPoint(xbot.common.subsystems.drive.RabbitPoint)">addPoint(RabbitPoint)</a></span> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/ConfigurablePurePursuitCommand.html" title="class in xbot.common.subsystems.drive">ConfigurablePurePursuitCommand</a></dt>
@@ -551,7 +549,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="xbot/common/logic/WatchdogTimer.html#check()">check()</a></span> - Method in class xbot.common.logic.<a href="xbot/common/logic/WatchdogTimer.html" title="class in xbot.common.logic">WatchdogTimer</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/logic/TimeStableValidator.html#checkStable(boolean)">checkStable(boolean)</a></span> - Method in class xbot.common.logic.<a href="xbot/common/logic/TimeStableValidator.html" title="class in xbot.common.logic">TimeStableValidator</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Checks if the value has been stable for the entire stable window duration.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/logging/LoggingLatch.html#checkValue(boolean)">checkValue(boolean)</a></span> - Method in class xbot.common.logging.<a href="xbot/common/logging/LoggingLatch.html" title="class in xbot.common.logging">LoggingLatch</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html#cheesyDrive(double,double)">cheesyDrive(double, double)</a></span> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseDriveSubsystem</a></dt>
@@ -4441,9 +4441,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  changes.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="xbot/common/logic/Latch.html#%3Cinit%3E(boolean,xbot.common.logic.Latch.EdgeType)">Latch(boolean, Latch.EdgeType)</a></span> - Constructor for class xbot.common.logic.<a href="xbot/common/logic/Latch.html" title="class in xbot.common.logic">Latch</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Creates a new latch.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/logic/Latch.html#%3Cinit%3E(boolean,xbot.common.logic.Latch.EdgeType,java.util.function.Consumer)">Latch(boolean, Latch.EdgeType, Consumer&lt;Latch.EdgeType&gt;)</a></span> - Constructor for class xbot.common.logic.<a href="xbot/common/logic/Latch.html" title="class in xbot.common.logic">Latch</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Creates a new latch with a callback.</div>
+</dd>
 <dt><a href="xbot/common/logic/Latch.EdgeType.html" title="enum in xbot.common.logic"><span class="typeNameLink">Latch.EdgeType</span></a> - Enum in <a href="xbot/common/logic/package-summary.html">xbot.common.logic</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/controls/sensors/XXboxController.XboxButton.html#LeftBumper">LeftBumper</a></span> - xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XXboxController.XboxButton.html" title="enum in xbot.common.controls.sensors">XXboxController.XboxButton</a></dt>
@@ -5980,6 +5984,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/networking/ZeromqListener.html#setNewPacketHandler(java.util.function.Consumer)">setNewPacketHandler(Consumer&lt;String&gt;)</a></span> - Method in class xbot.common.networking.<a href="xbot/common/networking/ZeromqListener.html" title="class in xbot.common.networking">ZeromqListener</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="xbot/common/logic/Latch.html#setObserver(java.util.function.Consumer)">setObserver(Consumer&lt;Latch.EdgeType&gt;)</a></span> - Method in class xbot.common.logic.<a href="xbot/common/logic/Latch.html" title="class in xbot.common.logic">Latch</a></dt>
+<dd>
+<div class="block">Set the callback to trigger on changes.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/controls/actuators/XDoubleSolenoid.html#setOff()">setOff()</a></span> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XDoubleSolenoid.html" title="class in xbot.common.controls.actuators">XDoubleSolenoid</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/controls/actuators/XSolenoid.html#setOn(boolean)">setOn(boolean)</a></span> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XSolenoid.html" title="class in xbot.common.controls.actuators">XSolenoid</a></dt>
@@ -6306,12 +6314,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="xbot/common/logic/TimeStableValidator.html#setStable()">setStable()</a></span> - Method in class xbot.common.logic.<a href="xbot/common/logic/TimeStableValidator.html" title="class in xbot.common.logic">TimeStableValidator</a></dt>
 <dd>
-<div class="block">Used if you want the validator to start in a stable state</div>
+<div class="block">Used if you want the validator to start in a stable state.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="xbot/common/logic/TimeStableValidator.html#setStableWindow(double)">setStableWindow(double)</a></span> - Method in class xbot.common.logic.<a href="xbot/common/logic/TimeStableValidator.html" title="class in xbot.common.logic">TimeStableValidator</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Update the stable window using a constant value.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/logic/TimeStableValidator.html#setStableWindowProvider(java.util.function.Supplier)">setStableWindowProvider(Supplier&lt;Double&gt;)</a></span> - Method in class xbot.common.logic.<a href="xbot/common/logic/TimeStableValidator.html" title="class in xbot.common.logic">TimeStableValidator</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Update the stable window using a supplier.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/controls/actuators/wpi_adapters/CANVictorSPXWpiAdapter.html#setStatusFramePeriod(int,int)">setStatusFramePeriod(int, int)</a></span> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANVictorSPXWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANVictorSPXWpiAdapter</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/controls/actuators/wpi_adapters/CANTalonWPIAdapter.html#setStatusFramePeriod(int,int,int)">setStatusFramePeriod(int, int, int)</a></span> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANTalonWPIAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANTalonWPIAdapter</a></dt>
@@ -6415,7 +6427,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="edu/wpi/first/wpilibj/MockDigitalInput.html#setValue(boolean)">setValue(boolean)</a></span> - Method in class edu.wpi.first.wpilibj.<a href="edu/wpi/first/wpilibj/MockDigitalInput.html" title="class in edu.wpi.first.wpilibj">MockDigitalInput</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/logic/Latch.html#setValue(boolean)">setValue(boolean)</a></span> - Method in class xbot.common.logic.<a href="xbot/common/logic/Latch.html" title="class in xbot.common.logic">Latch</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Set the new value of the latch, triggering the callback if the value changes.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/math/ContiguousDouble.html#setValue(double)">setValue(double)</a></span> - Method in class xbot.common.math.<a href="xbot/common/math/ContiguousDouble.html" title="class in xbot.common.math">ContiguousDouble</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/controls/actuators/mock_adapters/MockCANSparkMax.html#setVelocity(double)">setVelocity(double)</a></span> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANSparkMax.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANSparkMax</a></dt>
@@ -6721,11 +6735,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="xbot/common/command/BaseMaintainerCommand.html#timeStableValidator">timeStableValidator</a></span> - Variable in class xbot.common.command.<a href="xbot/common/command/BaseMaintainerCommand.html" title="class in xbot.common.command">BaseMaintainerCommand</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/logic/TimeStableValidator.html" title="class in xbot.common.logic"><span class="typeNameLink">TimeStableValidator</span></a> - Class in <a href="xbot/common/logic/package-summary.html">xbot.common.logic</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Checks that a value is stable for a given amount of time.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/logic/TimeStableValidator.html#%3Cinit%3E(double)">TimeStableValidator(double)</a></span> - Constructor for class xbot.common.logic.<a href="xbot/common/logic/TimeStableValidator.html" title="class in xbot.common.logic">TimeStableValidator</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Creates a new TimeStableValidator using a constant value.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/logic/TimeStableValidator.html#%3Cinit%3E(java.util.function.Supplier)">TimeStableValidator(Supplier&lt;Double&gt;)</a></span> - Constructor for class xbot.common.logic.<a href="xbot/common/logic/TimeStableValidator.html" title="class in xbot.common.logic">TimeStableValidator</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Creates a new TimeStableValidator using a window from a supplier.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/controls/sensors/buttons/SettableBooleanSuppler.html#toggle()">toggle()</a></span> - Method in class xbot.common.controls.sensors.buttons.<a href="xbot/common/controls/sensors/buttons/SettableBooleanSuppler.html" title="class in xbot.common.controls.sensors.buttons">SettableBooleanSuppler</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="xbot/common/controls/sensors/buttons/VirtualTrigger.html#toggle()">toggle()</a></span> - Method in class xbot.common.controls.sensors.buttons.<a href="xbot/common/controls/sensors/buttons/VirtualTrigger.html" title="class in xbot.common.controls.sensors.buttons">VirtualTrigger</a></dt>
