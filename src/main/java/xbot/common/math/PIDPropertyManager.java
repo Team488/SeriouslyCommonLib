@@ -87,6 +87,7 @@ public class PIDPropertyManager {
 
         // TODO: Find a better way to turn this on/off from the driver station to quickly re-enable
         // configuration across multiple scenarios.
+
         propMan.setDefaultLevel(Property.PropertyLevel.Debug);
         propF = propMan.createPersistentProperty("F", defaultF);
         propIZone = propMan.createPersistentProperty("IZone", defaultIZone);

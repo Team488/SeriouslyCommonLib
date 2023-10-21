@@ -294,5 +294,6 @@ public abstract class BaseRobot extends LoggedRobot {
 
     private double getPerformanceTimestampInMs() {
         return org.littletonrobotics.junction.Logger.getInstance().getRealTimestamp()*1.0 / 1000.0;
+
     }
 }

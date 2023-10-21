@@ -18,6 +18,7 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 
 public abstract class XCANSparkMax {
@@ -30,7 +31,6 @@ public abstract class XCANSparkMax {
     PropertyFactory propertyFactory;
 
     protected boolean usesPropertySystem = true;
-
     private DoubleProperty kPprop;
     private DoubleProperty kIprop;
     private DoubleProperty kDprop;
@@ -38,6 +38,11 @@ public abstract class XCANSparkMax {
     private DoubleProperty kFFprop;
     private DoubleProperty kMaxOutputProp;
     private DoubleProperty kMinOutoutProp;
+
+    private DoubleProperty percentProp;
+    private DoubleProperty voltageProp;
+    private DoubleProperty currentProp;
+
     protected final String policeTicket;
 
     protected boolean firstPeriodicCall = true;
@@ -60,7 +65,6 @@ public abstract class XCANSparkMax {
         public XCANSparkMax createWithoutProperties(DeviceInfo deviceInfo, String owningSystemPrefix, String name) {
             return create(deviceInfo, owningSystemPrefix, name, null);
         }
-
     }
 
     protected XCANSparkMax(
@@ -74,26 +78,30 @@ public abstract class XCANSparkMax {
         this.deviceId = deviceInfo.channel;
         this.owningSystemPrefix = owningSystemPrefix;
         this.akitName = owningSystemPrefix+ "/" + info.name+"SparkMax";
+
+        policeTicket = police.registerDevice(DeviceType.CAN, deviceId, this);
+
+        inputs = new XCANSparkMaxInputsAutoLogged();
+
         if (defaultPIDProperties == null) {
             usesPropertySystem = false;
         } else {
             this.propertyFactory = pf;
             this.propertyFactory.setPrefix(owningSystemPrefix);
             this.propertyFactory.appendPrefix(name);
-            prefix = pf.getPrefix();
-
             kPprop = pf.createPersistentProperty("kP", defaultPIDProperties.p);
             kIprop = pf.createPersistentProperty("kI", defaultPIDProperties.i);
             kDprop = pf.createPersistentProperty("kD", defaultPIDProperties.d);
+
+            pf.setDefaultLevel(Property.PropertyLevel.Debug);
+            percentProp = pf.createEphemeralProperty("Percent", 0);
+            voltageProp = pf.createEphemeralProperty("Voltage", 0);
+            currentProp = pf.createEphemeralProperty("Current", 0);
             kIzProp = pf.createPersistentProperty("kIzone", defaultPIDProperties.iZone);
             kFFprop = pf.createPersistentProperty("kFeedForward", defaultPIDProperties.feedForward);
             kMaxOutputProp = pf.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxOutput);
             kMinOutoutProp = pf.createPersistentProperty("kMinOutput", defaultPIDProperties.minOutput);
         }
-
-        policeTicket = police.registerDevice(DeviceType.CAN, deviceId, this);
-
-        inputs = new XCANSparkMaxInputsAutoLogged();
     }
 
     ///
@@ -130,6 +138,9 @@ public abstract class XCANSparkMax {
             kFFprop.hasChangedSinceLastCheck((value) -> setFF(value));
             kMaxOutputProp.hasChangedSinceLastCheck((value) -> setOutputRange(kMinOutoutProp.get(), value));
             kMinOutoutProp.hasChangedSinceLastCheck((value) -> setOutputRange(value, kMaxOutputProp.get()));
+            percentProp.set(getAppliedOutput());
+            voltageProp.set(getAppliedOutput() * getBusVoltage());
+            currentProp.set(getOutputCurrent());
         }
     }
 

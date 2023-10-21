@@ -35,13 +35,15 @@ public class HumanVsMachineDecider {
         deadbandProp = propMan.createPersistentProperty("Deadband", 0.1);
         coastTimeProp = propMan.createPersistentProperty("Coast Time", 0.3);
         reset();
-
-
     }
     
     public void reset() {
+        reset(true);
+    }
+
+    public void reset(boolean startInAutomaticMode) {
         lastHumanTime = XTimer.getFPGATimestamp()-100;
-        inAutomaticMode = true;
+        inAutomaticMode = startInAutomaticMode;
     }
     
     public HumanVsMachineMode getRecommendedMode(double humanInput) {

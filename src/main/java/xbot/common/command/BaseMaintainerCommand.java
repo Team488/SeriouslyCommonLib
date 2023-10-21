@@ -1,6 +1,7 @@
 package xbot.common.command;
 
 import org.littletonrobotics.junction.Logger;
+import edu.wpi.first.wpilibj.DriverStation;
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
@@ -29,10 +30,17 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
         pf.setPrefix(this);
         pf.setDefaultLevel(Property.PropertyLevel.Debug);
-        errorToleranceProp = pf.createPersistentProperty("Error Tolerance", defaultErrorTolerance);
-        errorTimeStableWindowProp = pf.createPersistentProperty("Error Time Stable Window", defaultTimeStableWindow);
+        errorWithinToleranceProp = pf.createEphemeralProperty("Error Within Tolerance", false);
+        errorIsTimeStableProp = pf.createEphemeralProperty("Error Is Time Stable", false);
+        currentModeProp = pf.createEphemeralProperty("Current Mode", "Not Yet Run");
+        subsystemReportsReadyProp = pf.createEphemeralProperty("Subsystem Ready", false);
+
         timeStableValidator = new TimeStableValidator(() -> errorTimeStableWindowProp.get());
         decider = humanVsMachineDeciderFactory.create(this.getPrefix());
+    }
+
+    protected void resetDecider(boolean startInAutomaticMode) {
+        decider.reset(startInAutomaticMode);
     }
 
     @Override
@@ -87,8 +95,9 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         // we can't require and then un-require a subsystem, so instead we just cancel
         // any running command that
         // is trying to maniuplate the setpoint.
-        if (subsystemToMaintain.getSetpointLock().getCurrentCommand() != null) {
-            subsystemToMaintain.getSetpointLock().getCurrentCommand().cancel();
+
+        if (subsystemToMaintan.getSetpointLock().getCurrentCommand() != null && !DriverStation.isAutonomous()) {
+            subsystemToMaintan.getSetpointLock().getCurrentCommand().cancel();
         }
 
         // Typically set the goal to the current position, to avoid sudden extreme

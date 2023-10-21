@@ -109,13 +109,14 @@ public class PIDManager extends PIDPropertyManager {
         super(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold,
                 derivativeThreshold, timeThreshold, iZone);
 
-        propMan.setDefaultLevel(Property.PropertyLevel.Important);
+        propMan.setDefaultLevel(Property.PropertyLevel.Debug);
         maxOutput = propMan.createPersistentProperty("Max Output", defaultMaxOutput);
         minOutput = propMan.createPersistentProperty("Min Output", defaultMinOutput);
 
         propMan.setDefaultLevel(Property.PropertyLevel.Debug);
         isEnabled = propMan.createPersistentProperty("Is Enabled", true);
         offTargetReasonProp = propMan.createEphemeralProperty("OffTargetReason", "");
+        propMan.setDefaultLevel(Property.PropertyLevel.Important);
 
         pid = new PID();
         sendTolerancesToInternalPID();
