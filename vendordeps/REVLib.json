@@ -3,6 +3,7 @@
     "name": "REVLib",
     "version": "2023.1.2",
     "uuid": "3f48eb8c-50fe-43a6-9cb7-44c86353c4cb",
+    "frcYear": 2024,
     "mavenUrls": [
         "https://maven.revrobotics.com/"
     ],
