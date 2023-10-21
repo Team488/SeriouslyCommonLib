@@ -62,7 +62,7 @@ public abstract class BaseRobot extends LoggedRobot {
 
     protected List<DataFrameRefreshable> dataFrameRefreshables = new ArrayList<>();
 
-    boolean forceWebots = true; // TODO: figure out a better way to swap between simulation and replay.
+    boolean forceWebots = false; // TODO: figure out a better way to swap between simulation and replay.
 
     public BaseRobot() {
     }
