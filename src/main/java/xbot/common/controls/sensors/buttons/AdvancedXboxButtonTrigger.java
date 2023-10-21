@@ -3,7 +3,8 @@ package xbot.common.controls.sensors.buttons;
 import java.util.HashMap;
 import java.util.function.BooleanSupplier;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -26,7 +27,7 @@ public class AdvancedXboxButtonTrigger extends AdvancedTrigger {
         }
     }
 
-    private static final Logger log = Logger.getLogger(AdvancedTrigger.class);
+    private static final Logger log = LogManager.getLogger(AdvancedTrigger.class);
 
     XXboxController controller;
     public XboxButton buttonName;

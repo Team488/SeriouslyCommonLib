@@ -1,6 +1,7 @@
 package xbot.common.math;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Wraps a double to allow easy comparison and manipulation of sensor readings
@@ -13,7 +14,7 @@ import org.apache.log4j.Logger;
  */
 public class ContiguousDouble {
 
-    private static Logger log = Logger.getLogger(ContiguousDouble.class);
+    private static Logger log = LogManager.getLogger(ContiguousDouble.class);
 
     private double value;
 
