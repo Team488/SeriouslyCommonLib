@@ -6,6 +6,7 @@ import java.util.List;
 import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
@@ -107,7 +108,7 @@ public abstract class BaseRobot extends LoggedRobot {
         Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
         DriverStation.silenceJoystickConnectionWarning(true);
 
-
+        
         log = LogManager.getLogger(BaseRobot.class);
         log.info("========== BASE ROBOT INITIALIZING ==========");
         setupInjectionModule();
