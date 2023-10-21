@@ -6,15 +6,21 @@ import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
 import xbot.common.logic.TimeStableValidator;
+import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.StringProperty;
 
 public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
     BaseSetpointSubsystem subsystemToMaintain;
 
     protected final DoubleProperty errorToleranceProp;
+    protected final BooleanProperty errorWithinToleranceProp;
+    protected final BooleanProperty errorIsTimeStableProp;
+    protected final StringProperty currentModeProp;
+    protected final BooleanProperty subsystemReportsReadyProp;
     protected final DoubleProperty errorTimeStableWindowProp;
     protected boolean subsystemReportsReady;
 
@@ -30,10 +36,12 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
         pf.setPrefix(this);
         pf.setDefaultLevel(Property.PropertyLevel.Debug);
+        errorToleranceProp = pf.createPersistentProperty("Error Tolerance", defaultErrorTolerance);
         errorWithinToleranceProp = pf.createEphemeralProperty("Error Within Tolerance", false);
         errorIsTimeStableProp = pf.createEphemeralProperty("Error Is Time Stable", false);
         currentModeProp = pf.createEphemeralProperty("Current Mode", "Not Yet Run");
         subsystemReportsReadyProp = pf.createEphemeralProperty("Subsystem Ready", false);
+        errorTimeStableWindowProp = pf.createEphemeralProperty("Error Time Stable Window", defaultTimeStableWindow);
 
         timeStableValidator = new TimeStableValidator(() -> errorTimeStableWindowProp.get());
         decider = humanVsMachineDeciderFactory.create(this.getPrefix());
@@ -96,12 +104,12 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         // any running command that
         // is trying to maniuplate the setpoint.
 
-        if (subsystemToMaintan.getSetpointLock().getCurrentCommand() != null && !DriverStation.isAutonomous()) {
-            subsystemToMaintan.getSetpointLock().getCurrentCommand().cancel();
+        if (subsystemToMaintain.getSetpointLock().getCurrentCommand() != null && !DriverStation.isAutonomous()) {
+            subsystemToMaintain.getSetpointLock().getCurrentCommand().cancel();
         }
 
         // Typically set the goal to the current position, to avoid sudden extreme
-        // changes
+        // changes`
         // as soon as Coast is complete.
         subsystemToMaintain.setTargetValue(subsystemToMaintain.getCurrentValue());
     }
