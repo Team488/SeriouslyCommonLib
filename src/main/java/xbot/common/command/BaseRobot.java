@@ -6,7 +6,6 @@ import java.util.List;
 import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
