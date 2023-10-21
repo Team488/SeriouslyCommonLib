@@ -17,7 +17,6 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
     BaseSetpointSubsystem subsystemToMaintain;
 
     protected final DoubleProperty errorToleranceProp;
-    protected final StringProperty currentModeProp;
     protected final DoubleProperty errorTimeStableWindowProp;
     protected boolean subsystemReportsReady;
 
@@ -34,7 +33,6 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         pf.setPrefix(this);
         pf.setDefaultLevel(Property.PropertyLevel.Debug);
         errorToleranceProp = pf.createPersistentProperty("Error Tolerance", defaultErrorTolerance);
-        currentModeProp = pf.createEphemeralProperty("Current Mode", "Not Yet Run");
         errorTimeStableWindowProp = pf.createEphemeralProperty("Error Time Stable Window", defaultTimeStableWindow);
 
         timeStableValidator = new TimeStableValidator(() -> errorTimeStableWindowProp.get());
