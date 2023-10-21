@@ -18,7 +18,6 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
     protected final DoubleProperty errorToleranceProp;
     protected final DoubleProperty errorTimeStableWindowProp;
-    protected boolean subsystemReportsReady;
 
     protected final TimeStableValidator timeStableValidator;
     protected final HumanVsMachineDecider decider;
@@ -125,7 +124,6 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
         Logger.getInstance().recordOutput(this.getPrefix() + "ErrorWithinTotalTolerance", withinErrorTolerance);
         Logger.getInstance().recordOutput(this.getPrefix() + "ErrorIsTimeStable", isStable);
-        Logger.getInstance().recordOutput(this.getPrefix() + "SubsystemReportsReady", subsystemReportsReady);
 
         return isStable;
     }
