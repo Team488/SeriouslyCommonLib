@@ -13,6 +13,7 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 
 public abstract class XCANSparkMax {
@@ -20,18 +21,19 @@ public abstract class XCANSparkMax {
     protected int deviceId;
     protected String prefix = "";
     PropertyFactory propertyFactory;
+    protected boolean usesPropertySystem = true;
 
-    final DoubleProperty kPprop;
-    final DoubleProperty kIprop;
-    final DoubleProperty kDprop;
-    final DoubleProperty kIzProp;
-    final DoubleProperty kFFprop;
-    final DoubleProperty kMaxOutputProp;
-    final DoubleProperty kMinOutoutProp;
+    DoubleProperty kPprop;
+    DoubleProperty kIprop;
+    DoubleProperty kDprop;
+    DoubleProperty kIzProp;
+    DoubleProperty kFFprop;
+    DoubleProperty kMaxOutputProp;
+    DoubleProperty kMinOutoutProp;
 
-    final DoubleProperty percentProp;
-    final DoubleProperty voltageProp;
-    final DoubleProperty currentProp;
+    DoubleProperty percentProp;
+    DoubleProperty voltageProp;
+    DoubleProperty currentProp;
 
     protected final String policeTicket;
 
@@ -46,6 +48,10 @@ public abstract class XCANSparkMax {
 
         public XCANSparkMax create(DeviceInfo deviceInfo, String owningSystemPrefix, String name) {
             return create(deviceInfo, owningSystemPrefix, name, new XCANSparkMaxPIDProperties());
+        }
+
+        public XCANSparkMax createWithoutProperties(DeviceInfo deviceInfo, String owningSystemPrefix, String name) {
+            return create(deviceInfo, owningSystemPrefix, name, null);
         }
     }
 
@@ -63,17 +69,22 @@ public abstract class XCANSparkMax {
         prefix = pf.getPrefix();
         policeTicket = police.registerDevice(DeviceType.CAN, deviceId, this);
 
-        kPprop = pf.createPersistentProperty("kP", defaultPIDProperties.p);
-        kIprop = pf.createPersistentProperty("kI", defaultPIDProperties.i);
-        kDprop = pf.createPersistentProperty("kD", defaultPIDProperties.d);
-        kIzProp = pf.createPersistentProperty("kIzone", defaultPIDProperties.iZone);
-        kFFprop = pf.createPersistentProperty("kFeedForward", defaultPIDProperties.feedForward);
-        kMaxOutputProp = pf.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxOutput);
-        kMinOutoutProp = pf.createPersistentProperty("kMinOutput", defaultPIDProperties.minOutput);
+        if (defaultPIDProperties == null) {
+            usesPropertySystem = false;
+        } else {
+            kPprop = pf.createPersistentProperty("kP", defaultPIDProperties.p);
+            kIprop = pf.createPersistentProperty("kI", defaultPIDProperties.i);
+            kDprop = pf.createPersistentProperty("kD", defaultPIDProperties.d);
 
-        percentProp = pf.createEphemeralProperty("Percent", 0);
-        voltageProp = pf.createEphemeralProperty("Voltage", 0);
-        currentProp = pf.createEphemeralProperty("Current", 0);
+            pf.setDefaultLevel(Property.PropertyLevel.Debug);
+            percentProp = pf.createEphemeralProperty("Percent", 0);
+            voltageProp = pf.createEphemeralProperty("Voltage", 0);
+            currentProp = pf.createEphemeralProperty("Current", 0);
+            kIzProp = pf.createPersistentProperty("kIzone", defaultPIDProperties.iZone);
+            kFFprop = pf.createPersistentProperty("kFeedForward", defaultPIDProperties.feedForward);
+            kMaxOutputProp = pf.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxOutput);
+            kMinOutoutProp = pf.createPersistentProperty("kMinOutput", defaultPIDProperties.minOutput);
+        }
     }
 
     ///
@@ -85,30 +96,34 @@ public abstract class XCANSparkMax {
     }
 
     private void setAllProperties() {
-        setP(kPprop.get());
-        setI(kIprop.get());
-        setD(kDprop.get());
-        setIZone(kIzProp.get());
-        setFF(kFFprop.get());
-        setOutputRange(kMinOutoutProp.get(), kMaxOutputProp.get());
+        if (usesPropertySystem) {
+            setP(kPprop.get());
+            setI(kIprop.get());
+            setD(kDprop.get());
+            setIZone(kIzProp.get());
+            setFF(kFFprop.get());
+            setOutputRange(kMinOutoutProp.get(), kMaxOutputProp.get());
+        }
     }
 
     public void periodic() {
-        if (firstPeriodicCall) {
-            setAllProperties();
-            firstPeriodicCall = false;
-        }
-        kPprop.hasChangedSinceLastCheck((value) -> setP(value));
-        kIprop.hasChangedSinceLastCheck((value) -> setI(value));
-        kDprop.hasChangedSinceLastCheck((value) -> setD(value));
-        kIzProp.hasChangedSinceLastCheck((value) -> setIZone(value));
-        kFFprop.hasChangedSinceLastCheck((value) -> setFF(value));
-        kMaxOutputProp.hasChangedSinceLastCheck((value) -> setOutputRange(kMinOutoutProp.get(), value));
-        kMinOutoutProp.hasChangedSinceLastCheck((value) -> setOutputRange(value, kMaxOutputProp.get()));
+        if (usesPropertySystem) {
+            if (firstPeriodicCall) {
+                setAllProperties();
+                firstPeriodicCall = false;
+            }
+            kPprop.hasChangedSinceLastCheck((value) -> setP(value));
+            kIprop.hasChangedSinceLastCheck((value) -> setI(value));
+            kDprop.hasChangedSinceLastCheck((value) -> setD(value));
+            kIzProp.hasChangedSinceLastCheck((value) -> setIZone(value));
+            kFFprop.hasChangedSinceLastCheck((value) -> setFF(value));
+            kMaxOutputProp.hasChangedSinceLastCheck((value) -> setOutputRange(kMinOutoutProp.get(), value));
+            kMinOutoutProp.hasChangedSinceLastCheck((value) -> setOutputRange(value, kMaxOutputProp.get()));
 
-        percentProp.set(getAppliedOutput());
-        voltageProp.set(getAppliedOutput() * getBusVoltage());
-        currentProp.set(getOutputCurrent());
+            percentProp.set(getAppliedOutput());
+            voltageProp.set(getAppliedOutput() * getBusVoltage());
+            currentProp.set(getOutputCurrent());
+        }
     }
 
     /**** Speed Controller Interface ****/

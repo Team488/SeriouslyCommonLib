@@ -1,15 +1,17 @@
 package xbot.common.command;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
 import xbot.common.logic.TimeStableValidator;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.properties.StringProperty;
 
-public abstract class BaseMaintainerCommand extends BaseCommand {
+public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
     BaseSetpointSubsystem subsystemToMaintan;
 
@@ -32,14 +34,20 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
 
         pf.setPrefix(this);
         errorToleranceProp = pf.createPersistentProperty("Error Tolerance", defaultErrorTolerance);
-        errorWithinToleranceProp = pf.createEphemeralProperty("Error Within Tolerance", false);
         errorTimeStableWindowProp = pf.createPersistentProperty("Error Time Stable Window", defaultTimeStableWindow);
+
+        pf.setDefaultLevel(Property.PropertyLevel.Debug);
+        errorWithinToleranceProp = pf.createEphemeralProperty("Error Within Tolerance", false);
         errorIsTimeStableProp = pf.createEphemeralProperty("Error Is Time Stable", false);
         currentModeProp = pf.createEphemeralProperty("Current Mode", "Not Yet Run");
         subsystemReportsReadyProp = pf.createEphemeralProperty("Subsystem Ready", false);
 
         timeStableValidator = new TimeStableValidator(() -> errorTimeStableWindowProp.get());
         decider = humanVsMachineDeciderFactory.create(this.getPrefix());
+    }
+
+    protected void resetDecider(boolean startInAutomaticMode) {
+        decider.reset(startInAutomaticMode);
     }
 
     @Override
@@ -53,7 +61,7 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
      * at its goal.
      */
     protected void maintain() {
-        double humanInput = getHumanInput();
+        double humanInput = getHumanInputMagnitude();
         HumanVsMachineMode mode = decider.getRecommendedMode(humanInput);
         currentModeProp.set(mode.toString());
 
@@ -80,10 +88,8 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
         }
     }
 
-    protected void coastAction() {
-        // Typically do nothing.
-        subsystemToMaintan.setPower(0);
-    }
+    // Typically do nothing.
+    protected abstract void coastAction();
 
     protected void humanControlAction() {
         // Typically simply assign human input
@@ -96,7 +102,7 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
         // we can't require and then un-require a subsystem, so instead we just cancel
         // any running command that
         // is trying to maniuplate the setpoint.
-        if (subsystemToMaintan.getSetpointLock().getCurrentCommand() != null) {
+        if (subsystemToMaintan.getSetpointLock().getCurrentCommand() != null && !DriverStation.isAutonomous()) {
             subsystemToMaintan.getSetpointLock().getCurrentCommand().cancel();
         }
 
@@ -150,14 +156,18 @@ public abstract class BaseMaintainerCommand extends BaseCommand {
      * computation.
      */
     protected boolean getErrorWithinTolerance() {
-        if (Math.abs(subsystemToMaintan.getCurrentValue() - subsystemToMaintan.getTargetValue()) < errorToleranceProp
+        if (Math.abs(getErrorMagnitude()) < errorToleranceProp
                 .get()) {
             return true;
         }
         return false;
     }
 
-    protected abstract double getHumanInput();
+    protected abstract double getErrorMagnitude();
+
+    protected abstract T getHumanInput();
+
+    protected abstract double getHumanInputMagnitude();
 
     @Override
     public String getPrefix() {

@@ -283,12 +283,16 @@ public abstract class BaseRobot extends TimedRobot {
     
     @Override
     public void simulationInit() {
+        /*
         webots = injectorComponent.webotsClient();
         webots.initialize();
+
+         */
     }
 
     @Override
     public void simulationPeriodic() {
+        /*
         // find all simulatable motors
         List<JSONObject> motors = new ArrayList<JSONObject>();
         
@@ -304,5 +308,6 @@ public abstract class BaseRobot extends TimedRobot {
         JSONObject response = webots.sendMotors(motors);
 
         simulationPayloadDistributor.distributeSimulationPayload(response);
+        */
     }
 }

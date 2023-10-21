@@ -1,6 +1,8 @@
 package xbot.common.subsystems.pose;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XTimer;
@@ -16,43 +18,43 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
 
     public final XGyro imu;
     
-    private final DoubleProperty leftDriveDistance;
-    private final DoubleProperty rightDriveDistance;
+    protected final DoubleProperty leftDriveDistance;
+    protected final DoubleProperty rightDriveDistance;
     
     protected final DoubleProperty totalDistanceX;
     protected final DoubleProperty totalDistanceY;
     protected final DoubleProperty totalDistanceYRobotPerspective;
-    private final DoubleProperty velocityX;
-    private final DoubleProperty velocityY;
-    private final DoubleProperty totalVelocity;
+    public final DoubleProperty velocityX;
+    public final DoubleProperty velocityY;
+    protected final DoubleProperty totalVelocity;
     
-    private WrappedRotation2d currentHeading;
-    private final DoubleProperty currentHeadingProp;
-    private final DoubleProperty currentCompassHeadingProp;
-    private final DoubleProperty headingAngularVelocityProp;
-    private double headingOffset;
+    protected WrappedRotation2d currentHeading;
+    protected final DoubleProperty currentHeadingProp;
+    protected final DoubleProperty currentCompassHeadingProp;
+    protected final DoubleProperty headingAngularVelocityProp;
+    protected double headingOffset;
     
     // These are two common robot starting positions - kept here as convenient shorthand.
     public static final double FACING_AWAY_FROM_DRIVERS = 0;
     public static final double FACING_TOWARDS_DRIVERS = -180;
     public static final double INCHES_IN_A_METER = 39.3701;
     
-    private final DoubleProperty currentPitch;
-    private final DoubleProperty currentRoll;
+    protected final DoubleProperty currentPitch;
+    protected final DoubleProperty currentRoll;
     
-    private final DoubleProperty inherentRioPitch;
-    private final DoubleProperty inherentRioRoll;
+    protected final DoubleProperty inherentRioPitch;
+    protected final DoubleProperty inherentRioRoll;
     
-    private double previousLeftDistance;
-    private double previousRightDistance;
+    protected double previousLeftDistance;
+    protected double previousRightDistance;
 
-    private final double classInstantiationTime;
-    private boolean isNavXReady = false;
+    protected final double classInstantiationTime;
+    protected boolean isNavXReady = false;
     
-    private BooleanProperty rioRotated;
-    private boolean firstUpdate = true;
+    protected BooleanProperty rioRotated;
+    protected boolean firstUpdate = true;
     
-    private double lastSetHeadingTime;
+    protected double lastSetHeadingTime;
 
     public BasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {
         log.info("Creating");
@@ -87,11 +89,11 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         inherentRioRoll = propManager.createPersistentProperty("Inherent RIO roll", 0.0);
     }
     
-    private double getCompassHeading(Rotation2d standardHeading) {
+    protected double getCompassHeading(Rotation2d standardHeading) {
         return Rotation2d.fromDegrees(currentHeading.getDegrees()).getDegrees();
     }
     
-    private void updateCurrentHeading() {
+    protected void updateCurrentHeading() {
         currentHeading = WrappedRotation2d.fromDegrees(getRobotYaw().getDegrees() + headingOffset);
 
         currentHeadingProp.set(currentHeading.getDegrees());
@@ -157,12 +159,21 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         return getTravelVector().clone();
     }
     
-    private XYPair getTravelVector() {
+    protected XYPair getTravelVector() {
         return new XYPair(totalDistanceX.get(), totalDistanceY.get());
     }
     
     public FieldPose getCurrentFieldPose() {
         return new FieldPose(getTravelVector(), getCurrentHeading());
+    }
+
+    public Pose2d getCurrentPose2d() {
+        var travelVector = getTravelVector();
+        return new Pose2d(
+                travelVector.x,
+                travelVector.y,
+                Rotation2d.fromDegrees(getCurrentHeading().getDegrees())
+        );
     }
 
     public XYPair getCurrentVelocity() {
@@ -199,6 +210,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     }
     
     public void setCurrentPosition(double newXPosition, double newYPosition) {
+        log.info("Setting Robot Position. X:" + newXPosition + ", Y:" +newYPosition);
         totalDistanceX.set(newXPosition);
         totalDistanceY.set(newYPosition);
     }
@@ -216,7 +228,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
      * values need to be in inches, and should never be reset - any resetting should be done here
      * in the PoseSubsystem
      */
-    private void updatePose() {
+    protected void updatePose() {
         updateCurrentHeading();
         updateOdometry();
     }
@@ -236,18 +248,18 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
      * If the RoboRIO is mounted in a position other than "flat" (e.g. with the pins facing upward)
      * then this method will need to be overridden.
      */
-    private WrappedRotation2d getRobotYaw() {
+    protected WrappedRotation2d getRobotYaw() {
         return imu.getHeading();
     }
     
-    private double getUntrimmedPitch() {
+    protected double getUntrimmedPitch() {
         if (rioRotated.get()) {
             return imu.getRoll();
         }
         return imu.getPitch();
     }
     
-    private double getUntrimmedRoll() {
+    protected double getUntrimmedRoll() {
         if (rioRotated.get()) {
             return imu.getPitch();
         }

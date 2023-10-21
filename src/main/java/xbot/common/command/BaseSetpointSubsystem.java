@@ -3,7 +3,7 @@ package xbot.common.command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import xbot.common.controls.sensors.XTimer;
 
-public abstract class BaseSetpointSubsystem extends BaseSubsystem implements SupportsSetpointLock {
+public abstract class BaseSetpointSubsystem<T> extends BaseSubsystem implements SupportsSetpointLock {
 
     private Subsystem setpointLock;
     private double lastUpdateTimeFromMaintainer;
@@ -30,13 +30,13 @@ public abstract class BaseSetpointSubsystem extends BaseSubsystem implements Sup
         this.atGoal = atGoal;
     }
 
-    public abstract double getCurrentValue();
+    public abstract T getCurrentValue();
 
-    public abstract double getTargetValue();
+    public abstract T getTargetValue();
 
-    public abstract void setTargetValue(double value);
+    public abstract void setTargetValue(T value);
 
-    public abstract void setPower(double power);
+    public abstract void setPower(T power);
 
     public abstract boolean isCalibrated();
 }
