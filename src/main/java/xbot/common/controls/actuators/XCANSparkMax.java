@@ -790,8 +790,4 @@ public abstract class XCANSparkMax {
         updateInputs(inputs);
         Logger.getInstance().processInputs(akitName, inputs);
     }
-
-    public XCANSparkMaxInputs getCurrentDataFrame() {
-        return inputs;
-    }
 }
