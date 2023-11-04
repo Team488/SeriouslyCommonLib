@@ -1,4 +1,4 @@
-package xbot.common.subsystems.simplemotor;
+package xbot.common.subsystems.simple;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import xbot.common.command.BaseSubsystem;
@@ -7,7 +7,7 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
 /**
- * Generic subsystem that handles a single motor which can be drivven in forward and reverse.
+ * Generic subsystem that handles a single motor which can be driven in forward and reverse.
  */
 public abstract class SimpleMotorSubsystem extends BaseSubsystem {
     final DoubleProperty forwardPower;
