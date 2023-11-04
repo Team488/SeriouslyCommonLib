@@ -34,4 +34,14 @@ public class CompressorWPIAdapter extends XCompressor {
     public boolean isEnabled() {
         return compressor.isEnabled();
     }
+
+    @Override
+    public double getCurrent() {
+        return compressor.getCurrent();
+    }
+
+    @Override
+    public boolean isAtTargetPressure() {
+        return !compressor.getPressureSwitchValue();
+    }
 }
