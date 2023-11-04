@@ -1,4 +1,4 @@
-package edu.wpi.first.wpilibj;
+package xbot.common.controls.actuators.mock_adapters;
 
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
@@ -32,5 +32,15 @@ public class MockCompressor extends XCompressor {
     @Override
     public boolean isEnabled() {
         return isEnabled;
+    }
+
+    @Override
+    public double getCurrent() {
+        return 0;
+    }
+
+    @Override
+    public boolean isAtTargetPressure() {
+        return true;
     }
 }
