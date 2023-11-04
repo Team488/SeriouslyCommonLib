@@ -27,4 +27,4 @@ xbot.common.subsystems.drive.control_logic
 xbot.common.subsystems.feedback
 xbot.common.subsystems.pose
 xbot.common.subsystems.pose.commands
-xbot.common.subsystems.simplemotor
+xbot.common.subsystems.simple
