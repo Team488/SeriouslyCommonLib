@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -148,6 +148,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <pre>@Singleton
 public class <span class="typeNameLabel">CompressorSubsystem</span>
 extends <a href="../../command/BaseSubsystem.html" title="class in xbot.common.command">BaseSubsystem</a></pre>
+<div class="block">Subsystem for managing compressor state.</div>
 </li>
 </ul>
 </div>
@@ -187,7 +188,9 @@ extends <a href="../../command/BaseSubsystem.html" title="class in xbot.common.c
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(xbot.common.controls.actuators.XCompressor.XCompressorFactory,xbot.common.properties.PropertyFactory)">CompressorSubsystem</a></span>&#8203;(<a href="../../controls/actuators/XCompressor.XCompressorFactory.html" title="interface in xbot.common.controls.actuators">XCompressor.XCompressorFactory</a>&nbsp;compressorFactory,
                    <a href="../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Create a new CompressorSubsystem.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -210,24 +213,39 @@ extends <a href="../../command/BaseSubsystem.html" title="class in xbot.common.c
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#disable()">disable</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Disable the compressor.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enable()">enable</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Enable the compressor.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>edu.wpi.first.wpilibj2.command.Command</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getDisableCommand()">getDisableCommand</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colFirst"><code>double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCompressorCurrent()">getCompressorCurrent</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Gets the current consumed by the compressor.</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>edu.wpi.first.wpilibj2.command.Command</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getEnableCommand()">getEnableCommand</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getDisableCommand()">getDisableCommand</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Gets a command to disable the compressor.</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
+<td class="colFirst"><code>edu.wpi.first.wpilibj2.command.Command</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getEnableCommand()">getEnableCommand</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Gets a command to enable the compressor.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#periodic()">periodic</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
@@ -286,6 +304,12 @@ extends <a href="../../command/BaseSubsystem.html" title="class in xbot.common.c
 <pre>@Inject
 public&nbsp;CompressorSubsystem&#8203;(<a href="../../controls/actuators/XCompressor.XCompressorFactory.html" title="interface in xbot.common.controls.actuators">XCompressor.XCompressorFactory</a>&nbsp;compressorFactory,
                            <a href="../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf)</pre>
+<div class="block">Create a new CompressorSubsystem.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>compressorFactory</code> - The compressor factory.</dd>
+<dd><code>pf</code> - The property factory.</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -305,6 +329,7 @@ public&nbsp;CompressorSubsystem&#8203;(<a href="../../controls/actuators/XCompre
 <li class="blockList">
 <h4>enable</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;enable()</pre>
+<div class="block">Enable the compressor.</div>
 </li>
 </ul>
 <a id="disable()">
@@ -314,6 +339,21 @@ public&nbsp;CompressorSubsystem&#8203;(<a href="../../controls/actuators/XCompre
 <li class="blockList">
 <h4>disable</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;disable()</pre>
+<div class="block">Disable the compressor.</div>
+</li>
+</ul>
+<a id="getCompressorCurrent()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getCompressorCurrent</h4>
+<pre class="methodSignature">public&nbsp;double&nbsp;getCompressorCurrent()</pre>
+<div class="block">Gets the current consumed by the compressor.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The current in amps.</dd>
+</dl>
 </li>
 </ul>
 <a id="getEnableCommand()">
@@ -322,7 +362,12 @@ public&nbsp;CompressorSubsystem&#8203;(<a href="../../controls/actuators/XCompre
 <ul class="blockList">
 <li class="blockList">
 <h4>getEnableCommand</h4>
-<pre class="methodSignature">public&nbsp;edu.wpi.first.wpilibj2.command.Command&nbsp;getEnableCommand()</pre>
+<pre class="methodSignature">public final&nbsp;edu.wpi.first.wpilibj2.command.Command&nbsp;getEnableCommand()</pre>
+<div class="block">Gets a command to enable the compressor.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The command.</dd>
+</dl>
 </li>
 </ul>
 <a id="getDisableCommand()">
@@ -331,7 +376,12 @@ public&nbsp;CompressorSubsystem&#8203;(<a href="../../controls/actuators/XCompre
 <ul class="blockList">
 <li class="blockList">
 <h4>getDisableCommand</h4>
-<pre class="methodSignature">public&nbsp;edu.wpi.first.wpilibj2.command.Command&nbsp;getDisableCommand()</pre>
+<pre class="methodSignature">public final&nbsp;edu.wpi.first.wpilibj2.command.Command&nbsp;getDisableCommand()</pre>
+<div class="block">Gets a command to disable the compressor.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The command.</dd>
+</dl>
 </li>
 </ul>
 <a id="periodic()">

@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":6,"i1":6,"i2":6};
+var data = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -132,11 +132,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <dl>
 <dt>Direct Known Subclasses:</dt>
-<dd><code><a href="wpi_adapters/CompressorWPIAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CompressorWPIAdapter</a></code>, <code><a href="../../../../edu/wpi/first/wpilibj/MockCompressor.html" title="class in edu.wpi.first.wpilibj">MockCompressor</a></code></dd>
+<dd><code><a href="wpi_adapters/CompressorWPIAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CompressorWPIAdapter</a></code>, <code><a href="mock_adapters/MockCompressor.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCompressor</a></code></dd>
 </dl>
 <hr>
 <pre>public abstract class <span class="typeNameLabel">XCompressor</span>
 extends java.lang.Object</pre>
+<div class="block">Represents an air compressor.</div>
 </li>
 </ul>
 </div>
@@ -160,7 +161,9 @@ extends java.lang.Object</pre>
 <tr class="altColor">
 <td class="colFirst"><code>static interface&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="XCompressor.XCompressorFactory.html" title="interface in xbot.common.controls.actuators">XCompressor.XCompressorFactory</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">A factory to create XCompressor instances.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -204,17 +207,37 @@ extends java.lang.Object</pre>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>abstract void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#disable()">disable</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Disable the compressor.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>abstract void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#enable()">enable</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Enable the compressor.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
+<td class="colFirst"><code>abstract double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCurrent()">getCurrent</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Gets the current drawn by the compressor.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>abstract boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isAtTargetPressure()">isAtTargetPressure</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Gets whether the compressor is at its target pressure.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>abstract boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isEnabled()">isEnabled</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Get if the compressor is currently enabled.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -266,6 +289,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>disable</h4>
 <pre class="methodSignature">public abstract&nbsp;void&nbsp;disable()</pre>
+<div class="block">Disable the compressor.</div>
 </li>
 </ul>
 <a id="enable()">
@@ -275,15 +299,49 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>enable</h4>
 <pre class="methodSignature">public abstract&nbsp;void&nbsp;enable()</pre>
+<div class="block">Enable the compressor.</div>
 </li>
 </ul>
 <a id="isEnabled()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>isEnabled</h4>
 <pre class="methodSignature">public abstract&nbsp;boolean&nbsp;isEnabled()</pre>
+<div class="block">Get if the compressor is currently enabled.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>True if the compressor is enabled.</dd>
+</dl>
+</li>
+</ul>
+<a id="getCurrent()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getCurrent</h4>
+<pre class="methodSignature">public abstract&nbsp;double&nbsp;getCurrent()</pre>
+<div class="block">Gets the current drawn by the compressor.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The current drawn by the compressor, in amps.</dd>
+</dl>
+</li>
+</ul>
+<a id="isAtTargetPressure()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>isAtTargetPressure</h4>
+<pre class="methodSignature">public abstract&nbsp;boolean&nbsp;isAtTargetPressure()</pre>
+<div class="block">Gets whether the compressor is at its target pressure.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>True if the compressor is at its target pressure.</dd>
+</dl>
 </li>
 </ul>
 </li>
