@@ -4,13 +4,21 @@ import java.util.function.Supplier;
 
 import xbot.common.controls.sensors.XTimer;
 
+/**
+ * Command that waits for a maintainer to be at its goal or until a timeout.
+ */
 public class SimpleWaitForMaintainerCommand extends BaseCommand {
 
-    private final BaseSetpointSubsystem subsystem;
+    private final BaseSetpointSubsystem<?> subsystem;
+    private final Supplier<Double> delaySupplier;
     private double startTime;
-    private Supplier<Double> delaySupplier;
 
-    public SimpleWaitForMaintainerCommand(BaseSetpointSubsystem subsystem, Supplier<Double> delaySupplier) {
+    /**
+     * Creates a new SimpleWaitForMaintainerCommand instance.
+     * @param subsystem The maintainer subsystem.
+     * @param delaySupplier The timeout duration in seconds via a supplier.
+     */
+    public SimpleWaitForMaintainerCommand(BaseSetpointSubsystem<?> subsystem, Supplier<Double> delaySupplier) {
         this.subsystem = subsystem;
         this.delaySupplier = delaySupplier;
     }
