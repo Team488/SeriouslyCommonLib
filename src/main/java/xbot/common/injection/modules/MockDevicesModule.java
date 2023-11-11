@@ -47,6 +47,9 @@ import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
 
 import javax.inject.Singleton;
 
+/**
+ * Module for mapping device interfaces to mock implementations.
+ */
 @Module
 public abstract class MockDevicesModule {
     @Binds

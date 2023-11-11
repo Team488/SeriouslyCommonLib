@@ -9,6 +9,9 @@ import xbot.common.subsystems.drive.MockDriveSubsystem;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.MockBasePoseSubsystem;
 
+/**
+ * Module mapping interfaces to implementations for a unit-test robot.
+ */
 @Module
 public abstract class UnitTestRobotModule {
     @Binds
