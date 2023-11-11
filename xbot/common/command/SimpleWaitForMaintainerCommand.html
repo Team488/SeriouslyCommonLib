@@ -147,6 +147,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">SimpleWaitForMaintainerCommand</span>
 extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseCommand</a></pre>
+<div class="block">Command that waits for a maintainer to be at its goal or until a timeout.</div>
 </li>
 </ul>
 </div>
@@ -208,9 +209,11 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem,java.util.function.Supplier)">SimpleWaitForMaintainerCommand</a></span>&#8203;(<a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&nbsp;subsystem,
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem,java.util.function.Supplier)">SimpleWaitForMaintainerCommand</a></span>&#8203;(<a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;?&gt;&nbsp;subsystem,
                               java.util.function.Supplier&lt;java.lang.Double&gt;&nbsp;delaySupplier)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Creates a new SimpleWaitForMaintainerCommand instance.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -296,8 +299,14 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <ul class="blockListLast">
 <li class="blockList">
 <h4>SimpleWaitForMaintainerCommand</h4>
-<pre>public&nbsp;SimpleWaitForMaintainerCommand&#8203;(<a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&nbsp;subsystem,
+<pre>public&nbsp;SimpleWaitForMaintainerCommand&#8203;(<a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;?&gt;&nbsp;subsystem,
                                       java.util.function.Supplier&lt;java.lang.Double&gt;&nbsp;delaySupplier)</pre>
+<div class="block">Creates a new SimpleWaitForMaintainerCommand instance.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>subsystem</code> - The maintainer subsystem.</dd>
+<dd><code>delaySupplier</code> - The timeout duration in seconds via a supplier.</dd>
+</dl>
 </li>
 </ul>
 </li>
