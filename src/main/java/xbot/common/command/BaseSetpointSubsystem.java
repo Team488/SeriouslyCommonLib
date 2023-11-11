@@ -3,9 +3,13 @@ package xbot.common.command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import xbot.common.controls.sensors.XTimer;
 
+/**
+ * Base class for subsystems that have a setpoint managed by a maintainer.
+ * @param <T> The type of the target value.
+ */
 public abstract class BaseSetpointSubsystem<T> extends BaseSubsystem implements SupportsSetpointLock {
 
-    private Subsystem setpointLock;
+    private final Subsystem setpointLock;
     private double lastUpdateTimeFromMaintainer;
     protected boolean atGoal;
     
