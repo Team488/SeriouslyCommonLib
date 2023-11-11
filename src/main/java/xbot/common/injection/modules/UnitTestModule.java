@@ -13,7 +13,7 @@ import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.logging.LoudRobotAssertionManager;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.ITableProxy;
-import xbot.common.properties.MockPermamentStorage;
+import xbot.common.properties.MockPermanentStorage;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.TableProxy;
 import xbot.common.properties.XPropertyManager;
@@ -42,7 +42,7 @@ public abstract class UnitTestModule {
     
     @Binds
     @Singleton
-    abstract PermanentStorage getPermanentStorage(MockPermamentStorage impl);
+    abstract PermanentStorage getPermanentStorage(MockPermanentStorage impl);
     
     @Binds
     @Singleton
