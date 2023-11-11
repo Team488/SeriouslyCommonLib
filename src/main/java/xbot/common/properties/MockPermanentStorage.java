@@ -1,4 +1,4 @@
-package xbot.common.injection;
+package xbot.common.properties;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -6,7 +6,7 @@ import javax.inject.Singleton;
 import xbot.common.properties.TableProxy;
 
 @Singleton
-public class MockPermanentStorage extends TableProxy {
+public class MockPermanentStorage extends TableProxy implements PermanentStorage {
 
     private StringBuffer buf;
 
