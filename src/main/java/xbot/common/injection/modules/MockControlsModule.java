@@ -13,6 +13,9 @@ import xbot.common.controls.sensors.mock_adapters.MockJoystick.MockJoystickFacto
 import xbot.common.subsystems.feedback.RumbleManager.RumbleManagerFactory;
 import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
 
+/**
+ * Module for mapping control device interfaces to mock implementations.
+ */
 @Module
 public abstract class MockControlsModule {
     @Binds
