@@ -52,11 +52,7 @@ public class StringProperty extends Property {
      */
     public void save() {
         if(persistenceType == PropertyPersistenceType.Persistent) {
-            if (!isSetToDefault()) {
-                permanentStore.setString(key, get());
-            } else {
-                permanentStore.remove(key);
-            }
+            permanentStore.setString(key, get());
         }
     }
 
