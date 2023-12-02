@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.Preferences;
  * This saves properties to the robot using WPI's built-in
  * <a href="https://docs.wpilib.org/en/stable/docs/software/basic-programming/robot-preferences.html">Preferences library</a>.
  * This stores them in a simple key-value pair on the robot, in a file called
- * <tt>/home/lvuser/networktables.ini</tt>.
+ * <code>/home/lvuser/networktables.ini</code>.
  *
  * @author John
  */
