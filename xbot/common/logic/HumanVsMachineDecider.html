@@ -133,6 +133,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">HumanVsMachineDecider</span>
 extends java.lang.Object</pre>
+<div class="block">Decides whether to use human or machine control of a subsystem.
+ Human control is used when the inputs exceed a deadband.
+ When input stops, control is handed back to the machine after a
+ coast period.</div>
 </li>
 </ul>
 </div>
@@ -156,7 +160,9 @@ extends java.lang.Object</pre>
 <tr class="altColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="HumanVsMachineDecider.HumanVsMachineDeciderFactory.html" title="class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineDeciderFactory</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Factory for creating a new decider.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
@@ -182,8 +188,10 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String,xbot.common.properties.PropertyFactory)">HumanVsMachineDecider</a></span>&#8203;(java.lang.String&nbsp;prefix,
-                     <a href="../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;propMan)</code></th>
-<td class="colLast">&nbsp;</td>
+                     <a href="../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;propertyFactory)</code></th>
+<td class="colLast">
+<div class="block">Creates a new decider with the given prefix.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -206,22 +214,30 @@ extends java.lang.Object</pre>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getDeadband()">getDeadband</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Get the deadband value.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="HumanVsMachineDecider.HumanVsMachineMode.html" title="enum in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineMode</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRecommendedMode(double)">getRecommendedMode</a></span>&#8203;(double&nbsp;humanInput)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Gets the recommended mode based on the human input.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#reset()">reset</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Resets the decider defaulting to machine control.</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#reset(boolean)">reset</a></span>&#8203;(boolean&nbsp;startInAutomaticMode)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Resets the decider.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -256,7 +272,13 @@ extends java.lang.Object</pre>
 <pre>@AssistedInject
 public&nbsp;HumanVsMachineDecider&#8203;(@Assisted("prefix")
                              java.lang.String&nbsp;prefix,
-                             <a href="../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;propMan)</pre>
+                             <a href="../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;propertyFactory)</pre>
+<div class="block">Creates a new decider with the given prefix.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>prefix</code> - The prefix to use for all properties created by this decider.</dd>
+<dd><code>propertyFactory</code> - The property factory to use for creating properties.</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -276,6 +298,7 @@ public&nbsp;HumanVsMachineDecider&#8203;(@Assisted("prefix")
 <li class="blockList">
 <h4>reset</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;reset()</pre>
+<div class="block">Resets the decider defaulting to machine control.</div>
 </li>
 </ul>
 <a id="reset(boolean)">
@@ -285,6 +308,11 @@ public&nbsp;HumanVsMachineDecider&#8203;(@Assisted("prefix")
 <li class="blockList">
 <h4>reset</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;reset&#8203;(boolean&nbsp;startInAutomaticMode)</pre>
+<div class="block">Resets the decider.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>startInAutomaticMode</code> - Whether to start in automatic mode.</dd>
+</dl>
 </li>
 </ul>
 <a id="getRecommendedMode(double)">
@@ -294,6 +322,13 @@ public&nbsp;HumanVsMachineDecider&#8203;(@Assisted("prefix")
 <li class="blockList">
 <h4>getRecommendedMode</h4>
 <pre class="methodSignature">public&nbsp;<a href="HumanVsMachineDecider.HumanVsMachineMode.html" title="enum in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineMode</a>&nbsp;getRecommendedMode&#8203;(double&nbsp;humanInput)</pre>
+<div class="block">Gets the recommended mode based on the human input.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>humanInput</code> - The human input to use for the decision.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The recommended mode.</dd>
+</dl>
 </li>
 </ul>
 <a id="getDeadband()">
@@ -303,6 +338,11 @@ public&nbsp;HumanVsMachineDecider&#8203;(@Assisted("prefix")
 <li class="blockList">
 <h4>getDeadband</h4>
 <pre class="methodSignature">public&nbsp;double&nbsp;getDeadband()</pre>
+<div class="block">Get the deadband value.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The deadband value.</dd>
+</dl>
 </li>
 </ul>
 </li>

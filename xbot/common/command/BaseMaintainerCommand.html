@@ -141,12 +141,17 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - The type of the setpoint being maintained.</dd>
+</dl>
+<dl>
 <dt>All Implemented Interfaces:</dt>
 <dd><code>edu.wpi.first.util.sendable.Sendable</code>, <code>edu.wpi.first.wpilibj2.command.Command</code>, <code><a href="../properties/IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a></code></dd>
 </dl>
 <hr>
 <pre>public abstract class <span class="typeNameLabel">BaseMaintainerCommand&lt;T&gt;</span>
 extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseCommand</a></pre>
+<div class="block">A command that maintains a subsystem at a goal value.</div>
 </li>
 </ul>
 </div>
@@ -251,12 +256,14 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem,xbot.common.properties.PropertyFactory,xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory,double,double)">BaseMaintainerCommand</a></span>&#8203;(<a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&nbsp;subsystemToMaintain,
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem,xbot.common.properties.PropertyFactory,xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory,double,double)">BaseMaintainerCommand</a></span>&#8203;(<a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;<a href="BaseMaintainerCommand.html" title="type parameter in BaseMaintainerCommand">T</a>&gt;&nbsp;subsystemToMaintain,
                      <a href="../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf,
                      <a href="../logic/HumanVsMachineDecider.HumanVsMachineDeciderFactory.html" title="class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineDeciderFactory</a>&nbsp;humanVsMachineDeciderFactory,
                      double&nbsp;defaultErrorTolerance,
                      double&nbsp;defaultTimeStableWindow)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Creates a new maintainer command.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -286,12 +293,16 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected abstract void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#calibratedMachineControlAction()">calibratedMachineControlAction</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">The calibrated machine control action.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>protected abstract void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#coastAction()">coastAction</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">The coast action.</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
@@ -314,12 +325,17 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>protected abstract <a href="BaseMaintainerCommand.html" title="type parameter in BaseMaintainerCommand">T</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getHumanInput()">getHumanInput</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Gets the human input to use for the maintain command.</div>
+</td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>protected abstract double</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getHumanInputMagnitude()">getHumanInputMagnitude</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Gets the magnitude of the human input to use for the maintain command,
+ since the generic type T may not be a number.</div>
+</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
@@ -329,17 +345,23 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#humanControlAction()">humanControlAction</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">The human control action.</div>
+</td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#initializeMachineControlAction()">initializeMachineControlAction</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">The initialize machine control action.</div>
+</td>
 </tr>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isMaintainerAtGoal()">isMaintainerAtGoal</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Checks if the subsystem is at its goal.</div>
+</td>
 </tr>
 <tr id="i12" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
@@ -352,17 +374,23 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <tr id="i13" class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resetDecider(boolean)">resetDecider</a></span>&#8203;(boolean&nbsp;startInAutomaticMode)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Resets the decider to the given mode.</div>
+</td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setErrorTolerance(double)">setErrorTolerance</a></span>&#8203;(double&nbsp;tolerance)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Sets the error tolerance for the maintain command.</div>
+</td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#uncalibratedMachineControlAction()">uncalibratedMachineControlAction</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">The uncalibrated machine control action.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -488,11 +516,20 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <ul class="blockListLast">
 <li class="blockList">
 <h4>BaseMaintainerCommand</h4>
-<pre>public&nbsp;BaseMaintainerCommand&#8203;(<a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&nbsp;subsystemToMaintain,
+<pre>public&nbsp;BaseMaintainerCommand&#8203;(<a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;<a href="BaseMaintainerCommand.html" title="type parameter in BaseMaintainerCommand">T</a>&gt;&nbsp;subsystemToMaintain,
                              <a href="../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf,
                              <a href="../logic/HumanVsMachineDecider.HumanVsMachineDeciderFactory.html" title="class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineDeciderFactory</a>&nbsp;humanVsMachineDeciderFactory,
                              double&nbsp;defaultErrorTolerance,
                              double&nbsp;defaultTimeStableWindow)</pre>
+<div class="block">Creates a new maintainer command.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>subsystemToMaintain</code> - The subsystem to maintain.</dd>
+<dd><code>pf</code> - The property factory to use for creating properties.</dd>
+<dd><code>humanVsMachineDeciderFactory</code> - The decider factory to use for creating the decider.</dd>
+<dd><code>defaultErrorTolerance</code> - The default error tolerance.</dd>
+<dd><code>defaultTimeStableWindow</code> - The default time stable window.</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -512,6 +549,11 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <li class="blockList">
 <h4>resetDecider</h4>
 <pre class="methodSignature">protected&nbsp;void&nbsp;resetDecider&#8203;(boolean&nbsp;startInAutomaticMode)</pre>
+<div class="block">Resets the decider to the given mode.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>startInAutomaticMode</code> - True to start in automatic mode, false to start in human control mode.</dd>
+</dl>
 </li>
 </ul>
 <a id="execute()">
@@ -547,6 +589,7 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <li class="blockList">
 <h4>coastAction</h4>
 <pre class="methodSignature">protected abstract&nbsp;void&nbsp;coastAction()</pre>
+<div class="block">The coast action. Typically, this does nothing.</div>
 </li>
 </ul>
 <a id="humanControlAction()">
@@ -556,6 +599,8 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <li class="blockList">
 <h4>humanControlAction</h4>
 <pre class="methodSignature">protected&nbsp;void&nbsp;humanControlAction()</pre>
+<div class="block">The human control action. Typically, this simply assigns the human input to
+ the subsystem.</div>
 </li>
 </ul>
 <a id="initializeMachineControlAction()">
@@ -565,6 +610,8 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <li class="blockList">
 <h4>initializeMachineControlAction</h4>
 <pre class="methodSignature">protected&nbsp;void&nbsp;initializeMachineControlAction()</pre>
+<div class="block">The initialize machine control action. Typically, this sets the goal to the
+ current position to avoid sudden changes.</div>
 </li>
 </ul>
 <a id="calibratedMachineControlAction()">
@@ -574,6 +621,7 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <li class="blockList">
 <h4>calibratedMachineControlAction</h4>
 <pre class="methodSignature">protected abstract&nbsp;void&nbsp;calibratedMachineControlAction()</pre>
+<div class="block">The calibrated machine control action.</div>
 </li>
 </ul>
 <a id="uncalibratedMachineControlAction()">
@@ -583,6 +631,9 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <li class="blockList">
 <h4>uncalibratedMachineControlAction</h4>
 <pre class="methodSignature">protected&nbsp;void&nbsp;uncalibratedMachineControlAction()</pre>
+<div class="block">The uncalibrated machine control action. Typically, this defaults to human
+ control, although this is a good candidate for being overridden with an
+ auto-calibration sequence.</div>
 </li>
 </ul>
 <a id="isMaintainerAtGoal()">
@@ -592,6 +643,11 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <li class="blockList">
 <h4>isMaintainerAtGoal</h4>
 <pre class="methodSignature">protected&nbsp;boolean&nbsp;isMaintainerAtGoal()</pre>
+<div class="block">Checks if the subsystem is at its goal.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>True if the subsystem is at its goal.</dd>
+</dl>
 </li>
 </ul>
 <a id="additionalAtGoalChecks()">
@@ -602,8 +658,7 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <h4>additionalAtGoalChecks</h4>
 <pre class="methodSignature">protected&nbsp;boolean&nbsp;additionalAtGoalChecks()</pre>
 <div class="block">Maintainer systems already check for error tolerance and time stability. If
- there
- are any other checks that should be made, override this method and place them
+ there are any other checks that should be made, override this method and place them
  here.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -643,6 +698,11 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <li class="blockList">
 <h4>getHumanInput</h4>
 <pre class="methodSignature">protected abstract&nbsp;<a href="BaseMaintainerCommand.html" title="type parameter in BaseMaintainerCommand">T</a>&nbsp;getHumanInput()</pre>
+<div class="block">Gets the human input to use for the maintain command.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The human input.</dd>
+</dl>
 </li>
 </ul>
 <a id="getHumanInputMagnitude()">
@@ -652,6 +712,12 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <li class="blockList">
 <h4>getHumanInputMagnitude</h4>
 <pre class="methodSignature">protected abstract&nbsp;double&nbsp;getHumanInputMagnitude()</pre>
+<div class="block">Gets the magnitude of the human input to use for the maintain command,
+ since the generic type T may not be a number.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The magnitude of the human input.</dd>
+</dl>
 </li>
 </ul>
 <a id="getPrefix()">
@@ -676,6 +742,11 @@ extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseComm
 <li class="blockList">
 <h4>setErrorTolerance</h4>
 <pre class="methodSignature">protected&nbsp;void&nbsp;setErrorTolerance&#8203;(double&nbsp;tolerance)</pre>
+<div class="block">Sets the error tolerance for the maintain command.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>tolerance</code> - The error tolerance.</dd>
+</dl>
 </li>
 </ul>
 </li>

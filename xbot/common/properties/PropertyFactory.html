@@ -133,6 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">PropertyFactory</span>
 extends java.lang.Object</pre>
+<div class="block">A factory for creating properties. This is the preferred way to create properties.</div>
 </li>
 </ul>
 </div>
@@ -179,14 +180,16 @@ extends java.lang.Object</pre>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#appendPrefix(java.lang.String)">appendPrefix</a></span>&#8203;(java.lang.String&nbsp;toAppend)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Appends a prefix to the current prefix for all properties created by this factory.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="BooleanProperty.html" title="class in xbot.common.properties">BooleanProperty</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createEphemeralProperty(java.lang.String,boolean)">createEphemeralProperty</a></span>&#8203;(java.lang.String&nbsp;key,
                        boolean&nbsp;defaultValue)</code></th>
 <td class="colLast">
-<div class="block">Method for creating a boolean ephemeral property</div>
+<div class="block">Method for creating a boolean ephemeral property.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
@@ -195,7 +198,7 @@ extends java.lang.Object</pre>
                        boolean&nbsp;defaultValue,
                        <a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</code></th>
 <td class="colLast">
-<div class="block">Method for creating a boolean ephemeral property</div>
+<div class="block">Method for creating a boolean ephemeral property.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
@@ -203,7 +206,7 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createEphemeralProperty(java.lang.String,double)">createEphemeralProperty</a></span>&#8203;(java.lang.String&nbsp;key,
                        double&nbsp;defaultValue)</code></th>
 <td class="colLast">
-<div class="block">Method for creating a double ephemeral property</div>
+<div class="block">Method for creating a double ephemeral property.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
@@ -212,7 +215,7 @@ extends java.lang.Object</pre>
                        double&nbsp;defaultValue,
                        <a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</code></th>
 <td class="colLast">
-<div class="block">Method for creating a double ephemeral property</div>
+<div class="block">Method for creating a double ephemeral property.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
@@ -220,7 +223,7 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createEphemeralProperty(java.lang.String,java.lang.String)">createEphemeralProperty</a></span>&#8203;(java.lang.String&nbsp;key,
                        java.lang.String&nbsp;defaultValue)</code></th>
 <td class="colLast">
-<div class="block">Method for creating a string ephemeral property</div>
+<div class="block">Method for creating a string ephemeral property.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
@@ -229,20 +232,22 @@ extends java.lang.Object</pre>
                        java.lang.String&nbsp;defaultValue,
                        <a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</code></th>
 <td class="colLast">
-<div class="block">Method for creating a string ephemeral property</div>
+<div class="block">Method for creating a string ephemeral property.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createFullKey(java.lang.String)">createFullKey</a></span>&#8203;(java.lang.String&nbsp;key)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Creates a property key.</div>
+</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="BooleanProperty.html" title="class in xbot.common.properties">BooleanProperty</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createPersistentProperty(java.lang.String,boolean)">createPersistentProperty</a></span>&#8203;(java.lang.String&nbsp;key,
                         boolean&nbsp;defaultValue)</code></th>
 <td class="colLast">
-<div class="block">Method for creating a double persistent property</div>
+<div class="block">Method for creating a double persistent property.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
@@ -251,7 +256,7 @@ extends java.lang.Object</pre>
                         boolean&nbsp;defaultValue,
                         <a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</code></th>
 <td class="colLast">
-<div class="block">Method for creating a double persistent property</div>
+<div class="block">Method for creating a double persistent property.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
@@ -259,7 +264,7 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createPersistentProperty(java.lang.String,double)">createPersistentProperty</a></span>&#8203;(java.lang.String&nbsp;key,
                         double&nbsp;defaultValue)</code></th>
 <td class="colLast">
-<div class="block">Method for creating a double persistent property</div>
+<div class="block">Method for creating a double persistent property.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
@@ -268,7 +273,7 @@ extends java.lang.Object</pre>
                         double&nbsp;defaultValue,
                         <a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</code></th>
 <td class="colLast">
-<div class="block">Method for creating a double persistent property</div>
+<div class="block">Method for creating a double persistent property.</div>
 </td>
 </tr>
 <tr id="i12" class="altColor">
@@ -276,7 +281,7 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#createPersistentProperty(java.lang.String,java.lang.String)">createPersistentProperty</a></span>&#8203;(java.lang.String&nbsp;key,
                         java.lang.String&nbsp;defaultValue)</code></th>
 <td class="colLast">
-<div class="block">Method for creating a double persistent property</div>
+<div class="block">Method for creating a double persistent property.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
@@ -285,33 +290,43 @@ extends java.lang.Object</pre>
                         java.lang.String&nbsp;defaultValue,
                         <a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</code></th>
 <td class="colLast">
-<div class="block">Method for creating a double persistent property</div>
+<div class="block">Method for creating a double persistent property.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPrefix()">getPrefix</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Gets the prefix for all properties created by this factory.</div>
+</td>
 </tr>
 <tr id="i15" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDefaultLevel(xbot.common.properties.Property.PropertyLevel)">setDefaultLevel</a></span>&#8203;(<a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Sets the default property level.</div>
+</td>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPrefix(java.lang.String)">setPrefix</a></span>&#8203;(java.lang.String&nbsp;prefix)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Sets the prefix for all properties created by this factory.</div>
+</td>
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPrefix(xbot.common.properties.IPropertySupport)">setPrefix</a></span>&#8203;(<a href="IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a>&nbsp;prefixSource)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Sets the prefix for all properties created by this factory.</div>
+</td>
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setTopLevelPrefix()">setTopLevelPrefix</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Sets the prefix for all properties created by this factory to the top level.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -363,6 +378,12 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setPrefix</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setPrefix&#8203;(java.lang.String&nbsp;prefix)</pre>
+<div class="block">Sets the prefix for all properties created by this factory.
+ This or another prefix setting method must be called before any properties are created.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>prefix</code> - The prefix to use for all properties created by this factory.</dd>
+</dl>
 </li>
 </ul>
 <a id="setPrefix(xbot.common.properties.IPropertySupport)">
@@ -372,6 +393,12 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setPrefix</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setPrefix&#8203;(<a href="IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a>&nbsp;prefixSource)</pre>
+<div class="block">Sets the prefix for all properties created by this factory.
+ This or another prefix setting method must be called before any properties are created.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>prefixSource</code> - The prefix source to use for the prefix.</dd>
+</dl>
 </li>
 </ul>
 <a id="appendPrefix(java.lang.String)">
@@ -381,6 +408,12 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>appendPrefix</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;appendPrefix&#8203;(java.lang.String&nbsp;toAppend)</pre>
+<div class="block">Appends a prefix to the current prefix for all properties created by this factory.
+ This or another prefix setting method must be called before any properties are created.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>toAppend</code> - The prefix to append to the current prefix.</dd>
+</dl>
 </li>
 </ul>
 <a id="setTopLevelPrefix()">
@@ -390,6 +423,8 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setTopLevelPrefix</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setTopLevelPrefix()</pre>
+<div class="block">Sets the prefix for all properties created by this factory to the top level.
+ This or another prefix setting method must be called before any properties are created.</div>
 </li>
 </ul>
 <a id="getPrefix()">
@@ -399,6 +434,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getPrefix</h4>
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getPrefix()</pre>
+<div class="block">Gets the prefix for all properties created by this factory.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The prefix for all properties created by this factory.</dd>
+</dl>
 </li>
 </ul>
 <a id="createFullKey(java.lang.String)">
@@ -408,6 +448,13 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>createFullKey</h4>
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;createFullKey&#8203;(java.lang.String&nbsp;key)</pre>
+<div class="block">Creates a property key.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - The key to append to the prefix.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The full property key.</dd>
+</dl>
 </li>
 </ul>
 <a id="setDefaultLevel(xbot.common.properties.Property.PropertyLevel)">
@@ -417,6 +464,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setDefaultLevel</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setDefaultLevel&#8203;(<a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</pre>
+<div class="block">Sets the default property level.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>level</code> - The property level.</dd>
+</dl>
 </li>
 </ul>
 <a id="createEphemeralProperty(java.lang.String,boolean)">
@@ -427,7 +479,14 @@ extends java.lang.Object</pre>
 <h4>createEphemeralProperty</h4>
 <pre class="methodSignature">public&nbsp;<a href="BooleanProperty.html" title="class in xbot.common.properties">BooleanProperty</a>&nbsp;createEphemeralProperty&#8203;(java.lang.String&nbsp;key,
                                                boolean&nbsp;defaultValue)</pre>
-<div class="block">Method for creating a boolean ephemeral property</div>
+<div class="block">Method for creating a boolean ephemeral property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - The key for the property.</dd>
+<dd><code>defaultValue</code> - The default value for the property.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The property.</dd>
+</dl>
 </li>
 </ul>
 <a id="createEphemeralProperty(java.lang.String,boolean,xbot.common.properties.Property.PropertyLevel)">
@@ -439,7 +498,15 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;<a href="BooleanProperty.html" title="class in xbot.common.properties">BooleanProperty</a>&nbsp;createEphemeralProperty&#8203;(java.lang.String&nbsp;key,
                                                boolean&nbsp;defaultValue,
                                                <a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</pre>
-<div class="block">Method for creating a boolean ephemeral property</div>
+<div class="block">Method for creating a boolean ephemeral property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - The key for the property.</dd>
+<dd><code>defaultValue</code> - The default value for the property.</dd>
+<dd><code>level</code> - The property level.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The property.</dd>
+</dl>
 </li>
 </ul>
 <a id="createEphemeralProperty(java.lang.String,java.lang.String,xbot.common.properties.Property.PropertyLevel)">
@@ -451,7 +518,15 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;<a href="StringProperty.html" title="class in xbot.common.properties">StringProperty</a>&nbsp;createEphemeralProperty&#8203;(java.lang.String&nbsp;key,
                                               java.lang.String&nbsp;defaultValue,
                                               <a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</pre>
-<div class="block">Method for creating a string ephemeral property</div>
+<div class="block">Method for creating a string ephemeral property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - The key for the property.</dd>
+<dd><code>defaultValue</code> - The default value for the property.</dd>
+<dd><code>level</code> - The property level.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The property.</dd>
+</dl>
 </li>
 </ul>
 <a id="createEphemeralProperty(java.lang.String,java.lang.String)">
@@ -462,7 +537,14 @@ extends java.lang.Object</pre>
 <h4>createEphemeralProperty</h4>
 <pre class="methodSignature">public&nbsp;<a href="StringProperty.html" title="class in xbot.common.properties">StringProperty</a>&nbsp;createEphemeralProperty&#8203;(java.lang.String&nbsp;key,
                                               java.lang.String&nbsp;defaultValue)</pre>
-<div class="block">Method for creating a string ephemeral property</div>
+<div class="block">Method for creating a string ephemeral property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - The key for the property.</dd>
+<dd><code>defaultValue</code> - The default value for the property.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The property.</dd>
+</dl>
 </li>
 </ul>
 <a id="createEphemeralProperty(java.lang.String,double)">
@@ -473,7 +555,14 @@ extends java.lang.Object</pre>
 <h4>createEphemeralProperty</h4>
 <pre class="methodSignature">public&nbsp;<a href="DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a>&nbsp;createEphemeralProperty&#8203;(java.lang.String&nbsp;key,
                                               double&nbsp;defaultValue)</pre>
-<div class="block">Method for creating a double ephemeral property</div>
+<div class="block">Method for creating a double ephemeral property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - The key for the property.</dd>
+<dd><code>defaultValue</code> - The default value for the property.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The property.</dd>
+</dl>
 </li>
 </ul>
 <a id="createEphemeralProperty(java.lang.String,double,xbot.common.properties.Property.PropertyLevel)">
@@ -485,7 +574,15 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;<a href="DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a>&nbsp;createEphemeralProperty&#8203;(java.lang.String&nbsp;key,
                                               double&nbsp;defaultValue,
                                               <a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</pre>
-<div class="block">Method for creating a double ephemeral property</div>
+<div class="block">Method for creating a double ephemeral property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - The key for the property.</dd>
+<dd><code>defaultValue</code> - The default value for the property.</dd>
+<dd><code>level</code> - The property level.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The property.</dd>
+</dl>
 </li>
 </ul>
 <a id="createPersistentProperty(java.lang.String,boolean)">
@@ -496,7 +593,14 @@ extends java.lang.Object</pre>
 <h4>createPersistentProperty</h4>
 <pre class="methodSignature">public&nbsp;<a href="BooleanProperty.html" title="class in xbot.common.properties">BooleanProperty</a>&nbsp;createPersistentProperty&#8203;(java.lang.String&nbsp;key,
                                                 boolean&nbsp;defaultValue)</pre>
-<div class="block">Method for creating a double persistent property</div>
+<div class="block">Method for creating a double persistent property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - The key for the property.</dd>
+<dd><code>defaultValue</code> - The default value for the property.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The property.</dd>
+</dl>
 </li>
 </ul>
 <a id="createPersistentProperty(java.lang.String,boolean,xbot.common.properties.Property.PropertyLevel)">
@@ -508,7 +612,15 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;<a href="BooleanProperty.html" title="class in xbot.common.properties">BooleanProperty</a>&nbsp;createPersistentProperty&#8203;(java.lang.String&nbsp;key,
                                                 boolean&nbsp;defaultValue,
                                                 <a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</pre>
-<div class="block">Method for creating a double persistent property</div>
+<div class="block">Method for creating a double persistent property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - The key for the property.</dd>
+<dd><code>defaultValue</code> - The default value for the property.</dd>
+<dd><code>level</code> - The property level.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The property.</dd>
+</dl>
 </li>
 </ul>
 <a id="createPersistentProperty(java.lang.String,java.lang.String)">
@@ -519,7 +631,14 @@ extends java.lang.Object</pre>
 <h4>createPersistentProperty</h4>
 <pre class="methodSignature">public&nbsp;<a href="StringProperty.html" title="class in xbot.common.properties">StringProperty</a>&nbsp;createPersistentProperty&#8203;(java.lang.String&nbsp;key,
                                                java.lang.String&nbsp;defaultValue)</pre>
-<div class="block">Method for creating a double persistent property</div>
+<div class="block">Method for creating a double persistent property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - The key for the property.</dd>
+<dd><code>defaultValue</code> - The default value for the property.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The property.</dd>
+</dl>
 </li>
 </ul>
 <a id="createPersistentProperty(java.lang.String,java.lang.String,xbot.common.properties.Property.PropertyLevel)">
@@ -531,7 +650,15 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;<a href="StringProperty.html" title="class in xbot.common.properties">StringProperty</a>&nbsp;createPersistentProperty&#8203;(java.lang.String&nbsp;key,
                                                java.lang.String&nbsp;defaultValue,
                                                <a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</pre>
-<div class="block">Method for creating a double persistent property</div>
+<div class="block">Method for creating a double persistent property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - The key for the property.</dd>
+<dd><code>defaultValue</code> - The default value for the property.</dd>
+<dd><code>level</code> - The property level.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The property.</dd>
+</dl>
 </li>
 </ul>
 <a id="createPersistentProperty(java.lang.String,double)">
@@ -542,7 +669,14 @@ extends java.lang.Object</pre>
 <h4>createPersistentProperty</h4>
 <pre class="methodSignature">public&nbsp;<a href="DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a>&nbsp;createPersistentProperty&#8203;(java.lang.String&nbsp;key,
                                                double&nbsp;defaultValue)</pre>
-<div class="block">Method for creating a double persistent property</div>
+<div class="block">Method for creating a double persistent property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - The key for the property.</dd>
+<dd><code>defaultValue</code> - The default value for the property.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The property.</dd>
+</dl>
 </li>
 </ul>
 <a id="createPersistentProperty(java.lang.String,double,xbot.common.properties.Property.PropertyLevel)">
@@ -554,7 +688,15 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;<a href="DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a>&nbsp;createPersistentProperty&#8203;(java.lang.String&nbsp;key,
                                                double&nbsp;defaultValue,
                                                <a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</pre>
-<div class="block">Method for creating a double persistent property</div>
+<div class="block">Method for creating a double persistent property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - The key for the property.</dd>
+<dd><code>defaultValue</code> - The default value for the property.</dd>
+<dd><code>level</code> - The property level.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The property.</dd>
+</dl>
 </li>
 </ul>
 </li>

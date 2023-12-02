@@ -170,9 +170,8 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="Property.PropertyPersistenceType.html" title="enum in xbot.common.properties">Property.PropertyPersistenceType</a></span></code></th>
 <td class="colLast">
-<div class="block">New enum to determine property persistence
- Ephemeral properties will not be saved or load from a persistent storage
- Persistent properties will be saved and load from a persistent storage</div>
+<div class="block">Enum to determine property persistence
+ Ephemeral properties will not be saved or loaded from a persistent storage.</div>
 </td>
 </tr>
 </table>
@@ -196,21 +195,28 @@ extends java.lang.Object</pre>
 <tr class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#key">key</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">The key for the property.</div>
+</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#level">level</a></span></code></th>
+<td class="colFirst"><code>protected static org.apache.logging.log4j.Logger</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#log">log</a></span></code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected static org.apache.logging.log4j.Logger</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#log">log</a></span></code></th>
+<td class="colFirst"><code>protected <a href="PermanentStorage.html" title="interface in xbot.common.properties">PermanentStorage</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#permanentStore">permanentStore</a></span></code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="Property.PropertyPersistenceType.html" title="enum in xbot.common.properties">Property.PropertyPersistenceType</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#persistenceType">persistenceType</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>protected <a href="ITableProxy.html" title="interface in xbot.common.properties">ITableProxy</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#randomAccessStore">randomAccessStore</a></span></code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </table>
@@ -234,7 +240,7 @@ extends java.lang.Object</pre>
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String,xbot.common.properties.XPropertyManager)">Property</a></span>&#8203;(java.lang.String&nbsp;key,
         <a href="XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a>&nbsp;manager)</code></th>
 <td class="colLast">
-<div class="block">The name of the property.</div>
+<div class="block">Creates a new persistent property.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -242,7 +248,7 @@ extends java.lang.Object</pre>
         <a href="XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a>&nbsp;manager,
         <a href="Property.PropertyPersistenceType.html" title="enum in xbot.common.properties">Property.PropertyPersistenceType</a>&nbsp;persistenceType)</code></th>
 <td class="colLast">
-<div class="block">The name of the property.</div>
+<div class="block">Creates a new property.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -251,7 +257,7 @@ extends java.lang.Object</pre>
         <a href="Property.PropertyPersistenceType.html" title="enum in xbot.common.properties">Property.PropertyPersistenceType</a>&nbsp;persistenceType,
         <a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</code></th>
 <td class="colLast">
-<div class="block">The name of the property.</div>
+<div class="block">Creates a new property.</div>
 </td>
 </tr>
 </table>
@@ -323,7 +329,26 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>key</h4>
-<pre>public&nbsp;java.lang.String key</pre>
+<pre>public final&nbsp;java.lang.String key</pre>
+<div class="block">The key for the property.</div>
+</li>
+</ul>
+<a id="permanentStore">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>permanentStore</h4>
+<pre>protected final&nbsp;<a href="PermanentStorage.html" title="interface in xbot.common.properties">PermanentStorage</a> permanentStore</pre>
+</li>
+</ul>
+<a id="randomAccessStore">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>randomAccessStore</h4>
+<pre>protected final&nbsp;<a href="ITableProxy.html" title="interface in xbot.common.properties">ITableProxy</a> randomAccessStore</pre>
 </li>
 </ul>
 <a id="persistenceType">
@@ -332,16 +357,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>persistenceType</h4>
-<pre>public&nbsp;<a href="Property.PropertyPersistenceType.html" title="enum in xbot.common.properties">Property.PropertyPersistenceType</a> persistenceType</pre>
-</li>
-</ul>
-<a id="level">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>level</h4>
-<pre>public&nbsp;<a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a> level</pre>
+<pre>public final&nbsp;<a href="Property.PropertyPersistenceType.html" title="enum in xbot.common.properties">Property.PropertyPersistenceType</a> persistenceType</pre>
 </li>
 </ul>
 <a id="log">
@@ -373,9 +389,15 @@ extends java.lang.Object</pre>
                 <a href="XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a>&nbsp;manager,
                 <a href="Property.PropertyPersistenceType.html" title="enum in xbot.common.properties">Property.PropertyPersistenceType</a>&nbsp;persistenceType,
                 <a href="Property.PropertyLevel.html" title="enum in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</pre>
-<div class="block">The name of the property. This should be unique unless you really know
- what you're doing.
- New builder with persistence type. Old builder will be deprecated.</div>
+<div class="block">Creates a new property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - The property key.
+            This should be unique unless you really know what you're doing.</dd>
+<dd><code>manager</code> - The property manager.</dd>
+<dd><code>persistenceType</code> - The persistence type.</dd>
+<dd><code>level</code> - The property level.</dd>
+</dl>
 </li>
 </ul>
 <a id="&lt;init&gt;(java.lang.String,xbot.common.properties.XPropertyManager,xbot.common.properties.Property.PropertyPersistenceType)">
@@ -387,9 +409,14 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;Property&#8203;(java.lang.String&nbsp;key,
                 <a href="XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a>&nbsp;manager,
                 <a href="Property.PropertyPersistenceType.html" title="enum in xbot.common.properties">Property.PropertyPersistenceType</a>&nbsp;persistenceType)</pre>
-<div class="block">The name of the property. This should be unique unless you really know
- what you're doing.
- New builder with persistence type. Old builder will be deprecated.</div>
+<div class="block">Creates a new property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - The property key.
+            This should be unique unless you really know what you're doing.</dd>
+<dd><code>manager</code> - The property manager.</dd>
+<dd><code>persistenceType</code> - The persistence type.</dd>
+</dl>
 </li>
 </ul>
 <a id="&lt;init&gt;(java.lang.String,xbot.common.properties.XPropertyManager)">
@@ -400,8 +427,13 @@ extends java.lang.Object</pre>
 <h4>Property</h4>
 <pre>public&nbsp;Property&#8203;(java.lang.String&nbsp;key,
                 <a href="XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a>&nbsp;manager)</pre>
-<div class="block">The name of the property. This should be unique unless you really know
- what you're doing.</div>
+<div class="block">Creates a new persistent property.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>key</code> - The property key.
+            This should be unique unless you really know what you're doing.</dd>
+<dd><code>manager</code> - The property manager.</dd>
+</dl>
 </li>
 </ul>
 </li>
