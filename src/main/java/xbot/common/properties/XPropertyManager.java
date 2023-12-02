@@ -51,12 +51,12 @@ public class XPropertyManager {
     public void loadPropertiesFromStorage() {
         // We need to somehow get the random store and force load everything in that.
         int escape = 0;
-        for (int i = 0; i < properties.size(); i++) {
-            Property prop = (Property) properties.get(i);
-            prop.load();
+        for (Property property : properties) {
+            property.load();
 
             escape++;
             if (escape > 2000) {
+                log.warn("Exceeded maximum property count when loading properties.");
                 break;
             }
         }
@@ -71,19 +71,21 @@ public class XPropertyManager {
         // "orphaned" values that are loaded/saved indefinitely, even if there's nothing in the
         // code that uses them.
 
-        if (properties.size() == 0) {
+        if (properties.isEmpty()) {
             log.error("No properties to save! Skipping save phase.");
             return;
         }
 
+        log.info("{} properties to save.", properties.size());
+
         int escape = 0;
 
-        for (int i = 0; i < properties.size(); i++) {
-            Property prop = (Property) properties.get(i);
-            prop.save();
+        for (Property property : properties) {
+            property.save();
 
             escape++;
             if (escape > 2000) {
+                log.warn("Exceeded maximum property count when saving properties.");
                 break;
             }
         }

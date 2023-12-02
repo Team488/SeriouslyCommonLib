@@ -64,11 +64,7 @@ public class BooleanProperty extends Property {
      */
     public void save() {
         if(persistenceType == PropertyPersistenceType.Persistent) {
-            if (!isSetToDefault()) {
-                permanentStore.setBoolean(key, get());
-            } else {
-                permanentStore.remove(key);
-            }
+            permanentStore.setBoolean(key, get());
         }
     }
 
