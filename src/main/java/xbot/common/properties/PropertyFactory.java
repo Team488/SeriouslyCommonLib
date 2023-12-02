@@ -119,8 +119,7 @@ public class PropertyFactory {
 
     /**
      * Method for creating a boolean ephemeral property
-     * 
-     * @author Marc
+     * @return The property.
      */
     public BooleanProperty createEphemeralProperty(String key, boolean defaultValue) {
         checkPrefixSet();
@@ -129,8 +128,7 @@ public class PropertyFactory {
 
     /**
      * Method for creating a boolean ephemeral property
-     * 
-     * @author Marc
+     * @return The property.
      */
     public BooleanProperty createEphemeralProperty(String key, boolean defaultValue, PropertyLevel level) {
         checkPrefixSet();
@@ -139,8 +137,7 @@ public class PropertyFactory {
 
     /**
      * Method for creating a string ephemeral property
-     * 
-     * @author Marc
+     * @return The property.
      */
     public StringProperty createEphemeralProperty(String key, String defaultValue, PropertyLevel level) {
         checkPrefixSet();
@@ -149,8 +146,7 @@ public class PropertyFactory {
 
     /**
      * Method for creating a string ephemeral property
-     * 
-     * @author Marc
+     * @return The property.
      */
     public StringProperty createEphemeralProperty(String key, String defaultValue) {
         checkPrefixSet();
@@ -159,8 +155,7 @@ public class PropertyFactory {
 
     /**
      * Method for creating a double ephemeral property
-     * 
-     * @author Marc
+     * @return The property.
      */
     public DoubleProperty createEphemeralProperty(String key, double defaultValue) {
         checkPrefixSet();
@@ -169,8 +164,7 @@ public class PropertyFactory {
 
     /**
      * Method for creating a double ephemeral property
-     * 
-     * @author Marc
+     * @return The property.
      */
     public DoubleProperty createEphemeralProperty(String key, double defaultValue, PropertyLevel level) {
         checkPrefixSet();
@@ -179,8 +173,7 @@ public class PropertyFactory {
 
     /**
      * Method for creating a double persistent property
-     * 
-     * @author Marc
+     * @return The property.
      */
     public BooleanProperty createPersistentProperty(String key, boolean defaultValue) {
         checkPrefixSet();
@@ -189,8 +182,7 @@ public class PropertyFactory {
 
     /**
      * Method for creating a double persistent property
-     * 
-     * @author Marc
+     * @return The property.
      */
     public BooleanProperty createPersistentProperty(String key, boolean defaultValue, PropertyLevel level) {
         checkPrefixSet();
@@ -199,8 +191,7 @@ public class PropertyFactory {
 
     /**
      * Method for creating a double persistent property
-     * 
-     * @author Marc
+     * @return The property.
      */
     public StringProperty createPersistentProperty(String key, String defaultValue) {
         checkPrefixSet();
@@ -209,8 +200,7 @@ public class PropertyFactory {
 
     /**
      * Method for creating a double persistent property
-     * 
-     * @author Marc
+     * @return The property.
      */
     public StringProperty createPersistentProperty(String key, String defaultValue, PropertyLevel level) {
         checkPrefixSet();
@@ -219,8 +209,7 @@ public class PropertyFactory {
 
     /**
      * Method for creating a double persistent property
-     * 
-     * @author Marc
+     * @return The property.
      */
     public DoubleProperty createPersistentProperty(String key, double defaultValue) {
         checkPrefixSet();
@@ -229,8 +218,7 @@ public class PropertyFactory {
 
     /**
      * Method for creating a double persistent property
-     * 
-     * @author Marc
+     * @return The property.
      */
     public DoubleProperty createPersistentProperty(String key, double defaultValue, PropertyLevel level) {
         checkPrefixSet();
