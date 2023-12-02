@@ -16,8 +16,8 @@ import xbot.common.properties.PropertyFactory;
  */
 @Singleton
 public class CompressorSubsystem extends BaseSubsystem {
-    final XCompressor compressor;
-    final BooleanProperty isEnabledProperty;
+    protected final XCompressor compressor;
+    protected final BooleanProperty isEnabledProperty;
 
     /**
      * Create a new CompressorSubsystem.
@@ -30,6 +30,14 @@ public class CompressorSubsystem extends BaseSubsystem {
         this.compressor = compressorFactory.create();
         this.isEnabledProperty = pf.createEphemeralProperty("Compressor Enabled", compressor.isEnabled());
         this.register();
+    }
+
+    /**
+     * Gets whether the compressor is enabled.
+     * @return True if enabled, false if not.
+     */
+    public boolean isEnabled() {
+        return this.compressor.isEnabled();
     }
 
     /**
