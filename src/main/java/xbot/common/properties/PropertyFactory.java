@@ -9,12 +9,15 @@ import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.Property.PropertyLevel;
 import xbot.common.properties.Property.PropertyPersistenceType;
 
+/**
+ * A factory for creating properties. This is the preferred way to create properties.
+ */
 public class PropertyFactory {
 
     protected Logger log;
     private final XPropertyManager propertyManager;
     private String prefix = "";
-    private RobotAssertionManager assertionManager;
+    private final RobotAssertionManager assertionManager;
     private boolean prefixSet;
     private PropertyLevel defaultLevel = PropertyLevel.Important;
 
@@ -25,30 +28,58 @@ public class PropertyFactory {
         log = LogManager.getLogger(PropertyFactory.class);
     }
 
+    /**
+     * Sets the prefix for all properties created by this factory.
+     * This or another prefix setting method must be called before any properties are created.
+     * @param prefix The prefix to use for all properties created by this factory.
+     */
     public void setPrefix(String prefix) {
         this.prefix = prefix;
         prefixSet = true;
     }
 
+    /**
+     * Sets the prefix for all properties created by this factory.
+     * This or another prefix setting method must be called before any properties are created.
+     * @param prefixSource The prefix source to use for the prefix.
+     */
     public void setPrefix(IPropertySupport prefixSource) {
         this.prefix = prefixSource.getPrefix();
         prefixSet = true;
     }
 
+    /**
+     * Appends a prefix to the current prefix for all properties created by this factory.
+     * This or another prefix setting method must be called before any properties are created.
+     * @param toAppend The prefix to append to the current prefix.
+     */
     public void appendPrefix(String toAppend) {
         prefix = prefix + "/" + toAppend;
         prefixSet = true;
     }
 
+    /**
+     * Sets the prefix for all properties created by this factory to the top level.
+     * This or another prefix setting method must be called before any properties are created.
+     */
     public void setTopLevelPrefix() {
         prefix = "";
         prefixSet = true;
     }
 
+    /**
+     * Gets the prefix for all properties created by this factory.
+     * @return The prefix for all properties created by this factory.
+     */
     public String getPrefix() {
         return this.prefix;
     }
 
+    /**
+     * Creates a property key.
+     * @param key The key to append to the prefix.
+     * @return The full property key.
+     */
     public String createFullKey(String key) {
         String fullKey = null;
         if(this.prefix == null || this.prefix.isEmpty()) {
@@ -78,6 +109,10 @@ public class PropertyFactory {
         }
     }
 
+    /**
+     * Sets the default property level.
+     * @param level The property level.
+     */
     public void setDefaultLevel(PropertyLevel level) {
         this.defaultLevel = level;
     }
