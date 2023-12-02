@@ -17,17 +17,17 @@ import org.apache.logging.log4j.Logger;
  */
 public abstract class Property {
     /**
-     *
+     * The key for the property.
      */
-    public String key;
+    public final String key;
 
-    PermanentStorage permanentStore;
-    ITableProxy randomAccessStore;
+    protected final PermanentStorage permanentStore;
+    protected final ITableProxy randomAccessStore;
     
     /** 
-     * New enum to determine property persistence
-     * Ephemeral properties will not be saved or load from a persistent storage
-     * Persistent properties will be saved and load from a persistent storage
+     * Enum to determine property persistence
+     * Ephemeral properties will not be saved or loaded from a persistent storage.
+     * Persistent properties will be saved and loaded from a persistent storage.
      */
     public enum PropertyPersistenceType{
         Ephemeral,
@@ -39,19 +39,21 @@ public abstract class Property {
         Debug
     }
     
-    public PropertyPersistenceType persistenceType;
-    public PropertyLevel level;
+    public final PropertyPersistenceType persistenceType;
+
     protected static Logger log;
 
     /**
-     * The name of the property. This should be unique unless you really know
-     * what you're doing.
-     * New builder with persistence type. Old builder will be deprecated.
-     * @author Marc
+     * Creates a new property.
+     * @param key The property key.
+     *            This should be unique unless you really know what you're doing.
+     * @param manager The property manager.
+     * @param persistenceType The persistence type.
+     * @param level The property level.
      */
     public Property(String key, XPropertyManager manager, PropertyPersistenceType persistenceType, PropertyLevel level) {
         this.key = sanitizeKey(key);
-        log =  LogManager.getLogger(this.getClass().getSimpleName() + " (\"" + this.key + "\")");
+        log = LogManager.getLogger(this.getClass().getSimpleName() + " (\"" + this.key + "\")");
         
         this.permanentStore = manager.permanentStore;
 
@@ -64,21 +66,23 @@ public abstract class Property {
         this.persistenceType = persistenceType;
         manager.registerProperty(this);
     }
-    
+
     /**
-     * The name of the property. This should be unique unless you really know
-     * what you're doing.
-     * New builder with persistence type. Old builder will be deprecated.
-     * @author Marc
+     * Creates a new property.
+     * @param key The property key.
+     *            This should be unique unless you really know what you're doing.
+     * @param manager The property manager.
+     * @param persistenceType The persistence type.
      */
     public Property(String key, XPropertyManager manager, PropertyPersistenceType persistenceType) {
         this(key, manager, persistenceType, PropertyLevel.Important);
     }
 
     /**
-     * The name of the property. This should be unique unless you really know
-     * what you're doing.
-     * 
+     * Creates a new persistent property.
+     * @param key The property key.
+     *            This should be unique unless you really know what you're doing.
+     * @param manager The property manager.
      */
     public Property(String key, XPropertyManager manager) {
         this(key, manager, PropertyPersistenceType.Persistent);
@@ -88,7 +92,7 @@ public abstract class Property {
         String sanitizedKey = key;
         sanitizedKey = sanitizedKey.replace(",", "");
         sanitizedKey = sanitizedKey.replace("\n", "");
-        if (sanitizedKey != key) {
+        if (!sanitizedKey.equals(key)) {
             log.warn(String
                     .format("Property '%s' contained illegal characters, has been sanitzed to '%s'",
                             key, sanitizedKey));
