@@ -30,7 +30,8 @@ We plan to continue maintaining this codebase throughout upcoming years as we de
 
 ## How do I get started?
 
-If you want to jump in, a good place to start is our [robot template](https://github.com/Team488/FRCRobotTemplate). It includes all the configuration, build scripts, and boilerplate needed to start adding functionality. We hope to develop full documentation, but in the mean time, feel free to open issues on this repo to ask us questions and provide feedback. 
+If you want to jump in, a good place to start is our [robot template](https://github.com/Team488/FRCRobotTemplate). It includes all the configuration, build scripts, and boilerplate needed to start adding functionality. We hope to develop full documentation, but in the meantime, feel free to open issues on this repo to ask us questions and provide feedback. 
+You can also take a look at the [generated documentation](https://team488.github.io/SeriouslyCommonLib/).
 
 ## How's development going?
 

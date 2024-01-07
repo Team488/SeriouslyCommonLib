@@ -12,6 +12,7 @@ import xbot.common.injection.modules.UnitTestModule;
 import xbot.common.injection.modules.UnitTestRobotModule;
 import xbot.common.subsystems.pose.commands.ResetDistanceCommand;
 import xbot.common.subsystems.pose.commands.SetRobotHeadingCommand;
+import xbot.common.subsystems.simple.MockSimpleMotorSubsystem;
 
 /**
  * Do not use this directly. Use auto-generated class DaggerUnitTestComponent.
@@ -28,4 +29,6 @@ public abstract class CommonLibTestComponent extends PurePursuitTestComponent {
     public abstract ResetDistanceCommand resetDistanceCommand();
     
     public abstract SetRobotHeadingCommand setRobotHeadingCommand();
+
+    public abstract MockSimpleMotorSubsystem mockSimpleMotorSubsystem();
 }

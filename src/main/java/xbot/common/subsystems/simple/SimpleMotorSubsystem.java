@@ -1,4 +1,4 @@
-package xbot.common.subsystems.simplemotor;
+package xbot.common.subsystems.simple;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import xbot.common.command.BaseSubsystem;
@@ -7,7 +7,7 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
 /**
- * Generic subsystem that handles a single motor which can be drivven in forward and reverse.
+ * Generic subsystem that handles a single motor which can be driven in forward and reverse.
  */
 public abstract class SimpleMotorSubsystem extends BaseSubsystem {
     final DoubleProperty forwardPower;
@@ -43,27 +43,48 @@ public abstract class SimpleMotorSubsystem extends BaseSubsystem {
      */
     public abstract void setPower(double power);
 
-    public void setForward() {
+    /**
+     * Drive the motor in the forward direction.
+     */
+    public final void setForward() {
         setPower(forwardPower.get());
     }
 
-    public void setReverse() {
+    /**
+     * Drive the motor in the reverse direction.
+     */
+    public final void setReverse() {
         setPower(reversePower.get());
     }
 
-    public void stop() {
+    /**
+     * Stop the motor.
+     */
+    public final void stop() {
         setPower(0);
     }
 
-    public Command getForwardCommand() {
-        return new NamedRunCommand(getName() + "-Forward", ()->setPower(forwardPower.get()), this);
+    /**
+     * Gets a command to drive the motor in the forward direction.
+     * @return The command.
+     */
+    public final Command getForwardCommand() {
+        return new NamedRunCommand(getName() + "-Forward", this::setForward, this);
     }
 
-    public Command getReverseCommand() {
-        return new NamedRunCommand(getName() + "-Reverse", ()->setPower(reversePower.get()), this);
+    /**
+     * Gets a command to drive the motor in the reverse direction.
+     * @return The command.
+     */
+    public final Command getReverseCommand() {
+        return new NamedRunCommand(getName() + "-Reverse", this::setReverse, this);
     }
 
-    public Command getStopCommand() {
-        return new NamedRunCommand(getName() + "-Stop", ()->setPower(0), this);
+    /**
+     * Gets a command to stop the motor.
+     * @return The command.
+     */
+    public final Command getStopCommand() {
+        return new NamedRunCommand(getName() + "-Stop", this::stop, this);
     }
 }

@@ -3,7 +3,8 @@ package xbot.common.logging;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Base class for safe assertion manager. Allows context-based management of
@@ -11,7 +12,7 @@ import org.apache.log4j.Logger;
  *
  */
 public abstract class RobotAssertionManager {
-    static Logger log = Logger.getLogger(RobotAssertionManager.class);
+    static Logger log = LogManager.getLogger(RobotAssertionManager.class);
     
     public final void throwException(RuntimeException e) {
         log.error("Safe exception encountered (exception throw " + (this.isExceptionsEnabled() ? "enabled" : "disabled") + "): "

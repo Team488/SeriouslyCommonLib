@@ -1,13 +1,14 @@
 package xbot.common.logging;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import xbot.common.logic.Latch;
 import xbot.common.logic.Latch.EdgeType;
 
 public class LoggingLatch {
 
-    static Logger log = Logger.getLogger(LoggingLatch.class);
+    static Logger log = LogManager.getLogger(LoggingLatch.class);
     
     private final Latch latch;
     

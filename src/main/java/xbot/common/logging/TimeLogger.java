@@ -1,12 +1,13 @@
 package xbot.common.logging;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import xbot.common.controls.sensors.XTimer;
 
 public class TimeLogger {
     
-    private static Logger log = Logger.getLogger(TimeLogger.class);
+    private static Logger log = LogManager.getLogger(TimeLogger.class);
 
     boolean firstCall;
     double lastReportTime;

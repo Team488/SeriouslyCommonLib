@@ -1,7 +1,8 @@
 package xbot.common.subsystems.drive.control_logic;
 
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -44,7 +45,7 @@ public class HeadingAssistModule {
         DecayVelocity
     }
 
-    private Logger log = Logger.getLogger("HeadingAssistModule");
+    private Logger log = LogManager.getLogger("HeadingAssistModule");
 
     @AssistedFactory
     public abstract static class HeadingAssistModuleFactory {
