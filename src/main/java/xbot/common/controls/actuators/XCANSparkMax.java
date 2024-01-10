@@ -1,13 +1,13 @@
 package xbot.common.controls.actuators;
 
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.ExternalFollower;
+import com.revrobotics.CANSparkBase.FaultID;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMax.ExternalFollower;
-import com.revrobotics.CANSparkMax.FaultID;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.REVLibError;
-import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
+import com.revrobotics.SparkPIDController.ArbFFUnits;
 
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
@@ -732,11 +732,11 @@ public abstract class XCANSparkMax {
     /// Get true value. Should not be called in competition code.
     public abstract CANSparkMax getInternalSparkMax();
 
-    public abstract void setForwardLimitSwitch(com.revrobotics.SparkMaxLimitSwitch.Type switchType, boolean enabled);
+    public abstract void setForwardLimitSwitch(com.revrobotics.SparkLimitSwitch.Type switchType, boolean enabled);
 
-    public abstract void setReverseLimitSwitch(com.revrobotics.SparkMaxLimitSwitch.Type switchType, boolean enabled);
+    public abstract void setReverseLimitSwitch(com.revrobotics.SparkLimitSwitch.Type switchType, boolean enabled);
 
-    public abstract boolean getForwardLimitSwitchPressed(com.revrobotics.SparkMaxLimitSwitch.Type switchType);
+    public abstract boolean getForwardLimitSwitchPressed(com.revrobotics.SparkLimitSwitch.Type switchType);
 
-    public abstract boolean getReverseLimitSwitchPressed(com.revrobotics.SparkMaxLimitSwitch.Type switchType);
+    public abstract boolean getReverseLimitSwitchPressed(com.revrobotics.SparkLimitSwitch.Type switchType);
 }
