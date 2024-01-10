@@ -3,6 +3,7 @@
     "name": "KauaiLabs_navX_FRC",
     "version": "2023.0.3",
     "uuid": "cb311d09-36e9-4143-a032-55bb2b94443b",
+    "frcYear": 2024,
     "mavenUrls": [
         "https://dev.studica.com/maven/release/2023/"
     ],

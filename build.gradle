@@ -9,14 +9,14 @@ import edu.wpi.first.gradlerio.deploy.roborio.RoboRIO
  */
 
 plugins {
-    id "edu.wpi.first.GradleRIO" version "2023.4.2"
+    id "edu.wpi.first.GradleRIO" version "2024.1.1"
     id 'scala'
     id 'checkstyle'
     id 'jacoco'
 }
 
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -48,13 +48,12 @@ dependencies {
     nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
     simulationRelease wpi.sim.enableRelease()
 
-    testImplementation 'junit:junit:4.12'
-
     // The production code uses the SLF4J logging API at compile time
     implementation 'org.slf4j:slf4j-api:1.7.21'
 
     // In future, sync with WPILib, using junit 5
-    implementation 'junit:junit:4.12'
+    implementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.1'
 
     implementation 'com.google.dagger:dagger:2.44.2'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.44.2'
@@ -63,7 +62,7 @@ dependencies {
     implementation 'org.apache.logging.log4j:log4j-api:2.19.0'
     implementation 'org.apache.logging.log4j:log4j-core:2.19.0'
 
-    implementation group: 'org.json', name:'json', version: '20220924'
+    implementation group: 'org.json', name:'json', version: '20230227'
 
     implementation group: 'org.zeromq', name: 'jeromq', version: '0.5.3'
 
@@ -79,9 +78,9 @@ sourceSets {
     }
 }
 
-task jarSources(type:Jar){
+tasks.register('jarSources', Jar) {
     from sourceSets.main.allSource
-    classifier = 'source'
+    archiveClassifier = 'source'
 }
 
 test {
@@ -97,12 +96,12 @@ tasks.withType(JavaCompile) {
 
 tasks.withType(Test) {
     testLogging.showStandardStreams = true
-    
-    afterTest { desc, result -> 
+
+    afterTest { desc, result ->
         logger.quiet "Executed test ${desc.name} [${desc.className}] with result: ${result.resultType}"
     }
 
-    afterSuite { desc, result ->    
+    afterSuite { desc, result ->
       if (!desc.parent) { // will match the outermost suite
         println "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
       }
@@ -139,3 +138,8 @@ test.finalizedBy { jacocoTestReport }
 // Configure jar and deploy tasks
 wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
+
+// Configure string concat to always inline compile
+tasks.withType(JavaCompile) {
+    options.compilerArgs.add '-XDstringConcat=inline'
+}
