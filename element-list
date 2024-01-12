@@ -1,9 +1,11 @@
 edu.wpi.first.wpilibj
+xbot.common.advantage
 xbot.common.command
 xbot.common.controls
 xbot.common.controls.actuators
 xbot.common.controls.actuators.mock_adapters
 xbot.common.controls.actuators.wpi_adapters
+xbot.common.controls.io_inputs
 xbot.common.controls.sensors
 xbot.common.controls.sensors.buttons
 xbot.common.controls.sensors.mock_adapters

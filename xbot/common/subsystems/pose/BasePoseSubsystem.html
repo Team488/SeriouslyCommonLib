@@ -81,7 +81,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code>edu.wpi.first.util.sendable.Sendable</code>, <code>edu.wpi.first.wpilibj2.command.Subsystem</code>, <code><a href="../../properties/IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a></code></dd>
+<dd><code>edu.wpi.first.util.sendable.Sendable</code>, <code>edu.wpi.first.wpilibj2.command.Subsystem</code>, <code><a href="../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code>, <code><a href="../../properties/IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a></code></dd>
 </dl>
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
@@ -89,7 +89,8 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">BasePoseSubsystem</span>
-<span class="extends-implements">extends <a href="../../command/BaseSubsystem.html" title="class in xbot.common.command">BaseSubsystem</a></span></div>
+<span class="extends-implements">extends <a href="../../command/BaseSubsystem.html" title="class in xbot.common.command">BaseSubsystem</a>
+implements <a href="../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></span></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -105,20 +106,8 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>protected final double</code></div>
 <div class="col-second even-row-color"><code><a href="#classInstantiationTime" class="member-name-link">classInstantiationTime</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#currentCompassHeadingProp" class="member-name-link">currentCompassHeadingProp</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected <a href="../../math/WrappedRotation2d.html" title="class in xbot.common.math">WrappedRotation2d</a></code></div>
-<div class="col-second even-row-color"><code><a href="#currentHeading" class="member-name-link">currentHeading</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#currentHeadingProp" class="member-name-link">currentHeadingProp</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected final <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
-<div class="col-second even-row-color"><code><a href="#currentPitch" class="member-name-link">currentPitch</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#currentRoll" class="member-name-link">currentRoll</a></code></div>
+<div class="col-first odd-row-color"><code>protected <a href="../../math/WrappedRotation2d.html" title="class in xbot.common.math">WrappedRotation2d</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#currentHeading" class="member-name-link">currentHeading</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final double</code></div>
 <div class="col-second even-row-color"><code><a href="#FACING_AWAY_FROM_DRIVERS" class="member-name-link">FACING_AWAY_FROM_DRIVERS</a></code></div>
@@ -129,63 +118,60 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>protected boolean</code></div>
 <div class="col-second even-row-color"><code><a href="#firstUpdate" class="member-name-link">firstUpdate</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#headingAngularVelocityProp" class="member-name-link">headingAngularVelocityProp</a></code></div>
+<div class="col-first odd-row-color"><code>protected double</code></div>
+<div class="col-second odd-row-color"><code><a href="#headingOffset" class="member-name-link">headingOffset</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected double</code></div>
-<div class="col-second even-row-color"><code><a href="#headingOffset" class="member-name-link">headingOffset</a></code></div>
+<div class="col-first even-row-color"><code>final <a href="../../controls/sensors/XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></code></div>
+<div class="col-second even-row-color"><code><a href="#imu" class="member-name-link">imu</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>final <a href="../../controls/sensors/XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#imu" class="member-name-link">imu</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final double</code></div>
-<div class="col-second even-row-color"><code><a href="#INCHES_IN_A_METER" class="member-name-link">INCHES_IN_A_METER</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#inherentRioPitch" class="member-name-link">inherentRioPitch</a></code></div>
+<div class="col-first odd-row-color"><code>static final double</code></div>
+<div class="col-second odd-row-color"><code><a href="#INCHES_IN_A_METER" class="member-name-link">INCHES_IN_A_METER</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>protected final <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
-<div class="col-second even-row-color"><code><a href="#inherentRioRoll" class="member-name-link">inherentRioRoll</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected boolean</code></div>
-<div class="col-second odd-row-color"><code><a href="#isNavXReady" class="member-name-link">isNavXReady</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected double</code></div>
-<div class="col-second even-row-color"><code><a href="#lastSetHeadingTime" class="member-name-link">lastSetHeadingTime</a></code></div>
+<div class="col-second even-row-color"><code><a href="#inherentRioPitch" class="member-name-link">inherentRioPitch</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>protected final <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#leftDriveDistance" class="member-name-link">leftDriveDistance</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#inherentRioRoll" class="member-name-link">inherentRioRoll</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected double</code></div>
-<div class="col-second even-row-color"><code><a href="#previousLeftDistance" class="member-name-link">previousLeftDistance</a></code></div>
+<div class="col-first even-row-color"><code>protected boolean</code></div>
+<div class="col-second even-row-color"><code><a href="#isNavXReady" class="member-name-link">isNavXReady</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>protected double</code></div>
-<div class="col-second odd-row-color"><code><a href="#previousRightDistance" class="member-name-link">previousRightDistance</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#lastSetHeadingTime" class="member-name-link">lastSetHeadingTime</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected final <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
-<div class="col-second even-row-color"><code><a href="#rightDriveDistance" class="member-name-link">rightDriveDistance</a></code></div>
+<div class="col-first even-row-color"><code>protected double</code></div>
+<div class="col-second even-row-color"><code><a href="#leftDriveDistance" class="member-name-link">leftDriveDistance</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected <a href="../../properties/BooleanProperty.html" title="class in xbot.common.properties">BooleanProperty</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#rioRotated" class="member-name-link">rioRotated</a></code></div>
+<div class="col-first odd-row-color"><code>protected double</code></div>
+<div class="col-second odd-row-color"><code><a href="#previousLeftDistance" class="member-name-link">previousLeftDistance</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected final <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
-<div class="col-second even-row-color"><code><a href="#totalDistanceX" class="member-name-link">totalDistanceX</a></code></div>
+<div class="col-first even-row-color"><code>protected double</code></div>
+<div class="col-second even-row-color"><code><a href="#previousRightDistance" class="member-name-link">previousRightDistance</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#totalDistanceY" class="member-name-link">totalDistanceY</a></code></div>
+<div class="col-first odd-row-color"><code>protected double</code></div>
+<div class="col-second odd-row-color"><code><a href="#rightDriveDistance" class="member-name-link">rightDriveDistance</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected final <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
-<div class="col-second even-row-color"><code><a href="#totalDistanceYRobotPerspective" class="member-name-link">totalDistanceYRobotPerspective</a></code></div>
+<div class="col-first even-row-color"><code>protected <a href="../../properties/BooleanProperty.html" title="class in xbot.common.properties">BooleanProperty</a></code></div>
+<div class="col-second even-row-color"><code><a href="#rioRotated" class="member-name-link">rioRotated</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#totalVelocity" class="member-name-link">totalVelocity</a></code></div>
+<div class="col-first odd-row-color"><code>protected double</code></div>
+<div class="col-second odd-row-color"><code><a href="#totalDistanceX" class="member-name-link">totalDistanceX</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>final <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
-<div class="col-second even-row-color"><code><a href="#velocityX" class="member-name-link">velocityX</a></code></div>
+<div class="col-first even-row-color"><code>protected double</code></div>
+<div class="col-second even-row-color"><code><a href="#totalDistanceY" class="member-name-link">totalDistanceY</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>final <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#velocityY" class="member-name-link">velocityY</a></code></div>
+<div class="col-first odd-row-color"><code>protected double</code></div>
+<div class="col-second odd-row-color"><code><a href="#totalDistanceYRobotPerspective" class="member-name-link">totalDistanceYRobotPerspective</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected double</code></div>
+<div class="col-second even-row-color"><code><a href="#totalVelocity" class="member-name-link">totalVelocity</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>double</code></div>
+<div class="col-second odd-row-color"><code><a href="#velocityX" class="member-name-link">velocityX</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>double</code></div>
+<div class="col-second even-row-color"><code><a href="#velocityY" class="member-name-link">velocityY</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-xbot.common.command.BaseSubsystem">Fields inherited from class&nbsp;xbot.common.command.<a href="../../command/BaseSubsystem.html" title="class in xbot.common.command">BaseSubsystem</a></h3>
@@ -285,24 +271,27 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#periodic()" class="member-name-link">periodic</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resetDistanceTraveled()" class="member-name-link">resetDistanceTraveled</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#refreshDataFrame()" class="member-name-link">refreshDataFrame</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCurrentHeading(double)" class="member-name-link">setCurrentHeading</a><wbr>(double&nbsp;headingInDegrees)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resetDistanceTraveled()" class="member-name-link">resetDistanceTraveled</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCurrentPosition(double,double)" class="member-name-link">setCurrentPosition</a><wbr>(double&nbsp;newXPosition,
- double&nbsp;newYPosition)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCurrentHeading(double)" class="member-name-link">setCurrentHeading</a><wbr>(double&nbsp;headingInDegrees)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateCurrentHeading()" class="member-name-link">updateCurrentHeading</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCurrentPosition(double,double)" class="member-name-link">setCurrentPosition</a><wbr>(double&nbsp;newXPosition,
+ double&nbsp;newYPosition)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateOdometry()" class="member-name-link">updateOdometry</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateCurrentHeading()" class="member-name-link">updateCurrentHeading</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatePose()" class="member-name-link">updatePose</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateOdometry()" class="member-name-link">updateOdometry</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatePose()" class="member-name-link">updatePose</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">This should be called as often as reasonably possible, to increase accuracy
  of the "distance traveled" calculation.</div>
 </div>
@@ -341,73 +330,55 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="leftDriveDistance">
 <h3>leftDriveDistance</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">leftDriveDistance</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">leftDriveDistance</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="rightDriveDistance">
 <h3>rightDriveDistance</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">rightDriveDistance</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">rightDriveDistance</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="totalDistanceX">
 <h3>totalDistanceX</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">totalDistanceX</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">totalDistanceX</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="totalDistanceY">
 <h3>totalDistanceY</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">totalDistanceY</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">totalDistanceY</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="totalDistanceYRobotPerspective">
 <h3>totalDistanceYRobotPerspective</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">totalDistanceYRobotPerspective</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">totalDistanceYRobotPerspective</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="velocityX">
 <h3>velocityX</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">velocityX</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">velocityX</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="velocityY">
 <h3>velocityY</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">velocityY</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">velocityY</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="totalVelocity">
 <h3>totalVelocity</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">totalVelocity</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">totalVelocity</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="currentHeading">
 <h3>currentHeading</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../../math/WrappedRotation2d.html" title="class in xbot.common.math">WrappedRotation2d</a></span>&nbsp;<span class="element-name">currentHeading</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="currentHeadingProp">
-<h3>currentHeadingProp</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">currentHeadingProp</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="currentCompassHeadingProp">
-<h3>currentCompassHeadingProp</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">currentCompassHeadingProp</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="headingAngularVelocityProp">
-<h3>headingAngularVelocityProp</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">headingAngularVelocityProp</span></div>
 </section>
 </li>
 <li>
@@ -456,18 +427,6 @@ loadScripts(document, 'script');</script>
 </ul>
 </dd>
 </dl>
-</section>
-</li>
-<li>
-<section class="detail" id="currentPitch">
-<h3>currentPitch</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">currentPitch</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="currentRoll">
-<h3>currentRoll</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">currentRoll</span></div>
 </section>
 </li>
 <li>
@@ -727,6 +686,20 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="periodic()">
 <h3>periodic</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">periodic</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code>periodic</code>&nbsp;in interface&nbsp;<code>edu.wpi.first.wpilibj2.command.Subsystem</code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="refreshDataFrame()">
+<h3>refreshDataFrame</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">refreshDataFrame</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../advantage/DataFrameRefreshable.html#refreshDataFrame()">refreshDataFrame</a></code>&nbsp;in interface&nbsp;<code><a href="../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code></dd>
+</dl>
 </section>
 </li>
 </ul>

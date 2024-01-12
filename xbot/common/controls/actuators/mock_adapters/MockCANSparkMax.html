@@ -121,7 +121,7 @@ implements <a href="../../../simulation/ISimulatableMotor.html" title="interface
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-xbot.common.controls.actuators.XCANSparkMax">Fields inherited from class&nbsp;xbot.common.controls.actuators.<a href="../XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></h3>
-<code><a href="../XCANSparkMax.html#deviceId">deviceId</a>, <a href="../XCANSparkMax.html#firstPeriodicCall">firstPeriodicCall</a>, <a href="../XCANSparkMax.html#policeTicket">policeTicket</a>, <a href="../XCANSparkMax.html#prefix">prefix</a>, <a href="../XCANSparkMax.html#usesPropertySystem">usesPropertySystem</a></code></div>
+<code><a href="../XCANSparkMax.html#akitName">akitName</a>, <a href="../XCANSparkMax.html#deviceId">deviceId</a>, <a href="../XCANSparkMax.html#firstPeriodicCall">firstPeriodicCall</a>, <a href="../XCANSparkMax.html#info">info</a>, <a href="../XCANSparkMax.html#inputs">inputs</a>, <a href="../XCANSparkMax.html#owningSystemPrefix">owningSystemPrefix</a>, <a href="../XCANSparkMax.html#policeTicket">policeTicket</a>, <a href="../XCANSparkMax.html#prefix">prefix</a>, <a href="../XCANSparkMax.html#usesPropertySystem">usesPropertySystem</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -506,108 +506,115 @@ implements <a href="../../../simulation/ISimulatableMotor.html" title="interface
  int&nbsp;slotID)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPosition(double)" class="member-name-link">setPosition</a><wbr>(double&nbsp;position)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPeriodicFramePeriod(com.revrobotics.CANSparkLowLevel.PeriodicFrame,int)" class="member-name-link">setPeriodicFramePeriod</a><wbr>(com.revrobotics.CANSparkLowLevel.PeriodicFrame&nbsp;frame,
+ int&nbsp;periodMs)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPositionConversionFactor(double)" class="member-name-link">setPositionConversionFactor</a><wbr>(double&nbsp;factor)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPosition(double)" class="member-name-link">setPosition</a><wbr>(double&nbsp;position)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setReference(double,com.revrobotics.CANSparkBase.ControlType)" class="member-name-link">setReference</a><wbr>(double&nbsp;value,
- com.revrobotics.CANSparkBase.ControlType&nbsp;ctrl)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPositionConversionFactor(double)" class="member-name-link">setPositionConversionFactor</a><wbr>(double&nbsp;factor)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setReference(double,com.revrobotics.CANSparkBase.ControlType,int)" class="member-name-link">setReference</a><wbr>(double&nbsp;value,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setReference(double,com.revrobotics.CANSparkBase.ControlType)" class="member-name-link">setReference</a><wbr>(double&nbsp;value,
+ com.revrobotics.CANSparkBase.ControlType&nbsp;ctrl)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setReference(double,com.revrobotics.CANSparkBase.ControlType,int)" class="member-name-link">setReference</a><wbr>(double&nbsp;value,
  com.revrobotics.CANSparkBase.ControlType&nbsp;ctrl,
  int&nbsp;pidSlot)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setReference(double,com.revrobotics.CANSparkBase.ControlType,int,double)" class="member-name-link">setReference</a><wbr>(double&nbsp;value,
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setReference(double,com.revrobotics.CANSparkBase.ControlType,int,double)" class="member-name-link">setReference</a><wbr>(double&nbsp;value,
  com.revrobotics.CANSparkBase.ControlType&nbsp;ctrl,
  int&nbsp;pidSlot,
  double&nbsp;arbFeedforward)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setReference(double,com.revrobotics.CANSparkBase.ControlType,int,double,com.revrobotics.SparkPIDController.ArbFFUnits)" class="member-name-link">setReference</a><wbr>(double&nbsp;value,
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setReference(double,com.revrobotics.CANSparkBase.ControlType,int,double,com.revrobotics.SparkPIDController.ArbFFUnits)" class="member-name-link">setReference</a><wbr>(double&nbsp;value,
  com.revrobotics.CANSparkBase.ControlType&nbsp;ctrl,
  int&nbsp;pidSlot,
  double&nbsp;arbFeedforward,
  com.revrobotics.SparkPIDController.ArbFFUnits&nbsp;arbFFUnits)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setReverseLimitSwitch(com.revrobotics.SparkLimitSwitch.Type,boolean)" class="member-name-link">setReverseLimitSwitch</a><wbr>(com.revrobotics.SparkLimitSwitch.Type&nbsp;switchType,
- boolean&nbsp;enabled)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSecondaryCurrentLimit(double)" class="member-name-link">setSecondaryCurrentLimit</a><wbr>(double&nbsp;limit)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setReverseLimitSwitch(com.revrobotics.SparkLimitSwitch.Type,boolean)" class="member-name-link">setReverseLimitSwitch</a><wbr>(com.revrobotics.SparkLimitSwitch.Type&nbsp;switchType,
+ boolean&nbsp;enabled)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSecondaryCurrentLimit(double)" class="member-name-link">setSecondaryCurrentLimit</a><wbr>(double&nbsp;limit)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the secondary current limit in Amps.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSecondaryCurrentLimit(double,int)" class="member-name-link">setSecondaryCurrentLimit</a><wbr>(double&nbsp;limit,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSecondaryCurrentLimit(double,int)" class="member-name-link">setSecondaryCurrentLimit</a><wbr>(double&nbsp;limit,
  int&nbsp;chopCycles)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the secondary current limit in Amps.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSmartCurrentLimit(int)" class="member-name-link">setSmartCurrentLimit</a><wbr>(int&nbsp;limit)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the current limit in Amps.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSmartCurrentLimit(int)" class="member-name-link">setSmartCurrentLimit</a><wbr>(int&nbsp;limit)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSmartCurrentLimit(int,int)" class="member-name-link">setSmartCurrentLimit</a><wbr>(int&nbsp;stallLimit,
+ int&nbsp;freeLimit)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the current limit in Amps.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSmartCurrentLimit(int,int)" class="member-name-link">setSmartCurrentLimit</a><wbr>(int&nbsp;stallLimit,
- int&nbsp;freeLimit)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets the current limit in Amps.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSmartCurrentLimit(int,int,int)" class="member-name-link">setSmartCurrentLimit</a><wbr>(int&nbsp;stallLimit,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSmartCurrentLimit(int,int,int)" class="member-name-link">setSmartCurrentLimit</a><wbr>(int&nbsp;stallLimit,
  int&nbsp;freeLimit,
  int&nbsp;limitRPM)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the current limit in Amps.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSmartMotionAllowedClosedLoopError(double,int)" class="member-name-link">setSmartMotionAllowedClosedLoopError</a><wbr>(double&nbsp;allowedErr,
- int&nbsp;slotID)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSmartMotionMaxAccel(double,int)" class="member-name-link">setSmartMotionMaxAccel</a><wbr>(double&nbsp;maxAccel,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSmartMotionAllowedClosedLoopError(double,int)" class="member-name-link">setSmartMotionAllowedClosedLoopError</a><wbr>(double&nbsp;allowedErr,
  int&nbsp;slotID)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSmartMotionMaxVelocity(double,int)" class="member-name-link">setSmartMotionMaxVelocity</a><wbr>(double&nbsp;maxVel,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSmartMotionMaxAccel(double,int)" class="member-name-link">setSmartMotionMaxAccel</a><wbr>(double&nbsp;maxAccel,
  int&nbsp;slotID)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSmartMotionMinOutputVelocity(double,int)" class="member-name-link">setSmartMotionMinOutputVelocity</a><wbr>(double&nbsp;minVel,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSmartMotionMaxVelocity(double,int)" class="member-name-link">setSmartMotionMaxVelocity</a><wbr>(double&nbsp;maxVel,
  int&nbsp;slotID)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSoftLimit(com.revrobotics.CANSparkBase.SoftLimitDirection,float)" class="member-name-link">setSoftLimit</a><wbr>(com.revrobotics.CANSparkBase.SoftLimitDirection&nbsp;direction,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSmartMotionMinOutputVelocity(double,int)" class="member-name-link">setSmartMotionMinOutputVelocity</a><wbr>(double&nbsp;minVel,
+ int&nbsp;slotID)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSoftLimit(com.revrobotics.CANSparkBase.SoftLimitDirection,float)" class="member-name-link">setSoftLimit</a><wbr>(com.revrobotics.CANSparkBase.SoftLimitDirection&nbsp;direction,
  float&nbsp;limit)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the soft limit based on position.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocity(double)" class="member-name-link">setVelocity</a><wbr>(double&nbsp;velocity)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityConversionFactor(double)" class="member-name-link">setVelocityConversionFactor</a><wbr>(double&nbsp;factor)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocity(double)" class="member-name-link">setVelocity</a><wbr>(double&nbsp;velocity)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVoltage(double)" class="member-name-link">setVoltage</a><wbr>(double&nbsp;outputVolts)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.revrobotics.REVLibError</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityConversionFactor(double)" class="member-name-link">setVelocityConversionFactor</a><wbr>(double&nbsp;factor)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVoltage(double)" class="member-name-link">setVoltage</a><wbr>(double&nbsp;outputVolts)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the voltage output of the SpeedController.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stopMotor()" class="member-name-link">stopMotor</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stopMotor()" class="member-name-link">stopMotor</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XCANSparkMaxInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../io_inputs/XCANSparkMaxInputs.html" title="class in xbot.common.controls.io_inputs">XCANSparkMaxInputs</a>&nbsp;inputs)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-xbot.common.controls.actuators.XCANSparkMax">Methods inherited from class&nbsp;xbot.common.controls.actuators.<a href="../XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></h3>
-<code><a href="../XCANSparkMax.html#getPrefix()">getPrefix</a>, <a href="../XCANSparkMax.html#periodic()">periodic</a></code></div>
+<code><a href="../XCANSparkMax.html#getPrefix()">getPrefix</a>, <a href="../XCANSparkMax.html#getStickyFaultHasReset()">getStickyFaultHasReset</a>, <a href="../XCANSparkMax.html#periodic()">periodic</a>, <a href="../XCANSparkMax.html#refreshDataFrame()">refreshDataFrame</a>, <a href="../XCANSparkMax.html#setupStatusFramesIfReset(int,int,int,int)">setupStatusFramesIfReset</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -1263,7 +1270,7 @@ implements <a href="../../../simulation/ISimulatableMotor.html" title="interface
 <h3>getBusVoltage</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getBusVoltage</span>()</div>
 <dl class="notes">
-<dt>Specified by:</dt>
+<dt>Overrides:</dt>
 <dd><code><a href="../XCANSparkMax.html#getBusVoltage()">getBusVoltage</a></code>&nbsp;in class&nbsp;<code><a href="../XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></code></dd>
 <dt>Returns:</dt>
 <dd>The voltage fed into the motor controller.</dd>
@@ -1275,7 +1282,7 @@ implements <a href="../../../simulation/ISimulatableMotor.html" title="interface
 <h3>getAppliedOutput</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getAppliedOutput</span>()</div>
 <dl class="notes">
-<dt>Specified by:</dt>
+<dt>Overrides:</dt>
 <dd><code><a href="../XCANSparkMax.html#getAppliedOutput()">getAppliedOutput</a></code>&nbsp;in class&nbsp;<code><a href="../XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></code></dd>
 <dt>Returns:</dt>
 <dd>The motor controller's applied output duty cycle.</dd>
@@ -1287,7 +1294,7 @@ implements <a href="../../../simulation/ISimulatableMotor.html" title="interface
 <h3>getOutputCurrent</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getOutputCurrent</span>()</div>
 <dl class="notes">
-<dt>Specified by:</dt>
+<dt>Overrides:</dt>
 <dd><code><a href="../XCANSparkMax.html#getOutputCurrent()">getOutputCurrent</a></code>&nbsp;in class&nbsp;<code><a href="../XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></code></dd>
 <dt>Returns:</dt>
 <dd>The motor controller's output current in Amps.</dd>
@@ -1435,7 +1442,7 @@ implements <a href="../../../simulation/ISimulatableMotor.html" title="interface
  has the possibility of returning an error to validate if an error has
  occurred.</div>
 <dl class="notes">
-<dt>Specified by:</dt>
+<dt>Overrides:</dt>
 <dd><code><a href="../XCANSparkMax.html#getLastError()">getLastError</a></code>&nbsp;in class&nbsp;<code><a href="../XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></code></dd>
 <dt>Returns:</dt>
 <dd>the last error that was generated.</dd>
@@ -1447,7 +1454,7 @@ implements <a href="../../../simulation/ISimulatableMotor.html" title="interface
 <h3>getPosition</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getPosition</span>()</div>
 <dl class="notes">
-<dt>Specified by:</dt>
+<dt>Overrides:</dt>
 <dd><code><a href="../XCANSparkMax.html#getPosition()">getPosition</a></code>&nbsp;in class&nbsp;<code><a href="../XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></code></dd>
 </dl>
 </section>
@@ -1457,7 +1464,7 @@ implements <a href="../../../simulation/ISimulatableMotor.html" title="interface
 <h3>getVelocity</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getVelocity</span>()</div>
 <dl class="notes">
-<dt>Specified by:</dt>
+<dt>Overrides:</dt>
 <dd><code><a href="../XCANSparkMax.html#getVelocity()">getVelocity</a></code>&nbsp;in class&nbsp;<code><a href="../XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></code></dd>
 </dl>
 </section>
@@ -2143,6 +2150,27 @@ implements <a href="../../../simulation/ISimulatableMotor.html" title="interface
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../XCANSparkMax.html#getReverseLimitSwitchPressed(com.revrobotics.SparkLimitSwitch.Type)">getReverseLimitSwitchPressed</a></code>&nbsp;in class&nbsp;<code><a href="../XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setPeriodicFramePeriod(com.revrobotics.CANSparkLowLevel.PeriodicFrame,int)">
+<h3>setPeriodicFramePeriod</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.revrobotics.REVLibError</span>&nbsp;<span class="element-name">setPeriodicFramePeriod</span><wbr><span class="parameters">(com.revrobotics.CANSparkLowLevel.PeriodicFrame&nbsp;frame,
+ int&nbsp;periodMs)</span></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../XCANSparkMax.html#setPeriodicFramePeriod(com.revrobotics.CANSparkLowLevel.PeriodicFrame,int)">setPeriodicFramePeriod</a></code>&nbsp;in class&nbsp;<code><a href="../XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="updateInputs(xbot.common.controls.io_inputs.XCANSparkMaxInputs)">
+<h3>updateInputs</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateInputs</span><wbr><span class="parameters">(<a href="../../io_inputs/XCANSparkMaxInputs.html" title="class in xbot.common.controls.io_inputs">XCANSparkMaxInputs</a>&nbsp;inputs)</span></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../XCANSparkMax.html#updateInputs(xbot.common.controls.io_inputs.XCANSparkMaxInputs)">updateInputs</a></code>&nbsp;in class&nbsp;<code><a href="../XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></code></dd>
 </dl>
 </section>
 </li>

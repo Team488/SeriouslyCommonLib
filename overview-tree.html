@@ -52,11 +52,13 @@ loadScripts(document, 'script');</script>
 <span class="package-hierarchy-label">Package Hierarchies:</span>
 <ul class="horizontal">
 <li><a href="edu/wpi/first/wpilibj/package-tree.html">edu.wpi.first.wpilibj</a>, </li>
+<li><a href="xbot/common/advantage/package-tree.html">xbot.common.advantage</a>, </li>
 <li><a href="xbot/common/command/package-tree.html">xbot.common.command</a>, </li>
 <li><a href="xbot/common/controls/package-tree.html">xbot.common.controls</a>, </li>
 <li><a href="xbot/common/controls/actuators/package-tree.html">xbot.common.controls.actuators</a>, </li>
 <li><a href="xbot/common/controls/actuators/mock_adapters/package-tree.html">xbot.common.controls.actuators.mock_adapters</a>, </li>
 <li><a href="xbot/common/controls/actuators/wpi_adapters/package-tree.html">xbot.common.controls.actuators.wpi_adapters</a>, </li>
+<li><a href="xbot/common/controls/io_inputs/package-tree.html">xbot.common.controls.io_inputs</a>, </li>
 <li><a href="xbot/common/controls/sensors/package-tree.html">xbot.common.controls.sensors</a>, </li>
 <li><a href="xbot/common/controls/sensors/buttons/package-tree.html">xbot.common.controls.sensors.buttons</a>, </li>
 <li><a href="xbot/common/controls/sensors/mock_adapters/package-tree.html">xbot.common.controls.sensors.mock_adapters</a>, </li>
@@ -269,7 +271,7 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">edu.wpi.first.wpilibj.IterativeRobotBase
 <ul>
-<li class="circle">edu.wpi.first.wpilibj.TimedRobot
+<li class="circle">org.littletonrobotics.junction.LoggedRobot
 <ul>
 <li class="circle">xbot.common.command.<a href="xbot/common/command/BaseRobot.html" class="type-name-link" title="class in xbot.common.command">BaseRobot</a></li>
 </ul>
@@ -279,7 +281,6 @@ loadScripts(document, 'script');</script>
 </ul>
 </li>
 <li class="circle">xbot.common.injection.modules.<a href="xbot/common/injection/modules/RobotModule.html" class="type-name-link" title="class in xbot.common.injection.modules">RobotModule</a></li>
-<li class="circle">xbot.common.logging.<a href="xbot/common/logging/RobotSession.html" class="type-name-link" title="class in xbot.common.logging">RobotSession</a></li>
 <li class="circle">edu.wpi.first.math.geometry.Rotation2d (implements edu.wpi.first.math.interpolation.Interpolatable&lt;T&gt;, edu.wpi.first.util.protobuf.ProtobufSerializable, edu.wpi.first.util.struct.StructSerializable)
 <ul>
 <li class="circle">xbot.common.math.<a href="xbot/common/math/WrappedRotation2d.html" class="type-name-link" title="class in xbot.common.math">WrappedRotation2d</a></li>
@@ -307,7 +308,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/MockDriveSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.drive">MockDriveSubsystem</a></li>
 </ul>
 </li>
-<li class="circle">xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/BasePoseSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.pose">BasePoseSubsystem</a>
+<li class="circle">xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/BasePoseSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.pose">BasePoseSubsystem</a> (implements xbot.common.advantage.<a href="xbot/common/advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a>)
 <ul>
 <li class="circle">xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/MockBasePoseSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.pose">MockBasePoseSubsystem</a></li>
 </ul>
@@ -371,7 +372,6 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.controls.sensors.buttons.<a href="xbot/common/controls/sensors/buttons/VirtualTrigger.VirtualTriggerFactory.html" class="type-name-link" title="class in xbot.common.controls.sensors.buttons">VirtualTrigger.VirtualTriggerFactory</a></li>
 <li class="circle">xbot.common.logic.<a href="xbot/common/logic/WatchdogTimer.html" class="type-name-link" title="class in xbot.common.logic">WatchdogTimer</a></li>
 <li class="circle">xbot.common.simulation.<a href="xbot/common/simulation/WebotsClient.html" class="type-name-link" title="class in xbot.common.simulation">WebotsClient</a></li>
-<li class="circle">xbot.common.logging.<a href="xbot/common/logging/WordGenerator.html" class="type-name-link" title="class in xbot.common.logging">WordGenerator</a></li>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XAbsoluteEncoder.html" class="type-name-link" title="class in xbot.common.controls.sensors">XAbsoluteEncoder</a>
 <ul>
 <li class="circle">xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockAbsoluteEncoder.html" class="type-name-link" title="class in xbot.common.controls.sensors.mock_adapters">MockAbsoluteEncoder</a> (implements xbot.common.simulation.<a href="xbot/common/simulation/ISimulatableSensor.html" title="interface in xbot.common.simulation">ISimulatableSensor</a>)</li>
@@ -381,6 +381,11 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockCANCoder.html" class="type-name-link" title="class in xbot.common.controls.sensors.mock_adapters">MockCANCoder</a> (implements xbot.common.simulation.<a href="xbot/common/simulation/ISimulatableSensor.html" title="interface in xbot.common.simulation">ISimulatableSensor</a>)</li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="circle">xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/XAbsoluteEncoderInputs.html" class="type-name-link" title="class in xbot.common.controls.io_inputs">XAbsoluteEncoderInputs</a>
+<ul>
+<li class="circle">xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/XCANCoderInputs.html" class="type-name-link" title="class in xbot.common.controls.io_inputs">XCANCoderInputs</a></li>
 </ul>
 </li>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XAnalogDistanceSensor.html" class="type-name-link" title="class in xbot.common.controls.sensors">XAnalogDistanceSensor</a> (implements xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/DistanceSensor.html" title="interface in xbot.common.controls.sensors">DistanceSensor</a>)
@@ -411,6 +416,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANSparkMax.MockCANSparkMaxFactory.html" class="type-name-link" title="class in xbot.common.controls.actuators.mock_adapters">MockCANSparkMax.MockCANSparkMaxFactory</a></li>
 </ul>
 </li>
+<li class="circle">xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/XCANSparkMaxInputs.html" class="type-name-link" title="class in xbot.common.controls.io_inputs">XCANSparkMaxInputs</a></li>
 <li class="circle">xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANSparkMaxPIDProperties.html" class="type-name-link" title="class in xbot.common.controls.actuators">XCANSparkMaxPIDProperties</a></li>
 <li class="circle">xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANTalon.html" class="type-name-link" title="class in xbot.common.controls.actuators">XCANTalon</a> (implements com.ctre.phoenix.motorcontrol.IMotorControllerEnhanced)
 <ul>
@@ -451,6 +457,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockDutyCycleEncoder.html" class="type-name-link" title="class in xbot.common.controls.sensors.mock_adapters">MockDutyCycleEncoder</a></li>
 </ul>
 </li>
+<li class="circle">xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/XDutyCycleEncoderInputs.html" class="type-name-link" title="class in xbot.common.controls.io_inputs">XDutyCycleEncoderInputs</a></li>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XEncoder.html" class="type-name-link" title="class in xbot.common.controls.sensors">XEncoder</a>
 <ul>
 <li class="circle">xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/EncoderWPIAdapter.html" class="type-name-link" title="class in xbot.common.controls.sensors.wpi_adapters">EncoderWPIAdapter</a></li>
@@ -469,6 +476,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockGyro.MockGyroFactory.html" class="type-name-link" title="class in xbot.common.controls.sensors.mock_adapters">MockGyro.MockGyroFactory</a></li>
 </ul>
 </li>
+<li class="circle">xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/XGyroIoInputs.html" class="type-name-link" title="class in xbot.common.controls.io_inputs">XGyroIoInputs</a></li>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XJoystick.html" class="type-name-link" title="class in xbot.common.controls.sensors">XJoystick</a>
 <ul>
 <li class="circle">xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/JoystickWPIAdapter.html" class="type-name-link" title="class in xbot.common.controls.sensors.wpi_adapters">JoystickWPIAdapter</a></li>
@@ -542,6 +550,7 @@ loadScripts(document, 'script');</script>
 <section class="hierarchy">
 <h2 title="Interface Hierarchy">Interface Hierarchy</h2>
 <ul>
+<li class="circle">xbot.common.advantage.<a href="xbot/common/advantage/DataFrameRefreshable.html" class="type-name-link" title="interface in xbot.common.advantage">DataFrameRefreshable</a></li>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/DistanceSensor.html" class="type-name-link" title="interface in xbot.common.controls.sensors">DistanceSensor</a></li>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/DistanceSensorPair.html" class="type-name-link" title="interface in xbot.common.controls.sensors">DistanceSensorPair</a></li>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/IGamepad.html" class="type-name-link" title="interface in xbot.common.controls.sensors">IGamepad</a></li>

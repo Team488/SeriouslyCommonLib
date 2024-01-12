@@ -74,7 +74,7 @@ loadScripts(document, 'script');</script>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">edu.wpi.first.wpilibj.RobotBase
 <div class="inheritance">edu.wpi.first.wpilibj.IterativeRobotBase
-<div class="inheritance">edu.wpi.first.wpilibj.TimedRobot
+<div class="inheritance">org.littletonrobotics.junction.LoggedRobot
 <div class="inheritance">xbot.common.command.BaseRobot</div>
 </div>
 </div>
@@ -87,7 +87,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">BaseRobot</span>
-<span class="extends-implements">extends edu.wpi.first.wpilibj.TimedRobot</span></div>
+<span class="extends-implements">extends org.littletonrobotics.junction.LoggedRobot</span></div>
 <div class="block">Core Robot class which configures logging, properties,
  scheduling, and the injector. Required for a fair amount
  of CommonLib functionality.</div>
@@ -109,26 +109,14 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color"><code>protected <a href="../subsystems/autonomous/AutonomousCommandSelector.html" title="class in xbot.common.subsystems.autonomous">AutonomousCommandSelector</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#autonomousCommandSelector" class="member-name-link">autonomousCommandSelector</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected <a href="../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
-<div class="col-second even-row-color"><code><a href="#batteryVoltage" class="member-name-link">batteryVoltage</a></code></div>
+<div class="col-first even-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#dataFrameRefreshables" class="member-name-link">dataFrameRefreshables</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>protected <a href="../injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#devicePolice" class="member-name-link">devicePolice</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected <a href="../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
-<div class="col-second even-row-color"><code><a href="#frequencyReportInterval" class="member-name-link">frequencyReportInterval</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected double</code></div>
-<div class="col-second odd-row-color"><code><a href="#lastFreqCounterResetTime" class="member-name-link">lastFreqCounterResetTime</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected int</code></div>
-<div class="col-second even-row-color"><code><a href="#loopCycleCounter" class="member-name-link">loopCycleCounter</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected <a href="../properties/XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#propertyManager" class="member-name-link">propertyManager</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected <a href="../logging/RobotSession.html" title="class in xbot.common.logging">RobotSession</a></code></div>
-<div class="col-second even-row-color"><code><a href="#robotSession" class="member-name-link">robotSession</a></code></div>
+<div class="col-first even-row-color"><code>protected <a href="../properties/XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a></code></div>
+<div class="col-second even-row-color"><code><a href="#propertyManager" class="member-name-link">propertyManager</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>protected <a href="../simulation/SimulationPayloadDistributor.html" title="class in xbot.common.simulation">SimulationPayloadDistributor</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#simulationPayloadDistributor" class="member-name-link">simulationPayloadDistributor</a></code></div>
@@ -141,8 +129,8 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color">&nbsp;</div>
 </div>
 <div class="inherited-list">
-<h3 id="fields-inherited-from-class-edu.wpi.first.wpilibj.TimedRobot">Fields inherited from class&nbsp;edu.wpi.first.wpilibj.TimedRobot</h3>
-<code>kDefaultPeriod</code></div>
+<h3 id="fields-inherited-from-class-org.littletonrobotics.junction.LoggedRobot">Fields inherited from class&nbsp;org.littletonrobotics.junction.LoggedRobot</h3>
+<code>defaultPeriodSecs</code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -199,14 +187,8 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMatchContextString()" class="member-name-link">getMatchContextString</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPeriod()" class="member-name-link">getPeriod</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initializeSystems()" class="member-name-link">initializeSystems</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loopFunc()" class="member-name-link">loopFunc</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initializeSystems()" class="member-name-link">initializeSystems</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#robotInit()" class="member-name-link">robotInit</a>()</code></div>
@@ -247,17 +229,17 @@ loadScripts(document, 'script');</script>
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-edu.wpi.first.wpilibj.TimedRobot">Methods inherited from class&nbsp;edu.wpi.first.wpilibj.TimedRobot</h3>
-<code>addPeriodic, addPeriodic, close, endCompetition, startCompetition</code></div>
+<h3 id="methods-inherited-from-class-org.littletonrobotics.junction.LoggedRobot">Methods inherited from class&nbsp;org.littletonrobotics.junction.LoggedRobot</h3>
+<code>endCompetition, finalize, setUseTiming, startCompetition</code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-edu.wpi.first.wpilibj.IterativeRobotBase">Methods inherited from class&nbsp;edu.wpi.first.wpilibj.IterativeRobotBase</h3>
-<code>autonomousExit, disabledExit, driverStationConnected, enableLiveWindowInTest, isLiveWindowEnabledInTest, robotPeriodic, setNetworkTablesFlushEnabled, teleopExit, testExit, testInit</code></div>
+<code>autonomousExit, disabledExit, driverStationConnected, enableLiveWindowInTest, getPeriod, isLiveWindowEnabledInTest, loopFunc, robotPeriodic, setNetworkTablesFlushEnabled, teleopExit, testExit, testInit</code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-edu.wpi.first.wpilibj.RobotBase">Methods inherited from class&nbsp;edu.wpi.first.wpilibj.RobotBase</h3>
-<code>getMainThreadId, getRuntimeType, isAutonomous, isAutonomousEnabled, isDisabled, isEnabled, isReal, isSimulation, isTeleop, isTeleopEnabled, isTest, isTestEnabled, startRobot, suppressExitWarning</code></div>
+<code>close, getMainThreadId, getRuntimeType, isAutonomous, isAutonomousEnabled, isDisabled, isEnabled, isReal, isSimulation, isTeleop, isTeleopEnabled, isTest, isTestEnabled, startRobot, suppressExitWarning</code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 </section>
 </li>
 </ul>
@@ -294,30 +276,6 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="batteryVoltage">
-<h3>batteryVoltage</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">batteryVoltage</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="frequencyReportInterval">
-<h3>frequencyReportInterval</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">frequencyReportInterval</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="lastFreqCounterResetTime">
-<h3>lastFreqCounterResetTime</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">lastFreqCounterResetTime</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="loopCycleCounter">
-<h3>loopCycleCounter</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">loopCycleCounter</span></div>
-</section>
-</li>
-<li>
 <section class="detail" id="webots">
 <h3>webots</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../simulation/WebotsClient.html" title="class in xbot.common.simulation">WebotsClient</a></span>&nbsp;<span class="element-name">webots</span></div>
@@ -336,9 +294,9 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="robotSession">
-<h3>robotSession</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../logging/RobotSession.html" title="class in xbot.common.logging">RobotSession</a></span>&nbsp;<span class="element-name">robotSession</span></div>
+<section class="detail" id="dataFrameRefreshables">
+<h3>dataFrameRefreshables</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a>&gt;</span>&nbsp;<span class="element-name">dataFrameRefreshables</span></div>
 </section>
 </li>
 </ul>
@@ -363,26 +321,6 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
-<li>
-<section class="detail" id="loopFunc()">
-<h3>loopFunc</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">loopFunc</span>()</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code>loopFunc</code>&nbsp;in class&nbsp;<code>edu.wpi.first.wpilibj.IterativeRobotBase</code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getPeriod()">
-<h3>getPeriod</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getPeriod</span>()</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code>getPeriod</code>&nbsp;in class&nbsp;<code>edu.wpi.first.wpilibj.IterativeRobotBase</code></dd>
-</dl>
-</section>
-</li>
 <li>
 <section class="detail" id="setupInjectionModule()">
 <h3>setupInjectionModule</h3>

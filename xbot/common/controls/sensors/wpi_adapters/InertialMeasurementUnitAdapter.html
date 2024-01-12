@@ -107,7 +107,7 @@ loadScripts(document, 'script');</script>
 <h2>Field Summary</h2>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-xbot.common.controls.sensors.XGyro">Fields inherited from class&nbsp;xbot.common.controls.sensors.<a href="../XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></h3>
-<code><a href="../XGyro.html#imuType">imuType</a></code></div>
+<code><a href="../XGyro.html#imuType">imuType</a>, <a href="../XGyro.html#io">io</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -139,9 +139,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDevicePitch()" class="member-name-link">getDevicePitch</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">In degrees</div>
-</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDeviceRawAccelX()" class="member-name-link">getDeviceRawAccelX</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -153,9 +151,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDeviceRoll()" class="member-name-link">getDeviceRoll</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">In degrees</div>
-</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDeviceVelocityX()" class="member-name-link">getDeviceVelocityX</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -167,9 +163,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDeviceYaw()" class="member-name-link">getDeviceYaw</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">In degrees</div>
-</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDeviceYawAngularVelocity()" class="member-name-link">getDeviceYawAngularVelocity</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -181,12 +175,15 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isConnected()" class="member-name-link">isConnected</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XGyroIoInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../io_inputs/XGyroIoInputs.html" title="class in xbot.common.controls.io_inputs">XGyroIoInputs</a>&nbsp;inputs)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-xbot.common.controls.sensors.XGyro">Methods inherited from class&nbsp;xbot.common.controls.sensors.<a href="../XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></h3>
-<code><a href="../XGyro.html#getHeading()">getHeading</a>, <a href="../XGyro.html#getImuType()">getImuType</a>, <a href="../XGyro.html#getPitch()">getPitch</a>, <a href="../XGyro.html#getRoll()">getRoll</a>, <a href="../XGyro.html#getYawAngularVelocity()">getYawAngularVelocity</a></code></div>
+<code><a href="../XGyro.html#getHeading()">getHeading</a>, <a href="../XGyro.html#getImuType()">getImuType</a>, <a href="../XGyro.html#getPitch()">getPitch</a>, <a href="../XGyro.html#getRoll()">getRoll</a>, <a href="../XGyro.html#getYawAngularVelocity()">getYawAngularVelocity</a>, <a href="../XGyro.html#refreshDataFrame()">refreshDataFrame</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -227,7 +224,7 @@ loadScripts(document, 'script');</script>
 <h3>isConnected</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isConnected</span>()</div>
 <dl class="notes">
-<dt>Specified by:</dt>
+<dt>Overrides:</dt>
 <dd><code><a href="../XGyro.html#isConnected()">isConnected</a></code>&nbsp;in class&nbsp;<code><a href="../XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></code></dd>
 </dl>
 </section>
@@ -236,35 +233,27 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getDeviceYaw()">
 <h3>getDeviceYaw</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getDeviceYaw</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../XGyro.html#getDeviceYaw()">XGyro</a></code></span></div>
-<div class="block">In degrees</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../XGyro.html#getDeviceYaw()">getDeviceYaw</a></code>&nbsp;in class&nbsp;<code><a href="../XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></code></dd>
-</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getDeviceRoll()">
 <h3>getDeviceRoll</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getDeviceRoll</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../XGyro.html#getDeviceRoll()">XGyro</a></code></span></div>
-<div class="block">In degrees</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../XGyro.html#getDeviceRoll()">getDeviceRoll</a></code>&nbsp;in class&nbsp;<code><a href="../XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></code></dd>
-</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getDevicePitch()">
 <h3>getDevicePitch</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getDevicePitch</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../XGyro.html#getDevicePitch()">XGyro</a></code></span></div>
-<div class="block">In degrees</div>
+</section>
+</li>
+<li>
+<section class="detail" id="updateInputs(xbot.common.controls.io_inputs.XGyroIoInputs)">
+<h3>updateInputs</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateInputs</span><wbr><span class="parameters">(<a href="../../io_inputs/XGyroIoInputs.html" title="class in xbot.common.controls.io_inputs">XGyroIoInputs</a>&nbsp;inputs)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../XGyro.html#getDevicePitch()">getDevicePitch</a></code>&nbsp;in class&nbsp;<code><a href="../XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></code></dd>
+<dd><code><a href="../XGyro.html#updateInputs(xbot.common.controls.io_inputs.XGyroIoInputs)">updateInputs</a></code>&nbsp;in class&nbsp;<code><a href="../XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></code></dd>
 </dl>
 </section>
 </li>
@@ -283,70 +272,42 @@ loadScripts(document, 'script');</script>
 <h3>getDeviceYawAngularVelocity</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getDeviceYawAngularVelocity</span>()</div>
 <div class="block">Note: this is in degrees per second.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../XGyro.html#getDeviceYawAngularVelocity()">getDeviceYawAngularVelocity</a></code>&nbsp;in class&nbsp;<code><a href="../XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></code></dd>
-</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getDeviceVelocityX()">
 <h3>getDeviceVelocityX</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getDeviceVelocityX</span>()</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../XGyro.html#getDeviceVelocityX()">getDeviceVelocityX</a></code>&nbsp;in class&nbsp;<code><a href="../XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></code></dd>
-</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getDeviceVelocityY()">
 <h3>getDeviceVelocityY</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getDeviceVelocityY</span>()</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../XGyro.html#getDeviceVelocityY()">getDeviceVelocityY</a></code>&nbsp;in class&nbsp;<code><a href="../XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></code></dd>
-</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getDeviceVelocityZ()">
 <h3>getDeviceVelocityZ</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getDeviceVelocityZ</span>()</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../XGyro.html#getDeviceVelocityZ()">getDeviceVelocityZ</a></code>&nbsp;in class&nbsp;<code><a href="../XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></code></dd>
-</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getDeviceRawAccelX()">
 <h3>getDeviceRawAccelX</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getDeviceRawAccelX</span>()</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../XGyro.html#getDeviceRawAccelX()">getDeviceRawAccelX</a></code>&nbsp;in class&nbsp;<code><a href="../XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></code></dd>
-</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getDeviceRawAccelY()">
 <h3>getDeviceRawAccelY</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getDeviceRawAccelY</span>()</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../XGyro.html#getDeviceRawAccelY()">getDeviceRawAccelY</a></code>&nbsp;in class&nbsp;<code><a href="../XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></code></dd>
-</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getDeviceRawAccelZ()">
 <h3>getDeviceRawAccelZ</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getDeviceRawAccelZ</span>()</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../XGyro.html#getDeviceRawAccelZ()">getDeviceRawAccelZ</a></code>&nbsp;in class&nbsp;<code><a href="../XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></code></dd>
-</dl>
 </section>
 </li>
 </ul>
