@@ -120,15 +120,14 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         // lock. In practice,
         // we can't require and then un-require a subsystem, so instead we just cancel
         // any running command that
-        // is trying to maniuplate the setpoint.
+        // is trying to manipulate the setpoint.
 
         if (subsystemToMaintain.getSetpointLock().getCurrentCommand() != null && !DriverStation.isAutonomous()) {
             subsystemToMaintain.getSetpointLock().getCurrentCommand().cancel();
         }
 
         // Typically set the goal to the current position, to avoid sudden extreme
-        // changes`
-        // as soon as Coast is complete.
+        // changes as soon as Coast is complete.
         subsystemToMaintain.setTargetValue(subsystemToMaintain.getCurrentValue());
     }
 

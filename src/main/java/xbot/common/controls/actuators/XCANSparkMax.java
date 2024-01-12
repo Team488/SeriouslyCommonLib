@@ -778,8 +778,11 @@ public abstract class XCANSparkMax {
     public abstract REVLibError setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame frame, int periodMs);
 
     /**
-     * // See https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces#periodic-status-frames
-     * // for description of the different status frames. kStatus2 is the only frame with data needed for software PID.
+     * Helper method to modify CAN status frame timing. Is used to reduce traffic on the CAN bus for
+     * types of data that aren't as time critical.
+     *
+     * See https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces#periodic-status-frames
+     * for description of the different status frames. kStatus2 is the only frame with data needed for software PID.
      */
     public void setupStatusFramesIfReset(int status0PeriodMs, int status1PeriodMs, int status2PeriodMs, int status3PeriodMs) {
             // We need to re-set frame intervals after a device reset.
