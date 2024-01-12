@@ -6,12 +6,18 @@ import javax.inject.Singleton;
 @Singleton
 public class MockSetpointSubsystem extends BaseSetpointSubsystem<Double> {
 
+    private Double currentValue = 0.0;
+
     @Inject
     public MockSetpointSubsystem() {}
 
     @Override
     public Double getCurrentValue() {
-        return 0.0;
+        return this.currentValue;
+    }
+
+    public void setCurrentValue(double value) {
+        this.currentValue = value;
     }
 
     @Override

@@ -3,7 +3,6 @@ package xbot.common.injection.modules;
 import dagger.Binds;
 import dagger.Module;
 import edu.wpi.first.wpilibj.MockAnalogInput.MockAnalogInputFactory;
-import edu.wpi.first.wpilibj.MockCompressor.MockCompressorFactory;
 import edu.wpi.first.wpilibj.MockDigitalInput.MockDigitalInputFactory;
 import edu.wpi.first.wpilibj.MockDigitalOutput.MockDigitalOutputFactory;
 import edu.wpi.first.wpilibj.MockLidarLite.MockLidarLiteFactory;
@@ -25,6 +24,7 @@ import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
 import xbot.common.controls.actuators.mock_adapters.MockCANSparkMax.MockCANSparkMaxFactory;
 import xbot.common.controls.actuators.mock_adapters.MockCANTalon.MockCANTalonFactory;
 import xbot.common.controls.actuators.mock_adapters.MockCANVictorSPX.MockCANVictorSPXFactory;
+import xbot.common.controls.actuators.mock_adapters.MockCompressor.MockCompressorFactory;
 import xbot.common.controls.actuators.mock_adapters.MockRelay.MockRelayFactory;
 import xbot.common.controls.sensors.SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory;
 import xbot.common.controls.sensors.XAbsoluteEncoder.XAbsoluteEncoderFactory;
@@ -47,6 +47,9 @@ import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
 
 import javax.inject.Singleton;
 
+/**
+ * Module for mapping device interfaces to mock implementations.
+ */
 @Module
 public abstract class MockDevicesModule {
     @Binds

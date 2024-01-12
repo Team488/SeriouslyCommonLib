@@ -10,7 +10,7 @@ import xbot.common.injection.DevicePolice;
 
 public class PWMWPIAdapter extends XPWM
 {
-    private PWM pwm;
+    private final PWM pwm;
     
     @AssistedFactory
     public abstract static class PWMWPIAdapterFactory implements XPWMFactory {
@@ -26,12 +26,12 @@ public class PWMWPIAdapter extends XPWM
 
     @Override
     public void setRaw(int value) {
-        pwm.setRaw(value);
+        pwm.setPulseTimeMicroseconds(value);
     }
 
     @Override
     public int getRaw() {
-        return pwm.getRaw();
+        return pwm.getPulseTimeMicroseconds();
     }
 
     @Override

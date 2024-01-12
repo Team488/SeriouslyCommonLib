@@ -12,9 +12,14 @@ import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.properties.StringProperty;
 
+/**
+ * A command that maintains a subsystem at a goal value.
+ * @param <T> The type of the setpoint being maintained.
+ */
 public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
-    BaseSetpointSubsystem subsystemToMaintain;
+    BaseSetpointSubsystem<T> subsystemToMaintain;
+
 
     protected final DoubleProperty errorToleranceProp;
     protected final DoubleProperty errorTimeStableWindowProp;
@@ -23,7 +28,15 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
     protected final HumanVsMachineDecider decider;
 
 
-    public BaseMaintainerCommand(BaseSetpointSubsystem subsystemToMaintain, PropertyFactory pf,
+    /**
+     * Creates a new maintainer command.
+     * @param subsystemToMaintain The subsystem to maintain.
+     * @param pf The property factory to use for creating properties.
+     * @param humanVsMachineDeciderFactory The decider factory to use for creating the decider.
+     * @param defaultErrorTolerance The default error tolerance.
+     * @param defaultTimeStableWindow The default time stable window.
+     */
+    public BaseMaintainerCommand(BaseSetpointSubsystem<T> subsystemToMaintain, PropertyFactory pf,
             HumanVsMachineDeciderFactory humanVsMachineDeciderFactory,
             double defaultErrorTolerance, double defaultTimeStableWindow) {
         this.subsystemToMaintain = subsystemToMaintain;
@@ -38,6 +51,10 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         decider = humanVsMachineDeciderFactory.create(this.getPrefix());
     }
 
+    /**
+     * Resets the decider to the given mode.
+     * @param startInAutomaticMode True to start in automatic mode, false to start in human control mode.
+     */
     protected void resetDecider(boolean startInAutomaticMode) {
         decider.reset(startInAutomaticMode);
     }
@@ -80,14 +97,24 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         }
     }
 
-    // Typically do nothing.
+    /**
+     * The coast action. Typically, this does nothing.
+     */
     protected abstract void coastAction();
 
+    /**
+     * The human control action. Typically, this simply assigns the human input to
+     * the subsystem.
+     */
     protected void humanControlAction() {
         // Typically simply assign human input
         subsystemToMaintain.setPower(getHumanInput());
     }
 
+    /**
+     * The initialize machine control action. Typically, this sets the goal to the
+     * current position to avoid sudden changes.
+     */
     protected void initializeMachineControlAction() {
         // When we re-initialize machine control, we need to briefly "take" the setpoint
         // lock. In practice,
@@ -105,14 +132,24 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         subsystemToMaintain.setTargetValue(subsystemToMaintain.getCurrentValue());
     }
 
+    /**
+     * The calibrated machine control action.
+     */
     protected abstract void calibratedMachineControlAction();
 
+    /**
+     * The uncalibrated machine control action. Typically, this defaults to human
+     * control, although this is a good candidate for being overridden with an
+     * auto-calibration sequence.
+     */
     protected void uncalibratedMachineControlAction() {
-        // Typically default to human control, although this is a good candidate
-        // for being overwritten by an auto-calibrating feature.
         humanControlAction();
     }
 
+    /**
+     * Checks if the subsystem is at its goal.
+     * @return True if the subsystem is at its goal.
+     */
     protected boolean isMaintainerAtGoal() {
         // Are we near our goal?
         boolean withinErrorTolerance = getErrorWithinTolerance();
@@ -130,8 +167,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
     /**
      * Maintainer systems already check for error tolerance and time stability. If
-     * there
-     * are any other checks that should be made, override this method and place them
+     * there are any other checks that should be made, override this method and place them
      * here.
      * 
      * @return true by default, can be overridden by child classes.
@@ -159,8 +195,17 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
     protected abstract double getErrorMagnitude();
 
+    /**
+     * Gets the human input to use for the maintain command.
+     * @return The human input.
+     */
     protected abstract T getHumanInput();
 
+    /**
+     * Gets the magnitude of the human input to use for the maintain command,
+     * since the generic type T may not be a number.
+     * @return The magnitude of the human input.
+     */
     protected abstract double getHumanInputMagnitude();
 
     @Override
@@ -168,4 +213,11 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         return subsystemToMaintain.getPrefix() + getName() + "/";
     }
 
+    /**
+     * Sets the error tolerance for the maintain command.
+     * @param tolerance The error tolerance.
+     */
+    protected void setErrorTolerance(double tolerance) {
+        errorToleranceProp.set(tolerance);
+    }
 }

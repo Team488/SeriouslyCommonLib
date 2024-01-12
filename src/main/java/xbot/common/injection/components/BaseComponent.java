@@ -64,6 +64,7 @@ import xbot.common.subsystems.pose.BasePoseSubsystem;
  * Implementations of this abstract class map Modules to the Component. Dagger will automatically
  * generate a class with the prefix "Dagger" in the same package.
  */
+@SuppressWarnings("unused")
 public abstract class BaseComponent {
     public abstract XTimerImpl timerImplementation();
 

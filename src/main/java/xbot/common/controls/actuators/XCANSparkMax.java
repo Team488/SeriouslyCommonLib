@@ -1,19 +1,14 @@
 package xbot.common.controls.actuators;
 
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.ExternalFollower;
+import com.revrobotics.CANSparkBase.FaultID;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMax.ExternalFollower;
-import com.revrobotics.CANSparkMax.FaultID;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMax.SoftLimitDirection;
-import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.REVLibError;
-import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
+import com.revrobotics.SparkPIDController.ArbFFUnits;
 
-import org.apache.logging.log4j.LogManager;
-import org.littletonrobotics.junction.Logger;
-import xbot.common.controls.io_inputs.XCANSparkMaxInputs;
-import xbot.common.controls.io_inputs.XCANSparkMaxInputsAutoLogged;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
@@ -496,6 +491,11 @@ public abstract class XCANSparkMax {
      */
     public abstract short getFaults();
 
+    /**
+     * @return All sticky fault bits as a short
+     */
+    public abstract short getStickyFaults();
+
     public boolean getStickyFaultHasReset() {
         return inputs.stickyFaultHasReset;
     }
@@ -508,6 +508,16 @@ public abstract class XCANSparkMax {
      * @return True if the fault with the given ID occurred.
      */
     public abstract boolean getFault(FaultID faultID);
+
+    
+    /**
+     * Get the value of a specific sticky fault
+     *
+     * @param faultID The ID of the sticky fault to retrive
+     *
+     * @return True if the sticky fault with the given ID occurred.
+     */
+    public abstract boolean getStickyFault(FaultID faultID);
 
     /**
      * @return The voltage fed into the motor controller.
@@ -752,7 +762,11 @@ public abstract class XCANSparkMax {
     /// Get true value. Should not be called in competition code.
     public abstract CANSparkMax getInternalSparkMax();
 
-    public abstract void setForwardLimitSwitch(com.revrobotics.SparkMaxLimitSwitch.Type switchType, boolean enabled);
+    public abstract void setForwardLimitSwitch(com.revrobotics.SparkLimitSwitch.Type switchType, boolean enabled);
+
+    public abstract void setReverseLimitSwitch(com.revrobotics.SparkLimitSwitch.Type switchType, boolean enabled);
+
+    public abstract boolean getForwardLimitSwitchPressed(com.revrobotics.SparkLimitSwitch.Type switchType);
 
     public abstract void setReverseLimitSwitch(com.revrobotics.SparkMaxLimitSwitch.Type switchType, boolean enabled);
 

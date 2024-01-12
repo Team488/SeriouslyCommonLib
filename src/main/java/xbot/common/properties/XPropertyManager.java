@@ -56,6 +56,7 @@ public class XPropertyManager {
 
             escape++;
             if (escape > 2000) {
+                log.warn("Exceeded maximum property count when loading properties.");
                 break;
             }
         }
@@ -70,10 +71,12 @@ public class XPropertyManager {
         // "orphaned" values that are loaded/saved indefinitely, even if there's nothing in the
         // code that uses them.
 
-        if (properties.size() == 0) {
+        if (properties.isEmpty()) {
             log.error("No properties to save! Skipping save phase.");
             return;
         }
+
+        log.info("{} properties to save.", properties.size());
 
         int escape = 0;
 
@@ -82,6 +85,7 @@ public class XPropertyManager {
 
             escape++;
             if (escape > 2000) {
+                log.warn("Exceeded maximum property count when saving properties.");
                 break;
             }
         }

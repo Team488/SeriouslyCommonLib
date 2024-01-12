@@ -2,16 +2,15 @@ package xbot.common.controls.actuators.mock_adapters;
 
 import java.math.BigDecimal;
 
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.ExternalFollower;
+import com.revrobotics.CANSparkBase.FaultID;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMax.ExternalFollower;
-import com.revrobotics.CANSparkMax.FaultID;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMax.SoftLimitDirection;
-import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.REVLibError;
-import com.revrobotics.SparkMaxLimitSwitch.Type;
-import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
+import com.revrobotics.SparkLimitSwitch.Type;
+import com.revrobotics.SparkPIDController.ArbFFUnits;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,7 +36,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     private double velocity = 0;
     private double simulationScalingValue;
     boolean inverted = false;
-    public XEncoder internalEncoder;
+    public XEncoder internalEncoder = null;
     double positionOffset = 0;
     double simulationPosition = 0;
 
@@ -222,10 +221,16 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     }
 
     @Override
+    public short getStickyFaults() {
+        return 0;
+    }
+
+    @Override
     public boolean getFault(FaultID faultID) {
         return false;
     }
 
+    @Override
     public boolean getStickyFault(FaultID faultID) {
         return false;
     }
