@@ -7,7 +7,9 @@ import com.revrobotics.CANSparkBase.ExternalFollower;
 import com.revrobotics.CANSparkBase.FaultID;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkLimitSwitch.Type;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
@@ -146,12 +148,12 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     }
 
     @Override
-    public REVLibError setIdleMode(IdleMode mode) {
+    public REVLibError setIdleMode(CANSparkMax.IdleMode mode) {
         return REVLibError.kOk;
     }
 
     @Override
-    public IdleMode getIdleMode() {
+    public CANSparkMax.IdleMode getIdleMode() {
         return null;
     }
 
@@ -675,7 +677,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     }
 
     @Override
-    public REVLibError setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame frame, int periodMs) {
+    public REVLibError setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame frame, int periodMs) {
         return REVLibError.kOk;
     }
 

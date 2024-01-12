@@ -5,10 +5,15 @@ import com.revrobotics.CANSparkBase.ExternalFollower;
 import com.revrobotics.CANSparkBase.FaultID;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
 
+import org.apache.logging.log4j.LogManager;
+import org.littletonrobotics.junction.Logger;
+import xbot.common.controls.io_inputs.XCANSparkMaxInputs;
+import xbot.common.controls.io_inputs.XCANSparkMaxInputsAutoLogged;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
@@ -768,13 +773,9 @@ public abstract class XCANSparkMax {
 
     public abstract boolean getForwardLimitSwitchPressed(com.revrobotics.SparkLimitSwitch.Type switchType);
 
-    public abstract void setReverseLimitSwitch(com.revrobotics.SparkMaxLimitSwitch.Type switchType, boolean enabled);
+    public abstract boolean getReverseLimitSwitchPressed(com.revrobotics.SparkLimitSwitch.Type switchType);
 
-    public abstract boolean getForwardLimitSwitchPressed(com.revrobotics.SparkMaxLimitSwitch.Type switchType);
-
-    public abstract boolean getReverseLimitSwitchPressed(com.revrobotics.SparkMaxLimitSwitch.Type switchType);
-
-    public abstract REVLibError setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame frame, int periodMs);
+    public abstract REVLibError setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame frame, int periodMs);
 
     /**
      * // See https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces#periodic-status-frames
@@ -788,10 +789,10 @@ public abstract class XCANSparkMax {
                 // See https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces#periodic-status-frames
                 // for description of the different status frames. kStatus2 is the only frame with data needed for software PID.
 
-                setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, status0PeriodMs /* default 10 */);
-                setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, status1PeriodMs /* default 20 */);
-                setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, status2PeriodMs /* default 20 */);
-                setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, status3PeriodMs /* default 50 */);
+                setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, status0PeriodMs /* default 10 */);
+                setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, status1PeriodMs /* default 20 */);
+                setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, status2PeriodMs /* default 20 */);
+                setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, status3PeriodMs /* default 50 */);
 
                 clearFaults();
             }

@@ -207,11 +207,11 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return internalSpark.setSecondaryCurrentLimit(limit, chopCycles);
     }
 
-    public REVLibError setIdleMode(IdleMode mode) {
+    public REVLibError setIdleMode(CANSparkMax.IdleMode mode) {
         return internalSpark.setIdleMode(mode);
     }
 
-    public IdleMode getIdleMode() {
+    public CANSparkMax.IdleMode getIdleMode() {
         return internalSpark.getIdleMode();
     }
 
@@ -258,6 +258,8 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     public boolean getFault(FaultID faultID) {
         return internalSpark.getFault(faultID);
     }
+
+    public boolean getStickyFault(FaultID faultID) { return internalSpark.getStickyFault(faultID); }
 
     public boolean getStickyFault_internal(FaultID faultID) {
         return internalSpark.getStickyFault(faultID);
