@@ -1,5 +1,6 @@
 package xbot.common.command;
 
+import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.wpilibj.DriverStation;
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
@@ -19,16 +20,13 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
     BaseSetpointSubsystem<T> subsystemToMaintain;
 
-    protected final BooleanProperty errorWithinToleranceProp;
+
     protected final DoubleProperty errorToleranceProp;
-    protected final BooleanProperty errorIsTimeStableProp;
     protected final DoubleProperty errorTimeStableWindowProp;
-    protected final BooleanProperty subsystemReportsReadyProp;
 
     protected final TimeStableValidator timeStableValidator;
     protected final HumanVsMachineDecider decider;
 
-    private final StringProperty currentModeProp;
 
     /**
      * Creates a new maintainer command.
@@ -45,14 +43,9 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         this.addRequirements(subsystemToMaintain);
 
         pf.setPrefix(this);
-        errorToleranceProp = pf.createPersistentProperty("Error Tolerance", defaultErrorTolerance);
-        errorTimeStableWindowProp = pf.createPersistentProperty("Error Time Stable Window", defaultTimeStableWindow);
-
         pf.setDefaultLevel(Property.PropertyLevel.Debug);
-        errorWithinToleranceProp = pf.createEphemeralProperty("Error Within Tolerance", false);
-        errorIsTimeStableProp = pf.createEphemeralProperty("Error Is Time Stable", false);
-        currentModeProp = pf.createEphemeralProperty("Current Mode", "Not Yet Run");
-        subsystemReportsReadyProp = pf.createEphemeralProperty("Subsystem Ready", false);
+        errorToleranceProp = pf.createPersistentProperty("Error Tolerance", defaultErrorTolerance);
+        errorTimeStableWindowProp = pf.createEphemeralProperty("Error Time Stable Window", defaultTimeStableWindow);
 
         timeStableValidator = new TimeStableValidator(() -> errorTimeStableWindowProp.get());
         decider = humanVsMachineDeciderFactory.create(this.getPrefix());
@@ -79,7 +72,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
     protected void maintain() {
         double humanInput = getHumanInputMagnitude();
         HumanVsMachineMode mode = decider.getRecommendedMode(humanInput);
-        currentModeProp.set(mode.toString());
+        Logger.getInstance().recordOutput(getPrefix()+"CurrentMode", mode.toString());
 
         switch (mode) {
             case Coast:
@@ -114,6 +107,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
      * the subsystem.
      */
     protected void humanControlAction() {
+        // Typically simply assign human input
         subsystemToMaintain.setPower(getHumanInput());
     }
 
@@ -127,13 +121,13 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         // we can't require and then un-require a subsystem, so instead we just cancel
         // any running command that
         // is trying to manipulate the setpoint.
+
         if (subsystemToMaintain.getSetpointLock().getCurrentCommand() != null && !DriverStation.isAutonomous()) {
             subsystemToMaintain.getSetpointLock().getCurrentCommand().cancel();
         }
 
         // Typically set the goal to the current position, to avoid sudden extreme
-        // changes
-        // as soon as Coast is complete.
+        // changes as soon as Coast is complete.
         subsystemToMaintain.setTargetValue(subsystemToMaintain.getCurrentValue());
     }
 
@@ -163,9 +157,10 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
         boolean isStable = timeStableValidator.checkStable(totalAtGoal);
         // Let everybody know
-        errorWithinToleranceProp.set(withinErrorTolerance);
-        errorIsTimeStableProp.set(isStable);
-        subsystemReportsReadyProp.set(subsystemToMaintain.isMaintainerAtGoal());
+
+        Logger.getInstance().recordOutput(this.getPrefix() + "ErrorWithinTotalTolerance", withinErrorTolerance);
+        Logger.getInstance().recordOutput(this.getPrefix() + "ErrorIsTimeStable", isStable);
+
         return isStable;
     }
 

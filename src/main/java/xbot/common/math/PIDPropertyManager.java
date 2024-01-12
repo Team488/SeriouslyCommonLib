@@ -79,10 +79,14 @@ public class PIDPropertyManager {
             @Assisted("timeThreshold") double timeThreshold,
             @Assisted("iZone") double defaultIZone) {
         propMan.setPrefix(functionName);
-        
+
+        propMan.setDefaultLevel(Property.PropertyLevel.Important);
         propP = propMan.createPersistentProperty("P", defaultP);
         propI = propMan.createPersistentProperty("I", defaultI);
         propD = propMan.createPersistentProperty("D", defaultD);
+
+        // TODO: Find a better way to turn this on/off from the driver station to quickly re-enable
+        // configuration across multiple scenarios.
 
         propMan.setDefaultLevel(Property.PropertyLevel.Debug);
         propF = propMan.createPersistentProperty("F", defaultF);

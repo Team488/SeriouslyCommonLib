@@ -112,6 +112,8 @@ public class PIDManager extends PIDPropertyManager {
         propMan.setDefaultLevel(Property.PropertyLevel.Debug);
         maxOutput = propMan.createPersistentProperty("Max Output", defaultMaxOutput);
         minOutput = propMan.createPersistentProperty("Min Output", defaultMinOutput);
+
+        propMan.setDefaultLevel(Property.PropertyLevel.Debug);
         isEnabled = propMan.createPersistentProperty("Is Enabled", true);
         offTargetReasonProp = propMan.createEphemeralProperty("OffTargetReason", "");
         propMan.setDefaultLevel(Property.PropertyLevel.Important);

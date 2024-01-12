@@ -57,7 +57,7 @@ public abstract class BaseCommand extends Command implements IPropertySupport {
             commandPutter.addCommandToSmartDashboard(label, this);
         }
     }
-    
+
     /**
      * @deprecated
      * Suggest use {@link #addRequirements(edu.wpi.first.wpilibj2.command.Subsystem...)} instead.

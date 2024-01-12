@@ -7,7 +7,9 @@ import com.revrobotics.CANSparkBase.ExternalFollower;
 import com.revrobotics.CANSparkBase.FaultID;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkLimitSwitch.Type;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
@@ -21,6 +23,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
+import xbot.common.controls.io_inputs.XCANSparkMaxInputs;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 import xbot.common.injection.DevicePolice;
@@ -145,12 +148,12 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     }
 
     @Override
-    public REVLibError setIdleMode(IdleMode mode) {
+    public REVLibError setIdleMode(CANSparkMax.IdleMode mode) {
         return REVLibError.kOk;
     }
 
     @Override
-    public IdleMode getIdleMode() {
+    public CANSparkMax.IdleMode getIdleMode() {
         return null;
     }
 
@@ -671,5 +674,21 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     @Override
     public boolean getReverseLimitSwitchPressed(Type switchType) {
         return false;
+    }
+
+    @Override
+    public REVLibError setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame frame, int periodMs) {
+        return REVLibError.kOk;
+    }
+
+    @Override
+    protected void updateInputs(XCANSparkMaxInputs inputs) {
+        inputs.stickyFaultHasReset = getStickyFault(FaultID.kHasReset);
+        inputs.lastErrorId = getLastError().value;
+        inputs.velocity = getVelocity();
+        inputs.position = getPosition();
+        inputs.appliedOutput = getAppliedOutput();
+        inputs.busVoltage = getBusVoltage();
+        inputs.outputCurrent = getOutputCurrent();
     }
 }

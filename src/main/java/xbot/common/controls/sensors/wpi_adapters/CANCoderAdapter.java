@@ -14,6 +14,8 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
+import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
+import xbot.common.controls.io_inputs.XCANCoderInputs;
 import xbot.common.controls.sensors.XCANCoder;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
@@ -44,6 +46,7 @@ public class CANCoderAdapter extends XCANCoder {
     public CANCoderAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
             DevicePolice police, PropertyFactory pf) {
+        super(deviceInfo);
         pf.setPrefix(owningSystemPrefix);
 
         this.inverted = pf.createEphemeralProperty("Inverted", deviceInfo.inverted);
@@ -63,22 +66,19 @@ public class CANCoderAdapter extends XCANCoder {
         return this.deviceId;
     }
 
-    @Override
-    public double getPosition() {
+    public double getPosition_internal() {
         return this.cancoder.getPosition();
     }
 
-    @Override
-    public double getAbsolutePosition() {
+    public double getAbsolutePosition_internal() {
         return this.cancoder.getAbsolutePosition();
     }
 
-    @Override
-    public double getVelocity() {
+    public double getVelocity_internal() {
         return this.cancoder.getVelocity();
     }
 
-    public DeviceHealth getHealth() {
+    public DeviceHealth getHealth_internal() {
         if (this.cancoder.getFirmwareVersion() == -1) {
             return DeviceHealth.Unhealthy;
         }
@@ -140,8 +140,20 @@ public class CANCoderAdapter extends XCANCoder {
         return this.cancoder.clearStickyFaults();
     }
 
-    @Override
-    public boolean hasResetOccurred() {
+    public boolean hasResetOccurred_internal() {
         return this.cancoder.hasResetOccurred();
+    }
+
+    @Override
+    public void updateInputs(XAbsoluteEncoderInputs inputs) {
+        inputs.deviceHealth = this.getHealth_internal().toString();
+        inputs.position = this.getPosition_internal();
+        inputs.absolutePosition = this.getAbsolutePosition_internal();
+        inputs.velocity = this.getVelocity_internal();
+    }
+
+    @Override
+    public void updateInputs(XCANCoderInputs inputs) {
+        inputs.hasResetOccurred = this.hasResetOccurred_internal();
     }
 }

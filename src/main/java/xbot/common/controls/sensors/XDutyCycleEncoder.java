@@ -1,7 +1,11 @@
 package xbot.common.controls.sensors;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import org.littletonrobotics.junction.Logger;
 import xbot.common.controls.XBaseIO;
+import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
+import xbot.common.controls.io_inputs.XDutyCycleEncoderInputs;
+import xbot.common.controls.io_inputs.XDutyCycleEncoderInputsAutoLogged;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.math.ContiguousDouble;
@@ -10,6 +14,8 @@ import xbot.common.math.WrappedRotation2d;
 public abstract class XDutyCycleEncoder implements XBaseIO {
 
     protected int channel;
+    XDutyCycleEncoderInputsAutoLogged inputs;
+    DeviceInfo info;
     protected boolean inverted;
 
     public interface XDutyCycleEncoderFactory {
@@ -17,23 +23,24 @@ public abstract class XDutyCycleEncoder implements XBaseIO {
     }
 
     public XDutyCycleEncoder(DeviceInfo info, DevicePolice police) {
+        this.info = info;
         this.channel = info.channel;
         police.registerDevice(DevicePolice.DeviceType.DigitalIO, channel, this);
         setInverted(info.inverted);
-    }
 
-    protected abstract double getAbsoluteRawPosition();
+        inputs = new XDutyCycleEncoderInputsAutoLogged();
+    }
 
     /**
      * Typically not recommended - use {@link #getWrappedPosition()} instead.
      * @return the absolute position of the encoder in degrees from (0, 360)
      */
     public Rotation2d getAbsolutePosition() {
-        return new Rotation2d(getAbsoluteRawPosition()*2*Math.PI * inversionFactor());
+        return new Rotation2d(inputs.absoluteRawPosition*2*Math.PI * inversionFactor());
     }
 
     public double getAbsoluteDegrees() {
-        return getAbsoluteRawPosition() * 360 * inversionFactor();
+        return inputs.absoluteRawPosition * 360 * inversionFactor();
     }
 
     /**
@@ -55,4 +62,12 @@ public abstract class XDutyCycleEncoder implements XBaseIO {
     protected double inversionFactor() {
         return inverted ? -1 : 1;
     }
+
+    public abstract void updateInputs(XDutyCycleEncoderInputs inputs);
+
+    public void refreshDataFrame() {
+        updateInputs(inputs);
+        Logger.getInstance().processInputs(info.name + "/DutyCycleEncoder", inputs);
+    }
+
 }

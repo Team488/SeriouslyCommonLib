@@ -32,7 +32,7 @@ public class XPropertyManager {
         ITableProxy randomAccessStore, 
         @Named(IN_MEMORY_STORE_NAME) ITableProxy inMemoryRandomAccessStore
     ) {
-        this.properties = new ArrayList<Property>();
+        this.properties = new ArrayList<>();
         this.permanentStore = permanentStore;
         this.randomAccessStore = randomAccessStore;
         this.inMemoryRandomAccessStore = new TableProxy();

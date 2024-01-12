@@ -5,10 +5,15 @@ import com.revrobotics.CANSparkBase.ExternalFollower;
 import com.revrobotics.CANSparkBase.FaultID;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
 
+import org.apache.logging.log4j.LogManager;
+import org.littletonrobotics.junction.Logger;
+import xbot.common.controls.io_inputs.XCANSparkMaxInputs;
+import xbot.common.controls.io_inputs.XCANSparkMaxInputsAutoLogged;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
@@ -20,24 +25,31 @@ public abstract class XCANSparkMax {
 
     protected int deviceId;
     protected String prefix = "";
+    protected String owningSystemPrefix = "";
+    protected String akitName = "";
+    protected DeviceInfo info;
     PropertyFactory propertyFactory;
+
     protected boolean usesPropertySystem = true;
+    private DoubleProperty kPprop;
+    private DoubleProperty kIprop;
+    private DoubleProperty kDprop;
+    private DoubleProperty kIzProp;
+    private DoubleProperty kFFprop;
+    private DoubleProperty kMaxOutputProp;
+    private DoubleProperty kMinOutoutProp;
 
-    DoubleProperty kPprop;
-    DoubleProperty kIprop;
-    DoubleProperty kDprop;
-    DoubleProperty kIzProp;
-    DoubleProperty kFFprop;
-    DoubleProperty kMaxOutputProp;
-    DoubleProperty kMinOutoutProp;
-
-    DoubleProperty percentProp;
-    DoubleProperty voltageProp;
-    DoubleProperty currentProp;
+    private DoubleProperty percentProp;
+    private DoubleProperty voltageProp;
+    private DoubleProperty currentProp;
 
     protected final String policeTicket;
 
     protected boolean firstPeriodicCall = true;
+
+    protected XCANSparkMaxInputsAutoLogged inputs;
+
+    private static org.apache.logging.log4j.Logger log = LogManager.getLogger(XCANSparkMax.class);
 
     public abstract static class XCANSparkMaxFactory {
         public abstract XCANSparkMax create(
@@ -62,16 +74,21 @@ public abstract class XCANSparkMax {
             PropertyFactory pf,
             DevicePolice police,
             XCANSparkMaxPIDProperties defaultPIDProperties) {
+        this.info = deviceInfo;
         this.deviceId = deviceInfo.channel;
-        this.propertyFactory = pf;
-        this.propertyFactory.setPrefix(owningSystemPrefix);
-        this.propertyFactory.appendPrefix(name);
-        prefix = pf.getPrefix();
+        this.owningSystemPrefix = owningSystemPrefix;
+        this.akitName = owningSystemPrefix+ "/" + info.name+"SparkMax";
+
         policeTicket = police.registerDevice(DeviceType.CAN, deviceId, this);
+
+        inputs = new XCANSparkMaxInputsAutoLogged();
 
         if (defaultPIDProperties == null) {
             usesPropertySystem = false;
         } else {
+            this.propertyFactory = pf;
+            this.propertyFactory.setPrefix(owningSystemPrefix);
+            this.propertyFactory.appendPrefix(name);
             kPprop = pf.createPersistentProperty("kP", defaultPIDProperties.p);
             kIprop = pf.createPersistentProperty("kI", defaultPIDProperties.i);
             kDprop = pf.createPersistentProperty("kD", defaultPIDProperties.d);
@@ -103,6 +120,8 @@ public abstract class XCANSparkMax {
             setIZone(kIzProp.get());
             setFF(kFFprop.get());
             setOutputRange(kMinOutoutProp.get(), kMaxOutputProp.get());
+        } else {
+            log.warn("setAllProperties called on a SparkMax that doesn't use the property system");
         }
     }
 
@@ -119,7 +138,6 @@ public abstract class XCANSparkMax {
             kFFprop.hasChangedSinceLastCheck((value) -> setFF(value));
             kMaxOutputProp.hasChangedSinceLastCheck((value) -> setOutputRange(kMinOutoutProp.get(), value));
             kMinOutoutProp.hasChangedSinceLastCheck((value) -> setOutputRange(value, kMaxOutputProp.get()));
-
             percentProp.set(getAppliedOutput());
             voltageProp.set(getAppliedOutput() * getBusVoltage());
             currentProp.set(getOutputCurrent());
@@ -483,6 +501,10 @@ public abstract class XCANSparkMax {
      */
     public abstract short getStickyFaults();
 
+    public boolean getStickyFaultHasReset() {
+        return inputs.stickyFaultHasReset;
+    }
+
     /**
      * Get the value of a specific fault
      *
@@ -492,6 +514,7 @@ public abstract class XCANSparkMax {
      */
     public abstract boolean getFault(FaultID faultID);
 
+    
     /**
      * Get the value of a specific sticky fault
      *
@@ -504,17 +527,23 @@ public abstract class XCANSparkMax {
     /**
      * @return The voltage fed into the motor controller.
      */
-    public abstract double getBusVoltage();
+    public double getBusVoltage() {
+        return inputs.busVoltage;
+    }
 
     /**
      * @return The motor controller's applied output duty cycle.
      */
-    public abstract double getAppliedOutput();
+    public double getAppliedOutput() {
+        return inputs.appliedOutput;
+    }
 
     /**
      * @return The motor controller's output current in Amps.
      */
-    public abstract double getOutputCurrent();
+    public double getOutputCurrent() {
+        return inputs.outputCurrent;
+    }
 
     /**
      * @return The motor temperature in Celsius.
@@ -596,19 +625,25 @@ public abstract class XCANSparkMax {
      * thread. This is meant to be called immediately following another call that
      * has the possibility of returning an error to validate if an error has
      * occurred.
-     * 
+     *
      * @return the last error that was generated.
      */
-    public abstract REVLibError getLastError();
+    public REVLibError getLastError() {
+        return REVLibError.fromInt((int)inputs.lastErrorId);
+    }
 
     public abstract REVLibError restoreFactoryDefaults();
 
     ///
     // CAN Encoder Block
     ///
-    public abstract double getPosition();
+    public double getPosition() {
+        return inputs.position;
+    }
 
-    public abstract double getVelocity();
+    public double getVelocity() {
+        return inputs.velocity;
+    }
 
     public abstract REVLibError setPosition(double position);
 
@@ -739,4 +774,38 @@ public abstract class XCANSparkMax {
     public abstract boolean getForwardLimitSwitchPressed(com.revrobotics.SparkLimitSwitch.Type switchType);
 
     public abstract boolean getReverseLimitSwitchPressed(com.revrobotics.SparkLimitSwitch.Type switchType);
+
+    public abstract REVLibError setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame frame, int periodMs);
+
+    /**
+     * Helper method to modify CAN status frame timing. Is used to reduce traffic on the CAN bus for
+     * types of data that aren't as time critical.
+     *
+     * See https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces#periodic-status-frames
+     * for description of the different status frames. kStatus2 is the only frame with data needed for software PID.
+     */
+    public void setupStatusFramesIfReset(int status0PeriodMs, int status1PeriodMs, int status2PeriodMs, int status3PeriodMs) {
+            // We need to re-set frame intervals after a device reset.
+            if (getStickyFaultHasReset() && getLastError() != REVLibError.kHALError) {
+                log.info("Setting status frame periods.");
+
+                // See https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces#periodic-status-frames
+                // for description of the different status frames. kStatus2 is the only frame with data needed for software PID.
+
+                setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, status0PeriodMs /* default 10 */);
+                setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, status1PeriodMs /* default 20 */);
+                setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, status2PeriodMs /* default 20 */);
+                setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, status3PeriodMs /* default 50 */);
+
+                clearFaults();
+            }
+    }
+
+    // Methods for integrating with AdvantageKit
+    protected abstract void updateInputs(XCANSparkMaxInputs inputs);
+
+    public void refreshDataFrame() {
+        updateInputs(inputs);
+        Logger.getInstance().processInputs(akitName, inputs);
+    }
 }

@@ -27,11 +27,11 @@ public class TimeLogger {
     private void reset() {
         accumulatedTime = 0;
         callCount = 0;
-        lastReportTime = XTimer.getFPGATimestamp();
+        lastReportTime = getPerformanceTimestamp();
     }
     
     public void start() {
-        startTime = XTimer.getFPGATimestamp();
+        startTime = getPerformanceTimestamp();
         
         if (firstCall) {
             firstCall = false;
@@ -40,16 +40,20 @@ public class TimeLogger {
     }
     
     public void stop() {
-        double duration = XTimer.getFPGATimestamp() - startTime;
+        double duration = getPerformanceTimestamp() - startTime;
         
         accumulatedTime += duration;
         callCount++;
         
-        if (XTimer.getFPGATimestamp() - lastReportTime > reportingIntervalInSeconds && callCount > 0) {
+        if (getPerformanceTimestamp() - lastReportTime > reportingIntervalInSeconds && callCount > 0) {
             double averageLoopDuration = accumulatedTime / (double)callCount;
             log.info("Average duration for " + name + " was: " + averageLoopDuration);
             
             reset();
         }
+    }
+
+    private double getPerformanceTimestamp() {
+        return org.littletonrobotics.junction.Logger.getInstance().getRealTimestamp()*1.0 / 1000000.0;
     }
 }
