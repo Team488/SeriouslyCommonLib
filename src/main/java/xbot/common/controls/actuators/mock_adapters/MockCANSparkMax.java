@@ -244,7 +244,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public double getAppliedOutput() {
-        return 0;
+        return power;
     }
 
     @Override
