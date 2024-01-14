@@ -83,9 +83,9 @@ public class CANCoderAdapter extends XCANCoder {
     public DeviceHealth getHealth_internal() {
         // Needs to be tested on the actual robot with devices unplugged to see if this is a valid approach
         if (this.cancoder.getVersionMajor().getValueAsDouble() > 0) {
-            return DeviceHealth.Unhealthy;
+            return DeviceHealth.Healthy;
         }
-        return DeviceHealth.Healthy;
+        return DeviceHealth.Unhealthy;
     }
 
     @Override

@@ -196,7 +196,7 @@ public class XbotPhotonCameraFork implements AutoCloseable {
         packet.setData(rawBytesEntry.get(new byte[] {}));
 
         if (packet.getSize() < 1) return ret;
-        ret.createFromPacket(packet);
+        //ret.createFromPacket(packet);
 
         // Set the timestamp of the result.
         // getLatestChange returns in microseconds, so we divide by 1e6 to convert to seconds.
