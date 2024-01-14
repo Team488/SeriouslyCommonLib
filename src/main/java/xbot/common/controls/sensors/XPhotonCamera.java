@@ -31,9 +31,7 @@ public abstract class XPhotonCamera {
     }
 
     public PhotonPipelineResult getLatestResult() {
-        // TODO: once PhotonVision has proper protobuf support for PhotonPipelineResult, replace this
-        // with a call to the IO layer.
-        return null;
+        return io.pipelineResult;
     }
 
     public Optional<Matrix<N3, N3>> getCameraMatrix() {
