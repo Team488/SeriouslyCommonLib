@@ -34,6 +34,7 @@ import xbot.common.controls.sensors.XDutyCycleEncoder;
 import xbot.common.controls.sensors.XEncoder.XEncoderFactory;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
 import xbot.common.controls.sensors.XLidarLite.XLidarLiteFactory;
+import xbot.common.controls.sensors.XPhotonCamera;
 import xbot.common.controls.sensors.XPowerDistributionPanel.XPowerDistributionPanelFactory;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater.AnalogInputWPIAdapaterFactory;
 import xbot.common.controls.sensors.wpi_adapters.CANCoderAdapter.CANCoderAdapterFactory;
@@ -134,4 +135,8 @@ public abstract class RealDevicesModule {
     @Binds
     @Singleton
     public abstract XDutyCycleEncoder.XDutyCycleEncoderFactory getDutyCycleEncoderFactory(DutyCycleEncoderWpiAdapter.DutyCycleEncoderWpiAdapterFactory impl);
+
+    @Binds
+    @Singleton
+    public abstract XPhotonCamera.XPhotonCameraFactory getPhotonCameraFactory(xbot.common.controls.sensors.wpi_adapters.PhotonCameraAdapter.PhotonCameraAdapterFactory impl);
 }
