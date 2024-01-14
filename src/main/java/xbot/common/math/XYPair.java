@@ -2,12 +2,16 @@ package xbot.common.math;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.struct.Translation2dStruct;
+import edu.wpi.first.util.struct.StructSerializable;
+
+import java.sql.Struct;
 
 /**
  * Pair of X and Y coordinates. Can be used for points, vectors, or anything
  * else that requires a coordinate pair.
  */
-public class XYPair {
+public class XYPair implements StructSerializable {
     public static final XYPair ZERO = new XYPair(0, 0);
 
     public double x;
@@ -181,4 +185,7 @@ public class XYPair {
     public Translation2d toTranslation2d() {
         return new Translation2d(x, y);
     }
+
+    /** Translation2d struct for serialization. */
+    public static final XYPairStruct struct = new XYPairStruct();
 }
