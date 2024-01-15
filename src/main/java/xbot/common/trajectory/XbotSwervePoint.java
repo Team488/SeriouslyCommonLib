@@ -57,4 +57,12 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
     public Rotation2d getRotation2d() {
         return keyPose.getRotation();
     }
+
+    public static XbotSwervePoint createXbotSwervePoint(Translation2d targetLocation, Rotation2d targetHeading, double durationInSeconds) {
+        var potentiallyFlippedPose = BasePoseSubsystem.convertBlueToRedIfNeeded(new Pose2d(targetLocation, targetHeading));
+        return new XbotSwervePoint(
+                potentiallyFlippedPose.getX(),
+                potentiallyFlippedPose.getY(),
+                potentiallyFlippedPose.getRotation().getDegrees(), durationInSeconds);
+    }
 }

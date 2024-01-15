@@ -1,5 +1,7 @@
 package xbot.common.subsystems.drive;
 
+import edu.wpi.first.math.geometry.Twist2d;
+import org.littletonrobotics.junction.Logger;
 import xbot.common.command.BaseCommand;
 import xbot.common.math.XYPair;
 import xbot.common.properties.PropertyFactory;
@@ -25,6 +27,7 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
 
         pf.setPrefix(this);
         this.addRequirements(drive);
+        logic = new SwerveSimpleTrajectoryLogic();
     }
 
     @Override
@@ -35,7 +38,9 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
 
     @Override
     public void execute() {
-        var powers = logic.calculatePowers(pose.getCurrentPose2d(), drive.getPositionalPid(), headingModule);
+        Twist2d powers = logic.calculatePowers(pose.getCurrentPose2d(), drive.getPositionalPid(), headingModule);
+
+        Logger.recordOutput(getPrefix()+"Powers", powers);
 
         drive.fieldOrientedDrive(
                 new XYPair(powers.dx, powers.dy),

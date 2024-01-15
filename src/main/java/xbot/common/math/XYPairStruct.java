@@ -12,7 +12,7 @@ public class XYPairStruct implements Struct<XYPair> {
 
     @Override
     public String getTypeString() {
-        return "struct:Translation2d";
+        return "struct:XYPair";
     }
 
     @Override

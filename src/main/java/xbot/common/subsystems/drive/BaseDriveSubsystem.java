@@ -11,6 +11,9 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     public abstract PIDManager getRotateDecayPid();
     boolean isQuickTurn;
 
+    public XYPair lastRawCommandedDirection = new XYPair();
+    public double lastRawCommandedRotation = 0;
+
     public abstract void move(XYPair translate, double rotate);
     
     /**
@@ -89,6 +92,9 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
             double currentHeading, 
             boolean normalize) {
         // rotate the translation vector into the robot coordinate frame
+        lastRawCommandedDirection = translation;
+        lastRawCommandedRotation = rotation;
+
         XYPair fieldRelativeVector = translation.clone();
         
         // 90 degrees is the defined "forward" direction for a driver

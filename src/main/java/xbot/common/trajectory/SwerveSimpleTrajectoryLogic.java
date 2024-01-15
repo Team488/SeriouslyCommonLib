@@ -1,8 +1,10 @@
 package xbot.common.trajectory;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import org.apache.logging.log4j.LogManager;
+import org.littletonrobotics.junction.Logger;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
@@ -18,7 +20,7 @@ public class SwerveSimpleTrajectoryLogic {
     private Supplier<List<XbotSwervePoint>> keyPointsProvider;
     private List<XbotSwervePoint> keyPoints;
     private boolean enableConstantVelocity = false;
-    private double constantVelocity = 10;
+    private double constantVelocity = 0.25;
     private boolean stopWhenFinished = true;
     private final SimpleTimeInterpolator interpolator = new SimpleTimeInterpolator();
     SimpleTimeInterpolator.InterpolationResult lastResult;
@@ -120,6 +122,8 @@ public class SwerveSimpleTrajectoryLogic {
         lastResult = interpolator.calculateTarget(currentPose.getTranslation());
         var chasePoint = lastResult.chasePoint;
 
+        Logger.recordOutput("SwerveSimpleTrajectoryLogic/chasePoint", new Pose2d(chasePoint, Rotation2d.fromDegrees(0)));
+
         XYPair targetPosition = new XYPair(chasePoint.getX(), chasePoint.getY());
         XYPair currentPosition = new XYPair(currentPose.getX(), currentPose.getY());
 
@@ -141,10 +145,12 @@ public class SwerveSimpleTrajectoryLogic {
         // PID on the magnitude of the goal. Kind of similar to rotation,
         // our goal is "zero error".
         double magnitudeGoal = goalVector.getMagnitude();
+        Logger.recordOutput("SwerveSimpleTrajectoryLogic/magnitudeGoal", magnitudeGoal);
         double drivePower = positionalPid.calculate(magnitudeGoal, 0);
 
         // Create a vector in the direction of the goal, scaled by the drivePower.
         XYPair intent = XYPair.fromPolar(goalVector.getAngle(), drivePower);
+        Logger.recordOutput("SwerveSimpleTrajectoryLogic/intent", intent);
 
         double headingPower = headingModule.calculateHeadingPower(
                 lastResult.chaseHeading.getDegrees());
@@ -164,7 +170,7 @@ public class SwerveSimpleTrajectoryLogic {
     public boolean recommendIsFinished(Pose2d currentPose, PIDManager positionalPid, HeadingModule headingModule) {
         var goalVector = getGoalVector(currentPose);
         // TODO: Move this threshold into a variable
-        boolean isAtNoStoppingGoal = goalVector.getMagnitude() < 18; // 18 inches
+        boolean isAtNoStoppingGoal = goalVector.getMagnitude() < 0.40;
 
         boolean finished = (stopWhenFinished ? positionalPid.isOnTarget() : isAtNoStoppingGoal) && headingModule.isOnTarget()
                 && lastResult.isOnFinalPoint;
