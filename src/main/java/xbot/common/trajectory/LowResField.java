@@ -133,13 +133,27 @@ public class LowResField {
                     // so it's a coin flip as to which corner is chosen.
                     // So, if the averageIntersection point's X or Y is the same as the center of the obstacle,
                     // then we can go with a much simpler method - just take the corner closest to the focal point.
+
+                    boolean bothOutsideAndAcrossMidlines = false;
                     if (o.doesPointLieAlongMidlines(averageIntersection)) {
+                        // We need to perform an additional special check. If both start and end are
+                        // "outside" the vertical/horizontal projections of the obstacle ,then we have a
+                        // "crossing the diagonal" problem. In this case, we need to eliminate the closest
+                        // corner.
+                        // However, if they are both inside, then we have the typical "just take the closest corner"
+                        // approach, and no extra effort is needed.
+                        bothOutsideAndAcrossMidlines = o.checkIfBothPointsAreOutsideProjection(
+                                freshRobotPose.getTranslation(), focalPoint.getTranslation2d());
                         pointToSearchFrom = targetPoint.getTranslation2d();
                     } else {
                         pointToSearchFrom = averageIntersection;
                     }
 
                     Translation2d nearestCorner = o.getClosestCornerToPoint(pointToSearchFrom);
+                    if (bothOutsideAndAcrossMidlines) {
+                        // do it again, since the closest corner was just eliminated.
+                        nearestCorner = o.getClosestCornerToPoint(pointToSearchFrom);
+                    }
 
                     // Now to transform that x,y coordinate into a waypoint. It becomes a RabbitPoint,
                     // using PositionOnly so that we drive straight there (orientation doesn't matter).

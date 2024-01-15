@@ -27,6 +27,8 @@ public class SwerveSimpleTrajectoryLogic {
     double maxPower = 1.0;
     double maxTurningPower = 1.0;
 
+    private LowResField fieldWithObstacles;
+
     public SwerveSimpleTrajectoryLogic() {
 
     }
@@ -34,6 +36,10 @@ public class SwerveSimpleTrajectoryLogic {
     // --------------------------------------------------------------
     // Configuration
     // --------------------------------------------------------------
+
+    public void setFieldWithObstacles(LowResField fieldWithObstacles) {
+        this.fieldWithObstacles = fieldWithObstacles;
+    }
 
     public void setKeyPoints(List<XbotSwervePoint> keyPoints) {
         setKeyPointsProvider(() -> keyPoints);
@@ -80,9 +86,27 @@ public class SwerveSimpleTrajectoryLogic {
 
         var initialPoint = new XbotSwervePoint(currentPose, 0);
 
+        // If we have a field, and only 1 target point, use the field to avoid obstacles.
+        if (fieldWithObstacles != null && keyPoints.size() == 1) {
+            log.info("Generating path avoiding obstacles");
+
+            // Visualize direct raycast
+            var start = XbotSwervePoint.createXbotSwervePoint(currentPose.getTranslation(), currentPose.getRotation(), 0);
+            var raycast = XbotSwervePoint.generateTrajectory(List.of(
+                start, keyPoints.get(0))
+            );
+            Logger.recordOutput("SwerveSimpleTrajectoryLogic/Raycast", raycast);
+
+            var targetPoint = keyPoints.get(0);
+            keyPoints = fieldWithObstacles.generatePath(currentPose, targetPoint);
+        }
+
         if (enableConstantVelocity) {
             keyPoints = getVelocityAdjustedSwervePoints(initialPoint, keyPoints, constantVelocity);
         }
+
+        Logger.recordOutput("SwerveSimpleTrajectoryLogic/Trajectory",
+                XbotSwervePoint.generateTrajectory(keyPoints));
 
         interpolator.setMaximumDistanceFromChasePointInInches(24);
         interpolator.setKeyPoints(keyPoints);

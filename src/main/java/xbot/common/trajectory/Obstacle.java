@@ -94,6 +94,17 @@ public class Obstacle extends Rectangle2D.Double {
         Translation2d leftLine = getLineIntersectionPoint(start, end, topLeft, bottomLeft);
         Translation2d rightLine = getLineIntersectionPoint(start, end, topRight, bottomRight);
 
+        Translation2d[] translations = {topLine, bottomLine, leftLine, rightLine};
+        int count = 0;
+
+        for (Translation2d translation : translations) {
+            if (Math.abs(translation.getX()) > 0.001 || Math.abs(translation.getY()) > 0.001) {
+                count++;
+            }
+        }
+
+        System.out.println("Number of Translation2d instances that have values other than 0,0: " + count);
+
         // We take advantage of the fact that getLineIntersectionPoint() returns 0,0 for
         // no intersections,
         // and just add all the points together and divide by two. If we still have 0,0,
@@ -105,8 +116,8 @@ public class Obstacle extends Rectangle2D.Double {
             // No intersection points.
             return null;
         } else {
-            // Average the two points by dividing x and y by 2.
-            return combinedPoint.times(0.5);
+            // Average the two points by dividing x and y by the number of intersections.
+            return combinedPoint.times(1.0 / count);
         }
     }
 
@@ -152,7 +163,7 @@ public class Obstacle extends Rectangle2D.Double {
     }
 
     public boolean doesPointLieAlongMidlines(Translation2d point) {
-        return (Math.abs(this.getCenterX()-point.getX()) < 1) || (Math.abs(this.getCenterY()-point.getY()) < 1);
+        return (Math.abs(this.getCenterX()-point.getX()) < 0.025) || (Math.abs(this.getCenterY()-point.getY()) < 0.025);
     }
 
     /**
@@ -255,6 +266,22 @@ public class Obstacle extends Rectangle2D.Double {
 
         point = point.plus(new Translation2d(xDelta, yDelta));
         return point;
+    }
+
+    public boolean checkIfBothPointsAreOutsideProjection(Translation2d first, Translation2d second) {
+        return checkIfBothPointsOutsideX(first, second) || checkIfBothPointsOutsideY(first, second);
+    }
+
+    private boolean checkIfBothPointsOutsideX(Translation2d first, Translation2d second) {
+        boolean firstOutsideX = (first.getX() < this.getMinX() || first.getX() > this.getMaxX());
+        boolean secondOutsideX = (second.getX() < this.getMinX() || second.getX() > this.getMaxX());
+        return firstOutsideX && secondOutsideX;
+    }
+
+    private boolean checkIfBothPointsOutsideY(Translation2d first, Translation2d second) {
+        boolean firstOutsideY = (first.getY() < this.getMinY() || first.getY() > this.getMaxY());
+        boolean secondOutsideY = (second.getY() < this.getMinY() || second.getY() > this.getMaxY());
+        return firstOutsideY && secondOutsideY;
     }
 
 }

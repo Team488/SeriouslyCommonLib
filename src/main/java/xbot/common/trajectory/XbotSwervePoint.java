@@ -32,8 +32,8 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
             Trajectory.State state = new Trajectory.State();
             // Swerve points are in inches, but the trajectory is in meters.
             state.poseMeters = new Pose2d(
-                    point.keyPose.getTranslation().getX() / BasePoseSubsystem.INCHES_IN_A_METER,
-                    point.keyPose.getTranslation().getY() / BasePoseSubsystem.INCHES_IN_A_METER,
+                    point.keyPose.getTranslation().getX(),
+                    point.keyPose.getTranslation().getY(),
                     WrappedRotation2d.fromRotation2d(point.keyPose.getRotation())
             );
             state.velocityMetersPerSecond = 0;
