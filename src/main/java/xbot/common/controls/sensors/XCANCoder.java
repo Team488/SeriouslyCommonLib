@@ -26,8 +26,8 @@ public abstract class XCANCoder extends XAbsoluteEncoder {
 
     /**
      * Updates how often we get data about the CANCoder position.
-     * @param frequencyInHz
-     * @return
+     * @param frequencyInHz How many times per second we want to get data.
+     * @return The status code returned from the underlying object.
      */
     public abstract StatusCode setUpdateFrequencyForPosition(double frequencyInHz);
 
@@ -35,7 +35,7 @@ public abstract class XCANCoder extends XAbsoluteEncoder {
      * Stops all signals that are not explicitly set.
      * For example, if you haven't called setUpdateFrequencyForPosition, this will stop that signal!
      * Useful for reducing CAN bus traffic for data we're not reading.
-     * @return
+     * @return The status code returned from the underlying object.
      */
     public abstract StatusCode stopAllUnsetSignals();
 

@@ -138,5 +138,6 @@ public abstract class RealDevicesModule {
 
     @Binds
     @Singleton
-    public abstract XPhotonCamera.XPhotonCameraFactory getPhotonCameraFactory(xbot.common.controls.sensors.wpi_adapters.PhotonCameraAdapter.PhotonCameraAdapterFactory impl);
+    public abstract XPhotonCamera.XPhotonCameraFactory
+        getPhotonCameraFactory(xbot.common.controls.sensors.wpi_adapters.PhotonCameraAdapter.PhotonCameraAdapterFactory impl);
 }

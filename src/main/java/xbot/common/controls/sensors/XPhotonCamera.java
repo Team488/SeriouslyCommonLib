@@ -40,14 +40,18 @@ public abstract class XPhotonCamera {
         var cameraMatrix = io.cameraMatrix;
         if (cameraMatrix != null && cameraMatrix.length == 9) {
             return Optional.of(MatBuilder.fill(Nat.N3(), Nat.N3(), cameraMatrix));
-        } else return Optional.empty();
+        } else {
+            return Optional.empty();
+        }
     }
 
     public Optional<Matrix<N5, N1>> getDistCoeffs() {
         var distCoeffs = io.distCoeffs;
         if (distCoeffs != null && distCoeffs.length == 5) {
             return Optional.of(MatBuilder.fill(Nat.N5(), Nat.N1(), distCoeffs));
-        } else return Optional.empty();
+        } else {
+            return Optional.empty();
+        }
     }
 
     protected abstract void updateInputs(XPhotonCameraInputs inputs);

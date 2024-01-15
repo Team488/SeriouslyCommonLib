@@ -52,8 +52,8 @@ public class CANCoderAdapter extends XCANCoder {
         this.cancoder = new CANcoder(deviceInfo.channel, "rio");
 
         var currentConfig = getCurrentConfiguration();
-        currentConfig.MagnetSensor.SensorDirection = this.inverted.get() ?
-                SensorDirectionValue.Clockwise_Positive : SensorDirectionValue.CounterClockwise_Positive;
+        currentConfig.MagnetSensor.SensorDirection = this.inverted.get()
+                ? SensorDirectionValue.Clockwise_Positive : SensorDirectionValue.CounterClockwise_Positive;
         applyConfiguration(currentConfig);
 
         this.getMagnetOffset();

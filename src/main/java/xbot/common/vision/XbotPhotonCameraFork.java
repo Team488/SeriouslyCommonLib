@@ -23,12 +23,16 @@ package xbot.common.vision;
  * SOFTWARE.
  */
 
+//CHECKSTYLE:OFF
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
-import edu.wpi.first.math.numbers.*;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.numbers.N5;
 import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.BooleanSubscriber;
 import edu.wpi.first.networktables.DoubleArrayPublisher;
@@ -70,9 +74,12 @@ public class XbotPhotonCameraFork implements AutoCloseable {
     DoubleArrayPublisher targetPoseEntry;
     DoublePublisher targetSkewEntry;
     StringSubscriber versionEntry;
-    IntegerEntry inputSaveImgEntry, outputSaveImgEntry;
-    IntegerPublisher pipelineIndexRequest, ledModeRequest;
-    IntegerSubscriber pipelineIndexState, ledModeState;
+    IntegerEntry inputSaveImgEntry;
+    IntegerEntry outputSaveImgEntry;
+    IntegerPublisher pipelineIndexRequest;
+    IntegerPublisher ledModeRequest;
+    IntegerSubscriber pipelineIndexState;
+    IntegerSubscriber ledModeState;
     IntegerSubscriber heartbeatEntry;
     private DoubleArraySubscriber cameraIntrinsicsSubscriber;
     private DoubleArraySubscriber cameraDistortionSubscriber;
@@ -415,7 +422,8 @@ public class XbotPhotonCameraFork implements AutoCloseable {
             Set<String> cameraNames = cameraTable.getInstance().getTable(kTableName).getSubTables();
             if (cameraNames.isEmpty()) {
                 DriverStation.reportError(
-                        "Could not find any PhotonVision coprocessors on NetworkTables. Double check that PhotonVision is running, and that your camera is connected!",
+                        "Could not find any PhotonVision coprocessors on NetworkTables. " +
+                                "Double check that PhotonVision is running, and that your camera is connected!",
                         false);
             } else {
                 DriverStation.reportError(
