@@ -1,18 +1,15 @@
 package xbot.common.trajectory;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 import java.util.TreeMap;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import xbot.common.math.FieldPose;
-import xbot.common.math.XYPair;
-import xbot.common.subsystems.drive.RabbitPoint;
-import xbot.common.subsystems.drive.RabbitPoint.PointTerminatingType;
-import xbot.common.subsystems.drive.RabbitPoint.PointType;
 
 /**
  * Represents a simple version of the field, with Axis-Aligned Bounding Boxes representing no-go zones due to obstacles.
@@ -37,23 +34,23 @@ public class LowResField {
     /**
      * Generates a path between any two points on the field, avoiding known obstacles. Generated
      * interstitial points will be Position-Only. Final target point will be unchanged.
-     * @param robotPose The robot's current position
+     * @param freshRobotPose The robot's current position
      * @param targetPoint The robot's destination. This better be outside the bounding boxes!
      * @return List of waypoints, followed by the target point.
      */
-    public List<RabbitPoint> generatePath(FieldPose robotPose, RabbitPoint targetPoint) {
+    public List<XbotSwervePoint> generatePath(Pose2d currentRobotPose, XbotSwervePoint targetPoint) {
         // We may need to modify the robot pose, so let's clone it to avoid any
         // side effects.
-        robotPose = robotPose.clone();
-        var path = new ArrayList<RabbitPoint>();
-        var rabbitStack = new Stack<RabbitPoint>();
+        var freshRobotPose = new Pose2d(currentRobotPose.getTranslation(), currentRobotPose.getRotation());
+        var path = new ArrayList<XbotSwervePoint>();
+        var swervePointStack = new Stack<XbotSwervePoint>();
         var sortedObstacles = new TreeMap<Double, Obstacle>();
         // Start from the final point, generate a path backwards.
         // Check to see if there are any intersections.
 
         // TODO: some part of this algorithm needs to be modified in case the robot
         // or the target is currently inside a bounding box.
-        // In both cases, it would probalby be best to project those points slightly outside the
+        // In both cases, it would probably be best to project those points slightly outside the
         // bounding boxes, then continue as usual.
 
         // Possible approaches if already inside:
@@ -62,7 +59,7 @@ public class LowResField {
 
         // For now, I recommend keeping the points outside.
 
-        RabbitPoint focalPoint = targetPoint;
+        XbotSwervePoint focalPoint = targetPoint;
         boolean collision = true;
 
         for (Obstacle o : obstacles) {
@@ -71,25 +68,25 @@ public class LowResField {
             // inside, and if so, modify them for the purposes of all following calculations.
             // We can directly change the robot pose
 
-            if (o.contains(robotPose.getPoint().x, robotPose.getPoint().y)) {
+            if (o.contains(freshRobotPose.getTranslation().getX(), freshRobotPose.getTranslation().getY())) {
                 log.info("Robot is currently inside obstacle" + o.name +". Shifting for calculations.");
                 // our original robot pose is inside, and needs to shift.
-                XYPair slidPoint = o.movePointOutsideOfBounds(robotPose.getPoint());
-                robotPose = new FieldPose(slidPoint, robotPose.getHeading());
+                Translation2d slidPoint = o.movePointOutsideOfBounds(freshRobotPose.getTranslation());
+                freshRobotPose = new Pose2d(slidPoint, freshRobotPose.getRotation());
             }
 
-            if (o.contains(targetPoint.pose.getPoint().x, targetPoint.pose.getPoint().y)) {
+            if (o.contains(targetPoint.getTranslation2d().getX(), targetPoint.getTranslation2d().getY())) {
                 log.info("Target is currently inside obstacle" + o.name + ".");
                 log.info("Adding an interstitial waypoint just outside obstacle" + o.name + ".");
                 // our target is inside - we need to change our focalPoint and save this one.
-                XYPair slidPoint = o.movePointOutsideOfBounds(targetPoint.pose.getPoint());
-                rabbitStack.push(targetPoint);
+                Translation2d slidPoint = o.movePointOutsideOfBounds(targetPoint.getTranslation2d());
+                swervePointStack.push(targetPoint);
                 // create a new focal point that exactly mimics the final point, except it is out of bounds
-                focalPoint = new RabbitPoint(
-                        new FieldPose(slidPoint, targetPoint.pose.getHeading()),
-                        targetPoint.pointType,
-                        PointTerminatingType.Continue,
-                        targetPoint.driveStyle);
+
+                focalPoint = XbotSwervePoint.createXbotSwervePoint(
+                        slidPoint,
+                        targetPoint.getRotation2d(),
+                        10);
             }
         }
 
@@ -101,7 +98,7 @@ public class LowResField {
             escape++;
             if (escape > 20) {
                 log.warn("Iterated more than 20 times! Something has gone wrong! Escaping this loop.");
-                return new ArrayList<RabbitPoint>(Arrays.asList(targetPoint));
+                return new ArrayList<XbotSwervePoint>(Arrays.asList(targetPoint));
             }
 
             // Set collisions to false. Now, unless we find a collision, this will be the last time through the loop.
@@ -113,7 +110,7 @@ public class LowResField {
             // we can immediately ignore all others.
             sortedObstacles.clear();
             for (Obstacle o : obstacles) {
-                double distance = o.getDistanceToCenter(focalPoint.pose.getPoint());
+                double distance = o.getDistanceToCenter(focalPoint.getTranslation2d());
                 sortedObstacles.put(distance, o);
             }
             // Now, time to look for collisions.
@@ -121,35 +118,39 @@ public class LowResField {
                 Obstacle o = sortedObstacles.get(d);
 
                 // First, check to see if the line between the robot and the focal point has any collisions.
-                if (o.intersectsLine(robotPose.getPoint().x, robotPose.getPoint().y, focalPoint.pose.getPoint().x, focalPoint.pose.getPoint().y)) {
+                if (o.intersectsLine(freshRobotPose.getTranslation().getX(), freshRobotPose.getTranslation().getY(),
+                        focalPoint.getTranslation2d().getX(), focalPoint.getTranslation2d().getY())) {
                     // The line collidies with this obstacle! Set collision to true so we continue to iterate.
                     collision = true;
                     log.info("Projected path currently collides with " + o.name + ". Creating a new safe point.");
-                    XYPair pointToSearchFrom = new XYPair();
+                    Translation2d pointToSearchFrom = new Translation2d();
                     // We want to find the closest corner of the bounding box that will create an optimal path.
                     // If a line crosses a rectangle, then in nearly all cases, there will be two intersection points.
                     // We find those, and average them together. Then, we get the corner closest to that average point.
-                    XYPair averageIntersection = o.getIntersectionAveragePoint(robotPose.getPoint(), focalPoint.pose.getPoint());
+                    Translation2d averageIntersection = o.getIntersectionAveragePoint(freshRobotPose.getTranslation(), focalPoint.getTranslation2d());
                     // However, if the line crosses parallel lines (e.g. left and right, or top and bottom)
                     // this method doesn't work, as the average point will just be the exact center of the box,
                     // so it's a coin flip as to which corner is chosen.
                     // So, if the averageIntersection point's X or Y is the same as the center of the obstacle,
                     // then we can go with a much simpler method - just take the corner closest to the focal point.
                     if (o.doesPointLieAlongMidlines(averageIntersection)) {
-                        pointToSearchFrom = targetPoint.pose.getPoint();
+                        pointToSearchFrom = targetPoint.getTranslation2d();
                     } else {
                         pointToSearchFrom = averageIntersection;
                     }
 
-                    XYPair nearestCorner = o.getClosestCornerToPoint(pointToSearchFrom);
+                    Translation2d nearestCorner = o.getClosestCornerToPoint(pointToSearchFrom);
 
                     // Now to transform that x,y coordinate into a waypoint. It becomes a RabbitPoint,
                     // using PositionOnly so that we drive straight there (orientation doesn't matter).
-                    RabbitPoint cornerPoint =
-                            new RabbitPoint(new FieldPose(nearestCorner.x, nearestCorner.y, 0), PointType.PositionOnly, PointTerminatingType.Continue);
+                    XbotSwervePoint cornerPoint = XbotSwervePoint.createXbotSwervePoint(
+                            nearestCorner,
+                            targetPoint.getRotation2d(),
+                            10
+                    );
                     // Our current focal point needs to be saved in the final list.
-                    log.info("New safe point created: " + cornerPoint.pose.toString());
-                    rabbitStack.add(focalPoint);
+                    log.info("New safe point created: " + cornerPoint.getTranslation2d().toString());
+                    swervePointStack.add(focalPoint);
                     // Change the focal point to the new corner point, and check for collisions again.
                     focalPoint = cornerPoint;
                     break;
@@ -162,11 +163,11 @@ public class LowResField {
         // If there we no collisions, the focal point will be the targetPoint.
         log.info("Path clear. Adding goal point.");
         path.add(focalPoint);
-        while (rabbitStack.size() > 0) {
+        while (swervePointStack.size() > 0) {
             // If there were collisions, then we need to use the rabbitStack. The top contains generated waypoints, and
             // as we go down the stack, we get to generated waypoints further from the robot, finally ending in
             // the targetPoint.
-            path.add(rabbitStack.pop());
+            path.add(swervePointStack.pop());
         }
 
         return path;

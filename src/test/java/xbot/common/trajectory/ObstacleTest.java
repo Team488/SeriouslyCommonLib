@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import org.junit.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
@@ -14,15 +15,15 @@ public class ObstacleTest extends BaseCommonLibTest {
     @Test
     public void testNearestPoint() {
         Obstacle o = new Obstacle(10, 10, 10, 5, "Test");
-        XYPair point = o.getClosestCornerToPoint(new XYPair(3,0));
+        Translation2d point = o.getClosestCornerToPoint(new Translation2d(3,0));
 
-        assertEquals(point.x, 5, 0.2);
-        assertEquals(point.y, 7.5, 0.2);
+        assertEquals(point.getX(), 5, 0.2);
+        assertEquals(point.getY(), 7.5, 0.2);
         assertFalse("bottom left should not be available", o.bottomLeftAvailable);
 
         point = o.getClosestCornerToPoint(point);
-        assertEquals(point.x, 5, 0.2);
-        assertEquals(point.y, 12.5, 0.2);
+        assertEquals(point.getX(), 5, 0.2);
+        assertEquals(point.getY(), 12.5, 0.2);
         assertFalse("top left should not be available", o.topLeftAvailable);
 
         o.resetCorners();
@@ -44,40 +45,40 @@ public class ObstacleTest extends BaseCommonLibTest {
     @Test
     public void testLineIntersection() {
         Obstacle o = new Obstacle(10, 10, 10, 10, "Test");
-        XYPair intersection = o.getLineIntersectionPoint(
-                new XYPair(0,0),
-                new XYPair(10,0),
-                new XYPair(5,10),
-                new XYPair(5,-10));
-        assertEquals(5, intersection.x, 0.001);
-        assertEquals(0, intersection.y, 0.001);
+        Translation2d intersection = o.getLineIntersectionPoint(
+                new Translation2d(0,0),
+                new Translation2d(10,0),
+                new Translation2d(5,10),
+                new Translation2d(5,-10));
+        assertEquals(5, intersection.getX(), 0.001);
+        assertEquals(0, intersection.getY(), 0.001);
     }
 
     @Test
     public void testMovePointOutside() {
         Obstacle o = new Obstacle(10, 10, 10, 10, "Test");
-        XYPair shouldNotMove = o.movePointOutsideOfBounds(new XYPair(3, 4));
-        assertEquals(3, shouldNotMove.x, 0.001);
-        assertEquals(4, shouldNotMove.y, 0.001);
+        Translation2d shouldNotMove = o.movePointOutsideOfBounds(new Translation2d(3, 4));
+        assertEquals(3, shouldNotMove.getX(), 0.001);
+        assertEquals(4, shouldNotMove.getY(), 0.001);
 
         // slide down
-        XYPair shouldMove =  o.movePointOutsideOfBounds(new XYPair(9, 7));
-        assertEquals(9, shouldMove.x, 0.2);
-        assertEquals(5, shouldMove.y, 0.2);
+        Translation2d shouldMove =  o.movePointOutsideOfBounds(new Translation2d(9, 7));
+        assertEquals(9, shouldMove.getX(), 0.2);
+        assertEquals(5, shouldMove.getY(), 0.2);
 
         // slide left
-        shouldMove =  o.movePointOutsideOfBounds(new XYPair(6, 9));
-        assertEquals(5, shouldMove.x, 0.2);
-        assertEquals(9, shouldMove.y, 0.2);
+        shouldMove =  o.movePointOutsideOfBounds(new Translation2d(6, 9));
+        assertEquals(5, shouldMove.getX(), 0.2);
+        assertEquals(9, shouldMove.getY(), 0.2);
 
         // slide right
-        shouldMove =  o.movePointOutsideOfBounds(new XYPair(14, 7));
-        assertEquals(15, shouldMove.x, 0.2);
-        assertEquals(7, shouldMove.y, 0.2);
+        shouldMove =  o.movePointOutsideOfBounds(new Translation2d(14, 7));
+        assertEquals(15, shouldMove.getX(), 0.2);
+        assertEquals(7, shouldMove.getY(), 0.2);
 
         // slide up
-        shouldMove =  o.movePointOutsideOfBounds(new XYPair(9, 13));
-        assertEquals(9, shouldMove.x, 0.2);
-        assertEquals(15, shouldMove.y, 0.2);
+        shouldMove =  o.movePointOutsideOfBounds(new Translation2d(9, 13));
+        assertEquals(9, shouldMove.getX(), 0.2);
+        assertEquals(15, shouldMove.getY(), 0.2);
     }
 }
