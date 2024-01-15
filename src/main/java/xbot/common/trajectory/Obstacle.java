@@ -166,6 +166,22 @@ public class Obstacle extends Rectangle2D.Double {
         return (Math.abs(this.getCenterX()-point.getX()) < 0.025) || (Math.abs(this.getCenterY()-point.getY()) < 0.025);
     }
 
+    public enum ParallelCrossingType {
+        TopAndBottom,
+        LeftAndRight,
+        None
+    }
+
+    public ParallelCrossingType getParallelCrossingType(Translation2d point) {
+        if (Math.abs(this.getCenterX()-point.getX()) < 0.025) {
+            return ParallelCrossingType.LeftAndRight;
+        } else if (Math.abs(this.getCenterY()-point.getY()) < 0.025) {
+            return ParallelCrossingType.TopAndBottom;
+        } else {
+            return ParallelCrossingType.None;
+        }
+    }
+
     /**
      * Finds the closest available corner of this obstacle from a given point. Once
      * it returns a point, that point is unavailable until resetCorners() is called.
@@ -268,17 +284,23 @@ public class Obstacle extends Rectangle2D.Double {
         return point;
     }
 
-    public boolean checkIfBothPointsAreOutsideProjection(Translation2d first, Translation2d second) {
-        return checkIfBothPointsOutsideX(first, second) || checkIfBothPointsOutsideY(first, second);
+    public boolean checkIfBothPointsAreOutsideProjection(Translation2d first, Translation2d second,
+                                                         ParallelCrossingType crossingType) {
+        if (crossingType == ParallelCrossingType.TopAndBottom) {
+            return checkIfBothPointsOutsideX(first, second);
+        } else if (crossingType == ParallelCrossingType.LeftAndRight) {
+            return checkIfBothPointsOutsideY(first, second);
+        }
+        return false;
     }
 
-    private boolean checkIfBothPointsOutsideX(Translation2d first, Translation2d second) {
+    public boolean checkIfBothPointsOutsideX(Translation2d first, Translation2d second) {
         boolean firstOutsideX = (first.getX() < this.getMinX() || first.getX() > this.getMaxX());
         boolean secondOutsideX = (second.getX() < this.getMinX() || second.getX() > this.getMaxX());
         return firstOutsideX && secondOutsideX;
     }
 
-    private boolean checkIfBothPointsOutsideY(Translation2d first, Translation2d second) {
+    public boolean checkIfBothPointsOutsideY(Translation2d first, Translation2d second) {
         boolean firstOutsideY = (first.getY() < this.getMinY() || first.getY() > this.getMaxY());
         boolean secondOutsideY = (second.getY() < this.getMinY() || second.getY() > this.getMaxY());
         return firstOutsideY && secondOutsideY;

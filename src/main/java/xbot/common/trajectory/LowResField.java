@@ -135,7 +135,8 @@ public class LowResField {
                     // then we can go with a much simpler method - just take the corner closest to the focal point.
 
                     boolean bothOutsideAndAcrossMidlines = false;
-                    if (o.doesPointLieAlongMidlines(averageIntersection)) {
+                    Obstacle.ParallelCrossingType parallelCrossingType = o.getParallelCrossingType(averageIntersection);
+                    if (parallelCrossingType != Obstacle.ParallelCrossingType.None) {
                         // We need to perform an additional special check. If both start and end are
                         // "outside" the vertical/horizontal projections of the obstacle ,then we have a
                         // "crossing the diagonal" problem. In this case, we need to eliminate the closest
@@ -143,7 +144,7 @@ public class LowResField {
                         // However, if they are both inside, then we have the typical "just take the closest corner"
                         // approach, and no extra effort is needed.
                         bothOutsideAndAcrossMidlines = o.checkIfBothPointsAreOutsideProjection(
-                                freshRobotPose.getTranslation(), focalPoint.getTranslation2d());
+                                freshRobotPose.getTranslation(), focalPoint.getTranslation2d(), parallelCrossingType);
                         pointToSearchFrom = targetPoint.getTranslation2d();
                     } else {
                         pointToSearchFrom = averageIntersection;
