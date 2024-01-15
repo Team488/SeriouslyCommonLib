@@ -30,3 +30,4 @@ xbot.common.subsystems.feedback
 xbot.common.subsystems.pose
 xbot.common.subsystems.pose.commands
 xbot.common.subsystems.simple
+xbot.common.vision

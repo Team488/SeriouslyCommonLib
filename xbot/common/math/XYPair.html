@@ -75,9 +75,14 @@ loadScripts(document, 'script');</script>
 <div class="inheritance">xbot.common.math.XYPair</div>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>All Implemented Interfaces:</dt>
+<dd><code>edu.wpi.first.util.struct.StructSerializable</code>, <code>edu.wpi.first.util.WPISerializable</code></dd>
+</dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">XYPair</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
+implements edu.wpi.first.util.struct.StructSerializable</span></div>
 <div class="block">Pair of X and Y coordinates. Can be used for points, vectors, or anything
  else that requires a coordinate pair.</div>
 </section>
@@ -92,15 +97,20 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>double</code></div>
-<div class="col-second even-row-color"><code><a href="#x" class="member-name-link">x</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="XYPairStruct.html" title="class in xbot.common.math">XYPairStruct</a></code></div>
+<div class="col-second even-row-color"><code><a href="#struct" class="member-name-link">struct</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Translation2d struct for serialization.</div>
+</div>
 <div class="col-first odd-row-color"><code>double</code></div>
-<div class="col-second odd-row-color"><code><a href="#y" class="member-name-link">y</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#x" class="member-name-link">x</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final <a href="XYPair.html" title="class in xbot.common.math">XYPair</a></code></div>
-<div class="col-second even-row-color"><code><a href="#ZERO" class="member-name-link">ZERO</a></code></div>
+<div class="col-first even-row-color"><code>double</code></div>
+<div class="col-second even-row-color"><code><a href="#y" class="member-name-link">y</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="XYPair.html" title="class in xbot.common.math">XYPair</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#ZERO" class="member-name-link">ZERO</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -240,6 +250,13 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="y">
 <h3>y</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">y</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="struct">
+<h3>struct</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="XYPairStruct.html" title="class in xbot.common.math">XYPairStruct</a></span>&nbsp;<span class="element-name">struct</span></div>
+<div class="block">Translation2d struct for serialization.</div>
 </section>
 </li>
 </ul>

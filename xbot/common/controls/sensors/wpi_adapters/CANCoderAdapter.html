@@ -142,7 +142,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.ctre.phoenix.ErrorCode</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.ctre.phoenix6.StatusCode</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clearStickyFaults()" class="member-name-link">clearStickyFaults</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
@@ -151,44 +151,41 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDeviceId()" class="member-name-link">getDeviceId</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.ctre.phoenix.ErrorCode</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFaults(com.ctre.phoenix.sensors.CANCoderFaults)" class="member-name-link">getFaults</a><wbr>(com.ctre.phoenix.sensors.CANCoderFaults&nbsp;toFill)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../resiliency/DeviceHealth.html" title="enum class in xbot.common.resiliency">DeviceHealth</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHealth_internal()" class="member-name-link">getHealth_internal</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../resiliency/DeviceHealth.html" title="enum class in xbot.common.resiliency">DeviceHealth</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHealth_internal()" class="member-name-link">getHealth_internal</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMagnetOffset()" class="member-name-link">getMagnetOffset</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMagnetOffset()" class="member-name-link">getMagnetOffset</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets the magnet offset configured on the encoder device.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPosition_internal()" class="member-name-link">getPosition_internal</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStatusFramePeriod(com.ctre.phoenix.sensors.CANCoderStatusFrame)" class="member-name-link">getStatusFramePeriod</a><wbr>(com.ctre.phoenix.sensors.CANCoderStatusFrame&nbsp;frame)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.ctre.phoenix.ErrorCode</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStickyFaults(com.ctre.phoenix.sensors.CANCoderStickyFaults)" class="member-name-link">getStickyFaults</a><wbr>(com.ctre.phoenix.sensors.CANCoderStickyFaults&nbsp;toFill)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVelocity_internal()" class="member-name-link">getVelocity_internal</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPosition_internal()" class="member-name-link">getPosition_internal</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasResetOccurred_internal()" class="member-name-link">hasResetOccurred_internal</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVelocity_internal()" class="member-name-link">getVelocity_internal</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMagnetOffset(double)" class="member-name-link">setMagnetOffset</a><wbr>(double&nbsp;offsetInDegrees)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasResetOccurred_internal()" class="member-name-link">hasResetOccurred_internal</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMagnetOffset(double)" class="member-name-link">setMagnetOffset</a><wbr>(double&nbsp;offsetInDegrees)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the magnet offset configured on the encoder device.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPosition(double)" class="member-name-link">setPosition</a><wbr>(double&nbsp;newPosition)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.ctre.phoenix.ErrorCode</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStatusFramePeriod(com.ctre.phoenix.sensors.CANCoderStatusFrame,int)" class="member-name-link">setStatusFramePeriod</a><wbr>(com.ctre.phoenix.sensors.CANCoderStatusFrame&nbsp;frame,
- int&nbsp;periodMs)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPosition(double)" class="member-name-link">setPosition</a><wbr>(double&nbsp;newPosition)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.ctre.phoenix6.StatusCode</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUpdateFrequencyForPosition(double)" class="member-name-link">setUpdateFrequencyForPosition</a><wbr>(double&nbsp;frequencyInHz)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Updates how often we get data about the CANCoder position.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.ctre.phoenix6.StatusCode</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stopAllUnsetSignals()" class="member-name-link">stopAllUnsetSignals</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Stops all signals that are not explicitly set.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XAbsoluteEncoderInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../io_inputs/XAbsoluteEncoderInputs.html" title="class in xbot.common.controls.io_inputs">XAbsoluteEncoderInputs</a>&nbsp;inputs)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -286,7 +283,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getMagnetOffset()">
 <h3>getMagnetOffset</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getMagnetOffset</span>()</div>
-<div class="block">Gets the magnet offset configured on the encoder device.</div>
+<div class="block">Gets the magnet offset configured on the encoder device. Blocking call.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The magnet offset in degrees</dd>
@@ -307,50 +304,41 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="setStatusFramePeriod(com.ctre.phoenix.sensors.CANCoderStatusFrame,int)">
-<h3>setStatusFramePeriod</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.ctre.phoenix.ErrorCode</span>&nbsp;<span class="element-name">setStatusFramePeriod</span><wbr><span class="parameters">(com.ctre.phoenix.sensors.CANCoderStatusFrame&nbsp;frame,
- int&nbsp;periodMs)</span></div>
+<section class="detail" id="setUpdateFrequencyForPosition(double)">
+<h3>setUpdateFrequencyForPosition</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.ctre.phoenix6.StatusCode</span>&nbsp;<span class="element-name">setUpdateFrequencyForPosition</span><wbr><span class="parameters">(double&nbsp;frequencyInHz)</span></div>
+<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../XCANCoder.html#setUpdateFrequencyForPosition(double)">XCANCoder</a></code></span></div>
+<div class="block">Updates how often we get data about the CANCoder position.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../XCANCoder.html#setStatusFramePeriod(com.ctre.phoenix.sensors.CANCoderStatusFrame,int)">setStatusFramePeriod</a></code>&nbsp;in class&nbsp;<code><a href="../XCANCoder.html" title="class in xbot.common.controls.sensors">XCANCoder</a></code></dd>
+<dd><code><a href="../XCANCoder.html#setUpdateFrequencyForPosition(double)">setUpdateFrequencyForPosition</a></code>&nbsp;in class&nbsp;<code><a href="../XCANCoder.html" title="class in xbot.common.controls.sensors">XCANCoder</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>frequencyInHz</code> - How many times per second we want to get data.</dd>
+<dt>Returns:</dt>
+<dd>The status code returned from the underlying object.</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="getStatusFramePeriod(com.ctre.phoenix.sensors.CANCoderStatusFrame)">
-<h3>getStatusFramePeriod</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getStatusFramePeriod</span><wbr><span class="parameters">(com.ctre.phoenix.sensors.CANCoderStatusFrame&nbsp;frame)</span></div>
+<section class="detail" id="stopAllUnsetSignals()">
+<h3>stopAllUnsetSignals</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.ctre.phoenix6.StatusCode</span>&nbsp;<span class="element-name">stopAllUnsetSignals</span>()</div>
+<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../XCANCoder.html#stopAllUnsetSignals()">XCANCoder</a></code></span></div>
+<div class="block">Stops all signals that are not explicitly set.
+ For example, if you haven't called setUpdateFrequencyForPosition, this will stop that signal!
+ Useful for reducing CAN bus traffic for data we're not reading.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../XCANCoder.html#getStatusFramePeriod(com.ctre.phoenix.sensors.CANCoderStatusFrame)">getStatusFramePeriod</a></code>&nbsp;in class&nbsp;<code><a href="../XCANCoder.html" title="class in xbot.common.controls.sensors">XCANCoder</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getFaults(com.ctre.phoenix.sensors.CANCoderFaults)">
-<h3>getFaults</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.ctre.phoenix.ErrorCode</span>&nbsp;<span class="element-name">getFaults</span><wbr><span class="parameters">(com.ctre.phoenix.sensors.CANCoderFaults&nbsp;toFill)</span></div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../XCANCoder.html#getFaults(com.ctre.phoenix.sensors.CANCoderFaults)">getFaults</a></code>&nbsp;in class&nbsp;<code><a href="../XCANCoder.html" title="class in xbot.common.controls.sensors">XCANCoder</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getStickyFaults(com.ctre.phoenix.sensors.CANCoderStickyFaults)">
-<h3>getStickyFaults</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.ctre.phoenix.ErrorCode</span>&nbsp;<span class="element-name">getStickyFaults</span><wbr><span class="parameters">(com.ctre.phoenix.sensors.CANCoderStickyFaults&nbsp;toFill)</span></div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../XCANCoder.html#getStickyFaults(com.ctre.phoenix.sensors.CANCoderStickyFaults)">getStickyFaults</a></code>&nbsp;in class&nbsp;<code><a href="../XCANCoder.html" title="class in xbot.common.controls.sensors">XCANCoder</a></code></dd>
+<dd><code><a href="../XCANCoder.html#stopAllUnsetSignals()">stopAllUnsetSignals</a></code>&nbsp;in class&nbsp;<code><a href="../XCANCoder.html" title="class in xbot.common.controls.sensors">XCANCoder</a></code></dd>
+<dt>Returns:</dt>
+<dd>The status code returned from the underlying object.</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="clearStickyFaults()">
 <h3>clearStickyFaults</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.ctre.phoenix.ErrorCode</span>&nbsp;<span class="element-name">clearStickyFaults</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.ctre.phoenix6.StatusCode</span>&nbsp;<span class="element-name">clearStickyFaults</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../XCANCoder.html#clearStickyFaults()">clearStickyFaults</a></code>&nbsp;in class&nbsp;<code><a href="../XCANCoder.html" title="class in xbot.common.controls.sensors">XCANCoder</a></code></dd>
