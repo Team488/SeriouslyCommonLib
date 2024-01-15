@@ -1,10 +1,6 @@
 package xbot.common.controls.sensors.mock_adapters;
 
-import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.sensors.CANCoderFaults;
-import com.ctre.phoenix.sensors.CANCoderStatusFrame;
-import com.ctre.phoenix.sensors.CANCoderStickyFaults;
-
+import com.ctre.phoenix6.StatusCode;
 import org.json.JSONObject;
 
 import dagger.assisted.Assisted;
@@ -103,30 +99,19 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
     }
 
 
-
     @Override
-    public ErrorCode setStatusFramePeriod(CANCoderStatusFrame frame, int periodMs) {
-        return ErrorCode.OK;
+    public StatusCode setUpdateFrequencyForPosition(double frequencyInHz) {
+        return StatusCode.OK;
     }
 
     @Override
-    public int getStatusFramePeriod(CANCoderStatusFrame frame) {
-        return 20;
+    public StatusCode stopAllUnsetSignals() {
+        return StatusCode.OK;
     }
 
     @Override
-    public ErrorCode getFaults(CANCoderFaults toFill) {
-        return ErrorCode.OK;
-    }
-
-    @Override
-    public ErrorCode getStickyFaults(CANCoderStickyFaults toFill) {
-        return ErrorCode.OK;
-    }
-
-    @Override
-    public ErrorCode clearStickyFaults() {
-        return ErrorCode.OK;
+    public StatusCode clearStickyFaults() {
+        return StatusCode.OK;
     }
     
     public boolean hasResetOccurred_internal() {

@@ -1,12 +1,9 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
-import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix.sensors.CANCoderFaults;
-import com.ctre.phoenix.sensors.CANCoderStatusFrame;
-import com.ctre.phoenix.sensors.CANCoderStickyFaults;
-import com.ctre.phoenix.sensors.WPI_CANCoder;
-
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +27,7 @@ public class CANCoderAdapter extends XCANCoder {
     private static final Logger log = LogManager.getLogger(CANCoderAdapter.class);
 
     private final int deviceId;
-    private final CANCoder cancoder;
+    private final CANcoder cancoder;
 
     private final DoubleProperty magnetOffset;
     private final BooleanProperty inverted;
@@ -52,8 +49,13 @@ public class CANCoderAdapter extends XCANCoder {
         this.inverted = pf.createEphemeralProperty("Inverted", deviceInfo.inverted);
         this.magnetOffset = pf.createEphemeralProperty("Magnet offset", 0.0);
         
-        this.cancoder = new WPI_CANCoder(deviceInfo.channel, "rio");
-        this.cancoder.configSensorDirection(this.inverted.get());
+        this.cancoder = new CANcoder(deviceInfo.channel, "rio");
+
+        var currentConfig = getCurrentConfiguration();
+        currentConfig.MagnetSensor.SensorDirection = this.inverted.get()
+                ? SensorDirectionValue.Clockwise_Positive : SensorDirectionValue.CounterClockwise_Positive;
+        applyConfiguration(currentConfig);
+
         this.getMagnetOffset();
         
         this.deviceId = deviceInfo.channel;
@@ -67,22 +69,23 @@ public class CANCoderAdapter extends XCANCoder {
     }
 
     public double getPosition_internal() {
-        return this.cancoder.getPosition();
+        return this.cancoder.getPosition().getValueAsDouble();
     }
 
     public double getAbsolutePosition_internal() {
-        return this.cancoder.getAbsolutePosition();
+        return this.cancoder.getAbsolutePosition().getValueAsDouble();
     }
 
     public double getVelocity_internal() {
-        return this.cancoder.getVelocity();
+        return this.cancoder.getVelocity().getValueAsDouble();
     }
 
     public DeviceHealth getHealth_internal() {
-        if (this.cancoder.getFirmwareVersion() == -1) {
-            return DeviceHealth.Unhealthy;
+        // Needs to be tested on the actual robot with devices unplugged to see if this is a valid approach
+        if (this.cancoder.getVersionMajor().getValueAsDouble() > 0) {
+            return DeviceHealth.Healthy;
         }
-        return DeviceHealth.Healthy;
+        return DeviceHealth.Unhealthy;
     }
 
     @Override
@@ -91,11 +94,17 @@ public class CANCoderAdapter extends XCANCoder {
     }
 
     /**
-     * Gets the magnet offset configured on the encoder device.
+     * Gets the magnet offset configured on the encoder device. Blocking call.
      * @return The magnet offset in degrees
      */
     public double getMagnetOffset() {
-        this.magnetOffset.set(this.cancoder.configGetMagnetOffset());
+
+        // With Phoenix6, getting configuration is now a multi-step process.
+        var currentConfigs = new CANcoderConfiguration();
+        // Note that the "refresh" is a blocking call.
+        cancoder.getConfigurator().refresh(currentConfigs);
+
+        this.magnetOffset.set(currentConfigs.MagnetSensor.MagnetOffset);
         return this.magnetOffset.get();
     }
 
@@ -105,9 +114,13 @@ public class CANCoderAdapter extends XCANCoder {
      * @return True on success.
      */
     public boolean setMagnetOffset(double offsetInDegrees) {
-        ErrorCode errorCode = this.cancoder.configMagnetOffset(offsetInDegrees);
-        if (errorCode.value != 0) {
-            log.error("Failed to set magnet offset for device " + this.getDeviceId() + ". Error code: " + errorCode.value);
+
+        var currentConfigs = getCurrentConfiguration();
+        currentConfigs.MagnetSensor.MagnetOffset = offsetInDegrees;
+        var status = applyConfiguration(currentConfigs);
+
+        if (status.isError()) {
+            log.error("Failed to set magnet offset for device " + this.getDeviceId() + ". Error code: " + status.value);
             return false;
         } else {
             this.magnetOffset.set(offsetInDegrees);
@@ -115,33 +128,31 @@ public class CANCoderAdapter extends XCANCoder {
         }
     }
 
-    @Override
-    public ErrorCode setStatusFramePeriod(CANCoderStatusFrame frame, int periodMs) {
-        return this.cancoder.setStatusFramePeriod(frame, periodMs);
+    public StatusCode setUpdateFrequencyForPosition(double frequencyInHz) {
+        return this.cancoder.getPosition().setUpdateFrequency(frequencyInHz);
+    }
+
+    public StatusCode stopAllUnsetSignals() {
+        return this.cancoder.optimizeBusUtilization();
     }
 
     @Override
-    public int getStatusFramePeriod(CANCoderStatusFrame frame) {
-        return this.cancoder.getStatusFramePeriod(frame);
-    }
-
-    @Override
-    public ErrorCode getFaults(CANCoderFaults toFill) {
-        return this.cancoder.getFaults(toFill);
-    }
-
-    @Override
-    public ErrorCode getStickyFaults(CANCoderStickyFaults toFill) {
-        return this.cancoder.getStickyFaults(toFill);
-    }
-
-    @Override
-    public ErrorCode clearStickyFaults() {
+    public StatusCode clearStickyFaults() {
         return this.cancoder.clearStickyFaults();
     }
 
     public boolean hasResetOccurred_internal() {
         return this.cancoder.hasResetOccurred();
+    }
+
+    private CANcoderConfiguration getCurrentConfiguration() {
+        var currentConfig = new CANcoderConfiguration();
+        this.cancoder.getConfigurator().refresh(currentConfig);
+        return currentConfig;
+    }
+
+    private StatusCode applyConfiguration(CANcoderConfiguration toApply) {
+        return this.cancoder.getConfigurator().apply(toApply);
     }
 
     @Override
