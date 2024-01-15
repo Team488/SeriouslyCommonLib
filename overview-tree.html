@@ -83,6 +83,7 @@ loadScripts(document, 'script');</script>
 <li><a href="xbot/common/subsystems/pose/package-tree.html">xbot.common.subsystems.pose</a>, </li>
 <li><a href="xbot/common/subsystems/pose/commands/package-tree.html">xbot.common.subsystems.pose.commands</a>, </li>
 <li><a href="xbot/common/subsystems/simple/package-tree.html">xbot.common.subsystems.simple</a>, </li>
+<li><a href="xbot/common/trajectory/package-tree.html">xbot.common.trajectory</a>, </li>
 <li><a href="xbot/common/vision/package-tree.html">xbot.common.vision</a></li>
 </ul>
 </div>
@@ -140,6 +141,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.subsystems.autonomous.<a href="xbot/common/subsystems/autonomous/SetAutonomousCommand.html" class="type-name-link" title="class in xbot.common.subsystems.autonomous">SetAutonomousCommand</a></li>
 <li class="circle">xbot.common.subsystems.pose.commands.<a href="xbot/common/subsystems/pose/commands/SetRobotHeadingCommand.html" class="type-name-link" title="class in xbot.common.subsystems.pose.commands">SetRobotHeadingCommand</a></li>
 <li class="circle">xbot.common.command.<a href="xbot/common/command/SimpleWaitForMaintainerCommand.html" class="type-name-link" title="class in xbot.common.command">SimpleWaitForMaintainerCommand</a></li>
+<li class="circle">xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryCommand.html" class="type-name-link" title="class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryCommand</a></li>
 </ul>
 </li>
 <li class="circle">edu.wpi.first.wpilibj2.command.FunctionalCommand
@@ -293,6 +295,8 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.subsystems.feedback.<a href="xbot/common/subsystems/feedback/RumbleManager.RumbleManagerFactory.html" class="type-name-link" title="class in xbot.common.subsystems.feedback">RumbleManager.RumbleManagerFactory</a> (implements xbot.common.subsystems.feedback.<a href="xbot/common/subsystems/feedback/XRumbleManager.XRumbleManagerFactory.html" title="interface in xbot.common.subsystems.feedback">XRumbleManager.XRumbleManagerFactory</a>)</li>
 <li class="circle">xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/ServoWPIAdapter.ServoWPIAdapterFactory.html" class="type-name-link" title="class in xbot.common.controls.actuators.wpi_adapters">ServoWPIAdapter.ServoWPIAdapterFactory</a> (implements xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XServo.XServoFactory.html" title="interface in xbot.common.controls.actuators">XServo.XServoFactory</a>)</li>
 <li class="circle">xbot.common.controls.sensors.buttons.<a href="xbot/common/controls/sensors/buttons/SettableBooleanSuppler.html" class="type-name-link" title="class in xbot.common.controls.sensors.buttons">SettableBooleanSuppler</a> (implements java.util.function.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/BooleanSupplier.html" title="class or interface in java.util.function" class="external-link">BooleanSupplier</a>)</li>
+<li class="circle">xbot.common.trajectory.<a href="xbot/common/trajectory/SimpleTimeInterpolator.html" class="type-name-link" title="class in xbot.common.trajectory">SimpleTimeInterpolator</a></li>
+<li class="circle">xbot.common.trajectory.<a href="xbot/common/trajectory/SimpleTimeInterpolator.InterpolationResult.html" class="type-name-link" title="class in xbot.common.trajectory">SimpleTimeInterpolator.InterpolationResult</a></li>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory.html" class="type-name-link" title="class in xbot.common.controls.sensors">SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory</a> (implements xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XAnalogDistanceSensor.XAnalogDistanceSensorFactory.html" title="interface in xbot.common.controls.sensors">XAnalogDistanceSensor.XAnalogDistanceSensorFactory</a>)</li>
 <li class="circle">xbot.common.injection.modules.<a href="xbot/common/injection/modules/SimulationModule.html" class="type-name-link" title="class in xbot.common.injection.modules">SimulationModule</a></li>
 <li class="circle">xbot.common.simulation.<a href="xbot/common/simulation/SimulationPayloadDistributor.html" class="type-name-link" title="class in xbot.common.simulation">SimulationPayloadDistributor</a></li>
@@ -408,6 +412,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XAS5600.XAS5600Factory.html" class="type-name-link" title="class in xbot.common.controls.sensors">XAS5600.XAS5600Factory</a></li>
 <li class="circle">xbot.common.vision.<a href="xbot/common/vision/XbotPhotonCameraFork.html" class="type-name-link" title="class in xbot.common.vision">XbotPhotonCameraFork</a> (implements java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/AutoCloseable.html" title="class or interface in java.lang" class="external-link">AutoCloseable</a>)</li>
 <li class="circle">xbot.common.vision.<a href="xbot/common/vision/XbotPhotonPoseEstimatorFork.html" class="type-name-link" title="class in xbot.common.vision">XbotPhotonPoseEstimatorFork</a></li>
+<li class="circle">xbot.common.trajectory.<a href="xbot/common/trajectory/XbotSwervePoint.html" class="type-name-link" title="class in xbot.common.trajectory">XbotSwervePoint</a> (implements xbot.common.trajectory.<a href="xbot/common/trajectory/ProvidesInterpolationData.html" title="interface in xbot.common.trajectory">ProvidesInterpolationData</a>)</li>
 <li class="circle">xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/XboxControllerWpiAdapter.XboxControllerWpiAdapterFactory.html" class="type-name-link" title="class in xbot.common.controls.sensors.wpi_adapters">XboxControllerWpiAdapter.XboxControllerWpiAdapterFactory</a> (implements xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XXboxController.XXboxControllerFactory.html" title="interface in xbot.common.controls.sensors">XXboxController.XXboxControllerFactory</a>)</li>
 <li class="circle">xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANSparkMax.html" class="type-name-link" title="class in xbot.common.controls.actuators">XCANSparkMax</a>
 <ul>
@@ -577,6 +582,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.properties.<a href="xbot/common/properties/PermanentStorage.html" class="type-name-link" title="interface in xbot.common.properties">PermanentStorage</a></li>
 </ul>
 </li>
+<li class="circle">xbot.common.trajectory.<a href="xbot/common/trajectory/ProvidesInterpolationData.html" class="type-name-link" title="interface in xbot.common.trajectory">ProvidesInterpolationData</a></li>
 <li class="circle">xbot.common.math.<a href="xbot/common/math/PurePursuitTest.AsyncLinearIntervalJob.html" class="type-name-link" title="interface in xbot.common.math">PurePursuitTest.AsyncLinearIntervalJob</a></li>
 <li class="circle">xbot.common.command.<a href="xbot/common/command/SmartDashboardCommandPutter.html" class="type-name-link" title="interface in xbot.common.command">SmartDashboardCommandPutter</a></li>
 <li class="circle">xbot.common.command.<a href="xbot/common/command/SupportsSetpointLock.html" class="type-name-link" title="interface in xbot.common.command">SupportsSetpointLock</a></li>
