@@ -14,9 +14,9 @@ import javax.inject.Inject;
 
 public class SwerveSimpleTrajectoryCommand extends BaseCommand {
 
-    BaseDriveSubsystem drive;
-    BasePoseSubsystem pose;
-    HeadingModule headingModule;
+    protected BaseDriveSubsystem drive;
+    protected BasePoseSubsystem pose;
+    protected HeadingModule headingModule;
     public SwerveSimpleTrajectoryLogic logic;
 
     @Inject

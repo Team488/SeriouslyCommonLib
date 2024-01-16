@@ -26,6 +26,10 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
         this.secondsToPoint = secondsToPoint;
     }
 
+    public void setPose(Pose2d pose) {
+        this.keyPose = pose;
+    }
+
     public static Trajectory generateTrajectory(List<XbotSwervePoint> swervePoints) {
         ArrayList<Trajectory.State> wpiStates = new ArrayList<>();
         for (XbotSwervePoint point : swervePoints) {

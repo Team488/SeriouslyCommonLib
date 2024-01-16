@@ -2,6 +2,7 @@ package xbot.common.trajectory;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.Logger;
@@ -26,8 +27,12 @@ public class SwerveSimpleTrajectoryLogic {
     SimpleTimeInterpolator.InterpolationResult lastResult;
     double maxPower = 1.0;
     double maxTurningPower = 1.0;
-
     private LowResField fieldWithObstacles;
+    private boolean aimAtGoalDuringFinalLeg;
+    private boolean aimAtIntermediateNonFinalLegs;
+    private boolean driveBackwards = false;
+    private boolean enableSpecialAimTarget = false;
+    private Pose2d specialAimTarget;
 
     public SwerveSimpleTrajectoryLogic() {
 
@@ -36,6 +41,26 @@ public class SwerveSimpleTrajectoryLogic {
     // --------------------------------------------------------------
     // Configuration
     // --------------------------------------------------------------
+
+    public void setEnableSpecialAimTarget(boolean enableSpecialAimTarget) {
+        this.enableSpecialAimTarget = enableSpecialAimTarget;
+    }
+
+    public void setSpecialAimTarget(Pose2d specialAimTarget) {
+        this.specialAimTarget = specialAimTarget;
+    }
+
+    public void setAimAtGoalDuringFinalLeg(boolean aimAtGoalDuringFinalLeg) {
+        this.aimAtGoalDuringFinalLeg = aimAtGoalDuringFinalLeg;
+    }
+
+    public void setAimAtIntermediateNonFinalLegs(boolean aimAtIntermediateNonFinalLegs) {
+        this.aimAtIntermediateNonFinalLegs = aimAtIntermediateNonFinalLegs;
+    }
+
+    public void setDriveBackwards(boolean driveBackwards) {
+        this.driveBackwards = driveBackwards;
+    }
 
     public void setFieldWithObstacles(LowResField fieldWithObstacles) {
         this.fieldWithObstacles = fieldWithObstacles;
@@ -105,12 +130,79 @@ public class SwerveSimpleTrajectoryLogic {
             keyPoints = getVelocityAdjustedSwervePoints(initialPoint, keyPoints, constantVelocity);
         }
 
+        handleAimingAtFinalLeg(currentPose);
+
+        if (aimAtIntermediateNonFinalLegs && keyPoints.size() > 1) {
+            // When driving through the field, we can avoid obstacles better if we are
+            // aligned in our direction of travel - for example, to "just slide past" the stage columns.
+            // This doesn't touch the final point; that's handled by the aimAtGoalDuringFinalLeg logic.
+            // This means that this only applies to routes that have more than one point.
+
+            // We start by modifying the first point - this is a special case since the "previous point"
+            // is our currentPose. After that, we can iterate through the rest of the the points until we reach
+            // the second to last point.
+
+            // Modify the first point
+            var firstPoint = keyPoints.get(0);
+            firstPoint.setPose(new Pose2d(
+                    firstPoint.getTranslation2d(),
+                    getAngleBetweenTwoPoints(currentPose.getTranslation(), firstPoint.getTranslation2d())));
+
+            // Modify the second through second to last points
+            for (int i = 1; i < keyPoints.size() - 1; i++) {
+                var currentPoint = keyPoints.get(i);
+                var nextPoint = keyPoints.get(i + 1);
+
+                var goalAngle = getAngleBetweenTwoPoints(currentPoint.getTranslation2d(), nextPoint.getTranslation2d());
+                nextPoint.setPose(new Pose2d(
+                        nextPoint.getTranslation2d(),
+                        goalAngle));
+            }
+        }
+
         Logger.recordOutput("SwerveSimpleTrajectoryLogic/Trajectory",
                 XbotSwervePoint.generateTrajectory(keyPoints));
 
         interpolator.setMaximumDistanceFromChasePointInInches(24);
         interpolator.setKeyPoints(keyPoints);
         interpolator.initialize(initialPoint);
+    }
+
+    private void handleAimingAtFinalLeg(Pose2d currentPose) {
+        // If aim at goal during final leg, there are two cases:
+        // 1. There is only one point, so get the field angle between our current point and the target point.
+        // 2. We have a list of points, so get the field angle between the second ot last point and the last point.
+
+        // check for first case
+        if (aimAtGoalDuringFinalLeg && keyPoints.size() == 1) {
+            var targetPoint = keyPoints.get(0);
+
+            // Adjust the goal of the final point
+            targetPoint.setPose(new Pose2d(
+                    targetPoint.getTranslation2d(),
+                    getAngleBetweenTwoPoints(currentPose.getTranslation(), targetPoint.getTranslation2d())));
+        }
+
+        // check for second case
+        if (aimAtGoalDuringFinalLeg && keyPoints.size() > 1) {
+            var targetPoint = keyPoints.get(keyPoints.size() - 1);
+            var secondToLastPoint = keyPoints.get(keyPoints.size() - 2);
+
+            // Adjust the goal of the final point
+            targetPoint.setPose(new Pose2d(
+                    targetPoint.getTranslation2d(),
+                    getAngleBetweenTwoPoints(secondToLastPoint.getTranslation2d(), targetPoint.getTranslation2d())));
+        }
+    }
+
+    private Rotation2d getAngleBetweenTwoPoints(Translation2d currentTranslation, Translation2d targetTranslation) {
+        double deltaY = targetTranslation.getY() - currentTranslation.getY();
+        double deltaX = targetTranslation.getX() - currentTranslation.getX();
+        var rotation = Rotation2d.fromRadians(Math.atan2(deltaY, deltaX));
+        if (driveBackwards) {
+            rotation = rotation.plus(Rotation2d.fromDegrees(180));
+        }
+        return rotation;
     }
 
     private List<XbotSwervePoint> getVelocityAdjustedSwervePoints(
@@ -176,8 +268,15 @@ public class SwerveSimpleTrajectoryLogic {
         XYPair intent = XYPair.fromPolar(goalVector.getAngle(), drivePower);
         Logger.recordOutput("SwerveSimpleTrajectoryLogic/intent", intent);
 
+        double degreeTarget = lastResult.chaseHeading.getDegrees();
+        if (enableSpecialAimTarget && specialAimTarget != null) {
+            degreeTarget = getAngleBetweenTwoPoints(
+                    currentPose.getTranslation(), specialAimTarget.getTranslation()
+                    ).getDegrees();
+        }
+
         double headingPower = headingModule.calculateHeadingPower(
-                lastResult.chaseHeading.getDegrees());
+                degreeTarget);
 
         if (intent.getMagnitude() > maxPower && maxPower > 0 && intent.getMagnitude() > 0) {
             intent = intent.scale(maxPower / intent.getMagnitude());

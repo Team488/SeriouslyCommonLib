@@ -13,7 +13,7 @@ public class SimpleTimeInterpolator {
     double previousTimestamp;
     ProvidesInterpolationData baseline;
     int index;
-    double maximumDistanceFromChasePointInInches = 12;
+    double maximumDistanceFromChasePointInInches = 0.3;
 
     private List<? extends ProvidesInterpolationData> keyPoints;
 
