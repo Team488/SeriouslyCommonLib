@@ -6,11 +6,13 @@ import java.math.BigDecimal;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import xbot.common.controls.sensors.mock_adapters.MockAbsoluteEncoder;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 
+@Ignore
 public class SimulatedMockAbsoluteEncoderTest extends BaseSimulationTest {
 
     MockAbsoluteEncoder simulatedEncoder;

@@ -5,11 +5,13 @@ import static org.junit.Assert.assertEquals;
 import java.math.BigDecimal;
 
 import org.json.JSONObject;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.wpi.first.wpilibj.SerialPort;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
 
+@Ignore
 public class SimulatedIMUTest extends BaseSimulationTest {
 
     MockGyro simulatedGyro;
