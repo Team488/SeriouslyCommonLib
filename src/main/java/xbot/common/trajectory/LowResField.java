@@ -34,7 +34,7 @@ public class LowResField {
     /**
      * Generates a path between any two points on the field, avoiding known obstacles. Generated
      * interstitial points will be Position-Only. Final target point will be unchanged.
-     * @param freshRobotPose The robot's current position
+     * @param currentRobotPose The robot's current position
      * @param targetPoint The robot's destination. This better be outside the bounding boxes!
      * @return List of waypoints, followed by the target point.
      */

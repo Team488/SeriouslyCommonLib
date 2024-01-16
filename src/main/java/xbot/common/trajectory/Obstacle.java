@@ -188,7 +188,7 @@ public class Obstacle extends Rectangle2D.Double {
      *
      * @param other The point to measure from
      * @return The closest corner, or 0,0 if no corner is found.
-     * @see competition.subsystems.pose.Obstacle#resetCorners()
+     * @see xbot.common.trajectory.Obstacle#resetCorners()
      */
     public Translation2d getClosestCornerToPoint(Translation2d other) {
         Translation2d candidate = new Translation2d();
