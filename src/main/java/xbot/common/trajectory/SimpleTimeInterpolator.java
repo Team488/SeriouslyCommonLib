@@ -13,7 +13,7 @@ public class SimpleTimeInterpolator {
     double previousTimestamp;
     ProvidesInterpolationData baseline;
     int index;
-    double maximumDistanceFromChasePointInInches = 12;
+    double maximumDistanceFromChasePointInInches = 0.3;
 
     private List<? extends ProvidesInterpolationData> keyPoints;
 
@@ -58,6 +58,8 @@ public class SimpleTimeInterpolator {
 
     public InterpolationResult calculateTarget(Translation2d currentLocation) {
         double currentTime = XTimer.getFPGATimestamp();
+        org.littletonrobotics.junction.Logger.recordOutput("SimpleTimeInterpolator/CurrentTime", currentTime);
+
         double secondsSinceLastExecute = currentTime - previousTimestamp;
         previousTimestamp = currentTime;
 
@@ -82,6 +84,8 @@ public class SimpleTimeInterpolator {
 
         // Now, try to find a better point via linear interpolation.
         double lerpFraction = (accumulatedProductiveSeconds) / targetKeyPoint.getSecondsForSegment();
+        org.littletonrobotics.junction.Logger.recordOutput("SimpleTimeInterpolator/LerpFraction", lerpFraction);
+        org.littletonrobotics.junction.Logger.recordOutput("SimpleTimeInterpolator/accumulatedProductiveSeconds", accumulatedProductiveSeconds);
 
         // If the fraction is above 1, it's time to set a new baseline point and start LERPing on the next
         // one.

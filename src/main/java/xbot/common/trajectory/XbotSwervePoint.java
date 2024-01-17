@@ -26,14 +26,18 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
         this.secondsToPoint = secondsToPoint;
     }
 
+    public void setPose(Pose2d pose) {
+        this.keyPose = pose;
+    }
+
     public static Trajectory generateTrajectory(List<XbotSwervePoint> swervePoints) {
         ArrayList<Trajectory.State> wpiStates = new ArrayList<>();
         for (XbotSwervePoint point : swervePoints) {
             Trajectory.State state = new Trajectory.State();
             // Swerve points are in inches, but the trajectory is in meters.
             state.poseMeters = new Pose2d(
-                    point.keyPose.getTranslation().getX() / BasePoseSubsystem.INCHES_IN_A_METER,
-                    point.keyPose.getTranslation().getY() / BasePoseSubsystem.INCHES_IN_A_METER,
+                    point.keyPose.getTranslation().getX(),
+                    point.keyPose.getTranslation().getY(),
                     WrappedRotation2d.fromRotation2d(point.keyPose.getRotation())
             );
             state.velocityMetersPerSecond = 0;
@@ -56,5 +60,13 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
     @Override
     public Rotation2d getRotation2d() {
         return keyPose.getRotation();
+    }
+
+    public static XbotSwervePoint createXbotSwervePoint(Translation2d targetLocation, Rotation2d targetHeading, double durationInSeconds) {
+        var potentiallyFlippedPose = BasePoseSubsystem.convertBlueToRedIfNeeded(new Pose2d(targetLocation, targetHeading));
+        return new XbotSwervePoint(
+                potentiallyFlippedPose.getX(),
+                potentiallyFlippedPose.getY(),
+                potentiallyFlippedPose.getRotation().getDegrees(), durationInSeconds);
     }
 }
