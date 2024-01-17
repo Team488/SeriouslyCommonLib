@@ -134,17 +134,25 @@ implements <a href="ProvidesInterpolationData.html" title="interface in xbot.com
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.math.trajectory.Trajectory</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#generateTrajectory(java.util.List)" class="member-name-link">generateTrajectory</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;&nbsp;swervePoints)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createXbotSwervePoint(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Rotation2d,double)" class="member-name-link">createXbotSwervePoint</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;targetLocation,
+ edu.wpi.first.math.geometry.Rotation2d&nbsp;targetHeading,
+ double&nbsp;durationInSeconds)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Rotation2d</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRotation2d()" class="member-name-link">getRotation2d</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSecondsForSegment()" class="member-name-link">getSecondsForSegment</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.math.trajectory.Trajectory</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#generateTrajectory(java.util.List)" class="member-name-link">generateTrajectory</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;&nbsp;swervePoints)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Rotation2d</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRotation2d()" class="member-name-link">getRotation2d</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Translation2d</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTranslation2d()" class="member-name-link">getTranslation2d</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSecondsForSegment()" class="member-name-link">getSecondsForSegment</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Translation2d</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTranslation2d()" class="member-name-link">getTranslation2d</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPose(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">setPose</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;pose)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
@@ -208,6 +216,12 @@ implements <a href="ProvidesInterpolationData.html" title="interface in xbot.com
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="setPose(edu.wpi.first.math.geometry.Pose2d)">
+<h3>setPose</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPose</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Pose2d&nbsp;pose)</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="generateTrajectory(java.util.List)">
 <h3>generateTrajectory</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.math.trajectory.Trajectory</span>&nbsp;<span class="element-name">generateTrajectory</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;&nbsp;swervePoints)</span></div>
@@ -241,6 +255,14 @@ implements <a href="ProvidesInterpolationData.html" title="interface in xbot.com
 <dt>Specified by:</dt>
 <dd><code><a href="ProvidesInterpolationData.html#getRotation2d()">getRotation2d</a></code>&nbsp;in interface&nbsp;<code><a href="ProvidesInterpolationData.html" title="interface in xbot.common.trajectory">ProvidesInterpolationData</a></code></dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createXbotSwervePoint(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Rotation2d,double)">
+<h3>createXbotSwervePoint</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a></span>&nbsp;<span class="element-name">createXbotSwervePoint</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;targetLocation,
+ edu.wpi.first.math.geometry.Rotation2d&nbsp;targetHeading,
+ double&nbsp;durationInSeconds)</span></div>
 </section>
 </li>
 </ul>

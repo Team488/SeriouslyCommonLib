@@ -51,7 +51,7 @@ loadScripts(document, 'script');</script>
 </ul>
 <ul class="sub-nav-list">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -102,6 +102,24 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="field-summary" id="field-summary">
 <h2>Field Summary</h2>
+<div class="caption"><span>Fields</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Field</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>protected <a href="BaseDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseDriveSubsystem</a></code></div>
+<div class="col-second even-row-color"><code><a href="#drive" class="member-name-link">drive</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected <a href="control_logic/HeadingModule.html" title="class in xbot.common.subsystems.drive.control_logic">HeadingModule</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#headingModule" class="member-name-link">headingModule</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code><a href="../../trajectory/SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></code></div>
+<div class="col-second even-row-color"><code><a href="#logic" class="member-name-link">logic</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected <a href="../pose/BasePoseSubsystem.html" title="class in xbot.common.subsystems.pose">BasePoseSubsystem</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#pose" class="member-name-link">pose</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+</div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-xbot.common.command.BaseCommand">Fields inherited from class&nbsp;xbot.common.command.<a href="../../command/BaseCommand.html" title="class in xbot.common.command">BaseCommand</a></h3>
 <code><a href="../../command/BaseCommand.html#log">log</a>, <a href="../../command/BaseCommand.html#monitor">monitor</a></code></div>
@@ -143,41 +161,11 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#execute()" class="member-name-link">execute</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="../../math/XYPair.html" title="class in xbot.common.math">XYPair</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGoalVector()" class="member-name-link">getGoalVector</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../../trajectory/XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getKeyPoints()" class="member-name-link">getKeyPoints</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../../trajectory/XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getResolvedKeyPoints()" class="member-name-link">getResolvedKeyPoints</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initialize()" class="member-name-link">initialize</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isFinished()" class="member-name-link">isFinished</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setConstantVelocity(double)" class="member-name-link">setConstantVelocity</a><wbr>(double&nbsp;constantVelocity)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setEnableConstantVelocity(boolean)" class="member-name-link">setEnableConstantVelocity</a><wbr>(boolean&nbsp;enableConstantVelocity)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initialize()" class="member-name-link">initialize</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKeyPoints(java.util.List)" class="member-name-link">setKeyPoints</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../../trajectory/XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;&nbsp;keyPoints)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKeyPointsProvider(java.util.function.Supplier)" class="member-name-link">setKeyPointsProvider</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../../trajectory/XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;&gt;&nbsp;keyPointsProvider)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxPower(double)" class="member-name-link">setMaxPower</a><wbr>(double&nbsp;maxPower)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxTurningPower(double)" class="member-name-link">setMaxTurningPower</a><wbr>(double&nbsp;maxTurningPower)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStopWhenFinished(boolean)" class="member-name-link">setStopWhenFinished</a><wbr>(boolean&nbsp;newValue)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isFinished()" class="member-name-link">isFinished</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
@@ -197,6 +185,38 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="details">
 <ul class="details-list">
+<!-- ============ FIELD DETAIL =========== -->
+<li>
+<section class="field-details" id="field-detail">
+<h2>Field Details</h2>
+<ul class="member-list">
+<li>
+<section class="detail" id="drive">
+<h3>drive</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="BaseDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseDriveSubsystem</a></span>&nbsp;<span class="element-name">drive</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="pose">
+<h3>pose</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../pose/BasePoseSubsystem.html" title="class in xbot.common.subsystems.pose">BasePoseSubsystem</a></span>&nbsp;<span class="element-name">pose</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="headingModule">
+<h3>headingModule</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="control_logic/HeadingModule.html" title="class in xbot.common.subsystems.drive.control_logic">HeadingModule</a></span>&nbsp;<span class="element-name">headingModule</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="logic">
+<h3>logic</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../trajectory/SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></span>&nbsp;<span class="element-name">logic</span></div>
+</section>
+</li>
+</ul>
+</section>
+</li>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <li>
 <section class="constructor-details" id="constructor-detail">
@@ -221,60 +241,6 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="setKeyPoints(java.util.List)">
-<h3>setKeyPoints</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setKeyPoints</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../../trajectory/XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;&nbsp;keyPoints)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="setKeyPointsProvider(java.util.function.Supplier)">
-<h3>setKeyPointsProvider</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setKeyPointsProvider</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../../trajectory/XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;&gt;&nbsp;keyPointsProvider)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="setMaxPower(double)">
-<h3>setMaxPower</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMaxPower</span><wbr><span class="parameters">(double&nbsp;maxPower)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="setMaxTurningPower(double)">
-<h3>setMaxTurningPower</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMaxTurningPower</span><wbr><span class="parameters">(double&nbsp;maxTurningPower)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="setEnableConstantVelocity(boolean)">
-<h3>setEnableConstantVelocity</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setEnableConstantVelocity</span><wbr><span class="parameters">(boolean&nbsp;enableConstantVelocity)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="setConstantVelocity(double)">
-<h3>setConstantVelocity</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setConstantVelocity</span><wbr><span class="parameters">(double&nbsp;constantVelocity)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="getKeyPoints()">
-<h3>getKeyPoints</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../../trajectory/XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;</span>&nbsp;<span class="element-name">getKeyPoints</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getResolvedKeyPoints()">
-<h3>getResolvedKeyPoints</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../../trajectory/XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;</span>&nbsp;<span class="element-name">getResolvedKeyPoints</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="setStopWhenFinished(boolean)">
-<h3>setStopWhenFinished</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setStopWhenFinished</span><wbr><span class="parameters">(boolean&nbsp;newValue)</span></div>
-</section>
-</li>
-<li>
 <section class="detail" id="initialize()">
 <h3>initialize</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initialize</span>()</div>
@@ -282,12 +248,6 @@ loadScripts(document, 'script');</script>
 <dt>Specified by:</dt>
 <dd><code><a href="../../command/BaseCommand.html#initialize()">initialize</a></code>&nbsp;in class&nbsp;<code><a href="../../command/BaseCommand.html" title="class in xbot.common.command">BaseCommand</a></code></dd>
 </dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getGoalVector()">
-<h3>getGoalVector</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../../math/XYPair.html" title="class in xbot.common.math">XYPair</a></span>&nbsp;<span class="element-name">getGoalVector</span>()</div>
 </section>
 </li>
 <li>
