@@ -24,5 +24,6 @@ public class MockPhotonCamera extends XPhotonCamera {
         inputs.pipelineResult = new PhotonPipelineResult();
         inputs.cameraMatrix = new double[9];
         inputs.distCoeffs = new double[5];
+        inputs.inputsUnhealthy = false;
     }
 }

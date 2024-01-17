@@ -8,4 +8,5 @@ public class XPhotonCameraInputs {
     public PhotonPipelineResult pipelineResult;
     public double[] cameraMatrix;
     public double[] distCoeffs;
+    public boolean inputsUnhealthy;
 }

@@ -39,6 +39,15 @@ public class PhotonCameraAdapter extends XPhotonCamera {
         double[] cameraMatrix = camera.getCameraMatrixRaw();
         double[] distCoeffs = camera.getDistCoeffsRaw();
 
+        // If the camera is not connected, several PhotonVision values can be null. This causes problems
+        // for the serializer; so we need to engineer a bit of protection.
+        // However, as this stands we are breaking the ability to replay a match from a log file with full fidelity,
+        // since we are modifying the inputs.
+        // For now, adding a flag to indicate that the inputs are unhealthy, and hopefully we will notice this
+        // during a replay.
+        // We should be able to avoid hitting this case by not calling the camera if we detect connection issues.
+        inputs.inputsUnhealthy = (pipelineResult== null || cameraMatrix == null || distCoeffs == null);
+
         if (pipelineResult == null) {
             pipelineResult = new PhotonPipelineResult();
             // Flag this as invalid
