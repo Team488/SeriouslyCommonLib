@@ -435,7 +435,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
     }
 
     /**
-     * Meant to be used alongside methods such as {@link #controlOnlyActiveSwerveModuleSubsystem(SwerveModuleLocation)}.
+     * Meant to be used alongside debugging methods.
      * Has no effect when the robot is in normal, "Maintainer" operation.
      * @param activeModule Which module to set as the active module.
      */
@@ -445,7 +445,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
     }
 
     /**
-     * Meant to be used alongside methods such as {@link #controlOnlyActiveSwerveModuleSubsystem(SwerveModuleLocation)}.
+     * Meant to be used alongside debugging methods.
      * Has no effect when the robot is in normal, "Maintainer" operation.
      * Moves the active module to the next module, according to the pattern FrontLeft, FrontRight, RearLeft, RearRight.
      */
