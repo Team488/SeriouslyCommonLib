@@ -3,6 +3,8 @@ package xbot.common.command;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 
 import org.apache.logging.log4j.LogManager;
@@ -37,6 +39,7 @@ import xbot.common.simulation.ISimulatableSolenoid;
 import xbot.common.simulation.SimulationPayloadDistributor;
 import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
+import xbot.common.subsystems.drive.BaseDriveSubsystem;
 
 /**
  * Core Robot class which configures logging, properties,
@@ -62,7 +65,7 @@ public abstract class BaseRobot extends LoggedRobot {
 
     protected List<DataFrameRefreshable> dataFrameRefreshables = new ArrayList<>();
 
-    boolean forceWebots = false; // TODO: figure out a better way to swap between simulation and replay.
+    boolean forceWebots = true; // TODO: figure out a better way to swap between simulation and replay.
 
     public BaseRobot() {
     }
@@ -273,6 +276,12 @@ public abstract class BaseRobot extends LoggedRobot {
     @Override
     public void simulationPeriodic() {
         // TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
+
+        // it would be really useful to have some suepr basic non-physical simulation of the robot.
+        // As in, if the swerve modules want to go to some angle and speed, we just make that happen directly.
+        // If rotation is commanded, we just rotate the robot.
+
+
         /*if (forceWebots) {
             // find all simulatable motors
             List<JSONObject> motors = new ArrayList<JSONObject>();

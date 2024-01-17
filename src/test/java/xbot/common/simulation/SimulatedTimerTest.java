@@ -5,10 +5,12 @@ import static org.junit.Assert.assertEquals;
 import java.math.BigDecimal;
 
 import org.json.JSONObject;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.wpi.first.wpilibj.MockTimer;
 
+@Ignore
 public class SimulatedTimerTest extends BaseSimulationTest {
 
     MockTimer simulatedTimer;

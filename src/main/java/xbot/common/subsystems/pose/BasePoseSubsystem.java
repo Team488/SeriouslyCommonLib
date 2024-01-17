@@ -1,5 +1,6 @@
 package xbot.common.subsystems.pose;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.math.geometry.Rotation2d;
 import xbot.common.advantage.DataFrameRefreshable;
@@ -168,17 +169,17 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     }
     
     public void setCurrentHeading(double headingInDegrees){
-        log.info("Forcing heading to: " + headingInDegrees);
+        //log.info("Forcing heading to: " + headingInDegrees);
         double rawHeading = getRobotYaw().getDegrees();
-        log.info("Raw heading is: " + rawHeading);
+        //log.info("Raw heading is: " + rawHeading);
         headingOffset = -rawHeading + headingInDegrees;
-        log.info("Offset calculated to be: " + headingOffset);
+        //log.info("Offset calculated to be: " + headingOffset);
         
         lastSetHeadingTime = XTimer.getFPGATimestamp();
     }
     
     public void setCurrentPosition(double newXPosition, double newYPosition) {
-        log.info("Setting Robot Position. X:" + newXPosition + ", Y:" +newYPosition);
+        //log.info("Setting Robot Position. X:" + newXPosition + ", Y:" +newYPosition);
         totalDistanceX = newXPosition;
         totalDistanceY = newYPosition;
     }
@@ -245,6 +246,39 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     
     public boolean getNavXReady() {
         return isNavXReady;
+    }
+
+    public static Pose2d convertBluetoRed(Pose2d blueCoordinates){
+        double fieldMidpoint = 9;
+        double redXCoordinates = ((fieldMidpoint-blueCoordinates.getX()) * 2) + blueCoordinates.getX();
+        Rotation2d heading = blueCoordinates.getRotation();
+        Rotation2d convertedHeading = Rotation2d.fromDegrees(heading.getDegrees() - (heading.getDegrees() - 90.0) * 2);
+
+        return new Pose2d(redXCoordinates, blueCoordinates.getY(),convertedHeading);
+    }
+
+    public static Pose2d convertBlueToRedIfNeeded(Pose2d blueCoordinates) {
+        return convertBlueToRedIfNeeded(blueCoordinates, DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue));
+    }
+
+    public static Pose2d convertBlueToRedIfNeeded(Pose2d blueCoordinates, DriverStation.Alliance alliance) {
+        if (alliance == DriverStation.Alliance.Red) {
+            return convertBluetoRed(blueCoordinates);
+        }
+        return blueCoordinates;
+    }
+
+    public static Rotation2d rotateAngleBasedOnAlliance(Rotation2d rotation) {
+        var alliance = getAlliance();
+
+        if (getAlliance() == DriverStation.Alliance.Red) {
+            return Rotation2d.fromDegrees(rotation.getDegrees() - (rotation.getDegrees() - 90.0) * 2);
+        }
+        return rotation;
+    }
+
+    public static DriverStation.Alliance getAlliance() {
+        return DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue);
     }
 
     @Override
