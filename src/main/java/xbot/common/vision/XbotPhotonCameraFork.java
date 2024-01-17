@@ -1,4 +1,5 @@
 package xbot.common.vision;
+//CHECKSTYLE:OFF
 /*
  * MIT License
  *
@@ -23,16 +24,12 @@ package xbot.common.vision;
  * SOFTWARE.
  */
 
-//CHECKSTYLE:OFF
-
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.hal.FRCNetComm.tResourceType;
+import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.numbers.N5;
+import edu.wpi.first.math.numbers.*;
 import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.BooleanSubscriber;
 import edu.wpi.first.networktables.DoubleArrayPublisher;
@@ -45,8 +42,6 @@ import edu.wpi.first.networktables.MultiSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.PubSubOption;
-import edu.wpi.first.networktables.RawSubscriber;
-import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -54,16 +49,17 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.photonvision.PhotonVersion;
-import org.photonvision.common.dataflow.structures.Packet;
 import org.photonvision.common.hardware.VisionLEDMode;
+import org.photonvision.common.networktables.PacketSubscriber;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 /** Represents a camera that is connected to PhotonVision. */
 public class XbotPhotonCameraFork implements AutoCloseable {
+    private static int InstanceCount = 0;
     public static final String kTableName = "photonvision";
 
     private final NetworkTable cameraTable;
-    RawSubscriber rawBytesEntry;
+    PacketSubscriber<PhotonPipelineResult> resultSubscriber;
     BooleanPublisher driverModePublisher;
     BooleanSubscriber driverModeSubscriber;
     DoublePublisher latencyMillisEntry;
@@ -74,20 +70,16 @@ public class XbotPhotonCameraFork implements AutoCloseable {
     DoubleArrayPublisher targetPoseEntry;
     DoublePublisher targetSkewEntry;
     StringSubscriber versionEntry;
-    IntegerEntry inputSaveImgEntry;
-    IntegerEntry outputSaveImgEntry;
-    IntegerPublisher pipelineIndexRequest;
-    IntegerPublisher ledModeRequest;
-    IntegerSubscriber pipelineIndexState;
-    IntegerSubscriber ledModeState;
+    IntegerEntry inputSaveImgEntry, outputSaveImgEntry;
+    IntegerPublisher pipelineIndexRequest, ledModeRequest;
+    IntegerSubscriber pipelineIndexState, ledModeState;
     IntegerSubscriber heartbeatEntry;
-    private DoubleArraySubscriber cameraIntrinsicsSubscriber;
-    private DoubleArraySubscriber cameraDistortionSubscriber;
-    private StringPublisher atflPublisher;
+    DoubleArraySubscriber cameraIntrinsicsSubscriber;
+    DoubleArraySubscriber cameraDistortionSubscriber;
 
     @Override
     public void close() {
-        rawBytesEntry.close();
+        resultSubscriber.close();
         driverModePublisher.close();
         driverModeSubscriber.close();
         latencyMillisEntry.close();
@@ -107,7 +99,6 @@ public class XbotPhotonCameraFork implements AutoCloseable {
         pipelineIndexRequest.close();
         cameraIntrinsicsSubscriber.close();
         cameraDistortionSubscriber.close();
-        atflPublisher.close();
     }
 
     private final String path;
@@ -119,19 +110,11 @@ public class XbotPhotonCameraFork implements AutoCloseable {
 
     private long prevHeartbeatValue = -1;
     private double prevHeartbeatChangeTime = 0;
-    private static final double HEARBEAT_DEBOUNCE_SEC = 0.5;
+    private static final double HEARTBEAT_DEBOUNCE_SEC = 0.5;
 
     public static void setVersionCheckEnabled(boolean enabled) {
         VERSION_CHECK_ENABLED = enabled;
     }
-
-    Packet packet = new Packet(1);
-
-    private static AprilTagFieldLayout lastSetTagLayout =
-            AprilTagFields.kDefaultField.loadAprilTagLayoutField();
-
-    // Existing is enough to make this multisubscriber do its thing
-    private final MultiSubscriber m_topicNameSubscriber;
 
     /**
      * Constructs a PhotonCamera from a root table.
@@ -146,11 +129,14 @@ public class XbotPhotonCameraFork implements AutoCloseable {
         var photonvision_root_table = instance.getTable(kTableName);
         this.cameraTable = photonvision_root_table.getSubTable(cameraName);
         path = cameraTable.getPath();
-        rawBytesEntry =
+        var rawBytesEntry =
                 cameraTable
                         .getRawTopic("rawBytes")
                         .subscribe(
                                 "rawBytes", new byte[] {}, PubSubOption.periodic(0.01), PubSubOption.sendAll(true));
+        resultSubscriber =
+                new PacketSubscriber<>(
+                        rawBytesEntry, PhotonPipelineResult.serde, new PhotonPipelineResult());
         driverModePublisher = cameraTable.getBooleanTopic("driverModeRequest").publish();
         driverModeSubscriber = cameraTable.getBooleanTopic("driverMode").subscribe(false);
         inputSaveImgEntry = cameraTable.getIntegerTopic("inputSaveImgCmd").getEntry(0);
@@ -167,13 +153,13 @@ public class XbotPhotonCameraFork implements AutoCloseable {
         ledModeState = photonvision_root_table.getIntegerTopic("ledModeState").subscribe(-1);
         versionEntry = photonvision_root_table.getStringTopic("version").subscribe("");
 
-        atflPublisher = photonvision_root_table.getStringTopic("apriltag_field_layout").publish();
-        // Save the layout locally on Rio; on reboot, should be pushed out to NT clients
-        atflPublisher.getTopic().setPersistent(true);
-
-        m_topicNameSubscriber =
+        // Existing is enough to make this multisubscriber do its thing
+        MultiSubscriber m_topicNameSubscriber =
                 new MultiSubscriber(
                         instance, new String[] {"/photonvision/"}, PubSubOption.topicsOnly(true));
+
+        HAL.report(tResourceType.kResourceType_PhotonCamera, InstanceCount);
+        InstanceCount++;
     }
 
     /**
@@ -193,21 +179,12 @@ public class XbotPhotonCameraFork implements AutoCloseable {
     public PhotonPipelineResult getLatestResult() {
         verifyVersion();
 
-        // Clear the packet.
-        packet.clear();
-
-        // Create latest result.
-        var ret = new PhotonPipelineResult();
-
-        // Populate packet and create result.
-        packet.setData(rawBytesEntry.get(new byte[] {}));
-
-        if (packet.getSize() < 1) return ret;
-        //ret.createFromPacket(packet);
+        var ret = resultSubscriber.get();
 
         // Set the timestamp of the result.
         // getLatestChange returns in microseconds, so we divide by 1e6 to convert to seconds.
-        ret.setTimestampSeconds((rawBytesEntry.getLastChange() / 1e6) - ret.getLatencyMillis() / 1e3);
+        ret.setTimestampSeconds(
+                (resultSubscriber.subscriber.getLastChange() / 1e6) - ret.getLatencyMillis() / 1e3);
 
         // Return result.
         return ret;
@@ -337,48 +314,8 @@ public class XbotPhotonCameraFork implements AutoCloseable {
             prevHeartbeatValue = curHeartbeat;
         }
 
-        return (now - prevHeartbeatChangeTime) < HEARBEAT_DEBOUNCE_SEC;
+        return (now - prevHeartbeatChangeTime) < HEARTBEAT_DEBOUNCE_SEC;
     }
-
-    // TODO: Implement ATFL subscribing in backend
-    // /**
-    //  * Get the last set {@link AprilTagFieldLayout}. The tag layout is shared between all
-    // PhotonVision
-    //  * coprocessors on the same NT instance-- this method returns the most recent layout set. If no
-    //  * layout has been set by the user, this is equal to {@link AprilTagFields#kDefaultField}.
-    //  *
-    //  * @return The last set layout
-    //  */
-    // public AprilTagFieldLayout getAprilTagFieldLayout() {
-    //     return lastSetTagLayout;
-    // }
-
-    // /**
-    //  * Set the {@link AprilTagFieldLayout} used by all PhotonVision coprocessors that are (or might
-    //  * later) connect to this robot. The topic is marked as persistent, so even if you only call
-    // this
-    //  * once ever, it will be saved on the RoboRIO and pushed out to all NT clients when code
-    // reboots.
-    //  * PhotonVision will also store a copy of this layout locally on the coprocessor, but
-    // subscribes
-    //  * to this topic and the local copy will be updated when this function is called.
-    //  *
-    //  * @param layout The layout to use for *all* PhotonVision cameras
-    //  * @return Success of serializing the JSON. This does *not* mean that all PhotonVision clients
-    //  *     have updated their internal layouts.
-    //  */
-    // public boolean setAprilTagFieldLayout(AprilTagFieldLayout layout) {
-    //     try {
-    //         var layout_json = new ObjectMapper().writeValueAsString(layout);
-    //         atflPublisher.set(layout_json);
-    //         lastSetTagLayout = layout;
-    //         return true;
-    //     } catch (JsonProcessingException e) {
-    //         MathSharedStore.reportError("Error setting ATFL in " + this.getName(),
-    // e.getStackTrace());
-    //     }
-    //     return false;
-    // }
 
     public Optional<Matrix<N3, N3>> getCameraMatrix() {
         var cameraMatrix = cameraIntrinsicsSubscriber.get();
@@ -392,14 +329,6 @@ public class XbotPhotonCameraFork implements AutoCloseable {
         if (distCoeffs != null && distCoeffs.length == 5) {
             return Optional.of(MatBuilder.fill(Nat.N5(), Nat.N1(), distCoeffs));
         } else return Optional.empty();
-    }
-
-    public double[] getCameraMatrixRaw() {
-        return cameraIntrinsicsSubscriber.get();
-    }
-
-    public double[] getDistCoeffsRaw() {
-        return cameraDistortionSubscriber.get();
     }
 
     /**
@@ -422,8 +351,7 @@ public class XbotPhotonCameraFork implements AutoCloseable {
             Set<String> cameraNames = cameraTable.getInstance().getTable(kTableName).getSubTables();
             if (cameraNames.isEmpty()) {
                 DriverStation.reportError(
-                        "Could not find any PhotonVision coprocessors on NetworkTables. " +
-                                "Double check that PhotonVision is running, and that your camera is connected!",
+                        "Could not find any PhotonVision coprocessors on NetworkTables. Double check that PhotonVision is running, and that your camera is connected!",
                         false);
             } else {
                 DriverStation.reportError(
@@ -445,16 +373,47 @@ public class XbotPhotonCameraFork implements AutoCloseable {
 
         // Check for version. Warn if the versions aren't aligned.
         String versionString = versionEntry.get("");
-        if (!versionString.equals("") && !PhotonVersion.versionMatches(versionString)) {
+        if (!versionString.isEmpty() && !PhotonVersion.versionMatches(versionString)) {
             // Error on a verified version mismatch
             // But stay silent otherwise
-            DriverStation.reportWarning(
+
+            String bfw =
+                    "\n\n\n\n\n"
+                            + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
+                            + ">>> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+                            + ">>>                                          \n"
+                            + ">>> You are running an incompatible version  \n"
+                            + ">>> of PhotonVision on your coprocessor!     \n"
+                            + ">>>                                          \n"
+                            + ">>> This is neither tested nor supported.    \n"
+                            + ">>> You MUST update PhotonVision,            \n"
+                            + ">>> PhotonLib, or both.                      \n"
+                            + ">>>                                          \n"
+                            + ">>> Your code will now crash.                \n"
+                            + ">>> We hope your day gets better.            \n"
+                            + ">>>                                          \n"
+                            + ">>> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+                            + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
+
+            DriverStation.reportWarning(bfw, false);
+            var versionMismatchMessage =
                     "Photon version "
                             + PhotonVersion.versionString
                             + " does not match coprocessor version "
                             + versionString
-                            + "!",
-                    true);
+                            + "!";
+            DriverStation.reportError(versionMismatchMessage, false);
+            throw new UnsupportedOperationException(versionMismatchMessage);
         }
     }
+
+    public double[] getCameraMatrixRaw() {
+        return cameraIntrinsicsSubscriber.get();
+    }
+
+    public double[] getDistCoeffsRaw() {
+        return cameraDistortionSubscriber.get();
+    }
+
+
 }

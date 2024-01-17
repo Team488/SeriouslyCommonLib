@@ -35,8 +35,24 @@ public class PhotonCameraAdapter extends XPhotonCamera {
 
     @Override
     protected void updateInputs(XPhotonCameraInputs inputs) {
-        inputs.pipelineResult = camera.getLatestResult();
-        inputs.cameraMatrix = camera.getCameraMatrixRaw();
-        inputs.distCoeffs = camera.getDistCoeffsRaw();
+        PhotonPipelineResult pipelineResult = camera.getLatestResult();
+        double[] cameraMatrix = camera.getCameraMatrixRaw();
+        double[] distCoeffs = camera.getDistCoeffsRaw();
+
+        if (pipelineResult == null) {
+            pipelineResult = new PhotonPipelineResult();
+            // Flag this as invalid
+            pipelineResult.setTimestampSeconds(-1);
+        }
+        if (cameraMatrix == null) {
+            cameraMatrix = new double[9];
+        }
+        if (distCoeffs == null) {
+            distCoeffs = new double[5];
+        }
+
+        inputs.pipelineResult = pipelineResult;
+        inputs.cameraMatrix = cameraMatrix;
+        inputs.distCoeffs = distCoeffs;
     }
 }
