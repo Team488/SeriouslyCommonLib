@@ -21,7 +21,7 @@ public class MockPhotonCamera extends XPhotonCamera {
 
     @Override
     protected void updateInputs(XPhotonCameraInputs inputs) {
-        inputs.pipelineResult = 0;
+        inputs.pipelineResult = new PhotonPipelineResult();
         inputs.cameraMatrix = new double[9];
         inputs.distCoeffs = new double[5];
     }

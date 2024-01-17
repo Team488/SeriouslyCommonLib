@@ -5,7 +5,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 
 @AutoLog
 public class XPhotonCameraInputs {
-    public double pipelineResult;
+    public PhotonPipelineResult pipelineResult;
     public double[] cameraMatrix;
     public double[] distCoeffs;
 }
