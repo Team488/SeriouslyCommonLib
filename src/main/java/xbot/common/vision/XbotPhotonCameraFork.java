@@ -351,7 +351,8 @@ public class XbotPhotonCameraFork implements AutoCloseable {
             Set<String> cameraNames = cameraTable.getInstance().getTable(kTableName).getSubTables();
             if (cameraNames.isEmpty()) {
                 DriverStation.reportError(
-                        "Could not find any PhotonVision coprocessors on NetworkTables. Double check that PhotonVision is running, and that your camera is connected!",
+                        "Could not find any PhotonVision coprocessors on NetworkTables. " +
+                                "Double check that PhotonVision is running, and that your camera is connected!",
                         false);
             } else {
                 DriverStation.reportError(
