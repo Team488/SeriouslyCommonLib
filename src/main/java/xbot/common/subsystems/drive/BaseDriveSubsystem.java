@@ -1,21 +1,18 @@
 package xbot.common.subsystems.drive;
 
 import xbot.common.command.BaseSubsystem;
-import xbot.common.math.MathUtils;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
 
 public abstract class BaseDriveSubsystem extends BaseSubsystem {
-
+    
     public abstract PIDManager getPositionalPid();
     public abstract PIDManager getRotateToHeadingPid();
     public abstract PIDManager getRotateDecayPid();
     boolean isQuickTurn;
 
     public abstract void move(XYPair translate, double rotate);
-
+    
     /**
      * Returns the total distance tracked by the encoder
      * - On the LEFT side of the robot
