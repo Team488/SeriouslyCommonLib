@@ -178,19 +178,29 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFrontRightSwerveModuleSubsystem()" class="member-name-link">getFrontRightSwerveModuleSubsystem</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLeftTotalDistance()" class="member-name-link">getLeftTotalDistance</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="../../math/PIDDefaults.html" title="class in xbot.common.math">PIDDefaults</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeadingPIDDefaults()" class="member-name-link">getHeadingPIDDefaults</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the default PID values for the heading PID.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLeftTotalDistance()" class="member-name-link">getLeftTotalDistance</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the total distance tracked by the encoder
  - On the LEFT side of the robot
  - Pointing in the direction of +Y travel</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxTargetSpeedInchesPerSecond()" class="member-name-link">getMaxTargetSpeedInchesPerSecond</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../math/PIDManager.html" title="class in xbot.common.math">PIDManager</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPositionalPid()" class="member-name-link">getPositionalPid</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxTargetSpeedInchesPerSecond()" class="member-name-link">getMaxTargetSpeedInchesPerSecond</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../math/PIDManager.html" title="class in xbot.common.math">PIDManager</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPositionalPid()" class="member-name-link">getPositionalPid</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="../../math/PIDDefaults.html" title="class in xbot.common.math">PIDDefaults</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPositionalPIDDefaults()" class="member-name-link">getPositionalPIDDefaults</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the default PID values for the positional PID.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPositionMaintainerXTarget()" class="member-name-link">getPositionMaintainerXTarget</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -375,6 +385,30 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="getPositionalPIDDefaults()">
+<h3>getPositionalPIDDefaults</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../../math/PIDDefaults.html" title="class in xbot.common.math">PIDDefaults</a></span>&nbsp;<span class="element-name">getPositionalPIDDefaults</span>()</div>
+<div class="block">Returns the default PID values for the positional PID.
+ Override this method to change the default values.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The default PID values.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getHeadingPIDDefaults()">
+<h3>getHeadingPIDDefaults</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../../math/PIDDefaults.html" title="class in xbot.common.math">PIDDefaults</a></span>&nbsp;<span class="element-name">getHeadingPIDDefaults</span>()</div>
+<div class="block">Returns the default PID values for the heading PID.
+ Override this method to change the default values.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The default PID values.</dd>
+</dl>
+</section>
+</li>
 <li>
 <section class="detail" id="getSwerveDriveKinematics()">
 <h3>getSwerveDriveKinematics</h3>
