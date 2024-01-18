@@ -67,6 +67,7 @@ loadScripts(document, 'script');</script>
 <li><a href="xbot/common/injection/components/package-tree.html">xbot.common.injection.components</a>, </li>
 <li><a href="xbot/common/injection/electrical_contract/package-tree.html">xbot.common.injection.electrical_contract</a>, </li>
 <li><a href="xbot/common/injection/modules/package-tree.html">xbot.common.injection.modules</a>, </li>
+<li><a href="xbot/common/injection/swerve/package-tree.html">xbot.common.injection.swerve</a>, </li>
 <li><a href="xbot/common/logging/package-tree.html">xbot.common.logging</a>, </li>
 <li><a href="xbot/common/logic/package-tree.html">xbot.common.logic</a>, </li>
 <li><a href="xbot/common/math/package-tree.html">xbot.common.math</a>, </li>
@@ -79,6 +80,8 @@ loadScripts(document, 'script');</script>
 <li><a href="xbot/common/subsystems/compressor/package-tree.html">xbot.common.subsystems.compressor</a>, </li>
 <li><a href="xbot/common/subsystems/drive/package-tree.html">xbot.common.subsystems.drive</a>, </li>
 <li><a href="xbot/common/subsystems/drive/control_logic/package-tree.html">xbot.common.subsystems.drive.control_logic</a>, </li>
+<li><a href="xbot/common/subsystems/drive/swerve/package-tree.html">xbot.common.subsystems.drive.swerve</a>, </li>
+<li><a href="xbot/common/subsystems/drive/swerve/commands/package-tree.html">xbot.common.subsystems.drive.swerve.commands</a>, </li>
 <li><a href="xbot/common/subsystems/feedback/package-tree.html">xbot.common.subsystems.feedback</a>, </li>
 <li><a href="xbot/common/subsystems/pose/package-tree.html">xbot.common.subsystems.pose</a>, </li>
 <li><a href="xbot/common/subsystems/pose/commands/package-tree.html">xbot.common.subsystems.pose.commands</a>, </li>
@@ -122,7 +125,12 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">xbot.common.command.<a href="xbot/common/command/BaseCommand.html" class="type-name-link" title="class in xbot.common.command">BaseCommand</a> (implements xbot.common.properties.<a href="xbot/common/properties/IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a>)
 <ul>
-<li class="circle">xbot.common.command.<a href="xbot/common/command/BaseMaintainerCommand.html" class="type-name-link" title="class in xbot.common.command">BaseMaintainerCommand</a>&lt;T&gt;</li>
+<li class="circle">xbot.common.command.<a href="xbot/common/command/BaseMaintainerCommand.html" class="type-name-link" title="class in xbot.common.command">BaseMaintainerCommand</a>&lt;T&gt;
+<ul>
+<li class="circle">xbot.common.subsystems.drive.swerve.commands.<a href="xbot/common/subsystems/drive/swerve/commands/SwerveDriveMaintainerCommand.html" class="type-name-link" title="class in xbot.common.subsystems.drive.swerve.commands">SwerveDriveMaintainerCommand</a></li>
+<li class="circle">xbot.common.subsystems.drive.swerve.commands.<a href="xbot/common/subsystems/drive/swerve/commands/SwerveSteeringMaintainerCommand.html" class="type-name-link" title="class in xbot.common.subsystems.drive.swerve.commands">SwerveSteeringMaintainerCommand</a></li>
+</ul>
+</li>
 <li class="circle">xbot.common.command.<a href="xbot/common/command/BaseSetpointCommand.html" class="type-name-link" title="class in xbot.common.command">BaseSetpointCommand</a></li>
 <li class="circle">xbot.common.command.<a href="xbot/common/command/BaseWaitForMaintainerCommand.html" class="type-name-link" title="class in xbot.common.command">BaseWaitForMaintainerCommand</a></li>
 <li class="circle">xbot.common.properties.<a href="xbot/common/properties/ConfigurePropertiesCommand.html" class="type-name-link" title="class in xbot.common.properties">ConfigurePropertiesCommand</a></li>
@@ -266,6 +274,11 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.injection.modules.<a href="xbot/common/injection/modules/RealControlsModule.html" class="type-name-link" title="class in xbot.common.injection.modules">RealControlsModule</a></li>
 <li class="circle">xbot.common.injection.modules.<a href="xbot/common/injection/modules/RealDevicesModule.html" class="type-name-link" title="class in xbot.common.injection.modules">RealDevicesModule</a></li>
 <li class="circle">xbot.common.command.<a href="xbot/common/command/RealSmartDashboardCommandPutter.html" class="type-name-link" title="class in xbot.common.command">RealSmartDashboardCommandPutter</a> (implements xbot.common.command.<a href="xbot/common/command/SmartDashboardCommandPutter.html" title="interface in xbot.common.command">SmartDashboardCommandPutter</a>)</li>
+<li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Record.html" class="type-name-link external-link" title="class or interface in java.lang">Record</a>
+<ul>
+<li class="circle">xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/SwerveInstance.html" class="type-name-link" title="class in xbot.common.injection.swerve">SwerveInstance</a></li>
+</ul>
+</li>
 <li class="circle">java.awt.geom.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.desktop/java/awt/geom/RectangularShape.html" class="type-name-link external-link" title="class or interface in java.awt.geom">RectangularShape</a> (implements java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Cloneable.html" title="class or interface in java.lang" class="external-link">Cloneable</a>, java.awt.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.desktop/java/awt/Shape.html" title="class or interface in java.awt" class="external-link">Shape</a>)
 <ul>
 <li class="circle">java.awt.geom.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.desktop/java/awt/geom/Rectangle2D.html" class="type-name-link external-link" title="class or interface in java.awt.geom">Rectangle2D</a>
@@ -326,7 +339,14 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.subsystems.autonomous.<a href="xbot/common/subsystems/autonomous/AutonomousCommandSelector.html" class="type-name-link" title="class in xbot.common.subsystems.autonomous">AutonomousCommandSelector</a></li>
 <li class="circle">xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.drive">BaseDriveSubsystem</a>
 <ul>
+<li class="circle">xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a> (implements xbot.common.advantage.<a href="xbot/common/advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a>)</li>
 <li class="circle">xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/MockDriveSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.drive">MockDriveSubsystem</a></li>
+</ul>
+</li>
+<li class="circle">xbot.common.subsystems.<a href="xbot/common/subsystems/BaseMotorPidSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems">BaseMotorPidSubsystem</a>
+<ul>
+<li class="circle">xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveDriveMotorPidSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.drive.swerve">SwerveDriveMotorPidSubsystem</a></li>
+<li class="circle">xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveSteeringMotorPidSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.drive.swerve">SwerveSteeringMotorPidSubsystem</a></li>
 </ul>
 </li>
 <li class="circle">xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/BasePoseSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.pose">BasePoseSubsystem</a> (implements xbot.common.advantage.<a href="xbot/common/advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a>)
@@ -334,7 +354,12 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/MockBasePoseSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.pose">MockBasePoseSubsystem</a></li>
 </ul>
 </li>
-<li class="circle">xbot.common.command.<a href="xbot/common/command/BaseSetpointSubsystem.html" class="type-name-link" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;T&gt; (implements xbot.common.command.<a href="xbot/common/command/SupportsSetpointLock.html" title="interface in xbot.common.command">SupportsSetpointLock</a>)</li>
+<li class="circle">xbot.common.command.<a href="xbot/common/command/BaseSetpointSubsystem.html" class="type-name-link" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;T&gt; (implements xbot.common.command.<a href="xbot/common/command/SupportsSetpointLock.html" title="interface in xbot.common.command">SupportsSetpointLock</a>)
+<ul>
+<li class="circle">xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveDriveSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.drive.swerve">SwerveDriveSubsystem</a></li>
+<li class="circle">xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveSteeringSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.drive.swerve">SwerveSteeringSubsystem</a></li>
+</ul>
+</li>
 <li class="circle">xbot.common.subsystems.<a href="xbot/common/subsystems/BaseXCANTalonSpeedControlledSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems">BaseXCANTalonSpeedControlledSubsystem</a>
 <ul>
 <li class="circle">xbot.common.subsystems.<a href="xbot/common/subsystems/BaseXCANTalonPairSpeedControlledSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems">BaseXCANTalonPairSpeedControlledSubsystem</a></li>
@@ -342,10 +367,14 @@ loadScripts(document, 'script');</script>
 </li>
 <li class="circle">xbot.common.subsystems.compressor.<a href="xbot/common/subsystems/compressor/CompressorSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.compressor">CompressorSubsystem</a></li>
 <li class="circle">xbot.common.subsystems.simple.<a href="xbot/common/subsystems/simple/SimpleMotorSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.simple">SimpleMotorSubsystem</a></li>
+<li class="circle">xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveModuleSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="circle">xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/SwerveComponent.html" class="type-name-link" title="class in xbot.common.injection.swerve">SwerveComponent</a></li>
+<li class="circle">xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/SwerveComponentHolder.html" class="type-name-link" title="class in xbot.common.injection.swerve">SwerveComponentHolder</a></li>
+<li class="circle">xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/SwerveModule.html" class="type-name-link" title="class in xbot.common.injection.swerve">SwerveModule</a></li>
 <li class="circle">xbot.common.trajectory.<a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" class="type-name-link" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></li>
 <li class="circle">xbot.common.properties.<a href="xbot/common/properties/TableProxy.html" class="type-name-link" title="class in xbot.common.properties">TableProxy</a> (implements xbot.common.properties.<a href="xbot/common/properties/ITableProxy.html" title="interface in xbot.common.properties">ITableProxy</a>)
 <ul>
@@ -601,6 +630,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.math.<a href="xbot/common/math/PurePursuitTest.AsyncLinearIntervalJob.html" class="type-name-link" title="interface in xbot.common.math">PurePursuitTest.AsyncLinearIntervalJob</a></li>
 <li class="circle">xbot.common.command.<a href="xbot/common/command/SmartDashboardCommandPutter.html" class="type-name-link" title="interface in xbot.common.command">SmartDashboardCommandPutter</a></li>
 <li class="circle">xbot.common.command.<a href="xbot/common/command/SupportsSetpointLock.html" class="type-name-link" title="interface in xbot.common.command">SupportsSetpointLock</a></li>
+<li class="circle">xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/SwerveComponent.Builder.html" class="type-name-link" title="interface in xbot.common.injection.swerve">SwerveComponent.Builder</a></li>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XAbsoluteEncoder.XAbsoluteEncoderFactory.html" class="type-name-link" title="interface in xbot.common.controls.sensors">XAbsoluteEncoder.XAbsoluteEncoderFactory</a>
 <ul>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANCoder.XCANCoderFactory.html" class="type-name-link" title="interface in xbot.common.controls.sensors">XCANCoder.XCANCoderFactory</a></li>
@@ -628,6 +658,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XServo.XServoFactory.html" class="type-name-link" title="interface in xbot.common.controls.actuators">XServo.XServoFactory</a></li>
 <li class="circle">xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XSolenoid.XSolenoidFactory.html" class="type-name-link" title="interface in xbot.common.controls.actuators">XSolenoid.XSolenoidFactory</a></li>
 <li class="circle">xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XSpeedController.XSpeedControllerFactory.html" class="type-name-link" title="interface in xbot.common.controls.actuators">XSpeedController.XSpeedControllerFactory</a></li>
+<li class="circle">xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/XSwerveDriveElectricalContract.html" class="type-name-link" title="interface in xbot.common.injection.electrical_contract">XSwerveDriveElectricalContract</a></li>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XTimerImpl.html" class="type-name-link" title="interface in xbot.common.controls.sensors">XTimerImpl</a>
 <ul>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XSettableTimerImpl.html" class="type-name-link" title="interface in xbot.common.controls.sensors">XSettableTimerImpl</a></li>
@@ -639,6 +670,16 @@ loadScripts(document, 'script');</script>
 </ul>
 </section>
 <section class="hierarchy">
+<h2 title="Annotation Interface Hierarchy">Annotation Interface Hierarchy</h2>
+<ul>
+<li class="circle">xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/FrontLeftDrive.html" class="type-name-link" title="annotation interface in xbot.common.injection.swerve">FrontLeftDrive</a> (implements java.lang.annotation.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>)</li>
+<li class="circle">xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/FrontRightDrive.html" class="type-name-link" title="annotation interface in xbot.common.injection.swerve">FrontRightDrive</a> (implements java.lang.annotation.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>)</li>
+<li class="circle">xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/RearLeftDrive.html" class="type-name-link" title="annotation interface in xbot.common.injection.swerve">RearLeftDrive</a> (implements java.lang.annotation.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>)</li>
+<li class="circle">xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/RearRightDrive.html" class="type-name-link" title="annotation interface in xbot.common.injection.swerve">RearRightDrive</a> (implements java.lang.annotation.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>)</li>
+<li class="circle">xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/SwerveSingleton.html" class="type-name-link" title="annotation interface in xbot.common.injection.swerve">SwerveSingleton</a> (implements java.lang.annotation.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>)</li>
+</ul>
+</section>
+<section class="hierarchy">
 <h2 title="Enum Class Hierarchy">Enum Class Hierarchy</h2>
 <ul>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" class="type-name-link external-link" title="class or interface in java.lang">Object</a>
@@ -646,6 +687,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Enum.html" class="type-name-link external-link" title="class or interface in java.lang">Enum</a>&lt;E&gt; (implements java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;T&gt;, java.lang.constant.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/constant/Constable.html" title="class or interface in java.lang.constant" class="external-link">Constable</a>, java.io.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a>)
 <ul>
 <li class="circle">xbot.common.controls.sensors.buttons.<a href="xbot/common/controls/sensors/buttons/AdvancedXboxButtonTrigger.ButtonTriggerType.html" class="type-name-link" title="enum class in xbot.common.controls.sensors.buttons">AdvancedXboxButtonTrigger.ButtonTriggerType</a></li>
+<li class="circle">xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.SwerveModuleLocation.html" class="type-name-link" title="enum class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem.SwerveModuleLocation</a></li>
 <li class="circle">xbot.common.logic.<a href="xbot/common/logic/CalibrationDecider.CalibrationMode.html" class="type-name-link" title="enum class in xbot.common.logic">CalibrationDecider.CalibrationMode</a></li>
 <li class="circle">xbot.common.resiliency.<a href="xbot/common/resiliency/DeviceHealth.html" class="type-name-link" title="enum class in xbot.common.resiliency">DeviceHealth</a></li>
 <li class="circle">xbot.common.injection.<a href="xbot/common/injection/DevicePolice.DeviceType.html" class="type-name-link" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a></li>

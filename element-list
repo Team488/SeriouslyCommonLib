@@ -14,6 +14,7 @@ xbot.common.injection
 xbot.common.injection.components
 xbot.common.injection.electrical_contract
 xbot.common.injection.modules
+xbot.common.injection.swerve
 xbot.common.logging
 xbot.common.logic
 xbot.common.math
@@ -26,6 +27,8 @@ xbot.common.subsystems.autonomous
 xbot.common.subsystems.compressor
 xbot.common.subsystems.drive
 xbot.common.subsystems.drive.control_logic
+xbot.common.subsystems.drive.swerve
+xbot.common.subsystems.drive.swerve.commands
 xbot.common.subsystems.feedback
 xbot.common.subsystems.pose
 xbot.common.subsystems.pose.commands
