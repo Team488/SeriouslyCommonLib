@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.injection.swerve.SwerveComponent;
 import xbot.common.math.MathUtils;
+import xbot.common.math.PIDDefaults;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
 import xbot.common.properties.DoubleProperty;
@@ -112,20 +113,43 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
 
         positionalPidManager = pidFactory.create(
                 this.getPrefix() + "PositionPID",
-                0.018, // P
-                0, // I
-                0.1, // D
-                0.0, // F
-                0.6, // Max output
-                -0.6, // Min output
-                2.0, // Error threshold
-                0.2, // Derivative threshold
-                0.2); // Time threshold
+                getPositionalPIDDefaults());
         positionalPidManager.setEnableErrorThreshold(true);
         positionalPidManager.setEnableTimeThreshold(true);
 
         headingPidManager = pidFactory.create(
                 this.getPrefix() + "HeadingPID",
+                getHeadingPIDDefaults());
+        headingPidManager.setEnableErrorThreshold(true);
+        headingPidManager.setEnableTimeThreshold(true);
+
+    }
+
+    /**
+     * Returns the default PID values for the positional PID.
+     * Override this method to change the default values.
+     * @return The default PID values.
+     */
+    protected PIDDefaults getPositionalPIDDefaults() {
+        return new PIDDefaults(
+                0.72, // P
+                0, // I
+                4.0, // D
+                0.0, // F
+                0.6, // Max output
+                -0.6, // Min output
+                0.05, // Error threshold
+                0.005, // Derivative threshold
+                0.2); // Time threshold
+    }
+
+    /**
+     * Returns the default PID values for the heading PID.
+     * Override this method to change the default values.
+     * @return The default PID values.
+     */
+    protected PIDDefaults getHeadingPIDDefaults() {
+        return new PIDDefaults(
                 0.015, // P
                 0.0000001, // I
                 0.045, // D
@@ -135,9 +159,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
                 2.0, // Error threshold
                 0.2, // Derivative threshold
                 0.2); // Time threshold
-        headingPidManager.setEnableErrorThreshold(true);
-        headingPidManager.setEnableTimeThreshold(true);
-
     }
 
     public SwerveDriveKinematics getSwerveDriveKinematics() {
@@ -168,6 +189,10 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
             double rotation,
             double currentHeading,
             XYPair centerOfRotationInches) {
+
+        lastRawCommandedDirection = translation;
+        lastRawCommandedRotation = rotation;
+
         // rotate the translation vector into the robot coordinate frame
         XYPair fieldRelativeVector = translation.clone();
 
@@ -304,6 +329,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
      * @param centerOfRotationInches The center of rotation.
      */
     public void move(XYPair translate, double rotate, XYPair centerOfRotationInches) {
+
+        lastRawCommandedRotation = rotate;
 
         if (activateBrakeOverride) {
             this.setWheelsToXMode();
