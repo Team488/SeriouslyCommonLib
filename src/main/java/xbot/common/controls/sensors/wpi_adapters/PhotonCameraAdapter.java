@@ -4,6 +4,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import org.photonvision.PhotonCameraExtended;
+import org.photonvision.targeting.PhotonPipelineResult;
 import xbot.common.controls.io_inputs.XPhotonCameraInputs;
 import xbot.common.controls.sensors.XPhotonCamera;
 
