@@ -20,7 +20,6 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
 
     private final String label;
     private final XSwerveDriveElectricalContract contract;
-    private final SwerveDriveMotorPidSubsystem pidConfigSubsystem;
 
     private final DoubleProperty inchesPerMotorRotation;
     private double targetVelocity;
@@ -29,8 +28,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
 
     @Inject
     public SwerveDriveSubsystem(SwerveInstance swerveInstance, XCANSparkMaxFactory sparkMaxFactory,
-                                PropertyFactory pf, XSwerveDriveElectricalContract electricalContract,
-                                SwerveDriveMotorPidSubsystem pidConfigSubsystem) {
+                                PropertyFactory pf, XSwerveDriveElectricalContract electricalContract) {
         this.label = swerveInstance.label();
         log.info("Creating SwerveDriveSubsystem " + this.label);
 
@@ -42,10 +40,12 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
         // Create properties unique to this instance.
         pf.setPrefix(this);
 
-        this.pidConfigSubsystem = pidConfigSubsystem;
-
         if (electricalContract.isDriveReady()) {
-            this.motorController = sparkMaxFactory.createWithoutProperties(electricalContract.getDriveMotor(swerveInstance), "", "DriveNeo");
+            this.motorController = sparkMaxFactory.create(
+                    electricalContract.getDriveMotor(swerveInstance),
+                    "",
+                    "DriveNeo",
+                    super.getPrefix() + "/DrivePID");
             setupStatusFramesAsNeeded();
             this.motorController.setSmartCurrentLimit(45);
             this.motorController.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -122,18 +122,6 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
 
     public XCANSparkMax getSparkMax() {
         return this.motorController;
-    }
-
-    public void setMotorControllerPositionPidParameters() {
-        if (this.contract.isDriveReady()) {
-            this.motorController.setP(pidConfigSubsystem.getP());
-            this.motorController.setI(pidConfigSubsystem.getI());
-            this.motorController.setD(pidConfigSubsystem.getD());
-            this.motorController.setFF(pidConfigSubsystem.getFF());
-            this.motorController.setOutputRange(pidConfigSubsystem.getMinOutput(), pidConfigSubsystem.getMaxOutput());
-            this.motorController.setClosedLoopRampRate(pidConfigSubsystem.getClosedLoopRampRate());
-            this.motorController.setOpenLoopRampRate(pidConfigSubsystem.getOpenLoopRampRate());
-        }
     }
 
     @Override
