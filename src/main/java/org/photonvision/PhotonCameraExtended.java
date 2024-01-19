@@ -2,15 +2,15 @@ package org.photonvision;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import org.photonvision.targeting.PhotonPipelineResult;
-import xbot.common.controls.io_inputs.XPhotonCameraInputsAutoLogged;
+import xbot.common.controls.io_inputs.PhotonCameraExtendedInputsAutoLogged;
 
 public class PhotonCameraExtended extends PhotonCamera {
 
-    XPhotonCameraInputsAutoLogged io;
+    PhotonCameraExtendedInputsAutoLogged io;
 
     public PhotonCameraExtended(NetworkTableInstance instance, String cameraName) {
         super(instance, cameraName);
-        io = new XPhotonCameraInputsAutoLogged();
+        io = new PhotonCameraExtendedInputsAutoLogged();
     }
 
     public PhotonCameraExtended(String cameraName) {

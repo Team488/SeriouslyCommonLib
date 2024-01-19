@@ -4,7 +4,7 @@ import org.littletonrobotics.junction.AutoLog;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 @AutoLog
-public class XPhotonCameraInputs {
+public class PhotonCameraExtendedInputs {
     public PhotonPipelineResult pipelineResult;
     public double[] cameraMatrix;
     public double[] distCoeffs;
