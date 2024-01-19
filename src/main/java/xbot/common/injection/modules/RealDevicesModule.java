@@ -1,7 +1,5 @@
 package xbot.common.injection.modules;
 
-import javax.inject.Singleton;
-
 import dagger.Binds;
 import dagger.Module;
 import xbot.common.controls.actuators.XCANSparkMax.XCANSparkMaxFactory;
@@ -34,7 +32,6 @@ import xbot.common.controls.sensors.XDutyCycleEncoder;
 import xbot.common.controls.sensors.XEncoder.XEncoderFactory;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
 import xbot.common.controls.sensors.XLidarLite.XLidarLiteFactory;
-import xbot.common.controls.sensors.XPhotonCamera;
 import xbot.common.controls.sensors.XPowerDistributionPanel.XPowerDistributionPanelFactory;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater.AnalogInputWPIAdapaterFactory;
 import xbot.common.controls.sensors.wpi_adapters.CANCoderAdapter.CANCoderAdapterFactory;
@@ -46,6 +43,8 @@ import xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter.LidarLiteWp
 import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter.PowerDistributionPanelWPIAdapaterFactory;
 import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
 import xbot.common.networking.ZeromqListener.ZeromqListenerFactory;
+
+import javax.inject.Singleton;
 
 /**
  * Module for mapping device interfaces to real hardware.
@@ -135,9 +134,4 @@ public abstract class RealDevicesModule {
     @Binds
     @Singleton
     public abstract XDutyCycleEncoder.XDutyCycleEncoderFactory getDutyCycleEncoderFactory(DutyCycleEncoderWpiAdapter.DutyCycleEncoderWpiAdapterFactory impl);
-
-    @Binds
-    @Singleton
-    public abstract XPhotonCamera.XPhotonCameraFactory
-        getPhotonCameraFactory(xbot.common.controls.sensors.wpi_adapters.PhotonCameraAdapter.PhotonCameraAdapterFactory impl);
 }
