@@ -108,11 +108,10 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.injection.swerve.SwerveInstance,xbot.common.controls.actuators.XCANSparkMax.XCANSparkMaxFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract,xbot.common.subsystems.drive.swerve.SwerveDriveMotorPidSubsystem)" class="member-name-link">SwerveDriveSubsystem</a><wbr>(<a href="../../../injection/swerve/SwerveInstance.html" title="class in xbot.common.injection.swerve">SwerveInstance</a>&nbsp;swerveInstance,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.injection.swerve.SwerveInstance,xbot.common.controls.actuators.XCANSparkMax.XCANSparkMaxFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract)" class="member-name-link">SwerveDriveSubsystem</a><wbr>(<a href="../../../injection/swerve/SwerveInstance.html" title="class in xbot.common.injection.swerve">SwerveInstance</a>&nbsp;swerveInstance,
  <a href="../../../controls/actuators/XCANSparkMax.XCANSparkMaxFactory.html" title="class in xbot.common.controls.actuators">XCANSparkMax.XCANSparkMaxFactory</a>&nbsp;sparkMaxFactory,
  <a href="../../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf,
- <a href="../../../injection/electrical_contract/XSwerveDriveElectricalContract.html" title="interface in xbot.common.injection.electrical_contract">XSwerveDriveElectricalContract</a>&nbsp;electricalContract,
- <a href="SwerveDriveMotorPidSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveDriveMotorPidSubsystem</a>&nbsp;pidConfigSubsystem)</code></div>
+ <a href="../../../injection/electrical_contract/XSwerveDriveElectricalContract.html" title="interface in xbot.common.injection.electrical_contract">XSwerveDriveElectricalContract</a>&nbsp;electricalContract)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -160,14 +159,11 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#refreshDataFrame()" class="member-name-link">refreshDataFrame</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMotorControllerPositionPidParameters()" class="member-name-link">setMotorControllerPositionPidParameters</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPower(java.lang.Double)" class="member-name-link">setPower</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&nbsp;power)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPower(java.lang.Double)" class="member-name-link">setPower</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&nbsp;power)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setTargetValue(java.lang.Double)" class="member-name-link">setTargetValue</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&nbsp;value)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setTargetValue(java.lang.Double)" class="member-name-link">setTargetValue</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&nbsp;value)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets target velocity in inches per second</div>
 </div>
 </div>
@@ -197,14 +193,13 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(xbot.common.injection.swerve.SwerveInstance,xbot.common.controls.actuators.XCANSparkMax.XCANSparkMaxFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract,xbot.common.subsystems.drive.swerve.SwerveDriveMotorPidSubsystem)">
+<section class="detail" id="&lt;init&gt;(xbot.common.injection.swerve.SwerveInstance,xbot.common.controls.actuators.XCANSparkMax.XCANSparkMaxFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract)">
 <h3>SwerveDriveSubsystem</h3>
 <div class="member-signature"><span class="annotations">@Inject
 </span><span class="modifiers">public</span>&nbsp;<span class="element-name">SwerveDriveSubsystem</span><wbr><span class="parameters">(<a href="../../../injection/swerve/SwerveInstance.html" title="class in xbot.common.injection.swerve">SwerveInstance</a>&nbsp;swerveInstance,
  <a href="../../../controls/actuators/XCANSparkMax.XCANSparkMaxFactory.html" title="class in xbot.common.controls.actuators">XCANSparkMax.XCANSparkMaxFactory</a>&nbsp;sparkMaxFactory,
  <a href="../../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf,
- <a href="../../../injection/electrical_contract/XSwerveDriveElectricalContract.html" title="interface in xbot.common.injection.electrical_contract">XSwerveDriveElectricalContract</a>&nbsp;electricalContract,
- <a href="SwerveDriveMotorPidSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveDriveMotorPidSubsystem</a>&nbsp;pidConfigSubsystem)</span></div>
+ <a href="../../../injection/electrical_contract/XSwerveDriveElectricalContract.html" title="interface in xbot.common.injection.electrical_contract">XSwerveDriveElectricalContract</a>&nbsp;electricalContract)</span></div>
 </section>
 </li>
 </ul>
@@ -296,12 +291,6 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getSparkMax()">
 <h3>getSparkMax</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../../controls/actuators/XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></span>&nbsp;<span class="element-name">getSparkMax</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="setMotorControllerPositionPidParameters()">
-<h3>setMotorControllerPositionPidParameters</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMotorControllerPositionPidParameters</span>()</div>
 </section>
 </li>
 <li>

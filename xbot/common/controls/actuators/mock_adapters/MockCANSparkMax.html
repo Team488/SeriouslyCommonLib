@@ -132,11 +132,12 @@ implements <a href="../../../simulation/ISimulatableMotor.html" title="interface
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.injection.electrical_contract.DeviceInfo,java.lang.String,java.lang.String,xbot.common.properties.PropertyFactory,xbot.common.injection.DevicePolice,xbot.common.controls.actuators.XCANSparkMaxPIDProperties)" class="member-name-link">MockCANSparkMax</a><wbr>(<a href="../../../injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a>&nbsp;deviceInfo,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.injection.electrical_contract.DeviceInfo,java.lang.String,java.lang.String,xbot.common.properties.PropertyFactory,xbot.common.injection.DevicePolice,java.lang.String,xbot.common.controls.actuators.XCANSparkMaxPIDProperties)" class="member-name-link">MockCANSparkMax</a><wbr>(<a href="../../../injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a>&nbsp;deviceInfo,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;owningSystemPrefix,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="../../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;propMan,
  <a href="../../../injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a>&nbsp;police,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pidPropertyPrefix,
  <a href="../XCANSparkMaxPIDProperties.html" title="class in xbot.common.controls.actuators">XCANSparkMaxPIDProperties</a>&nbsp;defaultPIDProperties)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
@@ -647,7 +648,7 @@ implements <a href="../../../simulation/ISimulatableMotor.html" title="interface
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(xbot.common.injection.electrical_contract.DeviceInfo,java.lang.String,java.lang.String,xbot.common.properties.PropertyFactory,xbot.common.injection.DevicePolice,xbot.common.controls.actuators.XCANSparkMaxPIDProperties)">
+<section class="detail" id="&lt;init&gt;(xbot.common.injection.electrical_contract.DeviceInfo,java.lang.String,java.lang.String,xbot.common.properties.PropertyFactory,xbot.common.injection.DevicePolice,java.lang.String,xbot.common.controls.actuators.XCANSparkMaxPIDProperties)">
 <h3>MockCANSparkMax</h3>
 <div class="member-signature"><span class="annotations">@AssistedInject
 </span><span class="modifiers">public</span>&nbsp;<span class="element-name">MockCANSparkMax</span><wbr><span class="parameters">(@Assisted("deviceInfo")
@@ -658,6 +659,8 @@ implements <a href="../../../simulation/ISimulatableMotor.html" title="interface
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="../../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;propMan,
  <a href="../../../injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a>&nbsp;police,
+ @Assisted("pidPropertyPrefix")
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pidPropertyPrefix,
  @Assisted("defaultPIDProperties")
  <a href="../XCANSparkMaxPIDProperties.html" title="class in xbot.common.controls.actuators">XCANSparkMaxPIDProperties</a>&nbsp;defaultPIDProperties)</span></div>
 </section>
