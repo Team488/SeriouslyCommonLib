@@ -58,6 +58,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
             @Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
             @Assisted("name") String name,
+            @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
             @Assisted("defaultPIDProperties") XCANSparkMaxPIDProperties defaultPIDProperties);
     }
 
@@ -65,8 +66,9 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     public MockCANSparkMax(@Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix, @Assisted("name") String name,
             PropertyFactory propMan, DevicePolice police,
+            @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
             @Assisted("defaultPIDProperties") XCANSparkMaxPIDProperties defaultPIDProperties) {
-        super(deviceInfo, owningSystemPrefix, name, propMan, police, defaultPIDProperties);
+        super(deviceInfo, owningSystemPrefix, name, propMan, police, pidPropertyPrefix, defaultPIDProperties);
         log.info("Creating CAN talon with device ID: " + deviceId);
         internalEncoder = new MockEncoder("Test", propMan);
         setInverted(deviceInfo.inverted);

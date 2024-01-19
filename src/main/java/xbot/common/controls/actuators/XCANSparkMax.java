@@ -18,7 +18,6 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 
 public abstract class XCANSparkMax {
@@ -37,11 +36,7 @@ public abstract class XCANSparkMax {
     private DoubleProperty kIzProp;
     private DoubleProperty kFFprop;
     private DoubleProperty kMaxOutputProp;
-    private DoubleProperty kMinOutoutProp;
-
-    private DoubleProperty percentProp;
-    private DoubleProperty voltageProp;
-    private DoubleProperty currentProp;
+    private DoubleProperty kMinOutputProp;
 
     protected final String policeTicket;
 
@@ -49,17 +44,18 @@ public abstract class XCANSparkMax {
 
     protected XCANSparkMaxInputsAutoLogged inputs;
 
-    private static org.apache.logging.log4j.Logger log = LogManager.getLogger(XCANSparkMax.class);
+    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(XCANSparkMax.class);
 
     public abstract static class XCANSparkMaxFactory {
         public abstract XCANSparkMax create(
                 DeviceInfo deviceInfo,
                 String owningSystemPrefix,
                 String name,
+                String pidPropertyPrefix,
                 XCANSparkMaxPIDProperties defaultPIDProperties);
 
-        public XCANSparkMax create(DeviceInfo deviceInfo, String owningSystemPrefix, String name) {
-            return create(deviceInfo, owningSystemPrefix, name, new XCANSparkMaxPIDProperties());
+        public XCANSparkMax create(DeviceInfo deviceInfo, String owningSystemPrefix, String name, String pidPropertyPrefix) {
+            return create(deviceInfo, owningSystemPrefix, name, pidPropertyPrefix, new XCANSparkMaxPIDProperties());
         }
 
         public XCANSparkMax createWithoutProperties(DeviceInfo deviceInfo, String owningSystemPrefix, String name) {
@@ -73,6 +69,7 @@ public abstract class XCANSparkMax {
             String name,
             PropertyFactory pf,
             DevicePolice police,
+            String pidPropertyPrefix,
             XCANSparkMaxPIDProperties defaultPIDProperties) {
         this.info = deviceInfo;
         this.deviceId = deviceInfo.channel;
@@ -87,20 +84,15 @@ public abstract class XCANSparkMax {
             usesPropertySystem = false;
         } else {
             this.propertyFactory = pf;
-            this.propertyFactory.setPrefix(owningSystemPrefix);
-            this.propertyFactory.appendPrefix(name);
-            kPprop = pf.createPersistentProperty("kP", defaultPIDProperties.p);
-            kIprop = pf.createPersistentProperty("kI", defaultPIDProperties.i);
-            kDprop = pf.createPersistentProperty("kD", defaultPIDProperties.d);
 
-            pf.setDefaultLevel(Property.PropertyLevel.Debug);
-            percentProp = pf.createEphemeralProperty("Percent", 0);
-            voltageProp = pf.createEphemeralProperty("Voltage", 0);
-            currentProp = pf.createEphemeralProperty("Current", 0);
-            kIzProp = pf.createPersistentProperty("kIzone", defaultPIDProperties.iZone);
-            kFFprop = pf.createPersistentProperty("kFeedForward", defaultPIDProperties.feedForward);
-            kMaxOutputProp = pf.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxOutput);
-            kMinOutoutProp = pf.createPersistentProperty("kMinOutput", defaultPIDProperties.minOutput);
+            this.propertyFactory.setPrefix(pidPropertyPrefix);
+            kPprop = pf.createPersistentProperty("kP", defaultPIDProperties.p());
+            kIprop = pf.createPersistentProperty("kI", defaultPIDProperties.i());
+            kDprop = pf.createPersistentProperty("kD", defaultPIDProperties.d());
+            kIzProp = pf.createPersistentProperty("kIzone", defaultPIDProperties.iZone());
+            kFFprop = pf.createPersistentProperty("kFeedForward", defaultPIDProperties.feedForward());
+            kMaxOutputProp = pf.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxOutput());
+            kMinOutputProp = pf.createPersistentProperty("kMinOutput", defaultPIDProperties.minOutput());
         }
     }
 
@@ -119,7 +111,7 @@ public abstract class XCANSparkMax {
             setD(kDprop.get());
             setIZone(kIzProp.get());
             setFF(kFFprop.get());
-            setOutputRange(kMinOutoutProp.get(), kMaxOutputProp.get());
+            setOutputRange(kMinOutputProp.get(), kMaxOutputProp.get());
         } else {
             log.warn("setAllProperties called on a SparkMax that doesn't use the property system");
         }
@@ -131,16 +123,13 @@ public abstract class XCANSparkMax {
                 setAllProperties();
                 firstPeriodicCall = false;
             }
-            kPprop.hasChangedSinceLastCheck((value) -> setP(value));
-            kIprop.hasChangedSinceLastCheck((value) -> setI(value));
-            kDprop.hasChangedSinceLastCheck((value) -> setD(value));
-            kIzProp.hasChangedSinceLastCheck((value) -> setIZone(value));
-            kFFprop.hasChangedSinceLastCheck((value) -> setFF(value));
-            kMaxOutputProp.hasChangedSinceLastCheck((value) -> setOutputRange(kMinOutoutProp.get(), value));
-            kMinOutoutProp.hasChangedSinceLastCheck((value) -> setOutputRange(value, kMaxOutputProp.get()));
-            percentProp.set(getAppliedOutput());
-            voltageProp.set(getAppliedOutput() * getBusVoltage());
-            currentProp.set(getOutputCurrent());
+            kPprop.hasChangedSinceLastCheck(this::setP);
+            kIprop.hasChangedSinceLastCheck(this::setI);
+            kDprop.hasChangedSinceLastCheck(this::setD);
+            kIzProp.hasChangedSinceLastCheck(this::setIZone);
+            kFFprop.hasChangedSinceLastCheck(this::setFF);
+            kMaxOutputProp.hasChangedSinceLastCheck((value) -> setOutputRange(kMinOutputProp.get(), value));
+            kMinOutputProp.hasChangedSinceLastCheck((value) -> setOutputRange(value, kMaxOutputProp.get()));
         }
     }
 

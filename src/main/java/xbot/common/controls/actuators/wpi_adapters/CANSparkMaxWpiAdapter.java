@@ -38,6 +38,7 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
             @Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
             @Assisted("name") String name,
+            @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
             @Assisted("defaultPIDProperties") XCANSparkMaxPIDProperties defaultPIDProperties);
     }
 
@@ -45,8 +46,9 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     public CANSparkMaxWpiAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix, @Assisted("name") String name,
             PropertyFactory propMan, DevicePolice police,
+            @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
             @Assisted("defaultPIDProperties") XCANSparkMaxPIDProperties defaultPIDProperties) {
-        super(deviceInfo, owningSystemPrefix, name, propMan, police, defaultPIDProperties);
+        super(deviceInfo, owningSystemPrefix, name, propMan, police, pidPropertyPrefix, defaultPIDProperties);
         internalSpark = new CANSparkMax(deviceInfo.channel, MotorType.kBrushless);
         setInverted(deviceInfo.inverted);
     }
