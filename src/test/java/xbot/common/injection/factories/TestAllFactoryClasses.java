@@ -53,9 +53,9 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().doubleSolenoidFactory().create(
             getInjectorComponent().solenoidFactory().create(2),
             getInjectorComponent().solenoidFactory().create(3));
-        getInjectorComponent().canSparkMaxFactory().create(new DeviceInfo("left", 10), "drive", "left");
+        getInjectorComponent().canSparkMaxFactory().create(new DeviceInfo("left", 10), "drive", "left", "motorGroup");
         getInjectorComponent().canSparkMaxFactory().create(
-                new DeviceInfo("left", 11), "drive", "left",
+                new DeviceInfo("left", 11), "drive", "left", "motorGroup",
                 new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
         XCANTalon talon = getInjectorComponent().canTalonFactory().create(new CANTalonInfo(1));
         getInjectorComponent().as5600Factory().create(talon);
