@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import xbot.common.command.BaseSetpointSubsystem;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANSparkMax.XCANSparkMaxFactory;
+import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
 import xbot.common.injection.swerve.SwerveInstance;
 import xbot.common.injection.swerve.SwerveSingleton;
@@ -45,7 +46,16 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
                     electricalContract.getDriveMotor(swerveInstance),
                     "",
                     "DriveNeo",
-                    super.getPrefix() + "/DrivePID");
+                    super.getPrefix() + "/DrivePID",
+                    new XCANSparkMaxPIDProperties(
+                            0.1,
+                            0,
+                            0,
+                            0,
+                            0,
+                            1,
+                            -1
+                    ));
             setupStatusFramesAsNeeded();
             this.motorController.setSmartCurrentLimit(45);
             this.motorController.setIdleMode(CANSparkMax.IdleMode.kBrake);

@@ -12,6 +12,7 @@ import edu.wpi.first.math.MathUtil;
 import xbot.common.command.BaseSetpointSubsystem;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANSparkMax.XCANSparkMaxFactory;
+import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
 import xbot.common.controls.sensors.XCANCoder;
 import xbot.common.controls.sensors.XCANCoder.XCANCoderFactory;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
@@ -62,8 +63,22 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         this.maxMotorEncoderDrift = pf.createPersistentProperty("MaxEncoderDriftDegrees", 1.0);
 
         if (electricalContract.isDriveReady()) {
-            this.motorController = sparkMaxFactory.createWithoutProperties(electricalContract.getSteeringMotor(swerveInstance), "", "SteeringNeo");
-            setMotorControllerPositionPidParameters();
+            this.motorController = sparkMaxFactory.create(
+                    electricalContract.getSteeringMotor(swerveInstance),
+                    "",
+                    "SteeringNeo",
+                    super.getPrefix() + "/SteeringPID",
+                    new XCANSparkMaxPIDProperties(
+                            0.5,
+                            0,
+                            0,
+                            0,
+                            0,
+                            1,
+                            -1
+                    ));
+            this.motorController.setClosedLoopRampRate(0.02);
+            this.motorController.setOpenLoopRampRate(0.05);
         }
         if (electricalContract.areCanCodersReady()) {
             this.encoder = canCoderFactory.create(electricalContract.getSteeringEncoder(swerveInstance), this.getPrefix());
@@ -308,18 +323,6 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
             if (error != REVLibError.kOk) {
                 log.error("Error setting PID target: " + error.name());
             }
-        }
-    }
-
-    public void setMotorControllerPositionPidParameters() {
-        if (this.contract.isDriveReady()) {
-            this.motorController.setP(0.5);
-            this.motorController.setI(0);
-            this.motorController.setD(0);
-            this.motorController.setFF(0);
-            this.motorController.setOutputRange(-1, 1);
-            this.motorController.setClosedLoopRampRate(0.02);
-            this.motorController.setOpenLoopRampRate(0.05);
         }
     }
 
