@@ -1,4 +1,5 @@
 edu.wpi.first.wpilibj
+org.photonvision
 xbot.common.advantage
 xbot.common.command
 xbot.common.controls
@@ -34,4 +35,3 @@ xbot.common.subsystems.pose
 xbot.common.subsystems.pose.commands
 xbot.common.subsystems.simple
 xbot.common.trajectory
-xbot.common.vision
