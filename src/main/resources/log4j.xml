@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
+<log4j:configuration>
+   
+   <appender name="consoleAppender"
+      class="org.apache.log4j.ConsoleAppender">
+      <param name="Threshold" value="INFO" />
+      <layout class="org.apache.log4j.PatternLayout">
+         <param name="ConversionPattern" value="%5p | %d | %L | %-40c{1} | %m%n" />
+      </layout>
+   </appender>
+   
+   <appender name="stationAppender"
+      class="xbot.common.logging.DriverStationAppender">
+      <param name="Threshold" value="ERROR" />
+      <layout class="org.apache.log4j.PatternLayout">
+         <param name="ConversionPattern" value="%5p | %d | %L | %-40c{1} | %m%n" />
+      </layout>
+   </appender>
+
+   <appender name="fileAppender"
+           class="xbot.common.logging.OneLogFilePerRunRollingFileAppender">
+      <param name="Threshold" value="INFO" />
+      <param name="File" value="/home/lvuser/488Logs/default.log"/>
+      <param name="bufferedIO" value="false"/>
+      <param name="bufferSize" value="100"/>
+      <param name="MaxFileSize" value="500KB"/>
+      <!-- Keep ten backup files-->
+      <param name="MaxBackupIndex" value="50"/>
+      <param name="append" value="true"/>
+      <layout class="org.apache.log4j.PatternLayout">
+         <param name="ConversionPattern" value="%5p | %d [%X{matchContext}] | %-38.38F | %L | %m%n" />
+      </layout>
+   </appender>
+   
+   <appender name="asyncAppender"
+          class="org.apache.log4j.AsyncAppender">
+   	  <appender-ref ref="fileAppender"/>	
+   </appender>
+
+<root>
+    <priority value="INFO"></priority>
+    <appender-ref ref="consoleAppender"/>
+    <appender-ref ref="asyncAppender"/>
+    <appender-ref ref="stationAppender"/>
+</root>
+
+</log4j:configuration>
