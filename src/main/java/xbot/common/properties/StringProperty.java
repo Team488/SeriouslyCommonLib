@@ -11,7 +11,7 @@ package xbot.common.properties;
  * @author Sterling
  */
 public class StringProperty extends Property {
-    private String defaultValue;
+    private final String defaultValue;
     
     public StringProperty(String name, String defaultValue, XPropertyManager manager) {
         super(name, manager);
@@ -60,7 +60,9 @@ public class StringProperty extends Property {
         String value = permanentStore.getString(key);
         if(value != null) {
             set(value);
-            log.info("Property " + key + " has the non-default value " + value);
+            if (!value.equals(defaultValue)) {
+                log.info("Property " + key + " has the non-default value " + value);
+            }
         } else {
             set(defaultValue);
         }

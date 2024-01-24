@@ -74,8 +74,10 @@ public class BooleanProperty extends Property {
     public void load() {
         Boolean value = permanentStore.getBoolean(key);
         if (value != null) {
-            set(value.booleanValue());
-            log.info("Property " + key + " has the non-default value " + value.booleanValue());
+            set(value);
+            if (value != defaultValue) {
+                log.info("Property " + key + " has the non-default value " + value);
+            }
         } else {
             set(defaultValue);
         }
