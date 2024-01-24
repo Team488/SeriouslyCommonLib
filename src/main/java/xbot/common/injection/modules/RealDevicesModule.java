@@ -1,7 +1,5 @@
 package xbot.common.injection.modules;
 
-import javax.inject.Singleton;
-
 import dagger.Binds;
 import dagger.Module;
 import xbot.common.controls.actuators.XCANSparkMax.XCANSparkMaxFactory;
@@ -46,6 +44,11 @@ import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapte
 import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
 import xbot.common.networking.ZeromqListener.ZeromqListenerFactory;
 
+import javax.inject.Singleton;
+
+/**
+ * Module for mapping device interfaces to real hardware.
+ */
 @Module
 public abstract class RealDevicesModule {
     @Binds

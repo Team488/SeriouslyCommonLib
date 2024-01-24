@@ -40,6 +40,20 @@ public class PIDManager extends PIDPropertyManager {
                 @Assisted("timeThreshold") double timeThreshold,
                 @Assisted("iZone") double iZone);
 
+        public PIDManager create(String functionName, PIDDefaults defaults) {
+            return create(functionName,
+                    defaults.p(),
+                    defaults.i(),
+                    defaults.d(),
+                    defaults.f(),
+                    defaults.maxOutput(),
+                    defaults.minOutput(),
+                    defaults.errorThreshold(),
+                    defaults.derivativeThreshold(),
+                    defaults.timeThreshold(),
+                    defaults.iZone());
+        }
+
         public PIDManager create(
                 String functionName,
                 double defaultP,
@@ -112,6 +126,8 @@ public class PIDManager extends PIDPropertyManager {
         propMan.setDefaultLevel(Property.PropertyLevel.Debug);
         maxOutput = propMan.createPersistentProperty("Max Output", defaultMaxOutput);
         minOutput = propMan.createPersistentProperty("Min Output", defaultMinOutput);
+
+        propMan.setDefaultLevel(Property.PropertyLevel.Debug);
         isEnabled = propMan.createPersistentProperty("Is Enabled", true);
         offTargetReasonProp = propMan.createEphemeralProperty("OffTargetReason", "");
         propMan.setDefaultLevel(Property.PropertyLevel.Important);

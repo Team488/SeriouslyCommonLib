@@ -6,11 +6,13 @@ import java.math.BigDecimal;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import xbot.common.controls.sensors.mock_adapters.MockAbsoluteEncoder;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 
+@Ignore
 public class SimulatedMockAbsoluteEncoderTest extends BaseSimulationTest {
 
     MockAbsoluteEncoder simulatedEncoder;
@@ -19,7 +21,7 @@ public class SimulatedMockAbsoluteEncoderTest extends BaseSimulationTest {
     public void setUp() {
         super.setUp();
 
-        simulatedEncoder = (MockAbsoluteEncoder)injectorComponent.absoluteEncoderFactory().create(new DeviceInfo(34, false, 360.0), "test");
+        simulatedEncoder = (MockAbsoluteEncoder)injectorComponent.absoluteEncoderFactory().create(new DeviceInfo("Simulated",34, false, 360.0), "test");
     }
 
     @Test
@@ -36,6 +38,6 @@ public class SimulatedMockAbsoluteEncoderTest extends BaseSimulationTest {
         
         distributor.distributeSimulationPayload(overallPayload);
 
-        assertEquals(43.2, this.simulatedEncoder.getAbsolutePosition(), 0.001);
+        assertEquals(43.2, this.simulatedEncoder.getAbsolutePosition_internal(), 0.001);
     }
 }

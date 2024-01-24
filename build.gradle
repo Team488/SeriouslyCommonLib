@@ -9,15 +9,15 @@ import edu.wpi.first.gradlerio.deploy.roborio.RoboRIO
  */
 
 plugins {
-    id "edu.wpi.first.GradleRIO" version "2023.4.2"
+    id "edu.wpi.first.GradleRIO" version "2024.1.1"
     id 'scala'
     id 'checkstyle'
     id 'jacoco'
     id "net.linguica.maven-settings" version "0.5"
 }
 
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -35,7 +35,30 @@ repositories {
     maven { url "https://mvnrepository.com/artifact/org.zeromq/jeromq" }
 
     maven { url uri ("../SeriouslyCommonLib/lib/")}
+
+    // If the password below ever changes (or install in general changes),
+    // See https://github.com/Mechanical-Advantage/AdvantageKit/blob/main/docs/INSTALLATION.md
+    maven {
+        url = uri("https://maven.pkg.github.com/Mechanical-Advantage/AdvantageKit")
+        credentials {
+            username = "Mechanical-Advantage-Bot"
+            password = "\u0067\u0068\u0070\u005f\u006e\u0056\u0051\u006a\u0055\u004f\u004c\u0061\u0079\u0066\u006e\u0078\u006e\u0037\u0051\u0049\u0054\u0042\u0032\u004c\u004a\u006d\u0055\u0070\u0073\u0031\u006d\u0037\u004c\u005a\u0030\u0076\u0062\u0070\u0063\u0051"
+        }
+    }
+    mavenLocal()
 }
+
+
+
+configurations.all {
+    exclude group: "edu.wpi.first.wpilibj"
+}
+
+task(checkAkitInstall, dependsOn: "classes", type: JavaExec) {
+    mainClass = "org.littletonrobotics.junction.CheckInstall"
+    classpath = sourceSets.main.runtimeClasspath
+}
+compileJava.finalizedBy checkAkitInstall
 
 configurations {
     nativeBundle
@@ -54,26 +77,29 @@ dependencies {
     nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
     simulationRelease wpi.sim.enableRelease()
 
-    testImplementation 'junit:junit:4.12'
-
     // The production code uses the SLF4J logging API at compile time
     implementation 'org.slf4j:slf4j-api:1.7.21'
 
     // In future, sync with WPILib, using junit 5
-    implementation 'junit:junit:4.12'
+    implementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.1'
 
     implementation 'com.google.dagger:dagger:2.44.2'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.44.2'
     testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.44.2'
-    
-    implementation group: 'log4j', name: 'log4j', version: '1.2.17'
 
-    implementation group: 'org.json', name:'json', version: '20220924'
+    implementation 'org.apache.logging.log4j:log4j-api:2.19.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.19.0'
+
+    implementation group: 'org.json', name:'json', version: '20230227'
 
     implementation group: 'org.zeromq', name: 'jeromq', version: '0.5.3'
 
     implementation 'org.scala-lang:scala-library:2.11.12'
     testImplementation 'org.scalatest:scalatest_2.11:3.0.0'
+
+    def akitJson = new groovy.json.JsonSlurper().parseText(new File(projectDir.getAbsolutePath() + "/vendordeps/AdvantageKit.json").text)
+    annotationProcessor "org.littletonrobotics.akit.junction:junction-autolog:$akitJson.version"
 }
 
 sourceSets {
@@ -84,9 +110,9 @@ sourceSets {
     }
 }
 
-task jarSources(type:Jar){
+tasks.register('jarSources', Jar) {
     from sourceSets.main.allSource
-    classifier = 'source'
+    archiveClassifier = 'source'
 }
 
 test {
@@ -102,12 +128,12 @@ tasks.withType(JavaCompile) {
 
 tasks.withType(Test) {
     testLogging.showStandardStreams = true
-    
-    afterTest { desc, result -> 
+
+    afterTest { desc, result ->
         logger.quiet "Executed test ${desc.name} [${desc.className}] with result: ${result.resultType}"
     }
 
-    afterSuite { desc, result ->    
+    afterSuite { desc, result ->
       if (!desc.parent) { // will match the outermost suite
         println "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
       }
@@ -127,6 +153,10 @@ task checkstyle(type: Checkstyle) {
     classpath = files()
 }
 
+javadoc {
+    options.overview = "src/main/java/overview.html"
+}
+
 jacocoTestReport {
     dependsOn test
     reports {
@@ -140,6 +170,11 @@ test.finalizedBy { jacocoTestReport }
 // Configure jar and deploy tasks
 wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
+
+// Configure string concat to always inline compile
+tasks.withType(JavaCompile) {
+    options.compilerArgs.add '-XDstringConcat=inline'
+}
 
 apply plugin: 'maven-publish'
 

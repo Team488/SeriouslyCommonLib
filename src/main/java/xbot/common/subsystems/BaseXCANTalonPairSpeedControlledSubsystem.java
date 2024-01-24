@@ -11,7 +11,7 @@ public class BaseXCANTalonPairSpeedControlledSubsystem extends BaseXCANTalonSpee
     protected XCANTalon followerMotor;
     
     /**
-     * @param systemName What the system is called. This will apply to various Properties.
+     * @param name What the system is called. This will apply to various Properties.
      * @param masterChannel The CAN index of the master motor (or the only motor, for a simple system)
      * @param followChannel The CAN index of the follow motor (-1 if no follow motor)
      * @param factory The WPIFactory

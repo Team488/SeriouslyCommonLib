@@ -2,17 +2,20 @@ package xbot.common.controls.actuators.mock_adapters;
 
 import java.math.BigDecimal;
 
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.ExternalFollower;
+import com.revrobotics.CANSparkBase.FaultID;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMax.ExternalFollower;
-import com.revrobotics.CANSparkMax.FaultID;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMax.SoftLimitDirection;
+import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.REVLibError;
-import com.revrobotics.SparkMaxLimitSwitch.Type;
-import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
+import com.revrobotics.SparkLimitSwitch.Type;
+import com.revrobotics.SparkPIDController.ArbFFUnits;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import dagger.assisted.Assisted;
@@ -20,6 +23,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
+import xbot.common.controls.io_inputs.XCANSparkMaxInputs;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 import xbot.common.injection.DevicePolice;
@@ -29,7 +33,7 @@ import xbot.common.simulation.ISimulatableMotor;
 import xbot.common.simulation.ISimulatableSensor;
 
 public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, ISimulatableSensor {
-    private static Logger log = Logger.getLogger(MockCANSparkMax.class);
+    private static Logger log = LogManager.getLogger(MockCANSparkMax.class);
     private double power = 0;
     private double velocity = 0;
     private double simulationScalingValue;
@@ -54,6 +58,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
             @Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
             @Assisted("name") String name,
+            @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
             @Assisted("defaultPIDProperties") XCANSparkMaxPIDProperties defaultPIDProperties);
     }
 
@@ -61,8 +66,9 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     public MockCANSparkMax(@Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix, @Assisted("name") String name,
             PropertyFactory propMan, DevicePolice police,
+            @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
             @Assisted("defaultPIDProperties") XCANSparkMaxPIDProperties defaultPIDProperties) {
-        super(deviceInfo, owningSystemPrefix, name, propMan, police, defaultPIDProperties);
+        super(deviceInfo, owningSystemPrefix, name, propMan, police, pidPropertyPrefix, defaultPIDProperties);
         log.info("Creating CAN talon with device ID: " + deviceId);
         internalEncoder = new MockEncoder("Test", propMan);
         setInverted(deviceInfo.inverted);
@@ -144,12 +150,12 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     }
 
     @Override
-    public REVLibError setIdleMode(IdleMode mode) {
+    public REVLibError setIdleMode(CANSparkMax.IdleMode mode) {
         return REVLibError.kOk;
     }
 
     @Override
-    public IdleMode getIdleMode() {
+    public CANSparkMax.IdleMode getIdleMode() {
         return null;
     }
 
@@ -240,7 +246,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
 
     @Override
     public double getAppliedOutput() {
-        return 0;
+        return power;
     }
 
     @Override
@@ -670,5 +676,21 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     @Override
     public boolean getReverseLimitSwitchPressed(Type switchType) {
         return false;
+    }
+
+    @Override
+    public REVLibError setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame frame, int periodMs) {
+        return REVLibError.kOk;
+    }
+
+    @Override
+    protected void updateInputs(XCANSparkMaxInputs inputs) {
+        inputs.stickyFaultHasReset = getStickyFault(FaultID.kHasReset);
+        inputs.lastErrorId = getLastError().value;
+        inputs.velocity = getVelocity();
+        inputs.position = getPosition();
+        inputs.appliedOutput = getAppliedOutput();
+        inputs.busVoltage = getBusVoltage();
+        inputs.outputCurrent = getOutputCurrent();
     }
 }

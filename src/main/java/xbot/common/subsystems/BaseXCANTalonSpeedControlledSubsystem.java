@@ -99,7 +99,7 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
     
     /**
      * Sets the output power of the system directly - no PID of any kind
-     * @param Power is set to system
+     * @param power is set to system
      */
     public void setPower(double power) {
         masterMotor.set(ControlMode.PercentOutput, power);
@@ -117,7 +117,7 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
 
     /**
      * Gives the system a new speed goal.
-     * @param systemTargetSpeed in Rotations per Second (RPS)
+     * @param speed in Rotations per Second (RPS)
      */
     public void setTargetSpeed(double speed) {        
         // Update property for dashboard

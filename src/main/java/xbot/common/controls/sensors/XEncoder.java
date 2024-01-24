@@ -34,10 +34,10 @@ public abstract class XEncoder {
         police.registerDevice(DeviceType.DigitalIO, aChannel, this);
         police.registerDevice(DeviceType.DigitalIO, bChannel, this);
     }
-    
+
     public XEncoder(String prefix, PropertyFactory propMan) {
         propMan.setPrefix(prefix);
-        var distancePerPulseProp = propMan.createPersistentProperty("Test" + "DistancePerPulse", 1);
+        var distancePerPulseProp = propMan.createPersistentProperty("Mock" + "DistancePerPulse", 1);
         setDistancePerPulseSupplier(() -> distancePerPulseProp.get());
     }
 

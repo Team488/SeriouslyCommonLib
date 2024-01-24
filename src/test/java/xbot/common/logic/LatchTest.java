@@ -27,7 +27,7 @@ public class LatchTest {
     @Test
     public void testRisingEdge() {
         Latch latch = new Latch(false, Latch.EdgeType.RisingEdge);
-        latch.addObserver(latchTestObserver);
+        latch.setObserver(latchTestObserver);
         verifyEdgeType(null);
         verifyTimesUpdateWasCalled(0);
         latch.setValue(true);
@@ -38,7 +38,7 @@ public class LatchTest {
     @Test
     public void testFallingEdge() {
         Latch latch = new Latch(true, Latch.EdgeType.FallingEdge);
-        latch.addObserver(latchTestObserver);
+        latch.setObserver(latchTestObserver);
         verifyEdgeType(null);
         verifyTimesUpdateWasCalled(0);
         latch.setValue(false);
@@ -49,7 +49,7 @@ public class LatchTest {
     @Test
     public void testRiseFallRiseObservingRisingEdge() {
         Latch latch = new Latch(false, Latch.EdgeType.RisingEdge);
-        latch.addObserver(latchTestObserver);
+        latch.setObserver(latchTestObserver);
         verifyEdgeType(null);
         verifyTimesUpdateWasCalled(0);
         latch.setValue(true);
@@ -65,7 +65,7 @@ public class LatchTest {
     @Test
     public void testFallRiseFallObservingFallingEdge() {
         Latch latch = new Latch(true, Latch.EdgeType.FallingEdge);
-        latch.addObserver(latchTestObserver);
+        latch.setObserver(latchTestObserver);
         verifyEdgeType(null);
         verifyTimesUpdateWasCalled(0);
         latch.setValue(false);
@@ -81,7 +81,7 @@ public class LatchTest {
     @Test
     public void testFallRiseRiseFallRiseFallObservingRisingEdge() {
         Latch latch = new Latch(false, Latch.EdgeType.RisingEdge);
-        latch.addObserver(latchTestObserver);
+        latch.setObserver(latchTestObserver);
         verifyEdgeType(null);
         latch.setValue(false);
         verifyEdgeType(null);
@@ -106,7 +106,7 @@ public class LatchTest {
     @Test
     public void testFallRiseRiseFallRiseFallObservingFallingEdge() {
         Latch latch = new Latch(true, Latch.EdgeType.FallingEdge);
-        latch.addObserver(latchTestObserver);
+        latch.setObserver(latchTestObserver);
         verifyEdgeType(null);
         latch.setValue(true);
         verifyEdgeType(null);
@@ -131,7 +131,7 @@ public class LatchTest {
     @Test
     public void testRiseFallRiseObservingBothEdges() {
         Latch latch = new Latch(true, Latch.EdgeType.Both);
-        latch.addObserver(latchTestObserver);
+        latch.setObserver(latchTestObserver);
         verifyTimesUpdateWasCalled(0);
         latch.setValue(false);
         verifyEdgeType(Latch.EdgeType.FallingEdge);

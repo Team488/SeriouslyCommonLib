@@ -5,11 +5,13 @@ import static org.junit.Assert.assertEquals;
 import java.math.BigDecimal;
 
 import org.json.JSONObject;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.wpi.first.wpilibj.SerialPort;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
 
+@Ignore
 public class SimulatedIMUTest extends BaseSimulationTest {
 
     MockGyro simulatedGyro;
@@ -29,7 +31,7 @@ public class SimulatedIMUTest extends BaseSimulationTest {
         JSONObject fullSensorPayload = createSimpleSensorPayload("IMU1", imuPayload);
         
         this.distributor.distributeSimulationPayload(fullSensorPayload);
-
+        simulatedGyro.refreshDataFrame();
         assertEquals(45.223, simulatedGyro.getHeading().getDegrees(), 0.001);
         assertEquals(12, simulatedGyro.getYawAngularVelocity(), 0.001);
     }

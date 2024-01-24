@@ -1,5 +1,9 @@
 package xbot.common.subsystems.pose;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import org.littletonrobotics.junction.Logger;
+import edu.wpi.first.math.geometry.Rotation2d;
+import xbot.common.advantage.DataFrameRefreshable;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -14,46 +18,31 @@ import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
-public abstract class BasePoseSubsystem extends BaseSubsystem {
+public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable {
 
     public final XGyro imu;
-    
-    protected final DoubleProperty leftDriveDistance;
-    protected final DoubleProperty rightDriveDistance;
-    
-    protected final DoubleProperty totalDistanceX;
-    protected final DoubleProperty totalDistanceY;
-    protected final DoubleProperty totalDistanceYRobotPerspective;
-    public final DoubleProperty velocityX;
-    public final DoubleProperty velocityY;
-    protected final DoubleProperty totalVelocity;
-    
+    protected double leftDriveDistance;
+    protected double rightDriveDistance;
+    protected double totalDistanceX;
+    protected double totalDistanceY;
+    protected double totalDistanceYRobotPerspective;
+    public double velocityX;
+    public double velocityY;
+    protected double totalVelocity;
     protected WrappedRotation2d currentHeading;
-    protected final DoubleProperty currentHeadingProp;
-    protected final DoubleProperty currentCompassHeadingProp;
-    protected final DoubleProperty headingAngularVelocityProp;
     protected double headingOffset;
-    
     // These are two common robot starting positions - kept here as convenient shorthand.
     public static final double FACING_AWAY_FROM_DRIVERS = 0;
     public static final double FACING_TOWARDS_DRIVERS = -180;
     public static final double INCHES_IN_A_METER = 39.3701;
-    
-    protected final DoubleProperty currentPitch;
-    protected final DoubleProperty currentRoll;
-    
     protected final DoubleProperty inherentRioPitch;
     protected final DoubleProperty inherentRioRoll;
-    
     protected double previousLeftDistance;
     protected double previousRightDistance;
-
     protected final double classInstantiationTime;
     protected boolean isNavXReady = false;
-    
     protected BooleanProperty rioRotated;
     protected boolean firstUpdate = true;
-    
     protected double lastSetHeadingTime;
 
     public BasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {
@@ -65,24 +54,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
         currentHeading = WrappedRotation2d.fromDegrees(0);
-        
-        currentHeadingProp = propManager.createEphemeralProperty("CurrentHeading", currentHeading.getDegrees());
-        currentCompassHeadingProp = propManager.createEphemeralProperty("Current compass heading", getCompassHeading(currentHeading));
-        headingAngularVelocityProp = propManager.createEphemeralProperty("Heading Rotational Velocity", 0.0);
-
-        currentPitch = propManager.createEphemeralProperty("Current pitch", 0.0);
-        currentRoll = propManager.createEphemeralProperty("Current roll", 0.0);
-        
-        leftDriveDistance = propManager.createEphemeralProperty("Left drive distance", 0.0);
-        rightDriveDistance = propManager.createEphemeralProperty("Right drive distance", 0.0);
-        
-        totalDistanceX = propManager.createEphemeralProperty("Total distance X", 0.0);
-        totalDistanceY = propManager.createEphemeralProperty("Total distance Y", 0.0);
-        totalDistanceYRobotPerspective = propManager.createEphemeralProperty("Total distance Y Robot Perspective", 0.0);
-        
-        velocityX = propManager.createEphemeralProperty("X Velocity", 0.0);
-        velocityY = propManager.createEphemeralProperty("Y Velocity", 0.0);
-        totalVelocity = propManager.createEphemeralProperty("Total Velocity", 0.0);
         
         rioRotated = propManager.createPersistentProperty("RIO rotated", false);
         inherentRioPitch = propManager.createPersistentProperty("Inherent RIO pitch", 0.0);
@@ -96,13 +67,11 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     protected void updateCurrentHeading() {
         currentHeading = WrappedRotation2d.fromDegrees(getRobotYaw().getDegrees() + headingOffset);
 
-        currentHeadingProp.set(currentHeading.getDegrees());
-        currentCompassHeadingProp.set(getCompassHeading(currentHeading));
-
-        headingAngularVelocityProp.set(getYawAngularVelocity());
-        
-        currentPitch.set(getRobotPitch());
-        currentRoll.set(getRobotRoll());
+        Logger.getInstance().recordOutput(this.getPrefix()+"AdjustedHeadingDegrees", currentHeading.getDegrees());
+        Logger.getInstance().recordOutput(this.getPrefix()+"AdjustedHeadingRadians", currentHeading.getRadians());
+        Logger.getInstance().recordOutput(this.getPrefix()+"AdjustedPitchDegrees", this.getRobotPitch());
+        Logger.getInstance().recordOutput(this.getPrefix()+"AdjustedRollDegrees", this.getRobotRoll());
+        Logger.getInstance().recordOutput(this.getPrefix()+"AdjustedYawVelocityDegrees", getYawAngularVelocity());
     }  
     
     protected void updateOdometry() {
@@ -110,8 +79,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         double currentLeftDistance = getLeftDriveDistance();
         double currentRightDistance = getRightDriveDistance();
         
-        leftDriveDistance.set(currentLeftDistance);
-        rightDriveDistance.set(currentRightDistance);
+        leftDriveDistance = currentLeftDistance;
+        rightDriveDistance = currentRightDistance;
 
         if (firstUpdate)
         {
@@ -127,7 +96,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         double deltaRight = currentRightDistance - previousRightDistance;
 
         double totalDistance = (deltaLeft + deltaRight) / 2;
-        totalDistanceYRobotPerspective.set(totalDistanceYRobotPerspective.get() + totalDistance);
+        totalDistanceYRobotPerspective += totalDistance;
         
         // get X and Y        
         double deltaY = currentHeading.getSin() * totalDistance;
@@ -135,12 +104,12 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         
         double instantVelocity = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
         
-        totalDistanceX.set(totalDistanceX.get() + deltaX);
-        totalDistanceY.set(totalDistanceY.get() + deltaY);
+        totalDistanceX += deltaX;
+        totalDistanceY += deltaY;
 
-        velocityX.set(deltaX);
-        velocityY.set(deltaY);
-        totalVelocity.set(instantVelocity);
+        velocityX = deltaX;
+        velocityY = deltaY;
+        totalVelocity = instantVelocity;
         
         // save values for next round
         previousLeftDistance = currentLeftDistance;
@@ -158,11 +127,11 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     public XYPair getFieldOrientedTotalDistanceTraveled() {
         return getTravelVector().clone();
     }
-    
+
     protected XYPair getTravelVector() {
-        return new XYPair(totalDistanceX.get(), totalDistanceY.get());
+        return new XYPair(totalDistanceX, totalDistanceY);
     }
-    
+
     public FieldPose getCurrentFieldPose() {
         return new FieldPose(getTravelVector(), getCurrentHeading());
     }
@@ -177,11 +146,11 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
     }
 
     public XYPair getCurrentVelocity() {
-        return new XYPair(velocityX.get(), velocityY.get());
+        return new XYPair(velocityX, velocityY);
     }
 
     public double getCurrentHeadingAngularVelocity() {
-        return headingAngularVelocityProp.get();
+        return getYawAngularVelocity();
     }
     
     /**
@@ -190,29 +159,29 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
      * @return Distance in inches traveled forward from the robot perspective
      */
     public double getRobotOrientedTotalDistanceTraveled() {
-        return totalDistanceYRobotPerspective.get();
+        return totalDistanceYRobotPerspective;
     }
     
     public void resetDistanceTraveled() {
-        totalDistanceX.set(0);
-        totalDistanceY.set(0);
-        totalDistanceYRobotPerspective.set(0);
+        totalDistanceX = 0;
+        totalDistanceY = 0;
+        totalDistanceYRobotPerspective = 0;
     }
     
     public void setCurrentHeading(double headingInDegrees){
-        log.info("Forcing heading to: " + headingInDegrees);
+        //log.info("Forcing heading to: " + headingInDegrees);
         double rawHeading = getRobotYaw().getDegrees();
-        log.info("Raw heading is: " + rawHeading);
+        //log.info("Raw heading is: " + rawHeading);
         headingOffset = -rawHeading + headingInDegrees;
-        log.info("Offset calculated to be: " + headingOffset);
+        //log.info("Offset calculated to be: " + headingOffset);
         
         lastSetHeadingTime = XTimer.getFPGATimestamp();
     }
     
     public void setCurrentPosition(double newXPosition, double newYPosition) {
-        log.info("Setting Robot Position. X:" + newXPosition + ", Y:" +newYPosition);
-        totalDistanceX.set(newXPosition);
-        totalDistanceY.set(newYPosition);
+        //log.info("Setting Robot Position. X:" + newXPosition + ", Y:" +newYPosition);
+        totalDistanceX = newXPosition;
+        totalDistanceY = newYPosition;
     }
     
     public boolean getHeadingResetRecently() {
@@ -279,6 +248,39 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
         return isNavXReady;
     }
 
+    public static Pose2d convertBluetoRed(Pose2d blueCoordinates){
+        double fieldMidpoint = 9;
+        double redXCoordinates = ((fieldMidpoint-blueCoordinates.getX()) * 2) + blueCoordinates.getX();
+        Rotation2d heading = blueCoordinates.getRotation();
+        Rotation2d convertedHeading = Rotation2d.fromDegrees(heading.getDegrees() - (heading.getDegrees() - 90.0) * 2);
+
+        return new Pose2d(redXCoordinates, blueCoordinates.getY(),convertedHeading);
+    }
+
+    public static Pose2d convertBlueToRedIfNeeded(Pose2d blueCoordinates) {
+        return convertBlueToRedIfNeeded(blueCoordinates, DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue));
+    }
+
+    public static Pose2d convertBlueToRedIfNeeded(Pose2d blueCoordinates, DriverStation.Alliance alliance) {
+        if (alliance == DriverStation.Alliance.Red) {
+            return convertBluetoRed(blueCoordinates);
+        }
+        return blueCoordinates;
+    }
+
+    public static Rotation2d rotateAngleBasedOnAlliance(Rotation2d rotation) {
+        var alliance = getAlliance();
+
+        if (getAlliance() == DriverStation.Alliance.Red) {
+            return Rotation2d.fromDegrees(rotation.getDegrees() - (rotation.getDegrees() - 90.0) * 2);
+        }
+        return rotation;
+    }
+
+    public static DriverStation.Alliance getAlliance() {
+        return DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue);
+    }
+
     @Override
     public void periodic() {
         if (!isNavXReady && (classInstantiationTime + 1 < XTimer.getFPGATimestamp())) {
@@ -286,5 +288,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem {
             isNavXReady = true;
         }   
         updatePose();
+    }
+
+    @Override
+    public void refreshDataFrame() {
+        imu.refreshDataFrame();
     }
 }

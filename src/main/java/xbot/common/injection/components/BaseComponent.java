@@ -38,7 +38,6 @@ import xbot.common.controls.sensors.buttons.ChordTrigger.ChordTriggerFactory;
 import xbot.common.controls.sensors.buttons.VirtualTrigger.VirtualTriggerFactory;
 import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
-import xbot.common.logging.RobotSession;
 import xbot.common.logic.CalibrationDecider.CalibrationDeciderFactory;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.logic.StallDetector.StallDetectorFactory;
@@ -65,6 +64,7 @@ import xbot.common.subsystems.pose.BasePoseSubsystem;
  * Implementations of this abstract class map Modules to the Component. Dagger will automatically
  * generate a class with the prefix "Dagger" in the same package.
  */
+@SuppressWarnings("unused")
 public abstract class BaseComponent {
     public abstract XTimerImpl timerImplementation();
 
@@ -91,8 +91,6 @@ public abstract class BaseComponent {
     public abstract FieldPosePropertyManagerFactory fieldPosePropertyManagerFactory();
 
     public abstract AutonomousCommandSelector autonomousCommandSelector();
-
-    public abstract RobotSession robotSession();
 
     public abstract WebotsClient webotsClient();
 

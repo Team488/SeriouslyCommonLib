@@ -1,8 +1,10 @@
 package xbot.common.properties;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +29,7 @@ public class PropertyTest extends BaseCommonLibTest {
         StringProperty str = propertyFactory.createEphemeralProperty("string", "teststring");
 
         assertEquals(1.0, dbl.get(), 0.001);
-        assertEquals(true, bool.get());
+        assertTrue(bool.get());
         assertEquals("teststring", str.get());
     }
 
@@ -42,7 +44,7 @@ public class PropertyTest extends BaseCommonLibTest {
         str.set("test2");
 
         assertEquals(0.5, dbl.get(), 0.001);
-        assertEquals(false, bool.get());
+        assertFalse(bool.get());
         assertEquals("test2", str.get());
     }
 
@@ -52,20 +54,20 @@ public class PropertyTest extends BaseCommonLibTest {
         BooleanProperty bool = propertyFactory.createPersistentProperty("isTrue", false);
         StringProperty str = propertyFactory.createPersistentProperty("string", "test2");
 
-        assertSame(null, propertyManager.permanentStore.getDouble("speed"));
-        assertSame(null, propertyManager.permanentStore.getBoolean("isTrue"));
-        assertSame(null, propertyManager.permanentStore.getString("string"));
+        assertNull(propertyManager.permanentStore.getDouble("speed"));
+        assertNull(propertyManager.permanentStore.getBoolean("isTrue"));
+        assertNull(propertyManager.permanentStore.getString("string"));
 
         assertEquals(0.5, dbl.get(), 0.001);
-        assertEquals(false, bool.get());
+        assertFalse(bool.get());
         assertEquals("test2", str.get());
 
         propertyManager.saveOutAllProperties();
 
-        // default values shouldn't exist in permanent store
-        assertNull(propertyManager.permanentStore.getDouble("speed"));
-        assertNull(propertyManager.permanentStore.getBoolean("isTrue"));
-        assertNull(propertyManager.permanentStore.getString("string"));
+        // default values should exist in permanent store
+        assertEquals(0.5, propertyManager.permanentStore.getDouble("speed"), 0.001);
+        assertFalse(propertyManager.permanentStore.getBoolean("isTrue"));
+        assertEquals("test2", propertyManager.permanentStore.getString("string"));
 
         dbl.set(1.0);
         bool.set(true);
@@ -74,8 +76,8 @@ public class PropertyTest extends BaseCommonLibTest {
         propertyManager.saveOutAllProperties();
 
         // non-defaults should save
-        assertEquals(1.0, propertyManager.permanentStore.getDouble("speed").doubleValue(), 0.001);
-        assertEquals(true, propertyManager.permanentStore.getBoolean("isTrue").booleanValue());
+        assertEquals(1.0, propertyManager.permanentStore.getDouble("speed"), 0.001);
+        assertTrue(propertyManager.permanentStore.getBoolean("isTrue"));
         assertEquals("new", propertyManager.permanentStore.getString("string"));
 
         dbl.set(0.5);
@@ -84,10 +86,14 @@ public class PropertyTest extends BaseCommonLibTest {
 
         propertyManager.saveOutAllProperties();
 
-        // default values should be removed from permanent store
-        assertNull(propertyManager.permanentStore.getDouble("speed"));
-        assertNull(propertyManager.permanentStore.getBoolean("isTrue"));
-        assertNull(propertyManager.permanentStore.getString("string"));
+        // default values should be still be in permanent store
+        assertEquals(0.5, propertyManager.permanentStore.getDouble("speed"), 0.001);
+        assertFalse(propertyManager.permanentStore.getBoolean("isTrue"));
+        assertEquals("test2", propertyManager.permanentStore.getString("string"));
+
+        // note that we still need to save default values, because we don't want
+        // to lose them if a different robot program is loaded that doesn't have
+        // the same set of properties
     }
 
     @Test
@@ -113,7 +119,7 @@ public class PropertyTest extends BaseCommonLibTest {
         StringProperty str = propertyFactory.createPersistentProperty("string", "blahblah");
 
         assertEquals(0.5, dbl.get(), 0.001);
-        assertEquals(true, bool.get());
+        assertTrue(bool.get());
         assertEquals("teststring", str.get());
     }
 
@@ -132,8 +138,10 @@ public class PropertyTest extends BaseCommonLibTest {
 
         propertyManager.loadPropertiesFromStorage();
 
-        assertEquals(1.0, dbl.get(), 0.001);
-        assertEquals(false, bool.get());
-        assertEquals("blahblah", str.get());
+        // Values should not change because the old properties should be loaded
+        // rather than the new defaults.
+        assertEquals(0.5, dbl.get(), 0.001);
+        assertTrue(bool.get());
+        assertEquals("teststring", str.get());
     }
 }

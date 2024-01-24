@@ -1,5 +1,6 @@
 package xbot.common.command;
 
+import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.wpilibj.DriverStation;
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
@@ -11,41 +12,49 @@ import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.properties.StringProperty;
 
+/**
+ * A command that maintains a subsystem at a goal value.
+ * @param <T> The type of the setpoint being maintained.
+ */
 public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
-    BaseSetpointSubsystem subsystemToMaintan;
+    BaseSetpointSubsystem<T> subsystemToMaintain;
 
-    protected final BooleanProperty errorWithinToleranceProp;
+
     protected final DoubleProperty errorToleranceProp;
-    protected final BooleanProperty errorIsTimeStableProp;
     protected final DoubleProperty errorTimeStableWindowProp;
-    protected final BooleanProperty subsystemReportsReadyProp;
 
     protected final TimeStableValidator timeStableValidator;
     protected final HumanVsMachineDecider decider;
 
-    private final StringProperty currentModeProp;
 
-    public BaseMaintainerCommand(BaseSetpointSubsystem subsystemToMaintain, PropertyFactory pf,
+    /**
+     * Creates a new maintainer command.
+     * @param subsystemToMaintain The subsystem to maintain.
+     * @param pf The property factory to use for creating properties.
+     * @param humanVsMachineDeciderFactory The decider factory to use for creating the decider.
+     * @param defaultErrorTolerance The default error tolerance.
+     * @param defaultTimeStableWindow The default time stable window.
+     */
+    public BaseMaintainerCommand(BaseSetpointSubsystem<T> subsystemToMaintain, PropertyFactory pf,
             HumanVsMachineDeciderFactory humanVsMachineDeciderFactory,
             double defaultErrorTolerance, double defaultTimeStableWindow) {
-        this.subsystemToMaintan = subsystemToMaintain;
+        this.subsystemToMaintain = subsystemToMaintain;
         this.addRequirements(subsystemToMaintain);
 
         pf.setPrefix(this);
-        errorToleranceProp = pf.createPersistentProperty("Error Tolerance", defaultErrorTolerance);
-        errorTimeStableWindowProp = pf.createPersistentProperty("Error Time Stable Window", defaultTimeStableWindow);
-
         pf.setDefaultLevel(Property.PropertyLevel.Debug);
-        errorWithinToleranceProp = pf.createEphemeralProperty("Error Within Tolerance", false);
-        errorIsTimeStableProp = pf.createEphemeralProperty("Error Is Time Stable", false);
-        currentModeProp = pf.createEphemeralProperty("Current Mode", "Not Yet Run");
-        subsystemReportsReadyProp = pf.createEphemeralProperty("Subsystem Ready", false);
+        errorToleranceProp = pf.createPersistentProperty("Error Tolerance", defaultErrorTolerance);
+        errorTimeStableWindowProp = pf.createEphemeralProperty("Error Time Stable Window", defaultTimeStableWindow);
 
         timeStableValidator = new TimeStableValidator(() -> errorTimeStableWindowProp.get());
         decider = humanVsMachineDeciderFactory.create(this.getPrefix());
     }
 
+    /**
+     * Resets the decider to the given mode.
+     * @param startInAutomaticMode True to start in automatic mode, false to start in human control mode.
+     */
     protected void resetDecider(boolean startInAutomaticMode) {
         decider.reset(startInAutomaticMode);
     }
@@ -53,7 +62,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
     @Override
     public void execute() {
         maintain();
-        subsystemToMaintan.setMaintainerIsAtGoal(isMaintainerAtGoal());
+        subsystemToMaintain.setMaintainerIsAtGoal(isMaintainerAtGoal());
     }
 
     /**
@@ -63,7 +72,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
     protected void maintain() {
         double humanInput = getHumanInputMagnitude();
         HumanVsMachineMode mode = decider.getRecommendedMode(humanInput);
-        currentModeProp.set(mode.toString());
+        Logger.getInstance().recordOutput(getPrefix()+"CurrentMode", mode.toString());
 
         switch (mode) {
             case Coast:
@@ -76,7 +85,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
                 initializeMachineControlAction();
                 break;
             case MachineControl:
-                if (subsystemToMaintan.isCalibrated()) {
+                if (subsystemToMaintain.isCalibrated()) {
                     calibratedMachineControlAction();
                 } else {
                     uncalibratedMachineControlAction();
@@ -88,38 +97,58 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         }
     }
 
-    // Typically do nothing.
+    /**
+     * The coast action. Typically, this does nothing.
+     */
     protected abstract void coastAction();
 
+    /**
+     * The human control action. Typically, this simply assigns the human input to
+     * the subsystem.
+     */
     protected void humanControlAction() {
         // Typically simply assign human input
-        subsystemToMaintan.setPower(getHumanInput());
+        subsystemToMaintain.setPower(getHumanInput());
     }
 
+    /**
+     * The initialize machine control action. Typically, this sets the goal to the
+     * current position to avoid sudden changes.
+     */
     protected void initializeMachineControlAction() {
         // When we re-initialize machine control, we need to briefly "take" the setpoint
         // lock. In practice,
         // we can't require and then un-require a subsystem, so instead we just cancel
         // any running command that
-        // is trying to maniuplate the setpoint.
-        if (subsystemToMaintan.getSetpointLock().getCurrentCommand() != null && !DriverStation.isAutonomous()) {
-            subsystemToMaintan.getSetpointLock().getCurrentCommand().cancel();
+        // is trying to manipulate the setpoint.
+
+        if (subsystemToMaintain.getSetpointLock().getCurrentCommand() != null && !DriverStation.isAutonomous()) {
+            subsystemToMaintain.getSetpointLock().getCurrentCommand().cancel();
         }
 
         // Typically set the goal to the current position, to avoid sudden extreme
-        // changes
-        // as soon as Coast is complete.
-        subsystemToMaintan.setTargetValue(subsystemToMaintan.getCurrentValue());
+        // changes as soon as Coast is complete.
+        subsystemToMaintain.setTargetValue(subsystemToMaintain.getCurrentValue());
     }
 
+    /**
+     * The calibrated machine control action.
+     */
     protected abstract void calibratedMachineControlAction();
 
+    /**
+     * The uncalibrated machine control action. Typically, this defaults to human
+     * control, although this is a good candidate for being overridden with an
+     * auto-calibration sequence.
+     */
     protected void uncalibratedMachineControlAction() {
-        // Typically default to human control, although this is a good candidate
-        // for being overwritten by an auto-calibrating feature.
         humanControlAction();
     }
 
+    /**
+     * Checks if the subsystem is at its goal.
+     * @return True if the subsystem is at its goal.
+     */
     protected boolean isMaintainerAtGoal() {
         // Are we near our goal?
         boolean withinErrorTolerance = getErrorWithinTolerance();
@@ -128,16 +157,16 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
         boolean isStable = timeStableValidator.checkStable(totalAtGoal);
         // Let everybody know
-        errorWithinToleranceProp.set(withinErrorTolerance);
-        errorIsTimeStableProp.set(isStable);
-        subsystemReportsReadyProp.set(subsystemToMaintan.isMaintainerAtGoal());
+
+        Logger.getInstance().recordOutput(this.getPrefix() + "ErrorWithinTotalTolerance", withinErrorTolerance);
+        Logger.getInstance().recordOutput(this.getPrefix() + "ErrorIsTimeStable", isStable);
+
         return isStable;
     }
 
     /**
      * Maintainer systems already check for error tolerance and time stability. If
-     * there
-     * are any other checks that should be made, override this method and place them
+     * there are any other checks that should be made, override this method and place them
      * here.
      * 
      * @return true by default, can be overridden by child classes.
@@ -165,15 +194,28 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
     protected abstract double getErrorMagnitude();
 
+    /**
+     * Gets the human input to use for the maintain command.
+     * @return The human input.
+     */
     protected abstract T getHumanInput();
 
+    /**
+     * Gets the magnitude of the human input to use for the maintain command,
+     * since the generic type T may not be a number.
+     * @return The magnitude of the human input.
+     */
     protected abstract double getHumanInputMagnitude();
 
     @Override
     public String getPrefix() {
-        return subsystemToMaintan.getPrefix() + getName() + "/";
+        return subsystemToMaintain.getPrefix() + getName() + "/";
     }
 
+    /**
+     * Sets the error tolerance for the maintain command.
+     * @param tolerance The error tolerance.
+     */
     protected void setErrorTolerance(double tolerance) {
         errorToleranceProp.set(tolerance);
     }

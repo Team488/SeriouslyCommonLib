@@ -1,29 +1,29 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.ExternalFollower;
+import com.revrobotics.CANSparkBase.FaultID;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMax.ExternalFollower;
-import com.revrobotics.CANSparkMax.FaultID;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMax.SoftLimitDirection;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxAnalogSensor;
-import com.revrobotics.SparkMaxAnalogSensor.Mode;
-import com.revrobotics.SparkMaxLimitSwitch;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.SparkMaxPIDController.AccelStrategy;
-import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
-import com.revrobotics.SparkMaxRelativeEncoder.Type;
-
+import com.revrobotics.SparkAnalogSensor;
+import com.revrobotics.SparkAnalogSensor.Mode;
+import com.revrobotics.SparkLimitSwitch;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.SparkPIDController.AccelStrategy;
+import com.revrobotics.SparkPIDController.ArbFFUnits;
+import com.revrobotics.SparkRelativeEncoder.Type;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
+import xbot.common.controls.io_inputs.XCANSparkMaxInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.properties.PropertyFactory;
@@ -38,6 +38,7 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
             @Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
             @Assisted("name") String name,
+            @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
             @Assisted("defaultPIDProperties") XCANSparkMaxPIDProperties defaultPIDProperties);
     }
 
@@ -45,8 +46,9 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     public CANSparkMaxWpiAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix, @Assisted("name") String name,
             PropertyFactory propMan, DevicePolice police,
+            @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
             @Assisted("defaultPIDProperties") XCANSparkMaxPIDProperties defaultPIDProperties) {
-        super(deviceInfo, owningSystemPrefix, name, propMan, police, defaultPIDProperties);
+        super(deviceInfo, owningSystemPrefix, name, propMan, police, pidPropertyPrefix, defaultPIDProperties);
         internalSpark = new CANSparkMax(deviceInfo.channel, MotorType.kBrushless);
         setInverted(deviceInfo.inverted);
     }
@@ -171,19 +173,19 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return internalSpark.restoreFactoryDefaults(persist);
     }
 
-    public SparkMaxAnalogSensor getAnalog(Mode mode) {
+    public SparkAnalogSensor getAnalog(Mode mode) {
         return internalSpark.getAnalog(mode);
     }
 
-    public SparkMaxPIDController getPIDController() {
+    public SparkPIDController getPIDController() {
         return internalSpark.getPIDController();
     }
 
-    public SparkMaxLimitSwitch getForwardLimitSwitch(com.revrobotics.SparkMaxLimitSwitch.Type switchType) {
+    public SparkLimitSwitch getForwardLimitSwitch(com.revrobotics.SparkLimitSwitch.Type switchType) {
         return internalSpark.getForwardLimitSwitch(switchType);
     }
 
-    public SparkMaxLimitSwitch getReverseLimitSwitch(com.revrobotics.SparkMaxLimitSwitch.Type switchType) {
+    public SparkLimitSwitch getReverseLimitSwitch(com.revrobotics.SparkLimitSwitch.Type switchType) {
         return internalSpark.getReverseLimitSwitch(switchType);
     }
 
@@ -207,11 +209,11 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return internalSpark.setSecondaryCurrentLimit(limit, chopCycles);
     }
 
-    public REVLibError setIdleMode(IdleMode mode) {
+    public REVLibError setIdleMode(CANSparkMax.IdleMode mode) {
         return internalSpark.setIdleMode(mode);
     }
 
-    public IdleMode getIdleMode() {
+    public CANSparkMax.IdleMode getIdleMode() {
         return internalSpark.getIdleMode();
     }
 
@@ -259,19 +261,21 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return internalSpark.getFault(faultID);
     }
 
-    public boolean getStickyFault(FaultID faultID) {
+    public boolean getStickyFault(FaultID faultID) { return internalSpark.getStickyFault(faultID); }
+
+    public boolean getStickyFault_internal(FaultID faultID) {
         return internalSpark.getStickyFault(faultID);
     }
 
-    public double getBusVoltage() {
+    public double getBusVoltage_internal() {
         return internalSpark.getBusVoltage();
     }
 
-    public double getAppliedOutput() {
+    public double getAppliedOutput_internal() {
         return internalSpark.getAppliedOutput();
     }
 
-    public double getOutputCurrent() {
+    public double getOutputCurrent_internal() {
         return internalSpark.getOutputCurrent();
     }
 
@@ -307,16 +311,16 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return internalSpark.isSoftLimitEnabled(direction);
     }
 
-    public REVLibError getLastError() {
+    public REVLibError getLastError_internal() {
         return internalSpark.getLastError();
     }
 
     RelativeEncoder ce;
-    public double getPosition() {
+    public double getPosition_internal() {
         return getEncoderInstance().getPosition();
     }
 
-    public double getVelocity() {
+    public double getVelocity_internal() {
         return getEncoderInstance().getVelocity();
     }
 
@@ -371,9 +375,9 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return ce;
     }    
 
-    SparkMaxPIDController pc;
+    SparkPIDController pc;
 
-    private SparkMaxPIDController getPIDControllerInstance() {
+    private SparkPIDController getPIDControllerInstance() {
         if (pc==null) {
             pc = internalSpark.getPIDController();
         }
@@ -578,22 +582,33 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     }
 
     @Override
-    public void setForwardLimitSwitch(com.revrobotics.SparkMaxLimitSwitch.Type switchType, boolean enabled) {
+    public void setForwardLimitSwitch(com.revrobotics.SparkLimitSwitch.Type switchType, boolean enabled) {
         internalSpark.getForwardLimitSwitch(switchType).enableLimitSwitch(enabled);
     }
 
     @Override
-    public void setReverseLimitSwitch(com.revrobotics.SparkMaxLimitSwitch.Type switchType, boolean enabled) {
+    public void setReverseLimitSwitch(com.revrobotics.SparkLimitSwitch.Type switchType, boolean enabled) {
         internalSpark.getReverseLimitSwitch(switchType).enableLimitSwitch(enabled);
     }
 
     @Override
-    public boolean getForwardLimitSwitchPressed(com.revrobotics.SparkMaxLimitSwitch.Type switchType) {
+    public boolean getForwardLimitSwitchPressed(com.revrobotics.SparkLimitSwitch.Type switchType) {
         return internalSpark.getForwardLimitSwitch(switchType).isPressed();
     }
 
     @Override
-    public boolean getReverseLimitSwitchPressed(com.revrobotics.SparkMaxLimitSwitch.Type switchType) {
+    public boolean getReverseLimitSwitchPressed(com.revrobotics.SparkLimitSwitch.Type switchType) {
         return internalSpark.getReverseLimitSwitch(switchType).isPressed();
+    }
+
+    @Override
+    protected void updateInputs(XCANSparkMaxInputs inputs) {
+        inputs.stickyFaultHasReset = getStickyFault_internal(FaultID.kHasReset);
+        inputs.lastErrorId = getLastError_internal().value;
+        inputs.velocity = getVelocity_internal();
+        inputs.position = getPosition_internal();
+        inputs.appliedOutput = getAppliedOutput_internal();
+        inputs.busVoltage = getBusVoltage_internal();
+        inputs.outputCurrent = getOutputCurrent_internal();
     }
 }

@@ -13,6 +13,9 @@ import xbot.common.controls.sensors.wpi_adapters.XboxControllerWpiAdapter.XboxCo
 import xbot.common.subsystems.feedback.RumbleManager.RumbleManagerFactory;
 import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
 
+/**
+ * Module for mapping control device interfaces to real hardware.
+ */
 @Module
 public abstract class RealControlsModule {
     @Binds
