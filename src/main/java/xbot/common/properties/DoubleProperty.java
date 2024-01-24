@@ -12,7 +12,7 @@ import java.util.function.Consumer;
  * @author Alex
  */
 public class DoubleProperty extends Property {
-    double defaultValue;
+    private final double defaultValue;
     double lastValue;
 
     public DoubleProperty(String name, double defaultValue, XPropertyManager manager) {
@@ -46,7 +46,7 @@ public class DoubleProperty extends Property {
             return defaultValue;
         }
         
-        return nullableTableValue.doubleValue();
+        return nullableTableValue;
     }
     
     public void set(double value) {
@@ -68,8 +68,10 @@ public class DoubleProperty extends Property {
     public void load() {
         Double value = permanentStore.getDouble(key);
         if(value != null) {
-            log.info("Property " + key + " has the non-default value " + value.doubleValue());
-            randomAccessStore.setDouble(key, value.doubleValue());
+            randomAccessStore.setDouble(key, value);
+            if (value != defaultValue) {
+                log.info("Property " + key + " has the non-default value " + value);
+            }
         } else {
             set(defaultValue);
         }
