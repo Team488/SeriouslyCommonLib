@@ -39,7 +39,8 @@ public class PhotonCameraExtended extends PhotonCamera {
         if (!versionString.isEmpty() && !PhotonVersion.versionMatches(versionString)) {
             // Error on a verified version mismatch
             // But stay silent otherwise
-            log.error("PhotonVision version mismatch. Expected: " + PhotonVersion.versionString + " Actual: " + versionString + ". Unexpected behavior may occur.");
+            log.error("PhotonVision version mismatch. Expected: " + PhotonVersion.versionString + " Actual: "
+                    + versionString + ". Unexpected behavior may occur.");
             return false;
         }
         return true;
