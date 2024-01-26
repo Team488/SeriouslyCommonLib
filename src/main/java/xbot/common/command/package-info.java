@@ -15,6 +15,21 @@
  * {@link xbot.common.command.BaseSetpointCommand}s are used to change the setpoint of the
  * subsystem.
  * </p>
+ * <p>
+ * A {@link xbot.common.command.BaseSetpointSubsystem} often has a default command that runs on it. This command
+ * is a {@link xbot.common.command.BaseSetpointCommand} that returns the related mechanism
+ * to its default state. For example, an arm might have a default command that
+ * returns the arm to its lowest position. Additional commands can be created to
+ * move the arm to other positions. These commands will interrupt each other because
+ * they are all {@link xbot.common.command.BaseSetpointCommand}s that require the same subsystem
+ * and acquire its setpoint lock.
+ * </p>
+ * <p>
+ * The {@link xbot.common.command.BaseMaintainerCommand} is responsible for maintaining the subsystem at the
+ * desired state. It can take input from the human operator and/or from a control system loop using the
+ * inputs to the setpoint subsystem. The maintainer sends a power value to the setpoint subsystem,
+ * and the setpoint subsystem is responsible for converting that power into an output.
+ * </p>
  * <pre class="mermaid">
      classDiagram
          class SetpointSubsystem~T~ {
