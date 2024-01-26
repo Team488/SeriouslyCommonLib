@@ -25,7 +25,6 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
-import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 
 import org.apache.logging.log4j.LogManager;
@@ -835,7 +834,8 @@ public class MockCANTalon extends XCANTalon implements ISimulatableSensor, ISimu
     }
 
     @Override
-    public ErrorCode configRemoteFeedbackFilter(CANCoder canCoderRef, int remoteOrdinal, int timeoutMs) {
+    @SuppressWarnings("removal")
+    public ErrorCode configRemoteFeedbackFilter(com.ctre.phoenix.sensors.CANCoder canCoderRef, int remoteOrdinal, int timeoutMs) {
         return null;
     }
 
