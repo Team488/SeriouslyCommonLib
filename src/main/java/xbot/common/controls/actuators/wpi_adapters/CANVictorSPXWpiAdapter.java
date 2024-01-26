@@ -30,7 +30,6 @@ import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.VictorSPXPIDSetConfiguration;
-import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 
 import dagger.assisted.Assisted;
@@ -917,7 +916,8 @@ public class CANVictorSPXWpiAdapter extends XCANVictorSPX {
     }
 
     @Override
-    public ErrorCode configRemoteFeedbackFilter(CANCoder canCoderRef, int remoteOrdinal, int timeoutMs) {
+    @SuppressWarnings("removal")
+    public ErrorCode configRemoteFeedbackFilter(com.ctre.phoenix.sensors.CANCoder canCoderRef, int remoteOrdinal, int timeoutMs) {
         return null;
     }
 
