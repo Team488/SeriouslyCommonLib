@@ -32,7 +32,7 @@
  * </p>
  * <pre class="mermaid">
      classDiagram
-         class SetpointSubsystem~T~ {
+         class MySetpointSubsystem {
              -Device output
              -Sensor input
              +getCurrentValue() T
@@ -41,7 +41,7 @@
              +setPower(T power) void
              +isCalibrated() boolean
          }
-         class MaintainerCommand~T~ {
+         class MyMaintainerCommand {
              ~BaseSetpointSubsystem~T~ subsystemToMaintain
              +execute() void
              #coastAction() void
@@ -53,14 +53,14 @@
              #getHumanInput() T
              #getHumanInputMagnitude() double
          }
-         class SetpointCommand~T~ {
-             -SetpointSubsystem~T~ subsystem
+         class MySetpointCommand {
+             -BaseSetpointSubsystem~T~ subsystem
              +initialize() void
              +execute() void
              +isFinished() boolean
          }
-         MaintainerCommand~T~ ..&gt; SetpointSubsystem~T~ : Maintains outputs
-         SetpointCommand~T~ ..&gt; SetpointSubsystem~T~ : Sets targets
+         MyMaintainerCommand ..&gt; MySetpointSubsystem : Maintains outputs
+         MySetpointCommand ..&gt; MySetpointSubsystem : Sets targets
  * </pre>
  */
 package xbot.common.command;
