@@ -61,7 +61,7 @@ public abstract class XCANSparkMax {
         }
 
         public XCANSparkMax createWithoutProperties(DeviceInfo deviceInfo, String owningSystemPrefix, String name) {
-            return create(deviceInfo, owningSystemPrefix, name, null);
+            return create(deviceInfo, owningSystemPrefix, name, null, null);
         }
     }
 

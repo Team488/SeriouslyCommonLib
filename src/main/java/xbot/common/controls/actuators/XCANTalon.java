@@ -64,18 +64,6 @@ public abstract class XCANTalon implements IMotorControllerEnhanced {
         policeTicket = police.registerDevice(DeviceType.CAN, deviceId, this);
     }
 
-
-
-    public void createTelemetryProperties(String callingSystemPrefix, String deviceName) {
-        // Creates nice prefixes for the SmartDashboard.
-        propMan.setPrefix(callingSystemPrefix + "/" + deviceName);
-        currentProperty = propMan.createEphemeralProperty("current", 0);
-        outVoltageProperty = propMan.createEphemeralProperty("voltage", 0);
-        temperatureProperty = propMan.createEphemeralProperty("temperature", 0);
-        positionProperty = propMan.createEphemeralProperty("position", 0);
-        velocityProperty = propMan.createEphemeralProperty("velocity", 0);
-    }
-
     public void updateTelemetryProperties() {
         if(currentProperty == null
                 || outVoltageProperty == null
@@ -356,7 +344,6 @@ public abstract class XCANTalon implements IMotorControllerEnhanced {
         this.setInverted(masterInverted);
         this.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         this.setSensorPhase(sensorPhase);
-        this.createTelemetryProperties(prefix, masterName);
 
         this.setNeutralMode(NeutralMode.Coast);
         this.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled, 0);

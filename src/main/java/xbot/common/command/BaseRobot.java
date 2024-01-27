@@ -177,8 +177,8 @@ public abstract class BaseRobot extends LoggedRobot {
     @Override
     public void disabledInit() {
         updateLoggingContext();
+        propertyManager.refreshDataFrame();
         log.info("Disabled init (" + getMatchContextString() + ")");
-        propertyManager.saveOutAllProperties();
     }
 
     public void disabledPeriodic() {
@@ -248,6 +248,12 @@ public abstract class BaseRobot extends LoggedRobot {
         Logger.getInstance().recordOutput("OutsidePeriodicMs", outsidePeriodicEnd - outsidePeriodicStart);
         // Get a fresh data frame from all top-level components (typically large subsystems or shared sensors)
         double dataFrameStart = getPerformanceTimestampInMs();
+
+        // Refresh the properties ahead of all other systems, since some may want to immediately
+        // use the relevant values.
+        propertyManager.refreshDataFrame();
+
+        // Then, refresh any Subsystem or other components that implement DataFrameRefreshable.
         for (DataFrameRefreshable refreshable : dataFrameRefreshables) {
             refreshable.refreshDataFrame();
         }

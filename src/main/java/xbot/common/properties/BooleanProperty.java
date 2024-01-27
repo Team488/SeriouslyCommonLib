@@ -1,5 +1,9 @@
 package xbot.common.properties;
 
+import org.littletonrobotics.junction.LogTable;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.inputs.LoggableInputs;
+
 /**
  * A property holding a boolean value.
  * 
@@ -8,42 +12,49 @@ package xbot.common.properties;
 public class BooleanProperty extends Property {
     private boolean defaultValue;
 
-    /**
-     *
-     * @param name key of the property
-     * @param defaultValue initial value if none there from the permanent store
-     */
-    public BooleanProperty(String name, boolean defaultValue,
-            XPropertyManager manager) {
-        super(name, manager);
-        this.defaultValue = defaultValue;
-        load();
-    }
-    
-    public BooleanProperty(String name, boolean defaultValue, PropertyPersistenceType persistenceType,
-            XPropertyManager manager) {
-        super(name, manager, persistenceType);
-        this.defaultValue = defaultValue;
-        load();
+    boolean currentValue;
+
+    private final LoggableInputs inputs = new LoggableInputs() {
+        public void toLog(LogTable table) {
+            table.put(suffix, currentValue);
+        }
+
+        public void fromLog(LogTable table) {
+            currentValue = table.get(suffix, defaultValue);
+        }
+    };
+
+    public BooleanProperty(String prefix, String name, boolean defaultValue, XPropertyManager manager) {
+        this(prefix, name, defaultValue, manager, PropertyLevel.Important);
     }
 
-    public BooleanProperty(String name, boolean defaultValue, PropertyPersistenceType persistenceType,
+    public BooleanProperty(String prefix, String name, boolean defaultValue,
             XPropertyManager manager, PropertyLevel level) {
-        super(name, manager, persistenceType, level);
+        super(prefix, name, manager, level);
         this.defaultValue = defaultValue;
-        load();
+
+        Boolean firstValue = get_internal();
+        if (firstValue != defaultValue) {
+            log.info("Property " + key + " has the non-default value " + firstValue.booleanValue());
+        }
+        currentValue = firstValue;
+    }
+
+    public boolean get() {
+        return currentValue;
     }
 
     /**
      * 
      * @return the current boolean value
      */
-    public boolean get() {
-        Boolean nullableTableValue = randomAccessStore.getBoolean(key);
+    public boolean get_internal() {
+        Boolean nullableTableValue = activeStore.getBoolean(key);
         
         if(nullableTableValue == null) {
             log.error("Property key \"" + key + "\" not present in the underlying store!"
                     + " IF THIS IS AN IMPORTANT ROBOT PROPERTY, MAKE SURE IT HAS A SANE VALUE BEFORE ENABLING THE ROBOT!");
+            set(defaultValue);
             return defaultValue;
         }
         
@@ -56,35 +67,18 @@ public class BooleanProperty extends Property {
      *            the value to set
      */
     public void set(boolean value) {
-        randomAccessStore.setBoolean(key, value);
-    }
-
-    /**
-     * Saves the value permanently (presumably to the Robot).
-     */
-    public void save() {
-        if(persistenceType == PropertyPersistenceType.Persistent) {
-            permanentStore.setBoolean(key, get());
-        }
-    }
-
-    /**
-     * Load the boolean value from the permanent store.
-     */
-    public void load() {
-        Boolean value = permanentStore.getBoolean(key);
-        if (value != null) {
-            set(value);
-            if (value != defaultValue) {
-                log.info("Property " + key + " has the non-default value " + value);
-            }
-        } else {
-            set(defaultValue);
-        }
+        activeStore.setBoolean(key, value);
+        currentValue = value;
     }
 
     @Override
     public boolean isSetToDefault() {
         return get() == defaultValue;
+    }
+
+    @Override
+    public void refreshDataFrame() {
+        currentValue = get_internal();
+        Logger.processInputs(prefix, inputs);
     }
 }

@@ -21,9 +21,9 @@ import xbot.common.simulation.ISimulatableSensor;
 public class MockAbsoluteEncoder extends XAbsoluteEncoder implements ISimulatableSensor {
 
     private final int deviceId;
-    private final BooleanProperty inverted;
-    private final DoubleProperty simulationScale;
-    private final DoubleProperty positionOffset;
+    private boolean inverted;
+    private double simulationScale;
+    private double positionOffset;
 
     private double velocity;
     private WrappedRotation2d absolutePosition;
@@ -45,10 +45,6 @@ public class MockAbsoluteEncoder extends XAbsoluteEncoder implements ISimulatabl
         this.deviceId = deviceInfo.channel;
         this.velocity = 0;
         this.absolutePosition = new WrappedRotation2d(0);
-        this.positionOffset = pf.createEphemeralProperty("PositionOffset", 0);
-        this.inverted = pf.createEphemeralProperty("Inverted", deviceInfo.inverted);
-        this.simulationScale = pf.createEphemeralProperty("SimulationScale", deviceInfo.simulationScalingValue);
-
         police.registerDevice(DeviceType.CAN, deviceInfo.channel, this);
     }
     
@@ -58,35 +54,35 @@ public class MockAbsoluteEncoder extends XAbsoluteEncoder implements ISimulatabl
     }
 
     public double getPosition_internal() {
-        return WrappedRotation2d.fromDegrees(this.absolutePosition.getDegrees() + this.positionOffset.get()).getDegrees() * (inverted.get() ? -1 : 1);
+        return WrappedRotation2d.fromDegrees(this.absolutePosition.getDegrees() + this.positionOffset).getDegrees() * (inverted ? -1 : 1);
     }
 
     public double getAbsolutePosition_internal() {
-        return this.absolutePosition.getDegrees() * (inverted.get() ? -1 : 1);
+        return this.absolutePosition.getDegrees() * (inverted ? -1 : 1);
     }
 
     public double getVelocity_internal() {
-        return this.velocity * (inverted.get() ? -1 : 1);
+        return this.velocity * (inverted ? -1 : 1);
     }
 
     @Override
     public void setPosition(double newPosition) {
-        this.positionOffset.set(WrappedRotation2d.fromDegrees(newPosition).minus(this.absolutePosition).getDegrees());
+        this.positionOffset = (WrappedRotation2d.fromDegrees(newPosition).minus(this.absolutePosition).getDegrees());
     }
     
 
     public double getPositionOffset() {
-        return this.positionOffset.get();
+        return this.positionOffset;
     }
 
     public void setAbsolutePosition(double position) {
-        this.absolutePosition = WrappedRotation2d.fromDegrees(position * (inverted.get() ? -1 : 1));
+        this.absolutePosition = WrappedRotation2d.fromDegrees(position * (inverted ? -1 : 1));
     }
 
     @Override
     public void ingestSimulationData(JSONObject payload) {
         setAbsolutePosition(
-            payload.getBigDecimal("EncoderTicks").doubleValue() * this.simulationScale.get()
+            payload.getBigDecimal("EncoderTicks").doubleValue() * this.simulationScale
         );
     }
 
