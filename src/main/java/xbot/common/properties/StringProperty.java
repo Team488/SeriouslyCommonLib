@@ -6,37 +6,56 @@
 
 package xbot.common.properties;
 
+import org.littletonrobotics.junction.LogTable;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.inputs.LoggableInputs;
+
 /**
  * A type of Property that manages a String value.
  * @author Sterling
  */
 public class StringProperty extends Property {
     private final String defaultValue;
+
+    String currentValue;
+
+    private final LoggableInputs inputs = new LoggableInputs() {
+        public void toLog(LogTable table) {
+            table.put(suffix, currentValue);
+        }
+
+        public void fromLog(LogTable table) {
+            currentValue = table.get(suffix, defaultValue);
+        }
+    };
     
-    public StringProperty(String name, String defaultValue, XPropertyManager manager) {
-        super(name, manager);
-        this.defaultValue = defaultValue;
-        load();
-    }
-    
-    public StringProperty(String name, String defaultValue, PropertyPersistenceType persistenceType, XPropertyManager manager) {
-        super(name, manager, persistenceType);
-        this.defaultValue = defaultValue;
-        load();
+    public StringProperty(String prefix, String name, String defaultValue, XPropertyManager manager) {
+        this(prefix, name, defaultValue, manager, PropertyLevel.Important);
     }
 
-    public StringProperty(String name, String defaultValue, PropertyPersistenceType persistenceType, XPropertyManager manager, PropertyLevel level) {
-        super(name, manager, persistenceType, level);
+    public StringProperty(String prefix, String name, String defaultValue, XPropertyManager manager, PropertyLevel level) {
+        super(prefix, name, manager, level);
         this.defaultValue = defaultValue;
-        load();
+
+
+        String firstValue = get_internal();
+        if (get_internal() != defaultValue) {
+            log.info("Property " + key + " has the non-default value " + firstValue);
+        }
+        currentValue = firstValue;
+    }
+
+    public String get() {
+        return currentValue;
     }
     
-    public String get() {
-        String nullableTableValue = randomAccessStore.getString(key);
+    public String get_internal() {
+        String nullableTableValue = activeStore.getString(key);
         
         if(nullableTableValue == null) {
             log.error("Property key \"" + key + "\" not present in the underlying store!"
                     + " IF THIS IS AN IMPORTANT ROBOT PROPERTY, MAKE SURE IT HAS A SANE VALUE BEFORE ENABLING THE ROBOT!");
+            set(defaultValue);
             return defaultValue;
         }
         
@@ -44,31 +63,17 @@ public class StringProperty extends Property {
     }
     
     public void set(String value) {
-        randomAccessStore.setString(key, value);
-    }
-    
-    /**
-     * We only save the property if it's from a persistent type
-     */
-    public void save() {
-        if(persistenceType == PropertyPersistenceType.Persistent) {
-            permanentStore.setString(key, get());
-        }
-    }
-
-    public void load() {
-        String value = permanentStore.getString(key);
-        if(value != null) {
-            set(value);
-            if (!value.equals(defaultValue)) {
-                log.info("Property " + key + " has the non-default value " + value);
-            }
-        } else {
-            set(defaultValue);
-        }
+        activeStore.setString(key, value);
+        currentValue = value;
     }
 
     public boolean isSetToDefault() {
         return get().equals(defaultValue);
+    }
+
+    @Override
+    public void refreshDataFrame() {
+        currentValue = get_internal();
+        Logger.processInputs(prefix, inputs);
     }
 }

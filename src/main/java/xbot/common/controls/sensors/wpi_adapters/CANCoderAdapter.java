@@ -29,8 +29,8 @@ public class CANCoderAdapter extends XCANCoder {
     private final int deviceId;
     private final CANcoder cancoder;
 
-    private final DoubleProperty magnetOffset;
-    private final BooleanProperty inverted;
+    private double magnetOffset;
+    private boolean inverted;
 
     @AssistedFactory
     public abstract static class CANCoderAdapterFactory implements XCANCoderFactory {
@@ -46,13 +46,13 @@ public class CANCoderAdapter extends XCANCoder {
         super(deviceInfo);
         pf.setPrefix(owningSystemPrefix);
 
-        this.inverted = pf.createEphemeralProperty("Inverted", deviceInfo.inverted);
-        this.magnetOffset = pf.createEphemeralProperty("Magnet offset", 0.0);
+        this.inverted = deviceInfo.inverted;
+        this.magnetOffset = 0.0;
         
         this.cancoder = new CANcoder(deviceInfo.channel, "rio");
 
         var currentConfig = getCurrentConfiguration();
-        currentConfig.MagnetSensor.SensorDirection = this.inverted.get()
+        currentConfig.MagnetSensor.SensorDirection = this.inverted
                 ? SensorDirectionValue.Clockwise_Positive : SensorDirectionValue.CounterClockwise_Positive;
         applyConfiguration(currentConfig);
 
@@ -104,8 +104,8 @@ public class CANCoderAdapter extends XCANCoder {
         // Note that the "refresh" is a blocking call.
         cancoder.getConfigurator().refresh(currentConfigs);
 
-        this.magnetOffset.set(currentConfigs.MagnetSensor.MagnetOffset);
-        return this.magnetOffset.get();
+        this.magnetOffset = currentConfigs.MagnetSensor.MagnetOffset;
+        return this.magnetOffset;
     }
 
     /**
@@ -123,7 +123,7 @@ public class CANCoderAdapter extends XCANCoder {
             log.error("Failed to set magnet offset for device " + this.getDeviceId() + ". Error code: " + status.value);
             return false;
         } else {
-            this.magnetOffset.set(offsetInDegrees);
+            this.magnetOffset = offsetInDegrees;
             return true;
         }
     }

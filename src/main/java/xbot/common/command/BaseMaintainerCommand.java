@@ -45,7 +45,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         pf.setPrefix(this);
         pf.setDefaultLevel(Property.PropertyLevel.Debug);
         errorToleranceProp = pf.createPersistentProperty("Error Tolerance", defaultErrorTolerance);
-        errorTimeStableWindowProp = pf.createEphemeralProperty("Error Time Stable Window", defaultTimeStableWindow);
+        errorTimeStableWindowProp = pf.createPersistentProperty("Error Time Stable Window", defaultTimeStableWindow);
 
         timeStableValidator = new TimeStableValidator(() -> errorTimeStableWindowProp.get());
         decider = humanVsMachineDeciderFactory.create(this.getPrefix());

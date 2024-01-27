@@ -11,9 +11,11 @@ public class PropertyFactoryTest extends BaseCommonLibTest {
     @Test
     public void testNoDoubleSlashes() {
         PropertyFactory factory = getInjectorComponent().propertyFactory();
-        assertEquals(-1, factory.createFullKey("my//mykey").indexOf("//"));
+        factory.setPrefix("my//myPrefixWithDoubleSlashes");
 
-        factory.setPrefix("prefix");
-        assertEquals(-1, factory.createFullKey("/mykey").indexOf("//"));
+        assertEquals(-1, factory.getCleanPrefix().indexOf("//"));
+
+        factory.setPrefix("simplePrefixWithNoSlashes");
+        assertEquals(-1, factory.getCleanPrefix().indexOf("//"));
     } 
 }

@@ -19,7 +19,6 @@ import xbot.common.math.XYPair;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
-import xbot.common.properties.StringProperty;
 import xbot.common.subsystems.drive.swerve.SwerveModuleSubsystem;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
@@ -35,11 +34,11 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
     private final DoubleProperty maxTargetTurnRate;
 
     private final SwerveDriveKinematics swerveDriveKinematics;
-    private final StringProperty activeModuleProp;
+    private String activeModuleLabel;
 
-    private final DoubleProperty translationXTargetMPS;
-    private final DoubleProperty translationYTargetMPS;
-    private final DoubleProperty rotationTargetRadians;
+    private double translationXTargetMPS;
+    private double translationYTargetMPS;
+    private double rotationTargetRadians;
 
     private final DoubleProperty minTranslateSpeed;
     private final DoubleProperty minRotationalSpeed;
@@ -47,13 +46,13 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
     private final PIDManager positionalPidManager;
     private final PIDManager headingPidManager;
 
-    private final DoubleProperty velocityMaintainerXTarget;
-    private final DoubleProperty positionMaintainerXTarget;
+    private double velocityMaintainerXTarget;
+    private double positionMaintainerXTarget;
 
     private XYPair lastCommandedDirection;
     private double lastCommandedRotation;
 
-    private final DoubleProperty desiredHeading;
+    private double desiredHeading;
 
     private boolean activateBrakeOverride = false;
 
@@ -93,13 +92,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
 
         this.maxTargetSpeed = pf.createPersistentProperty("MaxTargetSpeedInchesPerSecond", 120.0);
         this.maxTargetTurnRate = pf.createPersistentProperty("MaxTargetTurnRate", MathUtils.Tau);
-        this.activeModuleProp = pf.createEphemeralProperty("ActiveModule", activeModule.toString());
-        this.translationXTargetMPS = pf.createEphemeralProperty("TranslationXMetersPerSecond", 0.0);
-        this.translationYTargetMPS = pf.createEphemeralProperty("TranslationYMetersPerSecond", 0.0);
-        this.rotationTargetRadians = pf.createEphemeralProperty("RotationTargetRadians", 0.0);
-        this.desiredHeading = pf.createEphemeralProperty("Desired heading", 0);
-        this.velocityMaintainerXTarget = pf.createEphemeralProperty("VelocityMaintainerXTarget", 0);
-        this.positionMaintainerXTarget = pf.createEphemeralProperty("PositionMaintainerXTarget", 0);
+        this.activeModuleLabel = activeModule.toString();
+        this.desiredHeading = 0;
 
         // These can be tuned to reduce twitchy wheels
         pf.setDefaultLevel(Property.PropertyLevel.Debug);
@@ -354,9 +348,9 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         double targetYmetersPerSecond = translate.y * maxTargetSpeed.get() / BasePoseSubsystem.INCHES_IN_A_METER;
         double targetRotationRadiansPerSecond = rotate * maxTargetTurnRate.get();
 
-        translationXTargetMPS.set(targetXmetersPerSecond);
-        translationYTargetMPS.set(targetYmetersPerSecond);
-        rotationTargetRadians.set(targetRotationRadiansPerSecond);
+        translationXTargetMPS = targetXmetersPerSecond;
+        translationYTargetMPS = targetYmetersPerSecond;
+        rotationTargetRadians = targetRotationRadiansPerSecond;
 
         // This handy library from WPILib will take our robot's overall desired translation & rotation and figure out
         // what each swerve module should be doing in order to achieve that.
@@ -468,7 +462,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
      */
     public void setActiveModule(SwerveModuleLocation activeModule) {
         this.activeModule = activeModule;
-        activeModuleProp.set(activeModule.toString());
+        activeModuleLabel = activeModule.toString();
     }
 
     /**
@@ -510,11 +504,11 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
     }
 
     public void setDesiredHeading(double heading) {
-        this.desiredHeading.set(heading);
+        this.desiredHeading = heading;
     }
 
     public double getDesiredHeading() {
-        return this.desiredHeading.get();
+        return this.desiredHeading;
     }
 
     /**
@@ -529,19 +523,19 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
     }
 
     public double getVelocityMaintainerXTarget() {
-        return this.velocityMaintainerXTarget.get();
+        return this.velocityMaintainerXTarget;
     }
 
     public void setVelocityMaintainerXTarget(double velocityMaintainerXTarget) {
-        this.velocityMaintainerXTarget.set(velocityMaintainerXTarget);
+        this.velocityMaintainerXTarget = velocityMaintainerXTarget;
     }
 
     public double getPositionMaintainerXTarget() {
-        return this.positionMaintainerXTarget.get();
+        return this.positionMaintainerXTarget;
     }
 
     public void setPositionMaintainerXTarget(double positionMaintainerXTarget) {
-        this.positionMaintainerXTarget.set(positionMaintainerXTarget);
+        this.positionMaintainerXTarget = positionMaintainerXTarget;
     }
 
     public Command createEnableDisableQuickAlignActive() {
@@ -558,6 +552,17 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
                 getRearLeftSwerveModuleSubsystem().getCurrentState(),
                 getRearRightSwerveModuleSubsystem().getCurrentState()
         };
+    }
+
+    @Override
+    public void periodic() {
+        org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "ActiveSwerveModule", activeModuleLabel);
+        org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "TranslationTarget",
+            new Translation2d(translationXTargetMPS, translationYTargetMPS));
+        org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "RotationTarget", rotationTargetRadians);
+        org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "DesiredHeading", desiredHeading);
+        org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "VelocityMaintainerTargets",
+            new Translation2d(velocityMaintainerXTarget, velocityMaintainerXTarget));
     }
 
     public void refreshDataFrame() {

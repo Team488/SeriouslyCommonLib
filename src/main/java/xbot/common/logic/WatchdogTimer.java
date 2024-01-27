@@ -10,8 +10,8 @@ public class WatchdogTimer {
     private double lastKick = Double.NEGATIVE_INFINITY;
     private Latch latch;
     
-    private BooleanProperty isUpProp;
-    private DoubleProperty timeSinceKickProp;
+    private boolean isUp;
+    private double timeSinceKick;
     
     private final double timeout;
     private Runnable onUp = null;
@@ -21,22 +21,9 @@ public class WatchdogTimer {
         this.timeout = timeout;
         latch = new Latch(false, EdgeType.Both, this::handleLatchUpdate);
     }
-    
-    public WatchdogTimer(double timeout, String name, PropertyFactory propMan) {
-        this(timeout);
-        propMan.setPrefix(name);
-        this.isUpProp = propMan.createEphemeralProperty("Is up?", false);
-        this.timeSinceKickProp = propMan.createEphemeralProperty("Time since kick", Double.POSITIVE_INFINITY);
-    }
 
     public WatchdogTimer(double timeout, Runnable onUp, Runnable onDown) {
         this(timeout);
-        this.onUp = onUp;
-        this.onDown = onDown;
-    }
-    
-    public WatchdogTimer(double timeout, Runnable onUp, Runnable onDown, String name, PropertyFactory propMan) {
-        this(timeout, name, propMan);
         this.onUp = onUp;
         this.onDown = onDown;
     }
@@ -56,13 +43,8 @@ public class WatchdogTimer {
     
     public void check() {
         double now = XTimer.getFPGATimestamp();
-        double timeSinceKick = now - lastKick;
-        boolean isUp = Double.isFinite(timeSinceKick) && timeSinceKick <= timeout;
-        
+        timeSinceKick = now - lastKick;
+        isUp = Double.isFinite(timeSinceKick) && timeSinceKick <= timeout;
         latch.setValue(isUp);
-        if (this.isUpProp != null && this.timeSinceKickProp != null) {
-            isUpProp.set(isUp);
-            timeSinceKickProp.set(timeSinceKick);
-        }
     }
 }

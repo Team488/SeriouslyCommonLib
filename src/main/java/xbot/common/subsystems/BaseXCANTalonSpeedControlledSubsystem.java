@@ -33,14 +33,14 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
     protected XCANTalon followerMotor;
        
     // output telemetry properties
-    protected final DoubleProperty systemCurrentSpeed;
-    protected final DoubleProperty systemTargetSpeed;
-    protected final DoubleProperty systemOutputPower;
-    protected final DoubleProperty systemTalonError;
-    protected final BooleanProperty atSpeedProp;
-    protected final BooleanProperty enablesystemLogging;
+    protected double systemCurrentSpeed;
+    protected double systemTargetSpeed;
+    protected double systemOutputPower;
+    protected double systemTalonError;
+    protected boolean atSpeedProp;
+    protected boolean enablesystemLogging;
     
-    private final DoubleProperty systemSpeedThresh;
+    private double systemSpeedThresh;
     protected final PIDPropertyManager pidPropertyManager;
     protected final int masterChannel;
         
@@ -70,17 +70,10 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
         // support human units. It might be easier to just keep everything in native units per 100ms,
         // which is what the Talon uses for all its calculations.
         // I call this Ticks per Deciseconds, or TPD
-        systemSpeedThresh = propManager.createPersistentProperty(name + " nominal speed thresh (TPD)", 1);
-        systemCurrentSpeed = propManager.createEphemeralProperty(name + " current speed (TPD)", 0);
-        systemTargetSpeed = propManager.createEphemeralProperty(name + " goal speed (TPD)", 0);
-        systemOutputPower = propManager.createEphemeralProperty(name + " voltage", 0);
-        atSpeedProp = propManager.createEphemeralProperty("Is" + name + " at speed?", false);
-        systemTalonError = propManager.createEphemeralProperty(name + " speed error", 0);
-        enablesystemLogging = propManager.createEphemeralProperty("Is " + name + " logging enabled?", false);
+        systemSpeedThresh = 1;
         
         masterMotor = factory.create(new CANTalonInfo(masterChannel, false));
         initializeMasterMotorConfiguration(invertMaster, invertMasterSensor);
-        masterMotor.createTelemetryProperties(name + "/", name + "  master");
     }
     
     protected void initializeMasterMotorConfiguration(boolean motorInverted, boolean motorSensorInverted) {
@@ -121,7 +114,7 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
      */
     public void setTargetSpeed(double speed) {        
         // Update property for dashboard
-        systemTargetSpeed.set(speed);
+        systemTargetSpeed = speed;
         // If there have been any changes to encoder settings or PID setings, apply them.
         updateMotorPidValues();
         // Instruct motor about new speed goal
@@ -133,28 +126,19 @@ public abstract class BaseXCANTalonSpeedControlledSubsystem extends BaseSubsyste
     }
     
     public boolean isAtSpeed() {
-        return Math.abs(getSpeed() - systemTargetSpeed.get()) <= systemSpeedThresh.get();
+        return Math.abs(getSpeed() - systemTargetSpeed) <= systemSpeedThresh;
     }
     
     public double getTargetSpeed() {
-        return systemTargetSpeed.get();
+        return systemTargetSpeed;
     }
 
     @Override
     public void periodic() {
         masterMotor.updateTelemetryProperties();        
-        atSpeedProp.set(isAtSpeed());
-        systemCurrentSpeed.set(getSpeed());
-        systemOutputPower.set(masterMotor.getMotorOutputVoltage() / masterMotor.getBusVoltage());
-        systemTalonError.set(masterMotor.getClosedLoopError(0));
-        
-        if(enablesystemLogging.get()){
-            double currentTime = XTimer.getFPGATimestamp();
-            // Format: time, voltage, error, speed
-            log.info(currentTime + "," 
-                 + systemOutputPower.get() + "," 
-                 + systemTalonError.get() + ","
-                 + systemCurrentSpeed.get());
-        }
+        atSpeedProp = isAtSpeed();
+        systemCurrentSpeed = getSpeed();
+        systemOutputPower = masterMotor.getMotorOutputVoltage() / masterMotor.getBusVoltage();
+        systemTalonError = (masterMotor.getClosedLoopError(0));
     }
 }

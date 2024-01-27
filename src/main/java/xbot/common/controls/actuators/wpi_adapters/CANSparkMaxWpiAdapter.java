@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkAnalogSensor;
 import com.revrobotics.SparkAnalogSensor.Mode;
 import com.revrobotics.SparkLimitSwitch;
@@ -24,6 +25,8 @@ import dagger.assisted.AssistedInject;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
 import xbot.common.controls.io_inputs.XCANSparkMaxInputs;
+import xbot.common.controls.sensors.XSparkAbsoluteEncoder;
+import xbot.common.controls.sensors.wpi_adapters.SparkAbsoluteEncoderAdapter;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.properties.PropertyFactory;
@@ -599,6 +602,12 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
     @Override
     public boolean getReverseLimitSwitchPressed(com.revrobotics.SparkLimitSwitch.Type switchType) {
         return internalSpark.getReverseLimitSwitch(switchType).isPressed();
+    }
+
+    @Override
+    public XSparkAbsoluteEncoder getAbsoluteEncoder(String nameWithPrefix, boolean inverted) {
+        return new SparkAbsoluteEncoderAdapter(nameWithPrefix,
+                internalSpark.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle), inverted);
     }
 
     @Override
