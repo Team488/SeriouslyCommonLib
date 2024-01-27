@@ -48,10 +48,11 @@ public abstract class Property implements DataFrameRefreshable {
 
     /**
      * Creates a new property.
-     * @param key The property key.
-     *            This should be unique unless you really know what you're doing.
+     * @param prefix The property prefix.
+     *               This should be unique unless you really know what you're doing.
+     * @param suffix The property suffix.
+     *               This should be unique unless you really know what you're doing.
      * @param manager The property manager.
-     * @param persistenceType The persistence type.
      * @param level The property level.
      */
     public Property(String prefix, String suffix, XPropertyManager manager, PropertyLevel level) {
@@ -77,10 +78,11 @@ public abstract class Property implements DataFrameRefreshable {
 
     /**
      * Creates a new property.
+     * @param prefix The property prefix.
+     *            This should be unique unless you really know what you're doing.
      * @param key The property key.
      *            This should be unique unless you really know what you're doing.
      * @param manager The property manager.
-     * @param persistenceType The persistence type.
      */
     public Property(String prefix, String key, XPropertyManager manager) {
         this(prefix, key, manager, PropertyLevel.Important);
