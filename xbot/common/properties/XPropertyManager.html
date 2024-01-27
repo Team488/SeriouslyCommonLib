@@ -75,10 +75,15 @@ loadScripts(document, 'script');</script>
 <div class="inheritance">xbot.common.properties.XPropertyManager</div>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>All Implemented Interfaces:</dt>
+<dd><code><a href="../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code></dd>
+</dl>
 <hr>
 <div class="type-signature"><span class="annotations">@Singleton
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">XPropertyManager</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
+implements <a href="../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></span></div>
 <div class="block">The PropertyManager keeps track of all properties in CoreCode. All properties are implicitly added into its storage.
  It is capable of loading or saving all properties via permanentStorage, and getting updates to these properties via
  the RandomAccessStore.</div>
@@ -106,9 +111,6 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link">ArrayList</a>&lt;<a href="Property.html" title="class in xbot.common.properties">Property</a>&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="#properties" class="member-name-link">properties</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>final <a href="ITableProxy.html" title="interface in xbot.common.properties">ITableProxy</a></code></div>
-<div class="col-second even-row-color"><code><a href="#randomAccessStore" class="member-name-link">randomAccessStore</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -120,9 +122,7 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.properties.PermanentStorage,xbot.common.properties.ITableProxy,xbot.common.properties.ITableProxy)" class="member-name-link">XPropertyManager</a><wbr>(<a href="PermanentStorage.html" title="interface in xbot.common.properties">PermanentStorage</a>&nbsp;permanentStore,
- <a href="ITableProxy.html" title="interface in xbot.common.properties">ITableProxy</a>&nbsp;randomAccessStore,
- <a href="ITableProxy.html" title="interface in xbot.common.properties">ITableProxy</a>&nbsp;inMemoryRandomAccessStore)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.properties.PermanentStorage)" class="member-name-link">XPropertyManager</a><wbr>(<a href="PermanentStorage.html" title="interface in xbot.common.properties">PermanentStorage</a>&nbsp;permanentStore)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -139,19 +139,15 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadPropertiesFromStorage()" class="member-name-link">loadPropertiesFromStorage</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#refreshDataFrame()" class="member-name-link">refreshDataFrame</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Loads all properties from storage into the PermanentStore's table.</div>
+<div class="block">Must be called every robot loop, and should be done before any properties are accessed in order to
+ make the robot as responsive as possible.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#registerProperty(xbot.common.properties.Property)" class="member-name-link">registerProperty</a><wbr>(<a href="Property.html" title="class in xbot.common.properties">Property</a>&nbsp;property)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Adds the property to the local collection.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#saveOutAllProperties()" class="member-name-link">saveOutAllProperties</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Save all properties into permanent storage.</div>
 </div>
 </div>
 </div>
@@ -197,12 +193,6 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="randomAccessStore">
-<h3>randomAccessStore</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ITableProxy.html" title="interface in xbot.common.properties">ITableProxy</a></span>&nbsp;<span class="element-name">randomAccessStore</span></div>
-</section>
-</li>
-<li>
 <section class="detail" id="inMemoryRandomAccessStore">
 <h3>inMemoryRandomAccessStore</h3>
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ITableProxy.html" title="interface in xbot.common.properties">ITableProxy</a></span>&nbsp;<span class="element-name">inMemoryRandomAccessStore</span></div>
@@ -217,13 +207,10 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(xbot.common.properties.PermanentStorage,xbot.common.properties.ITableProxy,xbot.common.properties.ITableProxy)">
+<section class="detail" id="&lt;init&gt;(xbot.common.properties.PermanentStorage)">
 <h3>XPropertyManager</h3>
 <div class="member-signature"><span class="annotations">@Inject
-</span><span class="modifiers">public</span>&nbsp;<span class="element-name">XPropertyManager</span><wbr><span class="parameters">(<a href="PermanentStorage.html" title="interface in xbot.common.properties">PermanentStorage</a>&nbsp;permanentStore,
- <a href="ITableProxy.html" title="interface in xbot.common.properties">ITableProxy</a>&nbsp;randomAccessStore,
- @Named("InMemoryStore")
- <a href="ITableProxy.html" title="interface in xbot.common.properties">ITableProxy</a>&nbsp;inMemoryRandomAccessStore)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="element-name">XPropertyManager</span><wbr><span class="parameters">(<a href="PermanentStorage.html" title="interface in xbot.common.properties">PermanentStorage</a>&nbsp;permanentStore)</span></div>
 </section>
 </li>
 </ul>
@@ -242,17 +229,15 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="loadPropertiesFromStorage()">
-<h3>loadPropertiesFromStorage</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">loadPropertiesFromStorage</span>()</div>
-<div class="block">Loads all properties from storage into the PermanentStore's table.</div>
-</section>
-</li>
-<li>
-<section class="detail" id="saveOutAllProperties()">
-<h3>saveOutAllProperties</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">saveOutAllProperties</span>()</div>
-<div class="block">Save all properties into permanent storage.</div>
+<section class="detail" id="refreshDataFrame()">
+<h3>refreshDataFrame</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">refreshDataFrame</span>()</div>
+<div class="block">Must be called every robot loop, and should be done before any properties are accessed in order to
+ make the robot as responsive as possible.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../advantage/DataFrameRefreshable.html#refreshDataFrame()">refreshDataFrame</a></code>&nbsp;in interface&nbsp;<code><a href="../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code></dd>
+</dl>
 </section>
 </li>
 </ul>

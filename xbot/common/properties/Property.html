@@ -76,12 +76,17 @@ loadScripts(document, 'script');</script>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
+<dt>All Implemented Interfaces:</dt>
+<dd><code><a href="../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code></dd>
+</dl>
+<dl class="notes">
 <dt>Direct Known Subclasses:</dt>
 <dd><code><a href="BooleanProperty.html" title="class in xbot.common.properties">BooleanProperty</a></code>, <code><a href="DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code>, <code><a href="StringProperty.html" title="class in xbot.common.properties">StringProperty</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">Property</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
+implements <a href="../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></span></div>
 <div class="block">There are many values on the robot that we want to configure on the fly as
  well as persist once we're happy with the result. We call these Properties.
  They can be read/written to rapidly using a RandomAccessStore, and know how
@@ -119,23 +124,26 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#key" class="member-name-link">key</a></code></div>
-<div class="col-last even-row-color">
+<div class="col-first even-row-color"><code>protected final <a href="ITableProxy.html" title="interface in xbot.common.properties">ITableProxy</a></code></div>
+<div class="col-second even-row-color"><code><a href="#activeStore" class="member-name-link">activeStore</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#key" class="member-name-link">key</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">The key for the property.</div>
 </div>
-<div class="col-first odd-row-color"><code>protected static org.apache.logging.log4j.Logger</code></div>
+<div class="col-first even-row-color"><code>final <a href="Property.PropertyLevel.html" title="enum class in xbot.common.properties">Property.PropertyLevel</a></code></div>
+<div class="col-second even-row-color"><code><a href="#level" class="member-name-link">level</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected org.apache.logging.log4j.Logger</code></div>
 <div class="col-second odd-row-color"><code><a href="#log" class="member-name-link">log</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected final <a href="PermanentStorage.html" title="interface in xbot.common.properties">PermanentStorage</a></code></div>
-<div class="col-second even-row-color"><code><a href="#permanentStore" class="member-name-link">permanentStore</a></code></div>
+<div class="col-first even-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#prefix" class="member-name-link">prefix</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>final <a href="Property.PropertyPersistenceType.html" title="enum class in xbot.common.properties">Property.PropertyPersistenceType</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#persistenceType" class="member-name-link">persistenceType</a></code></div>
+<div class="col-first odd-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#suffix" class="member-name-link">suffix</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected final <a href="ITableProxy.html" title="interface in xbot.common.properties">ITableProxy</a></code></div>
-<div class="col-second even-row-color"><code><a href="#randomAccessStore" class="member-name-link">randomAccessStore</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -147,22 +155,17 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,xbot.common.properties.XPropertyManager)" class="member-name-link">Property</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,java.lang.String,xbot.common.properties.XPropertyManager)" class="member-name-link">Property</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;prefix,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
  <a href="XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a>&nbsp;manager)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Creates a new persistent property.</div>
-</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,xbot.common.properties.XPropertyManager,xbot.common.properties.Property.PropertyPersistenceType)" class="member-name-link">Property</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- <a href="XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a>&nbsp;manager,
- <a href="Property.PropertyPersistenceType.html" title="enum class in xbot.common.properties">Property.PropertyPersistenceType</a>&nbsp;persistenceType)</code></div>
-<div class="col-last odd-row-color">
 <div class="block">Creates a new property.</div>
 </div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,xbot.common.properties.XPropertyManager,xbot.common.properties.Property.PropertyPersistenceType,xbot.common.properties.Property.PropertyLevel)" class="member-name-link">Property</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,java.lang.String,xbot.common.properties.XPropertyManager,xbot.common.properties.Property.PropertyLevel)" class="member-name-link">Property</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;prefix,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;suffix,
  <a href="XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a>&nbsp;manager,
- <a href="Property.PropertyPersistenceType.html" title="enum class in xbot.common.properties">Property.PropertyPersistenceType</a>&nbsp;persistenceType,
  <a href="Property.PropertyLevel.html" title="enum class in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</code></div>
-<div class="col-last even-row-color">
+<div class="col-last odd-row-color">
 <div class="block">Creates a new property.</div>
 </div>
 </div>
@@ -173,26 +176,19 @@ loadScripts(document, 'script');</script>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel">
 <div class="summary-table three-column-summary" aria-labelledby="method-summary-table-tab0">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#isSetToDefault()" class="member-name-link">isSetToDefault</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Checks if the property's current value matches the default.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#load()" class="member-name-link">load</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Property.PropertyLevel.html" title="enum class in xbot.common.properties">Property.PropertyLevel</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLevel()" class="member-name-link">getLevel</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#isSetToDefault()" class="member-name-link">isSetToDefault</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Load the property from storage.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#save()" class="member-name-link">save</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Save the property permanently.</div>
+<div class="block">Checks if the property's current value matches the default.</div>
 </div>
 </div>
 </div>
@@ -200,6 +196,9 @@ loadScripts(document, 'script');</script>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-xbot.common.advantage.DataFrameRefreshable">Methods inherited from interface&nbsp;xbot.common.advantage.<a href="../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></h3>
+<code><a href="../advantage/DataFrameRefreshable.html#refreshDataFrame()">refreshDataFrame</a></code></div>
 </section>
 </li>
 </ul>
@@ -219,27 +218,33 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="permanentStore">
-<h3>permanentStore</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="PermanentStorage.html" title="interface in xbot.common.properties">PermanentStorage</a></span>&nbsp;<span class="element-name">permanentStore</span></div>
+<section class="detail" id="prefix">
+<h3>prefix</h3>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">prefix</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="randomAccessStore">
-<h3>randomAccessStore</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="ITableProxy.html" title="interface in xbot.common.properties">ITableProxy</a></span>&nbsp;<span class="element-name">randomAccessStore</span></div>
+<section class="detail" id="suffix">
+<h3>suffix</h3>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">suffix</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="persistenceType">
-<h3>persistenceType</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Property.PropertyPersistenceType.html" title="enum class in xbot.common.properties">Property.PropertyPersistenceType</a></span>&nbsp;<span class="element-name">persistenceType</span></div>
+<section class="detail" id="level">
+<h3>level</h3>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Property.PropertyLevel.html" title="enum class in xbot.common.properties">Property.PropertyLevel</a></span>&nbsp;<span class="element-name">level</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="activeStore">
+<h3>activeStore</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="ITableProxy.html" title="interface in xbot.common.properties">ITableProxy</a></span>&nbsp;<span class="element-name">activeStore</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="log">
 <h3>log</h3>
-<div class="member-signature"><span class="modifiers">protected static</span>&nbsp;<span class="return-type">org.apache.logging.log4j.Logger</span>&nbsp;<span class="element-name">log</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">org.apache.logging.log4j.Logger</span>&nbsp;<span class="element-name">log</span></div>
 </section>
 </li>
 </ul>
@@ -251,47 +256,35 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(java.lang.String,xbot.common.properties.XPropertyManager,xbot.common.properties.Property.PropertyPersistenceType,xbot.common.properties.Property.PropertyLevel)">
+<section class="detail" id="&lt;init&gt;(java.lang.String,java.lang.String,xbot.common.properties.XPropertyManager,xbot.common.properties.Property.PropertyLevel)">
 <h3>Property</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Property</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Property</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;prefix,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;suffix,
  <a href="XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a>&nbsp;manager,
- <a href="Property.PropertyPersistenceType.html" title="enum class in xbot.common.properties">Property.PropertyPersistenceType</a>&nbsp;persistenceType,
  <a href="Property.PropertyLevel.html" title="enum class in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</span></div>
 <div class="block">Creates a new property.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>key</code> - The property key.
-            This should be unique unless you really know what you're doing.</dd>
+<dd><code>prefix</code> - The property prefix.
+               This should be unique unless you really know what you're doing.</dd>
+<dd><code>suffix</code> - The property suffix.
+               This should be unique unless you really know what you're doing.</dd>
 <dd><code>manager</code> - The property manager.</dd>
-<dd><code>persistenceType</code> - The persistence type.</dd>
 <dd><code>level</code> - The property level.</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;(java.lang.String,xbot.common.properties.XPropertyManager,xbot.common.properties.Property.PropertyPersistenceType)">
+<section class="detail" id="&lt;init&gt;(java.lang.String,java.lang.String,xbot.common.properties.XPropertyManager)">
 <h3>Property</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Property</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- <a href="XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a>&nbsp;manager,
- <a href="Property.PropertyPersistenceType.html" title="enum class in xbot.common.properties">Property.PropertyPersistenceType</a>&nbsp;persistenceType)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Property</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;prefix,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+ <a href="XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a>&nbsp;manager)</span></div>
 <div class="block">Creates a new property.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>key</code> - The property key.
+<dd><code>prefix</code> - The property prefix.
             This should be unique unless you really know what you're doing.</dd>
-<dd><code>manager</code> - The property manager.</dd>
-<dd><code>persistenceType</code> - The persistence type.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(java.lang.String,xbot.common.properties.XPropertyManager)">
-<h3>Property</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Property</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
- <a href="XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a>&nbsp;manager)</span></div>
-<div class="block">Creates a new persistent property.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
 <dd><code>key</code> - The property key.
             This should be unique unless you really know what you're doing.</dd>
 <dd><code>manager</code> - The property manager.</dd>
@@ -307,19 +300,9 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="save()">
-<h3>save</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">save</span>()</div>
-<div class="block">Save the property permanently. This shouldn't happen very often (I/O is
- expensive).</div>
-</section>
-</li>
-<li>
-<section class="detail" id="load()">
-<h3>load</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">load</span>()</div>
-<div class="block">Load the property from storage. This shouldn't happen very often (I/O is
- expensive).</div>
+<section class="detail" id="getLevel()">
+<h3>getLevel</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Property.PropertyLevel.html" title="enum class in xbot.common.properties">Property.PropertyLevel</a></span>&nbsp;<span class="element-name">getLevel</span>()</div>
 </section>
 </li>
 <li>
