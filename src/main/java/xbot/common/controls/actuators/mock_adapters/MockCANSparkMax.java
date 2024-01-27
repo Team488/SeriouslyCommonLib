@@ -670,14 +670,24 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     public void setReverseLimitSwitch(Type switchType, boolean enabled) {
     }
 
+    public boolean forwardLimitSwitchState;
+    public void setForwardLimitSwitchStateForTesting(boolean pressed) {
+        forwardLimitSwitchState = pressed;
+    }
+
+    public boolean reverseLimitSwitchState;
+    public void setReverseLimitSwitchStateForTesting(boolean pressed) {
+        reverseLimitSwitchState = pressed;
+    }
+
     @Override
     public boolean getForwardLimitSwitchPressed(Type switchType) {
-        return false;
+        return forwardLimitSwitchState;
     }
 
     @Override
     public boolean getReverseLimitSwitchPressed(Type switchType) {
-        return false;
+        return reverseLimitSwitchState;
     }
 
     @Override
