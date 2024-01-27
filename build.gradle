@@ -157,6 +157,12 @@ task checkstyle(type: Checkstyle) {
 
 javadoc {
     options.overview = "src/main/java/overview.html"
+    options.header = "<script type=\"module\">" +
+            "import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';" +
+            "mermaid.initialize({ startOnLoad: true });" +
+            "</script>";
+    options.addStringOption('Xdoclint:-missing', '-quiet')
+    options.addBooleanOption("-allow-script-in-comments",true)
 }
 
 jacocoTestReport {

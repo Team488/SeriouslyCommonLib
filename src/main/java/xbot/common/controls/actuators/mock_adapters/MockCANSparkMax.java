@@ -25,7 +25,9 @@ import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
 import xbot.common.controls.io_inputs.XCANSparkMaxInputs;
 import xbot.common.controls.sensors.XEncoder;
+import xbot.common.controls.sensors.XSparkAbsoluteEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
+import xbot.common.controls.sensors.mock_adapters.MockSparkAbsoluteEncoder;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.properties.PropertyFactory;
@@ -681,6 +683,11 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     @Override
     public REVLibError setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame frame, int periodMs) {
         return REVLibError.kOk;
+    }
+
+    @Override
+    public XSparkAbsoluteEncoder getAbsoluteEncoder(String nameWithPrefix, boolean inverted) {
+        return new MockSparkAbsoluteEncoder(nameWithPrefix, inverted);
     }
 
     @Override

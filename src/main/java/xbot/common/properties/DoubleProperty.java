@@ -4,6 +4,10 @@
  */
 package xbot.common.properties;
 
+import org.littletonrobotics.junction.LogTable;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.inputs.LoggableInputs;
+
 import java.util.function.Consumer;
 
 /**
@@ -15,34 +19,48 @@ public class DoubleProperty extends Property {
     private final double defaultValue;
     double lastValue;
 
-    public DoubleProperty(String name, double defaultValue, XPropertyManager manager) {
-        super(name, manager);
-        this.defaultValue = defaultValue;
-        load();
-        lastValue = get();
-    }
-    
-    public DoubleProperty(String name, double defaultValue, PropertyPersistenceType persistenceType, XPropertyManager manager) {
-        super(name, manager, persistenceType);
-        this.defaultValue = defaultValue;
-        load();
-        lastValue = get();
+    double currentValue;
+
+    private final LoggableInputs inputs = new LoggableInputs() {
+        public void toLog(LogTable table) {
+            table.put(suffix, currentValue);
+        }
+
+        public void fromLog(LogTable table) {
+            currentValue = table.get(suffix, defaultValue);
+        }
+    };
+
+    public DoubleProperty(String prefix, String name, double defaultValue, XPropertyManager manager) {
+        this(prefix, name, defaultValue, manager, PropertyLevel.Important);
     }
 
-    public DoubleProperty(String name, double defaultValue, PropertyPersistenceType persistenceType, XPropertyManager manager, PropertyLevel level) {
-        super(name, manager, persistenceType, level);
+    public DoubleProperty(String prefix, String name, double defaultValue, XPropertyManager manager, PropertyLevel level) {
+        super(prefix, name, manager, level);
         this.defaultValue = defaultValue;
-        load();
-        lastValue = get();
+
+        // Check for non-default on load; also store a "last value" we can use
+        // to check if a property has changed recently.
+        Double firstValue = get_internal();
+        if (get_internal() != defaultValue) {
+            log.info("Property " + key + " has the non-default value " + firstValue.doubleValue());
+        }
+        lastValue = firstValue;
+        currentValue = firstValue;
     }
-    
 
     public double get() {
-        Double nullableTableValue = randomAccessStore.getDouble(key);
+        return currentValue;
+    }
+    
+
+    public double get_internal() {
+        Double nullableTableValue = activeStore.getDouble(key);
         
         if(nullableTableValue == null) {
             log.error("Property key \"" + key + "\" not present in the underlying store!"
                     + " IF THIS IS AN IMPORTANT ROBOT PROPERTY, MAKE SURE IT HAS A SANE VALUE BEFORE ENABLING THE ROBOT!");
+            set(defaultValue);
             return defaultValue;
         }
         
@@ -50,31 +68,8 @@ public class DoubleProperty extends Property {
     }
     
     public void set(double value) {
-        randomAccessStore.setDouble(key, value);
-    }
-    
-    /**
-     * We only save the property if it's from a persistent type
-     */
-    public void save() {
-        if(persistenceType == PropertyPersistenceType.Persistent) {
-            permanentStore.setDouble(key, get());
-        }
-    }
-
-    /**
-     *
-     */
-    public void load() {
-        Double value = permanentStore.getDouble(key);
-        if(value != null) {
-            randomAccessStore.setDouble(key, value);
-            if (value != defaultValue) {
-                log.info("Property " + key + " has the non-default value " + value);
-            }
-        } else {
-            set(defaultValue);
-        }
+        activeStore.setDouble(key, value);
+        currentValue = value;
     }
     
     public void hasChangedSinceLastCheck(Consumer<Double> callback) {
@@ -88,5 +83,11 @@ public class DoubleProperty extends Property {
 
     public boolean isSetToDefault() {
         return get() == defaultValue;
+    }
+
+    @Override
+    public void refreshDataFrame() {
+        currentValue = get_internal();
+        Logger.processInputs(prefix, inputs);
     }
 }

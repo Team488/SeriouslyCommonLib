@@ -4,12 +4,12 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
+import org.littletonrobotics.junction.Logger;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.PID.OffTargetReason;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
-import xbot.common.properties.StringProperty;
 import xbot.common.properties.PropertyFactory;
 
 /**
@@ -23,7 +23,8 @@ public class PIDManager extends PIDPropertyManager {
     private DoubleProperty minOutput;
     private BooleanProperty isEnabled;
     private boolean isIMasked = false;
-    private StringProperty offTargetReasonProp;
+
+    private String prefix;
 
     @AssistedFactory
     public abstract static class PIDManagerFactory {
@@ -124,12 +125,13 @@ public class PIDManager extends PIDPropertyManager {
                 derivativeThreshold, timeThreshold, iZone);
 
         propMan.setDefaultLevel(Property.PropertyLevel.Debug);
+        this.prefix = propMan.getCleanPrefix();
+
         maxOutput = propMan.createPersistentProperty("Max Output", defaultMaxOutput);
         minOutput = propMan.createPersistentProperty("Min Output", defaultMinOutput);
 
         propMan.setDefaultLevel(Property.PropertyLevel.Debug);
         isEnabled = propMan.createPersistentProperty("Is Enabled", true);
-        offTargetReasonProp = propMan.createEphemeralProperty("OffTargetReason", "");
         propMan.setDefaultLevel(Property.PropertyLevel.Important);
 
         pid = new PID();
@@ -148,7 +150,7 @@ public class PIDManager extends PIDPropertyManager {
 
         if (isEnabled.get()) {
             double pidResult = pid.calculate(goal, current, getP(), isIMasked ? 0 : getI(), getD(), getF(), getIZone());
-            offTargetReasonProp.set(pid.getOffTargetReason().toString());
+            Logger.recordOutput(this.prefix + "OffTargetReason", pid.getOffTargetReason());
             return MathUtils.constrainDouble(pidResult, minOutput.get(), maxOutput.get());
         } else {
             return 0;

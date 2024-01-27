@@ -6,6 +6,7 @@ package xbot.common.properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import xbot.common.advantage.DataFrameRefreshable;
 
 /**
  * There are many values on the robot that we want to configure on the fly as
@@ -15,14 +16,18 @@ import org.apache.logging.log4j.Logger;
  * 
  * @author Alex
  */
-public abstract class Property {
+public abstract class Property implements DataFrameRefreshable {
     /**
      * The key for the property.
      */
     public final String key;
 
-    protected final PermanentStorage permanentStore;
-    protected final ITableProxy randomAccessStore;
+    public final String prefix;
+
+    public final String suffix;
+
+    public final PropertyLevel level;
+    protected final ITableProxy activeStore;
     
     /** 
      * Enum to determine property persistence
@@ -38,57 +43,52 @@ public abstract class Property {
         Important,
         Debug
     }
-    
-    public final PropertyPersistenceType persistenceType;
 
-    protected static Logger log;
+    protected Logger log = LogManager.getLogger(this.getClass());
 
     /**
      * Creates a new property.
-     * @param key The property key.
-     *            This should be unique unless you really know what you're doing.
+     * @param prefix The property prefix.
+     *               This should be unique unless you really know what you're doing.
+     * @param suffix The property suffix.
+     *               This should be unique unless you really know what you're doing.
      * @param manager The property manager.
-     * @param persistenceType The persistence type.
      * @param level The property level.
      */
-    public Property(String key, XPropertyManager manager, PropertyPersistenceType persistenceType, PropertyLevel level) {
-        this.key = sanitizeKey(key);
+    public Property(String prefix, String suffix, XPropertyManager manager, PropertyLevel level) {
+        this.prefix = prefix;
+        this.suffix = suffix;
+        this.key = sanitizeFullKey(prefix + suffix);
+        this.level = level;
+
         log = LogManager.getLogger(this.getClass().getSimpleName() + " (\"" + this.key + "\")");
-        
-        this.permanentStore = manager.permanentStore;
 
         if(level == PropertyLevel.Debug){
-            this.randomAccessStore = manager.inMemoryRandomAccessStore;
+            this.activeStore = manager.inMemoryRandomAccessStore;
         } else {
-            this.randomAccessStore = manager.randomAccessStore;
+            this.activeStore = manager.permanentStore;
         }
 
-        this.persistenceType = persistenceType;
         manager.registerProperty(this);
     }
 
-    /**
-     * Creates a new property.
-     * @param key The property key.
-     *            This should be unique unless you really know what you're doing.
-     * @param manager The property manager.
-     * @param persistenceType The persistence type.
-     */
-    public Property(String key, XPropertyManager manager, PropertyPersistenceType persistenceType) {
-        this(key, manager, persistenceType, PropertyLevel.Important);
+    public PropertyLevel getLevel() {
+        return level;
     }
 
     /**
-     * Creates a new persistent property.
+     * Creates a new property.
+     * @param prefix The property prefix.
+     *            This should be unique unless you really know what you're doing.
      * @param key The property key.
      *            This should be unique unless you really know what you're doing.
      * @param manager The property manager.
      */
-    public Property(String key, XPropertyManager manager) {
-        this(key, manager, PropertyPersistenceType.Persistent);
-    } 
+    public Property(String prefix, String key, XPropertyManager manager) {
+        this(prefix, key, manager, PropertyLevel.Important);
+    }
 
-    private String sanitizeKey(String key) {
+    private String sanitizeFullKey(String key) {
         String sanitizedKey = key;
         sanitizedKey = sanitizedKey.replace(",", "");
         sanitizedKey = sanitizedKey.replace("\n", "");
@@ -99,18 +99,6 @@ public abstract class Property {
         }
         return sanitizedKey;
     }
-
-    /**
-     * Save the property permanently. This shouldn't happen very often (I/O is
-     * expensive).
-     */
-    public abstract void save();
-
-    /**
-     * Load the property from storage. This shouldn't happen very often (I/O is
-     * expensive).
-     */
-    public abstract void load();
 
     /**
      * Checks if the property's current value matches the default.

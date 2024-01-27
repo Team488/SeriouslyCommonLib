@@ -17,9 +17,6 @@ import xbot.common.properties.StringProperty;
 @Singleton
 public class AutonomousCommandSelector extends BaseSubsystem {
     private static Logger log = LogManager.getLogger(AutonomousCommandSelector.class);
-
-    public final StringProperty currentAutonomousCommandName;
-    public final StringProperty currentAutonomousState;
     Supplier<Command> commandSupplier;
 
     Command currentAutonomousCommand;
@@ -27,9 +24,7 @@ public class AutonomousCommandSelector extends BaseSubsystem {
     @Inject
     public AutonomousCommandSelector(PropertyFactory propFactory) {
         propFactory.setTopLevelPrefix();
-        currentAutonomousCommandName = propFactory.createEphemeralProperty("Current autonomous command name",
-                "No command set");
-        currentAutonomousState = propFactory.createEphemeralProperty("Auto Program State", "Not set");
+        setAutonomousState("Not set");
     }
 
     public Command getCurrentAutonomousCommand() {
@@ -41,8 +36,9 @@ public class AutonomousCommandSelector extends BaseSubsystem {
 
     public void setCurrentAutonomousCommand(Command currentAutonomousCommand) {
         log.info("Setting CurrentAutonomousCommand to " + currentAutonomousCommand);
-        this.currentAutonomousCommandName
-                .set(currentAutonomousCommand == null ? "No command set" : currentAutonomousCommand.getName());
+        org.littletonrobotics.junction.Logger.recordOutput(
+                this.getPrefix() + "Current autonomous command name",
+                currentAutonomousCommand == null ? "No command set" : currentAutonomousCommand.getName());
 
         this.currentAutonomousCommand = currentAutonomousCommand;
         commandSupplier = null;
@@ -54,7 +50,7 @@ public class AutonomousCommandSelector extends BaseSubsystem {
     }
 
     public void setAutonomousState(String state) {
-        currentAutonomousState.set(state);
+        org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "Auto Program State", state);
     }
 
 }

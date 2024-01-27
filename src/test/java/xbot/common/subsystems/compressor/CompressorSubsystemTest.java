@@ -51,10 +51,10 @@ public class CompressorSubsystemTest extends BaseCommonLibTest  {
     public void testPeriodic() {
         compressorSubsystem.enable();
         compressorSubsystem.periodic();
-        assertTrue(compressorSubsystem.isEnabledProperty.get());
+        assertTrue(compressorSubsystem.isEnabled());
 
         compressorSubsystem.disable();
         compressorSubsystem.periodic();
-        assertFalse(compressorSubsystem.isEnabledProperty.get());
+        assertFalse(compressorSubsystem.isEnabled());
     }
 }

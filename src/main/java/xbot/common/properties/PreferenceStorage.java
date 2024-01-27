@@ -23,7 +23,8 @@ public class PreferenceStorage implements PermanentStorage {
     boolean fastMode = false;
     
     @Inject
-    public PreferenceStorage() {}
+    public PreferenceStorage() {
+    }
 
     @Override
     public void setDouble(String key, double value) {
