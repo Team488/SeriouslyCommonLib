@@ -30,6 +30,7 @@ loadScripts(document, 'script');</script>
 <!-- ========= START OF TOP NAVBAR ======= -->
 <div class="top-nav" id="navbar-top">
 <div class="skip-nav"><a href="#skip-navbar-top" title="Skip navigation links">Skip navigation links</a></div>
+<div class="about-language"><script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';mermaid.initialize({ startOnLoad: true });</script></div>
 <ul id="navbar-top-firstrow" class="nav-list" title="Navigation">
 <li><a href="../../../index.html">Overview</a></li>
 <li class="nav-bar-cell1-rev">Package</li>
@@ -65,7 +66,97 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="package-signature">package <span class="element-name">xbot.common.command</span></div>
 <section class="package-description" id="package-description">
-<div class="block">The command framework, scheduler and subsystems.</div>
+<div class="block">The command framework, scheduler and subsystems.
+
+ <h2>Setpoint Subsystems and Maintainers</h2>
+ <p>
+ There are many components of the robot that need to maintain a particular state.
+ For example, an arm might need to maintain a particular angle, or a drive train
+ might need to maintain a particular velocity. We can implement these components
+ as <em>setpoint subsystems</em> that have a <em>maintainer command</em> that runs in the
+ background and keeps the subsystem and its outputs at the desired state.
+ </p>
+ <p>
+ Setpoint subsystems are implemented as <a href="BaseSetpointSubsystem.html" title="class in xbot.common.command"><code>BaseSetpointSubsystem</code></a>s.
+ They have a <em>command</em> that extends <a href="BaseMaintainerCommand.html" title="class in xbot.common.command"><code>BaseMaintainerCommand</code></a> that runs on
+ the subsystem. <em>Commands</em> extending from <a href="BaseSetpointCommand.html" title="class in xbot.common.command"><code>BaseSetpointCommand</code></a>s are used to
+ change the setpoint of the subsystem.
+ </p>
+ <p>
+ A <a href="BaseSetpointSubsystem.html" title="class in xbot.common.command"><code>BaseSetpointSubsystem</code></a> often has a default command that runs on it. This command
+ is a <a href="BaseSetpointCommand.html" title="class in xbot.common.command"><code>BaseSetpointCommand</code></a>-derived command that returns the related mechanism
+ to its default state. For example, an arm might have a default command that
+ returns the arm to its lowest position. Additional commands can be created to
+ move the arm to other positions. These commands will interrupt each other because
+ they are all <a href="BaseSetpointCommand.html" title="class in xbot.common.command"><code>BaseSetpointCommand</code></a>s that require the same subsystem
+ and acquire its setpoint lock.
+ </p>
+ <p>
+ The <a href="BaseMaintainerCommand.html" title="class in xbot.common.command"><code>BaseMaintainerCommand</code></a> is responsible for maintaining the subsystem at the
+ desired state. It can take input from the human operator and/or from a control system loop using the
+ inputs to the setpoint subsystem. The maintainer sends a power value to the setpoint subsystem,
+ and the setpoint subsystem is responsible for converting that power into an output.
+ </p>
+ <pre class="mermaid">
+     classDiagram
+         class ShooterWheelSetpointSubsystem {
+             -Device output
+             -Sensor input
+             +getCurrentValue() T
+             +getTargetValue() T
+             +setTargetValue(T value) void
+             +setPower(T power) void
+             +isCalibrated() boolean
+         }
+         class BaseSetpointSubsystem~T~ {
+             +getCurrentValue()*T
+             +getTargetValue()* T
+             +setTargetValue(T value)* void
+             +setPower(T power)* void
+             +isCalibrated()* boolean
+         }
+         BaseSetpointSubsystem~T~ --|&gt; ShooterWheelSetpointSubsystem
+         class ShooterWheelMaintainerCommand {
+             ~BaseSetpointSubsystem~T~ subsystemToMaintain
+             +execute() void
+             #coastAction() void
+             #humanControlAction() void
+             #initializeMachineControlAction() void
+             #calibratedMachineControlAction() void
+             #uncalibratedMachineControlAction() void
+             #getErrorMagnitude() double
+             #getHumanInput() T
+             #getHumanInputMagnitude() double
+         }
+         class BaseMaintainerCommand~T~ {
+             ~BaseSetpointSubsystem~T~ subsystemToMaintain
+             +execute() void
+             #coastAction()* void
+             #humanControlAction()* void
+             #initializeMachineControlAction()* void
+             #calibratedMachineControlAction()* void
+             #uncalibratedMachineControlAction()* void
+             #getErrorMagnitude()* double
+             #getHumanInput()* T
+             #getHumanInputMagnitude()* double
+         }
+         BaseMaintainerCommand~T~ --|&gt; ShooterWheelMaintainerCommand
+         class StopShooterWheelSetpointCommand {
+             -BaseSetpointSubsystem~T~ subsystem
+             +initialize() void
+             +execute() void
+             +isFinished() boolean
+         }
+         class BaseSetpointCommand~T~ {
+             -BaseSetpointSubsystem~T~ subsystem
+             +initialize()* void
+             +execute()* void
+             +isFinished()* boolean
+         }
+         BaseSetpointCommand~T~ --|&gt; StopShooterWheelSetpointCommand
+         ShooterWheelMaintainerCommand ..&gt; ShooterWheelSetpointSubsystem : Maintains outputs
+         StopShooterWheelSetpointCommand ..&gt; ShooterWheelSetpointSubsystem : Sets targets
+ </pre></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
