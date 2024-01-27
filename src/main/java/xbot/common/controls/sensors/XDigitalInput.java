@@ -11,8 +11,8 @@ import xbot.common.injection.electrical_contract.DeviceInfo;
 public abstract class XDigitalInput implements XBaseIO {
 
     boolean inverted;
-    XDigitalInputsAutoLogged inputs;
-    DeviceInfo info;
+    final XDigitalInputsAutoLogged inputs;
+    final DeviceInfo info;
     
     public interface XDigitalInputFactory {
         XDigitalInput create(DeviceInfo info);
