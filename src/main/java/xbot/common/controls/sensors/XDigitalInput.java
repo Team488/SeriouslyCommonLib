@@ -21,6 +21,7 @@ public abstract class XDigitalInput implements XBaseIO {
     public XDigitalInput(DevicePolice police, DeviceInfo info) {
         police.registerDevice(DeviceType.DigitalIO, info.channel, this);
         inputs = new XDigitalInputsAutoLogged();
+        this.info = info;
     }
     
     public boolean get() {
