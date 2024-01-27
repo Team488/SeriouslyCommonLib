@@ -8,12 +8,14 @@ import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.REVLibError;
+import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
 
 import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.controls.io_inputs.XCANSparkMaxInputs;
 import xbot.common.controls.io_inputs.XCANSparkMaxInputsAutoLogged;
+import xbot.common.controls.sensors.XSparkAbsoluteEncoder;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
@@ -789,6 +791,15 @@ public abstract class XCANSparkMax {
                 clearFaults();
             }
     }
+
+    /**
+     * If an absolute encoder is attached directly to the SparkMax, we need to retrieve it from the SparkMax object
+     * rather than creating it via a factory as we do with other objects.
+     * @param nameWithPrefix Name of the encoder, with the prefix already applied.
+     * @param inverted Whether the encoder is inverted.
+     * @return The absolute encoder attached to this SparkMax.
+     */
+    public abstract XSparkAbsoluteEncoder getAbsoluteEncoder(String nameWithPrefix, boolean inverted);
 
     // Methods for integrating with AdvantageKit
     protected abstract void updateInputs(XCANSparkMaxInputs inputs);
