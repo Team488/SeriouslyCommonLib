@@ -16,10 +16,13 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import edu.wpi.first.wpilibj.util.Color;
+import org.littletonrobotics.junction.Logger;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
 import xbot.common.properties.BooleanProperty;
@@ -30,9 +33,9 @@ import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 @Singleton
 public class WebotsClient {
-    final DoubleProperty simulatorPoseX;
-    final DoubleProperty simulatorPoseY;
-    final DoubleProperty simulatorPoseYaw;
+    double simulatorPoseX;
+    double simulatorPoseY;
+    double simulatorPoseYaw;
     final StringProperty simulatorRobotTemplate;
     final BooleanProperty enableProxy;
     final DoubleProperty proxyPort;
@@ -47,9 +50,6 @@ public class WebotsClient {
     @Inject
     public WebotsClient(PropertyFactory propertyFactory) {
         propertyFactory.setPrefix("Webots");
-        simulatorPoseX = propertyFactory.createEphemeralProperty("Simulator Pose X", 0);
-        simulatorPoseY = propertyFactory.createEphemeralProperty("Simulator Pose Y", 0);
-        simulatorPoseYaw = propertyFactory.createEphemeralProperty("Simulator Pose Yaw", 0);
         simulatorRobotTemplate = propertyFactory.createPersistentProperty("Robot Template", "RobotTemplate2022");
         enableProxy = propertyFactory.createPersistentProperty("Enable Proxy", false);
         proxyPort = propertyFactory.createPersistentProperty("Proxy Port", 8888);
@@ -116,9 +116,12 @@ public class WebotsClient {
             positionArray.getDouble(1)*BasePoseSubsystem.INCHES_IN_A_METER, 
             worldPose.getDouble("Yaw"));
         FieldPose calibratedPose = truePose.getFieldPoseOffsetBy(fieldOffset);
-        simulatorPoseX.set(calibratedPose.getPoint().x);
-        simulatorPoseY.set(calibratedPose.getPoint().y);
-        simulatorPoseYaw.set(calibratedPose.getHeading().getDegrees());
+        simulatorPoseX = calibratedPose.getPoint().x;
+        simulatorPoseY = calibratedPose.getPoint().y;
+        simulatorPoseYaw = calibratedPose.getHeading().getDegrees();
+
+        Pose2d simulatorPose = new Pose2d(simulatorPoseX, simulatorPoseY, Rotation2d.fromDegrees(simulatorPoseYaw));
+        Logger.recordOutput("Webots/SimulatorPose", simulatorPose);
     }
 
     public void resetPosition() {
