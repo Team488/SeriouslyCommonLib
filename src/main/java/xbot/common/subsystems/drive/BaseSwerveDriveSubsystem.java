@@ -383,7 +383,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         }
 
         // Finally, we can tell each swerve module what it should be doing. Log these values for debugging.
-        org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "DesiredSwerveState", moduleStates);
+        aKitLog.record("DesiredSwerveState", moduleStates);
 
         this.getFrontLeftSwerveModuleSubsystem().setTargetState(moduleStates[0]);
         this.getFrontRightSwerveModuleSubsystem().setTargetState(moduleStates[1]);
@@ -556,12 +556,12 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
 
     @Override
     public void periodic() {
-        org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "ActiveSwerveModule", activeModuleLabel);
-        org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "TranslationTarget",
+        aKitLog.record("ActiveSwerveModule", activeModuleLabel);
+        aKitLog.record("TranslationTarget",
             new Translation2d(translationXTargetMPS, translationYTargetMPS));
-        org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "RotationTarget", rotationTargetRadians);
-        org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "DesiredHeading", desiredHeading);
-        org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "VelocityMaintainerTargets",
+        aKitLog.record("RotationTarget", rotationTargetRadians);
+        aKitLog.record("DesiredHeading", desiredHeading);
+        aKitLog.record("VelocityMaintainerTargets",
             new Translation2d(velocityMaintainerXTarget, velocityMaintainerXTarget));
     }
 
@@ -571,6 +571,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         rearLeftSwerveModuleSubsystem.refreshDataFrame();
         rearRightSwerveModuleSubsystem.refreshDataFrame();
 
-        org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "CurrentSwerveState", getSwerveModuleStates());
+        aKitLog.record("CurrentSwerveState", getSwerveModuleStates());
     }
 }

@@ -4,6 +4,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import xbot.common.advantage.AKitLogger;
 import xbot.common.controls.sensors.XTimer;
 
 import java.util.List;
@@ -18,6 +20,7 @@ public class SimpleTimeInterpolator {
     private List<? extends ProvidesInterpolationData> keyPoints;
 
     Logger log = LogManager.getLogger(SimpleTimeInterpolator.class);
+    AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator");
 
     public class InterpolationResult {
         public Translation2d chasePoint;
@@ -58,7 +61,7 @@ public class SimpleTimeInterpolator {
 
     public InterpolationResult calculateTarget(Translation2d currentLocation) {
         double currentTime = XTimer.getFPGATimestamp();
-        org.littletonrobotics.junction.Logger.recordOutput("SimpleTimeInterpolator/CurrentTime", currentTime);
+        aKitLog.record("CurrentTime", currentTime);
 
         double secondsSinceLastExecute = currentTime - previousTimestamp;
         previousTimestamp = currentTime;
@@ -84,8 +87,8 @@ public class SimpleTimeInterpolator {
 
         // Now, try to find a better point via linear interpolation.
         double lerpFraction = (accumulatedProductiveSeconds) / targetKeyPoint.getSecondsForSegment();
-        org.littletonrobotics.junction.Logger.recordOutput("SimpleTimeInterpolator/LerpFraction", lerpFraction);
-        org.littletonrobotics.junction.Logger.recordOutput("SimpleTimeInterpolator/accumulatedProductiveSeconds", accumulatedProductiveSeconds);
+        aKitLog.record("LerpFraction", lerpFraction);
+        aKitLog.record("accumulatedProductiveSeconds", accumulatedProductiveSeconds);
 
         // If the fraction is above 1, it's time to set a new baseline point and start LERPing on the next
         // one.

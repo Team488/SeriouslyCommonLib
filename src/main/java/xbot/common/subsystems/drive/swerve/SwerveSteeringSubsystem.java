@@ -155,7 +155,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
     @Override
     public void setPower(Double power) {
         if (this.contract.isDriveReady()) {
-            org.littletonrobotics.junction.Logger.recordOutput(getPrefix()+"DirectPower", power);
+            aKitLog.record("DirectPower", power);
             this.motorController.set(power);
         }
     }
@@ -318,7 +318,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
             double changeInDegrees = MathUtil.inputModulus(targetDegrees - currentPositionDegrees, -90, 90);
             double targetPosition = this.motorController.getPosition() + (changeInDegrees / degreesPerMotorRotation.get());
 
-            org.littletonrobotics.junction.Logger.recordOutput(getPrefix()+"PidTargetRadians", targetPosition);
+            aKitLog.record("PidTargetRadians", targetPosition);
             REVLibError error = this.motorController.setReference(targetPosition, CANSparkBase.ControlType.kPosition, 0);
             if (error != REVLibError.kOk) {
                 log.error("Error setting PID target: " + error.name());
@@ -332,8 +332,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
             setupStatusFramesAsNeeded();
         }
 
-        org.littletonrobotics.junction.Logger.getInstance().recordOutput(
-                this.getPrefix()+"BestEncoderPositionDegrees",
+        aKitLog.record("BestEncoderPositionDegrees",
                 getBestEncoderPositionInDegrees());
     }
 

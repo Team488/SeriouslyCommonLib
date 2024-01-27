@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import xbot.common.advantage.AKitLogger;
 import xbot.common.logging.TimeLogger;
 import xbot.common.properties.IPropertySupport;
 
@@ -15,8 +16,9 @@ import xbot.common.properties.IPropertySupport;
  */
 public abstract class BaseCommand extends Command implements IPropertySupport {
 
-    protected Logger log;
-    protected TimeLogger monitor;
+    protected final Logger log;
+    protected final AKitLogger aKitLog;
+    protected final TimeLogger monitor;
     private boolean configurableRunWhenDisabled;
     
     @Inject
@@ -24,6 +26,7 @@ public abstract class BaseCommand extends Command implements IPropertySupport {
 
     public BaseCommand() {
         log = LogManager.getLogger(this.getName());
+        aKitLog = new AKitLogger(this);
         monitor = new TimeLogger(this.getName(), 20);
     }
 

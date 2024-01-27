@@ -67,11 +67,11 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     protected void updateCurrentHeading() {
         currentHeading = WrappedRotation2d.fromDegrees(getRobotYaw().getDegrees() + headingOffset);
 
-        Logger.getInstance().recordOutput(this.getPrefix()+"AdjustedHeadingDegrees", currentHeading.getDegrees());
-        Logger.getInstance().recordOutput(this.getPrefix()+"AdjustedHeadingRadians", currentHeading.getRadians());
-        Logger.getInstance().recordOutput(this.getPrefix()+"AdjustedPitchDegrees", this.getRobotPitch());
-        Logger.getInstance().recordOutput(this.getPrefix()+"AdjustedRollDegrees", this.getRobotRoll());
-        Logger.getInstance().recordOutput(this.getPrefix()+"AdjustedYawVelocityDegrees", getYawAngularVelocity());
+        aKitLog.record("AdjustedHeadingDegrees", currentHeading.getDegrees());
+        aKitLog.record("AdjustedHeadingRadians", currentHeading.getRadians());
+        aKitLog.record("AdjustedPitchDegrees", this.getRobotPitch());
+        aKitLog.record("AdjustedRollDegrees", this.getRobotRoll());
+        aKitLog.record("AdjustedYawVelocityDegrees", getYawAngularVelocity());
     }  
     
     protected void updateOdometry() {

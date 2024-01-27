@@ -80,6 +80,6 @@ public class CompressorSubsystem extends BaseSubsystem {
     @Override
     public void periodic() {
         super.periodic();
-        Logger.recordOutput(getPrefix() + "Compressor Enabled", this.compressor.isEnabled());
+        aKitLog.record("Compressor Enabled", this.compressor.isEnabled());
     }
 }
