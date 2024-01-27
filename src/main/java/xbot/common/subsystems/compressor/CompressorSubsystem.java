@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import org.littletonrobotics.junction.Logger;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.NamedRunCommand;
 import xbot.common.controls.actuators.XCompressor;
@@ -17,7 +18,6 @@ import xbot.common.properties.PropertyFactory;
 @Singleton
 public class CompressorSubsystem extends BaseSubsystem {
     protected final XCompressor compressor;
-    protected final BooleanProperty isEnabledProperty;
 
     /**
      * Create a new CompressorSubsystem.
@@ -28,7 +28,6 @@ public class CompressorSubsystem extends BaseSubsystem {
     public CompressorSubsystem(XCompressorFactory compressorFactory, PropertyFactory pf) {
         pf.setPrefix("CompressorSubsystem");
         this.compressor = compressorFactory.create();
-        this.isEnabledProperty = pf.createEphemeralProperty("Compressor Enabled", compressor.isEnabled());
         this.register();
     }
 
@@ -81,6 +80,6 @@ public class CompressorSubsystem extends BaseSubsystem {
     @Override
     public void periodic() {
         super.periodic();
-        isEnabledProperty.set(compressor.isEnabled());
+        Logger.recordOutput(getPrefix() + "Compressor Enabled", this.compressor.isEnabled());
     }
 }
