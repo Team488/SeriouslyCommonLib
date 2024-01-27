@@ -330,6 +330,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
     public void periodic() {
         if (contract.isDriveReady()) {
             setupStatusFramesAsNeeded();
+            motorController.periodic();
         }
 
         org.littletonrobotics.junction.Logger.getInstance().recordOutput(
