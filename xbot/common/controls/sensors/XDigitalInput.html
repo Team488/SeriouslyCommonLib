@@ -113,8 +113,8 @@ implements <a href="../XBaseIO.html" title="interface in xbot.common.controls">X
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.injection.DevicePolice,int)" class="member-name-link">XDigitalInput</a><wbr>(<a href="../../injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a>&nbsp;police,
- int&nbsp;channel)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.injection.DevicePolice,xbot.common.injection.electrical_contract.DeviceInfo)" class="member-name-link">XDigitalInput</a><wbr>(<a href="../../injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a>&nbsp;police,
+ <a href="../../injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a>&nbsp;info)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -136,12 +136,15 @@ implements <a href="../XBaseIO.html" title="interface in xbot.common.controls">X
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getInverted()" class="member-name-link">getInverted</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getRaw()" class="member-name-link">getRaw</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#refreshDataFrame()" class="member-name-link">refreshDataFrame</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setInverted(boolean)" class="member-name-link">setInverted</a><wbr>(boolean&nbsp;inverted)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XDigitalInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../io_inputs/XDigitalInputs.html" title="class in xbot.common.controls.io_inputs">XDigitalInputs</a>&nbsp;inputs)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -163,10 +166,10 @@ implements <a href="../XBaseIO.html" title="interface in xbot.common.controls">X
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(xbot.common.injection.DevicePolice,int)">
+<section class="detail" id="&lt;init&gt;(xbot.common.injection.DevicePolice,xbot.common.injection.electrical_contract.DeviceInfo)">
 <h3>XDigitalInput</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">XDigitalInput</span><wbr><span class="parameters">(<a href="../../injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a>&nbsp;police,
- int&nbsp;channel)</span></div>
+ <a href="../../injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a>&nbsp;info)</span></div>
 </section>
 </li>
 </ul>
@@ -196,9 +199,15 @@ implements <a href="../XBaseIO.html" title="interface in xbot.common.controls">X
 </section>
 </li>
 <li>
-<section class="detail" id="getRaw()">
-<h3>getRaw</h3>
-<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">getRaw</span>()</div>
+<section class="detail" id="updateInputs(xbot.common.controls.io_inputs.XDigitalInputs)">
+<h3>updateInputs</h3>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateInputs</span><wbr><span class="parameters">(<a href="../io_inputs/XDigitalInputs.html" title="class in xbot.common.controls.io_inputs">XDigitalInputs</a>&nbsp;inputs)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="refreshDataFrame()">
+<h3>refreshDataFrame</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">refreshDataFrame</span>()</div>
 </section>
 </li>
 </ul>

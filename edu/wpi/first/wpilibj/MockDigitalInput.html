@@ -129,7 +129,7 @@ implements <a href="../../../../xbot/common/simulation/ISimulatableSensor.html" 
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,xbot.common.injection.DevicePolice)" class="member-name-link">MockDigitalInput</a><wbr>(int&nbsp;channel,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.injection.electrical_contract.DeviceInfo,xbot.common.injection.DevicePolice)" class="member-name-link">MockDigitalInput</a><wbr>(<a href="../../../../xbot/common/injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a>&nbsp;info,
  <a href="../../../../xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a>&nbsp;police)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
@@ -149,24 +149,24 @@ implements <a href="../../../../xbot/common/simulation/ISimulatableSensor.html" 
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getChannel()" class="member-name-link">getChannel</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRaw()" class="member-name-link">getRaw</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#ingestSimulationData(org.json.JSONObject)" class="member-name-link">ingestSimulationData</a><wbr>(org.json.JSONObject&nbsp;payload)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#ingestSimulationData(org.json.JSONObject)" class="member-name-link">ingestSimulationData</a><wbr>(org.json.JSONObject&nbsp;payload)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setInverted(boolean)" class="member-name-link">setInverted</a><wbr>(boolean&nbsp;inverted)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setInverted(boolean)" class="member-name-link">setInverted</a><wbr>(boolean&nbsp;inverted)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setValue(boolean)" class="member-name-link">setValue</a><wbr>(boolean&nbsp;value)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setValue(boolean)" class="member-name-link">setValue</a><wbr>(boolean&nbsp;value)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XDigitalInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../../../xbot/common/controls/io_inputs/XDigitalInputs.html" title="class in xbot.common.controls.io_inputs">XDigitalInputs</a>&nbsp;inputs)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-xbot.common.controls.sensors.XDigitalInput">Methods inherited from class&nbsp;xbot.common.controls.sensors.<a href="../../../../xbot/common/controls/sensors/XDigitalInput.html" title="class in xbot.common.controls.sensors">XDigitalInput</a></h3>
-<code><a href="../../../../xbot/common/controls/sensors/XDigitalInput.html#get()">get</a>, <a href="../../../../xbot/common/controls/sensors/XDigitalInput.html#getInverted()">getInverted</a></code></div>
+<code><a href="../../../../xbot/common/controls/sensors/XDigitalInput.html#get()">get</a>, <a href="../../../../xbot/common/controls/sensors/XDigitalInput.html#getInverted()">getInverted</a>, <a href="../../../../xbot/common/controls/sensors/XDigitalInput.html#refreshDataFrame()">refreshDataFrame</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -196,11 +196,11 @@ implements <a href="../../../../xbot/common/simulation/ISimulatableSensor.html" 
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(int,xbot.common.injection.DevicePolice)">
+<section class="detail" id="&lt;init&gt;(xbot.common.injection.electrical_contract.DeviceInfo,xbot.common.injection.DevicePolice)">
 <h3>MockDigitalInput</h3>
 <div class="member-signature"><span class="annotations">@AssistedInject
-</span><span class="modifiers">public</span>&nbsp;<span class="element-name">MockDigitalInput</span><wbr><span class="parameters">(@Assisted("channel")
- int&nbsp;channel,
+</span><span class="modifiers">public</span>&nbsp;<span class="element-name">MockDigitalInput</span><wbr><span class="parameters">(@Assisted("info")
+ <a href="../../../../xbot/common/injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a>&nbsp;info,
  <a href="../../../../xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a>&nbsp;police)</span></div>
 </section>
 </li>
@@ -229,12 +229,12 @@ implements <a href="../../../../xbot/common/simulation/ISimulatableSensor.html" 
 </section>
 </li>
 <li>
-<section class="detail" id="getRaw()">
-<h3>getRaw</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">getRaw</span>()</div>
+<section class="detail" id="updateInputs(xbot.common.controls.io_inputs.XDigitalInputs)">
+<h3>updateInputs</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateInputs</span><wbr><span class="parameters">(<a href="../../../../xbot/common/controls/io_inputs/XDigitalInputs.html" title="class in xbot.common.controls.io_inputs">XDigitalInputs</a>&nbsp;inputs)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../../xbot/common/controls/sensors/XDigitalInput.html#getRaw()">getRaw</a></code>&nbsp;in class&nbsp;<code><a href="../../../../xbot/common/controls/sensors/XDigitalInput.html" title="class in xbot.common.controls.sensors">XDigitalInput</a></code></dd>
+<dd><code><a href="../../../../xbot/common/controls/sensors/XDigitalInput.html#updateInputs(xbot.common.controls.io_inputs.XDigitalInputs)">updateInputs</a></code>&nbsp;in class&nbsp;<code><a href="../../../../xbot/common/controls/sensors/XDigitalInput.html" title="class in xbot.common.controls.sensors">XDigitalInput</a></code></dd>
 </dl>
 </section>
 </li>
