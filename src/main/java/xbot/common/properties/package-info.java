@@ -15,6 +15,10 @@
  * duplication, however, this automatic logging also lets the robot perform an accurate "replay mode" if any
  * configuration values were changed at runtime.
  *<p>
+ * Properties can be created with Important or Debug levels. Important properties are persisted to robot storage;
+ * Debug properties are kept entirely in memory, meaning they effectively "load from default" every time the robot
+ * boots.
+ *<p>
  * This package used to have a separate Ephemeral property; that's been deprecated. If you want to publish an
  * interesting value to the human operators (as well as log it to disc), use AdvantageKit's logger,
  * as in the following example:
