@@ -5,8 +5,10 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import xbot.common.controls.io_inputs.XDigitalInputs;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.injection.DevicePolice;
+import xbot.common.injection.electrical_contract.DeviceInfo;
 
 public class DigitalInputWPIAdapter extends XDigitalInput {
 
@@ -15,28 +17,24 @@ public class DigitalInputWPIAdapter extends XDigitalInput {
     @AssistedFactory
     public abstract static class DigitalInputWPIAdapterFactory implements XDigitalInputFactory
     {
-        public abstract DigitalInputWPIAdapter create(@Assisted("channel") int channel);
+        public abstract DigitalInputWPIAdapter create(@Assisted("info")DeviceInfo info);
     }
 
     /**
      * Create an instance of a Digital Input class. Creates a digital input given a channel.
      *
-     * @param channel
+     * @param info
      *            the DIO channel for the digital input 0-9 are on-board, 10-25 are on the MXP
      */
     @AssistedInject
-    public DigitalInputWPIAdapter(@Assisted("channel") int channel, DevicePolice police) {
-        super(police, channel);
-        adapter = new DigitalInput(channel);
+    public DigitalInputWPIAdapter(@Assisted("info") DeviceInfo info, DevicePolice police) {
+        super(police, info);
+        adapter = new DigitalInput(info.channel);
     }
 
-    /**
-     * Get the value from a digital input channel. Retrieve the value of a single digital input channel from the FPGA.
-     *
-     * @return the status of the digital input
-     */
-    protected boolean getRaw() {
-        return adapter.get();
+    @Override
+    public void updateInputs(XDigitalInputs inputs) {
+        inputs.signal = adapter.get();
     }
 
     /**

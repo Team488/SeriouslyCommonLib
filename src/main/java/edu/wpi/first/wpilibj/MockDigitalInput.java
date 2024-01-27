@@ -6,8 +6,10 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
+import xbot.common.controls.io_inputs.XDigitalInputs;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.injection.DevicePolice;
+import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.simulation.ISimulatableSensor;
 
 public class MockDigitalInput extends XDigitalInput implements ISimulatableSensor {
@@ -18,13 +20,13 @@ public class MockDigitalInput extends XDigitalInput implements ISimulatableSenso
     @AssistedFactory
     public abstract static class MockDigitalInputFactory implements XDigitalInputFactory
     {
-        public abstract MockDigitalInput create(@Assisted("channel") int channel);
+        public abstract MockDigitalInput create(@Assisted("info")DeviceInfo info);
     }
 
     @AssistedInject
-    public MockDigitalInput(@Assisted("channel") int channel, DevicePolice police) {
-        super(police, channel);
-        this.channel = channel;
+    public MockDigitalInput(@Assisted("info") DeviceInfo info, DevicePolice police) {
+        super(police, info);
+        this.channel = info.channel;
     }
 
     public void setValue(boolean value) {
@@ -37,8 +39,9 @@ public class MockDigitalInput extends XDigitalInput implements ISimulatableSenso
         value = !value;
     }
 
-    public boolean getRaw() {
-        return value;
+    @Override
+    public void updateInputs(XDigitalInputs inputs) {
+        inputs.signal = value;
     }
 
     public int getChannel() {
