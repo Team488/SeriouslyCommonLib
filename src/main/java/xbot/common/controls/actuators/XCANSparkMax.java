@@ -792,6 +792,13 @@ public abstract class XCANSparkMax {
             }
     }
 
+    /**
+     * If an absolute encoder is attached directly to the SparkMax, we need to retrieve it from the SparkMax object
+     * rather than creating it via a factory as we do with other objects.
+     * @param nameWithPrefix Name of the encoder, with the prefix already applied.
+     * @param inverted Whether the encoder is inverted.
+     * @return
+     */
     public abstract XSparkAbsoluteEncoder getAbsoluteEncoder(String nameWithPrefix, boolean inverted);
 
     // Methods for integrating with AdvantageKit
