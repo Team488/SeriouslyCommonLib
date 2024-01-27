@@ -93,9 +93,11 @@ public class AKitLogger {
         Logger.recordOutput(this.prefix + key, struct, value);
     }
 
+    //CHECKSTYLE:OFF
     public <T, MessageType extends ProtoMessage<?>> void record(String key, Protobuf<T, MessageType> proto, T value) {
         Logger.recordOutput(this.prefix + key, proto, value);
     }
+    //CHECKSTYLE:ON
 
     public <T extends WPISerializable> void record(String key, T value) {
         Logger.recordOutput(this.prefix + key, value);
