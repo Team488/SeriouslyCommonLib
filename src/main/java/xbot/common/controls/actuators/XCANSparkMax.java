@@ -797,7 +797,7 @@ public abstract class XCANSparkMax {
      * rather than creating it via a factory as we do with other objects.
      * @param nameWithPrefix Name of the encoder, with the prefix already applied.
      * @param inverted Whether the encoder is inverted.
-     * @return
+     * @return The absolute encoder attached to this SparkMax.
      */
     public abstract XSparkAbsoluteEncoder getAbsoluteEncoder(String nameWithPrefix, boolean inverted);
 
