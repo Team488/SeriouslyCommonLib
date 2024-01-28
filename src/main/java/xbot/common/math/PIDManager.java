@@ -5,6 +5,8 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import org.littletonrobotics.junction.Logger;
+
+import xbot.common.advantage.AKitLogger;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.PID.OffTargetReason;
 import xbot.common.properties.BooleanProperty;
@@ -25,6 +27,7 @@ public class PIDManager extends PIDPropertyManager {
     private boolean isIMasked = false;
 
     private String prefix;
+    private final AKitLogger aKitLog;
 
     @AssistedFactory
     public abstract static class PIDManagerFactory {
@@ -126,6 +129,7 @@ public class PIDManager extends PIDPropertyManager {
 
         propMan.setDefaultLevel(Property.PropertyLevel.Debug);
         this.prefix = propMan.getCleanPrefix();
+        this.aKitLog = new AKitLogger(this.prefix);
 
         maxOutput = propMan.createPersistentProperty("Max Output", defaultMaxOutput);
         minOutput = propMan.createPersistentProperty("Min Output", defaultMinOutput);
@@ -150,7 +154,7 @@ public class PIDManager extends PIDPropertyManager {
 
         if (isEnabled.get()) {
             double pidResult = pid.calculate(goal, current, getP(), isIMasked ? 0 : getI(), getD(), getF(), getIZone());
-            Logger.recordOutput(this.prefix + "OffTargetReason", pid.getOffTargetReason());
+            aKitLog.record("OffTargetReason", pid.getOffTargetReason());
             return MathUtils.constrainDouble(pidResult, minOutput.get(), maxOutput.get());
         } else {
             return 0;

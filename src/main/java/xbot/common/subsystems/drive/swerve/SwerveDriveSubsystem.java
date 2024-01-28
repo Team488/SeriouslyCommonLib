@@ -137,8 +137,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     @Override
     public void periodic() {
         if (contract.isDriveReady()) {
-            org.littletonrobotics.junction.Logger.getInstance().recordOutput(
-                    this.getPrefix()+"CurrentVelocity",
+            aKitLog.record("CurrentVelocity",
                     this.getCurrentValue());
             setupStatusFramesAsNeeded();
             this.motorController.periodic();

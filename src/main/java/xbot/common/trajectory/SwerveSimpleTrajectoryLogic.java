@@ -6,6 +6,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.Logger;
+
+import xbot.common.advantage.AKitLogger;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
@@ -17,6 +19,7 @@ import java.util.function.Supplier;
 public class SwerveSimpleTrajectoryLogic {
 
     org.apache.logging.log4j.Logger log = LogManager.getLogger(this.getClass());
+    final AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator");
 
     private Supplier<List<XbotSwervePoint>> keyPointsProvider;
     private List<XbotSwervePoint> keyPoints;
@@ -120,7 +123,7 @@ public class SwerveSimpleTrajectoryLogic {
             var raycast = XbotSwervePoint.generateTrajectory(List.of(
                 start, keyPoints.get(0))
             );
-            Logger.recordOutput("SwerveSimpleTrajectoryLogic/Raycast", raycast);
+            aKitLog.record("Raycast", raycast);
 
             var targetPoint = keyPoints.get(0);
             keyPoints = fieldWithObstacles.generatePath(currentPose, targetPoint);
@@ -160,7 +163,7 @@ public class SwerveSimpleTrajectoryLogic {
             }
         }
 
-        Logger.recordOutput("SwerveSimpleTrajectoryLogic/Trajectory",
+        aKitLog.record("Trajectory",
                 XbotSwervePoint.generateTrajectory(keyPoints));
 
         interpolator.setMaximumDistanceFromChasePointInInches(24);
@@ -238,7 +241,7 @@ public class SwerveSimpleTrajectoryLogic {
         lastResult = interpolator.calculateTarget(currentPose.getTranslation());
         var chasePoint = lastResult.chasePoint;
 
-        Logger.recordOutput("SwerveSimpleTrajectoryLogic/chasePoint", new Pose2d(chasePoint, Rotation2d.fromDegrees(0)));
+        aKitLog.record("chasePoint", new Pose2d(chasePoint, Rotation2d.fromDegrees(0)));
 
         XYPair targetPosition = new XYPair(chasePoint.getX(), chasePoint.getY());
         XYPair currentPosition = new XYPair(currentPose.getX(), currentPose.getY());
@@ -261,12 +264,12 @@ public class SwerveSimpleTrajectoryLogic {
         // PID on the magnitude of the goal. Kind of similar to rotation,
         // our goal is "zero error".
         double magnitudeGoal = goalVector.getMagnitude();
-        Logger.recordOutput("SwerveSimpleTrajectoryLogic/magnitudeGoal", magnitudeGoal);
+        aKitLog.record("magnitudeGoal", magnitudeGoal);
         double drivePower = positionalPid.calculate(magnitudeGoal, 0);
 
         // Create a vector in the direction of the goal, scaled by the drivePower.
         XYPair intent = XYPair.fromPolar(goalVector.getAngle(), drivePower);
-        Logger.recordOutput("SwerveSimpleTrajectoryLogic/intent", intent);
+        aKitLog.record("intent", intent);
 
         double degreeTarget = lastResult.chaseHeading.getDegrees();
         if (enableSpecialAimTarget && specialAimTarget != null) {
