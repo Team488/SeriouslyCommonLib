@@ -378,7 +378,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
                 moduleState.speedMetersPerSecond = 0;
             }
         } else {
-            double topSpeedMetersPerSecond = maxTargetSpeedMps.get() / BasePoseSubsystem.INCHES_IN_A_METER;
+            double topSpeedMetersPerSecond = maxTargetSpeedMps.get();
             SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, topSpeedMetersPerSecond);
         }
 
