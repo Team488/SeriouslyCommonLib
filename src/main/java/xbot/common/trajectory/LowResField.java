@@ -108,8 +108,8 @@ public class LowResField {
         int escape = 0;
         while (!completed && escape < 20) {
 
-            log.info("Searching from CurrentSource" + currentSource.toString() +
-                    " to CurrentTarget" + currentTarget.getTranslation2d().toString());
+            log.info("Searching from CurrentSource" + currentSource.toString()
+                    + " to CurrentTarget" + currentTarget.getTranslation2d().toString());
 
             sortedObstacles.clear();
             escape++;
@@ -158,8 +158,8 @@ public class LowResField {
                     log.info("Point Combination: " + pointCombination.toString());
 
 
-                    if (parallelCrossingType != Obstacle.ParallelCrossingType.None &&
-                    pointCombination == Obstacle.PointProjectionCombination.BothOutside) {
+                    if (parallelCrossingType != Obstacle.ParallelCrossingType.None
+                            && pointCombination == Obstacle.PointProjectionCombination.BothOutside) {
                         log.info("Handing diagonal crossing.");
                         // Case for diagonal crossings.
                         // We eliminate the closest corner to the source,
@@ -176,8 +176,8 @@ public class LowResField {
                         );
                         swervePointStack.push(cornerPoint);
                         currentTarget = cornerPoint;
-                    } else if (parallelCrossingType != Obstacle.ParallelCrossingType.None &&
-                            pointCombination == Obstacle.PointProjectionCombination.BothInside) {
+                    } else if (parallelCrossingType != Obstacle.ParallelCrossingType.None
+                            && pointCombination == Obstacle.PointProjectionCombination.BothInside) {
                         log.info("Handing straight-across crossing.");
                         // Case for "straight-across" crossings.
                         // We search twice from the average intersection, but the order of points isn't guaranteed.
@@ -186,8 +186,8 @@ public class LowResField {
                         var secondArbitraryCorner = o.getClosestCornerToPoint(averageIntersection);
                         Translation2d pointClosestToTarget = null;
                         Translation2d pointClosestToSource = null;
-                        if (firstArbitraryCorner.getDistance(targetPoint.getTranslation2d()) <
-                                secondArbitraryCorner.getDistance(targetPoint.getTranslation2d())) {
+                        if (firstArbitraryCorner.getDistance(targetPoint.getTranslation2d())
+                                < secondArbitraryCorner.getDistance(targetPoint.getTranslation2d())) {
                             pointClosestToTarget = firstArbitraryCorner;
                             pointClosestToSource = secondArbitraryCorner;
                         } else {
@@ -212,9 +212,9 @@ public class LowResField {
                         swervePointStack.push(swervePointNearTarget);
                         swervePointStack.push(swervePointNearSource);
                         currentTarget = swervePointNearSource;
-                    } else if (parallelCrossingType != Obstacle.ParallelCrossingType.None &&
-                            pointCombination == Obstacle.PointProjectionCombination.FirstInside ||
-                            pointCombination == Obstacle.PointProjectionCombination.SecondInside) {
+                    } else if (parallelCrossingType != Obstacle.ParallelCrossingType.None
+                            && pointCombination == Obstacle.PointProjectionCombination.FirstInside
+                            || pointCombination == Obstacle.PointProjectionCombination.SecondInside) {
                         log.info("Handling mixed case - two parallel lines, one inside.");
                         // This is similar to the straight across, except we only want one point - and that
                         // point should be closer to the "inside" point.
@@ -231,8 +231,8 @@ public class LowResField {
                         }
 
                         // Find which corner is closest to the inside point
-                        if (arbitraryCornerA.getDistance(insidePoint) <
-                                arbitraryCornerB.getDistance(insidePoint)) {
+                        if (arbitraryCornerA.getDistance(insidePoint)
+                                < arbitraryCornerB.getDistance(insidePoint)) {
                             pointClosestToInside = arbitraryCornerA;
                         } else {
                             pointClosestToInside = arbitraryCornerB;

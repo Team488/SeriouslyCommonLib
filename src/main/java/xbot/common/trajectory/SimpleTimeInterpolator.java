@@ -42,15 +42,18 @@ public class SimpleTimeInterpolator {
             this(chasePoint, isOnFinalPoint, chaseHeading, null);
         }
 
-        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading, Translation2d plannedVector) {
+        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading,
+                                   Translation2d plannedVector) {
             this(chasePoint, isOnFinalPoint, chaseHeading, plannedVector, 0);
         }
 
-        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading, Translation2d plannedVector, double distanceToTargetPoint) {
+        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading,
+                                   Translation2d plannedVector, double distanceToTargetPoint) {
             this(chasePoint, isOnFinalPoint, chaseHeading, plannedVector, distanceToTargetPoint, 0);
         }
 
-        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading, Translation2d plannedVector, double distanceToTargetPoint, double lerpFraction) {
+        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading,
+                                   Translation2d plannedVector, double distanceToTargetPoint, double lerpFraction) {
             this.chasePoint = chasePoint;
             this.isOnFinalPoint = isOnFinalPoint;
             this.chaseHeading = chaseHeading;
@@ -142,10 +145,12 @@ public class SimpleTimeInterpolator {
         }
 
         // The planned velocity is the same (for now) at all points between the baseline and the target.
-        var plannedVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d()).div(targetKeyPoint.getSecondsForSegment());
+        var plannedVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d())
+                .div(targetKeyPoint.getSecondsForSegment());
 
         boolean targetingFinalPoint = index == keyPoints.size()-1 && lerpFraction >= 1;
-        return new InterpolationResult(chasePoint, targetingFinalPoint, targetKeyPoint.getRotation2d(), plannedVector, currentLocation.getDistance(targetKeyPoint.getTranslation2d()), lerpFraction);
+        return new InterpolationResult(chasePoint, targetingFinalPoint, targetKeyPoint.getRotation2d(), plannedVector,
+                currentLocation.getDistance(targetKeyPoint.getTranslation2d()), lerpFraction);
     }
 
 
