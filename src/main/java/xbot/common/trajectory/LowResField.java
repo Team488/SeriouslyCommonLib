@@ -54,6 +54,13 @@ public class LowResField {
 
     }
 
+    /**
+     * Generates a path from the current position to the target point, avoiding known obstacles.
+     * Very generally, it will recursively solve paths nearby the target, and then step foward to approach the target.
+     * @param currentPose Starting point
+     * @param targetPoint Terminating Point
+     * @return A List of XbotSwervePoints that can be followed to reach the destination without collision.
+     */
     public List<XbotSwervePoint> generatePathFrontToBack(Pose2d currentPose, XbotSwervePoint targetPoint) {
         // New attempt at a pathfinding algorithm that maybe a little more resilient. The original algorithm had
         // two issues:
@@ -94,14 +101,44 @@ public class LowResField {
         // 2) Create a Stack of XbotSwervePoints, which will be used to help us deal with multiple intermediate points.
         Stack<XbotSwervePoint> swervePointStack = new Stack<XbotSwervePoint>();
 
+        XbotSwervePoint specialFinalPoint = null;
+
         for (Obstacle o : obstacles) {
             o.resetCorners();
             // Later put in more checks about starting inside an obstacle
+
+            if (o.contains(currentSource.getX(), currentSource.getY())) {
+                log.info("Robot is currently inside obstacle" + o.name +". Shifting for calculations.");
+                // our original robot pose is inside, and needs to shift.
+                Translation2d slidPoint = o.movePointOutsideOfBounds(currentSource);
+                currentSource = slidPoint;
+
+                var specialStartingPoint = XbotSwervePoint.createXbotSwervePoint(
+                        slidPoint,
+                        targetPoint.getRotation2d(),
+                        10);
+                path.add(specialStartingPoint);
+            }
+
+            if (o.contains(targetPoint.getTranslation2d().getX(), targetPoint.getTranslation2d().getY())) {
+                log.info("Target is currently inside obstacle" + o.name + ".");
+                log.info("Adding an interstitial waypoint just outside obstacle" + o.name + ".");
+                // our target is inside - we need to change our focalPoint and save this one.
+                Translation2d slidPoint = o.movePointOutsideOfBounds(targetPoint.getTranslation2d());
+                swervePointStack.push(targetPoint);
+                // create a new focal point that exactly mimics the final point, except it is out of bounds
+
+                specialFinalPoint = ultimateTarget;
+
+                // For the rest of the logic, consider this "legal" point to be the final point.
+                ultimateTarget = XbotSwervePoint.createXbotSwervePoint(
+                        slidPoint,
+                        targetPoint.getRotation2d(),
+                        10);
+                currentTarget = ultimateTarget;
+            }
         }
 
-        // ===== Main loop =====
-        // 3) Raycast to the center of each obstacle, recording distance to the first intersection with the bounding box.
-        //      a) Put the obstacles into a TreeMap sorted by that distance.
         TreeMap<Double, Obstacle> sortedObstacles = new TreeMap<Double, Obstacle>();
 
         boolean completed = false;
@@ -137,26 +174,12 @@ public class LowResField {
                     Obstacle.PointProjectionCombination pointCombination = Obstacle.PointProjectionCombination.NotRelevant;
                     Obstacle.ParallelCrossingType parallelCrossingType = o.getParallelCrossingType(averageIntersection);
                     if (parallelCrossingType != Obstacle.ParallelCrossingType.None) {
-                        // Parallel crossings have a number of interesting scenarios.
-                        // Scenario 1:
-                        // If both points are inside the projection of the obstacle, we can take the closest corner,
-                        // BUT we also need to eliminate the other corner on the same side of the obstacle.
-
-
-                        // Scenario 2:
-                        // We need to perform an additional special check. If both start and end are
-                        // "outside" the vertical/horizontal projections of the obstacle ,then we have a
-                        // "crossing the diagonal" problem. In this case, we need to eliminate the closest
-                        // corner.
-                        // However, if they are both inside, then we have the typical "just take the closest corner"
-                        // approach, and no extra effort is needed.
-                        pointCombination = o.getPointProjectionCombination(
+                       pointCombination = o.getPointProjectionCombination(
                                 currentSource, targetPoint.getTranslation2d(), parallelCrossingType);
                     }
 
                     log.info("Parallel Crossing Type: " + parallelCrossingType.toString());
                     log.info("Point Combination: " + pointCombination.toString());
-
 
                     if (parallelCrossingType != Obstacle.ParallelCrossingType.None
                             && pointCombination == Obstacle.PointProjectionCombination.BothOutside) {
@@ -289,6 +312,11 @@ public class LowResField {
                     // 4a) If no collision, AND the current target is the ultimate target, we are done.
                     //         Add the current target to the list, and return.
                     path.add(currentTarget);
+
+                    if (specialFinalPoint != null) {
+                        path.add(specialFinalPoint);
+                    }
+
                     completed = true;
                 }
             }
