@@ -249,20 +249,28 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     }
 
     public static Pose2d convertBluetoRed(Pose2d blueCoordinates){
+        return new Pose2d(convertBlueToRed(blueCoordinates.getTranslation()),convertBlueToRed(blueCoordinates.getRotation()));
+    }
+
+    public static Translation2d convertBlueToRed(Translation2d blueCoordinates){
         double fieldMidpoint = 9;
         double redXCoordinates = ((fieldMidpoint-blueCoordinates.getX()) * 2) + blueCoordinates.getX();
-        Rotation2d heading = blueCoordinates.getRotation();
-        Rotation2d convertedHeading = Rotation2d.fromDegrees(heading.getDegrees() - (heading.getDegrees() - 90.0) * 2);
+        return new Translation2d(redXCoordinates, blueCoordinates.getY());
+    }
 
-        return new Pose2d(redXCoordinates, blueCoordinates.getY(),convertedHeading);
+    public static Rotation2d convertBlueToRed(Rotation2d blueHeading){
+        return Rotation2d.fromDegrees(blueHeading.getDegrees() - (blueHeading.getDegrees() - 90.0) * 2);
+    }
+
+    public static Translation2d convertBlueToRedIfNeeded(Translation2d blueCoordinates) {
+        if (DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Red) {
+            return convertBlueToRed(blueCoordinates);
+        }
+        return blueCoordinates;
     }
 
     public static Pose2d convertBlueToRedIfNeeded(Pose2d blueCoordinates) {
-        return convertBlueToRedIfNeeded(blueCoordinates, DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue));
-    }
-
-    public static Pose2d convertBlueToRedIfNeeded(Pose2d blueCoordinates, DriverStation.Alliance alliance) {
-        if (alliance == DriverStation.Alliance.Red) {
+        if (DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Red) {
             return convertBluetoRed(blueCoordinates);
         }
         return blueCoordinates;
