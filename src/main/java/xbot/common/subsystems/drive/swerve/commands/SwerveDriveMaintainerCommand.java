@@ -28,12 +28,18 @@ public class SwerveDriveMaintainerCommand extends BaseMaintainerCommand<Double> 
 
     @Override
     protected void calibratedMachineControlAction() {
-        // The drive subsystem is setting velocity goals, but we're starting simple.
-        // Just set % power by dividing by the max allowable velocity.
-        if (drive.getMaxTargetSpeedInchesPerSecond() > 0) {
-            this.subsystem.setPower(this.subsystem.getTargetValue() / drive.getMaxTargetSpeedInchesPerSecond());
+
+        if (subsystem.getDrivePidEnabled()) {
+            // Let the SparkMax do the PID for us.
+            this.subsystem.setMotorControllerVelocityPidFromSubsystemTarget();
         } else {
-            this.subsystem.setPower(0.0);
+            // The drive subsystem is setting velocity goals, but we're starting simple.
+            // Just set % power by dividing by the max allowable velocity.
+            if (drive.getMaxTargetSpeedMetersPerSecond() > 0) {
+                this.subsystem.setPower(this.subsystem.getTargetValue() / drive.getMaxTargetSpeedMetersPerSecond());
+            } else {
+                this.subsystem.setPower(0.0);
+            }
         }
     }
 
@@ -57,7 +63,6 @@ public class SwerveDriveMaintainerCommand extends BaseMaintainerCommand<Double> 
     public void initialize() {
         this.subsystem.setTargetValue(0.0);
         this.subsystem.setPower(0.0);
-        //this.subsystem.resetPid();
     }
 
     @Override
