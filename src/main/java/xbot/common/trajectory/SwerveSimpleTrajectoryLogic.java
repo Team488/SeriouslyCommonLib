@@ -125,7 +125,7 @@ public class SwerveSimpleTrajectoryLogic {
             aKitLog.record("Raycast", raycast);
 
             var targetPoint = keyPoints.get(0);
-            keyPoints = fieldWithObstacles.generatePath(currentPose, targetPoint);
+            keyPoints = fieldWithObstacles.generatePathFrontToBack(currentPose, targetPoint);
         }
 
         if (enableConstantVelocity) {
