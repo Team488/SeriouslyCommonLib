@@ -210,12 +210,17 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.math.geometry.Pose2d</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#convertBluetoRed(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">convertBluetoRed</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;blueCoordinates)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.math.geometry.Rotation2d</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#convertBlueToRed(edu.wpi.first.math.geometry.Rotation2d)" class="member-name-link">convertBlueToRed</a><wbr>(edu.wpi.first.math.geometry.Rotation2d&nbsp;blueHeading)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.math.geometry.Translation2d</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#convertBlueToRed(edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">convertBlueToRed</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;blueCoordinates)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.math.geometry.Pose2d</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#convertBlueToRedIfNeeded(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">convertBlueToRedIfNeeded</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;blueCoordinates)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.math.geometry.Pose2d</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#convertBlueToRedIfNeeded(edu.wpi.first.math.geometry.Pose2d,edu.wpi.first.wpilibj.DriverStation.Alliance)" class="member-name-link">convertBlueToRedIfNeeded</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;blueCoordinates,
- edu.wpi.first.wpilibj.DriverStation.Alliance&nbsp;alliance)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.math.geometry.Translation2d</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#convertBlueToRedIfNeeded(edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">convertBlueToRedIfNeeded</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;blueCoordinates)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.wpilibj.DriverStation.Alliance</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getAlliance()" class="member-name-link">getAlliance</a>()</code></div>
@@ -706,16 +711,27 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 </section>
 </li>
 <li>
-<section class="detail" id="convertBlueToRedIfNeeded(edu.wpi.first.math.geometry.Pose2d)">
-<h3>convertBlueToRedIfNeeded</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Pose2d</span>&nbsp;<span class="element-name">convertBlueToRedIfNeeded</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Pose2d&nbsp;blueCoordinates)</span></div>
+<section class="detail" id="convertBlueToRed(edu.wpi.first.math.geometry.Translation2d)">
+<h3>convertBlueToRed</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Translation2d</span>&nbsp;<span class="element-name">convertBlueToRed</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;blueCoordinates)</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="convertBlueToRedIfNeeded(edu.wpi.first.math.geometry.Pose2d,edu.wpi.first.wpilibj.DriverStation.Alliance)">
+<section class="detail" id="convertBlueToRed(edu.wpi.first.math.geometry.Rotation2d)">
+<h3>convertBlueToRed</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Rotation2d</span>&nbsp;<span class="element-name">convertBlueToRed</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Rotation2d&nbsp;blueHeading)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="convertBlueToRedIfNeeded(edu.wpi.first.math.geometry.Translation2d)">
 <h3>convertBlueToRedIfNeeded</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Pose2d</span>&nbsp;<span class="element-name">convertBlueToRedIfNeeded</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Pose2d&nbsp;blueCoordinates,
- edu.wpi.first.wpilibj.DriverStation.Alliance&nbsp;alliance)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Translation2d</span>&nbsp;<span class="element-name">convertBlueToRedIfNeeded</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;blueCoordinates)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="convertBlueToRedIfNeeded(edu.wpi.first.math.geometry.Pose2d)">
+<h3>convertBlueToRedIfNeeded</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Pose2d</span>&nbsp;<span class="element-name">convertBlueToRedIfNeeded</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Pose2d&nbsp;blueCoordinates)</span></div>
 </section>
 </li>
 <li>
