@@ -545,7 +545,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         );
     }
 
-    private SwerveModuleState[] getSwerveModuleStates() {
+    public SwerveModuleState[] getSwerveModuleStates() {
         return new SwerveModuleState[]{
                 getFrontLeftSwerveModuleSubsystem().getCurrentState(),
                 getFrontRightSwerveModuleSubsystem().getCurrentState(),
