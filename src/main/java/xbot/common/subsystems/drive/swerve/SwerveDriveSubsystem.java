@@ -90,7 +90,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     @Override
     public Double getCurrentValue() {
         if (this.contract.isDriveReady()) {
-            // Spark returns in RPM - need to convert to inches per second
+            // Spark returns in RPM - need to convert to meters per second
             return this.motorController.getVelocity() * this.metersPerMotorRotation.get() / 60.0;
         } else {
             return 0.0;
