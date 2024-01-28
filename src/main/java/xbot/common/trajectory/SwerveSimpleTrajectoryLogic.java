@@ -5,7 +5,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import org.apache.logging.log4j.LogManager;
-import org.littletonrobotics.junction.Logger;
 
 import xbot.common.advantage.AKitLogger;
 import xbot.common.math.PIDManager;
@@ -19,7 +18,7 @@ import java.util.function.Supplier;
 public class SwerveSimpleTrajectoryLogic {
 
     org.apache.logging.log4j.Logger log = LogManager.getLogger(this.getClass());
-    final AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator");
+    final AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator/");
 
     private Supplier<List<XbotSwervePoint>> keyPointsProvider;
     private List<XbotSwervePoint> keyPoints;
@@ -166,7 +165,7 @@ public class SwerveSimpleTrajectoryLogic {
         aKitLog.record("Trajectory",
                 XbotSwervePoint.generateTrajectory(keyPoints));
 
-        interpolator.setMaximumDistanceFromChasePointInInches(24);
+        interpolator.setMaximumDistanceFromChasePointInMeters(0.5);
         interpolator.setKeyPoints(keyPoints);
         interpolator.initialize(initialPoint);
     }

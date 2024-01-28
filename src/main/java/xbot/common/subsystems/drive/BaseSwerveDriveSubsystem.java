@@ -184,7 +184,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
             double currentHeading,
             XYPair centerOfRotationInches) {
 
-        lastRawCommandedDirection = translation;
+        lastRawCommandedDirection = new Translation2d(translation.x, translation.y);
         lastRawCommandedRotation = rotation;
 
         // rotate the translation vector into the robot coordinate frame

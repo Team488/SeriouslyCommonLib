@@ -57,6 +57,14 @@ public class Obstacle extends Rectangle2D.Double {
         rightLine = new Line2D.Double(topRight.getX(), topRight.getY(), bottomRight.getX(), bottomRight.getY());
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Translation2d getCenter() {
+        return new Translation2d(this.getCenterX(), this.getCenterY());
+    }
+
     /**
      * Sets the corners back to default availability.
      */

@@ -253,7 +253,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     }
 
     public static Translation2d convertBlueToRed(Translation2d blueCoordinates){
-        double fieldMidpoint = 9;
+        double fieldMidpoint = 8.2296;
         double redXCoordinates = ((fieldMidpoint-blueCoordinates.getX()) * 2) + blueCoordinates.getX();
         return new Translation2d(redXCoordinates, blueCoordinates.getY());
     }

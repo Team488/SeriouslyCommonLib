@@ -15,12 +15,12 @@ public class SimpleTimeInterpolator {
     double previousTimestamp;
     ProvidesInterpolationData baseline;
     int index;
-    double maximumDistanceFromChasePointInInches = 0.3;
+    double maximumDistanceFromChasePointInMeters = 0.3;
 
     private List<? extends ProvidesInterpolationData> keyPoints;
 
     Logger log = LogManager.getLogger(SimpleTimeInterpolator.class);
-    AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator");
+    AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator/");
 
     public class InterpolationResult {
         public Translation2d chasePoint;
@@ -47,8 +47,8 @@ public class SimpleTimeInterpolator {
         this.keyPoints = keyPoints;
     }
 
-    public void setMaximumDistanceFromChasePointInInches(double maximumDistanceFromChasePointInInches) {
-        this.maximumDistanceFromChasePointInInches = maximumDistanceFromChasePointInInches;
+    public void setMaximumDistanceFromChasePointInMeters(double maximumDistanceFromChasePointInMeters) {
+        this.maximumDistanceFromChasePointInMeters = maximumDistanceFromChasePointInMeters;
     }
 
     public void initialize(ProvidesInterpolationData baseline) {
@@ -114,7 +114,7 @@ public class SimpleTimeInterpolator {
 
         // But if that chase point is "too far ahead", we need to freeze the chasePoint
         // until the robot has a chance to catch up.
-        if (currentLocation.getDistance(chasePoint) > maximumDistanceFromChasePointInInches) {
+        if (currentLocation.getDistance(chasePoint) > maximumDistanceFromChasePointInMeters) {
             // This effectively "rewinds time" for the next loop.
             accumulatedProductiveSeconds -= secondsSinceLastExecute;
         }
