@@ -254,6 +254,10 @@ public class SwerveSimpleTrajectoryLogic {
     }
 
     public Twist2d calculatePowers(Pose2d currentPose, PIDManager positionalPid, HeadingModule headingModule) {
+        return calculatePowers(currentPose, positionalPid, headingModule, 0);
+    }
+
+    public Twist2d calculatePowers(Pose2d currentPose, PIDManager positionalPid, HeadingModule headingModule, double maximumVelocity) {
         var goalVector = getGoalVector(currentPose);
 
         // Now that we have a chase point, we can drive to it. The rest of the logic is
@@ -262,6 +266,7 @@ public class SwerveSimpleTrajectoryLogic {
 
         // PID on the magnitude of the goal. Kind of similar to rotation,
         // our goal is "zero error".
+        aKitLog.record("goalVector", goalVector);
         double magnitudeGoal = goalVector.getMagnitude();
         aKitLog.record("magnitudeGoal", magnitudeGoal);
         double drivePower = positionalPid.calculate(magnitudeGoal, 0);
@@ -274,7 +279,7 @@ public class SwerveSimpleTrajectoryLogic {
         if (enableSpecialAimTarget && specialAimTarget != null) {
             degreeTarget = getAngleBetweenTwoPoints(
                     currentPose.getTranslation(), specialAimTarget.getTranslation()
-                    ).getDegrees();
+            ).getDegrees();
         }
 
         double headingPower = headingModule.calculateHeadingPower(
@@ -284,12 +289,35 @@ public class SwerveSimpleTrajectoryLogic {
             intent = intent.scale(maxPower / intent.getMagnitude());
         }
 
-        if (maxTurningPower > 0)
-        {
+        if (maxTurningPower > 0) {
             headingPower = headingPower * maxTurningPower;
         }
 
-        return new Twist2d(intent.x, intent.y, headingPower);
+        aKitLog.record("UpdatedIntent", intent);
+        // If we have no max velocity set, or we are on the last point and almost done, just use the position PID
+        if (maximumVelocity <= 0 || (lastResult.isOnFinalPoint && lastResult.distanceToTargetPoint < 0.5) || lastResult.lerpFraction > 1) {
+            return new Twist2d(intent.x, intent.y, headingPower);
+        }
+        else
+        {
+            // Otherwise, add the known velocity vector, so we can catch up to our goal.
+
+            // Scale the planned vector, which is currently in velocity space, to "power space" so we can add it to the intent.
+            double scalarFactor = lastResult.plannedVector.getNorm() / maximumVelocity;
+            var scaledPlannedVector = lastResult.plannedVector.times(scalarFactor / maximumVelocity);
+            aKitLog.record("scaledPlannedVector", scaledPlannedVector);
+            // Add the PositionPID powers
+            var combinedVector = scaledPlannedVector.plus(new Translation2d(intent.x, intent.y));
+
+            // If we've somehow gone above 100% power, scale it back down
+            if (combinedVector.getNorm() > 1) {
+                combinedVector = combinedVector.times(1 / combinedVector.getNorm());
+            }
+
+            aKitLog.record("combinedVector", combinedVector);
+
+            return new Twist2d(combinedVector.getX(), combinedVector.getY(), headingPower);
+        }
     }
 
     public boolean recommendIsFinished(Pose2d currentPose, PIDManager positionalPid, HeadingModule headingModule) {

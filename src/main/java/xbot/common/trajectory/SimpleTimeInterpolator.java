@@ -28,16 +28,35 @@ public class SimpleTimeInterpolator {
 
         public Rotation2d chaseHeading;
 
+        public Translation2d plannedVector;
+
+        public double distanceToTargetPoint;
+
+        public double lerpFraction;
+
         public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint) {
-            this.chasePoint = chasePoint;
-            this.isOnFinalPoint = isOnFinalPoint;
-            chaseHeading = null;
+            this(chasePoint, isOnFinalPoint, null);
         }
 
         public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading) {
+            this(chasePoint, isOnFinalPoint, chaseHeading, null);
+        }
+
+        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading, Translation2d plannedVector) {
+            this(chasePoint, isOnFinalPoint, chaseHeading, plannedVector, 0);
+        }
+
+        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading, Translation2d plannedVector, double distanceToTargetPoint) {
+            this(chasePoint, isOnFinalPoint, chaseHeading, plannedVector, distanceToTargetPoint, 0);
+        }
+
+        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading, Translation2d plannedVector, double distanceToTargetPoint, double lerpFraction) {
             this.chasePoint = chasePoint;
             this.isOnFinalPoint = isOnFinalPoint;
             this.chaseHeading = chaseHeading;
+            this.plannedVector = plannedVector;
+            this.distanceToTargetPoint = distanceToTargetPoint;
+            this.lerpFraction = lerpFraction;
         }
     }
 
@@ -90,6 +109,9 @@ public class SimpleTimeInterpolator {
         aKitLog.record("LerpFraction", lerpFraction);
         aKitLog.record("accumulatedProductiveSeconds", accumulatedProductiveSeconds);
 
+
+
+
         // If the fraction is above 1, it's time to set a new baseline point and start LERPing on the next
         // one.
         if (lerpFraction >= 1 && index < keyPoints.size()-1) {
@@ -119,8 +141,11 @@ public class SimpleTimeInterpolator {
             accumulatedProductiveSeconds -= secondsSinceLastExecute;
         }
 
+        // The planned velocity is the same (for now) at all points between the baseline and the target.
+        var plannedVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d()).div(targetKeyPoint.getSecondsForSegment());
+
         boolean targetingFinalPoint = index == keyPoints.size()-1 && lerpFraction >= 1;
-        return new InterpolationResult(chasePoint, targetingFinalPoint, targetKeyPoint.getRotation2d());
+        return new InterpolationResult(chasePoint, targetingFinalPoint, targetKeyPoint.getRotation2d(), plannedVector, currentLocation.getDistance(targetKeyPoint.getTranslation2d()), lerpFraction);
     }
 
 
