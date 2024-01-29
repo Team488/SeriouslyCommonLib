@@ -302,9 +302,24 @@ public class SwerveSimpleTrajectoryLogic {
         {
             // Otherwise, add the known velocity vector, so we can catch up to our goal.
 
+            // Get the dot product between the normalized goal vector and the normalized velocity vector.
+            // Quick check for being right on the goal point
+
+            var plannedVelocityVector = lastResult.plannedVector;
+
+            if (goalVector.getMagnitude() > 0.33) {
+                var normalizedGoalVector = goalVector.scale(1 / goalVector.getMagnitude());
+                var normalizedVelocityVector = plannedVelocityVector.times(1 / plannedVelocityVector.getNorm());
+                double dotProduct = normalizedGoalVector.x * normalizedVelocityVector.getX()
+                        + normalizedGoalVector.y * normalizedVelocityVector.getY();
+                double clampedDotProduct = Math.max(0, dotProduct);
+                aKitLog.record("clampedDotProduct", clampedDotProduct);
+                plannedVelocityVector = plannedVelocityVector.times(clampedDotProduct);
+            }
+
             // Scale the planned vector, which is currently in velocity space, to "power space" so we can add it to the intent.
-            double scalarFactor = lastResult.plannedVector.getNorm() / maximumVelocity;
-            var scaledPlannedVector = lastResult.plannedVector.times(scalarFactor / maximumVelocity);
+            double scalarFactor = plannedVelocityVector.getNorm() / maximumVelocity;
+            var scaledPlannedVector = plannedVelocityVector.times(scalarFactor / maximumVelocity);
             aKitLog.record("scaledPlannedVector", scaledPlannedVector);
             // Add the PositionPID powers
             var combinedVector = scaledPlannedVector.plus(new Translation2d(intent.x, intent.y));
