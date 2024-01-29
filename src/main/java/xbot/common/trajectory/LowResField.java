@@ -125,7 +125,6 @@ public class LowResField {
                 log.info("Adding an interstitial waypoint just outside obstacle" + o.name + ".");
                 // our target is inside - we need to change our focalPoint and save this one.
                 Translation2d slidPoint = o.movePointOutsideOfBounds(targetPoint.getTranslation2d());
-                swervePointStack.push(targetPoint);
                 // create a new focal point that exactly mimics the final point, except it is out of bounds
 
                 specialFinalPoint = ultimateTarget;
