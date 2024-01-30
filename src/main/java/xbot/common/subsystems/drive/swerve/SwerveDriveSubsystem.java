@@ -52,10 +52,10 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
                     "DriveNeo",
                     super.getPrefix() + "/DrivePID",
                     new XCANSparkMaxPIDProperties(
-                            0.1,
+                            0.0001,
+                            0.000001,
                             0,
-                            0,
-                            0,
+                            400,
                             0,
                             1,
                             -1
@@ -63,6 +63,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
             setupStatusFramesAsNeeded();
             this.motorController.setSmartCurrentLimit(45);
             this.motorController.setIdleMode(CANSparkMax.IdleMode.kBrake);
+            this.motorController.enableVoltageCompensation(12);
         }
     }
 
@@ -144,6 +145,14 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
 
     public void setMotorControllerVelocityPidFromSubsystemTarget() {
         if (this.contract.isDriveReady()) {
+            // Special check - if asked for very tiny velocities, assume we are at dead joystick and should
+            // coast for ease of use.
+            if (Math.abs(targetVelocity) < 0.01) {
+                setPower(0.0);
+                return;
+            }
+
+
             // Get the target speed in RPM
             double targetRPM = targetVelocity / this.metersPerMotorRotation.get() * 60.0;
             aKitLog.record("TargetRPM", targetRPM);
