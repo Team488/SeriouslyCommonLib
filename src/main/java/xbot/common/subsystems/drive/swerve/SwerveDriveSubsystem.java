@@ -146,12 +146,11 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     public void setMotorControllerVelocityPidFromSubsystemTarget() {
         if (this.contract.isDriveReady()) {
             // Special check - if asked for very tiny velocities, assume we are at dead joystick and should
-            // coast for ease of use.
+            // coast to avoid "shock" when target velocities drop to 0.
             if (Math.abs(targetVelocity) < 0.01) {
                 setPower(0.0);
                 return;
             }
-
 
             // Get the target speed in RPM
             double targetRPM = targetVelocity / this.metersPerMotorRotation.get() * 60.0;
