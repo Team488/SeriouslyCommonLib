@@ -30,7 +30,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
     private final SwerveModuleSubsystem rearLeftSwerveModuleSubsystem;
     private final SwerveModuleSubsystem rearRightSwerveModuleSubsystem;
 
-    private final DoubleProperty maxTargetSpeed;
+    private final DoubleProperty maxTargetSpeedMps;
     private final DoubleProperty maxTargetTurnRate;
 
     private final SwerveDriveKinematics swerveDriveKinematics;
@@ -90,7 +90,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
                 this.rearRightSwerveModuleSubsystem.getModuleTranslation()
         );
 
-        this.maxTargetSpeed = pf.createPersistentProperty("MaxTargetSpeedInchesPerSecond", 120.0);
+        this.maxTargetSpeedMps = pf.createPersistentProperty("MaxTargetSpeedMetersPerSecond", 3.0);
         this.maxTargetTurnRate = pf.createPersistentProperty("MaxTargetTurnRate", MathUtils.Tau);
         this.activeModuleLabel = activeModule.toString();
         this.desiredHeading = 0;
@@ -159,8 +159,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         return swerveDriveKinematics;
     }
 
-    public double getMaxTargetSpeedInchesPerSecond() {
-        return maxTargetSpeed.get();
+    public double getMaxTargetSpeedMetersPerSecond() {
+        return maxTargetSpeedMps.get();
     }
 
     @Override
@@ -344,8 +344,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         // Then we translate the translation and rotation "intents" into velocities. Basically,
         // going from the -1 to 1 power scale to -maxTargetSpeed to +maxTargetSpeed. We also need to convert them
         // into metric units, since the next library we call expects metric units.
-        double targetXmetersPerSecond = translate.x * maxTargetSpeed.get() / BasePoseSubsystem.INCHES_IN_A_METER;
-        double targetYmetersPerSecond = translate.y * maxTargetSpeed.get() / BasePoseSubsystem.INCHES_IN_A_METER;
+        double targetXmetersPerSecond = translate.x * maxTargetSpeedMps.get();
+        double targetYmetersPerSecond = translate.y * maxTargetSpeedMps.get();
         double targetRotationRadiansPerSecond = rotate * maxTargetTurnRate.get();
 
         translationXTargetMPS = targetXmetersPerSecond;
@@ -378,7 +378,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
                 moduleState.speedMetersPerSecond = 0;
             }
         } else {
-            double topSpeedMetersPerSecond = maxTargetSpeed.get() / BasePoseSubsystem.INCHES_IN_A_METER;
+            double topSpeedMetersPerSecond = maxTargetSpeedMps.get();
             SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, topSpeedMetersPerSecond);
         }
 

@@ -65,7 +65,7 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
 
         this.getSteeringSubsystem().setTargetValue(new WrappedRotation2d(this.targetState.angle.getRadians()).getDegrees());
         // The kinetmatics library does everything in metric, so we need to transform that back to US Customary Units
-        this.getDriveSubsystem().setTargetValue(this.targetState.speedMetersPerSecond * BasePoseSubsystem.INCHES_IN_A_METER);
+        this.getDriveSubsystem().setTargetValue(this.targetState.speedMetersPerSecond);
     }
 
     /**
@@ -74,13 +74,13 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
      */
     public SwerveModuleState getCurrentState() {
         return new SwerveModuleState(
-                this.getDriveSubsystem().getCurrentValue() / BasePoseSubsystem.INCHES_IN_A_METER,
+                this.getDriveSubsystem().getCurrentValue(),
                 this.getSteeringSubsystem().getCurrentRotation());
     }
 
     public SwerveModulePosition getCurrentPosition() {
         return new SwerveModulePosition(
-                this.getDriveSubsystem().getCurrentPositionValue() / BasePoseSubsystem.INCHES_IN_A_METER,
+                this.getDriveSubsystem().getCurrentPositionValue(),
                 this.getSteeringSubsystem().getCurrentRotation());
     }
 

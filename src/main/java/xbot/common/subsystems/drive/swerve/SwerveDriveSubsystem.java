@@ -1,6 +1,8 @@
 package xbot.common.subsystems.drive.swerve;
 
+import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.command.BaseSetpointSubsystem;
@@ -10,8 +12,10 @@ import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
 import xbot.common.injection.swerve.SwerveInstance;
 import xbot.common.injection.swerve.SwerveSingleton;
+import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 import javax.inject.Inject;
 
@@ -22,7 +26,8 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     private final String label;
     private final XSwerveDriveElectricalContract contract;
 
-    private final DoubleProperty inchesPerMotorRotation;
+    private final DoubleProperty metersPerMotorRotation;
+    private final BooleanProperty enableDrivePid;
     private double targetVelocity;
 
     private XCANSparkMax motorController;
@@ -36,10 +41,9 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
         // Create properties shared among all instances
         pf.setPrefix(super.getPrefix());
         this.contract = electricalContract;
-        this.inchesPerMotorRotation = pf.createPersistentProperty("InchesPerMotorRotation", 2.02249);
-
-        // Create properties unique to this instance.
-        pf.setPrefix(this);
+        this.metersPerMotorRotation = pf.createPersistentProperty(
+                "MetersPerMotorRotation", 2.02249 / BasePoseSubsystem.INCHES_IN_A_METER);
+        this.enableDrivePid = pf.createPersistentProperty("EnableDrivePID", false);
 
         if (electricalContract.isDriveReady()) {
             this.motorController = sparkMaxFactory.create(
@@ -86,8 +90,8 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     @Override
     public Double getCurrentValue() {
         if (this.contract.isDriveReady()) {
-            // Spark returns in RPM - need to convert to inches per second
-            return this.motorController.getVelocity() * this.inchesPerMotorRotation.get() / 60.0;
+            // Spark returns in RPM - need to convert to meters per second
+            return this.motorController.getVelocity() * this.metersPerMotorRotation.get() / 60.0;
         } else {
             return 0.0;
         }
@@ -111,7 +115,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
 
     public double getCurrentPositionValue() {
         if (this.contract.isDriveReady()) {
-            return this.motorController.getPosition() * this.inchesPerMotorRotation.get();
+            return this.motorController.getPosition() * this.metersPerMotorRotation.get();
         } else {
             return 0;
         }
@@ -132,6 +136,22 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
 
     public XCANSparkMax getSparkMax() {
         return this.motorController;
+    }
+
+    public boolean getDrivePidEnabled() {
+        return this.enableDrivePid.get();
+    }
+
+    public void setMotorControllerVelocityPidFromSubsystemTarget() {
+        if (this.contract.isDriveReady()) {
+            // Get the target speed in RPM
+            double targetRPM = targetVelocity / this.metersPerMotorRotation.get() * 60.0;
+            aKitLog.record("TargetRPM", targetRPM);
+            REVLibError error = this.motorController.setReference(targetRPM, CANSparkBase.ControlType.kVelocity, 0);
+            if (error != REVLibError.kOk) {
+                log.error("Error setting PID target: " + error.name());
+            }
+        }
     }
 
     @Override

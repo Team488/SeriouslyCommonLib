@@ -207,11 +207,6 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
      */
     protected abstract double getHumanInputMagnitude();
 
-    @Override
-    public String getPrefix() {
-        return subsystemToMaintain.getPrefix() + getName() + "/";
-    }
-
     /**
      * Sets the error tolerance for the maintain command.
      * @param tolerance The error tolerance.
