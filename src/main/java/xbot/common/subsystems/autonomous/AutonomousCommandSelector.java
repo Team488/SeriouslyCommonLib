@@ -36,8 +36,7 @@ public class AutonomousCommandSelector extends BaseSubsystem {
 
     public void setCurrentAutonomousCommand(Command currentAutonomousCommand) {
         log.info("Setting CurrentAutonomousCommand to " + currentAutonomousCommand);
-        org.littletonrobotics.junction.Logger.recordOutput(
-                this.getPrefix() + "Current autonomous command name",
+        aKitLog.record("Current autonomous command name",
                 currentAutonomousCommand == null ? "No command set" : currentAutonomousCommand.getName());
 
         this.currentAutonomousCommand = currentAutonomousCommand;
@@ -50,7 +49,7 @@ public class AutonomousCommandSelector extends BaseSubsystem {
     }
 
     public void setAutonomousState(String state) {
-        org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "Auto Program State", state);
+        aKitLog.record("Auto Program State", state);
     }
 
 }

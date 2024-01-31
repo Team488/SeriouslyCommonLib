@@ -72,7 +72,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
     protected void maintain() {
         double humanInput = getHumanInputMagnitude();
         HumanVsMachineMode mode = decider.getRecommendedMode(humanInput);
-        Logger.getInstance().recordOutput(getPrefix()+"CurrentMode", mode.toString());
+        aKitLog.record("CurrentMode", mode.toString());
 
         switch (mode) {
             case Coast:
@@ -158,8 +158,8 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         boolean isStable = timeStableValidator.checkStable(totalAtGoal);
         // Let everybody know
 
-        Logger.getInstance().recordOutput(this.getPrefix() + "ErrorWithinTotalTolerance", withinErrorTolerance);
-        Logger.getInstance().recordOutput(this.getPrefix() + "ErrorIsTimeStable", isStable);
+        aKitLog.record("ErrorWithinTotalTolerance", withinErrorTolerance);
+        aKitLog.record("ErrorIsTimeStable", isStable);
 
         return isStable;
     }
@@ -206,11 +206,6 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
      * @return The magnitude of the human input.
      */
     protected abstract double getHumanInputMagnitude();
-
-    @Override
-    public String getPrefix() {
-        return subsystemToMaintain.getPrefix() + getName() + "/";
-    }
 
     /**
      * Sets the error tolerance for the maintain command.

@@ -40,7 +40,7 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
     public void execute() {
         Twist2d powers = logic.calculatePowers(pose.getCurrentPose2d(), drive.getPositionalPid(), headingModule);
 
-        Logger.recordOutput(getPrefix()+"Powers", powers);
+        aKitLog.record("Powers", powers);
 
         drive.fieldOrientedDrive(
                 new XYPair(powers.dx, powers.dy),
