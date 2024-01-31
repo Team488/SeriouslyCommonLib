@@ -109,12 +109,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addObstacle(xbot.common.trajectory.Obstacle)" class="member-name-link">addObstacle</a><wbr>(<a href="Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a>&nbsp;o)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Adds an obstacle to the field.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#generatePath(edu.wpi.first.math.geometry.Pose2d,xbot.common.trajectory.XbotSwervePoint)" class="member-name-link">generatePath</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;currentRobotPose,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#generatePath(edu.wpi.first.math.geometry.Pose2d,xbot.common.trajectory.XbotSwervePoint)" class="member-name-link">generatePath</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;currentPose,
  <a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&nbsp;targetPoint)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Generates a path between any two points on the field, avoiding known obstacles.</div>
+<div class="block">Generates a path from the current position to the target point, avoiding known obstacles.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getObstacles()" class="member-name-link">getObstacles</a>()</code></div>
@@ -154,6 +156,13 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="addObstacle(xbot.common.trajectory.Obstacle)">
 <h3>addObstacle</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addObstacle</span><wbr><span class="parameters">(<a href="Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a>&nbsp;o)</span></div>
+<div class="block">Adds an obstacle to the field. If the obstacle intersects with any existing obstacles, it will be combined with
+ the existing obstacle into a single larger obstacle with a bounding box that fully contains both obstacles.
+ This should be the only method used to add new obstacles; otherwise obstacles could intersect.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>o</code> - The obstacle to add.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -165,16 +174,16 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="generatePath(edu.wpi.first.math.geometry.Pose2d,xbot.common.trajectory.XbotSwervePoint)">
 <h3>generatePath</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;</span>&nbsp;<span class="element-name">generatePath</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Pose2d&nbsp;currentRobotPose,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;</span>&nbsp;<span class="element-name">generatePath</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Pose2d&nbsp;currentPose,
  <a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&nbsp;targetPoint)</span></div>
-<div class="block">Generates a path between any two points on the field, avoiding known obstacles. Generated
- interstitial points will be Position-Only. Final target point will be unchanged.</div>
+<div class="block">Generates a path from the current position to the target point, avoiding known obstacles.
+ Very generally, it will recursively solve paths nearby the target, and then step foward to approach the target.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>currentRobotPose</code> - The robot's current position</dd>
-<dd><code>targetPoint</code> - The robot's destination. This better be outside the bounding boxes!</dd>
+<dd><code>currentPose</code> - Starting point</dd>
+<dd><code>targetPoint</code> - Terminating Point</dd>
 <dt>Returns:</dt>
-<dd>List of waypoints, followed by the target point.</dd>
+<dd>A List of XbotSwervePoints that can be followed to reach the destination without collision.</dd>
 </dl>
 </section>
 </li>

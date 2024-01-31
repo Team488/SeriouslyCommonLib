@@ -97,9 +97,18 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color"><code>edu.wpi.first.math.geometry.Translation2d</code></div>
 <div class="col-second odd-row-color"><code><a href="#chasePoint" class="member-name-link">chasePoint</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>boolean</code></div>
-<div class="col-second even-row-color"><code><a href="#isOnFinalPoint" class="member-name-link">isOnFinalPoint</a></code></div>
+<div class="col-first even-row-color"><code>double</code></div>
+<div class="col-second even-row-color"><code><a href="#distanceToTargetPoint" class="member-name-link">distanceToTargetPoint</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="#isOnFinalPoint" class="member-name-link">isOnFinalPoint</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>double</code></div>
+<div class="col-second even-row-color"><code><a href="#lerpFraction" class="member-name-link">lerpFraction</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>edu.wpi.first.math.geometry.Translation2d</code></div>
+<div class="col-second odd-row-color"><code><a href="#plannedVector" class="member-name-link">plannedVector</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -118,6 +127,24 @@ loadScripts(document, 'script');</script>
  boolean&nbsp;isOnFinalPoint,
  edu.wpi.first.math.geometry.Rotation2d&nbsp;chaseHeading)</code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(edu.wpi.first.math.geometry.Translation2d,boolean,edu.wpi.first.math.geometry.Rotation2d,edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">InterpolationResult</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;chasePoint,
+ boolean&nbsp;isOnFinalPoint,
+ edu.wpi.first.math.geometry.Rotation2d&nbsp;chaseHeading,
+ edu.wpi.first.math.geometry.Translation2d&nbsp;plannedVector)</code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(edu.wpi.first.math.geometry.Translation2d,boolean,edu.wpi.first.math.geometry.Rotation2d,edu.wpi.first.math.geometry.Translation2d,double)" class="member-name-link">InterpolationResult</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;chasePoint,
+ boolean&nbsp;isOnFinalPoint,
+ edu.wpi.first.math.geometry.Rotation2d&nbsp;chaseHeading,
+ edu.wpi.first.math.geometry.Translation2d&nbsp;plannedVector,
+ double&nbsp;distanceToTargetPoint)</code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(edu.wpi.first.math.geometry.Translation2d,boolean,edu.wpi.first.math.geometry.Rotation2d,edu.wpi.first.math.geometry.Translation2d,double,double)" class="member-name-link">InterpolationResult</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;chasePoint,
+ boolean&nbsp;isOnFinalPoint,
+ edu.wpi.first.math.geometry.Rotation2d&nbsp;chaseHeading,
+ edu.wpi.first.math.geometry.Translation2d&nbsp;plannedVector,
+ double&nbsp;distanceToTargetPoint,
+ double&nbsp;lerpFraction)</code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -157,6 +184,24 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Rotation2d</span>&nbsp;<span class="element-name">chaseHeading</span></div>
 </section>
 </li>
+<li>
+<section class="detail" id="plannedVector">
+<h3>plannedVector</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Translation2d</span>&nbsp;<span class="element-name">plannedVector</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="distanceToTargetPoint">
+<h3>distanceToTargetPoint</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">distanceToTargetPoint</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="lerpFraction">
+<h3>lerpFraction</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">lerpFraction</span></div>
+</section>
+</li>
 </ul>
 </section>
 </li>
@@ -178,6 +223,36 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">InterpolationResult</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;chasePoint,
  boolean&nbsp;isOnFinalPoint,
  edu.wpi.first.math.geometry.Rotation2d&nbsp;chaseHeading)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(edu.wpi.first.math.geometry.Translation2d,boolean,edu.wpi.first.math.geometry.Rotation2d,edu.wpi.first.math.geometry.Translation2d)">
+<h3>InterpolationResult</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">InterpolationResult</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;chasePoint,
+ boolean&nbsp;isOnFinalPoint,
+ edu.wpi.first.math.geometry.Rotation2d&nbsp;chaseHeading,
+ edu.wpi.first.math.geometry.Translation2d&nbsp;plannedVector)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(edu.wpi.first.math.geometry.Translation2d,boolean,edu.wpi.first.math.geometry.Rotation2d,edu.wpi.first.math.geometry.Translation2d,double)">
+<h3>InterpolationResult</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">InterpolationResult</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;chasePoint,
+ boolean&nbsp;isOnFinalPoint,
+ edu.wpi.first.math.geometry.Rotation2d&nbsp;chaseHeading,
+ edu.wpi.first.math.geometry.Translation2d&nbsp;plannedVector,
+ double&nbsp;distanceToTargetPoint)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(edu.wpi.first.math.geometry.Translation2d,boolean,edu.wpi.first.math.geometry.Rotation2d,edu.wpi.first.math.geometry.Translation2d,double,double)">
+<h3>InterpolationResult</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">InterpolationResult</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;chasePoint,
+ boolean&nbsp;isOnFinalPoint,
+ edu.wpi.first.math.geometry.Rotation2d&nbsp;chaseHeading,
+ edu.wpi.first.math.geometry.Translation2d&nbsp;plannedVector,
+ double&nbsp;distanceToTargetPoint,
+ double&nbsp;lerpFraction)</span></div>
 </section>
 </li>
 </ul>

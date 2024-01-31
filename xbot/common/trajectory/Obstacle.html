@@ -112,6 +112,9 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>static enum&nbsp;</code></div>
 <div class="col-second even-row-color"><code><a href="Obstacle.ParallelCrossingType.html" class="type-name-link" title="enum class in xbot.common.trajectory">Obstacle.ParallelCrossingType</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static enum&nbsp;</code></div>
+<div class="col-second odd-row-color"><code><a href="Obstacle.PointProjectionCombination.html" class="type-name-link" title="enum class in xbot.common.trajectory">Obstacle.PointProjectionCombination</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 <div class="inherited-list">
 <h2 id="nested-classes-inherited-from-class-java.awt.geom.Rectangle2D">Nested classes/interfaces inherited from class&nbsp;java.awt.geom.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.desktop/java/awt/geom/Rectangle2D.html" title="class or interface in java.awt.geom" class="external-link">Rectangle2D</a></h2>
@@ -205,21 +208,25 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkIfBothPointsAreOutsideProjection(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Translation2d,xbot.common.trajectory.Obstacle.ParallelCrossingType)" class="member-name-link">checkIfBothPointsAreOutsideProjection</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;first,
- edu.wpi.first.math.geometry.Translation2d&nbsp;second,
- <a href="Obstacle.ParallelCrossingType.html" title="enum class in xbot.common.trajectory">Obstacle.ParallelCrossingType</a>&nbsp;crossingType)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#absorbObstacle(xbot.common.trajectory.Obstacle)" class="member-name-link">absorbObstacle</a><wbr>(<a href="Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a>&nbsp;other)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkIfBothPointsOutsideX(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">checkIfBothPointsOutsideX</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;first,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Obstacle.PointProjectionCombination.html" title="enum class in xbot.common.trajectory">Obstacle.PointProjectionCombination</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkXCombination(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">checkXCombination</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;first,
  edu.wpi.first.math.geometry.Translation2d&nbsp;second)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkIfBothPointsOutsideY(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">checkIfBothPointsOutsideY</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;first,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Obstacle.PointProjectionCombination.html" title="enum class in xbot.common.trajectory">Obstacle.PointProjectionCombination</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkYCombination(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">checkYCombination</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;first,
  edu.wpi.first.math.geometry.Translation2d&nbsp;second)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#doesPointLieAlongMidlines(edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">doesPointLieAlongMidlines</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;point)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#findClosestPointOnPerimeterToPoint(edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">findClosestPointOnPerimeterToPoint</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;point)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Translation2d</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCenter()" class="member-name-link">getCenter</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Translation2d</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getClosestCornerToPoint(edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">getClosestCornerToPoint</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;other)</code></div>
@@ -246,15 +253,27 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Calculates the intersection point of two line segments.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Translation2d</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLineIntersectionPoint(java.awt.geom.Line2D.Double,java.awt.geom.Line2D.Double)" class="member-name-link">getLineIntersectionPoint</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.desktop/java/awt/geom/Line2D.Double.html" title="class or interface in java.awt.geom" class="external-link">Line2D.Double</a>&nbsp;lineA,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.desktop/java/awt/geom/Line2D.Double.html" title="class or interface in java.awt.geom" class="external-link">Line2D.Double</a>&nbsp;lineB)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getName()" class="member-name-link">getName</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Obstacle.ParallelCrossingType.html" title="enum class in xbot.common.trajectory">Obstacle.ParallelCrossingType</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getParallelCrossingType(edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">getParallelCrossingType</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;point)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Translation2d</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#movePointOutsideOfBounds(edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">movePointOutsideOfBounds</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;point)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Obstacle.PointProjectionCombination.html" title="enum class in xbot.common.trajectory">Obstacle.PointProjectionCombination</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPointProjectionCombination(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Translation2d,xbot.common.trajectory.Obstacle.ParallelCrossingType)" class="member-name-link">getPointProjectionCombination</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;first,
+ edu.wpi.first.math.geometry.Translation2d&nbsp;second,
+ <a href="Obstacle.ParallelCrossingType.html" title="enum class in xbot.common.trajectory">Obstacle.ParallelCrossingType</a>&nbsp;crossingType)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resetCorners()" class="member-name-link">resetCorners</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Translation2d</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#movePointOutsideOfBounds(edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">movePointOutsideOfBounds</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;point)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resetCorners()" class="member-name-link">resetCorners</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the corners back to default availability.</div>
 </div>
 </div>
@@ -397,6 +416,18 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="getName()">
+<h3>getName</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getName</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getCenter()">
+<h3>getCenter</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Translation2d</span>&nbsp;<span class="element-name">getCenter</span>()</div>
+</section>
+</li>
+<li>
 <section class="detail" id="resetCorners()">
 <h3>resetCorners</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resetCorners</span>()</div>
@@ -454,6 +485,13 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="getLineIntersectionPoint(java.awt.geom.Line2D.Double,java.awt.geom.Line2D.Double)">
+<h3>getLineIntersectionPoint</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Translation2d</span>&nbsp;<span class="element-name">getLineIntersectionPoint</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.desktop/java/awt/geom/Line2D.Double.html" title="class or interface in java.awt.geom" class="external-link">Line2D.Double</a>&nbsp;lineA,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.desktop/java/awt/geom/Line2D.Double.html" title="class or interface in java.awt.geom" class="external-link">Line2D.Double</a>&nbsp;lineB)</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="doesPointLieAlongMidlines(edu.wpi.first.math.geometry.Translation2d)">
 <h3>doesPointLieAlongMidlines</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">doesPointLieAlongMidlines</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;point)</span></div>
@@ -492,25 +530,37 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="checkIfBothPointsAreOutsideProjection(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Translation2d,xbot.common.trajectory.Obstacle.ParallelCrossingType)">
-<h3>checkIfBothPointsAreOutsideProjection</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">checkIfBothPointsAreOutsideProjection</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;first,
+<section class="detail" id="getPointProjectionCombination(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Translation2d,xbot.common.trajectory.Obstacle.ParallelCrossingType)">
+<h3>getPointProjectionCombination</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Obstacle.PointProjectionCombination.html" title="enum class in xbot.common.trajectory">Obstacle.PointProjectionCombination</a></span>&nbsp;<span class="element-name">getPointProjectionCombination</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;first,
  edu.wpi.first.math.geometry.Translation2d&nbsp;second,
  <a href="Obstacle.ParallelCrossingType.html" title="enum class in xbot.common.trajectory">Obstacle.ParallelCrossingType</a>&nbsp;crossingType)</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="checkIfBothPointsOutsideX(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Translation2d)">
-<h3>checkIfBothPointsOutsideX</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">checkIfBothPointsOutsideX</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;first,
+<section class="detail" id="checkXCombination(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Translation2d)">
+<h3>checkXCombination</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Obstacle.PointProjectionCombination.html" title="enum class in xbot.common.trajectory">Obstacle.PointProjectionCombination</a></span>&nbsp;<span class="element-name">checkXCombination</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;first,
  edu.wpi.first.math.geometry.Translation2d&nbsp;second)</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="checkIfBothPointsOutsideY(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Translation2d)">
-<h3>checkIfBothPointsOutsideY</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">checkIfBothPointsOutsideY</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;first,
+<section class="detail" id="checkYCombination(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Translation2d)">
+<h3>checkYCombination</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Obstacle.PointProjectionCombination.html" title="enum class in xbot.common.trajectory">Obstacle.PointProjectionCombination</a></span>&nbsp;<span class="element-name">checkYCombination</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;first,
  edu.wpi.first.math.geometry.Translation2d&nbsp;second)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="absorbObstacle(xbot.common.trajectory.Obstacle)">
+<h3>absorbObstacle</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">absorbObstacle</span><wbr><span class="parameters">(<a href="Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a>&nbsp;other)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="findClosestPointOnPerimeterToPoint(edu.wpi.first.math.geometry.Translation2d)">
+<h3>findClosestPointOnPerimeterToPoint</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">findClosestPointOnPerimeterToPoint</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;point)</span></div>
 </section>
 </li>
 </ul>

@@ -111,65 +111,71 @@ loadScripts(document, 'script');</script>
  <a href="../math/PIDManager.html" title="class in xbot.common.math">PIDManager</a>&nbsp;positionalPid,
  <a href="../subsystems/drive/control_logic/HeadingModule.html" title="class in xbot.common.subsystems.drive.control_logic">HeadingModule</a>&nbsp;headingModule)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../math/XYPair.html" title="class in xbot.common.math">XYPair</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGoalVector(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">getGoalVector</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;currentPose)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Twist2d</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#calculatePowers(edu.wpi.first.math.geometry.Pose2d,xbot.common.math.PIDManager,xbot.common.subsystems.drive.control_logic.HeadingModule,double)" class="member-name-link">calculatePowers</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;currentPose,
+ <a href="../math/PIDManager.html" title="class in xbot.common.math">PIDManager</a>&nbsp;positionalPid,
+ <a href="../subsystems/drive/control_logic/HeadingModule.html" title="class in xbot.common.subsystems.drive.control_logic">HeadingModule</a>&nbsp;headingModule,
+ double&nbsp;maximumVelocity)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getKeyPoints()" class="member-name-link">getKeyPoints</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../math/XYPair.html" title="class in xbot.common.math">XYPair</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGoalVector(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">getGoalVector</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;currentPose)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="SimpleTimeInterpolator.InterpolationResult.html" title="class in xbot.common.trajectory">SimpleTimeInterpolator.InterpolationResult</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLastResult()" class="member-name-link">getLastResult</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getKeyPoints()" class="member-name-link">getKeyPoints</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getResolvedKeyPoints()" class="member-name-link">getResolvedKeyPoints</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="SimpleTimeInterpolator.InterpolationResult.html" title="class in xbot.common.trajectory">SimpleTimeInterpolator.InterpolationResult</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLastResult()" class="member-name-link">getLastResult</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#recommendIsFinished(edu.wpi.first.math.geometry.Pose2d,xbot.common.math.PIDManager,xbot.common.subsystems.drive.control_logic.HeadingModule)" class="member-name-link">recommendIsFinished</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;currentPose,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getResolvedKeyPoints()" class="member-name-link">getResolvedKeyPoints</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#recommendIsFinished(edu.wpi.first.math.geometry.Pose2d,xbot.common.math.PIDManager,xbot.common.subsystems.drive.control_logic.HeadingModule)" class="member-name-link">recommendIsFinished</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;currentPose,
  <a href="../math/PIDManager.html" title="class in xbot.common.math">PIDManager</a>&nbsp;positionalPid,
  <a href="../subsystems/drive/control_logic/HeadingModule.html" title="class in xbot.common.subsystems.drive.control_logic">HeadingModule</a>&nbsp;headingModule)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reset(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">reset</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;currentPose)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAimAtGoalDuringFinalLeg(boolean)" class="member-name-link">setAimAtGoalDuringFinalLeg</a><wbr>(boolean&nbsp;aimAtGoalDuringFinalLeg)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reset(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">reset</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;currentPose)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAimAtIntermediateNonFinalLegs(boolean)" class="member-name-link">setAimAtIntermediateNonFinalLegs</a><wbr>(boolean&nbsp;aimAtIntermediateNonFinalLegs)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAimAtGoalDuringFinalLeg(boolean)" class="member-name-link">setAimAtGoalDuringFinalLeg</a><wbr>(boolean&nbsp;aimAtGoalDuringFinalLeg)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setConstantVelocity(double)" class="member-name-link">setConstantVelocity</a><wbr>(double&nbsp;constantVelocity)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAimAtIntermediateNonFinalLegs(boolean)" class="member-name-link">setAimAtIntermediateNonFinalLegs</a><wbr>(boolean&nbsp;aimAtIntermediateNonFinalLegs)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDriveBackwards(boolean)" class="member-name-link">setDriveBackwards</a><wbr>(boolean&nbsp;driveBackwards)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setConstantVelocity(double)" class="member-name-link">setConstantVelocity</a><wbr>(double&nbsp;constantVelocity)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setEnableConstantVelocity(boolean)" class="member-name-link">setEnableConstantVelocity</a><wbr>(boolean&nbsp;enableConstantVelocity)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDriveBackwards(boolean)" class="member-name-link">setDriveBackwards</a><wbr>(boolean&nbsp;driveBackwards)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setEnableSpecialAimTarget(boolean)" class="member-name-link">setEnableSpecialAimTarget</a><wbr>(boolean&nbsp;enableSpecialAimTarget)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setEnableConstantVelocity(boolean)" class="member-name-link">setEnableConstantVelocity</a><wbr>(boolean&nbsp;enableConstantVelocity)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFieldWithObstacles(xbot.common.trajectory.LowResField)" class="member-name-link">setFieldWithObstacles</a><wbr>(<a href="LowResField.html" title="class in xbot.common.trajectory">LowResField</a>&nbsp;fieldWithObstacles)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setEnableSpecialAimTarget(boolean)" class="member-name-link">setEnableSpecialAimTarget</a><wbr>(boolean&nbsp;enableSpecialAimTarget)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKeyPoints(java.util.List)" class="member-name-link">setKeyPoints</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;&nbsp;keyPoints)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFieldWithObstacles(xbot.common.trajectory.LowResField)" class="member-name-link">setFieldWithObstacles</a><wbr>(<a href="LowResField.html" title="class in xbot.common.trajectory">LowResField</a>&nbsp;fieldWithObstacles)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKeyPointsProvider(java.util.function.Supplier)" class="member-name-link">setKeyPointsProvider</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;&gt;&nbsp;keyPointsProvider)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKeyPoints(java.util.List)" class="member-name-link">setKeyPoints</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;&nbsp;keyPoints)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxPower(double)" class="member-name-link">setMaxPower</a><wbr>(double&nbsp;maxPower)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKeyPointsProvider(java.util.function.Supplier)" class="member-name-link">setKeyPointsProvider</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;&gt;&nbsp;keyPointsProvider)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxTurningPower(double)" class="member-name-link">setMaxTurningPower</a><wbr>(double&nbsp;maxTurningPower)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxPower(double)" class="member-name-link">setMaxPower</a><wbr>(double&nbsp;maxPower)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSpecialAimTarget(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">setSpecialAimTarget</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;specialAimTarget)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxTurningPower(double)" class="member-name-link">setMaxTurningPower</a><wbr>(double&nbsp;maxTurningPower)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStopWhenFinished(boolean)" class="member-name-link">setStopWhenFinished</a><wbr>(boolean&nbsp;newValue)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSpecialAimTarget(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">setSpecialAimTarget</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;specialAimTarget)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStopWhenFinished(boolean)" class="member-name-link">setStopWhenFinished</a><wbr>(boolean&nbsp;newValue)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -309,6 +315,15 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Twist2d</span>&nbsp;<span class="element-name">calculatePowers</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Pose2d&nbsp;currentPose,
  <a href="../math/PIDManager.html" title="class in xbot.common.math">PIDManager</a>&nbsp;positionalPid,
  <a href="../subsystems/drive/control_logic/HeadingModule.html" title="class in xbot.common.subsystems.drive.control_logic">HeadingModule</a>&nbsp;headingModule)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="calculatePowers(edu.wpi.first.math.geometry.Pose2d,xbot.common.math.PIDManager,xbot.common.subsystems.drive.control_logic.HeadingModule,double)">
+<h3>calculatePowers</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Twist2d</span>&nbsp;<span class="element-name">calculatePowers</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Pose2d&nbsp;currentPose,
+ <a href="../math/PIDManager.html" title="class in xbot.common.math">PIDManager</a>&nbsp;positionalPid,
+ <a href="../subsystems/drive/control_logic/HeadingModule.html" title="class in xbot.common.subsystems.drive.control_logic">HeadingModule</a>&nbsp;headingModule,
+ double&nbsp;maximumVelocity)</span></div>
 </section>
 </li>
 <li>
