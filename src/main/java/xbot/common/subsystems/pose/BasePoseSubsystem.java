@@ -248,20 +248,42 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
         return isNavXReady;
     }
 
+    /**
+     * Converts a pose from blue to red alliance, by mirroring across the field midline at an assumed X coordinate.
+     * @param blueCoordinates Blue Pose2d to convert to Red Pose2d
+     * @return Red Pose2d
+     */
     public static Pose2d convertBluetoRed(Pose2d blueCoordinates){
         return new Pose2d(convertBlueToRed(blueCoordinates.getTranslation()),convertBlueToRed(blueCoordinates.getRotation()));
     }
 
+    /**
+     * Converts a Translation2d from blue to red alliance, by mirroring across the field midline at an assumed X coordinate.
+     * @param blueCoordinates Blue Translation2d to convert to Red Translation2d
+     * @return Red Translation2d
+     */
     public static Translation2d convertBlueToRed(Translation2d blueCoordinates){
-        double fieldMidpoint = 8.2296;
-        double redXCoordinates = ((fieldMidpoint-blueCoordinates.getX()) * 2) + blueCoordinates.getX();
+        double fieldXMidpointInMeters = 8.2296;
+        double redXCoordinates = ((fieldXMidpointInMeters-blueCoordinates.getX()) * 2) + blueCoordinates.getX();
         return new Translation2d(redXCoordinates, blueCoordinates.getY());
     }
 
+    /**
+     * Converts a Rotation2d from blue to red alliance, by mirroring across the field midline at an assumed X coordinate.
+     * Note that this means that in some cases the heading won't change; a heading of 90 degrees will remain 90 degrees,
+     * as both are facing the positive Y direction.
+     * @param blueHeading Blue Rotation2d to convert to Red Rotation2d
+     * @return Red Rotation2d
+     */
     public static Rotation2d convertBlueToRed(Rotation2d blueHeading){
         return Rotation2d.fromDegrees(blueHeading.getDegrees() - (blueHeading.getDegrees() - 90.0) * 2);
     }
 
+    /**
+     * Converts a Translation2d from blue to red alliance, if and ONLY IF you are currently on the Red alliance.
+     * @param blueCoordinates Blue Translation2d to possibly convert to Red Translation2d
+     * @return Red Translation2d if on Red alliance, otherwise the original Blue Translation2d
+     */
     public static Translation2d convertBlueToRedIfNeeded(Translation2d blueCoordinates) {
         if (DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Red) {
             return convertBlueToRed(blueCoordinates);
@@ -269,6 +291,11 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
         return blueCoordinates;
     }
 
+    /**
+     * Converts a Pose2d from blue to red alliance, if and ONLY IF you are currently on the Red alliance.
+     * @param blueCoordinates Blue Pose2d to possibly convert to Red Pose2d
+     * @return Red Pose2d if on Red alliance, otherwise the original Blue Pose2d
+     */
     public static Pose2d convertBlueToRedIfNeeded(Pose2d blueCoordinates) {
         if (DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Red) {
             return convertBluetoRed(blueCoordinates);

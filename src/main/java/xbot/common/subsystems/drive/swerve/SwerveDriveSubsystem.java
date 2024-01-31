@@ -28,6 +28,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
 
     private final DoubleProperty metersPerMotorRotation;
     private final BooleanProperty enableDrivePid;
+    private final DoubleProperty minVelocityToEngagePid;
     private double targetVelocity;
 
     private XCANSparkMax motorController;
@@ -44,6 +45,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
         this.metersPerMotorRotation = pf.createPersistentProperty(
                 "MetersPerMotorRotation", 2.02249 / BasePoseSubsystem.INCHES_IN_A_METER);
         this.enableDrivePid = pf.createPersistentProperty("EnableDrivePID", false);
+        this.minVelocityToEngagePid = pf.createPersistentProperty("MinVelocityToEngagePID", 0.01);
 
         if (electricalContract.isDriveReady()) {
             this.motorController = sparkMaxFactory.create(
@@ -147,7 +149,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
         if (this.contract.isDriveReady()) {
             // Special check - if asked for very tiny velocities, assume we are at dead joystick and should
             // coast to avoid "shock" when target velocities drop to 0.
-            if (Math.abs(targetVelocity) < 0.01) {
+            if (Math.abs(targetVelocity) < minVelocityToEngagePid.get()) {
                 setPower(0.0);
                 return;
             }
