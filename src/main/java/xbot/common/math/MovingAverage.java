@@ -1,12 +1,10 @@
 package xbot.common.math;
 
-import edu.wpi.first.math.geometry.Translation2d;
-
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class MovingAverage<T> {
-    private int SIZE = 15;
+    private int size = 15;
     private Queue<T> queue;
     private T sum;
     private SumFunction<T> sumFunction;
@@ -15,13 +13,13 @@ public class MovingAverage<T> {
         this.queue = new LinkedList<>();
         this.sum = initialValue;
         this.sumFunction = sumFunction;
-        this.SIZE = size;
+        this.size = size;
     }
 
     public void add(T value) {
         sum = sumFunction.add(sum, value);
         queue.add(value);
-        if (queue.size() > SIZE) {
+        if (queue.size() > size) {
             sum = sumFunction.subtract(sum, queue.remove());
         }
     }
