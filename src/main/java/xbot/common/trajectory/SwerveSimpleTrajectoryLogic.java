@@ -5,7 +5,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import org.apache.logging.log4j.LogManager;
-import org.littletonrobotics.junction.Logger;
 
 import xbot.common.advantage.AKitLogger;
 import xbot.common.math.PIDManager;
@@ -19,7 +18,7 @@ import java.util.function.Supplier;
 public class SwerveSimpleTrajectoryLogic {
 
     org.apache.logging.log4j.Logger log = LogManager.getLogger(this.getClass());
-    final AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator");
+    final AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator/");
 
     private Supplier<List<XbotSwervePoint>> keyPointsProvider;
     private List<XbotSwervePoint> keyPoints;
@@ -166,7 +165,7 @@ public class SwerveSimpleTrajectoryLogic {
         aKitLog.record("Trajectory",
                 XbotSwervePoint.generateTrajectory(keyPoints));
 
-        interpolator.setMaximumDistanceFromChasePointInInches(24);
+        interpolator.setMaximumDistanceFromChasePointInMeters(0.5);
         interpolator.setKeyPoints(keyPoints);
         interpolator.initialize(initialPoint);
     }
@@ -255,6 +254,10 @@ public class SwerveSimpleTrajectoryLogic {
     }
 
     public Twist2d calculatePowers(Pose2d currentPose, PIDManager positionalPid, HeadingModule headingModule) {
+        return calculatePowers(currentPose, positionalPid, headingModule, 0);
+    }
+
+    public Twist2d calculatePowers(Pose2d currentPose, PIDManager positionalPid, HeadingModule headingModule, double maximumVelocity) {
         var goalVector = getGoalVector(currentPose);
 
         // Now that we have a chase point, we can drive to it. The rest of the logic is
@@ -263,6 +266,7 @@ public class SwerveSimpleTrajectoryLogic {
 
         // PID on the magnitude of the goal. Kind of similar to rotation,
         // our goal is "zero error".
+        aKitLog.record("goalVector", goalVector);
         double magnitudeGoal = goalVector.getMagnitude();
         aKitLog.record("magnitudeGoal", magnitudeGoal);
         double drivePower = positionalPid.calculate(magnitudeGoal, 0);
@@ -275,7 +279,7 @@ public class SwerveSimpleTrajectoryLogic {
         if (enableSpecialAimTarget && specialAimTarget != null) {
             degreeTarget = getAngleBetweenTwoPoints(
                     currentPose.getTranslation(), specialAimTarget.getTranslation()
-                    ).getDegrees();
+            ).getDegrees();
         }
 
         double headingPower = headingModule.calculateHeadingPower(
@@ -285,12 +289,50 @@ public class SwerveSimpleTrajectoryLogic {
             intent = intent.scale(maxPower / intent.getMagnitude());
         }
 
-        if (maxTurningPower > 0)
-        {
+        if (maxTurningPower > 0) {
             headingPower = headingPower * maxTurningPower;
         }
 
-        return new Twist2d(intent.x, intent.y, headingPower);
+        aKitLog.record("UpdatedIntent", intent);
+        // If we have no max velocity set, or we are on the last point and almost done, just use the position PID
+        if (maximumVelocity <= 0 || (lastResult.isOnFinalPoint && lastResult.distanceToTargetPoint < 0.5) || lastResult.lerpFraction > 1) {
+            return new Twist2d(intent.x, intent.y, headingPower);
+        }
+        else
+        {
+            // Otherwise, add the known velocity vector, so we can catch up to our goal.
+
+            // Get the dot product between the normalized goal vector and the normalized velocity vector.
+            // Quick check for being right on the goal point
+
+            var plannedVelocityVector = lastResult.plannedVector;
+
+            if (goalVector.getMagnitude() > 0.33) {
+                var normalizedGoalVector = goalVector.scale(1 / goalVector.getMagnitude());
+                var normalizedVelocityVector = plannedVelocityVector.times(1 / plannedVelocityVector.getNorm());
+                double dotProduct = normalizedGoalVector.x * normalizedVelocityVector.getX()
+                        + normalizedGoalVector.y * normalizedVelocityVector.getY();
+                double clampedDotProduct = Math.max(0, dotProduct);
+                aKitLog.record("clampedDotProduct", clampedDotProduct);
+                plannedVelocityVector = plannedVelocityVector.times(clampedDotProduct);
+            }
+
+            // Scale the planned vector, which is currently in velocity space, to "power space" so we can add it to the intent.
+            double scalarFactor = plannedVelocityVector.getNorm() / maximumVelocity;
+            var scaledPlannedVector = plannedVelocityVector.times(scalarFactor / maximumVelocity);
+            aKitLog.record("scaledPlannedVector", scaledPlannedVector);
+            // Add the PositionPID powers
+            var combinedVector = scaledPlannedVector.plus(new Translation2d(intent.x, intent.y));
+
+            // If we've somehow gone above 100% power, scale it back down
+            if (combinedVector.getNorm() > 1) {
+                combinedVector = combinedVector.times(1 / combinedVector.getNorm());
+            }
+
+            aKitLog.record("combinedVector", combinedVector);
+
+            return new Twist2d(combinedVector.getX(), combinedVector.getY(), headingPower);
+        }
     }
 
     public boolean recommendIsFinished(Pose2d currentPose, PIDManager positionalPid, HeadingModule headingModule) {

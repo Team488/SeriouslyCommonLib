@@ -15,12 +15,12 @@ public class SimpleTimeInterpolator {
     double previousTimestamp;
     ProvidesInterpolationData baseline;
     int index;
-    double maximumDistanceFromChasePointInInches = 0.3;
+    double maximumDistanceFromChasePointInMeters = 0.3;
 
     private List<? extends ProvidesInterpolationData> keyPoints;
 
     Logger log = LogManager.getLogger(SimpleTimeInterpolator.class);
-    AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator");
+    AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator/");
 
     public class InterpolationResult {
         public Translation2d chasePoint;
@@ -28,16 +28,38 @@ public class SimpleTimeInterpolator {
 
         public Rotation2d chaseHeading;
 
+        public Translation2d plannedVector;
+
+        public double distanceToTargetPoint;
+
+        public double lerpFraction;
+
         public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint) {
-            this.chasePoint = chasePoint;
-            this.isOnFinalPoint = isOnFinalPoint;
-            chaseHeading = null;
+            this(chasePoint, isOnFinalPoint, null);
         }
 
         public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading) {
+            this(chasePoint, isOnFinalPoint, chaseHeading, null);
+        }
+
+        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading,
+                                   Translation2d plannedVector) {
+            this(chasePoint, isOnFinalPoint, chaseHeading, plannedVector, 0);
+        }
+
+        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading,
+                                   Translation2d plannedVector, double distanceToTargetPoint) {
+            this(chasePoint, isOnFinalPoint, chaseHeading, plannedVector, distanceToTargetPoint, 0);
+        }
+
+        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading,
+                                   Translation2d plannedVector, double distanceToTargetPoint, double lerpFraction) {
             this.chasePoint = chasePoint;
             this.isOnFinalPoint = isOnFinalPoint;
             this.chaseHeading = chaseHeading;
+            this.plannedVector = plannedVector;
+            this.distanceToTargetPoint = distanceToTargetPoint;
+            this.lerpFraction = lerpFraction;
         }
     }
 
@@ -47,8 +69,8 @@ public class SimpleTimeInterpolator {
         this.keyPoints = keyPoints;
     }
 
-    public void setMaximumDistanceFromChasePointInInches(double maximumDistanceFromChasePointInInches) {
-        this.maximumDistanceFromChasePointInInches = maximumDistanceFromChasePointInInches;
+    public void setMaximumDistanceFromChasePointInMeters(double maximumDistanceFromChasePointInMeters) {
+        this.maximumDistanceFromChasePointInMeters = maximumDistanceFromChasePointInMeters;
     }
 
     public void initialize(ProvidesInterpolationData baseline) {
@@ -90,6 +112,9 @@ public class SimpleTimeInterpolator {
         aKitLog.record("LerpFraction", lerpFraction);
         aKitLog.record("accumulatedProductiveSeconds", accumulatedProductiveSeconds);
 
+
+
+
         // If the fraction is above 1, it's time to set a new baseline point and start LERPing on the next
         // one.
         if (lerpFraction >= 1 && index < keyPoints.size()-1) {
@@ -114,13 +139,18 @@ public class SimpleTimeInterpolator {
 
         // But if that chase point is "too far ahead", we need to freeze the chasePoint
         // until the robot has a chance to catch up.
-        if (currentLocation.getDistance(chasePoint) > maximumDistanceFromChasePointInInches) {
+        if (currentLocation.getDistance(chasePoint) > maximumDistanceFromChasePointInMeters) {
             // This effectively "rewinds time" for the next loop.
             accumulatedProductiveSeconds -= secondsSinceLastExecute;
         }
 
+        // The planned velocity is the same (for now) at all points between the baseline and the target.
+        var plannedVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d())
+                .div(targetKeyPoint.getSecondsForSegment());
+
         boolean targetingFinalPoint = index == keyPoints.size()-1 && lerpFraction >= 1;
-        return new InterpolationResult(chasePoint, targetingFinalPoint, targetKeyPoint.getRotation2d());
+        return new InterpolationResult(chasePoint, targetingFinalPoint, targetKeyPoint.getRotation2d(), plannedVector,
+                currentLocation.getDistance(targetKeyPoint.getTranslation2d()), lerpFraction);
     }
 
 

@@ -28,6 +28,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
 
     private final DoubleProperty metersPerMotorRotation;
     private final BooleanProperty enableDrivePid;
+    private final DoubleProperty minVelocityToEngagePid;
     private double targetVelocity;
 
     private XCANSparkMax motorController;
@@ -44,6 +45,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
         this.metersPerMotorRotation = pf.createPersistentProperty(
                 "MetersPerMotorRotation", 2.02249 / BasePoseSubsystem.INCHES_IN_A_METER);
         this.enableDrivePid = pf.createPersistentProperty("EnableDrivePID", false);
+        this.minVelocityToEngagePid = pf.createPersistentProperty("MinVelocityToEngagePID", 0.01);
 
         if (electricalContract.isDriveReady()) {
             this.motorController = sparkMaxFactory.create(
@@ -52,10 +54,10 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
                     "DriveNeo",
                     super.getPrefix() + "/DrivePID",
                     new XCANSparkMaxPIDProperties(
-                            0.1,
+                            0.0001,
+                            0.000001,
                             0,
-                            0,
-                            0,
+                            400,
                             0,
                             1,
                             -1
@@ -63,6 +65,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
             setupStatusFramesAsNeeded();
             this.motorController.setSmartCurrentLimit(45);
             this.motorController.setIdleMode(CANSparkMax.IdleMode.kBrake);
+            this.motorController.enableVoltageCompensation(12);
         }
     }
 
@@ -144,6 +147,13 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
 
     public void setMotorControllerVelocityPidFromSubsystemTarget() {
         if (this.contract.isDriveReady()) {
+            // Special check - if asked for very tiny velocities, assume we are at dead joystick and should
+            // coast to avoid "shock" when target velocities drop to 0.
+            if (Math.abs(targetVelocity) < minVelocityToEngagePid.get()) {
+                setPower(0.0);
+                return;
+            }
+
             // Get the target speed in RPM
             double targetRPM = targetVelocity / this.metersPerMotorRotation.get() * 60.0;
             aKitLog.record("TargetRPM", targetRPM);
