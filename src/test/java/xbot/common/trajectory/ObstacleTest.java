@@ -81,4 +81,13 @@ public class ObstacleTest extends BaseCommonLibTest {
         assertEquals(9, shouldMove.getX(), 0.2);
         assertEquals(15, shouldMove.getY(), 0.2);
     }
+
+    @Test
+    public void complexIntersectionTest() {
+        Translation2d above = new Translation2d(190, 5);
+        Translation2d below = new Translation2d(190, -5);
+        Obstacle o = new Obstacle(100, 1, 200, 2, "WideRectangle");
+        boolean intersects = o.intersectsLine(above.getX(), above.getY(), below.getX(), below.getY());
+
+    }
 }

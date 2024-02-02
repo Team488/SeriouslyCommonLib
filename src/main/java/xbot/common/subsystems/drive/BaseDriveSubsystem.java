@@ -1,5 +1,6 @@
 package xbot.common.subsystems.drive;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
@@ -11,7 +12,7 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     public abstract PIDManager getRotateDecayPid();
     boolean isQuickTurn;
 
-    public XYPair lastRawCommandedDirection = new XYPair();
+    public Translation2d lastRawCommandedDirection = new Translation2d();
     public double lastRawCommandedRotation = 0;
 
     public abstract void move(XYPair translate, double rotate);
@@ -92,7 +93,7 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
             double currentHeading, 
             boolean normalize) {
         // rotate the translation vector into the robot coordinate frame
-        lastRawCommandedDirection = translation;
+        lastRawCommandedDirection = new Translation2d(translation.x, translation.y);
         lastRawCommandedRotation = rotation;
 
         XYPair fieldRelativeVector = translation.clone();

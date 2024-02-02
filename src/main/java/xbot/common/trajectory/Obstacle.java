@@ -46,15 +46,30 @@ public class Obstacle extends Rectangle2D.Double {
         // Generate the corner points of the bounding box.
         // We will put the points sliiiiightly outside the bounding box, so we don't
         // collide with the true corners later.
-        topLeft = new Translation2d(x - width / 2 * 1.01, y + height / 2 * 1.01);
-        topRight = new Translation2d(x + width / 2 * 1.01, y + height / 2 * 1.01);
-        bottomLeft = new Translation2d(x - width / 2 * 1.01, y - height / 2 * 1.01);
-        bottomRight = new Translation2d(x + width / 2 * 1.01, y - height / 2 * 1.01);
+        setKeyParameters(x-width/2, x+width/2, y-height/2, y+height/2);
+    }
 
-        topLine = new Line2D.Double(topLeft.getX(), topLeft.getY(), topRight.getX(), topRight.getY());
-        bottomLine = new Line2D.Double(bottomLeft.getX(), bottomLeft.getY(), bottomRight.getX(), bottomRight.getY());
-        leftLine = new Line2D.Double(topLeft.getX(), topLeft.getY(), bottomLeft.getX(), bottomLeft.getY());
-        rightLine = new Line2D.Double(topRight.getX(), topRight.getY(), bottomRight.getX(), bottomRight.getY());
+    private void setKeyParameters(double minX, double maxX, double minY, double maxY) {
+        double fudgeDistance = 0.0762; // roughly 3 inches
+        this.setRect(minX, minY, maxX - minX, maxY - minY);
+
+        this.topLine = new Line2D.Double(minX, maxY, maxX, maxY);
+        this.bottomLine = new Line2D.Double(minX, minY, maxX, minY);
+        this.leftLine = new Line2D.Double(minX, minY, minX, maxY);
+        this.rightLine = new Line2D.Double(maxX, minY, maxX, maxY);
+
+        this.topLeft = new Translation2d(minX-fudgeDistance, maxY+fudgeDistance);
+        this.topRight = new Translation2d(maxX+fudgeDistance, maxY+fudgeDistance);
+        this.bottomLeft = new Translation2d(minX-fudgeDistance, minY-fudgeDistance);
+        this.bottomRight = new Translation2d(maxX+fudgeDistance, minY-fudgeDistance);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Translation2d getCenter() {
+        return new Translation2d(this.getCenterX(), this.getCenterY());
     }
 
     /**
@@ -160,6 +175,14 @@ public class Obstacle extends Rectangle2D.Double {
             candidate = new Translation2d(xi, yi);
         }
         return candidate;
+    }
+
+    public Translation2d getLineIntersectionPoint(Line2D.Double lineA, Line2D.Double lineB) {
+        return getLineIntersectionPoint(
+                new Translation2d(lineA.getX1(), lineA.getY1()),
+                new Translation2d(lineA.getX2(), lineA.getY2()),
+                new Translation2d(lineB.getX1(), lineB.getY1()),
+                new Translation2d(lineB.getX2(), lineB.getY2()));
     }
 
     public boolean doesPointLieAlongMidlines(Translation2d point) {
@@ -284,26 +307,85 @@ public class Obstacle extends Rectangle2D.Double {
         return point;
     }
 
-    public boolean checkIfBothPointsAreOutsideProjection(Translation2d first, Translation2d second,
-                                                         ParallelCrossingType crossingType) {
-        if (crossingType == ParallelCrossingType.TopAndBottom) {
-            return checkIfBothPointsOutsideX(first, second);
-        } else if (crossingType == ParallelCrossingType.LeftAndRight) {
-            return checkIfBothPointsOutsideY(first, second);
-        }
-        return false;
+    public enum PointProjectionCombination {
+        BothInside,
+        FirstInside,
+        SecondInside,
+        BothOutside,
+        NotRelevant
     }
 
-    public boolean checkIfBothPointsOutsideX(Translation2d first, Translation2d second) {
+    public PointProjectionCombination getPointProjectionCombination(Translation2d first, Translation2d second,
+                                                                    ParallelCrossingType crossingType) {
+        if (crossingType == ParallelCrossingType.TopAndBottom) {
+            return checkXCombination(first, second);
+        } else if (crossingType == ParallelCrossingType.LeftAndRight) {
+            return checkYCombination(first, second);
+        }
+        return PointProjectionCombination.NotRelevant;
+    }
+
+    public PointProjectionCombination checkXCombination(Translation2d first, Translation2d second) {
         boolean firstOutsideX = (first.getX() < this.getMinX() || first.getX() > this.getMaxX());
         boolean secondOutsideX = (second.getX() < this.getMinX() || second.getX() > this.getMaxX());
-        return firstOutsideX && secondOutsideX;
+
+        if (firstOutsideX && secondOutsideX) {
+            return PointProjectionCombination.BothOutside;
+        } else if (firstOutsideX) {
+            return PointProjectionCombination.SecondInside;
+        } else if (secondOutsideX) {
+            return PointProjectionCombination.FirstInside;
+        } else {
+            return PointProjectionCombination.BothInside;
+        }
     }
 
-    public boolean checkIfBothPointsOutsideY(Translation2d first, Translation2d second) {
+    public PointProjectionCombination checkYCombination(Translation2d first, Translation2d second) {
         boolean firstOutsideY = (first.getY() < this.getMinY() || first.getY() > this.getMaxY());
         boolean secondOutsideY = (second.getY() < this.getMinY() || second.getY() > this.getMaxY());
-        return firstOutsideY && secondOutsideY;
+
+        if (firstOutsideY && secondOutsideY) {
+            return PointProjectionCombination.BothOutside;
+        } else if (firstOutsideY) {
+            return PointProjectionCombination.SecondInside;
+        } else if (secondOutsideY) {
+            return PointProjectionCombination.FirstInside;
+        } else {
+            return PointProjectionCombination.BothInside;
+        }
     }
 
+    public void absorbObstacle(Obstacle other) {
+        this.add(other);
+        setKeyParameters(this.getMinX(), this.getMaxX(), this.getMinY(), this.getMaxY());
+        name = name + "And" + other.name;
+
+        defaultBottomRight &= other.defaultBottomRight;
+        defaultBottomLeft &= other.defaultBottomLeft;
+        defaultTopRight &= other.defaultTopRight;
+        defaultTopLeft &= other.defaultTopLeft;
+    }
+
+    public double findClosestPointOnPerimeterToPoint(Translation2d point) {
+        var center = getCenter();
+        Line2D.Double ray = new Line2D.Double(center.getX(), center.getY(), point.getX(), point.getY());
+        // check ray collision with each side. If we get non-zero result, just return that.
+        var topIntersection = getLineIntersectionPoint(ray, topLine);
+        if (topIntersection.getDistance(new Translation2d()) > 0.001) {
+            return point.getDistance(topIntersection);
+        }
+        var bottomIntersection = getLineIntersectionPoint(ray, bottomLine);
+        if (bottomIntersection.getDistance(new Translation2d()) > 0.001) {
+            return point.getDistance(bottomIntersection);
+        }
+        var leftIntersection = getLineIntersectionPoint(ray, leftLine);
+        if (leftIntersection.getDistance(new Translation2d()) > 0.001) {
+            return point.getDistance(leftIntersection);
+        }
+        var rightIntersection = getLineIntersectionPoint(ray, rightLine);
+        if (rightIntersection.getDistance(new Translation2d()) > 0.001) {
+            return point.getDistance(rightIntersection);
+        }
+        return -1;
+    }
 }
