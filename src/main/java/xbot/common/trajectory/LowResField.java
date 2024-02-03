@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 import java.util.TreeMap;
@@ -112,7 +111,7 @@ public class LowResField {
                 Translation2d slidPoint = o.movePointOutsideOfBounds(currentSource);
                 currentSource = slidPoint;
 
-                var specialStartingPoint = XbotSwervePoint.createXbotSwervePoint(
+                var specialStartingPoint = new XbotSwervePoint(
                         slidPoint,
                         targetPoint.getRotation2d(),
                         10);
@@ -129,7 +128,7 @@ public class LowResField {
                 specialFinalPoint = ultimateTarget;
 
                 // For the rest of the logic, consider this "legal" point to be the final point.
-                ultimateTarget = XbotSwervePoint.createXbotSwervePoint(
+                ultimateTarget = new XbotSwervePoint(
                         slidPoint,
                         targetPoint.getRotation2d(),
                         10);
@@ -190,7 +189,7 @@ public class LowResField {
                         var nearestCorner = o.getClosestCornerToPoint(currentSource);
                         nearestCorner = o.getClosestCornerToPoint(currentSource);
                         log.info("Chosen corner:" + nearestCorner.toString());
-                        XbotSwervePoint cornerPoint = XbotSwervePoint.createXbotSwervePoint(
+                        XbotSwervePoint cornerPoint = new XbotSwervePoint(
                                 nearestCorner,
                                 currentTarget.getRotation2d(),
                                 10
@@ -216,12 +215,12 @@ public class LowResField {
                             pointClosestToSource = firstArbitraryCorner;
                         }
 
-                        XbotSwervePoint swervePointNearTarget = XbotSwervePoint.createXbotSwervePoint(
+                        XbotSwervePoint swervePointNearTarget = new XbotSwervePoint(
                                 pointClosestToTarget,
                                 currentTarget.getRotation2d(),
                                 10
                         );
-                        XbotSwervePoint swervePointNearSource = XbotSwervePoint.createXbotSwervePoint(
+                        XbotSwervePoint swervePointNearSource = new XbotSwervePoint(
                                 pointClosestToSource,
                                 currentTarget.getRotation2d(),
                                 10
@@ -261,7 +260,7 @@ public class LowResField {
 
                         log.info("Adding point closest to 'inside' point:" + pointClosestToInside);
 
-                        XbotSwervePoint swervePointNearInside = XbotSwervePoint.createXbotSwervePoint(
+                        XbotSwervePoint swervePointNearInside = new XbotSwervePoint(
                                 pointClosestToInside,
                                 currentTarget.getRotation2d(),
                                 10
@@ -274,7 +273,7 @@ public class LowResField {
                         // General, most straightforward case. Get the nearest corner to the average intersection,
                         // and prepare for another loop.
                         var nearestCorner = o.getClosestCornerToPoint(averageIntersection);
-                        XbotSwervePoint cornerPoint = XbotSwervePoint.createXbotSwervePoint(
+                        XbotSwervePoint cornerPoint = new XbotSwervePoint(
                                 nearestCorner,
                                 currentTarget.getRotation2d(),
                                 10

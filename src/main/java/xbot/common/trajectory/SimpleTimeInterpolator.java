@@ -91,7 +91,8 @@ public class SimpleTimeInterpolator {
         accumulatedProductiveSeconds += secondsSinceLastExecute;
 
         // If we somehow have no points to visit, don't do anything.
-        if (keyPoints.size() == 0) {
+
+        if (keyPoints == null || keyPoints.size() == 0) {
             log.warn("No key points to visit!");
             return new InterpolationResult(currentLocation, true, Rotation2d.fromDegrees(0));
         }
