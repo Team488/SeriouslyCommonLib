@@ -72,6 +72,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
 
     private SwerveModuleLocation activeModule = SwerveModuleLocation.FRONT_LEFT;
 
+    private boolean noviceMode = false;
+
     public BaseSwerveDriveSubsystem(PIDManager.PIDManagerFactory pidFactory, PropertyFactory pf,
                                     SwerveComponent frontLeftSwerve, SwerveComponent frontRightSwerve,
                                     SwerveComponent rearLeftSwerve, SwerveComponent rearRightSwerve) {
@@ -341,11 +343,13 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
             rotate = lastCommandedRotation;
         }
 
+        double noviceFactor = noviceMode ? 0.3 : 1;
+
         // Then we translate the translation and rotation "intents" into velocities. Basically,
         // going from the -1 to 1 power scale to -maxTargetSpeed to +maxTargetSpeed. We also need to convert them
         // into metric units, since the next library we call expects metric units.
-        double targetXmetersPerSecond = translate.x * maxTargetSpeedMps.get();
-        double targetYmetersPerSecond = translate.y * maxTargetSpeedMps.get();
+        double targetXmetersPerSecond = translate.x * maxTargetSpeedMps.get() * noviceFactor;
+        double targetYmetersPerSecond = translate.y * maxTargetSpeedMps.get() * noviceFactor;
         double targetRotationRadiansPerSecond = rotate * maxTargetTurnRate.get();
 
         translationXTargetMPS = targetXmetersPerSecond;
@@ -545,13 +549,21 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         );
     }
 
-    private SwerveModuleState[] getSwerveModuleStates() {
+    public SwerveModuleState[] getSwerveModuleStates() {
         return new SwerveModuleState[]{
                 getFrontLeftSwerveModuleSubsystem().getCurrentState(),
                 getFrontRightSwerveModuleSubsystem().getCurrentState(),
                 getRearLeftSwerveModuleSubsystem().getCurrentState(),
                 getRearRightSwerveModuleSubsystem().getCurrentState()
         };
+    }
+
+    public void setNoviceMode(boolean enabled) {
+        noviceMode = enabled;
+        getFrontLeftSwerveModuleSubsystem().setNoviceMode(enabled);
+        getFrontRightSwerveModuleSubsystem().setNoviceMode(enabled);
+        getRearLeftSwerveModuleSubsystem().setNoviceMode(enabled);
+        getRearRightSwerveModuleSubsystem().setNoviceMode(enabled);
     }
 
     @Override

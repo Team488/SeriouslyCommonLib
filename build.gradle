@@ -34,6 +34,8 @@ repositories {
     maven { url "https://mvnrepository.com/artifact/com.google.dagger/dagger-compiler" }
     maven { url "https://mvnrepository.com/artifact/org.zeromq/jeromq" }
 
+    maven { url "https://3015rangerrobotics.github.io/pathplannerlib/repo"}
+
     maven { url uri ("../SeriouslyCommonLib/lib/")}
 
     // If the password below ever changes (or install in general changes),
