@@ -82,7 +82,22 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>Type Parameters:</dt>
-<dd><code>T</code> - The type of the setpoint being maintained.</dd>
+<dd><code>T</code> - The type of the setpoint being maintained.
+ It runs a state machine to decide if the subsystem should be in human control, machine control, or coasting:
+ <pre class="mermaid">
+    flowchart TD
+        C[Coast]
+        HC[HumanControl]
+        IMC[InitializeMachineControl]
+        HPI{Is Human providing input?}
+        R{Has Human Recently\nProvided Input?}
+        MC[MachineControl]
+        HPI-- Yes -->HC
+        HPI-- No -->R
+        R-- Yes -->C
+        R-- No -->IMC
+        IMC-->MC
+ </pre></dd>
 </dl>
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
@@ -95,7 +110,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">BaseMaintainerCommand&lt;T&gt;</span>
 <span class="extends-implements">extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseCommand</a></span></div>
-<div class="block">A command that maintains a subsystem at a goal value.</div>
+<div class="block">A command that maintains a subsystem at a goal value (and allows human override).</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
