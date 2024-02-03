@@ -121,6 +121,10 @@ implements <a href="ProvidesInterpolationData.html" title="interface in xbot.com
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(edu.wpi.first.math.geometry.Pose2d,double)" class="member-name-link">XbotSwervePoint</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;keyPose,
  double&nbsp;secondsToPoint)</code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Rotation2d,double)" class="member-name-link">XbotSwervePoint</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;translation,
+ edu.wpi.first.math.geometry.Rotation2d&nbsp;rotation,
+ double&nbsp;secondsToPoint)</code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -136,25 +140,29 @@ implements <a href="ProvidesInterpolationData.html" title="interface in xbot.com
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createXbotSwervePoint(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Rotation2d,double)" class="member-name-link">createXbotSwervePoint</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;targetLocation,
- edu.wpi.first.math.geometry.Rotation2d&nbsp;targetHeading,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createPotentiallyFilppedXbotSwervePoint(edu.wpi.first.math.geometry.Pose2d,double)" class="member-name-link">createPotentiallyFilppedXbotSwervePoint</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;pose,
  double&nbsp;durationInSeconds)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.math.trajectory.Trajectory</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#generateTrajectory(java.util.List)" class="member-name-link">generateTrajectory</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;&nbsp;swervePoints)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createPotentiallyFilppedXbotSwervePoint(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Rotation2d,double)" class="member-name-link">createPotentiallyFilppedXbotSwervePoint</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;targetLocation,
+ edu.wpi.first.math.geometry.Rotation2d&nbsp;targetHeading,
+ double&nbsp;durationInSeconds)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Rotation2d</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRotation2d()" class="member-name-link">getRotation2d</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSecondsForSegment()" class="member-name-link">getSecondsForSegment</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static edu.wpi.first.math.trajectory.Trajectory</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#generateTrajectory(java.util.List)" class="member-name-link">generateTrajectory</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;&nbsp;swervePoints)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Rotation2d</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRotation2d()" class="member-name-link">getRotation2d</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Translation2d</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTranslation2d()" class="member-name-link">getTranslation2d</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSecondsForSegment()" class="member-name-link">getSecondsForSegment</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPose(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">setPose</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;pose)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Translation2d</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTranslation2d()" class="member-name-link">getTranslation2d</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPose(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">setPose</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;pose)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -196,6 +204,14 @@ implements <a href="ProvidesInterpolationData.html" title="interface in xbot.com
 <section class="detail" id="&lt;init&gt;(edu.wpi.first.math.geometry.Pose2d,double)">
 <h3>XbotSwervePoint</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">XbotSwervePoint</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Pose2d&nbsp;keyPose,
+ double&nbsp;secondsToPoint)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Rotation2d,double)">
+<h3>XbotSwervePoint</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">XbotSwervePoint</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;translation,
+ edu.wpi.first.math.geometry.Rotation2d&nbsp;rotation,
  double&nbsp;secondsToPoint)</span></div>
 </section>
 </li>
@@ -259,10 +275,17 @@ implements <a href="ProvidesInterpolationData.html" title="interface in xbot.com
 </section>
 </li>
 <li>
-<section class="detail" id="createXbotSwervePoint(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Rotation2d,double)">
-<h3>createXbotSwervePoint</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a></span>&nbsp;<span class="element-name">createXbotSwervePoint</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;targetLocation,
+<section class="detail" id="createPotentiallyFilppedXbotSwervePoint(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Rotation2d,double)">
+<h3>createPotentiallyFilppedXbotSwervePoint</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a></span>&nbsp;<span class="element-name">createPotentiallyFilppedXbotSwervePoint</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;targetLocation,
  edu.wpi.first.math.geometry.Rotation2d&nbsp;targetHeading,
+ double&nbsp;durationInSeconds)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="createPotentiallyFilppedXbotSwervePoint(edu.wpi.first.math.geometry.Pose2d,double)">
+<h3>createPotentiallyFilppedXbotSwervePoint</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a></span>&nbsp;<span class="element-name">createPotentiallyFilppedXbotSwervePoint</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Pose2d&nbsp;pose,
  double&nbsp;durationInSeconds)</span></div>
 </section>
 </li>
