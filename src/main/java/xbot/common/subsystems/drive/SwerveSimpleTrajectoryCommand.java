@@ -14,13 +14,14 @@ import javax.inject.Inject;
 
 public class SwerveSimpleTrajectoryCommand extends BaseCommand {
 
-    protected BaseDriveSubsystem drive;
+    protected BaseSwerveDriveSubsystem drive;
     protected BasePoseSubsystem pose;
     protected HeadingModule headingModule;
     public SwerveSimpleTrajectoryLogic logic;
 
     @Inject
-    public SwerveSimpleTrajectoryCommand(BaseDriveSubsystem drive, BasePoseSubsystem pose, PropertyFactory pf, HeadingModuleFactory headingModuleFactory) {
+    public SwerveSimpleTrajectoryCommand(BaseSwerveDriveSubsystem drive, BasePoseSubsystem pose, PropertyFactory pf,
+                                         HeadingModuleFactory headingModuleFactory) {
         this.drive = drive;
         this.pose = pose;
         headingModule = headingModuleFactory.create(drive.getRotateToHeadingPid());
@@ -38,7 +39,8 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
 
     @Override
     public void execute() {
-        Twist2d powers = logic.calculatePowers(pose.getCurrentPose2d(), drive.getPositionalPid(), headingModule);
+        Twist2d powers = logic.calculatePowers(pose.getCurrentPose2d(), drive.getPositionalPid(),
+                headingModule, drive.getMaxTargetSpeedMetersPerSecond());
 
         aKitLog.record("Powers", powers);
 

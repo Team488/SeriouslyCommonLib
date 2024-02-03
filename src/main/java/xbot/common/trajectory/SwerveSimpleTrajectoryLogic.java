@@ -118,7 +118,7 @@ public class SwerveSimpleTrajectoryLogic {
             log.info("Generating path avoiding obstacles");
 
             // Visualize direct raycast
-            var start = XbotSwervePoint.createXbotSwervePoint(currentPose.getTranslation(), currentPose.getRotation(), 0);
+            var start = new XbotSwervePoint(currentPose.getTranslation(), currentPose.getRotation(), 0);
             var raycast = XbotSwervePoint.generateTrajectory(List.of(
                 start, keyPoints.get(0))
             );
