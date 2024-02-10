@@ -1,5 +1,7 @@
 package xbot.common.command;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,9 +97,12 @@ public abstract class BaseRobot extends LoggedRobot {
      */
     public void robotInit() {
 
-        Logger.getInstance().recordMetadata("ProjectName", "XbotProject"); // Set a metadata value
+        Logger.recordMetadata("ProjectName", "XbotProject"); // Set a metadata value
         if (isReal() || forceWebots) {
-            Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick ("/U/logs")
+            var logDirectory = new File("/U");
+            if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
+                Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick ("/U/logs")
+            }
             Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
             new PowerDistribution(1, PowerDistribution.ModuleType.kRev); // Enables power distribution logging
         } else {
@@ -107,7 +112,7 @@ public abstract class BaseRobot extends LoggedRobot {
             Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
         }
 
-        Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
+        Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
         DriverStation.silenceJoystickConnectionWarning(true);
 
         
