@@ -709,5 +709,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
         inputs.appliedOutput = getAppliedOutput();
         inputs.busVoltage = getBusVoltage();
         inputs.outputCurrent = getOutputCurrent();
+        inputs.isForwardLimitSwitchPressed = forwardLimitSwitchState;
+        inputs.isReverseLimitSwitchPressed = reverseLimitSwitchState;
     }
 }
