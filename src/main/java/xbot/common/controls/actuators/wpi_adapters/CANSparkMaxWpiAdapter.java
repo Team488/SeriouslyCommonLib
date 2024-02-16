@@ -584,24 +584,41 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         return getPIDControllerInstance().toString();
     }
 
+    com.revrobotics.SparkLimitSwitch.Type forwardSwitchType = null;
+    com.revrobotics.SparkLimitSwitch.Type reverseSwitchType = null;
+
     @Override
     public void setForwardLimitSwitch(com.revrobotics.SparkLimitSwitch.Type switchType, boolean enabled) {
         internalSpark.getForwardLimitSwitch(switchType).enableLimitSwitch(enabled);
+        if (enabled) {
+            forwardSwitchType = switchType;
+        } else {
+            forwardSwitchType = null;
+        }
     }
 
     @Override
     public void setReverseLimitSwitch(com.revrobotics.SparkLimitSwitch.Type switchType, boolean enabled) {
         internalSpark.getReverseLimitSwitch(switchType).enableLimitSwitch(enabled);
+        if (enabled) {
+            reverseSwitchType = switchType;
+        } else {
+            reverseSwitchType = null;
+        }
     }
 
-    @Override
-    public boolean getForwardLimitSwitchPressed(com.revrobotics.SparkLimitSwitch.Type switchType) {
-        return internalSpark.getForwardLimitSwitch(switchType).isPressed();
+    private boolean getForwardLimitSwitchPressed_internal() {
+        if (forwardSwitchType == null) {
+            return false;
+        }
+        return internalSpark.getForwardLimitSwitch(forwardSwitchType).isPressed();
     }
 
-    @Override
-    public boolean getReverseLimitSwitchPressed(com.revrobotics.SparkLimitSwitch.Type switchType) {
-        return internalSpark.getReverseLimitSwitch(switchType).isPressed();
+    private boolean getReverseLimitSwitchPressed_internal() {
+        if (reverseSwitchType == null) {
+            return false;
+        }
+        return internalSpark.getReverseLimitSwitch(reverseSwitchType).isPressed();
     }
 
     @Override
@@ -619,5 +636,7 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         inputs.appliedOutput = getAppliedOutput_internal();
         inputs.busVoltage = getBusVoltage_internal();
         inputs.outputCurrent = getOutputCurrent_internal();
+        inputs.isForwardLimitSwitchPressed = getForwardLimitSwitchPressed_internal();
+        inputs.isReverseLimitSwitchPressed = getReverseLimitSwitchPressed_internal();
     }
 }
