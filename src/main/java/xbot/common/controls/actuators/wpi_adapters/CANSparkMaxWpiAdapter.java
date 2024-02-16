@@ -607,16 +607,6 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         }
     }
 
-    @Override
-    public boolean getForwardLimitSwitchPressed(com.revrobotics.SparkLimitSwitch.Type switchType) {
-        return internalSpark.getForwardLimitSwitch(switchType).isPressed();
-    }
-
-    @Override
-    public boolean getReverseLimitSwitchPressed(com.revrobotics.SparkLimitSwitch.Type switchType) {
-        return internalSpark.getReverseLimitSwitch(switchType).isPressed();
-    }
-
     private boolean getForwardLimitSwitchPressed_internal() {
         if (forwardSwitchType == null) {
             return false;
