@@ -55,7 +55,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         this.addRequirements(subsystemToMaintain);
 
         pf.setPrefix(this);
-        pf.setDefaultLevel(Property.PropertyLevel.Debug);
+        pf.setDefaultLevel(Property.PropertyLevel.Important);
         errorToleranceProp = pf.createPersistentProperty("Error Tolerance", defaultErrorTolerance);
         errorTimeStableWindowProp = pf.createPersistentProperty("Error Time Stable Window", defaultTimeStableWindow);
 
