@@ -22,7 +22,7 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().pidPropertyManagerFactory().create("pid", 0, 0, 0, 0);
         getInjectorComponent().powerDistributionPanelFactory().create();
         getInjectorComponent().encoderFactory().create("foo", 1, 2, 1);
-        getInjectorComponent().digitalInputFactory().create(new DeviceInfo("foo", 5));
+        getInjectorComponent().digitalInputFactory().create(new DeviceInfo("foo", 5), "TestPrefix");
         getInjectorComponent().analogInputFactory().create(1);
         getInjectorComponent().xboxControllerFactory().create(2);
         getInjectorComponent().solenoidFactory().create(1);
