@@ -16,6 +16,7 @@ import xbot.common.math.WrappedRotation2d;
 import xbot.common.math.XYPair;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 
 public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable {
@@ -54,7 +55,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
         currentHeading = WrappedRotation2d.fromDegrees(0);
-        
+
+        propManager.setDefaultLevel(Property.PropertyLevel.Debug);
         rioRotated = propManager.createPersistentProperty("RIO rotated", false);
         inherentRioPitch = propManager.createPersistentProperty("Inherent RIO pitch", 0.0);
         inherentRioRoll = propManager.createPersistentProperty("Inherent RIO roll", 0.0);
@@ -69,8 +71,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
 
         aKitLog.record("AdjustedHeadingDegrees", currentHeading.getDegrees());
         aKitLog.record("AdjustedHeadingRadians", currentHeading.getRadians());
-        aKitLog.record("AdjustedPitchDegrees", this.getRobotPitch());
-        aKitLog.record("AdjustedRollDegrees", this.getRobotRoll());
+        //aKitLog.record("AdjustedPitchDegrees", this.getRobotPitch());
+        //aKitLog.record("AdjustedRollDegrees", this.getRobotRoll());
         aKitLog.record("AdjustedYawVelocityDegrees", getYawAngularVelocity());
     }  
     

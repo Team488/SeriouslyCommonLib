@@ -20,12 +20,17 @@ public class MockDigitalInput extends XDigitalInput implements ISimulatableSenso
     @AssistedFactory
     public abstract static class MockDigitalInputFactory implements XDigitalInputFactory
     {
-        public abstract MockDigitalInput create(@Assisted("info")DeviceInfo info);
+        public abstract MockDigitalInput create(
+                @Assisted("info")DeviceInfo info,
+                @Assisted("owningSystemPrefix") String owningSystemPrefix);
     }
 
     @AssistedInject
-    public MockDigitalInput(@Assisted("info") DeviceInfo info, DevicePolice police) {
-        super(police, info);
+    public MockDigitalInput(
+            @Assisted("info") DeviceInfo info,
+            @Assisted("owningSystemPrefix") String owningSystemPrefix,
+            DevicePolice police) {
+        super(police, info, owningSystemPrefix);
         this.channel = info.channel;
     }
 

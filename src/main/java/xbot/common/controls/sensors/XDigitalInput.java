@@ -13,15 +13,17 @@ public abstract class XDigitalInput implements XBaseIO {
     boolean inverted;
     final XDigitalInputsAutoLogged inputs;
     final DeviceInfo info;
+    private String akitName;
     
     public interface XDigitalInputFactory {
-        XDigitalInput create(DeviceInfo info);
+        XDigitalInput create(DeviceInfo info, String owningSystemPrefix);
     }
 
-    public XDigitalInput(DevicePolice police, DeviceInfo info) {
+    public XDigitalInput(DevicePolice police, DeviceInfo info, String owningSystemPrefix) {
         police.registerDevice(DeviceType.DigitalIO, info.channel, this);
         inputs = new XDigitalInputsAutoLogged();
         this.info = info;
+        akitName = owningSystemPrefix + info.name + "DigitalInput";
     }
     
     public boolean get() {
@@ -40,6 +42,6 @@ public abstract class XDigitalInput implements XBaseIO {
 
     public void refreshDataFrame() {
         updateInputs(inputs);
-        Logger.getInstance().processInputs(info.name+"/DigitalInput", inputs);
+        Logger.getInstance().processInputs(akitName, inputs);
     }
 }

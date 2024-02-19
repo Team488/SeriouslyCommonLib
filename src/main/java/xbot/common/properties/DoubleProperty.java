@@ -58,8 +58,8 @@ public class DoubleProperty extends Property {
         Double nullableTableValue = activeStore.getDouble(key);
         
         if(nullableTableValue == null) {
-            log.error("Property key \"" + key + "\" not present in the underlying store!"
-                    + " IF THIS IS AN IMPORTANT ROBOT PROPERTY, MAKE SURE IT HAS A SANE VALUE BEFORE ENABLING THE ROBOT!");
+            //log.error("Property key \"" + key + "\" not present in the underlying store!"
+            //        + " IF THIS IS AN IMPORTANT ROBOT PROPERTY, MAKE SURE IT HAS A SANE VALUE BEFORE ENABLING THE ROBOT!");
             set(defaultValue);
             return defaultValue;
         }
