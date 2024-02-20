@@ -21,10 +21,12 @@ public class AdvancedXboxAxisTrigger extends AdvancedXboxButtonTrigger {
             case RightTrigger:
                 value = controller.getRightTrigger();
                 break;
-                case LeftJoystickYAxisPositive:
+            case LeftJoystickYAxisPositive:
+            case LeftJoystickYAxisNegative:
                 value = controller.getLeftStickY();
                 break;
-                case RightJoystickYAxisPositive:
+            case RightJoystickYAxisPositive:
+            case RightJoystickYAxisNegative:
                 value = controller.getRightStickY();
                 break;
             default: 
