@@ -23,7 +23,7 @@ public class XboxControllerTest extends BaseCommonLibTest {
     }
 
     @Test
-    public void AxisTest() {
+    public void axisButtonsTest() {
         XXboxController controller = getInjectorComponent().xboxControllerFactory().create(0);
 
         // We expect the robot to get mad if we try to get the same button twice
