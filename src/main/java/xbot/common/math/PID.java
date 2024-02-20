@@ -135,6 +135,12 @@ public class PID
 
         m_derivativeValue = m_error - m_prevError;
         m_result = p * m_error + d * (m_derivativeValue) + f * goal;
+
+        // If iZone is configured, but we are outside the zone, clear any accumulated I.
+        if (iZone > 0 && Math.abs(m_error) > iZone) {
+            m_totalError = 0;
+        }
+        // If iZone isn't configured, or we are within the iZone, accumulate I.
         if(iZone <= 0 || Math.abs(m_error) < iZone) {
             m_result +=  i * m_totalError;
         }
