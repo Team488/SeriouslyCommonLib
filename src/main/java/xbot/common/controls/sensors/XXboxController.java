@@ -52,16 +52,27 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
         A(1), B(2), X(3), Y(4), LeftBumper(5), RightBumper(6), Back(7), Start(8), LeftStick(9), RightStick(10),
         LeftTrigger(-1), RightTrigger(-1),
         LeftJoystickYAxisPositive(-1), RightJoystickYAxisPositive(-1),
-        LeftJoystickYAxisNegative(-2), RightJoystickYAxisNegative(-2);
+        LeftJoystickYAxisNegative(-1, true), RightJoystickYAxisNegative(-1, true);
 
         private int value;
+        private boolean usesNegativeRange = false;
 
         private XboxButton(int value) {
             this.value = value;
+            this.usesNegativeRange = false;
+        }
+
+        private XboxButton(int value, boolean usesNegativeRange) {
+            this.value = value;
+            this.usesNegativeRange = usesNegativeRange;
         }
 
         public int getValue() {
             return value;
+        }
+
+        public boolean getUsesNegativeRange() {
+            return usesNegativeRange;
         }
     }
 
