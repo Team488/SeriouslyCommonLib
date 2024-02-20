@@ -36,8 +36,8 @@ public class AdvancedXboxAxisTrigger extends AdvancedXboxButtonTrigger {
         // For the "negative axis" buttons
         if (buttonName.getUsesNegativeRange())
         {
-            return Math.abs(value) < -threshold;
+            return value < -threshold;
         }
-        return Math.abs(value) > threshold;
+        return value > threshold;
     }
 }
