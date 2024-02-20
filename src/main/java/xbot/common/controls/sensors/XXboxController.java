@@ -50,7 +50,9 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
 
     public enum XboxButton {
         A(1), B(2), X(3), Y(4), LeftBumper(5), RightBumper(6), Back(7), Start(8), LeftStick(9), RightStick(10),
-        LeftTrigger(-1), RightTrigger(-1), LeftJoystickYAxis(-1), RightJoystickYAxis(-1);
+        LeftTrigger(-1), RightTrigger(-1),
+        LeftJoystickYAxisPositive(-1), RightJoystickYAxisPositive(-1),
+        LeftJoystickYAxisNegative(-2), RightJoystickYAxisNegative(-2);
 
         private int value;
 
