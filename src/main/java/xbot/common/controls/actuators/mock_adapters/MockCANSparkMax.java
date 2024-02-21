@@ -1,26 +1,20 @@
 package xbot.common.controls.actuators.mock_adapters;
 
-import java.math.BigDecimal;
-
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.ExternalFollower;
 import com.revrobotics.CANSparkBase.FaultID;
-import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkLimitSwitch.Type;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
-
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 import xbot.common.controls.actuators.XCANSparkMax;
 import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
 import xbot.common.controls.io_inputs.XCANSparkMaxInputs;
@@ -34,11 +28,13 @@ import xbot.common.properties.PropertyFactory;
 import xbot.common.simulation.ISimulatableMotor;
 import xbot.common.simulation.ISimulatableSensor;
 
+import java.math.BigDecimal;
+
 public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, ISimulatableSensor {
-    private static Logger log = LogManager.getLogger(MockCANSparkMax.class);
+    private static final Logger log = LogManager.getLogger(MockCANSparkMax.class);
     private double power = 0;
     private double velocity = 0;
-    private double simulationScalingValue;
+    private final double simulationScalingValue;
     boolean inverted = false;
     public XEncoder internalEncoder = null;
     double positionOffset = 0;

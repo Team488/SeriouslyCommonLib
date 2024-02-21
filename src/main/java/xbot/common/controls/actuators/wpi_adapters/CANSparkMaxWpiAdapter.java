@@ -3,7 +3,6 @@ package xbot.common.controls.actuators.wpi_adapters;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.ExternalFollower;
 import com.revrobotics.CANSparkBase.FaultID;
-import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
@@ -33,7 +32,7 @@ import xbot.common.properties.PropertyFactory;
 
 public class CANSparkMaxWpiAdapter extends XCANSparkMax {
 
-    private CANSparkMax internalSpark;
+    private final CANSparkMax internalSpark;
 
     @AssistedFactory
     public abstract static class CANSparkMaxWpiAdapterFactory extends XCANSparkMaxFactory {
@@ -54,6 +53,7 @@ public class CANSparkMaxWpiAdapter extends XCANSparkMax {
         super(deviceInfo, owningSystemPrefix, name, propMan, police, pidPropertyPrefix, defaultPIDProperties);
         internalSpark = new CANSparkMax(deviceInfo.channel, MotorType.kBrushless);
         setInverted(deviceInfo.inverted);
+        setSmartCurrentLimit(40);
     }
 
     @Override
