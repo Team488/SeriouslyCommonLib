@@ -762,9 +762,13 @@ public abstract class XCANSparkMax {
 
     public abstract void setReverseLimitSwitch(com.revrobotics.SparkLimitSwitch.Type switchType, boolean enabled);
 
-    public abstract boolean getForwardLimitSwitchPressed(com.revrobotics.SparkLimitSwitch.Type switchType);
+    public boolean getForwardLimitSwitchPressed() {
+        return inputs.isForwardLimitSwitchPressed;
+    }
 
-    public abstract boolean getReverseLimitSwitchPressed(com.revrobotics.SparkLimitSwitch.Type switchType);
+    public boolean getReverseLimitSwitchPressed() {
+        return inputs.isReverseLimitSwitchPressed;
+    }
 
     public abstract REVLibError setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame frame, int periodMs);
 

@@ -164,6 +164,16 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
         }
     }
 
+    public void setNoviceMode(boolean enabled) {
+        if (this.contract.isDriveReady()) {
+            if (enabled) {
+                this.motorController.setOutputRange(-0.3, 0.3);
+            } else {
+                this.motorController.setOutputRange(-1, 1);
+            }
+        }
+    }
+
     @Override
     public void periodic() {
         if (contract.isDriveReady()) {

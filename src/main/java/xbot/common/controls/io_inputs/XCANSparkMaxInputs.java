@@ -12,4 +12,6 @@ public class XCANSparkMaxInputs
     public double appliedOutput;
     public double busVoltage;
     public double outputCurrent;
+    public boolean isForwardLimitSwitchPressed;
+    public boolean isReverseLimitSwitchPressed;
 }

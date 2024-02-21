@@ -1,20 +1,32 @@
 package xbot.common.command;
 
-import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.wpilibj.DriverStation;
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
 import xbot.common.logic.TimeStableValidator;
-import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
-import xbot.common.properties.StringProperty;
 
 /**
- * A command that maintains a subsystem at a goal value.
+ * A command that maintains a subsystem at a goal value (and allows human override).
  * @param <T> The type of the setpoint being maintained.
+ * It runs a state machine to decide if the subsystem should be in human control, machine control, or coasting:
+ * <pre class="mermaid">
+    flowchart TD
+        C[Coast]
+        HC[HumanControl]
+        IMC[InitializeMachineControl]
+        HPI{Is Human providing input?}
+        R{Has Human Recently\nProvided Input?}
+        MC[MachineControl]
+        HPI-- Yes -->HC
+        HPI-- No -->R
+        R-- Yes -->C
+        R-- No -->IMC
+        IMC-->MC
+ * </pre>
  */
 public abstract class BaseMaintainerCommand<T> extends BaseCommand {
 
@@ -43,7 +55,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         this.addRequirements(subsystemToMaintain);
 
         pf.setPrefix(this);
-        pf.setDefaultLevel(Property.PropertyLevel.Debug);
+        pf.setDefaultLevel(Property.PropertyLevel.Important);
         errorToleranceProp = pf.createPersistentProperty("Error Tolerance", defaultErrorTolerance);
         errorTimeStableWindowProp = pf.createPersistentProperty("Error Time Stable Window", defaultTimeStableWindow);
 

@@ -681,16 +681,6 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     }
 
     @Override
-    public boolean getForwardLimitSwitchPressed(Type switchType) {
-        return forwardLimitSwitchState;
-    }
-
-    @Override
-    public boolean getReverseLimitSwitchPressed(Type switchType) {
-        return reverseLimitSwitchState;
-    }
-
-    @Override
     public REVLibError setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame frame, int periodMs) {
         return REVLibError.kOk;
     }
@@ -709,5 +699,7 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
         inputs.appliedOutput = getAppliedOutput();
         inputs.busVoltage = getBusVoltage();
         inputs.outputCurrent = getOutputCurrent();
+        inputs.isForwardLimitSwitchPressed = forwardLimitSwitchState;
+        inputs.isReverseLimitSwitchPressed = reverseLimitSwitchState;
     }
 }

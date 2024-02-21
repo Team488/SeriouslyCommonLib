@@ -105,6 +105,10 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
         return this.steeringSubsystem;
     }
 
+    public void setNoviceMode(boolean enabled) {
+        getDriveSubsystem().setNoviceMode(enabled);
+    }
+
     /***
      * Very basic drive method - bypasses all PID to directly control the motors.
      * Ensure that your command has required control of all relevant subsystems before doing this,
