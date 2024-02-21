@@ -165,6 +165,10 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         return maxTargetSpeedMps.get();
     }
 
+    public double getMaxTargetTurnRate() {
+        return maxTargetTurnRate.get();
+    }
+
     @Override
     public PIDManager getPositionalPid() {
         return positionalPidManager;
