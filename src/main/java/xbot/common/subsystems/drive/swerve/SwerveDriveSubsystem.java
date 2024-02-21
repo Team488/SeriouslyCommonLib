@@ -3,6 +3,7 @@ package xbot.common.subsystems.drive.swerve;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.REVLibError;
+import com.revrobotics.SparkLimitSwitch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.command.BaseSetpointSubsystem;
@@ -66,6 +67,8 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
             this.motorController.setSmartCurrentLimit(45);
             this.motorController.setIdleMode(CANSparkMax.IdleMode.kBrake);
             this.motorController.enableVoltageCompensation(12);
+            this.motorController.setForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed, false);
+            this.motorController.setReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed, false);
         }
     }
 
