@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.REVLibError;
+import com.revrobotics.SparkLimitSwitch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -79,6 +80,8 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
                     ));
             this.motorController.setClosedLoopRampRate(0.02);
             this.motorController.setOpenLoopRampRate(0.05);
+            this.motorController.setForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed, false);
+            this.motorController.setReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed, false);
         }
         if (electricalContract.areCanCodersReady()) {
             this.encoder = canCoderFactory.create(electricalContract.getSteeringEncoder(swerveInstance), this.getPrefix());
