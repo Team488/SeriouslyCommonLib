@@ -920,9 +920,9 @@ loadScripts(document, 'script');</script>
 <h3>setVoltage</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVoltage</span><wbr><span class="parameters">(double&nbsp;outputVolts)</span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../XCANSparkMax.html#setVoltage(double)">XCANSparkMax</a></code></span></div>
-<div class="block">Sets the voltage output of the SpeedController. This is equivillant to a call
+<div class="block">Sets the voltage output of the SpeedController. This is equivalent to a call
  to SetReference(output, rev::ControlType::kVoltage). The behavior of this
- call differs slightly from the WPILib documetation for this call since the
+ call differs slightly from the WPILib documentation for this call since the
  device internally sets the desired voltage (not a compensation value). That
  means that this *can* be a 'set-and-forget' call.</div>
 <dl class="notes">
@@ -1418,7 +1418,7 @@ loadScripts(document, 'script');</script>
 <dt>Specified by:</dt>
 <dd><code><a href="../XCANSparkMax.html#getFault(com.revrobotics.CANSparkBase.FaultID)">getFault</a></code>&nbsp;in class&nbsp;<code><a href="../XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>faultID</code> - The ID of the fault to retrive</dd>
+<dd><code>faultID</code> - The ID of the fault to retrieve</dd>
 <dt>Returns:</dt>
 <dd>True if the fault with the given ID occurred.</dd>
 </dl>
@@ -1434,7 +1434,7 @@ loadScripts(document, 'script');</script>
 <dt>Specified by:</dt>
 <dd><code><a href="../XCANSparkMax.html#getStickyFault(com.revrobotics.CANSparkBase.FaultID)">getStickyFault</a></code>&nbsp;in class&nbsp;<code><a href="../XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>faultID</code> - The ID of the sticky fault to retrive</dd>
+<dd><code>faultID</code> - The ID of the sticky fault to retrieve</dd>
 <dt>Returns:</dt>
 <dd>True if the sticky fault with the given ID occurred.</dd>
 </dl>
@@ -1510,10 +1510,10 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.revrobotics.REVLibError</span>&nbsp;<span class="element-name">setCANTimeout</span><wbr><span class="parameters">(int&nbsp;milliseconds)</span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../XCANSparkMax.html#setCANTimeout(int)">XCANSparkMax</a></code></span></div>
 <div class="block">Sets timeout for sending CAN messages with SetParameter* and GetParameter*
- calls. These calls will block for up to this amoutn of time before returning
- a timeout erro. A timeout of 0 will make the SetParameter* calls
+ calls. These calls will block for up to this amount of time before returning
+ a timeout error. A timeout of 0 will make the SetParameter* calls
  non-blocking, and instead will check the response in a separate thread. With
- this configuration, any error messages will appear on the drivestration but
+ this configuration, any error messages will appear on the driver station but
  will not be returned by the GetLastError() call.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
