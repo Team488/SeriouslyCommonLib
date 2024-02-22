@@ -46,9 +46,6 @@ public abstract class BaseCommand extends Command implements IPropertySupport {
     @Override
     public abstract void initialize();
 
-    @Override
-    public abstract void execute();    
-
     public void includeOnSmartDashboard() {
         if (commandPutter != null) {
             commandPutter.addCommandToSmartDashboard(this);

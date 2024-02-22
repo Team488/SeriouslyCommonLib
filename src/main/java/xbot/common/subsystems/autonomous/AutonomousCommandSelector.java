@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -52,4 +53,9 @@ public class AutonomousCommandSelector extends BaseSubsystem {
         aKitLog.record("Auto Program State", state);
     }
 
+    public Command createAutonomousStateMessageCommand(String message) {
+        return new  InstantCommand(() -> {
+                    this.setAutonomousState(message);
+        });
+    }
 }
