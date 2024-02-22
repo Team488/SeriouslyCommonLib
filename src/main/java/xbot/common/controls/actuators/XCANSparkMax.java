@@ -8,9 +8,7 @@ import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.REVLibError;
-import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
-
 import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.controls.io_inputs.XCANSparkMaxInputs;
@@ -32,11 +30,11 @@ public abstract class XCANSparkMax {
     PropertyFactory propertyFactory;
 
     protected boolean usesPropertySystem = true;
-    private DoubleProperty kPprop;
-    private DoubleProperty kIprop;
-    private DoubleProperty kDprop;
+    private DoubleProperty kPProp;
+    private DoubleProperty kIProp;
+    private DoubleProperty kDProp;
     private DoubleProperty kIzProp;
-    private DoubleProperty kFFprop;
+    private DoubleProperty kFFProp;
     private DoubleProperty kMaxOutputProp;
     private DoubleProperty kMinOutputProp;
 
@@ -58,6 +56,10 @@ public abstract class XCANSparkMax {
 
         public XCANSparkMax create(DeviceInfo deviceInfo, String owningSystemPrefix, String name, String pidPropertyPrefix) {
             return create(deviceInfo, owningSystemPrefix, name, pidPropertyPrefix, new XCANSparkMaxPIDProperties());
+        }
+
+        public XCANSparkMax create(DeviceInfo deviceInfo, String owningSystemPrefix, String name) {
+            return create(deviceInfo, owningSystemPrefix, name, owningSystemPrefix+"/"+name, new XCANSparkMaxPIDProperties());
         }
 
         public XCANSparkMax createWithoutProperties(DeviceInfo deviceInfo, String owningSystemPrefix, String name) {
@@ -88,11 +90,11 @@ public abstract class XCANSparkMax {
             this.propertyFactory = pf;
 
             this.propertyFactory.setPrefix(pidPropertyPrefix);
-            kPprop = pf.createPersistentProperty("kP", defaultPIDProperties.p());
-            kIprop = pf.createPersistentProperty("kI", defaultPIDProperties.i());
-            kDprop = pf.createPersistentProperty("kD", defaultPIDProperties.d());
-            kIzProp = pf.createPersistentProperty("kIzone", defaultPIDProperties.iZone());
-            kFFprop = pf.createPersistentProperty("kFeedForward", defaultPIDProperties.feedForward());
+            kPProp = pf.createPersistentProperty("kP", defaultPIDProperties.p());
+            kIProp = pf.createPersistentProperty("kI", defaultPIDProperties.i());
+            kDProp = pf.createPersistentProperty("kD", defaultPIDProperties.d());
+            kIzProp = pf.createPersistentProperty("kIZone", defaultPIDProperties.iZone());
+            kFFProp = pf.createPersistentProperty("kFeedForward", defaultPIDProperties.feedForward());
             kMaxOutputProp = pf.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxOutput());
             kMinOutputProp = pf.createPersistentProperty("kMinOutput", defaultPIDProperties.minOutput());
         }
@@ -108,11 +110,11 @@ public abstract class XCANSparkMax {
 
     private void setAllProperties() {
         if (usesPropertySystem) {
-            setP(kPprop.get());
-            setI(kIprop.get());
-            setD(kDprop.get());
+            setP(kPProp.get());
+            setI(kIProp.get());
+            setD(kDProp.get());
             setIZone(kIzProp.get());
-            setFF(kFFprop.get());
+            setFF(kFFProp.get());
             setOutputRange(kMinOutputProp.get(), kMaxOutputProp.get());
         } else {
             log.warn("setAllProperties called on a SparkMax that doesn't use the property system");
@@ -125,11 +127,11 @@ public abstract class XCANSparkMax {
                 setAllProperties();
                 firstPeriodicCall = false;
             }
-            kPprop.hasChangedSinceLastCheck(this::setP);
-            kIprop.hasChangedSinceLastCheck(this::setI);
-            kDprop.hasChangedSinceLastCheck(this::setD);
+            kPProp.hasChangedSinceLastCheck(this::setP);
+            kIProp.hasChangedSinceLastCheck(this::setI);
+            kDProp.hasChangedSinceLastCheck(this::setD);
             kIzProp.hasChangedSinceLastCheck(this::setIZone);
-            kFFprop.hasChangedSinceLastCheck(this::setFF);
+            kFFProp.hasChangedSinceLastCheck(this::setFF);
             kMaxOutputProp.hasChangedSinceLastCheck((value) -> setOutputRange(kMinOutputProp.get(), value));
             kMinOutputProp.hasChangedSinceLastCheck((value) -> setOutputRange(value, kMaxOutputProp.get()));
         }
@@ -144,9 +146,9 @@ public abstract class XCANSparkMax {
     public abstract void set(double speed);
 
     /**
-     * Sets the voltage output of the SpeedController. This is equivillant to a call
+     * Sets the voltage output of the SpeedController. This is equivalent to a call
      * to SetReference(output, rev::ControlType::kVoltage). The behavior of this
-     * call differs slightly from the WPILib documetation for this call since the
+     * call differs slightly from the WPILib documentation for this call since the
      * device internally sets the desired voltage (not a compensation value). That
      * means that this *can* be a 'set-and-forget' call.
      *
@@ -499,7 +501,7 @@ public abstract class XCANSparkMax {
     /**
      * Get the value of a specific fault
      *
-     * @param faultID The ID of the fault to retrive
+     * @param faultID The ID of the fault to retrieve
      *
      * @return True if the fault with the given ID occurred.
      */
@@ -509,7 +511,7 @@ public abstract class XCANSparkMax {
     /**
      * Get the value of a specific sticky fault
      *
-     * @param faultID The ID of the sticky fault to retrive
+     * @param faultID The ID of the sticky fault to retrieve
      *
      * @return True if the sticky fault with the given ID occurred.
      */
@@ -557,10 +559,10 @@ public abstract class XCANSparkMax {
 
     /**
      * Sets timeout for sending CAN messages with SetParameter* and GetParameter*
-     * calls. These calls will block for up to this amoutn of time before returning
-     * a timeout erro. A timeout of 0 will make the SetParameter* calls
+     * calls. These calls will block for up to this amount of time before returning
+     * a timeout error. A timeout of 0 will make the SetParameter* calls
      * non-blocking, and instead will check the response in a separate thread. With
-     * this configuration, any error messages will appear on the drivestration but
+     * this configuration, any error messages will appear on the driver station but
      * will not be returned by the GetLastError() call.
      *
      * @param milliseconds The timeout in milliseconds.
@@ -612,7 +614,7 @@ public abstract class XCANSparkMax {
     public abstract boolean isSoftLimitEnabled(SoftLimitDirection direction);
 
     /**
-     * All device errors are tracked on a per thread basis for all devices in that
+     * All device errors are tracked on a per-thread basis for all devices in that
      * thread. This is meant to be called immediately following another call that
      * has the possibility of returning an error to validate if an error has
      * occurred.
@@ -810,6 +812,6 @@ public abstract class XCANSparkMax {
 
     public void refreshDataFrame() {
         updateInputs(inputs);
-        Logger.getInstance().processInputs(akitName, inputs);
+        Logger.processInputs(akitName, inputs);
     }
 }
