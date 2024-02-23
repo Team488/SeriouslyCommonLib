@@ -25,7 +25,7 @@ public class AKitLogger {
      * This controls the log level for all AKitLoggers. 
      * This will generally be set to INFO during competitions so that debug logs are not sent
      * to the network table.
-     * @param level
+     * @param level new level to set
      */
     public static void setGlobalLogLevel(LogLevel level) {
         globalLogLevel = level;
@@ -39,6 +39,12 @@ public class AKitLogger {
         this(parent.getPrefix());
     }
 
+    /**
+     * Set the log level for this particular logger instance.
+     * Log calls made after this will have that level when checking 
+     * if they should record or not.
+     * @param level new level to set
+     */
     public void setLogLevel(LogLevel level) {
         this.logLevel = level;
     }
