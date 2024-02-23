@@ -13,8 +13,23 @@ import us.hebi.quickbuf.ProtoMessage;
 import xbot.common.properties.IPropertySupport;
 
 public class AKitLogger {
+    public enum LogLevel {
+        DEBUG, INFO
+    }
+    private static LogLevel globalLogLevel = LogLevel.DEBUG;
 
     private String prefix = "";
+    private LogLevel logLevel = globalLogLevel;
+
+    /**
+     * This controls the log level for all AKitLoggers. 
+     * This will generally be set to INFO during competitions so that debug logs are not sent
+     * to the network table.
+     * @param level
+     */
+    public static void setGlobalLogLevel(LogLevel level) {
+        globalLogLevel = level;
+    }
 
     public AKitLogger(String prefix) {
         this.prefix = prefix;
@@ -24,91 +39,158 @@ public class AKitLogger {
         this(parent.getPrefix());
     }
 
+    public void setLogLevel(LogLevel level) {
+        this.logLevel = level;
+    }
+
     public void record(String key, byte[] value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, boolean value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, int value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, long value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, float value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, double value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, String value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public <E extends Enum<E>> void record(String key, E value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public <U extends Unit<U>> void record(String key, Measure<U> value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, boolean[] value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, int[] value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, long[] value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, float[] value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, double[] value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, String[] value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public <T> void record(String key, Struct<T> struct, T value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, struct, value);
     }
 
     @SuppressWarnings("unchecked")
     public <T> void record(String key, Struct<T> struct, T... value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, struct, value);
     }
 
     //CHECKSTYLE:OFF
     public <T, MessageType extends ProtoMessage<?>> void record(String key, Protobuf<T, MessageType> proto, T value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, proto, value);
     }
     //CHECKSTYLE:ON
 
     public <T extends WPISerializable> void record(String key, T value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     @SuppressWarnings("unchecked")
     public <T extends StructSerializable> void record(String key, T... value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, Mechanism2d value) {
+        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+            return;
+        }
         Logger.recordOutput(this.prefix + key, value);
     }
 
