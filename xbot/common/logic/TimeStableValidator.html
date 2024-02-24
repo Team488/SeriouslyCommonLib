@@ -118,19 +118,25 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Checks if the value has been stable for the entire stable window duration.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStable()" class="member-name-link">setStable</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#peekStable()" class="member-name-link">peekStable</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Used if you want the validator to start in a stable state.</div>
+<div class="block">Checks if the value has been stable for the entire stable window duration, but without
+ updating the internal state of the validator.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStableWindow(double)" class="member-name-link">setStableWindow</a><wbr>(double&nbsp;stableWindow)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStable()" class="member-name-link">setStable</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Update the stable window using a constant value.</div>
+<div class="block">Used if you want the validator to start in a stable state.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStableWindowProvider(java.util.function.Supplier)" class="member-name-link">setStableWindowProvider</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;stableWindowProvider)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStableWindow(double)" class="member-name-link">setStableWindow</a><wbr>(double&nbsp;stableWindow)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Update the stable window using a constant value.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStableWindowProvider(java.util.function.Supplier)" class="member-name-link">setStableWindowProvider</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;stableWindowProvider)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Update the stable window using a supplier.</div>
 </div>
 </div>
@@ -212,6 +218,19 @@ loadScripts(document, 'script');</script>
 <dd><code>value</code> - The value to test.</dd>
 <dt>Returns:</dt>
 <dd>True if the value has been stable for the entire window duration.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="peekStable()">
+<h3>peekStable</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">peekStable</span>()</div>
+<div class="block">Checks if the value has been stable for the entire stable window duration, but without
+ updating the internal state of the validator. (Example usage: the validator is updated
+ in a regular periodic call, but there are many listeners who are interested in the result.)</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>True if the last checkStable() call returned true.</dd>
 </dl>
 </section>
 </li>
