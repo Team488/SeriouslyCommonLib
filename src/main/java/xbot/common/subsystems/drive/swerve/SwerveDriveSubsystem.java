@@ -45,7 +45,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
         this.contract = electricalContract;
         this.metersPerMotorRotation = pf.createPersistentProperty(
                 "MetersPerMotorRotation", 2.02249 / BasePoseSubsystem.INCHES_IN_A_METER);
-        this.enableDrivePid = pf.createPersistentProperty("EnableDrivePID", false);
+        this.enableDrivePid = pf.createPersistentProperty("EnableDrivePID", true);
         this.minVelocityToEngagePid = pf.createPersistentProperty("MinVelocityToEngagePID", 0.01);
 
         if (electricalContract.isDriveReady()) {
