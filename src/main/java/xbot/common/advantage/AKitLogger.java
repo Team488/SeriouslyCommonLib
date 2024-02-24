@@ -49,113 +49,117 @@ public class AKitLogger {
         this.logLevel = level;
     }
 
+    protected boolean shouldSkipLogging() {
+        return this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO;
+    }
+
     public void record(String key, byte[] value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, boolean value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, int value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, long value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, float value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, double value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, String value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public <E extends Enum<E>> void record(String key, E value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public <U extends Unit<U>> void record(String key, Measure<U> value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, boolean[] value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, int[] value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, long[] value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, float[] value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, double[] value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, String[] value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public <T> void record(String key, Struct<T> struct, T value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, struct, value);
@@ -163,7 +167,7 @@ public class AKitLogger {
 
     @SuppressWarnings("unchecked")
     public <T> void record(String key, Struct<T> struct, T... value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, struct, value);
@@ -171,7 +175,7 @@ public class AKitLogger {
 
     //CHECKSTYLE:OFF
     public <T, MessageType extends ProtoMessage<?>> void record(String key, Protobuf<T, MessageType> proto, T value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, proto, value);
@@ -179,7 +183,7 @@ public class AKitLogger {
     //CHECKSTYLE:ON
 
     public <T extends WPISerializable> void record(String key, T value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
@@ -187,14 +191,14 @@ public class AKitLogger {
 
     @SuppressWarnings("unchecked")
     public <T extends StructSerializable> void record(String key, T... value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
     }
 
     public void record(String key, Mechanism2d value) {
-        if(this.logLevel == LogLevel.DEBUG && globalLogLevel == LogLevel.INFO) {
+        if(this.shouldSkipLogging()) {
             return;
         }
         Logger.recordOutput(this.prefix + key, value);
