@@ -14,6 +14,7 @@ public class TimeStableValidator {
     double risingEdgeTime;
     double stableWindow;
     Supplier<Double> stableWindowProvider;
+    boolean lastStableEvaluation = false;
 
     /**
      * Creates a new TimeStableValidator using a constant value.
@@ -70,7 +71,18 @@ public class TimeStableValidator {
         latch.setValue(value);
         double duration = XTimer.getFPGATimestamp() - risingEdgeTime;
         // if the value is true now, and has been for a while, it is stable.
-        return (duration > getStableWindow()) && value;
+        lastStableEvaluation = (duration > getStableWindow()) && value;
+        return lastStableEvaluation;
+    }
+
+    /**
+     * Checks if the value has been stable for the entire stable window duration, but without
+     * updating the internal state of the validator. (Example usage: the validator is updated
+     * in a regular periodic call, but there are many listeners who are interested in the result.)
+     * @return True if the last checkStable() call returned true.
+     */
+    public boolean peekStable() {
+        return lastStableEvaluation;
     }
 
     /**

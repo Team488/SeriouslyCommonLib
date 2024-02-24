@@ -24,6 +24,7 @@ public abstract class XDigitalInput implements XBaseIO {
         inputs = new XDigitalInputsAutoLogged();
         this.info = info;
         akitName = owningSystemPrefix + info.name + "DigitalInput";
+        this.setInverted(info.inverted);
     }
     
     public boolean get() {
