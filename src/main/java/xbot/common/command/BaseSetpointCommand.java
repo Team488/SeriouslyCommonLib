@@ -2,9 +2,11 @@ package xbot.common.command;
 
 public abstract class BaseSetpointCommand extends BaseCommand {
 
-    public BaseSetpointCommand(SupportsSetpointLock... systems) {
-        for (SupportsSetpointLock system : systems) {
-            this.addRequirements(system.getSetpointLock());
+    public BaseSetpointCommand(SupportsSetpointLock system, SupportsSetpointLock... additionalSystems) {
+        // must require at least 1 system
+        this.addRequirements(system.getSetpointLock());
+        for (SupportsSetpointLock additionalSystem : additionalSystems) {
+            this.addRequirements(additionalSystem.getSetpointLock());
         }
     }
 
