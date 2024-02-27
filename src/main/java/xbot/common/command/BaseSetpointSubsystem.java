@@ -24,6 +24,12 @@ public abstract class BaseSetpointSubsystem<T> extends BaseSubsystem implements 
     }
     
     public boolean isMaintainerAtGoal() {
+
+        if (lastTargetValueUsedforAtGoal == null) {
+            // Nobody has ever called setMaintainerIsAtGoal.
+            return false;
+        }
+
         if (!areTwoTargetsEquivalent(getTargetValue(), lastTargetValueUsedforAtGoal)) {
             // At goal was set when the target was significantly different than it is now.
             // Could happen if somebody updates the target and immediately calls isMaintainerAtGoal.
