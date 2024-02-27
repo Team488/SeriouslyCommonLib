@@ -9,5 +9,7 @@ public interface XCameraElectricalContract {
      *
      * @return An array of CameraInfo objects, each representing a camera on the robot.
      */
-    CameraInfo[] getCameraInfo();
+    CameraInfo[] getAprilTagCameraInfo();
+
+    CameraInfo[] getNoteCameraInfo();
 }
