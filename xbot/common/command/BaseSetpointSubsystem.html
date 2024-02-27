@@ -112,6 +112,9 @@ implements <a href="SupportsSetpointLock.html" title="interface in xbot.common.c
 <div class="col-first even-row-color"><code>protected boolean</code></div>
 <div class="col-second even-row-color"><code><a href="#atGoal" class="member-name-link">atGoal</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#lastTargetValueUsedforAtGoal" class="member-name-link">lastTargetValueUsedforAtGoal</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-xbot.common.command.BaseSubsystem">Fields inherited from class&nbsp;xbot.common.command.<a href="BaseSubsystem.html" title="class in xbot.common.command">BaseSubsystem</a></h3>
@@ -136,12 +139,20 @@ implements <a href="SupportsSetpointLock.html" title="interface in xbot.common.c
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel">
 <div class="summary-table three-column-summary" aria-labelledby="method-summary-table-tab0">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#areTwoDoublesEquivalent(double,double)" class="member-name-link">areTwoDoublesEquivalent</a><wbr>(double&nbsp;target1,
+ double&nbsp;target2)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#areTwoTargetsEquivalent(T,T)" class="member-name-link">areTwoTargetsEquivalent</a><wbr>(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;target1,
+ <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;target2)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getCurrentValue()" class="member-name-link">getCurrentValue</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
@@ -196,6 +207,12 @@ implements <a href="SupportsSetpointLock.html" title="interface in xbot.common.c
 <section class="detail" id="atGoal">
 <h3>atGoal</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">atGoal</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="lastTargetValueUsedforAtGoal">
+<h3>lastTargetValueUsedforAtGoal</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a></span>&nbsp;<span class="element-name">lastTargetValueUsedforAtGoal</span></div>
 </section>
 </li>
 </ul>
@@ -270,6 +287,20 @@ implements <a href="SupportsSetpointLock.html" title="interface in xbot.common.c
 <section class="detail" id="isCalibrated()">
 <h3>isCalibrated</h3>
 <div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isCalibrated</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="areTwoTargetsEquivalent(T,T)">
+<h3 id="areTwoTargetsEquivalent(java.lang.Object,java.lang.Object)">areTwoTargetsEquivalent</h3>
+<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">areTwoTargetsEquivalent</span><wbr><span class="parameters">(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;target1,
+ <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;target2)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="areTwoDoublesEquivalent(double,double)">
+<h3>areTwoDoublesEquivalent</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">areTwoDoublesEquivalent</span><wbr><span class="parameters">(double&nbsp;target1,
+ double&nbsp;target2)</span></div>
 </section>
 </li>
 </ul>
