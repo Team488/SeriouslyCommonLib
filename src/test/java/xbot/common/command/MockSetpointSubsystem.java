@@ -38,4 +38,9 @@ public class MockSetpointSubsystem extends BaseSetpointSubsystem<Double> {
     public boolean isCalibrated() {
         return false;
     }
+
+    @Override
+    protected boolean areTwoTargetsEquivalent(Double target1, Double target2) {
+        return BaseSetpointSubsystem.areTwoDoublesEquivalent(target1, target2);
+    }
 }

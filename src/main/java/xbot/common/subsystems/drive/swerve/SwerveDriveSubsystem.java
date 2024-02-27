@@ -178,6 +178,11 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     }
 
     @Override
+    protected boolean areTwoTargetsEquivalent(Double target1, Double target2) {
+        return BaseSetpointSubsystem.areTwoDoublesEquivalent(target1, target2);
+    }
+
+    @Override
     public void periodic() {
         if (contract.isDriveReady()) {
             aKitLog.record("CurrentVelocity",

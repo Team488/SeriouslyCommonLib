@@ -12,6 +12,7 @@ public abstract class BaseSetpointSubsystem<T> extends BaseSubsystem implements 
     private final Subsystem setpointLock;
     private double lastUpdateTimeFromMaintainer;
     protected boolean atGoal;
+    protected T lastTargetValueUsedforAtGoal;
     
     public BaseSetpointSubsystem() {
         setpointLock = new Subsystem() {};
@@ -23,15 +24,25 @@ public abstract class BaseSetpointSubsystem<T> extends BaseSubsystem implements 
     }
     
     public boolean isMaintainerAtGoal() {
-        // If we haven't heard from the maintainer within the last 0.5 seconds,
-        // then assume the system is not ready.
-        double gap = XTimer.getFPGATimestamp() - lastUpdateTimeFromMaintainer;
-        return atGoal && Math.abs(gap) < 0.5;
+        if (!areTwoTargetsEquivalent(getTargetValue(), lastTargetValueUsedforAtGoal)) {
+            // At goal was set when the target was significantly different than it is now.
+            // Could happen if somebody updates the target and immediately calls isMaintainerAtGoal.
+            return false;
+        }
+
+        if (XTimer.getFPGATimestamp() - lastUpdateTimeFromMaintainer > 0.5) {
+            // If we haven't heard from the maintainer within the last 0.5 seconds,
+            // then assume the system is not ready.
+            return false;
+        }
+
+        return atGoal;
     }
 
     public void setMaintainerIsAtGoal(boolean atGoal) {
         lastUpdateTimeFromMaintainer = XTimer.getFPGATimestamp();
         this.atGoal = atGoal;
+        lastTargetValueUsedforAtGoal = getTargetValue();
     }
 
     public abstract T getCurrentValue();
@@ -43,4 +54,11 @@ public abstract class BaseSetpointSubsystem<T> extends BaseSubsystem implements 
     public abstract void setPower(T power);
 
     public abstract boolean isCalibrated();
+
+    protected abstract boolean areTwoTargetsEquivalent(T target1, T target2);
+
+    // Implementation for most common kind of setpoint subsystem
+    public static boolean areTwoDoublesEquivalent(double target1, double target2) {
+        return Math.abs(target1 - target2) < 0.00001;
+    }
 }
