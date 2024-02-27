@@ -63,6 +63,16 @@ public abstract class BaseSetpointSubsystem<T> extends BaseSubsystem implements 
 
     protected abstract boolean areTwoTargetsEquivalent(T target1, T target2);
 
+    public SetTargetCommand<T> createSetTargetCommand() {
+        return new SetTargetCommand<T>(this);
+    }
+
+    public SetTargetCommand<T> createSetTargetCommand(T value) {
+        var command = new SetTargetCommand<T>(this);
+        command.setTargetValue(value);
+        return command;
+    }
+
     // Implementation for most common kind of setpoint subsystem
     public static boolean areTwoDoublesEquivalent(double target1, double target2) {
         return Math.abs(target1 - target2) < 0.00001;
