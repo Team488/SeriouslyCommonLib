@@ -7,11 +7,21 @@ import xbot.common.logic.TimeStableValidator;
 
 import java.util.function.Supplier;
 
+/**
+ * This class provides common base implementation for April Tag capable cameras on the robot.
+ */
 public class AprilTagCamera extends SimpleCamera {
     private final PhotonPoseEstimator poseEstimator;
 
     private final TimeStableValidator isStable;
 
+    /**
+     * Create a new AprilTagCamera.
+     *
+     * @param cameraInfo The information about the camera.
+     * @param poseStableTime The time that the pose must be stable for before it is considered valid.
+     * @param fieldLayout The layout of the field.
+     */
     public AprilTagCamera(CameraInfo cameraInfo,
                           Supplier<Double> poseStableTime,
                           AprilTagFieldLayout fieldLayout) {
@@ -23,10 +33,20 @@ public class AprilTagCamera extends SimpleCamera {
         this.isStable = new TimeStableValidator(poseStableTime);
     }
 
+    /**
+     * Get the pose estimator.
+     *
+     * @return The pose estimator.
+     */
     public PhotonPoseEstimator getPoseEstimator() {
         return this.poseEstimator;
     }
 
+    /**
+     * Get the time stable validator.
+     *
+     * @return The time stable validator.
+     */
     public TimeStableValidator getIsStableValidator() {
         return isStable;
     }
