@@ -226,6 +226,18 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/controls/io_inputs/XCANSparkMaxInputs.html#appliedOutput" class="member-name-link">appliedOutput</a> - Variable in class xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/XCANSparkMaxInputs.html" title="class in xbot.common.controls.io_inputs">XCANSparkMaxInputs</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/CameraCapabilities.html#APRIL_TAG" class="member-name-link">APRIL_TAG</a> - Enum constant in enum class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/CameraCapabilities.html" title="enum class in xbot.common.subsystems.vision">CameraCapabilities</a></dt>
+<dd>
+<div class="block">The camera is capable of providing April Tag localization information.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/vision/AprilTagCamera.html" class="type-name-link" title="class in xbot.common.subsystems.vision">AprilTagCamera</a> - Class in <a href="xbot/common/subsystems/vision/package-summary.html">xbot.common.subsystems.vision</a></dt>
+<dd>
+<div class="block">This class provides common base implementation for April Tag capable cameras on the robot.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/vision/AprilTagCamera.html#%3Cinit%3E(xbot.common.injection.electrical_contract.CameraInfo,java.util.function.Supplier,edu.wpi.first.apriltag.AprilTagFieldLayout)" class="member-name-link">AprilTagCamera(CameraInfo, Supplier&lt;Double&gt;, AprilTagFieldLayout)</a> - Constructor for class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagCamera.html" title="class in xbot.common.subsystems.vision">AprilTagCamera</a></dt>
+<dd>
+<div class="block">Create a new AprilTagCamera.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html#arcadeDrive(double,double)" class="member-name-link">arcadeDrive(double, double)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseDriveSubsystem</a></dt>
 <dd>
 <div class="block">Classic arcade drive</div>
@@ -479,11 +491,17 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/logic/CalibrationDecider.CalibrationDeciderFactory.html#%3Cinit%3E()" class="member-name-link">CalibrationDeciderFactory()</a> - Constructor for class xbot.common.logic.<a href="xbot/common/logic/CalibrationDecider.CalibrationDeciderFactory.html" title="class in xbot.common.logic">CalibrationDecider.CalibrationDeciderFactory</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/SimpleCamera.html#camera" class="member-name-link">camera</a> - Variable in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/SimpleCamera.html" title="class in xbot.common.subsystems.vision">SimpleCamera</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/CameraCapabilities.html" class="type-name-link" title="enum class in xbot.common.subsystems.vision">CameraCapabilities</a> - Enum Class in <a href="xbot/common/subsystems/vision/package-summary.html">xbot.common.subsystems.vision</a></dt>
+<dd>
+<div class="block">This enum is used to specify the capabilities of a camera.</div>
+</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CameraInfo.html" class="type-name-link" title="class in xbot.common.injection.electrical_contract">CameraInfo</a> - Record Class in <a href="xbot/common/injection/electrical_contract/package-summary.html">xbot.common.injection.electrical_contract</a></dt>
 <dd>
 <div class="block">This class is used to provide information about the cameras on the robot.</div>
 </dd>
-<dt><a href="xbot/common/injection/electrical_contract/CameraInfo.html#%3Cinit%3E(java.lang.String,java.lang.String,edu.wpi.first.math.geometry.Transform3d)" class="member-name-link">CameraInfo(String, String, Transform3d)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CameraInfo.html" title="class in xbot.common.injection.electrical_contract">CameraInfo</a></dt>
+<dt><a href="xbot/common/injection/electrical_contract/CameraInfo.html#%3Cinit%3E(java.lang.String,java.lang.String,edu.wpi.first.math.geometry.Transform3d,java.util.EnumSet)" class="member-name-link">CameraInfo(String, String, Transform3d, EnumSet&lt;CameraCapabilities&gt;)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CameraInfo.html" title="class in xbot.common.injection.electrical_contract">CameraInfo</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>CameraInfo</code> record class.</div>
 </dd>
@@ -541,6 +559,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/wpi_adapters/CANVictorSPXWpiAdapter.CANVictorSPXWpiAdapterFactory.html#%3Cinit%3E()" class="member-name-link">CANVictorSPXWpiAdapterFactory()</a> - Constructor for class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANVictorSPXWpiAdapter.CANVictorSPXWpiAdapterFactory.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANVictorSPXWpiAdapter.CANVictorSPXWpiAdapterFactory</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CameraInfo.html#capabilities()" class="member-name-link">capabilities()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CameraInfo.html" title="class in xbot.common.injection.electrical_contract">CameraInfo</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>capabilities</code> record component.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/drive/RabbitPointBuilder.html#changeDriveStyle(xbot.common.subsystems.drive.RabbitPoint.PointDriveStyle)" class="member-name-link">changeDriveStyle(RabbitPoint.PointDriveStyle)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/RabbitPointBuilder.html" title="class in xbot.common.subsystems.drive">RabbitPointBuilder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/MockDriveSubsystem.html#changeIntoMecanum()" class="member-name-link">changeIntoMecanum()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/MockDriveSubsystem.html" title="class in xbot.common.subsystems.drive">MockDriveSubsystem</a></dt>
@@ -2411,6 +2433,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/MockDriveSubsystem.html#fr" class="member-name-link">fr</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/MockDriveSubsystem.html" title="class in xbot.common.subsystems.drive">MockDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/SimpleCamera.html#friendlyName" class="member-name-link">friendlyName</a> - Variable in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/SimpleCamera.html" title="class in xbot.common.subsystems.vision">SimpleCamera</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CameraInfo.html#friendlyName()" class="member-name-link">friendlyName()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CameraInfo.html" title="class in xbot.common.injection.electrical_contract">CameraInfo</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>friendlyName</code> record component.</div>
@@ -2462,6 +2486,10 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:G">G</h2>
 <dl class="index">
+<dt><a href="xbot/common/subsystems/vision/CameraCapabilities.html#GAME_SPECIFIC" class="member-name-link">GAME_SPECIFIC</a> - Enum constant in enum class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/CameraCapabilities.html" title="enum class in xbot.common.subsystems.vision">CameraCapabilities</a></dt>
+<dd>
+<div class="block">The camera is capable of providing game-specific information.</div>
+</dd>
 <dt><a href="xbot/common/logic/CalibrationDecider.CalibrationMode.html#GaveUp" class="member-name-link">GaveUp</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/CalibrationDecider.CalibrationMode.html" title="enum class in xbot.common.logic">CalibrationDecider.CalibrationMode</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/LowResField.html#generatePath(edu.wpi.first.math.geometry.Pose2d,xbot.common.trajectory.XbotSwervePoint)" class="member-name-link">generatePath(Pose2d, XbotSwervePoint)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/LowResField.html" title="class in xbot.common.trajectory">LowResField</a></dt>
@@ -2627,10 +2655,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/wpi_adapters/CANSparkMaxWpiAdapter.html#getAppliedOutput_internal()" class="member-name-link">getAppliedOutput_internal()</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANSparkMaxWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANSparkMaxWpiAdapter</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/injection/electrical_contract/XCameraElectricalContract.html#getAprilTagCameraInfo()" class="member-name-link">getAprilTagCameraInfo()</a> - Method in interface xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/XCameraElectricalContract.html" title="interface in xbot.common.injection.electrical_contract">XCameraElectricalContract</a></dt>
-<dd>
-<div class="block">Get the information about the cameras on the robot.</div>
-</dd>
 <dt><a href="xbot/common/controls/sensors/buttons/InvertingBooleanSupplier.html#getAsBoolean()" class="member-name-link">getAsBoolean()</a> - Method in class xbot.common.controls.sensors.buttons.<a href="xbot/common/controls/sensors/buttons/InvertingBooleanSupplier.html" title="class in xbot.common.controls.sensors.buttons">InvertingBooleanSupplier</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/buttons/SettableBooleanSuppler.html#getAsBoolean()" class="member-name-link">getAsBoolean()</a> - Method in class xbot.common.controls.sensors.buttons.<a href="xbot/common/controls/sensors/buttons/SettableBooleanSuppler.html" title="class in xbot.common.controls.sensors.buttons">SettableBooleanSuppler</a></dt>
@@ -2717,6 +2741,14 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XJoystick.html#getButton(int)" class="member-name-link">getButton(int)</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XJoystick.html" title="class in xbot.common.controls.sensors">XJoystick</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/SimpleCamera.html#getCamera()" class="member-name-link">getCamera()</a> - Method in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/SimpleCamera.html" title="class in xbot.common.subsystems.vision">SimpleCamera</a></dt>
+<dd>
+<div class="block">Get the camera.</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/XCameraElectricalContract.html#getCameraInfo()" class="member-name-link">getCameraInfo()</a> - Method in interface xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/XCameraElectricalContract.html" title="interface in xbot.common.injection.electrical_contract">XCameraElectricalContract</a></dt>
+<dd>
+<div class="block">Get the information about the cameras on the robot.</div>
+</dd>
 <dt><a href="org/photonvision/PhotonCameraExtended.html#getCameraMatrixRaw()" class="member-name-link">getCameraMatrixRaw()</a> - Method in class org.photonvision.<a href="org/photonvision/PhotonCameraExtended.html" title="class in org.photonvision">PhotonCameraExtended</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/modules/MockDevicesModule.html#getCANCoderFactory(xbot.common.controls.sensors.mock_adapters.MockCANCoder.MockCANCoderFactory)" class="member-name-link">getCANCoderFactory(MockCANCoder.MockCANCoderFactory)</a> - Method in class xbot.common.injection.modules.<a href="xbot/common/injection/modules/MockDevicesModule.html" title="class in xbot.common.injection.modules">MockDevicesModule</a></dt>
@@ -3375,6 +3407,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Gets the current rumble state.</div>
 </dd>
+<dt><a href="xbot/common/subsystems/vision/AprilTagCamera.html#getIsStableValidator()" class="member-name-link">getIsStableValidator()</a> - Method in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagCamera.html" title="class in xbot.common.subsystems.vision">AprilTagCamera</a></dt>
+<dd>
+<div class="block">Get the time stable validator.</div>
+</dd>
 <dt><a href="xbot/common/logic/StallDetector.html#getIsStalled(double,double,double)" class="member-name-link">getIsStalled(double, double, double)</a> - Method in class xbot.common.logic.<a href="xbot/common/logic/StallDetector.html" title="class in xbot.common.logic">StallDetector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANSparkMax.html#getIZone()" class="member-name-link">getIZone()</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANSparkMax.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANSparkMax</a></dt>
@@ -3605,11 +3641,13 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/wpi_adapters/CANSparkMaxWpiAdapter.html#getMotorType()" class="member-name-link">getMotorType()</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANSparkMaxWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANSparkMaxWpiAdapter</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/SimpleCamera.html#getName()" class="member-name-link">getName()</a> - Method in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/SimpleCamera.html" title="class in xbot.common.subsystems.vision">SimpleCamera</a></dt>
+<dd>
+<div class="block">Get the name of the camera.</div>
+</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.html#getName()" class="member-name-link">getName()</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/pose/BasePoseSubsystem.html#getNavXReady()" class="member-name-link">getNavXReady()</a> - Method in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/BasePoseSubsystem.html" title="class in xbot.common.subsystems.pose">BasePoseSubsystem</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="xbot/common/injection/electrical_contract/XCameraElectricalContract.html#getNoteCameraInfo()" class="member-name-link">getNoteCameraInfo()</a> - Method in interface xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/XCameraElectricalContract.html" title="interface in xbot.common.injection.electrical_contract">XCameraElectricalContract</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/XScheduler.html#getNumberOfCrashes()" class="member-name-link">getNumberOfCrashes()</a> - Method in class xbot.common.command.<a href="xbot/common/command/XScheduler.html" title="class in xbot.common.command">XScheduler</a></dt>
 <dd>&nbsp;</dd>
@@ -3729,6 +3767,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/InterpolatingFieldPoseBuffer.html#getPoseAtTime(double)" class="member-name-link">getPoseAtTime(double)</a> - Method in class xbot.common.math.<a href="xbot/common/math/InterpolatingFieldPoseBuffer.html" title="class in xbot.common.math">InterpolatingFieldPoseBuffer</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/AprilTagCamera.html#getPoseEstimator()" class="member-name-link">getPoseEstimator()</a> - Method in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagCamera.html" title="class in xbot.common.subsystems.vision">AprilTagCamera</a></dt>
+<dd>
+<div class="block">Get the pose estimator.</div>
+</dd>
 <dt><a href="xbot/common/math/FieldPose.html#getPoseRelativeDisplacement(xbot.common.math.FieldPose)" class="member-name-link">getPoseRelativeDisplacement(FieldPose)</a> - Method in class xbot.common.math.<a href="xbot/common/math/FieldPose.html" title="class in xbot.common.math">FieldPose</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANSparkMax.html#getPosition()" class="member-name-link">getPosition()</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANSparkMax.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANSparkMax</a></dt>
@@ -4714,6 +4756,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/swerve/SwerveSteeringSubsystem.html#isCalibrated()" class="member-name-link">isCalibrated()</a> - Method in class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveSteeringSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveSteeringSubsystem</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/SimpleCamera.html#isCameraWorking()" class="member-name-link">isCameraWorking()</a> - Method in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/SimpleCamera.html" title="class in xbot.common.subsystems.vision">SimpleCamera</a></dt>
+<dd>
+<div class="block">Check if the camera is working.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#isCollectorRotationActive()" class="member-name-link">isCollectorRotationActive()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/io_inputs/XGyroIoInputs.html#isConnected" class="member-name-link">isConnected</a> - Variable in class xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/XGyroIoInputs.html" title="class in xbot.common.controls.io_inputs">XGyroIoInputs</a></dt>
@@ -7375,6 +7421,14 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/logging/SilentRobotAssertionManager.html#%3Cinit%3E()" class="member-name-link">SilentRobotAssertionManager()</a> - Constructor for class xbot.common.logging.<a href="xbot/common/logging/SilentRobotAssertionManager.html" title="class in xbot.common.logging">SilentRobotAssertionManager</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/SimpleCamera.html" class="type-name-link" title="class in xbot.common.subsystems.vision">SimpleCamera</a> - Class in <a href="xbot/common/subsystems/vision/package-summary.html">xbot.common.subsystems.vision</a></dt>
+<dd>
+<div class="block">This class provides common base implementation for cameras on the robot.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/vision/SimpleCamera.html#%3Cinit%3E(xbot.common.injection.electrical_contract.CameraInfo)" class="member-name-link">SimpleCamera(CameraInfo)</a> - Constructor for class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/SimpleCamera.html" title="class in xbot.common.subsystems.vision">SimpleCamera</a></dt>
+<dd>
+<div class="block">Create a new SimpleCamera.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/simple/SimpleMotorSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.simple">SimpleMotorSubsystem</a> - Class in <a href="xbot/common/subsystems/simple/package-summary.html">xbot.common.subsystems.simple</a></dt>
 <dd>
 <div class="block">Generic subsystem that handles a single motor which can be driven in forward and reverse.</div>
@@ -8027,6 +8081,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
+<dt><a href="xbot/common/subsystems/vision/CameraCapabilities.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/CameraCapabilities.html" title="enum class in xbot.common.subsystems.vision">CameraCapabilities</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this class with the specified name.</div>
+</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.ParallelCrossingType.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.ParallelCrossingType.html" title="enum class in xbot.common.trajectory">Obstacle.ParallelCrossingType</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
@@ -8136,6 +8194,11 @@ the order they are declared.</div>
 the order they are declared.</div>
 </dd>
 <dt><a href="xbot/common/subsystems/drive/RabbitPoint.PointType.html#values()" class="member-name-link">values()</a> - Static method in enum class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/RabbitPoint.PointType.html" title="enum class in xbot.common.subsystems.drive">RabbitPoint.PointType</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum class, in
+the order they are declared.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/vision/CameraCapabilities.html#values()" class="member-name-link">values()</a> - Static method in enum class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/CameraCapabilities.html" title="enum class in xbot.common.subsystems.vision">CameraCapabilities</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum class, in
 the order they are declared.</div>
@@ -8400,6 +8463,8 @@ the order they are declared.</div>
 <dd>
 <div class="block">Base subsystems helpful for common devices.</div>
 </dd>
+<dt><a href="xbot/common/subsystems/vision/package-summary.html">xbot.common.subsystems.vision</a> - package xbot.common.subsystems.vision</dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/package-summary.html">xbot.common.trajectory</a> - package xbot.common.trajectory</dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/XbotSwervePoint.html" class="type-name-link" title="class in xbot.common.trajectory">XbotSwervePoint</a> - Class in <a href="xbot/common/trajectory/package-summary.html">xbot.common.trajectory</a></dt>
