@@ -273,33 +273,34 @@ public class Obstacle extends Rectangle2D.Double {
         double xDelta = 0;
         double yDelta = 0;
         double minDistance = 10000;
+        double bonusOffset = 1.5;
 
         double topDistance = topLine.ptLineDist(point.getX(), point.getY());
         if (topDistance < minDistance && (topLeftAvailable || topRightAvailable)) {
             minDistance = topDistance;
             xDelta = 0;
-            yDelta = minDistance;
+            yDelta = minDistance + bonusOffset;
         }
         double bottomDistance = bottomLine.ptLineDist(point.getX(), point.getY());
         if (bottomDistance < minDistance && (bottomLeftAvailable || bottomRightAvailable)) {
             minDistance = bottomDistance;
             xDelta = 0;
-            yDelta = -minDistance;
+            yDelta = -minDistance - bonusOffset;
         }
         double leftDistance = leftLine.ptLineDist(point.getX(), point.getY());
         if (leftDistance < minDistance && (topLeftAvailable || bottomLeftAvailable)) {
             minDistance = leftDistance;
-            xDelta = -minDistance;
+            xDelta = -minDistance - bonusOffset;
             yDelta = 0;
         }
         double rightDistance = rightLine.ptLineDist(point.getX(), point.getY());
         if (rightDistance < minDistance && (topRightAvailable || bottomRightAvailable)) {
             minDistance = rightDistance;
-            xDelta = minDistance;
+            xDelta = minDistance + bonusOffset;
             yDelta = 0;
         }
 
-        // put the point slightly outside the bounding box
+        // put the point way outside
         xDelta *= 1.01;
         yDelta *= 1.01;
 
