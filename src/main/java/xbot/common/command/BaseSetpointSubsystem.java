@@ -77,4 +77,10 @@ public abstract class BaseSetpointSubsystem<T> extends BaseSubsystem implements 
     public static boolean areTwoDoublesEquivalent(double target1, double target2) {
         return Math.abs(target1 - target2) < 0.00001;
     }
+
+    // Implementation for most common kind of setpoint subsystem
+    public static boolean areTwoDoublesEquivalent(double target1, double target2, double tolerance) {
+        return Math.abs(target1 - target2) < tolerance;
+    }
+
 }

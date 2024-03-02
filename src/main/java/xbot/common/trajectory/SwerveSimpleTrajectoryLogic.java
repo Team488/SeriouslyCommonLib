@@ -34,6 +34,7 @@ public class SwerveSimpleTrajectoryLogic {
     private boolean aimAtIntermediateNonFinalLegs;
     private boolean driveBackwards = false;
     private boolean enableSpecialAimTarget = false;
+    private boolean enableSpecialAimDuringFinalLeg = false;
     private Pose2d specialAimTarget;
 
     public SwerveSimpleTrajectoryLogic() {
@@ -46,6 +47,10 @@ public class SwerveSimpleTrajectoryLogic {
 
     public void setEnableSpecialAimTarget(boolean enableSpecialAimTarget) {
         this.enableSpecialAimTarget = enableSpecialAimTarget;
+    }
+
+    public void setEnableSpecialAimDuringFinalLeg(boolean enableSpecialAimDuringFinalLeg) {
+        this.enableSpecialAimDuringFinalLeg = enableSpecialAimDuringFinalLeg;
     }
 
     public void setSpecialAimTarget(Pose2d specialAimTarget) {
@@ -151,7 +156,7 @@ public class SwerveSimpleTrajectoryLogic {
                     getAngleBetweenTwoPoints(currentPose.getTranslation(), firstPoint.getTranslation2d())));
 
             // Modify the second through second to last points
-            for (int i = 1; i < keyPoints.size() - 1; i++) {
+            for (int i = 0; i < keyPoints.size() - 1; i++) {
                 var currentPoint = keyPoints.get(i);
                 var nextPoint = keyPoints.get(i + 1);
 
@@ -276,7 +281,10 @@ public class SwerveSimpleTrajectoryLogic {
         aKitLog.record("intent", intent);
 
         double degreeTarget = lastResult.chaseHeading.getDegrees();
-        if (enableSpecialAimTarget && specialAimTarget != null) {
+
+        boolean lastLegAndSpecialAim = enableSpecialAimDuringFinalLeg && lastResult.isOnFinalLeg;
+
+        if (specialAimTarget != null && (enableSpecialAimTarget || lastLegAndSpecialAim )) {
             degreeTarget = getAngleBetweenTwoPoints(
                     currentPose.getTranslation(), specialAimTarget.getTranslation()
             ).getDegrees();
