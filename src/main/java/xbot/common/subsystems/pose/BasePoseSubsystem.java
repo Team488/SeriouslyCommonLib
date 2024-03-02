@@ -45,6 +45,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     protected BooleanProperty rioRotated;
     protected boolean firstUpdate = true;
     protected double lastSetHeadingTime;
+    public static double fieldXMidpointInMeters = 8.2705;
 
     public BasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {
         log.info("Creating");
@@ -265,7 +266,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
      * @return Red Translation2d
      */
     public static Translation2d convertBlueToRed(Translation2d blueCoordinates){
-        double fieldXMidpointInMeters = 8.2705;
         double redXCoordinates = ((fieldXMidpointInMeters-blueCoordinates.getX()) * 2) + blueCoordinates.getX();
         return new Translation2d(redXCoordinates, blueCoordinates.getY());
     }
