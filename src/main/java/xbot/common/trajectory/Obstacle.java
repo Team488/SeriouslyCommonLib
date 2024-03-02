@@ -273,7 +273,7 @@ public class Obstacle extends Rectangle2D.Double {
         double xDelta = 0;
         double yDelta = 0;
         double minDistance = 10000;
-        double bonusOffset = 0.1;
+        double bonusOffset = 0.5;
 
         double topDistance = topLine.ptLineDist(point.getX(), point.getY());
         if (topDistance < minDistance && (topLeftAvailable || topRightAvailable)) {
