@@ -104,4 +104,8 @@ public class HumanVsMachineDecider {
     public double getDeadband() {
         return deadbandProp.get();
     }
+
+    public void setDeadband(double value) {
+        deadbandProp.set(value);
+    }
 }

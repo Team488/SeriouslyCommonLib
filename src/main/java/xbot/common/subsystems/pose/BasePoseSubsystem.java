@@ -305,6 +305,13 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
         return blueCoordinates;
     }
 
+    public static Rotation2d convertBlueToRedIfNeeded(Rotation2d blueHeading) {
+        if (DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Red) {
+            return convertBlueToRed(blueHeading);
+        }
+        return blueHeading;
+    }
+
     public static Rotation2d rotateAngleBasedOnAlliance(Rotation2d rotation) {
         var alliance = getAlliance();
 
