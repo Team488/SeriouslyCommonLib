@@ -254,8 +254,10 @@ public class LowResField {
                         if (arbitraryCornerA.getDistance(insidePoint)
                                 < arbitraryCornerB.getDistance(insidePoint)) {
                             pointClosestToInside = arbitraryCornerA;
+                            o.restoreCorner(arbitraryCornerB);
                         } else {
                             pointClosestToInside = arbitraryCornerB;
+                            o.restoreCorner(arbitraryCornerA);
                         }
 
                         log.info("Adding point closest to 'inside' point:" + pointClosestToInside);
@@ -297,7 +299,7 @@ public class LowResField {
                     while (swervePointStack.size() > 0) {
                         path.add(swervePointStack.pop());
                     }
-                    log.info("Popped stack into path.");
+                    log.info("No collision, so popping stack into path.");
                     log.info("Setting target to ultimate target");
 
                     currentTarget = ultimateTarget;
