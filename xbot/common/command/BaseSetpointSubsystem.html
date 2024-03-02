@@ -149,40 +149,45 @@ implements <a href="SupportsSetpointLock.html" title="interface in xbot.common.c
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#areTwoDoublesEquivalent(double,double)" class="member-name-link">areTwoDoublesEquivalent</a><wbr>(double&nbsp;target1,
  double&nbsp;target2)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#areTwoTargetsEquivalent(T,T)" class="member-name-link">areTwoTargetsEquivalent</a><wbr>(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;target1,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#areTwoDoublesEquivalent(double,double,double)" class="member-name-link">areTwoDoublesEquivalent</a><wbr>(double&nbsp;target1,
+ double&nbsp;target2,
+ double&nbsp;tolerance)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#areTwoTargetsEquivalent(T,T)" class="member-name-link">areTwoTargetsEquivalent</a><wbr>(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;target1,
  <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;target2)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a>&lt;<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createSetTargetCommand()" class="member-name-link">createSetTargetCommand</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a>&lt;<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createSetTargetCommand(T)" class="member-name-link">createSetTargetCommand</a><wbr>(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;value)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createSetTargetCommand()" class="member-name-link">createSetTargetCommand</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getCurrentValue()" class="member-name-link">getCurrentValue</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Subsystem</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSetpointLock()" class="member-name-link">getSetpointLock</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getTargetValue()" class="member-name-link">getTargetValue</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#isCalibrated()" class="member-name-link">isCalibrated</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isMaintainerAtGoal()" class="member-name-link">isMaintainerAtGoal</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a>&lt;<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createSetTargetCommand(T)" class="member-name-link">createSetTargetCommand</a><wbr>(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;value)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaintainerIsAtGoal(boolean)" class="member-name-link">setMaintainerIsAtGoal</a><wbr>(boolean&nbsp;atGoal)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setPower(T)" class="member-name-link">setPower</a><wbr>(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;power)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTargetValue(T)" class="member-name-link">setTargetValue</a><wbr>(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;value)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getCurrentValue()" class="member-name-link">getCurrentValue</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.wpilibj2.command.Subsystem</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSetpointLock()" class="member-name-link">getSetpointLock</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getTargetValue()" class="member-name-link">getTargetValue</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#isCalibrated()" class="member-name-link">isCalibrated</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isMaintainerAtGoal()" class="member-name-link">isMaintainerAtGoal</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaintainerIsAtGoal(boolean)" class="member-name-link">setMaintainerIsAtGoal</a><wbr>(boolean&nbsp;atGoal)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setPower(T)" class="member-name-link">setPower</a><wbr>(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;power)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTargetValue(T)" class="member-name-link">setTargetValue</a><wbr>(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;value)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -319,6 +324,14 @@ implements <a href="SupportsSetpointLock.html" title="interface in xbot.common.c
 <h3>areTwoDoublesEquivalent</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">areTwoDoublesEquivalent</span><wbr><span class="parameters">(double&nbsp;target1,
  double&nbsp;target2)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="areTwoDoublesEquivalent(double,double,double)">
+<h3>areTwoDoublesEquivalent</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">areTwoDoublesEquivalent</span><wbr><span class="parameters">(double&nbsp;target1,
+ double&nbsp;target2,
+ double&nbsp;tolerance)</span></div>
 </section>
 </li>
 </ul>

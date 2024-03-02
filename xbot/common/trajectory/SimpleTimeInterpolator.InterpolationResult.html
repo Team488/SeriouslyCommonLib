@@ -101,14 +101,17 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color"><code><a href="#distanceToTargetPoint" class="member-name-link">distanceToTargetPoint</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>boolean</code></div>
-<div class="col-second odd-row-color"><code><a href="#isOnFinalPoint" class="member-name-link">isOnFinalPoint</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#isOnFinalLeg" class="member-name-link">isOnFinalLeg</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>double</code></div>
-<div class="col-second even-row-color"><code><a href="#lerpFraction" class="member-name-link">lerpFraction</a></code></div>
+<div class="col-first even-row-color"><code>boolean</code></div>
+<div class="col-second even-row-color"><code><a href="#isOnFinalPoint" class="member-name-link">isOnFinalPoint</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>edu.wpi.first.math.geometry.Translation2d</code></div>
-<div class="col-second odd-row-color"><code><a href="#plannedVector" class="member-name-link">plannedVector</a></code></div>
+<div class="col-first odd-row-color"><code>double</code></div>
+<div class="col-second odd-row-color"><code><a href="#lerpFraction" class="member-name-link">lerpFraction</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>edu.wpi.first.math.geometry.Translation2d</code></div>
+<div class="col-second even-row-color"><code><a href="#plannedVector" class="member-name-link">plannedVector</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -145,6 +148,14 @@ loadScripts(document, 'script');</script>
  double&nbsp;distanceToTargetPoint,
  double&nbsp;lerpFraction)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(edu.wpi.first.math.geometry.Translation2d,boolean,edu.wpi.first.math.geometry.Rotation2d,edu.wpi.first.math.geometry.Translation2d,double,double,boolean)" class="member-name-link">InterpolationResult</a><wbr>(edu.wpi.first.math.geometry.Translation2d&nbsp;chasePoint,
+ boolean&nbsp;isOnFinalPoint,
+ edu.wpi.first.math.geometry.Rotation2d&nbsp;chaseHeading,
+ edu.wpi.first.math.geometry.Translation2d&nbsp;plannedVector,
+ double&nbsp;distanceToTargetPoint,
+ double&nbsp;lerpFraction,
+ boolean&nbsp;isOnFinalLeg)</code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -202,6 +213,12 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">lerpFraction</span></div>
 </section>
 </li>
+<li>
+<section class="detail" id="isOnFinalLeg">
+<h3>isOnFinalLeg</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isOnFinalLeg</span></div>
+</section>
+</li>
 </ul>
 </section>
 </li>
@@ -253,6 +270,18 @@ loadScripts(document, 'script');</script>
  edu.wpi.first.math.geometry.Translation2d&nbsp;plannedVector,
  double&nbsp;distanceToTargetPoint,
  double&nbsp;lerpFraction)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(edu.wpi.first.math.geometry.Translation2d,boolean,edu.wpi.first.math.geometry.Rotation2d,edu.wpi.first.math.geometry.Translation2d,double,double,boolean)">
+<h3>InterpolationResult</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">InterpolationResult</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Translation2d&nbsp;chasePoint,
+ boolean&nbsp;isOnFinalPoint,
+ edu.wpi.first.math.geometry.Rotation2d&nbsp;chaseHeading,
+ edu.wpi.first.math.geometry.Translation2d&nbsp;plannedVector,
+ double&nbsp;distanceToTargetPoint,
+ double&nbsp;lerpFraction,
+ boolean&nbsp;isOnFinalLeg)</span></div>
 </section>
 </li>
 </ul>
