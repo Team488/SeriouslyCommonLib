@@ -261,6 +261,21 @@ public class Obstacle extends Rectangle2D.Double {
         return candidate;
     }
 
+    public void restoreCorner(Translation2d corner) {
+        if (corner == topLeft) {
+            topLeftAvailable = true;
+        }
+        if (corner == topRight) {
+            topRightAvailable = true;
+        }
+        if (corner == bottomLeft) {
+            bottomLeftAvailable = true;
+        }
+        if (corner == bottomRight) {
+            bottomRightAvailable = true;
+        }
+    }
+
     private double bonusOffset = 0.5;
 
     public double getBonusOffset() {
