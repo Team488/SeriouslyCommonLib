@@ -64,22 +64,22 @@ public class ObstacleTest extends BaseCommonLibTest {
         // slide down
         Translation2d shouldMove =  o.movePointOutsideOfBounds(new Translation2d(9, 7));
         assertEquals(9, shouldMove.getX(), 0.2);
-        assertEquals(5, shouldMove.getY(), 0.2);
+        assertEquals(5-o.getBonusOffset(), shouldMove.getY(), 0.2);
 
         // slide left
         shouldMove =  o.movePointOutsideOfBounds(new Translation2d(6, 9));
-        assertEquals(5, shouldMove.getX(), 0.2);
+        assertEquals(5-o.getBonusOffset(), shouldMove.getX(), 0.2);
         assertEquals(9, shouldMove.getY(), 0.2);
 
         // slide right
         shouldMove =  o.movePointOutsideOfBounds(new Translation2d(14, 7));
-        assertEquals(15, shouldMove.getX(), 0.2);
+        assertEquals(15+o.getBonusOffset(), shouldMove.getX(), 0.2);
         assertEquals(7, shouldMove.getY(), 0.2);
 
         // slide up
         shouldMove =  o.movePointOutsideOfBounds(new Translation2d(9, 13));
         assertEquals(9, shouldMove.getX(), 0.2);
-        assertEquals(15, shouldMove.getY(), 0.2);
+        assertEquals(15+o.getBonusOffset(), shouldMove.getY(), 0.2);
     }
 
     @Test

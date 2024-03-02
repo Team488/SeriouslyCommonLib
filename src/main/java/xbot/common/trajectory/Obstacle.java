@@ -261,6 +261,17 @@ public class Obstacle extends Rectangle2D.Double {
         return candidate;
     }
 
+    private double bonusOffset = 0.5;
+
+    public double getBonusOffset() {
+        return bonusOffset;
+    }
+
+    public void setBonusOffset(double bonusOffset) {
+        // Only positive values make sense.
+        this.bonusOffset = Math.abs(bonusOffset);
+    }
+
     public Translation2d movePointOutsideOfBounds(Translation2d point) {
         point = new Translation2d(point.getX(), point.getY());
         // Quick check - if the point is already outside of the obstacle,
