@@ -39,14 +39,17 @@ public class PhotonCameraExtended extends PhotonCamera {
     public boolean doesLibraryVersionMatchCoprocessorVersion() {
         // Check for version. Warn if the versions aren't aligned.
         String versionString = io.versionEntry;
-        if (!versionString.isEmpty() && !PhotonVersion.versionMatches(versionString)) {
-            // Error on a verified version mismatch
-            // But stay silent otherwise
-            log.error("PhotonVision version mismatch. Expected: " + PhotonVersion.versionString + " Actual: "
-                    + versionString + ". Unexpected behavior may occur.");
-            return false;
+        if (versionString != null) {
+            if (!versionString.isEmpty() && !PhotonVersion.versionMatches(versionString)) {
+                // Error on a verified version mismatch
+                // But stay silent otherwise
+                log.error("PhotonVision version mismatch. Expected: " + PhotonVersion.versionString + " Actual: "
+                        + versionString + ". Unexpected behavior may occur.");
+                return false;
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     public boolean isConnectedAkitCompatible() {
