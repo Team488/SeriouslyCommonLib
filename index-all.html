@@ -234,7 +234,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">This class provides common base implementation for April Tag capable cameras on the robot.</div>
 </dd>
-<dt><a href="xbot/common/subsystems/vision/AprilTagCamera.html#%3Cinit%3E(xbot.common.injection.electrical_contract.CameraInfo,java.util.function.Supplier,edu.wpi.first.apriltag.AprilTagFieldLayout)" class="member-name-link">AprilTagCamera(CameraInfo, Supplier&lt;Double&gt;, AprilTagFieldLayout)</a> - Constructor for class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagCamera.html" title="class in xbot.common.subsystems.vision">AprilTagCamera</a></dt>
+<dt><a href="xbot/common/subsystems/vision/AprilTagCamera.html#%3Cinit%3E(xbot.common.injection.electrical_contract.CameraInfo,java.util.function.Supplier,edu.wpi.first.apriltag.AprilTagFieldLayout,java.lang.String)" class="member-name-link">AprilTagCamera(CameraInfo, Supplier&lt;Double&gt;, AprilTagFieldLayout, String)</a> - Constructor for class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagCamera.html" title="class in xbot.common.subsystems.vision">AprilTagCamera</a></dt>
 <dd>
 <div class="block">Create a new AprilTagCamera.</div>
 </dd>
@@ -4772,6 +4772,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#isCollectorRotationActive()" class="member-name-link">isCollectorRotationActive()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/io_inputs/PhotonCameraExtendedInputs.html#isConnected" class="member-name-link">isConnected</a> - Variable in class xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/PhotonCameraExtendedInputs.html" title="class in xbot.common.controls.io_inputs">PhotonCameraExtendedInputs</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/io_inputs/XGyroIoInputs.html#isConnected" class="member-name-link">isConnected</a> - Variable in class xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/XGyroIoInputs.html" title="class in xbot.common.controls.io_inputs">XGyroIoInputs</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/mock_adapters/MockGyro.html#isConnected()" class="member-name-link">isConnected()</a> - Method in class xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockGyro.html" title="class in xbot.common.controls.sensors.mock_adapters">MockGyro</a></dt>
@@ -4779,6 +4781,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.html#isConnected()" class="member-name-link">isConnected()</a> - Method in class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">InertialMeasurementUnitAdapter</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XGyro.html#isConnected()" class="member-name-link">isConnected()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="org/photonvision/PhotonCameraExtended.html#isConnectedAkitCompatible()" class="member-name-link">isConnectedAkitCompatible()</a> - Method in class org.photonvision.<a href="org/photonvision/PhotonCameraExtended.html" title="class in org.photonvision">PhotonCameraExtended</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/DebugFlag.html#isDebug()" class="member-name-link">isDebug()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/DebugFlag.html" title="class in xbot.common.properties">DebugFlag</a></dt>
 <dd>&nbsp;</dd>
@@ -5005,6 +5009,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the value of the <a href="./xbot/common/injection/swerve/SwerveInstance.html#param-label"><code>label</code></a> record component.</div>
 </dd>
 <dt><a href="xbot/common/controls/io_inputs/XCANSparkMaxInputs.html#lastErrorId" class="member-name-link">lastErrorId</a> - Variable in class xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/XCANSparkMaxInputs.html" title="class in xbot.common.controls.io_inputs">XCANSparkMaxInputs</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANSparkMax.html#lastInputs" class="member-name-link">lastInputs</a> - Variable in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html#lastRawCommandedDirection" class="member-name-link">lastRawCommandedDirection</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
@@ -5582,9 +5588,9 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="org/photonvision/PhotonCameraExtended.html" class="type-name-link" title="class in org.photonvision">PhotonCameraExtended</a> - Class in <a href="org/photonvision/package-summary.html">org.photonvision</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="org/photonvision/PhotonCameraExtended.html#%3Cinit%3E(edu.wpi.first.networktables.NetworkTableInstance,java.lang.String)" class="member-name-link">PhotonCameraExtended(NetworkTableInstance, String)</a> - Constructor for class org.photonvision.<a href="org/photonvision/PhotonCameraExtended.html" title="class in org.photonvision">PhotonCameraExtended</a></dt>
+<dt><a href="org/photonvision/PhotonCameraExtended.html#%3Cinit%3E(edu.wpi.first.networktables.NetworkTableInstance,java.lang.String,java.lang.String)" class="member-name-link">PhotonCameraExtended(NetworkTableInstance, String, String)</a> - Constructor for class org.photonvision.<a href="org/photonvision/PhotonCameraExtended.html" title="class in org.photonvision">PhotonCameraExtended</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="org/photonvision/PhotonCameraExtended.html#%3Cinit%3E(java.lang.String)" class="member-name-link">PhotonCameraExtended(String)</a> - Constructor for class org.photonvision.<a href="org/photonvision/PhotonCameraExtended.html" title="class in org.photonvision">PhotonCameraExtended</a></dt>
+<dt><a href="org/photonvision/PhotonCameraExtended.html#%3Cinit%3E(java.lang.String,java.lang.String)" class="member-name-link">PhotonCameraExtended(String, String)</a> - Constructor for class org.photonvision.<a href="org/photonvision/PhotonCameraExtended.html" title="class in org.photonvision">PhotonCameraExtended</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/io_inputs/PhotonCameraExtendedInputs.html" class="type-name-link" title="class in xbot.common.controls.io_inputs">PhotonCameraExtendedInputs</a> - Class in <a href="xbot/common/controls/io_inputs/package-summary.html">xbot.common.controls.io_inputs</a></dt>
 <dd>&nbsp;</dd>
@@ -7445,7 +7451,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">This class provides common base implementation for cameras on the robot.</div>
 </dd>
-<dt><a href="xbot/common/subsystems/vision/SimpleCamera.html#%3Cinit%3E(xbot.common.injection.electrical_contract.CameraInfo)" class="member-name-link">SimpleCamera(CameraInfo)</a> - Constructor for class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/SimpleCamera.html" title="class in xbot.common.subsystems.vision">SimpleCamera</a></dt>
+<dt><a href="xbot/common/subsystems/vision/SimpleCamera.html#%3Cinit%3E(xbot.common.injection.electrical_contract.CameraInfo,java.lang.String)" class="member-name-link">SimpleCamera(CameraInfo, String)</a> - Constructor for class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/SimpleCamera.html" title="class in xbot.common.subsystems.vision">SimpleCamera</a></dt>
 <dd>
 <div class="block">Create a new SimpleCamera.</div>
 </dd>
@@ -7941,6 +7947,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XDigitalOutput.html#updateDutyCycle(double)" class="member-name-link">updateDutyCycle(double)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XDigitalOutput.html" title="class in xbot.common.controls.actuators">XDigitalOutput</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="org/photonvision/PhotonCameraExtended.html#updateInputs(xbot.common.controls.io_inputs.PhotonCameraExtendedInputs)" class="member-name-link">updateInputs(PhotonCameraExtendedInputs)</a> - Method in class org.photonvision.<a href="org/photonvision/PhotonCameraExtended.html" title="class in org.photonvision">PhotonCameraExtended</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/mock_adapters/MockAbsoluteEncoder.html#updateInputs(xbot.common.controls.io_inputs.XAbsoluteEncoderInputs)" class="member-name-link">updateInputs(XAbsoluteEncoderInputs)</a> - Method in class xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockAbsoluteEncoder.html" title="class in xbot.common.controls.sensors.mock_adapters">MockAbsoluteEncoder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/mock_adapters/MockCANCoder.html#updateInputs(xbot.common.controls.io_inputs.XAbsoluteEncoderInputs)" class="member-name-link">updateInputs(XAbsoluteEncoderInputs)</a> - Method in class xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockCANCoder.html" title="class in xbot.common.controls.sensors.mock_adapters">MockCANCoder</a></dt>
@@ -8262,6 +8270,8 @@ the order they are declared.</div>
 <dt><a href="xbot/common/subsystems/pose/BasePoseSubsystem.html#velocityX" class="member-name-link">velocityX</a> - Variable in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/BasePoseSubsystem.html" title="class in xbot.common.subsystems.pose">BasePoseSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/pose/BasePoseSubsystem.html#velocityY" class="member-name-link">velocityY</a> - Variable in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/BasePoseSubsystem.html" title="class in xbot.common.subsystems.pose">BasePoseSubsystem</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/io_inputs/PhotonCameraExtendedInputs.html#versionEntry" class="member-name-link">versionEntry</a> - Variable in class xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/PhotonCameraExtendedInputs.html" title="class in xbot.common.controls.io_inputs">PhotonCameraExtendedInputs</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/wpi_adapters/VictorAppearingAsTalonWPIAdapter.html" class="type-name-link" title="class in xbot.common.controls.actuators.wpi_adapters">VictorAppearingAsTalonWPIAdapter</a> - Class in <a href="xbot/common/controls/actuators/wpi_adapters/package-summary.html">xbot.common.controls.actuators.wpi_adapters</a></dt>
 <dd>&nbsp;</dd>
