@@ -9,4 +9,6 @@ public class PhotonCameraExtendedInputs {
     public double[] cameraMatrix;
     public double[] distCoeffs;
     public boolean inputsUnhealthy;
+    public String versionEntry;
+    public boolean isConnected;
 }
