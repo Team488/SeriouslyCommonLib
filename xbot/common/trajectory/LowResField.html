@@ -76,9 +76,14 @@ loadScripts(document, 'script');</script>
 <div class="inheritance">xbot.common.trajectory.LowResField</div>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>All Implemented Interfaces:</dt>
+<dd><code><a href="ProvidesWaypoints.html" title="interface in xbot.common.trajectory">ProvidesWaypoints</a></code></dd>
+</dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">LowResField</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
+implements <a href="ProvidesWaypoints.html" title="interface in xbot.common.trajectory">ProvidesWaypoints</a></span></div>
 <div class="block">Represents a simple version of the field, with Axis-Aligned Bounding Boxes representing no-go zones due to obstacles.</div>
 </section>
 <section class="summary">
@@ -113,8 +118,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Adds an obstacle to the field.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#generatePath(edu.wpi.first.math.geometry.Pose2d,xbot.common.trajectory.XbotSwervePoint)" class="member-name-link">generatePath</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;currentPose,
- <a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&nbsp;targetPoint)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#generatePath(edu.wpi.first.math.geometry.Pose2d,edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">generatePath</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;currentPose,
+ edu.wpi.first.math.geometry.Pose2d&nbsp;targetPoint)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Generates a path from the current position to the target point, avoiding known obstacles.</div>
 </div>
@@ -172,13 +177,15 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="generatePath(edu.wpi.first.math.geometry.Pose2d,xbot.common.trajectory.XbotSwervePoint)">
+<section class="detail" id="generatePath(edu.wpi.first.math.geometry.Pose2d,edu.wpi.first.math.geometry.Pose2d)">
 <h3>generatePath</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;</span>&nbsp;<span class="element-name">generatePath</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Pose2d&nbsp;currentPose,
- <a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&nbsp;targetPoint)</span></div>
+ edu.wpi.first.math.geometry.Pose2d&nbsp;targetPoint)</span></div>
 <div class="block">Generates a path from the current position to the target point, avoiding known obstacles.
  Very generally, it will recursively solve paths nearby the target, and then step foward to approach the target.</div>
 <dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="ProvidesWaypoints.html#generatePath(edu.wpi.first.math.geometry.Pose2d,edu.wpi.first.math.geometry.Pose2d)">generatePath</a></code>&nbsp;in interface&nbsp;<code><a href="ProvidesWaypoints.html" title="interface in xbot.common.trajectory">ProvidesWaypoints</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>currentPose</code> - Starting point</dd>
 <dd><code>targetPoint</code> - Terminating Point</dd>

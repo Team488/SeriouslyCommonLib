@@ -2498,10 +2498,12 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/logic/CalibrationDecider.CalibrationMode.html#GaveUp" class="member-name-link">GaveUp</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/CalibrationDecider.CalibrationMode.html" title="enum class in xbot.common.logic">CalibrationDecider.CalibrationMode</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/trajectory/LowResField.html#generatePath(edu.wpi.first.math.geometry.Pose2d,xbot.common.trajectory.XbotSwervePoint)" class="member-name-link">generatePath(Pose2d, XbotSwervePoint)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/LowResField.html" title="class in xbot.common.trajectory">LowResField</a></dt>
+<dt><a href="xbot/common/trajectory/LowResField.html#generatePath(edu.wpi.first.math.geometry.Pose2d,edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">generatePath(Pose2d, Pose2d)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/LowResField.html" title="class in xbot.common.trajectory">LowResField</a></dt>
 <dd>
 <div class="block">Generates a path from the current position to the target point, avoiding known obstacles.</div>
 </dd>
+<dt><a href="xbot/common/trajectory/ProvidesWaypoints.html#generatePath(edu.wpi.first.math.geometry.Pose2d,edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">generatePath(Pose2d, Pose2d)</a> - Method in interface xbot.common.trajectory.<a href="xbot/common/trajectory/ProvidesWaypoints.html" title="interface in xbot.common.trajectory">ProvidesWaypoints</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/XbotSwervePoint.html#generateTrajectory(java.util.List)" class="member-name-link">generateTrajectory(List&lt;XbotSwervePoint&gt;)</a> - Static method in class xbot.common.trajectory.<a href="xbot/common/trajectory/XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="edu/wpi/first/wpilibj/MockDigitalOutput.html#get()" class="member-name-link">get()</a> - Method in class edu.wpi.first.wpilibj.<a href="edu/wpi/first/wpilibj/MockDigitalOutput.html" title="class in edu.wpi.first.wpilibj">MockDigitalOutput</a></dt>
@@ -5796,6 +5798,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/ProvidesInterpolationData.html" class="type-name-link" title="interface in xbot.common.trajectory">ProvidesInterpolationData</a> - Interface in <a href="xbot/common/trajectory/package-summary.html">xbot.common.trajectory</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/trajectory/ProvidesWaypoints.html" class="type-name-link" title="interface in xbot.common.trajectory">ProvidesWaypoints</a> - Interface in <a href="xbot/common/trajectory/package-summary.html">xbot.common.trajectory</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/PurePursuitCommand.html" class="type-name-link" title="class in xbot.common.subsystems.drive">PurePursuitCommand</a> - Class in <a href="xbot/common/subsystems/drive/package-summary.html">xbot.common.subsystems.drive</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/PurePursuitCommand.html#%3Cinit%3E(xbot.common.subsystems.drive.control_logic.HeadingModule.HeadingModuleFactory,xbot.common.subsystems.pose.BasePoseSubsystem,xbot.common.subsystems.drive.BaseDriveSubsystem,xbot.common.properties.PropertyFactory)" class="member-name-link">PurePursuitCommand(HeadingModule.HeadingModuleFactory, BasePoseSubsystem, BaseDriveSubsystem, PropertyFactory)</a> - Constructor for class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/PurePursuitCommand.html" title="class in xbot.common.subsystems.drive">PurePursuitCommand</a></dt>
@@ -6537,6 +6541,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XEncoder.html#setDistancePerPulseSupplier(java.util.function.Supplier)" class="member-name-link">setDistancePerPulseSupplier(Supplier&lt;Double&gt;)</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XEncoder.html" title="class in xbot.common.controls.sensors">XEncoder</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html#setDistanceThresholdToPrioritizeRotation(double)" class="member-name-link">setDistanceThresholdToPrioritizeRotation(double)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/PurePursuitCommand.html#setDotProductDrivingEnabled(boolean)" class="member-name-link">setDotProductDrivingEnabled(boolean)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/PurePursuitCommand.html" title="class in xbot.common.subsystems.drive">PurePursuitCommand</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/DatabaseStorageBase.html#setDouble(java.lang.String,double)" class="member-name-link">setDouble(String, double)</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/DatabaseStorageBase.html" title="class in xbot.common.properties">DatabaseStorageBase</a></dt>
@@ -6619,8 +6625,6 @@ loadScripts(document, 'script');</script>
  on the bottom-left vertex of the rectangular FRC field if viewed from above with your alliance
  driver station at the bottom), then we need to shift X,Y coordinates to get everything to line up.</div>
 </dd>
-<dt><a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html#setFieldWithObstacles(xbot.common.trajectory.LowResField)" class="member-name-link">setFieldWithObstacles(LowResField)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XDoubleSolenoid.html#setForward()" class="member-name-link">setForward()</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XDoubleSolenoid.html" title="class in xbot.common.controls.actuators">XDoubleSolenoid</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XRelay.html#setForward()" class="member-name-link">setForward()</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XRelay.html" title="class in xbot.common.controls.actuators">XRelay</a></dt>
@@ -6985,6 +6989,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the prefix for all properties created by this factory.</div>
 </dd>
+<dt><a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html#setPrioritizeRotationIfCloseToGoal(boolean)" class="member-name-link">setPrioritizeRotationIfCloseToGoal(boolean)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANTalon.html#setPulseWidthRiseToFallUs(int)" class="member-name-link">setPulseWidthRiseToFallUs(int)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANTalon.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANTalon</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="edu/wpi/first/wpilibj/MockDigitalOutput.html#setPWMRate(double)" class="member-name-link">setPWMRate(double)</a> - Method in class edu.wpi.first.wpilibj.<a href="edu/wpi/first/wpilibj/MockDigitalOutput.html" title="class in edu.wpi.first.wpilibj">MockDigitalOutput</a></dt>
@@ -7410,6 +7416,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/controls/sensors/SimulatedAnalogDistanceSensor.html#setVoltageOffset(double)" class="member-name-link">setVoltageOffset(double)</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/SimulatedAnalogDistanceSensor.html" title="class in xbot.common.controls.sensors">SimulatedAnalogDistanceSensor</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XAnalogDistanceSensor.html#setVoltageOffset(double)" class="member-name-link">setVoltageOffset(double)</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XAnalogDistanceSensor.html" title="class in xbot.common.controls.sensors">XAnalogDistanceSensor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html#setWaypointRouter(xbot.common.trajectory.ProvidesWaypoints)" class="member-name-link">setWaypointRouter(ProvidesWaypoints)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#setWheelsToXMode()" class="member-name-link">setWheelsToXMode()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
