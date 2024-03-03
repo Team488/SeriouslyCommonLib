@@ -29,13 +29,15 @@ public class SwerveSimpleTrajectoryLogic {
     SimpleTimeInterpolator.InterpolationResult lastResult;
     double maxPower = 1.0;
     double maxTurningPower = 1.0;
-    private LowResField fieldWithObstacles;
+    private ProvidesWaypoints waypointRouter;
     private boolean aimAtGoalDuringFinalLeg;
     private boolean aimAtIntermediateNonFinalLegs;
     private boolean driveBackwards = false;
     private boolean enableSpecialAimTarget = false;
     private boolean enableSpecialAimDuringFinalLeg = false;
     private Pose2d specialAimTarget;
+    private boolean prioritizeRotationIfCloseToGoal = false;
+    private double distanceThresholdToPrioritizeRotation = 1.5;
 
     public SwerveSimpleTrajectoryLogic() {
 
@@ -69,8 +71,8 @@ public class SwerveSimpleTrajectoryLogic {
         this.driveBackwards = driveBackwards;
     }
 
-    public void setFieldWithObstacles(LowResField fieldWithObstacles) {
-        this.fieldWithObstacles = fieldWithObstacles;
+    public void setWaypointRouter(ProvidesWaypoints waypointRouter) {
+        this.waypointRouter = waypointRouter;
     }
 
     public void setKeyPoints(List<XbotSwervePoint> keyPoints) {
@@ -107,6 +109,14 @@ public class SwerveSimpleTrajectoryLogic {
         this.stopWhenFinished = newValue;
     }
 
+    public void setPrioritizeRotationIfCloseToGoal(boolean prioritizeRotationIfCloseToGoal) {
+        this.prioritizeRotationIfCloseToGoal = prioritizeRotationIfCloseToGoal;
+    }
+
+    public void setDistanceThresholdToPrioritizeRotation(double distanceThresholdToPrioritizeRotation) {
+        this.distanceThresholdToPrioritizeRotation = distanceThresholdToPrioritizeRotation;
+    }
+
     // --------------------------------------------------------------
     // Major Command Elements
     // --------------------------------------------------------------
@@ -119,7 +129,7 @@ public class SwerveSimpleTrajectoryLogic {
         var initialPoint = new XbotSwervePoint(currentPose, 0);
 
         // If we have a field, and only 1 target point, use the field to avoid obstacles.
-        if (fieldWithObstacles != null && keyPoints.size() == 1) {
+        if (waypointRouter != null && keyPoints.size() == 1) {
             log.info("Generating path avoiding obstacles");
 
             // Visualize direct raycast
@@ -130,7 +140,8 @@ public class SwerveSimpleTrajectoryLogic {
             aKitLog.record("Raycast", raycast);
 
             var targetPoint = keyPoints.get(0);
-            keyPoints = fieldWithObstacles.generatePath(currentPose, targetPoint);
+            keyPoints = waypointRouter.generatePath(currentPose,
+                    new Pose2d(targetPoint.getTranslation2d(), targetPoint.getRotation2d()));
         }
 
         if (enableConstantVelocity) {
@@ -235,7 +246,9 @@ public class SwerveSimpleTrajectoryLogic {
 
             double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
             double velocityAdjustedDuration = distance / velocity;
-            velocityAdjustedPoints.add(new XbotSwervePoint(swervePoints.get(i).keyPose, velocityAdjustedDuration));
+            if (velocityAdjustedDuration > 0) {
+                velocityAdjustedPoints.add(new XbotSwervePoint(swervePoints.get(i).keyPose, velocityAdjustedDuration));
+            }
         }
 
         return velocityAdjustedPoints;
@@ -337,6 +350,18 @@ public class SwerveSimpleTrajectoryLogic {
                 combinedVector = combinedVector.times(1 / combinedVector.getNorm());
             }
 
+            // If we're close to our target but not aimed at it, scale back translation so rotation can finish
+            boolean featureEnabledAndRotationCommanded = prioritizeRotationIfCloseToGoal && Math.abs(headingPower) > 0.075;
+            boolean closeAndOnFinalLeg = lastResult.isOnFinalLeg && lastResult.distanceToTargetPoint < distanceThresholdToPrioritizeRotation;
+            boolean engageTranslationSlowdown = featureEnabledAndRotationCommanded && closeAndOnFinalLeg;
+            if (engageTranslationSlowdown) {
+                combinedVector = combinedVector.times(0.01);
+            }
+
+            aKitLog.record("FeatureEnabledAndRotationCommanded", featureEnabledAndRotationCommanded);
+            aKitLog.record("CloseAndOnFinalLeg", closeAndOnFinalLeg);
+            aKitLog.record("TranslationReducedDueToRotation", engageTranslationSlowdown);
+            aKitLog.record("HeadingPower", headingPower);
             aKitLog.record("combinedVector", combinedVector);
 
             return new Twist2d(combinedVector.getX(), combinedVector.getY(), headingPower);
