@@ -15,8 +15,8 @@ public abstract class SimpleCamera {
      *
      * @param cameraInfo The information about the camera.
      */
-    protected SimpleCamera(CameraInfo cameraInfo) {
-        this.camera = new PhotonCameraExtended(cameraInfo.networkTablesName());
+    protected SimpleCamera(CameraInfo cameraInfo, String prefix) {
+        this.camera = new PhotonCameraExtended(cameraInfo.networkTablesName(), prefix);
         this.friendlyName = cameraInfo.friendlyName();
     }
 
@@ -45,6 +45,6 @@ public abstract class SimpleCamera {
      */
     public boolean isCameraWorking() {
         return getCamera().doesLibraryVersionMatchCoprocessorVersion()
-                && getCamera().isConnected();
+                && getCamera().isConnectedAkitCompatible();
     }
 }

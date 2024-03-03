@@ -3,23 +3,26 @@ package org.photonvision;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.littletonrobotics.junction.Logger;
 import org.photonvision.targeting.PhotonPipelineResult;
+import xbot.common.controls.io_inputs.PhotonCameraExtendedInputs;
 import xbot.common.controls.io_inputs.PhotonCameraExtendedInputsAutoLogged;
 
 public class PhotonCameraExtended extends PhotonCamera {
 
     PhotonCameraExtendedInputsAutoLogged io;
-    Logger log = LogManager.getLogger(this.getClass());
+    org.apache.logging.log4j.Logger log = LogManager.getLogger(this.getClass());
+    String akitName = "";
 
-    public PhotonCameraExtended(NetworkTableInstance instance, String cameraName) {
+    public PhotonCameraExtended(NetworkTableInstance instance, String cameraName, String prefix) {
         super(instance, cameraName);
         io = new PhotonCameraExtendedInputsAutoLogged();
+        akitName = prefix+cameraName;
 
     }
 
-    public PhotonCameraExtended(String cameraName) {
-        this(NetworkTableInstance.getDefault(), cameraName);
+    public PhotonCameraExtended(String cameraName, String prefix) {
+        this(NetworkTableInstance.getDefault(), cameraName, prefix);
     }
 
     @Override
@@ -35,7 +38,7 @@ public class PhotonCameraExtended extends PhotonCamera {
 
     public boolean doesLibraryVersionMatchCoprocessorVersion() {
         // Check for version. Warn if the versions aren't aligned.
-        String versionString = versionEntry.get("");
+        String versionString = io.versionEntry;
         if (!versionString.isEmpty() && !PhotonVersion.versionMatches(versionString)) {
             // Error on a verified version mismatch
             // But stay silent otherwise
@@ -46,9 +49,20 @@ public class PhotonCameraExtended extends PhotonCamera {
         return true;
     }
 
+    public boolean isConnectedAkitCompatible() {
+        return io.isConnected;
+    }
+
+    public void updateInputs(PhotonCameraExtendedInputs inputs) {
+        inputs.cameraMatrix = cameraIntrinsicsSubscriber.get();
+        inputs.distCoeffs = cameraDistortionSubscriber.get();
+        inputs.pipelineResult = super.getLatestResult();
+        inputs.versionEntry = versionEntry.get("");
+        inputs.isConnected = isConnected();
+    }
+
     public void refreshDataFrame() {
-        io.cameraMatrix = cameraIntrinsicsSubscriber.get();
-        io.distCoeffs = cameraDistortionSubscriber.get();
-        io.pipelineResult = super.getLatestResult();
+        updateInputs(io);
+        Logger.processInputs(akitName, io);
     }
 }

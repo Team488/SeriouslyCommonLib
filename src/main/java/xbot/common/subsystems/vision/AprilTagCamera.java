@@ -24,8 +24,9 @@ public class AprilTagCamera extends SimpleCamera {
      */
     public AprilTagCamera(CameraInfo cameraInfo,
                           Supplier<Double> poseStableTime,
-                          AprilTagFieldLayout fieldLayout) {
-        super(cameraInfo);
+                          AprilTagFieldLayout fieldLayout,
+                          String prefix) {
+        super(cameraInfo, prefix);
         this.poseEstimator = new PhotonPoseEstimator(fieldLayout,
                 PhotonPoseEstimator.PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
                 this.camera,
