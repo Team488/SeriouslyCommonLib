@@ -276,7 +276,7 @@ public class Obstacle extends Rectangle2D.Double {
         }
     }
 
-    private double bonusOffset = 0.5;
+    private double bonusOffset = 0.25;
 
     public double getBonusOffset() {
         return bonusOffset;
@@ -299,7 +299,6 @@ public class Obstacle extends Rectangle2D.Double {
         double xDelta = 0;
         double yDelta = 0;
         double minDistance = 10000;
-        double bonusOffset = 0.5;
 
         double topDistance = topLine.ptLineDist(point.getX(), point.getY());
         if (topDistance < minDistance && (topLeftAvailable || topRightAvailable)) {

@@ -262,6 +262,8 @@ public class SwerveSimpleTrajectoryLogic {
         return calculatePowers(currentPose, positionalPid, headingModule, 0);
     }
 
+    double lastDegreeTarget = 0;
+
     public Twist2d calculatePowers(Pose2d currentPose, PIDManager positionalPid, HeadingModule headingModule, double maximumVelocity) {
         var goalVector = getGoalVector(currentPose);
 
@@ -281,13 +283,17 @@ public class SwerveSimpleTrajectoryLogic {
         aKitLog.record("intent", intent);
 
         double degreeTarget = lastResult.chaseHeading.getDegrees();
-
         boolean lastLegAndSpecialAim = enableSpecialAimDuringFinalLeg && lastResult.isOnFinalLeg;
 
         if (specialAimTarget != null && (enableSpecialAimTarget || lastLegAndSpecialAim )) {
-            degreeTarget = getAngleBetweenTwoPoints(
-                    currentPose.getTranslation(), specialAimTarget.getTranslation()
-            ).getDegrees();
+            if (magnitudeGoal < 0.3) {
+                // we are so close to our goal; we shouldn't turn around or we will thrash on the point.
+                degreeTarget = lastDegreeTarget;
+            } else {
+                degreeTarget = getAngleBetweenTwoPoints(
+                        currentPose.getTranslation(), specialAimTarget.getTranslation()
+                ).getDegrees();
+            }
         }
 
         double headingPower = headingModule.calculateHeadingPower(
@@ -301,6 +307,7 @@ public class SwerveSimpleTrajectoryLogic {
             headingPower = headingPower * maxTurningPower;
         }
 
+        lastDegreeTarget = degreeTarget;
         aKitLog.record("UpdatedIntent", intent);
         // If we have no max velocity set, or we are on the last point and almost done, just use the position PID
         if (maximumVelocity <= 0 || (lastResult.isOnFinalPoint && lastResult.distanceToTargetPoint < 0.5) || lastResult.lerpFraction > 1) {

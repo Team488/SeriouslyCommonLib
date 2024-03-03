@@ -172,7 +172,7 @@ public class LowResField {
                     Obstacle.ParallelCrossingType parallelCrossingType = o.getParallelCrossingType(averageIntersection);
                     if (parallelCrossingType != Obstacle.ParallelCrossingType.None) {
                        pointCombination = o.getPointProjectionCombination(
-                                currentSource, targetPoint.getTranslation2d(), parallelCrossingType);
+                                currentSource, currentTarget.getTranslation2d(), parallelCrossingType);
                     }
 
                     log.info("Parallel Crossing Type: " + parallelCrossingType.toString());
