@@ -43,6 +43,7 @@ public abstract class XCANSparkMax {
     protected boolean firstPeriodicCall = true;
 
     protected XCANSparkMaxInputsAutoLogged inputs;
+    protected XCANSparkMaxInputsAutoLogged lastInputs;
 
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(XCANSparkMax.class);
 
@@ -813,5 +814,13 @@ public abstract class XCANSparkMax {
     public void refreshDataFrame() {
         updateInputs(inputs);
         Logger.processInputs(akitName, inputs);
+
+        if(inputs.lastErrorId != 0) {
+            // Something has gone wrong. Most likely this is a timeout
+            // and the underlying data can't be trusted. Replace the inputs with data from the previous frame.
+            inputs = lastInputs;
+        }
+
+        lastInputs = inputs;
     }
 }
