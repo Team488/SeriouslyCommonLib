@@ -13,7 +13,7 @@ import java.util.TreeMap;
 /**
  * Represents a simple version of the field, with Axis-Aligned Bounding Boxes representing no-go zones due to obstacles.
  */
-public class LowResField {
+public class LowResField implements ProvidesWaypoints {
 
     List<Obstacle> obstacles;
     Logger log = LogManager.getLogger(LowResField.class);
@@ -59,7 +59,7 @@ public class LowResField {
      * @param targetPoint Terminating Point
      * @return A List of XbotSwervePoints that can be followed to reach the destination without collision.
      */
-    public List<XbotSwervePoint> generatePath(Pose2d currentPose, XbotSwervePoint targetPoint) {
+    public List<XbotSwervePoint> generatePath(Pose2d currentPose, Pose2d targetPoint) {
         // New attempt at a pathfinding algorithm that maybe a little more resilient. The original algorithm had
         // two issues:
         // - It worked backwards, which was a little unintuitive, but not strictly a problem.
@@ -90,7 +90,7 @@ public class LowResField {
         //         Loop back to step (3).
 
         // 1) Save the initial target as the ultimate target; we'll need it later.
-        XbotSwervePoint ultimateTarget = targetPoint;
+        XbotSwervePoint ultimateTarget = new XbotSwervePoint(targetPoint, 10);
         //      a) initialize the current target from the ultimate target.
         XbotSwervePoint currentTarget = ultimateTarget;
         Translation2d currentSource = currentPose.getTranslation();
@@ -113,16 +113,16 @@ public class LowResField {
 
                 var specialStartingPoint = new XbotSwervePoint(
                         slidPoint,
-                        targetPoint.getRotation2d(),
+                        targetPoint.getRotation(),
                         10);
                 path.add(specialStartingPoint);
             }
 
-            if (o.contains(targetPoint.getTranslation2d().getX(), targetPoint.getTranslation2d().getY())) {
+            if (o.contains(targetPoint.getTranslation().getX(), targetPoint.getTranslation().getY())) {
                 log.info("Target is currently inside obstacle" + o.name + ".");
                 log.info("Adding an interstitial waypoint just outside obstacle" + o.name + ".");
                 // our target is inside - we need to change our focalPoint and save this one.
-                Translation2d slidPoint = o.movePointOutsideOfBounds(targetPoint.getTranslation2d());
+                Translation2d slidPoint = o.movePointOutsideOfBounds(targetPoint.getTranslation());
                 // create a new focal point that exactly mimics the final point, except it is out of bounds
 
                 specialFinalPoint = ultimateTarget;
@@ -130,7 +130,7 @@ public class LowResField {
                 // For the rest of the logic, consider this "legal" point to be the final point.
                 ultimateTarget = new XbotSwervePoint(
                         slidPoint,
-                        targetPoint.getRotation2d(),
+                        targetPoint.getRotation(),
                         10);
                 currentTarget = ultimateTarget;
             }
@@ -172,7 +172,7 @@ public class LowResField {
                     Obstacle.ParallelCrossingType parallelCrossingType = o.getParallelCrossingType(averageIntersection);
                     if (parallelCrossingType != Obstacle.ParallelCrossingType.None) {
                        pointCombination = o.getPointProjectionCombination(
-                                currentSource, targetPoint.getTranslation2d(), parallelCrossingType);
+                                currentSource, targetPoint.getTranslation(), parallelCrossingType);
                     }
 
                     log.info("Parallel Crossing Type: " + parallelCrossingType.toString());
@@ -206,8 +206,8 @@ public class LowResField {
                         var secondArbitraryCorner = o.getClosestCornerToPoint(averageIntersection);
                         Translation2d pointClosestToTarget = null;
                         Translation2d pointClosestToSource = null;
-                        if (firstArbitraryCorner.getDistance(targetPoint.getTranslation2d())
-                                < secondArbitraryCorner.getDistance(targetPoint.getTranslation2d())) {
+                        if (firstArbitraryCorner.getDistance(targetPoint.getTranslation())
+                                < secondArbitraryCorner.getDistance(targetPoint.getTranslation())) {
                             pointClosestToTarget = firstArbitraryCorner;
                             pointClosestToSource = secondArbitraryCorner;
                         } else {
@@ -247,7 +247,7 @@ public class LowResField {
                         if (pointCombination == Obstacle.PointProjectionCombination.FirstInside) {
                             insidePoint = currentSource;
                         } else {
-                            insidePoint = targetPoint.getTranslation2d();
+                            insidePoint = targetPoint.getTranslation();
                         }
 
                         // Find which corner is closest to the inside point

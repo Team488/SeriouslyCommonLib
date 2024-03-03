@@ -37,7 +37,7 @@ public class LowResFieldTest extends BaseCommonLibTest {
         // Final point on the right side of the obstacle, biased up a bit.
         var finalPoint = new XbotSwervePoint(25, 8, 90, 10);
         var startPoint = new Pose2d(-2, 8, Rotation2d.fromDegrees(0));
-        var results = f.generatePath(startPoint, finalPoint);
+        var results = f.generatePath(startPoint, finalPoint.keyPose);
 
         checkCornerUsed(simpleObstacle.topLeft, results.get(0));
         checkCornerUsed(simpleObstacle.topRight, results.get(1));
@@ -52,7 +52,7 @@ public class LowResFieldTest extends BaseCommonLibTest {
         // Final point on the right side of the obstacle, biased up a bit.
         var finalPoint = new XbotSwervePoint(22, -20, 90, 10);
         var startPoint = new Pose2d(-2, 30, Rotation2d.fromDegrees(0));
-        var results = f.generatePath(startPoint, finalPoint);
+        var results = f.generatePath(startPoint, finalPoint.keyPose);
 
         checkCornerUsed(simpleObstacle.topRight, results.get(0));
         checkCornerUsed(finalPoint.getTranslation2d(), results.get(1));
@@ -66,7 +66,7 @@ public class LowResFieldTest extends BaseCommonLibTest {
         // Final point on the right side of the obstacle, biased up a bit.
         var finalPoint = new XbotSwervePoint(10, -5, 90, 10);
         var startPoint = new Pose2d(-2, 30, Rotation2d.fromDegrees(0));
-        var results = f.generatePath(startPoint, finalPoint);
+        var results = f.generatePath(startPoint, finalPoint.keyPose);
 
         checkCornerUsed(simpleObstacle.bottomLeft, results.get(0));
         checkCornerUsed(finalPoint.getTranslation2d(), results.get(1));
@@ -82,7 +82,7 @@ public class LowResFieldTest extends BaseCommonLibTest {
 
         var finalPoint = new XbotSwervePoint(60, 8, 90, 10);
         var startPoint = new Pose2d(-2, 8, Rotation2d.fromDegrees(0));
-        var results = f.generatePath(startPoint, finalPoint);
+        var results = f.generatePath(startPoint, finalPoint.keyPose);
 
         checkCornerUsed(wideObstacle.topLeft, results.get(0));
         checkCornerUsed(wideObstacle.topRight, results.get(1));
@@ -98,7 +98,7 @@ public class LowResFieldTest extends BaseCommonLibTest {
         XbotSwervePoint finalPoint = new XbotSwervePoint(290, 40, -90, 10);
         long start = System.nanoTime();
         for (int i = 0; i < 10000; i++) {
-            List<XbotSwervePoint> path = f.generatePath(robotPose, finalPoint);
+            List<XbotSwervePoint> path = f.generatePath(robotPose, finalPoint.keyPose);
         }
         long stop = System.nanoTime();
         long diff = stop - start;
