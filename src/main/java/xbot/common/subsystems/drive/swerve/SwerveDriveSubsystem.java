@@ -55,11 +55,11 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
                     "DriveNeo",
                     super.getPrefix() + "/DrivePID",
                     new XCANSparkMaxPIDProperties(
-                            0.0001,
+                            0.00001,
                             0.000001,
                             0,
                             400,
-                            0,
+                            0.00015,
                             1,
                             -1
                     ));
