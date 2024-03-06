@@ -247,9 +247,13 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
         return power;
     }
 
+    double outputCurrent;
+    public double setOutputCurrent(double outputCurrent) {
+        return this.outputCurrent = outputCurrent;
+    }
     @Override
     public double getOutputCurrent() {
-        return 0;
+        return outputCurrent;
     }
 
     @Override
