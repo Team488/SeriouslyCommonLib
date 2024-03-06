@@ -50,6 +50,9 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
             state.accelerationMetersPerSecondSq = 0;
             wpiStates.add(state);
         }
+        if (wpiStates.size() == 0) {
+            return new Trajectory();
+        }
         return new Trajectory(wpiStates);
     }
 
