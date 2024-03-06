@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import xbot.common.advantage.AKitLogger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.injection.swerve.SwerveComponent;
 import xbot.common.math.MathUtils;
@@ -572,11 +573,13 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
 
     @Override
     public void periodic() {
+        aKitLog.setLogLevel(AKitLogger.LogLevel.DEBUG);
         aKitLog.record("ActiveSwerveModule", activeModuleLabel);
         aKitLog.record("TranslationTarget",
             new Translation2d(translationXTargetMPS, translationYTargetMPS));
         aKitLog.record("RotationTarget", rotationTargetRadians);
         aKitLog.record("DesiredHeading", desiredHeading);
+        aKitLog.setLogLevel(AKitLogger.LogLevel.DEBUG);
         aKitLog.record("VelocityMaintainerTargets",
             new Translation2d(velocityMaintainerXTarget, velocityMaintainerXTarget));
     }
