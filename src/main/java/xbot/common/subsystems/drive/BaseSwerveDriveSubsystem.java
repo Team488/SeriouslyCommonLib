@@ -128,7 +128,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
      */
     protected PIDDefaults getPositionalPIDDefaults() {
         return new PIDDefaults(
-                0.72, // P
+                1.08, // P
                 0, // I
                 4.0, // D
                 0.0, // F
