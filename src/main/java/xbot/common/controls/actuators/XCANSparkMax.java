@@ -84,6 +84,7 @@ public abstract class XCANSparkMax {
         policeTicket = police.registerDevice(DeviceType.CAN, deviceId, this);
 
         inputs = new XCANSparkMaxInputsAutoLogged();
+        lastInputs = new XCANSparkMaxInputsAutoLogged();
 
         if (defaultPIDProperties == null) {
             usesPropertySystem = false;
