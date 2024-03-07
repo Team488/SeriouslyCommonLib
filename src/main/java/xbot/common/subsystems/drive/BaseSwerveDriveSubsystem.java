@@ -93,8 +93,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
                 this.rearRightSwerveModuleSubsystem.getModuleTranslation()
         );
 
-        this.maxTargetSpeedMps = pf.createPersistentProperty("MaxTargetSpeedMetersPerSecond", 3.0);
-        this.maxTargetTurnRate = pf.createPersistentProperty("MaxTargetTurnRate", MathUtils.Tau);
+        this.maxTargetSpeedMps = pf.createPersistentProperty("MaxTargetSpeedMetersPerSecond", 4.5);
+        this.maxTargetTurnRate = pf.createPersistentProperty("MaxTargetTurnRate", 8.0);
         this.activeModuleLabel = activeModule.toString();
         this.desiredHeading = 0;
 
@@ -147,9 +147,9 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
      */
     protected PIDDefaults getHeadingPIDDefaults() {
         return new PIDDefaults(
-                0.015, // P
-                0.0000001, // I
-                0.045, // D
+                0.005, // P
+                0.000001, // I
+                0.02, // D
                 0.0, // F
                 0.75, // Max output
                 -0.75, // Min output
