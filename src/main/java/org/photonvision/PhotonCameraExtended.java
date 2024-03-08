@@ -57,11 +57,15 @@ public class PhotonCameraExtended extends PhotonCamera {
     }
 
     public void updateInputs(PhotonCameraExtendedInputs inputs) {
-        inputs.cameraMatrix = cameraIntrinsicsSubscriber.get();
-        inputs.distCoeffs = cameraDistortionSubscriber.get();
-        inputs.pipelineResult = super.getLatestResult();
-        inputs.versionEntry = versionEntry.get("");
-        inputs.isConnected = isConnected();
+        try {
+            inputs.cameraMatrix = cameraIntrinsicsSubscriber.get();
+            inputs.distCoeffs = cameraDistortionSubscriber.get();
+            inputs.pipelineResult = super.getLatestResult();
+            inputs.versionEntry = versionEntry.get("");
+            inputs.isConnected = isConnected();
+        } catch (Exception e) {
+            inputs = new PhotonCameraExtendedInputs();
+        }
     }
 
     public void refreshDataFrame() {
