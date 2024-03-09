@@ -251,6 +251,15 @@ public class SwerveSimpleTrajectoryLogic {
             }
         }
 
+        // If you attempt to invoke this method where the start point and all intermediate points are the same point,
+        // then all the points will be obliterated because there's no distance between any of them.
+        // However, we should still return something that can represent that we are pretty happy with our position,
+        // and has a non-zero duration so the interpolator won't get confused.
+        if (velocityAdjustedPoints.size() == 0) {
+            var dummyPoint = new XbotSwervePoint(initialPoint.keyPose, 0.05);
+            velocityAdjustedPoints.add(dummyPoint);
+        }
+
         return velocityAdjustedPoints;
     }
 
