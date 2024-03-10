@@ -14,6 +14,7 @@ import org.littletonrobotics.junction.Logger;
 import xbot.common.controls.io_inputs.XCANSparkMaxInputs;
 import xbot.common.controls.io_inputs.XCANSparkMaxInputsAutoLogged;
 import xbot.common.controls.sensors.XSparkAbsoluteEncoder;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
@@ -776,6 +777,10 @@ public abstract class XCANSparkMax {
 
     public abstract REVLibError setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame frame, int periodMs);
 
+
+    double lastStatusFrameSetupFromResetTime = -Double.MAX_VALUE;
+    double timeBetweenStatusFrameSetupAttempts = 5;
+
     /**
      * Helper method to modify CAN status frame timing. Is used to reduce traffic on the CAN bus for
      * types of data that aren't as time critical.
@@ -786,17 +791,18 @@ public abstract class XCANSparkMax {
     public void setupStatusFramesIfReset(int status0PeriodMs, int status1PeriodMs, int status2PeriodMs, int status3PeriodMs) {
             // We need to re-set frame intervals after a device reset.
             if (getStickyFaultHasReset() && getLastError() != REVLibError.kHALError) {
-                log.info("Setting status frame periods.");
+                if (XTimer.getFPGATimestamp() > lastStatusFrameSetupFromResetTime + timeBetweenStatusFrameSetupAttempts) {
+                    // See https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces#periodic-status-frames
+                    // for description of the different status frames. kStatus2 is the only frame with data needed for software PID.
+                    log.info("Setting status frame periods.");
+                    setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, status0PeriodMs /* default 10 */);
+                    setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, status1PeriodMs /* default 20 */);
+                    setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, status2PeriodMs /* default 20 */);
+                    setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, status3PeriodMs /* default 50 */);
 
-                // See https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces#periodic-status-frames
-                // for description of the different status frames. kStatus2 is the only frame with data needed for software PID.
-
-                setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, status0PeriodMs /* default 10 */);
-                setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, status1PeriodMs /* default 20 */);
-                setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, status2PeriodMs /* default 20 */);
-                setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, status3PeriodMs /* default 50 */);
-
-                clearFaults();
+                    lastStatusFrameSetupFromResetTime = XTimer.getFPGATimestamp();
+                    clearFaults();
+                }
             }
     }
 
