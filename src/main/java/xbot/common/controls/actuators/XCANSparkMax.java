@@ -812,16 +812,32 @@ public abstract class XCANSparkMax {
     // Methods for integrating with AdvantageKit
     protected abstract void updateInputs(XCANSparkMaxInputs inputs);
 
+    boolean lostTrustInPosition = false;
+
     public void refreshDataFrame() {
         updateInputs(inputs);
         Logger.processInputs(akitName, inputs);
+        Logger.processInputs(akitName+"Last", lastInputs);
 
-        if(inputs.lastErrorId != 0) {
+        boolean someKindOfErrorCode = inputs.lastErrorId != 0;
+        if(someKindOfErrorCode) {
             // Something has gone wrong. Most likely this is a timeout
             // and the underlying data can't be trusted. Replace the inputs with data from the previous frame.
-            inputs = lastInputs;
+            lostTrustInPosition = true;
         }
 
-        lastInputs = inputs;
+        if (lostTrustInPosition) {
+            inputs = lastInputs.clone();
+            if (Math.abs(inputs.position) > 1 && !someKindOfErrorCode) {
+                lostTrustInPosition = false;
+            }
+        } else {
+            lastInputs = inputs.clone();
+        }
+
+
+        Logger.recordOutput(akitName+"/LostTrust", lostTrustInPosition);
+
+
     }
 }
