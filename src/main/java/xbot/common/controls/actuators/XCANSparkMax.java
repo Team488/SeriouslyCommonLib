@@ -827,12 +827,12 @@ public abstract class XCANSparkMax {
         }
 
         if (lostTrustInPosition) {
-            inputs = lastInputs;
+            inputs = lastInputs.clone();
             if (Math.abs(inputs.position) > 1 && !someKindOfErrorCode) {
                 lostTrustInPosition = false;
             }
         } else {
-            lastInputs = inputs;
+            lastInputs = inputs.clone();
         }
 
 
