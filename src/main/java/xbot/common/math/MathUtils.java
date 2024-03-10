@@ -1,5 +1,7 @@
 package xbot.common.math;
 
+import edu.wpi.first.math.geometry.Translation2d;
+
 import java.util.function.Function;
 
 public class MathUtils
@@ -65,4 +67,16 @@ public class MathUtils
     }
 
     public static double Tau = Math.PI * 2;
+
+    public static Translation2d triangulate(double distanceBetween, double angleFromOrigin, double otherAngle) {
+        double remainingAngle = 180 - angleFromOrigin - otherAngle;
+
+        double distanceBetweenLeftPositionAndTarget = distanceBetween * Math.sin(Math.toRadians(otherAngle)) / Math.sin(Math.toRadians(remainingAngle));
+
+        Translation2d triangulatedLocation = new Translation2d(
+            distanceBetweenLeftPositionAndTarget * Math.cos(Math.toRadians(angleFromOrigin)),
+            distanceBetweenLeftPositionAndTarget * Math.sin(Math.toRadians(angleFromOrigin))
+        );
+        return triangulatedLocation;
+    }
 }
