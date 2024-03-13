@@ -39,7 +39,14 @@ public class PhotonCameraExtended extends PhotonCamera {
         // PhotonPipelineResult doesn't serialize the timestamp,
         // so we need to restore it for simulation playback
         if (result.getTimestampSeconds() == -1.0) {
-            result.setTimestampSeconds(io.pipelineResultTimestamp);
+            var loggedTimestamp = io.pipelineResultTimestamp;
+            if (loggedTimestamp == 0.0) {
+                // The timestamp is not logged (old data), so we need to estimate it.
+                result.setTimestampSeconds(XTimer.getFPGATimestamp()
+                        - (result.getLatencyMillis() / 1000));
+            } else {
+                result.setTimestampSeconds(loggedTimestamp);
+            }
         }
         return result;
     }
