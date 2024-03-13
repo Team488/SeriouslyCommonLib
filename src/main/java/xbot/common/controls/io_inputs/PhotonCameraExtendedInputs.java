@@ -6,6 +6,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 @AutoLog
 public class PhotonCameraExtendedInputs {
     public PhotonPipelineResult pipelineResult;
+    public double pipelineResultTimestamp;
     public double[] cameraMatrix;
     public double[] distCoeffs;
     public boolean inputsUnhealthy;
