@@ -823,27 +823,29 @@ public abstract class XCANSparkMax {
     public void refreshDataFrame() {
         updateInputs(inputs);
         Logger.processInputs(akitName, inputs);
+        // TODO: once we're confident that this "ignore erroneous data" code is working,
+        // stop logging this extra data.
         Logger.processInputs(akitName+"Last", lastInputs);
 
+        double suspiciousPositionValue = 0.244; // The value returned by the SparkMax when it times out
+        boolean sparkReportingSuspiciousPosition = Math.abs(Math.abs(inputs.position) - suspiciousPositionValue) < 0.05;
+        boolean sparkReportingSuspiciousBusVoltage = Math.abs(inputs.busVoltage) < 0.001;
         boolean someKindOfErrorCode = inputs.lastErrorId != 0;
-        if(someKindOfErrorCode) {
+        if(someKindOfErrorCode || sparkReportingSuspiciousPosition || sparkReportingSuspiciousBusVoltage) {
             // Something has gone wrong. Most likely this is a timeout
             // and the underlying data can't be trusted. Replace the inputs with data from the previous frame.
             lostTrustInPosition = true;
         }
 
         if (lostTrustInPosition) {
-            inputs = lastInputs.clone();
-            if (Math.abs(inputs.position) > 1 && !someKindOfErrorCode) {
+            boolean positionSeemsSane = Math.abs(Math.abs(inputs.position) - suspiciousPositionValue) > 0.05;
+            if (positionSeemsSane && !someKindOfErrorCode) {
                 lostTrustInPosition = false;
             }
+            inputs = lastInputs.clone();
         } else {
             lastInputs = inputs.clone();
         }
-
-
         Logger.recordOutput(akitName+"/LostTrust", lostTrustInPosition);
-
-
     }
 }
