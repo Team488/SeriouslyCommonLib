@@ -831,7 +831,9 @@ public abstract class XCANSparkMax {
         boolean sparkReportingSuspiciousPosition = Math.abs(Math.abs(inputs.position) - suspiciousPositionValue) < 0.05;
         boolean sparkReportingSuspiciousBusVoltage = Math.abs(inputs.busVoltage) < 0.001;
         boolean someKindOfErrorCode = inputs.lastErrorId != 0;
-        if(someKindOfErrorCode || sparkReportingSuspiciousPosition || sparkReportingSuspiciousBusVoltage) {
+
+        boolean weAreSuspiciousSomethingIsGoingWrong = sparkReportingSuspiciousPosition || sparkReportingSuspiciousBusVoltage || someKindOfErrorCode;
+        if(weAreSuspiciousSomethingIsGoingWrong) {
             // Something has gone wrong. Most likely this is a timeout
             // and the underlying data can't be trusted. Replace the inputs with data from the previous frame.
             lostTrustInPosition = true;
@@ -839,7 +841,7 @@ public abstract class XCANSparkMax {
 
         if (lostTrustInPosition) {
             boolean positionSeemsSane = Math.abs(Math.abs(inputs.position) - suspiciousPositionValue) > 0.05;
-            if (positionSeemsSane && !someKindOfErrorCode) {
+            if (positionSeemsSane && !weAreSuspiciousSomethingIsGoingWrong) {
                 lostTrustInPosition = false;
             }
             inputs = lastInputs.clone();
