@@ -25,6 +25,8 @@ public class HeadingModule {
     
     public final double defaultPValue = 1/80d;
 
+    private double frozenHeading = 0;
+
     @AssistedFactory
     public abstract static class HeadingModuleFactory {
         public abstract HeadingModule create(@Assisted("headingDrivePid") PIDManager headingDrivePid);
@@ -69,7 +71,19 @@ public class HeadingModule {
         return rotationalPower;        
     }
 
-    public double calculateHeadingPower(Rotation2d desiredHeading) { 
+    public double calculateHeadingPower(Rotation2d desiredHeading) {
         return calculateHeadingPower(desiredHeading.getDegrees());
+    }
+
+    public double calculateDeltaHeadingPower(double desiredDeltaHeadingInDegrees) {
+        return calculateHeadingPower(pose.getCurrentHeading().getDegrees() + desiredDeltaHeadingInDegrees);
+    }
+
+    public void freezeHeading() {
+        frozenHeading = pose.getCurrentHeading().getDegrees();
+    }
+
+    public double calculateFrozenHeadingPower() {
+        return calculateHeadingPower(frozenHeading);
     }
 }
