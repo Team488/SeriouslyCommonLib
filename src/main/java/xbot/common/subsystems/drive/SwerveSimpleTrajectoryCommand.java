@@ -34,6 +34,10 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
     @Override
     public void initialize() {
         log.info("Initializing");
+        reset();
+    }
+
+    public void reset() {
         logic.reset(pose.getCurrentPose2d());
     }
 
