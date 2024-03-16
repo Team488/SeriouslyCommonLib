@@ -71,12 +71,12 @@ public class HeadingModule {
         return rotationalPower;        
     }
 
-    public double calculateDeltaHeadingPower(double desiredDeltaHeadingInDegrees) {
-        return calculateHeadingPower(pose.getCurrentHeading().getDegrees() + desiredDeltaHeadingInDegrees);
+    public double calculateHeadingPower(Rotation2d desiredHeading) {
+        return calculateHeadingPower(desiredHeading.getDegrees());
     }
 
-    public double calculateHeadingPower(Rotation2d desiredHeading) { 
-        return calculateHeadingPower(desiredHeading.getDegrees());
+    public double calculateDeltaHeadingPower(double desiredDeltaHeadingInDegrees) {
+        return calculateHeadingPower(pose.getCurrentHeading().getDegrees() + desiredDeltaHeadingInDegrees);
     }
 
     public void freezeHeading() {
