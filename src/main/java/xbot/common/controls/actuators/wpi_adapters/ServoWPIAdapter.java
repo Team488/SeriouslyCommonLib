@@ -8,23 +8,28 @@ import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.wpilibj.Servo;
 
-public class ServoWPIAdapter extends XServo{
+public class ServoWPIAdapter extends XServo {
     
     Servo servo;
 
     @AssistedFactory
     public abstract static class ServoWPIAdapterFactory implements XServoFactory {
-        public abstract ServoWPIAdapter create(@Assisted("channel") int channel);
+        public abstract ServoWPIAdapter create(@Assisted("channel") int channel, @Assisted("name") String name);
     }
 
     @AssistedInject
-    public ServoWPIAdapter(@Assisted("channel") int channel, DevicePolice police) {
-        super(channel, police);
+    public ServoWPIAdapter(@Assisted("channel") int channel, @Assisted("name") String name, DevicePolice police) {
+        super(channel, name, police);
         this.servo = new Servo(channel);
     }
     
     @Override
     public void set(double value) {
         this.servo.set(value);   
+    }
+
+    @Override
+    public double get() {
+        return this.servo.get();
     }
 }

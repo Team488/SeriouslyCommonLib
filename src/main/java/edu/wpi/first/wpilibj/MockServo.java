@@ -13,20 +13,21 @@ public class MockServo extends XServo {
 
     @AssistedFactory
     public abstract static class MockServoFactory implements XServoFactory {
-        public abstract MockServo create(@Assisted("channel") int channel);
+        public abstract MockServo create(@Assisted("channel") int channel, @Assisted("name") String name);
     }
 
     @AssistedInject
-    public MockServo(@Assisted("channel") int channel, DevicePolice police) {
-        super(channel, police);
+    public MockServo(@Assisted("channel") int channel, @Assisted("name") String name, DevicePolice police) {
+        super(channel, name, police);
     }
 
     @Override
     public void set(double value) {
         this.value = value;
     }
-    
-    public double getValue(){
+
+    @Override
+    public double get(){
         return value;
     }
 }
