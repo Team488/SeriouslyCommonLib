@@ -42,6 +42,8 @@ public class XPropertyManager implements DataFrameRefreshable {
         properties.add(property);
     }
 
+    int propertyRefreshIndex = 0;
+
     /**
      * Must be called every robot loop, and should be done before any properties are accessed in order to
      * make the robot as responsive as possible.
@@ -49,10 +51,16 @@ public class XPropertyManager implements DataFrameRefreshable {
     @Override
     public void refreshDataFrame() {
         // Only refresh persistent/configuration properties.
-        for (Property property : properties) {
-            if (property.level == Property.PropertyLevel.Important) {
-                property.refreshDataFrame();
-            }
-        }
+
+         if (propertyRefreshIndex > properties.size()-1) {
+            propertyRefreshIndex = 0;
+         }
+
+         var property = properties.get(propertyRefreshIndex);
+         if (property.level == Property.PropertyLevel.Important) {
+             property.refreshDataFrame();
+         }
+
+         propertyRefreshIndex++;
     }
 }

@@ -252,18 +252,22 @@ public abstract class BaseRobot extends LoggedRobot {
         double outsidePeriodicEnd = getPerformanceTimestampInMs();
         Logger.getInstance().recordOutput("OutsidePeriodicMs", outsidePeriodicEnd - outsidePeriodicStart);
         // Get a fresh data frame from all top-level components (typically large subsystems or shared sensors)
-        double dataFrameStart = getPerformanceTimestampInMs();
+
 
         // Refresh the properties ahead of all other systems, since some may want to immediately
         // use the relevant values.
+        double propertyStart = getPerformanceTimestampInMs();
         propertyManager.refreshDataFrame();
+        double propertyEnd = getPerformanceTimestampInMs();
+        Logger.getInstance().recordOutput("RefreshPropertyMs", propertyEnd - propertyStart);
 
         // Then, refresh any Subsystem or other components that implement DataFrameRefreshable.
+        double dataFrameStart = getPerformanceTimestampInMs();
         for (DataFrameRefreshable refreshable : dataFrameRefreshables) {
             refreshable.refreshDataFrame();
         }
         double dataFrameEnd = getPerformanceTimestampInMs();
-        Logger.getInstance().recordOutput("RefreshDataFrameMs", dataFrameEnd - dataFrameStart);
+        Logger.getInstance().recordOutput("RefreshDevicesMs", dataFrameEnd - dataFrameStart);
 
         double schedulerStart = getPerformanceTimestampInMs();
         xScheduler.run();
