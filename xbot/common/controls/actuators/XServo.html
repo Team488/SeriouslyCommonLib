@@ -78,7 +78,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../XBaseIO.html" title="interface in xbot.common.controls">XBaseIO</a></code></dd>
+<dd><code><a href="../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code>, <code><a href="../XBaseIO.html" title="interface in xbot.common.controls">XBaseIO</a></code></dd>
 </dl>
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
@@ -87,7 +87,11 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">XServo</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="../XBaseIO.html" title="interface in xbot.common.controls">XBaseIO</a></span></div>
+implements <a href="../XBaseIO.html" title="interface in xbot.common.controls">XBaseIO</a>, <a href="../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></span></div>
+<div class="block">A servo motor.
+ This class is abstract because the actual implementation of a servo motor
+ will depend on the hardware being used. For example, for a real implementation,
+ we have the ServoWPIAdapter class, and the Mock library has a MockServo class.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -118,6 +122,9 @@ implements <a href="../XBaseIO.html" title="interface in xbot.common.controls">X
 <div class="col-first even-row-color"><code>protected int</code></div>
 <div class="col-second even-row-color"><code><a href="#channel" class="member-name-link">channel</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#name" class="member-name-link">name</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -131,9 +138,12 @@ implements <a href="../XBaseIO.html" title="interface in xbot.common.controls">X
 <div class="table-header col-second">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>protected </code></div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,xbot.common.injection.DevicePolice)" class="member-name-link">XServo</a><wbr>(int&nbsp;channel,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,java.lang.String,xbot.common.injection.DevicePolice)" class="member-name-link">XServo</a><wbr>(int&nbsp;channel,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="../../injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a>&nbsp;police)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Create a new servo motor.</div>
+</div>
 </div>
 </section>
 </li>
@@ -148,12 +158,24 @@ implements <a href="../XBaseIO.html" title="interface in xbot.common.controls">X
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getChannel()" class="member-name-link">getChannel</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract double</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#get()" class="member-name-link">get</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Get the current value of the servo.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getChannel()" class="member-name-link">getChannel</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Get the PWM channel that this servo is connected to.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#refreshDataFrame()" class="member-name-link">refreshDataFrame</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#set(double)" class="member-name-link">set</a><wbr>(double&nbsp;value)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Set the servo to a specific value.</div>
+</div>
 </div>
 </div>
 </div>
@@ -177,6 +199,12 @@ implements <a href="../XBaseIO.html" title="interface in xbot.common.controls">X
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">channel</span></div>
 </section>
 </li>
+<li>
+<section class="detail" id="name">
+<h3>name</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">name</span></div>
+</section>
+</li>
 </ul>
 </section>
 </li>
@@ -186,10 +214,18 @@ implements <a href="../XBaseIO.html" title="interface in xbot.common.controls">X
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(int,xbot.common.injection.DevicePolice)">
+<section class="detail" id="&lt;init&gt;(int,java.lang.String,xbot.common.injection.DevicePolice)">
 <h3>XServo</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">XServo</span><wbr><span class="parameters">(int&nbsp;channel,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="../../injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a>&nbsp;police)</span></div>
+<div class="block">Create a new servo motor.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>channel</code> - The PWM channel that the servo is connected to.</dd>
+<dd><code>name</code> - The name of the servo for logging.</dd>
+<dd><code>police</code> - The device police to register the servo with.</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -204,9 +240,12 @@ implements <a href="../XBaseIO.html" title="interface in xbot.common.controls">X
 <section class="detail" id="getChannel()">
 <h3>getChannel</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getChannel</span>()</div>
+<div class="block">Get the PWM channel that this servo is connected to.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../XBaseIO.html#getChannel()">getChannel</a></code>&nbsp;in interface&nbsp;<code><a href="../XBaseIO.html" title="interface in xbot.common.controls">XBaseIO</a></code></dd>
+<dt>Returns:</dt>
+<dd>The PWM channel that this servo is connected to.</dd>
 </dl>
 </section>
 </li>
@@ -214,6 +253,32 @@ implements <a href="../XBaseIO.html" title="interface in xbot.common.controls">X
 <section class="detail" id="set(double)">
 <h3>set</h3>
 <div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">set</span><wbr><span class="parameters">(double&nbsp;value)</span></div>
+<div class="block">Set the servo to a specific value.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>value</code> - The value to set the servo to. This should be a value between 0 and 1.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="get()">
+<h3>get</h3>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">get</span>()</div>
+<div class="block">Get the current value of the servo.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The current value of the servo, between 0 and 1.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="refreshDataFrame()">
+<h3>refreshDataFrame</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">refreshDataFrame</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../advantage/DataFrameRefreshable.html#refreshDataFrame()">refreshDataFrame</a></code>&nbsp;in interface&nbsp;<code><a href="../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code></dd>
+</dl>
 </section>
 </li>
 </ul>

@@ -80,7 +80,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../../../../xbot/common/controls/XBaseIO.html" title="interface in xbot.common.controls">XBaseIO</a></code></dd>
+<dd><code><a href="../../../../xbot/common/advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code>, <code><a href="../../../../xbot/common/controls/XBaseIO.html" title="interface in xbot.common.controls">XBaseIO</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">MockServo</span>
@@ -121,7 +121,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-xbot.common.controls.actuators.XServo">Fields inherited from class&nbsp;xbot.common.controls.actuators.<a href="../../../../xbot/common/controls/actuators/XServo.html" title="class in xbot.common.controls.actuators">XServo</a></h3>
-<code><a href="../../../../xbot/common/controls/actuators/XServo.html#channel">channel</a></code></div>
+<code><a href="../../../../xbot/common/controls/actuators/XServo.html#channel">channel</a>, <a href="../../../../xbot/common/controls/actuators/XServo.html#name">name</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -132,7 +132,8 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,xbot.common.injection.DevicePolice)" class="member-name-link">MockServo</a><wbr>(int&nbsp;channel,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,java.lang.String,xbot.common.injection.DevicePolice)" class="member-name-link">MockServo</a><wbr>(int&nbsp;channel,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="../../../../xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a>&nbsp;police)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
@@ -150,17 +151,21 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getValue()" class="member-name-link">getValue</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#get()" class="member-name-link">get</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Get the current value of the servo.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#set(double)" class="member-name-link">set</a><wbr>(double&nbsp;value)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the servo to a specific value.</div>
+</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-xbot.common.controls.actuators.XServo">Methods inherited from class&nbsp;xbot.common.controls.actuators.<a href="../../../../xbot/common/controls/actuators/XServo.html" title="class in xbot.common.controls.actuators">XServo</a></h3>
-<code><a href="../../../../xbot/common/controls/actuators/XServo.html#getChannel()">getChannel</a></code></div>
+<code><a href="../../../../xbot/common/controls/actuators/XServo.html#getChannel()">getChannel</a>, <a href="../../../../xbot/common/controls/actuators/XServo.html#refreshDataFrame()">refreshDataFrame</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -190,11 +195,13 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(int,xbot.common.injection.DevicePolice)">
+<section class="detail" id="&lt;init&gt;(int,java.lang.String,xbot.common.injection.DevicePolice)">
 <h3>MockServo</h3>
 <div class="member-signature"><span class="annotations">@AssistedInject
 </span><span class="modifiers">public</span>&nbsp;<span class="element-name">MockServo</span><wbr><span class="parameters">(@Assisted("channel")
  int&nbsp;channel,
+ @Assisted("name")
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="../../../../xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a>&nbsp;police)</span></div>
 </section>
 </li>
@@ -210,16 +217,28 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="set(double)">
 <h3>set</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">set</span><wbr><span class="parameters">(double&nbsp;value)</span></div>
+<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../../../../xbot/common/controls/actuators/XServo.html#set(double)">XServo</a></code></span></div>
+<div class="block">Set the servo to a specific value.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../../../xbot/common/controls/actuators/XServo.html#set(double)">set</a></code>&nbsp;in class&nbsp;<code><a href="../../../../xbot/common/controls/actuators/XServo.html" title="class in xbot.common.controls.actuators">XServo</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>value</code> - The value to set the servo to. This should be a value between 0 and 1.</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="getValue()">
-<h3>getValue</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getValue</span>()</div>
+<section class="detail" id="get()">
+<h3>get</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">get</span>()</div>
+<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../../../../xbot/common/controls/actuators/XServo.html#get()">XServo</a></code></span></div>
+<div class="block">Get the current value of the servo.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../../../xbot/common/controls/actuators/XServo.html#get()">get</a></code>&nbsp;in class&nbsp;<code><a href="../../../../xbot/common/controls/actuators/XServo.html" title="class in xbot.common.controls.actuators">XServo</a></code></dd>
+<dt>Returns:</dt>
+<dd>The current value of the servo, between 0 and 1.</dd>
+</dl>
 </section>
 </li>
 </ul>
