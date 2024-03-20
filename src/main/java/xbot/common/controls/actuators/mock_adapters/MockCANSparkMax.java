@@ -237,23 +237,9 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
         return false;
     }
 
-    @Override
-    public double getBusVoltage() {
-        return 12;
-    }
-
-    @Override
-    public double getAppliedOutput() {
-        return power;
-    }
-
     double outputCurrent;
     public double setOutputCurrent(double outputCurrent) {
         return this.outputCurrent = outputCurrent;
-    }
-    @Override
-    public double getOutputCurrent() {
-        return outputCurrent;
     }
 
     @Override
@@ -296,25 +282,15 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
         return false;
     }
 
-    @Override
-    public REVLibError getLastError() {
-        return REVLibError.kOk;
-    }
-
-    @Override
-    public double getPosition() {
-        return positionOffset + simulationPosition;
-    }
-
-    @Override
-    public double getVelocity() {
-        return velocity;
-    }
-
+    double mockPosition = 0;
     @Override
     public REVLibError setPosition(double position) {
-        this.positionOffset = position - simulationPosition;
+        this.mockPosition = position;
         return REVLibError.kOk;
+    }
+
+    private double getPosition_internal() {
+        return mockPosition;
     }
 
     @Override
@@ -637,6 +613,10 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
         this.velocity = velocity;
     }
 
+    public double getVelocity_internal() {
+        return this.velocity;
+    }
+
     private void clearPid() {
         referenceValue = 0;
         controlType = null;
@@ -694,10 +674,10 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
     protected void updateInputs(XCANSparkMaxInputs inputs) {
         inputs.stickyFaultHasReset = getStickyFault(FaultID.kHasReset);
         inputs.lastErrorId = getLastError().value;
-        inputs.velocity = getVelocity();
-        inputs.position = getPosition();
+        inputs.velocity = getVelocity_internal();
+        inputs.position = getPosition_internal();
         inputs.appliedOutput = getAppliedOutput();
-        inputs.busVoltage = getBusVoltage();
+        inputs.busVoltage = 12;
         inputs.outputCurrent = getOutputCurrent();
         inputs.isForwardLimitSwitchPressed = forwardLimitSwitchState;
         inputs.isReverseLimitSwitchPressed = reverseLimitSwitchState;
