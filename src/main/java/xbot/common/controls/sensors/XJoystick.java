@@ -5,6 +5,9 @@ import java.util.HashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
+import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.wpilibj.GenericHID;
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger;
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger;
@@ -96,10 +99,10 @@ public abstract class XJoystick
         }
     }
 
-    protected XYPair getVectorForAxisPair(int xAxis, int yAxis) {
+    protected Vector<N2> getVectorForAxisPair(int xAxis, int yAxis) {
         double x = getRawAxis(xAxis) * (getAxisInverted(xAxis) ? -1 : 1);
         double y = getRawAxis(xAxis) * (getAxisInverted(yAxis) ? -1 : 1);
-        return new XYPair(x, y);
+        return VecBuilder.fill(x, y);
     }
 
     public abstract boolean getButton(int button);

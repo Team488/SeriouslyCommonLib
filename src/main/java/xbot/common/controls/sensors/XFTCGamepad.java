@@ -1,5 +1,7 @@
 package xbot.common.controls.sensors;
 
+import edu.wpi.first.math.Vector;
+import edu.wpi.first.math.numbers.N2;
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
@@ -44,13 +46,13 @@ public abstract class XFTCGamepad extends XJoystick implements IGamepad {
         return 3;
     }
 
-    public XYPair getLeftVector() {
+    public Vector<N2> getLeftVector() {
         return this.getVectorForAxisPair(
                 getLeftJoystickXAxis(),
                 getLeftJoystickYAxis());
     }
 
-    public XYPair getRightVector() {
+    public Vector<N2> getRightVector() {
         return this.getVectorForAxisPair(
                 getRightJoystickXAxis(),
                 getRightJoystickYAxis());

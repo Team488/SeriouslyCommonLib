@@ -2,6 +2,9 @@ package xbot.common.controls.sensors;
 
 import java.util.HashMap;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
+import edu.wpi.first.math.numbers.N2;
 import xbot.common.controls.sensors.buttons.AdvancedXboxAxisTrigger;
 import xbot.common.controls.sensors.buttons.AdvancedXboxButtonTrigger;
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
@@ -115,12 +118,12 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
     }
 
     // Joysticks---------------------------------------------------------------------------------------------
-    public XYPair getLeftVector() {
-        return new XYPair(getLeftStickX(), getLeftStickY());
+    public Vector<N2> getLeftVector() {
+        return VecBuilder.fill(getLeftStickX(), getLeftStickY());
     }
 
-    public XYPair getRightVector() {
-        return new XYPair(getRightStickX(), getRightStickY());
+    public Vector<N2> getRightVector() {
+        return VecBuilder.fill(getRightStickX(), getRightStickY());
     }
 
     public void setLeftInversion(boolean xInverted, boolean yInverted) {
