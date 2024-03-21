@@ -10,7 +10,6 @@ import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPov
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
-import xbot.common.math.XYPair;
 import xbot.common.subsystems.feedback.IRumbler;
 import xbot.common.subsystems.feedback.XRumbleManager;
 import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
@@ -117,11 +116,11 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
 
     // Joysticks---------------------------------------------------------------------------------------------
     public Translation2d getLeftVector() {
-        return VecBuilder.fill(getLeftStickX(), getLeftStickY());
+        return new Translation2d(getLeftStickX(), getLeftStickY());
     }
 
     public Translation2d getRightVector() {
-        return VecBuilder.fill(getRightStickX(), getRightStickY());
+        return new Translation2d(getRightStickX(), getRightStickY());
     }
 
     public void setLeftInversion(boolean xInverted, boolean yInverted) {
