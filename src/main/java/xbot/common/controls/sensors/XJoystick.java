@@ -19,7 +19,6 @@ import xbot.common.controls.sensors.mock_adapters.MockJoystick;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.logging.RobotAssertionManager;
-import xbot.common.math.XYPair;
 
 public abstract class XJoystick
 {

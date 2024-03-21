@@ -6,6 +6,9 @@ public interface IGamepad {
 
     public Translation2d getLeftVector();
     public Translation2d getRightVector();
+
+    public Translation2d getLeftFieldOrientedVector();
+    public Translation2d getRightFieldOrientedVector();
     
     public double getLeftTrigger();
     public double getRightTrigger();
