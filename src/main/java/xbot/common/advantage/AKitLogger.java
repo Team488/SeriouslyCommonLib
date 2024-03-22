@@ -16,7 +16,7 @@ public class AKitLogger {
     public enum LogLevel {
         DEBUG, INFO
     }
-    private static LogLevel globalLogLevel = LogLevel.DEBUG;
+    private static LogLevel globalLogLevel = LogLevel.INFO;
 
     private String prefix = "";
     private LogLevel logLevel = globalLogLevel;

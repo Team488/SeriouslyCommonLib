@@ -825,7 +825,7 @@ public abstract class XCANSparkMax {
         Logger.processInputs(akitName, inputs);
         // TODO: once we're confident that this "ignore erroneous data" code is working,
         // stop logging this extra data.
-        Logger.processInputs(akitName+"Last", lastInputs);
+        //Logger.processInputs(akitName+"Last", lastInputs);
 
         double suspiciousPositionValue = 0.244; // The value returned by the SparkMax when it times out
         boolean sparkReportingSuspiciousPosition = Math.abs(Math.abs(inputs.position) - suspiciousPositionValue) < 0.05;
