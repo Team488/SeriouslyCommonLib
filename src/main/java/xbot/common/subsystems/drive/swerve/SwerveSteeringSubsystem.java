@@ -38,7 +38,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
     private final DoubleProperty powerScale;
     private double targetRotation;
     private final DoubleProperty degreesPerMotorRotation;
-    private final BooleanProperty useMotorControllerPid;
+    private boolean useMotorControllerPid;
     private final DoubleProperty maxMotorEncoderDrift;
 
     private Rotation2d currentModuleHeadingRotation2d;
@@ -60,7 +60,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         this.pid = pidf.create(super.getPrefix() + "PID", 0.2, 0.0, 0.005, -1.0, 1.0);
         this.powerScale = pf.createPersistentProperty("PowerScaleFactor", 5);
         this.degreesPerMotorRotation = pf.createPersistentProperty("DegreesPerMotorRotation", 28.1503);
-        this.useMotorControllerPid = pf.createPersistentProperty("UseMotorControllerPID", true);
+        this.useMotorControllerPid = true;
         this.maxMotorEncoderDrift = pf.createPersistentProperty("MaxEncoderDriftDegrees", 1.0);
 
         if (electricalContract.isDriveReady()) {
@@ -303,7 +303,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      * @return <b>true</b> if using motor controller's PID.
      */
     public boolean isUsingMotorControllerPid() {
-        return this.useMotorControllerPid.get();
+        return this.useMotorControllerPid;
     }
 
     /**
