@@ -828,7 +828,7 @@ public abstract class XCANSparkMax {
         //Logger.processInputs(akitName+"Last", lastInputs);
 
         double suspiciousPositionValue = 0.244; // The value returned by the SparkMax when it times out
-        boolean sparkReportingSuspiciousPosition = Math.abs(Math.abs(inputs.position) - suspiciousPositionValue) < 0.05;
+        boolean sparkReportingSuspiciousPosition = Math.abs(inputs.position - suspiciousPositionValue) < 0.05;
         boolean sparkReportingSuspiciousBusVoltage = Math.abs(inputs.busVoltage) < 0.001;
         boolean someKindOfErrorCode = inputs.lastErrorId != 0;
 
