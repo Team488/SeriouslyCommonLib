@@ -391,9 +391,9 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
             SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, topSpeedMetersPerSecond);
         }
 
+        aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
         // Finally, we can tell each swerve module what it should be doing. Log these values for debugging.
         aKitLog.record("DesiredSwerveState", moduleStates);
-
         this.getFrontLeftSwerveModuleSubsystem().setTargetState(moduleStates[0]);
         this.getFrontRightSwerveModuleSubsystem().setTargetState(moduleStates[1]);
         this.getRearLeftSwerveModuleSubsystem().setTargetState(moduleStates[2]);
