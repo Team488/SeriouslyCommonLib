@@ -82,6 +82,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
             this.motorController.setOpenLoopRampRate(0.05);
             this.motorController.setForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed, false);
             this.motorController.setReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed, false);
+            this.motorController.setIdleMode(CANSparkBase.IdleMode.kCoast);
         }
         if (electricalContract.areCanCodersReady()) {
             this.encoder = canCoderFactory.create(electricalContract.getSteeringEncoder(swerveInstance), this.getPrefix());
