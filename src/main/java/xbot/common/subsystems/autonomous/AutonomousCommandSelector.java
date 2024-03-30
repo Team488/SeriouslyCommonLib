@@ -70,4 +70,8 @@ public class AutonomousCommandSelector extends BaseSubsystem {
     public boolean getIsDefault() {
         return this.isDefault;
     }
+
+    public String getProgramName() {
+        return getCurrentAutonomousCommand() == null ? "" : getCurrentAutonomousCommand().getName();
+    }
 }
