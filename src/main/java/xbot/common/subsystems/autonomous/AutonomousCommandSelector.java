@@ -22,13 +22,11 @@ public class AutonomousCommandSelector extends BaseSubsystem {
     Supplier<Command> commandSupplier;
 
     Command currentAutonomousCommand;
-    boolean isDefault;
 
     @Inject
     public AutonomousCommandSelector(PropertyFactory propFactory) {
         propFactory.setTopLevelPrefix();
         setAutonomousState("Not set");
-        isDefault = true;
     }
 
     public Command getCurrentAutonomousCommand() {
@@ -45,7 +43,6 @@ public class AutonomousCommandSelector extends BaseSubsystem {
 
         this.currentAutonomousCommand = currentAutonomousCommand;
         commandSupplier = null;
-        isDefault = false;
     }
     
     public void setCurrentAutonomousCommandSupplier(Supplier<Command> supplier) {
@@ -63,11 +60,7 @@ public class AutonomousCommandSelector extends BaseSubsystem {
         });
     }
 
-    public void setIsDefault(boolean bol) {
-        this.isDefault = bol;
-    }
-
-    public boolean getIsDefault() {
-        return this.isDefault;
+    public String getProgramName() {
+        return getCurrentAutonomousCommand() == null ? "" : getCurrentAutonomousCommand().getName();
     }
 }
