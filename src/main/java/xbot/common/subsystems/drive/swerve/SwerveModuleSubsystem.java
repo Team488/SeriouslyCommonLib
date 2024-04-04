@@ -121,6 +121,10 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
         getSteeringSubsystem().setPower(steeringPower);
     }
 
+    public void setDriveCurrentLimits(SwerveDriveSubsystem.CurrentLimitMode mode) {
+        getDriveSubsystem().setCurrentLimits(mode);
+    }
+
     public void refreshDataFrame() {
         getDriveSubsystem().refreshDataFrame();
         getSteeringSubsystem().refreshDataFrame();

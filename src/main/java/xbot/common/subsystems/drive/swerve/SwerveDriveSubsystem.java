@@ -64,12 +64,36 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
                             -1
                     ));
             setupStatusFramesAsNeeded();
-            this.motorController.setSmartCurrentLimit(45);
+
+            setCurrentLimits(CurrentLimitMode.Teleop);
             this.motorController.setIdleMode(CANSparkMax.IdleMode.kBrake);
             this.motorController.enableVoltageCompensation(12);
             this.motorController.setForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed, false);
             this.motorController.setReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed, false);
         }
+    }
+
+    int teleopCurrentLimit = 45;
+    int teleopSecondaryCurrentLimit = 80;
+    int autoCurrentLimit = 30;
+    int autoSecondaryCurrentLimit = 35;
+
+    public enum CurrentLimitMode {
+        Auto,
+        Teleop
+    }
+
+    public void setCurrentLimits(CurrentLimitMode mode) {
+        int currentLimit = teleopCurrentLimit;
+        int secondaryCurrentLimit = teleopSecondaryCurrentLimit;
+
+        if (mode == CurrentLimitMode.Auto) {
+            currentLimit = autoCurrentLimit;
+            secondaryCurrentLimit = autoSecondaryCurrentLimit;
+        }
+
+        this.motorController.setSmartCurrentLimit(currentLimit);
+        this.motorController.setSecondaryCurrentLimit(secondaryCurrentLimit);
     }
 
     /**
