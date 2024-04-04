@@ -19,6 +19,7 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
     protected HeadingModule headingModule;
     public SwerveSimpleTrajectoryLogic logic;
     public Supplier<Double> constantRotationPowerSupplier;
+    private Supplier<Boolean> alternativeIsFinishedSupplier;
     public boolean constantRotationEnabled = false;
 
     @Inject
@@ -31,6 +32,7 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
         pf.setPrefix(this);
         this.addRequirements(drive);
         logic = new SwerveSimpleTrajectoryLogic();
+        alternativeIsFinishedSupplier = () -> false;
     }
 
     @Override
@@ -68,7 +70,12 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
 
     @Override
     public boolean isFinished() {
-        return logic.recommendIsFinished(pose.getCurrentPose2d(), drive.getPositionalPid(), headingModule);
+        return logic.recommendIsFinished(pose.getCurrentPose2d(), drive.getPositionalPid(), headingModule)
+                || alternativeIsFinishedSupplier.get();
+    }
+
+    public void setAlternativeIsFinishedSupplier(Supplier<Boolean> alternativeIsFinishedSupplier) {
+        this.alternativeIsFinishedSupplier = alternativeIsFinishedSupplier;
     }
 
     @Override
