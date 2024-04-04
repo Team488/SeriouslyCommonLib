@@ -122,7 +122,7 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
     }
 
     public void setDriveCurrentLimits(SwerveDriveSubsystem.CurrentLimitMode mode) {
-        getDriveSubsystem().setCurrentLimits(mode);
+        getDriveSubsystem().setCurrentLimitsForMode(mode);
     }
 
     public void refreshDataFrame() {
