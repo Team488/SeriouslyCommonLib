@@ -74,8 +74,8 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
 
     int teleopCurrentLimit = 45;
     int teleopSecondaryCurrentLimit = 80;
-    int autoCurrentLimit = 30;
-    int autoSecondaryCurrentLimit = 35;
+    int autoCurrentLimit = 35;
+    int autoSecondaryCurrentLimit = 40;
 
     public enum CurrentLimitMode {
         Auto,
