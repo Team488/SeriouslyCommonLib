@@ -16,7 +16,6 @@ import xbot.common.injection.swerve.SwerveSingleton;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
-import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 import javax.inject.Inject;
 
@@ -64,12 +63,36 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
                             -1
                     ));
             setupStatusFramesAsNeeded();
-            this.motorController.setSmartCurrentLimit(45);
+
+            setCurrentLimitsForMode(CurrentLimitMode.Teleop);
             this.motorController.setIdleMode(CANSparkMax.IdleMode.kBrake);
             this.motorController.enableVoltageCompensation(12);
             this.motorController.setForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed, false);
             this.motorController.setReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed, false);
         }
+    }
+
+    int teleopCurrentLimit = 45;
+    int teleopSecondaryCurrentLimit = 80;
+    int autoCurrentLimit = 35;
+    int autoSecondaryCurrentLimit = 40;
+
+    public enum CurrentLimitMode {
+        Auto,
+        Teleop
+    }
+
+    public void setCurrentLimitsForMode(CurrentLimitMode mode) {
+        int currentLimit = teleopCurrentLimit;
+        int secondaryCurrentLimit = teleopSecondaryCurrentLimit;
+
+        if (mode == CurrentLimitMode.Auto) {
+            currentLimit = autoCurrentLimit;
+            secondaryCurrentLimit = autoSecondaryCurrentLimit;
+        }
+
+        this.motorController.setSmartCurrentLimit(currentLimit);
+        this.motorController.setSecondaryCurrentLimit(secondaryCurrentLimit);
     }
 
     /**
