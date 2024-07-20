@@ -242,6 +242,10 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
         return this.outputCurrent = outputCurrent;
     }
 
+    public double getOutputCurrent_internal() {
+        return outputCurrent;
+    }
+
     @Override
     public double getMotorTemperature() {
         return 0;
@@ -676,9 +680,9 @@ public class MockCANSparkMax extends XCANSparkMax implements ISimulatableMotor, 
         inputs.lastErrorId = getLastError().value;
         inputs.velocity = getVelocity_internal();
         inputs.position = getPosition_internal();
-        inputs.appliedOutput = getAppliedOutput();
+        inputs.appliedOutput = get();
         inputs.busVoltage = 12;
-        inputs.outputCurrent = getOutputCurrent();
+        inputs.outputCurrent = getOutputCurrent_internal();
         inputs.isForwardLimitSwitchPressed = forwardLimitSwitchState;
         inputs.isReverseLimitSwitchPressed = reverseLimitSwitchState;
     }

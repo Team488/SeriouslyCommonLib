@@ -46,6 +46,8 @@ public abstract class XCANSparkMax {
     protected XCANSparkMaxInputsAutoLogged inputs;
     protected XCANSparkMaxInputsAutoLogged lastInputs;
 
+    private boolean checkForSuspiciousSensorValues = true;
+
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(XCANSparkMax.class);
 
     public abstract static class XCANSparkMaxFactory {
@@ -815,6 +817,10 @@ public abstract class XCANSparkMax {
      */
     public abstract XSparkAbsoluteEncoder getAbsoluteEncoder(String nameWithPrefix, boolean inverted);
 
+    public void setCheckForSuspiciousSensorValues(boolean checkForSuspiciousSensorValues) {
+        this.checkForSuspiciousSensorValues = checkForSuspiciousSensorValues;
+    }
+
     // Methods for integrating with AdvantageKit
     protected abstract void updateInputs(XCANSparkMaxInputs inputs);
 
@@ -827,27 +833,30 @@ public abstract class XCANSparkMax {
         // stop logging this extra data.
         //Logger.processInputs(akitName+"Last", lastInputs);
 
-        double suspiciousPositionValue = 0.244; // The value returned by the SparkMax when it times out
-        boolean sparkReportingSuspiciousPosition = Math.abs(Math.abs(inputs.position) - suspiciousPositionValue) < 0.05;
-        boolean sparkReportingSuspiciousBusVoltage = Math.abs(inputs.busVoltage) < 0.001;
-        boolean someKindOfErrorCode = inputs.lastErrorId != 0;
+        if (checkForSuspiciousSensorValues) {
 
-        boolean weAreSuspiciousSomethingIsGoingWrong = sparkReportingSuspiciousPosition || sparkReportingSuspiciousBusVoltage || someKindOfErrorCode;
-        if(weAreSuspiciousSomethingIsGoingWrong) {
-            // Something has gone wrong. Most likely this is a timeout
-            // and the underlying data can't be trusted. Replace the inputs with data from the previous frame.
-            lostTrustInPosition = true;
-        }
+            double suspiciousPositionValue = 0.244; // The value returned by the SparkMax when it times out
+            boolean sparkReportingSuspiciousPosition = Math.abs(inputs.position - suspiciousPositionValue) < 0.05;
+            boolean sparkReportingSuspiciousBusVoltage = Math.abs(inputs.busVoltage) < 0.001;
+            boolean someKindOfErrorCode = inputs.lastErrorId != 0;
 
-        if (lostTrustInPosition) {
-            boolean positionSeemsSane = Math.abs(Math.abs(inputs.position) - suspiciousPositionValue) > 0.05;
-            if (positionSeemsSane && !weAreSuspiciousSomethingIsGoingWrong) {
-                lostTrustInPosition = false;
+            boolean weAreSuspiciousSomethingIsGoingWrong = sparkReportingSuspiciousPosition || sparkReportingSuspiciousBusVoltage || someKindOfErrorCode;
+            if (weAreSuspiciousSomethingIsGoingWrong) {
+                // Something has gone wrong. Most likely this is a timeout
+                // and the underlying data can't be trusted. Replace the inputs with data from the previous frame.
+                lostTrustInPosition = true;
             }
-            inputs = lastInputs.clone();
-        } else {
-            lastInputs = inputs.clone();
+
+            if (lostTrustInPosition) {
+                boolean positionSeemsSane = Math.abs(Math.abs(inputs.position) - suspiciousPositionValue) > 0.05;
+                if (positionSeemsSane && !weAreSuspiciousSomethingIsGoingWrong) {
+                    lostTrustInPosition = false;
+                }
+                inputs = lastInputs.clone();
+            } else {
+                lastInputs = inputs.clone();
+            }
+            Logger.recordOutput(akitName + "/LostTrust", lostTrustInPosition);
         }
-        Logger.recordOutput(akitName+"/LostTrust", lostTrustInPosition);
     }
 }

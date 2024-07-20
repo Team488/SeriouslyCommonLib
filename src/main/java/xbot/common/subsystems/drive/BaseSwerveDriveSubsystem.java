@@ -20,6 +20,7 @@ import xbot.common.math.XYPair;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.subsystems.drive.swerve.SwerveDriveSubsystem;
 import xbot.common.subsystems.drive.swerve.SwerveModuleSubsystem;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
@@ -391,9 +392,9 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
             SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, topSpeedMetersPerSecond);
         }
 
+        aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
         // Finally, we can tell each swerve module what it should be doing. Log these values for debugging.
         aKitLog.record("DesiredSwerveState", moduleStates);
-
         this.getFrontLeftSwerveModuleSubsystem().setTargetState(moduleStates[0]);
         this.getFrontRightSwerveModuleSubsystem().setTargetState(moduleStates[1]);
         this.getRearLeftSwerveModuleSubsystem().setTargetState(moduleStates[2]);
@@ -571,7 +572,18 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         getRearRightSwerveModuleSubsystem().setNoviceMode(enabled);
     }
 
-    @Override
+    public void setDriveModuleCurrentLimits(SwerveDriveSubsystem.CurrentLimitMode mode) {
+        getFrontLeftSwerveModuleSubsystem().setDriveCurrentLimits(mode);
+        getFrontRightSwerveModuleSubsystem().setDriveCurrentLimits(mode);
+        getRearLeftSwerveModuleSubsystem().setDriveCurrentLimits(mode);
+        getRearRightSwerveModuleSubsystem().setDriveCurrentLimits(mode);
+    }
+
+    public Command createChangeDriveCurrentLimitsCommand(SwerveDriveSubsystem.CurrentLimitMode mode) {
+        return Commands.runOnce(() -> setDriveModuleCurrentLimits(mode));
+    }
+
+                                                         @Override
     public void periodic() {
         aKitLog.setLogLevel(AKitLogger.LogLevel.DEBUG);
         aKitLog.record("ActiveSwerveModule", activeModuleLabel);
