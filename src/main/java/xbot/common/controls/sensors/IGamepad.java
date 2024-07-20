@@ -1,11 +1,14 @@
 package xbot.common.controls.sensors;
 
-import xbot.common.math.XYPair;
+import edu.wpi.first.math.geometry.Translation2d;
 
 public interface IGamepad {
 
-    public XYPair getLeftVector();
-    public XYPair getRightVector();
+    public Translation2d getLeftVector();
+    public Translation2d getRightVector();
+
+    public Translation2d getLeftFieldOrientedVector();
+    public Translation2d getRightFieldOrientedVector();
     
     public double getLeftTrigger();
     public double getRightTrigger();
