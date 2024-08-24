@@ -99,9 +99,13 @@ public abstract class BaseRobot extends LoggedRobot {
 
         Logger.recordMetadata("ProjectName", "XbotProject"); // Set a metadata value
         if (isReal() || forceWebots) {
+            // Check which USB port contains the USB drive
             var logDirectory = new File("/U/logs");
+            if (logDirectory.getTotalSpace() < 10000000) { // < 10 MB
+                logDirectory = new File("/V/logs");
+            }
             if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
-                Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
+                Logger.addDataReceiver(new WPILOGWriter(logDirectory.getName())); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
             }
             Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
             new PowerDistribution(1, PowerDistribution.ModuleType.kRev); // Enables power distribution logging
