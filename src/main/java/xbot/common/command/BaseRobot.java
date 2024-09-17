@@ -105,6 +105,7 @@ public abstract class BaseRobot extends LoggedRobot {
                 logDirectory = new File("/V/logs");
             }
             if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
+                System.out.println("Logs are being written to: " + logDirectory.getName());
                 Logger.addDataReceiver(new WPILOGWriter(logDirectory.getName())); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
             }
             Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
