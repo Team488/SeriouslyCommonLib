@@ -1,5 +1,6 @@
 package xbot.common.subsystems.drive;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -58,6 +59,11 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
 
     private boolean activateBrakeOverride = false;
 
+    double lastCommandedXVelocity = 0;
+    double lastCommandedYVelocity = 0;
+    private final DoubleProperty maxAcceleration;
+    boolean accelerationLimitOn = true;
+
     public enum SwerveModuleLocation {
         FRONT_LEFT,
         FRONT_RIGHT,
@@ -81,6 +87,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
                                     SwerveComponent rearLeftSwerve, SwerveComponent rearRightSwerve) {
         log.info("Creating DriveSubsystem");
         pf.setPrefix(this);
+        pf.setDefaultLevel(Property.PropertyLevel.Important);
 
         this.frontLeftSwerveModuleSubsystem = frontLeftSwerve.swerveModuleSubsystem();
         this.frontRightSwerveModuleSubsystem = frontRightSwerve.swerveModuleSubsystem();
@@ -98,6 +105,9 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         this.maxTargetTurnRate = pf.createPersistentProperty("MaxTargetTurnRate", 8.0);
         this.activeModuleLabel = activeModule.toString();
         this.desiredHeading = 0;
+
+        this.maxAcceleration = pf.createPersistentProperty("Max acceleration: ", 1);
+
 
         // These can be tuned to reduce twitchy wheels
         pf.setDefaultLevel(Property.PropertyLevel.Debug);
@@ -120,7 +130,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
                 getHeadingPIDDefaults());
         headingPidManager.setEnableErrorThreshold(true);
         headingPidManager.setEnableTimeThreshold(true);
-
     }
 
     /**
@@ -324,6 +333,16 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         move(translate, rotate, new XYPair());
     }
 
+    public void move(XYPair translate, double rotate, Pose2d currentPose) {
+        move(translate, rotate, new XYPair());
+        lastRawCommandedRotation = rotate;
+
+        Translation2d robotCentricVector = new Translation2d(translate.x, translate.y);
+
+        lastRawCommandedDirection = robotCentricVector.rotateBy(currentPose.getRotation());
+
+    }
+
     /**
      * Set the target movement speed and rotation, with an arbitrary center of rotation.
      * @param translate The translation velocity.
@@ -332,39 +351,55 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
      */
     public void move(XYPair translate, double rotate, XYPair centerOfRotationInches) {
 
-        lastRawCommandedRotation = rotate;
-
-        if (activateBrakeOverride) {
-            this.setWheelsToXMode();
-            return;
-        }
-        // First, we need to check if we've been asked to move at all. If not, we should look at the last time we were given a commanded direction
-        // and keep the wheels pointed that way. That prevents the wheels from returning to "0" degrees when the driver has gone back to
-        // neutral joystick position.
-        boolean isNotMoving = translate.getMagnitude() < this.minTranslateSpeed.get() && Math.abs(rotate) < this.minRotationalSpeed.get();
-
-        if (isNotMoving)
-        {
-            translate = lastCommandedDirection;
-            rotate = lastCommandedRotation;
-        }
-
-        double noviceFactor = noviceMode ? 0.3 : 1;
-
-        // Then we translate the translation and rotation "intents" into velocities. Basically,
-        // going from the -1 to 1 power scale to -maxTargetSpeed to +maxTargetSpeed. We also need to convert them
-        // into metric units, since the next library we call expects metric units.
-        double targetXmetersPerSecond = translate.x * maxTargetSpeedMps.get() * noviceFactor;
-        double targetYmetersPerSecond = translate.y * maxTargetSpeedMps.get() * noviceFactor;
+        // Convert our translation and rotations intents from (-1, 1) into velocities
+        double targetXmetersPerSecond = translate.x * maxTargetSpeedMps.get();
+        double targetYmetersPerSecond = translate.y * maxTargetSpeedMps.get();
         double targetRotationRadiansPerSecond = rotate * maxTargetTurnRate.get();
 
-        translationXTargetMPS = targetXmetersPerSecond;
-        translationYTargetMPS = targetYmetersPerSecond;
-        rotationTargetRadians = targetRotationRadiansPerSecond;
+        Translation2d targetVector = new Translation2d(targetXmetersPerSecond, targetYmetersPerSecond);
+        Translation2d lastVector = new Translation2d(lastCommandedXVelocity, lastCommandedYVelocity);
+
+        boolean isNotMoving;
+
+        XYPair targetVelocities = new XYPair(targetXmetersPerSecond, targetYmetersPerSecond);
+        XYPair lastVelocities = new XYPair(lastCommandedXVelocity, lastCommandedYVelocity);
+
+        // Check if robot is moving or not
+        isNotMoving = targetVelocities.getMagnitude() < this.minTranslateSpeed.get()
+                && translate.getMagnitude() < this.minTranslateSpeed.get()
+                && lastVelocities.getMagnitude() < this.minTranslateSpeed.get()
+                && Math.abs(rotate) < this.minRotationalSpeed.get();
+
+
+        double maxVelocityChange = maxAcceleration.get() * 0.02;
+
+        // Apply an acceleration limit to the velocities
+        if (accelerationLimitOn) {
+            Translation2d deltaVector = targetVector.minus(lastVector);
+
+            // scaling down the deltaVector to less than 0.04
+            double deltaVectorMagnitude = new XYPair(deltaVector.getX(), deltaVector.getY()).getMagnitude();
+
+            if (deltaVectorMagnitude > maxVelocityChange && deltaVectorMagnitude > minTranslateSpeed.get()) {
+                double scaleFactor = maxVelocityChange / deltaVectorMagnitude;
+                deltaVector = deltaVector.times(scaleFactor);
+
+                //add delta vector to targetVector
+                Translation2d adjustedTargetVector = lastVector.plus(deltaVector);
+
+                targetXmetersPerSecond = adjustedTargetVector.getX();
+                targetYmetersPerSecond = adjustedTargetVector.getY();
+
+                targetVelocities = new XYPair(targetXmetersPerSecond, targetYmetersPerSecond);
+            }
+
+        }
+
 
         // This handy library from WPILib will take our robot's overall desired translation & rotation and figure out
         // what each swerve module should be doing in order to achieve that.
         ChassisSpeeds targetMotion = new ChassisSpeeds(targetXmetersPerSecond, targetYmetersPerSecond, targetRotationRadiansPerSecond);
+
 
         // One optional step - we can choose to rotate around a specific point, rather than the center of the robot.
         Translation2d centerOfRotationTranslationMeters = new Translation2d(
@@ -372,39 +407,52 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
                 centerOfRotationInches.y / BasePoseSubsystem.INCHES_IN_A_METER);
         SwerveModuleState[] moduleStates = swerveDriveKinematics.toSwerveModuleStates(targetMotion, centerOfRotationTranslationMeters);
 
-        // Another potentially optional step - it's possible that in the calculations above, one or more swerve modules could be asked to
-        // move at higher than its maximum speed. At this point, we have a choice. Either:
-        // - "Prioritize speed/power" - don't change any module powers, and anything going above 100% will, due to reality, be capped at 100%.
-        //   This means that the robot's motion might be a little odd, but this could be useful if we want to push as hard as possible.
-        // - "Prioritize motion" - reduce all module powers proportionately so that the "fastest" module is moving at 100%. For example, if you had modules
-        //   initially asked to move at 200%, 100%, 100%, and 50%, this would reduce them all to 100%, 50%, 50%, and 25%.
-        //   This means the overall motion will be more correct, but we will lose some speed/power.
-        // For now, we're choosing to prioritize motion. We're somewhat new to swerve, so debugging any strange motion will be easier if we know the system is
-        // always trying to prioritize motion.
 
-        // Also, one more special check - if there was no commanded motion, set the speed to 0.
         if (isNotMoving) {
+            targetMotion = new ChassisSpeeds(lastCommandedDirection.x, lastCommandedDirection.y, targetRotationRadiansPerSecond);
+            moduleStates = swerveDriveKinematics.toSwerveModuleStates(targetMotion, centerOfRotationTranslationMeters);
+
             for (SwerveModuleState moduleState : moduleStates) {
                 moduleState.speedMetersPerSecond = 0;
             }
+            lastCommandedXVelocity = 0;
+            lastCommandedYVelocity = 0;
         } else {
-            double topSpeedMetersPerSecond = maxTargetSpeedMps.get();
-            SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, topSpeedMetersPerSecond);
+            //  Normalize wheels speeds
+            SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, maxTargetSpeedMps.get());
         }
 
-        aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
-        // Finally, we can tell each swerve module what it should be doing. Log these values for debugging.
-        aKitLog.record("DesiredSwerveState", moduleStates);
+
+//        if (translate.getMagnitude() > 0.02 || Math.abs(rotate) > 0.02) {
+//            lastCommandedDirection = translate;
+//            lastCommandedRotation = rotate;
+//        }
+        if (targetVelocities.getMagnitude() > maxVelocityChange || Math.abs(rotate) > 0.02) {
+            lastCommandedDirection = targetVelocities;
+            lastCommandedRotation = rotate;
+        }
+
+        // Tell swerve modules to move to set points
         this.getFrontLeftSwerveModuleSubsystem().setTargetState(moduleStates[0]);
         this.getFrontRightSwerveModuleSubsystem().setTargetState(moduleStates[1]);
         this.getRearLeftSwerveModuleSubsystem().setTargetState(moduleStates[2]);
         this.getRearRightSwerveModuleSubsystem().setTargetState(moduleStates[3]);
 
-        // If we were asked to move in a direction, remember that direction.
-        if (translate.getMagnitude() > 0.02 || Math.abs(rotate) > 0.02) {
-            lastCommandedDirection = translate;
-            lastCommandedRotation = rotate;
-        }
+        // Keep track of target velocities for acceleration limiting
+        lastCommandedXVelocity = targetXmetersPerSecond;
+        lastCommandedYVelocity = targetYmetersPerSecond;
+
+        aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
+        aKitLog.record("DesiredSwerveState", moduleStates);
+        aKitLog.record("isNotMoving", isNotMoving);
+        aKitLog.record("LastCommandedDirection", lastCommandedDirection);
+        aKitLog.record("human vector angle", Math.toDegrees(Math.atan2(translate.x, translate.y)));
+//        aKitLog.record("smoothed velocity angle", Math.toDegrees(Math.atan2(targetXmetersPerSecond, targetYmetersPerSecond)));
+        aKitLog.record("wheel angle: ", Math.toDegrees(Math.atan2(lastCommandedDirection.x, lastCommandedDirection.y)));
+        aKitLog.record("targetXmetersPerSecond", targetXmetersPerSecond);
+        aKitLog.record("targetYmetersPerSecond", targetYmetersPerSecond);
+        aKitLog.record("Translate X: " + translate.x);
+        aKitLog.record("Translate Y: " + translate.y);
     }
 
     public void setActivateBrakeOverride(boolean activateBrakeOverride) {
