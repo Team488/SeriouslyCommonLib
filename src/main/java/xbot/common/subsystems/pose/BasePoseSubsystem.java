@@ -18,8 +18,9 @@ import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.subsystems.drive.swerve.ISwerveAdvisorPoseSupport;
 
-public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable {
+public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable, ISwerveAdvisorPoseSupport {
 
     public final XGyro imu;
     protected double leftDriveDistance;

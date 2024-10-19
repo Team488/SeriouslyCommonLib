@@ -46,5 +46,5 @@ public interface XSwerveDriveElectricalContract {
      * @param swerveInstance The swerve instance.
      * @return The offset from the center of the robot as an {@link XYPair} for the given {@link SwerveInstance}, in inches.
      */
-    XYPair getSwerveModuleOffsets(SwerveInstance swerveInstance);
+    XYPair getSwerveModuleOffsetsInInches(SwerveInstance swerveInstance);
 }
