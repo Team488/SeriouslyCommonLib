@@ -394,5 +394,51 @@ public class SwerveSimpleTrajectoryLogic {
         return lastResult;
     }
 
+    public Twist2d calculatePowers2(
+            Pose2d currentPose, PIDManager positionalPid, HeadingModule headingModule, double maximumVelocity) {
+        var goalVector = getGoalVector(currentPose);
+
+        // Now that we have a chase point, we can drive to it. The rest of the logic is
+        // from our proven SwerveToPointCommand. Eventually, the common components should be
+        // refactored and should also move towards WPI objects (e.g. Pose2d rather than FieldPose).
+
+        // PID on the magnitude of the goal. Kind of similar to rotation,
+        // our goal is "zero error".
+        aKitLog.record("goalVector", goalVector);
+        double magnitudeGoal = goalVector.getMagnitude();
+        aKitLog.record("magnitudeGoal", magnitudeGoal);
+        double drivePower = positionalPid.calculate(magnitudeGoal, 0);
+
+
+
+        // Create a vector in the direction of the goal, scaled by the drivePower.
+        XYPair intent = XYPair.fromPolar(goalVector.getAngle(), drivePower);
+        aKitLog.record("intent", intent);
+
+        double degreeTarget = lastResult.chaseHeading.getDegrees();
+
+        boolean lastLegAndSpecialAim = enableSpecialAimDuringFinalLeg && lastResult.isOnFinalLeg;
+
+        if (specialAimTarget != null && (enableSpecialAimTarget || lastLegAndSpecialAim )) {
+            degreeTarget = getAngleBetweenTwoPoints(
+                    currentPose.getTranslation(), specialAimTarget.getTranslation()
+            ).getDegrees();
+        }
+
+        double headingPower = headingModule.calculateHeadingPower(
+                degreeTarget);
+
+        if (intent.getMagnitude() > maxPower && maxPower > 0 && intent.getMagnitude() > 0) {
+            intent = intent.scale(maxPower / intent.getMagnitude());
+        }
+
+        if (maxTurningPower > 0) {
+            headingPower = headingPower * maxTurningPower;
+        }
+
+        aKitLog.record("UpdatedIntent", intent);
+        return new Twist2d(intent.x, intent.y, headingPower);
+    }
+
 
 }
