@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import xbot.common.advantage.AKitLogger;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
+import xbot.common.subsystems.drive.SwerveSpeedCalculator;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
 import java.util.ArrayList;
@@ -38,6 +39,10 @@ public class SwerveSimpleTrajectoryLogic {
     private Pose2d specialAimTarget;
     private boolean prioritizeRotationIfCloseToGoal = false;
     private double distanceThresholdToPrioritizeRotation = 1.5;
+    private boolean enableDynamicVelocity = false;
+    private double acceleration = 0.05;
+    private double maximumVelocity = 0;
+    private double velocityAtGoal = 0;
 
     public SwerveSimpleTrajectoryLogic() {
 
@@ -245,7 +250,8 @@ public class SwerveSimpleTrajectoryLogic {
             var current = swervePoints.get(i);
 
             double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
-            double velocityAdjustedDuration = distance / velocity;
+            //double velocityAdjustedDuration = distance / velocity;
+            double velocityAdjustedDuration = SwerveSpeedCalculator.calculateTime(acceleration,0,0,distance/2) * 2;
             if (velocityAdjustedDuration > 0) {
                 velocityAdjustedPoints.add(new XbotSwervePoint(swervePoints.get(i).keyPose, velocityAdjustedDuration));
             }
@@ -264,7 +270,7 @@ public class SwerveSimpleTrajectoryLogic {
     }
 
     public XYPair getGoalVector(Pose2d currentPose) {
-        lastResult = interpolator.calculateTarget(currentPose.getTranslation());
+        lastResult = interpolator.calculateTarget(currentPose.getTranslation(), acceleration);
         var chasePoint = lastResult.chasePoint;
 
         aKitLog.record("chasePoint", new Pose2d(chasePoint, Rotation2d.fromDegrees(0)));
