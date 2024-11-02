@@ -97,8 +97,8 @@ public class SwerveSpeedCalculator2 {
             double operationTime = (goalVelocity - velocity) / maximumAcceleration;
 
             // 1D motion formula
-            double operationDistance = velocity * operationTime +
-                    0.5 * maximumAcceleration * Math.pow(operationTime,2);
+            double operationDistance = velocity * operationTime
+                    + 0.5 * maximumAcceleration * Math.pow(operationTime,2);
 
             // SCENARIO: No matter how much you accelerate you won't reach gVelo before distance
             if (operationDistance >= leftoverDistance) {

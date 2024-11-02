@@ -73,8 +73,8 @@ public class SwerveSpeedCalculator {
                     acceleration * halfTime * percent * 0.01);
         } else {
             // You are decelerating
-            return initialVelocity + (acceleration * halfTime * 50 * 0.01) +
-                    (-acceleration * halfTime * (percent - 50) * 0.01);
+            return initialVelocity + (acceleration * halfTime * 50 * 0.01)
+                    + (-acceleration * halfTime * (percent - 50) * 0.01);
         }
     }
 
