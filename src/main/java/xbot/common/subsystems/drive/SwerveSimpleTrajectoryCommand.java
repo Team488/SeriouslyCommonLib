@@ -52,7 +52,7 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
 
     @Override
     public void execute() {
-        Twist2d powers = logic.calculatePowers(pose.getCurrentPose2d(), drive.getPositionalPid(),
+        Twist2d powers = logic.calculatePowers2(pose.getCurrentPose2d(), drive.getPositionalPid(),
                 headingModule, drive.getMaxTargetSpeedMetersPerSecond());
 
         if (constantRotationEnabled) {

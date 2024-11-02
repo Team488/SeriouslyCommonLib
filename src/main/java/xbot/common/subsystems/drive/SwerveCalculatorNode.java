@@ -11,4 +11,21 @@ public class SwerveCalculatorNode {
         this.acceleration = acceleration;
         this.operationTime = operationTime;
     }
+
+    public double getOperationTime() {
+        return this.operationTime;
+    }
+
+    public double getOperationAcceleration() {
+        return this.acceleration;
+    }
+
+    public double getOperationFinalSpeed() {
+        return this.velocity;
+    }
+
+    @Override
+    public String toString() {
+        return "V/T/A: "+velocity+"/"+operationTime+"/"+acceleration;
+    }
 }

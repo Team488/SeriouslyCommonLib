@@ -23,8 +23,6 @@ public class SwerveSimpleTrajectoryLogic {
 
     private Supplier<List<XbotSwervePoint>> keyPointsProvider;
     private List<XbotSwervePoint> keyPoints;
-    private boolean enableConstantVelocity = false;
-    private double constantVelocity = 0.25;
     private boolean stopWhenFinished = true;
     private final SimpleTimeInterpolator interpolator = new SimpleTimeInterpolator();
     SimpleTimeInterpolator.InterpolationResult lastResult;
@@ -39,9 +37,8 @@ public class SwerveSimpleTrajectoryLogic {
     private Pose2d specialAimTarget;
     private boolean prioritizeRotationIfCloseToGoal = false;
     private double distanceThresholdToPrioritizeRotation = 1.5;
-    private boolean enableDynamicVelocity = false;
-    private double acceleration = 0.05;
-    private double maximumVelocity = 0;
+    private double acceleration = 0.1;
+    private double maximumVelocity = 0.5;
     private double velocityAtGoal = 0;
 
     public SwerveSimpleTrajectoryLogic() {
@@ -96,14 +93,6 @@ public class SwerveSimpleTrajectoryLogic {
         this.maxTurningPower = maxTurningPower;
     }
 
-    public void setEnableConstantVelocity(boolean enableConstantVelocity) {
-        this.enableConstantVelocity = enableConstantVelocity;
-    }
-
-    public void setConstantVelocity(double constantVelocity) {
-        this.constantVelocity = constantVelocity;
-    }
-
     public List<XbotSwervePoint> getKeyPoints() { return this.keyPointsProvider.get(); }
 
     public List<XbotSwervePoint> getResolvedKeyPoints() {
@@ -149,9 +138,7 @@ public class SwerveSimpleTrajectoryLogic {
                     new Pose2d(targetPoint.getTranslation2d(), targetPoint.getRotation2d()));
         }
 
-        if (enableConstantVelocity) {
-            keyPoints = getVelocityAdjustedSwervePoints(initialPoint, keyPoints, constantVelocity);
-        }
+        keyPoints = adjustSwervePoints(initialPoint, keyPoints);
 
         handleAimingAtFinalLeg(currentPose);
 
@@ -267,6 +254,19 @@ public class SwerveSimpleTrajectoryLogic {
         }
 
         return velocityAdjustedPoints;
+    }
+
+    private List<XbotSwervePoint> adjustSwervePoints(
+            XbotSwervePoint initialPoint,
+            List<XbotSwervePoint> swervePoints) {
+
+        ArrayList<XbotSwervePoint> adjustedPoints = new ArrayList<>();
+
+        for (int i = 0; i < swervePoints.size(); i++) {
+
+        }
+
+        return adjustedPoints;
     }
 
     public XYPair getGoalVector(Pose2d currentPose) {
@@ -403,47 +403,12 @@ public class SwerveSimpleTrajectoryLogic {
     public Twist2d calculatePowers2(
             Pose2d currentPose, PIDManager positionalPid, HeadingModule headingModule, double maximumVelocity) {
         var goalVector = getGoalVector(currentPose);
-
-        // Now that we have a chase point, we can drive to it. The rest of the logic is
-        // from our proven SwerveToPointCommand. Eventually, the common components should be
-        // refactored and should also move towards WPI objects (e.g. Pose2d rather than FieldPose).
-
-        // PID on the magnitude of the goal. Kind of similar to rotation,
-        // our goal is "zero error".
-        aKitLog.record("goalVector", goalVector);
         double magnitudeGoal = goalVector.getMagnitude();
-        aKitLog.record("magnitudeGoal", magnitudeGoal);
         double drivePower = positionalPid.calculate(magnitudeGoal, 0);
-
-
 
         // Create a vector in the direction of the goal, scaled by the drivePower.
         XYPair intent = XYPair.fromPolar(goalVector.getAngle(), drivePower);
-        aKitLog.record("intent", intent);
-
-        double degreeTarget = lastResult.chaseHeading.getDegrees();
-
-        boolean lastLegAndSpecialAim = enableSpecialAimDuringFinalLeg && lastResult.isOnFinalLeg;
-
-        if (specialAimTarget != null && (enableSpecialAimTarget || lastLegAndSpecialAim )) {
-            degreeTarget = getAngleBetweenTwoPoints(
-                    currentPose.getTranslation(), specialAimTarget.getTranslation()
-            ).getDegrees();
-        }
-
-        double headingPower = headingModule.calculateHeadingPower(
-                degreeTarget);
-
-        if (intent.getMagnitude() > maxPower && maxPower > 0 && intent.getMagnitude() > 0) {
-            intent = intent.scale(maxPower / intent.getMagnitude());
-        }
-
-        if (maxTurningPower > 0) {
-            headingPower = headingPower * maxTurningPower;
-        }
-
-        aKitLog.record("UpdatedIntent", intent);
-        return new Twist2d(intent.x, intent.y, headingPower);
+        return new Twist2d(intent.x, intent.y, 0);
     }
 
 

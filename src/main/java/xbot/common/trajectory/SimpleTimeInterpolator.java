@@ -8,8 +8,11 @@ import org.apache.logging.log4j.Logger;
 import xbot.common.advantage.AKitLogger;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.math.XYPair;
+import xbot.common.subsystems.drive.SwerveCalculatorNode;
 import xbot.common.subsystems.drive.SwerveSpeedCalculator;
+import xbot.common.subsystems.drive.SwerveSpeedCalculator2;
 
+import java.util.ArrayList;
 import java.util.List;
 public class SimpleTimeInterpolator {
 
@@ -18,6 +21,8 @@ public class SimpleTimeInterpolator {
     ProvidesInterpolationData baseline;
     int index;
     double maximumDistanceFromChasePointInMeters = 0.3;
+
+    SwerveSpeedCalculator2 calculator;
 
     private List<? extends ProvidesInterpolationData> keyPoints;
 
@@ -91,6 +96,18 @@ public class SimpleTimeInterpolator {
         index = 0;
     }
 
+    public SwerveSpeedCalculator2 newCalculator(Translation2d targetPointTranslation2d) {
+        calculator = new SwerveSpeedCalculator2(
+                0,
+                baseline.getTranslation2d().minus(targetPointTranslation2d).getNorm(),
+                2,
+                0,
+                0,
+                10
+        );
+        return calculator;
+    }
+
     public InterpolationResult calculateTarget(Translation2d currentLocation, double acceleration) {
         double currentTime = XTimer.getFPGATimestamp();
         aKitLog.record("CurrentTime", currentTime);
@@ -114,6 +131,11 @@ public class SimpleTimeInterpolator {
             return new InterpolationResult(currentLocation, true, targetKeyPoint.getRotation2d());
         }
 
+        if (calculator == null) {
+            calculator = newCalculator(targetKeyPoint.getTranslation2d());
+            calculator.printNodes();
+        }
+
         // First, assume we are just going to our target. (This is what all trajectories will eventually
         // settle to - all this interpolation is for intermediate points.)
         Translation2d chasePoint = targetKeyPoint.getTranslation2d();
@@ -122,7 +144,6 @@ public class SimpleTimeInterpolator {
         double lerpFraction = (accumulatedProductiveSeconds) / targetKeyPoint.getSecondsForSegment();
         aKitLog.record("LerpFraction", lerpFraction);
         aKitLog.record("accumulatedProductiveSeconds", accumulatedProductiveSeconds);
-
 
 
 
@@ -139,30 +160,23 @@ public class SimpleTimeInterpolator {
             targetKeyPoint = keyPoints.get(index);
             log.info("Baseline is now " + baseline.getTranslation2d()
                     + " and target is now " + targetKeyPoint.getTranslation2d());
+
+            calculator = newCalculator(targetKeyPoint.getTranslation2d());
+            calculator.printNodes();
         }
 
         // Most of the time, the fraction will be less than one.
         // In that case, we want to interpolate between the baseline and the target.
         if (lerpFraction < 1) {
-            SwerveSpeedCalculator calculator = new SwerveSpeedCalculator();
-            calculator.setInitialState(baseline.getTranslation2d().getNorm(), targetKeyPoint.getTranslation2d().getNorm(), 0, 0, acceleration);
-            calculator.calibrate();
-            int percentage = (int) (lerpFraction * 100);
-            double newMagnitude = calculator.getPositionAtPercentage(percentage);
+            double magnitude = calculator.getPositionAtPercentage(lerpFraction);
+            //System.out.println("Position: " + magnitude);
 
             // mystuff
             Translation2d directionVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d());
             double directionMagnitude = directionVector.getNorm();
             double normalizedX = directionVector.getX() / directionMagnitude;
             double normalizedY = directionVector.getY() / directionMagnitude;
-            chasePoint = new Translation2d(newMagnitude * normalizedX, newMagnitude * normalizedY);
-        }
-
-        // But if that chase point is "too far ahead", we need to freeze the chasePoint
-        // until the robot has a chance to catch up.
-        if (currentLocation.getDistance(chasePoint) > maximumDistanceFromChasePointInMeters) {
-            // This effectively "rewinds time" for the next loop.
-            accumulatedProductiveSeconds -= secondsSinceLastExecute;
+            chasePoint = new Translation2d(magnitude * normalizedX, magnitude * normalizedY);
         }
 
         // The planned velocity is the same (for now) at all points between the baseline and the target.

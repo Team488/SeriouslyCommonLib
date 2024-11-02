@@ -52,17 +52,24 @@ public class SwerveSpeedCalculator2 {
         nodeMap = generateNodeMap();
     }
 
+    public void printNodes() {
+        for (SwerveCalculatorNode node : nodeMap) {
+            System.out.println(node);
+        }
+    }
+
     // Based off of given value, initialize the proper path, store notes in a list
 
     // If velocity gets to negative we are *KINDA* cooked
-    private List<SwerveCalculatorNode> generateNodeMap() {
+    public List<SwerveCalculatorNode> generateNodeMap() {
         List<SwerveCalculatorNode> nodeMap = new ArrayList<>();
         double leftoverDistance = endPosition - startPosition;
         double velocity = startingVelocity;
 
         // Deceleration
         if (velocity > goalVelocity) {
-            // Cruise as much as possible then decelerate
+            System.out.println("Deceleration node");
+            // Cruise as much as possible, then decelerate
             // Time to decelerate
             // Distance to decelerate
             double decelerateToGoalVelocityTime = (goalVelocity - velocity) / -maximumAcceleration;
@@ -93,12 +100,13 @@ public class SwerveSpeedCalculator2 {
 
         // STEP 1: Accelerate to goal velocity
         if (velocity < goalVelocity) {
+            System.out.println("Acceleration node");
             // Time from Vi -> Vg
             double operationTime = (goalVelocity - velocity) / maximumAcceleration;
 
             // 1D motion formula
             double operationDistance = velocity * operationTime
-                    + 0.5 * maximumAcceleration * Math.pow(operationTime,2);
+                    + 0.5 * maximumAcceleration * Math.pow(operationTime, 2);
 
             // SCENARIO: No matter how much you accelerate you won't reach gVelo before distance
             if (operationDistance >= leftoverDistance) {
@@ -119,6 +127,7 @@ public class SwerveSpeedCalculator2 {
 
         // STEP 2: If not at max velo, build an acccelerate->cruise>decelerate
         if (velocity < maximumVelocity) {
+            System.out.println("Acceleration node");
             // Check /\ does the job (or maybe its peak exceeds maxVelocity) // if not then build cruise
             // ^ Vortex
             double halfDistance = leftoverDistance / 2;
@@ -141,9 +150,11 @@ public class SwerveSpeedCalculator2 {
                 double finalPosition = 0.5 * (velocity + maximumVelocity) * timeFromGoalToMaxV + initialPosition;
 
                 double goalToMaxDistTime = calculateTime(maximumAcceleration, velocity, initialPosition, finalPosition);
-                double cruiseDistance = leftoverDistance - (goalToMaxDistTime * 2);
+                double goalToMaxDistance = 0.5 * goalToMaxDistTime * (goalVelocity + maximumVelocity);
+                double cruiseDistance = leftoverDistance - (goalToMaxDistance * 2);
                 double cruiseTime = cruiseDistance / maximumVelocity;
 
+                System.out.println("Goal Velocity: " + goalVelocity);
                 nodeMap.add(new SwerveCalculatorNode(timeFromGoalToMaxV, maximumAcceleration, maximumVelocity));
                 nodeMap.add(new SwerveCalculatorNode(cruiseTime, 0, maximumVelocity));
                 nodeMap.add(new SwerveCalculatorNode(timeFromGoalToMaxV, -maximumAcceleration, goalVelocity));
@@ -151,6 +162,7 @@ public class SwerveSpeedCalculator2 {
             return nodeMap;
 
         } else {
+            System.out.println("Cruise node");
             // Cruise til the end
             double cruiseTime = calculateTime(0, velocity, 0, leftoverDistance);
             nodeMap.add(new SwerveCalculatorNode(
@@ -160,17 +172,67 @@ public class SwerveSpeedCalculator2 {
             ));
             return nodeMap;
         }
+    }
 
+    public SwerveCalculatorNode getNodeAtTime(double time) {
+        double elapsedTime = 0;
+        for (SwerveCalculatorNode node : this.nodeMap) {
+            if (time <= elapsedTime) {
+                return node;
+            }
+            elapsedTime += node.getOperationTime();
+        }
+        // Hopefully we never get to this case...
+        return new SwerveCalculatorNode(0,0,0);
+    }
 
-        // Take in account of declaration as well
+    public double getTotalOperationTime() {
+        double time = 0;
+        for (SwerveCalculatorNode node : this.nodeMap) {
+            time += node.getOperationTime();
+        }
+        return time;
+    }
 
-        // Search for different cases of situations and deal with each one of them individually
+    // Displacement/Position
+    public double getPositionAtTime(double time) {
+        double elapsedTime = 0;
+        double totalDistance = 0;
+        double velocity = startingVelocity;
+        for (SwerveCalculatorNode node : this.nodeMap) {
+            // Get amount of time elapsed (no exceed time)
+            // Add distance with node
+            double operationTime = node.getOperationTime();
+            if ((time - (operationTime + elapsedTime)) >= 0) {
+                double distanceTravelled = velocity * operationTime
+                        + 0.5 * node.getOperationAcceleration() * Math.pow(operationTime, 2);
 
-        // Accelerate to max, cruise, decelerate to goal (trapezoid)
+                totalDistance += distanceTravelled;
+                velocity = node.getOperationFinalSpeed();
+                elapsedTime += node.getOperationTime();
+            } else {
+                // Find the amount of time we'll be using the node
+                operationTime = time - elapsedTime;
+                double distanceTravelled = velocity * operationTime
+                        + 0.5 * node.getOperationAcceleration() * Math.pow(operationTime, 2);
+                totalDistance += distanceTravelled;
+                break;
+            }
+        }
+        return totalDistance;
+    }
 
-        // Accelerate then decelerate
+    // Percentage range 0-1
+    public double getPositionAtPercentage(double percentage) {
+        //System.out.println("Percentage: " + percentage);
+//        System.out.println("Node Map Size: " + nodeMap.size());
+//        for (SwerveCalculatorNode node : this.nodeMap) {
+//            System.out.println("Accel: " + node.getOperationAcceleration());
+//            System.out.println("Time: " + node.getOperationTime());
+//            System.out.println("EndVelocity: " + node.getOperationFinalSpeed());
+//        }
 
-        // Accelerate like crazy because at the end we can only get closer to our goal velocity but
-        // never able to reach it in the given amount of magnitude position
+        double time = getTotalOperationTime() * percentage;
+        return getPositionAtTime(time);
     }
 }
