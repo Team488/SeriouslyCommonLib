@@ -150,6 +150,7 @@ public class SimpleTimeInterpolator {
             int percentage = (int) (lerpFraction * 100);
             double newMagnitude = calculator.getPositionAtPercentage(percentage);
 
+            // mystuff
             Translation2d directionVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d());
             double directionMagnitude = directionVector.getNorm();
             double normalizedX = directionVector.getX() / directionMagnitude;
