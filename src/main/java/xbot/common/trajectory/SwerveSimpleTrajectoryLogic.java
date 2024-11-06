@@ -410,6 +410,4 @@ public class SwerveSimpleTrajectoryLogic {
         XYPair intent = XYPair.fromPolar(goalVector.getAngle(), drivePower);
         return new Twist2d(intent.x, intent.y, 0);
     }
-
-
 }
