@@ -275,15 +275,14 @@ public class SwerveSimpleTrajectoryLogic {
             SwerveSpeedCalculator2 calculator = new SwerveSpeedCalculator2(
                     0,
                     distance,
-                    2,
+                    0.1,
                     0,
                     0,
-                    10
+                    99
             );
             double adjustedDuration = calculator.getTotalOperationTime();
 
-            double velocityAdjustedDuration = SwerveSpeedCalculator.calculateTime(acceleration,0,0,distance/2) * 2;
-            if (velocityAdjustedDuration > 0) {
+            if (adjustedDuration > 0) {
                 adjustedPoints.add(new XbotSwervePoint(swervePoints.get(i).keyPose, adjustedDuration));
             }
         }
