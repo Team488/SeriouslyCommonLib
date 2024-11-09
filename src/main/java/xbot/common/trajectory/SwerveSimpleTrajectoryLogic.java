@@ -10,6 +10,7 @@ import xbot.common.advantage.AKitLogger;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
 import xbot.common.subsystems.drive.SwerveSpeedCalculator;
+import xbot.common.subsystems.drive.SwerveSpeedCalculator2;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
 import java.util.ArrayList;
@@ -263,7 +264,33 @@ public class SwerveSimpleTrajectoryLogic {
         ArrayList<XbotSwervePoint> adjustedPoints = new ArrayList<>();
 
         for (int i = 0; i < swervePoints.size(); i++) {
+            XbotSwervePoint previous = initialPoint;
+            if (i > 0) {
+                // If we've moved on to later points, we can now safely get previous entries in the list.
+                previous = swervePoints.get(i - 1);
+            }
+            var current = swervePoints.get(i);
 
+            double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
+            SwerveSpeedCalculator2 calculator = new SwerveSpeedCalculator2(
+                    0,
+                    distance,
+                    2,
+                    0,
+                    0,
+                    10
+            );
+            double adjustedDuration = calculator.getTotalOperationTime();
+
+            double velocityAdjustedDuration = SwerveSpeedCalculator.calculateTime(acceleration,0,0,distance/2) * 2;
+            if (velocityAdjustedDuration > 0) {
+                adjustedPoints.add(new XbotSwervePoint(swervePoints.get(i).keyPose, adjustedDuration));
+            }
+        }
+
+        if (adjustedPoints.size() == 0) {
+            var dummyPoint = new XbotSwervePoint(initialPoint.keyPose, 0.05);
+            adjustedPoints.add(dummyPoint);
         }
 
         return adjustedPoints;
@@ -410,6 +437,4 @@ public class SwerveSimpleTrajectoryLogic {
         XYPair intent = XYPair.fromPolar(goalVector.getAngle(), drivePower);
         return new Twist2d(intent.x, intent.y, 0);
     }
-
-
 }

@@ -235,4 +235,8 @@ public class SwerveSpeedCalculator2 {
         double time = getTotalOperationTime() * percentage;
         return getPositionAtTime(time);
     }
+
+    public double getPositionDelta() {
+        return Math.abs(endPosition - startPosition);
+    }
 }

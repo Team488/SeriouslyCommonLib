@@ -169,14 +169,10 @@ public class SimpleTimeInterpolator {
         // In that case, we want to interpolate between the baseline and the target.
         if (lerpFraction < 1) {
             double magnitude = calculator.getPositionAtPercentage(lerpFraction);
-            //System.out.println("Position: " + magnitude);
+            double magnitudeProgress = magnitude / calculator.getPositionDelta();
 
-            // mystuff
-            Translation2d directionVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d());
-            double directionMagnitude = directionVector.getNorm();
-            double normalizedX = directionVector.getX() / directionMagnitude;
-            double normalizedY = directionVector.getY() / directionMagnitude;
-            chasePoint = new Translation2d(magnitude * normalizedX, magnitude * normalizedY);
+            chasePoint = baseline.getTranslation2d().interpolate(
+                    targetKeyPoint.getTranslation2d(), magnitudeProgress);
         }
 
         // The planned velocity is the same (for now) at all points between the baseline and the target.
