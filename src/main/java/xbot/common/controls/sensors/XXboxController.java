@@ -2,6 +2,9 @@ package xbot.common.controls.sensors;
 
 import java.util.HashMap;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import xbot.common.controls.sensors.buttons.AdvancedXboxAxisTrigger;
 import xbot.common.controls.sensors.buttons.AdvancedXboxButtonTrigger;
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
@@ -9,7 +12,6 @@ import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPov
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
-import xbot.common.math.XYPair;
 import xbot.common.subsystems.feedback.IRumbler;
 import xbot.common.subsystems.feedback.XRumbleManager;
 import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
@@ -115,12 +117,32 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
     }
 
     // Joysticks---------------------------------------------------------------------------------------------
-    public XYPair getLeftVector() {
-        return new XYPair(getLeftStickX(), getLeftStickY());
+    public Translation2d getLeftVector() {
+        return new Translation2d(getLeftStickX(), getLeftStickY());
     }
 
-    public XYPair getRightVector() {
-        return new XYPair(getRightStickX(), getRightStickY());
+    public Translation2d getRightVector() {
+        return new Translation2d(getRightStickX(), getRightStickY());
+    }
+
+    public Translation2d getLeftFieldOrientedVector() {
+        var blueTranslation = new Translation2d(getLeftRawY(), getLeftRawX()); 
+        if(DriverStation.getAlliance().orElseGet(() -> Alliance.Blue) == Alliance.Blue) {
+            return blueTranslation;
+        } else {
+            // when on red, both axis invert
+            return blueTranslation.div(-1);
+        }
+    }
+
+    public Translation2d getRightFieldOrientedVector() {
+        var blueTranslation = new Translation2d(getRightRawY(), getRightRawX()); 
+        if(DriverStation.getAlliance().orElseGet(() -> Alliance.Blue) == Alliance.Blue) {
+            return blueTranslation;
+        } else {
+            // when on red, both axis invert
+            return blueTranslation.div(-1);
+        }
     }
 
     public void setLeftInversion(boolean xInverted, boolean yInverted) {

@@ -1,11 +1,13 @@
 package xbot.common.controls.sensors;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
-import xbot.common.math.XYPair;
 
 public abstract class XFTCGamepad extends XJoystick implements IGamepad {
 
@@ -44,16 +46,36 @@ public abstract class XFTCGamepad extends XJoystick implements IGamepad {
         return 3;
     }
 
-    public XYPair getLeftVector() {
+    public Translation2d getLeftVector() {
         return this.getVectorForAxisPair(
                 getLeftJoystickXAxis(),
                 getLeftJoystickYAxis());
     }
 
-    public XYPair getRightVector() {
+    public Translation2d getRightVector() {
         return this.getVectorForAxisPair(
                 getRightJoystickXAxis(),
                 getRightJoystickYAxis());
+    }
+
+    public Translation2d getLeftFieldOrientedVector() {
+        var blueTranslation = new Translation2d(getLeftJoystickYAxis(), getLeftJoystickXAxis()); 
+        if(DriverStation.getAlliance().orElseGet(() -> Alliance.Blue) == Alliance.Blue) {
+            return blueTranslation;
+        } else {
+            // when on red, both axis invert
+            return blueTranslation.div(-1);
+        }
+    }
+
+    public Translation2d getRightFieldOrientedVector() {
+        var blueTranslation = new Translation2d(getRightJoystickYAxis(), getRightJoystickXAxis()); 
+        if(DriverStation.getAlliance().orElseGet(() -> Alliance.Blue) == Alliance.Blue) {
+            return blueTranslation;
+        } else {
+            // when on red, both axis invert
+            return blueTranslation.div(-1);
+        }
     }
 
     public double getLeftTrigger() {

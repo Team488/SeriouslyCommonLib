@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger;
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger;
@@ -18,7 +19,6 @@ import xbot.common.controls.sensors.mock_adapters.MockJoystick;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.logging.RobotAssertionManager;
-import xbot.common.math.XYPair;
 
 public abstract class XJoystick
 {
@@ -96,10 +96,10 @@ public abstract class XJoystick
         }
     }
 
-    protected XYPair getVectorForAxisPair(int xAxis, int yAxis) {
+    protected Translation2d getVectorForAxisPair(int xAxis, int yAxis) {
         double x = getRawAxis(xAxis) * (getAxisInverted(xAxis) ? -1 : 1);
         double y = getRawAxis(xAxis) * (getAxisInverted(yAxis) ? -1 : 1);
-        return new XYPair(x, y);
+        return new Translation2d(x, y);
     }
 
     public abstract boolean getButton(int button);
