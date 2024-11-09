@@ -23,9 +23,4 @@ public class SwerveCalculatorNode {
     public double getOperationFinalSpeed() {
         return this.velocity;
     }
-
-    @Override
-    public String toString() {
-        return "V/T/A: "+velocity+"/"+operationTime+"/"+acceleration;
-    }
 }

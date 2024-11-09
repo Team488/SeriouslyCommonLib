@@ -224,13 +224,6 @@ public class SwerveSpeedCalculator2 {
 
     // Percentage range 0-1
     public double getPositionAtPercentage(double percentage) {
-        //System.out.println("Percentage: " + percentage);
-//        System.out.println("Node Map Size: " + nodeMap.size());
-//        for (SwerveCalculatorNode node : this.nodeMap) {
-//            System.out.println("Accel: " + node.getOperationAcceleration());
-//            System.out.println("Time: " + node.getOperationTime());
-//            System.out.println("EndVelocity: " + node.getOperationFinalSpeed());
-//        }
 
         double time = getTotalOperationTime() * percentage;
         return getPositionAtTime(time);
