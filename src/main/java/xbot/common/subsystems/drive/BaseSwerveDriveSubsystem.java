@@ -20,11 +20,12 @@ import xbot.common.math.XYPair;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.subsystems.drive.swerve.ISwerveAdvisorDriveSupport;
 import xbot.common.subsystems.drive.swerve.SwerveDriveSubsystem;
 import xbot.common.subsystems.drive.swerve.SwerveModuleSubsystem;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
-public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implements DataFrameRefreshable {
+public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implements DataFrameRefreshable, ISwerveAdvisorDriveSupport {
     private static final Logger log = LogManager.getLogger(BaseSwerveDriveSubsystem.class);
 
     private final SwerveModuleSubsystem frontLeftSwerveModuleSubsystem;

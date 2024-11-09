@@ -44,7 +44,7 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
         this.driveSubsystem = driveSubsystem;
         this.steeringSubsystem = steeringSubsystem;
 
-        XYPair defaultModuleOffsets = contract.getSwerveModuleOffsets(swerveInstance);
+        XYPair defaultModuleOffsets = contract.getSwerveModuleOffsetsInInches(swerveInstance);
         pf.setDefaultLevel(Property.PropertyLevel.Debug);
         this.xOffsetInches = pf.createPersistentProperty("XOffsetInches", defaultModuleOffsets.x);
         this.yOffsetInches = pf.createPersistentProperty("YOffsetInches", defaultModuleOffsets.y);
