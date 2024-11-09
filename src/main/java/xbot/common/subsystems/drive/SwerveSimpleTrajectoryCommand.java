@@ -55,6 +55,12 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
         Twist2d powers = logic.calculatePowers2(pose.getCurrentPose2d(), drive.getPositionalPid(),
                 headingModule, drive.getMaxTargetSpeedMetersPerSecond());
 
+        if (constantRotationEnabled) {
+            if (constantRotationPowerSupplier != null) {
+                powers.dtheta = constantRotationPowerSupplier.get();
+            }
+        }
+
         aKitLog.record("Powers", powers);
 
         drive.fieldOrientedDrive(
