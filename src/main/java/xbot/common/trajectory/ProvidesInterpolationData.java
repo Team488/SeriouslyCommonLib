@@ -9,4 +9,12 @@ public interface ProvidesInterpolationData {
     public double getSecondsForSegment();
 
     public Rotation2d getRotation2d();
+
+    public double getAcceleration();
+
+    public double getInitialVelocity();
+
+    public double getGoalVelocity();
+
+    public double getMaxVelocity();
 }

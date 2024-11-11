@@ -3,7 +3,7 @@ package xbot.common.subsystems.drive;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SwerveSpeedCalculator2 {
+public class SwerveKinematicsCalculator {
 
     /*
     A calculator for SwerveSimpleTrajectoryCommand that's goal is to generate a path
@@ -38,8 +38,8 @@ public class SwerveSpeedCalculator2 {
         return Math.max(result1, result2);
     }
 
-    public SwerveSpeedCalculator2(double startPosition, double endPosition, double maximumAcceleration,
-                                  double startingVelocity, double goalVelocity, double maximumVelocity) {
+    public SwerveKinematicsCalculator(double startPosition, double endPosition, double maximumAcceleration,
+                                      double startingVelocity, double goalVelocity, double maximumVelocity) {
         this.startPosition = startPosition;
         this.endPosition = endPosition;
         this.maximumAcceleration = maximumAcceleration;
@@ -184,6 +184,11 @@ public class SwerveSpeedCalculator2 {
         }
         // Hopefully we never get to this case...
         return new SwerveCalculatorNode(0,0,0);
+    }
+
+    public double getVelocityAtFinish() {
+        SwerveCalculatorNode finalNode = nodeMap.get(nodeMap.size() - 1);
+        return finalNode.velocity;
     }
 
     public double getTotalOperationTime() {

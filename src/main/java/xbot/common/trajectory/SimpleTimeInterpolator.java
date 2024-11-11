@@ -7,12 +7,9 @@ import org.apache.logging.log4j.Logger;
 
 import xbot.common.advantage.AKitLogger;
 import xbot.common.controls.sensors.XTimer;
-import xbot.common.math.XYPair;
-import xbot.common.subsystems.drive.SwerveCalculatorNode;
-import xbot.common.subsystems.drive.SwerveSpeedCalculator;
-import xbot.common.subsystems.drive.SwerveSpeedCalculator2;
+import xbot.common.subsystems.drive.SwerveKinematicsCalculator;
+import xbot.common.subsystems.drive.SwerveSimpleTrajectoryVelocityMode;
 
-import java.util.ArrayList;
 import java.util.List;
 public class SimpleTimeInterpolator {
 
@@ -22,7 +19,7 @@ public class SimpleTimeInterpolator {
     int index;
     double maximumDistanceFromChasePointInMeters = 0.3;
 
-    SwerveSpeedCalculator2 calculator;
+    SwerveKinematicsCalculator calculator;
 
     private List<? extends ProvidesInterpolationData> keyPoints;
 
@@ -96,19 +93,18 @@ public class SimpleTimeInterpolator {
         index = 0;
     }
 
-    public SwerveSpeedCalculator2 newCalculator(Translation2d targetPointTranslation2d) {
-        calculator = new SwerveSpeedCalculator2(
+    public SwerveKinematicsCalculator newCalculator(Translation2d targetPointTranslation2d, double a, double vi, double vf, double vMax) {
+        return new SwerveKinematicsCalculator(
                 0,
                 baseline.getTranslation2d().minus(targetPointTranslation2d).getNorm(),
-                2,
-                0,
-                0,
-                10
+                a,
+                vi,
+                vf,
+                vMax
         );
-        return calculator;
     }
 
-    public InterpolationResult calculateTarget(Translation2d currentLocation, double acceleration) {
+    public InterpolationResult calculateTarget(Translation2d currentLocation, SwerveSimpleTrajectoryVelocityMode mode) {
         double currentTime = XTimer.getFPGATimestamp();
         aKitLog.record("CurrentTime", currentTime);
 
@@ -131,9 +127,14 @@ public class SimpleTimeInterpolator {
             return new InterpolationResult(currentLocation, true, targetKeyPoint.getRotation2d());
         }
 
-        if (calculator == null) {
-            calculator = newCalculator(targetKeyPoint.getTranslation2d());
-            calculator.printNodes();
+        if (mode == SwerveSimpleTrajectoryVelocityMode.Kinematics && calculator == null) {
+            calculator = newCalculator(
+                    targetKeyPoint.getTranslation2d(),
+                    targetKeyPoint.getAcceleration(),
+                    targetKeyPoint.getInitialVelocity(),
+                    targetKeyPoint.getGoalVelocity(),
+                    targetKeyPoint.getMaxVelocity()
+            );
         }
 
         // First, assume we are just going to our target. (This is what all trajectories will eventually
@@ -144,7 +145,6 @@ public class SimpleTimeInterpolator {
         double lerpFraction = (accumulatedProductiveSeconds) / targetKeyPoint.getSecondsForSegment();
         aKitLog.record("LerpFraction", lerpFraction);
         aKitLog.record("accumulatedProductiveSeconds", accumulatedProductiveSeconds);
-
 
 
         // If the fraction is above 1, it's time to set a new baseline point and start LERPing on the next
@@ -161,8 +161,15 @@ public class SimpleTimeInterpolator {
             log.info("Baseline is now " + baseline.getTranslation2d()
                     + " and target is now " + targetKeyPoint.getTranslation2d());
 
-            calculator = newCalculator(targetKeyPoint.getTranslation2d());
-            calculator.printNodes();
+            if (mode == SwerveSimpleTrajectoryVelocityMode.Kinematics) {
+                calculator = newCalculator(
+                        targetKeyPoint.getTranslation2d(),
+                        targetKeyPoint.getAcceleration(),
+                        targetKeyPoint.getInitialVelocity(),
+                        targetKeyPoint.getGoalVelocity(),
+                        targetKeyPoint.getMaxVelocity()
+                );
+            }
         }
 
         // Most of the time, the fraction will be less than one.
@@ -171,8 +178,18 @@ public class SimpleTimeInterpolator {
             double magnitude = calculator.getPositionAtPercentage(lerpFraction);
             double magnitudeProgress = magnitude / calculator.getPositionDelta();
 
-            chasePoint = baseline.getTranslation2d().interpolate(
-                    targetKeyPoint.getTranslation2d(), magnitudeProgress);
+            if (mode == SwerveSimpleTrajectoryVelocityMode.Kinematics) {
+                chasePoint = baseline.getTranslation2d().interpolate(
+                        targetKeyPoint.getTranslation2d(), magnitudeProgress);
+            } else {
+                chasePoint = baseline.getTranslation2d().interpolate(
+                        targetKeyPoint.getTranslation2d(), lerpFraction);
+            }
+        }
+
+        if (currentLocation.getDistance(chasePoint) > maximumDistanceFromChasePointInMeters) {
+            // This effectively "rewinds time" for the next loop.
+            accumulatedProductiveSeconds -= secondsSinceLastExecute;
         }
 
         // The planned velocity is the same (for now) at all points between the baseline and the target.

@@ -15,6 +15,10 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
     public Pose2d keyPose;
 
     public double secondsToPoint;
+    double aMax = 0;
+    double vi = 0;
+    double vf = 0;
+    double vMax = 0;
 
     public XbotSwervePoint(Pose2d keyPose, double secondsToPoint) {
         this.keyPose = keyPose;
@@ -31,6 +35,12 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
         this.secondsToPoint = secondsToPoint;
     }
 
+    public void setKinematicValues(double aMax, double vi, double vf, double vMax) {
+        this.aMax = aMax;
+        this.vi = vi;
+        this.vf = Math.max(Math.min(vMax, vf), -vMax);
+        this.vMax = vMax;
+    }
 
     public void setPose(Pose2d pose) {
         this.keyPose = pose;
@@ -70,6 +80,23 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
     public Rotation2d getRotation2d() {
         return keyPose.getRotation();
     }
+
+    @Override
+    public double getAcceleration() {
+        return aMax;
+    };
+
+    public double getInitialVelocity() {
+        return vi;
+    };
+
+    public double getGoalVelocity() {
+        return vf;
+    };
+
+    public double getMaxVelocity() {
+        return vMax;
+    };
 
     public static XbotSwervePoint createPotentiallyFilppedXbotSwervePoint(
             Translation2d targetLocation, Rotation2d targetHeading, double durationInSeconds) {
