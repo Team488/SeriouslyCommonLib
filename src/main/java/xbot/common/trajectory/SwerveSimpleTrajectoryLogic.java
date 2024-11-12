@@ -159,6 +159,7 @@ public class SwerveSimpleTrajectoryLogic {
             case ConstantVelocity -> {
                 keyPoints = getVelocityAdjustedSwervePoints(initialPoint, keyPoints, constantVelocity);
             }
+            default -> {}
         }
 
         handleAimingAtFinalLeg(currentPose);
@@ -377,9 +378,12 @@ public class SwerveSimpleTrajectoryLogic {
         }
 
         aKitLog.record("UpdatedIntent", intent);
+
+        // TODO: Repetitive code due to Checkstyle...
         // If we have no max velocity set, or we are on the last point and almost done, just use the position PID
-        if (mode == SwerveSimpleTrajectoryVelocityMode.Kinematics || maximumVelocity <= 0
-                || (lastResult.isOnFinalPoint && lastResult.distanceToTargetPoint < 0.5) || lastResult.lerpFraction > 1) {
+        if (maximumVelocity <= 0 || (lastResult.isOnFinalPoint && lastResult.distanceToTargetPoint < 0.5) || lastResult.lerpFraction > 1) {
+            return new Twist2d(intent.x, intent.y, headingPower);
+        } else if (mode == SwerveSimpleTrajectoryVelocityMode.Kinematics) {
             return new Twist2d(intent.x, intent.y, headingPower);
         }
         else
