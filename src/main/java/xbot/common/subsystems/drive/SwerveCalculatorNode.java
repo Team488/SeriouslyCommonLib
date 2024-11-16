@@ -2,7 +2,7 @@ package xbot.common.subsystems.drive;
 
 public class SwerveCalculatorNode {
 
-    final double velocity; // Velocity we end in
+    final double velocity; // Velocity we end at
     final double acceleration; // Acceleration to go at
     final double operationTime;
 

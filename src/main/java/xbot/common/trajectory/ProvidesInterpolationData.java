@@ -2,6 +2,7 @@ package xbot.common.trajectory;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import xbot.common.subsystems.drive.SwervePointKinematics;
 
 public interface ProvidesInterpolationData {
     public Translation2d getTranslation2d();
@@ -10,11 +11,5 @@ public interface ProvidesInterpolationData {
 
     public Rotation2d getRotation2d();
 
-    public double getAcceleration();
-
-    public double getInitialVelocity();
-
-    public double getGoalVelocity();
-
-    public double getMaxVelocity();
+    public SwervePointKinematics getKinematics();
 }

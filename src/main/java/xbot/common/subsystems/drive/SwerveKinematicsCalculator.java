@@ -11,7 +11,7 @@ public class SwerveKinematicsCalculator {
     This does not take in consideration of friction/collision, and will try and generate a
     path at the creation of calculator based of given values.
 
-    (Breaks it down into smaller nodes with a range of time, velocity, and acceleration)
+    (Breaks an XbotSwervePoint down into smaller nodes with a range of time, velocity, and acceleration)
 
     * Goal velocity < maximum velocity
     */
@@ -38,8 +38,17 @@ public class SwerveKinematicsCalculator {
         return Math.max(result1, result2);
     }
 
+    public SwerveKinematicsCalculator(double si, double sf, SwervePointKinematics kinematics) {
+        this(si, sf, kinematics.a, kinematics.vi, kinematics.vg, kinematics.vm);
+    }
+
     public SwerveKinematicsCalculator(double startPosition, double endPosition, double maximumAcceleration,
                                       double startingVelocity, double goalVelocity, double maximumVelocity) {
+        // Gimmicky way to avoid divide by zero
+        if (endPosition - startPosition == 0) {
+            endPosition += 0.01;
+        }
+
         this.startPosition = startPosition;
         this.endPosition = endPosition;
         this.maximumAcceleration = maximumAcceleration;
@@ -48,7 +57,6 @@ public class SwerveKinematicsCalculator {
         this.maximumVelocity = maximumVelocity;
 
         // Validate the above values as well
-
         nodeMap = generateNodeMap();
     }
 
@@ -63,22 +71,23 @@ public class SwerveKinematicsCalculator {
     // If velocity gets to negative we are *KINDA* cooked
     public List<SwerveCalculatorNode> generateNodeMap() {
         List<SwerveCalculatorNode> nodeMap = new ArrayList<>();
-        double leftoverDistance = endPosition - startPosition;
+        double leftoverDistance = endPosition - startPosition; // consider absolute value
         double velocity = startingVelocity;
 
         // Deceleration
         if (velocity > goalVelocity) {
-            System.out.println("Deceleration node");
+            // THE FLAW IS: Time is not fastest b/c we are not accelerating***
             // Cruise as much as possible, then decelerate
             // Time to decelerate
             // Distance to decelerate
             double decelerateToGoalVelocityTime = (goalVelocity - velocity) / -maximumAcceleration;
-            double distanceToDecelerate = 0.5 * (velocity + goalVelocity) * decelerateToGoalVelocityTime;
+            double distanceNeededToDecelerate = 0.5 * (velocity + goalVelocity) * decelerateToGoalVelocityTime;
 
-            double cruiseDistance = distanceToDecelerate - leftoverDistance;
+            double cruiseDistance = distanceNeededToDecelerate - leftoverDistance;
 
             if (cruiseDistance > 0) {
                 // Cruise then decelerate
+                // FLAW: Should accelerate -> cruise? -> decelerate
                 double cruiseTime = calculateTime(0, velocity, 0, cruiseDistance);
                 nodeMap.add(new SwerveCalculatorNode(cruiseTime, 0, velocity));
                 nodeMap.add(new SwerveCalculatorNode(decelerateToGoalVelocityTime, -maximumAcceleration, goalVelocity));
@@ -95,12 +104,9 @@ public class SwerveKinematicsCalculator {
             return nodeMap;
         }
 
-
         // ACCELERATION
-
         // STEP 1: Accelerate to goal velocity
         if (velocity < goalVelocity) {
-            System.out.println("Acceleration node");
             // Time from Vi -> Vg
             double operationTime = (goalVelocity - velocity) / maximumAcceleration;
 
@@ -108,7 +114,7 @@ public class SwerveKinematicsCalculator {
             double operationDistance = velocity * operationTime
                     + 0.5 * maximumAcceleration * Math.pow(operationTime, 2);
 
-            // SCENARIO: No matter how much you accelerate you won't reach gVelo before distance
+            // SCENARIO: No matter how much you accelerate you won't reach goal velocity before distance
             if (operationDistance >= leftoverDistance) {
                 // Accelerate to the end
                 double time = calculateTime(maximumAcceleration, velocity, 0, leftoverDistance);
@@ -125,9 +131,8 @@ public class SwerveKinematicsCalculator {
             }
         }
 
-        // STEP 2: If not at max velo, build an acccelerate->cruise>decelerate
+        // STEP 2: If not at max velocity, build an accelerate->cruise>decelerate nodeMap
         if (velocity < maximumVelocity) {
-            System.out.println("Acceleration node");
             // Check /\ does the job (or maybe its peak exceeds maxVelocity) // if not then build cruise
             // ^ Vortex
             double halfDistance = leftoverDistance / 2;
@@ -154,7 +159,6 @@ public class SwerveKinematicsCalculator {
                 double cruiseDistance = leftoverDistance - (goalToMaxDistance * 2);
                 double cruiseTime = cruiseDistance / maximumVelocity;
 
-                System.out.println("Goal Velocity: " + goalVelocity);
                 nodeMap.add(new SwerveCalculatorNode(timeFromGoalToMaxV, maximumAcceleration, maximumVelocity));
                 nodeMap.add(new SwerveCalculatorNode(cruiseTime, 0, maximumVelocity));
                 nodeMap.add(new SwerveCalculatorNode(timeFromGoalToMaxV, -maximumAcceleration, goalVelocity));
@@ -162,7 +166,6 @@ public class SwerveKinematicsCalculator {
             return nodeMap;
 
         } else {
-            System.out.println("Cruise node");
             // Cruise til the end
             double cruiseTime = calculateTime(0, velocity, 0, leftoverDistance);
             nodeMap.add(new SwerveCalculatorNode(
@@ -229,7 +232,6 @@ public class SwerveKinematicsCalculator {
 
     // Percentage range 0-1
     public double getPositionAtPercentage(double percentage) {
-
         double time = getTotalOperationTime() * percentage;
         return getPositionAtTime(time);
     }

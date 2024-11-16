@@ -11,6 +11,7 @@ import xbot.common.advantage.AKitLogger;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
 import xbot.common.subsystems.drive.SwerveKinematicsCalculator;
+import xbot.common.subsystems.drive.SwervePointKinematics;
 import xbot.common.subsystems.drive.SwerveSimpleTrajectoryVelocityMode;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
@@ -290,22 +291,21 @@ public class SwerveSimpleTrajectoryLogic {
             if (i > 0) {
                 // If we've moved on to later points, we can now safely get previous entries in the list.
                 previous = swervePoints.get(i - 1);
-                // Calculate vi of current
-                current.vi = calculator.getVelocityAtFinish();
+                // Calculate the initial velocity of current node
+                current.kinematics = current.kinematics.kinematicsWithNewVi(calculator.getVelocityAtFinish());
             }
             double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
             calculator = new SwerveKinematicsCalculator(
                     0,
                     distance,
-                    current.aMax,
-                    current.vi,
-                    current.vf,
-                    current.vMax
+                    current.getKinematics()
             );
             double adjustedDuration = calculator.getTotalOperationTime();
 
             if (adjustedDuration > 0) {
-                adjustedPoints.add(new XbotSwervePoint(swervePoints.get(i).keyPose, adjustedDuration));
+                XbotSwervePoint point = new XbotSwervePoint(current.keyPose, adjustedDuration);
+                point.setKinematics(current.getKinematics());
+                adjustedPoints.add(point);
             }
         }
 

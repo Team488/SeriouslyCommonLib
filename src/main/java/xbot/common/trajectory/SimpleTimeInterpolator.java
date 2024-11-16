@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import xbot.common.advantage.AKitLogger;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.subsystems.drive.SwerveKinematicsCalculator;
+import xbot.common.subsystems.drive.SwervePointKinematics;
 import xbot.common.subsystems.drive.SwerveSimpleTrajectoryVelocityMode;
 
 import java.util.List;
@@ -93,14 +94,11 @@ public class SimpleTimeInterpolator {
         index = 0;
     }
 
-    public SwerveKinematicsCalculator newCalculator(Translation2d targetPointTranslation2d, double a, double vi, double vf, double vMax) {
+    public SwerveKinematicsCalculator newCalculator(Translation2d targetPointTranslation2d, SwervePointKinematics kinematics) {
         return new SwerveKinematicsCalculator(
                 0,
                 baseline.getTranslation2d().minus(targetPointTranslation2d).getNorm(),
-                a,
-                vi,
-                vf,
-                vMax
+                kinematics
         );
     }
 
@@ -130,10 +128,7 @@ public class SimpleTimeInterpolator {
         if (mode == SwerveSimpleTrajectoryVelocityMode.Kinematics && calculator == null) {
             calculator = newCalculator(
                     targetKeyPoint.getTranslation2d(),
-                    targetKeyPoint.getAcceleration(),
-                    targetKeyPoint.getInitialVelocity(),
-                    targetKeyPoint.getGoalVelocity(),
-                    targetKeyPoint.getMaxVelocity()
+                    targetKeyPoint.getKinematics()
             );
         }
 
@@ -164,10 +159,7 @@ public class SimpleTimeInterpolator {
             if (mode == SwerveSimpleTrajectoryVelocityMode.Kinematics) {
                 calculator = newCalculator(
                         targetKeyPoint.getTranslation2d(),
-                        targetKeyPoint.getAcceleration(),
-                        targetKeyPoint.getInitialVelocity(),
-                        targetKeyPoint.getGoalVelocity(),
-                        targetKeyPoint.getMaxVelocity()
+                        targetKeyPoint.getKinematics()
                 );
             }
         }
