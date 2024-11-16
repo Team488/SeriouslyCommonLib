@@ -109,7 +109,7 @@ public class AKitLogger {
         Logger.recordOutput(this.prefix + key, value);
     }
 
-    public <U extends Unit<U>> void record(String key, Measure<U> value) {
+    public <U extends Unit> void record(String key, Measure<U> value) {
         if(this.shouldSkipLogging()) {
             return;
         }
