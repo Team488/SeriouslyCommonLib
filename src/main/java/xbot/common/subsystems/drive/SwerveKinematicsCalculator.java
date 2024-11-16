@@ -105,7 +105,6 @@ public class SwerveKinematicsCalculator {
         }
 
         // ACCELERATION
-        // STEP 1: Accelerate to goal velocity
         if (velocity < goalVelocity) {
             // Time from Vi -> Vg
             double operationTime = (goalVelocity - velocity) / maximumAcceleration;
@@ -125,6 +124,7 @@ public class SwerveKinematicsCalculator {
                 ));
                 return nodeMap;
             } else {
+                // Accelerate to goal velocity
                 nodeMap.add(new SwerveCalculatorNode(operationTime, maximumAcceleration, goalVelocity));
                 leftoverDistance -= operationDistance;
                 velocity = goalVelocity;
@@ -238,5 +238,25 @@ public class SwerveKinematicsCalculator {
 
     public double getPositionDelta() {
         return Math.abs(endPosition - startPosition);
+    }
+
+    public double getVelocityAtPosition(double position) {
+        double totalDistanceTravelled = 0;
+        double currentVelocity = startingVelocity;
+
+        for (SwerveCalculatorNode node : this.nodeMap) {
+            // Find amount of distance current node travels
+            double operationDistance = currentVelocity * node.getOperationTime() + 0.5 * node.getOperationAcceleration() * Math.pow(node.getOperationTime(), 2);
+            if (position - (totalDistanceTravelled + operationDistance) >= 0) {
+                totalDistanceTravelled += operationDistance;
+                currentVelocity += (node.getOperationAcceleration() * node.getOperationTime());
+            } else {
+                // Get time to get to position
+                double operationTime = calculateTime(node.getOperationAcceleration(), currentVelocity, totalDistanceTravelled, position);
+                currentVelocity += (node.getOperationAcceleration() * operationTime);
+                break;
+            }
+        }
+        return currentVelocity;
     }
 }

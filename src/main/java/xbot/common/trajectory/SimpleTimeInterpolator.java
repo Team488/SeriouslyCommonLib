@@ -9,7 +9,7 @@ import xbot.common.advantage.AKitLogger;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.subsystems.drive.SwerveKinematicsCalculator;
 import xbot.common.subsystems.drive.SwervePointKinematics;
-import xbot.common.subsystems.drive.SwerveSimpleTrajectoryVelocityMode;
+import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
 
 import java.util.List;
 public class SimpleTimeInterpolator {
@@ -102,7 +102,7 @@ public class SimpleTimeInterpolator {
         );
     }
 
-    public InterpolationResult calculateTarget(Translation2d currentLocation, SwerveSimpleTrajectoryVelocityMode mode) {
+    public InterpolationResult calculateTarget(Translation2d currentLocation, SwerveSimpleTrajectoryMode mode) {
         double currentTime = XTimer.getFPGATimestamp();
         aKitLog.record("CurrentTime", currentTime);
 
@@ -125,7 +125,8 @@ public class SimpleTimeInterpolator {
             return new InterpolationResult(currentLocation, true, targetKeyPoint.getRotation2d());
         }
 
-        if (mode == SwerveSimpleTrajectoryVelocityMode.Kinematics && calculator == null) {
+        if ((mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints
+                || mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList) && calculator == null) {
             calculator = newCalculator(
                     targetKeyPoint.getTranslation2d(),
                     targetKeyPoint.getKinematics()
@@ -156,7 +157,7 @@ public class SimpleTimeInterpolator {
             log.info("Baseline is now " + baseline.getTranslation2d()
                     + " and target is now " + targetKeyPoint.getTranslation2d());
 
-            if (mode == SwerveSimpleTrajectoryVelocityMode.Kinematics) {
+            if (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints || mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList) {
                 calculator = newCalculator(
                         targetKeyPoint.getTranslation2d(),
                         targetKeyPoint.getKinematics()
@@ -170,7 +171,7 @@ public class SimpleTimeInterpolator {
             double magnitude = calculator.getPositionAtPercentage(lerpFraction);
             double magnitudeProgress = magnitude / calculator.getPositionDelta();
 
-            if (mode == SwerveSimpleTrajectoryVelocityMode.Kinematics) {
+            if (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints || mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList) {
                 chasePoint = baseline.getTranslation2d().interpolate(
                         targetKeyPoint.getTranslation2d(), magnitudeProgress);
             } else {

@@ -12,7 +12,7 @@ import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
 import xbot.common.subsystems.drive.SwerveKinematicsCalculator;
 import xbot.common.subsystems.drive.SwervePointKinematics;
-import xbot.common.subsystems.drive.SwerveSimpleTrajectoryVelocityMode;
+import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
 import java.util.ArrayList;
@@ -41,7 +41,8 @@ public class SwerveSimpleTrajectoryLogic {
     private boolean prioritizeRotationIfCloseToGoal = false;
     private double distanceThresholdToPrioritizeRotation = 1.5;
     private double constantVelocity = 0;
-    private SwerveSimpleTrajectoryVelocityMode mode = SwerveSimpleTrajectoryVelocityMode.DurationInSeconds;
+    private SwervePointKinematics globalKinematics;
+    private SwerveSimpleTrajectoryMode mode = SwerveSimpleTrajectoryMode.DurationInSeconds;
 
 
     public SwerveSimpleTrajectoryLogic() {
@@ -114,7 +115,7 @@ public class SwerveSimpleTrajectoryLogic {
         this.distanceThresholdToPrioritizeRotation = distanceThresholdToPrioritizeRotation;
     }
 
-    public void setVelocityMode(SwerveSimpleTrajectoryVelocityMode mode) {
+    public void setVelocityMode(SwerveSimpleTrajectoryMode mode) {
         this.mode = mode;
     }
 
@@ -122,8 +123,8 @@ public class SwerveSimpleTrajectoryLogic {
         this.constantVelocity = constantVelocity;
     }
 
-    public void setKinematicValues() {
-
+    public void setGlobalKinematicValues(SwervePointKinematics kinematics) {
+        this.globalKinematics = globalKinematics;
     }
 
     // --------------------------------------------------------------
@@ -154,8 +155,11 @@ public class SwerveSimpleTrajectoryLogic {
         }
 
         switch (mode) {
-            case Kinematics -> {
+            case KinematicsForIndividualPoints -> {
                 keyPoints = getKinematicsAdjustSwervePoints(initialPoint, keyPoints);
+            }
+            case KinematicsForPointsList -> {
+                keyPoints = getGlobalKinematicsAdjustSwervePoints(initialPoint, keyPoints, currentPose);
             }
             case ConstantVelocity -> {
                 keyPoints = getVelocityAdjustedSwervePoints(initialPoint, keyPoints, constantVelocity);
@@ -292,7 +296,7 @@ public class SwerveSimpleTrajectoryLogic {
                 // If we've moved on to later points, we can now safely get previous entries in the list.
                 previous = swervePoints.get(i - 1);
                 // Calculate the initial velocity of current node
-                current.kinematics = current.kinematics.kinematicsWithNewVi(calculator.getVelocityAtFinish());
+                current.setKinematics(current.kinematics.kinematicsWithNewVi(calculator.getVelocityAtFinish()));
             }
             double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
             calculator = new SwerveKinematicsCalculator(
@@ -300,6 +304,66 @@ public class SwerveSimpleTrajectoryLogic {
                     distance,
                     current.getKinematics()
             );
+            double adjustedDuration = calculator.getTotalOperationTime();
+
+            if (adjustedDuration > 0) {
+                XbotSwervePoint point = new XbotSwervePoint(current.keyPose, adjustedDuration);
+                point.setKinematics(current.getKinematics());
+                adjustedPoints.add(point);
+            }
+        }
+
+        if (adjustedPoints.size() == 0) {
+            var dummyPoint = new XbotSwervePoint(initialPoint.keyPose, 0.05);
+            adjustedPoints.add(dummyPoint);
+        }
+
+        return adjustedPoints;
+    }
+
+    private List<XbotSwervePoint> getGlobalKinematicsAdjustSwervePoints(
+            XbotSwervePoint initialPoint,
+            List<XbotSwervePoint> swervePoints,
+            Pose2d startingPose) {
+
+        ArrayList<XbotSwervePoint> adjustedPoints = new ArrayList<>();
+
+        double totalDistance = 0;
+        Translation2d currentPosition = startingPose.getTranslation();
+        for (XbotSwervePoint point : swervePoints) {
+            totalDistance += point.keyPose.getTranslation().getDistance(currentPosition);
+            currentPosition = point.keyPose.getTranslation();
+        }
+
+        SwerveKinematicsCalculator calculator = new SwerveKinematicsCalculator(
+                0,
+                totalDistance,
+                globalKinematics
+        );
+
+        double operationTime = calculator.getTotalOperationTime();
+        double accumulatedSeconds = 0;
+        double accumulatedDistance = 0;
+        for (int i = 0; i < swervePoints.size(); i++) {
+            XbotSwervePoint previous = initialPoint;
+            var current = swervePoints.get(i);
+            if (i > 0) {
+                // If we've moved on to later points, we can now safely get previous entries in the list.
+                previous = swervePoints.get(i - 1);
+                // Calculate the initial velocity of current node
+            }
+            // a, vi, vf, vmax, we got a and vmax which is global now we need vi and vf
+            double vi = calculator.getVelocityAtPosition(accumulatedDistance);
+            double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
+            accumulatedDistance += distance;
+            double vf = calculator.getVelocityAtPosition(accumulatedDistance);
+
+            calculator = new SwerveKinematicsCalculator(
+                    0,
+                    distance,
+                    new SwervePointKinematics(globalKinematics.getA(), vi, vf, globalKinematics.getVm())
+            );
+
             double adjustedDuration = calculator.getTotalOperationTime();
 
             if (adjustedDuration > 0) {
@@ -383,7 +447,7 @@ public class SwerveSimpleTrajectoryLogic {
         // If we have no max velocity set, or we are on the last point and almost done, just use the position PID
         if (maximumVelocity <= 0 || (lastResult.isOnFinalPoint && lastResult.distanceToTargetPoint < 0.5) || lastResult.lerpFraction > 1) {
             return new Twist2d(intent.x, intent.y, headingPower);
-        } else if (mode == SwerveSimpleTrajectoryVelocityMode.Kinematics) {
+        } else if (mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList || mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints) {
             return new Twist2d(intent.x, intent.y, headingPower);
         }
         else

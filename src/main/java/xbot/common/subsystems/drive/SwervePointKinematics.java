@@ -21,4 +21,12 @@ public class SwervePointKinematics {
     public SwervePointKinematics kinematicsWithNewVi(double newVi) {
         return new SwervePointKinematics(a, newVi, vg, vm);
     }
+
+    public double getA() {
+        return this.a;
+    }
+
+    public double getVm() {
+        return this.vm;
+    }
 }
