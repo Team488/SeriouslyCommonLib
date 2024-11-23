@@ -2,12 +2,12 @@ package xbot.common.subsystems.drive;
 
 public class SwerveCalculatorNode {
 
-    final double velocity; // Velocity we end at
+    final double endingVelocity; // Velocity we end at
     final double acceleration; // Acceleration to go at
     final double operationTime;
 
-    public SwerveCalculatorNode(double operationTime, double acceleration, double velocity) {
-        this.velocity = velocity;
+    public SwerveCalculatorNode(double operationTime, double acceleration, double endingVelocity) {
+        this.endingVelocity = endingVelocity;
         this.acceleration = acceleration;
         this.operationTime = operationTime;
     }
@@ -21,6 +21,6 @@ public class SwerveCalculatorNode {
     }
 
     public double getOperationFinalSpeed() {
-        return this.velocity;
+        return this.endingVelocity;
     }
 }
