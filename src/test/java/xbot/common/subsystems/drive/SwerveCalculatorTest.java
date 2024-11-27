@@ -87,12 +87,25 @@ public class SwerveCalculatorTest {
     }
 
     @Test
-    public void testCruiseThenDecelerateToGoal() {
-        // This will break soon once it gets more optimized/faster
-        SwerveKinematicsCalculator calculator = newCalculator(0.5, 2, 0, 10);
+    public void testAccelerateThenCruiseThenDecelerateToGoal() {
+        SwerveKinematicsCalculator calculator = newCalculator(0.5, 1, 0, 1.5);
         List<SwerveCalculatorNode> nodeMap = new ArrayList<>();
-        nodeMap.add(new SwerveCalculatorNode(3, 0, 2));
-        nodeMap.add(new SwerveCalculatorNode(4, -0.5, 0));
+        nodeMap.add(new SwerveCalculatorNode(1, 0.5, 1.5));
+        nodeMap.add(new SwerveCalculatorNode(4.33333, 0, 1.5));
+        nodeMap.add(new SwerveCalculatorNode(1, -0.5, 1));
+        nodeMap.add(new SwerveCalculatorNode(2, -0.5, 0));
+        System.out.println(calculator.getTotalDistanceTravelled());
+        compareNodeMaps(nodeMap, calculator.getNodeMap());
+    }
+
+    @Test
+    public void testAccelerateThenDecelerateToGoal() {
+        SwerveKinematicsCalculator calculator = newCalculator(0.5, 1, 0, 10);
+        List<SwerveCalculatorNode> nodeMap = new ArrayList<>();
+        nodeMap.add(new SwerveCalculatorNode(2.69042, 0.5, 2.34521));
+        nodeMap.add(new SwerveCalculatorNode(2.69042, -0.5, 1));
+        nodeMap.add(new SwerveCalculatorNode(2, -0.5, 0));
+        System.out.println(calculator.getTotalDistanceTravelled());
         compareNodeMaps(nodeMap, calculator.getNodeMap());
     }
 }

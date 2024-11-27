@@ -96,15 +96,35 @@ public class SwerveKinematicsCalculator {
             double decelerateToGoalVelocityTime = (goalVelocity - currentVelocity) / -maximumAcceleration;
             double distanceNeededToDecelerate = 0.5 * (currentVelocity + goalVelocity) * decelerateToGoalVelocityTime;
 
-            double cruiseDistance = leftoverDistance - distanceNeededToDecelerate;
+            double distanceExcludingDeceleration = leftoverDistance - distanceNeededToDecelerate;
 
-            if (cruiseDistance > 0) {
-                // Cruise then decelerate
-                // FLAW: Should accelerate -> cruise? -> decelerate
-                // We can calc time to decelerate and then form a peak (or cruise) that starts at currentVelocity ends at currentVelocity
-                double cruiseTime = cruiseDistance / currentVelocity;
-                nodeMap.add(new SwerveCalculatorNode(cruiseTime, 0, currentVelocity));
+            if (distanceExcludingDeceleration > 0) {
+                double halfDistance = distanceExcludingDeceleration / 2;
+                double timeForHalf = calculateTime(maximumAcceleration, currentVelocity, 0, halfDistance);
+                double peakVelocity = currentVelocity + maximumAcceleration * timeForHalf;
+
+                if (peakVelocity <= maximumVelocity) {
+                    // Add two nodes, accelerate to peak, decelerate to goal
+                    nodeMap.add(new SwerveCalculatorNode(timeForHalf, maximumAcceleration, peakVelocity));
+                    nodeMap.add(new SwerveCalculatorNode(timeForHalf, -maximumAcceleration, currentVelocity));
+                } else {
+                    // Going to peak will not work as it will exceed our maximumVelocity limit
+                    // Go to max, then cruise, then decelerate
+                    double timeFromCurrentToMaxV = (maximumVelocity - currentVelocity) / maximumAcceleration; // Rename
+                    double initialPosition = (endPosition - startPosition) - leftoverDistance;
+                    double finalPositionAfterAcceleration = 0.5 * (currentVelocity + maximumVelocity) * timeFromCurrentToMaxV + initialPosition;
+                    double positionDelta = finalPositionAfterAcceleration - initialPosition;
+
+                    double cruiseDistance = distanceExcludingDeceleration - (positionDelta * 2);
+                    double cruiseTime = cruiseDistance / maximumVelocity;
+
+                    nodeMap.add(new SwerveCalculatorNode(timeFromCurrentToMaxV, maximumAcceleration, maximumVelocity));
+                    nodeMap.add(new SwerveCalculatorNode(cruiseTime, 0, maximumVelocity));
+                    nodeMap.add(new SwerveCalculatorNode(timeFromCurrentToMaxV, -maximumAcceleration, currentVelocity));
+                }
+
                 nodeMap.add(new SwerveCalculatorNode(decelerateToGoalVelocityTime, -maximumAcceleration, goalVelocity));
+
             } else {
                 // Decelerate as much as possible
                 // Time of leftoverDistance
@@ -166,11 +186,10 @@ public class SwerveKinematicsCalculator {
                 // Distance from goal -> max
                 double timeFromGoalToMaxV = (maximumVelocity - currentVelocity) / maximumAcceleration;
                 double initialPosition = (endPosition - startPosition) - leftoverDistance;
-                double finalPosition = 0.5 * (currentVelocity + maximumVelocity) * timeFromGoalToMaxV + initialPosition;
+                double finalPositionAfterAcceleration = 0.5 * (currentVelocity + maximumVelocity) * timeFromGoalToMaxV + initialPosition;
+                double positionDelta = finalPositionAfterAcceleration - initialPosition;
 
-                double goalToMaxDistTime = calculateTime(maximumAcceleration, currentVelocity, initialPosition, finalPosition);
-                double goalToMaxDistance = 0.5 * goalToMaxDistTime * (goalVelocity + maximumVelocity);
-                double cruiseDistance = leftoverDistance - (goalToMaxDistance * 2);
+                double cruiseDistance = leftoverDistance - (positionDelta * 2);
                 double cruiseTime = cruiseDistance / maximumVelocity;
 
                 nodeMap.add(new SwerveCalculatorNode(timeFromGoalToMaxV, maximumAcceleration, maximumVelocity));
