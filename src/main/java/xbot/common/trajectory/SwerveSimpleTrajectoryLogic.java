@@ -123,7 +123,7 @@ public class SwerveSimpleTrajectoryLogic {
         this.constantVelocity = constantVelocity;
     }
 
-    public void setGlobalKinematicValues(SwervePointKinematics kinematics) {
+    public void setGlobalKinematicValues(SwervePointKinematics globalKinematics) {
         this.globalKinematics = globalKinematics;
     }
 
@@ -331,7 +331,7 @@ public class SwerveSimpleTrajectoryLogic {
         double totalDistance = 0;
         Translation2d currentPosition = startingPose.getTranslation();
         for (XbotSwervePoint point : swervePoints) {
-            totalDistance += point.keyPose.getTranslation().getDistance(currentPosition);
+            totalDistance += currentPosition.getDistance(point.keyPose.getTranslation());
             currentPosition = point.keyPose.getTranslation();
         }
 
@@ -341,8 +341,6 @@ public class SwerveSimpleTrajectoryLogic {
                 globalKinematics
         );
 
-        double operationTime = calculator.getTotalOperationTime();
-        double accumulatedSeconds = 0;
         double accumulatedDistance = 0;
         for (int i = 0; i < swervePoints.size(); i++) {
             XbotSwervePoint previous = initialPoint;
@@ -377,6 +375,9 @@ public class SwerveSimpleTrajectoryLogic {
             var dummyPoint = new XbotSwervePoint(initialPoint.keyPose, 0.05);
             adjustedPoints.add(dummyPoint);
         }
+
+        System.out.println(adjustedPoints.get(0).getSecondsForSegment());
+        System.out.println(adjustedPoints.get(1).getSecondsForSegment());
 
         return adjustedPoints;
     }
