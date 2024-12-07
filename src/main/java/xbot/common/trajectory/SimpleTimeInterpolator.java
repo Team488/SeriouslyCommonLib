@@ -7,6 +7,9 @@ import org.apache.logging.log4j.Logger;
 
 import xbot.common.advantage.AKitLogger;
 import xbot.common.controls.sensors.XTimer;
+import xbot.common.subsystems.drive.SwerveKinematicsCalculator;
+import xbot.common.subsystems.drive.SwervePointKinematics;
+import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
 
 import java.util.List;
 public class SimpleTimeInterpolator {
@@ -16,6 +19,8 @@ public class SimpleTimeInterpolator {
     ProvidesInterpolationData baseline;
     int index;
     double maximumDistanceFromChasePointInMeters = 0.3;
+
+    SwerveKinematicsCalculator calculator;
 
     private List<? extends ProvidesInterpolationData> keyPoints;
 
@@ -89,7 +94,15 @@ public class SimpleTimeInterpolator {
         index = 0;
     }
 
-    public InterpolationResult calculateTarget(Translation2d currentLocation) {
+    public SwerveKinematicsCalculator newCalculator(Translation2d targetPointTranslation2d, SwervePointKinematics kinematics) {
+        return new SwerveKinematicsCalculator(
+                0,
+                baseline.getTranslation2d().minus(targetPointTranslation2d).getNorm(),
+                kinematics
+        );
+    }
+
+    public InterpolationResult calculateTarget(Translation2d currentLocation, SwerveSimpleTrajectoryMode mode) {
         double currentTime = XTimer.getFPGATimestamp();
         aKitLog.record("CurrentTime", currentTime);
 
@@ -112,6 +125,14 @@ public class SimpleTimeInterpolator {
             return new InterpolationResult(currentLocation, true, targetKeyPoint.getRotation2d());
         }
 
+        if ((mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints
+                || mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList) && calculator == null) {
+            calculator = newCalculator(
+                    targetKeyPoint.getTranslation2d(),
+                    targetKeyPoint.getKinematics()
+            );
+        }
+
         // First, assume we are just going to our target. (This is what all trajectories will eventually
         // settle to - all this interpolation is for intermediate points.)
         Translation2d chasePoint = targetKeyPoint.getTranslation2d();
@@ -120,8 +141,6 @@ public class SimpleTimeInterpolator {
         double lerpFraction = (accumulatedProductiveSeconds) / targetKeyPoint.getSecondsForSegment();
         aKitLog.record("LerpFraction", lerpFraction);
         aKitLog.record("accumulatedProductiveSeconds", accumulatedProductiveSeconds);
-
-
 
 
         // If the fraction is above 1, it's time to set a new baseline point and start LERPing on the next
@@ -137,17 +156,30 @@ public class SimpleTimeInterpolator {
             targetKeyPoint = keyPoints.get(index);
             log.info("Baseline is now " + baseline.getTranslation2d()
                     + " and target is now " + targetKeyPoint.getTranslation2d());
+
+            if (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints || mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList) {
+                calculator = newCalculator(
+                        targetKeyPoint.getTranslation2d(),
+                        targetKeyPoint.getKinematics()
+                );
+            }
         }
 
         // Most of the time, the fraction will be less than one.
         // In that case, we want to interpolate between the baseline and the target.
         if (lerpFraction < 1) {
-            chasePoint = baseline.getTranslation2d().interpolate(
-                    targetKeyPoint.getTranslation2d(), lerpFraction);
+            double magnitude = calculator.getPositionAtPercentage(lerpFraction);
+            double magnitudeProgress = magnitude / calculator.getPositionDelta();
+
+            if (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints || mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList) {
+                chasePoint = baseline.getTranslation2d().interpolate(
+                        targetKeyPoint.getTranslation2d(), magnitudeProgress);
+            } else {
+                chasePoint = baseline.getTranslation2d().interpolate(
+                        targetKeyPoint.getTranslation2d(), lerpFraction);
+            }
         }
 
-        // But if that chase point is "too far ahead", we need to freeze the chasePoint
-        // until the robot has a chance to catch up.
         if (currentLocation.getDistance(chasePoint) > maximumDistanceFromChasePointInMeters) {
             // This effectively "rewinds time" for the next loop.
             accumulatedProductiveSeconds -= secondsSinceLastExecute;
@@ -162,6 +194,4 @@ public class SimpleTimeInterpolator {
         return new InterpolationResult(chasePoint, targetingFinalPoint, targetKeyPoint.getRotation2d(), plannedVector,
                 currentLocation.getDistance(targetKeyPoint.getTranslation2d()), lerpFraction, isOnFinalLeg);
     }
-
-
 }
