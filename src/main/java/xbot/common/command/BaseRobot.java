@@ -57,6 +57,7 @@ public abstract class BaseRobot extends LoggedRobot {
 
     // Other than initially creating required systems, you should never use the injector again
     private BaseComponent injectorComponent;
+    private final static int MIN_BYTES = 10000000; // 10 MB
 
     protected Command autonomousCommand;
     protected AutonomousCommandSelector autonomousCommandSelector;
@@ -101,7 +102,7 @@ public abstract class BaseRobot extends LoggedRobot {
         if (isReal() || forceWebots) {
             // Check which USB port contains the USB drive
             var logDirectory = new File("/U/logs");
-            if (logDirectory.getTotalSpace() < 10000000) { // < 10 MB
+            if (logDirectory.getTotalSpace() < MIN_BYTES) { // < 10 MB
                 logDirectory = new File("/V/logs");
             }
             if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
