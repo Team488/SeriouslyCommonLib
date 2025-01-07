@@ -156,7 +156,7 @@ public class SwerveSimpleTrajectoryLogic {
 
         switch (mode) {
             case KinematicsForIndividualPoints -> {
-                keyPoints = getKinematicsAdjustSwervePoints(initialPoint, keyPoints);
+                keyPoints = getKinematicsAdjustedSwervePoints(initialPoint, keyPoints);
             }
             case KinematicsForPointsList -> {
                 keyPoints = getGlobalKinematicsAdjustSwervePoints(initialPoint, keyPoints, currentPose);
@@ -282,7 +282,7 @@ public class SwerveSimpleTrajectoryLogic {
         return velocityAdjustedPoints;
     }
 
-    private List<XbotSwervePoint> getKinematicsAdjustSwervePoints(
+    private List<XbotSwervePoint> getKinematicsAdjustedSwervePoints(
             XbotSwervePoint initialPoint,
             List<XbotSwervePoint> swervePoints) {
 
@@ -335,6 +335,8 @@ public class SwerveSimpleTrajectoryLogic {
             currentPosition = point.keyPose.getTranslation();
         }
 
+        System.out.println("Total distance: " + totalDistance);
+
         SwerveKinematicsCalculator calculator = new SwerveKinematicsCalculator(
                 0,
                 totalDistance,
@@ -348,8 +350,8 @@ public class SwerveSimpleTrajectoryLogic {
             if (i > 0) {
                 // If we've moved on to later points, we can now safely get previous entries in the list.
                 previous = swervePoints.get(i - 1);
-                // Calculate the initial velocity of current node
             }
+
             // a, vi, vf, vmax, we got a and vmax which is global now we need vi and vf
             double vi = calculator.getVelocityAtPosition(accumulatedDistance);
             double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
@@ -366,7 +368,7 @@ public class SwerveSimpleTrajectoryLogic {
 
             if (adjustedDuration > 0) {
                 XbotSwervePoint point = new XbotSwervePoint(current.keyPose, adjustedDuration);
-                point.setKinematics(current.getKinematics());
+                point.setKinematics(new SwervePointKinematics(globalKinematics.getA(), vi, vf, globalKinematics.getVm()));
                 adjustedPoints.add(point);
             }
         }
