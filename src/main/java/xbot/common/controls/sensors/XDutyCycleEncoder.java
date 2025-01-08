@@ -67,7 +67,7 @@ public abstract class XDutyCycleEncoder implements XBaseIO {
 
     public void refreshDataFrame() {
         updateInputs(inputs);
-        Logger.getInstance().processInputs(info.name + "/DutyCycleEncoder", inputs);
+        Logger.processInputs(info.name + "/DutyCycleEncoder", inputs);
     }
 
 }

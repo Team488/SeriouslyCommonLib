@@ -43,6 +43,6 @@ public abstract class XDigitalInput implements XBaseIO {
 
     public void refreshDataFrame() {
         updateInputs(inputs);
-        Logger.getInstance().processInputs(akitName, inputs);
+        Logger.processInputs(akitName, inputs);
     }
 }

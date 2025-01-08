@@ -6,6 +6,7 @@ import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.numbers.N5;
+import edu.wpi.first.math.numbers.N8;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.Logger;
@@ -64,9 +65,9 @@ public class PhotonCameraExtended extends PhotonCamera {
     }
 
     @Override
-    public Optional<Matrix<N5, N1>> getDistCoeffs() {
+    public Optional<Matrix<N8, N1>> getDistCoeffs() {
         double[] distCoeffs = this.getDistCoeffsRaw();
-        return distCoeffs != null && distCoeffs.length == 5 ? Optional.of(MatBuilder.fill(Nat.N5(), Nat.N1(), distCoeffs)) : Optional.empty();
+        return distCoeffs != null && distCoeffs.length == 5 ? Optional.of(MatBuilder.fill(Nat.N8(), Nat.N1(), distCoeffs)) : Optional.empty();
     }
 
     public boolean doesLibraryVersionMatchCoprocessorVersion() {

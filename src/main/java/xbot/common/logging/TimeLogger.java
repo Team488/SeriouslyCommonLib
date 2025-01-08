@@ -54,6 +54,6 @@ public class TimeLogger {
     }
 
     private double getPerformanceTimestamp() {
-        return org.littletonrobotics.junction.Logger.getInstance().getRealTimestamp()*1.0 / 1000000.0;
+        return org.littletonrobotics.junction.Logger.getRealTimestamp()*1.0 / 1000000.0;
     }
 }

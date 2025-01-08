@@ -10,6 +10,12 @@ import xbot.common.math.WrappedRotation2d;
 
 public abstract class XGyro
 {
+    public enum InterfaceType {
+        spi,
+        serial,
+        i2c
+    }
+
     public enum ImuType {
         nav6,
         navX,
@@ -21,22 +27,10 @@ public abstract class XGyro
     protected XGyroIoInputsAutoLogged io;
     
     public abstract static class XGyroFactory {
-        protected abstract XGyro create(SPI.Port spiPort, SerialPort.Port serialPort, I2C.Port i2cPort);
+        protected abstract XGyro create(InterfaceType interfaceType);
 
         public XGyro create() {
-            return create(SPI.Port.kMXP);
-        }
-
-        public XGyro create(SPI.Port spiPort) {
-            return create(spiPort, null, null);
-        }
-
-        public XGyro create(SerialPort.Port serialPort) {
-            return create(null, serialPort, null);
-        }
-
-        public XGyro create(I2C.Port i2cPort) {
-            return create(null, null, i2cPort);
+            return create(InterfaceType.spi);
         }
     }
 
@@ -157,6 +151,6 @@ public abstract class XGyro
     public void refreshDataFrame() {
         updateInputs(io);
         // TODO: get a name for the gyro so we don't have to use a hardcoded one.
-        Logger.getInstance().processInputs("IMU", io);
+        Logger.processInputs("IMU", io);
     }
 }

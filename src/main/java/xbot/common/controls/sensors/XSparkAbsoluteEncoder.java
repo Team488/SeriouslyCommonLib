@@ -27,6 +27,6 @@ public abstract class XSparkAbsoluteEncoder {
 
     public void refreshDataFrame() {
         updateInputs(inputs);
-        Logger.getInstance().processInputs(nameWithPrefix, inputs);
+        Logger.processInputs(nameWithPrefix, inputs);
     }
 }
