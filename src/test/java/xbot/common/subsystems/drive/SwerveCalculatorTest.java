@@ -18,8 +18,8 @@ public class SwerveCalculatorTest {
         assertEquals(map1.size(), map2.size());
         for (int i = 0; i < map1.size(); i++) {
             assertEquals(map1.get(i).operationTime, map2.get(i).operationTime, 0.001);
-            assertEquals(map1.get(i).acceleration, map2.get(i).acceleration, 0.001);
-            assertEquals(map1.get(i).endingVelocity, map2.get(i).endingVelocity, 0.001);
+            assertEquals(map1.get(i).operationAcceleration, map2.get(i).operationAcceleration, 0.001);
+            assertEquals(map1.get(i).operationEndingVelocity, map2.get(i).operationEndingVelocity, 0.001);
         }
     }
 

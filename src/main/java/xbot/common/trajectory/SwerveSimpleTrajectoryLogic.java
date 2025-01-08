@@ -159,7 +159,7 @@ public class SwerveSimpleTrajectoryLogic {
                 keyPoints = getKinematicsAdjustedSwervePoints(initialPoint, keyPoints);
             }
             case KinematicsForPointsList -> {
-                keyPoints = getGlobalKinematicsAdjustSwervePoints(initialPoint, keyPoints, currentPose);
+                keyPoints = getGlobalKinematicsAdjustedSwervePoints(initialPoint, keyPoints, currentPose);
             }
             case ConstantVelocity -> {
                 keyPoints = getVelocityAdjustedSwervePoints(initialPoint, keyPoints, constantVelocity);
@@ -321,7 +321,7 @@ public class SwerveSimpleTrajectoryLogic {
         return adjustedPoints;
     }
 
-    private List<XbotSwervePoint> getGlobalKinematicsAdjustSwervePoints(
+    private List<XbotSwervePoint> getGlobalKinematicsAdjustedSwervePoints(
             XbotSwervePoint initialPoint,
             List<XbotSwervePoint> swervePoints,
             Pose2d startingPose) {
@@ -335,13 +335,7 @@ public class SwerveSimpleTrajectoryLogic {
             currentPosition = point.keyPose.getTranslation();
         }
 
-        System.out.println("Total distance: " + totalDistance);
-
-        SwerveKinematicsCalculator calculator = new SwerveKinematicsCalculator(
-                0,
-                totalDistance,
-                globalKinematics
-        );
+        SwerveKinematicsCalculator calculator = new SwerveKinematicsCalculator(0, totalDistance, globalKinematics);
 
         double accumulatedDistance = 0;
         for (int i = 0; i < swervePoints.size(); i++) {
@@ -352,7 +346,8 @@ public class SwerveSimpleTrajectoryLogic {
                 previous = swervePoints.get(i - 1);
             }
 
-            // a, vi, vf, vmax, we got a and vmax which is global now we need vi and vf
+            // NEED: acceleration, initialVelocity, finalVelocity, maxVelocity,
+            // we got a and vMax which is global now we need vInitial and vFinal
             double vi = calculator.getVelocityAtPosition(accumulatedDistance);
             double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
             accumulatedDistance += distance;
@@ -361,14 +356,14 @@ public class SwerveSimpleTrajectoryLogic {
             calculator = new SwerveKinematicsCalculator(
                     0,
                     distance,
-                    new SwervePointKinematics(globalKinematics.getA(), vi, vf, globalKinematics.getVm())
+                    new SwervePointKinematics(globalKinematics.getAcceleration(), vi, vf, globalKinematics.getMaxVelocity())
             );
 
             double adjustedDuration = calculator.getTotalOperationTime();
 
             if (adjustedDuration > 0) {
                 XbotSwervePoint point = new XbotSwervePoint(current.keyPose, adjustedDuration);
-                point.setKinematics(new SwervePointKinematics(globalKinematics.getA(), vi, vf, globalKinematics.getVm()));
+                point.setKinematics(new SwervePointKinematics(globalKinematics.getAcceleration(), vi, vf, globalKinematics.getMaxVelocity()));
                 adjustedPoints.add(point);
             }
         }
@@ -377,9 +372,6 @@ public class SwerveSimpleTrajectoryLogic {
             var dummyPoint = new XbotSwervePoint(initialPoint.keyPose, 0.05);
             adjustedPoints.add(dummyPoint);
         }
-
-        System.out.println(adjustedPoints.get(0).getSecondsForSegment());
-        System.out.println(adjustedPoints.get(1).getSecondsForSegment());
 
         return adjustedPoints;
     }
@@ -446,7 +438,8 @@ public class SwerveSimpleTrajectoryLogic {
 
         aKitLog.record("UpdatedIntent", intent);
 
-        // TODO: Repetitive code due to Checkstyle...
+        // TODO: Repetitive if-statement returns due to Checkstyle...
+        // In the future we can add different adjustments for if we are ahead/behind in schedule
         // If we have no max velocity set, or we are on the last point and almost done, just use the position PID
         if (maximumVelocity <= 0 || (lastResult.isOnFinalPoint && lastResult.distanceToTargetPoint < 0.5) || lastResult.lerpFraction > 1) {
             return new Twist2d(intent.x, intent.y, headingPower);
