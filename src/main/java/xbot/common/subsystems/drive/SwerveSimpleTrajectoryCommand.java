@@ -32,6 +32,7 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
         pf.setPrefix(this);
         this.addRequirements(drive);
         logic = new SwerveSimpleTrajectoryLogic();
+        logic = new SwerveSimpleTrajectoryLogic();
         alternativeIsFinishedSupplier = () -> false;
     }
 

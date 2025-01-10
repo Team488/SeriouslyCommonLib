@@ -102,6 +102,10 @@ public class SimpleTimeInterpolator {
         );
     }
 
+    public void resetCalculator() {
+        calculator = null;
+    }
+
     public InterpolationResult calculateTarget(Translation2d currentLocation, SwerveSimpleTrajectoryMode mode) {
         double currentTime = XTimer.getFPGATimestamp();
         aKitLog.record("CurrentTime", currentTime);
@@ -168,8 +172,8 @@ public class SimpleTimeInterpolator {
         // Most of the time, the fraction will be less than one.
         // In that case, we want to interpolate between the baseline and the target.
         if (lerpFraction < 1) {
-            double magnitude = calculator.getPositionAtPercentage(lerpFraction);
-            double magnitudeProgress = magnitude / calculator.getPositionDelta();
+            double magnitude = calculator.geDistanceTravelledAtCompletionPercentage(lerpFraction);
+            double magnitudeProgress = magnitude / calculator.getTotalDistance();
 
             if (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints || mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList) {
                 chasePoint = baseline.getTranslation2d().interpolate(
@@ -180,6 +184,7 @@ public class SimpleTimeInterpolator {
             }
         }
 
+        // But if that chase point is "too far ahead", we need to freeze the chasePoint
         if (currentLocation.getDistance(chasePoint) > maximumDistanceFromChasePointInMeters) {
             // This effectively "rewinds time" for the next loop.
             accumulatedProductiveSeconds -= secondsSinceLastExecute;

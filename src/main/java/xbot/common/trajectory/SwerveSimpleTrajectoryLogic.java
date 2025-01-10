@@ -135,6 +135,7 @@ public class SwerveSimpleTrajectoryLogic {
         log.info("Resetting");
         keyPoints = keyPointsProvider.get();
         log.info("Key points size: " + keyPoints.size());
+        interpolator.resetCalculator();
 
         var initialPoint = new XbotSwervePoint(currentPose, 0);
 
@@ -154,7 +155,10 @@ public class SwerveSimpleTrajectoryLogic {
                     new Pose2d(targetPoint.getTranslation2d(), targetPoint.getRotation2d()));
         }
 
+        // Adjust points based on mode, since the logic at default is optimized for "DurationInSeconds" we need
+        // To convert over modes to have values in DurationInSeconds.
         switch (mode) {
+            case DurationInSeconds -> {} // The logic at default is optimized for duration in seconds.
             case KinematicsForIndividualPoints -> {
                 keyPoints = getKinematicsAdjustedSwervePoints(initialPoint, keyPoints);
             }
@@ -164,7 +168,10 @@ public class SwerveSimpleTrajectoryLogic {
             case ConstantVelocity -> {
                 keyPoints = getVelocityAdjustedSwervePoints(initialPoint, keyPoints, constantVelocity);
             }
-            default -> {}
+            default -> {
+                // TEMPORARY; WILL BE RobotAssertionManager code later!!!
+                System.out.println("Stuff happened");
+            }
         }
 
         handleAimingAtFinalLeg(currentPose);
@@ -321,6 +328,8 @@ public class SwerveSimpleTrajectoryLogic {
         return adjustedPoints;
     }
 
+    // Instead of using kinematic values of each individual SwervePoint
+    // We use kinematic values "globalKinematics" set in this logic
     private List<XbotSwervePoint> getGlobalKinematicsAdjustedSwervePoints(
             XbotSwervePoint initialPoint,
             List<XbotSwervePoint> swervePoints,
@@ -348,10 +357,10 @@ public class SwerveSimpleTrajectoryLogic {
 
             // NEED: acceleration, initialVelocity, finalVelocity, maxVelocity,
             // we got a and vMax which is global now we need vInitial and vFinal
-            double vi = calculator.getVelocityAtPosition(accumulatedDistance);
+            double vi = calculator.getVelocityAtDistanceTravelled(accumulatedDistance);
             double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
             accumulatedDistance += distance;
-            double vf = calculator.getVelocityAtPosition(accumulatedDistance);
+            double vf = calculator.getVelocityAtDistanceTravelled(accumulatedDistance);
 
             calculator = new SwerveKinematicsCalculator(
                     0,

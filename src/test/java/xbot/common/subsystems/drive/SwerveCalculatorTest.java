@@ -11,7 +11,7 @@ public class SwerveCalculatorTest {
 
     // startPosition, endPosition, maximumAcceleration, startingVelocity, goalVelocity, maximumVelocity
     private SwerveKinematicsCalculator newCalculator(double a, double vInitial, double vGoal, double vMax) {
-        return new SwerveKinematicsCalculator(0, 10, a, vInitial, vGoal, vMax);
+        return new SwerveKinematicsCalculator(0, 10, new SwervePointKinematics(a, vInitial, vGoal, vMax));
     }
 
     private void compareNodeMaps(List<SwerveCalculatorNode> map1, List<SwerveCalculatorNode> map2) {
@@ -94,7 +94,6 @@ public class SwerveCalculatorTest {
         nodeMap.add(new SwerveCalculatorNode(4.33333, 0, 1.5));
         nodeMap.add(new SwerveCalculatorNode(1, -0.5, 1));
         nodeMap.add(new SwerveCalculatorNode(2, -0.5, 0));
-        System.out.println(calculator.getTotalDistanceTravelled());
         compareNodeMaps(nodeMap, calculator.getNodeMap());
     }
 
@@ -105,7 +104,6 @@ public class SwerveCalculatorTest {
         nodeMap.add(new SwerveCalculatorNode(2.69042, 0.5, 2.34521));
         nodeMap.add(new SwerveCalculatorNode(2.69042, -0.5, 1));
         nodeMap.add(new SwerveCalculatorNode(2, -0.5, 0));
-        System.out.println(calculator.getTotalDistanceTravelled());
         compareNodeMaps(nodeMap, calculator.getNodeMap());
     }
 }

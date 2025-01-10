@@ -2,14 +2,10 @@ package xbot.common.subsystems.drive;
 
 // Contains a set of kinematics values
 public class SwervePointKinematics {
-    final double acceleration; // Acceleration
-    final double initialVelocity; // Initial velocity
-    final double goalVelocity; // Goal velocity/Velocity at goal (may not 100% fulfilled)
-    final double maxVelocity; // Max velocity
-
-    public SwervePointKinematics() {
-        this(0, 0, 0, 0);
-    }
+    final double acceleration; //  Units: m/s^2
+    final double initialVelocity; // Units: m/s
+    final double goalVelocity; // m/s, velocity you want to be when you reach your goal, may not always be fulfilled.
+    final double maxVelocity; // m/s
 
     public SwervePointKinematics(double a, double initialVelocity, double goalVelocity, double maxVelocity) {
         this.acceleration = a;

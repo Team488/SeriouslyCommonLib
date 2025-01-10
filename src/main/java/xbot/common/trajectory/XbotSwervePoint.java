@@ -16,7 +16,7 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
     public Pose2d keyPose;
 
     public double secondsToPoint;
-    SwervePointKinematics kinematics = new SwervePointKinematics();
+    SwervePointKinematics kinematics;
 
     public XbotSwervePoint(Pose2d keyPose, double secondsToPoint) {
         this.keyPose = keyPose;

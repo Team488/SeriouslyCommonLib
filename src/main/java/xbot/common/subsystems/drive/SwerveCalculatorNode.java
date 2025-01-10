@@ -5,9 +5,9 @@ package xbot.common.subsystems.drive;
 //to create a path to be used for the SwerveKinematicsCalculator
 public class SwerveCalculatorNode {
 
-    final double operationEndingVelocity; // Velocity we end at
-    final double operationAcceleration; // Acceleration to go at
-    final double operationTime;
+    final double operationEndingVelocity; // m/s, velocity we end at
+    final double operationAcceleration; // mls^2, acceleration to go at
+    final double operationTime; // Time in seconds
 
     public SwerveCalculatorNode(double operationTime, double operationAcceleration, double operationEndingVelocity) {
         this.operationEndingVelocity = operationEndingVelocity;
@@ -23,7 +23,7 @@ public class SwerveCalculatorNode {
         return this.operationAcceleration;
     }
 
-    public double getOperationEndingSpeed() {
+    public double getOperationEndingVelocity() {
         return this.operationEndingVelocity;
     }
 }
