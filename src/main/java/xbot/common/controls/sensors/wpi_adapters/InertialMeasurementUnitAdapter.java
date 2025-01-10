@@ -35,6 +35,7 @@ public class InertialMeasurementUnitAdapter extends XGyro {
                 case spi -> this.ahrs = new AHRS(AHRS.NavXComType.kMXP_SPI);
                 case serial -> this.ahrs = new AHRS(AHRS.NavXComType.kMXP_UART);
                 case i2c -> this.ahrs = new AHRS(AHRS.NavXComType.kI2C);
+                default -> this.ahrs = new AHRS(AHRS.NavXComType.kMXP_SPI);
             }
             police.registerDevice(DeviceType.IMU, 1, this);
             log.info("AHRS successfully created");
