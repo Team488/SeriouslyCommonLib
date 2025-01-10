@@ -5,7 +5,6 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.numbers.N5;
 import edu.wpi.first.math.numbers.N8;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import org.apache.logging.log4j.LogManager;
@@ -13,8 +12,8 @@ import org.littletonrobotics.junction.Logger;
 import org.photonvision.targeting.PhotonPipelineResult;
 import xbot.common.controls.io_inputs.PhotonCameraExtendedInputs;
 import xbot.common.controls.io_inputs.PhotonCameraExtendedInputsAutoLogged;
-import xbot.common.controls.sensors.XTimer;
 
+import java.util.List;
 import java.util.Optional;
 
 public class PhotonCameraExtended extends PhotonCamera {
@@ -35,21 +34,8 @@ public class PhotonCameraExtended extends PhotonCamera {
     }
 
     @Override
-    public PhotonPipelineResult getLatestResult() {
-        var result = io.pipelineResult;
-        // PhotonPipelineResult doesn't serialize the timestamp,
-        // so we need to restore it for simulation playback
-        if (result.getTimestampSeconds() == -1.0) {
-            var loggedTimestamp = io.pipelineResultTimestamp;
-            if (loggedTimestamp == 0.0) {
-                // The timestamp is not logged (old data), so we need to estimate it.
-                result.setTimestampSeconds(XTimer.getFPGATimestamp()
-                        - (result.getLatencyMillis() / 1000));
-            } else {
-                result.setTimestampSeconds(loggedTimestamp);
-            }
-        }
-        return result;
+    public List<PhotonPipelineResult> getAllUnreadResults() {
+        return io.pipelineResults;
     }
 
     public double[] getCameraMatrixRaw() { return io.cameraMatrix; }
@@ -94,8 +80,8 @@ public class PhotonCameraExtended extends PhotonCamera {
         try {
             inputs.cameraMatrix = cameraIntrinsicsSubscriber.get();
             inputs.distCoeffs = cameraDistortionSubscriber.get();
-            inputs.pipelineResult = super.getLatestResult();
-            inputs.pipelineResultTimestamp = inputs.pipelineResult.getTimestampSeconds();
+            inputs.pipelineResults = super.getAllUnreadResults();
+            inputs.pipelineResultTimestamps = inputs.pipelineResults.stream().map(PhotonPipelineResult::getTimestampSeconds).toArray(Double[]::new);
             inputs.versionEntry = versionEntry.get("");
             inputs.isConnected = isConnected();
         } catch (Exception e) {
