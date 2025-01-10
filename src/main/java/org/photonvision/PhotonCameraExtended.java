@@ -8,25 +8,24 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.numbers.N8;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import org.apache.logging.log4j.LogManager;
-import org.littletonrobotics.junction.Logger;
 import org.photonvision.targeting.PhotonPipelineResult;
 import xbot.common.controls.io_inputs.PhotonCameraExtendedInputs;
-import xbot.common.controls.io_inputs.PhotonCameraExtendedInputsAutoLogged;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 public class PhotonCameraExtended extends PhotonCamera {
 
-    PhotonCameraExtendedInputsAutoLogged io;
+    PhotonCameraExtendedInputs io;
     org.apache.logging.log4j.Logger log = LogManager.getLogger(this.getClass());
     String akitName = "";
 
     public PhotonCameraExtended(NetworkTableInstance instance, String cameraName, String prefix) {
         super(instance, cameraName);
-        io = new PhotonCameraExtendedInputsAutoLogged();
+        //io = new PhotonCameraExtendedInputsAutoLogged();
+        io = new PhotonCameraExtendedInputs();
         akitName = prefix+cameraName;
-
     }
 
     public PhotonCameraExtended(String cameraName, String prefix) {
@@ -35,7 +34,7 @@ public class PhotonCameraExtended extends PhotonCamera {
 
     @Override
     public List<PhotonPipelineResult> getAllUnreadResults() {
-        return io.pipelineResults;
+        return Arrays.stream(io.pipelineResults).toList();
     }
 
     public double[] getCameraMatrixRaw() { return io.cameraMatrix; }
@@ -80,8 +79,8 @@ public class PhotonCameraExtended extends PhotonCamera {
         try {
             inputs.cameraMatrix = cameraIntrinsicsSubscriber.get();
             inputs.distCoeffs = cameraDistortionSubscriber.get();
-            inputs.pipelineResults = super.getAllUnreadResults();
-            inputs.pipelineResultTimestamps = inputs.pipelineResults.stream().map(PhotonPipelineResult::getTimestampSeconds).toArray(Double[]::new);
+            inputs.pipelineResults = super.getAllUnreadResults().toArray(PhotonPipelineResult[]::new);
+            inputs.pipelineResultTimestamps = Arrays.stream(inputs.pipelineResults).mapToDouble(PhotonPipelineResult::getTimestampSeconds).toArray();
             inputs.versionEntry = versionEntry.get("");
             inputs.isConnected = isConnected();
         } catch (Exception e) {
@@ -91,6 +90,6 @@ public class PhotonCameraExtended extends PhotonCamera {
 
     public void refreshDataFrame() {
         updateInputs(io);
-        Logger.processInputs(akitName, io);
+        //Logger.processInputs(akitName, io);
     }
 }

@@ -1,8 +1,5 @@
 package xbot.common.controls.sensors;
 
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SerialPort;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.controls.io_inputs.XGyroIoInputsAutoLogged;
@@ -27,7 +24,7 @@ public abstract class XGyro
     protected XGyroIoInputsAutoLogged io;
     
     public abstract static class XGyroFactory {
-        protected abstract XGyro create(InterfaceType interfaceType);
+        public abstract XGyro create(InterfaceType interfaceType);
 
         public XGyro create() {
             return create(InterfaceType.spi);
