@@ -29,7 +29,6 @@ public class AprilTagCamera extends SimpleCamera {
         super(cameraInfo, prefix);
         this.poseEstimator = new PhotonPoseEstimator(fieldLayout,
                 PhotonPoseEstimator.PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-                this.camera,
                 cameraInfo.position());
         this.isStable = new TimeStableValidator(poseStableTime);
     }

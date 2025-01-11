@@ -8,7 +8,7 @@ import edu.wpi.first.util.WPISerializable;
 import edu.wpi.first.util.protobuf.Protobuf;
 import edu.wpi.first.util.struct.Struct;
 import edu.wpi.first.util.struct.StructSerializable;
-import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
 import us.hebi.quickbuf.ProtoMessage;
 import xbot.common.properties.IPropertySupport;
 
@@ -109,7 +109,7 @@ public class AKitLogger {
         Logger.recordOutput(this.prefix + key, value);
     }
 
-    public <U extends Unit<U>> void record(String key, Measure<U> value) {
+    public <U extends Unit> void record(String key, Measure<U> value) {
         if(this.shouldSkipLogging()) {
             return;
         }
@@ -197,7 +197,7 @@ public class AKitLogger {
         Logger.recordOutput(this.prefix + key, value);
     }
 
-    public void record(String key, Mechanism2d value) {
+    public void record(String key, LoggedMechanism2d value) {
         if(this.shouldSkipLogging()) {
             return;
         }

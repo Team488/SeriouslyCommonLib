@@ -50,6 +50,6 @@ public abstract class XCANCoder extends XAbsoluteEncoder {
     public void refreshDataFrame() {
         super.refreshDataFrame();
         updateInputs(inputs);
-        Logger.getInstance().processInputs(info.name+"/CANCoder", inputs);
+        Logger.processInputs(info.name+"/CANCoder", inputs);
     }
 }

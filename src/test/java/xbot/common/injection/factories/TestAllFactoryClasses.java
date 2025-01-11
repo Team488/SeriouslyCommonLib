@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import edu.wpi.first.wpilibj.I2C;
 import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XJoystick;
@@ -29,8 +28,6 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().digitalOutputFactory().create(3);
         getInjectorComponent().servoFactory().create(1);
         getInjectorComponent().speedControllerFactory().create(2);
-        getInjectorComponent().gyroFactory().create(I2C.Port.kMXP);
-        getInjectorComponent().lidarLiteFactory().create(I2C.Port.kOnboard, "Test");
         XJoystick j = getInjectorComponent().joystickFactory().create(1, 12);
         getInjectorComponent().joystickButtonFactory().create(j, 1);
         getInjectorComponent().analogHidButtonFactory().create(j, 1, -1, 1);

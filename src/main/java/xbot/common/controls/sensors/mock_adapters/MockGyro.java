@@ -33,19 +33,13 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
 
     @AssistedFactory
     public abstract static class MockGyroFactory extends XGyroFactory {
-        public abstract MockGyro create(@Assisted SPI.Port spiPort, @Assisted SerialPort.Port serialPort, @Assisted I2C.Port i2cPort);
+        public abstract MockGyro create(@Assisted InterfaceType interfaceType);
     }
 
     @AssistedInject
-    public MockGyro(DevicePolice police, @Assisted SPI.Port spiPort, @Assisted SerialPort.Port serialPort, @Assisted I2C.Port i2cPort) {
+    public MockGyro(DevicePolice police, @Assisted InterfaceType interfaceType) {
         super(ImuType.mock);
-        if (spiPort != null) {
-            police.registerDevice(DeviceType.IMU, spiPort.value, this);
-        } else if (serialPort != null) {
-            police.registerDevice(DeviceType.IMU, serialPort.value, this);
-        } else if (i2cPort != null) {
-            police.registerDevice(DeviceType.IMU, i2cPort.value, this);
-        }
+        police.registerDevice(DeviceType.IMU, 1, this);
     }
 
     public boolean isConnected() {

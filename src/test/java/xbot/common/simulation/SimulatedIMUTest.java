@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import edu.wpi.first.wpilibj.SerialPort;
+import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
 
 @Ignore
@@ -20,7 +20,7 @@ public class SimulatedIMUTest extends BaseSimulationTest {
     public void setUp() {
         super.setUp();
 
-        simulatedGyro = (MockGyro)injectorComponent.gyroFactory().create(SerialPort.Port.kMXP);
+        simulatedGyro = (MockGyro)injectorComponent.gyroFactory().create(XGyro.InterfaceType.serial);
     }
 
     @Test

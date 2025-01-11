@@ -1,6 +1,6 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
-import com.kauailabs.navx.frc.AHRS;
+import com.studica.frc.AHRS;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,9 +9,6 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SerialPort;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.injection.DevicePolice;
@@ -26,26 +23,21 @@ public class InertialMeasurementUnitAdapter extends XGyro {
     
     @AssistedFactory
     public abstract static class InertialMeasurementUnitAdapterFactory extends XGyroFactory {
-        public abstract InertialMeasurementUnitAdapter create(@Assisted SPI.Port spiPort, @Assisted SerialPort.Port serialPort, @Assisted I2C.Port i2cPort);
+        public abstract InertialMeasurementUnitAdapter create(@Assisted InterfaceType interfaceType);
     }
 
     @AssistedInject
-    public InertialMeasurementUnitAdapter(DevicePolice police, @Assisted SPI.Port spiPort, @Assisted SerialPort.Port serialPort, @Assisted I2C.Port i2cPort) {
+    public InertialMeasurementUnitAdapter(DevicePolice police, @Assisted InterfaceType interfaceType) {
         super(ImuType.navX);
         /* Options: Port.kMXP, SPI.kMXP, I2C.kMXP or SerialPort.kUSB */
         try {
-            if (spiPort != null) {
-                this.ahrs = new AHRS(spiPort);
-                police.registerDevice(DeviceType.SPI, spiPort.value, this);
-            } else if (serialPort != null) {
-                this.ahrs = new AHRS(serialPort);
-                police.registerDevice(DeviceType.IMU, serialPort.value, this);
-            } else if (i2cPort != null) {
-                this.ahrs = new AHRS(i2cPort);
-                police.registerDevice(DeviceType.I2C, i2cPort.value, this);
-            } else {
-                throw new Exception("No port provided");
+            switch (interfaceType) {
+                case spi -> this.ahrs = new AHRS(AHRS.NavXComType.kMXP_SPI);
+                case serial -> this.ahrs = new AHRS(AHRS.NavXComType.kMXP_UART);
+                case i2c -> this.ahrs = new AHRS(AHRS.NavXComType.kI2C);
+                default -> this.ahrs = new AHRS(AHRS.NavXComType.kMXP_SPI);
             }
+            police.registerDevice(DeviceType.IMU, 1, this);
             log.info("AHRS successfully created");
         }
         catch (Exception e){
