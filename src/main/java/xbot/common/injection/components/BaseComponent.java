@@ -4,7 +4,7 @@ import javax.inject.Named;
 
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.command.XScheduler;
-import xbot.common.controls.actuators.XCANSparkMax.XCANSparkMaxFactory;
+import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANTalon.XCANTalonFactory;
 import xbot.common.controls.actuators.XCANVictorSPX.XCANVictorSPXFactory;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
@@ -166,13 +166,13 @@ public abstract class BaseComponent {
 
     public abstract XCANVictorSPXFactory canVictorSpxFactory();
 
-    public abstract XCANSparkMaxFactory canSparkMaxFactory();
-
     public abstract XLidarLiteFactory lidarLiteFactory();
 
     public abstract XSpeedControllerFactory speedControllerFactory();
 
     public abstract XZeromqListenerFactory zeromqListenerFactory();
+
+    public abstract XCANMotorController.XCANMotorControllerFactory motorControllerFactory();
 
     public abstract BaseDriveSubsystem driveSubsystem();
     

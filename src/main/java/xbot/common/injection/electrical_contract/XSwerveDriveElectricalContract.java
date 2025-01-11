@@ -25,14 +25,14 @@ public interface XSwerveDriveElectricalContract {
      * @param swerveInstance The swerve instance.
      * @return The {@link DeviceInfo} for the drive motor for the given {@link SwerveInstance}.
      */
-    DeviceInfo getDriveMotor(SwerveInstance swerveInstance);
+    CANMotorControllerInfo getDriveMotor(SwerveInstance swerveInstance);
 
     /**
      * Returns the {@link DeviceInfo} for the steering  motor for the given {@link SwerveInstance}.
      * @param swerveInstance The swerve instance.
      * @return The {@link DeviceInfo} for the steering  motor for the given {@link SwerveInstance}.
      */
-    DeviceInfo getSteeringMotor(SwerveInstance swerveInstance);
+    CANMotorControllerInfo getSteeringMotor(SwerveInstance swerveInstance);
 
     /**
      * Returns the {@link DeviceInfo} for the steering encoder for the given {@link SwerveInstance}.
