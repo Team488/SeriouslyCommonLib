@@ -362,13 +362,13 @@ public class SwerveSimpleTrajectoryLogic {
             accumulatedDistance += distance;
             double vf = calculator.getVelocityAtDistanceTravelled(accumulatedDistance);
 
-            calculator = new SwerveKinematicsCalculator(
+            SwerveKinematicsCalculator operationCalculator = new SwerveKinematicsCalculator(
                     0,
                     distance,
                     new SwervePointKinematics(globalKinematics.getAcceleration(), vi, vf, globalKinematics.getMaxVelocity())
             );
 
-            double adjustedDuration = calculator.getTotalOperationTime();
+            double adjustedDuration = operationCalculator.getTotalOperationTime();
 
             if (adjustedDuration > 0) {
                 XbotSwervePoint point = new XbotSwervePoint(current.keyPose, adjustedDuration);
@@ -452,8 +452,24 @@ public class SwerveSimpleTrajectoryLogic {
         // If we have no max velocity set, or we are on the last point and almost done, just use the position PID
         if (maximumVelocity <= 0 || (lastResult.isOnFinalPoint && lastResult.distanceToTargetPoint < 0.5) || lastResult.lerpFraction > 1) {
             return new Twist2d(intent.x, intent.y, headingPower);
+
         } else if (mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList || mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints) {
-            return new Twist2d(intent.x, intent.y, headingPower);
+            // Stolen from below
+            var combinedVector = new Translation2d(intent.x, intent.y);
+            boolean featureEnabledAndRotationCommanded = prioritizeRotationIfCloseToGoal && Math.abs(headingPower) > 0.075;
+            boolean closeAndOnFinalLeg = lastResult.isOnFinalLeg && lastResult.distanceToTargetPoint < distanceThresholdToPrioritizeRotation;
+            boolean engageTranslationSlowdown = featureEnabledAndRotationCommanded && closeAndOnFinalLeg;
+            if (engageTranslationSlowdown) {
+                combinedVector = combinedVector.times(0.01);
+            }
+
+            aKitLog.record("FeatureEnabledAndRotationCommanded", featureEnabledAndRotationCommanded);
+            aKitLog.record("CloseAndOnFinalLeg", closeAndOnFinalLeg);
+            aKitLog.record("TranslationReducedDueToRotation", engageTranslationSlowdown);
+            aKitLog.record("HeadingPower", headingPower);
+            aKitLog.record("combinedVector", combinedVector);
+
+            return new Twist2d(combinedVector.getX(), combinedVector.getY(), headingPower);
         }
         else
         {

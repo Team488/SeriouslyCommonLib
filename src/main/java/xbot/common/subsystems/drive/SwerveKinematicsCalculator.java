@@ -48,12 +48,17 @@ public class SwerveKinematicsCalculator {
         double a = 0.5 * acceleration;
         double b = initialVelocity;
         double c = initialPosition - goalPosition;
-        if (acceleration > 0) {
+        if (acceleration == 0) {
+            return (-c/b);
+
+        } else if (acceleration > 0) {
             List<Double> result = quadraticFormula(a, b, c);
             return Math.max(result.get(0), result.get(1));
+
         } else {
             List<Double> result = quadraticFormula(-a, -b, -c);
             return Math.min(result.get(0), result.get(1));
+
         }
     }
 
@@ -270,20 +275,23 @@ public class SwerveKinematicsCalculator {
     public double getVelocityAtDistanceTravelled(double distanceTravelled) {
         double totalDistanceTravelled = 0;
         double currentVelocity = initialVelocity;
-
         for (SwerveCalculatorNode node : this.nodeMap) {
+
             // Find amount of distance current node travels
-            double operationDistance = currentVelocity * node.getOperationTime() + 0.5 *
-                    node.getOperationAcceleration() * Math.pow(node.getOperationTime(), 2);
+            double operationDistance = (currentVelocity * node.getOperationTime()) + (0.5 *
+                    node.getOperationAcceleration()) * Math.pow(node.getOperationTime(), 2);
+
+            // Continue until we land on the node we stop in
             if (distanceTravelled - (totalDistanceTravelled + operationDistance) >= 0) {
                 totalDistanceTravelled += operationDistance;
                 currentVelocity += (node.getOperationAcceleration() * node.getOperationTime());
             } else {
-                // Get time to get to position
+                // Accelerate the remaining distance
                 double operationTime = calculateTimeToGoalPosition(
                         node.getOperationAcceleration(),
                         currentVelocity,
-                        totalDistanceTravelled, distanceTravelled);
+                        totalDistanceTravelled,
+                        distanceTravelled);
                 currentVelocity += (node.getOperationAcceleration() * operationTime);
                 break;
             }
