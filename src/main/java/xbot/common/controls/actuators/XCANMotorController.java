@@ -50,11 +50,11 @@ public abstract class XCANMotorController {
         setPidProperties(p, i, d, velocityFF, 0);
     }
 
+    public abstract void setPidProperties(double p, double i, double d, double velocityFF, int slot);
+
     public abstract void setOpenLoopRampRates(Time dutyCyclePeriod, Time voltagePeriod);
 
     public abstract void setClosedLoopRampRates(Time dutyCyclePeriod, Time voltagePeriod);
-
-    public abstract void setPidProperties(double p, double i, double d, double velocityFF, int slot);
 
     public abstract void setPower(double power);
 

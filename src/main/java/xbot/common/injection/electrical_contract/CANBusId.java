@@ -2,7 +2,7 @@ package xbot.common.injection.electrical_contract;
 
 /**
  * Represents a CAN bus ID
- * @param id
+ * @param id Bus name string
  */
 public record CANBusId(String id) {
     public static final CANBusId RIO = new CANBusId("rio");
