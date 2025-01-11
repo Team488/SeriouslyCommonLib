@@ -2,6 +2,7 @@ package xbot.common.subsystems.drive;
 
 import edu.wpi.first.math.geometry.Twist2d;
 import xbot.common.command.BaseCommand;
+import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
@@ -24,15 +25,14 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
 
     @Inject
     public SwerveSimpleTrajectoryCommand(BaseSwerveDriveSubsystem drive, BasePoseSubsystem pose, PropertyFactory pf,
-                                         HeadingModuleFactory headingModuleFactory) {
+                                         HeadingModuleFactory headingModuleFactory, RobotAssertionManager assertionManager) {
         this.drive = drive;
         this.pose = pose;
         headingModule = headingModuleFactory.create(drive.getRotateToHeadingPid());
 
         pf.setPrefix(this);
         this.addRequirements(drive);
-        logic = new SwerveSimpleTrajectoryLogic();
-        logic = new SwerveSimpleTrajectoryLogic();
+        logic = new SwerveSimpleTrajectoryLogic(assertionManager);
         alternativeIsFinishedSupplier = () -> false;
     }
 

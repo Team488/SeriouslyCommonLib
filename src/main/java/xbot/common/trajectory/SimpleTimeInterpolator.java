@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import xbot.common.advantage.AKitLogger;
 import xbot.common.controls.sensors.XTimer;
+import xbot.common.logging.RobotAssertionManager;
 import xbot.common.subsystems.drive.SwerveKinematicsCalculator;
 import xbot.common.subsystems.drive.SwervePointKinematics;
 import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
@@ -26,6 +27,7 @@ public class SimpleTimeInterpolator {
 
     Logger log = LogManager.getLogger(SimpleTimeInterpolator.class);
     AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator/");
+    RobotAssertionManager assertionManager;
 
     public class InterpolationResult {
         public Translation2d chasePoint;
@@ -76,7 +78,9 @@ public class SimpleTimeInterpolator {
         }
     }
 
-    public SimpleTimeInterpolator() {}
+    public SimpleTimeInterpolator(RobotAssertionManager assertionManager) {
+        this.assertionManager = assertionManager;
+    }
 
     public void setKeyPoints(List<? extends ProvidesInterpolationData > keyPoints) {
         this.keyPoints = keyPoints;
@@ -92,10 +96,12 @@ public class SimpleTimeInterpolator {
         accumulatedProductiveSeconds = 0;
         previousTimestamp = XTimer.getFPGATimestamp();
         index = 0;
+        aKitLog.record("freeze proc", false);
     }
 
     public SwerveKinematicsCalculator newCalculator(Translation2d targetPointTranslation2d, SwervePointKinematics kinematics) {
         return new SwerveKinematicsCalculator(
+                assertionManager,
                 0,
                 baseline.getTranslation2d().minus(targetPointTranslation2d).getNorm(),
                 kinematics
@@ -171,13 +177,13 @@ public class SimpleTimeInterpolator {
 
         // Most of the time, the fraction will be less than one.
         // In that case, we want to interpolate between the baseline and the target.
+        double multiplier = 1;
         if (lerpFraction < 1) {
-            double magnitude = calculator.geDistanceTravelledAtCompletionPercentage(lerpFraction);
-            double magnitudeProgress = magnitude / calculator.getTotalDistance();
-
             if (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints || mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList) {
+                double magnitude = calculator.geDistanceTravelledAtCompletionPercentage(lerpFraction);
+                multiplier = magnitude / calculator.getTotalDistanceInMeters(); // Magnitude progress
                 chasePoint = baseline.getTranslation2d().interpolate(
-                        targetKeyPoint.getTranslation2d(), magnitudeProgress);
+                        targetKeyPoint.getTranslation2d(), multiplier);
             } else {
                 chasePoint = baseline.getTranslation2d().interpolate(
                         targetKeyPoint.getTranslation2d(), lerpFraction);
@@ -187,12 +193,15 @@ public class SimpleTimeInterpolator {
         // But if that chase point is "too far ahead", we need to freeze the chasePoint
         if (currentLocation.getDistance(chasePoint) > maximumDistanceFromChasePointInMeters) {
             // This effectively "rewinds time" for the next loop.
+            aKitLog.record("Freezing ChasePoint", true);
             accumulatedProductiveSeconds -= secondsSinceLastExecute;
         }
 
         // The planned velocity is the same (for now) at all points between the baseline and the target.
         var plannedVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d())
                 .div(targetKeyPoint.getSecondsForSegment());
+
+        plannedVector.times(multiplier > 0 ? multiplier : 0.01);
 
         boolean targetingFinalPoint = index == keyPoints.size()-1 && lerpFraction >= 1;
         boolean isOnFinalLeg = index == keyPoints.size()-1;
