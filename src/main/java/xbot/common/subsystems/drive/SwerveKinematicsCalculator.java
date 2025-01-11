@@ -278,8 +278,8 @@ public class SwerveKinematicsCalculator {
         for (SwerveCalculatorNode node : this.nodeMap) {
 
             // Find amount of distance current node travels
-            double operationDistance = (currentVelocity * node.getOperationTime()) + (0.5 *
-                    node.getOperationAcceleration()) * Math.pow(node.getOperationTime(), 2);
+            double operationDistance = (currentVelocity * node.getOperationTime()) + (0.5
+                    * node.getOperationAcceleration()) * Math.pow(node.getOperationTime(), 2);
 
             // Continue until we land on the node we stop in
             if (distanceTravelled - (totalDistanceTravelled + operationDistance) >= 0) {
