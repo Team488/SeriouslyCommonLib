@@ -3,6 +3,7 @@ package xbot.common.injection.modules;
 import dagger.Binds;
 import dagger.Module;
 import xbot.common.controls.actuators.XCANMotorController;
+import xbot.common.controls.actuators.XCANMotorControllerFactoryImpl;
 import xbot.common.controls.actuators.XCANTalon.XCANTalonFactory;
 import xbot.common.controls.actuators.XCANVictorSPX.XCANVictorSPXFactory;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
@@ -96,7 +97,7 @@ public abstract class RealDevicesModule {
 
     @Binds
     @Singleton
-    public abstract XCANMotorController.XCANMotorControllerFactory getMotorControllerFactory(XCANMotorController.XCANMotorControllerFactory impl);
+    public abstract XCANMotorController.XCANMotorControllerFactory getMotorControllerFactory(XCANMotorControllerFactoryImpl impl);
 
     @Binds
     @Singleton
