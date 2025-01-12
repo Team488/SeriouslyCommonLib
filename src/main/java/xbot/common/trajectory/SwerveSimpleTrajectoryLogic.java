@@ -345,8 +345,12 @@ public class SwerveSimpleTrajectoryLogic {
             currentPosition = point.keyPose.getTranslation();
         }
 
-        SwerveKinematicsCalculator calculator = new SwerveKinematicsCalculator(assertionManager, 0,
-                totalDistance, globalKinematics);
+        SwerveKinematicsCalculator calculator = new SwerveKinematicsCalculator(
+                assertionManager,
+                0,
+                totalDistance,
+                globalKinematics
+        );
 
         double accumulatedDistance = 0;
         for (int i = 0; i < swervePoints.size(); i++) {
