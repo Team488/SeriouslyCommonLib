@@ -1,15 +1,9 @@
 package xbot.common.subsystems.drive.swerve;
 
-import com.revrobotics.CANSparkBase;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.REVLibError;
-import com.revrobotics.SparkLimitSwitch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.command.BaseSetpointSubsystem;
-import xbot.common.controls.actuators.XCANSparkMax;
-import xbot.common.controls.actuators.XCANSparkMax.XCANSparkMaxFactory;
-import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
+import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
 import xbot.common.injection.swerve.SwerveInstance;
 import xbot.common.injection.swerve.SwerveSingleton;
@@ -18,6 +12,8 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
 import javax.inject.Inject;
+
+import static edu.wpi.first.units.Units.RPM;
 
 @SwerveSingleton
 public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
@@ -31,13 +27,13 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     private final double minVelocityToEngagePid;
     private double targetVelocity;
 
-    private XCANSparkMax motorController;
+    private XCANMotorController motorController;
 
     @Inject
-    public SwerveDriveSubsystem(SwerveInstance swerveInstance, XCANSparkMaxFactory sparkMaxFactory,
+    public SwerveDriveSubsystem(SwerveInstance swerveInstance, XCANMotorController.XCANMotorControllerFactory mcFactory,
                                 PropertyFactory pf, XSwerveDriveElectricalContract electricalContract) {
         this.label = swerveInstance.label();
-        log.info("Creating SwerveDriveSubsystem " + this.label);
+        log.info("Creating SwerveDriveSubsystem {}", this.label);
 
         // Create properties shared among all instances
         pf.setPrefix(super.getPrefix());
@@ -48,27 +44,19 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
         this.minVelocityToEngagePid = 0.01;
 
         if (electricalContract.isDriveReady()) {
-            this.motorController = sparkMaxFactory.create(
+            this.motorController = mcFactory.create(
                     electricalContract.getDriveMotor(swerveInstance),
-                    "",
-                    "DriveNeo",
-                    super.getPrefix() + "/DrivePID",
-                    new XCANSparkMaxPIDProperties(
-                            0.00001,
-                            0.000001,
-                            0,
-                            400,
-                            0.00015,
-                            1,
-                            -1
-                    ));
+                    "DriveMotor",
+                    super.getPrefix() + "/DrivePID");
+            this.motorController.setPidProperties(
+                    0.00001,
+                    0.000001,
+                    0,
+                    0.00015
+            );
+            this.motorController.setPowerRange(-1, 1);
             setupStatusFramesAsNeeded();
-
             setCurrentLimitsForMode(CurrentLimitMode.Teleop);
-            this.motorController.setIdleMode(CANSparkMax.IdleMode.kBrake);
-            this.motorController.enableVoltageCompensation(12);
-            this.motorController.setForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed, false);
-            this.motorController.setReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed, false);
         }
     }
 
@@ -91,8 +79,8 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
             secondaryCurrentLimit = autoSecondaryCurrentLimit;
         }
 
-        this.motorController.setSmartCurrentLimit(currentLimit);
-        this.motorController.setSecondaryCurrentLimit(secondaryCurrentLimit);
+        //this.motorController.setSmartCurrentLimit(currentLimit);
+        //this.motorController.setSecondaryCurrentLimit(secondaryCurrentLimit);
     }
 
     /**
@@ -100,7 +88,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
      */
     private void setupStatusFramesAsNeeded() {
         if (this.contract.isDriveReady()) {
-            this.motorController.setupStatusFramesIfReset(500, 20, 20, 500);
+            //this.motorController.setupStatusFramesIfReset(500, 20, 20, 500);
         }
     }
 
@@ -120,7 +108,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     public Double getCurrentValue() {
         if (this.contract.isDriveReady()) {
             // Spark returns in RPM - need to convert to meters per second
-            return this.motorController.getVelocity() * this.metersPerMotorRotation.get() / 60.0;
+            return this.motorController.getVelocity().times(this.metersPerMotorRotation.get() / 60.0).magnitude();
         } else {
             return 0.0;
         }
@@ -144,7 +132,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
 
     public double getCurrentPositionValue() {
         if (this.contract.isDriveReady()) {
-            return this.motorController.getPosition() * this.metersPerMotorRotation.get();
+            return this.motorController.getPosition().times(this.metersPerMotorRotation.get()).magnitude();
         } else {
             return 0;
         }
@@ -153,7 +141,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     @Override
     public void setPower(Double power) {
         if (this.contract.isDriveReady()) {
-            this.motorController.set(power);
+            this.motorController.setPower(power);
         }
     }
 
@@ -163,7 +151,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     }
 
 
-    public XCANSparkMax getSparkMax() {
+    public XCANMotorController getMotorController() {
         return this.motorController;
     }
 
@@ -183,19 +171,16 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
             // Get the target speed in RPM
             double targetRPM = targetVelocity / this.metersPerMotorRotation.get() * 60.0;
             aKitLog.record("TargetRPM", targetRPM);
-            REVLibError error = this.motorController.setReference(targetRPM, CANSparkBase.ControlType.kVelocity, 0);
-            if (error != REVLibError.kOk) {
-                log.error("Error setting PID target: " + error.name());
-            }
+            this.motorController.setVelocityTarget(RPM.of(targetRPM), 0);
         }
     }
 
     public void setNoviceMode(boolean enabled) {
         if (this.contract.isDriveReady()) {
             if (enabled) {
-                this.motorController.setOutputRange(-0.3, 0.3);
+                this.motorController.setPowerRange(-0.3, 0.3);
             } else {
-                this.motorController.setOutputRange(-1, 1);
+                this.motorController.setPowerRange(-1, 1);
             }
         }
     }
