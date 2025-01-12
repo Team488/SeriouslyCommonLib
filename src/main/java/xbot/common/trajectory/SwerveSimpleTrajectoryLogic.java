@@ -41,7 +41,7 @@ public class SwerveSimpleTrajectoryLogic {
     private boolean prioritizeRotationIfCloseToGoal = false;
     private double distanceThresholdToPrioritizeRotation = 1.5;
     private double constantVelocity = 0;
-    private SwervePointKinematics globalKinematics;
+    private SwervePointKinematics globalKinematics = null;
     private SwerveSimpleTrajectoryMode mode = SwerveSimpleTrajectoryMode.DurationInSeconds;
     RobotAssertionManager assertionManager;
 
@@ -161,12 +161,19 @@ public class SwerveSimpleTrajectoryLogic {
         // Adjust points based on mode, since the logic at default is optimized for "DurationInSeconds" we need
         // To convert over modes to have values in DurationInSeconds.
         switch (mode) {
-            case DurationInSeconds -> {
-            } // The logic at default is optimized for duration in seconds.
+            case DurationInSeconds -> {} // The logic at default is optimized for duration in seconds.
             case KinematicsForIndividualPoints -> {
+                for (XbotSwervePoint point : keyPoints) {
+                    if (point.getKinematics() == null) {
+                        assertionManager.throwException("Needs to set kinematics for swerve point!", new Exception());
+                    }
+                }
                 keyPoints = getKinematicsAdjustedSwervePoints(initialPoint, keyPoints);
             }
             case KinematicsForPointsList -> {
+                if (globalKinematics == null) {
+                    assertionManager.throwException("Needs to set globalKinematics!", new Exception());
+                }
                 keyPoints = getGlobalKinematicsAdjustedSwervePoints(initialPoint, keyPoints, currentPose);
             }
             case ConstantVelocity -> {

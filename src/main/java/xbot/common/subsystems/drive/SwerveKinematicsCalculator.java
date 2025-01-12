@@ -21,8 +21,6 @@ public class SwerveKinematicsCalculator {
     Code involving the quadratic formula IS NOT ROBUST (since only this script uses them as of currently)
     */
 
-    final Logger log = LogManager.getLogger(SwerveKinematicsCalculator.class);
-
     final double startPosition;
     final double endPosition;
     final double acceleration;
