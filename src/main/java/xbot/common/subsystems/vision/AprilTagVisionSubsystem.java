@@ -29,9 +29,12 @@ import xbot.common.injection.electrical_contract.XCameraElectricalContract;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.LinkedList;
 import java.util.List;
 
+@Singleton
 public class AprilTagVisionSubsystem extends SubsystemBase {
     private final VisionConsumer consumer;
     private final AprilTagFieldLayout aprilTagFieldLayout;
@@ -60,6 +63,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
                     1.0 // Camera 1
             };
 
+    @Inject
     public AprilTagVisionSubsystem(VisionConsumer consumer, PropertyFactory pf, AprilTagFieldLayout fieldLayout, XCameraElectricalContract contract) {
         this.consumer = consumer;
         this.aprilTagFieldLayout = fieldLayout;
