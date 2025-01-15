@@ -142,16 +142,11 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
                 // Check whether to reject pose
                 boolean rejectPose =
                         observation.tagCount() == 0 // Must have at least one tag
-                                || (observation.tagCount() == 1
-                                && observation.ambiguity() > maxAmbiguity.get()) // Cannot be high ambiguity
+                                || isObservationAmbiguous(observation)
                                 || Math.abs(observation.pose().getZ())
                                 > maxZError.get() // Must have realistic Z coordinate
 
-                                // Must be within the field boundaries
-                                || observation.pose().getX() < 0.0
-                                || observation.pose().getX() > aprilTagFieldLayout.getFieldLength()
-                                || observation.pose().getY() < 0.0
-                                || observation.pose().getY() > aprilTagFieldLayout.getFieldWidth();
+                                || isObservationOutOfBounds(observation.pose());
 
                 // Add pose to log
                 robotPoses.add(observation.pose());
@@ -217,6 +212,19 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
         Logger.recordOutput(
                 "Vision/Summary/RobotPosesRejected",
                 allRobotPosesRejected.toArray(new Pose3d[allRobotPosesRejected.size()]));
+    }
+
+    private boolean isObservationAmbiguous(AprilTagVisionIO.PoseObservation observation) {
+        return (observation.tagCount() == 1
+                && observation.ambiguity() > maxAmbiguity.get()); // Cannot be high ambiguity;
+    }
+
+    private boolean isObservationOutOfBounds(Pose3d pose) {
+        // Must be within the field boundaries
+        return pose.getX() < 0.0
+                || pose.getX() > aprilTagFieldLayout.getFieldLength()
+                || pose.getY() < 0.0
+                || pose.getY() > aprilTagFieldLayout.getFieldWidth();
     }
 
     /**
