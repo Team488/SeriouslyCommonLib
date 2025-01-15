@@ -47,7 +47,7 @@ public class CANCoderAdapter extends XCANCoder {
         this.inverted = deviceInfo.inverted;
         this.magnetOffset = 0.0;
         
-        this.cancoder = new CANcoder(deviceInfo.channel, "rio");
+        this.cancoder = new CANcoder(deviceInfo.channel, deviceInfo.canBusId.id());
 
         var currentConfig = getCurrentConfiguration();
         currentConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
@@ -59,7 +59,7 @@ public class CANCoderAdapter extends XCANCoder {
         
         this.deviceId = deviceInfo.channel;
 
-        police.registerDevice(DeviceType.CAN, deviceInfo.channel, this);
+        police.registerDevice(DeviceType.CAN, deviceInfo.canBusId, deviceInfo.channel, this);
     }
 
     @Override
