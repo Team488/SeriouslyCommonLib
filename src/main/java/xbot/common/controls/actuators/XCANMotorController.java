@@ -70,7 +70,9 @@ public abstract class XCANMotorController {
 
     public abstract void setPowerRange(double minPower, double maxPower);
 
-    public Angle getPosition() { return inputs.angle;}
+    public Angle getPosition() {
+        return inputs.angle;
+    }
 
     public abstract void setPosition(Angle position);
 
@@ -78,7 +80,9 @@ public abstract class XCANMotorController {
 
     public abstract void setPositionTarget(Angle position, int slot);
 
-    public AngularVelocity getVelocity() { return inputs.angularVelocity;};
+    public AngularVelocity getVelocity() {
+        return inputs.angularVelocity;
+    }
 
     public abstract void setVelocityTarget(AngularVelocity velocity);
 
