@@ -5,6 +5,9 @@ import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
+import org.littletonrobotics.junction.Logger;
+import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
+import xbot.common.controls.io_inputs.XCANMotorControllerInputsAutoLogged;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
@@ -25,6 +28,9 @@ public abstract class XCANMotorController {
     public final int deviceId;
     public final PropertyFactory propertyFactory;
 
+    protected XCANMotorControllerInputsAutoLogged inputs;
+    protected String akitName;
+
     protected XCANMotorController(
             CANMotorControllerInfo info,
             String owningSystemPrefix,
@@ -36,8 +42,12 @@ public abstract class XCANMotorController {
         this.deviceId = info.deviceId();
         this.propertyFactory = propertyFactory;
 
+        this.inputs = new XCANMotorControllerInputsAutoLogged();
+
         this.propertyFactory.setPrefix(owningSystemPrefix + "/" + info.name());
         police.registerDevice(DevicePolice.DeviceType.CAN, busId, info.deviceId(), info.name());
+
+        this.akitName = info.name()+"CANMotorController";
     }
 
     public abstract void setConfiguration(CANMotorControllerOutputConfig outputConfig);
@@ -60,7 +70,9 @@ public abstract class XCANMotorController {
 
     public abstract void setPowerRange(double minPower, double maxPower);
 
-    public abstract Angle getPosition();
+    public Angle getPosition() {
+        return inputs.angle;
+    }
 
     public abstract void setPosition(Angle position);
 
@@ -68,17 +80,25 @@ public abstract class XCANMotorController {
 
     public abstract void setPositionTarget(Angle position, int slot);
 
-    public abstract AngularVelocity getVelocity();
+    public AngularVelocity getVelocity() {
+        return inputs.angularVelocity;
+    }
 
     public abstract void setVelocityTarget(AngularVelocity velocity);
 
     public abstract void setVelocityTarget(AngularVelocity velocity, int slot);
 
     public void periodic() {
-
+        // TODO: ?
+        // In previous versions of the code, we used this to update PID values (if they had changed)
+        // to the motor controller, effectively creating a binding between the property system and the
+        // PID values on the controller. We can check if there is a better way to do this.
     }
 
-    public void refreshDataFrame() {
+    protected abstract void updateInputs(XCANMotorControllerInputs inputs);
 
+    public void refreshDataFrame() {
+        updateInputs(inputs);
+        Logger.processInputs(akitName, inputs);
     }
 }
