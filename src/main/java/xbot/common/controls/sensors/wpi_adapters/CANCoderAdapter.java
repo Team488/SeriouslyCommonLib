@@ -3,7 +3,6 @@ package xbot.common.controls.sensors.wpi_adapters;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,7 +50,7 @@ public class CANCoderAdapter extends XCANCoder {
         this.cancoder = new CANcoder(deviceInfo.channel, "rio");
 
         var currentConfig = getCurrentConfiguration();
-        currentConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+        currentConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
         currentConfig.MagnetSensor.SensorDirection = this.inverted
                 ? SensorDirectionValue.Clockwise_Positive : SensorDirectionValue.CounterClockwise_Positive;
         applyConfiguration(currentConfig);

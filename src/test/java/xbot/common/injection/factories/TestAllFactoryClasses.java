@@ -4,13 +4,15 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import edu.wpi.first.wpilibj.I2C;
-import xbot.common.controls.actuators.XCANSparkMaxPIDProperties;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.BaseCommonLibTest;
+import xbot.common.injection.electrical_contract.CANBusId;
+import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
+import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
 import xbot.common.injection.electrical_contract.DeviceInfo;
+import xbot.common.injection.electrical_contract.MotorControllerType;
 import xbot.common.logging.RobotAssertionException;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
@@ -29,8 +31,16 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().digitalOutputFactory().create(3);
         getInjectorComponent().servoFactory().create(1);
         getInjectorComponent().speedControllerFactory().create(2);
-        getInjectorComponent().gyroFactory().create(I2C.Port.kMXP);
-        getInjectorComponent().lidarLiteFactory().create(I2C.Port.kOnboard, "Test");
+        getInjectorComponent().motorControllerFactory()
+                .create(
+                        new CANMotorControllerInfo(
+                                "",
+                                MotorControllerType.TalonFx,
+                                CANBusId.DefaultCanivore,
+                                12,
+                                new CANMotorControllerOutputConfig()),
+                        "",
+                        "");
         XJoystick j = getInjectorComponent().joystickFactory().create(1, 12);
         getInjectorComponent().joystickButtonFactory().create(j, 1);
         getInjectorComponent().analogHidButtonFactory().create(j, 1, -1, 1);
@@ -53,10 +63,10 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().doubleSolenoidFactory().create(
             getInjectorComponent().solenoidFactory().create(2),
             getInjectorComponent().solenoidFactory().create(3));
-        getInjectorComponent().canSparkMaxFactory().create(new DeviceInfo("left", 10), "drive", "left", "motorGroup");
-        getInjectorComponent().canSparkMaxFactory().create(
-                new DeviceInfo("left", 11), "drive", "left", "motorGroup",
-                new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
+//        getInjectorComponent().canSparkMaxFactory().create(new DeviceInfo("left", 10), "drive", "left", "motorGroup");
+//        getInjectorComponent().canSparkMaxFactory().create(
+//                new DeviceInfo("left", 11), "drive", "left", "motorGroup",
+//                new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
         XCANTalon talon = getInjectorComponent().canTalonFactory().create(new CANTalonInfo(1));
         getInjectorComponent().as5600Factory().create(talon);
         getInjectorComponent().canVictorSpxFactory().create(5);

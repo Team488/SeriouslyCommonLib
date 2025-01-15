@@ -3,10 +3,10 @@ package xbot.common.controls.io_inputs;
 import org.littletonrobotics.junction.AutoLog;
 import org.photonvision.targeting.PhotonPipelineResult;
 
-@AutoLog
+//@AutoLog
 public class PhotonCameraExtendedInputs {
-    public PhotonPipelineResult pipelineResult;
-    public double pipelineResultTimestamp;
+    public PhotonPipelineResult[] pipelineResults;
+    public double[] pipelineResultTimestamps;
     public double[] cameraMatrix;
     public double[] distCoeffs;
     public boolean inputsUnhealthy;

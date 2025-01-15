@@ -250,7 +250,7 @@ public abstract class BaseRobot extends LoggedRobot {
     
     protected void sharedPeriodic() {
         double outsidePeriodicEnd = getPerformanceTimestampInMs();
-        Logger.getInstance().recordOutput("OutsidePeriodicMs", outsidePeriodicEnd - outsidePeriodicStart);
+        Logger.recordOutput("OutsidePeriodicMs", outsidePeriodicEnd - outsidePeriodicStart);
         // Get a fresh data frame from all top-level components (typically large subsystems or shared sensors)
 
 
@@ -259,7 +259,7 @@ public abstract class BaseRobot extends LoggedRobot {
         double propertyStart = getPerformanceTimestampInMs();
         propertyManager.refreshDataFrame();
         double propertyEnd = getPerformanceTimestampInMs();
-        Logger.getInstance().recordOutput("RefreshPropertyMs", propertyEnd - propertyStart);
+        Logger.recordOutput("RefreshPropertyMs", propertyEnd - propertyStart);
 
         // Then, refresh any Subsystem or other components that implement DataFrameRefreshable.
         double dataFrameStart = getPerformanceTimestampInMs();
@@ -267,12 +267,12 @@ public abstract class BaseRobot extends LoggedRobot {
             refreshable.refreshDataFrame();
         }
         double dataFrameEnd = getPerformanceTimestampInMs();
-        Logger.getInstance().recordOutput("RefreshDevicesMs", dataFrameEnd - dataFrameStart);
+        Logger.recordOutput("RefreshDevicesMs", dataFrameEnd - dataFrameStart);
 
         double schedulerStart = getPerformanceTimestampInMs();
         xScheduler.run();
         double schedulerEnd = getPerformanceTimestampInMs();
-        Logger.getInstance().recordOutput("SchedulerMs", schedulerEnd - schedulerStart);
+        Logger.recordOutput("SchedulerMs", schedulerEnd - schedulerStart);
         
         outsidePeriodicStart = getPerformanceTimestampInMs();
     }
@@ -317,7 +317,7 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     private double getPerformanceTimestampInMs() {
-        return org.littletonrobotics.junction.Logger.getInstance().getRealTimestamp()*1.0 / 1000.0;
+        return org.littletonrobotics.junction.Logger.getRealTimestamp()*1.0 / 1000.0;
 
     }
 }

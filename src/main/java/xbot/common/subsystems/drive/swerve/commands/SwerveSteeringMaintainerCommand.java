@@ -2,7 +2,6 @@ package xbot.common.subsystems.drive.swerve.commands;
 
 import xbot.common.command.BaseMaintainerCommand;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
-import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.drive.swerve.SwerveSteeringSubsystem;
 
@@ -37,7 +36,7 @@ public class SwerveSteeringMaintainerCommand extends BaseMaintainerCommand<Doubl
             this.subsystem.setPower(this.subsystem.calculatePower());
         }
 
-        if (enableAutoCalibrate && isMaintainerAtGoal() && Math.abs(subsystem.getVelocity()) < 0.001) {
+        if (enableAutoCalibrate && isMaintainerAtGoal() && subsystem.getVelocity().magnitude() < 0.001) {
             this.subsystem.calibrateMotorControllerPositionFromCanCoder();
         }
     }

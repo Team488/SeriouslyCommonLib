@@ -5,28 +5,27 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.numbers.N5;
+import edu.wpi.first.math.numbers.N8;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import org.apache.logging.log4j.LogManager;
-import org.littletonrobotics.junction.Logger;
 import org.photonvision.targeting.PhotonPipelineResult;
 import xbot.common.controls.io_inputs.PhotonCameraExtendedInputs;
-import xbot.common.controls.io_inputs.PhotonCameraExtendedInputsAutoLogged;
-import xbot.common.controls.sensors.XTimer;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class PhotonCameraExtended extends PhotonCamera {
 
-    PhotonCameraExtendedInputsAutoLogged io;
+    PhotonCameraExtendedInputs io;
     org.apache.logging.log4j.Logger log = LogManager.getLogger(this.getClass());
     String akitName = "";
 
     public PhotonCameraExtended(NetworkTableInstance instance, String cameraName, String prefix) {
         super(instance, cameraName);
-        io = new PhotonCameraExtendedInputsAutoLogged();
+        //io = new PhotonCameraExtendedInputsAutoLogged();
+        io = new PhotonCameraExtendedInputs();
         akitName = prefix+cameraName;
-
     }
 
     public PhotonCameraExtended(String cameraName, String prefix) {
@@ -34,21 +33,8 @@ public class PhotonCameraExtended extends PhotonCamera {
     }
 
     @Override
-    public PhotonPipelineResult getLatestResult() {
-        var result = io.pipelineResult;
-        // PhotonPipelineResult doesn't serialize the timestamp,
-        // so we need to restore it for simulation playback
-        if (result.getTimestampSeconds() == -1.0) {
-            var loggedTimestamp = io.pipelineResultTimestamp;
-            if (loggedTimestamp == 0.0) {
-                // The timestamp is not logged (old data), so we need to estimate it.
-                result.setTimestampSeconds(XTimer.getFPGATimestamp()
-                        - (result.getLatencyMillis() / 1000));
-            } else {
-                result.setTimestampSeconds(loggedTimestamp);
-            }
-        }
-        return result;
+    public List<PhotonPipelineResult> getAllUnreadResults() {
+        return Arrays.stream(io.pipelineResults).toList();
     }
 
     public double[] getCameraMatrixRaw() { return io.cameraMatrix; }
@@ -64,9 +50,9 @@ public class PhotonCameraExtended extends PhotonCamera {
     }
 
     @Override
-    public Optional<Matrix<N5, N1>> getDistCoeffs() {
+    public Optional<Matrix<N8, N1>> getDistCoeffs() {
         double[] distCoeffs = this.getDistCoeffsRaw();
-        return distCoeffs != null && distCoeffs.length == 5 ? Optional.of(MatBuilder.fill(Nat.N5(), Nat.N1(), distCoeffs)) : Optional.empty();
+        return distCoeffs != null && distCoeffs.length == 5 ? Optional.of(MatBuilder.fill(Nat.N8(), Nat.N1(), distCoeffs)) : Optional.empty();
     }
 
     public boolean doesLibraryVersionMatchCoprocessorVersion() {
@@ -93,8 +79,8 @@ public class PhotonCameraExtended extends PhotonCamera {
         try {
             inputs.cameraMatrix = cameraIntrinsicsSubscriber.get();
             inputs.distCoeffs = cameraDistortionSubscriber.get();
-            inputs.pipelineResult = super.getLatestResult();
-            inputs.pipelineResultTimestamp = inputs.pipelineResult.getTimestampSeconds();
+            inputs.pipelineResults = super.getAllUnreadResults().toArray(PhotonPipelineResult[]::new);
+            inputs.pipelineResultTimestamps = Arrays.stream(inputs.pipelineResults).mapToDouble(PhotonPipelineResult::getTimestampSeconds).toArray();
             inputs.versionEntry = versionEntry.get("");
             inputs.isConnected = isConnected();
         } catch (Exception e) {
@@ -104,6 +90,6 @@ public class PhotonCameraExtended extends PhotonCamera {
 
     public void refreshDataFrame() {
         updateInputs(io);
-        Logger.processInputs(akitName, io);
+        //Logger.processInputs(akitName, io);
     }
 }

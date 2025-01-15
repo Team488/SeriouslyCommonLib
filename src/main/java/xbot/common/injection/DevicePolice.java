@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.logging.RobotAssertionManager;
 
 /**
@@ -25,10 +26,6 @@ public class DevicePolice {
      * A list of all the devices in use
      */
     public List<Object> registeredDevices;
-    /**
-     * A mapping to get the device associated with a given ID
-     */
-    //private Map<Object, String> deviceToId;
     
     /**
      * Types of devices
@@ -54,8 +51,7 @@ public class DevicePolice {
         registeredChannels = new HashMap<String, Object>();
         registeredDevices = new ArrayList<>();
     }
-    
-    
+
     /**
      * Register a device. Please use {@link #registerDevice(DeviceType, int, Object)} instead
      * @param type Device type
@@ -72,6 +68,10 @@ public class DevicePolice {
      * @param id Device id
      */
     public String registerDevice(DeviceType type, int id, Object device) {
+        if (type == DeviceType.CAN) {
+            return registerDevice(type, CANBusId.RIO, id, device);
+        }
+
         // First, check to see if the overall device has already been registered once. We only
         // want there to be one "main" entry for a given device, like an Encoder, which may use two channels.
         // That way, when we ask the DevicePolice how many devices have been registered, it wouldn't return the 
@@ -81,11 +81,42 @@ public class DevicePolice {
         }
         
         String entry = type.toString() + id;
-        if (registeredChannels.keySet().contains(entry)) {
+        if (registeredChannels.containsKey(entry)) {
             assertionManager.fail("A device has already been created that uses " + type.toString() + " port/id " + id);
         } else {
             registeredChannels.put(entry, device);
             //deviceToId.put(device, entry);
+        }
+
+        return entry;
+    }
+
+    /**
+     * Register a CAN device
+     * @param type Device type
+     * @param busId Device CAN bus id
+     * @param id Device id
+     * @param device Device object
+     */
+    public String registerDevice(DeviceType type, CANBusId busId, int id, Object device) {
+        // First, check to see if the overall device has already been registered once. We only
+        // want there to be one "main" entry for a given device, like an Encoder, which may use two channels.
+        // That way, when we ask the DevicePolice how many devices have been registered, it wouldn't return the
+        // same Encoder twice.
+        if (!registeredDevices.contains(device)) {
+            registeredDevices.add(device);
+        }
+
+        if (type != DeviceType.CAN) {
+            assertionManager.fail("A device has been added with an invalid type that uses "
+                    + type.toString() + " port/id " + id + ", it must be a CAN device");
+        }
+
+        String entry = type.toString() + busId.toString() + id;
+        if (registeredChannels.containsKey(entry)) {
+            assertionManager.fail("A device has already been created that uses " + type.toString() + " port/id " + id);
+        } else {
+            registeredChannels.put(entry, device);
         }
 
         return entry;

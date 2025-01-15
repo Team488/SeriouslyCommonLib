@@ -37,4 +37,9 @@ public class XYPairStruct implements Struct<XYPair> {
         bb.putDouble(value.x);
         bb.putDouble(value.y);
     }
+
+    @Override
+    public String getTypeName() {
+        return "XYPair";
+    }
 }
