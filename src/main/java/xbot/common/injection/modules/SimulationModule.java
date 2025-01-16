@@ -5,7 +5,6 @@ import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
-import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.command.RealSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.sensors.XSettableTimerImpl;
@@ -18,6 +17,10 @@ import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.PreferenceStorage;
 import xbot.common.properties.SmartDashboardTableWrapper;
 import xbot.common.properties.XPropertyManager;
+import xbot.common.subsystems.pose.BasePoseSubsystem;
+import xbot.common.subsystems.pose.SimulatedPositionSupplier;
+import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVision;
+import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVisionSimulated;
 
 /**
  * Module mapping interfaces to implementations for a simulated robot.
@@ -52,4 +55,11 @@ public abstract class SimulationModule {
     @Binds
     @Singleton
     abstract SmartDashboardCommandPutter getSmartDashboardCommandPutter(RealSmartDashboardCommandPutter impl);
+
+    @Binds
+    abstract AprilTagVisionIOPhotonVision.Factory getAprilTagVisionIOPhotonVisionFactory(AprilTagVisionIOPhotonVisionSimulated.Factory impl);
+
+    @Binds
+    @Singleton
+    abstract SimulatedPositionSupplier getSimulatedPositionSupplier(BasePoseSubsystem impl);
 }
