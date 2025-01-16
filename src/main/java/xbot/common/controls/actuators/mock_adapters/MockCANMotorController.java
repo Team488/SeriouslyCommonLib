@@ -7,6 +7,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
 import xbot.common.controls.actuators.XCANMotorController;
+import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
@@ -91,5 +92,11 @@ public class MockCANMotorController extends XCANMotorController {
 
     @Override
     public void setVelocityTarget(AngularVelocity velocity, int slot) {
+    }
+
+    @Override
+    protected void updateInputs(XCANMotorControllerInputs inputs) {
+        inputs.angle = getPosition();
+        inputs.angularVelocity = getVelocity();
     }
 }
