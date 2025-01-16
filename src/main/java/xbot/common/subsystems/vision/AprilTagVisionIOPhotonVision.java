@@ -23,11 +23,21 @@ import java.util.List;
 import java.util.Set;
 import org.photonvision.PhotonCamera;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedInject;
+
 /**
  * IO implementation for real PhotonVision hardware.
  * Based on the AdvantageKit sample implementation by team 6328.
  */
 public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
+
+    public abstract static class Factory {
+        public AprilTagVisionIOPhotonVision create(String name, Transform3d robotToCamera, AprilTagFieldLayout fieldLayout) {
+            return new AprilTagVisionIOPhotonVision(name, robotToCamera, fieldLayout);
+        }
+    }
+
     protected final PhotonCamera camera;
     protected final Transform3d robotToCamera;
     private final AprilTagFieldLayout aprilTagFieldLayout;
@@ -39,7 +49,8 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
      * @param robotToCamera The 3D position of the camera relative to the robot.
      * @param fieldLayout The April Tag field layout.
      */
-    public AprilTagVisionIOPhotonVision(String name, Transform3d robotToCamera, AprilTagFieldLayout fieldLayout) {
+    @AssistedInject
+    public AprilTagVisionIOPhotonVision(@Assisted String name, @Assisted Transform3d robotToCamera, @Assisted AprilTagFieldLayout fieldLayout) {
         camera = new PhotonCamera(name);
         this.robotToCamera = robotToCamera;
         this.aprilTagFieldLayout = fieldLayout;

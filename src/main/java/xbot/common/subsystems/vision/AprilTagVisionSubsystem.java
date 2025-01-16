@@ -57,14 +57,15 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
 
     // Standard deviation multipliers for each camera
     // (Adjust to trust some cameras more than others)
-    public static double[] cameraStdDevFactors =
-            new double[] {
-                    1.0, // Camera 0
-                    1.0 // Camera 1
-            };
+    public static double[] cameraStdDevFactors = new double[] {
+            1.0, // Camera 0
+            1.0 // Camera 1
+    };
 
     @Inject
-    public AprilTagVisionSubsystem(VisionConsumer consumer, PropertyFactory pf, AprilTagFieldLayout fieldLayout, XCameraElectricalContract contract) {
+    public AprilTagVisionSubsystem(VisionConsumer consumer, PropertyFactory pf, AprilTagFieldLayout fieldLayout,
+            XCameraElectricalContract contract,
+            AprilTagVisionIOPhotonVision.Factory visionIOFactory) {
         this.consumer = consumer;
         this.aprilTagFieldLayout = fieldLayout;
 
@@ -72,7 +73,8 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
         this.io = new AprilTagVisionIO[cameraList.length];
         for (int i = 0; i < io.length; i++) {
             var cameraInfo = cameraList[i];
-            io[i] = new AprilTagVisionIOPhotonVision(cameraInfo.networkTablesName(), cameraInfo.position(), this.aprilTagFieldLayout);
+            io[i] = visionIOFactory.create(cameraInfo.networkTablesName(), cameraInfo.position(),
+                    this.aprilTagFieldLayout);
         }
 
         pf.setPrefix(this.getName());
@@ -81,7 +83,8 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
         this.linearStdDevBaseline = pf.createPersistentProperty("LinearStdDevBaseline", 0.02 /* meters */);
         this.angularStdDevBaseline = pf.createPersistentProperty("AngularStdDevBaseline", 0.06 /* radians */);
         this.linearStdDevMegatag2Factor = pf.createPersistentProperty("LinearStdDevMegatag2Factor", 0.5);
-        this.angularStdDevMegatag2Factor = pf.createPersistentProperty("AngularStdDevMegatag2Factor", Double.POSITIVE_INFINITY);
+        this.angularStdDevMegatag2Factor = pf.createPersistentProperty("AngularStdDevMegatag2Factor",
+                Double.POSITIVE_INFINITY);
 
         // Initialize inputs
         this.inputs = new VisionIOInputsAutoLogged[io.length];
@@ -92,14 +95,14 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
         // Initialize disconnected alerts
         this.disconnectedAlerts = new Alert[io.length];
         for (int i = 0; i < inputs.length; i++) {
-            disconnectedAlerts[i] =
-                    new Alert(
-                            "Vision camera " + Integer.toString(i) + " is disconnected.", AlertType.kWarning);
+            disconnectedAlerts[i] = new Alert(
+                    "Vision camera " + Integer.toString(i) + " is disconnected.", AlertType.kWarning);
         }
     }
 
     /**
-     * Returns the X angle to the best target, which can be used for simple servoing with vision.
+     * Returns the X angle to the best target, which can be used for simple servoing
+     * with vision.
      *
      * @param cameraIndex The index of the camera to use.
      */
@@ -140,13 +143,11 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
             // Loop over pose observations
             for (var observation : inputs[cameraIndex].poseObservations) {
                 // Check whether to reject pose
-                boolean rejectPose =
-                        observation.tagCount() == 0 // Must have at least one tag
-                                || isObservationAmbiguous(observation)
-                                || Math.abs(observation.pose().getZ())
-                                > maxZError.get() // Must have realistic Z coordinate
+                boolean rejectPose = observation.tagCount() == 0 // Must have at least one tag
+                        || isObservationAmbiguous(observation)
+                        || Math.abs(observation.pose().getZ()) > maxZError.get() // Must have realistic Z coordinate
 
-                                || isObservationOutOfBounds(observation.pose());
+                        || isObservationOutOfBounds(observation.pose());
 
                 // Add pose to log
                 robotPoses.add(observation.pose());
@@ -162,8 +163,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
                 }
 
                 // Calculate standard deviations
-                double stdDevFactor =
-                        Math.pow(observation.averageTagDistance(), 2.0) / observation.tagCount();
+                double stdDevFactor = Math.pow(observation.averageTagDistance(), 2.0) / observation.tagCount();
                 double linearStdDev = linearStdDevBaseline.get() * stdDevFactor;
                 double angularStdDev = angularStdDevBaseline.get() * stdDevFactor;
                 if (observation.type() == AprilTagVisionIO.PoseObservationType.MEGATAG_2) {
