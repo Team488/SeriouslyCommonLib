@@ -44,7 +44,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
             DevicePolice police,
             @Assisted("pidPropertyPrefix") String pidPropertyPrefix
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix);
+        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, null);
         this.internalTalonFx = new TalonFX(info.deviceId(), info.busId().id());
 
         setConfiguration(info.outputConfig());

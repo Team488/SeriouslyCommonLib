@@ -33,7 +33,7 @@ public class MockCANMotorController extends XCANMotorController {
             DevicePolice police,
             @Assisted("pidPropertyPrefix") String pidPropertyPrefix
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix);
+        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, null);
     }
 
     @Override

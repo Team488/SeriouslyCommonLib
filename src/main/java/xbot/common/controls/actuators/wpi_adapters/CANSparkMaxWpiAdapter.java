@@ -52,7 +52,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
             RobotAssertionManager assertionManager,
             @Assisted("pidPropertyPrefix") String pidPropertyPrefix
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix);
+        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, null);
         this.internalSparkMax = new SparkMax(info.deviceId(), SparkLowLevel.MotorType.kBrushless);
         this.assertionManager = assertionManager;
 
