@@ -14,6 +14,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
 import xbot.common.controls.actuators.XCANMotorController;
+import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
@@ -178,5 +179,10 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
                 this.assertionManager.fail("Invalid PID slot number: " + slot);
                 return ClosedLoopSlot.kSlot0;
         }
+    }
+
+    protected void updateInputs(XCANMotorControllerInputs inputs) {
+        inputs.angle = getPosition();
+        inputs.angularVelocity = getVelocity();
     }
 }
