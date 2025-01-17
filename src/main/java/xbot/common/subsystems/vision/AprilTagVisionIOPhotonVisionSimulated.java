@@ -15,7 +15,6 @@ package xbot.common.subsystems.vision;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Transform3d;
-import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.SimulatedPositionSupplier;
 
 import org.photonvision.simulation.PhotonCameraSim;
@@ -27,7 +26,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 /**
- * IO implementation for real PhotonVision hardware.
+ * IO implementation for a simulated PhotonVision environment.
  * Based on the AdvantageKit sample implementation by team 6328.
  */
 public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhotonVision {
