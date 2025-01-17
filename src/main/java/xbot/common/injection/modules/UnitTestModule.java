@@ -18,6 +18,8 @@ import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.TableProxy;
 import xbot.common.properties.XPropertyManager;
 import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVision;
+import xbot.common.subsystems.vision.AprilTagVisionSubsystem;
+import xbot.common.subsystems.vision.MockVisionConsumer;
 
 /**
  * Module mapping interfaces to implementations for unit tests.

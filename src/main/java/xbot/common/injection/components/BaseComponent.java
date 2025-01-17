@@ -58,6 +58,7 @@ import xbot.common.subsystems.drive.control_logic.HeadingAssistModule.HeadingAss
 import xbot.common.subsystems.drive.control_logic.HeadingModule.HeadingModuleFactory;
 import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
+import xbot.common.subsystems.vision.AprilTagVisionSubsystem;
 
 /**
  * Base class for all Components that provides methods to get implementations from DI.
