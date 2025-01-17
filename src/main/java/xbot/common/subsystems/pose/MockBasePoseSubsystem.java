@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
@@ -48,5 +49,10 @@ public class MockBasePoseSubsystem extends BasePoseSubsystem {
     public void forceTotalXandY(double x, double y) {
         totalDistanceX = x;
         totalDistanceY = y;
+    }
+
+    @Override
+    public Pose2d getGroundTruthPose() {
+        return super.getCurrentPose2d();
     }
 }
