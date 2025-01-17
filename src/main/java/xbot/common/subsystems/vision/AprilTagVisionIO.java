@@ -17,6 +17,10 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import org.littletonrobotics.junction.AutoLog;
 
+/**
+ * IO interface for AprilTag vision inputs.
+ * Based on the AdvantageKit sample implementation by team 6328.
+ */
 public interface AprilTagVisionIO {
     @AutoLog
     class VisionIOInputs {

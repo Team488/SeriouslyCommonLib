@@ -34,6 +34,10 @@ import javax.inject.Singleton;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Subsystem for processing AprilTag vision data.
+ * Based on the AdvantageKit sample implementation by team 6328.
+ */
 @Singleton
 public class AprilTagVisionSubsystem extends SubsystemBase {
     private final VisionConsumer consumer;
