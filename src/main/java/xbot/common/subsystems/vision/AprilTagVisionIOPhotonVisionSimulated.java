@@ -32,7 +32,7 @@ import dagger.assisted.AssistedInject;
 public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhotonVision {
     @AssistedFactory
     public abstract static class Factory extends AprilTagVisionIOPhotonVision.Factory {
-        public abstract AprilTagVisionIOPhotonVisionSimulated create(String name, Transform3d robotToCamera, AprilTagFieldLayout fieldLayout);
+        public abstract AprilTagVisionIOPhotonVisionSimulated create(String name, Transform3d robotToCamera);
     }
 
     private static VisionSystemSim visionSim;
@@ -45,11 +45,12 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
      * @param name          The configured name of the camera.
      * @param robotToCamera The 3D position of the camera relative to the robot.
      * @param fieldLayout   The April Tag field layout.
-     * @param poseSupplier  The simulated position supplier, tells the simulated vision system where the robot is on the simulated field.
+     * @param poseSupplier  The simulated position supplier, tells the simulated
+     *                      vision system where the robot is on the simulated field.
      */
     @AssistedInject
     public AprilTagVisionIOPhotonVisionSimulated(@Assisted String name, @Assisted Transform3d robotToCamera,
-            @Assisted AprilTagFieldLayout fieldLayout, SimulatedPositionSupplier poseSupplier) {
+            AprilTagFieldLayout fieldLayout, SimulatedPositionSupplier poseSupplier) {
         super(name, robotToCamera, fieldLayout);
 
         this.poseSupplier = poseSupplier;

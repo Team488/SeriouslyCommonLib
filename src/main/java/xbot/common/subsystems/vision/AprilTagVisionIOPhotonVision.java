@@ -33,8 +33,8 @@ import dagger.assisted.AssistedInject;
 public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
 
     public abstract static class Factory {
-        public AprilTagVisionIOPhotonVision create(String name, Transform3d robotToCamera, AprilTagFieldLayout fieldLayout) {
-            return new AprilTagVisionIOPhotonVision(name, robotToCamera, fieldLayout);
+        public AprilTagVisionIOPhotonVision create(String name, Transform3d robotToCamera) {
+            return new AprilTagVisionIOPhotonVision(name, robotToCamera);
         }
     }
 
@@ -50,7 +50,7 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
      * @param fieldLayout The April Tag field layout.
      */
     @AssistedInject
-    public AprilTagVisionIOPhotonVision(@Assisted String name, @Assisted Transform3d robotToCamera, @Assisted AprilTagFieldLayout fieldLayout) {
+    public AprilTagVisionIOPhotonVision(@Assisted String name, @Assisted Transform3d robotToCamera, AprilTagFieldLayout fieldLayout) {
         camera = new PhotonCamera(name);
         this.robotToCamera = robotToCamera;
         this.aprilTagFieldLayout = fieldLayout;
