@@ -37,25 +37,23 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
     }
 
     private static VisionSystemSim visionSim;
-
-    // TODO: this should be getting the Simulator that can give the position but
-    // that needs more stuff to be moved into SCL
     private final SimulatedPositionSupplier poseSupplier;
     private final PhotonCameraSim cameraSim;
 
     /**
-     * Creates a new VisionIOPhotonVision.
+     * Creates a new AprilTagVisionIOPhotonVisionSimulated.
      *
      * @param name          The configured name of the camera.
      * @param robotToCamera The 3D position of the camera relative to the robot.
      * @param fieldLayout   The April Tag field layout.
+     * @param poseSupplier  The simulated position supplier, tells the simulated vision system where the robot is on the simulated field.
      */
     @AssistedInject
     public AprilTagVisionIOPhotonVisionSimulated(@Assisted String name, @Assisted Transform3d robotToCamera,
-            @Assisted AprilTagFieldLayout fieldLayout, SimulatedPositionSupplier poseSubsystem) {
+            @Assisted AprilTagFieldLayout fieldLayout, SimulatedPositionSupplier poseSupplier) {
         super(name, robotToCamera, fieldLayout);
 
-        this.poseSupplier = poseSubsystem;
+        this.poseSupplier = poseSupplier;
 
         // Initialize vision sim
         if (visionSim == null) {
