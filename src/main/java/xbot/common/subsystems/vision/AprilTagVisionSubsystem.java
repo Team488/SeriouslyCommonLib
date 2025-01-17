@@ -104,6 +104,13 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
     }
 
     /**
+     * Returns the number of cameras.
+     */
+    public int getCameraCount() {
+        return io.length;
+    }
+
+    /**
      * Returns the X angle to the best target, which can be used for simple servoing
      * with vision.
      *
