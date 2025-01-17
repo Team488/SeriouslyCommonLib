@@ -30,9 +30,10 @@ import dagger.assisted.AssistedInject;
  * Based on the AdvantageKit sample implementation by team 6328.
  */
 public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhotonVision {
+
     @AssistedFactory
-    public abstract static class Factory extends AprilTagVisionIOPhotonVision.Factory {
-        public abstract AprilTagVisionIOPhotonVisionSimulated create(String name, Transform3d robotToCamera, AprilTagFieldLayout fieldLayout);
+    public abstract static class FactoryImpl implements Factory {
+        public abstract AprilTagVisionIOPhotonVisionSimulated create(String name, Transform3d robotToCamera);
     }
 
     private static VisionSystemSim visionSim;
@@ -49,7 +50,7 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
      */
     @AssistedInject
     public AprilTagVisionIOPhotonVisionSimulated(@Assisted String name, @Assisted Transform3d robotToCamera,
-            @Assisted AprilTagFieldLayout fieldLayout, SimulatedPositionSupplier poseSupplier) {
+            AprilTagFieldLayout fieldLayout, SimulatedPositionSupplier poseSupplier) {
         super(name, robotToCamera, fieldLayout);
 
         this.poseSupplier = poseSupplier;

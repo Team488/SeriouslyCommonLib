@@ -17,6 +17,7 @@ import xbot.common.properties.MockPermanentStorage;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.TableProxy;
 import xbot.common.properties.XPropertyManager;
+import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVision;
 
 /**
  * Module mapping interfaces to implementations for unit tests.
@@ -51,4 +52,8 @@ public abstract class UnitTestModule {
     @Binds
     @Singleton
     abstract SmartDashboardCommandPutter getSmartDashboardCommandPutter(MockSmartDashboardCommandPutter impl);
+
+    @Binds
+    @Singleton
+    abstract AprilTagVisionIOPhotonVision.Factory getAprilTagVisionIOPhotonVisionFactory(AprilTagVisionIOPhotonVision.FactoryImpl impl);
 }

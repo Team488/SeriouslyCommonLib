@@ -13,14 +13,17 @@
 
 package xbot.common.subsystems.vision;
 
+import dagger.assisted.AssistedFactory;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
 import org.photonvision.PhotonCamera;
 
 import dagger.assisted.Assisted;
@@ -32,10 +35,13 @@ import dagger.assisted.AssistedInject;
  */
 public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
 
-    public abstract static class Factory {
-        public AprilTagVisionIOPhotonVision create(String name, Transform3d robotToCamera, AprilTagFieldLayout fieldLayout) {
-            return new AprilTagVisionIOPhotonVision(name, robotToCamera, fieldLayout);
-        }
+    public interface Factory {
+        AprilTagVisionIOPhotonVision create(String name, Transform3d robotToCamera);
+    }
+
+    @AssistedFactory
+    public abstract static class FactoryImpl implements Factory {
+        public abstract AprilTagVisionIOPhotonVision create(@Assisted String name, @Assisted Transform3d robotToCamera);
     }
 
     protected final PhotonCamera camera;
@@ -45,12 +51,12 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
     /**
      * Creates a new VisionIOPhotonVision.
      *
-     * @param name The configured name of the camera.
+     * @param name          The configured name of the camera.
      * @param robotToCamera The 3D position of the camera relative to the robot.
-     * @param fieldLayout The April Tag field layout.
+     * @param fieldLayout   The April Tag field layout.
      */
     @AssistedInject
-    public AprilTagVisionIOPhotonVision(@Assisted String name, @Assisted Transform3d robotToCamera, @Assisted AprilTagFieldLayout fieldLayout) {
+    public AprilTagVisionIOPhotonVision(@Assisted String name, @Assisted Transform3d robotToCamera, AprilTagFieldLayout fieldLayout) {
         camera = new PhotonCamera(name);
         this.robotToCamera = robotToCamera;
         this.aprilTagFieldLayout = fieldLayout;

@@ -57,7 +57,8 @@ public abstract class SimulationModule {
     abstract SmartDashboardCommandPutter getSmartDashboardCommandPutter(RealSmartDashboardCommandPutter impl);
 
     @Binds
-    abstract AprilTagVisionIOPhotonVision.Factory getAprilTagVisionIOPhotonVisionFactory(AprilTagVisionIOPhotonVisionSimulated.Factory impl);
+    @Singleton
+    abstract AprilTagVisionIOPhotonVision.Factory getAprilTagVisionIOPhotonVisionFactory(AprilTagVisionIOPhotonVisionSimulated.FactoryImpl impl);
 
     @Binds
     @Singleton

@@ -73,8 +73,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
         this.io = new AprilTagVisionIO[cameraList.length];
         for (int i = 0; i < io.length; i++) {
             var cameraInfo = cameraList[i];
-            io[i] = visionIOFactory.create(cameraInfo.networkTablesName(), cameraInfo.position(),
-                    this.aprilTagFieldLayout);
+            io[i] = visionIOFactory.create(cameraInfo.networkTablesName(), cameraInfo.position());
         }
 
         pf.setPrefix(this.getName());
