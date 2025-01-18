@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 
 /**
  * This manages a double in the property system.
- * 
+ *
  * @author Alex
  */
 public class DoubleProperty extends Property {
@@ -52,26 +52,26 @@ public class DoubleProperty extends Property {
     public double get() {
         return currentValue;
     }
-    
+
 
     public double get_internal() {
         Double nullableTableValue = activeStore.getDouble(key);
-        
+
         if(nullableTableValue == null) {
             //log.error("Property key \"" + key + "\" not present in the underlying store!"
             //        + " IF THIS IS AN IMPORTANT ROBOT PROPERTY, MAKE SURE IT HAS A SANE VALUE BEFORE ENABLING THE ROBOT!");
             set(defaultValue);
             return defaultValue;
         }
-        
+
         return nullableTableValue;
     }
-    
+
     public void set(double value) {
         activeStore.setDouble(key, value);
         currentValue = value;
     }
-    
+
     public void hasChangedSinceLastCheck(Consumer<Double> callback) {
         double currentValue = get();
         // TODO: Check if we can just use direct equality here, since we are in fact comparing a value to itself.
@@ -79,6 +79,14 @@ public class DoubleProperty extends Property {
             callback.accept(currentValue);
         }
         lastValue = currentValue;
+    }
+
+    public boolean hasChangedSinceLastCheck() {
+        double currentValue = get();
+        // TODO: Check if we can just use direct equality here, since we are in fact comparing a value to itself.
+        boolean changed = (Math.abs(currentValue - lastValue) > 0.00000000001);
+        lastValue = currentValue;
+        return changed;
     }
 
     public boolean isSetToDefault() {

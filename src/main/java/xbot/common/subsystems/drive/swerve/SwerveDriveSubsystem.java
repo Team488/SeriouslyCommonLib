@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.command.BaseSetpointSubsystem;
 import xbot.common.controls.actuators.XCANMotorController;
+import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
 import xbot.common.injection.swerve.SwerveInstance;
 import xbot.common.injection.swerve.SwerveSingleton;
@@ -47,8 +48,9 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
             this.motorController = mcFactory.create(
                     electricalContract.getDriveMotor(swerveInstance),
                     "DriveMotor",
-                    super.getPrefix() + "/DrivePID");
-            this.motorController.setPidProperties(
+                    super.getPrefix() + "DrivePID",
+                    new XCANMotorControllerPIDProperties(1, 0, 0, 0, 1, -1));
+            this.motorController.setPidDirectly(
                     0.00001,
                     0.000001,
                     0,
