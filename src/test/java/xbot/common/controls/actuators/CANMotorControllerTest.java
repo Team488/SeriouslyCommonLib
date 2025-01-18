@@ -20,7 +20,12 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
     @Test
     public void createWithoutPIDProperties() {
 
-        CANMotorControllerInfo info = new CANMotorControllerInfo("Test", MotorControllerType.TalonFx, CANBusId.DefaultCanivore, 1, new CANMotorControllerOutputConfig());
+        CANMotorControllerInfo info = new CANMotorControllerInfo(
+                "Test",
+                MotorControllerType.TalonFx,
+                CANBusId.DefaultCanivore,
+                1,
+                new CANMotorControllerOutputConfig());
 
         XCANMotorController motor = getInjectorComponent().motorControllerFactory().create(info, "TestOwningPrefix", "TestPIDPrefix", null);
 
@@ -36,7 +41,8 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
 
     @Test
     public void createWithPidProperties() {
-        CANMotorControllerInfo info = new CANMotorControllerInfo("Test", MotorControllerType.TalonFx, CANBusId.DefaultCanivore, 1, new CANMotorControllerOutputConfig());
+        CANMotorControllerInfo info = new CANMotorControllerInfo("Test", MotorControllerType.TalonFx, CANBusId.DefaultCanivore, 1,
+                new CANMotorControllerOutputConfig());
 
         XCANMotorControllerPIDProperties pidProperties = new XCANMotorControllerPIDProperties(1, 2, 3, 4, 1, -1);
 
