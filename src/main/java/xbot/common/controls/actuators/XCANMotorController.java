@@ -63,6 +63,10 @@ public abstract class XCANMotorController {
         this.akitName = info.name()+"CANMotorController";
 
         if (defaultPIDProperties == null) {
+            // If the controller wasn't given a default PID configuration, we shouldn't create
+            // matching P/I/D/F/... properties. Properties do have a small performance cost to the robot,
+            // and we typically only need them for a subset of motor controllers on the robot - simpler
+            // "open loop" controllers don't need them.
             usesPropertySystem = false;
         } else {
             this.propertyFactory.setPrefix(pidPropertyPrefix);
