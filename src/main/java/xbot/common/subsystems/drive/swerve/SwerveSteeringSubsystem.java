@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import edu.wpi.first.math.geometry.Rotation2d;
 
 import edu.wpi.first.math.MathUtil;
+import xbot.common.advantage.AKitLogger;
 import xbot.common.command.BaseSetpointSubsystem;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
@@ -25,8 +26,10 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
+import static edu.wpi.first.units.Units.Degree;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.Rotations;
 
 @SwerveSingleton
 public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
@@ -301,16 +304,29 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         if (this.contract.isDriveReady()) {
             Angle target = Degrees.of(getTargetValue());
 
+            // Since there are four modules, any values here will be very noisy. Setting data
+            // logging to DEBUG.
+            aKitLog.setLogLevel(AKitLogger.LogLevel.DEBUG);
+            aKitLog.record("TargetDegrees", target.in(Degrees));
+
             // We can rely on either encoder for the starting position, to get the change in angle. Using the CANCoder
             // position to calculate this will help us to avoid any drift on the motor encoder. Then we just set our
             // target based on the motor encoder's current position. Unless the wheels are moving rapidly, the measurements
             // on each encoder are probably taken close enough together in time for our purposes.
             Angle currentPosition = getBestEncoderPosition();
-            double changeInDegrees = MathUtil.inputModulus(target.minus(currentPosition).in(Degrees), -90, 90);
-            Angle targetPosition = this.motorController.getPosition().plus(Degrees.of(changeInDegrees / degreesPerMotorRotation.get()));
+            Angle angleBetweenDesiredAndCurrent = Degrees.of(MathUtil.inputModulus(target.minus(currentPosition).in(Degrees), -90, 90));
+            aKitLog.record("angleBetweenDesiredAndCurrent-Degrees", angleBetweenDesiredAndCurrent.in(Degrees));
+            aKitLog.record("MotorControllerPosition-Rotations", this.motorController.getPosition().in(Rotations));
 
-            aKitLog.record("PidTargetRadians", targetPosition.in(Radians));
+            Angle targetPosition = this.motorController.getPosition().plus(
+                    Rotations.of(angleBetweenDesiredAndCurrent.in(Degrees) / degreesPerMotorRotation.get())
+            );
+
+            aKitLog.record("TargetPosition-Rotations", targetPosition.in(Rotations));
             this.motorController.setPositionTarget(targetPosition);
+
+            // restore typical log level
+            aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
         }
     }
 
