@@ -64,6 +64,9 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
         // Add sim camera
         var cameraProperties = new SimCameraProperties();
         cameraSim = new PhotonCameraSim(camera, cameraProperties);
+        cameraSim.enableRawStream(true);
+        cameraSim.enableProcessedStream(true);
+        cameraSim.enableDrawWireframe(true);
         visionSim.addCamera(cameraSim, robotToCamera);
     }
 
