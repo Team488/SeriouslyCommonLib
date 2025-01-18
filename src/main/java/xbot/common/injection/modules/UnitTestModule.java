@@ -17,9 +17,8 @@ import xbot.common.properties.MockPermanentStorage;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.TableProxy;
 import xbot.common.properties.XPropertyManager;
-import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVision;
-import xbot.common.subsystems.vision.AprilTagVisionSubsystem;
-import xbot.common.subsystems.vision.MockVisionConsumer;
+import xbot.common.subsystems.vision.AprilTagVisionIOFactory;
+import xbot.common.subsystems.vision.MockAprilTagVisionIO;
 
 /**
  * Module mapping interfaces to implementations for unit tests.
@@ -42,20 +41,20 @@ public abstract class UnitTestModule {
     @Named(XPropertyManager.IN_MEMORY_STORE_NAME)
     @Singleton
     abstract ITableProxy getInMemoryTableProxy(TableProxy impl);
-    
+
     @Binds
     @Singleton
     abstract PermanentStorage getPermanentStorage(MockPermanentStorage impl);
-    
+
     @Binds
     @Singleton
     abstract RobotAssertionManager getRobotAssertionManager(LoudRobotAssertionManager impl);
-    
+
     @Binds
     @Singleton
     abstract SmartDashboardCommandPutter getSmartDashboardCommandPutter(MockSmartDashboardCommandPutter impl);
 
     @Binds
     @Singleton
-    abstract AprilTagVisionIOPhotonVision.Factory getAprilTagVisionIOPhotonVisionFactory(AprilTagVisionIOPhotonVision.FactoryImpl impl);
+    abstract AprilTagVisionIOFactory getAprilTagVisionIOPhotonVisionFactory(MockAprilTagVisionIO.FactoryImpl impl);
 }
