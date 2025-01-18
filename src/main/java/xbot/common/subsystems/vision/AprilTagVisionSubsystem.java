@@ -19,12 +19,15 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
+import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.injection.electrical_contract.XCameraElectricalContract;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
@@ -39,8 +42,9 @@ import java.util.List;
  * Based on the AdvantageKit sample implementation by team 6328.
  */
 @Singleton
-public class AprilTagVisionSubsystem extends SubsystemBase {
+public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameRefreshable {
     private final VisionConsumer consumer;
+    private final CameraInfo[] cameras;
     private final AprilTagFieldLayout aprilTagFieldLayout;
     private final AprilTagVisionIO[] io;
     private final VisionIOInputsAutoLogged[] inputs;
@@ -73,10 +77,10 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
         this.consumer = consumer;
         this.aprilTagFieldLayout = fieldLayout;
 
-        var cameraList = contract.getAprilTagCameras();
-        this.io = new AprilTagVisionIO[cameraList.length];
+        this.cameras = contract.getAprilTagCameras();
+        this.io = new AprilTagVisionIO[this.cameras.length];
         for (int i = 0; i < io.length; i++) {
-            var cameraInfo = cameraList[i];
+            var cameraInfo = this.cameras[i];
             io[i] = visionIOFactory.create(cameraInfo.networkTablesName(), cameraInfo.position());
         }
 
@@ -111,6 +115,24 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
     }
 
     /**
+     * Gets the position of the camera relative to the robot.
+     * @param cameraIndex The index of the camera to use.
+     * @return The 3D position of the camera relative to the robot.
+     */
+    public Transform3d getCameraPosition(int cameraIndex) {
+        return this.cameras[cameraIndex].position();
+    }
+
+    /**
+     * Returns the latest target observation.
+     * @param cameraIndex The index of the camera to use.
+     * @return The latest target observation.
+     */
+    public AprilTagVisionIO.TargetObservation getLatestTargetObservation(int cameraIndex) {
+        return inputs[cameraIndex].latestTargetObservation;
+    }
+
+    /**
      * Returns the X angle to the best target, which can be used for simple servoing
      * with vision.
      *
@@ -122,11 +144,6 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        for (int i = 0; i < io.length; i++) {
-            io[i].updateInputs(inputs[i]);
-            Logger.processInputs("Vision/Camera" + Integer.toString(i), inputs[i]);
-        }
-
         // Initialize logging values
         List<Pose3d> allTagPoses = new LinkedList<>();
         List<Pose3d> allRobotPoses = new LinkedList<>();
@@ -235,6 +252,14 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
                 || pose.getX() > aprilTagFieldLayout.getFieldLength()
                 || pose.getY() < 0.0
                 || pose.getY() > aprilTagFieldLayout.getFieldWidth();
+    }
+
+    @Override
+    public void refreshDataFrame() {
+        for (int i = 0; i < io.length; i++) {
+            io[i].updateInputs(inputs[i]);
+            Logger.processInputs(this.getName() + "/Camera" + Integer.toString(i), inputs[i]);
+        }
     }
 
     /**

@@ -74,10 +74,12 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
             if (result.hasTargets()) {
                 inputs.latestTargetObservation =
                         new TargetObservation(
+                                result.getBestTarget().getFiducialId(),
                                 Rotation2d.fromDegrees(result.getBestTarget().getYaw()),
-                                Rotation2d.fromDegrees(result.getBestTarget().getPitch()));
+                                Rotation2d.fromDegrees(result.getBestTarget().getPitch()),
+                                result.getBestTarget().getBestCameraToTarget());
             } else {
-                inputs.latestTargetObservation = new TargetObservation(new Rotation2d(), new Rotation2d());
+                inputs.latestTargetObservation = new TargetObservation(0, new Rotation2d(), new Rotation2d(), new Transform3d());
             }
 
             // Add pose observation
