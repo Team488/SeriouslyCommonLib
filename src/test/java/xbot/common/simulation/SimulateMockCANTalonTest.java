@@ -1,5 +1,5 @@
 package xbot.common.simulation;
-
+/*
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
@@ -44,3 +44,4 @@ public class SimulateMockCANTalonTest extends BaseSimulationTest {
         assertEquals(123.0, mockCANTalon.getPosition(), 0.001);
     }
 }
+*/

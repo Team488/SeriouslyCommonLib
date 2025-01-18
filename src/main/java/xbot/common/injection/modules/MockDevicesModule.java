@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj.MockServo.MockServoFactory;
 import edu.wpi.first.wpilibj.MockSolenoid.MockSolenoidFactory;
 import edu.wpi.first.wpilibj.MockSpeedController.MockSpeedControllerFactory;
 import xbot.common.controls.actuators.XCANMotorController;
-import xbot.common.controls.actuators.XCANTalon.XCANTalonFactory;
-import xbot.common.controls.actuators.XCANVictorSPX.XCANVictorSPXFactory;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
 import xbot.common.controls.actuators.XDigitalOutput.XDigitalOutputFactory;
 import xbot.common.controls.actuators.XPWM.XPWMFactory;
@@ -22,8 +20,6 @@ import xbot.common.controls.actuators.XServo.XServoFactory;
 import xbot.common.controls.actuators.XSolenoid.XSolenoidFactory;
 import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
 import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
-import xbot.common.controls.actuators.mock_adapters.MockCANTalon.MockCANTalonFactory;
-import xbot.common.controls.actuators.mock_adapters.MockCANVictorSPX.MockCANVictorSPXFactory;
 import xbot.common.controls.actuators.mock_adapters.MockCompressor.MockCompressorFactory;
 import xbot.common.controls.actuators.mock_adapters.MockRelay.MockRelayFactory;
 import xbot.common.controls.sensors.SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory;
@@ -79,7 +75,7 @@ public abstract class MockDevicesModule {
     @Binds
     @Singleton
     public abstract XGyroFactory getGyroFactory(MockGyroFactory impl);
-    
+
     @Binds
     @Singleton
     public abstract XServoFactory getServoFactory(MockServoFactory impl);
@@ -87,14 +83,6 @@ public abstract class MockDevicesModule {
     @Binds
     @Singleton
     public abstract XAnalogDistanceSensorFactory getAnalogDistanceSensorFactory(SimulatedAnalogDistanceSensorFactory impl);
-
-    @Binds
-    @Singleton
-    public abstract XCANTalonFactory getCANTalonFactory(MockCANTalonFactory impl);
-
-    @Binds
-    @Singleton
-    public abstract XCANVictorSPXFactory getCANVictorSPXFactory(MockCANVictorSPXFactory impl);
 
     @Binds
     @Singleton

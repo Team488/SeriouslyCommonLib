@@ -117,6 +117,11 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     @Override
+    public double getPower() {
+        return this.internalSparkMax.getAppliedOutput();
+    }
+
+    @Override
     public void setPowerRange(double minPower, double maxPower) {
         this.minPower = minPower;
         this.maxPower = maxPower;
