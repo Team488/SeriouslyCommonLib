@@ -13,6 +13,7 @@ import xbot.common.controls.sensors.XCANCoder;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
+import xbot.common.math.ContiguousDouble;
 import xbot.common.math.WrappedRotation2d;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
@@ -29,7 +30,7 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
     private double positionOffset;
 
     private double velocity;
-    private WrappedRotation2d absolutePosition;
+    private double position;
 
     @AssistedFactory
     public abstract static class MockCANCoderFactory implements XCANCoderFactory {
@@ -47,7 +48,7 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
 
         this.deviceId = deviceInfo.channel;
         this.velocity = 0;
-        this.absolutePosition = new WrappedRotation2d(0);
+        this.position = 0;
         pf.setDefaultLevel(Property.PropertyLevel.Debug);
         this.positionOffset = 0;
         this.inverted = deviceInfo.inverted;
@@ -55,18 +56,22 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
 
         police.registerDevice(DeviceType.CAN, deviceInfo.channel, this);
     }
-    
+
     @Override
     public int getDeviceId() {
         return this.deviceId;
     }
 
     public double getPosition_internal() {
-        return WrappedRotation2d.fromDegrees(this.absolutePosition.getDegrees() + this.positionOffset).getDegrees() * (inverted ? -1 : 1);
+        return position * (inverted ? -1 : 1);
     }
 
+
     public double getAbsolutePosition_internal() {
-        return this.absolutePosition.getDegrees() * (inverted ? -1 : 1);
+        // With the new Phoenix 6 library, the encoder now returns units of whole rotations bounded
+        // between -0.5 and 0.5.
+        double scaledValue = ContiguousDouble.reboundValue(position, -0.5, 0.5);
+        return scaledValue * (inverted ? -1 : 1);
     }
 
     public double getVelocity_internal() {
@@ -75,16 +80,15 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
 
     @Override
     public void setPosition(double newPosition) {
-        this.positionOffset = (WrappedRotation2d.fromDegrees(newPosition).minus(this.absolutePosition).getDegrees());
+        position = newPosition;
     }
-    
 
     public double getPositionOffset() {
         return this.positionOffset;
     }
 
     public void setAbsolutePosition(double position) {
-        this.absolutePosition = WrappedRotation2d.fromDegrees(position * (inverted ? -1 : 1));
+        this.position = position * (inverted ? -1 : 1);
     }
 
     @Override
@@ -113,7 +117,7 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
     public StatusCode clearStickyFaults() {
         return StatusCode.OK;
     }
-    
+
     public boolean hasResetOccurred_internal() {
         return false;
     }
