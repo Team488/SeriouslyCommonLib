@@ -97,6 +97,15 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     @Override
+    public double getPower() {
+        var controlRequest = this.internalTalonFx.getAppliedControl();
+        if (controlRequest instanceof DutyCycleOut) {
+            return ((DutyCycleOut) controlRequest).Output;
+        }
+        return 0;
+    }
+
+    @Override
     public void setPowerRange(double minPower, double maxPower) {
         this.internalTalonFx.getConfigurator().apply(new MotorOutputConfigs()
                 .withPeakForwardDutyCycle(maxPower)

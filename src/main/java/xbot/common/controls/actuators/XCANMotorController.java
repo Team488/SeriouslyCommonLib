@@ -68,6 +68,8 @@ public abstract class XCANMotorController {
 
     public abstract void setPower(double power);
 
+    public abstract double getPower();
+
     public abstract void setPowerRange(double minPower, double maxPower);
 
     public Angle getPosition() {

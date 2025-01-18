@@ -4,8 +4,6 @@ import dagger.Binds;
 import dagger.Module;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerFactoryImpl;
-import xbot.common.controls.actuators.XCANTalon.XCANTalonFactory;
-import xbot.common.controls.actuators.XCANVictorSPX.XCANVictorSPXFactory;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
 import xbot.common.controls.actuators.XDigitalOutput.XDigitalOutputFactory;
 import xbot.common.controls.actuators.XPWM.XPWMFactory;
@@ -13,8 +11,6 @@ import xbot.common.controls.actuators.XRelay.XRelayFactory;
 import xbot.common.controls.actuators.XServo.XServoFactory;
 import xbot.common.controls.actuators.XSolenoid.XSolenoidFactory;
 import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
-import xbot.common.controls.actuators.wpi_adapters.CANTalonWPIAdapter.CANTalonWPIAdapterFactory;
-import xbot.common.controls.actuators.wpi_adapters.CANVictorSPXWpiAdapter.CANVictorSPXWpiAdapterFactory;
 import xbot.common.controls.actuators.wpi_adapters.CompressorWPIAdapter.CompressorWPIAdapterFactory;
 import xbot.common.controls.actuators.wpi_adapters.DigitalOutputWPIAdapter.DigitalOutputWPIAdapterFactory;
 import xbot.common.controls.actuators.wpi_adapters.PWMWPIAdapter.PWMWPIAdapterFactory;
@@ -78,7 +74,7 @@ public abstract class RealDevicesModule {
     @Binds
     @Singleton
     public abstract XGyroFactory getGyroFactory(InertialMeasurementUnitAdapterFactory impl);
-    
+
     @Binds
     @Singleton
     public abstract XServoFactory getServoFactory(ServoWPIAdapterFactory impl);
@@ -86,14 +82,6 @@ public abstract class RealDevicesModule {
     @Binds
     @Singleton
     public abstract XAnalogDistanceSensorFactory getAnalogDistanceSensorFactory(AnalogDistanceSensorFactory impl);
-
-    @Binds
-    @Singleton
-    public abstract XCANTalonFactory getCANTalonFactory(CANTalonWPIAdapterFactory impl);
-
-    @Binds
-    @Singleton
-    public abstract XCANVictorSPXFactory getCANVictorSPXFactory(CANVictorSPXWpiAdapterFactory impl);
 
     @Binds
     @Singleton
