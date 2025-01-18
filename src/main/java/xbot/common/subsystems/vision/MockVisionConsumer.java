@@ -6,12 +6,14 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
  * A mock vision consumer that stores the poses it receives.
  */
+@Singleton
 public class MockVisionConsumer implements AprilTagVisionSubsystem.VisionConsumer {
     public final List<Pose2d> posesReceived = new LinkedList<>();
 

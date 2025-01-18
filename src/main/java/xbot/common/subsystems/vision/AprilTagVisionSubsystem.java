@@ -46,9 +46,9 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
     private final VisionConsumer consumer;
     private final CameraInfo[] cameras;
     private final AprilTagFieldLayout aprilTagFieldLayout;
-    private final AprilTagVisionIO[] io;
-    private final VisionIOInputsAutoLogged[] inputs;
     private final Alert[] disconnectedAlerts;
+    final AprilTagVisionIO[] io;
+    final VisionIOInputsAutoLogged[] inputs;
 
     // Basic filtering thresholds
     private final DoubleProperty maxAmbiguity;
@@ -73,7 +73,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
     @Inject
     public AprilTagVisionSubsystem(VisionConsumer consumer, PropertyFactory pf, AprilTagFieldLayout fieldLayout,
             XCameraElectricalContract contract,
-            AprilTagVisionIOPhotonVision.Factory visionIOFactory) {
+            AprilTagVisionIOFactory visionIOFactory) {
         this.consumer = consumer;
         this.aprilTagFieldLayout = fieldLayout;
 
