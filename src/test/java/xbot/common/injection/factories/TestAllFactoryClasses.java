@@ -38,7 +38,8 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
                                 12,
                                 new CANMotorControllerOutputConfig()),
                         "",
-                        "");
+                        "",
+                        null);
         XJoystick j = getInjectorComponent().joystickFactory().create(1, 12);
         getInjectorComponent().joystickButtonFactory().create(j, 1);
         getInjectorComponent().analogHidButtonFactory().create(j, 1, -1, 1);

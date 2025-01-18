@@ -23,13 +23,17 @@ public class XCANMotorControllerFactoryImpl implements XCANMotorController.XCANM
     }
 
     @Override
-    public XCANMotorController create(CANMotorControllerInfo info, String owningSystemPrefix, String pidPropertyPrefix) {
+    public XCANMotorController create(
+            CANMotorControllerInfo info,
+            String owningSystemPrefix,
+            String pidPropertyPrefix,
+            XCANMotorControllerPIDProperties defaultPIDProperties) {
         switch (info.type()) {
             case TalonFx -> {
-                return talonFxFactory.create(info, owningSystemPrefix, pidPropertyPrefix);
+                return talonFxFactory.create(info, owningSystemPrefix, pidPropertyPrefix, defaultPIDProperties);
             }
             case SparkMax -> {
-                return sparkMaxFactory.create(info, owningSystemPrefix, pidPropertyPrefix);
+                return sparkMaxFactory.create(info, owningSystemPrefix, pidPropertyPrefix, defaultPIDProperties);
             }
             default -> throw new IllegalArgumentException("Unknown motor controller type: " + info.type());
         }
