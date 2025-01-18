@@ -333,7 +333,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
             isNavXReady = true;
         }   
         updatePose();
-        aKitLog.record("Heading", currentHeading.getDegrees());
     }
 
     @Override
