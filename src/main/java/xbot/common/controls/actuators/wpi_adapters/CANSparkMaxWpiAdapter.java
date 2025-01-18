@@ -14,6 +14,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
 import xbot.common.controls.actuators.XCANMotorController;
+import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANBusId;
@@ -34,7 +35,8 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         public abstract CANSparkMaxWpiAdapter create(
                 @Assisted("info") CANMotorControllerInfo info,
                 @Assisted("owningSystemPrefix") String owningSystemPrefix,
-                @Assisted("pidPropertyPrefix") String pidPropertyPrefix);
+                @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
+                @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties);
     }
 
     private final SparkMax internalSparkMax;
@@ -50,9 +52,10 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
             PropertyFactory propertyFactory,
             DevicePolice police,
             RobotAssertionManager assertionManager,
-            @Assisted("pidPropertyPrefix") String pidPropertyPrefix
+            @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
+            @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, null);
+        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties);
         this.internalSparkMax = new SparkMax(info.deviceId(), SparkLowLevel.MotorType.kBrushless);
         this.assertionManager = assertionManager;
 
@@ -96,7 +99,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setPidProperties(double p, double i, double d, double velocityFF, int slot) {
+    public void setPidDirectly(double p, double i, double d, double velocityFF, int slot) {
         var config = new SparkMaxConfig();
         config.closedLoop
                 .p(p, getClosedLoopSlot(slot))

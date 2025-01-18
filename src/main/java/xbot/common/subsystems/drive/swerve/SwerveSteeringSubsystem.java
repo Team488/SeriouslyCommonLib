@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.MathUtil;
 import xbot.common.command.BaseSetpointSubsystem;
 import xbot.common.controls.actuators.XCANMotorController;
+import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.controls.sensors.XCANCoder;
 import xbot.common.controls.sensors.XCANCoder.XCANCoderFactory;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
@@ -66,8 +67,9 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
             this.motorController = mcFactory.create(
                     electricalContract.getSteeringMotor(swerveInstance),
                     "SteeringMC",
-                    super.getPrefix() + "/SteeringPID");
-            this.motorController.setPidProperties(
+                    super.getPrefix() + "SteeringPID",
+                    new XCANMotorControllerPIDProperties(1, 0, 0, 0, 1, -1));
+            this.motorController.setPidDirectly(
                     0.5,
                     0,
                     0,

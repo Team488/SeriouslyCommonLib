@@ -1,7 +1,5 @@
 package xbot.common.controls.actuators;
 
-import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
-import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
@@ -22,7 +20,8 @@ public abstract class XCANMotorController {
         XCANMotorController create(
                 CANMotorControllerInfo info,
                 String owningSystemPrefix,
-                String pidPropertyPrefix
+                String pidPropertyPrefix,
+                XCANMotorControllerPIDProperties defaultPIDProperties
         );
     }
 
@@ -78,42 +77,56 @@ public abstract class XCANMotorController {
 
     public abstract void setConfiguration(CANMotorControllerOutputConfig outputConfig);
 
-    public void setPidProperties(double p, double i, double d) {
-        setPidProperties(p, i, d, 0);
+    public void setPidDirectly(double p, double i, double d) {
+        setPidDirectly(p, i, d, 0);
     }
 
-    public void setPidProperties(double p, double i, double d, double velocityFF) {
-        setPidProperties(p, i, d, velocityFF, 0);
+    public void setPidDirectly(double p, double i, double d, double velocityFF) {
+        setPidDirectly(p, i, d, velocityFF, 0);
     }
 
-    private void setAllProperties() {
+    public abstract void setPidDirectly(double p, double i, double d, double velocityFF, int slot);
+
+    private void setAllPidValuesFromProperties() {
         if (usesPropertySystem) {
-            setPidProperties(kPProp.get(), kIProp.get(), kDProp.get(), kFFProp.get());
+            setPIDFromProperties();
             setPowerRange(kMinOutputProp.get(), kMaxOutputProp.get());
         } else {
             log.warn("setAllProperties called on a Motor Controller that doesn't use the property system");
         }
     }
 
-    public void periodic() {
+    private void setPIDFromProperties() {
         if (usesPropertySystem) {
-            if (firstPeriodicCall) {
-                setAllProperties();
-                firstPeriodicCall = false;
-            }
-            /*
-            kPProp.hasChangedSinceLastCheck(this::setP);
-            kIProp.hasChangedSinceLastCheck(this::setI);
-            kDProp.hasChangedSinceLastCheck(this::setD);
-            kIzProp.hasChangedSinceLastCheck(this::setIZone);
-            kFFProp.hasChangedSinceLastCheck(this::setFF);
-            kMaxOutputProp.hasChangedSinceLastCheck((value) -> setOutputRange(kMinOutputProp.get(), value));
-            kMinOutputProp.hasChangedSinceLastCheck((value) -> setOutputRange(value, kMaxOutputProp.get()));
-            */
+            setPidDirectly(kPProp.get(), kIProp.get(), kDProp.get(), kFFProp.get());
+        } else {
+            log.warn("setPIDFromProperties called on a Motor Controller that doesn't use the property system");
         }
     }
 
-    public abstract void setPidProperties(double p, double i, double d, double velocityFF, int slot);
+    public void periodic() {
+        if (usesPropertySystem) {
+            if (firstPeriodicCall) {
+                setAllPidValuesFromProperties();
+                firstPeriodicCall = false;
+            }
+
+            // Since it costs the same to set all the PID values, we check to see if any have changed and then set them as a group.
+            // In practice, it would be hard for a human to do this fast enough during tuning to really get any benefit, but it could happen
+            // during some automated process.
+            if (
+                kPProp.hasChangedSinceLastCheck()
+                || kIProp.hasChangedSinceLastCheck()
+                || kDProp.hasChangedSinceLastCheck()
+                || kFFProp.hasChangedSinceLastCheck())
+            {
+                setPIDFromProperties();
+            }
+
+            kMaxOutputProp.hasChangedSinceLastCheck((value) -> setPowerRange(kMinOutputProp.get(), value));
+            kMinOutputProp.hasChangedSinceLastCheck((value) -> setPowerRange(value, kMaxOutputProp.get()));
+        }
+    }
 
     public abstract void setOpenLoopRampRates(Time dutyCyclePeriod, Time voltagePeriod);
 

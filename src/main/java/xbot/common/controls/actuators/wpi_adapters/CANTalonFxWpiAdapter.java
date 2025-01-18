@@ -18,6 +18,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
 import xbot.common.controls.actuators.XCANMotorController;
+import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
@@ -31,7 +32,8 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         public abstract CANTalonFxWpiAdapter create(
                 @Assisted("info") CANMotorControllerInfo info,
                 @Assisted("owningSystemPrefix") String owningSystemPrefix,
-                @Assisted("pidPropertyPrefix") String pidPropertyPrefix);
+                @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
+                @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties);
     }
 
     private final TalonFX internalTalonFx;
@@ -42,9 +44,10 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
             PropertyFactory propertyFactory,
             DevicePolice police,
-            @Assisted("pidPropertyPrefix") String pidPropertyPrefix
+            @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
+            @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, null);
+        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties);
         this.internalTalonFx = new TalonFX(info.deviceId(), info.busId().id());
 
         setConfiguration(info.outputConfig());
@@ -67,7 +70,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setPidProperties(double p, double i, double d, double velocityFF, int slot) {
+    public void setPidDirectly(double p, double i, double d, double velocityFF, int slot) {
         var slotConfig = new SlotConfigs()
                 .withKP(p)
                 .withKI(i)

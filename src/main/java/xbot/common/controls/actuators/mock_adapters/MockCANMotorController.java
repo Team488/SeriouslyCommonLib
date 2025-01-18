@@ -7,6 +7,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
 import xbot.common.controls.actuators.XCANMotorController;
+import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
@@ -17,12 +18,21 @@ import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.RPM;
 
 public class MockCANMotorController extends XCANMotorController {
+
+    public double p;
+    public double i;
+    public double d;
+    public double f;
+    public double maxPower;
+    public double minPower;
+
     @AssistedFactory
     public abstract static class MockCANMotorControllerFactory implements XCANMotorControllerFactory {
         public abstract MockCANMotorController create(
                 @Assisted("info") CANMotorControllerInfo info,
                 @Assisted("owningSystemPrefix") String owningSystemPrefix,
-                @Assisted("pidPropertyPrefix") String pidPropertyPrefix);
+                @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
+                @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties);
     }
 
     @AssistedInject
@@ -31,9 +41,10 @@ public class MockCANMotorController extends XCANMotorController {
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
             PropertyFactory propertyFactory,
             DevicePolice police,
-            @Assisted("pidPropertyPrefix") String pidPropertyPrefix
+            @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
+            @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, null);
+        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties);
     }
 
     @Override
@@ -52,8 +63,11 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     @Override
-    public void setPidProperties(double p, double i, double d, double velocityFF, int slot) {
-
+    public void setPidDirectly(double p, double i, double d, double velocityFF, int slot) {
+        this.p = p;
+        this.i = i;
+        this.d = d;
+        this.f = velocityFF;
     }
 
     @Override
@@ -62,6 +76,8 @@ public class MockCANMotorController extends XCANMotorController {
 
     @Override
     public void setPowerRange(double minPower, double maxPower) {
+        this.minPower = minPower;
+        this.maxPower = maxPower;
     }
 
     @Override
