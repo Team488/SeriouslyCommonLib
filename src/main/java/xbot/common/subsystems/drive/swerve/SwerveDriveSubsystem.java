@@ -35,6 +35,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
                                 PropertyFactory pf, XSwerveDriveElectricalContract electricalContract) {
         this.label = swerveInstance.label();
         log.info("Creating SwerveDriveSubsystem {}", this.label);
+        aKitLog.setPrefix(this.getPrefix());
 
         // Create properties shared among all instances
         pf.setPrefix(super.getPrefix());

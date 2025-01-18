@@ -603,6 +603,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         rearLeftSwerveModuleSubsystem.refreshDataFrame();
         rearRightSwerveModuleSubsystem.refreshDataFrame();
 
+        aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
         aKitLog.record("CurrentSwerveState", getSwerveModuleStates());
     }
 }
