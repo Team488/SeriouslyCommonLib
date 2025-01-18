@@ -40,7 +40,8 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
                                 12,
                                 new CANMotorControllerOutputConfig()),
                         "",
-                        "");
+                        "",
+                        null);
         XJoystick j = getInjectorComponent().joystickFactory().create(1, 12);
         getInjectorComponent().joystickButtonFactory().create(j, 1);
         getInjectorComponent().analogHidButtonFactory().create(j, 1, -1, 1);
@@ -75,10 +76,10 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().canCoderFactory().create(new DeviceInfo("test",7), "test");
         getInjectorComponent().dutyCycleEncoderFactory().create(new DeviceInfo("test",8));
     }
-    
+
     @Test(expected = RobotAssertionException.class)
     public void doubleAllocate() {
-        getInjectorComponent().canTalonFactory().create(new CANTalonInfo(1));    
+        getInjectorComponent().canTalonFactory().create(new CANTalonInfo(1));
         getInjectorComponent().canTalonFactory().create(new CANTalonInfo(1));
         assertTrue("You shouldn't be able to double-allocate!", false);
     }

@@ -18,6 +18,7 @@ import xbot.common.properties.PreferenceStorage;
 import xbot.common.properties.SmartDashboardTableWrapper;
 import xbot.common.properties.TableProxy;
 import xbot.common.properties.XPropertyManager;
+import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVision;
 
 /**
  * Module mapping interfaces to implementations for a real robot.
@@ -53,4 +54,8 @@ public abstract class RobotModule {
     @Binds
     @Singleton
     abstract SmartDashboardCommandPutter getSmartDashboardCommandPutter(RealSmartDashboardCommandPutter impl);
+
+    @Binds
+    @Singleton
+    abstract AprilTagVisionIOPhotonVision.Factory getAprilTagVisionIOPhotonVisionFactory(AprilTagVisionIOPhotonVision.FactoryImpl impl);
 }

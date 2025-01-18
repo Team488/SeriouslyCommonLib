@@ -20,7 +20,7 @@ import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.drive.swerve.ISwerveAdvisorPoseSupport;
 
-public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable, ISwerveAdvisorPoseSupport {
+public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable, ISwerveAdvisorPoseSupport, SimulatedPositionSupplier {
 
     public final XGyro imu;
     protected double leftDriveDistance;
@@ -339,5 +339,9 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     @Override
     public void refreshDataFrame() {
         imu.refreshDataFrame();
+    }
+
+    public Pose2d getSimulatedFieldPose() {
+        return this.getCurrentPose2d();
     }
 }
