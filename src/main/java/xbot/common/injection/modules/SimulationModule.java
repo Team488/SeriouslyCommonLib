@@ -19,7 +19,7 @@ import xbot.common.properties.SmartDashboardTableWrapper;
 import xbot.common.properties.XPropertyManager;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.SimulatedPositionSupplier;
-import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVision;
+import xbot.common.subsystems.vision.AprilTagVisionIOFactory;
 import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVisionSimulated;
 
 /**
@@ -47,18 +47,18 @@ public abstract class SimulationModule {
     @Binds
     @Singleton
     abstract PermanentStorage getPermanentStorage(PreferenceStorage impl);
-    
+
     @Binds
     @Singleton
     abstract RobotAssertionManager getRobotAssertionManager(LoudRobotAssertionManager impl);
-    
+
     @Binds
     @Singleton
     abstract SmartDashboardCommandPutter getSmartDashboardCommandPutter(RealSmartDashboardCommandPutter impl);
 
     @Binds
     @Singleton
-    abstract AprilTagVisionIOPhotonVision.Factory getAprilTagVisionIOPhotonVisionFactory(AprilTagVisionIOPhotonVisionSimulated.FactoryImpl impl);
+    abstract AprilTagVisionIOFactory getAprilTagVisionIOPhotonVisionFactory(AprilTagVisionIOPhotonVisionSimulated.FactoryImpl impl);
 
     @Binds
     @Singleton

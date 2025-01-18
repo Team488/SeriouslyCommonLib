@@ -25,6 +25,14 @@ public abstract class XCANMotorController {
                 String pidPropertyPrefix,
                 XCANMotorControllerPIDProperties defaultPIDProperties
         );
+
+        default XCANMotorController create(
+                CANMotorControllerInfo info,
+                String owningSystemPrefix,
+                String pidPropertyPrefix
+        ) {
+            return create(info, owningSystemPrefix, pidPropertyPrefix, new XCANMotorControllerPIDProperties());
+        }
     }
 
     public final CANBusId busId;
@@ -139,6 +147,8 @@ public abstract class XCANMotorController {
     public abstract void setClosedLoopRampRates(Time dutyCyclePeriod, Time voltagePeriod);
 
     public abstract void setPower(double power);
+
+    public abstract double getPower();
 
     public abstract void setPowerRange(double minPower, double maxPower);
 

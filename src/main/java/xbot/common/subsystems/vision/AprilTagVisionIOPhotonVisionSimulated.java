@@ -32,7 +32,7 @@ import dagger.assisted.AssistedInject;
 public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhotonVision {
 
     @AssistedFactory
-    public abstract static class FactoryImpl implements Factory {
+    public abstract static class FactoryImpl implements AprilTagVisionIOFactory {
         public abstract AprilTagVisionIOPhotonVisionSimulated create(String name, Transform3d robotToCamera);
     }
 
