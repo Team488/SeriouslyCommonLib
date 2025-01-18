@@ -2,7 +2,9 @@ package xbot.common.controls.actuators;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Time;
+import edu.wpi.first.units.measure.Voltage;
 import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
@@ -167,6 +169,14 @@ public abstract class XCANMotorController {
     public abstract void setVelocityTarget(AngularVelocity velocity);
 
     public abstract void setVelocityTarget(AngularVelocity velocity, int slot);
+
+    public Voltage getVoltage() {
+        return inputs.voltage;
+    }
+
+    public Current getCurrent() {
+        return inputs.current;
+    }
 
     protected abstract void updateInputs(XCANMotorControllerInputs inputs);
 

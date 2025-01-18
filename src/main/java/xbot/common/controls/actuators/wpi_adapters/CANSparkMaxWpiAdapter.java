@@ -12,7 +12,9 @@ import dagger.assisted.AssistedInject;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Time;
+import edu.wpi.first.units.measure.Voltage;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
@@ -27,6 +29,8 @@ import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.Seconds;
+import static edu.wpi.first.units.Units.Volt;
+import static edu.wpi.first.units.Units.Volts;
 
 public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
@@ -189,8 +193,19 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         }
     }
 
+    public Voltage getVoltage() {
+        return Volts.of(
+                this.internalSparkMax.getAppliedOutput() * internalSparkMax.getBusVoltage());
+    }
+
+    public Current getCurrent() {
+        return Amps.of(this.internalSparkMax.getOutputCurrent());
+    }
+
     protected void updateInputs(XCANMotorControllerInputs inputs) {
         inputs.angle = getPosition();
         inputs.angularVelocity = getVelocity();
+        inputs.voltage = getVoltage();
+        inputs.current = getCurrent();
     }
 }
