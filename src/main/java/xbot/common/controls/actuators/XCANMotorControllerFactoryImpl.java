@@ -23,7 +23,11 @@ public class XCANMotorControllerFactoryImpl implements XCANMotorController.XCANM
     }
 
     @Override
-    public XCANMotorController create(CANMotorControllerInfo info, String owningSystemPrefix, String pidPropertyPrefix, XCANMotorControllerPIDProperties defaultPIDProperties) {
+    public XCANMotorController create(
+            CANMotorControllerInfo info,
+            String owningSystemPrefix,
+            String pidPropertyPrefix,
+            XCANMotorControllerPIDProperties defaultPIDProperties) {
         switch (info.type()) {
             case TalonFx -> {
                 return talonFxFactory.create(info, owningSystemPrefix, pidPropertyPrefix, defaultPIDProperties);
