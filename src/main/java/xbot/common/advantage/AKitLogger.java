@@ -16,13 +16,13 @@ public class AKitLogger {
     public enum LogLevel {
         DEBUG, INFO
     }
-    private static LogLevel globalLogLevel = LogLevel.INFO;
+    private static LogLevel globalLogLevel = LogLevel.DEBUG;
 
     private String prefix = "";
     private LogLevel logLevel = globalLogLevel;
 
     /**
-     * This controls the log level for all AKitLoggers. 
+     * This controls the log level for all AKitLoggers.
      * This will generally be set to INFO during competitions so that debug logs are not sent
      * to the network table.
      * @param level new level to set
@@ -34,19 +34,28 @@ public class AKitLogger {
     public AKitLogger(String prefix) {
         this.prefix = prefix;
     }
-    
+
     public AKitLogger(IPropertySupport parent) {
         this(parent.getPrefix());
     }
 
     /**
      * Set the log level for this particular logger instance.
-     * Log calls made after this will have that level when checking 
+     * Log calls made after this will have that level when checking
      * if they should record or not.
      * @param level new level to set
      */
     public void setLogLevel(LogLevel level) {
         this.logLevel = level;
+    }
+
+    /**
+     * Changes the log prefix. May be needed for subsystems that have the same name, such as
+     * multiple instances of the Swerve modules.
+     * @param prefix logging prefix, should end with a "/"
+     */
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 
     protected boolean shouldSkipLogging() {

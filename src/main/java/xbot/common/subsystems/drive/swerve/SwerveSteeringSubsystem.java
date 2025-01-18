@@ -53,6 +53,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
                                    PropertyFactory pf, PIDManagerFactory pidf, XSwerveDriveElectricalContract electricalContract) {
         this.label = swerveInstance.label();
         log.info("Creating SwerveRotationSubsystem {}", this.label);
+        aKitLog.setPrefix(this.getPrefix());
 
         this.contract = electricalContract;
         // Create properties shared among all instances
