@@ -1,5 +1,5 @@
 package xbot.common.controls.sensors;
-
+/*
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,3 +40,4 @@ public class XAS5600 {
         return actualValue;
     }
 }
+ */

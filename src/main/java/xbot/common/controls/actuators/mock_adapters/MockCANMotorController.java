@@ -3,6 +3,7 @@ package xbot.common.controls.actuators.mock_adapters;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
@@ -16,9 +17,12 @@ import xbot.common.properties.PropertyFactory;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.RPM;
+import static edu.wpi.first.units.Units.Rotations;
 
 public class MockCANMotorController extends XCANMotorController {
 
+    private double power = 0.0;
+    private Angle position = Rotations.zero();
     public double p;
     public double i;
     public double d;
@@ -72,6 +76,12 @@ public class MockCANMotorController extends XCANMotorController {
 
     @Override
     public void setPower(double power) {
+        this.power = MathUtil.clamp(power, -1.0, 1.0);
+    }
+
+    @Override
+    public double getPower() {
+        return this.power;
     }
 
     @Override
@@ -82,11 +92,12 @@ public class MockCANMotorController extends XCANMotorController {
 
     @Override
     public Angle getPosition() {
-        return Degrees.zero();
+        return this.position;
     }
 
     @Override
     public void setPosition(Angle position) {
+        this.position = position;
     }
 
     @Override

@@ -5,8 +5,6 @@ import javax.inject.Named;
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.command.XScheduler;
 import xbot.common.controls.actuators.XCANMotorController;
-import xbot.common.controls.actuators.XCANTalon.XCANTalonFactory;
-import xbot.common.controls.actuators.XCANVictorSPX.XCANVictorSPXFactory;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
 import xbot.common.controls.actuators.XDigitalOutput.XDigitalOutputFactory;
 import xbot.common.controls.actuators.XDoubleSolenoid.XDoubleSolenoidFactory;
@@ -18,7 +16,6 @@ import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
 import xbot.common.controls.sensors.XDutyCycleEncoder;
 import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
-import xbot.common.controls.sensors.XAS5600.XAS5600Factory;
 import xbot.common.controls.sensors.XAbsoluteEncoder.XAbsoluteEncoderFactory;
 import xbot.common.controls.sensors.XAnalogDistanceSensor.XAnalogDistanceSensorFactory;
 import xbot.common.controls.sensors.XAnalogInput.XAnalogInputFactory;
@@ -58,7 +55,6 @@ import xbot.common.subsystems.drive.control_logic.HeadingAssistModule.HeadingAss
 import xbot.common.subsystems.drive.control_logic.HeadingModule.HeadingModuleFactory;
 import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
-import xbot.common.subsystems.vision.AprilTagVisionSubsystem;
 
 /**
  * Base class for all Components that provides methods to get implementations from DI.
@@ -161,12 +157,6 @@ public abstract class BaseComponent {
 
     public abstract XAnalogDistanceSensorFactory analogDistanceSensorFactory();
 
-    public abstract XCANTalonFactory canTalonFactory();
-
-    public abstract XAS5600Factory as5600Factory();
-
-    public abstract XCANVictorSPXFactory canVictorSpxFactory();
-
     public abstract XLidarLiteFactory lidarLiteFactory();
 
     public abstract XSpeedControllerFactory speedControllerFactory();
@@ -176,7 +166,7 @@ public abstract class BaseComponent {
     public abstract XCANMotorController.XCANMotorControllerFactory motorControllerFactory();
 
     public abstract BaseDriveSubsystem driveSubsystem();
-    
+
     public abstract BasePoseSubsystem poseSubsystem();
 
     public abstract XDutyCycleEncoder.XDutyCycleEncoderFactory dutyCycleEncoderFactory();

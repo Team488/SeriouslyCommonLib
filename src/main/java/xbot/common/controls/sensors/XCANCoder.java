@@ -1,10 +1,5 @@
 package xbot.common.controls.sensors;
 
-import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.sensors.CANCoderFaults;
-import com.ctre.phoenix.sensors.CANCoderStatusFrame;
-import com.ctre.phoenix.sensors.CANCoderStickyFaults;
-
 import com.ctre.phoenix6.StatusCode;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.controls.io_inputs.XCANCoderInputs;
