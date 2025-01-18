@@ -16,7 +16,9 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Time;
+import edu.wpi.first.units.measure.Voltage;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
@@ -143,8 +145,18 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         this.internalTalonFx.setControl(controlRequest);
     }
 
+    public Voltage getVoltage() {
+        return this.internalTalonFx.getMotorVoltage().getValue();
+    }
+
+    public Current getCurrent() {
+        return this.internalTalonFx.getStatorCurrent().getValue();
+    }
+
     protected void updateInputs(XCANMotorControllerInputs inputs) {
         inputs.angle = getPosition();
         inputs.angularVelocity = getVelocity();
+        inputs.voltage = getVoltage();
+        inputs.current = getCurrent();
     }
 }
