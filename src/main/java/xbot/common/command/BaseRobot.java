@@ -1,16 +1,10 @@
 package xbot.common.command;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.simulation.DriverStationSim;
-
 import org.apache.logging.log4j.LogManager;
-import org.json.JSONObject;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -30,18 +24,11 @@ import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.components.BaseComponent;
-import xbot.common.logging.TimeLogger;
-import xbot.common.logic.Latch;
-import xbot.common.logic.Latch.EdgeType;
-import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.properties.XPropertyManager;
-import xbot.common.simulation.ISimulatableMotor;
-import xbot.common.simulation.ISimulatableSolenoid;
 import xbot.common.simulation.SimulationPayloadDistributor;
 import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
-import xbot.common.subsystems.drive.BaseDriveSubsystem;
 
 /**
  * Core Robot class which configures logging, properties,
@@ -66,8 +53,7 @@ public abstract class BaseRobot extends LoggedRobot {
     protected SimulationPayloadDistributor simulationPayloadDistributor;
 
     protected List<DataFrameRefreshable> dataFrameRefreshables = new ArrayList<>();
-
-    boolean forceWebots = true; // TODO: figure out a better way to swap between simulation and replay.
+    boolean localSimulation = true;
 
     public BaseRobot() {
     }
@@ -92,20 +78,26 @@ public abstract class BaseRobot extends LoggedRobot {
         return injectorComponent;
     }
 
+    public enum SimulationMode {
+        LOCAL,
+        REPLAY
+    }
+    SimulationMode behaviorForSimulation = SimulationMode.LOCAL;
+
     /**
      * This function is run when the robot is first started up and should be used for any initialization code.
      */
     public void robotInit() {
 
         Logger.recordMetadata("ProjectName", "XbotProject"); // Set a metadata value
-        if (isReal() || forceWebots) {
+        if (isReal() || behaviorForSimulation==SimulationMode.LOCAL) {
             var logDirectory = new File("/U/logs");
             if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
                 Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
             }
             Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
             new PowerDistribution(1, PowerDistribution.ModuleType.kRev); // Enables power distribution logging
-        } else {
+        } else if (behaviorForSimulation==SimulationMode.REPLAY) {
             setUseTiming(false); // Run as fast as possible
             String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
             Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
@@ -115,7 +107,7 @@ public abstract class BaseRobot extends LoggedRobot {
         Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
         DriverStation.silenceJoystickConnectionWarning(true);
 
-        
+
         log = LogManager.getLogger(BaseRobot.class);
         log.info("========== BASE ROBOT INITIALIZING ==========");
         setupInjectionModule();
@@ -131,7 +123,7 @@ public abstract class BaseRobot extends LoggedRobot {
         PropertyFactory pf = injectorComponent.propertyFactory();
 
         devicePolice = injectorComponent.devicePolice();
-        if (forceWebots) {
+        if (localSimulation) {
             simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
         }
         LiveWindow.disableAllTelemetry();
@@ -141,22 +133,22 @@ public abstract class BaseRobot extends LoggedRobot {
         if (!DriverStation.isEnabled()) {
             return "disabled";
         }
-        
+
         if (DriverStation.isAutonomous()) {
             return "auto";
         }
-        
+
         if (DriverStation.isTeleop()) {
             return "teleop";
         }
-        
+
         if (DriverStation.isTest()) {
             return "test";
         }
-        
+
         return "enabled/unknown";
     }
-    
+
     protected void updateLoggingContext() {
         String dsStatus = DriverStation.isDSAttached() ? "DS" : "no DS";
         String fmsStatus = DriverStation.isFMSAttached() ? "FMS" : "no FMS";
@@ -189,7 +181,7 @@ public abstract class BaseRobot extends LoggedRobot {
     public void disabledPeriodic() {
         this.sharedPeriodic();
     }
-    
+
     protected String getMatchContextString() {
         return DriverStation.getAlliance().toString() + DriverStation.getLocation() + ", "
             + DriverStation.getMatchTime() + "s, "
@@ -247,7 +239,7 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     double outsidePeriodicStart = 0;
-    
+
     protected void sharedPeriodic() {
         double outsidePeriodicEnd = getPerformanceTimestampInMs();
         Logger.recordOutput("OutsidePeriodicMs", outsidePeriodicEnd - outsidePeriodicStart);
@@ -273,47 +265,17 @@ public abstract class BaseRobot extends LoggedRobot {
         xScheduler.run();
         double schedulerEnd = getPerformanceTimestampInMs();
         Logger.recordOutput("SchedulerMs", schedulerEnd - schedulerStart);
-        
+
         outsidePeriodicStart = getPerformanceTimestampInMs();
     }
 
-    
+
     @Override
     public void simulationInit() {
-        // TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
-        /*if (forceWebots) {
-            webots = injectorComponent.webotsClient();
-            webots.initialize();
-            DriverStationSim.setEnabled(true);
-        }*/
     }
 
     @Override
     public void simulationPeriodic() {
-        // TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
-
-        // it would be really useful to have some suepr basic non-physical simulation of the robot.
-        // As in, if the swerve modules want to go to some angle and speed, we just make that happen directly.
-        // If rotation is commanded, we just rotate the robot.
-
-
-        /*if (forceWebots) {
-            // find all simulatable motors
-            List<JSONObject> motors = new ArrayList<JSONObject>();
-
-            for (String deviceId : devicePolice.registeredChannels.keySet()) {
-                Object device = devicePolice.registeredChannels.get(deviceId);
-                if (device instanceof ISimulatableMotor) {
-                    motors.add(((ISimulatableMotor) device).getSimulationData());
-                }
-                if (device instanceof ISimulatableSolenoid) {
-                    motors.add(((ISimulatableSolenoid) device).getSimulationData());
-                }
-            }
-            JSONObject response = webots.sendMotors(motors);
-
-            simulationPayloadDistributor.distributeSimulationPayload(response);
-        }*/
     }
 
     private double getPerformanceTimestampInMs() {
