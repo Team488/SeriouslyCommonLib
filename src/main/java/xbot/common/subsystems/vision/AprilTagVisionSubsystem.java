@@ -20,6 +20,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.Alert;
@@ -271,5 +272,18 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
                 Pose2d visionRobotPoseMeters,
                 double timestampSeconds,
                 Matrix<N3, N1> visionMeasurementStdDevs);
+    }
+
+    public Twist2d getReefAprilTagCameraData() {
+        Twist2d data = new Twist2d(0,0,0);
+
+        data.dx = inputs[0].latestTargetObservation.cameraToTarget().getX();
+        data.dy = inputs[0].latestTargetObservation.cameraToTarget().getY();
+        data.dtheta = inputs[0].latestTargetObservation.ty().getDegrees();
+        return data;
+    }
+
+    public boolean reefAprilTagCameraHasTarget() {
+        return inputs[0].latestTargetObservation != null;
     }
 }
