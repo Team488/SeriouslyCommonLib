@@ -217,6 +217,12 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      * @return The position in degrees.
      */
     public Angle getBestEncoderPosition() {
+
+        aKitLog.setLogLevel(AKitLogger.LogLevel.DEBUG);
+        aKitLog.record("CanCoderUnavailable", canCoderUnavailable);
+        aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
+
+
         if (this.contract.areCanCodersReady() && !canCoderUnavailable) {
             return getAbsoluteEncoderPosition();
         }
