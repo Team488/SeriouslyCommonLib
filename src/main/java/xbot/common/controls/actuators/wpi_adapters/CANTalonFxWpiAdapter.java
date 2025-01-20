@@ -5,6 +5,7 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
 import com.ctre.phoenix6.configs.SlotConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
@@ -19,6 +20,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Voltage;
+import org.apache.logging.log4j.LogManager;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
@@ -39,6 +41,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     private final TalonFX internalTalonFx;
+    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(CANTalonFxWpiAdapter.class);
 
     @AssistedInject
     public CANTalonFxWpiAdapter(
@@ -59,16 +62,24 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     public void setConfiguration(CANMotorControllerOutputConfig outputConfig) {
         var outputConfigs = new MotorOutputConfigs()
                 .withInverted(outputConfig.inversionType == CANMotorControllerOutputConfig.InversionType.Normal
-                        ? InvertedValue.Clockwise_Positive
-                        : InvertedValue.CounterClockwise_Positive)
+                        ? InvertedValue.CounterClockwise_Positive
+                        : InvertedValue.Clockwise_Positive)
                 .withNeutralMode(outputConfig.neutralMode == CANMotorControllerOutputConfig.NeutralMode.Brake
                         ? NeutralModeValue.Brake
                         : NeutralModeValue.Coast);
         var currentConfigs = new CurrentLimitsConfigs()
                 .withStatorCurrentLimitEnable(outputConfig.statorCurrentLimit != null)
                 .withStatorCurrentLimit(outputConfig.statorCurrentLimit);
-        this.internalTalonFx.getConfigurator().apply(outputConfigs);
-        this.internalTalonFx.getConfigurator().apply(currentConfigs);
+
+        var overallConfig = new TalonFXConfiguration();
+        overallConfig.MotorOutput = outputConfigs;
+        overallConfig.CurrentLimits = currentConfigs;
+
+        var statusCode = this.internalTalonFx.getConfigurator().apply(overallConfig);
+        if (!statusCode.isOK()) {
+            log.error("Failed to apply configuration to TalonFX for module with ID {}", this.internalTalonFx.getDeviceID());
+            log.error("Status code: {}", statusCode.getDescription());
+        }
     }
 
     @Override
@@ -112,14 +123,21 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setPowerRange(double minPower, double maxPower) {
-        this.internalTalonFx.getConfigurator().apply(new MotorOutputConfigs()
-                .withPeakForwardDutyCycle(maxPower)
-                .withPeakReverseDutyCycle(minPower));
+        var motorConfigs = new MotorOutputConfigs();
+        this.internalTalonFx.getConfigurator().refresh(motorConfigs);
+        motorConfigs.withPeakForwardDutyCycle(maxPower)
+                .withPeakReverseDutyCycle(minPower);
+
+        this.internalTalonFx.getConfigurator().apply(motorConfigs);
     }
 
+    /**
+     * Gets the current position of the motor output shaft.
+     * @return The current position in unitless Angle
+     */
     @Override
     public Angle getPosition() {
-        return this.internalTalonFx.getPosition().getValue();
+        return this.internalTalonFx.getRotorPosition().getValue();
     }
 
     @Override
@@ -138,9 +156,13 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         this.internalTalonFx.setControl(controlRequest);
     }
 
+    /**
+     * Gets the angular velocity of the motor output shaft.
+     * @return The velocity in unitless AngularVelocity
+     */
     @Override
     public AngularVelocity getVelocity() {
-        return this.internalTalonFx.getVelocity().getValue();
+        return this.internalTalonFx.getRotorVelocity().getValue();
     }
 
     @Override
@@ -160,6 +182,12 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     public Current getCurrent() {
         return this.internalTalonFx.getStatorCurrent().getValue();
+    }
+
+    @Override
+    public boolean isInverted() {
+        // TODO: this should pull from the cached value, instead of forcing a
+        return this.internalTalonFx.getInverted();
     }
 
     protected void updateInputs(XCANMotorControllerInputs inputs) {

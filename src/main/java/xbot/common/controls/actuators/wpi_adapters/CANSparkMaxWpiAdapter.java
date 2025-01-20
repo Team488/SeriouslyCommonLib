@@ -202,6 +202,12 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         return Amps.of(this.internalSparkMax.getOutputCurrent());
     }
 
+    @Override
+    public boolean isInverted() {
+        // TODO - better than this.
+        return false;
+    }
+
     protected void updateInputs(XCANMotorControllerInputs inputs) {
         inputs.angle = getPosition();
         inputs.angularVelocity = getVelocity();
