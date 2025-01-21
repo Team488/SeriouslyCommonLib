@@ -186,8 +186,9 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public boolean isInverted() {
-        // TODO: this should pull from the cached value, instead of forcing a
-        return this.internalTalonFx.getInverted();
+        var motorConfigs = new MotorOutputConfigs();
+        this.internalTalonFx.getConfigurator().refresh(motorConfigs);
+        return motorConfigs.Inverted == InvertedValue.Clockwise_Positive;
     }
 
     protected void updateInputs(XCANMotorControllerInputs inputs) {

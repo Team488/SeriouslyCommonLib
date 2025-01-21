@@ -204,8 +204,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
     @Override
     public boolean isInverted() {
-        // TODO - better than this.
-        return false;
+        return this.internalSparkMax.configAccessor.getInverted();
     }
 
     protected void updateInputs(XCANMotorControllerInputs inputs) {
