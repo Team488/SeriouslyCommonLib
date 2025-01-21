@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="../../../../script-dir/jquery-ui.min.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../../script.js"></script>
-<script type="text/javascript" src="../../../../script-dir/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="../../../../script-dir/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="class-declaration-page">
@@ -84,7 +84,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code>edu.wpi.first.util.sendable.Sendable</code>, <code>edu.wpi.first.wpilibj2.command.Subsystem</code>, <code><a href="../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code>, <code><a href="../../properties/IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a></code></dd>
+<dd><code>edu.wpi.first.util.sendable.Sendable</code>, <code>edu.wpi.first.wpilibj2.command.Subsystem</code>, <code><a href="../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code>, <code><a href="../../properties/IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a></code>, <code><a href="../drive/swerve/ISwerveAdvisorPoseSupport.html" title="interface in xbot.common.subsystems.drive.swerve">ISwerveAdvisorPoseSupport</a></code>, <code><a href="SimulatedPositionSupplier.html" title="interface in xbot.common.subsystems.pose">SimulatedPositionSupplier</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations">@Singleton
@@ -125,8 +125,8 @@ loadScripts(document, 'script');</script>
 <h2>Method Summary</h2>
 <div id="method-summary-table">
 <div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
-<div id="method-summary-table.tabpanel" role="tabpanel">
-<div class="summary-table three-column-summary" aria-labelledby="method-summary-table-tab0">
+<div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
+<div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
@@ -134,26 +134,29 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#forceTotalXandY(double,double)" class="member-name-link">forceTotalXandY</a><wbr>(double&nbsp;x,
  double&nbsp;y)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLeftDriveDistance()" class="member-name-link">getLeftDriveDistance</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>edu.wpi.first.math.geometry.Pose2d</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGroundTruthPose()" class="member-name-link">getGroundTruthPose</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRightDriveDistance()" class="member-name-link">getRightDriveDistance</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLeftDriveDistance()" class="member-name-link">getLeftDriveDistance</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDriveEncoderDistances(int,int)" class="member-name-link">setDriveEncoderDistances</a><wbr>(int&nbsp;left,
- int&nbsp;right)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected double</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRightDriveDistance()" class="member-name-link">getRightDriveDistance</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDriveTalons(xbot.common.controls.actuators.XCANTalon,xbot.common.controls.actuators.XCANTalon)" class="member-name-link">setDriveTalons</a><wbr>(<a href="../../controls/actuators/XCANTalon.html" title="class in xbot.common.controls.actuators">XCANTalon</a>&nbsp;left,
- <a href="../../controls/actuators/XCANTalon.html" title="class in xbot.common.controls.actuators">XCANTalon</a>&nbsp;right)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDriveEncoderDistances(int,int)" class="member-name-link">setDriveEncoderDistances</a><wbr>(int&nbsp;left,
+ int&nbsp;right)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDriveMotors(xbot.common.controls.actuators.XCANMotorController,xbot.common.controls.actuators.XCANMotorController)" class="member-name-link">setDriveMotors</a><wbr>(<a href="../../controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a>&nbsp;left,
+ <a href="../../controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a>&nbsp;right)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-xbot.common.subsystems.pose.BasePoseSubsystem">Methods inherited from class&nbsp;xbot.common.subsystems.pose.<a href="BasePoseSubsystem.html" title="class in xbot.common.subsystems.pose">BasePoseSubsystem</a></h3>
-<code><a href="BasePoseSubsystem.html#calibrateInherentRioOrientation()">calibrateInherentRioOrientation</a>, <a href="BasePoseSubsystem.html#convertBluetoRed(edu.wpi.first.math.geometry.Pose2d)">convertBluetoRed</a>, <a href="BasePoseSubsystem.html#convertBlueToRed(edu.wpi.first.math.geometry.Rotation2d)">convertBlueToRed</a>, <a href="BasePoseSubsystem.html#convertBlueToRed(edu.wpi.first.math.geometry.Translation2d)">convertBlueToRed</a>, <a href="BasePoseSubsystem.html#convertBlueToRedIfNeeded(edu.wpi.first.math.geometry.Pose2d)">convertBlueToRedIfNeeded</a>, <a href="BasePoseSubsystem.html#convertBlueToRedIfNeeded(edu.wpi.first.math.geometry.Rotation2d)">convertBlueToRedIfNeeded</a>, <a href="BasePoseSubsystem.html#convertBlueToRedIfNeeded(edu.wpi.first.math.geometry.Translation2d)">convertBlueToRedIfNeeded</a>, <a href="BasePoseSubsystem.html#getAlliance()">getAlliance</a>, <a href="BasePoseSubsystem.html#getCompassHeading(edu.wpi.first.math.geometry.Rotation2d)">getCompassHeading</a>, <a href="BasePoseSubsystem.html#getCurrentFieldPose()">getCurrentFieldPose</a>, <a href="BasePoseSubsystem.html#getCurrentHeading()">getCurrentHeading</a>, <a href="BasePoseSubsystem.html#getCurrentHeadingAngularVelocity()">getCurrentHeadingAngularVelocity</a>, <a href="BasePoseSubsystem.html#getCurrentPose2d()">getCurrentPose2d</a>, <a href="BasePoseSubsystem.html#getCurrentVelocity()">getCurrentVelocity</a>, <a href="BasePoseSubsystem.html#getFieldOrientedTotalDistanceTraveled()">getFieldOrientedTotalDistanceTraveled</a>, <a href="BasePoseSubsystem.html#getHeadingResetRecently()">getHeadingResetRecently</a>, <a href="BasePoseSubsystem.html#getNavXReady()">getNavXReady</a>, <a href="BasePoseSubsystem.html#getRobotOrientedTotalDistanceTraveled()">getRobotOrientedTotalDistanceTraveled</a>, <a href="BasePoseSubsystem.html#getRobotPitch()">getRobotPitch</a>, <a href="BasePoseSubsystem.html#getRobotRoll()">getRobotRoll</a>, <a href="BasePoseSubsystem.html#getRobotYaw()">getRobotYaw</a>, <a href="BasePoseSubsystem.html#getTravelVector()">getTravelVector</a>, <a href="BasePoseSubsystem.html#getUntrimmedPitch()">getUntrimmedPitch</a>, <a href="BasePoseSubsystem.html#getUntrimmedRoll()">getUntrimmedRoll</a>, <a href="BasePoseSubsystem.html#getYawAngularVelocity()">getYawAngularVelocity</a>, <a href="BasePoseSubsystem.html#periodic()">periodic</a>, <a href="BasePoseSubsystem.html#refreshDataFrame()">refreshDataFrame</a>, <a href="BasePoseSubsystem.html#resetDistanceTraveled()">resetDistanceTraveled</a>, <a href="BasePoseSubsystem.html#rotateAngleBasedOnAlliance(edu.wpi.first.math.geometry.Rotation2d)">rotateAngleBasedOnAlliance</a>, <a href="BasePoseSubsystem.html#setCurrentHeading(double)">setCurrentHeading</a>, <a href="BasePoseSubsystem.html#setCurrentPosition(double,double)">setCurrentPosition</a>, <a href="BasePoseSubsystem.html#updateCurrentHeading()">updateCurrentHeading</a>, <a href="BasePoseSubsystem.html#updateOdometry()">updateOdometry</a>, <a href="BasePoseSubsystem.html#updatePose()">updatePose</a></code></div>
+<code><a href="BasePoseSubsystem.html#calibrateInherentRioOrientation()">calibrateInherentRioOrientation</a>, <a href="BasePoseSubsystem.html#convertBluetoRed(edu.wpi.first.math.geometry.Pose2d)">convertBluetoRed</a>, <a href="BasePoseSubsystem.html#convertBlueToRed(edu.wpi.first.math.geometry.Rotation2d)">convertBlueToRed</a>, <a href="BasePoseSubsystem.html#convertBlueToRed(edu.wpi.first.math.geometry.Translation2d)">convertBlueToRed</a>, <a href="BasePoseSubsystem.html#convertBlueToRedIfNeeded(edu.wpi.first.math.geometry.Pose2d)">convertBlueToRedIfNeeded</a>, <a href="BasePoseSubsystem.html#convertBlueToRedIfNeeded(edu.wpi.first.math.geometry.Rotation2d)">convertBlueToRedIfNeeded</a>, <a href="BasePoseSubsystem.html#convertBlueToRedIfNeeded(edu.wpi.first.math.geometry.Translation2d)">convertBlueToRedIfNeeded</a>, <a href="BasePoseSubsystem.html#getAlliance()">getAlliance</a>, <a href="BasePoseSubsystem.html#getCompassHeading(edu.wpi.first.math.geometry.Rotation2d)">getCompassHeading</a>, <a href="BasePoseSubsystem.html#getCurrentFieldPose()">getCurrentFieldPose</a>, <a href="BasePoseSubsystem.html#getCurrentHeading()">getCurrentHeading</a>, <a href="BasePoseSubsystem.html#getCurrentHeadingAngularVelocity()">getCurrentHeadingAngularVelocity</a>, <a href="BasePoseSubsystem.html#getCurrentPose2d()">getCurrentPose2d</a>, <a href="BasePoseSubsystem.html#getCurrentVelocity()">getCurrentVelocity</a>, <a href="BasePoseSubsystem.html#getFieldOrientedTotalDistanceTraveled()">getFieldOrientedTotalDistanceTraveled</a>, <a href="BasePoseSubsystem.html#getHeadingResetRecently()">getHeadingResetRecently</a>, <a href="BasePoseSubsystem.html#getNavXReady()">getNavXReady</a>, <a href="BasePoseSubsystem.html#getRobotOrientedTotalDistanceTraveled()">getRobotOrientedTotalDistanceTraveled</a>, <a href="BasePoseSubsystem.html#getRobotPitch()">getRobotPitch</a>, <a href="BasePoseSubsystem.html#getRobotRoll()">getRobotRoll</a>, <a href="BasePoseSubsystem.html#getRobotYaw()">getRobotYaw</a>, <a href="BasePoseSubsystem.html#getSimulatedFieldPose()">getSimulatedFieldPose</a>, <a href="BasePoseSubsystem.html#getTravelVector()">getTravelVector</a>, <a href="BasePoseSubsystem.html#getUntrimmedPitch()">getUntrimmedPitch</a>, <a href="BasePoseSubsystem.html#getUntrimmedRoll()">getUntrimmedRoll</a>, <a href="BasePoseSubsystem.html#getYawAngularVelocity()">getYawAngularVelocity</a>, <a href="BasePoseSubsystem.html#periodic()">periodic</a>, <a href="BasePoseSubsystem.html#refreshDataFrame()">refreshDataFrame</a>, <a href="BasePoseSubsystem.html#resetDistanceTraveled()">resetDistanceTraveled</a>, <a href="BasePoseSubsystem.html#rotateAngleBasedOnAlliance(edu.wpi.first.math.geometry.Rotation2d)">rotateAngleBasedOnAlliance</a>, <a href="BasePoseSubsystem.html#setCurrentHeading(double)">setCurrentHeading</a>, <a href="BasePoseSubsystem.html#setCurrentPosition(double,double)">setCurrentPosition</a>, <a href="BasePoseSubsystem.html#updateCurrentHeading()">updateCurrentHeading</a>, <a href="BasePoseSubsystem.html#updateOdometry()">updateOdometry</a>, <a href="BasePoseSubsystem.html#updatePose()">updatePose</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-xbot.common.command.BaseSubsystem">Methods inherited from class&nbsp;xbot.common.command.<a href="../../command/BaseSubsystem.html" title="class in xbot.common.command">BaseSubsystem</a></h3>
 <code><a href="../../command/BaseSubsystem.html#getPrefix()">getPrefix</a></code></div>
@@ -165,7 +168,7 @@ loadScripts(document, 'script');</script>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-edu.wpi.first.wpilibj2.command.Subsystem">Methods inherited from interface&nbsp;edu.wpi.first.wpilibj2.command.Subsystem</h3>
-<code>defer, getCurrentCommand, getDefaultCommand, register, removeDefaultCommand, run, runEnd, runOnce, setDefaultCommand, simulationPeriodic, startEnd</code></div>
+<code>defer, getCurrentCommand, getDefaultCommand, register, removeDefaultCommand, run, runEnd, runOnce, setDefaultCommand, simulationPeriodic, startEnd, startRun</code></div>
 </section>
 </li>
 </ul>
@@ -194,10 +197,10 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="setDriveTalons(xbot.common.controls.actuators.XCANTalon,xbot.common.controls.actuators.XCANTalon)">
-<h3>setDriveTalons</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDriveTalons</span><wbr><span class="parameters">(<a href="../../controls/actuators/XCANTalon.html" title="class in xbot.common.controls.actuators">XCANTalon</a>&nbsp;left,
- <a href="../../controls/actuators/XCANTalon.html" title="class in xbot.common.controls.actuators">XCANTalon</a>&nbsp;right)</span></div>
+<section class="detail" id="setDriveMotors(xbot.common.controls.actuators.XCANMotorController,xbot.common.controls.actuators.XCANMotorController)">
+<h3>setDriveMotors</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDriveMotors</span><wbr><span class="parameters">(<a href="../../controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a>&nbsp;left,
+ <a href="../../controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a>&nbsp;right)</span></div>
 </section>
 </li>
 <li>
@@ -232,6 +235,12 @@ loadScripts(document, 'script');</script>
 <h3>forceTotalXandY</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">forceTotalXandY</span><wbr><span class="parameters">(double&nbsp;x,
  double&nbsp;y)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="getGroundTruthPose()">
+<h3>getGroundTruthPose</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">edu.wpi.first.math.geometry.Pose2d</span>&nbsp;<span class="element-name">getGroundTruthPose</span>()</div>
 </section>
 </li>
 </ul>

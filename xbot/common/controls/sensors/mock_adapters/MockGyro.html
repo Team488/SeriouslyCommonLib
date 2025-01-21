@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="../../../../../script-dir/jquery-ui.min.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../../../script.js"></script>
-<script type="text/javascript" src="../../../../../script-dir/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script-dir/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="../../../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="class-declaration-page">
@@ -104,7 +104,7 @@ implements <a href="../../../simulation/ISimulatableSensor.html" title="interfac
 </div>
 <div class="inherited-list">
 <h2 id="nested-classes-inherited-from-class-xbot.common.controls.sensors.XGyro">Nested classes/interfaces inherited from class&nbsp;xbot.common.controls.sensors.<a href="../XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></h2>
-<code><a href="../XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a>, <a href="../XGyro.XGyroFactory.html" title="class in xbot.common.controls.sensors">XGyro.XGyroFactory</a></code></div>
+<code><a href="../XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a>, <a href="../XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>, <a href="../XGyro.XGyroFactory.html" title="class in xbot.common.controls.sensors">XGyro.XGyroFactory</a></code></div>
 </section>
 </li>
 <!-- =========== FIELD SUMMARY =========== -->
@@ -124,10 +124,8 @@ implements <a href="../../../simulation/ISimulatableSensor.html" title="interfac
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.injection.DevicePolice,edu.wpi.first.wpilibj.SPI.Port,edu.wpi.first.wpilibj.SerialPort.Port,edu.wpi.first.wpilibj.I2C.Port)" class="member-name-link">MockGyro</a><wbr>(<a href="../../../injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a>&nbsp;police,
- edu.wpi.first.wpilibj.SPI.Port&nbsp;spiPort,
- edu.wpi.first.wpilibj.SerialPort.Port&nbsp;serialPort,
- edu.wpi.first.wpilibj.I2C.Port&nbsp;i2cPort)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.injection.DevicePolice,xbot.common.controls.sensors.XGyro.InterfaceType)" class="member-name-link">MockGyro</a><wbr>(<a href="../../../injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a>&nbsp;police,
+ <a href="../XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -138,8 +136,8 @@ implements <a href="../../../simulation/ISimulatableSensor.html" title="interfac
 <h2>Method Summary</h2>
 <div id="method-summary-table">
 <div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
-<div id="method-summary-table.tabpanel" role="tabpanel">
-<div class="summary-table three-column-summary" aria-labelledby="method-summary-table-tab0">
+<div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
+<div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
@@ -239,16 +237,12 @@ implements <a href="../../../simulation/ISimulatableSensor.html" title="interfac
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(xbot.common.injection.DevicePolice,edu.wpi.first.wpilibj.SPI.Port,edu.wpi.first.wpilibj.SerialPort.Port,edu.wpi.first.wpilibj.I2C.Port)">
+<section class="detail" id="&lt;init&gt;(xbot.common.injection.DevicePolice,xbot.common.controls.sensors.XGyro.InterfaceType)">
 <h3>MockGyro</h3>
 <div class="member-signature"><span class="annotations">@AssistedInject
 </span><span class="modifiers">public</span>&nbsp;<span class="element-name">MockGyro</span><wbr><span class="parameters">(<a href="../../../injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a>&nbsp;police,
  @Assisted
- edu.wpi.first.wpilibj.SPI.Port&nbsp;spiPort,
- @Assisted
- edu.wpi.first.wpilibj.SerialPort.Port&nbsp;serialPort,
- @Assisted
- edu.wpi.first.wpilibj.I2C.Port&nbsp;i2cPort)</span></div>
+ <a href="../XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType)</span></div>
 </section>
 </li>
 </ul>

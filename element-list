@@ -23,7 +23,6 @@ xbot.common.networking
 xbot.common.properties
 xbot.common.resiliency
 xbot.common.simulation
-xbot.common.subsystems
 xbot.common.subsystems.autonomous
 xbot.common.subsystems.compressor
 xbot.common.subsystems.drive

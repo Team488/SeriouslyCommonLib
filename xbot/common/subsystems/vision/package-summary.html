@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="../../../../script-dir/jquery-ui.min.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../../script.js"></script>
-<script type="text/javascript" src="../../../../script-dir/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="../../../../script-dir/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="package-declaration-page">
@@ -46,7 +46,7 @@ loadScripts(document, 'script');</script>
 <ul class="sub-nav-list">
 <li>Package:&nbsp;</li>
 <li>Description&nbsp;|&nbsp;</li>
-<li><a href="#related-package-summary">Related Packages</a>&nbsp;|&nbsp;</li>
+<li>Related Packages&nbsp;|&nbsp;</li>
 <li><a href="#class-summary">Classes and Interfaces</a></li>
 </ul>
 </div>
@@ -68,33 +68,70 @@ loadScripts(document, 'script');</script>
 <section class="summary">
 <ul class="summary-list">
 <li>
-<div id="related-package-summary">
-<div class="caption"><span>Related Packages</span></div>
-<div class="summary-table two-column-summary">
-<div class="table-header col-first">Package</div>
-<div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><a href="../package-summary.html">xbot.common.subsystems</a></div>
-<div class="col-last even-row-color">&nbsp;</div>
-</div>
-</div>
-</li>
-<li>
 <div id="class-summary">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="class-summary-tab0" role="tab" aria-selected="true" aria-controls="class-summary.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary', 2)" class="active-table-tab">All Classes and Interfaces</button><button id="class-summary-tab2" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab2', 2)" class="table-tab">Classes</button><button id="class-summary-tab3" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab3', 2)" class="table-tab">Enum Classes</button></div>
-<div id="class-summary.tabpanel" role="tabpanel">
-<div class="summary-table two-column-summary" aria-labelledby="class-summary-tab0">
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="class-summary-tab0" role="tab" aria-selected="true" aria-controls="class-summary.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary', 2)" class="active-table-tab">All Classes and Interfaces</button><button id="class-summary-tab1" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab1', 2)" class="table-tab">Interfaces</button><button id="class-summary-tab2" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab2', 2)" class="table-tab">Classes</button><button id="class-summary-tab3" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab3', 2)" class="table-tab">Enum Classes</button><button id="class-summary-tab4" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab4', 2)" class="table-tab">Record Classes</button></div>
+<div id="class-summary.tabpanel" role="tabpanel" aria-labelledby="class-summary-tab0">
+<div class="summary-table two-column-summary">
 <div class="table-header col-first">Class</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color class-summary class-summary-tab2"><a href="AprilTagCamera.html" title="class in xbot.common.subsystems.vision">AprilTagCamera</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">
 <div class="block">This class provides common base implementation for April Tag capable cameras on the robot.</div>
 </div>
+<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="AprilTagVisionIO.html" title="interface in xbot.common.subsystems.vision">AprilTagVisionIO</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab1">
+<div class="block">IO interface for AprilTag vision inputs.</div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab4"><a href="AprilTagVisionIO.PoseObservation.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIO.PoseObservation</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab4">
+<div class="block">Represents a robot pose sample used for pose estimation.</div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab3"><a href="AprilTagVisionIO.PoseObservationType.html" title="enum class in xbot.common.subsystems.vision">AprilTagVisionIO.PoseObservationType</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab3">&nbsp;</div>
+<div class="col-first even-row-color class-summary class-summary-tab4"><a href="AprilTagVisionIO.TargetObservation.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIO.TargetObservation</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab4">
+<div class="block">Represents the angle to a simple target, not used for pose estimation.</div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="AprilTagVisionIO.VisionIOInputs.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIO.VisionIOInputs</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">&nbsp;</div>
+<div class="col-first even-row-color class-summary class-summary-tab1"><a href="AprilTagVisionIOFactory.html" title="interface in xbot.common.subsystems.vision">AprilTagVisionIOFactory</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab1">&nbsp;</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="AprilTagVisionIOPhotonVision.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIOPhotonVision</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
+<div class="block">IO implementation for real PhotonVision hardware.</div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="AprilTagVisionIOPhotonVision.FactoryImpl.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIOPhotonVision.FactoryImpl</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">&nbsp;</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="AprilTagVisionIOPhotonVisionSimulated.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIOPhotonVisionSimulated</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
+<div class="block">IO implementation for a simulated PhotonVision environment.</div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="AprilTagVisionIOPhotonVisionSimulated.FactoryImpl.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIOPhotonVisionSimulated.FactoryImpl</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">&nbsp;</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="AprilTagVisionSubsystem.html" title="class in xbot.common.subsystems.vision">AprilTagVisionSubsystem</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
+<div class="block">Subsystem for processing AprilTag vision data.</div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab1"><a href="AprilTagVisionSubsystem.VisionConsumer.html" title="interface in xbot.common.subsystems.vision">AprilTagVisionSubsystem.VisionConsumer</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab1">
+<div class="block">Implement this interface on the subsystem that receives vision data.</div>
+</div>
 <div class="col-first odd-row-color class-summary class-summary-tab3"><a href="CameraCapabilities.html" title="enum class in xbot.common.subsystems.vision">CameraCapabilities</a></div>
 <div class="col-last odd-row-color class-summary class-summary-tab3">
 <div class="block">This enum is used to specify the capabilities of a camera.</div>
 </div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="SimpleCamera.html" title="class in xbot.common.subsystems.vision">SimpleCamera</a></div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="MockAprilTagVisionIO.html" title="class in xbot.common.subsystems.vision">MockAprilTagVisionIO</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">
+<div class="block">Mock AprilTagVisionIO implementation.</div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="MockAprilTagVisionIO.FactoryImpl.html" title="class in xbot.common.subsystems.vision">MockAprilTagVisionIO.FactoryImpl</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">&nbsp;</div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="MockVisionConsumer.html" title="class in xbot.common.subsystems.vision">MockVisionConsumer</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">
+<div class="block">A mock vision consumer that stores the poses it receives.</div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="SimpleCamera.html" title="class in xbot.common.subsystems.vision">SimpleCamera</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
 <div class="block">This class provides common base implementation for cameras on the robot.</div>
 </div>
 </div>

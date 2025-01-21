@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="../../../../../script-dir/jquery-ui.min.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../../../script.js"></script>
-<script type="text/javascript" src="../../../../../script-dir/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script-dir/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="../../../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="class-declaration-page">
@@ -127,8 +127,8 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.injection.swerve.SwerveInstance,xbot.common.controls.actuators.XCANSparkMax.XCANSparkMaxFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract)" class="member-name-link">SwerveDriveSubsystem</a><wbr>(<a href="../../../injection/swerve/SwerveInstance.html" title="class in xbot.common.injection.swerve">SwerveInstance</a>&nbsp;swerveInstance,
- <a href="../../../controls/actuators/XCANSparkMax.XCANSparkMaxFactory.html" title="class in xbot.common.controls.actuators">XCANSparkMax.XCANSparkMaxFactory</a>&nbsp;sparkMaxFactory,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.injection.swerve.SwerveInstance,xbot.common.controls.actuators.XCANMotorController.XCANMotorControllerFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract)" class="member-name-link">SwerveDriveSubsystem</a><wbr>(<a href="../../../injection/swerve/SwerveInstance.html" title="class in xbot.common.injection.swerve">SwerveInstance</a>&nbsp;swerveInstance,
+ <a href="../../../controls/actuators/XCANMotorController.XCANMotorControllerFactory.html" title="interface in xbot.common.controls.actuators">XCANMotorController.XCANMotorControllerFactory</a>&nbsp;mcFactory,
  <a href="../../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf,
  <a href="../../../injection/electrical_contract/XSwerveDriveElectricalContract.html" title="interface in xbot.common.injection.electrical_contract">XSwerveDriveElectricalContract</a>&nbsp;electricalContract)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
@@ -141,8 +141,8 @@ loadScripts(document, 'script');</script>
 <h2>Method Summary</h2>
 <div id="method-summary-table">
 <div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
-<div id="method-summary-table.tabpanel" role="tabpanel">
-<div class="summary-table three-column-summary" aria-labelledby="method-summary-table-tab0">
+<div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
+<div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
@@ -156,7 +156,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentValue()" class="member-name-link">getCurrentValue</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets current velocity in inches per second</div>
+<div class="block">Gets current velocity in meters per second</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDrivePidEnabled()" class="member-name-link">getDrivePidEnabled</a>()</code></div>
@@ -164,11 +164,11 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLabel()" class="member-name-link">getLabel</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPrefix()" class="member-name-link">getPrefix</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMotorController()" class="member-name-link">getMotorController</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../controls/actuators/XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSparkMax()" class="member-name-link">getSparkMax</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPrefix()" class="member-name-link">getPrefix</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTargetValue()" class="member-name-link">getTargetValue</a>()</code></div>
@@ -215,7 +215,7 @@ loadScripts(document, 'script');</script>
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-edu.wpi.first.wpilibj2.command.Subsystem">Methods inherited from interface&nbsp;edu.wpi.first.wpilibj2.command.Subsystem</h3>
-<code>defer, getCurrentCommand, getDefaultCommand, register, removeDefaultCommand, run, runEnd, runOnce, setDefaultCommand, simulationPeriodic, startEnd</code></div>
+<code>defer, getCurrentCommand, getDefaultCommand, register, removeDefaultCommand, run, runEnd, runOnce, setDefaultCommand, simulationPeriodic, startEnd, startRun</code></div>
 </section>
 </li>
 </ul>
@@ -228,11 +228,11 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(xbot.common.injection.swerve.SwerveInstance,xbot.common.controls.actuators.XCANSparkMax.XCANSparkMaxFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract)">
+<section class="detail" id="&lt;init&gt;(xbot.common.injection.swerve.SwerveInstance,xbot.common.controls.actuators.XCANMotorController.XCANMotorControllerFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract)">
 <h3>SwerveDriveSubsystem</h3>
 <div class="member-signature"><span class="annotations">@Inject
 </span><span class="modifiers">public</span>&nbsp;<span class="element-name">SwerveDriveSubsystem</span><wbr><span class="parameters">(<a href="../../../injection/swerve/SwerveInstance.html" title="class in xbot.common.injection.swerve">SwerveInstance</a>&nbsp;swerveInstance,
- <a href="../../../controls/actuators/XCANSparkMax.XCANSparkMaxFactory.html" title="class in xbot.common.controls.actuators">XCANSparkMax.XCANSparkMaxFactory</a>&nbsp;sparkMaxFactory,
+ <a href="../../../controls/actuators/XCANMotorController.XCANMotorControllerFactory.html" title="interface in xbot.common.controls.actuators">XCANMotorController.XCANMotorControllerFactory</a>&nbsp;mcFactory,
  <a href="../../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf,
  <a href="../../../injection/electrical_contract/XSwerveDriveElectricalContract.html" title="interface in xbot.common.injection.electrical_contract">XSwerveDriveElectricalContract</a>&nbsp;electricalContract)</span></div>
 </section>
@@ -273,7 +273,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getCurrentValue()">
 <h3>getCurrentValue</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a></span>&nbsp;<span class="element-name">getCurrentValue</span>()</div>
-<div class="block">Gets current velocity in inches per second</div>
+<div class="block">Gets current velocity in meters per second</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../../command/BaseSetpointSubsystem.html#getCurrentValue()">getCurrentValue</a></code>&nbsp;in class&nbsp;<code><a href="../../../command/BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;</code></dd>
@@ -329,9 +329,9 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="getSparkMax()">
-<h3>getSparkMax</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../../controls/actuators/XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></span>&nbsp;<span class="element-name">getSparkMax</span>()</div>
+<section class="detail" id="getMotorController()">
+<h3>getMotorController</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../../controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></span>&nbsp;<span class="element-name">getMotorController</span>()</div>
 </section>
 </li>
 <li>

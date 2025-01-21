@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="script-dir/jquery-ui.min.css" title="Style">
 <link rel="stylesheet" type="text/css" href="jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="script.js"></script>
-<script type="text/javascript" src="script-dir/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="script-dir/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="all-classes-index-page">
@@ -57,8 +57,8 @@ loadScripts(document, 'script');</script>
 </div>
 <div id="all-classes-table">
 <div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="all-classes-table-tab0" role="tab" aria-selected="true" aria-controls="all-classes-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('all-classes-table', 'all-classes-table', 2)" class="active-table-tab">All Classes and Interfaces</button><button id="all-classes-table-tab1" role="tab" aria-selected="false" aria-controls="all-classes-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('all-classes-table', 'all-classes-table-tab1', 2)" class="table-tab">Interfaces</button><button id="all-classes-table-tab2" role="tab" aria-selected="false" aria-controls="all-classes-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('all-classes-table', 'all-classes-table-tab2', 2)" class="table-tab">Classes</button><button id="all-classes-table-tab3" role="tab" aria-selected="false" aria-controls="all-classes-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('all-classes-table', 'all-classes-table-tab3', 2)" class="table-tab">Enum Classes</button><button id="all-classes-table-tab4" role="tab" aria-selected="false" aria-controls="all-classes-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('all-classes-table', 'all-classes-table-tab4', 2)" class="table-tab">Record Classes</button><button id="all-classes-table-tab5" role="tab" aria-selected="false" aria-controls="all-classes-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('all-classes-table', 'all-classes-table-tab5', 2)" class="table-tab">Exceptions</button><button id="all-classes-table-tab7" role="tab" aria-selected="false" aria-controls="all-classes-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('all-classes-table', 'all-classes-table-tab7', 2)" class="table-tab">Annotation Interfaces</button></div>
-<div id="all-classes-table.tabpanel" role="tabpanel">
-<div class="summary-table two-column-summary" aria-labelledby="all-classes-table-tab0">
+<div id="all-classes-table.tabpanel" role="tabpanel" aria-labelledby="all-classes-table-tab0">
+<div class="summary-table two-column-summary">
 <div class="table-header col-first">Class</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/buttons/AdvancedJoystickButtonTrigger.html" title="class in xbot.common.controls.sensors.buttons">AdvancedJoystickButtonTrigger</a></div>
@@ -100,6 +100,44 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/vision/AprilTagCamera.html" title="class in xbot.common.subsystems.vision">AprilTagCamera</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">This class provides common base implementation for April Tag capable cameras on the robot.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/subsystems/vision/AprilTagVisionIO.html" title="interface in xbot.common.subsystems.vision">AprilTagVisionIO</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="block">IO interface for AprilTag vision inputs.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="xbot/common/subsystems/vision/AprilTagVisionIO.PoseObservation.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIO.PoseObservation</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
+<div class="block">Represents a robot pose sample used for pose estimation.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab3"><a href="xbot/common/subsystems/vision/AprilTagVisionIO.PoseObservationType.html" title="enum class in xbot.common.subsystems.vision">AprilTagVisionIO.PoseObservationType</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="xbot/common/subsystems/vision/AprilTagVisionIO.TargetObservation.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIO.TargetObservation</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
+<div class="block">Represents the angle to a simple target, not used for pose estimation.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/vision/AprilTagVisionIO.VisionIOInputs.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIO.VisionIOInputs</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/subsystems/vision/AprilTagVisionIOFactory.html" title="interface in xbot.common.subsystems.vision">AprilTagVisionIOFactory</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/vision/AprilTagVisionIOPhotonVision.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIOPhotonVision</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">IO implementation for real PhotonVision hardware.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/vision/AprilTagVisionIOPhotonVision.FactoryImpl.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIOPhotonVision.FactoryImpl</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/vision/AprilTagVisionIOPhotonVisionSimulated.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIOPhotonVisionSimulated</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">IO implementation for a simulated PhotonVision environment.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/vision/AprilTagVisionIOPhotonVisionSimulated.FactoryImpl.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIOPhotonVisionSimulated.FactoryImpl</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.html" title="class in xbot.common.subsystems.vision">AprilTagVisionSubsystem</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Subsystem for processing AprilTag vision data.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.VisionConsumer.html" title="interface in xbot.common.subsystems.vision">AprilTagVisionSubsystem.VisionConsumer</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="block">Implement this interface on the subsystem that receives vision data.</div>
 </div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/autonomous/AutonomousCommandSelector.html" title="class in xbot.common.subsystems.autonomous">AutonomousCommandSelector</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
@@ -145,13 +183,6 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/injection/BaseWPITest.html" title="class in xbot.common.injection">BaseWPITest</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/BaseXCANTalonPairSpeedControlledSubsystem.html" title="class in xbot.common.subsystems">BaseXCANTalonPairSpeedControlledSubsystem</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/BaseXCANTalonSpeedControlledSubsystem.html" title="class in xbot.common.subsystems">BaseXCANTalonSpeedControlledSubsystem</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
-<div class="block">We have a few Subsystems that have one primary goal:
- -Get a motor to rotate at a specific controlled speed.</div>
-</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/properties/BooleanProperty.html" title="class in xbot.common.properties">BooleanProperty</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A property holding a boolean value.</div>
@@ -170,50 +201,60 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
 <div class="block">This class is used to provide information about the cameras on the robot.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/wpi_adapters/CANCoderAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">CANCoderAdapter</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/wpi_adapters/CANCoderAdapter.CANCoderAdapterFactory.html" title="class in xbot.common.controls.sensors.wpi_adapters">CANCoderAdapter.CANCoderAdapterFactory</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="xbot/common/injection/electrical_contract/CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
+<div class="block">Represents a CAN bus ID</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/wpi_adapters/CANCoderAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">CANCoderAdapter</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/CANSparkMaxWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANSparkMaxWpiAdapter</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/wpi_adapters/CANCoderAdapter.CANCoderAdapterFactory.html" title="class in xbot.common.controls.sensors.wpi_adapters">CANCoderAdapter.CANCoderAdapterFactory</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/CANSparkMaxWpiAdapter.CANSparkMaxWpiAdapterFactory.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANSparkMaxWpiAdapter.CANSparkMaxWpiAdapterFactory</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab3"><a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.InversionType.html" title="enum class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig.InversionType</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab3"><a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.NeutralMode.html" title="enum class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig.NeutralMode</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/CANSparkMaxWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANSparkMaxWpiAdapter</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/injection/electrical_contract/CANTalonInfo.html" title="class in xbot.common.injection.electrical_contract">CANTalonInfo</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/CANSparkMaxWpiAdapter.CANSparkMaxWpiAdapterFactory.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANSparkMaxWpiAdapter.CANSparkMaxWpiAdapterFactory</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/CANTalonWPIAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANTalonWPIAdapter</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/CANTalonFxWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANTalonFxWpiAdapter</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/CANTalonWPIAdapter.CANTalonWPIAdapterFactory.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANTalonWPIAdapter.CANTalonWPIAdapterFactory</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/CANTalonFxWpiAdapter.CANTalonFxWpiAdapterFactory.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANTalonFxWpiAdapter.CANTalonFxWpiAdapterFactory</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/CANVictorSPXWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANVictorSPXWpiAdapter</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/swerve/commands/ChangeActiveSwerveModuleCommand.html" title="class in xbot.common.subsystems.drive.swerve.commands">ChangeActiveSwerveModuleCommand</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/CANVictorSPXWpiAdapter.CANVictorSPXWpiAdapterFactory.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANVictorSPXWpiAdapter.CANVictorSPXWpiAdapterFactory</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/buttons/ChordTrigger.html" title="class in xbot.common.controls.sensors.buttons">ChordTrigger</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/buttons/ChordTrigger.html" title="class in xbot.common.controls.sensors.buttons">ChordTrigger</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/buttons/ChordTrigger.ChordTriggerFactory.html" title="class in xbot.common.controls.sensors.buttons">ChordTrigger.ChordTriggerFactory</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/buttons/ChordTrigger.ChordTriggerFactory.html" title="class in xbot.common.controls.sensors.buttons">ChordTrigger.ChordTriggerFactory</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/compressor/CompressorSubsystem.html" title="class in xbot.common.subsystems.compressor">CompressorSubsystem</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/compressor/CompressorSubsystem.html" title="class in xbot.common.subsystems.compressor">CompressorSubsystem</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Subsystem for managing compressor state.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/CompressorWPIAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CompressorWPIAdapter</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/CompressorWPIAdapter.CompressorWPIAdapterFactory.html" title="class in xbot.common.controls.actuators.wpi_adapters">CompressorWPIAdapter.CompressorWPIAdapterFactory</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/CompressorWPIAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CompressorWPIAdapter</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/ConfigurablePurePursuitCommand.html" title="class in xbot.common.subsystems.drive">ConfigurablePurePursuitCommand</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/CompressorWPIAdapter.CompressorWPIAdapterFactory.html" title="class in xbot.common.controls.actuators.wpi_adapters">CompressorWPIAdapter.CompressorWPIAdapterFactory</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/properties/ConfigurePropertiesCommand.html" title="class in xbot.common.properties">ConfigurePropertiesCommand</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/ConfigurablePurePursuitCommand.html" title="class in xbot.common.subsystems.drive">ConfigurablePurePursuitCommand</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/math/ContiguousDouble.html" title="class in xbot.common.math">ContiguousDouble</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/properties/ConfigurePropertiesCommand.html" title="class in xbot.common.properties">ConfigurePropertiesCommand</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/math/ContiguousDouble.html" title="class in xbot.common.math">ContiguousDouble</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Wraps a double to allow easy comparison and manipulation of sensor readings
  that wrap (e.g.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/properties/DatabaseStorageBase.html" title="class in xbot.common.properties">DatabaseStorageBase</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/properties/DebugFlag.html" title="class in xbot.common.properties">DebugFlag</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/properties/DatabaseStorageBase.html" title="class in xbot.common.properties">DatabaseStorageBase</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/properties/DebugFlag.html" title="class in xbot.common.properties">DebugFlag</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/injection/modules/DefaultVisionModule.html" title="class in xbot.common.injection.modules">DefaultVisionModule</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/command/DelayViaSupplierCommand.html" title="class in xbot.common.command">DelayViaSupplierCommand</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
@@ -324,6 +365,10 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/simulation/ISimulatableSolenoid.html" title="interface in xbot.common.simulation">ISimulatableSolenoid</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/subsystems/drive/swerve/ISwerveAdvisorDriveSupport.html" title="interface in xbot.common.subsystems.drive.swerve">ISwerveAdvisorDriveSupport</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/subsystems/drive/swerve/ISwerveAdvisorPoseSupport.html" title="interface in xbot.common.subsystems.drive.swerve">ISwerveAdvisorPoseSupport</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/properties/ITableProxy.html" title="interface in xbot.common.properties">ITableProxy</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">This interface defines a simple table interface, where you can set and retrieve
@@ -364,23 +409,21 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="edu/wpi/first/wpilibj/MockAnalogInput.MockAnalogInputFactory.html" title="class in edu.wpi.first.wpilibj">MockAnalogInput.MockAnalogInputFactory</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/vision/MockAprilTagVisionIO.html" title="class in xbot.common.subsystems.vision">MockAprilTagVisionIO</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Mock AprilTagVisionIO implementation.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/vision/MockAprilTagVisionIO.FactoryImpl.html" title="class in xbot.common.subsystems.vision">MockAprilTagVisionIO.FactoryImpl</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/pose/MockBasePoseSubsystem.html" title="class in xbot.common.subsystems.pose">MockBasePoseSubsystem</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/mock_adapters/MockCANCoder.html" title="class in xbot.common.controls.sensors.mock_adapters">MockCANCoder</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/mock_adapters/MockCANCoder.MockCANCoderFactory.html" title="class in xbot.common.controls.sensors.mock_adapters">MockCANCoder.MockCANCoderFactory</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/mock_adapters/MockCANSparkMax.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANSparkMax</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/mock_adapters/MockCANSparkMax.MockCANSparkMaxFactory.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANSparkMax.MockCANSparkMaxFactory</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/mock_adapters/MockCANTalon.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANTalon</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/mock_adapters/MockCANTalon.MockCANTalonFactory.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANTalon.MockCANTalonFactory</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/mock_adapters/MockCANVictorSPX.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANVictorSPX</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/mock_adapters/MockCANVictorSPX.MockCANVictorSPXFactory.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANVictorSPX.MockCANVictorSPXFactory</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.MockCANMotorControllerFactory.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController.MockCANMotorControllerFactory</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/mock_adapters/MockCompressor.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCompressor</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
@@ -464,14 +507,20 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="edu/wpi/first/wpilibj/MockTimer.html" title="class in edu.wpi.first.wpilibj">MockTimer</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="edu/wpi/first/wpilibj/MockXboxControllerAdapter.html" title="class in edu.wpi.first.wpilibj">MockXboxControllerAdapter</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="edu/wpi/first/wpilibj/MockXboxControllerAdapter.MockXboxControllerFactory.html" title="class in edu.wpi.first.wpilibj">MockXboxControllerAdapter.MockXboxControllerFactory</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/vision/MockVisionConsumer.html" title="class in xbot.common.subsystems.vision">MockVisionConsumer</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">A mock vision consumer that stores the poses it receives.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="edu/wpi/first/wpilibj/MockXboxControllerAdapter.html" title="class in edu.wpi.first.wpilibj">MockXboxControllerAdapter</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/networking/MockZeromqListener.html" title="class in xbot.common.networking">MockZeromqListener</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="edu/wpi/first/wpilibj/MockXboxControllerAdapter.MockXboxControllerFactory.html" title="class in edu.wpi.first.wpilibj">MockXboxControllerAdapter.MockXboxControllerFactory</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/networking/MockZeromqListener.MockZeromqListenerFactory.html" title="class in xbot.common.networking">MockZeromqListener.MockZeromqListenerFactory</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/networking/MockZeromqListener.html" title="class in xbot.common.networking">MockZeromqListener</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/networking/MockZeromqListener.MockZeromqListenerFactory.html" title="class in xbot.common.networking">MockZeromqListener.MockZeromqListenerFactory</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab3"><a href="xbot/common/injection/electrical_contract/MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/math/MovingAverage.html" title="class in xbot.common.math">MovingAverage</a>&lt;<a href="xbot/common/math/MovingAverage.html" title="type parameter in MovingAverage">T</a>&gt;</div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/math/MovingAverage.SumFunction.html" title="interface in xbot.common.math">MovingAverage.SumFunction</a>&lt;<a href="xbot/common/math/MovingAverage.SumFunction.html" title="type parameter in MovingAverage.SumFunction">T</a>&gt;</div>
@@ -661,27 +710,27 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory.html" title="class in xbot.common.controls.sensors">SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/SimulatedPurePursuitCommand.html" title="class in xbot.common.subsystems.drive">SimulatedPurePursuitCommand</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/injection/components/SimulationComponent.html" title="class in xbot.common.injection.components">SimulationComponent</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/subsystems/pose/SimulatedPositionSupplier.html" title="interface in xbot.common.subsystems.pose">SimulatedPositionSupplier</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/SimulatedPurePursuitCommand.html" title="class in xbot.common.subsystems.drive">SimulatedPurePursuitCommand</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/injection/components/SimulationComponent.html" title="class in xbot.common.injection.components">SimulationComponent</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Do not use this directly.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/injection/modules/SimulationModule.html" title="class in xbot.common.injection.modules">SimulationModule</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/injection/modules/SimulationModule.html" title="class in xbot.common.injection.modules">SimulationModule</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Module mapping interfaces to implementations for a simulated robot.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/simulation/SimulationPayloadDistributor.html" title="class in xbot.common.simulation">SimulationPayloadDistributor</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/command/SmartDashboardCommandPutter.html" title="interface in xbot.common.command">SmartDashboardCommandPutter</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/properties/SmartDashboardTableWrapper.html" title="class in xbot.common.properties">SmartDashboardTableWrapper</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/SolenoidWPIAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">SolenoidWPIAdapter</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/simulation/SimulationPayloadDistributor.html" title="class in xbot.common.simulation">SimulationPayloadDistributor</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/SolenoidWPIAdapter.SolenoidWPIAdapterFactory.html" title="class in xbot.common.controls.actuators.wpi_adapters">SolenoidWPIAdapter.SolenoidWPIAdapterFactory</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/command/SmartDashboardCommandPutter.html" title="interface in xbot.common.command">SmartDashboardCommandPutter</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/properties/SmartDashboardTableWrapper.html" title="class in xbot.common.properties">SmartDashboardTableWrapper</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/SolenoidWPIAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">SolenoidWPIAdapter</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/wpi_adapters/SparkAbsoluteEncoderAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">SparkAbsoluteEncoderAdapter</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/SolenoidWPIAdapter.SolenoidWPIAdapterFactory.html" title="class in xbot.common.controls.actuators.wpi_adapters">SolenoidWPIAdapter.SolenoidWPIAdapterFactory</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/SpeedControllerWPIAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">SpeedControllerWPIAdapter</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
@@ -715,36 +764,40 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/swerve/commands/SwerveDriveMaintainerCommand.html" title="class in xbot.common.subsystems.drive.swerve.commands">SwerveDriveMaintainerCommand</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/swerve/SwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveDriveSubsystem</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/swerve/SwerveDriveRotationAdvisor.html" title="class in xbot.common.subsystems.drive.swerve">SwerveDriveRotationAdvisor</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab3"><a href="xbot/common/subsystems/drive/swerve/SwerveDriveSubsystem.CurrentLimitMode.html" title="enum class in xbot.common.subsystems.drive.swerve">SwerveDriveSubsystem.CurrentLimitMode</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="xbot/common/injection/swerve/SwerveInstance.html" title="class in xbot.common.injection.swerve">SwerveInstance</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/swerve/SwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveDriveSubsystem</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab3"><a href="xbot/common/subsystems/drive/swerve/SwerveDriveSubsystem.CurrentLimitMode.html" title="enum class in xbot.common.subsystems.drive.swerve">SwerveDriveSubsystem.CurrentLimitMode</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="xbot/common/injection/swerve/SwerveInstance.html" title="class in xbot.common.injection.swerve">SwerveInstance</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
 <div class="block">Labels a swerve module instance.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/injection/swerve/SwerveModule.html" title="class in xbot.common.injection.swerve">SwerveModule</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/injection/swerve/SwerveModule.html" title="class in xbot.common.injection.swerve">SwerveModule</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryCommand.html" title="class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryCommand</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryCommand.html" title="class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryCommand</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab7"><a href="xbot/common/injection/swerve/SwerveSingleton.html" title="annotation interface in xbot.common.injection.swerve">SwerveSingleton</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab7">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab7"><a href="xbot/common/injection/swerve/SwerveSingleton.html" title="annotation interface in xbot.common.injection.swerve">SwerveSingleton</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab7">
 <div class="block">This annotation denotes a singleton scoped to a single swerve module.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/swerve/commands/SwerveSteeringMaintainerCommand.html" title="class in xbot.common.subsystems.drive.swerve.commands">SwerveSteeringMaintainerCommand</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/swerve/SwerveSteeringSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveSteeringSubsystem</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/swerve/commands/SwerveSteeringMaintainerCommand.html" title="class in xbot.common.subsystems.drive.swerve.commands">SwerveSteeringMaintainerCommand</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/properties/TableProxy.html" title="class in xbot.common.properties">TableProxy</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/swerve/SwerveSteeringSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveSteeringSubsystem</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/swerve/SwerveSuggestedRotation.html" title="class in xbot.common.subsystems.drive.swerve">SwerveSuggestedRotation</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab3"><a href="xbot/common/subsystems/drive/swerve/SwerveSuggestedRotation.RotationGoalType.html" title="enum class in xbot.common.subsystems.drive.swerve">SwerveSuggestedRotation.RotationGoalType</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/properties/TableProxy.html" title="class in xbot.common.properties">TableProxy</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A simple implementation of ITableProxy.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/TalonCurrentMonitor.html" title="class in xbot.common.controls.sensors">TalonCurrentMonitor</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/logging/TimeLogger.html" title="class in xbot.common.logging">TimeLogger</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/wpi_adapters/TimerWpiAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">TimerWpiAdapter</a></div>
@@ -765,117 +818,109 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/logic/VelocityThrottleModule.VelocityThrottleModuleFactory.html" title="class in xbot.common.logic">VelocityThrottleModule.VelocityThrottleModuleFactory</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/wpi_adapters/VictorAppearingAsTalonWPIAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">VictorAppearingAsTalonWPIAdapter</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/buttons/VirtualTrigger.html" title="class in xbot.common.controls.sensors.buttons">VirtualTrigger</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/buttons/VirtualTrigger.html" title="class in xbot.common.controls.sensors.buttons">VirtualTrigger</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A virtual button under program control that can be used for creating chords.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/buttons/VirtualTrigger.VirtualTriggerFactory.html" title="class in xbot.common.controls.sensors.buttons">VirtualTrigger.VirtualTriggerFactory</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/logic/WatchdogTimer.html" title="class in xbot.common.logic">WatchdogTimer</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/buttons/VirtualTrigger.VirtualTriggerFactory.html" title="class in xbot.common.controls.sensors.buttons">VirtualTrigger.VirtualTriggerFactory</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/simulation/WebotsClient.html" title="class in xbot.common.simulation">WebotsClient</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/logic/WatchdogTimer.html" title="class in xbot.common.logic">WatchdogTimer</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/math/WrappedRotation2d.html" title="class in xbot.common.math">WrappedRotation2d</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/simulation/WebotsClient.html" title="class in xbot.common.simulation">WebotsClient</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/math/WrappedRotation2d.html" title="class in xbot.common.math">WrappedRotation2d</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A rotation in a 2d coordinate frame, with its rotation wrapped from -pi to pi radians (-180 to 180 degrees).</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XAbsoluteEncoder.html" title="class in xbot.common.controls.sensors">XAbsoluteEncoder</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/sensors/XAbsoluteEncoder.XAbsoluteEncoderFactory.html" title="interface in xbot.common.controls.sensors">XAbsoluteEncoder.XAbsoluteEncoderFactory</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/io_inputs/XAbsoluteEncoderInputs.html" title="class in xbot.common.controls.io_inputs">XAbsoluteEncoderInputs</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XAnalogDistanceSensor.html" title="class in xbot.common.controls.sensors">XAnalogDistanceSensor</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XAbsoluteEncoder.html" title="class in xbot.common.controls.sensors">XAbsoluteEncoder</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XAnalogDistanceSensor.VoltageMaps.html" title="class in xbot.common.controls.sensors">XAnalogDistanceSensor.VoltageMaps</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/sensors/XAnalogDistanceSensor.XAnalogDistanceSensorFactory.html" title="interface in xbot.common.controls.sensors">XAnalogDistanceSensor.XAnalogDistanceSensorFactory</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XAnalogInput.html" title="class in xbot.common.controls.sensors">XAnalogInput</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/sensors/XAnalogInput.XAnalogInputFactory.html" title="interface in xbot.common.controls.sensors">XAnalogInput.XAnalogInputFactory</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XAS5600.html" title="class in xbot.common.controls.sensors">XAS5600</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XAS5600.XAS5600Factory.html" title="class in xbot.common.controls.sensors">XAS5600.XAS5600Factory</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/XBaseIO.html" title="interface in xbot.common.controls">XBaseIO</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/sensors/XAbsoluteEncoder.XAbsoluteEncoderFactory.html" title="interface in xbot.common.controls.sensors">XAbsoluteEncoder.XAbsoluteEncoderFactory</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/trajectory/XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/io_inputs/XAbsoluteEncoderInputs.html" title="class in xbot.common.controls.io_inputs">XAbsoluteEncoderInputs</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/wpi_adapters/XboxControllerWpiAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">XboxControllerWpiAdapter</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XAnalogDistanceSensor.html" title="class in xbot.common.controls.sensors">XAnalogDistanceSensor</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/wpi_adapters/XboxControllerWpiAdapter.XboxControllerWpiAdapterFactory.html" title="class in xbot.common.controls.sensors.wpi_adapters">XboxControllerWpiAdapter.XboxControllerWpiAdapterFactory</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XAnalogDistanceSensor.VoltageMaps.html" title="class in xbot.common.controls.sensors">XAnalogDistanceSensor.VoltageMaps</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/injection/electrical_contract/XCameraElectricalContract.html" title="interface in xbot.common.injection.electrical_contract">XCameraElectricalContract</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/sensors/XAnalogDistanceSensor.XAnalogDistanceSensorFactory.html" title="interface in xbot.common.controls.sensors">XAnalogDistanceSensor.XAnalogDistanceSensorFactory</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XAnalogInput.html" title="class in xbot.common.controls.sensors">XAnalogInput</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/sensors/XAnalogInput.XAnalogInputFactory.html" title="interface in xbot.common.controls.sensors">XAnalogInput.XAnalogInputFactory</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/XBaseIO.html" title="interface in xbot.common.controls">XBaseIO</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/trajectory/XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/wpi_adapters/XboxControllerWpiAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">XboxControllerWpiAdapter</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/wpi_adapters/XboxControllerWpiAdapter.XboxControllerWpiAdapterFactory.html" title="class in xbot.common.controls.sensors.wpi_adapters">XboxControllerWpiAdapter.XboxControllerWpiAdapterFactory</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/injection/electrical_contract/XCameraElectricalContract.html" title="interface in xbot.common.injection.electrical_contract">XCameraElectricalContract</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">This interface is used to provide information about the cameras on the robot.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XCANCoder.html" title="class in xbot.common.controls.sensors">XCANCoder</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/sensors/XCANCoder.XCANCoderFactory.html" title="interface in xbot.common.controls.sensors">XCANCoder.XCANCoderFactory</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/io_inputs/XCANCoderInputs.html" title="class in xbot.common.controls.io_inputs">XCANCoderInputs</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/XCANSparkMax.html" title="class in xbot.common.controls.actuators">XCANSparkMax</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XCANCoder.html" title="class in xbot.common.controls.sensors">XCANCoder</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/XCANSparkMax.XCANSparkMaxFactory.html" title="class in xbot.common.controls.actuators">XCANSparkMax.XCANSparkMaxFactory</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/sensors/XCANCoder.XCANCoderFactory.html" title="interface in xbot.common.controls.sensors">XCANCoder.XCANCoderFactory</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/io_inputs/XCANCoderInputs.html" title="class in xbot.common.controls.io_inputs">XCANCoderInputs</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/actuators/XCANMotorController.XCANMotorControllerFactory.html" title="interface in xbot.common.controls.actuators">XCANMotorController.XCANMotorControllerFactory</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/XCANMotorControllerFactoryImpl.html" title="class in xbot.common.controls.actuators">XCANMotorControllerFactoryImpl</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/io_inputs/XCANMotorControllerInputs.html" title="class in xbot.common.controls.io_inputs">XCANMotorControllerInputs</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/io_inputs/XCANSparkMaxInputs.html" title="class in xbot.common.controls.io_inputs">XCANSparkMaxInputs</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="xbot/common/controls/actuators/XCANSparkMaxPIDProperties.html" title="class in xbot.common.controls.actuators">XCANSparkMaxPIDProperties</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/XCANTalon.html" title="class in xbot.common.controls.actuators">XCANTalon</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/actuators/XCANTalon.XCANTalonFactory.html" title="interface in xbot.common.controls.actuators">XCANTalon.XCANTalonFactory</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/XCANVictorSPX.html" title="class in xbot.common.controls.actuators">XCANVictorSPX</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/actuators/XCANVictorSPX.XCANVictorSPXFactory.html" title="interface in xbot.common.controls.actuators">XCANVictorSPX.XCANVictorSPXFactory</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/XCompressor.html" title="class in xbot.common.controls.actuators">XCompressor</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/XCompressor.html" title="class in xbot.common.controls.actuators">XCompressor</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Represents an air compressor.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/actuators/XCompressor.XCompressorFactory.html" title="interface in xbot.common.controls.actuators">XCompressor.XCompressorFactory</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/actuators/XCompressor.XCompressorFactory.html" title="interface in xbot.common.controls.actuators">XCompressor.XCompressorFactory</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">A factory to create XCompressor instances.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XDigitalInput.html" title="class in xbot.common.controls.sensors">XDigitalInput</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XDigitalInput.html" title="class in xbot.common.controls.sensors">XDigitalInput</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/sensors/XDigitalInput.XDigitalInputFactory.html" title="interface in xbot.common.controls.sensors">XDigitalInput.XDigitalInputFactory</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/io_inputs/XDigitalInputs.html" title="class in xbot.common.controls.io_inputs">XDigitalInputs</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/XDigitalOutput.html" title="class in xbot.common.controls.actuators">XDigitalOutput</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/sensors/XDigitalInput.XDigitalInputFactory.html" title="interface in xbot.common.controls.sensors">XDigitalInput.XDigitalInputFactory</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/actuators/XDigitalOutput.XDigitalOutputFactory.html" title="interface in xbot.common.controls.actuators">XDigitalOutput.XDigitalOutputFactory</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/io_inputs/XDigitalInputs.html" title="class in xbot.common.controls.io_inputs">XDigitalInputs</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/XDoubleSolenoid.html" title="class in xbot.common.controls.actuators">XDoubleSolenoid</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/XDigitalOutput.html" title="class in xbot.common.controls.actuators">XDigitalOutput</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab3"><a href="xbot/common/controls/actuators/XDoubleSolenoid.DoubleSolenoidMode.html" title="enum class in xbot.common.controls.actuators">XDoubleSolenoid.DoubleSolenoidMode</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/XDoubleSolenoid.XDoubleSolenoidFactory.html" title="class in xbot.common.controls.actuators">XDoubleSolenoid.XDoubleSolenoidFactory</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XDutyCycleEncoder.html" title="class in xbot.common.controls.sensors">XDutyCycleEncoder</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/actuators/XDigitalOutput.XDigitalOutputFactory.html" title="interface in xbot.common.controls.actuators">XDigitalOutput.XDigitalOutputFactory</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/sensors/XDutyCycleEncoder.XDutyCycleEncoderFactory.html" title="interface in xbot.common.controls.sensors">XDutyCycleEncoder.XDutyCycleEncoderFactory</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/XDoubleSolenoid.html" title="class in xbot.common.controls.actuators">XDoubleSolenoid</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/io_inputs/XDutyCycleEncoderInputs.html" title="class in xbot.common.controls.io_inputs">XDutyCycleEncoderInputs</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab3"><a href="xbot/common/controls/actuators/XDoubleSolenoid.DoubleSolenoidMode.html" title="enum class in xbot.common.controls.actuators">XDoubleSolenoid.DoubleSolenoidMode</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/actuators/XDoubleSolenoid.XDoubleSolenoidFactory.html" title="class in xbot.common.controls.actuators">XDoubleSolenoid.XDoubleSolenoidFactory</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XDutyCycleEncoder.html" title="class in xbot.common.controls.sensors">XDutyCycleEncoder</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XEncoder.html" title="class in xbot.common.controls.sensors">XEncoder</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/sensors/XDutyCycleEncoder.XDutyCycleEncoderFactory.html" title="interface in xbot.common.controls.sensors">XDutyCycleEncoder.XDutyCycleEncoderFactory</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/sensors/XEncoder.XEncoderFactory.html" title="interface in xbot.common.controls.sensors">XEncoder.XEncoderFactory</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/io_inputs/XDutyCycleEncoderInputs.html" title="class in xbot.common.controls.io_inputs">XDutyCycleEncoderInputs</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XFTCGamepad.html" title="class in xbot.common.controls.sensors">XFTCGamepad</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XEncoder.html" title="class in xbot.common.controls.sensors">XEncoder</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/sensors/XEncoder.XEncoderFactory.html" title="interface in xbot.common.controls.sensors">XEncoder.XEncoderFactory</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XFTCGamepad.html" title="class in xbot.common.controls.sensors">XFTCGamepad</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/sensors/XFTCGamepad.XFTCGamepadFactory.html" title="interface in xbot.common.controls.sensors">XFTCGamepad.XFTCGamepadFactory</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab3"><a href="xbot/common/controls/sensors/XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="xbot/common/controls/sensors/XFTCGamepad.XFTCGamepadFactory.html" title="interface in xbot.common.controls.sensors">XFTCGamepad.XFTCGamepadFactory</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab3"><a href="xbot/common/controls/sensors/XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab3"><a href="xbot/common/controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/XGyro.XGyroFactory.html" title="class in xbot.common.controls.sensors">XGyro.XGyroFactory</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
