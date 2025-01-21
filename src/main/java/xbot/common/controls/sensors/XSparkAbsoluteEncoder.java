@@ -1,5 +1,6 @@
 package xbot.common.controls.sensors;
 
+import edu.wpi.first.units.measure.Angle;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputsAutoLogged;
@@ -17,11 +18,11 @@ public abstract class XSparkAbsoluteEncoder {
         this.inverted = inverted;
     }
 
-    public double getPosition() {
-        return getUnderlyingPosition() * (inverted ? -1 : 1);
+    public Angle getPosition() {
+        return getUnderlyingPosition().times(inverted ? -1 : 1);
     }
 
-    public abstract double getUnderlyingPosition();
+    public abstract Angle getUnderlyingPosition();
 
     public abstract void updateInputs(XAbsoluteEncoderInputs inputs);
 
