@@ -125,6 +125,11 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     @Override
+    public boolean isInverted() {
+        return false;
+    }
+
+    @Override
     protected void updateInputs(XCANMotorControllerInputs inputs) {
         inputs.angle = getPosition();
         inputs.angularVelocity = getVelocity();

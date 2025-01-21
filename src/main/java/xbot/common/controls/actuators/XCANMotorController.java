@@ -178,6 +178,8 @@ public abstract class XCANMotorController {
         return inputs.current;
     }
 
+    public abstract boolean isInverted();
+
     protected abstract void updateInputs(XCANMotorControllerInputs inputs);
 
     public void refreshDataFrame() {
