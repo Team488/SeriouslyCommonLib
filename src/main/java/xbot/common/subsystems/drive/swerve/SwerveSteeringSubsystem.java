@@ -150,7 +150,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      * @param power The power value, between -1 and 1.
      */
     @Override
-    public void setPower(Double power) {
+    public void setPower(double power) {
         if (this.contract.isDriveReady()) {
             aKitLog.record("DirectPower", power);
             this.motorController.setPower(power);
