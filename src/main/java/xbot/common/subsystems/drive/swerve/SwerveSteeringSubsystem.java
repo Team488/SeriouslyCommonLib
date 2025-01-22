@@ -70,13 +70,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
                     electricalContract.getSteeringMotor(swerveInstance),
                     "SteeringMC",
                     super.getPrefix() + "SteeringPID",
-                    new XCANMotorControllerPIDProperties(1, 0, 0, 0, 1, -1));
-            this.motorController.setPidDirectly(
-                    0.5,
-                    0,
-                    0,
-                    0
-            );
+                    new XCANMotorControllerPIDProperties(1, 0, 0, 0, 0, 1, -1));
             this.motorController.setPowerRange(-1, 1);
         }
         if (electricalContract.areCanCodersReady()) {
@@ -326,7 +320,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
             );
 
             aKitLog.record("TargetPosition-Rotations", targetPosition.in(Rotations));
-            this.motorController.setPositionTarget(targetPosition);
+            this.motorController.setPositionTarget(targetPosition, XCANMotorController.MotorPidMode.Voltage, 0);
 
             // restore typical log level
             aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);

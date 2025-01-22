@@ -51,13 +51,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
                     electricalContract.getDriveMotor(swerveInstance),
                     "DriveMotor",
                     super.getPrefix() + "DrivePID",
-                    new XCANMotorControllerPIDProperties(1, 0, 0, 0, 1, -1));
-            this.motorController.setPidDirectly(
-                    0.00001,
-                    0.000001,
-                    0,
-                    0.00015
-            );
+                    new XCANMotorControllerPIDProperties(1, 0, 0, 0, 0, 1, -1));
             this.motorController.setPowerRange(-1, 1);
             setupStatusFramesAsNeeded();
             setCurrentLimitsForMode(CurrentLimitMode.Teleop);
@@ -175,7 +169,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
             // Get the target speed in RPM
             double targetRPM = targetVelocity / this.metersPerMotorRotation.get() * 60.0;
             aKitLog.record("TargetRPM", targetRPM);
-            this.motorController.setVelocityTarget(RPM.of(targetRPM), 0);
+            this.motorController.setVelocityTarget(RPM.of(targetRPM), XCANMotorController.MotorPidMode.DutyCycle, 0);
         }
     }
 

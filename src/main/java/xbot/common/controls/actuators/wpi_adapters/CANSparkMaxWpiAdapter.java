@@ -1,5 +1,6 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkLowLevel;
@@ -10,10 +11,13 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.units.AngularAccelerationUnit;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Time;
+import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
@@ -28,8 +32,8 @@ import xbot.common.properties.PropertyFactory;
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
-import static edu.wpi.first.units.Units.Volt;
 import static edu.wpi.first.units.Units.Volts;
 
 public class CANSparkMaxWpiAdapter extends XCANMotorController {
@@ -103,7 +107,22 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setPidDirectly(double p, double i, double d, double velocityFF, int slot) {
+    public void setTrapezoidalProfileAcceleration(AngularAcceleration acceleration) {
+        var config = new SparkMaxConfig();
+        config.closedLoop.maxMotion.maxAcceleration(acceleration.in(RPM.per(Second)));
+        this.internalSparkMax.configure(config,
+                SparkBase.ResetMode.kNoResetSafeParameters,
+                SparkBase.PersistMode.kNoPersistParameters);
+    }
+
+    @Override
+    public void setTrapezoidalProfileJerk(Velocity<AngularAccelerationUnit> jerk) {
+        // Not supported by SparkMax
+    }
+
+    @Override
+    public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot) {
+        // Gravity feedforward is not supported by SparkMax
         var config = new SparkMaxConfig();
         config.closedLoop
                 .p(p, getClosedLoopSlot(slot))
@@ -149,12 +168,8 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setPositionTarget(Angle position) {
-        setPositionTarget(position, 0);
-    }
-
-    @Override
-    public void setPositionTarget(Angle position, int slot) {
+    public void setPositionTarget(Angle position, MotorPidMode mode, int slot) {
+        // Modes are ignored on SparkMax
         this.internalSparkMax
                 .getClosedLoopController()
                 .setReference(position.in(Rotations), SparkBase.ControlType.kPosition, getClosedLoopSlot(slot));
@@ -166,12 +181,8 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setVelocityTarget(AngularVelocity velocity) {
-        setVelocityTarget(velocity, 0);
-    }
-
-    @Override
-    public void setVelocityTarget(AngularVelocity velocity, int slot) {
+    public void setVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot) {
+        // Modes are ignored on SparkMax
         this.internalSparkMax
                 .getClosedLoopController()
                 .setReference(velocity.in(RPM), SparkBase.ControlType.kVelocity, getClosedLoopSlot(slot));
