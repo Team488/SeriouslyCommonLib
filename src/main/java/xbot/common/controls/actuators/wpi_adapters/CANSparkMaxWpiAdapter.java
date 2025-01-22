@@ -1,6 +1,5 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkLowLevel;
@@ -19,6 +18,8 @@ import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
@@ -46,6 +47,8 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
                 @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
                 @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties);
     }
+
+    private static final Logger log = LogManager.getLogger(CANSparkMaxWpiAdapter.class);
 
     private final SparkMax internalSparkMax;
     private final RobotAssertionManager assertionManager;
@@ -88,7 +91,10 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setOpenLoopRampRates(Time dutyCyclePeriod, Time voltagePeriod) {
-        // SparkMax does not support voltage ramping
+        if (voltagePeriod.gt(Seconds.zero())) {
+            log.warn("setOpenLoopRampRates: Voltage ramping is not supported by SparkMax");
+        }
+
         var config = new SparkMaxConfig();
         config.openLoopRampRate(dutyCyclePeriod.in(Seconds));
         this.internalSparkMax.configure(config,
@@ -98,7 +104,10 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setClosedLoopRampRates(Time dutyCyclePeriod, Time voltagePeriod) {
-        // SparkMax does not support voltage ramping
+        if (voltagePeriod.gt(Seconds.zero())) {
+            log.warn("setClosedLoopRampRates: Voltage ramping is not supported by SparkMax");
+        }
+
         var config = new SparkMaxConfig();
         config.closedLoopRampRate(dutyCyclePeriod.in(Seconds));
         this.internalSparkMax.configure(config,
@@ -117,12 +126,17 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setTrapezoidalProfileJerk(Velocity<AngularAccelerationUnit> jerk) {
-        // Not supported by SparkMax
+        if (jerk.magnitude() > 0) {
+            log.warn("setTrapezoidalProfileJerk: Jerk configuration is not supported by SparkMax");
+        }
     }
 
     @Override
     public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot) {
-        // Gravity feedforward is not supported by SparkMax
+        if (gravityFF != 0) {
+            log.warn("setPidDirectly: Gravity feedforward is not supported by SparkMax");
+        }
+
         var config = new SparkMaxConfig();
         config.closedLoop
                 .p(p, getClosedLoopSlot(slot))
@@ -169,10 +183,18 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setPositionTarget(Angle position, MotorPidMode mode, int slot) {
-        // Modes are ignored on SparkMax
+        SparkBase.ControlType controlType;
+        switch (mode) {
+            case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kPosition;
+            case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionPositionControl;
+            default -> {
+                this.assertionManager.fail("Unsupported mode: " + mode);
+                controlType = SparkBase.ControlType.kPosition;
+            }
+        }
         this.internalSparkMax
                 .getClosedLoopController()
-                .setReference(position.in(Rotations), SparkBase.ControlType.kPosition, getClosedLoopSlot(slot));
+                .setReference(position.in(Rotations), controlType, getClosedLoopSlot(slot));
     }
 
     @Override
@@ -182,26 +204,31 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot) {
-        // Modes are ignored on SparkMax
+        SparkBase.ControlType controlType;
+        switch (mode) {
+            case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kVelocity;
+            case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionVelocityControl;
+            default -> {
+                this.assertionManager.fail("Unsupported mode: " + mode);
+                controlType = SparkBase.ControlType.kVelocity;
+            }
+        }
         this.internalSparkMax
                 .getClosedLoopController()
-                .setReference(velocity.in(RPM), SparkBase.ControlType.kVelocity, getClosedLoopSlot(slot));
+                .setReference(velocity.in(RPM), controlType, getClosedLoopSlot(slot));
     }
 
     private ClosedLoopSlot getClosedLoopSlot(int slot) {
-        switch (slot) {
-            case 0:
-                return ClosedLoopSlot.kSlot0;
-            case 1:
-                return ClosedLoopSlot.kSlot1;
-            case 2:
-                return ClosedLoopSlot.kSlot2;
-            case 3:
-                return ClosedLoopSlot.kSlot3;
-            default:
+        return switch (slot) {
+            case 0 -> ClosedLoopSlot.kSlot0;
+            case 1 -> ClosedLoopSlot.kSlot1;
+            case 2 -> ClosedLoopSlot.kSlot2;
+            case 3 -> ClosedLoopSlot.kSlot3;
+            default -> {
                 this.assertionManager.fail("Invalid PID slot number: " + slot);
-                return ClosedLoopSlot.kSlot0;
-        }
+                yield ClosedLoopSlot.kSlot0;
+            }
+        };
     }
 
     public Voltage getVoltage() {

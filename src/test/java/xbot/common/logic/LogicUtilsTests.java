@@ -15,4 +15,13 @@ public class LogicUtilsTests {
         assertTrue(LogicUtils.anyOf(false, true));
         assertFalse(LogicUtils.anyOf(false, false));
     }
+
+    @Test
+    public void testAllOf() {
+        assertTrue(LogicUtils.allOf());
+        assertTrue(LogicUtils.allOf(true, true));
+        assertFalse(LogicUtils.allOf(true, false));
+        assertFalse(LogicUtils.allOf(false, true));
+        assertFalse(LogicUtils.allOf(false, false));
+    }
 }

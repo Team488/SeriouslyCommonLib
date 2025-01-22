@@ -19,4 +19,20 @@ public final class LogicUtils {
         }
         return false;
     }
+
+    /**
+     * Returns true if all the given values are true.
+     * @apiNote This is helpful if Checkstyle complains about boolean expression complexity.
+     * @param values The values to check.
+     *               If no values are given, this method will return true.
+     * @return True if all the given values are true.
+     */
+    public static boolean allOf(boolean... values) {
+        for (boolean value : values) {
+            if (!value) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
