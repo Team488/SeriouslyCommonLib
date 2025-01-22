@@ -5,7 +5,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import xbot.common.math.WrappedRotation2d;
-import xbot.common.subsystems.drive.SwervePointKinematics;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
     public Pose2d keyPose;
 
     public double secondsToPoint;
-    SwervePointKinematics kinematics;
 
     public XbotSwervePoint(Pose2d keyPose, double secondsToPoint) {
         this.keyPose = keyPose;
@@ -33,13 +31,6 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
         this.secondsToPoint = secondsToPoint;
     }
 
-    public void setKinematics(SwervePointKinematics kinematics) {
-        this.kinematics = kinematics;
-    }
-
-    public SwervePointKinematics getKinematics() {
-        return kinematics;
-    }
 
     public void setPose(Pose2d pose) {
         this.keyPose = pose;

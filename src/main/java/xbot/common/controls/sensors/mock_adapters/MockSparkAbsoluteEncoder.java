@@ -1,5 +1,6 @@
 package xbot.common.controls.sensors.mock_adapters;
 
+import edu.wpi.first.units.measure.Angle;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
 import xbot.common.controls.sensors.XSparkAbsoluteEncoder;
 
@@ -9,12 +10,12 @@ public class MockSparkAbsoluteEncoder extends XSparkAbsoluteEncoder {
         super(nameWithPrefix, inverted);
     }
 
-    public void setMockPosition(double position) {
+    public void setMockPosition(Angle position) {
         inputs.position = position;
     }
 
     @Override
-    public double getUnderlyingPosition() {
+    public Angle getUnderlyingPosition() {
         return inputs.position;
     }
 

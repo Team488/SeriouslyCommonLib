@@ -1,5 +1,7 @@
 package xbot.common.controls.sensors;
 
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputsAutoLogged;
@@ -22,19 +24,19 @@ public abstract class XAbsoluteEncoder {
 
     public abstract int getDeviceId();
 
-    public double getPosition() {
+    public Angle getPosition() {
         return inputs.position;
     }
 
-    public double getAbsolutePosition() {
+    public Angle getAbsolutePosition() {
         return inputs.absolutePosition;
     }
 
-    public double getVelocity() {
+    public AngularVelocity getVelocity() {
         return inputs.velocity;
     }
 
-    public abstract void setPosition(double newPostition);
+    public abstract void setPosition(Angle newPostition);
 
     public DeviceHealth getHealth() {
         return DeviceHealth.valueOf(inputs.deviceHealth);

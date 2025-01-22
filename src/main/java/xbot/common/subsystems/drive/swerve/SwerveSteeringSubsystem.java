@@ -26,9 +26,7 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
-import static edu.wpi.first.units.Units.Degree;
 import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.Rotations;
 
 @SwerveSingleton
@@ -116,6 +114,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
 
     /**
      * Gets current angle in degrees
+     *
      */
     @Override
     public Double getCurrentValue() {
@@ -217,6 +216,12 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      * @return The position in degrees.
      */
     public Angle getBestEncoderPosition() {
+
+        aKitLog.setLogLevel(AKitLogger.LogLevel.DEBUG);
+        aKitLog.record("CanCoderUnavailable", canCoderUnavailable);
+        aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
+
+
         if (this.contract.areCanCodersReady() && !canCoderUnavailable) {
             return getAbsoluteEncoderPosition();
         }
@@ -235,9 +240,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      */
     public Angle getAbsoluteEncoderPosition() {
         if (this.contract.areCanCodersReady()) {
-            // With the change to Phoenix6, enocders report -0.5 to 0.5 rather than -180 to 180.
-            // For now, doing a simple multiply. Later this should be a scaling factor in the encoder itself.
-            return Degrees.of(this.encoder.getAbsolutePosition() * 360);
+            return this.encoder.getAbsolutePosition();
         } else {
             return Degrees.zero();
         }
