@@ -46,14 +46,14 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     protected BooleanProperty rioRotated;
     protected boolean firstUpdate = true;
     protected double lastSetHeadingTime;
-    public static double fieldXMidpointInMeters = 8.2705;
+    public static double fieldXMidpointInMeters = 8.7785;
 
     public BasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {
         log.info("Creating");
         propManager.setPrefix(this);
         imu = gyroFactory.create();
         this.classInstantiationTime = XTimer.getFPGATimestamp();
-        
+
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
         currentHeading = WrappedRotation2d.fromDegrees(0);
@@ -63,11 +63,11 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
         inherentRioPitch = propManager.createPersistentProperty("Inherent RIO pitch", 0.0);
         inherentRioRoll = propManager.createPersistentProperty("Inherent RIO roll", 0.0);
     }
-    
+
     protected double getCompassHeading(Rotation2d standardHeading) {
         return Rotation2d.fromDegrees(currentHeading.getDegrees()).getDegrees();
     }
-    
+
     protected void updateCurrentHeading() {
         currentHeading = WrappedRotation2d.fromDegrees(getRobotYaw().getDegrees() + headingOffset);
 
@@ -76,13 +76,13 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
         //aKitLog.record("AdjustedPitchDegrees", this.getRobotPitch());
         //aKitLog.record("AdjustedRollDegrees", this.getRobotRoll());
         aKitLog.record("AdjustedYawVelocityDegrees", getYawAngularVelocity());
-    }  
-    
+    }
+
     protected void updateOdometry() {
 
         double currentLeftDistance = getLeftDriveDistance();
         double currentRightDistance = getRightDriveDistance();
-        
+
         leftDriveDistance = currentLeftDistance;
         rightDriveDistance = currentRightDistance;
 
@@ -95,31 +95,31 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
             previousLeftDistance = currentLeftDistance;
             previousRightDistance = currentRightDistance;
         }
-        
+
         double deltaLeft = currentLeftDistance - previousLeftDistance;
         double deltaRight = currentRightDistance - previousRightDistance;
 
         double totalDistance = (deltaLeft + deltaRight) / 2;
         totalDistanceYRobotPerspective += totalDistance;
-        
-        // get X and Y        
+
+        // get X and Y
         double deltaY = currentHeading.getSin() * totalDistance;
         double deltaX = currentHeading.getCos() * totalDistance;
-        
+
         double instantVelocity = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
-        
+
         totalDistanceX += deltaX;
         totalDistanceY += deltaY;
 
         velocityX = deltaX;
         velocityY = deltaY;
         totalVelocity = instantVelocity;
-        
+
         // save values for next round
         previousLeftDistance = currentLeftDistance;
         previousRightDistance = currentRightDistance;
     }
-    
+
     /**
      * @return Current heading but if the navX is still booting up it will return 0
      */
@@ -127,7 +127,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
         updateCurrentHeading();
         return currentHeading;
     }
-    
+
     public XYPair getFieldOrientedTotalDistanceTraveled() {
         return getTravelVector().clone();
     }
@@ -156,7 +156,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     public double getCurrentHeadingAngularVelocity() {
         return getYawAngularVelocity();
     }
-    
+
     /**
      * Returns the distance the robot has traveled forward. Rotations are ignored - if you drove forward 100 inches,
      * then turned 180 degrees and drove another 100 inches, this would tell you that you have traveled 200 inches.
@@ -165,37 +165,37 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     public double getRobotOrientedTotalDistanceTraveled() {
         return totalDistanceYRobotPerspective;
     }
-    
+
     public void resetDistanceTraveled() {
         totalDistanceX = 0;
         totalDistanceY = 0;
         totalDistanceYRobotPerspective = 0;
     }
-    
+
     public void setCurrentHeading(double headingInDegrees){
         //log.info("Forcing heading to: " + headingInDegrees);
         double rawHeading = getRobotYaw().getDegrees();
         //log.info("Raw heading is: " + rawHeading);
         headingOffset = -rawHeading + headingInDegrees;
         //log.info("Offset calculated to be: " + headingOffset);
-        
+
         lastSetHeadingTime = XTimer.getFPGATimestamp();
     }
-    
+
     public void setCurrentPosition(double newXPosition, double newYPosition) {
         //log.info("Setting Robot Position. X:" + newXPosition + ", Y:" +newYPosition);
         totalDistanceX = newXPosition;
         totalDistanceY = newYPosition;
     }
-    
+
     public boolean getHeadingResetRecently() {
         return XTimer.getFPGATimestamp() - lastSetHeadingTime < 1;
     }
-    
+
     /**
      * This should be called as often as reasonably possible, to increase accuracy
      * of the "distance traveled" calculation.
-     * 
+     *
      * The PoseSubsystem can't directly own positional sensors, so some command will need to feed in the
      * distance values coming from the DriveSubsystem. In order to have accurate calculations, these
      * values need to be in inches, and should never be reset - any resetting should be done here
@@ -205,18 +205,18 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
         updateCurrentHeading();
         updateOdometry();
     }
-    
+
     protected abstract double getLeftDriveDistance();
     protected abstract double getRightDriveDistance();
-    
+
     public double getRobotPitch() {
         return getUntrimmedPitch() - inherentRioPitch.get();
     }
-    
+
     public double getRobotRoll() {
         return getUntrimmedRoll() - inherentRioRoll.get();
     }
-    
+
     /**
      * If the RoboRIO is mounted in a position other than "flat" (e.g. with the pins facing upward)
      * then this method will need to be overridden.
@@ -224,30 +224,30 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     protected WrappedRotation2d getRobotYaw() {
         return imu.getHeading();
     }
-    
+
     protected double getUntrimmedPitch() {
         if (rioRotated.get()) {
             return imu.getRoll();
         }
         return imu.getPitch();
     }
-    
+
     protected double getUntrimmedRoll() {
         if (rioRotated.get()) {
             return imu.getPitch();
         }
         return imu.getRoll();
     }
-    
+
     public void calibrateInherentRioOrientation() {
         inherentRioPitch.set(getUntrimmedPitch());
         inherentRioRoll.set(getUntrimmedRoll());
     }
-    
+
     public double getYawAngularVelocity(){
         return imu.getYawAngularVelocity();
     }
-    
+
     public boolean getNavXReady() {
         return isNavXReady;
     }
@@ -331,7 +331,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
         if (!isNavXReady && (classInstantiationTime + 1 < XTimer.getFPGATimestamp())) {
             setCurrentHeading(FACING_AWAY_FROM_DRIVERS);
             isNavXReady = true;
-        }   
+        }
         updatePose();
     }
 
