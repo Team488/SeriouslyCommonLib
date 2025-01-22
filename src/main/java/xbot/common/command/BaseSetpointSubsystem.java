@@ -13,7 +13,7 @@ public abstract class BaseSetpointSubsystem<T> extends BaseSubsystem implements 
     private double lastUpdateTimeFromMaintainer;
     protected boolean atGoal;
     protected T lastTargetValueUsedforAtGoal;
-    
+
     public BaseSetpointSubsystem() {
         setpointLock = new Subsystem() {};
     }
@@ -22,7 +22,7 @@ public abstract class BaseSetpointSubsystem<T> extends BaseSubsystem implements 
     public Subsystem getSetpointLock() {
        return setpointLock;
     }
-    
+
     public boolean isMaintainerAtGoal() {
 
         if (lastTargetValueUsedforAtGoal == null) {
@@ -57,7 +57,7 @@ public abstract class BaseSetpointSubsystem<T> extends BaseSubsystem implements 
 
     public abstract void setTargetValue(T value);
 
-    public abstract void setPower(T power);
+    public abstract void setPower(double power);
 
     public abstract boolean isCalibrated();
 
