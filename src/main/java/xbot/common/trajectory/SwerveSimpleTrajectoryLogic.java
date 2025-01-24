@@ -355,6 +355,7 @@ public class SwerveSimpleTrajectoryLogic {
             var combinedVector = scaledPlannedVector.plus(new Translation2d(intent.x, intent.y));
 
             // If we've somehow gone above 100% power, scale it back down
+            aKitLog.record("combinedVectorMagnitude", combinedVector.getNorm());
             if (combinedVector.getNorm() > 1) {
                 combinedVector = combinedVector.times(1 / combinedVector.getNorm());
             }
@@ -367,6 +368,7 @@ public class SwerveSimpleTrajectoryLogic {
                 combinedVector = combinedVector.times(0.01);
             }
 
+            aKitLog.record("EngageTranslationSlowdown", engageTranslationSlowdown);
             aKitLog.record("FeatureEnabledAndRotationCommanded", featureEnabledAndRotationCommanded);
             aKitLog.record("CloseAndOnFinalLeg", closeAndOnFinalLeg);
             aKitLog.record("TranslationReducedDueToRotation", engageTranslationSlowdown);
