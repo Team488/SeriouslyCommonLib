@@ -88,6 +88,9 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
             } else {
                 AdvancedXboxButtonTrigger candidate = new AdvancedXboxButtonTrigger(this, buttonName);
                 allocatedButtons.put(buttonName, candidate);
+
+                // Also reserve the "simple" button
+                this.getifAvailable(buttonName.value);
             }
         } else {
             // button already used!
@@ -126,7 +129,7 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
     }
 
     public Translation2d getLeftFieldOrientedVector() {
-        var blueTranslation = new Translation2d(getLeftRawY(), getLeftRawX()); 
+        var blueTranslation = new Translation2d(getLeftRawY(), getLeftRawX());
         if(DriverStation.getAlliance().orElseGet(() -> Alliance.Blue) == Alliance.Blue) {
             return blueTranslation;
         } else {
@@ -136,7 +139,7 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
     }
 
     public Translation2d getRightFieldOrientedVector() {
-        var blueTranslation = new Translation2d(getRightRawY(), getRightRawX()); 
+        var blueTranslation = new Translation2d(getRightRawY(), getRightRawX());
         if(DriverStation.getAlliance().orElseGet(() -> Alliance.Blue) == Alliance.Blue) {
             return blueTranslation;
         } else {

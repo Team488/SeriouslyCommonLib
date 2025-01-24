@@ -15,7 +15,7 @@ public class XboxControllerTest extends BaseCommonLibTest {
     @Test(expected = RobotAssertionException.class)
     public void doubleAllocateButton() {
         XXboxController controller = getInjectorComponent().xboxControllerFactory().create(0);
-        
+
         // We expect the robot to get mad if we try to get the same button twice
         //thrown.expect(RobotAssertionException.class);
         controller.getifAvailable(XboxButton.A);
@@ -54,5 +54,13 @@ public class XboxControllerTest extends BaseCommonLibTest {
         ((MockXboxControllerAdapter)controller).setRightStick(0, -1);
         assertFalse(rightPositive.getAsBoolean());
         assertTrue(rightNegative.getAsBoolean());
+    }
+
+    @Test(expected = Exception.class)
+    public void testMixedButtons() {
+        XXboxController controller = getInjectorComponent().xboxControllerFactory().create(0);
+
+        controller.getifAvailable(1);
+        controller.getifAvailable(XboxButton.A);
     }
 }
