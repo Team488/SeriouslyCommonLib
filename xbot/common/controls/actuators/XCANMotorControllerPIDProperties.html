@@ -79,7 +79,7 @@ loadScripts(document, 'script');</script>
 </div>
 <section class="class-description" id="class-description">
 <hr>
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">XCANMotorControllerPIDProperties</span>(double&nbsp;p, double&nbsp;i, double&nbsp;d, double&nbsp;feedForward, double&nbsp;maxOutput, double&nbsp;minOutput)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">XCANMotorControllerPIDProperties</span>(double&nbsp;p, double&nbsp;i, double&nbsp;d, double&nbsp;velocityFeedForward, double&nbsp;gravityFeedForward, double&nbsp;maxOutput, double&nbsp;minOutput)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 </section>
 <section class="summary">
@@ -94,13 +94,18 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">XCANMotorControllerPIDProperties</a>()</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(double,double,double,double,double,double)" class="member-name-link">XCANMotorControllerPIDProperties</a><wbr>(double&nbsp;p,
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(double,double,double)" class="member-name-link">XCANMotorControllerPIDProperties</a><wbr>(double&nbsp;p,
+ double&nbsp;i,
+ double&nbsp;d)</code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(double,double,double,double,double,double,double)" class="member-name-link">XCANMotorControllerPIDProperties</a><wbr>(double&nbsp;p,
  double&nbsp;i,
  double&nbsp;d,
- double&nbsp;feedForward,
+ double&nbsp;velocityFeedForward,
+ double&nbsp;gravityFeedForward,
  double&nbsp;maxOutput,
  double&nbsp;minOutput)</code></div>
-<div class="col-last odd-row-color">
+<div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>XCANMotorControllerPIDProperties</code> record class.</div>
 </div>
 </div>
@@ -128,9 +133,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#feedForward()" class="member-name-link">feedForward</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#gravityFeedForward()" class="member-name-link">gravityFeedForward</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <code>feedForward</code> record component.</div>
+<div class="block">Returns the value of the <code>gravityFeedForward</code> record component.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
@@ -162,6 +167,11 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#velocityFeedForward()" class="member-name-link">velocityFeedForward</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <code>velocityFeedForward</code> record component.</div>
+</div>
 </div>
 </div>
 </div>
@@ -186,12 +196,21 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;(double,double,double,double,double,double)">
+<section class="detail" id="&lt;init&gt;(double,double,double)">
+<h3>XCANMotorControllerPIDProperties</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">XCANMotorControllerPIDProperties</span><wbr><span class="parameters">(double&nbsp;p,
+ double&nbsp;i,
+ double&nbsp;d)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(double,double,double,double,double,double,double)">
 <h3>XCANMotorControllerPIDProperties</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">XCANMotorControllerPIDProperties</span><wbr><span class="parameters">(double&nbsp;p,
  double&nbsp;i,
  double&nbsp;d,
- double&nbsp;feedForward,
+ double&nbsp;velocityFeedForward,
+ double&nbsp;gravityFeedForward,
  double&nbsp;maxOutput,
  double&nbsp;minOutput)</span></div>
 <div class="block">Creates an instance of a <code>XCANMotorControllerPIDProperties</code> record class.</div>
@@ -200,7 +219,8 @@ loadScripts(document, 'script');</script>
 <dd><code>p</code> - the value for the <code>p</code> record component</dd>
 <dd><code>i</code> - the value for the <code>i</code> record component</dd>
 <dd><code>d</code> - the value for the <code>d</code> record component</dd>
-<dd><code>feedForward</code> - the value for the <code>feedForward</code> record component</dd>
+<dd><code>velocityFeedForward</code> - the value for the <code>velocityFeedForward</code> record component</dd>
+<dd><code>gravityFeedForward</code> - the value for the <code>gravityFeedForward</code> record component</dd>
 <dd><code>maxOutput</code> - the value for the <code>maxOutput</code> record component</dd>
 <dd><code>minOutput</code> - the value for the <code>minOutput</code> record component</dd>
 </dl>
@@ -289,13 +309,24 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="feedForward()">
-<h3>feedForward</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">feedForward</span>()</div>
-<div class="block">Returns the value of the <code>feedForward</code> record component.</div>
+<section class="detail" id="velocityFeedForward()">
+<h3>velocityFeedForward</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">velocityFeedForward</span>()</div>
+<div class="block">Returns the value of the <code>velocityFeedForward</code> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the value of the <code>feedForward</code> record component</dd>
+<dd>the value of the <code>velocityFeedForward</code> record component</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="gravityFeedForward()">
+<h3>gravityFeedForward</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">gravityFeedForward</span>()</div>
+<div class="block">Returns the value of the <code>gravityFeedForward</code> record component.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the value of the <code>gravityFeedForward</code> record component</dd>
 </dl>
 </section>
 </li>
