@@ -2,24 +2,34 @@ package xbot.common.controls.actuators.wpi_adapters;
 
 import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
 import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+import edu.wpi.first.units.AngularAccelerationUnit;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Time;
+import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.Alert;
 import org.apache.logging.log4j.LogManager;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
@@ -83,12 +93,13 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setPidDirectly(double p, double i, double d, double velocityFF, int slot) {
+    public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot) {
         var slotConfig = new SlotConfigs()
                 .withKP(p)
                 .withKI(i)
                 .withKD(d)
-                .withKV(velocityFF);
+                .withKV(velocityFF)
+                .withKG(gravityFF);
         slotConfig.SlotNumber = slot;
         this.internalTalonFx.getConfigurator().apply(slotConfig);
     }
@@ -108,17 +119,23 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     @Override
+    public void setTrapezoidalProfileAcceleration(AngularAcceleration acceleration) {
+        this.internalTalonFx.getConfigurator().apply(new MotionMagicConfigs().withMotionMagicAcceleration(acceleration));
+    }
+
+    @Override
+    public void setTrapezoidalProfileJerk(Velocity<AngularAccelerationUnit> jerk) {
+        this.internalTalonFx.getConfigurator().apply(new MotionMagicConfigs().withMotionMagicJerk(jerk));
+    }
+
+    @Override
     public void setPower(double power) {
         this.internalTalonFx.setControl(new DutyCycleOut(power));
     }
 
     @Override
     public double getPower() {
-        var controlRequest = this.internalTalonFx.getAppliedControl();
-        if (controlRequest instanceof DutyCycleOut) {
-            return ((DutyCycleOut) controlRequest).Output;
-        }
-        return 0;
+        return this.internalTalonFx.get();
     }
 
     @Override
@@ -146,13 +163,19 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setPositionTarget(Angle position) {
-        setPositionTarget(position, 0);
-    }
-
-    @Override
-    public void setPositionTarget(Angle position, int slot) {
-        var controlRequest = new PositionDutyCycle(position).withSlot(slot);
+    public void setPositionTarget(Angle position, MotorPidMode mode, int slot) {
+        ControlRequest controlRequest;
+        switch (mode) {
+            case DutyCycle -> controlRequest = new PositionDutyCycle(position).withSlot(slot);
+            case Voltage -> controlRequest = new PositionVoltage(position).withSlot(slot);
+            case TrapezoidalVoltage -> controlRequest = new MotionMagicVoltage(position).withSlot(slot);
+            default -> {
+                controlRequest = new PositionDutyCycle(position).withSlot(slot);
+                //noinspection resource
+                new Alert(this.getClass().getName(),
+                        "Tried to use unsupported mode in setPositionTarget " + mode + ", defaulting to DutyCycle", Alert.AlertType.kWarning).set(true);
+            }
+        }
         this.internalTalonFx.setControl(controlRequest);
     }
 
@@ -166,13 +189,19 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setVelocityTarget(AngularVelocity velocity) {
-        setVelocityTarget(velocity, 0);
-    }
-
-    @Override
-    public void setVelocityTarget(AngularVelocity velocity, int slot) {
-        var controlRequest = new VelocityDutyCycle(velocity).withSlot(slot);
+    public void setVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot) {
+        ControlRequest controlRequest;
+        switch (mode) {
+            case DutyCycle -> controlRequest = new VelocityDutyCycle(velocity).withSlot(slot);
+            case Voltage -> controlRequest = new VelocityVoltage(velocity).withSlot(slot);
+            case TrapezoidalVoltage -> controlRequest = new MotionMagicVelocityVoltage(velocity).withSlot(slot);
+            default -> {
+                controlRequest = new VelocityDutyCycle(velocity).withSlot(slot);
+                //noinspection resource
+                new Alert(this.getClass().getName(),
+                        "Tried to use unsupported mode in setVelocityTarget " + mode + ", defaulting to DutyCycle", Alert.AlertType.kWarning).set(true);
+            }
+        }
         this.internalTalonFx.setControl(controlRequest);
     }
 

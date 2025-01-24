@@ -1,9 +1,12 @@
 package xbot.common.controls.actuators;
 
+import edu.wpi.first.units.AngularAccelerationUnit;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Time;
+import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
 import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.Logger;
@@ -13,10 +16,33 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
+import xbot.common.logic.LogicUtils;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
 public abstract class XCANMotorController {
+
+    /**
+     * The PID mode to use when setting a target position or velocity.
+     */
+    public enum MotorPidMode {
+        /**
+         * DutyCycle mode is used to control the motor controller's output as a percentage of the maximum output.
+         */
+        DutyCycle,
+
+        /**
+         * Voltage mode is used to control the motor controller's output as a voltage.
+         * It is less impacted by robot battery voltage changes than DutyCycle mode.
+         */
+        Voltage,
+
+        /**
+         * TrapezoidalVoltage mode is used to control the motor controller's output as a voltage,
+         * with a trapezoidal profile for acceleration and deceleration.
+         */
+        TrapezoidalVoltage
+    }
 
     public interface XCANMotorControllerFactory {
         XCANMotorController create(
@@ -48,7 +74,8 @@ public abstract class XCANMotorController {
     private DoubleProperty kPProp;
     private DoubleProperty kIProp;
     private DoubleProperty kDProp;
-    private DoubleProperty kFFProp;
+    private DoubleProperty kVelocityFFProp;
+    private DoubleProperty kGravityFFProp;
     private DoubleProperty kMaxOutputProp;
     private DoubleProperty kMinOutputProp;
 
@@ -83,7 +110,8 @@ public abstract class XCANMotorController {
             kPProp = propertyFactory.createPersistentProperty("kP", defaultPIDProperties.p());
             kIProp = propertyFactory.createPersistentProperty("kI", defaultPIDProperties.i());
             kDProp = propertyFactory.createPersistentProperty("kD", defaultPIDProperties.d());
-            kFFProp = propertyFactory.createPersistentProperty("kFeedForward", defaultPIDProperties.feedForward());
+            kVelocityFFProp = propertyFactory.createPersistentProperty("kVelocityFeedForward", defaultPIDProperties.velocityFeedForward());
+            kGravityFFProp = propertyFactory.createPersistentProperty("kGravityFeedForward", defaultPIDProperties.gravityFeedForward());
             kMaxOutputProp = propertyFactory.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxOutput());
             kMinOutputProp = propertyFactory.createPersistentProperty("kMinOutput", defaultPIDProperties.minOutput());
         }
@@ -92,14 +120,14 @@ public abstract class XCANMotorController {
     public abstract void setConfiguration(CANMotorControllerOutputConfig outputConfig);
 
     public void setPidDirectly(double p, double i, double d) {
-        setPidDirectly(p, i, d, 0);
+        setPidDirectly(p, i, d, 0, 0);
     }
 
-    public void setPidDirectly(double p, double i, double d, double velocityFF) {
-        setPidDirectly(p, i, d, velocityFF, 0);
+    public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF) {
+        setPidDirectly(p, i, d, velocityFF, gravityFF, 0);
     }
 
-    public abstract void setPidDirectly(double p, double i, double d, double velocityFF, int slot);
+    public abstract void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot);
 
     private void setAllPidValuesFromProperties() {
         if (usesPropertySystem) {
@@ -112,7 +140,7 @@ public abstract class XCANMotorController {
 
     private void setPIDFromProperties() {
         if (usesPropertySystem) {
-            setPidDirectly(kPProp.get(), kIProp.get(), kDProp.get(), kFFProp.get());
+            setPidDirectly(kPProp.get(), kIProp.get(), kDProp.get(), kVelocityFFProp.get(), kGravityFFProp.get());
         } else {
             log.warn("setPIDFromProperties called on a Motor Controller that doesn't use the property system");
         }
@@ -128,11 +156,12 @@ public abstract class XCANMotorController {
             // Since it costs the same to set all the PID values, we check to see if any have changed and then set them as a group.
             // In practice, it would be hard for a human to do this fast enough during tuning to really get any benefit, but it could happen
             // during some automated process.
-            if (
-                kPProp.hasChangedSinceLastCheck()
-                || kIProp.hasChangedSinceLastCheck()
-                || kDProp.hasChangedSinceLastCheck()
-                || kFFProp.hasChangedSinceLastCheck())
+            if (LogicUtils.anyOf(
+                    kPProp.hasChangedSinceLastCheck(),
+                    kIProp.hasChangedSinceLastCheck(),
+                    kDProp.hasChangedSinceLastCheck(),
+                    kVelocityFFProp.hasChangedSinceLastCheck(),
+                    kGravityFFProp.hasChangedSinceLastCheck()))
             {
                 setPIDFromProperties();
             }
@@ -146,6 +175,10 @@ public abstract class XCANMotorController {
 
     public abstract void setClosedLoopRampRates(Time dutyCyclePeriod, Time voltagePeriod);
 
+    public abstract void setTrapezoidalProfileAcceleration(AngularAcceleration acceleration);
+
+    public abstract void setTrapezoidalProfileJerk(Velocity<AngularAccelerationUnit> jerk);
+
     public abstract void setPower(double power);
 
     public abstract double getPower();
@@ -156,19 +189,29 @@ public abstract class XCANMotorController {
         return inputs.angle;
     }
 
-    public abstract void setPosition(Angle position);
+    public void setPosition(Angle position) {
+        setPositionTarget(position, MotorPidMode.DutyCycle);
+    }
 
-    public abstract void setPositionTarget(Angle position);
+    public void setPositionTarget(Angle position, MotorPidMode mode) {
+        setPositionTarget(position, mode, 0);
+    }
 
-    public abstract void setPositionTarget(Angle position, int slot);
+    public abstract void setPositionTarget(Angle position, MotorPidMode mode, int slot);
 
     public AngularVelocity getVelocity() {
         return inputs.angularVelocity;
     }
 
-    public abstract void setVelocityTarget(AngularVelocity velocity);
+    public void setVelocityTarget(AngularVelocity velocity) {
+        setVelocityTarget(velocity, MotorPidMode.DutyCycle);
+    }
 
-    public abstract void setVelocityTarget(AngularVelocity velocity, int slot);
+    public void setVelocityTarget(AngularVelocity velocity, MotorPidMode mode) {
+        setVelocityTarget(velocity, mode, 0);
+    }
+
+    public abstract void setVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot);
 
     public Voltage getVoltage() {
         return inputs.voltage;
