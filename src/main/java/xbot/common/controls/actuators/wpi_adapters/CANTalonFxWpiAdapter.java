@@ -15,9 +15,7 @@ import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.controls.compound.Diff_VoltageOut_Position;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import dagger.assisted.Assisted;
@@ -31,6 +29,7 @@ import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.Alert;
 import org.apache.logging.log4j.LogManager;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
@@ -170,7 +169,12 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
             case DutyCycle -> controlRequest = new PositionDutyCycle(position).withSlot(slot);
             case Voltage -> controlRequest = new PositionVoltage(position).withSlot(slot);
             case TrapezoidalVoltage -> controlRequest = new MotionMagicVoltage(position).withSlot(slot);
-            default -> throw new IllegalArgumentException("Unsupported mode: " + mode); // This should be impossible
+            default -> {
+                controlRequest = new PositionDutyCycle(position).withSlot(slot);
+                //noinspection resource
+                new Alert(this.getClass().getName(),
+                        "Tried to use unsupported mode in setPositionTarget " + mode + ", defaulting to DutyCycle", Alert.AlertType.kWarning).set(true);
+            }
         }
         this.internalTalonFx.setControl(controlRequest);
     }
@@ -191,7 +195,12 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
             case DutyCycle -> controlRequest = new VelocityDutyCycle(velocity).withSlot(slot);
             case Voltage -> controlRequest = new VelocityVoltage(velocity).withSlot(slot);
             case TrapezoidalVoltage -> controlRequest = new MotionMagicVelocityVoltage(velocity).withSlot(slot);
-            default -> throw new IllegalArgumentException("Unsupported mode: " + mode); // This should be impossible
+            default -> {
+                controlRequest = new VelocityDutyCycle(velocity).withSlot(slot);
+                //noinspection resource
+                new Alert(this.getClass().getName(),
+                        "Tried to use unsupported mode in setVelocityTarget " + mode + ", defaulting to DutyCycle", Alert.AlertType.kWarning).set(true);
+            }
         }
         this.internalTalonFx.setControl(controlRequest);
     }
