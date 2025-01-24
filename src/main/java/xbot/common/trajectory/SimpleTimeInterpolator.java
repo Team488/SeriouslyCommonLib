@@ -96,7 +96,7 @@ public class SimpleTimeInterpolator {
         accumulatedProductiveSeconds = 0;
         previousTimestamp = XTimer.getFPGATimestamp();
         index = 0;
-        aKitLog.record("freeze proc", false);
+        aKitLog.record("Freezing ChasePoint", false);
     }
 
     public SwerveKinematicsCalculator newCalculator(Translation2d targetPointTranslation2d, SwervePointKinematics kinematics) {
@@ -191,6 +191,7 @@ public class SimpleTimeInterpolator {
         }
 
         // But if that chase point is "too far ahead", we need to freeze the chasePoint
+        aKitLog.record("Dist from ChasePoint", currentLocation.getDistance(chasePoint));
         if (currentLocation.getDistance(chasePoint) > maximumDistanceFromChasePointInMeters) {
             // This effectively "rewinds time" for the next loop.
             aKitLog.record("Freezing ChasePoint", true);
@@ -201,7 +202,7 @@ public class SimpleTimeInterpolator {
         var plannedVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d())
                 .div(targetKeyPoint.getSecondsForSegment());
 
-        plannedVector.times(multiplier > 0 ? multiplier : 0.01);
+        //plannedVector.times(multiplier > 0 ? multiplier : 0.01);
 
         boolean targetingFinalPoint = index == keyPoints.size()-1 && lerpFraction >= 1;
         boolean isOnFinalLeg = index == keyPoints.size()-1;

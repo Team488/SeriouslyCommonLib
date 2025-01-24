@@ -473,6 +473,7 @@ public class SwerveSimpleTrajectoryLogic {
             // Quick check for being right on the goal point
 
             var plannedVelocityVector = lastResult.plannedVector;
+            var preProcessedPlannedVector = new Translation2d(plannedVelocityVector.getX(), plannedVelocityVector.getY());
 
             if (goalVector.getMagnitude() > 0.33) {
                 var normalizedGoalVector = goalVector.scale(1 / goalVector.getMagnitude());
@@ -509,6 +510,7 @@ public class SwerveSimpleTrajectoryLogic {
             aKitLog.record("TranslationReducedDueToRotation", engageTranslationSlowdown);
             aKitLog.record("HeadingPower", headingPower);
             aKitLog.record("combinedVector", combinedVector);
+            aKitLog.record("preprocessedPlannedVector", preProcessedPlannedVector);
 
             return new Twist2d(combinedVector.getX(), combinedVector.getY(), headingPower);
         }
