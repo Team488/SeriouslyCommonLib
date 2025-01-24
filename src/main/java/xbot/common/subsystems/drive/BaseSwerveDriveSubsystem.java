@@ -1,5 +1,6 @@
 package xbot.common.subsystems.drive;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -323,6 +324,22 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
     @Override
     public void move(XYPair translate, double rotate) {
         move(translate, rotate, new XYPair());
+    }
+
+    /**
+     * This method allows for simulating robot relative driving on AdvantageScope
+     * @param translate The translation velocity.
+     * @param rotate The rotation velocity.
+     * @param currentPose The robot's current position.
+     */
+    public void move(XYPair translate, double rotate, Pose2d currentPose) {
+        move(translate, rotate, new XYPair());
+        lastRawCommandedRotation = rotate;
+
+        Translation2d robotCentricVector = new Translation2d(translate.x, translate.y);
+
+        lastRawCommandedDirection = robotCentricVector.rotateBy(currentPose.getRotation());
+
     }
 
     /**

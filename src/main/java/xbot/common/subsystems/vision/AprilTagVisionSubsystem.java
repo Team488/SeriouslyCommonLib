@@ -48,7 +48,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
     private final AprilTagFieldLayout aprilTagFieldLayout;
     private final Alert[] disconnectedAlerts;
     final AprilTagVisionIO[] io;
-    final VisionIOInputsAutoLogged[] inputs;
+    public final VisionIOInputsAutoLogged[] inputs;
 
     // Basic filtering thresholds
     private final DoubleProperty maxAmbiguity;
