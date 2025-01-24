@@ -1,5 +1,7 @@
 package xbot.common.subsystems.pose;
 
+import edu.wpi.first.units.Units;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
 import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -19,6 +21,7 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.drive.swerve.ISwerveAdvisorPoseSupport;
+import static edu.wpi.first.units.Units.Meters;
 
 public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable, ISwerveAdvisorPoseSupport, SimulatedPositionSupplier {
 
@@ -46,7 +49,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     protected BooleanProperty rioRotated;
     protected boolean firstUpdate = true;
     protected double lastSetHeadingTime;
-    public static double fieldXMidpointInMeters = 8.7785;
+    // 2025 xMidpoint = 8.7785m, 2024 xMidpoint = 8.2705
+    public static Distance fieldXMidpointInMeters = Meters.of(8.7785);
 
     public BasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {
         log.info("Creating");
@@ -267,7 +271,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
      * @return Red Translation2d
      */
     public static Translation2d convertBlueToRed(Translation2d blueCoordinates){
-        double redXCoordinates = ((fieldXMidpointInMeters-blueCoordinates.getX()) * 2) + blueCoordinates.getX();
+        double redXCoordinates = ((fieldXMidpointInMeters.in(Units.Meter)-blueCoordinates.getX()) * 2) + blueCoordinates.getX();
         return new Translation2d(redXCoordinates, blueCoordinates.getY());
     }
 
