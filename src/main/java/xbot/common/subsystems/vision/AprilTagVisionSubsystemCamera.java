@@ -1,0 +1,162 @@
+package xbot.common.subsystems.vision;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.wpilibj.Alert;
+import org.littletonrobotics.junction.Logger;
+import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.PropertyFactory;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public class AprilTagVisionSubsystemCamera implements DataFrameRefreshable {
+    private final AprilTagVisionIO io;
+    final VisionIOInputsAutoLogged inputs;
+    private final String logPath;
+    private final Alert disconnectedAlert;
+    private final AprilTagFieldLayout aprilTagFieldLayout;
+
+    // Basic filtering thresholds
+    private final DoubleProperty maxAmbiguity;
+    private final DoubleProperty maxZError;
+
+    // Standard deviation baselines, for 1 meter distance and 1 tag
+    // (Adjusted automatically based on distance and # of tags)
+    private final DoubleProperty linearStdDevBaseline;
+    private final DoubleProperty angularStdDevBaseline;
+
+    // Multipliers to apply for MegaTag 2 observations
+    private final DoubleProperty linearStdDevMegatag2Factor;
+    private final DoubleProperty angularStdDevMegatag2Factor;
+
+    // Standard deviation multipliers for each camera
+    // (Adjust to trust some cameras more than others)
+    private final DoubleProperty cameraStdDevFactor;
+
+    private final List<Pose3d> tagPoses = new LinkedList<>();
+    private final List<Pose3d> robotPoses = new LinkedList<>();
+    private final List<Pose3d> robotPosesAccepted = new LinkedList<>();
+    private final List<Pose3d> robotPosesRejected = new LinkedList<>();
+    private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
+
+    public AprilTagVisionSubsystemCamera(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout) {
+        this.logPath = prefix;
+        this.io = io;
+        this.inputs = new VisionIOInputsAutoLogged();
+        this.aprilTagFieldLayout = fieldLayout;
+        this.disconnectedAlert = new Alert(
+                "Vision camera " + prefix + " is disconnected.", Alert.AlertType.kWarning);
+
+        pf.setPrefix(this.logPath);
+        this.maxAmbiguity = pf.createPersistentProperty("MaxAmbiguity", 0.3);
+        this.maxZError = pf.createPersistentProperty("MaxZError", 0.75);
+        this.linearStdDevBaseline = pf.createPersistentProperty("LinearStdDevBaseline", 0.02 /* meters */);
+        this.angularStdDevBaseline = pf.createPersistentProperty("AngularStdDevBaseline", 0.06 /* radians */);
+        this.linearStdDevMegatag2Factor = pf.createPersistentProperty("LinearStdDevMegatag2Factor", 0.5);
+        this.angularStdDevMegatag2Factor = pf.createPersistentProperty("AngularStdDevMegatag2Factor",
+                Double.POSITIVE_INFINITY);
+        this.cameraStdDevFactor = pf.createPersistentProperty("CameraStdDevFactor", 1.0);
+    }
+
+    @Override
+    public void refreshDataFrame() {
+        io.updateInputs(inputs);
+        Logger.processInputs(logPath, inputs);
+
+        disconnectedAlert.set(!inputs.connected);
+        calculatePoses();
+    }
+
+    public String getLogPath() {
+        return logPath;
+    }
+
+    public List<Pose3d> getTagPoses() {
+        return tagPoses;
+    }
+
+    public List<Pose3d> getRobotPoses() {
+        return robotPoses;
+    }
+
+    public List<Pose3d> getRobotPosesAccepted() {
+        return robotPosesAccepted;
+    }
+
+    public List<Pose3d> getRobotPosesRejected() {
+        return robotPosesRejected;
+    }
+
+    public List<VisionPoseObservation> getPoseObservations() {
+        return poseObservations;
+    }
+
+    private void calculatePoses() {
+        // Clear the lists
+        this.tagPoses.clear();
+        this.robotPoses.clear();
+        this.robotPosesAccepted.clear();
+        this.robotPosesRejected.clear();
+        this.poseObservations.clear();
+
+        // Add the tag poses
+        for (int tagId : inputs.tagIds) {
+            var tagPose = this.aprilTagFieldLayout.getTagPose(tagId);
+            tagPose.ifPresent(this.tagPoses::add);
+        }
+
+        // Loop over pose observations
+        for (var observation : inputs.poseObservations) {
+            // Check whether to reject pose
+            boolean rejectPose = observation.tagCount() == 0 // Must have at least one tag
+                    || isObservationAmbiguous(observation)
+                    || Math.abs(observation.pose().getZ()) > maxZError.get() // Must have realistic Z coordinate
+                    || isObservationOutOfBounds(observation.pose());
+
+            // Add pose to log
+            robotPoses.add(observation.pose());
+            if (rejectPose) {
+                robotPosesRejected.add(observation.pose());
+            } else {
+                robotPosesAccepted.add(observation.pose());
+            }
+
+            // Skip if rejected
+            if (rejectPose) {
+                continue;
+            }
+
+            // Calculate standard deviations
+            double stdDevFactor = Math.pow(observation.averageTagDistance(), 2.0) / observation.tagCount();
+            double linearStdDev = linearStdDevBaseline.get() * stdDevFactor;
+            double angularStdDev = angularStdDevBaseline.get() * stdDevFactor;
+            if (observation.type() == AprilTagVisionIO.PoseObservationType.MEGATAG_2) {
+                linearStdDev *= linearStdDevMegatag2Factor.get();
+                angularStdDev *= angularStdDevMegatag2Factor.get();
+            }
+
+            linearStdDev *= cameraStdDevFactor.get();
+            angularStdDev *= cameraStdDevFactor.get();
+
+            poseObservations.add(new VisionPoseObservation(observation.pose().toPose2d(),
+                    observation.timestamp(),
+                    VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev)));
+        }
+    }
+
+    private boolean isObservationAmbiguous(AprilTagVisionIO.PoseObservation observation) {
+        return (observation.tagCount() == 1
+                && observation.ambiguity() > maxAmbiguity.get()); // Cannot be high ambiguity;
+    }
+
+    private boolean isObservationOutOfBounds(Pose3d pose) {
+        // Must be within the field boundaries
+        return pose.getX() < 0.0
+                || pose.getX() > aprilTagFieldLayout.getFieldLength()
+                || pose.getY() < 0.0
+                || pose.getY() > aprilTagFieldLayout.getFieldWidth();
+    }
+}

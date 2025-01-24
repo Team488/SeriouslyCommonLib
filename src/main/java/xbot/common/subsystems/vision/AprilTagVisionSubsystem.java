@@ -43,67 +43,24 @@ import java.util.List;
  */
 @Singleton
 public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameRefreshable {
-    private final VisionConsumer consumer;
     private final CameraInfo[] cameras;
     private final AprilTagFieldLayout aprilTagFieldLayout;
-    private final Alert[] disconnectedAlerts;
     final AprilTagVisionIO[] io;
-    final VisionIOInputsAutoLogged[] inputs;
-
-    // Basic filtering thresholds
-    private final DoubleProperty maxAmbiguity;
-    private final DoubleProperty maxZError;
-
-    // Standard deviation baselines, for 1 meter distance and 1 tag
-    // (Adjusted automatically based on distance and # of tags)
-    private final DoubleProperty linearStdDevBaseline;
-    private final DoubleProperty angularStdDevBaseline;
-
-    // Multipliers to apply for MegaTag 2 observations
-    private final DoubleProperty linearStdDevMegatag2Factor;
-    private final DoubleProperty angularStdDevMegatag2Factor;
-
-    // Standard deviation multipliers for each camera
-    // (Adjust to trust some cameras more than others)
-    public static double[] cameraStdDevFactors = new double[] {
-            1.0, // Camera 0
-            1.0 // Camera 1
-    };
+    final AprilTagVisionSubsystemCamera[] cameraHelpers;
 
     @Inject
-    public AprilTagVisionSubsystem(VisionConsumer consumer, PropertyFactory pf, AprilTagFieldLayout fieldLayout,
+    public AprilTagVisionSubsystem(PropertyFactory pf, AprilTagFieldLayout fieldLayout,
             XCameraElectricalContract contract,
             AprilTagVisionIOFactory visionIOFactory) {
-        this.consumer = consumer;
         this.aprilTagFieldLayout = fieldLayout;
 
         this.cameras = contract.getAprilTagCameras();
         this.io = new AprilTagVisionIO[this.cameras.length];
+        this.cameraHelpers = new AprilTagVisionSubsystemCamera[this.cameras.length];
         for (int i = 0; i < io.length; i++) {
             var cameraInfo = this.cameras[i];
             io[i] = visionIOFactory.create(cameraInfo.networkTablesName(), cameraInfo.position());
-        }
-
-        pf.setPrefix(this.getName());
-        this.maxAmbiguity = pf.createPersistentProperty("MaxAmbiguity", 0.3);
-        this.maxZError = pf.createPersistentProperty("MaxZError", 0.75);
-        this.linearStdDevBaseline = pf.createPersistentProperty("LinearStdDevBaseline", 0.02 /* meters */);
-        this.angularStdDevBaseline = pf.createPersistentProperty("AngularStdDevBaseline", 0.06 /* radians */);
-        this.linearStdDevMegatag2Factor = pf.createPersistentProperty("LinearStdDevMegatag2Factor", 0.5);
-        this.angularStdDevMegatag2Factor = pf.createPersistentProperty("AngularStdDevMegatag2Factor",
-                Double.POSITIVE_INFINITY);
-
-        // Initialize inputs
-        this.inputs = new VisionIOInputsAutoLogged[io.length];
-        for (int i = 0; i < inputs.length; i++) {
-            inputs[i] = new VisionIOInputsAutoLogged();
-        }
-
-        // Initialize disconnected alerts
-        this.disconnectedAlerts = new Alert[io.length];
-        for (int i = 0; i < inputs.length; i++) {
-            disconnectedAlerts[i] = new Alert(
-                    "Vision camera " + Integer.toString(i) + " is disconnected.", AlertType.kWarning);
+            cameraHelpers[i] = new AprilTagVisionSubsystemCamera(this.getName() + "/Cameras/" + cameraInfo.friendlyName(), pf, io[i], fieldLayout);
         }
     }
 
@@ -129,7 +86,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
      * @return The latest target observation.
      */
     public AprilTagVisionIO.TargetObservation getLatestTargetObservation(int cameraIndex) {
-        return inputs[cameraIndex].latestTargetObservation;
+        return cameraHelpers[cameraIndex].inputs.latestTargetObservation;
     }
 
     /**
@@ -139,137 +96,41 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
      * @param cameraIndex The index of the camera to use.
      */
     public Rotation2d getTargetX(int cameraIndex) {
-        return inputs[cameraIndex].latestTargetObservation.tx();
-    }
-
-    @Override
-    public void periodic() {
-        // Initialize logging values
-        List<Pose3d> allTagPoses = new LinkedList<>();
-        List<Pose3d> allRobotPoses = new LinkedList<>();
-        List<Pose3d> allRobotPosesAccepted = new LinkedList<>();
-        List<Pose3d> allRobotPosesRejected = new LinkedList<>();
-
-        // Loop over cameras
-        for (int cameraIndex = 0; cameraIndex < io.length; cameraIndex++) {
-            // Update disconnected alert
-            disconnectedAlerts[cameraIndex].set(!inputs[cameraIndex].connected);
-
-            // Initialize logging values
-            List<Pose3d> tagPoses = new LinkedList<>();
-            List<Pose3d> robotPoses = new LinkedList<>();
-            List<Pose3d> robotPosesAccepted = new LinkedList<>();
-            List<Pose3d> robotPosesRejected = new LinkedList<>();
-
-            // Add tag poses
-            for (int tagId : inputs[cameraIndex].tagIds) {
-                var tagPose = aprilTagFieldLayout.getTagPose(tagId);
-                tagPose.ifPresent(tagPoses::add);
-            }
-
-            // Loop over pose observations
-            for (var observation : inputs[cameraIndex].poseObservations) {
-                // Check whether to reject pose
-                boolean rejectPose = observation.tagCount() == 0 // Must have at least one tag
-                        || isObservationAmbiguous(observation)
-                        || Math.abs(observation.pose().getZ()) > maxZError.get() // Must have realistic Z coordinate
-
-                        || isObservationOutOfBounds(observation.pose());
-
-                // Add pose to log
-                robotPoses.add(observation.pose());
-                if (rejectPose) {
-                    robotPosesRejected.add(observation.pose());
-                } else {
-                    robotPosesAccepted.add(observation.pose());
-                }
-
-                // Skip if rejected
-                if (rejectPose) {
-                    continue;
-                }
-
-                // Calculate standard deviations
-                double stdDevFactor = Math.pow(observation.averageTagDistance(), 2.0) / observation.tagCount();
-                double linearStdDev = linearStdDevBaseline.get() * stdDevFactor;
-                double angularStdDev = angularStdDevBaseline.get() * stdDevFactor;
-                if (observation.type() == AprilTagVisionIO.PoseObservationType.MEGATAG_2) {
-                    linearStdDev *= linearStdDevMegatag2Factor.get();
-                    angularStdDev *= angularStdDevMegatag2Factor.get();
-                }
-                if (cameraIndex < cameraStdDevFactors.length) {
-                    linearStdDev *= cameraStdDevFactors[cameraIndex];
-                    angularStdDev *= cameraStdDevFactors[cameraIndex];
-                }
-
-                // Send vision observation
-                consumer.acceptVisionPose(
-                        observation.pose().toPose2d(),
-                        observation.timestamp(),
-                        VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev));
-            }
-
-            // Log camera datadata
-            Logger.recordOutput(
-                    "Vision/Camera" + Integer.toString(cameraIndex) + "/TagPoses",
-                    tagPoses.toArray(new Pose3d[tagPoses.size()]));
-            Logger.recordOutput(
-                    "Vision/Camera" + Integer.toString(cameraIndex) + "/RobotPoses",
-                    robotPoses.toArray(new Pose3d[robotPoses.size()]));
-            Logger.recordOutput(
-                    "Vision/Camera" + Integer.toString(cameraIndex) + "/RobotPosesAccepted",
-                    robotPosesAccepted.toArray(new Pose3d[robotPosesAccepted.size()]));
-            Logger.recordOutput(
-                    "Vision/Camera" + Integer.toString(cameraIndex) + "/RobotPosesRejected",
-                    robotPosesRejected.toArray(new Pose3d[robotPosesRejected.size()]));
-            allTagPoses.addAll(tagPoses);
-            allRobotPoses.addAll(robotPoses);
-            allRobotPosesAccepted.addAll(robotPosesAccepted);
-            allRobotPosesRejected.addAll(robotPosesRejected);
-        }
-
-        // Log summary data
-        Logger.recordOutput(
-                "Vision/Summary/TagPoses", allTagPoses.toArray(new Pose3d[allTagPoses.size()]));
-        Logger.recordOutput(
-                "Vision/Summary/RobotPoses", allRobotPoses.toArray(new Pose3d[allRobotPoses.size()]));
-        Logger.recordOutput(
-                "Vision/Summary/RobotPosesAccepted",
-                allRobotPosesAccepted.toArray(new Pose3d[allRobotPosesAccepted.size()]));
-        Logger.recordOutput(
-                "Vision/Summary/RobotPosesRejected",
-                allRobotPosesRejected.toArray(new Pose3d[allRobotPosesRejected.size()]));
-    }
-
-    private boolean isObservationAmbiguous(AprilTagVisionIO.PoseObservation observation) {
-        return (observation.tagCount() == 1
-                && observation.ambiguity() > maxAmbiguity.get()); // Cannot be high ambiguity;
-    }
-
-    private boolean isObservationOutOfBounds(Pose3d pose) {
-        // Must be within the field boundaries
-        return pose.getX() < 0.0
-                || pose.getX() > aprilTagFieldLayout.getFieldLength()
-                || pose.getY() < 0.0
-                || pose.getY() > aprilTagFieldLayout.getFieldWidth();
+        return cameraHelpers[cameraIndex].inputs.latestTargetObservation.tx();
     }
 
     @Override
     public void refreshDataFrame() {
-        for (int i = 0; i < io.length; i++) {
-            io[i].updateInputs(inputs[i]);
-            Logger.processInputs(this.getName() + "/Camera" + Integer.toString(i), inputs[i]);
+        for (int i = 0; i < cameraHelpers.length; i++) {
+            cameraHelpers[0].refreshDataFrame();
         }
     }
 
-    /**
-     * Implement this interface on the subsystem that receives vision data.
-     */
-    @FunctionalInterface
-    public interface VisionConsumer {
-        void acceptVisionPose(
-                Pose2d visionRobotPoseMeters,
-                double timestampSeconds,
-                Matrix<N3, N1> visionMeasurementStdDevs);
+    @Override
+    public void periodic() {
+        // Loop over cameras
+        for (AprilTagVisionSubsystemCamera cameraHelper : cameraHelpers) {
+            // Log camera data
+            Logger.recordOutput(
+                    cameraHelper.getLogPath() + "/TagPoses",
+                    cameraHelper.getTagPoses().toArray(new Pose3d[0]));
+            Logger.recordOutput(
+                    cameraHelper.getLogPath() + "/RobotPoses",
+                    cameraHelper.getRobotPoses().toArray(new Pose3d[0]));
+            Logger.recordOutput(
+                    cameraHelper.getLogPath() + "/RobotPosesAccepted",
+                    cameraHelper.getRobotPosesAccepted().toArray(new Pose3d[0]));
+            Logger.recordOutput(
+                    cameraHelper.getLogPath() + "/RobotPosesRejected",
+                    cameraHelper.getRobotPosesRejected().toArray(new Pose3d[0]));
+        }
+    }
+
+    public List<VisionPoseObservation> getAllPoseObservations() {
+        List<VisionPoseObservation> result = new LinkedList<>();
+        for (AprilTagVisionSubsystemCamera cameraHelper : cameraHelpers) {
+            result.addAll(cameraHelper.getPoseObservations());
+        }
+        return result;
     }
 }
