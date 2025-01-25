@@ -4,7 +4,11 @@ import edu.wpi.first.math.geometry.Pose3d;
 import org.junit.Test;
 import xbot.common.injection.BaseCommonLibTest;
 
+import java.util.Set;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
     @Test
@@ -27,10 +31,14 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
                 new AprilTagVisionIO.PoseObservation(2, new Pose3d(), 0, 2, 0, AprilTagVisionIO.PoseObservationType.PHOTONVISION),
                 new AprilTagVisionIO.PoseObservation(3, new Pose3d(), 0, 2, 0, AprilTagVisionIO.PoseObservationType.PHOTONVISION)
         };
+        io.tagIds = new int[] {1, 2, 3};
         subsystem.refreshDataFrame();
         subsystem.periodic();
 
         assertEquals(3, subsystem.getAllPoseObservations().size());
+        assertTrue(subsystem.tagVisibleByAnyCamera(1));
+        assertFalse(subsystem.tagVisibleByAnyCamera(5));
+        assertEquals(Set.of(0), subsystem.camerasWithTagVisible(1));
 
         io.poseObservations = new AprilTagVisionIO.PoseObservation[0];
 
@@ -38,6 +46,5 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
         subsystem.periodic();
 
         assertEquals(0, subsystem.getAllPoseObservations().size());
-
     }
 }

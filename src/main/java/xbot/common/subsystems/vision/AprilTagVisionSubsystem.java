@@ -14,28 +14,22 @@
 package xbot.common.subsystems.vision;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.wpilibj.Alert;
-import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.injection.electrical_contract.XCameraElectricalContract;
-import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Subsystem for processing AprilTag vision data.
@@ -46,7 +40,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
     private final CameraInfo[] cameras;
     private final AprilTagFieldLayout aprilTagFieldLayout;
     final AprilTagVisionIO[] io;
-    final AprilTagVisionSubsystemCamera[] cameraHelpers;
+    final AprilTagVisionCameraHelper[] cameraHelpers;
 
     @Inject
     public AprilTagVisionSubsystem(PropertyFactory pf, AprilTagFieldLayout fieldLayout,
@@ -56,11 +50,11 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
 
         this.cameras = contract.getAprilTagCameras();
         this.io = new AprilTagVisionIO[this.cameras.length];
-        this.cameraHelpers = new AprilTagVisionSubsystemCamera[this.cameras.length];
+        this.cameraHelpers = new AprilTagVisionCameraHelper[this.cameras.length];
         for (int i = 0; i < io.length; i++) {
             var cameraInfo = this.cameras[i];
             io[i] = visionIOFactory.create(cameraInfo.networkTablesName(), cameraInfo.position());
-            cameraHelpers[i] = new AprilTagVisionSubsystemCamera(this.getName() + "/Cameras/" + cameraInfo.friendlyName(), pf, io[i], fieldLayout);
+            cameraHelpers[i] = new AprilTagVisionCameraHelper(this.getName() + "/Cameras/" + cameraInfo.friendlyName(), pf, io[i], fieldLayout);
         }
     }
 
@@ -99,6 +93,57 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
         return cameraHelpers[cameraIndex].inputs.latestTargetObservation.tx();
     }
 
+    /**
+     * Returns <c>true</c> if the camera can see the specified tag.
+     * @param cameraIndex The camera to check.
+     * @param tagId The tag to check.
+     * @return <c>true</c> if the camera can see the tag.
+     */
+    public boolean tagVisibleByCamera(int cameraIndex, int tagId) {
+        return cameraHelpers[cameraIndex].isTagVisible(tagId);
+    }
+
+    /**
+     * Returns <c>true</c> if any camera can see the specified tag.
+     * @param tagId The tag to check.
+     * @return <c>true</c> if any camera can see the tag.
+     */
+    public boolean tagVisibleByAnyCamera(int tagId) {
+        for (int i = 0; i < cameraHelpers.length; i++) {
+            if (tagVisibleByCamera(i, tagId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns the set of cameras that can see the specified tag.
+     * @param tagId The tag to check.
+     * @return The set of cameras that can see the tag.
+     */
+    public Set<Integer> camerasWithTagVisible(int tagId) {
+        HashSet<Integer> result = new HashSet<>();
+        for (int i = 0; i < cameraHelpers.length; i++) {
+            if (tagVisibleByCamera(i, tagId)) {
+                result.add(i);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Gets all the pose observations in this iteration of the scheduler loop.
+     * @return A list of pose observations.
+     */
+    public List<VisionPoseObservation> getAllPoseObservations() {
+        List<VisionPoseObservation> result = new LinkedList<>();
+        for (AprilTagVisionCameraHelper cameraHelper : cameraHelpers) {
+            result.addAll(cameraHelper.getPoseObservations());
+        }
+        return result;
+    }
+
     @Override
     public void refreshDataFrame() {
         for (int i = 0; i < cameraHelpers.length; i++) {
@@ -109,7 +154,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
     @Override
     public void periodic() {
         // Loop over cameras
-        for (AprilTagVisionSubsystemCamera cameraHelper : cameraHelpers) {
+        for (AprilTagVisionCameraHelper cameraHelper : cameraHelpers) {
             // Log camera data
             Logger.recordOutput(
                     cameraHelper.getLogPath() + "/TagPoses",
@@ -124,13 +169,5 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
                     cameraHelper.getLogPath() + "/RobotPosesRejected",
                     cameraHelper.getRobotPosesRejected().toArray(new Pose3d[0]));
         }
-    }
-
-    public List<VisionPoseObservation> getAllPoseObservations() {
-        List<VisionPoseObservation> result = new LinkedList<>();
-        for (AprilTagVisionSubsystemCamera cameraHelper : cameraHelpers) {
-            result.addAll(cameraHelper.getPoseObservations());
-        }
-        return result;
     }
 }

@@ -12,7 +12,10 @@ import xbot.common.properties.PropertyFactory;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AprilTagVisionSubsystemCamera implements DataFrameRefreshable {
+/**
+ * Helper class for ingesting data from a single AprilTag vision camera.
+ */
+class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final AprilTagVisionIO io;
     final VisionIOInputsAutoLogged inputs;
     private final String logPath;
@@ -37,12 +40,13 @@ public class AprilTagVisionSubsystemCamera implements DataFrameRefreshable {
     private final DoubleProperty cameraStdDevFactor;
 
     private final List<Pose3d> tagPoses = new LinkedList<>();
+    private final List<Integer> tagIds = new LinkedList<>();
     private final List<Pose3d> robotPoses = new LinkedList<>();
     private final List<Pose3d> robotPosesAccepted = new LinkedList<>();
     private final List<Pose3d> robotPosesRejected = new LinkedList<>();
     private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
 
-    public AprilTagVisionSubsystemCamera(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout) {
+    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout) {
         this.logPath = prefix;
         this.io = io;
         this.inputs = new VisionIOInputsAutoLogged();
@@ -74,6 +78,10 @@ public class AprilTagVisionSubsystemCamera implements DataFrameRefreshable {
         return logPath;
     }
 
+    public boolean isTagVisible(int tagId) {
+        return tagIds.contains(tagId);
+    }
+
     public List<Pose3d> getTagPoses() {
         return tagPoses;
     }
@@ -97,6 +105,7 @@ public class AprilTagVisionSubsystemCamera implements DataFrameRefreshable {
     private void calculatePoses() {
         // Clear the lists
         this.tagPoses.clear();
+        this.tagIds.clear();
         this.robotPoses.clear();
         this.robotPosesAccepted.clear();
         this.robotPosesRejected.clear();
@@ -105,7 +114,10 @@ public class AprilTagVisionSubsystemCamera implements DataFrameRefreshable {
         // Add the tag poses
         for (int tagId : inputs.tagIds) {
             var tagPose = this.aprilTagFieldLayout.getTagPose(tagId);
-            tagPose.ifPresent(this.tagPoses::add);
+            if (tagPose.isPresent()) {
+                this.tagPoses.add(tagPose.get());
+                this.tagIds.add(tagId);
+            };
         }
 
         // Loop over pose observations
