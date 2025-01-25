@@ -13,6 +13,7 @@
 
 package xbot.common.subsystems.vision;
 
+import dagger.Lazy;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Transform3d;
 import xbot.common.subsystems.pose.SimulatedPositionSupplier;
@@ -37,7 +38,7 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
     }
 
     private static VisionSystemSim visionSim;
-    private final SimulatedPositionSupplier poseSupplier;
+    private final Lazy<SimulatedPositionSupplier> poseSupplier;
     private final PhotonCameraSim cameraSim;
 
     /**
@@ -50,7 +51,7 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
      */
     @AssistedInject
     public AprilTagVisionIOPhotonVisionSimulated(@Assisted String name, @Assisted Transform3d robotToCamera,
-            AprilTagFieldLayout fieldLayout, SimulatedPositionSupplier poseSupplier) {
+            AprilTagFieldLayout fieldLayout, Lazy<SimulatedPositionSupplier> poseSupplier) {
         super(name, robotToCamera, fieldLayout);
 
         this.poseSupplier = poseSupplier;
@@ -72,7 +73,7 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
 
     @Override
     public void updateInputs(VisionIOInputs inputs) {
-        visionSim.update(poseSupplier.getGroundTruthPose());
+        visionSim.update(poseSupplier.get().getGroundTruthPose());
         super.updateInputs(inputs);
     }
 
