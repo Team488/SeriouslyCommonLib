@@ -1,6 +1,8 @@
 package xbot.common.controls.sensors;
 
 import org.littletonrobotics.junction.Logger;
+
+import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.XBaseIO;
 import xbot.common.controls.io_inputs.XDigitalInputs;
 import xbot.common.controls.io_inputs.XDigitalInputsAutoLogged;
@@ -8,7 +10,7 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 
-public abstract class XDigitalInput implements XBaseIO {
+public abstract class XDigitalInput implements XBaseIO, DataFrameRefreshable {
 
     boolean inverted;
     final XDigitalInputsAutoLogged inputs;

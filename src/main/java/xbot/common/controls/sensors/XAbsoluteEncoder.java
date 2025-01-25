@@ -3,12 +3,14 @@ package xbot.common.controls.sensors;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import org.littletonrobotics.junction.Logger;
+
+import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputsAutoLogged;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.resiliency.DeviceHealth;
 
-public abstract class XAbsoluteEncoder {
+public abstract class XAbsoluteEncoder implements DataFrameRefreshable {
 
     XAbsoluteEncoderInputsAutoLogged inputs;
     protected DeviceInfo info;
