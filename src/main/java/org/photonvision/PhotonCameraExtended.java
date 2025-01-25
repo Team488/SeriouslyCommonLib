@@ -9,13 +9,15 @@ import edu.wpi.first.math.numbers.N8;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import org.apache.logging.log4j.LogManager;
 import org.photonvision.targeting.PhotonPipelineResult;
+
+import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.io_inputs.PhotonCameraExtendedInputs;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class PhotonCameraExtended extends PhotonCamera {
+public class PhotonCameraExtended extends PhotonCamera implements DataFrameRefreshable {
 
     PhotonCameraExtendedInputs io;
     org.apache.logging.log4j.Logger log = LogManager.getLogger(this.getClass());
