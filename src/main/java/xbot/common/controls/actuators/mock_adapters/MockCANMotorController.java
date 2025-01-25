@@ -140,8 +140,7 @@ public class MockCANMotorController extends XCANMotorController {
     protected void updateInputs(XCANMotorControllerInputs inputs) {
         inputs.angle = getPosition();
         inputs.angularVelocity = getVelocity();
-        // TODO - implement test hooks for these.
-        inputs.voltage = Volts.of(0);
-        inputs.current = Amps.of(0);
+        inputs.voltage = Volts.of(power * 12);
+        inputs.current = Amps.of(power * 1);
     }
 }
