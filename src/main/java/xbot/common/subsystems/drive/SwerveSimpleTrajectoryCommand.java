@@ -63,7 +63,7 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
 
         aKitLog.record("Powers", powers);
 
-        drive.fieldOrientedDrive(
+            drive.fieldOrientedDrive(
                 new XYPair(powers.dx, powers.dy),
                 powers.dtheta, pose.getCurrentHeading().getDegrees(), false);
     }

@@ -151,6 +151,9 @@ public class SimpleTimeInterpolator {
         if (currentLocation.getDistance(chasePoint) > maximumDistanceFromChasePointInMeters) {
             // This effectively "rewinds time" for the next loop.
             accumulatedProductiveSeconds -= secondsSinceLastExecute;
+            aKitLog.record("FreezingTime", true);
+        } else {
+            aKitLog.record("FreezingTime", false);
         }
 
         // The planned velocity is the same (for now) at all points between the baseline and the target.

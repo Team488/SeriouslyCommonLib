@@ -293,13 +293,14 @@ public class SwerveSimpleTrajectoryLogic {
 
         // PID on the magnitude of the goal. Kind of similar to rotation,
         // our goal is "zero error".
-        aKitLog.record("goalVector", goalVector);
+        aKitLog.record("goalVector", goalVector); // Our vector difference to catch up
         double magnitudeGoal = goalVector.getMagnitude();
         aKitLog.record("magnitudeGoal", magnitudeGoal);
         double drivePower = positionalPid.calculate(magnitudeGoal, 0);
 
         // Create a vector in the direction of the goal, scaled by the drivePower.
         XYPair intent = XYPair.fromPolar(goalVector.getAngle(), drivePower);
+        aKitLog.record("drivePower", drivePower);
         aKitLog.record("intent", intent);
 
         double degreeTarget = lastResult.chaseHeading.getDegrees();
@@ -336,6 +337,7 @@ public class SwerveSimpleTrajectoryLogic {
             // Quick check for being right on the goal point
 
             var plannedVelocityVector = lastResult.plannedVector;
+            aKitLog.record("plannedVector", plannedVelocityVector);
 
             if (goalVector.getMagnitude() > 0.33) {
                 var normalizedGoalVector = goalVector.scale(1 / goalVector.getMagnitude());
@@ -346,10 +348,11 @@ public class SwerveSimpleTrajectoryLogic {
                 aKitLog.record("clampedDotProduct", clampedDotProduct);
                 plannedVelocityVector = plannedVelocityVector.times(clampedDotProduct);
             }
+            aKitLog.record("clampedPlannedVector", plannedVelocityVector);
 
             // Scale the planned vector, which is currently in velocity space, to "power space" so we can add it to the intent.
-            double scalarFactor = plannedVelocityVector.getNorm() / maximumVelocity;
-            var scaledPlannedVector = plannedVelocityVector.times(scalarFactor / maximumVelocity);
+            //double scalarFactor = plannedVelocityVector.getNorm() / maximumVelocity;
+            var scaledPlannedVector = plannedVelocityVector.div(maximumVelocity);
             aKitLog.record("scaledPlannedVector", scaledPlannedVector);
             // Add the PositionPID powers
             var combinedVector = scaledPlannedVector.plus(new Translation2d(intent.x, intent.y));
@@ -374,6 +377,7 @@ public class SwerveSimpleTrajectoryLogic {
             aKitLog.record("TranslationReducedDueToRotation", engageTranslationSlowdown);
             aKitLog.record("HeadingPower", headingPower);
             aKitLog.record("combinedVector", combinedVector);
+
 
             return new Twist2d(combinedVector.getX(), combinedVector.getY(), headingPower);
         }
