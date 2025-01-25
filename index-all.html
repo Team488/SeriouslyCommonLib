@@ -66,10 +66,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.html#absorbObstacle(xbot.common.trajectory.Obstacle)" class="member-name-link">absorbObstacle(Obstacle)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.VisionConsumer.html#acceptVisionPose(edu.wpi.first.math.geometry.Pose2d,double,edu.wpi.first.math.Matrix)" class="member-name-link">acceptVisionPose(Pose2d, double, Matrix&lt;N3, N1&gt;)</a> - Method in interface xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.VisionConsumer.html" title="interface in xbot.common.subsystems.vision">AprilTagVisionSubsystem.VisionConsumer</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="xbot/common/subsystems/vision/MockVisionConsumer.html#acceptVisionPose(edu.wpi.first.math.geometry.Pose2d,double,edu.wpi.first.math.Matrix)" class="member-name-link">acceptVisionPose(Pose2d, double, Matrix&lt;N3, N1&gt;)</a> - Method in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/MockVisionConsumer.html" title="class in xbot.common.subsystems.vision">MockVisionConsumer</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/Property.html#activeStore" class="member-name-link">activeStore</a> - Variable in class xbot.common.properties.<a href="xbot/common/properties/Property.html" title="class in xbot.common.properties">Property</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/DigitalInputWPIAdapter.html#adapter" class="member-name-link">adapter</a> - Variable in class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/DigitalInputWPIAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">DigitalInputWPIAdapter</a></dt>
@@ -290,7 +286,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">IO implementation for a simulated PhotonVision environment.</div>
 </dd>
-<dt><a href="xbot/common/subsystems/vision/AprilTagVisionIOPhotonVisionSimulated.html#%3Cinit%3E(java.lang.String,edu.wpi.first.math.geometry.Transform3d,edu.wpi.first.apriltag.AprilTagFieldLayout,xbot.common.subsystems.pose.SimulatedPositionSupplier)" class="member-name-link">AprilTagVisionIOPhotonVisionSimulated(String, Transform3d, AprilTagFieldLayout, SimulatedPositionSupplier)</a> - Constructor for class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIOPhotonVisionSimulated.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIOPhotonVisionSimulated</a></dt>
+<dt><a href="xbot/common/subsystems/vision/AprilTagVisionIOPhotonVisionSimulated.html#%3Cinit%3E(java.lang.String,edu.wpi.first.math.geometry.Transform3d,edu.wpi.first.apriltag.AprilTagFieldLayout,dagger.Lazy)" class="member-name-link">AprilTagVisionIOPhotonVisionSimulated(String, Transform3d, AprilTagFieldLayout, Lazy&lt;SimulatedPositionSupplier&gt;)</a> - Constructor for class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIOPhotonVisionSimulated.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIOPhotonVisionSimulated</a></dt>
 <dd>
 <div class="block">Creates a new AprilTagVisionIOPhotonVisionSimulated.</div>
 </dd>
@@ -300,12 +296,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Subsystem for processing AprilTag vision data.</div>
 </dd>
-<dt><a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.html#%3Cinit%3E(xbot.common.subsystems.vision.AprilTagVisionSubsystem.VisionConsumer,xbot.common.properties.PropertyFactory,edu.wpi.first.apriltag.AprilTagFieldLayout,xbot.common.injection.electrical_contract.XCameraElectricalContract,xbot.common.subsystems.vision.AprilTagVisionIOFactory)" class="member-name-link">AprilTagVisionSubsystem(AprilTagVisionSubsystem.VisionConsumer, PropertyFactory, AprilTagFieldLayout, XCameraElectricalContract, AprilTagVisionIOFactory)</a> - Constructor for class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.html" title="class in xbot.common.subsystems.vision">AprilTagVisionSubsystem</a></dt>
+<dt><a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.html#%3Cinit%3E(xbot.common.properties.PropertyFactory,edu.wpi.first.apriltag.AprilTagFieldLayout,xbot.common.injection.electrical_contract.XCameraElectricalContract,xbot.common.subsystems.vision.AprilTagVisionIOFactory)" class="member-name-link">AprilTagVisionSubsystem(PropertyFactory, AprilTagFieldLayout, XCameraElectricalContract, AprilTagVisionIOFactory)</a> - Constructor for class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.html" title="class in xbot.common.subsystems.vision">AprilTagVisionSubsystem</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.VisionConsumer.html" class="type-name-link" title="interface in xbot.common.subsystems.vision">AprilTagVisionSubsystem.VisionConsumer</a> - Interface in <a href="xbot/common/subsystems/vision/package-summary.html">xbot.common.subsystems.vision</a></dt>
-<dd>
-<div class="block">Implement this interface on the subsystem that receives vision data.</div>
-</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html#arcadeDrive(double,double)" class="member-name-link">arcadeDrive(double, double)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseDriveSubsystem</a></dt>
 <dd>
 <div class="block">Classic arcade drive</div>
@@ -570,8 +562,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/controls/io_inputs/PhotonCameraExtendedInputs.html#cameraMatrix" class="member-name-link">cameraMatrix</a> - Variable in class xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/PhotonCameraExtendedInputs.html" title="class in xbot.common.controls.io_inputs">PhotonCameraExtendedInputs</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.html#cameraStdDevFactors" class="member-name-link">cameraStdDevFactors</a> - Static variable in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.html" title="class in xbot.common.subsystems.vision">AprilTagVisionSubsystem</a></dt>
-<dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.html#camerasWithTagVisible(int)" class="member-name-link">camerasWithTagVisible(int)</a> - Method in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.html" title="class in xbot.common.subsystems.vision">AprilTagVisionSubsystem</a></dt>
+<dd>
+<div class="block">Returns the set of cameras that can see the specified tag.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIO.TargetObservation.html#cameraToTarget()" class="member-name-link">cameraToTarget()</a> - Method in record class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIO.TargetObservation.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIO.TargetObservation</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>cameraToTarget</code> record component.</div>
@@ -783,6 +777,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/properties/ConfigurePropertiesCommand.html#%3Cinit%3E(xbot.common.properties.ITableProxy)" class="member-name-link">ConfigurePropertiesCommand(ITableProxy)</a> - Constructor for class xbot.common.properties.<a href="xbot/common/properties/ConfigurePropertiesCommand.html" title="class in xbot.common.properties">ConfigurePropertiesCommand</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIO.VisionIOInputs.html#connected" class="member-name-link">connected</a> - Variable in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIO.VisionIOInputs.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIO.VisionIOInputs</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/MockAprilTagVisionIO.html#connected" class="member-name-link">connected</a> - Variable in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/MockAprilTagVisionIO.html" title="class in xbot.common.subsystems.vision">MockAprilTagVisionIO</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryCommand.html#constantRotationEnabled" class="member-name-link">constantRotationEnabled</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryCommand.html" title="class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryCommand</a></dt>
 <dd>&nbsp;</dd>
@@ -1449,6 +1445,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
+<dt><a href="xbot/common/subsystems/vision/VisionPoseObservation.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/VisionPoseObservation.html" title="class in xbot.common.subsystems.vision">VisionPoseObservation</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
 <dt><a href="xbot/common/math/PIDDefaults.html#errorThreshold()" class="member-name-link">errorThreshold()</a> - Method in record class xbot.common.math.<a href="xbot/common/math/PIDDefaults.html" title="class in xbot.common.math">PIDDefaults</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>errorThreshold</code> record component.</div>
@@ -1708,6 +1708,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/pose/BasePoseSubsystem.html#getAlliance()" class="member-name-link">getAlliance()</a> - Static method in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/BasePoseSubsystem.html" title="class in xbot.common.subsystems.pose">BasePoseSubsystem</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.html#getAllPoseObservations()" class="member-name-link">getAllPoseObservations()</a> - Method in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.html" title="class in xbot.common.subsystems.vision">AprilTagVisionSubsystem</a></dt>
+<dd>
+<div class="block">Gets all the pose observations in this iteration of the scheduler loop.</div>
+</dd>
 <dt><a href="org/photonvision/PhotonCameraExtended.html#getAllUnreadResults()" class="member-name-link">getAllUnreadResults()</a> - Method in class org.photonvision.<a href="org/photonvision/PhotonCameraExtended.html" title="class in org.photonvision">PhotonCameraExtended</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/modules/RealDevicesModule.html#getAnalogDistanceSensorFactory(xbot.common.controls.sensors.AnalogDistanceSensor.AnalogDistanceSensorFactory)" class="member-name-link">getAnalogDistanceSensorFactory(AnalogDistanceSensor.AnalogDistanceSensorFactory)</a> - Method in class xbot.common.injection.modules.<a href="xbot/common/injection/modules/RealDevicesModule.html" title="class in xbot.common.injection.modules">RealDevicesModule</a></dt>
@@ -2979,6 +2983,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
+<dt><a href="xbot/common/subsystems/vision/VisionPoseObservation.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/VisionPoseObservation.html" title="class in xbot.common.subsystems.vision">VisionPoseObservation</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
 <dt><a href="xbot/common/controls/io_inputs/XCANCoderInputs.html#hasResetOccurred" class="member-name-link">hasResetOccurred</a> - Variable in class xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/XCANCoderInputs.html" title="class in xbot.common.controls.io_inputs">XCANCoderInputs</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XCANCoder.html#hasResetOccurred()" class="member-name-link">hasResetOccurred()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANCoder.html" title="class in xbot.common.controls.sensors">XCANCoder</a></dt>
@@ -3486,6 +3494,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIO.VisionIOInputs.html#latestTargetObservation" class="member-name-link">latestTargetObservation</a> - Variable in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIO.VisionIOInputs.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIO.VisionIOInputs</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/MockAprilTagVisionIO.html#latestTargetObservation" class="member-name-link">latestTargetObservation</a> - Variable in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/MockAprilTagVisionIO.html" title="class in xbot.common.subsystems.vision">MockAprilTagVisionIO</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.ParallelCrossingType.html#LeftAndRight" class="member-name-link">LeftAndRight</a> - Enum constant in enum class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.ParallelCrossingType.html" title="enum class in xbot.common.trajectory">Obstacle.ParallelCrossingType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XXboxController.XboxButton.html#LeftBumper" class="member-name-link">LeftBumper</a> - Enum constant in enum class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XXboxController.XboxButton.html" title="enum class in xbot.common.controls.sensors">XXboxController.XboxButton</a></dt>
@@ -3824,12 +3834,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="edu/wpi/first/wpilibj/MockTimer.html#%3Cinit%3E()" class="member-name-link">MockTimer()</a> - Constructor for class edu.wpi.first.wpilibj.<a href="edu/wpi/first/wpilibj/MockTimer.html" title="class in edu.wpi.first.wpilibj">MockTimer</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/subsystems/vision/MockVisionConsumer.html" class="type-name-link" title="class in xbot.common.subsystems.vision">MockVisionConsumer</a> - Class in <a href="xbot/common/subsystems/vision/package-summary.html">xbot.common.subsystems.vision</a></dt>
-<dd>
-<div class="block">A mock vision consumer that stores the poses it receives.</div>
-</dd>
-<dt><a href="xbot/common/subsystems/vision/MockVisionConsumer.html#%3Cinit%3E()" class="member-name-link">MockVisionConsumer()</a> - Constructor for class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/MockVisionConsumer.html" title="class in xbot.common.subsystems.vision">MockVisionConsumer</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="edu/wpi/first/wpilibj/MockXboxControllerAdapter.html" class="type-name-link" title="class in edu.wpi.first.wpilibj">MockXboxControllerAdapter</a> - Class in <a href="edu/wpi/first/wpilibj/package-summary.html">edu.wpi.first.wpilibj</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="edu/wpi/first/wpilibj/MockXboxControllerAdapter.html#%3Cinit%3E(int,xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory,xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory,xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory,xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory,xbot.common.logging.RobotAssertionManager,xbot.common.injection.DevicePolice)" class="member-name-link">MockXboxControllerAdapter(int, AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory, AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory, AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory, XRumbleManager.XRumbleManagerFactory, RobotAssertionManager, DevicePolice)</a> - Constructor for class edu.wpi.first.wpilibj.<a href="edu/wpi/first/wpilibj/MockXboxControllerAdapter.html" title="class in edu.wpi.first.wpilibj">MockXboxControllerAdapter</a></dt>
@@ -4132,7 +4136,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIO.VisionIOInputs.html#poseObservations" class="member-name-link">poseObservations</a> - Variable in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIO.VisionIOInputs.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIO.VisionIOInputs</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/subsystems/vision/MockVisionConsumer.html#posesReceived" class="member-name-link">posesReceived</a> - Variable in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/MockVisionConsumer.html" title="class in xbot.common.subsystems.vision">MockVisionConsumer</a></dt>
+<dt><a href="xbot/common/subsystems/vision/MockAprilTagVisionIO.html#poseObservations" class="member-name-link">poseObservations</a> - Variable in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/MockAprilTagVisionIO.html" title="class in xbot.common.subsystems.vision">MockAprilTagVisionIO</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/pose/commands/ResetDistanceCommand.html#poseSubsystem" class="member-name-link">poseSubsystem</a> - Variable in class xbot.common.subsystems.pose.commands.<a href="xbot/common/subsystems/pose/commands/ResetDistanceCommand.html" title="class in xbot.common.subsystems.pose.commands">ResetDistanceCommand</a></dt>
 <dd>&nbsp;</dd>
@@ -5808,6 +5812,16 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIO.VisionIOInputs.html#tagIds" class="member-name-link">tagIds</a> - Variable in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIO.VisionIOInputs.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIO.VisionIOInputs</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/MockAprilTagVisionIO.html#tagIds" class="member-name-link">tagIds</a> - Variable in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/MockAprilTagVisionIO.html" title="class in xbot.common.subsystems.vision">MockAprilTagVisionIO</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.html#tagVisibleByAnyCamera(int)" class="member-name-link">tagVisibleByAnyCamera(int)</a> - Method in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.html" title="class in xbot.common.subsystems.vision">AprilTagVisionSubsystem</a></dt>
+<dd>
+<div class="block">Returns <c>true</c> if any camera can see the specified tag.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.html#tagVisibleByCamera(int,int)" class="member-name-link">tagVisibleByCamera(int, int)</a> - Method in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.html" title="class in xbot.common.subsystems.vision">AprilTagVisionSubsystem</a></dt>
+<dd>
+<div class="block">Returns <c>true</c> if the camera can see the specified tag.</div>
+</dd>
 <dt><a href="xbot/common/injection/electrical_contract/MotorControllerType.html#TalonFx" class="member-name-link">TalonFx</a> - Enum constant in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html#tankDrive(double,double)" class="member-name-link">tankDrive(double, double)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseDriveSubsystem</a></dt>
@@ -5874,6 +5888,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <code>timestamp</code> record component.</div>
 </dd>
+<dt><a href="xbot/common/subsystems/vision/VisionPoseObservation.html#timestampSeconds()" class="member-name-link">timestampSeconds()</a> - Method in record class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/VisionPoseObservation.html" title="class in xbot.common.subsystems.vision">VisionPoseObservation</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>timestampSeconds</code> record component.</div>
+</dd>
 <dt><a href="xbot/common/math/PIDDefaults.html#timeThreshold()" class="member-name-link">timeThreshold()</a> - Method in record class xbot.common.math.<a href="xbot/common/math/PIDDefaults.html" title="class in xbot.common.math">PIDDefaults</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>timeThreshold</code> record component.</div>
@@ -5929,6 +5947,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIO.TargetObservation.html#toString()" class="member-name-link">toString()</a> - Method in record class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIO.TargetObservation.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIO.TargetObservation</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/vision/VisionPoseObservation.html#toString()" class="member-name-link">toString()</a> - Method in record class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/VisionPoseObservation.html" title="class in xbot.common.subsystems.vision">VisionPoseObservation</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
@@ -6081,6 +6103,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIOPhotonVision.html#updateInputs(xbot.common.subsystems.vision.AprilTagVisionIO.VisionIOInputs)" class="member-name-link">updateInputs(AprilTagVisionIO.VisionIOInputs)</a> - Method in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIOPhotonVision.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIOPhotonVision</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIOPhotonVisionSimulated.html#updateInputs(xbot.common.subsystems.vision.AprilTagVisionIO.VisionIOInputs)" class="member-name-link">updateInputs(AprilTagVisionIO.VisionIOInputs)</a> - Method in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIOPhotonVisionSimulated.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIOPhotonVisionSimulated</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/MockAprilTagVisionIO.html#updateInputs(xbot.common.subsystems.vision.AprilTagVisionIO.VisionIOInputs)" class="member-name-link">updateInputs(AprilTagVisionIO.VisionIOInputs)</a> - Method in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/MockAprilTagVisionIO.html" title="class in xbot.common.subsystems.vision">MockAprilTagVisionIO</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/BaseRobot.html#updateLoggingContext()" class="member-name-link">updateLoggingContext()</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseRobot.html" title="class in xbot.common.command">BaseRobot</a></dt>
 <dd>&nbsp;</dd>
@@ -6446,6 +6470,20 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIO.VisionIOInputs.html#%3Cinit%3E()" class="member-name-link">VisionIOInputs()</a> - Constructor for class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIO.VisionIOInputs.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIO.VisionIOInputs</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/VisionPoseObservation.html#visionMeasurementStdDevs()" class="member-name-link">visionMeasurementStdDevs()</a> - Method in record class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/VisionPoseObservation.html" title="class in xbot.common.subsystems.vision">VisionPoseObservation</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>visionMeasurementStdDevs</code> record component.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/vision/VisionPoseObservation.html" class="type-name-link" title="class in xbot.common.subsystems.vision">VisionPoseObservation</a> - Record Class in <a href="xbot/common/subsystems/vision/package-summary.html">xbot.common.subsystems.vision</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/vision/VisionPoseObservation.html#%3Cinit%3E(edu.wpi.first.math.geometry.Pose2d,double,edu.wpi.first.math.Matrix)" class="member-name-link">VisionPoseObservation(Pose2d, double, Matrix&lt;N3, N1&gt;)</a> - Constructor for record class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/VisionPoseObservation.html" title="class in xbot.common.subsystems.vision">VisionPoseObservation</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>VisionPoseObservation</code> record class.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/vision/VisionPoseObservation.html#visionRobotPoseMeters()" class="member-name-link">visionRobotPoseMeters()</a> - Method in record class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/VisionPoseObservation.html" title="class in xbot.common.subsystems.vision">VisionPoseObservation</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>visionRobotPoseMeters</code> record component.</div>
+</dd>
 <dt><a href="xbot/common/math/PlanarTestVisualizer.html#vizPanel" class="member-name-link">vizPanel</a> - Variable in class xbot.common.math.<a href="xbot/common/math/PlanarTestVisualizer.html" title="class in xbot.common.math">PlanarTestVisualizer</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PurePursuitTest.html#vizRun()" class="member-name-link">vizRun()</a> - Method in class xbot.common.math.<a href="xbot/common/math/PurePursuitTest.html" title="class in xbot.common.math">PurePursuitTest</a></dt>
