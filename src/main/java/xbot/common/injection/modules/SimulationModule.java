@@ -59,8 +59,4 @@ public abstract class SimulationModule {
     @Binds
     @Singleton
     abstract AprilTagVisionIOFactory getAprilTagVisionIOPhotonVisionFactory(AprilTagVisionIOPhotonVisionSimulated.FactoryImpl impl);
-
-    @Binds
-    @Singleton
-    abstract SimulatedPositionSupplier getSimulatedPositionSupplier(BasePoseSubsystem impl);
 }

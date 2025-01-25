@@ -23,7 +23,7 @@ import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.drive.swerve.ISwerveAdvisorPoseSupport;
 import static edu.wpi.first.units.Units.Meters;
 
-public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable, ISwerveAdvisorPoseSupport, SimulatedPositionSupplier {
+public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable, ISwerveAdvisorPoseSupport {
 
     public final XGyro imu;
     protected double leftDriveDistance;
