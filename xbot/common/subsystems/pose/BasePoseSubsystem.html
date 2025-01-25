@@ -116,7 +116,7 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="col-first odd-row-color"><code>static final double</code></div>
 <div class="col-second odd-row-color"><code><a href="#FACING_TOWARDS_DRIVERS" class="member-name-link">FACING_TOWARDS_DRIVERS</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static double</code></div>
+<div class="col-first even-row-color"><code>static <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Distance.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Distance</a></code></div>
 <div class="col-second even-row-color"><code><a href="#fieldXMidpointInMeters" class="member-name-link">fieldXMidpointInMeters</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>protected boolean</code></div>
@@ -530,7 +530,7 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <li>
 <section class="detail" id="fieldXMidpointInMeters">
 <h3>fieldXMidpointInMeters</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">fieldXMidpointInMeters</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Distance.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Distance</a></span>&nbsp;<span class="element-name">fieldXMidpointInMeters</span></div>
 </section>
 </li>
 </ul>
@@ -673,7 +673,7 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updatePose</span>()</div>
 <div class="block">This should be called as often as reasonably possible, to increase accuracy
  of the "distance traveled" calculation.
- 
+
  The PoseSubsystem can't directly own positional sensors, so some command will need to feed in the
  distance values coming from the DriveSubsystem. In order to have accurate calculations, these
  values need to be in inches, and should never be reset - any resetting should be done here
