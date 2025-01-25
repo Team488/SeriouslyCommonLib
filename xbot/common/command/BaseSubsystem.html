@@ -80,7 +80,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/util/sendable/Sendable.html" title="class or interface in edu.wpi.first.util.sendable" class="external-link">Sendable</a></code>, <code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Subsystem.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">Subsystem</a></code>, <code><a href="../properties/IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a></code></dd>
+<dd><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/util/sendable/Sendable.html" title="class or interface in edu.wpi.first.util.sendable" class="external-link">Sendable</a></code>, <code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Subsystem.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">Subsystem</a></code>, <code><a href="../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code>, <code><a href="../properties/IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a></code></dd>
 </dl>
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
@@ -89,7 +89,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">BaseSubsystem</span>
 <span class="extends-implements">extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/SubsystemBase.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">SubsystemBase</a>
-implements <a href="../properties/IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a></span></div>
+implements <a href="../properties/IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a>, <a href="../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></span></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -105,9 +105,12 @@ implements <a href="../properties/IPropertySupport.html" title="interface in xbo
 <div class="col-first even-row-color"><code>protected final <a href="../advantage/AKitLogger.html" title="class in xbot.common.advantage">AKitLogger</a></code></div>
 <div class="col-second even-row-color"><code><a href="#aKitLog" class="member-name-link">aKitLog</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final org.apache.logging.log4j.Logger</code></div>
-<div class="col-second odd-row-color"><code><a href="#log" class="member-name-link">log</a></code></div>
+<div class="col-first odd-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#dataFrameRefreshables" class="member-name-link">dataFrameRefreshables</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected final org.apache.logging.log4j.Logger</code></div>
+<div class="col-second even-row-color"><code><a href="#log" class="member-name-link">log</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -137,6 +140,12 @@ implements <a href="../properties/IPropertySupport.html" title="interface in xbo
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPrefix()" class="member-name-link">getPrefix</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#refreshDataFrame()" class="member-name-link">refreshDataFrame</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#registerDataFrameRefreshable(xbot.common.advantage.DataFrameRefreshable)" class="member-name-link">registerDataFrameRefreshable</a><wbr>(<a href="../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a>&nbsp;refreshable)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
@@ -173,6 +182,12 @@ implements <a href="../properties/IPropertySupport.html" title="interface in xbo
 <div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../advantage/AKitLogger.html" title="class in xbot.common.advantage">AKitLogger</a></span>&nbsp;<span class="element-name">aKitLog</span></div>
 </section>
 </li>
+<li>
+<section class="detail" id="dataFrameRefreshables">
+<h3>dataFrameRefreshables</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a>&gt;</span>&nbsp;<span class="element-name">dataFrameRefreshables</span></div>
+</section>
+</li>
 </ul>
 </section>
 </li>
@@ -202,6 +217,22 @@ implements <a href="../properties/IPropertySupport.html" title="interface in xbo
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../properties/IPropertySupport.html#getPrefix()">getPrefix</a></code>&nbsp;in interface&nbsp;<code><a href="../properties/IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="registerDataFrameRefreshable(xbot.common.advantage.DataFrameRefreshable)">
+<h3>registerDataFrameRefreshable</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">registerDataFrameRefreshable</span><wbr><span class="parameters">(<a href="../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a>&nbsp;refreshable)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="refreshDataFrame()">
+<h3>refreshDataFrame</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">refreshDataFrame</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../advantage/DataFrameRefreshable.html#refreshDataFrame()">refreshDataFrame</a></code>&nbsp;in interface&nbsp;<code><a href="../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code></dd>
 </dl>
 </section>
 </li>
