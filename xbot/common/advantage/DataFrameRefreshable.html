@@ -79,6 +79,14 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">DataFrameRefreshable</span></div>
+<div class="block">Interface for objects that need to have state refreshed before the subsystem periodic loop.
+ <pre class="mermaid">
+ graph TD
+     A[Start scheduler loop] --> B[refreshDataFrame]
+     B --> C[periodic]
+     C -->D[End scheduler loop]
+     D --> A
+ </pre></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -95,7 +103,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#refreshDataFrame()" class="member-name-link">refreshDataFrame</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Consumes and processes inputs from the device or subsystem.</div>
+</div>
 </div>
 </div>
 </div>
@@ -114,6 +124,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="refreshDataFrame()">
 <h3>refreshDataFrame</h3>
 <div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">refreshDataFrame</span>()</div>
+<div class="block">Consumes and processes inputs from the device or subsystem.</div>
 </section>
 </li>
 </ul>

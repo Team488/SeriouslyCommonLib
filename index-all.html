@@ -1125,7 +1125,9 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/properties/DatabaseStorageBase.html#%3Cinit%3E(java.lang.String)" class="member-name-link">DatabaseStorageBase(String)</a> - Constructor for class xbot.common.properties.<a href="xbot/common/properties/DatabaseStorageBase.html" title="class in xbot.common.properties">DatabaseStorageBase</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/advantage/DataFrameRefreshable.html" class="type-name-link" title="interface in xbot.common.advantage">DataFrameRefreshable</a> - Interface in <a href="xbot/common/advantage/package-summary.html">xbot.common.advantage</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Interface for objects that need to have state refreshed before the subsystem periodic loop.</div>
+</dd>
 <dt><a href="xbot/common/command/BaseRobot.html#dataFrameRefreshables" class="member-name-link">dataFrameRefreshables</a> - Variable in class xbot.common.command.<a href="xbot/common/command/BaseRobot.html" title="class in xbot.common.command">BaseRobot</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/BaseSubsystem.html#dataFrameRefreshables" class="member-name-link">dataFrameRefreshables</a> - Variable in class xbot.common.command.<a href="xbot/common/command/BaseSubsystem.html" title="class in xbot.common.command">BaseSubsystem</a></dt>
@@ -3993,6 +3995,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Checks if the value has been stable for the entire stable window duration, but without
  updating the internal state of the validator.</div>
 </dd>
+<dt><a href="xbot/common/command/BaseSubsystem.html#periodic()" class="member-name-link">periodic()</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseSubsystem.html" title="class in xbot.common.command">BaseSubsystem</a></dt>
+<dd>
+<div class="block">This method is called on each <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/CommandScheduler.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link"><code>CommandScheduler</code></a> loop.</div>
+</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.html#periodic()" class="member-name-link">periodic()</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/compressor/CompressorSubsystem.html#periodic()" class="member-name-link">periodic()</a> - Method in class xbot.common.subsystems.compressor.<a href="xbot/common/subsystems/compressor/CompressorSubsystem.html" title="class in xbot.common.subsystems.compressor">CompressorSubsystem</a></dt>
@@ -4400,7 +4406,9 @@ loadScripts(document, 'script');</script>
 <dt><a href="org/photonvision/PhotonCameraExtended.html#refreshDataFrame()" class="member-name-link">refreshDataFrame()</a> - Method in class org.photonvision.<a href="org/photonvision/PhotonCameraExtended.html" title="class in org.photonvision">PhotonCameraExtended</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/advantage/DataFrameRefreshable.html#refreshDataFrame()" class="member-name-link">refreshDataFrame()</a> - Method in interface xbot.common.advantage.<a href="xbot/common/advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Consumes and processes inputs from the device or subsystem.</div>
+</dd>
 <dt><a href="xbot/common/command/BaseSubsystem.html#refreshDataFrame()" class="member-name-link">refreshDataFrame()</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseSubsystem.html" title="class in xbot.common.command">BaseSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.html#refreshDataFrame()" class="member-name-link">refreshDataFrame()</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
