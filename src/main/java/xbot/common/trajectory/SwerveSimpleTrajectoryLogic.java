@@ -461,11 +461,9 @@ public class SwerveSimpleTrajectoryLogic {
 
         aKitLog.record("UpdatedIntent", intent);
 
-        // In the future we can add different adjustments for if we are ahead/behind in schedule
         // If we have no max velocity set, or we are on the last point and almost done, just use the position PID
         if (maximumVelocity <= 0 || (lastResult.isOnFinalPoint && lastResult.distanceToTargetPoint < 0.5) || lastResult.lerpFraction > 1) {
             return new Twist2d(intent.x, intent.y, headingPower);
-
         } else {
             // Otherwise, add the known velocity vector, so we can catch up to our goal.
 
@@ -473,8 +471,9 @@ public class SwerveSimpleTrajectoryLogic {
             // Quick check for being right on the goal point
 
             var plannedVelocityVector = lastResult.plannedVector;
-            var preProcessedPlannedVector = new Translation2d(plannedVelocityVector.getX(), plannedVelocityVector.getY());
 
+            // This does some fancy dot product magic so that we go slower if we are off-track
+            // Giving PositionalPID additional time to push us back to our desired route
             if (goalVector.getMagnitude() > 0.33) {
                 var normalizedGoalVector = goalVector.scale(1 / goalVector.getMagnitude());
                 var normalizedVelocityVector = plannedVelocityVector.times(1 / plannedVelocityVector.getNorm());
@@ -486,15 +485,16 @@ public class SwerveSimpleTrajectoryLogic {
             }
 
             // Scale the planned vector, which is currently in velocity space, to "power space" so we can add it to the intent.
-            double scalarFactor = plannedVelocityVector.getNorm() / maximumVelocity;
-            var scaledPlannedVector = plannedVelocityVector.times(scalarFactor / maximumVelocity);
+            // This makes our scaledPlannedVector to be a ratio with maximumVelocity, to represent amount of power to input.
+            var scaledPlannedVector = plannedVelocityVector.times(maximumVelocity);
             aKitLog.record("scaledPlannedVector", scaledPlannedVector);
+
             // Add the PositionPID powers
             var combinedVector = scaledPlannedVector.plus(new Translation2d(intent.x, intent.y));
 
-            // If we've somehow gone above 100% power, scale it back down
+            // If we've somehow gone above 100% power, scale it back to magnitude of 1
             if (combinedVector.getNorm() > 1) {
-                combinedVector = combinedVector.times(1 / combinedVector.getNorm());
+                combinedVector = combinedVector.div(combinedVector.getNorm());
             }
 
             // If we're close to our target but not aimed at it, scale back translation so rotation can finish
@@ -510,7 +510,6 @@ public class SwerveSimpleTrajectoryLogic {
             aKitLog.record("TranslationReducedDueToRotation", engageTranslationSlowdown);
             aKitLog.record("HeadingPower", headingPower);
             aKitLog.record("combinedVector", combinedVector);
-            aKitLog.record("preprocessedPlannedVector", preProcessedPlannedVector);
 
             return new Twist2d(combinedVector.getX(), combinedVector.getY(), headingPower);
         }

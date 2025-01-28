@@ -191,16 +191,23 @@ public class SimpleTimeInterpolator {
         }
 
         // But if that chase point is "too far ahead", we need to freeze the chasePoint
-        aKitLog.record("Dist from ChasePoint", currentLocation.getDistance(chasePoint));
+        aKitLog.record("DistanceFromChasePoint", currentLocation.getDistance(chasePoint));
         if (currentLocation.getDistance(chasePoint) > maximumDistanceFromChasePointInMeters) {
             // This effectively "rewinds time" for the next loop.
-            aKitLog.record("Freezing ChasePoint", true);
+            aKitLog.record("FreezingChasePoint", true);
             accumulatedProductiveSeconds -= secondsSinceLastExecute;
         }
 
         // The planned velocity is the same (for now) at all points between the baseline and the target.
-        var plannedVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d())
-                .div(targetKeyPoint.getSecondsForSegment());
+        var plannedVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d());
+
+        if (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints || mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList) {
+            double velocityScalar = calculator.getVelocityAtDistanceTravelled(multiplier / calculator.getTotalDistanceInMeters());
+            plannedVector = plannedVector.div(plannedVector.getNorm()).times(velocityScalar);
+        } else {
+            plannedVector = plannedVector.div(targetKeyPoint.getSecondsForSegment());
+        }
+
 
         //plannedVector.times(multiplier > 0 ? multiplier : 0.01);
 
