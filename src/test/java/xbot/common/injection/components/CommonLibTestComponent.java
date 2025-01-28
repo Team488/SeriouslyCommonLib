@@ -37,6 +37,4 @@ public abstract class CommonLibTestComponent extends PurePursuitTestComponent {
     public abstract MockSimpleMotorSubsystem mockSimpleMotorSubsystem();
 
     public abstract AprilTagVisionSubsystem getAprilTagVisionSubsystem();
-
-    public abstract AprilTagVisionSubsystem.VisionConsumer getAprilTagVisionConsumer();
 }

@@ -4,10 +4,12 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.units.AngularAccelerationUnit;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Time;
+import edu.wpi.first.units.measure.Velocity;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
@@ -17,7 +19,6 @@ import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.properties.PropertyFactory;
 
 import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Volts;
 import static edu.wpi.first.units.Units.Rotations;
@@ -30,6 +31,7 @@ public class MockCANMotorController extends XCANMotorController {
     public double i;
     public double d;
     public double f;
+    public double g;
     public double maxPower;
     public double minPower;
 
@@ -70,11 +72,22 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     @Override
-    public void setPidDirectly(double p, double i, double d, double velocityFF, int slot) {
+    public void setTrapezoidalProfileAcceleration(AngularAcceleration acceleration) {
+
+    }
+
+    @Override
+    public void setTrapezoidalProfileJerk(Velocity<AngularAccelerationUnit> jerk) {
+
+    }
+
+    @Override
+    public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot) {
         this.p = p;
         this.i = i;
         this.d = d;
         this.f = velocityFF;
+        this.g = gravityFF;
     }
 
     @Override
@@ -104,11 +117,8 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     @Override
-    public void setPositionTarget(Angle position) {
-    }
+    public void setPositionTarget(Angle position, MotorPidMode mode, int slot) {
 
-    @Override
-    public void setPositionTarget(Angle position, int slot) {
     }
 
     @Override
@@ -117,19 +127,20 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     @Override
-    public void setVelocityTarget(AngularVelocity velocity) {
+    public void setVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot) {
+
     }
 
     @Override
-    public void setVelocityTarget(AngularVelocity velocity, int slot) {
+    public boolean isInverted() {
+        return false;
     }
 
     @Override
     protected void updateInputs(XCANMotorControllerInputs inputs) {
         inputs.angle = getPosition();
         inputs.angularVelocity = getVelocity();
-        // TODO - implement test hooks for these.
-        inputs.voltage = Volts.of(0);
-        inputs.current = Amps.of(0);
+        inputs.voltage = Volts.of(power * 12);
+        inputs.current = Amps.of(power * 1);
     }
 }

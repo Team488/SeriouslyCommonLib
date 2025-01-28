@@ -4,6 +4,8 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,7 +23,7 @@ import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
 public class CANCoderAdapter extends XCANCoder {
-    
+
     private static final Logger log = LogManager.getLogger(CANCoderAdapter.class);
 
     private final int deviceId;
@@ -46,7 +48,7 @@ public class CANCoderAdapter extends XCANCoder {
 
         this.inverted = deviceInfo.inverted;
         this.magnetOffset = 0.0;
-        
+
         this.cancoder = new CANcoder(deviceInfo.channel, deviceInfo.canBusId.id());
 
         var currentConfig = getCurrentConfiguration();
@@ -56,7 +58,7 @@ public class CANCoderAdapter extends XCANCoder {
         applyConfiguration(currentConfig);
 
         this.getMagnetOffset();
-        
+
         this.deviceId = deviceInfo.channel;
 
         police.registerDevice(DeviceType.CAN, deviceInfo.canBusId, deviceInfo.channel, this);
@@ -67,16 +69,16 @@ public class CANCoderAdapter extends XCANCoder {
         return this.deviceId;
     }
 
-    public double getPosition_internal() {
-        return this.cancoder.getPosition().getValueAsDouble();
+    public Angle getPosition_internal() {
+        return this.cancoder.getPosition().getValue();
     }
 
-    public double getAbsolutePosition_internal() {
-        return this.cancoder.getAbsolutePosition().getValueAsDouble();
+    public Angle getAbsolutePosition_internal() {
+        return this.cancoder.getAbsolutePosition().getValue();
     }
 
-    public double getVelocity_internal() {
-        return this.cancoder.getVelocity().getValueAsDouble();
+    public AngularVelocity getVelocity_internal() {
+        return this.cancoder.getVelocity().getValue();
     }
 
     public DeviceHealth getHealth_internal() {
@@ -88,7 +90,7 @@ public class CANCoderAdapter extends XCANCoder {
     }
 
     @Override
-    public void setPosition(double newPosition) {
+    public void setPosition(Angle newPosition) {
         this.cancoder.setPosition(newPosition);
     }
 

@@ -158,6 +158,12 @@ javadoc {
             "</script>";
     options.addStringOption('Xdoclint:-missing', '-quiet')
     options.addBooleanOption("-allow-script-in-comments",true)
+    options.links = [
+            "https://github.wpilib.org/allwpilib/docs/release/java/",
+            "https://api.ctr-electronics.com/phoenix6/release/java/",
+            "https://codedocs.revrobotics.com/java/",
+            "https://photonvision.github.io/photonvision/built-docs/javadoc/"
+    ]
 }
 
 jacocoTestReport {

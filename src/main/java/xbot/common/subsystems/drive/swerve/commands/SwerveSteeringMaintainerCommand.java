@@ -47,7 +47,7 @@ public class SwerveSteeringMaintainerCommand extends BaseMaintainerCommand<Doubl
     }
 
     @Override
-    protected Double getHumanInput() {
+    protected double getHumanInput() {
         // never hooked directly to human input, human input handled by drive
         return 0.0;
     }

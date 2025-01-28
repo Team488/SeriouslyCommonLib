@@ -3,12 +3,17 @@ package xbot.common.controls.actuators;
 public record XCANMotorControllerPIDProperties(double p,
                                         double i,
                                         double d,
-                                        double feedForward,
+                                        double velocityFeedForward,
+                                        double gravityFeedForward,
                                         double maxOutput,
                                         double minOutput
 ) {
     public XCANMotorControllerPIDProperties()
     {
-        this(0, 0, 0, 0, 1, -1);
+        this(0, 0, 0);
+    }
+
+    public XCANMotorControllerPIDProperties(double p, double i, double d) {
+        this(p, i, d, 0, 0, 1, -1);
     }
 }
