@@ -422,6 +422,13 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
 
     }
 
+    public void setTargetSwerveStates(SwerveModuleState swerveModuleState) {
+        this.getFrontLeftSwerveModuleSubsystem().setTargetState(swerveModuleState);
+        this.getFrontRightSwerveModuleSubsystem().setTargetState(swerveModuleState);
+        this.getRearLeftSwerveModuleSubsystem().setTargetState(swerveModuleState);
+        this.getRearRightSwerveModuleSubsystem().setTargetState(swerveModuleState);
+    }
+
     /***
      * Give the same power to all steering modules, and the another power to all the drive wheels.
      * Does not currently use PID! As a result, wheel positions will vary wildly!
