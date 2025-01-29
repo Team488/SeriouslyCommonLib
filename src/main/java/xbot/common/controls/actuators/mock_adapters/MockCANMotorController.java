@@ -105,6 +105,14 @@ public class MockCANMotorController extends XCANMotorController {
         this.power = MathUtil.clamp(power, -1.0, 1.0);
     }
 
+    /*
+     * Set the internal power of the motor controller without changing the controlMode.
+     * Useful for simulating an internal pid on a motor controller.
+     */
+    public void setPowerInternal(double power) {
+        this.power = MathUtil.clamp(power, -1.0, 1.0);
+    }
+
     @Override
     public double getPower() {
         return this.power;
