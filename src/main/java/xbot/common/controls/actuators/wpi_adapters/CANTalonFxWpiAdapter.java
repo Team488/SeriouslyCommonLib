@@ -15,6 +15,7 @@ import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -203,6 +204,11 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
             }
         }
         this.internalTalonFx.setControl(controlRequest);
+    }
+
+    @Override
+    public void setVoltage(Voltage voltage) {
+        this.internalTalonFx.setControl(new VoltageOut(voltage));
     }
 
     public Voltage getVoltage() {

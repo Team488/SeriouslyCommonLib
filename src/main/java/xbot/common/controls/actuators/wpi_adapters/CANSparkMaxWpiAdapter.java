@@ -218,6 +218,11 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
                 .setReference(velocity.in(RPM), controlType, getClosedLoopSlot(slot));
     }
 
+    @Override
+    public void setVoltage(Voltage voltage) {
+        this.internalSparkMax.setVoltage(voltage);
+    }
+
     private ClosedLoopSlot getClosedLoopSlot(int slot) {
         return switch (slot) {
             case 0 -> ClosedLoopSlot.kSlot0;
