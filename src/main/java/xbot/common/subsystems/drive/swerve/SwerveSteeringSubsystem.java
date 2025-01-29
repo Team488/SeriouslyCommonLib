@@ -6,7 +6,6 @@ import dagger.Lazy;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import org.apache.logging.log4j.LogManager;
@@ -34,9 +33,6 @@ import xbot.common.subsystems.drive.BaseSwerveDriveSubsystem;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Rotations;
-import static edu.wpi.first.units.Units.Second;
-import static edu.wpi.first.units.Units.Seconds;
-import static edu.wpi.first.units.Units.Volts;
 
 @SwerveSingleton
 public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
@@ -176,10 +172,20 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         return !canCoderUnavailable || calibrated;
     }
 
+    /**
+     * Gets a command to run the SysId routine in the quasistatic mode.
+     * @param direction The direction to run the SysId routine.
+     * @return The command to run the SysId routine.
+     */
     public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
         return sysId.quasistatic(direction);
     }
 
+    /**
+     * Gets a command to run the SysId routine in the dynamic mode.
+     * @param direction The direction to run the SysId routine.
+     * @return The command to run the SysId routine.
+     */
     public Command sysIdDynamic(SysIdRoutine.Direction direction) {
         return sysId.dynamic(direction);
     }
@@ -226,10 +232,18 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         return !currentCanCoderPosition.isNear(currentMotorControllerPosition, Degrees.of(maxDelta));
     }
 
+    /**
+     * Gets the motor controller for this steering module.
+     * @return The motor controller for this steering module.
+     */
     public XCANMotorController getMotorController() {
         return this.motorController;
     }
 
+    /**
+     * Gets the CANCoder for this steering module.
+     * @return The CANCoder for this steering module.
+     */
     public XCANCoder getEncoder() {
         return this.encoder;
     }
@@ -381,6 +395,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         }
     }
 
+    @Override
     public void refreshDataFrame() {
         if (contract.isDriveReady()) {
             motorController.refreshDataFrame();
