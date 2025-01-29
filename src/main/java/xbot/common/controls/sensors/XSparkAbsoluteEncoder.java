@@ -2,10 +2,12 @@ package xbot.common.controls.sensors;
 
 import edu.wpi.first.units.measure.Angle;
 import org.littletonrobotics.junction.Logger;
+
+import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputsAutoLogged;
 
-public abstract class XSparkAbsoluteEncoder {
+public abstract class XSparkAbsoluteEncoder implements DataFrameRefreshable {
 
     protected XAbsoluteEncoderInputsAutoLogged inputs;
     boolean inverted;

@@ -10,6 +10,8 @@ import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
 import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.Logger;
+
+import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputsAutoLogged;
 import xbot.common.injection.DevicePolice;
@@ -20,7 +22,7 @@ import xbot.common.logic.LogicUtils;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
-public abstract class XCANMotorController {
+public abstract class XCANMotorController implements DataFrameRefreshable {
 
     /**
      * The PID mode to use when setting a target position or velocity.
