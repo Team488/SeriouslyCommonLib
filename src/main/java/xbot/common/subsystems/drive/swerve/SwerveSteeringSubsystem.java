@@ -2,7 +2,6 @@ package xbot.common.subsystems.drive.swerve;
 
 import javax.inject.Inject;
 
-import dagger.Lazy;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Voltage;
@@ -29,7 +28,6 @@ import xbot.common.math.PIDManager.PIDManagerFactory;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
-import xbot.common.subsystems.drive.BaseSwerveDriveSubsystem;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Rotations;
@@ -47,7 +45,6 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
     private boolean useMotorControllerPid;
     private final DoubleProperty maxMotorEncoderDrift;
     private final SysIdRoutine sysId;
-    private final Lazy<BaseSwerveDriveSubsystem> swerveDriveSubsystem;
 
     private Rotation2d currentModuleHeadingRotation2d;
     private XCANMotorController motorController;
@@ -58,14 +55,12 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
 
     @Inject
     public SwerveSteeringSubsystem(SwerveInstance swerveInstance, XCANMotorController.XCANMotorControllerFactory mcFactory, XCANCoderFactory canCoderFactory,
-                                   PropertyFactory pf, PIDManagerFactory pidf, XSwerveDriveElectricalContract electricalContract,
-                                   Lazy<BaseSwerveDriveSubsystem> swerveDriveSubsystem) {
+                                   PropertyFactory pf, PIDManagerFactory pidf, XSwerveDriveElectricalContract electricalContract) {
         this.label = swerveInstance.label();
         log.info("Creating SwerveRotationSubsystem {}", this.label);
         aKitLog.setPrefix(this.getPrefix());
 
         this.contract = electricalContract;
-        this.swerveDriveSubsystem = swerveDriveSubsystem;
         // Create properties shared among all instances
         pf.setPrefix(super.getPrefix());
         this.pid = pidf.create(super.getPrefix() + "PID", 0.2, 0.0, 0.005, -1.0, 1.0);
