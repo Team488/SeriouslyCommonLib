@@ -193,9 +193,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
             double currentHeading,
             XYPair centerOfRotationInches) {
 
-        lastRawCommandedDirection = new Translation2d(translation.x, translation.y);
-        lastRawCommandedRotation = rotation;
-
         // rotate the translation vector into the robot coordinate frame
         XYPair fieldRelativeVector = translation.clone();
 
@@ -332,8 +329,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
      * @param centerOfRotationInches The center of rotation.
      */
     public void move(XYPair translate, double rotate, XYPair centerOfRotationInches) {
-
-        lastRawCommandedRotation = rotate;
 
         if (activateBrakeOverride) {
             this.setWheelsToXMode();
