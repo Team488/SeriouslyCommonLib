@@ -1,7 +1,5 @@
 package xbot.common.subsystems.drive;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import xbot.common.logging.RobotAssertionManager;
 
 import java.util.ArrayList;
@@ -233,7 +231,6 @@ public class SwerveKinematicsCalculator {
             if ((time - (operationTime + elapsedTime)) >= 0) {
                 double distanceTravelled = velocity * operationTime
                         + 0.5 * node.operationAcceleration() * Math.pow(operationTime, 2);
-
                 totalDistance += distanceTravelled;
                 velocity = node.operationEndingVelocity();
                 elapsedTime += node.operationTime();
@@ -250,7 +247,7 @@ public class SwerveKinematicsCalculator {
     }
 
     // Range: 0 - 1 (not in actual percentages!!!)
-    public double geDistanceTravelledAtCompletionPercentage(double percentage) {
+    public double getDistanceTravelledAtCompletionPercentage(double percentage) {
         double time = getTotalOperationTime() * percentage;
         return getDistanceTravelledInMetersAtTime(time);
     }

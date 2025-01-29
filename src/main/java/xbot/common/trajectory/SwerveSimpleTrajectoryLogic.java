@@ -486,7 +486,7 @@ public class SwerveSimpleTrajectoryLogic {
 
             // Scale the planned vector, which is currently in velocity space, to "power space" so we can add it to the intent.
             // This makes our scaledPlannedVector to be a ratio with maximumVelocity, to represent amount of power to input.
-            var scaledPlannedVector = plannedVelocityVector.times(maximumVelocity);
+            var scaledPlannedVector = plannedVelocityVector.div(maximumVelocity);
             aKitLog.record("scaledPlannedVector", scaledPlannedVector);
 
             // Add the PositionPID powers

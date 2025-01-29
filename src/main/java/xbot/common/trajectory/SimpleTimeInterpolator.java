@@ -22,6 +22,7 @@ public class SimpleTimeInterpolator {
     double maximumDistanceFromChasePointInMeters = 0.3;
 
     SwerveKinematicsCalculator calculator;
+    private double lerpFraction;
 
     private List<? extends ProvidesInterpolationData> keyPoints;
 
@@ -96,7 +97,7 @@ public class SimpleTimeInterpolator {
         accumulatedProductiveSeconds = 0;
         previousTimestamp = XTimer.getFPGATimestamp();
         index = 0;
-        aKitLog.record("Freezing ChasePoint", false);
+        lerpFraction = 0;
     }
 
     public SwerveKinematicsCalculator newCalculator(Translation2d targetPointTranslation2d, SwervePointKinematics kinematics) {
@@ -148,7 +149,8 @@ public class SimpleTimeInterpolator {
         Translation2d chasePoint = targetKeyPoint.getTranslation2d();
 
         // Now, try to find a better point via linear interpolation.
-        double lerpFraction = (accumulatedProductiveSeconds) / targetKeyPoint.getSecondsForSegment();
+        double previousLerpFraction = lerpFraction;
+        lerpFraction = (accumulatedProductiveSeconds) / targetKeyPoint.getSecondsForSegment();
         aKitLog.record("LerpFraction", lerpFraction);
         aKitLog.record("accumulatedProductiveSeconds", accumulatedProductiveSeconds);
 
@@ -180,8 +182,8 @@ public class SimpleTimeInterpolator {
         double multiplier = 1;
         if (lerpFraction < 1) {
             if (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints || mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList) {
-                double magnitude = calculator.geDistanceTravelledAtCompletionPercentage(lerpFraction);
-                multiplier = magnitude / calculator.getTotalDistanceInMeters(); // Magnitude progress
+                double expectedMagnitudeTravelled = calculator.getDistanceTravelledAtCompletionPercentage(lerpFraction);
+                multiplier = expectedMagnitudeTravelled / calculator.getTotalDistanceInMeters(); // Magnitude progress
                 chasePoint = baseline.getTranslation2d().interpolate(
                         targetKeyPoint.getTranslation2d(), multiplier);
             } else {
@@ -196,20 +198,30 @@ public class SimpleTimeInterpolator {
             // This effectively "rewinds time" for the next loop.
             aKitLog.record("FreezingChasePoint", true);
             accumulatedProductiveSeconds -= secondsSinceLastExecute;
+        } else {
+            aKitLog.record("FreezingChasePoint", false);
         }
 
-        // The planned velocity is the same (for now) at all points between the baseline and the target.
+        // Set plannedVector to be the whole vector in the direction we are travelling in
         var plannedVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d());
 
         if (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints || mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList) {
-            double velocityScalar = calculator.getVelocityAtDistanceTravelled(multiplier / calculator.getTotalDistanceInMeters());
-            plannedVector = plannedVector.div(plannedVector.getNorm()).times(velocityScalar);
+            double expectedMagnitudeTravelled = calculator.getDistanceTravelledAtCompletionPercentage(lerpFraction);
+            double velocityScalar = calculator.getVelocityAtDistanceTravelled(expectedMagnitudeTravelled);
+
+            // We have a velocity, so we now only need to scale our plannedVector to that
+            // Firstly we normalize our plannedVector
+            plannedVector = plannedVector.div(plannedVector.getNorm());
+
+            // Scale the velocity, magnitude will just be velocity * velocityScalar
+            plannedVector = plannedVector.times(velocityScalar);
         } else {
             plannedVector = plannedVector.div(targetKeyPoint.getSecondsForSegment());
         }
 
 
         //plannedVector.times(multiplier > 0 ? multiplier : 0.01);
+        aKitLog.record("OriginalPlannedVector", plannedVector);
 
         boolean targetingFinalPoint = index == keyPoints.size()-1 && lerpFraction >= 1;
         boolean isOnFinalLeg = index == keyPoints.size()-1;
