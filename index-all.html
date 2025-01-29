@@ -1356,6 +1356,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/components/BaseComponent.html#driveSubsystem()" class="member-name-link">driveSubsystem()</a> - Method in class xbot.common.injection.components.<a href="xbot/common/injection/components/BaseComponent.html" title="class in xbot.common.injection.components">BaseComponent</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.ControlMode.html#DutyCycle" class="member-name-link">DutyCycle</a> - Enum constant in enum class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.ControlMode.html" title="enum class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController.ControlMode</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.MotorPidMode.html#DutyCycle" class="member-name-link">DutyCycle</a> - Enum constant in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a></dt>
 <dd>
 <div class="block">DutyCycle mode is used to control the motor controller's output as a percentage of the maximum output.</div>
@@ -1859,6 +1861,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/injection/modules/MockDevicesModule.html#getCompressorFactory(xbot.common.controls.actuators.mock_adapters.MockCompressor.MockCompressorFactory)" class="member-name-link">getCompressorFactory(MockCompressor.MockCompressorFactory)</a> - Method in class xbot.common.injection.modules.<a href="xbot/common/injection/modules/MockDevicesModule.html" title="class in xbot.common.injection.modules">MockDevicesModule</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/modules/RealDevicesModule.html#getCompressorFactory(xbot.common.controls.actuators.wpi_adapters.CompressorWPIAdapter.CompressorWPIAdapterFactory)" class="member-name-link">getCompressorFactory(CompressorWPIAdapter.CompressorWPIAdapterFactory)</a> - Method in class xbot.common.injection.modules.<a href="xbot/common/injection/modules/RealDevicesModule.html" title="class in xbot.common.injection.modules">RealDevicesModule</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html#getControlMode()" class="member-name-link">getControlMode()</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCompressor.html#getCurrent()" class="member-name-link">getCurrent()</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCompressor.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCompressor</a></dt>
 <dd>&nbsp;</dd>
@@ -2789,6 +2793,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#getSwerveModuleStates()" class="member-name-link">getSwerveModuleStates()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html#getTargetPosition()" class="member-name-link">getTargetPosition()</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/swerve/SwerveModuleSubsystem.html#getTargetState()" class="member-name-link">getTargetState()</a> - Method in class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/BaseSetpointSubsystem.html#getTargetValue()" class="member-name-link">getTargetValue()</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a></dt>
@@ -2801,6 +2807,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Gets target angle in degrees</div>
 </dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html#getTargetVelocity()" class="member-name-link">getTargetVelocity()</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.html#getTargetX(int)" class="member-name-link">getTargetX(int)</a> - Method in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionSubsystem.html" title="class in xbot.common.subsystems.vision">AprilTagVisionSubsystem</a></dt>
 <dd>
 <div class="block">Returns the X angle to the best target, which can be used for simple servoing
@@ -3666,6 +3674,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html#%3Cinit%3E(xbot.common.injection.electrical_contract.CANMotorControllerInfo,java.lang.String,xbot.common.properties.PropertyFactory,xbot.common.injection.DevicePolice,java.lang.String,xbot.common.controls.actuators.XCANMotorControllerPIDProperties)" class="member-name-link">MockCANMotorController(CANMotorControllerInfo, String, PropertyFactory, DevicePolice, String, XCANMotorControllerPIDProperties)</a> - Constructor for class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.ControlMode.html" class="type-name-link" title="enum class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController.ControlMode</a> - Enum Class in <a href="xbot/common/controls/actuators/mock_adapters/package-summary.html">xbot.common.controls.actuators.mock_adapters</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.MockCANMotorControllerFactory.html" class="type-name-link" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController.MockCANMotorControllerFactory</a> - Class in <a href="xbot/common/controls/actuators/mock_adapters/package-summary.html">xbot.common.controls.actuators.mock_adapters</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.MockCANMotorControllerFactory.html#%3Cinit%3E()" class="member-name-link">MockCANMotorControllerFactory()</a> - Constructor for class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.MockCANMotorControllerFactory.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController.MockCANMotorControllerFactory</a></dt>
@@ -4156,6 +4166,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <code>position</code> record component.</div>
 </dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.ControlMode.html#Position" class="member-name-link">Position</a> - Enum constant in enum class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.ControlMode.html" title="enum class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController.ControlMode</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/PurePursuitCommand.html#positionalPid" class="member-name-link">positionalPid</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/PurePursuitCommand.html" title="class in xbot.common.subsystems.drive">PurePursuitCommand</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/RabbitPoint.PointType.html#PositionAndHeading" class="member-name-link">PositionAndHeading</a> - Enum constant in enum class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/RabbitPoint.PointType.html" title="enum class in xbot.common.subsystems.drive">RabbitPoint.PointType</a></dt>
@@ -6154,6 +6166,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.ControlMode.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.ControlMode.html" title="enum class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController.ControlMode</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this class with the specified name.</div>
+</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.MotorPidMode.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
@@ -6279,6 +6295,11 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
 <dt><a href="xbot/common/advantage/AKitLogger.LogLevel.html#values()" class="member-name-link">values()</a> - Static method in enum class xbot.common.advantage.<a href="xbot/common/advantage/AKitLogger.LogLevel.html" title="enum class in xbot.common.advantage">AKitLogger.LogLevel</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum class, in
+the order they are declared.</div>
+</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.ControlMode.html#values()" class="member-name-link">values()</a> - Static method in enum class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.ControlMode.html" title="enum class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController.ControlMode</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum class, in
 the order they are declared.</div>
@@ -6441,6 +6462,8 @@ the order they are declared.</div>
 <dt><a href="xbot/common/controls/io_inputs/XAbsoluteEncoderInputs.html#velocity" class="member-name-link">velocity</a> - Variable in class xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/XAbsoluteEncoderInputs.html" title="class in xbot.common.controls.io_inputs">XAbsoluteEncoderInputs</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/io_inputs/XCANSparkMaxInputs.html#velocity" class="member-name-link">velocity</a> - Variable in class xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/XCANSparkMaxInputs.html" title="class in xbot.common.controls.io_inputs">XCANSparkMaxInputs</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.ControlMode.html#Velocity" class="member-name-link">Velocity</a> - Enum constant in enum class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.ControlMode.html" title="enum class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController.ControlMode</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html#velocityFeedForward()" class="member-name-link">velocityFeedForward()</a> - Method in record class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties</a></dt>
 <dd>
