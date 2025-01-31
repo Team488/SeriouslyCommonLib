@@ -215,7 +215,7 @@ public class SwerveSimpleTrajectoryLogic {
 
         interpolator.setMaximumDistanceFromChasePointInMeters(0.5);
         interpolator.setKeyPoints(keyPoints);
-        interpolator.initialize(initialPoint);
+        interpolator.initialize(initialPoint, mode);
     }
 
     private void handleAimingAtFinalLeg(Pose2d currentPose) {
@@ -399,7 +399,7 @@ public class SwerveSimpleTrajectoryLogic {
     }
 
     public XYPair getGoalVector(Pose2d currentPose) {
-        lastResult = interpolator.calculateTarget(currentPose.getTranslation(), mode);
+        lastResult = interpolator.calculateTarget(currentPose.getTranslation());
         var chasePoint = lastResult.chasePoint;
 
         aKitLog.record("chasePoint", new Pose2d(chasePoint, Rotation2d.fromDegrees(0)));

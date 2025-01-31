@@ -28,6 +28,7 @@ public class SimpleTimeInterpolator {
     Logger log = LogManager.getLogger(SimpleTimeInterpolator.class);
     AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator/");
     RobotAssertionManager assertionManager;
+    private boolean usingKinematics;
 
     public class InterpolationResult {
         public Translation2d chasePoint;
@@ -90,13 +91,14 @@ public class SimpleTimeInterpolator {
         this.maximumDistanceFromChasePointInMeters = maximumDistanceFromChasePointInMeters;
     }
 
-    public void initialize(ProvidesInterpolationData baseline) {
+    public void initialize(ProvidesInterpolationData baseline, SwerveSimpleTrajectoryMode mode) {
         log.info("Initializing a SimpleTimeInterpolator");
         this.baseline = baseline;
         accumulatedProductiveSeconds = 0;
         previousTimestamp = XTimer.getFPGATimestamp();
         index = 0;
         calculator = null;
+        usingKinematics = (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints) || (mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList);
     }
 
     public SwerveKinematicsCalculator newCalculator(Translation2d targetPointTranslation2d, SwervePointKinematics kinematics) {
@@ -108,7 +110,7 @@ public class SimpleTimeInterpolator {
         );
     }
 
-    public InterpolationResult calculateTarget(Translation2d currentLocation, SwerveSimpleTrajectoryMode mode) {
+    public InterpolationResult calculateTarget(Translation2d currentLocation) {
         double currentTime = XTimer.getFPGATimestamp();
         aKitLog.record("CurrentTime", currentTime);
 
@@ -131,8 +133,7 @@ public class SimpleTimeInterpolator {
             return new InterpolationResult(currentLocation, true, targetKeyPoint.getRotation2d());
         }
 
-        if ((mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints
-                || mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList) && calculator == null) {
+        if (usingKinematics && calculator == null) {
             calculator = newCalculator(
                     targetKeyPoint.getTranslation2d(),
                     targetKeyPoint.getKinematics()
@@ -163,21 +164,17 @@ public class SimpleTimeInterpolator {
             log.info("Baseline is now " + baseline.getTranslation2d()
                     + " and target is now " + targetKeyPoint.getTranslation2d());
 
-            if (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints || mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList) {
-                calculator = newCalculator(
-                        targetKeyPoint.getTranslation2d(),
-                        targetKeyPoint.getKinematics()
-                );
+            if (usingKinematics) {
+                calculator = newCalculator(targetKeyPoint.getTranslation2d(), targetKeyPoint.getKinematics());
             }
         }
 
         // Most of the time, the fraction will be less than one.
         // In that case, we want to interpolate between the baseline and the target.
-        double multiplier = 1;
         if (lerpFraction < 1) {
-            if (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints || mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList) {
+            if (usingKinematics) {
                 double expectedMagnitudeTravelled = calculator.getDistanceTravelledAtCompletionPercentage(lerpFraction);
-                multiplier = expectedMagnitudeTravelled / calculator.getTotalDistanceInMeters(); // Magnitude progress
+                double multiplier = expectedMagnitudeTravelled / calculator.getTotalDistanceInMeters(); // Magnitude progress
                 chasePoint = baseline.getTranslation2d().interpolate(
                         targetKeyPoint.getTranslation2d(), multiplier);
             } else {
@@ -195,7 +192,7 @@ public class SimpleTimeInterpolator {
         // Set plannedVector to be the whole vector in the direction we are travelling in
         var plannedVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d());
 
-        if (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints || mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList) {
+        if (usingKinematics) {
             double expectedMagnitudeTravelled = calculator.getDistanceTravelledAtCompletionPercentage(lerpFraction);
             double velocityScalar = calculator.getVelocityAtDistanceTravelled(expectedMagnitudeTravelled);
 
