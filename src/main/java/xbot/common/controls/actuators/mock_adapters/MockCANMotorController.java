@@ -10,6 +10,7 @@ import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Velocity;
+import edu.wpi.first.units.measure.Voltage;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
@@ -157,6 +158,11 @@ public class MockCANMotorController extends XCANMotorController {
 
     public AngularVelocity getTargetVelocity() {
         return targetVelocity;
+    }
+
+    @Override
+    public void setVoltage(Voltage voltage) {
+        this.power = MathUtil.clamp(voltage.in(Volts) / 12.0, -1.0, 1.0);
     }
 
     @Override

@@ -491,6 +491,10 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         setActiveModule(this.activeModule.next());
     }
 
+    public SwerveModuleSubsystem getActiveSwerveModuleSubsystem() {
+        return this.getSwerveModuleSubsystem(this.activeModule);
+    }
+
     private SwerveModuleSubsystem getSwerveModuleSubsystem(SwerveModuleLocation location) {
         switch (location) {
             case FRONT_LEFT:
@@ -505,10 +509,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
                 log.warn("Attempted to get a SwerveModuleSubsystem for an invalid SwerveModuleLocation. Returning front left so that something is returned.");
                 return this.getFrontLeftSwerveModuleSubsystem();
         }
-    }
-
-    private SwerveModuleSubsystem getActiveSwerveModuleSubsystem() {
-        return this.getSwerveModuleSubsystem(this.activeModule);
     }
 
     private void stopInactiveModules() {
