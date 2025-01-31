@@ -4,6 +4,9 @@ import javax.inject.Inject;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -41,6 +44,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
     private final DoubleProperty degreesPerMotorRotation;
     private boolean useMotorControllerPid;
     private final DoubleProperty maxMotorEncoderDrift;
+    private final SysIdRoutine sysId;
 
     private Rotation2d currentModuleHeadingRotation2d;
     private XCANMotorController motorController;
@@ -64,6 +68,14 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         this.degreesPerMotorRotation = pf.createPersistentProperty("DegreesPerMotorRotation", 28.1503);
         this.useMotorControllerPid = true;
         this.maxMotorEncoderDrift = pf.createPersistentProperty("MaxEncoderDriftDegrees", 1.0);
+
+        sysId =
+                new SysIdRoutine(
+                        new SysIdRoutine.Config(
+                                null, null, null,
+                                (state) -> org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "/SysIdState", state.toString())),
+                        new SysIdRoutine.Mechanism(
+                                this::setVoltage, null, this));
 
         if (electricalContract.isDriveReady()) {
             this.motorController = mcFactory.create(
@@ -156,6 +168,24 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
     }
 
     /**
+     * Gets a command to run the SysId routine in the quasistatic mode.
+     * @param direction The direction to run the SysId routine.
+     * @return The command to run the SysId routine.
+     */
+    public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
+        return sysId.quasistatic(direction);
+    }
+
+    /**
+     * Gets a command to run the SysId routine in the dynamic mode.
+     * @param direction The direction to run the SysId routine.
+     * @return The command to run the SysId routine.
+     */
+    public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+        return sysId.dynamic(direction);
+    }
+
+    /**
      * Mark the current encoder position as facing forward (0 degrees)
      */
     public void calibrateHere() {
@@ -197,10 +227,18 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         return !currentCanCoderPosition.isNear(currentMotorControllerPosition, Degrees.of(maxDelta));
     }
 
+    /**
+     * Gets the motor controller for this steering module.
+     * @return The motor controller for this steering module.
+     */
     public XCANMotorController getMotorController() {
         return this.motorController;
     }
 
+    /**
+     * Gets the CANCoder for this steering module.
+     * @return The CANCoder for this steering module.
+     */
     public XCANCoder getEncoder() {
         return this.encoder;
     }
@@ -343,6 +381,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
                 getBestEncoderPosition().in(Degrees));
     }
 
+    @Override
     public void refreshDataFrame() {
         if (contract.isDriveReady()) {
             motorController.refreshDataFrame();
@@ -363,5 +402,11 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         // 3) CommandScheduler invokes individual commands, which use all this information to make decisions.
         double positionInDegrees = getBestEncoderPosition().in(Degrees);
         currentModuleHeadingRotation2d = Rotation2d.fromDegrees(positionInDegrees);
+    }
+
+    private void setVoltage(Voltage voltage) {
+        if (this.contract.isDriveReady()) {
+            this.motorController.setVoltage(voltage);
+        }
     }
 }

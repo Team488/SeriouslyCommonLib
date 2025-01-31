@@ -215,6 +215,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     public abstract void setVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot);
 
+    public abstract void setVoltage(Voltage voltage);
+
     public Voltage getVoltage() {
         return inputs.voltage;
     }
