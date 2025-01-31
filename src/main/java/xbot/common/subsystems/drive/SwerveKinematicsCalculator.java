@@ -16,7 +16,11 @@ public class SwerveKinematicsCalculator {
     (Breaks an XbotSwervePoint down into smaller nodes containing time, velocity, and acceleration)
     Note: goal velocity may not always be reached, but in such case will be as close as possible.
 
-    Code involving the quadratic formula IS NOT ROBUST (since only this script uses them as of currently)
+    Code involving the quadratic formula IS NOT ROBUST
+
+    And, 99 if not 100% of the math in this calculator is derived from 1D motion physics formulas! (Need Algebra)
+
+    TODO: Naming may have inconsistencies... maybe.
     */
 
     final double startPosition;
@@ -27,6 +31,9 @@ public class SwerveKinematicsCalculator {
     final double maxVelocity;
     final List<SwerveCalculatorNode> nodeMap;
     RobotAssertionManager assertionManager;
+
+    final double totalOperationTime;
+    final double totalOperationDistance;
 
     // Returns the x-intercepts of a quadratic equation
     private static List<Double> quadraticFormula(double a, double b, double c) {
@@ -62,7 +69,7 @@ public class SwerveKinematicsCalculator {
     public SwerveKinematicsCalculator(RobotAssertionManager assertionManager, double startPosition, double endPosition,
                                       SwervePointKinematics kinematics) {
         this.assertionManager = assertionManager;
-        // Gimmicky way to avoid division by zero and to deal with human code-error
+        // Gimmicky way to avoid division by zero
         if (endPosition - startPosition == 0) {
             assertionManager.throwException("Calculator instantiated for same start and end position", new Exception());
             endPosition += 0.01;
@@ -75,54 +82,64 @@ public class SwerveKinematicsCalculator {
         this.goalVelocity = kinematics.goalVelocity;
         this.maxVelocity = kinematics.maxVelocity;
 
-        // Likely need to validate the above values to prevent bad stuff
+        //TODO: Likely need to validate the above values to prevent bad stuff, works just fine serving for SwerveSimpleTrajectory though.
         nodeMap = generateNodeMap();
+
+        double time = 0;
+        for (SwerveCalculatorNode node : this.nodeMap) {
+            time += node.operationTime();
+        }
+        totalOperationTime = time;
+        totalOperationDistance = Math.abs(endPosition - startPosition);
     }
 
-    // Based off of given value, initialize the proper path, store notes in a list, and be prepared to output values
-    // (If velocity gets to negative we are *KINDA* cooked)
+    // Based off of given value, initialize the proper path, store the nodes in a list, and be prepared to output values
     public List<SwerveCalculatorNode> generateNodeMap() {
         List<SwerveCalculatorNode> nodeMap = new ArrayList<>();
         double leftoverDistance = endPosition - startPosition;
-
         double currentVelocity = initialVelocity;
 
-        // Deceleration
+        // We will first start by checking if we need to decelerate
         if (currentVelocity > goalVelocity) {
-            // Cruise as much as possible, then decelerate
+            // We want to go at MAXIMUM speed before decelerating to minimize operation time
             double decelerateToGoalVelocityTime = (goalVelocity - currentVelocity) / -acceleration;
             double distanceNeededToDecelerate = 0.5 * (currentVelocity + goalVelocity) * decelerateToGoalVelocityTime;
 
-            double distanceExcludingDeceleration = leftoverDistance - distanceNeededToDecelerate;
+            double amountOfDistanceBeforeDeceleration = leftoverDistance - distanceNeededToDecelerate;
 
-            if (distanceExcludingDeceleration > 0) {
-                double halfDistance = distanceExcludingDeceleration / 2;
+            if (amountOfDistanceBeforeDeceleration > 0) {
+                // We will try and accelerate as much as possible in this amount of distance, and to do that we can first assume
+                // that we'll just accelerate to a peak velocity, tippy-top of a mountain /\, then decelerate.
+                double halfDistance = amountOfDistanceBeforeDeceleration / 2;
                 double timeForHalf = calculateTimeToGoalPosition(acceleration, currentVelocity, 0, halfDistance);
                 double peakVelocity = currentVelocity + acceleration * timeForHalf;
 
+                // If our little peak is below the max velocity, all is great!
                 if (peakVelocity <= maxVelocity) {
                     // Add two nodes, accelerate to peak, decelerate to goal
                     nodeMap.add(new SwerveCalculatorNode(timeForHalf, acceleration, peakVelocity));
                     nodeMap.add(new SwerveCalculatorNode(timeForHalf, -acceleration, currentVelocity));
                 } else {
-                    // Going to peak will not work as it will exceed our maximumVelocity limit
-                    // Go to max, then cruise, then decelerate
-                    double timeFromCurrentToMaxV = (maxVelocity - currentVelocity) / acceleration; // Rename
+                    // Since going to peak will exceed our max velocity, we have to stop accelerating at the max velocity
+                    // and instead just cruise for some distance then decelerate.
+                    double timeFromCurrentToMaxV = (maxVelocity - currentVelocity) / acceleration;
                     double initialPosition = (endPosition - startPosition) - leftoverDistance;
                     double finalPositionAfterAcceleration = 0.5 * (currentVelocity + maxVelocity) * timeFromCurrentToMaxV + initialPosition;
                     double positionDelta = finalPositionAfterAcceleration - initialPosition;
-                    double cruiseDistance = distanceExcludingDeceleration - (positionDelta * 2);
+                    double cruiseDistance = amountOfDistanceBeforeDeceleration - (positionDelta * 2);
                     double cruiseTime = cruiseDistance / maxVelocity;
 
+                    // Through the above complicated stuff we figured out our time to accelerate/cruise/decelerate!
                     nodeMap.add(new SwerveCalculatorNode(timeFromCurrentToMaxV, acceleration, maxVelocity));
                     nodeMap.add(new SwerveCalculatorNode(cruiseTime, 0, maxVelocity));
                     nodeMap.add(new SwerveCalculatorNode(timeFromCurrentToMaxV, -acceleration, currentVelocity));
                 }
 
+                // Don't forget: after all the above our velocity is still at where we started, so we must decelerate to goalVelocity!
                 nodeMap.add(new SwerveCalculatorNode(decelerateToGoalVelocityTime, -acceleration, goalVelocity));
 
             } else {
-                // Decelerate as much as possible
+                // If we have to distance to go through before deceleration, then we'll just decelerate as if there is no tomorrow.
                 double decelerationTime = calculateTimeToGoalPosition(-acceleration, currentVelocity, 0, leftoverDistance);
                 nodeMap.add(new SwerveCalculatorNode(
                         decelerationTime,
@@ -133,15 +150,16 @@ public class SwerveKinematicsCalculator {
             return nodeMap;
         }
 
-        // Acceleration
+        // No need to decelerate? Let's see if we can accelerate
+        // We'll start by accelerating to our goalVelocity as even if we need to decelerate later due to
+        // the over-acceleration-for-minimum-time, we'll end up at our goalVelocity anyways
         if (currentVelocity < goalVelocity) {
             double initialToGoalVelocityTime = (goalVelocity - currentVelocity) / acceleration;
             double operationDistance = currentVelocity * initialToGoalVelocityTime
                     + 0.5 * acceleration * Math.pow(initialToGoalVelocityTime, 2);
 
+            // This is for if no matter how much you accelerate you won't reach goal... so we accelerate til the end!
             if (operationDistance >= leftoverDistance) {
-                // No matter how much you accelerate you won't reach goal velocity before distance...
-                // ...so we accelerate til the end!
                 double time = calculateTimeToGoalPosition(acceleration, currentVelocity, 0, leftoverDistance);
                 nodeMap.add(new SwerveCalculatorNode(
                         time,
@@ -150,29 +168,28 @@ public class SwerveKinematicsCalculator {
                 ));
                 return nodeMap;
             } else {
-                // Accelerate to goal velocity
+                // If all is normal, then we'll just accelerate to our goal velocity.
                 nodeMap.add(new SwerveCalculatorNode(initialToGoalVelocityTime, acceleration, goalVelocity));
                 leftoverDistance -= operationDistance;
                 currentVelocity = goalVelocity;
             }
         }
 
-        // STEP 2: If not at max velocity, build an accelerate->cruise>decelerate nodeMap
+        // If we are at our goalVelocity with distance to go, but not max speed, build accelerate->cruise>decelerate nodeMap
         if (currentVelocity < maxVelocity) {
-            // Check /\ (vortex) does the job (or maybe its peak exceeds maxVelocity)
-            // if not then we need to add a cruising part: /---\ (looks like this)
+            // Check /\ (vortex/peak) does the job (or maybe its peak exceeds maxVelocity)
+            // if not then we need to add a cruising part: /---\ (looks like this, same logic as deceleration!)
             double halfDistance = leftoverDistance / 2;
             double timeForHalf = calculateTimeToGoalPosition(acceleration, currentVelocity, 0, halfDistance);
-
-            // Figure out end velocity
             double peakVelocity = currentVelocity + acceleration * timeForHalf;
+
             if (peakVelocity <= maxVelocity) {
                 // Add two nodes, accelerate to peak, decelerate to goal
                 nodeMap.add(new SwerveCalculatorNode(timeForHalf, acceleration, peakVelocity));
                 nodeMap.add(new SwerveCalculatorNode(timeForHalf, -acceleration, goalVelocity));
             } else {
                 // Going to peak will not work as it will exceed our maximumVelocity limit
-                // Go to max, then cruise, then decelerate
+                // Go to max speed, then cruise, then decelerate to goal!
                 double timeFromGoalToMaxVelocity = (maxVelocity - currentVelocity) / acceleration;
                 double initialPosition = (endPosition - startPosition) - leftoverDistance;
                 double finalPositionAfterAcceleration = 0.5 * (currentVelocity + maxVelocity)
@@ -188,7 +205,7 @@ public class SwerveKinematicsCalculator {
             return nodeMap;
 
         } else {
-            // Cruise til the end if we are at both goal & max velocity!
+            // Otherwise, cruise til the end if we are at both goal & max velocity!
             double cruiseTime = leftoverDistance / currentVelocity;
             nodeMap.add(new SwerveCalculatorNode(
                     cruiseTime,
@@ -209,11 +226,7 @@ public class SwerveKinematicsCalculator {
     }
 
     public double getTotalOperationTime() {
-        double time = 0;
-        for (SwerveCalculatorNode node : this.nodeMap) {
-            time += node.operationTime();
-        }
-        return time;
+        return totalOperationTime;
     }
 
     public double getDistanceTravelledInMetersAtTime(double time) {
@@ -253,7 +266,7 @@ public class SwerveKinematicsCalculator {
     }
 
     public double getTotalDistanceInMeters() {
-        return Math.abs(endPosition - startPosition);
+        return totalOperationDistance;
     }
 
     public double getVelocityAtDistanceTravelled(double distanceTravelled) {
