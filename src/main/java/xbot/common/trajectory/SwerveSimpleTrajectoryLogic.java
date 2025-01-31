@@ -138,7 +138,6 @@ public class SwerveSimpleTrajectoryLogic {
         log.info("Resetting");
         keyPoints = keyPointsProvider.get();
         log.info("Key points size: " + keyPoints.size());
-        interpolator.resetCalculator();
 
         var initialPoint = new XbotSwervePoint(currentPose, 0);
 
