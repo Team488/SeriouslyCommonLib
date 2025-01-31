@@ -379,15 +379,6 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
 
         aKitLog.record("BestEncoderPositionDegrees",
                 getBestEncoderPosition().in(Degrees));
-
-        // Output values needed by SysId
-        if (contract.isDriveReady()) {
-            aKitLog.record("OutputVoltage", motorController.getVoltage());
-            aKitLog.record("OutputVelocity", motorController.getVelocity());
-        }
-        if (contract.areCanCodersReady()) {
-            aKitLog.record("OutputPosition", encoder.getPosition());
-        }
     }
 
     @Override
