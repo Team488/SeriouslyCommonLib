@@ -426,7 +426,7 @@ public class SwerveSimpleTrajectoryLogic {
         // from our proven SwerveToPointCommand. Eventually, the common components should be
         // refactored and should also move towards WPI objects (e.g. Pose2d rather than FieldPose).
 
-        // PID on the magnitude of the goal. Kind of similar to rotation,
+        // PID on the magnitude of the goal (chase point). Kind of similar to rotation,
         // our goal is "zero error".
         aKitLog.record("goalVector", goalVector);
         double magnitudeGoal = goalVector.getMagnitude();
@@ -463,12 +463,9 @@ public class SwerveSimpleTrajectoryLogic {
         // If we have no max velocity set, or we are on the last point and almost done, just use the position PID
         if (maximumVelocity <= 0 || (lastResult.isOnFinalPoint && lastResult.distanceToTargetPoint < 0.5) || lastResult.lerpFraction > 1) {
             return new Twist2d(intent.x, intent.y, headingPower);
+
         } else {
             // Otherwise, add the known velocity vector, so we can catch up to our goal.
-
-            // Get the dot product between the normalized goal vector and the normalized velocity vector.
-            // Quick check for being right on the goal point
-
             var plannedVelocityVector = lastResult.plannedVector;
 
             // This does some fancy dot product magic so that we go slower if we are off-track
@@ -488,10 +485,11 @@ public class SwerveSimpleTrajectoryLogic {
             var scaledPlannedVector = plannedVelocityVector.div(maximumVelocity);
             aKitLog.record("scaledPlannedVector", scaledPlannedVector);
 
-            // Add the PositionPID powers
+            // Add our natural velocity vector to the PositionPID powers into a combined vector
+            // NOTE: This combinedVector is in "power space" so it SHOULD be in the range of [-1, 1]
             var combinedVector = scaledPlannedVector.plus(new Translation2d(intent.x, intent.y));
 
-            // If we've somehow gone above 100% power, scale it back to magnitude of 1
+            // If we have *somehow* gone above 100% power, scale it back to magnitude of 1
             if (combinedVector.getNorm() > 1) {
                 combinedVector = combinedVector.div(combinedVector.getNorm());
             }

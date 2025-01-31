@@ -120,7 +120,6 @@ public class SimpleTimeInterpolator {
         accumulatedProductiveSeconds += secondsSinceLastExecute;
 
         // If we somehow have no points to visit, don't do anything.
-
         if (keyPoints == null || keyPoints.size() == 0) {
             log.warn("No key points to visit!");
             return new InterpolationResult(currentLocation, true, Rotation2d.fromDegrees(0));
@@ -145,13 +144,13 @@ public class SimpleTimeInterpolator {
         Translation2d chasePoint = targetKeyPoint.getTranslation2d();
 
         // Now, try to find a better point via linear interpolation.
+        // LerpFraction ranges from 0-1, and it is our goal completion progress to chasePoint
         double lerpFraction = (accumulatedProductiveSeconds) / targetKeyPoint.getSecondsForSegment();
         aKitLog.record("LerpFraction", lerpFraction);
         aKitLog.record("accumulatedProductiveSeconds", accumulatedProductiveSeconds);
 
 
-        // If the fraction is above 1, it's time to set a new baseline point and start LERPing on the next
-        // one.
+        // If the fraction is above 1, it's time to set a new baseline point and start LERPing on the next point
         if (lerpFraction >= 1 && index < keyPoints.size()-1) {
             // What was our target now becomes our baseline.
             baseline = targetKeyPoint;
@@ -159,6 +158,7 @@ public class SimpleTimeInterpolator {
             lerpFraction = 0;
             log.info("LerpFraction is above one, so advancing to next keypoint");
             index++;
+
             // And set our new target to the next element of the list
             targetKeyPoint = keyPoints.get(index);
             log.info("Baseline is now " + baseline.getTranslation2d()
@@ -173,23 +173,27 @@ public class SimpleTimeInterpolator {
         // In that case, we want to interpolate between the baseline and the target.
         if (lerpFraction < 1) {
             if (usingKinematics) {
+                // This will be a curve as the calculator will do some fancy stuff with acceleration and velocity
                 double expectedMagnitudeTravelled = calculator.getDistanceTravelledAtCompletionPercentage(lerpFraction);
-                double multiplier = expectedMagnitudeTravelled / calculator.getTotalDistanceInMeters(); // Magnitude progress
+                double multiplier = expectedMagnitudeTravelled / calculator.getTotalDistanceInMeters();
                 chasePoint = baseline.getTranslation2d().interpolate(
                         targetKeyPoint.getTranslation2d(), multiplier);
             } else {
+                // This will be a linear interpolation
                 chasePoint = baseline.getTranslation2d().interpolate(
                         targetKeyPoint.getTranslation2d(), lerpFraction);
             }
         }
 
-        // But if that chase point is "too far ahead", we need to freeze the chasePoint
+        // Now, if that chase point is "too far ahead", we need to freeze the chasePoint to allow the robot to catch up!
+        // Ideally, this should NEVER happen unless there are outside interference, and we will rely on PID to push us near
+        // the chase point again and everything will continue like normal. This effectively "rewinds time" for the next loop.
         if (currentLocation.getDistance(chasePoint) > maximumDistanceFromChasePointInMeters) {
-            // This effectively "rewinds time" for the next loop.
             accumulatedProductiveSeconds -= secondsSinceLastExecute;
         }
 
-        // Set plannedVector to be the whole vector in the direction we are travelling in
+        // The plannedVector is our speed at the current time, IRL and in simulation, this may be behind
+        // due to friction, but that's what PID is for.
         var plannedVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d());
 
         if (usingKinematics) {
@@ -197,7 +201,6 @@ public class SimpleTimeInterpolator {
             double velocityScalar = calculator.getVelocityAtDistanceTravelled(expectedMagnitudeTravelled);
 
             // We have a velocity, so we now only need to scale our plannedVector to that
-            // We normalize our plannedVector, then scale the vector to our velocity, magnitude will just be velocity * velocityScalar
             plannedVector = plannedVector.times(velocityScalar / plannedVector.getNorm());
         } else {
             plannedVector = plannedVector.div(targetKeyPoint.getSecondsForSegment());
