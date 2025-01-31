@@ -24,9 +24,18 @@ import static edu.wpi.first.units.Units.Volts;
 import static edu.wpi.first.units.Units.Rotations;
 
 public class MockCANMotorController extends XCANMotorController {
+    public enum ControlMode {
+        DutyCycle,
+        Position,
+        Velocity
+    }
 
+    private ControlMode controlMode = ControlMode.DutyCycle;
     private double power = 0.0;
     private Angle position = Rotations.zero();
+    private Angle targetPosition = Rotations.zero();
+    private AngularVelocity targetVelocity = RPM.zero();
+    private AngularVelocity velocity = RPM.zero();
     public double p;
     public double i;
     public double d;
@@ -92,6 +101,15 @@ public class MockCANMotorController extends XCANMotorController {
 
     @Override
     public void setPower(double power) {
+        controlMode = ControlMode.DutyCycle;
+        this.power = MathUtil.clamp(power, -1.0, 1.0);
+    }
+
+    /*
+     * Set the internal power of the motor controller without changing the controlMode.
+     * Useful for simulating an internal pid on a motor controller.
+     */
+    public void setPowerInternal(double power) {
         this.power = MathUtil.clamp(power, -1.0, 1.0);
     }
 
@@ -118,22 +136,36 @@ public class MockCANMotorController extends XCANMotorController {
 
     @Override
     public void setPositionTarget(Angle position, MotorPidMode mode, int slot) {
+        controlMode = ControlMode.Position;
+        this.targetPosition = position;
+    }
 
+    public Angle getTargetPosition() {
+        return targetPosition;
     }
 
     @Override
     public AngularVelocity getVelocity() {
-        return RPM.zero();
+        return velocity;
     }
 
     @Override
     public void setVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot) {
+        controlMode = ControlMode.Velocity;
+        this.targetVelocity = velocity;
+    }
 
+    public AngularVelocity getTargetVelocity() {
+        return targetVelocity;
     }
 
     @Override
     public boolean isInverted() {
         return false;
+    }
+
+    public ControlMode getControlMode() {
+        return controlMode;
     }
 
     @Override
