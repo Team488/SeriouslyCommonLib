@@ -417,6 +417,17 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
 
     }
 
+    /*
+        Method sets all swerve modules to one target SwerveModuleState.
+        This should only be used when all swerve modules need to be at the same target state.
+     */
+    public void setAllSwerveModulesToTargetState(SwerveModuleState swerveModuleState) {
+        this.getFrontLeftSwerveModuleSubsystem().setTargetState(swerveModuleState);
+        this.getFrontRightSwerveModuleSubsystem().setTargetState(swerveModuleState);
+        this.getRearLeftSwerveModuleSubsystem().setTargetState(swerveModuleState);
+        this.getRearRightSwerveModuleSubsystem().setTargetState(swerveModuleState);
+    }
+
     /***
      * Give the same power to all steering modules, and the another power to all the drive wheels.
      * Does not currently use PID! As a result, wheel positions will vary wildly!
