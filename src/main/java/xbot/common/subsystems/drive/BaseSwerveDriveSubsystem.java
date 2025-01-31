@@ -193,9 +193,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
             double currentHeading,
             XYPair centerOfRotationInches) {
 
-        lastRawCommandedDirection = new Translation2d(translation.x, translation.y);
-        lastRawCommandedRotation = rotation;
-
         // rotate the translation vector into the robot coordinate frame
         XYPair fieldRelativeVector = translation.clone();
 
@@ -333,8 +330,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
      */
     public void move(XYPair translate, double rotate, XYPair centerOfRotationInches) {
 
-        lastRawCommandedRotation = rotate;
-
         if (activateBrakeOverride) {
             this.setWheelsToXMode();
             return;
@@ -420,6 +415,17 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         this.getRearLeftSwerveModuleSubsystem().setTargetState(frontRight);
         this.getRearRightSwerveModuleSubsystem().setTargetState(frontLeft);
 
+    }
+
+    /*
+        Method sets all swerve modules to one target SwerveModuleState.
+        This should only be used when all swerve modules need to be at the same target state.
+     */
+    public void setAllSwerveModulesToTargetState(SwerveModuleState swerveModuleState) {
+        this.getFrontLeftSwerveModuleSubsystem().setTargetState(swerveModuleState);
+        this.getFrontRightSwerveModuleSubsystem().setTargetState(swerveModuleState);
+        this.getRearLeftSwerveModuleSubsystem().setTargetState(swerveModuleState);
+        this.getRearRightSwerveModuleSubsystem().setTargetState(swerveModuleState);
     }
 
     /***
