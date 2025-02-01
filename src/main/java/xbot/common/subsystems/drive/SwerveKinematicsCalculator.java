@@ -5,24 +5,16 @@ import xbot.common.logging.RobotAssertionManager;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is designed to compute the motion of a swerve drive system from a starting position and velocity
+ * to a goal position and velocity. It takes inputs like acceleration, goal velocity, and max velocity to generate
+ * a sequence of motion stages that prioritizes the fastest possible route while respecting its goals.
+ * That said, it *may not* ALWAYS reach its goals if it is absurd/impossible!
+ * NOTE: Quadratic formula code IS NOT ROBUST and is ONLY safe for calculations for SwerveSimpleTrajectory.
+ * Please make adjustments if you are planning to use the static method and note that the quadratic formula IRL
+ * may result in 0, 1, or 2 solutions; just that in this use case will guarantee 2 solutions.
+ */
 public class SwerveKinematicsCalculator {
-
-    /*
-    The SwerveKinematicsCalculator is designed to compute the motion of a swerve drive system from a starting position
-     and velocity to a goal position and velocity. It takes into account parameters like maximum acceleration,
-     goal velocity, and maximum velocity to generate a sequence of motion stages, ensuring precise path planning
-     and execution.
-
-    (Breaks an XbotSwervePoint down into smaller nodes containing time, velocity, and acceleration)
-    Note: goal velocity may not always be reached, but in such case will be as close as possible.
-
-    Code involving the quadratic formula IS NOT ROBUST
-
-    And, 99 if not 100% of the math in this calculator is derived from 1D motion physics formulas! (Need Algebra)
-
-    TODO: Naming may have inconsistencies... maybe.
-    */
-
     final double startPosition;
     final double endPosition;
     final double acceleration;
@@ -152,7 +144,7 @@ public class SwerveKinematicsCalculator {
 
         // No need to decelerate? Let's see if we can accelerate
         // We'll start by accelerating to our goalVelocity as even if we need to decelerate later due to
-        // the over-acceleration-for-minimum-time, we'll end up at our goalVelocity anyways
+        // the over-acceleration-for-minimum-time, we'll end up at our goalVelocity anyway
         if (currentVelocity < goalVelocity) {
             double initialToGoalVelocityTime = (goalVelocity - currentVelocity) / acceleration;
             double operationDistance = currentVelocity * initialToGoalVelocityTime

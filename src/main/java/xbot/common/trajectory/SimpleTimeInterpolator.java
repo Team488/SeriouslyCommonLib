@@ -98,7 +98,7 @@ public class SimpleTimeInterpolator {
         previousTimestamp = XTimer.getFPGATimestamp();
         index = 0;
         calculator = null;
-        usingKinematics = (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints) || (mode == SwerveSimpleTrajectoryMode.KinematicsForPointsList);
+        usingKinematics = (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints) || (mode == SwerveSimpleTrajectoryMode.GlobalKinematicsValue);
     }
 
     public SwerveKinematicsCalculator newCalculator(Translation2d targetPointTranslation2d, SwervePointKinematics kinematics) {

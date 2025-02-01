@@ -169,7 +169,7 @@ public class SwerveSimpleTrajectoryLogic {
                 }
                 keyPoints = getKinematicsAdjustedSwervePoints(initialPoint, keyPoints);
             }
-            case KinematicsForPointsList -> {
+            case GlobalKinematicsValue -> {
                 if (globalKinematics == null) {
                     assertionManager.throwException("Needs to set globalKinematics!", new Exception());
                 }
