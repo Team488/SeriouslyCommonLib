@@ -36,7 +36,11 @@ repositories {
 
     maven { url "https://3015rangerrobotics.github.io/pathplannerlib/repo"}
 
+    maven { url "https://storage.googleapis.com/grapple-frc-maven"}
+
     maven { url uri ("../SeriouslyCommonLib/lib/")}
+
+
 
     mavenLocal()
 }
