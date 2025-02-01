@@ -65,11 +65,14 @@ public class SwerveKinematicsCalculator {
         double c = initialPosition - goalPosition;
         if (acceleration == 0) {
             return Seconds.of(-c/b);
-
         }
 
-        // Result will consist of two solutions (positive and negative), we want the positive one
+        // If acceleration is positive, we'll get a positive & negative solution, we want the positive one.
+        // If acceleration is negative, we'll get two positive solutions, we want the smaller one.
         List<Double> result = quadraticFormula(a, b, c);
+        if (acceleration < 0) {
+            return Seconds.of(Math.min(result.get(0), result.get(1)));
+        }
         return Seconds.of(Math.max(result.get(0), result.get(1)));
     }
 
@@ -81,11 +84,6 @@ public class SwerveKinematicsCalculator {
         if (endPosition - startPosition == 0) {
             assertionManager.throwException("Calculator instantiated for same start and end position", new Exception());
             endPosition += 0.01;
-        }
-
-        // Acceleration should never be below 0! If it's a competition, we'll just have to roll with it for now
-        if (kinematics.acceleration() < 0) {
-            assertionManager.throwException("Calculator instantiated with negative acceleration", new Exception());
         }
 
         this.startPosition = startPosition;
