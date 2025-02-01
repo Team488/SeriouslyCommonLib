@@ -114,12 +114,17 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the current time in seconds since the FPGA was powered on.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getMatchTime()" class="member-name-link">getMatchTime</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setImplementation(xbot.common.controls.sensors.XTimerImpl)" class="member-name-link">setImplementation</a><wbr>(<a href="XTimerImpl.html" title="interface in xbot.common.controls.sensors">XTimerImpl</a>&nbsp;implementation)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Time.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Time</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getFPGATimestampTime()" class="member-name-link">getFPGATimestampTime</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Returns the current time in seconds since the FPGA was powered on.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static double</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getMatchTime()" class="member-name-link">getMatchTime</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setImplementation(xbot.common.controls.sensors.XTimerImpl)" class="member-name-link">setImplementation</a><wbr>(<a href="XTimerImpl.html" title="interface in xbot.common.controls.sensors">XTimerImpl</a>&nbsp;implementation)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -161,6 +166,17 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getFPGATimestamp()">
 <h3>getFPGATimestamp</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getFPGATimestamp</span>()</div>
+<div class="block">Returns the current time in seconds since the FPGA was powered on.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>Time in seconds</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getFPGATimestampTime()">
+<h3>getFPGATimestampTime</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Time.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Time</a></span>&nbsp;<span class="element-name">getFPGATimestampTime</span>()</div>
 <div class="block">Returns the current time in seconds since the FPGA was powered on.</div>
 <dl class="notes">
 <dt>Returns:</dt>
