@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
+import edu.wpi.first.units.measure.LinearVelocity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.advantage.AKitLogger;
@@ -19,6 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 
 public class SwerveSimpleTrajectoryLogic {
@@ -310,13 +314,13 @@ public class SwerveSimpleTrajectoryLogic {
                 // If we've moved on to later points, we can now safely get previous entries in the list.
                 previous = swervePoints.get(i - 1);
                 // Calculate the initial velocity of current node
-                current.setKinematics(current.kinematics.kinematicsWithNewInitialVelocity(calculator.getVelocityAtFinish()));
+                current.setKinematics(current.kinematics.kinematicsWithNewInitialVelocity(MetersPerSecond.of(calculator.getVelocityAtFinish())));
             }
             double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
             calculator = new SwerveKinematicsCalculator(
                     assertionManager,
-                    0,
-                    distance,
+                    Meters.zero(),
+                    Meters.of(distance),
                     current.getKinematics()
             );
             double adjustedDuration = calculator.getTotalOperationTime().in(Seconds);
@@ -354,8 +358,8 @@ public class SwerveSimpleTrajectoryLogic {
 
         SwerveKinematicsCalculator calculator = new SwerveKinematicsCalculator(
                 assertionManager,
-                0,
-                totalDistance,
+                Meters.zero(),
+                Meters.of(totalDistance),
                 globalKinematics
         );
 
@@ -370,15 +374,15 @@ public class SwerveSimpleTrajectoryLogic {
 
             // NEED: acceleration, initialVelocity, finalVelocity, maxVelocity,
             // we got a and vMax which is global now we need vInitial and vFinal
-            double vi = calculator.getVelocityAtDistanceTravelled(accumulatedDistance);
+            LinearVelocity vi = MetersPerSecond.of(calculator.getVelocityAtDistanceTravelled(accumulatedDistance));
             double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
             accumulatedDistance += distance;
-            double vf = calculator.getVelocityAtDistanceTravelled(accumulatedDistance);
+            LinearVelocity vf = MetersPerSecond.of(calculator.getVelocityAtDistanceTravelled(accumulatedDistance));
 
             SwerveKinematicsCalculator operationCalculator = new SwerveKinematicsCalculator(
                     assertionManager,
-                    0,
-                    distance,
+                    Meters.zero(),
+                    Meters.of(distance),
                     new SwervePointKinematics(globalKinematics.acceleration(), vi, vf, globalKinematics.maxVelocity())
             );
 

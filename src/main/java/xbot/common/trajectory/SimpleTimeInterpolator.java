@@ -13,6 +13,9 @@ import xbot.common.subsystems.drive.SwervePointKinematics;
 import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
 
 import java.util.List;
+
+import static edu.wpi.first.units.Units.Meters;
+
 public class SimpleTimeInterpolator {
 
     double accumulatedProductiveSeconds;
@@ -104,8 +107,8 @@ public class SimpleTimeInterpolator {
     public SwerveKinematicsCalculator newCalculator(Translation2d targetPointTranslation2d, SwervePointKinematics kinematics) {
         return new SwerveKinematicsCalculator(
                 assertionManager,
-                0,
-                baseline.getTranslation2d().minus(targetPointTranslation2d).getNorm(),
+                Meters.zero(),
+                Meters.of(baseline.getTranslation2d().minus(targetPointTranslation2d).getNorm()),
                 kinematics
         );
     }
@@ -175,7 +178,7 @@ public class SimpleTimeInterpolator {
             if (usingKinematics) {
                 // This will be a curve as the calculator will do some fancy stuff with acceleration and velocity
                 double expectedMagnitudeTravelled = calculator.getDistanceTravelledAtCompletionPercentage(lerpFraction);
-                double multiplier = expectedMagnitudeTravelled / calculator.getTotalOperationDistance();
+                double multiplier = expectedMagnitudeTravelled / calculator.getTotalOperationDistance().in(Meters);
                 chasePoint = baseline.getTranslation2d().interpolate(
                         targetKeyPoint.getTranslation2d(), multiplier);
             } else {

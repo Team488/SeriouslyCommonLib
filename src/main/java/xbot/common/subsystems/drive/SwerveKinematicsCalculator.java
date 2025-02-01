@@ -1,11 +1,16 @@
 package xbot.common.subsystems.drive;
 
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Time;
 import xbot.common.logging.RobotAssertionManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static edu.wpi.first.units.Units.Meter;
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 
 /**
@@ -18,7 +23,7 @@ import static edu.wpi.first.units.Units.Seconds;
  * Please make adjustments if you are planning to use the static method and note that the quadratic formula IRL
  * may result in 0, 1, or 2 solutions; just that in this use case will guarantee 2 solutions.
  * <p>
- * UNITS-WISE: It doesn't matter, but everything regarding time should be in SECONDS (velocity & acceleration as well!)
+ * UNITS-WISE: This calculator uses meters but you can feed it any units!
  */
 public class SwerveKinematicsCalculator {
 
@@ -32,7 +37,7 @@ public class SwerveKinematicsCalculator {
     RobotAssertionManager assertionManager;
 
     final Time totalOperationTime;
-    final double totalOperationDistance;
+    final Distance totalOperationDistance;
 
     // Returns the x-intercepts of a quadratic equation
 
@@ -76,22 +81,27 @@ public class SwerveKinematicsCalculator {
         return Seconds.of(Math.max(result.get(0), result.get(1)));
     }
 
-    public SwerveKinematicsCalculator(RobotAssertionManager assertionManager, double startPosition, double endPosition,
+    public SwerveKinematicsCalculator(RobotAssertionManager assertionManager, Distance startPosition, Distance endPosition,
                                       SwervePointKinematics kinematics) {
         this.assertionManager = assertionManager;
 
         // Gimmicky way to avoid division by zero
-        if (endPosition - startPosition == 0) {
+        if (endPosition.in(Meters) - startPosition.in(Meters) == 0) {
             assertionManager.throwException("Calculator instantiated for same start and end position", new Exception());
-            endPosition += 0.01;
+            endPosition = Meters.of(endPosition.in(Meters) + 0.01);
         }
 
-        this.startPosition = startPosition;
-        this.endPosition = endPosition;
-        this.acceleration = kinematics.acceleration();
-        this.initialVelocity = kinematics.initialVelocity();
-        this.goalVelocity = kinematics.goalVelocity();
-        this.maxVelocity = kinematics.maxVelocity();
+        // Acceleration normally should not be negative!
+        if (kinematics.acceleration().in(MetersPerSecondPerSecond) < 0) {
+            assertionManager.throwException("Calculator instantiated with negative acceleration", new Exception());
+        }
+
+        this.startPosition = startPosition.in(Meters);
+        this.endPosition = endPosition.in(Meters);
+        this.acceleration = kinematics.acceleration().in(MetersPerSecondPerSecond);
+        this.initialVelocity = kinematics.initialVelocity().in(MetersPerSecond);
+        this.goalVelocity = kinematics.goalVelocity().in(MetersPerSecond);
+        this.maxVelocity = kinematics.maxVelocity().in(MetersPerSecond);
 
         //TODO: Likely need to validate the above values to prevent bad stuff, works just fine serving for SwerveSimpleTrajectory though.
         nodeMap = generateNodeMap();
@@ -101,7 +111,7 @@ public class SwerveKinematicsCalculator {
             timeInSeconds += node.operationTime().in(Seconds);
         }
         totalOperationTime = Seconds.of(timeInSeconds);
-        totalOperationDistance = Math.abs(endPosition - startPosition);
+        totalOperationDistance = Meters.of(Math.abs(endPosition.minus(startPosition).in(Meter)));
     }
 
     // Based off of given value, initialize the proper path, store the nodes in a list, and be prepared to output values
@@ -280,7 +290,7 @@ public class SwerveKinematicsCalculator {
         return getDistanceTravelledInMetersAtTime(time);
     }
 
-    public double getTotalOperationDistance() {
+    public Distance getTotalOperationDistance() {
         return totalOperationDistance;
     }
 

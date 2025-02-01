@@ -7,6 +7,7 @@ import xbot.common.logging.RobotAssertionManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Seconds;
 import static org.junit.Assert.assertEquals;
 
@@ -23,8 +24,8 @@ public class SwerveCalculatorTest extends BaseCommonLibTest {
     private SwerveKinematicsCalculator newCalculator(double acceleration, double vInitial, double vGoal, double vMax) {
         return new SwerveKinematicsCalculator(
                 assertionManager,
-                0,
-                10,
+                Meters.zero(),
+                Meters.of(10),
                 new SwervePointKinematics(acceleration, vInitial, vGoal, vMax)
         );
     }
