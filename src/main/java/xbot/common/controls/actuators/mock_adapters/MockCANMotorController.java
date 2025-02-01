@@ -150,6 +150,10 @@ public class MockCANMotorController extends XCANMotorController {
         return velocity;
     }
 
+    public void setVelocity(AngularVelocity velocity) {
+        this.velocity = velocity;
+    }
+
     @Override
     public void setVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot) {
         controlMode = ControlMode.Velocity;
