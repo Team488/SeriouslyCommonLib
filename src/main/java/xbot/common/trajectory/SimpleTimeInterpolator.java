@@ -175,7 +175,7 @@ public class SimpleTimeInterpolator {
             if (usingKinematics) {
                 // This will be a curve as the calculator will do some fancy stuff with acceleration and velocity
                 double expectedMagnitudeTravelled = calculator.getDistanceTravelledAtCompletionPercentage(lerpFraction);
-                double multiplier = expectedMagnitudeTravelled / calculator.getTotalDistanceInMeters();
+                double multiplier = expectedMagnitudeTravelled / calculator.getTotalOperationDistance();
                 chasePoint = baseline.getTranslation2d().interpolate(
                         targetKeyPoint.getTranslation2d(), multiplier);
             } else {

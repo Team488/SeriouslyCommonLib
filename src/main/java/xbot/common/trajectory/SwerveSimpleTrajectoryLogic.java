@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import static edu.wpi.first.units.Units.Seconds;
+
 public class SwerveSimpleTrajectoryLogic {
 
     Logger log = LogManager.getLogger(this.getClass());
@@ -317,7 +319,7 @@ public class SwerveSimpleTrajectoryLogic {
                     distance,
                     current.getKinematics()
             );
-            double adjustedDuration = calculator.getTotalOperationTime();
+            double adjustedDuration = calculator.getTotalOperationTime().in(Seconds);
 
             if (adjustedDuration > 0) {
                 XbotSwervePoint point = new XbotSwervePoint(current.keyPose, adjustedDuration);
@@ -380,7 +382,7 @@ public class SwerveSimpleTrajectoryLogic {
                     new SwervePointKinematics(globalKinematics.acceleration(), vi, vf, globalKinematics.maxVelocity())
             );
 
-            double adjustedDuration = operationCalculator.getTotalOperationTime();
+            double adjustedDuration = operationCalculator.getTotalOperationTime().in(Seconds);
 
             if (adjustedDuration > 0) {
                 XbotSwervePoint point = new XbotSwervePoint(current.keyPose, adjustedDuration);
