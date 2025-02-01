@@ -267,9 +267,8 @@ public class SwerveSimpleTrajectoryLogic {
         ArrayList<XbotSwervePoint> velocityAdjustedPoints = new ArrayList<>();
 
         // Now, the rest follow this general pattern. Compare the current point to the next point, and adjust the duration.
+        XbotSwervePoint previous = initialPoint;
         for (int i = 0; i < swervePoints.size(); i++) {
-
-            XbotSwervePoint previous = initialPoint;
             if (i > 0) {
                 // If we've moved on to later points, we can now safely get previous entries in the list.
                 previous = swervePoints.get(i - 1);
@@ -302,14 +301,14 @@ public class SwerveSimpleTrajectoryLogic {
         ArrayList<XbotSwervePoint> adjustedPoints = new ArrayList<>();
 
         SwerveKinematicsCalculator calculator = null;
+        XbotSwervePoint previous = initialPoint;
         for (int i = 0; i < swervePoints.size(); i++) {
-            XbotSwervePoint previous = initialPoint;
             var current = swervePoints.get(i);
             if (i > 0) {
                 // If we've moved on to later points, we can now safely get previous entries in the list.
                 previous = swervePoints.get(i - 1);
                 // Calculate the initial velocity of current node
-                current.setKinematics(current.kinematics.kinematicsWithNewVi(calculator.getVelocityAtFinish()));
+                current.setKinematics(current.kinematics.kinematicsWithNewInitialVelocity(calculator.getVelocityAtFinish()));
             }
             double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
             calculator = new SwerveKinematicsCalculator(
@@ -359,8 +358,8 @@ public class SwerveSimpleTrajectoryLogic {
         );
 
         double accumulatedDistance = 0;
+        XbotSwervePoint previous = initialPoint;
         for (int i = 0; i < swervePoints.size(); i++) {
-            XbotSwervePoint previous = initialPoint;
             var current = swervePoints.get(i);
             if (i > 0) {
                 // If we've moved on to later points, we can now safely get previous entries in the list.
@@ -378,14 +377,14 @@ public class SwerveSimpleTrajectoryLogic {
                     assertionManager,
                     0,
                     distance,
-                    new SwervePointKinematics(globalKinematics.getAcceleration(), vi, vf, globalKinematics.getMaxVelocity())
+                    new SwervePointKinematics(globalKinematics.acceleration(), vi, vf, globalKinematics.maxVelocity())
             );
 
             double adjustedDuration = operationCalculator.getTotalOperationTime();
 
             if (adjustedDuration > 0) {
                 XbotSwervePoint point = new XbotSwervePoint(current.keyPose, adjustedDuration);
-                point.setKinematics(new SwervePointKinematics(globalKinematics.getAcceleration(), vi, vf, globalKinematics.getMaxVelocity()));
+                point.setKinematics(new SwervePointKinematics(globalKinematics.acceleration(), vi, vf, globalKinematics.maxVelocity()));
                 adjustedPoints.add(point);
             }
         }

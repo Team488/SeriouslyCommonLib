@@ -69,10 +69,10 @@ public class SwerveKinematicsCalculator {
 
         this.startPosition = startPosition;
         this.endPosition = endPosition;
-        this.acceleration = kinematics.acceleration;
-        this.initialVelocity = kinematics.initialVelocity;
-        this.goalVelocity = kinematics.goalVelocity;
-        this.maxVelocity = kinematics.maxVelocity;
+        this.acceleration = kinematics.acceleration();
+        this.initialVelocity = kinematics.initialVelocity();
+        this.goalVelocity = kinematics.goalVelocity();
+        this.maxVelocity = kinematics.maxVelocity();
 
         //TODO: Likely need to validate the above values to prevent bad stuff, works just fine serving for SwerveSimpleTrajectory though.
         nodeMap = generateNodeMap();

@@ -1,28 +1,25 @@
 package xbot.common.subsystems.drive;
 
-// Contains a set of kinematics values
-public class SwervePointKinematics {
-    final double acceleration; //  Units: m/s^2
-    final double initialVelocity; // Units: m/s
-    final double goalVelocity; // m/s, velocity you want to be when you reach your goal, may not always be fulfilled.
-    final double maxVelocity; // m/s
-
-    public SwervePointKinematics(double a, double initialVelocity, double goalVelocity, double maxVelocity) {
-        this.acceleration = a;
+public record SwervePointKinematics(double acceleration, double initialVelocity, double goalVelocity, double maxVelocity) {
+    /**
+     * A set of kinematics values to be used
+     * @param acceleration    in meters/second^2
+     * @param initialVelocity in meters/second; velocity at start
+     * @param goalVelocity    in meters/second; velocity we WANT to end at
+     * @param maxVelocity     in meters/second; max speed constraint
+     */
+    public SwervePointKinematics(double acceleration, double initialVelocity, double goalVelocity, double maxVelocity) {
+        this.acceleration = acceleration;
         this.initialVelocity = initialVelocity;
         this.goalVelocity = Math.max(Math.min(maxVelocity, goalVelocity), -maxVelocity);
         this.maxVelocity = maxVelocity;
     }
 
-    public SwervePointKinematics kinematicsWithNewVi(double newVi) {
-        return new SwervePointKinematics(acceleration, newVi, goalVelocity, maxVelocity);
-    }
-
-    public double getAcceleration() {
-        return this.acceleration;
-    }
-
-    public double getMaxVelocity() {
-        return this.maxVelocity;
+    /**
+     * @param newInitialVelocity for the set of kinematics
+     * @return a new set of kinematics values!
+     */
+    public SwervePointKinematics kinematicsWithNewInitialVelocity(double newInitialVelocity) {
+        return new SwervePointKinematics(acceleration, newInitialVelocity, goalVelocity, maxVelocity);
     }
 }
