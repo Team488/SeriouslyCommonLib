@@ -2,6 +2,8 @@ package xbot.common.trajectory;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.LinearVelocity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,6 +17,8 @@ import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
 import java.util.List;
 
 import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Value;
 
 public class SimpleTimeInterpolator {
 
@@ -177,8 +181,8 @@ public class SimpleTimeInterpolator {
         if (lerpFraction < 1) {
             if (usingKinematics) {
                 // This will be a curve as the calculator will do some fancy stuff with acceleration and velocity
-                double expectedMagnitudeTravelled = calculator.getDistanceTravelledAtCompletionPercentage(lerpFraction);
-                double multiplier = expectedMagnitudeTravelled / calculator.getTotalOperationDistance().in(Meters);
+                Distance expectedMagnitudeTravelled = calculator.getDistanceTravelledAtCompletionPercentage(lerpFraction);
+                double multiplier = expectedMagnitudeTravelled.div(calculator.getTotalOperationDistance()).in(Value);
                 chasePoint = baseline.getTranslation2d().interpolate(
                         targetKeyPoint.getTranslation2d(), multiplier);
             } else {
@@ -200,11 +204,11 @@ public class SimpleTimeInterpolator {
         var plannedVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d());
 
         if (usingKinematics) {
-            double expectedMagnitudeTravelled = calculator.getDistanceTravelledAtCompletionPercentage(lerpFraction);
-            double velocityScalar = calculator.getVelocityAtDistanceTravelled(expectedMagnitudeTravelled);
+            Distance expectedMagnitudeTravelled = calculator.getDistanceTravelledAtCompletionPercentage(lerpFraction);
+            LinearVelocity velocityScalar = calculator.getVelocityAtDistanceTravelled(expectedMagnitudeTravelled);
 
             // We have a velocity, so we now only need to scale our plannedVector to that
-            plannedVector = plannedVector.times(velocityScalar / plannedVector.getNorm());
+            plannedVector = plannedVector.times(velocityScalar.in(MetersPerSecond) / plannedVector.getNorm());
         } else {
             plannedVector = plannedVector.div(targetKeyPoint.getSecondsForSegment());
         }

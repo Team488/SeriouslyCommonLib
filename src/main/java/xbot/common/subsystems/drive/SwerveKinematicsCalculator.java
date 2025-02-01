@@ -1,6 +1,7 @@
 package xbot.common.subsystems.drive;
 
 import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Time;
 import xbot.common.logging.RobotAssertionManager;
 
@@ -23,7 +24,7 @@ import static edu.wpi.first.units.Units.Seconds;
  * Please make adjustments if you are planning to use the static method and note that the quadratic formula IRL
  * may result in 0, 1, or 2 solutions; just that in this use case will guarantee 2 solutions.
  * <p>
- * UNITS-WISE: This calculator uses meters but you can feed it any units!
+ * UNITS-WISE: This calculator uses meters, but you can feed it any units!
  */
 public class SwerveKinematicsCalculator {
 
@@ -138,8 +139,8 @@ public class SwerveKinematicsCalculator {
                 // If our little peak is below the max velocity, all is great!
                 if (peakVelocity <= maxVelocity) {
                     // Add two nodes, accelerate to peak, decelerate to goal
-                    nodeMap.add(new CalculatorNode(Seconds.of(timeForHalf), acceleration, peakVelocity));
-                    nodeMap.add(new CalculatorNode(Seconds.of(timeForHalf), -acceleration, currentVelocity));
+                    nodeMap.add(new CalculatorNode(timeForHalf, acceleration, peakVelocity));
+                    nodeMap.add(new CalculatorNode(timeForHalf, -acceleration, currentVelocity));
                 } else {
                     // Since going to peak will exceed our max velocity, we have to stop accelerating at the max velocity
                     // and instead just cruise for some distance then decelerate.
@@ -151,19 +152,19 @@ public class SwerveKinematicsCalculator {
                     double cruiseTime = cruiseDistance / maxVelocity;
 
                     // Through the above complicated stuff we figured out our time to accelerate/cruise/decelerate!
-                    nodeMap.add(new CalculatorNode(Seconds.of(timeFromCurrentToMaxV), acceleration, maxVelocity));
-                    nodeMap.add(new CalculatorNode(Seconds.of(cruiseTime), 0, maxVelocity));
-                    nodeMap.add(new CalculatorNode(Seconds.of(timeFromCurrentToMaxV), -acceleration, currentVelocity));
+                    nodeMap.add(new CalculatorNode(timeFromCurrentToMaxV, acceleration, maxVelocity));
+                    nodeMap.add(new CalculatorNode(cruiseTime, 0, maxVelocity));
+                    nodeMap.add(new CalculatorNode(timeFromCurrentToMaxV, -acceleration, currentVelocity));
                 }
 
                 // Don't forget: after all the above our velocity is still at where we started, so we must decelerate to goalVelocity!
-                nodeMap.add(new CalculatorNode(Seconds.of(decelerateToGoalVelocityTime), -acceleration, goalVelocity));
+                nodeMap.add(new CalculatorNode(decelerateToGoalVelocityTime, -acceleration, goalVelocity));
 
             } else {
                 // If we have to distance to go through before deceleration, then we'll just decelerate as if there is no tomorrow.
                 double decelerationTime = calculateTimeToGoalPosition(-acceleration, currentVelocity, 0, leftoverDistance).in(Seconds);
                 nodeMap.add(new CalculatorNode(
-                        Seconds.of(decelerationTime),
+                        decelerationTime,
                         -acceleration,
                         currentVelocity - acceleration * decelerationTime
                 ));
@@ -183,14 +184,14 @@ public class SwerveKinematicsCalculator {
             if (operationDistance >= leftoverDistance) {
                 double time = calculateTimeToGoalPosition(acceleration, currentVelocity, 0, leftoverDistance).in(Seconds);
                 nodeMap.add(new CalculatorNode(
-                        Seconds.of(time),
+                        time,
                         acceleration,
                         currentVelocity + acceleration * time
                 ));
                 return nodeMap;
             } else {
                 // If all is normal, then we'll just accelerate to our goal velocity.
-                nodeMap.add(new CalculatorNode(Seconds.of(initialToGoalVelocityTime), acceleration, goalVelocity));
+                nodeMap.add(new CalculatorNode(initialToGoalVelocityTime, acceleration, goalVelocity));
                 leftoverDistance -= operationDistance;
                 currentVelocity = goalVelocity;
             }
@@ -206,8 +207,8 @@ public class SwerveKinematicsCalculator {
 
             if (peakVelocity <= maxVelocity) {
                 // Add two nodes, accelerate to peak, decelerate to goal
-                nodeMap.add(new CalculatorNode(Seconds.of(timeForHalf), acceleration, peakVelocity));
-                nodeMap.add(new CalculatorNode(Seconds.of(timeForHalf), -acceleration, goalVelocity));
+                nodeMap.add(new CalculatorNode(timeForHalf, acceleration, peakVelocity));
+                nodeMap.add(new CalculatorNode(timeForHalf, -acceleration, goalVelocity));
             } else {
                 // Going to peak will not work as it will exceed our maximumVelocity limit
                 // Go to max speed, then cruise, then decelerate to goal!
@@ -219,9 +220,9 @@ public class SwerveKinematicsCalculator {
                 double cruiseDistance = leftoverDistance - (positionDelta * 2);
                 double cruiseTime = cruiseDistance / maxVelocity;
 
-                nodeMap.add(new CalculatorNode(Seconds.of(timeFromGoalToMaxVelocity), acceleration, maxVelocity));
-                nodeMap.add(new CalculatorNode(Seconds.of(cruiseTime), 0, maxVelocity));
-                nodeMap.add(new CalculatorNode(Seconds.of(timeFromGoalToMaxVelocity), -acceleration, goalVelocity));
+                nodeMap.add(new CalculatorNode(timeFromGoalToMaxVelocity, acceleration, maxVelocity));
+                nodeMap.add(new CalculatorNode(cruiseTime, 0, maxVelocity));
+                nodeMap.add(new CalculatorNode(timeFromGoalToMaxVelocity, -acceleration, goalVelocity));
             }
             return nodeMap;
 
@@ -229,7 +230,7 @@ public class SwerveKinematicsCalculator {
             // Otherwise, cruise til the end if we are at both goal & max velocity!
             double cruiseTime = leftoverDistance / currentVelocity;
             nodeMap.add(new CalculatorNode(
-                    Seconds.of(cruiseTime),
+                    cruiseTime,
                     0,
                     currentVelocity
             ));
@@ -241,7 +242,7 @@ public class SwerveKinematicsCalculator {
         return nodeMap;
     }
 
-    public double getVelocityAtFinish() {
+    public LinearVelocity getVelocityAtFinish() {
         CalculatorNode finalNode = nodeMap.get(nodeMap.size() - 1);
         return finalNode.operationEndingVelocity();
     }
@@ -250,34 +251,34 @@ public class SwerveKinematicsCalculator {
         return totalOperationTime;
     }
 
-    public double getDistanceTravelledInMetersAtTime(double time) {
-        if (time < 0) {
+    public Distance getDistanceTravelledAtTime(Time time) {
+        if (time.in(Seconds) < 0) {
             assertionManager.throwException("Invalid time to getDistanceTravelledInMetersAtTime", new Exception());
-            return 0;
+            return Meters.zero();
         }
         double elapsedTime = 0;
-        double totalDistance = 0;
+        double totalDistanceInMeters = 0;
         double velocity = initialVelocity;
         for (CalculatorNode node : this.nodeMap) {
             // Get amount of time elapsed (no exceed time)
             // Add distance with node
             double operationTime = node.operationTime().in(Seconds);
-            if ((time - (operationTime + elapsedTime)) >= 0) {
+            if ((time.in(Seconds) - (operationTime + elapsedTime)) >= 0) {
                 double distanceTravelled = velocity * operationTime
-                        + 0.5 * node.operationAcceleration() * Math.pow(operationTime, 2);
-                totalDistance += distanceTravelled;
-                velocity = node.operationEndingVelocity();
+                        + 0.5 * node.operationAcceleration().in(MetersPerSecondPerSecond) * Math.pow(operationTime, 2);
+                totalDistanceInMeters += distanceTravelled;
+                velocity = node.operationEndingVelocity().in(MetersPerSecond);
                 elapsedTime += operationTime;
             } else {
                 // Find the amount of time we'll be using the node
-                operationTime = time - elapsedTime;
+                operationTime = time.in(Seconds) - elapsedTime;
                 double distanceTravelled = velocity * operationTime
-                        + 0.5 * node.operationAcceleration() * Math.pow(operationTime, 2);
-                totalDistance += distanceTravelled;
+                        + 0.5 * node.operationAcceleration().in(MetersPerSecondPerSecond) * Math.pow(operationTime, 2);
+                totalDistanceInMeters += distanceTravelled;
                 break;
             }
         }
-        return totalDistance;
+        return Meters.of(totalDistanceInMeters);
     }
 
     /**
@@ -285,40 +286,39 @@ public class SwerveKinematicsCalculator {
      * @param percentage progress of completion
      * @return distance travelled in whatever units was used upon the instantiation of the calculator
      */
-    public double getDistanceTravelledAtCompletionPercentage(double percentage) {
-        double time = getTotalOperationTime().in(Seconds) * percentage;
-        return getDistanceTravelledInMetersAtTime(time);
+    public Distance getDistanceTravelledAtCompletionPercentage(double percentage) {
+        return getDistanceTravelledAtTime(getTotalOperationTime().times(percentage));
     }
 
     public Distance getTotalOperationDistance() {
         return totalOperationDistance;
     }
 
-    public double getVelocityAtDistanceTravelled(double distanceTravelled) {
-        double totalDistanceTravelled = 0;
-        double currentVelocity = initialVelocity;
+    public LinearVelocity getVelocityAtDistanceTravelled(Distance distanceTravelled) {
+        double totalDistanceTravelledInMeters = 0;
+        double currentVelocityInMeters = initialVelocity;
         for (CalculatorNode node : this.nodeMap) {
 
             // Find amount of distance current node travels
             double nodeOperationTimeInSeconds = node.operationTime().in(Seconds);
-            double operationDistance = (currentVelocity * nodeOperationTimeInSeconds) + (0.5
-                    * node.operationAcceleration()) * Math.pow(nodeOperationTimeInSeconds, 2);
+            double operationDistance = (currentVelocityInMeters * nodeOperationTimeInSeconds) + (0.5
+                    * node.operationAcceleration().in(MetersPerSecondPerSecond)) * Math.pow(nodeOperationTimeInSeconds, 2);
 
             // Continue until we land on the node we stop in
-            if (distanceTravelled - (totalDistanceTravelled + operationDistance) >= 0) {
-                totalDistanceTravelled += operationDistance;
-                currentVelocity += (node.operationAcceleration() * nodeOperationTimeInSeconds);
+            if (distanceTravelled.in(Meters) - (totalDistanceTravelledInMeters + operationDistance) >= 0) {
+                totalDistanceTravelledInMeters += operationDistance;
+                currentVelocityInMeters += (node.operationAcceleration().in(MetersPerSecondPerSecond) * nodeOperationTimeInSeconds);
             } else {
                 // Accelerate the remaining distance
                 double operationTime = calculateTimeToGoalPosition(
-                        node.operationAcceleration(),
-                        currentVelocity,
-                        totalDistanceTravelled,
-                        distanceTravelled).in(Seconds);
-                currentVelocity += (node.operationAcceleration() * operationTime);
+                        node.operationAcceleration().in(MetersPerSecondPerSecond),
+                        currentVelocityInMeters,
+                        totalDistanceTravelledInMeters,
+                        distanceTravelled.in(Meters)).in(Seconds);
+                currentVelocityInMeters += (node.operationAcceleration().in(MetersPerSecondPerSecond) * operationTime);
                 break;
             }
         }
-        return currentVelocity;
+        return MetersPerSecond.of(currentVelocityInMeters);
     }
 }

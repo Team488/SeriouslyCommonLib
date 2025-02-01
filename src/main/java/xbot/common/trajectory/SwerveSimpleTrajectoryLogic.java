@@ -314,7 +314,7 @@ public class SwerveSimpleTrajectoryLogic {
                 // If we've moved on to later points, we can now safely get previous entries in the list.
                 previous = swervePoints.get(i - 1);
                 // Calculate the initial velocity of current node
-                current.setKinematics(current.kinematics.kinematicsWithNewInitialVelocity(MetersPerSecond.of(calculator.getVelocityAtFinish())));
+                current.setKinematics(current.kinematics.kinematicsWithNewInitialVelocity(calculator.getVelocityAtFinish()));
             }
             double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
             calculator = new SwerveKinematicsCalculator(
@@ -374,10 +374,10 @@ public class SwerveSimpleTrajectoryLogic {
 
             // NEED: acceleration, initialVelocity, finalVelocity, maxVelocity,
             // we got a and vMax which is global now we need vInitial and vFinal
-            LinearVelocity vi = MetersPerSecond.of(calculator.getVelocityAtDistanceTravelled(accumulatedDistance));
+            LinearVelocity vi = calculator.getVelocityAtDistanceTravelled(Meters.of(accumulatedDistance));
             double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
             accumulatedDistance += distance;
-            LinearVelocity vf = MetersPerSecond.of(calculator.getVelocityAtDistanceTravelled(accumulatedDistance));
+            LinearVelocity vf = calculator.getVelocityAtDistanceTravelled(Meters.of(accumulatedDistance));
 
             SwerveKinematicsCalculator operationCalculator = new SwerveKinematicsCalculator(
                     assertionManager,

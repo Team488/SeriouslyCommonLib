@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 import static org.junit.Assert.assertEquals;
 
@@ -34,8 +36,9 @@ public class SwerveCalculatorTest extends BaseCommonLibTest {
         assertEquals(map1.size(), map2.size());
         for (int i = 0; i < map1.size(); i++) {
             assertEquals(map1.get(i).operationTime().in(Seconds), map2.get(i).operationTime().in(Seconds), 0.001);
-            assertEquals(map1.get(i).operationAcceleration(), map2.get(i).operationAcceleration(), 0.001);
-            assertEquals(map1.get(i).operationEndingVelocity(), map2.get(i).operationEndingVelocity(), 0.001);
+            assertEquals(map1.get(i).operationEndingVelocity().in(MetersPerSecond), map2.get(i).operationEndingVelocity().in(MetersPerSecond), 0.001);
+            assertEquals(map1.get(i).operationAcceleration().in(MetersPerSecondPerSecond),
+                    map2.get(i).operationAcceleration().in(MetersPerSecondPerSecond), 0.001);
         }
     }
 
