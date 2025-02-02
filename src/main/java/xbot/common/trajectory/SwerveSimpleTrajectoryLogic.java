@@ -4,28 +4,36 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
+import edu.wpi.first.units.measure.LinearVelocity;
 import org.apache.logging.log4j.LogManager;
-
+import org.apache.logging.log4j.Logger;
 import xbot.common.advantage.AKitLogger;
+import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
+import xbot.common.subsystems.drive.SwerveKinematicsCalculator;
+import xbot.common.subsystems.drive.SwervePointKinematics;
+import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
+import static edu.wpi.first.units.Units.Seconds;
+
 public class SwerveSimpleTrajectoryLogic {
 
-    org.apache.logging.log4j.Logger log = LogManager.getLogger(this.getClass());
+    Logger log = LogManager.getLogger(this.getClass());
     final AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator/");
 
     private Supplier<List<XbotSwervePoint>> keyPointsProvider;
     private List<XbotSwervePoint> keyPoints;
-    private boolean enableConstantVelocity = false;
-    private double constantVelocity = 0.25;
     private boolean stopWhenFinished = true;
-    private final SimpleTimeInterpolator interpolator = new SimpleTimeInterpolator();
+    private final SimpleTimeInterpolator interpolator;
     SimpleTimeInterpolator.InterpolationResult lastResult;
     double maxPower = 1.0;
     double maxTurningPower = 1.0;
@@ -38,9 +46,14 @@ public class SwerveSimpleTrajectoryLogic {
     private Pose2d specialAimTarget;
     private boolean prioritizeRotationIfCloseToGoal = false;
     private double distanceThresholdToPrioritizeRotation = 1.5;
+    private double constantVelocity = 0;
+    private SwervePointKinematics globalKinematics = null;
+    private SwerveSimpleTrajectoryMode mode = SwerveSimpleTrajectoryMode.DurationInSeconds;
+    RobotAssertionManager assertionManager;
 
-    public SwerveSimpleTrajectoryLogic() {
-
+    public SwerveSimpleTrajectoryLogic(RobotAssertionManager assertionManager) {
+        this.assertionManager = assertionManager;
+        interpolator = new SimpleTimeInterpolator(this.assertionManager);
     }
 
     // --------------------------------------------------------------
@@ -91,15 +104,9 @@ public class SwerveSimpleTrajectoryLogic {
         this.maxTurningPower = maxTurningPower;
     }
 
-    public void setEnableConstantVelocity(boolean enableConstantVelocity) {
-        this.enableConstantVelocity = enableConstantVelocity;
+    public List<XbotSwervePoint> getKeyPoints() {
+        return this.keyPointsProvider.get();
     }
-
-    public void setConstantVelocity(double constantVelocity) {
-        this.constantVelocity = constantVelocity;
-    }
-
-    public List<XbotSwervePoint> getKeyPoints() { return this.keyPointsProvider.get(); }
 
     public List<XbotSwervePoint> getResolvedKeyPoints() {
         return keyPoints;
@@ -115,6 +122,18 @@ public class SwerveSimpleTrajectoryLogic {
 
     public void setDistanceThresholdToPrioritizeRotation(double distanceThresholdToPrioritizeRotation) {
         this.distanceThresholdToPrioritizeRotation = distanceThresholdToPrioritizeRotation;
+    }
+
+    public void setVelocityMode(SwerveSimpleTrajectoryMode mode) {
+        this.mode = mode;
+    }
+
+    public void setConstantVelocity(double constantVelocity) {
+        this.constantVelocity = constantVelocity;
+    }
+
+    public void setGlobalKinematicValues(SwervePointKinematics globalKinematics) {
+        this.globalKinematics = globalKinematics;
     }
 
     // --------------------------------------------------------------
@@ -135,7 +154,7 @@ public class SwerveSimpleTrajectoryLogic {
             // Visualize direct raycast
             var start = new XbotSwervePoint(currentPose.getTranslation(), currentPose.getRotation(), 0);
             var raycast = XbotSwervePoint.generateTrajectory(List.of(
-                start, keyPoints.get(0))
+                    start, keyPoints.get(0))
             );
             aKitLog.record("Raycast", raycast);
 
@@ -144,8 +163,28 @@ public class SwerveSimpleTrajectoryLogic {
                     new Pose2d(targetPoint.getTranslation2d(), targetPoint.getRotation2d()));
         }
 
-        if (enableConstantVelocity) {
-            keyPoints = getVelocityAdjustedSwervePoints(initialPoint, keyPoints, constantVelocity);
+        // Adjust points based on mode, since the logic at default is optimized for "DurationInSeconds" we need
+        // To convert over modes to have values in DurationInSeconds.
+        switch (mode) {
+            case DurationInSeconds -> {} // The logic at default is optimized for duration in seconds.
+            case KinematicsForIndividualPoints -> {
+                for (XbotSwervePoint point : keyPoints) {
+                    if (point.getKinematics() == null) {
+                        assertionManager.throwException("Needs to set kinematics for swerve point!", new Exception());
+                    }
+                }
+                keyPoints = getKinematicsAdjustedSwervePoints(initialPoint, keyPoints);
+            }
+            case GlobalKinematicsValue -> {
+                if (globalKinematics == null) {
+                    assertionManager.throwException("Needs to set globalKinematics!", new Exception());
+                }
+                keyPoints = getGlobalKinematicsAdjustedSwervePoints(initialPoint, keyPoints, currentPose);
+            }
+            case ConstantVelocity -> {
+                keyPoints = getVelocityAdjustedSwervePoints(initialPoint, keyPoints, constantVelocity);
+            }
+            default -> assertionManager.throwException("No handling for SwerveSimpleTrajectoryMode!", new Exception());
         }
 
         handleAimingAtFinalLeg(currentPose);
@@ -178,12 +217,11 @@ public class SwerveSimpleTrajectoryLogic {
             }
         }
 
-        aKitLog.record("Trajectory",
-                XbotSwervePoint.generateTrajectory(keyPoints));
+        aKitLog.record("Trajectory", XbotSwervePoint.generateTrajectory(keyPoints));
 
         interpolator.setMaximumDistanceFromChasePointInMeters(0.5);
         interpolator.setKeyPoints(keyPoints);
-        interpolator.initialize(initialPoint);
+        interpolator.initialize(initialPoint, mode);
     }
 
     private void handleAimingAtFinalLeg(Pose2d currentPose) {
@@ -235,9 +273,8 @@ public class SwerveSimpleTrajectoryLogic {
         ArrayList<XbotSwervePoint> velocityAdjustedPoints = new ArrayList<>();
 
         // Now, the rest follow this general pattern. Compare the current point to the next point, and adjust the duration.
+        XbotSwervePoint previous = initialPoint;
         for (int i = 0; i < swervePoints.size(); i++) {
-
-            XbotSwervePoint previous = initialPoint;
             if (i > 0) {
                 // If we've moved on to later points, we can now safely get previous entries in the list.
                 previous = swervePoints.get(i - 1);
@@ -261,6 +298,109 @@ public class SwerveSimpleTrajectoryLogic {
         }
 
         return velocityAdjustedPoints;
+    }
+
+    private List<XbotSwervePoint> getKinematicsAdjustedSwervePoints(
+            XbotSwervePoint initialPoint,
+            List<XbotSwervePoint> swervePoints) {
+
+        ArrayList<XbotSwervePoint> adjustedPoints = new ArrayList<>();
+
+        SwerveKinematicsCalculator calculator = null;
+        XbotSwervePoint previous = initialPoint;
+        for (int i = 0; i < swervePoints.size(); i++) {
+            var current = swervePoints.get(i);
+            if (i > 0) {
+                // If we've moved on to later points, we can now safely get previous entries in the list.
+                previous = swervePoints.get(i - 1);
+                // Calculate the initial velocity of current node
+                current.setKinematics(current.kinematics.kinematicsWithNewInitialVelocity(calculator.getVelocityAtFinish()));
+            }
+            double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
+            calculator = new SwerveKinematicsCalculator(
+                    assertionManager,
+                    Meters.zero(),
+                    Meters.of(distance),
+                    current.getKinematics()
+            );
+            double adjustedDuration = calculator.getTotalOperationTime().in(Seconds);
+
+            if (adjustedDuration > 0) {
+                XbotSwervePoint point = new XbotSwervePoint(current.keyPose, adjustedDuration);
+                point.setKinematics(current.getKinematics());
+                adjustedPoints.add(point);
+            }
+        }
+
+        if (adjustedPoints.size() == 0) {
+            var dummyPoint = new XbotSwervePoint(initialPoint.keyPose, 0.05);
+            adjustedPoints.add(dummyPoint);
+        }
+
+        return adjustedPoints;
+    }
+
+    // Instead of using kinematic values of each individual SwervePoint
+    // We use kinematic values "globalKinematics" set in this logic
+    private List<XbotSwervePoint> getGlobalKinematicsAdjustedSwervePoints(
+            XbotSwervePoint initialPoint,
+            List<XbotSwervePoint> swervePoints,
+            Pose2d startingPose) {
+
+        ArrayList<XbotSwervePoint> adjustedPoints = new ArrayList<>();
+
+        double totalDistance = 0;
+        Translation2d currentPosition = startingPose.getTranslation();
+        for (XbotSwervePoint point : swervePoints) {
+            totalDistance += currentPosition.getDistance(point.keyPose.getTranslation());
+            currentPosition = point.keyPose.getTranslation();
+        }
+
+        SwerveKinematicsCalculator calculator = new SwerveKinematicsCalculator(
+                assertionManager,
+                Meters.zero(),
+                Meters.of(totalDistance),
+                globalKinematics
+        );
+
+        double accumulatedDistance = 0;
+        XbotSwervePoint previous = initialPoint;
+        for (int i = 0; i < swervePoints.size(); i++) {
+            var current = swervePoints.get(i);
+            if (i > 0) {
+                // If we've moved on to later points, we can now safely get previous entries in the list.
+                previous = swervePoints.get(i - 1);
+            }
+
+            // NEED: acceleration, initialVelocity, finalVelocity, maxVelocity,
+            // we got a and vMax which is global now we need vInitial and vFinal
+            LinearVelocity vi = calculator.getVelocityAtDistanceTravelled(Meters.of(accumulatedDistance));
+            double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
+            accumulatedDistance += distance;
+            LinearVelocity vf = calculator.getVelocityAtDistanceTravelled(Meters.of(accumulatedDistance));
+
+            SwerveKinematicsCalculator operationCalculator = new SwerveKinematicsCalculator(
+                    assertionManager,
+                    Meters.zero(),
+                    Meters.of(distance),
+                    new SwervePointKinematics(globalKinematics.acceleration(), vi, vf, globalKinematics.maxVelocity())
+            );
+
+            double adjustedDuration = operationCalculator.getTotalOperationTime().in(Seconds);
+
+            if (adjustedDuration > 0) {
+                XbotSwervePoint point = new XbotSwervePoint(current.keyPose, adjustedDuration);
+                point.setKinematics(new SwervePointKinematics(globalKinematics.acceleration(), vi, vf, globalKinematics.maxVelocity()));
+                adjustedPoints.add(point);
+            }
+        }
+
+        if (adjustedPoints.size() == 0) {
+            var dummyPoint = new XbotSwervePoint(initialPoint.keyPose, 0.05);
+            adjustedPoints.add(dummyPoint);
+        }
+
+        return adjustedPoints;
     }
 
     public XYPair getGoalVector(Pose2d currentPose) {
@@ -291,7 +431,7 @@ public class SwerveSimpleTrajectoryLogic {
         // from our proven SwerveToPointCommand. Eventually, the common components should be
         // refactored and should also move towards WPI objects (e.g. Pose2d rather than FieldPose).
 
-        // PID on the magnitude of the goal. Kind of similar to rotation,
+        // PID on the magnitude of the goal (chase point). Kind of similar to rotation,
         // our goal is "zero error".
         aKitLog.record("goalVector", goalVector);
         double magnitudeGoal = goalVector.getMagnitude();
@@ -306,7 +446,7 @@ public class SwerveSimpleTrajectoryLogic {
 
         boolean lastLegAndSpecialAim = enableSpecialAimDuringFinalLeg && lastResult.isOnFinalLeg;
 
-        if (specialAimTarget != null && (enableSpecialAimTarget || lastLegAndSpecialAim )) {
+        if (specialAimTarget != null && (enableSpecialAimTarget || lastLegAndSpecialAim)) {
             degreeTarget = getAngleBetweenTwoPoints(
                     currentPose.getTranslation(), specialAimTarget.getTranslation()
             ).getDegrees();
@@ -324,19 +464,17 @@ public class SwerveSimpleTrajectoryLogic {
         }
 
         aKitLog.record("UpdatedIntent", intent);
+
         // If we have no max velocity set, or we are on the last point and almost done, just use the position PID
         if (maximumVelocity <= 0 || (lastResult.isOnFinalPoint && lastResult.distanceToTargetPoint < 0.5) || lastResult.lerpFraction > 1) {
             return new Twist2d(intent.x, intent.y, headingPower);
-        }
-        else
-        {
+
+        } else {
             // Otherwise, add the known velocity vector, so we can catch up to our goal.
-
-            // Get the dot product between the normalized goal vector and the normalized velocity vector.
-            // Quick check for being right on the goal point
-
             var plannedVelocityVector = lastResult.plannedVector;
 
+            // This does some fancy dot product magic so that we go slower if we are off-track
+            // Giving PositionalPID additional time to push us back to our desired route
             if (goalVector.getMagnitude() > 0.33) {
                 var normalizedGoalVector = goalVector.scale(1 / goalVector.getMagnitude());
                 var normalizedVelocityVector = plannedVelocityVector.times(1 / plannedVelocityVector.getNorm());
@@ -348,15 +486,17 @@ public class SwerveSimpleTrajectoryLogic {
             }
 
             // Scale the planned vector, which is currently in velocity space, to "power space" so we can add it to the intent.
-            double scalarFactor = plannedVelocityVector.getNorm() / maximumVelocity;
-            var scaledPlannedVector = plannedVelocityVector.times(scalarFactor / maximumVelocity);
+            // This makes our scaledPlannedVector to be a ratio with maximumVelocity, to represent amount of power to input.
+            var scaledPlannedVector = plannedVelocityVector.div(maximumVelocity);
             aKitLog.record("scaledPlannedVector", scaledPlannedVector);
-            // Add the PositionPID powers
+
+            // Add our natural velocity vector to the PositionPID powers into a combined vector
+            // NOTE: This combinedVector is in "power space" so it SHOULD be in the range of [-1, 1]
             var combinedVector = scaledPlannedVector.plus(new Translation2d(intent.x, intent.y));
 
-            // If we've somehow gone above 100% power, scale it back down
+            // If we have *somehow* gone above 100% power, scale it back to magnitude of 1
             if (combinedVector.getNorm() > 1) {
-                combinedVector = combinedVector.times(1 / combinedVector.getNorm());
+                combinedVector = combinedVector.div(combinedVector.getNorm());
             }
 
             // If we're close to our target but not aimed at it, scale back translation so rotation can finish
@@ -393,6 +533,4 @@ public class SwerveSimpleTrajectoryLogic {
     public SimpleTimeInterpolator.InterpolationResult getLastResult() {
         return lastResult;
     }
-
-
 }
