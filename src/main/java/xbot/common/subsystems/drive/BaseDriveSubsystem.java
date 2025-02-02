@@ -184,4 +184,24 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     protected double getMaxOutput(XYPair translation, double rotation) {
         return Math.abs(translation.x) + Math.abs(translation.y) + Math.abs(rotation);
     }
+
+
+    /**
+     * Returns the recommended power (units -1 to 1) to achieve a relative position change.
+     * @param goalPosition The desired change in position, relative to the robot.
+     * @return Power to apply to the drive subsystem (e.g. the magnitude of a Translation2d, whose x/y
+     * components would be sent to a move() call.
+     */
+    public Translation2d getPowerForRelativePositionChange(Translation2d goalPosition) {
+        double goalMagnitude = goalPosition.getNorm();
+
+        if (Math.abs(goalMagnitude) <  0.0001) {
+            goalMagnitude = 0.0001;
+        }
+        Translation2d normalizedGoalVector = goalPosition.div(goalMagnitude);
+
+        double power = -this.getPositionalPid().calculate(0, goalMagnitude);
+
+        return normalizedGoalVector.times(power);
+    }
 }
