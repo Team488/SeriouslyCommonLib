@@ -407,7 +407,7 @@ public class SwerveSimpleTrajectoryLogic {
         lastResult = interpolator.calculateTarget(currentPose.getTranslation());
         var chasePoint = lastResult.chasePoint;
 
-        aKitLog.record("chasePoint", new Pose2d(chasePoint, Rotation2d.fromDegrees(0)));
+        aKitLog.record("chasePoint", new Pose2d(chasePoint, lastResult.chaseHeading));
 
         XYPair targetPosition = new XYPair(chasePoint.getX(), chasePoint.getY());
         XYPair currentPosition = new XYPair(currentPose.getX(), currentPose.getY());

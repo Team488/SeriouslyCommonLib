@@ -3,11 +3,9 @@ package xbot.common.subsystems.pose;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
-import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.math.geometry.Rotation2d;
 import xbot.common.advantage.DataFrameRefreshable;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.sensors.XGyro;
@@ -127,10 +125,20 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     /**
      * @return Current heading but if the navX is still booting up it will return 0
      */
-    public WrappedRotation2d getCurrentHeading() {
+    public WrappedRotation2d getCurrentHeadingGyroOnly() {
         updateCurrentHeading();
         return currentHeading;
     }
+
+    /**
+     * Can be overriden by subclasses to provide a different heading source
+     * (e.g. a vision system, pose estimator, etc)
+     * @return
+     */
+    public WrappedRotation2d getCurrentHeading() {
+        return getCurrentHeadingGyroOnly();
+    }
+
 
     public XYPair getFieldOrientedTotalDistanceTraveled() {
         return getTravelVector().clone();
@@ -141,7 +149,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     }
 
     public FieldPose getCurrentFieldPose() {
-        return new FieldPose(getTravelVector(), getCurrentHeading());
+        return new FieldPose(getTravelVector(), getCurrentHeadingGyroOnly());
     }
 
     public Pose2d getCurrentPose2d() {
@@ -149,7 +157,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
         return new Pose2d(
                 travelVector.x,
                 travelVector.y,
-                Rotation2d.fromDegrees(getCurrentHeading().getDegrees())
+                Rotation2d.fromDegrees(getCurrentHeadingGyroOnly().getDegrees())
         );
     }
 
