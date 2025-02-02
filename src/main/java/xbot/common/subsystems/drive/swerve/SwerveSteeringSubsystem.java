@@ -68,6 +68,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         this.degreesPerMotorRotation = pf.createPersistentProperty("DegreesPerMotorRotation", 28.1503);
         this.useMotorControllerPid = true;
         this.maxMotorEncoderDrift = pf.createPersistentProperty("MaxEncoderDriftDegrees", 1.0);
+        this.currentModuleHeadingRotation2d = Rotation2d.fromDegrees(0);
 
         sysId =
                 new SysIdRoutine(
