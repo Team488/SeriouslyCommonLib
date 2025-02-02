@@ -105,7 +105,7 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">SimpleTimeInterpolator</a>()</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.logging.RobotAssertionManager)" class="member-name-link">SimpleTimeInterpolator</a><wbr>(<a href="../logging/RobotAssertionManager.html" title="class in xbot.common.logging">RobotAssertionManager</a>&nbsp;assertionManager)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -125,14 +125,19 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#calculateTarget(edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">calculateTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/geometry/Translation2d.html" title="class or interface in edu.wpi.first.math.geometry" class="external-link">Translation2d</a>&nbsp;currentLocation)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initialize(xbot.common.trajectory.ProvidesInterpolationData)" class="member-name-link">initialize</a><wbr>(<a href="ProvidesInterpolationData.html" title="interface in xbot.common.trajectory">ProvidesInterpolationData</a>&nbsp;baseline)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initialize(xbot.common.trajectory.ProvidesInterpolationData,xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode)" class="member-name-link">initialize</a><wbr>(<a href="ProvidesInterpolationData.html" title="interface in xbot.common.trajectory">ProvidesInterpolationData</a>&nbsp;baseline,
+ <a href="../subsystems/drive/SwerveSimpleTrajectoryMode.html" title="enum class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryMode</a>&nbsp;mode)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKeyPoints(java.util.List)" class="member-name-link">setKeyPoints</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;? extends <a href="ProvidesInterpolationData.html" title="interface in xbot.common.trajectory">ProvidesInterpolationData</a>&gt;&nbsp;keyPoints)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../subsystems/drive/SwerveKinematicsCalculator.html" title="class in xbot.common.subsystems.drive">SwerveKinematicsCalculator</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#newCalculator(edu.wpi.first.math.geometry.Translation2d,xbot.common.subsystems.drive.SwervePointKinematics)" class="member-name-link">newCalculator</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/geometry/Translation2d.html" title="class or interface in edu.wpi.first.math.geometry" class="external-link">Translation2d</a>&nbsp;targetPointTranslation2d,
+ <a href="../subsystems/drive/SwervePointKinematics.html" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a>&nbsp;kinematics)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaximumDistanceFromChasePointInMeters(double)" class="member-name-link">setMaximumDistanceFromChasePointInMeters</a><wbr>(double&nbsp;maximumDistanceFromChasePointInMeters)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKeyPoints(java.util.List)" class="member-name-link">setKeyPoints</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;? extends <a href="ProvidesInterpolationData.html" title="interface in xbot.common.trajectory">ProvidesInterpolationData</a>&gt;&nbsp;keyPoints)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaximumDistanceFromChasePointInMeters(double)" class="member-name-link">setMaximumDistanceFromChasePointInMeters</a><wbr>(double&nbsp;maximumDistanceFromChasePointInMeters)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -151,9 +156,9 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;()">
+<section class="detail" id="&lt;init&gt;(xbot.common.logging.RobotAssertionManager)">
 <h3>SimpleTimeInterpolator</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SimpleTimeInterpolator</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SimpleTimeInterpolator</span><wbr><span class="parameters">(<a href="../logging/RobotAssertionManager.html" title="class in xbot.common.logging">RobotAssertionManager</a>&nbsp;assertionManager)</span></div>
 </section>
 </li>
 </ul>
@@ -177,9 +182,17 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="initialize(xbot.common.trajectory.ProvidesInterpolationData)">
+<section class="detail" id="initialize(xbot.common.trajectory.ProvidesInterpolationData,xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode)">
 <h3>initialize</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initialize</span><wbr><span class="parameters">(<a href="ProvidesInterpolationData.html" title="interface in xbot.common.trajectory">ProvidesInterpolationData</a>&nbsp;baseline)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initialize</span><wbr><span class="parameters">(<a href="ProvidesInterpolationData.html" title="interface in xbot.common.trajectory">ProvidesInterpolationData</a>&nbsp;baseline,
+ <a href="../subsystems/drive/SwerveSimpleTrajectoryMode.html" title="enum class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryMode</a>&nbsp;mode)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="newCalculator(edu.wpi.first.math.geometry.Translation2d,xbot.common.subsystems.drive.SwervePointKinematics)">
+<h3>newCalculator</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../subsystems/drive/SwerveKinematicsCalculator.html" title="class in xbot.common.subsystems.drive">SwerveKinematicsCalculator</a></span>&nbsp;<span class="element-name">newCalculator</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/geometry/Translation2d.html" title="class or interface in edu.wpi.first.math.geometry" class="external-link">Translation2d</a>&nbsp;targetPointTranslation2d,
+ <a href="../subsystems/drive/SwervePointKinematics.html" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a>&nbsp;kinematics)</span></div>
 </section>
 </li>
 <li>

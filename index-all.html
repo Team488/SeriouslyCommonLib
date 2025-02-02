@@ -66,6 +66,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.html#absorbObstacle(xbot.common.trajectory.Obstacle)" class="member-name-link">absorbObstacle(Obstacle)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwervePointKinematics.html#acceleration()" class="member-name-link">acceleration()</a> - Method in record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwervePointKinematics.html" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>acceleration</code> record component.</div>
+</dd>
 <dt><a href="xbot/common/properties/Property.html#activeStore" class="member-name-link">activeStore</a> - Variable in class xbot.common.properties.<a href="xbot/common/properties/Property.html" title="class in xbot.common.properties">Property</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/DigitalInputWPIAdapter.html#adapter" class="member-name-link">adapter</a> - Variable in class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/DigitalInputWPIAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">DigitalInputWPIAdapter</a></dt>
@@ -512,6 +516,22 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/logic/VelocityThrottleModule.html#calculateThrottle(double,double)" class="member-name-link">calculateThrottle(double, double)</a> - Method in class xbot.common.logic.<a href="xbot/common/logic/VelocityThrottleModule.html" title="class in xbot.common.logic">VelocityThrottleModule</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html#calculateTimeToGoalPosition(double,double,double,double)" class="member-name-link">calculateTimeToGoalPosition(double, double, double, double)</a> - Static method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html" title="class in xbot.common.subsystems.drive">SwerveKinematicsCalculator</a></dt>
+<dd>
+<div class="block">Derived from formula (1D-Motion): (xf - xi) = (vi * time + 0.5 * a * time^2)
+ From this, we'll get a 2nd degree polynomial that we'll use quadratic formula to solve for time</div>
+</dd>
+<dt><a href="xbot/common/subsystems/drive/CalculatorNode.html" class="type-name-link" title="class in xbot.common.subsystems.drive">CalculatorNode</a> - Record Class in <a href="xbot/common/subsystems/drive/package-summary.html">xbot.common.subsystems.drive</a></dt>
+<dd>
+<div class="block">CalculatorNodes are small little steps to be interpreted and formed together to
+ create a path to be used for the SwerveKinematicsCalculator</div>
+</dd>
+<dt><a href="xbot/common/subsystems/drive/CalculatorNode.html#%3Cinit%3E(double,double,double)" class="member-name-link">CalculatorNode(double, double, double)</a> - Constructor for record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/CalculatorNode.html" title="class in xbot.common.subsystems.drive">CalculatorNode</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/CalculatorNode.html#%3Cinit%3E(edu.wpi.first.units.measure.Time,edu.wpi.first.units.measure.LinearAcceleration,edu.wpi.first.units.measure.LinearVelocity)" class="member-name-link">CalculatorNode(Time, LinearAcceleration, LinearVelocity)</a> - Constructor for record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/CalculatorNode.html" title="class in xbot.common.subsystems.drive">CalculatorNode</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>CalculatorNode</code> record class.</div>
+</dd>
 <dt><a href="xbot/common/logic/CalibrationDecider.CalibrationMode.html#Calibrated" class="member-name-link">Calibrated</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/CalibrationDecider.CalibrationMode.html" title="enum class in xbot.common.logic">CalibrationDecider.CalibrationMode</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/BaseMaintainerCommand.html#calibratedMachineControlAction()" class="member-name-link">calibratedMachineControlAction()</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseMaintainerCommand.html" title="class in xbot.common.command">BaseMaintainerCommand</a></dt>
@@ -784,6 +804,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryCommand.html#constantRotationPowerSupplier" class="member-name-link">constantRotationPowerSupplier</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryCommand.html" title="class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryCommand</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryMode.html#ConstantVelocity" class="member-name-link">ConstantVelocity</a> - Enum constant in enum class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryMode.html" title="enum class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryMode</a></dt>
+<dd>
+<div class="block">A constant velocity (in meters) throughout the course of our travel</div>
+</dd>
 <dt><a href="xbot/common/math/MathUtils.html#constrainDouble(double,double,double)" class="member-name-link">constrainDouble(double, double, double)</a> - Static method in class xbot.common.math.<a href="xbot/common/math/MathUtils.html" title="class in xbot.common.math">MathUtils</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/MathUtils.html#constrainDoubleToRobotScale(double)" class="member-name-link">constrainDoubleToRobotScale(double)</a> - Static method in class xbot.common.math.<a href="xbot/common/math/MathUtils.html" title="class in xbot.common.math">MathUtils</a></dt>
@@ -1364,6 +1388,11 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/components/BaseComponent.html#driveSubsystem()" class="member-name-link">driveSubsystem()</a> - Method in class xbot.common.injection.components.<a href="xbot/common/injection/components/BaseComponent.html" title="class in xbot.common.injection.components">BaseComponent</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryMode.html#DurationInSeconds" class="member-name-link">DurationInSeconds</a> - Enum constant in enum class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryMode.html" title="enum class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryMode</a></dt>
+<dd>
+<div class="block">A duration from point A to point B throughout the course of our travel
+ NOTE: It is suggested to use ConstantVelocity mode instead for better consistency!</div>
+</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.ControlMode.html#DutyCycle" class="member-name-link">DutyCycle</a> - Enum constant in enum class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.ControlMode.html" title="enum class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController.ControlMode</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.MotorPidMode.html#DutyCycle" class="member-name-link">DutyCycle</a> - Enum constant in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a></dt>
@@ -1448,6 +1477,14 @@ loadScripts(document, 'script');</script>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
 <dt><a href="xbot/common/math/PIDDefaults.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class xbot.common.math.<a href="xbot/common/math/PIDDefaults.html" title="class in xbot.common.math">PIDDefaults</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/drive/CalculatorNode.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/CalculatorNode.html" title="class in xbot.common.subsystems.drive">CalculatorNode</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/drive/SwervePointKinematics.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwervePointKinematics.html" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
@@ -1641,6 +1678,8 @@ loadScripts(document, 'script');</script>
 <div class="block">The camera is capable of providing game-specific information.</div>
 </dd>
 <dt><a href="xbot/common/logic/CalibrationDecider.CalibrationMode.html#GaveUp" class="member-name-link">GaveUp</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/CalibrationDecider.CalibrationMode.html" title="enum class in xbot.common.logic">CalibrationDecider.CalibrationMode</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html#generateNodeMap()" class="member-name-link">generateNodeMap()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html" title="class in xbot.common.subsystems.drive">SwerveKinematicsCalculator</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/LowResField.html#generatePath(edu.wpi.first.math.geometry.Pose2d,edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">generatePath(Pose2d, Pose2d)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/LowResField.html" title="class in xbot.common.trajectory">LowResField</a></dt>
 <dd>
@@ -2042,6 +2081,12 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Get the distance between the current point and a second point.</div>
 </dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html#getDistanceTravelledAtCompletionPercentage(double)" class="member-name-link">getDistanceTravelledAtCompletionPercentage(double)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html" title="class in xbot.common.subsystems.drive">SwerveKinematicsCalculator</a></dt>
+<dd>
+<div class="block">Returns the distance travelled when the operation have elapsed by percentage time</div>
+</dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html#getDistanceTravelledAtTime(edu.wpi.first.units.measure.Time)" class="member-name-link">getDistanceTravelledAtTime(Time)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html" title="class in xbot.common.subsystems.drive">SwerveKinematicsCalculator</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="org/photonvision/PhotonCameraExtended.html#getDistCoeffs()" class="member-name-link">getDistCoeffs()</a> - Method in class org.photonvision.<a href="org/photonvision/PhotonCameraExtended.html" title="class in org.photonvision">PhotonCameraExtended</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="org/photonvision/PhotonCameraExtended.html#getDistCoeffsRaw()" class="member-name-link">getDistCoeffsRaw()</a> - Method in class org.photonvision.<a href="org/photonvision/PhotonCameraExtended.html" title="class in org.photonvision">PhotonCameraExtended</a></dt>
@@ -2269,6 +2314,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html#getKeyPoints()" class="member-name-link">getKeyPoints()</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/trajectory/ProvidesInterpolationData.html#getKinematics()" class="member-name-link">getKinematics()</a> - Method in interface xbot.common.trajectory.<a href="xbot/common/trajectory/ProvidesInterpolationData.html" title="interface in xbot.common.trajectory">ProvidesInterpolationData</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/trajectory/XbotSwervePoint.html#getKinematics()" class="member-name-link">getKinematics()</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/swerve/SwerveDriveSubsystem.html#getLabel()" class="member-name-link">getLabel()</a> - Method in class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/swerve/SwerveSteeringSubsystem.html#getLabel()" class="member-name-link">getLabel()</a> - Method in class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveSteeringSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveSteeringSubsystem</a></dt>
@@ -2427,6 +2476,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/trajectory/Obstacle.html#getName()" class="member-name-link">getName()</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/pose/BasePoseSubsystem.html#getNavXReady()" class="member-name-link">getNavXReady()</a> - Method in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/BasePoseSubsystem.html" title="class in xbot.common.subsystems.pose">BasePoseSubsystem</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html#getNodeMap()" class="member-name-link">getNodeMap()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html" title="class in xbot.common.subsystems.drive">SwerveKinematicsCalculator</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/XScheduler.html#getNumberOfCrashes()" class="member-name-link">getNumberOfCrashes()</a> - Method in class xbot.common.command.<a href="xbot/common/command/XScheduler.html" title="class in xbot.common.command">XScheduler</a></dt>
 <dd>&nbsp;</dd>
@@ -2840,6 +2891,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/math/PIDPropertyManager.html#getTimeThreshold()" class="member-name-link">getTimeThreshold()</a> - Method in class xbot.common.math.<a href="xbot/common/math/PIDPropertyManager.html" title="class in xbot.common.math">PIDPropertyManager</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html#getTotalOperationDistance()" class="member-name-link">getTotalOperationDistance()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html" title="class in xbot.common.subsystems.drive">SwerveKinematicsCalculator</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html#getTotalOperationTime()" class="member-name-link">getTotalOperationTime()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html" title="class in xbot.common.subsystems.drive">SwerveKinematicsCalculator</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/ProvidesInterpolationData.html#getTranslation2d()" class="member-name-link">getTranslation2d()</a> - Method in interface xbot.common.trajectory.<a href="xbot/common/trajectory/ProvidesInterpolationData.html" title="interface in xbot.common.trajectory">ProvidesInterpolationData</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/XbotSwervePoint.html#getTranslation2d()" class="member-name-link">getTranslation2d()</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a></dt>
@@ -2918,6 +2973,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/CANCoderAdapter.html#getVelocity_internal()" class="member-name-link">getVelocity_internal()</a> - Method in class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/CANCoderAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">CANCoderAdapter</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html#getVelocityAtDistanceTravelled(edu.wpi.first.units.measure.Distance)" class="member-name-link">getVelocityAtDistanceTravelled(Distance)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html" title="class in xbot.common.subsystems.drive">SwerveKinematicsCalculator</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html#getVelocityAtFinish()" class="member-name-link">getVelocityAtFinish()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html" title="class in xbot.common.subsystems.drive">SwerveKinematicsCalculator</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#getVelocityMaintainerXTarget()" class="member-name-link">getVelocityMaintainerXTarget()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="edu/wpi/first/wpilibj/MockAnalogInput.html#getVoltage()" class="member-name-link">getVoltage()</a> - Method in class edu.wpi.first.wpilibj.<a href="edu/wpi/first/wpilibj/MockAnalogInput.html" title="class in edu.wpi.first.wpilibj">MockAnalogInput</a></dt>
@@ -2960,8 +3019,16 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/modules/RealDevicesModule.html#getZeromqListenerFactory(xbot.common.networking.ZeromqListener.ZeromqListenerFactory)" class="member-name-link">getZeromqListenerFactory(ZeromqListener.ZeromqListenerFactory)</a> - Method in class xbot.common.injection.modules.<a href="xbot/common/injection/modules/RealDevicesModule.html" title="class in xbot.common.injection.modules">RealDevicesModule</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryMode.html#GlobalKinematicsValue" class="member-name-link">GlobalKinematicsValue</a> - Enum constant in enum class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryMode.html" title="enum class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryMode</a></dt>
+<dd>
+<div class="block">One set of kinematics values for the entire route</div>
+</dd>
 <dt><a href="xbot/common/math/PurePursuitTest.PursuitEnvironmentState.html#goal" class="member-name-link">goal</a> - Variable in class xbot.common.math.<a href="xbot/common/math/PurePursuitTest.PursuitEnvironmentState.html" title="class in xbot.common.math">PurePursuitTest.PursuitEnvironmentState</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwervePointKinematics.html#goalVelocity()" class="member-name-link">goalVelocity()</a> - Method in record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwervePointKinematics.html" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>goalVelocity</code> record component.</div>
+</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html#gravityFeedForward()" class="member-name-link">gravityFeedForward()</a> - Method in record class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>gravityFeedForward</code> record component.</div>
@@ -3006,6 +3073,14 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
 <dt><a href="xbot/common/math/PIDDefaults.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class xbot.common.math.<a href="xbot/common/math/PIDDefaults.html" title="class in xbot.common.math">PIDDefaults</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/drive/CalculatorNode.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/CalculatorNode.html" title="class in xbot.common.subsystems.drive">CalculatorNode</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/drive/SwervePointKinematics.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwervePointKinematics.html" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
@@ -3201,7 +3276,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/pose/commands/SetRobotHeadingCommand.html#initialize()" class="member-name-link">initialize()</a> - Method in class xbot.common.subsystems.pose.commands.<a href="xbot/common/subsystems/pose/commands/SetRobotHeadingCommand.html" title="class in xbot.common.subsystems.pose.commands">SetRobotHeadingCommand</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/trajectory/SimpleTimeInterpolator.html#initialize(xbot.common.trajectory.ProvidesInterpolationData)" class="member-name-link">initialize(ProvidesInterpolationData)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/SimpleTimeInterpolator.html" title="class in xbot.common.trajectory">SimpleTimeInterpolator</a></dt>
+<dt><a href="xbot/common/trajectory/SimpleTimeInterpolator.html#initialize(xbot.common.trajectory.ProvidesInterpolationData,xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode)" class="member-name-link">initialize(ProvidesInterpolationData, SwerveSimpleTrajectoryMode)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/SimpleTimeInterpolator.html" title="class in xbot.common.trajectory">SimpleTimeInterpolator</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineMode.html#InitializeMachineControl" class="member-name-link">InitializeMachineControl</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineMode.html" title="enum class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineMode</a></dt>
 <dd>&nbsp;</dd>
@@ -3211,6 +3286,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/command/BaseRobot.html#initializeSystems()" class="member-name-link">initializeSystems()</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseRobot.html" title="class in xbot.common.command">BaseRobot</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwervePointKinematics.html#initialVelocity()" class="member-name-link">initialVelocity()</a> - Method in record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwervePointKinematics.html" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>initialVelocity</code> record component.</div>
+</dd>
 <dt><a href="xbot/common/simulation/BaseSimulationTest.html#injectorComponent" class="member-name-link">injectorComponent</a> - Variable in class xbot.common.simulation.<a href="xbot/common/simulation/BaseSimulationTest.html" title="class in xbot.common.simulation">BaseSimulationTest</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/XPropertyManager.html#inMemoryRandomAccessStore" class="member-name-link">inMemoryRandomAccessStore</a> - Variable in class xbot.common.properties.<a href="xbot/common/properties/XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a></dt>
@@ -3492,6 +3571,14 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/logic/WatchdogTimer.html#kick()" class="member-name-link">kick()</a> - Method in class xbot.common.logic.<a href="xbot/common/logic/WatchdogTimer.html" title="class in xbot.common.logic">WatchdogTimer</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryMode.html#KinematicsForIndividualPoints" class="member-name-link">KinematicsForIndividualPoints</a> - Enum constant in enum class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryMode.html" title="enum class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryMode</a></dt>
+<dd>
+<div class="block">Each point will have its own set of kinematics values it'll use (acceleration, velocity, etc.)
+ NOTE: You'll have to calculate the start and ending velocities of each individual point!
+ Suggested to use GlobalKinematicsValue instead!</div>
+</dd>
+<dt><a href="xbot/common/subsystems/drive/SwervePointKinematics.html#kinematicsWithNewInitialVelocity(edu.wpi.first.units.measure.LinearVelocity)" class="member-name-link">kinematicsWithNewInitialVelocity(LinearVelocity)</a> - Method in record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwervePointKinematics.html" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html#kThrottleDeadband" class="member-name-link">kThrottleDeadband</a> - Static variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
 </dl>
@@ -3656,6 +3743,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html#maxPower" class="member-name-link">maxPower</a> - Variable in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwervePointKinematics.html#maxVelocity()" class="member-name-link">maxVelocity()</a> - Method in record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwervePointKinematics.html" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>maxVelocity</code> record component.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIO.PoseObservationType.html#MEGATAG_1" class="member-name-link">MEGATAG_1</a> - Enum constant in enum class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIO.PoseObservationType.html" title="enum class in xbot.common.subsystems.vision">AprilTagVisionIO.PoseObservationType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIO.PoseObservationType.html#MEGATAG_2" class="member-name-link">MEGATAG_2</a> - Enum constant in enum class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIO.PoseObservationType.html" title="enum class in xbot.common.subsystems.vision">AprilTagVisionIO.PoseObservationType</a></dt>
@@ -3978,6 +4069,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.html#neutralMode" class="member-name-link">neutralMode</a> - Variable in class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/trajectory/SimpleTimeInterpolator.html#newCalculator(edu.wpi.first.math.geometry.Translation2d,xbot.common.subsystems.drive.SwervePointKinematics)" class="member-name-link">newCalculator(Translation2d, SwervePointKinematics)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/SimpleTimeInterpolator.html" title="class in xbot.common.trajectory">SimpleTimeInterpolator</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.SwerveModuleLocation.html#next()" class="member-name-link">next()</a> - Method in enum class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.SwerveModuleLocation.html" title="enum class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem.SwerveModuleLocation</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.ParallelCrossingType.html#None" class="member-name-link">None</a> - Enum constant in enum class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.ParallelCrossingType.html" title="enum class in xbot.common.trajectory">Obstacle.ParallelCrossingType</a></dt>
@@ -4019,6 +4112,18 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/buttons/AdvancedXboxButtonTrigger.html#onTrue(edu.wpi.first.wpilibj2.command.Command)" class="member-name-link">onTrue(Command)</a> - Method in class xbot.common.controls.sensors.buttons.<a href="xbot/common/controls/sensors/buttons/AdvancedXboxButtonTrigger.html" title="class in xbot.common.controls.sensors.buttons">AdvancedXboxButtonTrigger</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/CalculatorNode.html#operationAcceleration()" class="member-name-link">operationAcceleration()</a> - Method in record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/CalculatorNode.html" title="class in xbot.common.subsystems.drive">CalculatorNode</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>operationAcceleration</code> record component.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/drive/CalculatorNode.html#operationEndingVelocity()" class="member-name-link">operationEndingVelocity()</a> - Method in record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/CalculatorNode.html" title="class in xbot.common.subsystems.drive">CalculatorNode</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>operationEndingVelocity</code> record component.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/drive/CalculatorNode.html#operationTime()" class="member-name-link">operationTime()</a> - Method in record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/CalculatorNode.html" title="class in xbot.common.subsystems.drive">CalculatorNode</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>operationTime</code> record component.</div>
+</dd>
 <dt><a href="org/photonvision/package-summary.html">org.photonvision</a> - package org.photonvision</dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html#outputConfig()" class="member-name-link">outputConfig()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a></dt>
@@ -4987,8 +5092,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/pose/MockBasePoseSubsystem.html#setDriveMotors(xbot.common.controls.actuators.XCANMotorController,xbot.common.controls.actuators.XCANMotorController)" class="member-name-link">setDriveMotors(XCANMotorController, XCANMotorController)</a> - Method in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/MockBasePoseSubsystem.html" title="class in xbot.common.subsystems.pose">MockBasePoseSubsystem</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html#setEnableConstantVelocity(boolean)" class="member-name-link">setEnableConstantVelocity(boolean)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PIDPropertyManager.html#setEnableDerivativeThreshold(boolean)" class="member-name-link">setEnableDerivativeThreshold(boolean)</a> - Method in class xbot.common.math.<a href="xbot/common/math/PIDPropertyManager.html" title="class in xbot.common.math">PIDPropertyManager</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PIDPropertyManager.html#setEnableErrorThreshold(boolean)" class="member-name-link">setEnableErrorThreshold(boolean)</a> - Method in class xbot.common.math.<a href="xbot/common/math/PIDPropertyManager.html" title="class in xbot.common.math">PIDPropertyManager</a></dt>
@@ -5037,6 +5140,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#setGamePieceOrientatedRotationActive(boolean)" class="member-name-link">setGamePieceOrientatedRotationActive(boolean)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html#setGlobalKinematicValues(xbot.common.subsystems.drive.SwervePointKinematics)" class="member-name-link">setGlobalKinematicValues(SwervePointKinematics)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/advantage/AKitLogger.html#setGlobalLogLevel(xbot.common.advantage.AKitLogger.LogLevel)" class="member-name-link">setGlobalLogLevel(AKitLogger.LogLevel)</a> - Static method in class xbot.common.advantage.<a href="xbot/common/advantage/AKitLogger.html" title="class in xbot.common.advantage">AKitLogger</a></dt>
 <dd>
 <div class="block">This controls the log level for all AKitLoggers.</div>
@@ -5084,6 +5189,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html#setKeyPoints(java.util.List)" class="member-name-link">setKeyPoints(List&lt;XbotSwervePoint&gt;)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html#setKeyPointsProvider(java.util.function.Supplier)" class="member-name-link">setKeyPointsProvider(Supplier&lt;List&lt;XbotSwervePoint&gt;&gt;)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/trajectory/XbotSwervePoint.html#setKinematics(xbot.common.subsystems.drive.SwervePointKinematics)" class="member-name-link">setKinematics(SwervePointKinematics)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/IGamepad.html#setLeftInversion(boolean,boolean)" class="member-name-link">setLeftInversion(boolean, boolean)</a> - Method in interface xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/IGamepad.html" title="interface in xbot.common.controls.sensors">IGamepad</a></dt>
 <dd>&nbsp;</dd>
@@ -5513,6 +5620,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#setVelocityMaintainerXTarget(double)" class="member-name-link">setVelocityMaintainerXTarget(double)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html#setVelocityMode(xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode)" class="member-name-link">setVelocityMode(SwerveSimpleTrajectoryMode)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.html#setVelocityTarget(edu.wpi.first.units.measure.AngularVelocity)" class="member-name-link">setVelocityTarget(AngularVelocity)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.html#setVelocityTarget(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode)" class="member-name-link">setVelocityTarget(AngularVelocity, XCANMotorController.MotorPidMode)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
@@ -5601,7 +5710,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/trajectory/SimpleTimeInterpolator.html" class="type-name-link" title="class in xbot.common.trajectory">SimpleTimeInterpolator</a> - Class in <a href="xbot/common/trajectory/package-summary.html">xbot.common.trajectory</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/trajectory/SimpleTimeInterpolator.html#%3Cinit%3E()" class="member-name-link">SimpleTimeInterpolator()</a> - Constructor for class xbot.common.trajectory.<a href="xbot/common/trajectory/SimpleTimeInterpolator.html" title="class in xbot.common.trajectory">SimpleTimeInterpolator</a></dt>
+<dt><a href="xbot/common/trajectory/SimpleTimeInterpolator.html#%3Cinit%3E(xbot.common.logging.RobotAssertionManager)" class="member-name-link">SimpleTimeInterpolator(RobotAssertionManager)</a> - Constructor for class xbot.common.trajectory.<a href="xbot/common/trajectory/SimpleTimeInterpolator.html" title="class in xbot.common.trajectory">SimpleTimeInterpolator</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/SimpleTimeInterpolator.InterpolationResult.html" class="type-name-link" title="class in xbot.common.trajectory">SimpleTimeInterpolator.InterpolationResult</a> - Class in <a href="xbot/common/trajectory/package-summary.html">xbot.common.trajectory</a></dt>
 <dd>&nbsp;</dd>
@@ -5835,6 +5944,13 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates an instance of a <code>SwerveInstance</code> record class.</div>
 </dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html" class="type-name-link" title="class in xbot.common.subsystems.drive">SwerveKinematicsCalculator</a> - Class in <a href="xbot/common/subsystems/drive/package-summary.html">xbot.common.subsystems.drive</a></dt>
+<dd>
+<div class="block">This class is designed to compute the motion of a swerve drive system from a starting position and velocity
+ to a goal position and velocity.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html#%3Cinit%3E(xbot.common.logging.RobotAssertionManager,edu.wpi.first.units.measure.Distance,edu.wpi.first.units.measure.Distance,xbot.common.subsystems.drive.SwervePointKinematics)" class="member-name-link">SwerveKinematicsCalculator(RobotAssertionManager, Distance, Distance, SwervePointKinematics)</a> - Constructor for class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html" title="class in xbot.common.subsystems.drive">SwerveKinematicsCalculator</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/swerve/SwerveModule.html" class="type-name-link" title="class in xbot.common.injection.swerve">SwerveModule</a> - Class in <a href="xbot/common/injection/swerve/package-summary.html">xbot.common.injection.swerve</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/swerve/SwerveModule.html#%3Cinit%3E()" class="member-name-link">SwerveModule()</a> - Constructor for class xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/SwerveModule.html" title="class in xbot.common.injection.swerve">SwerveModule</a></dt>
@@ -5845,14 +5961,28 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/swerve/SwerveModuleSubsystem.html#%3Cinit%3E(xbot.common.injection.swerve.SwerveInstance,xbot.common.subsystems.drive.swerve.SwerveDriveSubsystem,xbot.common.subsystems.drive.swerve.SwerveSteeringSubsystem,xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract,xbot.common.properties.PropertyFactory)" class="member-name-link">SwerveModuleSubsystem(SwerveInstance, SwerveDriveSubsystem, SwerveSteeringSubsystem, XSwerveDriveElectricalContract, PropertyFactory)</a> - Constructor for class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwervePointKinematics.html" class="type-name-link" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a> - Record Class in <a href="xbot/common/subsystems/drive/package-summary.html">xbot.common.subsystems.drive</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwervePointKinematics.html#%3Cinit%3E(double,double,double,double)" class="member-name-link">SwervePointKinematics(double, double, double, double)</a> - Constructor for record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwervePointKinematics.html" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a></dt>
+<dd>
+<div class="block">Creates a set of Kinematics values with METERS</div>
+</dd>
+<dt><a href="xbot/common/subsystems/drive/SwervePointKinematics.html#%3Cinit%3E(edu.wpi.first.units.measure.LinearAcceleration,edu.wpi.first.units.measure.LinearVelocity,edu.wpi.first.units.measure.LinearVelocity,edu.wpi.first.units.measure.LinearVelocity)" class="member-name-link">SwervePointKinematics(LinearAcceleration, LinearVelocity, LinearVelocity, LinearVelocity)</a> - Constructor for record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwervePointKinematics.html" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>SwervePointKinematics</code> record class.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryCommand.html" class="type-name-link" title="class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryCommand</a> - Class in <a href="xbot/common/subsystems/drive/package-summary.html">xbot.common.subsystems.drive</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryCommand.html#%3Cinit%3E(xbot.common.subsystems.drive.BaseSwerveDriveSubsystem,xbot.common.subsystems.pose.BasePoseSubsystem,xbot.common.properties.PropertyFactory,xbot.common.subsystems.drive.control_logic.HeadingModule.HeadingModuleFactory)" class="member-name-link">SwerveSimpleTrajectoryCommand(BaseSwerveDriveSubsystem, BasePoseSubsystem, PropertyFactory, HeadingModule.HeadingModuleFactory)</a> - Constructor for class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryCommand.html" title="class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryCommand</a></dt>
+<dt><a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryCommand.html#%3Cinit%3E(xbot.common.subsystems.drive.BaseSwerveDriveSubsystem,xbot.common.subsystems.pose.BasePoseSubsystem,xbot.common.properties.PropertyFactory,xbot.common.subsystems.drive.control_logic.HeadingModule.HeadingModuleFactory,xbot.common.logging.RobotAssertionManager)" class="member-name-link">SwerveSimpleTrajectoryCommand(BaseSwerveDriveSubsystem, BasePoseSubsystem, PropertyFactory, HeadingModule.HeadingModuleFactory, RobotAssertionManager)</a> - Constructor for class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryCommand.html" title="class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryCommand</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" class="type-name-link" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a> - Class in <a href="xbot/common/trajectory/package-summary.html">xbot.common.trajectory</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html#%3Cinit%3E()" class="member-name-link">SwerveSimpleTrajectoryLogic()</a> - Constructor for class xbot.common.trajectory.<a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></dt>
+<dt><a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html#%3Cinit%3E(xbot.common.logging.RobotAssertionManager)" class="member-name-link">SwerveSimpleTrajectoryLogic(RobotAssertionManager)</a> - Constructor for class xbot.common.trajectory.<a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryMode.html" class="type-name-link" title="enum class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryMode</a> - Enum Class in <a href="xbot/common/subsystems/drive/package-summary.html">xbot.common.subsystems.drive</a></dt>
+<dd>
+<div class="block">Different ways to input values for SwerveSimpleTrajectoryCommand</div>
+</dd>
 <dt><a href="xbot/common/injection/swerve/SwerveSingleton.html" class="type-name-link" title="annotation interface in xbot.common.injection.swerve">SwerveSingleton</a> - Annotation Interface in <a href="xbot/common/injection/swerve/package-summary.html">xbot.common.injection.swerve</a></dt>
 <dd>
 <div class="block">This annotation denotes a singleton scoped to a single swerve module.</div>
@@ -6036,6 +6166,14 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/math/XYPair.html#toString()" class="member-name-link">toString()</a> - Method in class xbot.common.math.<a href="xbot/common/math/XYPair.html" title="class in xbot.common.math">XYPair</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/CalculatorNode.html#toString()" class="member-name-link">toString()</a> - Method in record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/CalculatorNode.html" title="class in xbot.common.subsystems.drive">CalculatorNode</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/drive/SwervePointKinematics.html#toString()" class="member-name-link">toString()</a> - Method in record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwervePointKinematics.html" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIO.PoseObservation.html#toString()" class="member-name-link">toString()</a> - Method in record class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIO.PoseObservation.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIO.PoseObservation</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
@@ -6358,6 +6496,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryMode.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryMode.html" title="enum class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryMode</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this class with the specified name.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIO.PoseObservationType.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIO.PoseObservationType.html" title="enum class in xbot.common.subsystems.vision">AprilTagVisionIO.PoseObservationType</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
@@ -6515,6 +6657,11 @@ the order they are declared.</div>
 the order they are declared.</div>
 </dd>
 <dt><a href="xbot/common/subsystems/drive/swerve/SwerveSuggestedRotation.RotationGoalType.html#values()" class="member-name-link">values()</a> - Static method in enum class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveSuggestedRotation.RotationGoalType.html" title="enum class in xbot.common.subsystems.drive.swerve">SwerveSuggestedRotation.RotationGoalType</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum class, in
+the order they are declared.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryMode.html#values()" class="member-name-link">values()</a> - Static method in enum class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryMode.html" title="enum class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryMode</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum class, in
 the order they are declared.</div>
