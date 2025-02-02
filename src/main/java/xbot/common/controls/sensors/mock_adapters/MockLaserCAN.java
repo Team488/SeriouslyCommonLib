@@ -11,7 +11,7 @@ import xbot.common.injection.electrical_contract.DeviceInfo;
 
 public class MockLaserCAN extends XLaserCAN {
 
-    private double distanceMeters;
+    private double distanceMeters = Double.MAX_VALUE;
 
     @AssistedFactory
     public abstract static class MockLaserCANFactory implements XLaserCANFactory {
