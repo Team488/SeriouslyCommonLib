@@ -143,7 +143,7 @@ public class SwerveSimpleTrajectoryLogic {
     public void reset(Pose2d currentPose) {
         log.info("Resetting");
         keyPoints = keyPointsProvider.get();
-        log.info("Key points size: " + keyPoints.size());
+        log.debug("Key points size: " + keyPoints.size());
 
         var initialPoint = new XbotSwervePoint(currentPose, 0);
 
@@ -407,7 +407,7 @@ public class SwerveSimpleTrajectoryLogic {
         lastResult = interpolator.calculateTarget(currentPose.getTranslation());
         var chasePoint = lastResult.chasePoint;
 
-        aKitLog.record("chasePoint", new Pose2d(chasePoint, Rotation2d.fromDegrees(0)));
+        aKitLog.record("chasePoint", new Pose2d(chasePoint, lastResult.chaseHeading));
 
         XYPair targetPosition = new XYPair(chasePoint.getX(), chasePoint.getY());
         XYPair currentPosition = new XYPair(currentPose.getX(), currentPose.getY());

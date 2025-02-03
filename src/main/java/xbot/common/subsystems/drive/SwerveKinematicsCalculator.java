@@ -253,7 +253,7 @@ public class SwerveKinematicsCalculator {
 
     public Distance getDistanceTravelledAtTime(Time time) {
         if (time.in(Seconds) < 0) {
-            assertionManager.throwException("Invalid time to getDistanceTravelledInMetersAtTime", new Exception());
+            // Can happen when very off track right as a point is reached. Just focus on returning to the key point.
             return Meters.zero();
         }
         double elapsedTime = 0;

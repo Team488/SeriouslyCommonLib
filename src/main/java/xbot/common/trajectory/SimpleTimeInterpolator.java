@@ -99,7 +99,7 @@ public class SimpleTimeInterpolator {
     }
 
     public void initialize(ProvidesInterpolationData baseline, SwerveSimpleTrajectoryMode mode) {
-        log.info("Initializing a SimpleTimeInterpolator");
+        log.debug("Initializing a SimpleTimeInterpolator");
         this.baseline = baseline;
         accumulatedProductiveSeconds = 0;
         previousTimestamp = XTimer.getFPGATimestamp();
@@ -163,12 +163,12 @@ public class SimpleTimeInterpolator {
             baseline = targetKeyPoint;
             accumulatedProductiveSeconds = 0;
             lerpFraction = 0;
-            log.info("LerpFraction is above one, so advancing to next keypoint");
+            log.debug("LerpFraction is above one, so advancing to next keypoint");
             index++;
 
             // And set our new target to the next element of the list
             targetKeyPoint = keyPoints.get(index);
-            log.info("Baseline is now " + baseline.getTranslation2d()
+            log.debug("Baseline is now " + baseline.getTranslation2d()
                     + " and target is now " + targetKeyPoint.getTranslation2d());
 
             if (usingKinematics) {
