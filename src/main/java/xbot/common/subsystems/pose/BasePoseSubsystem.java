@@ -133,7 +133,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     /**
      * Can be overriden by subclasses to provide a different heading source
      * (e.g. a vision system, pose estimator, etc)
-     * @return
+     * @return Current heading but if the navX is still booting up it will return 0
      */
     public WrappedRotation2d getCurrentHeading() {
         return getCurrentHeadingGyroOnly();
