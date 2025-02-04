@@ -1,6 +1,6 @@
 package xbot.common.logging;
 
-// logic copilot suggestion code from from apache.commons.text
+// basic logic written by Copilot 
 // CHECKSTYLE:OFF
 public class Pluralizer {
     public static String pluralize(String word) {
