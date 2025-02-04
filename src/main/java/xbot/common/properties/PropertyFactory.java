@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import edu.wpi.first.units.measure.Distance;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.Property.PropertyLevel;
 import xbot.common.properties.Property.PropertyPersistenceType;
@@ -178,5 +179,13 @@ public class PropertyFactory {
         return new DoubleProperty(getCleanPrefix(), suffix, defaultValue, this.propertyManager, level);
     }
 
+    public DistanceProperty createPersistentProperty(String suffix, Distance defaultValue) {
+        return this.createPersistentProperty(suffix, defaultValue, defaultLevel);
+    }
+
+    public DistanceProperty createPersistentProperty(String suffix, Distance defaultValue, PropertyLevel level) {
+        checkPrefixSet();
+        return new DistanceProperty(getCleanPrefix(), suffix, defaultValue, this.propertyManager, level);
+    }
 
 }

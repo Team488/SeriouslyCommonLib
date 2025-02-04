@@ -4,6 +4,7 @@
  */
 package xbot.common.properties;
 
+import java.util.function.Consumer;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
@@ -11,7 +12,8 @@ import org.littletonrobotics.junction.inputs.LoggableInputs;
 import edu.wpi.first.units.DistanceUnit;
 import edu.wpi.first.units.measure.Distance;
 
-import java.util.function.Consumer;
+
+import xbot.common.logging.Pluralizer;
 
 /**
  * This manages a Distance  in the property system.
@@ -39,7 +41,7 @@ public class DistanceProperty extends Property {
     }
 
     public DistanceProperty(String prefix, String name, Distance defaultValue, XPropertyManager manager, PropertyLevel level) {
-        super(prefix, name  + "-in-" + defaultValue.unit().name(), manager, level);
+        super(prefix, name  + "-in-" + Pluralizer.pluralize(defaultValue.unit().name()), manager, level);
         this.defaultValue = defaultValue;
         this.defaultUnit = defaultValue.unit();
 
@@ -59,7 +61,7 @@ public class DistanceProperty extends Property {
 
 
     public Distance get_internal() {
-        Distance nullableTableValue = defaultUnit.of(activeStore.getDouble(key));
+        Double nullableTableValue = activeStore.getDouble(key);
 
         if(nullableTableValue == null) {
             //log.error("Property key \"" + key + "\" not present in the underlying store!"
@@ -68,7 +70,7 @@ public class DistanceProperty extends Property {
             return defaultValue;
         }
 
-        return nullableTableValue;
+        return defaultUnit.of(nullableTableValue);
     }
 
     public void set(Distance value) {
