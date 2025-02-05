@@ -1111,6 +1111,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Method for creating a double persistent property.</div>
 </dd>
+<dt><a href="xbot/common/properties/PropertyFactory.html#createPersistentProperty(java.lang.String,edu.wpi.first.units.measure.Distance)" class="member-name-link">createPersistentProperty(String, Distance)</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/properties/PropertyFactory.html#createPersistentProperty(java.lang.String,edu.wpi.first.units.measure.Distance,xbot.common.properties.Property.PropertyLevel)" class="member-name-link">createPersistentProperty(String, Distance, Property.PropertyLevel)</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/PropertyFactory.html#createPersistentProperty(java.lang.String,java.lang.String)" class="member-name-link">createPersistentProperty(String, String)</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a></dt>
 <dd>
 <div class="block">Method for creating a double persistent property.</div>
@@ -1319,6 +1323,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/controls/sensors/XEncoder.html#distancePerPulse" class="member-name-link">distancePerPulse</a> - Variable in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XEncoder.html" title="class in xbot.common.controls.sensors">XEncoder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XEncoder.html#distancePerPulseSupplier" class="member-name-link">distancePerPulseSupplier</a> - Variable in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XEncoder.html" title="class in xbot.common.controls.sensors">XEncoder</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/properties/DistanceProperty.html" class="type-name-link" title="class in xbot.common.properties">DistanceProperty</a> - Class in <a href="xbot/common/properties/package-summary.html">xbot.common.properties</a></dt>
+<dd>
+<div class="block">This manages a Distance  in the property system.</div>
+</dd>
+<dt><a href="xbot/common/properties/DistanceProperty.html#%3Cinit%3E(java.lang.String,java.lang.String,edu.wpi.first.units.measure.Distance,xbot.common.properties.XPropertyManager)" class="member-name-link">DistanceProperty(String, String, Distance, XPropertyManager)</a> - Constructor for class xbot.common.properties.<a href="xbot/common/properties/DistanceProperty.html" title="class in xbot.common.properties">DistanceProperty</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/properties/DistanceProperty.html#%3Cinit%3E(java.lang.String,java.lang.String,edu.wpi.first.units.measure.Distance,xbot.common.properties.XPropertyManager,xbot.common.properties.Property.PropertyLevel)" class="member-name-link">DistanceProperty(String, String, Distance, XPropertyManager, Property.PropertyLevel)</a> - Constructor for class xbot.common.properties.<a href="xbot/common/properties/DistanceProperty.html" title="class in xbot.common.properties">DistanceProperty</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/PurePursuitCommand.RabbitChaseInfo.html#distanceRemaining" class="member-name-link">distanceRemaining</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/PurePursuitCommand.RabbitChaseInfo.html" title="class in xbot.common.subsystems.drive">PurePursuitCommand.RabbitChaseInfo</a></dt>
 <dd>&nbsp;</dd>
@@ -1721,11 +1733,15 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/BooleanProperty.html#get()" class="member-name-link">get()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/BooleanProperty.html" title="class in xbot.common.properties">BooleanProperty</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/properties/DistanceProperty.html#get()" class="member-name-link">get()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/DistanceProperty.html" title="class in xbot.common.properties">DistanceProperty</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/DoubleProperty.html#get()" class="member-name-link">get()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/StringProperty.html#get()" class="member-name-link">get()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/StringProperty.html" title="class in xbot.common.properties">StringProperty</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/BooleanProperty.html#get_internal()" class="member-name-link">get_internal()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/BooleanProperty.html" title="class in xbot.common.properties">BooleanProperty</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/properties/DistanceProperty.html#get_internal()" class="member-name-link">get_internal()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/DistanceProperty.html" title="class in xbot.common.properties">DistanceProperty</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/DoubleProperty.html#get_internal()" class="member-name-link">get_internal()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></dt>
 <dd>&nbsp;</dd>
@@ -3055,7 +3071,11 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/simulation/WebotsClient.html#handleSimulatorPose(org.json.JSONObject)" class="member-name-link">handleSimulatorPose(JSONObject)</a> - Method in class xbot.common.simulation.<a href="xbot/common/simulation/WebotsClient.html" title="class in xbot.common.simulation">WebotsClient</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/properties/DistanceProperty.html#hasChangedSinceLastCheck()" class="member-name-link">hasChangedSinceLastCheck()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/DistanceProperty.html" title="class in xbot.common.properties">DistanceProperty</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/DoubleProperty.html#hasChangedSinceLastCheck()" class="member-name-link">hasChangedSinceLastCheck()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/properties/DistanceProperty.html#hasChangedSinceLastCheck(java.util.function.Consumer)" class="member-name-link">hasChangedSinceLastCheck(Consumer&lt;Distance&gt;)</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/DistanceProperty.html" title="class in xbot.common.properties">DistanceProperty</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/DoubleProperty.html#hasChangedSinceLastCheck(java.util.function.Consumer)" class="member-name-link">hasChangedSinceLastCheck(Consumer&lt;Double&gt;)</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></dt>
 <dd>&nbsp;</dd>
@@ -3526,6 +3546,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#isRotateToHubActive()" class="member-name-link">isRotateToHubActive()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/BooleanProperty.html#isSetToDefault()" class="member-name-link">isSetToDefault()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/BooleanProperty.html" title="class in xbot.common.properties">BooleanProperty</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/properties/DistanceProperty.html#isSetToDefault()" class="member-name-link">isSetToDefault()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/DistanceProperty.html" title="class in xbot.common.properties">DistanceProperty</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/DoubleProperty.html#isSetToDefault()" class="member-name-link">isSetToDefault()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></dt>
 <dd>&nbsp;</dd>
@@ -4288,6 +4310,12 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/SimpleTimeInterpolator.InterpolationResult.html#plannedVector" class="member-name-link">plannedVector</a> - Variable in class xbot.common.trajectory.<a href="xbot/common/trajectory/SimpleTimeInterpolator.InterpolationResult.html" title="class in xbot.common.trajectory">SimpleTimeInterpolator.InterpolationResult</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/logging/Pluralizer.html#pluralize(java.lang.String)" class="member-name-link">pluralize(String)</a> - Static method in class xbot.common.logging.<a href="xbot/common/logging/Pluralizer.html" title="class in xbot.common.logging">Pluralizer</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/logging/Pluralizer.html" class="type-name-link" title="class in xbot.common.logging">Pluralizer</a> - Class in <a href="xbot/common/logging/package-summary.html">xbot.common.logging</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/logging/Pluralizer.html#%3Cinit%3E()" class="member-name-link">Pluralizer()</a> - Constructor for class xbot.common.logging.<a href="xbot/common/logging/Pluralizer.html" title="class in xbot.common.logging">Pluralizer</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/PurePursuitCommand.html#pointIndex" class="member-name-link">pointIndex</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/PurePursuitCommand.html" title="class in xbot.common.subsystems.drive">PurePursuitCommand</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/RabbitPoint.html#pointType" class="member-name-link">pointType</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/RabbitPoint.html" title="class in xbot.common.subsystems.drive">RabbitPoint</a></dt>
@@ -4600,6 +4628,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/controls/sensors/XSparkAbsoluteEncoder.html#refreshDataFrame()" class="member-name-link">refreshDataFrame()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XSparkAbsoluteEncoder.html" title="class in xbot.common.controls.sensors">XSparkAbsoluteEncoder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/BooleanProperty.html#refreshDataFrame()" class="member-name-link">refreshDataFrame()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/BooleanProperty.html" title="class in xbot.common.properties">BooleanProperty</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/properties/DistanceProperty.html#refreshDataFrame()" class="member-name-link">refreshDataFrame()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/DistanceProperty.html" title="class in xbot.common.properties">DistanceProperty</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/DoubleProperty.html#refreshDataFrame()" class="member-name-link">refreshDataFrame()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></dt>
 <dd>&nbsp;</dd>
@@ -4920,6 +4950,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/controls/actuators/XSpeedController.html#set(double)" class="member-name-link">set(double)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XSpeedController.html" title="class in xbot.common.controls.actuators">XSpeedController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/DoubleProperty.html#set(double)" class="member-name-link">set(double)</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/properties/DistanceProperty.html#set(edu.wpi.first.units.measure.Distance)" class="member-name-link">set(Distance)</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/DistanceProperty.html" title="class in xbot.common.properties">DistanceProperty</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockRelay.html#set(edu.wpi.first.wpilibj.Relay.Value)" class="member-name-link">set(Relay.Value)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockRelay.html" title="class in xbot.common.controls.actuators.mock_adapters">MockRelay</a></dt>
 <dd>&nbsp;</dd>
