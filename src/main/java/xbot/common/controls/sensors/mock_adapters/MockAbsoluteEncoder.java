@@ -61,6 +61,10 @@ public class MockAbsoluteEncoder extends XAbsoluteEncoder implements ISimulatabl
         return this.position.plus(Rotations.of(this.positionOffset)).times(inverted ? -1 : 1);
     }
 
+    public void setPosition_internal(Angle position) {
+        this.position = position;
+    }
+
     public Angle getAbsolutePosition_internal() {
         return Rotations.of(MathUtil.inputModulus(this.getPosition_internal().in(Rotations), -0.5, 0.5));
     }
