@@ -1,6 +1,5 @@
 package xbot.common.controls.sensors.mock_adapters;
 
-import org.json.JSONObject;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
