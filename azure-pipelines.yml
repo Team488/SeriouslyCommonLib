@@ -52,3 +52,8 @@ jobs:
       inputs:
         artifactName: 'javadoc'
         targetPath: 'build/docs/javadoc'
+    - task: ShahzebKhan.sap-azure-pipelines-html-report.PublishHtmlReport.PublishHtmlReport@1
+      displayName: 'Publish SpotBugs report'
+      inputs:
+        tabName: "SpotBugs"
+        reportDir: 'build/reports/spotbugs'
