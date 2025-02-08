@@ -14,7 +14,10 @@ import xbot.common.properties.PropertyFactory;
 
 import javax.inject.Inject;
 
+import java.util.Optional;
+
 import static edu.wpi.first.units.Units.RPM;
+import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 @SwerveSingleton
@@ -22,7 +25,6 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     private static final Logger log = LogManager.getLogger(SwerveDriveSubsystem.class);
 
     private final String label;
-    private final XSwerveDriveElectricalContract contract;
 
     private final DoubleProperty metersPerMotorRotation;
     private final BooleanProperty enableDrivePid;
@@ -40,7 +42,6 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
 
         // Create properties shared among all instances
         pf.setPrefix(super.getPrefix());
-        this.contract = electricalContract;
         this.metersPerMotorRotation = pf.createPersistentProperty(
                 "MetersPerMotorRotation", 0.0532676904732978);
         this.enableDrivePid = pf.createPersistentProperty("EnableDrivePID", true);
@@ -85,9 +86,6 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
      * Set up status frame intervals to reduce unnecessary CAN activity.
      */
     private void setupStatusFramesAsNeeded() {
-        if (this.contract.isDriveReady()) {
-            //this.motorController.setupStatusFramesIfReset(500, 20, 20, 500);
-        }
     }
 
     public String getLabel() {
@@ -104,12 +102,9 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
      */
     @Override
     public Double getCurrentValue() {
-        if (this.contract.isDriveReady()) {
-            // Spark returns in RPM - need to convert to meters per second
-            return this.motorController.getVelocity().in(RotationsPerSecond) * this.metersPerMotorRotation.get();
-        } else {
-            return 0.0;
-        }
+        return getMotorController()
+                .map(mc -> mc.getVelocity().in(RotationsPerSecond) * this.metersPerMotorRotation.get())
+                .orElse(0.0);
     }
 
     /**
@@ -129,18 +124,14 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     }
 
     public double getCurrentPositionValue() {
-        if (this.contract.isDriveReady()) {
-            return this.motorController.getPosition().times(this.metersPerMotorRotation.get()).magnitude();
-        } else {
-            return 0;
-        }
+        return getMotorController()
+                .map(mc -> mc.getPosition().in(Rotations) * this.metersPerMotorRotation.get())
+                .orElse(0.0);
     }
 
     @Override
     public void setPower(double power) {
-        if (this.contract.isDriveReady()) {
-            this.motorController.setPower(power);
-        }
+        getMotorController().ifPresent(mc -> mc.setPower(power));
     }
 
     @Override
@@ -149,8 +140,8 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     }
 
 
-    public XCANMotorController getMotorController() {
-        return this.motorController;
+    public Optional<XCANMotorController> getMotorController() {
+        return Optional.ofNullable(this.motorController);
     }
 
     public boolean getDrivePidEnabled() {
@@ -158,28 +149,24 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     }
 
     public void setMotorControllerVelocityPidFromSubsystemTarget() {
-        if (this.contract.isDriveReady()) {
-            // Special check - if asked for very tiny velocities, assume we are at dead joystick and should
-            // coast to avoid "shock" when target velocities drop to 0.
-            if (Math.abs(targetVelocity) < minVelocityToEngagePid) {
-                setPower(0.0);
-                return;
-            }
-
-            // Get the target speed in RPM
-            double targetRPM = targetVelocity / this.metersPerMotorRotation.get() * 60.0;
-            aKitLog.record("TargetRPM", targetRPM);
-            this.motorController.setVelocityTarget(RPM.of(targetRPM), XCANMotorController.MotorPidMode.DutyCycle, 0);
+        // Special check - if asked for very tiny velocities, assume we are at dead joystick and should
+        // coast to avoid "shock" when target velocities drop to 0.
+        if (Math.abs(targetVelocity) < minVelocityToEngagePid) {
+            setPower(0.0);
+            return;
         }
+
+        // Get the target speed in RPM
+        double targetRPM = targetVelocity / this.metersPerMotorRotation.get() * 60.0;
+        aKitLog.record("TargetRPM", targetRPM);
+        getMotorController().ifPresent(mc -> mc.setVelocityTarget(RPM.of(targetRPM), XCANMotorController.MotorPidMode.DutyCycle, 0));
     }
 
     public void setNoviceMode(boolean enabled) {
-        if (this.contract.isDriveReady()) {
-            if (enabled) {
-                this.motorController.setPowerRange(-0.3, 0.3);
-            } else {
-                this.motorController.setPowerRange(-1, 1);
-            }
+        if (enabled) {
+            getMotorController().ifPresent(mc -> mc.setPowerRange(-0.3, 0.3));
+        } else {
+            getMotorController().ifPresent(mc -> mc.setPowerRange(-1, 1));
         }
     }
 
@@ -190,17 +177,12 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
 
     @Override
     public void periodic() {
-        if (contract.isDriveReady()) {
-            aKitLog.record("CurrentVelocity",
-                    this.getCurrentValue());
-            setupStatusFramesAsNeeded();
-            this.motorController.periodic();
-        }
+        aKitLog.record("CurrentVelocity", this.getCurrentValue());
+        setupStatusFramesAsNeeded();
+        getMotorController().ifPresent(XCANMotorController::periodic);
     }
 
     public void refreshDataFrame() {
-        if (contract.isDriveReady()) {
-            motorController.refreshDataFrame();
-        }
+        getMotorController().ifPresent(XCANMotorController::refreshDataFrame);
     }
 }

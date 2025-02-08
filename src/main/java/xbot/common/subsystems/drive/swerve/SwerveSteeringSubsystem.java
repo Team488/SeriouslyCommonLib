@@ -16,6 +16,7 @@ import xbot.common.advantage.AKitLogger;
 import xbot.common.command.BaseSetpointSubsystem;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
+import xbot.common.controls.sensors.XAbsoluteEncoder;
 import xbot.common.controls.sensors.XCANCoder;
 import xbot.common.controls.sensors.XCANCoder.XCANCoderFactory;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
@@ -29,7 +30,10 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
+import java.util.Optional;
+
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Rotations;
 
 @SwerveSingleton
@@ -37,7 +41,6 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
     private static final Logger log = LogManager.getLogger(SwerveSteeringSubsystem.class);
     private final String label;
     private final PIDManager pid;
-    private final XSwerveDriveElectricalContract contract;
 
     private final DoubleProperty powerScale;
     private double targetRotation;
@@ -51,7 +54,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
     private XCANCoder encoder;
 
     private boolean calibrated = false;
-    private boolean canCoderUnavailable = false;
+    private boolean canCoderAvailable = false;
 
     @Inject
     public SwerveSteeringSubsystem(SwerveInstance swerveInstance, XCANMotorController.XCANMotorControllerFactory mcFactory, XCANCoderFactory canCoderFactory,
@@ -60,7 +63,6 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         log.info("Creating SwerveRotationSubsystem {}", this.label);
         aKitLog.setPrefix(this.getPrefix());
 
-        this.contract = electricalContract;
         // Create properties shared among all instances
         pf.setPrefix(super.getPrefix());
         this.pid = pidf.create(super.getPrefix() + "PID", 0.2, 0.0, 0.005, -1.0, 1.0);
@@ -93,9 +95,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
             calibrated = true;
             // As a special case, we have to perform the first refresh in order to have any useful data.
             encoder.refreshDataFrame();
-            if (this.encoder.getHealth() == DeviceHealth.Unhealthy) {
-                canCoderUnavailable = true;
-            }
+            canCoderAvailable = this.encoder.getHealth() != DeviceHealth.Unhealthy;
         }
         setupStatusFramesAsNeeded();
     }
@@ -104,10 +104,10 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      * Set up status frame intervals to reduce unnecessary CAN activity.
      */
     private void setupStatusFramesAsNeeded() {
-        if (this.contract.areCanCodersReady() && this.encoder.hasResetOccurred()) {
-            this.encoder.setUpdateFrequencyForPosition(50);
-            this.encoder.stopAllUnsetSignals();
-        }
+        getEncoder().ifPresent(encoder -> {
+            encoder.setUpdateFrequencyForPosition(50);
+            encoder.stopAllUnsetSignals();
+        });
     }
 
     public String getLabel() {
@@ -157,15 +157,13 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      */
     @Override
     public void setPower(double power) {
-        if (this.contract.isDriveReady()) {
-            aKitLog.record("DirectPower", power);
-            this.motorController.setPower(power);
-        }
+        getMotorController().ifPresent(mc -> mc.setPower(power));
+        aKitLog.record("DirectPower", power);
     }
 
     @Override
     public boolean isCalibrated() {
-        return !canCoderUnavailable || calibrated;
+        return canCoderAvailable || calibrated;
     }
 
     /**
@@ -190,9 +188,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      * Mark the current encoder position as facing forward (0 degrees)
      */
     public void calibrateHere() {
-        if (this.contract.isDriveReady()) {
-            this.motorController.setPosition(Degrees.of(0));
-        }
+        getMotorController().ifPresent(mc -> mc.setPosition(Degrees.of(0)));
         this.calibrated = true;
     }
 
@@ -201,27 +197,24 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      * This should only be called when the mechanism is stationary.
      */
     public void calibrateMotorControllerPositionFromCanCoder() {
-        if (this.contract.isDriveReady() && this.contract.areCanCodersReady() && !canCoderUnavailable) {
+        if (getMotorController().isPresent() && getEncoder().isPresent() && canCoderAvailable) {
             Angle currentCanCoderPosition = getAbsoluteEncoderPosition();
             Angle currentMotorControllerPosition = getMotorControllerEncoderPosition();
 
             if (isMotorControllerDriftTooHigh(currentCanCoderPosition, currentMotorControllerPosition, this.maxMotorEncoderDrift.get())) {
-                if (this.motorController.getVelocity().magnitude() > 0) {
-                    // TODO: this is being called constantly. Seems like a bug.
-                    //log.info("This was called when the motor is moving. No action will be taken.");
-                } else {
+                if (!(getMotorController().get().getVelocity().magnitude() > 0)) {
                     log.warn("Motor controller encoder drift is too high, recalibrating!");
 
                     // Force motors to manual control before resetting position
                     this.setPower(0.0);
-                    this.motorController.setPosition(currentCanCoderPosition.div(this.degreesPerMotorRotation.get()));
+                    getMotorController().get().setPosition(currentCanCoderPosition.div(this.degreesPerMotorRotation.get()));
                 }
             }
         }
     }
 
     public AngularVelocity getVelocity() {
-        return this.motorController.getVelocity();
+        return getMotorController().map(XCANMotorController::getVelocity).orElse(RPM.zero());
     }
 
     public static boolean isMotorControllerDriftTooHigh(Angle currentCanCoderPosition, Angle currentMotorControllerPosition, double maxDelta) {
@@ -232,16 +225,16 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      * Gets the motor controller for this steering module.
      * @return The motor controller for this steering module.
      */
-    public XCANMotorController getMotorController() {
-        return this.motorController;
+    public Optional<XCANMotorController> getMotorController() {
+        return Optional.ofNullable(this.motorController);
     }
 
     /**
      * Gets the CANCoder for this steering module.
      * @return The CANCoder for this steering module.
      */
-    public XCANCoder getEncoder() {
-        return this.encoder;
+    public Optional<XCANCoder> getEncoder() {
+        return Optional.ofNullable(this.encoder);
     }
 
     /**
@@ -249,22 +242,17 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      * @return The position in degrees.
      */
     public Angle getBestEncoderPosition() {
-
         aKitLog.setLogLevel(AKitLogger.LogLevel.DEBUG);
-        aKitLog.record("CanCoderUnavailable", canCoderUnavailable);
+        aKitLog.record("CanCoderAvailable", canCoderAvailable);
         aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
 
-
-        if (this.contract.areCanCodersReady() && !canCoderUnavailable) {
+        if (canCoderAvailable) {
             return getAbsoluteEncoderPosition();
         }
-        else if (this.contract.isDriveReady()) {
-            // If the CANCoders aren't available, we can use the built-in encoders in the steering motors. Experience suggests
-            // that this will work for about 30 seconds of driving before getting wildly out of alignment.
-            return getMotorControllerEncoderPosition();
-        }
 
-        return Degrees.zero();
+        // If the CANCoders aren't available, we can use the built-in encoders in the steering motors. Experience suggests
+        // that this will work for about 30 seconds of driving before getting wildly out of alignment.
+        return getMotorControllerEncoderPosition();
     }
 
     /**
@@ -272,11 +260,9 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      * @return The position of the CANCoder.
      */
     public Angle getAbsoluteEncoderPosition() {
-        if (this.contract.areCanCodersReady()) {
-            return this.encoder.getAbsolutePosition();
-        } else {
-            return Degrees.zero();
-        }
+        return getEncoder()
+                .map(XAbsoluteEncoder::getAbsolutePosition)
+                .orElse(Degrees.zero());
     }
 
     /**
@@ -284,11 +270,9 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      * @return The position of the encoder on the NEO motor.
      */
     public Angle getMotorControllerEncoderPosition() {
-        if (this.contract.isDriveReady()) {
-            return this.motorController.getPosition().times(degreesPerMotorRotation.get());
-        } else {
-            return Degrees.zero();
-        }
+        return getMotorController()
+                .map(mc -> mc.getPosition().times(degreesPerMotorRotation.get()))
+                .orElse(Degrees.zero());
     }
 
     /**
@@ -337,7 +321,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      * Calculates the nearest position on the motor encoder to targetDegrees and sets the controller's PID target.
      */
     public void setMotorControllerPidTarget() {
-        if (this.contract.isDriveReady()) {
+        if (getMotorController().isPresent()) {
             Angle target = Degrees.of(getTargetValue());
 
             // Since there are four modules, any values here will be very noisy. Setting data
@@ -352,14 +336,14 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
             Angle currentPosition = getBestEncoderPosition();
             Angle angleBetweenDesiredAndCurrent = Degrees.of(MathUtil.inputModulus(target.minus(currentPosition).in(Degrees), -90, 90));
             aKitLog.record("angleBetweenDesiredAndCurrent-Degrees", angleBetweenDesiredAndCurrent.in(Degrees));
-            aKitLog.record("MotorControllerPosition-Rotations", this.motorController.getPosition().in(Rotations));
+            aKitLog.record("MotorControllerPosition-Rotations", getMotorController().get().getPosition().in(Rotations));
 
-            Angle targetPosition = this.motorController.getPosition().plus(
+            Angle targetPosition = getMotorController().get().getPosition().plus(
                     Rotations.of(angleBetweenDesiredAndCurrent.in(Degrees) / degreesPerMotorRotation.get())
             );
 
             aKitLog.record("TargetPosition-Rotations", targetPosition.in(Rotations));
-            this.motorController.setPositionTarget(targetPosition, XCANMotorController.MotorPidMode.Voltage, 0);
+            getMotorController().get().setPositionTarget(targetPosition, XCANMotorController.MotorPidMode.Voltage, 0);
 
             // restore typical log level
             aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
@@ -373,10 +357,8 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
 
     @Override
     public void periodic() {
-        if (contract.isDriveReady()) {
-            setupStatusFramesAsNeeded();
-            motorController.periodic();
-        }
+        getMotorController().ifPresent(XCANMotorController::periodic);
+        setupStatusFramesAsNeeded();
 
         aKitLog.record("BestEncoderPositionDegrees",
                 getBestEncoderPosition().in(Degrees));
@@ -384,13 +366,8 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
 
     @Override
     public void refreshDataFrame() {
-        if (contract.isDriveReady()) {
-            motorController.refreshDataFrame();
-
-        }
-        if (contract.areCanCodersReady()) {
-            encoder.refreshDataFrame();
-        }
+        getMotorController().ifPresent(XCANMotorController::refreshDataFrame);
+        getEncoder().ifPresent(XCANCoder::refreshDataFrame);
 
         // TODO: Once we've moved to an architecture where we control the order periodic() is called in
         // (so we can guarantee that child components, like this SwerveSteeringElement, are called before
@@ -406,8 +383,6 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
     }
 
     private void setVoltage(Voltage voltage) {
-        if (this.contract.isDriveReady()) {
-            this.motorController.setVoltage(voltage);
-        }
+        getMotorController().ifPresent(mc -> mc.setVoltage(voltage));
     }
 }
