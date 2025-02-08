@@ -56,4 +56,4 @@ jobs:
       displayName: 'Publish SpotBugs report'
       inputs:
         tabName: "SpotBugs"
-        reportDir: 'build/reports/spotbugs'
+        reportDir: 'build/reports/spotbugs/main.html'
