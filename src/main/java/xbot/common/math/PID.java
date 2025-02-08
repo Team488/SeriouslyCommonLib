@@ -28,7 +28,7 @@ public class PID
     private double m_targetInputValue;
     private double m_currentInputValue;
 
-    private double m_derivativeValue;
+    private Optional<Double> m_derivativeValue = Optional.empty();
     private boolean errorIsSmall = false;
     private boolean derivativeIsSmall = false;
     double errorTolerance = 0;
@@ -136,8 +136,8 @@ public class PID
         }
         // if previous error is a value, do normal derivative calculation.
         // otherwise derivative value should be 0
-        m_derivativeValue = m_prevError.map(aDouble -> m_error - aDouble).orElse(0.0);
-        m_result = p * m_error + d * (m_derivativeValue) + f * goal;
+        m_derivativeValue = m_prevError.map(aDouble -> m_error - aDouble);
+        m_result = p * m_error + d * (m_derivativeValue.orElse(0.0)) + f * goal;
 
         // If iZone is configured, but we are outside the zone, clear any accumulated I.
         if (iZone > 0 && Math.abs(m_error) > iZone) {
@@ -159,7 +159,8 @@ public class PID
         result = m_result;
 
         errorIsSmall = checkErrorThreshold && Math.abs(m_targetInputValue - m_currentInputValue) < errorTolerance;
-        derivativeIsSmall = checkDerivativeThreshold && Math.abs(m_derivativeValue) < derivativeTolerance;
+        derivativeIsSmall = m_derivativeValue.filter(aDouble -> checkDerivativeThreshold && Math.abs(aDouble) < derivativeTolerance).isPresent();
+//        derivativeIsSmall = checkDerivativeThreshold && Math.abs(m_derivativeValue) < derivativeTolerance;
 
         checkIsOnTarget();
 
