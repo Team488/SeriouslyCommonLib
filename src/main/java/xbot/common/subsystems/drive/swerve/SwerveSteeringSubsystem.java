@@ -325,6 +325,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      */
     public void setMotorControllerPidTarget() {
         if (getMotorController().isPresent()) {
+            var motorController = getMotorController().orElseThrow();
             Angle target = Degrees.of(getTargetValue());
 
             // Since there are four modules, any values here will be very noisy. Setting data
@@ -339,14 +340,14 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
             Angle currentPosition = getBestEncoderPosition();
             Angle angleBetweenDesiredAndCurrent = Degrees.of(MathUtil.inputModulus(target.minus(currentPosition).in(Degrees), -90, 90));
             aKitLog.record("angleBetweenDesiredAndCurrent-Degrees", angleBetweenDesiredAndCurrent.in(Degrees));
-            aKitLog.record("MotorControllerPosition-Rotations", getMotorController().get().getPosition().in(Rotations));
+            aKitLog.record("MotorControllerPosition-Rotations", motorController.getPosition().in(Rotations));
 
-            Angle targetPosition = getMotorController().get().getPosition().plus(
+            Angle targetPosition = motorController.getPosition().plus(
                     Rotations.of(angleBetweenDesiredAndCurrent.in(Degrees) / degreesPerMotorRotation.get())
             );
 
             aKitLog.record("TargetPosition-Rotations", targetPosition.in(Rotations));
-            getMotorController().get().setPositionTarget(targetPosition, XCANMotorController.MotorPidMode.Voltage, 0);
+            motorController.setPositionTarget(targetPosition, XCANMotorController.MotorPidMode.Voltage, 0);
 
             // restore typical log level
             aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
