@@ -18,7 +18,7 @@ public class XSchedulerTest extends BaseCommonLibTest {
 
     @After
     public void tearDown() {
-        getInjectorComponent().scheduler().removeAll();
+        getInjectorComponent().scheduler().reset();
     }
 
     @Test
@@ -43,7 +43,7 @@ public class XSchedulerTest extends BaseCommonLibTest {
         // scheduler should have been emptied.
     }
 
-    @Test 
+    @Test
     @Ignore("I can't make the scheduler crash - this needs more investigation later.")
     public void testSchedulerCrashes() {
         BaseCommand crashingCommand = new CrashingInExecCommand();
@@ -59,7 +59,7 @@ public class XSchedulerTest extends BaseCommonLibTest {
             CommandScheduler.getInstance().run();
             CommandScheduler.getInstance().run();
             CommandScheduler.getInstance().run();
-            
+
         } catch (Exception e) {
             hitCrash = true;
         }

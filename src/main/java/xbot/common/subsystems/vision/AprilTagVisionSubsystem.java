@@ -147,7 +147,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
     @Override
     public void refreshDataFrame() {
         for (int i = 0; i < cameraHelpers.length; i++) {
-            cameraHelpers[0].refreshDataFrame();
+            cameraHelpers[i].refreshDataFrame();
         }
     }
 
