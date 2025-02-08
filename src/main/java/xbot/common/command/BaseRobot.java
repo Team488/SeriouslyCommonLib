@@ -174,6 +174,7 @@ public abstract class BaseRobot extends LoggedRobot {
         // Get the property manager and get all properties from the robot disk
         propertyManager = injectorComponent.propertyManager();
         xScheduler = injectorComponent.scheduler();
+        xScheduler.reset();
         // All this does is set the timeout period for the scheduler - the actual loop still runs at 50hz.
         CommandScheduler.getInstance().setPeriod(0.05);
         autonomousCommandSelector = injectorComponent.autonomousCommandSelector();
