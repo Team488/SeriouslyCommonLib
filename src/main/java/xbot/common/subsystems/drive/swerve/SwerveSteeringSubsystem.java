@@ -105,8 +105,10 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      */
     private void setupStatusFramesAsNeeded() {
         getEncoder().ifPresent(encoder -> {
-            encoder.setUpdateFrequencyForPosition(50);
-            encoder.stopAllUnsetSignals();
+            if (encoder.hasResetOccurred()) {
+                encoder.setUpdateFrequencyForPosition(50);
+                encoder.stopAllUnsetSignals();
+            }
         });
     }
 
@@ -198,16 +200,17 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      */
     public void calibrateMotorControllerPositionFromCanCoder() {
         if (getMotorController().isPresent() && getEncoder().isPresent() && canCoderAvailable) {
+            var motorController = getMotorController().orElseThrow();
             Angle currentCanCoderPosition = getAbsoluteEncoderPosition();
             Angle currentMotorControllerPosition = getMotorControllerEncoderPosition();
 
             if (isMotorControllerDriftTooHigh(currentCanCoderPosition, currentMotorControllerPosition, this.maxMotorEncoderDrift.get())) {
-                if (!(getMotorController().get().getVelocity().magnitude() > 0)) {
+                if (!(motorController.getVelocity().magnitude() > 0)) {
                     log.warn("Motor controller encoder drift is too high, recalibrating!");
 
                     // Force motors to manual control before resetting position
                     this.setPower(0.0);
-                    getMotorController().get().setPosition(currentCanCoderPosition.div(this.degreesPerMotorRotation.get()));
+                    motorController.setPosition(currentCanCoderPosition.div(this.degreesPerMotorRotation.get()));
                 }
             }
         }
