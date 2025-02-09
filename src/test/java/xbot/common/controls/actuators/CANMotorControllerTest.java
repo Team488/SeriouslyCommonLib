@@ -59,4 +59,26 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
         assertEquals(4, mockMotor.f, 0.001);
         assertEquals(5, mockMotor.g, 0.001);
     }
+
+    @Test
+    public void softwareLimitTests() {
+        CANMotorControllerInfo info = new CANMotorControllerInfo("Test", MotorControllerType.TalonFx, CANBusId.DefaultCanivore, 1,
+                new CANMotorControllerOutputConfig());
+        XCANMotorController motor = getInjectorComponent().motorControllerFactory().create(info, "TestOwningPrefix", "TestPIDPrefix", null);
+
+        motor.setSoftwareForwardLimit(() -> true);
+        motor.setSoftwareReverseLimit(() -> false);
+
+        motor.setPower(1);
+        assertEquals(0, motor.getPower(), 0.001);
+
+        motor.setPower(-1);
+        assertEquals(-1, motor.getPower(), 0.001);
+
+        motor.setSoftwareReverseLimit(() -> true);
+
+        motor.refreshDataFrame();
+        motor.periodic();
+        assertEquals(0, motor.getPower(), 0.001);
+    }
 }
