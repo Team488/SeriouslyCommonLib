@@ -11,6 +11,8 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
@@ -30,6 +32,8 @@ public class MockCANMotorController extends XCANMotorController {
         Position,
         Velocity
     }
+
+    private static final Logger log = LogManager.getLogger(MockCANMotorController.class);
 
     private ControlMode controlMode = ControlMode.DutyCycle;
     private double power = 0.0;
@@ -102,6 +106,9 @@ public class MockCANMotorController extends XCANMotorController {
 
     @Override
     public void setPower(double power) {
+        if (!isValidPowerRequest(power)) {
+            return;
+        }
         controlMode = ControlMode.DutyCycle;
         this.power = MathUtil.clamp(power, -1.0, 1.0);
     }
@@ -166,6 +173,9 @@ public class MockCANMotorController extends XCANMotorController {
 
     @Override
     public void setVoltage(Voltage voltage) {
+        if (!isValidVoltageRequest(voltage)) {
+            return;
+        }
         this.power = MathUtil.clamp(voltage.in(Volts) / 12.0, -1.0, 1.0);
     }
 

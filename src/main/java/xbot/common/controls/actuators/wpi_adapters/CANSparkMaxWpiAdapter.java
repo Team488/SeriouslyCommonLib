@@ -150,6 +150,9 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setPower(double power) {
+        if (!isValidPowerRequest(power)) {
+            return;
+        }
         this.internalSparkMax.set(MathUtil.clamp(power, minPower, maxPower));
     }
 
@@ -220,6 +223,9 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setVoltage(Voltage voltage) {
+        if (!isValidVoltageRequest(voltage)) {
+            return;
+        }
         this.internalSparkMax.setVoltage(voltage);
     }
 

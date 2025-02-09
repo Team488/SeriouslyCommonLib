@@ -6,7 +6,9 @@ import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
 import com.ctre.phoenix6.configs.SlotConfigs;
+import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.CoastOut;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
@@ -39,6 +41,8 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.properties.PropertyFactory;
+
+import static edu.wpi.first.units.Units.Volts;
 
 public class CANTalonFxWpiAdapter extends XCANMotorController {
 
@@ -131,6 +135,9 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setPower(double power) {
+        if (!isValidPowerRequest(power)) {
+            return;
+        }
         this.internalTalonFx.setControl(new DutyCycleOut(power));
     }
 
@@ -208,6 +215,9 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setVoltage(Voltage voltage) {
+        if (!isValidVoltageRequest(voltage)) {
+            return;
+        }
         this.internalTalonFx.setControl(new VoltageOut(voltage));
     }
 
