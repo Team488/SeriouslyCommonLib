@@ -72,6 +72,12 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
     }
 
     @Override
+    public void initialize() {
+        log.info("Initializing");
+        subsystemToMaintain.setTargetValue(subsystemToMaintain.getCurrentValue());
+    }
+
+    @Override
     public void execute() {
         maintain();
         subsystemToMaintain.setMaintainerIsAtGoal(isMaintainerAtGoal());

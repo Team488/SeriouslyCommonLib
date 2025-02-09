@@ -19,6 +19,8 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.drive.swerve.ISwerveAdvisorPoseSupport;
+
+import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 
 public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable, ISwerveAdvisorPoseSupport {
@@ -48,7 +50,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     protected boolean firstUpdate = true;
     protected double lastSetHeadingTime;
     // 2025 xMidpoint = 8.7785m, 2024 xMidpoint = 8.2705
-    public static Distance fieldXMidpointInMeters = Meters.of(8.7785);
+    public static Distance fieldXMidpoint = Meters.of(8.7785);
+    public static Distance fieldYHeight = Inches.of(317);
 
     public BasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {
         log.info("Creating");
@@ -264,6 +267,22 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
         return isNavXReady;
     }
 
+    private static double mirrorXCoordinateAcrossMidfield(double xCoordinate) {
+        return ((fieldXMidpoint.in(Units.Meter)-xCoordinate) * 2) + xCoordinate;
+    }
+
+    private static double mirrorYCoordinateAcrossMidfield(double yCoordinate) {
+        return fieldYHeight.in(Units.Meter) - yCoordinate;
+    }
+
+    private static Rotation2d convertBlueToRedViaMirroring(Rotation2d blueHeading){
+        return Rotation2d.fromDegrees(blueHeading.getDegrees() - (blueHeading.getDegrees() - 90.0) * 2);
+    }
+
+    private static Rotation2d convertBlueToRedViaRotationAroundFieldCenter(Rotation2d blueHeading){
+        return blueHeading.rotateBy(Rotation2d.fromDegrees(180));
+    }
+
     /**
      * Converts a pose from blue to red alliance, by mirroring across the field midline at an assumed X coordinate.
      * @param blueCoordinates Blue Pose2d to convert to Red Pose2d
@@ -279,8 +298,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
      * @return Red Translation2d
      */
     public static Translation2d convertBlueToRed(Translation2d blueCoordinates){
-        double redXCoordinates = ((fieldXMidpointInMeters.in(Units.Meter)-blueCoordinates.getX()) * 2) + blueCoordinates.getX();
-        return new Translation2d(redXCoordinates, blueCoordinates.getY());
+        return convertBluetoRedViaRotationAroundFieldCenter(blueCoordinates);
     }
 
     /**
@@ -291,8 +309,22 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
      * @return Red Rotation2d
      */
     public static Rotation2d convertBlueToRed(Rotation2d blueHeading){
-        return Rotation2d.fromDegrees(blueHeading.getDegrees() - (blueHeading.getDegrees() - 90.0) * 2);
+        return convertBlueToRedViaRotationAroundFieldCenter(blueHeading);
     }
+
+    private static Translation2d convertBlueToRedViaMirror(Translation2d blueCoordinates) {
+        return new Translation2d(
+                (mirrorXCoordinateAcrossMidfield(blueCoordinates.getX())),
+                blueCoordinates.getY());
+    }
+
+    private static Translation2d convertBluetoRedViaRotationAroundFieldCenter(Translation2d blueCoordinates) {
+        return new Translation2d(
+                (mirrorXCoordinateAcrossMidfield(blueCoordinates.getX())),
+                mirrorYCoordinateAcrossMidfield(blueCoordinates.getY()));
+    }
+
+
 
     /**
      * Converts a Translation2d from blue to red alliance, if and ONLY IF you are currently on the Red alliance.
@@ -323,15 +355,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
             return convertBlueToRed(blueHeading);
         }
         return blueHeading;
-    }
-
-    public static Rotation2d rotateAngleBasedOnAlliance(Rotation2d rotation) {
-        var alliance = getAlliance();
-
-        if (getAlliance() == DriverStation.Alliance.Red) {
-            return Rotation2d.fromDegrees(rotation.getDegrees() - (rotation.getDegrees() - 90.0) * 2);
-        }
-        return rotation;
     }
 
     public static DriverStation.Alliance getAlliance() {
