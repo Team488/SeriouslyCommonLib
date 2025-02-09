@@ -175,13 +175,13 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public Angle getPosition() {
+    public Angle getRawPosition() {
         return Rotations.of(this.internalSparkMax.getEncoder().getPosition());
     }
 
     @Override
-    public void setPosition(Angle position) {
-        this.internalSparkMax.getEncoder().setPosition(0);
+    public void setRawPosition(Angle position) {
+        this.internalSparkMax.getEncoder().setPosition(position.in(Rotations));
     }
 
     @Override

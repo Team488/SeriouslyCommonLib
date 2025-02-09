@@ -152,17 +152,13 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         this.internalTalonFx.getConfigurator().apply(motorConfigs);
     }
 
-    /**
-     * Gets the current position of the motor output shaft.
-     * @return The current position in unitless Angle
-     */
     @Override
-    public Angle getPosition() {
+    public Angle getRawPosition() {
         return this.internalTalonFx.getRotorPosition().getValue();
     }
 
     @Override
-    public void setPosition(Angle position) {
+    public void setRawPosition(Angle position) {
         this.internalTalonFx.setPosition(position);
     }
 

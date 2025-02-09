@@ -96,9 +96,19 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
         motor.setAngleScaleFactor(Rotations.per(Rotations).of(2));
         motor.setDistancePerAngleScaleFactor(Meters.per(Rotations).of(4));
 
-        motor.setPosition(Rotations.of(1));
+        motor.setRawPosition(Rotations.of(1));
 
         assertTrue(Meters.of(4).isNear(motor.getPositionAsDistance(), 0.001));
-        assertTrue(Rotations.of(2).isNear(motor.getPositionAsScaledAngle(), 0.001));
+        assertTrue(Rotations.of(2).isNear(motor.getPosition(), 0.001));
+
+        motor.setPosition(Rotations.of(1));
+        assertTrue(Meters.of(2).isNear(motor.getPositionAsDistance(), 0.001));
+        assertTrue(Rotations.of(0.5).isNear(motor.getRawPosition(), 0.001));
+
+        motor.setAngleScaleFactor(null);
+        assertTrue(motor.getPosition().isEquivalent(motor.getRawPosition()));
+        motor.setPosition(Rotations.of(10));
+        assertTrue(motor.getPosition().isEquivalent(motor.getRawPosition()));
+        assertTrue(Rotations.of(10).isNear(motor.getRawPosition(), 0.001));
     }
 }

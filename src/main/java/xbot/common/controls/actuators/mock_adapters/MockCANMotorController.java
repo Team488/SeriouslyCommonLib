@@ -129,12 +129,12 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     @Override
-    public Angle getPosition() {
+    public Angle getRawPosition() {
         return this.position;
     }
 
     @Override
-    public void setPosition(Angle position) {
+    public void setRawPosition(Angle position) {
         this.position = position;
     }
 

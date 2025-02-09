@@ -2,14 +2,18 @@ package xbot.common.controls.actuators;
 
 import edu.wpi.first.units.AngleUnit;
 import edu.wpi.first.units.AngularAccelerationUnit;
+import edu.wpi.first.units.DimensionlessUnit;
 import edu.wpi.first.units.DistanceUnit;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.PerUnit;
+import edu.wpi.first.units.Unit;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.units.measure.Dimensionless;
 import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.ImmutableDimensionless;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
@@ -241,27 +245,61 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
         this.angleScaleFactor = angleScaleFactor;
     }
 
-    public Angle getPosition() {
+    /**
+     * Get the position reported by the motor controller.
+     * @apiNote Angle scaling factors configured on the motor controller are ignored.
+     * @return The position reported by the motor controller.
+     */
+    public Angle getRawPosition() {
         return inputs.angle;
     }
 
+    /**
+     * Get the position reported by the motor controller.
+     * @apiNote Distance per angle scaling factors configured on the motor controller are applied.
+     * @return The position reported by the motor controller.
+     */
     public Distance getPositionAsDistance() {
         if (distancePerAngleScaleFactor == null) {
             log.warn("Distance per angle not set for motor controller {}", akitName);
             return Meters.zero();
         }
-        return getPosition().timesConversionFactor(distancePerAngleScaleFactor);
+        return getRawPosition().timesConversionFactor(distancePerAngleScaleFactor);
     }
 
-    public Angle getPositionAsScaledAngle() {
+    /**
+     * Get the position reported by the motor controller.
+     * @apiNote Angle scaling factors configured on the motor controller are applied.
+     * @return The position reported by the motor controller.
+     */
+    public Angle getPosition() {
         if (angleScaleFactor == null) {
-            log.warn("Angle scale factor not set for motor controller {}", akitName);
-            return Rotations.zero();
+            return getRawPosition();
         }
-        return getPosition().timesConversionFactor(angleScaleFactor);
+        return getRawPosition().timesConversionFactor(angleScaleFactor);
     }
 
+    /**
+     * Override the position of the motor controller.
+     * @param position The new position to set.
+     * @apiNote Angle scaling factors configured on the motor controller are applied.
+     */
     public void setPosition(Angle position) {
+        if (angleScaleFactor == null) {
+            setRawPosition(position);
+        } else {
+            setRawPosition(position.timesConversionFactor(invertRatio(angleScaleFactor)));
+        }
+    }
+
+    /**
+     * Override the position of the motor controller.
+     * @param position The new position to set.
+     * @apiNote Angle scaling factors configured on the motor controller are ignored.
+     */
+    public abstract void setRawPosition(Angle position);
+
+    public void setPositionTarget(Angle position) {
         setPositionTarget(position, MotorPidMode.DutyCycle);
     }
 
@@ -326,5 +364,9 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             return false;
         }
         return true;
+    }
+
+    protected <N extends Unit, D extends Unit> Measure<? extends PerUnit<D, N>> invertRatio(Measure<? extends PerUnit<N, D>> ratio) {
+        return ratio.unit().reciprocal().of(1 / ratio.magnitude());
     }
 }
