@@ -1,10 +1,15 @@
 package xbot.common.controls.actuators;
 
+import edu.wpi.first.units.AngleUnit;
 import edu.wpi.first.units.AngularAccelerationUnit;
+import edu.wpi.first.units.DistanceUnit;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.PerUnit;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
@@ -24,6 +29,8 @@ import xbot.common.properties.PropertyFactory;
 
 import java.util.function.Supplier;
 
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.Volts;
 
 public abstract class XCANMotorController implements DataFrameRefreshable {
@@ -86,6 +93,9 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     private DoubleProperty kMinOutputProp;
 
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(XCANMotorController.class);
+
+    protected Measure<? extends PerUnit<DistanceUnit, AngleUnit>> distancePerAngleScaleFactor;
+    protected Measure<? extends PerUnit<AngleUnit, AngleUnit>> angleScaleFactor;
 
     protected Supplier<Boolean> softwareReverseLimit = () -> false;
     protected Supplier<Boolean> softwareForwardLimit = () -> false;
@@ -223,8 +233,32 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     public abstract void setPowerRange(double minPower, double maxPower);
 
+    public void setDistancePerAngleScaleFactor(Measure<? extends PerUnit<DistanceUnit, AngleUnit>> distancePerAngle) {
+        this.distancePerAngleScaleFactor = distancePerAngle;
+    }
+
+    public void setAngleScaleFactor(Measure<? extends PerUnit<AngleUnit, AngleUnit>> angleScaleFactor) {
+        this.angleScaleFactor = angleScaleFactor;
+    }
+
     public Angle getPosition() {
         return inputs.angle;
+    }
+
+    public Distance getPositionAsDistance() {
+        if (distancePerAngleScaleFactor == null) {
+            log.warn("Distance per angle not set for motor controller {}", akitName);
+            return Meters.zero();
+        }
+        return getPosition().timesConversionFactor(distancePerAngleScaleFactor);
+    }
+
+    public Angle getPositionAsScaledAngle() {
+        if (angleScaleFactor == null) {
+            log.warn("Angle scale factor not set for motor controller {}", akitName);
+            return Rotations.zero();
+        }
+        return getPosition().timesConversionFactor(angleScaleFactor);
     }
 
     public void setPosition(Angle position) {

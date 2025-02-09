@@ -1,5 +1,7 @@
 package xbot.common.controls.actuators;
 
+import edu.wpi.first.units.AngleUnit;
+import edu.wpi.first.units.PerUnit;
 import org.junit.Test;
 import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
 import xbot.common.injection.BaseCommonLibTest;
@@ -8,7 +10,10 @@ import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.injection.electrical_contract.MotorControllerType;
 
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.Rotations;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CANMotorControllerTest extends BaseCommonLibTest {
 
@@ -80,5 +85,20 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
         motor.refreshDataFrame();
         motor.periodic();
         assertEquals(0, motor.getPower(), 0.001);
+    }
+
+    @Test
+    public void testScaleFactors() {
+        CANMotorControllerInfo info = new CANMotorControllerInfo("Test", MotorControllerType.TalonFx, CANBusId.DefaultCanivore, 1,
+                new CANMotorControllerOutputConfig());
+        XCANMotorController motor = getInjectorComponent().motorControllerFactory().create(info, "TestOwningPrefix", "TestPIDPrefix", null);
+
+        motor.setAngleScaleFactor(Rotations.per(Rotations).of(2));
+        motor.setDistancePerAngleScaleFactor(Meters.per(Rotations).of(4));
+
+        motor.setPosition(Rotations.of(1));
+
+        assertTrue(Meters.of(4).isNear(motor.getPositionAsDistance(), 0.001));
+        assertTrue(Rotations.of(2).isNear(motor.getPositionAsScaledAngle(), 0.001));
     }
 }
