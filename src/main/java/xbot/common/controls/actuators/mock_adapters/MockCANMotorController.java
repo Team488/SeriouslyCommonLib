@@ -102,6 +102,9 @@ public class MockCANMotorController extends XCANMotorController {
 
     @Override
     public void setPower(double power) {
+        if (!isValidPowerRequest(power)) {
+            return;
+        }
         controlMode = ControlMode.DutyCycle;
         this.power = MathUtil.clamp(power, -1.0, 1.0);
     }
@@ -166,6 +169,9 @@ public class MockCANMotorController extends XCANMotorController {
 
     @Override
     public void setVoltage(Voltage voltage) {
+        if (!isValidVoltageRequest(voltage)) {
+            return;
+        }
         this.power = MathUtil.clamp(voltage.in(Volts) / 12.0, -1.0, 1.0);
     }
 
