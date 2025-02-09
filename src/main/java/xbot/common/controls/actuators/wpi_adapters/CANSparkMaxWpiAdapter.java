@@ -185,7 +185,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setPositionTarget(Angle position, MotorPidMode mode, int slot) {
+    public void setRawPositionTarget(Angle position, MotorPidMode mode, int slot) {
         SparkBase.ControlType controlType;
         switch (mode) {
             case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kPosition;
@@ -201,12 +201,12 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public AngularVelocity getVelocity() {
+    public AngularVelocity getRawVelocity() {
         return RPM.of(this.internalSparkMax.getEncoder().getVelocity());
     }
 
     @Override
-    public void setVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot) {
+    public void setRawVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot) {
         SparkBase.ControlType controlType;
         switch (mode) {
             case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kVelocity;

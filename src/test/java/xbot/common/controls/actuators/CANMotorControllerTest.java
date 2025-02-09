@@ -12,6 +12,7 @@ import xbot.common.injection.electrical_contract.MotorControllerType;
 
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -91,7 +92,7 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
     public void testScaleFactors() {
         CANMotorControllerInfo info = new CANMotorControllerInfo("Test", MotorControllerType.TalonFx, CANBusId.DefaultCanivore, 1,
                 new CANMotorControllerOutputConfig());
-        XCANMotorController motor = getInjectorComponent().motorControllerFactory().create(info, "TestOwningPrefix", "TestPIDPrefix", null);
+        var motor = (MockCANMotorController)getInjectorComponent().motorControllerFactory().create(info, "TestOwningPrefix", "TestPIDPrefix", null);
 
         motor.setAngleScaleFactor(Rotations.per(Rotations).of(2));
         motor.setDistancePerAngleScaleFactor(Meters.per(Rotations).of(4));
@@ -105,10 +106,18 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
         assertTrue(Meters.of(2).isNear(motor.getPositionAsDistance(), 0.001));
         assertTrue(Rotations.of(0.5).isNear(motor.getRawPosition(), 0.001));
 
+        motor.setRawVelocity(RotationsPerSecond.of(1));
+        assertTrue(RotationsPerSecond.of(2).isNear(motor.getVelocity(), 0.001));
+
+        motor.setVelocityTarget(RotationsPerSecond.of(1));
+        assertTrue(RotationsPerSecond.of(0.5).isNear(motor.getRawTargetVelocity(), 0.001));
+
         motor.setAngleScaleFactor(null);
         assertTrue(motor.getPosition().isEquivalent(motor.getRawPosition()));
         motor.setPosition(Rotations.of(10));
         assertTrue(motor.getPosition().isEquivalent(motor.getRawPosition()));
         assertTrue(Rotations.of(10).isNear(motor.getRawPosition(), 0.001));
+        motor.setVelocityTarget(RotationsPerSecond.of(1));
+        assertTrue(RotationsPerSecond.of(1).isNear(motor.getRawTargetVelocity(), 0.001));
     }
 }

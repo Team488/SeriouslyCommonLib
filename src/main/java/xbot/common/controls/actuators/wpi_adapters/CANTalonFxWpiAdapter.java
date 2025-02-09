@@ -163,7 +163,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setPositionTarget(Angle position, MotorPidMode mode, int slot) {
+    public void setRawPositionTarget(Angle position, MotorPidMode mode, int slot) {
         ControlRequest controlRequest;
         switch (mode) {
             case DutyCycle -> controlRequest = new PositionDutyCycle(position).withSlot(slot);
@@ -179,17 +179,13 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         this.internalTalonFx.setControl(controlRequest);
     }
 
-    /**
-     * Gets the angular velocity of the motor output shaft.
-     * @return The velocity in unitless AngularVelocity
-     */
     @Override
-    public AngularVelocity getVelocity() {
+    public AngularVelocity getRawVelocity() {
         return this.internalTalonFx.getRotorVelocity().getValue();
     }
 
     @Override
-    public void setVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot) {
+    public void setRawVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot) {
         ControlRequest controlRequest;
         switch (mode) {
             case DutyCycle -> controlRequest = new VelocityDutyCycle(velocity).withSlot(slot);

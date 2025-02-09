@@ -139,31 +139,31 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     @Override
-    public void setPositionTarget(Angle position, MotorPidMode mode, int slot) {
+    public void setRawPositionTarget(Angle position, MotorPidMode mode, int slot) {
         controlMode = ControlMode.Position;
         this.targetPosition = position;
     }
 
-    public Angle getTargetPosition() {
+    public Angle getRawTargetPosition() {
         return targetPosition;
     }
 
     @Override
-    public AngularVelocity getVelocity() {
+    public AngularVelocity getRawVelocity() {
         return velocity;
     }
 
-    public void setVelocity(AngularVelocity velocity) {
+    public void setRawVelocity(AngularVelocity velocity) {
         this.velocity = velocity;
     }
 
     @Override
-    public void setVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot) {
+    public void setRawVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot) {
         controlMode = ControlMode.Velocity;
         this.targetVelocity = velocity;
     }
 
-    public AngularVelocity getTargetVelocity() {
+    public AngularVelocity getRawTargetVelocity() {
         return targetVelocity;
     }
 
