@@ -40,6 +40,8 @@ import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.properties.PropertyFactory;
 
+import static edu.wpi.first.units.Units.Hertz;
+
 public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @AssistedFactory
@@ -65,7 +67,8 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     ) {
         super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties);
         this.internalTalonFx = new TalonFX(info.deviceId(), info.busId().id());
-
+        this.internalTalonFx.getRotorPosition().setUpdateFrequency(Hertz.of(100));
+        this.internalTalonFx.getStatorCurrent().setUpdateFrequency(Hertz.of(100));
         setConfiguration(info.outputConfig());
     }
 
@@ -155,7 +158,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
      */
     @Override
     public Angle getPosition() {
-        return this.internalTalonFx.getRotorPosition().getValue();
+        return this.internalTalonFx.getRotorPosition(true).getValue();
     }
 
     @Override
