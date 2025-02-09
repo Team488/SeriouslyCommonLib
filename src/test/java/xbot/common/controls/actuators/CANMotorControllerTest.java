@@ -1,7 +1,5 @@
 package xbot.common.controls.actuators;
 
-import edu.wpi.first.units.AngleUnit;
-import edu.wpi.first.units.PerUnit;
 import org.junit.Test;
 import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
 import xbot.common.injection.BaseCommonLibTest;
