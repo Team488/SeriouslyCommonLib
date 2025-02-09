@@ -22,6 +22,10 @@ import xbot.common.logic.LogicUtils;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
+import java.util.function.Supplier;
+
+import static edu.wpi.first.units.Units.Volts;
+
 public abstract class XCANMotorController implements DataFrameRefreshable {
 
     /**
@@ -83,6 +87,9 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(XCANMotorController.class);
 
+    protected Supplier<Boolean> softwareReverseLimit = () -> false;
+    protected Supplier<Boolean> softwareForwardLimit = () -> false;
+
     protected XCANMotorController(
             CANMotorControllerInfo info,
             String owningSystemPrefix,
@@ -121,6 +128,26 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     public abstract void setConfiguration(CANMotorControllerOutputConfig outputConfig);
 
+    /**
+     * Set the software forward limit for the motor controller.
+     * If the limit is hit, the motor controller will stop.
+     * This is evaluated on every periodic call.
+     * @param softwareForwardLimit A supplier that returns true if the forward limit is hit.
+     */
+    public void setSoftwareForwardLimit(Supplier<Boolean> softwareForwardLimit) {
+        this.softwareForwardLimit = softwareForwardLimit;
+    }
+
+    /**
+     * Set the software reverse limit for the motor controller.
+     * If the limit is hit, the motor controller will stop.
+     * This is evaluated on every periodic call.
+     * @param softwareReverseLimit A supplier that returns true if the reverse limit is hit.
+     */
+    public void setSoftwareReverseLimit(Supplier<Boolean> softwareReverseLimit) {
+        this.softwareReverseLimit = softwareReverseLimit;
+    }
+
     public void setPidDirectly(double p, double i, double d) {
         setPidDirectly(p, i, d, 0, 0);
     }
@@ -149,6 +176,15 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     }
 
     public void periodic() {
+        if (softwareForwardLimit.get() && getVoltage().gt(Volts.of(0))) {
+            log.warn("Forward software limit hit");
+            setPower(0);
+        }
+        if (softwareReverseLimit.get() && getVoltage().lt(Volts.of(0))) {
+            log.warn("Reverse software limit hit");
+            setPower(0);
+        }
+
         if (usesPropertySystem) {
             if (firstPeriodicCall) {
                 setAllPidValuesFromProperties();
@@ -232,5 +268,29 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     public void refreshDataFrame() {
         updateInputs(inputs);
         Logger.processInputs(akitName, inputs);
+    }
+
+    protected boolean isValidVoltageRequest(Voltage voltage) {
+        if (voltage.gt(Volts.of(0)) && softwareForwardLimit.get()) {
+            log.warn("Attempted to set positive voltage on motor controller with forward software limit enabled");
+            return false;
+        }
+        if (voltage.lt(Volts.of(0)) && softwareReverseLimit.get()) {
+            log.warn("Attempted to set negative voltage on motor controller with reverse software limit enabled");
+            return false;
+        }
+        return true;
+    }
+
+    protected boolean isValidPowerRequest(double power) {
+        if (power > 0 && softwareForwardLimit.get()) {
+            log.warn("Attempted to set positive power on motor controller with forward software limit enabled");
+            return false;
+        }
+        if (power < 0 && softwareReverseLimit.get()) {
+            log.warn("Attempted to set negative power on motor controller with reverse software limit enabled");
+            return false;
+        }
+        return true;
     }
 }

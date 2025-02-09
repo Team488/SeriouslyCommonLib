@@ -131,6 +131,9 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setPower(double power) {
+        if (!isValidPowerRequest(power)) {
+            return;
+        }
         this.internalTalonFx.setControl(new DutyCycleOut(power));
     }
 
@@ -208,6 +211,9 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setVoltage(Voltage voltage) {
+        if (!isValidVoltageRequest(voltage)) {
+            return;
+        }
         this.internalTalonFx.setControl(new VoltageOut(voltage));
     }
 
