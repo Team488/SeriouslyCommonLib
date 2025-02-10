@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import xbot.common.advantage.AKitLogger;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.logging.RobotAssertionManager;
+import xbot.common.subsystems.drive.DeCasteljau;
 import xbot.common.subsystems.drive.SwerveKinematicsCalculator;
 import xbot.common.subsystems.drive.SwervePointKinematics;
 import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
@@ -36,6 +37,7 @@ public class SimpleTimeInterpolator {
     AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator/");
     RobotAssertionManager assertionManager;
     private boolean usingKinematics;
+    private boolean usingBezier;
 
     public class InterpolationResult {
         public Translation2d chasePoint;
@@ -105,7 +107,9 @@ public class SimpleTimeInterpolator {
         previousTimestamp = XTimer.getFPGATimestamp();
         index = 0;
         calculator = null;
+
         usingKinematics = (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints) || (mode == SwerveSimpleTrajectoryMode.GlobalKinematicsValue);
+        usingBezier = (mode == SwerveSimpleTrajectoryMode.ConstantVelocityWithBezierCurves);
     }
 
     public SwerveKinematicsCalculator newCalculator(Translation2d targetPointTranslation2d, SwervePointKinematics kinematics) {
@@ -185,10 +189,17 @@ public class SimpleTimeInterpolator {
                 double multiplier = expectedMagnitudeTravelled.div(calculator.getTotalOperationDistance()).in(Value);
                 chasePoint = baseline.getTranslation2d().interpolate(
                         targetKeyPoint.getTranslation2d(), multiplier);
+            } else if (usingBezier) {
+                chasePoint = DeCasteljau.deCasteljau(
+                        baseline.getTranslation2d(),
+                        targetKeyPoint.getTranslation2d(),
+                        baseline.getBezierCurveInfo().controlPoints(),
+                        lerpFraction
+                );
             } else {
-                // This will be a linear interpolation
-                chasePoint = baseline.getTranslation2d().interpolate(
-                        targetKeyPoint.getTranslation2d(), lerpFraction);
+                    // This will be a linear interpolation
+                    chasePoint = baseline.getTranslation2d().interpolate(
+                            targetKeyPoint.getTranslation2d(), lerpFraction);
             }
         }
 
@@ -209,13 +220,20 @@ public class SimpleTimeInterpolator {
 
             // We have a velocity, so we now only need to scale our plannedVector to that
             plannedVector = plannedVector.times(velocityScalar.in(MetersPerSecond) / plannedVector.getNorm());
+        } else if (usingBezier) {
+            plannedVector = plannedVector.times(baseline.getBezierCurveInfo().speed().in(MetersPerSecond) / plannedVector.getNorm());
         } else {
             plannedVector = plannedVector.div(targetKeyPoint.getSecondsForSegment());
         }
 
         boolean targetingFinalPoint = index == keyPoints.size()-1 && lerpFraction >= 1;
         boolean isOnFinalLeg = index == keyPoints.size()-1;
-        return new InterpolationResult(chasePoint, targetingFinalPoint, targetKeyPoint.getRotation2d(), plannedVector,
+        return new InterpolationResult(
+                chasePoint,
+                targetingFinalPoint,
+                usingBezier ? new Rotation2d(Math.atan2(chasePoint.getY() - currentLocation.getY(), chasePoint.getX()  - currentLocation.getX())):
+                        targetKeyPoint.getRotation2d(),
+                plannedVector,
                 currentLocation.getDistance(targetKeyPoint.getTranslation2d()), lerpFraction, isOnFinalLeg);
     }
 }

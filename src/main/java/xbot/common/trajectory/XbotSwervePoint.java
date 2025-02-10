@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import xbot.common.math.WrappedRotation2d;
+import xbot.common.subsystems.drive.BezierCurveInfo;
 import xbot.common.subsystems.drive.SwervePointKinematics;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
@@ -17,6 +18,7 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
 
     public double secondsToPoint;
     SwervePointKinematics kinematics;
+    BezierCurveInfo bezierCurveInfo;
 
     public XbotSwervePoint(Pose2d keyPose, double secondsToPoint) {
         this.keyPose = keyPose;
@@ -39,6 +41,14 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
 
     public SwervePointKinematics getKinematics() {
         return kinematics;
+    }
+
+    public void setBezierCurveInfo(BezierCurveInfo bezierCurveInfo) {
+        this.bezierCurveInfo = bezierCurveInfo;
+    }
+
+    public BezierCurveInfo getBezierCurveInfo() {
+        return bezierCurveInfo;
     }
 
     public void setPose(Pose2d pose) {

@@ -184,6 +184,9 @@ public class SwerveSimpleTrajectoryLogic {
             case ConstantVelocity -> {
                 keyPoints = getVelocityAdjustedSwervePoints(initialPoint, keyPoints, constantVelocity);
             }
+            case ConstantVelocityWithBezierCurves -> {
+                keyPoints = getBezierCurveAdjustedSwervePoints(initialPoint, keyPoints);
+            }
             default -> assertionManager.throwException("No handling for SwerveSimpleTrajectoryMode!", new Exception());
         }
 
@@ -292,6 +295,27 @@ public class SwerveSimpleTrajectoryLogic {
         // then all the points will be obliterated because there's no distance between any of them.
         // However, we should still return something that can represent that we are pretty happy with our position,
         // and has a non-zero duration so the interpolator won't get confused.
+        if (velocityAdjustedPoints.size() == 0) {
+            var dummyPoint = new XbotSwervePoint(initialPoint.keyPose, 0.05);
+            velocityAdjustedPoints.add(dummyPoint);
+        }
+
+        return velocityAdjustedPoints;
+    }
+
+    private List<XbotSwervePoint> getBezierCurveAdjustedSwervePoints(
+            XbotSwervePoint initialPoint,
+            List<XbotSwervePoint> swervePoints) {
+
+        ArrayList<XbotSwervePoint> velocityAdjustedPoints = new ArrayList<>();
+
+        for (XbotSwervePoint current : swervePoints) {
+            double velocityAdjustedDuration = current.getBezierCurveInfo().operationTime().in(Seconds);
+            if (velocityAdjustedDuration > 0) {
+                velocityAdjustedPoints.add(new XbotSwervePoint(current.keyPose, velocityAdjustedDuration));
+            }
+        }
+
         if (velocityAdjustedPoints.size() == 0) {
             var dummyPoint = new XbotSwervePoint(initialPoint.keyPose, 0.05);
             velocityAdjustedPoints.add(dummyPoint);
