@@ -10,7 +10,7 @@ public enum SwerveSimpleTrajectoryMode {
      */
     ConstantVelocity,
 
-    ConstantVelocityWithBezierCurves,
+    BezierCurves,
 
     /**
      * A duration from point A to point B throughout the course of our travel

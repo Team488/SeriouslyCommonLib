@@ -109,7 +109,7 @@ public class SimpleTimeInterpolator {
         calculator = null;
 
         usingKinematics = (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints) || (mode == SwerveSimpleTrajectoryMode.GlobalKinematicsValue);
-        usingBezier = (mode == SwerveSimpleTrajectoryMode.ConstantVelocityWithBezierCurves);
+        usingBezier = (mode == SwerveSimpleTrajectoryMode.BezierCurves);
     }
 
     public SwerveKinematicsCalculator newCalculator(Translation2d targetPointTranslation2d, SwervePointKinematics kinematics) {
@@ -193,7 +193,7 @@ public class SimpleTimeInterpolator {
                 chasePoint = DeCasteljau.deCasteljau(
                         baseline.getTranslation2d(),
                         targetKeyPoint.getTranslation2d(),
-                        baseline.getBezierCurveInfo().controlPoints(),
+                        targetKeyPoint.getBezierCurveInfo().controlPoints(),
                         lerpFraction
                 );
             } else {
@@ -221,7 +221,7 @@ public class SimpleTimeInterpolator {
             // We have a velocity, so we now only need to scale our plannedVector to that
             plannedVector = plannedVector.times(velocityScalar.in(MetersPerSecond) / plannedVector.getNorm());
         } else if (usingBezier) {
-            plannedVector = plannedVector.times(baseline.getBezierCurveInfo().speed().in(MetersPerSecond) / plannedVector.getNorm());
+            plannedVector = plannedVector.times(targetKeyPoint.getBezierCurveInfo().speed().in(MetersPerSecond) / plannedVector.getNorm());
         } else {
             plannedVector = plannedVector.div(targetKeyPoint.getSecondsForSegment());
         }

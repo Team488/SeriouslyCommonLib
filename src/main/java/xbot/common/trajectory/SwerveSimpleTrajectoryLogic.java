@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 
 public class SwerveSimpleTrajectoryLogic {
@@ -184,7 +182,7 @@ public class SwerveSimpleTrajectoryLogic {
             case ConstantVelocity -> {
                 keyPoints = getVelocityAdjustedSwervePoints(initialPoint, keyPoints, constantVelocity);
             }
-            case ConstantVelocityWithBezierCurves -> {
+            case BezierCurves -> {
                 keyPoints = getBezierCurveAdjustedSwervePoints(initialPoint, keyPoints);
             }
             default -> assertionManager.throwException("No handling for SwerveSimpleTrajectoryMode!", new Exception());
