@@ -310,7 +310,9 @@ public class SwerveSimpleTrajectoryLogic {
         for (XbotSwervePoint current : swervePoints) {
             double velocityAdjustedDuration = current.getBezierCurveInfo().operationTime().in(Seconds);
             if (velocityAdjustedDuration > 0) {
-                velocityAdjustedPoints.add(new XbotSwervePoint(current.keyPose, velocityAdjustedDuration));
+                XbotSwervePoint point = (new XbotSwervePoint(current.keyPose, velocityAdjustedDuration));
+                point.setBezierCurveInfo(current.bezierCurveInfo);
+                velocityAdjustedPoints.add(point);
             }
         }
 

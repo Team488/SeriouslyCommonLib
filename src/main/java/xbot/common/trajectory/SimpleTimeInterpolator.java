@@ -160,7 +160,6 @@ public class SimpleTimeInterpolator {
         aKitLog.record("LerpFraction", lerpFraction);
         aKitLog.record("accumulatedProductiveSeconds", accumulatedProductiveSeconds);
 
-
         // If the fraction is above 1, it's time to set a new baseline point and start LERPing on the next point
         if (lerpFraction >= 1 && index < keyPoints.size()-1) {
             // What was our target now becomes our baseline.
@@ -214,6 +213,8 @@ public class SimpleTimeInterpolator {
         // due to friction, but that's what PID is for.
         var plannedVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d());
 
+        System.out.println("Index: " + index);
+        System.out.println("LerpFraction: " + lerpFraction);
         if (usingKinematics) {
             Distance expectedMagnitudeTravelled = calculator.getDistanceTravelledAtCompletionPercentage(lerpFraction);
             LinearVelocity velocityScalar = calculator.getVelocityAtDistanceTravelled(expectedMagnitudeTravelled);
@@ -222,6 +223,7 @@ public class SimpleTimeInterpolator {
             plannedVector = plannedVector.times(velocityScalar.in(MetersPerSecond) / plannedVector.getNorm());
         } else if (usingBezier) {
             plannedVector = plannedVector.times(targetKeyPoint.getBezierCurveInfo().speed().in(MetersPerSecond) / plannedVector.getNorm());
+
         } else {
             plannedVector = plannedVector.div(targetKeyPoint.getSecondsForSegment());
         }
@@ -231,8 +233,7 @@ public class SimpleTimeInterpolator {
         return new InterpolationResult(
                 chasePoint,
                 targetingFinalPoint,
-                usingBezier ? new Rotation2d(Math.atan2(chasePoint.getY() - currentLocation.getY(), chasePoint.getX()  - currentLocation.getX())):
-                        targetKeyPoint.getRotation2d(),
+                targetKeyPoint.getRotation2d(),
                 plannedVector,
                 currentLocation.getDistance(targetKeyPoint.getTranslation2d()), lerpFraction, isOnFinalLeg);
     }
