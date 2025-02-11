@@ -57,11 +57,42 @@ public class SwerveBezierTrajectoryCommand extends SwerveSimpleTrajectoryCommand
 
         for (int i = 1; i <= steps; i++) {
             double lerpFraction = i / (double) steps;
-            XbotSwervePoint point = new XbotSwervePoint(deCasteljauIterative(allPoints, lerpFraction), new Rotation2d(), 10);
+            XbotSwervePoint point = new XbotSwervePoint(deCasteljauIterative(allPoints, lerpFraction), 10);
             bezierPoints.add(point);
         }
 
         logic.setKeyPoints(bezierPoints);
+    }
+
+    // ChatGPT said that this is better
+    private Pose2d deCasteljauIterative(List<Translation2d> points, double lerpFraction) {
+        int n = points.size();
+        List<Translation2d> temp = new ArrayList<>(points);
+
+        // Compute the position using de Casteljau's algorithm
+        for (int level = 1; level < n; level++) {
+            for (int i = 0; i < n - level; i++) {
+                double x = (1 - lerpFraction) * temp.get(i).getX() + lerpFraction * temp.get(i + 1).getX();
+                double y = (1 - lerpFraction) * temp.get(i).getY() + lerpFraction * temp.get(i + 1).getY();
+                temp.set(i, new Translation2d(x, y)); // Update in place
+            }
+        }
+
+        // After calculating the position, compute the desired rotation (angle to the next point)
+        Translation2d currentPosition = temp.get(0);
+        Translation2d nextPosition = (n > 1) ? temp.get(1) : currentPosition; // Use next point for rotation or current position
+        Rotation2d desiredRotation;
+        if (lerpFraction < 1) {
+            // Interpolate rotation between current and next points
+            desiredRotation = new Rotation2d(nextPosition.getX() - currentPosition.getX(),
+                    nextPosition.getY() - currentPosition.getY());
+        } else {
+            // If it's the last point, keep the rotation consistent with the end point's rotation
+            desiredRotation = endPoint.getRotation();
+        }
+
+        // Return the Pose2d (position + rotation)
+        return new Pose2d(currentPosition, desiredRotation);
     }
 
     /**
@@ -87,21 +118,5 @@ public class SwerveBezierTrajectoryCommand extends SwerveSimpleTrajectoryCommand
         }
 
         return deCasteljau(newPoints, lerpFraction);
-    }
-
-    // ChatGPT said that this is better
-    private Translation2d deCasteljauIterative(List<Translation2d> points, double lerpFraction) {
-        int n = points.size();
-        List<Translation2d> temp = new ArrayList<>(points);
-
-        for (int level = 1; level < n; level++) {
-            for (int i = 0; i < n - level; i++) {
-                double x = (1 - lerpFraction) * temp.get(i).getX() + lerpFraction * temp.get(i + 1).getX();
-                double y = (1 - lerpFraction) * temp.get(i).getY() + lerpFraction * temp.get(i + 1).getY();
-                temp.set(i, new Translation2d(x, y)); // Update in place
-            }
-        }
-
-        return temp.get(0);
     }
 }
