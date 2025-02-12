@@ -1693,6 +1693,18 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">The camera is capable of providing game-specific information.</div>
 </dd>
+<dt><a href="xbot/common/subsystems/pose/GameField.html" class="type-name-link" title="class in xbot.common.subsystems.pose">GameField</a> - Class in <a href="xbot/common/subsystems/pose/package-summary.html">xbot.common.subsystems.pose</a></dt>
+<dd>
+<div class="block">Represents the field the robot is on and provides helpers for transforming field coordinates.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/pose/GameField.html#%3Cinit%3E(edu.wpi.first.apriltag.AprilTagFieldLayout,xbot.common.subsystems.pose.GameField.Symmetry)" class="member-name-link">GameField(AprilTagFieldLayout, GameField.Symmetry)</a> - Constructor for class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/GameField.html" title="class in xbot.common.subsystems.pose">GameField</a></dt>
+<dd>
+<div class="block">Creates a new GameField.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/pose/GameField.Symmetry.html" class="type-name-link" title="enum class in xbot.common.subsystems.pose">GameField.Symmetry</a> - Enum Class in <a href="xbot/common/subsystems/pose/package-summary.html">xbot.common.subsystems.pose</a></dt>
+<dd>
+<div class="block">Represents the symmetry type of the field.</div>
+</dd>
 <dt><a href="xbot/common/logic/CalibrationDecider.CalibrationMode.html#GaveUp" class="member-name-link">GaveUp</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/CalibrationDecider.CalibrationMode.html" title="enum class in xbot.common.logic">CalibrationDecider.CalibrationMode</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html#generateNodeMap()" class="member-name-link">generateNodeMap()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html" title="class in xbot.common.subsystems.drive">SwerveKinematicsCalculator</a></dt>
@@ -2177,11 +2189,23 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/math/PIDPropertyManager.html#getF()" class="member-name-link">getF()</a> - Method in class xbot.common.math.<a href="xbot/common/math/PIDPropertyManager.html" title="class in xbot.common.math">PIDPropertyManager</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/pose/GameField.html#getFieldCenter()" class="member-name-link">getFieldCenter()</a> - Method in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/GameField.html" title="class in xbot.common.subsystems.pose">GameField</a></dt>
+<dd>
+<div class="block">Gets the center of the field.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/pose/GameField.html#getFieldLength()" class="member-name-link">getFieldLength()</a> - Method in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/GameField.html" title="class in xbot.common.subsystems.pose">GameField</a></dt>
+<dd>
+<div class="block">Gets the length of the field.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/pose/BasePoseSubsystem.html#getFieldOrientedTotalDistanceTraveled()" class="member-name-link">getFieldOrientedTotalDistanceTraveled()</a> - Method in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/BasePoseSubsystem.html" title="class in xbot.common.subsystems.pose">BasePoseSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/FieldPose.html#getFieldPoseOffsetBy(xbot.common.math.FieldPose)" class="member-name-link">getFieldPoseOffsetBy(FieldPose)</a> - Method in class xbot.common.math.<a href="xbot/common/math/FieldPose.html" title="class in xbot.common.math">FieldPose</a></dt>
 <dd>
 <div class="block">Returns a FieldPose that's "subtracted" by the offset FieldPose.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/pose/GameField.html#getFieldWidth()" class="member-name-link">getFieldWidth()</a> - Method in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/GameField.html" title="class in xbot.common.subsystems.pose">GameField</a></dt>
+<dd>
+<div class="block">Gets the width of the field.</div>
 </dd>
 <dt><a href="xbot/common/subsystems/simple/SimpleMotorSubsystem.html#getForwardCommand()" class="member-name-link">getForwardCommand()</a> - Method in class xbot.common.subsystems.simple.<a href="xbot/common/subsystems/simple/SimpleMotorSubsystem.html" title="class in xbot.common.subsystems.simple">SimpleMotorSubsystem</a></dt>
 <dd>
@@ -2476,6 +2500,18 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PIDManager.html#getMinOutput()" class="member-name-link">getMinOutput()</a> - Method in class xbot.common.math.<a href="xbot/common/math/PIDManager.html" title="class in xbot.common.math">PIDManager</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/pose/GameField.html#getMirroredPose(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">getMirroredPose(Pose2d)</a> - Method in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/GameField.html" title="class in xbot.common.subsystems.pose">GameField</a></dt>
+<dd>
+<div class="block">Gets the mirrored pose of a given pose per the field symmetry.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/pose/GameField.html#getMirroredRotation(edu.wpi.first.math.geometry.Rotation2d)" class="member-name-link">getMirroredRotation(Rotation2d)</a> - Method in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/GameField.html" title="class in xbot.common.subsystems.pose">GameField</a></dt>
+<dd>
+<div class="block">Gets the mirrored rotation of a given rotation per the field symmetry.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/pose/GameField.html#getMirroredTranslation(edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">getMirroredTranslation(Translation2d)</a> - Method in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/GameField.html" title="class in xbot.common.subsystems.pose">GameField</a></dt>
+<dd>
+<div class="block">Gets the mirrored translation of a given translation per the field symmetry.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/drive/swerve/SwerveModuleSubsystem.html#getModuleTranslation()" class="member-name-link">getModuleTranslation()</a> - Method in class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/PurePursuitCommand.html#getMotionBudget()" class="member-name-link">getMotionBudget()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/PurePursuitCommand.html" title="class in xbot.common.subsystems.drive">PurePursuitCommand</a></dt>
@@ -2897,6 +2933,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#getSwerveModuleStates()" class="member-name-link">getSwerveModuleStates()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/pose/GameField.html#getSymmetry()" class="member-name-link">getSymmetry()</a> - Method in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/GameField.html" title="class in xbot.common.subsystems.pose">GameField</a></dt>
+<dd>
+<div class="block">Gets the symmetry of the field.</div>
+</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html#getTargetPosition()" class="member-name-link">getTargetPosition()</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/swerve/SwerveModuleSubsystem.html#getTargetState()" class="member-name-link">getTargetState()</a> - Method in class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></dt>
@@ -3804,6 +3844,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html#minPower" class="member-name-link">minPower</a> - Variable in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/pose/GameField.Symmetry.html#Mirrored" class="member-name-link">Mirrored</a> - Enum constant in enum class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/GameField.Symmetry.html" title="enum class in xbot.common.subsystems.pose">GameField.Symmetry</a></dt>
+<dd>
+<div class="block">The field is mirrored along the Y axis.</div>
+</dd>
 <dt><a href="xbot/common/controls/sensors/XGyro.ImuType.html#mock" class="member-name-link">mock</a> - Enum constant in enum class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/mock_adapters/MockAbsoluteEncoder.html" class="type-name-link" title="class in xbot.common.controls.sensors.mock_adapters">MockAbsoluteEncoder</a> - Class in <a href="xbot/common/controls/sensors/mock_adapters/package-summary.html">xbot.common.controls.sensors.mock_adapters</a></dt>
@@ -4854,6 +4898,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/subsystems/drive/PurePursuitCommand.RabbitChaseInfo.html#rotation" class="member-name-link">rotation</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/PurePursuitCommand.RabbitChaseInfo.html" title="class in xbot.common.subsystems.drive">PurePursuitCommand.RabbitChaseInfo</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/pose/GameField.Symmetry.html#Rotational" class="member-name-link">Rotational</a> - Enum constant in enum class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/GameField.Symmetry.html" title="enum class in xbot.common.subsystems.pose">GameField.Symmetry</a></dt>
+<dd>
+<div class="block">The field is rotationally symmetric.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/drive/MockDriveSubsystem.html#rr" class="member-name-link">rr</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/MockDriveSubsystem.html" title="class in xbot.common.subsystems.drive">MockDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/feedback/RumbleManager.html#rumbleGamepad(double,double)" class="member-name-link">rumbleGamepad(double, double)</a> - Method in class xbot.common.subsystems.feedback.<a href="xbot/common/subsystems/feedback/RumbleManager.html" title="class in xbot.common.subsystems.feedback">RumbleManager</a></dt>
@@ -6565,6 +6613,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
+<dt><a href="xbot/common/subsystems/pose/GameField.Symmetry.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/GameField.Symmetry.html" title="enum class in xbot.common.subsystems.pose">GameField.Symmetry</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this class with the specified name.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIO.PoseObservationType.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIO.PoseObservationType.html" title="enum class in xbot.common.subsystems.vision">AprilTagVisionIO.PoseObservationType</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
@@ -6727,6 +6779,11 @@ the order they are declared.</div>
 the order they are declared.</div>
 </dd>
 <dt><a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryMode.html#values()" class="member-name-link">values()</a> - Static method in enum class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryMode.html" title="enum class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryMode</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum class, in
+the order they are declared.</div>
+</dd>
+<dt><a href="xbot/common/subsystems/pose/GameField.Symmetry.html#values()" class="member-name-link">values()</a> - Static method in enum class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/GameField.Symmetry.html" title="enum class in xbot.common.subsystems.pose">GameField.Symmetry</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum class, in
 the order they are declared.</div>
