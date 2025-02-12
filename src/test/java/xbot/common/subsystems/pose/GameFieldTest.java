@@ -67,10 +67,10 @@ public class GameFieldTest {
         var symmetry = GameField.Symmetry.Rotational;
         var gameField = new GameField(fieldLayout, symmetry);
 
-        var rotation = Rotation2d.fromDegrees(1);
-        var mirroredRotation = gameField.getMirroredRotation(rotation);
-
-        assertEquals(-179, mirroredRotation.getDegrees(), 0.001);
+        assertEquals(-179, gameField.getMirroredRotation(Rotation2d.fromDegrees(1)).getDegrees(), 0.001);
+        assertEquals(-90, gameField.getMirroredRotation(Rotation2d.fromDegrees(90)).getDegrees(), 0.001);
+        assertEquals(0, gameField.getMirroredRotation(Rotation2d.fromDegrees(180)).getDegrees(), 0.001);
+        assertEquals(90, gameField.getMirroredRotation(Rotation2d.fromDegrees(-90)).getDegrees(), 0.001);
     }
 
     @Test
@@ -146,10 +146,10 @@ public class GameFieldTest {
         var symmetry = GameField.Symmetry.Mirrored;
         var gameField = new GameField(fieldLayout, symmetry);
 
-        var rotation = Rotation2d.fromDegrees(1);
-        var mirroredRotation = gameField.getMirroredRotation(rotation);
-
-        assertEquals(-1, mirroredRotation.getDegrees(), 0.001);
+        assertEquals(179, gameField.getMirroredRotation(Rotation2d.fromDegrees(1)).getDegrees(), 0.001);
+        assertEquals(90, gameField.getMirroredRotation(Rotation2d.fromDegrees(90)).getDegrees(), 0.001);
+        assertEquals(0, gameField.getMirroredRotation(Rotation2d.fromDegrees(180)).getDegrees(), 0.001);
+        assertEquals(270, gameField.getMirroredRotation(Rotation2d.fromDegrees(-90)).getDegrees(), 0.001);
     }
 
     @Test
@@ -165,6 +165,6 @@ public class GameFieldTest {
 
         assertEquals(15.541, mirroredPose.getTranslation().getX(), 0.001);
         assertEquals(2, mirroredPose.getTranslation().getY(), 0.001);
-        assertEquals(-1, mirroredPose.getRotation().getDegrees(), 0.001);
+        assertEquals(179, mirroredPose.getRotation().getDegrees(), 0.001);
     }
 }

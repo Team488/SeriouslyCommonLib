@@ -98,7 +98,7 @@ public class GameField {
      */
     public Rotation2d getMirroredRotation(Rotation2d original) {
         return switch (symmetry) {
-            case Mirrored -> original.times(-1);
+            case Mirrored -> Rotation2d.fromDegrees(original.getDegrees() - (original.getDegrees() - 90.0) * 2);
             case Rotational -> original.rotateBy(Rotation2d.fromDegrees(180));
         };
     }
