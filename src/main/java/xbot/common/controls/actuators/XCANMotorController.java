@@ -77,13 +77,15 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     protected boolean usesPropertySystem = true;
     protected boolean firstPeriodicCall = true;
 
-    private DoubleProperty kPProp;
-    private DoubleProperty kIProp;
-    private DoubleProperty kDProp;
-    private DoubleProperty kVelocityFFProp;
-    private DoubleProperty kGravityFFProp;
-    private DoubleProperty kMaxOutputProp;
-    private DoubleProperty kMinOutputProp;
+    protected DoubleProperty kPProp;
+    protected DoubleProperty kIProp;
+    protected DoubleProperty kDProp;
+    protected DoubleProperty kVelocityFFProp;
+    protected DoubleProperty kGravityFFProp;
+    protected DoubleProperty kMaxOutputProp;
+    protected DoubleProperty kMinOutputProp;
+    protected DoubleProperty kMinVoltageProp;
+    protected DoubleProperty kMaxVoltageProp;
 
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(XCANMotorController.class);
 
@@ -121,8 +123,10 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             kDProp = propertyFactory.createPersistentProperty("kD", defaultPIDProperties.d());
             kVelocityFFProp = propertyFactory.createPersistentProperty("kVelocityFeedForward", defaultPIDProperties.velocityFeedForward());
             kGravityFFProp = propertyFactory.createPersistentProperty("kGravityFeedForward", defaultPIDProperties.gravityFeedForward());
-            kMaxOutputProp = propertyFactory.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxOutput());
-            kMinOutputProp = propertyFactory.createPersistentProperty("kMinOutput", defaultPIDProperties.minOutput());
+            kMaxOutputProp = propertyFactory.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxPowerOutput());
+            kMinOutputProp = propertyFactory.createPersistentProperty("kMinOutput", defaultPIDProperties.minPowerOutput());
+            kMinVoltageProp = propertyFactory.createPersistentProperty("kMinVoltage", defaultPIDProperties.minVoltageOutput());
+            kMaxVoltageProp = propertyFactory.createPersistentProperty("kMaxVoltage", defaultPIDProperties.maxVoltageOutput());
         }
     }
 
@@ -160,8 +164,9 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     private void setAllPidValuesFromProperties() {
         if (usesPropertySystem) {
-            setPIDFromProperties();
             setPowerRange(kMinOutputProp.get(), kMaxOutputProp.get());
+            setVoltageRange(Volts.of(kMinVoltageProp.get()), Volts.of(kMaxVoltageProp.get()));
+            setPIDFromProperties();
         } else {
             log.warn("setAllProperties called on a Motor Controller that doesn't use the property system");
         }
@@ -206,6 +211,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
             kMaxOutputProp.hasChangedSinceLastCheck((value) -> setPowerRange(kMinOutputProp.get(), value));
             kMinOutputProp.hasChangedSinceLastCheck((value) -> setPowerRange(value, kMaxOutputProp.get()));
+            kMinVoltageProp.hasChangedSinceLastCheck((value) -> setVoltageRange(Volts.of(value), Volts.of(kMaxVoltageProp.get())));
+            kMaxVoltageProp.hasChangedSinceLastCheck((value) -> setVoltageRange(Volts.of(kMinVoltageProp.get()), Volts.of(value)));
         }
     }
 
@@ -256,6 +263,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     public Voltage getVoltage() {
         return inputs.voltage;
     }
+
+    public abstract void setVoltageRange(Voltage minVoltage, Voltage maxVoltage);
 
     public Current getCurrent() {
         return inputs.current;

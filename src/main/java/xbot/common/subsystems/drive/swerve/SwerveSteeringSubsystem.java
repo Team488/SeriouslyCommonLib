@@ -85,7 +85,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
                     electricalContract.getSteeringMotor(swerveInstance),
                     "SteeringMC",
                     super.getPrefix() + "SteeringPID",
-                    new XCANMotorControllerPIDProperties(1, 0, 0, 0, 0, 1, -1));
+                    new XCANMotorControllerPIDProperties(1, 0, 0, 0, 0, 1, -1, 18, -18));
             this.motorController.setPowerRange(-1, 1);
         }
         if (electricalContract.areCanCodersReady()) {
