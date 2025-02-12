@@ -6,11 +6,13 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import org.junit.Test;
+import xbot.common.injection.BaseCommonLibTest;
 
 import static edu.wpi.first.units.Units.Meters;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-public class GameFieldTest {
+public class GameFieldTest extends BaseCommonLibTest {
     @Test
     public void testGetFieldWidth() {
         var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
@@ -166,5 +168,11 @@ public class GameFieldTest {
         assertEquals(15.541, mirroredPose.getTranslation().getX(), 0.001);
         assertEquals(2, mirroredPose.getTranslation().getY(), 0.001);
         assertEquals(179, mirroredPose.getRotation().getDegrees(), 0.001);
+    }
+
+    @Test
+    public void testInjection() {
+        assertNotNull(getInjectorComponent().getGameField());
+        assertEquals(GameField.Symmetry.Rotational, getInjectorComponent().getGameField().getSymmetry());
     }
 }
