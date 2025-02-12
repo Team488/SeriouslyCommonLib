@@ -159,7 +159,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
         // Get the target speed in RPM
         double targetRPM = targetVelocity / this.metersPerMotorRotation.get() * 60.0;
         aKitLog.record("TargetRPM", targetRPM);
-        getMotorController().ifPresent(mc -> mc.setVelocityTarget(RPM.of(targetRPM), XCANMotorController.MotorPidMode.DutyCycle, 0));
+        getMotorController().ifPresent(mc -> mc.setRawVelocityTarget(RPM.of(targetRPM), XCANMotorController.MotorPidMode.DutyCycle, 0));
     }
 
     public void setNoviceMode(boolean enabled) {
