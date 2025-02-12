@@ -247,6 +247,11 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
                 this.internalSparkMax.getAppliedOutput() * internalSparkMax.getBusVoltage());
     }
 
+    @Override
+    public void setVoltageRange(Voltage minVoltage, Voltage maxVoltage) {
+        log.warn("setVoltageRange: Voltage range is not supported by SparkMax");
+    }
+
     public Current getCurrent() {
         return Amps.of(this.internalSparkMax.getOutputCurrent());
     }
