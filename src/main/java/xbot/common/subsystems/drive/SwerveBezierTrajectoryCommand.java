@@ -60,7 +60,7 @@ public class SwerveBezierTrajectoryCommand extends SwerveSimpleTrajectoryCommand
             double lerpFraction = i / (double) steps;
             XbotSwervePoint point = new XbotSwervePoint(
                     deCasteljauIterative(allPoints, lerpFraction),
-                    endPoint.getRotation().minus(startingRotation).div(lerpFraction),
+                    startingRotation.plus((endPoint.getRotation().minus(startingRotation)).times(lerpFraction)),
                     10
             );
             bezierPoints.add(point);
