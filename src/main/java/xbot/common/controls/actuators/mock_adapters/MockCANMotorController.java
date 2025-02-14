@@ -129,41 +129,49 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     @Override
-    public Angle getPosition() {
+    public Angle getRawPosition() {
         return this.position;
     }
 
     @Override
-    public void setPosition(Angle position) {
+    public void setRawPosition(Angle position) {
         this.position = position;
     }
 
     @Override
-    public void setPositionTarget(Angle position, MotorPidMode mode, int slot) {
+    public void setRawPositionTarget(Angle rawPosition, MotorPidMode mode, int slot) {
         controlMode = ControlMode.Position;
-        this.targetPosition = position;
+        this.targetPosition = rawPosition;
     }
 
     public Angle getTargetPosition() {
+        return convertRawAngleToScaledAngle(targetPosition);
+    }
+
+    public Angle getRawTargetPosition() {
         return targetPosition;
     }
 
     @Override
-    public AngularVelocity getVelocity() {
+    public AngularVelocity getRawVelocity() {
         return velocity;
     }
 
     public void setVelocity(AngularVelocity velocity) {
-        this.velocity = velocity;
+        this.velocity = convertScaledVelocityToRawVelocity(velocity);
+    }
+
+    public void setRawVelocity(AngularVelocity rawVelocity) {
+        this.velocity = rawVelocity;
     }
 
     @Override
-    public void setVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot) {
+    public void setRawVelocityTarget(AngularVelocity rawVelocity, MotorPidMode mode, int slot) {
         controlMode = ControlMode.Velocity;
-        this.targetVelocity = velocity;
+        this.targetVelocity = rawVelocity;
     }
 
-    public AngularVelocity getTargetVelocity() {
+    public AngularVelocity getRawTargetVelocity() {
         return targetVelocity;
     }
 
@@ -173,6 +181,10 @@ public class MockCANMotorController extends XCANMotorController {
             return;
         }
         this.power = MathUtil.clamp(voltage.in(Volts) / 12.0, -1.0, 1.0);
+    }
+
+    @Override
+    public void setVoltageRange(Voltage minVoltage, Voltage maxVoltage) {
     }
 
     @Override
