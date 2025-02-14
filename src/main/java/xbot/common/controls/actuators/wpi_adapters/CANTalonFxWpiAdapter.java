@@ -7,6 +7,7 @@ import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
 import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
@@ -211,6 +212,15 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     public Voltage getVoltage() {
         return this.internalTalonFx.getMotorVoltage().getValue();
+    }
+
+    @Override
+    public void setVoltageRange(Voltage minVoltage, Voltage maxVoltage) {
+        var voltageConfigs = new VoltageConfigs();
+        this.internalTalonFx.getConfigurator().refresh(voltageConfigs);
+        voltageConfigs.withPeakForwardVoltage(maxVoltage)
+                .withPeakReverseVoltage(minVoltage);
+        this.internalTalonFx.getConfigurator().apply(voltageConfigs);
     }
 
     public Current getCurrent() {

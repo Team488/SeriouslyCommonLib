@@ -5,8 +5,8 @@ public record XCANMotorControllerPIDProperties(double p,
                                         double d,
                                         double velocityFeedForward,
                                         double gravityFeedForward,
-                                        double maxOutput,
-                                        double minOutput
+                                        double maxPowerOutput,
+                                        double minPowerOutput
 ) {
     public XCANMotorControllerPIDProperties()
     {

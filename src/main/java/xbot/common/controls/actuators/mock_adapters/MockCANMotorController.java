@@ -176,6 +176,10 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     @Override
+    public void setVoltageRange(Voltage minVoltage, Voltage maxVoltage) {
+    }
+
+    @Override
     public boolean isInverted() {
         return false;
     }
