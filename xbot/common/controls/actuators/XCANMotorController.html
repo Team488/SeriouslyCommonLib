@@ -123,11 +123,17 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="col-first even-row-color"><code>protected <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="#akitName" class="member-name-link">akitName</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>final <a href="../../injection/electrical_contract/CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#busId" class="member-name-link">busId</a></code></div>
+<div class="col-first odd-row-color"><code>protected <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Measure.html" title="class or interface in edu.wpi.first.units" class="external-link">Measure</a>&lt;? extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/PerUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">PerUnit</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>,<wbr><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>&gt;&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#angleScaleFactor" class="member-name-link">angleScaleFactor</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>final int</code></div>
-<div class="col-second even-row-color"><code><a href="#deviceId" class="member-name-link">deviceId</a></code></div>
+<div class="col-first even-row-color"><code>final <a href="../../injection/electrical_contract/CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a></code></div>
+<div class="col-second even-row-color"><code><a href="#busId" class="member-name-link">busId</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>final int</code></div>
+<div class="col-second odd-row-color"><code><a href="#deviceId" class="member-name-link">deviceId</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Measure.html" title="class or interface in edu.wpi.first.units" class="external-link">Measure</a>&lt;? extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/PerUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">PerUnit</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/DistanceUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">DistanceUnit</a>,<wbr><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>&gt;&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#distancePerMotorRotationsScaleFactor" class="member-name-link">distancePerMotorRotationsScaleFactor</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>protected boolean</code></div>
 <div class="col-second odd-row-color"><code><a href="#firstPeriodicCall" class="member-name-link">firstPeriodicCall</a></code></div>
@@ -207,20 +213,61 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Distance.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Distance</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#convertRawAngleToDistance(edu.wpi.first.units.measure.Angle)" class="member-name-link">convertRawAngleToDistance</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;rawAngle)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#convertRawAngleToScaledAngle(edu.wpi.first.units.measure.Angle)" class="member-name-link">convertRawAngleToScaledAngle</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;rawAngle)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#convertRawVelocityToScaledVelocity(edu.wpi.first.units.measure.AngularVelocity)" class="member-name-link">convertRawVelocityToScaledVelocity</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;rawVelocity)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#convertScaledAngleToRawAngle(edu.wpi.first.units.measure.Angle)" class="member-name-link">convertScaledAngleToRawAngle</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;scaledAngle)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#convertScaledVelocityToRawVelocity(edu.wpi.first.units.measure.AngularVelocity)" class="member-name-link">convertScaledVelocityToRawVelocity</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;scaledVelocity)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Measure.html" title="class or interface in edu.wpi.first.units" class="external-link">Measure</a>&lt;? extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/PerUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">PerUnit</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngularVelocityUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngularVelocityUnit</a>,<wbr><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngularVelocityUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngularVelocityUnit</a>&gt;&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#convertToAngularVelocity(edu.wpi.first.units.Measure)" class="member-name-link">convertToAngularVelocity</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Measure.html" title="class or interface in edu.wpi.first.units" class="external-link">Measure</a>&lt;? extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/PerUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">PerUnit</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>,<wbr><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>&gt;&gt;&nbsp;base)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Current.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Current</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrent()" class="member-name-link">getCurrent</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPosition()" class="member-name-link">getPosition</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getPower()" class="member-name-link">getPower</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Get the position reported by the motor controller.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Distance.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Distance</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPositionAsDistance()" class="member-name-link">getPositionAsDistance</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Get the position reported by the motor controller.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract double</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getPower()" class="member-name-link">getPower</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRawPosition()" class="member-name-link">getRawPosition</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Get the position reported by the motor controller.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVelocity()" class="member-name-link">getVelocity</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRawVelocity()" class="member-name-link">getRawVelocity</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Get the velocity reported by the motor controller.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVelocity()" class="member-name-link">getVelocity</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Get the velocity reported by the motor controller.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Voltage.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Voltage</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVoltage()" class="member-name-link">getVoltage</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Voltage.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Voltage</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVoltage()" class="member-name-link">getVoltage</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected &lt;N extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Unit.html" title="class or interface in edu.wpi.first.units" class="external-link">Unit</a>,<wbr>
+D extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Unit.html" title="class or interface in edu.wpi.first.units" class="external-link">Unit</a>&gt;<br><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Measure.html" title="class or interface in edu.wpi.first.units" class="external-link">Measure</a>&lt;? extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/PerUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">PerUnit</a>&lt;D,<wbr>N&gt;&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#invertRatio(edu.wpi.first.units.Measure)" class="member-name-link">invertRatio</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Measure.html" title="class or interface in edu.wpi.first.units" class="external-link">Measure</a>&lt;? extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/PerUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">PerUnit</a>&lt;N,<wbr>D&gt;&gt;&nbsp;ratio)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#isInverted()" class="member-name-link">isInverted</a>()</code></div>
@@ -239,13 +286,23 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Consumes and processes inputs from the device or subsystem.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setClosedLoopRampRates(edu.wpi.first.units.measure.Time,edu.wpi.first.units.measure.Time)" class="member-name-link">setClosedLoopRampRates</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Time.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Time</a>&nbsp;dutyCyclePeriod,
- <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Time.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Time</a>&nbsp;voltagePeriod)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAngleScaleFactor(edu.wpi.first.units.Measure)" class="member-name-link">setAngleScaleFactor</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Measure.html" title="class or interface in edu.wpi.first.units" class="external-link">Measure</a>&lt;? extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/PerUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">PerUnit</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>,<wbr><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>&gt;&gt;&nbsp;angleScaleFactor)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the angle scaling factor for the motor controller.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setConfiguration(xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig)" class="member-name-link">setConfiguration</a><wbr>(<a href="../../injection/electrical_contract/CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a>&nbsp;outputConfig)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setClosedLoopRampRates(edu.wpi.first.units.measure.Time,edu.wpi.first.units.measure.Time)" class="member-name-link">setClosedLoopRampRates</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Time.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Time</a>&nbsp;dutyCyclePeriod,
+ <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Time.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Time</a>&nbsp;voltagePeriod)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setConfiguration(xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig)" class="member-name-link">setConfiguration</a><wbr>(<a href="../../injection/electrical_contract/CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a>&nbsp;outputConfig)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDistancePerMotorRotationsScaleFactor(edu.wpi.first.units.Measure)" class="member-name-link">setDistancePerMotorRotationsScaleFactor</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Measure.html" title="class or interface in edu.wpi.first.units" class="external-link">Measure</a>&lt;? extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/PerUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">PerUnit</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/DistanceUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">DistanceUnit</a>,<wbr><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>&gt;&gt;&nbsp;distancePerAngle)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the distance per motor rotation scaling factor for the motor controller.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setOpenLoopRampRates(edu.wpi.first.units.measure.Time,edu.wpi.first.units.measure.Time)" class="member-name-link">setOpenLoopRampRates</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Time.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Time</a>&nbsp;dutyCyclePeriod,
  <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Time.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Time</a>&nbsp;voltagePeriod)</code></div>
@@ -272,23 +329,75 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPosition(edu.wpi.first.units.measure.Angle)" class="member-name-link">setPosition</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;position)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Override the position of the motor controller.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPositionTarget(edu.wpi.first.units.measure.Angle,xbot.common.controls.actuators.XCANMotorController.MotorPidMode)" class="member-name-link">setPositionTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;position,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPositionTarget(edu.wpi.first.units.measure.Angle)" class="member-name-link">setPositionTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;position)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the target position for the motor controller.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPositionTarget(edu.wpi.first.units.measure.Angle,xbot.common.controls.actuators.XCANMotorController.MotorPidMode)" class="member-name-link">setPositionTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;position,
  <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setPositionTarget(edu.wpi.first.units.measure.Angle,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,int)" class="member-name-link">setPositionTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;position,
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the target position for the motor controller.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPositionTarget(edu.wpi.first.units.measure.Angle,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,int)" class="member-name-link">setPositionTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;position,
  <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode,
  int&nbsp;slot)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the target position for the motor controller.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setPower(double)" class="member-name-link">setPower</a><wbr>(double&nbsp;power)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setPower(double)" class="member-name-link">setPower</a><wbr>(double&nbsp;power)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setPowerRange(double,double)" class="member-name-link">setPowerRange</a><wbr>(double&nbsp;minPower,
+ double&nbsp;maxPower)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setPowerRange(double,double)" class="member-name-link">setPowerRange</a><wbr>(double&nbsp;minPower,
- double&nbsp;maxPower)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setRawPosition(edu.wpi.first.units.measure.Angle)" class="member-name-link">setRawPosition</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;position)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Override the position of the motor controller.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRawPositionTarget(edu.wpi.first.units.measure.Angle)" class="member-name-link">setRawPositionTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;rawPosition)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the target position for the motor controller.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRawPositionTarget(edu.wpi.first.units.measure.Angle,xbot.common.controls.actuators.XCANMotorController.MotorPidMode)" class="member-name-link">setRawPositionTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;rawPosition,
+ <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the target position for the motor controller.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setRawPositionTarget(edu.wpi.first.units.measure.Angle,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,int)" class="member-name-link">setRawPositionTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;rawPosition,
+ <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode,
+ int&nbsp;slot)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Set the target position for the motor controller.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRawVelocityTarget(edu.wpi.first.units.measure.AngularVelocity)" class="member-name-link">setRawVelocityTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;rawVelocity)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the target velocity for the motor controller.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRawVelocityTarget(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode)" class="member-name-link">setRawVelocityTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;rawVelocity,
+ <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the target velocity for the motor controller.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setRawVelocityTarget(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,int)" class="member-name-link">setRawVelocityTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;rawVelocity,
+ <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode,
+ int&nbsp;slot)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Set the target velocity for the motor controller.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSoftwareForwardLimit(java.util.function.Supplier)" class="member-name-link">setSoftwareForwardLimit</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;&nbsp;softwareForwardLimit)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -307,16 +416,22 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityTarget(edu.wpi.first.units.measure.AngularVelocity)" class="member-name-link">setVelocityTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the target velocity for the motor controller.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityTarget(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode)" class="member-name-link">setVelocityTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity,
  <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setVelocityTarget(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,int)" class="member-name-link">setVelocityTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity,
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the target velocity for the motor controller.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityTarget(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,int)" class="member-name-link">setVelocityTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity,
  <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode,
  int&nbsp;slot)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the target velocity for the motor controller.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setVoltage(edu.wpi.first.units.measure.Voltage)" class="member-name-link">setVoltage</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Voltage.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Voltage</a>&nbsp;voltage)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
@@ -434,6 +549,18 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <section class="detail" id="kMinOutputProp">
 <h3>kMinOutputProp</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">kMinOutputProp</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="distancePerMotorRotationsScaleFactor">
+<h3>distancePerMotorRotationsScaleFactor</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Measure.html" title="class or interface in edu.wpi.first.units" class="external-link">Measure</a>&lt;? extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/PerUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">PerUnit</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/DistanceUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">DistanceUnit</a>,<wbr><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>&gt;&gt;</span>&nbsp;<span class="element-name">distancePerMotorRotationsScaleFactor</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="angleScaleFactor">
+<h3>angleScaleFactor</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Measure.html" title="class or interface in edu.wpi.first.units" class="external-link">Measure</a>&lt;? extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/PerUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">PerUnit</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>,<wbr><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>&gt;&gt;</span>&nbsp;<span class="element-name">angleScaleFactor</span></div>
 </section>
 </li>
 <li>
@@ -588,15 +715,97 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 </section>
 </li>
 <li>
+<section class="detail" id="setDistancePerMotorRotationsScaleFactor(edu.wpi.first.units.Measure)">
+<h3>setDistancePerMotorRotationsScaleFactor</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDistancePerMotorRotationsScaleFactor</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Measure.html" title="class or interface in edu.wpi.first.units" class="external-link">Measure</a>&lt;? extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/PerUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">PerUnit</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/DistanceUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">DistanceUnit</a>,<wbr><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>&gt;&gt;&nbsp;distancePerAngle)</span></div>
+<div class="block">Set the distance per motor rotation scaling factor for the motor controller.
+ This is used to convert the motor controller's position to a distance.
+ <p>Example: <code>setDistancePerMotorRotationScaleFactor(Meters.per(Rotation).of(0.5))</code></p></div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>distancePerAngle</code> - The distance per angle scaling factor to set.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setAngleScaleFactor(edu.wpi.first.units.Measure)">
+<h3>setAngleScaleFactor</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setAngleScaleFactor</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Measure.html" title="class or interface in edu.wpi.first.units" class="external-link">Measure</a>&lt;? extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/PerUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">PerUnit</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>,<wbr><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>&gt;&gt;&nbsp;angleScaleFactor)</span></div>
+<div class="block">Set the angle scaling factor for the motor controller.
+ This is used to convert the motor controller's position to an angle.
+ <p>Example: <code>setAngleScaleFactor(Degrees.per(Rotation).of(488))</code></p></div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>angleScaleFactor</code> - The angle scaling factor to set.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getRawPosition()">
+<h3>getRawPosition</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a></span>&nbsp;<span class="element-name">getRawPosition</span>()</div>
+<div class="block">Get the position reported by the motor controller.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The position reported by the motor controller.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getPositionAsDistance()">
+<h3>getPositionAsDistance</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Distance.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Distance</a></span>&nbsp;<span class="element-name">getPositionAsDistance</span>()</div>
+<div class="block">Get the position reported by the motor controller.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The position reported by the motor controller.</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="getPosition()">
 <h3>getPosition</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a></span>&nbsp;<span class="element-name">getPosition</span>()</div>
+<div class="block">Get the position reported by the motor controller.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The position reported by the motor controller.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="setPosition(edu.wpi.first.units.measure.Angle)">
 <h3>setPosition</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPosition</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;position)</span></div>
+<div class="block">Override the position of the motor controller.
+ <p>Typically, this would be called to zero the reported position of the motor as part of a calibration routine.</p></div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>position</code> - The new position to set.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setRawPosition(edu.wpi.first.units.measure.Angle)">
+<h3>setRawPosition</h3>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRawPosition</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;position)</span></div>
+<div class="block">Override the position of the motor controller.
+ <p>Typically, this would be called to zero the reported position of the motor as part of a calibration routine.</p></div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>position</code> - The new position to set.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setPositionTarget(edu.wpi.first.units.measure.Angle)">
+<h3>setPositionTarget</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPositionTarget</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;position)</span></div>
+<div class="block">Set the target position for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>position</code> - The target position to set.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -604,26 +813,99 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <h3>setPositionTarget</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPositionTarget</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;position,
  <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode)</span></div>
+<div class="block">Set the target position for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>position</code> - The target position to set.</dd>
+<dd><code>mode</code> - The PID mode to use when setting the target position.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="setPositionTarget(edu.wpi.first.units.measure.Angle,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,int)">
 <h3>setPositionTarget</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPositionTarget</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;position,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPositionTarget</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;position,
  <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode,
  int&nbsp;slot)</span></div>
+<div class="block">Set the target position for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>position</code> - The target position to set.</dd>
+<dd><code>mode</code> - The PID mode to use when setting the target position.</dd>
+<dd><code>slot</code> - The PID slot to use when setting the target position.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setRawPositionTarget(edu.wpi.first.units.measure.Angle)">
+<h3>setRawPositionTarget</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRawPositionTarget</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;rawPosition)</span></div>
+<div class="block">Set the target position for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>rawPosition</code> - The target position to set.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setRawPositionTarget(edu.wpi.first.units.measure.Angle,xbot.common.controls.actuators.XCANMotorController.MotorPidMode)">
+<h3>setRawPositionTarget</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRawPositionTarget</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;rawPosition,
+ <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode)</span></div>
+<div class="block">Set the target position for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>rawPosition</code> - The target position to set.</dd>
+<dd><code>mode</code> - The PID mode to use when setting the target position.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setRawPositionTarget(edu.wpi.first.units.measure.Angle,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,int)">
+<h3>setRawPositionTarget</h3>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRawPositionTarget</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;rawPosition,
+ <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode,
+ int&nbsp;slot)</span></div>
+<div class="block">Set the target position for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>rawPosition</code> - The target position to set.</dd>
+<dd><code>mode</code> - The PID mode to use when setting the target position.</dd>
+<dd><code>slot</code> - The PID slot to use when setting the target position.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getVelocity()">
 <h3>getVelocity</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a></span>&nbsp;<span class="element-name">getVelocity</span>()</div>
+<div class="block">Get the velocity reported by the motor controller.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The velocity reported by the motor controller.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getRawVelocity()">
+<h3>getRawVelocity</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a></span>&nbsp;<span class="element-name">getRawVelocity</span>()</div>
+<div class="block">Get the velocity reported by the motor controller.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The velocity reported by the motor controller.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="setVelocityTarget(edu.wpi.first.units.measure.AngularVelocity)">
 <h3>setVelocityTarget</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVelocityTarget</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity)</span></div>
+<div class="block">Set the target velocity for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>velocity</code> - The target velocity to set.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -631,14 +913,66 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <h3>setVelocityTarget</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVelocityTarget</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity,
  <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode)</span></div>
+<div class="block">Set the target velocity for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>velocity</code> - The target velocity to set.</dd>
+<dd><code>mode</code> - The PID mode to use when setting the target velocity.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="setVelocityTarget(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,int)">
 <h3>setVelocityTarget</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVelocityTarget</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVelocityTarget</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity,
  <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode,
  int&nbsp;slot)</span></div>
+<div class="block">Set the target velocity for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>velocity</code> - The target velocity to set.</dd>
+<dd><code>mode</code> - The PID mode to use when setting the target velocity.</dd>
+<dd><code>slot</code> - The PID slot to use when setting the target velocity.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setRawVelocityTarget(edu.wpi.first.units.measure.AngularVelocity)">
+<h3>setRawVelocityTarget</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRawVelocityTarget</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;rawVelocity)</span></div>
+<div class="block">Set the target velocity for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>rawVelocity</code> - The target velocity to set.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setRawVelocityTarget(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode)">
+<h3>setRawVelocityTarget</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRawVelocityTarget</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;rawVelocity,
+ <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode)</span></div>
+<div class="block">Set the target velocity for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>rawVelocity</code> - The target velocity to set.</dd>
+<dd><code>mode</code> - The PID mode to use when setting the target velocity.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setRawVelocityTarget(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,int)">
+<h3>setRawVelocityTarget</h3>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRawVelocityTarget</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;rawVelocity,
+ <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode,
+ int&nbsp;slot)</span></div>
+<div class="block">Set the target velocity for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>rawVelocity</code> - The target velocity to set.</dd>
+<dd><code>mode</code> - The PID mode to use when setting the target velocity.</dd>
+<dd><code>slot</code> - The PID slot to use when setting the target velocity.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -700,6 +1034,50 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <section class="detail" id="isValidPowerRequest(double)">
 <h3>isValidPowerRequest</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isValidPowerRequest</span><wbr><span class="parameters">(double&nbsp;power)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="convertRawAngleToScaledAngle(edu.wpi.first.units.measure.Angle)">
+<h3>convertRawAngleToScaledAngle</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a></span>&nbsp;<span class="element-name">convertRawAngleToScaledAngle</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;rawAngle)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="convertRawAngleToDistance(edu.wpi.first.units.measure.Angle)">
+<h3>convertRawAngleToDistance</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Distance.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Distance</a></span>&nbsp;<span class="element-name">convertRawAngleToDistance</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;rawAngle)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="convertScaledAngleToRawAngle(edu.wpi.first.units.measure.Angle)">
+<h3>convertScaledAngleToRawAngle</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a></span>&nbsp;<span class="element-name">convertScaledAngleToRawAngle</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;scaledAngle)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="convertRawVelocityToScaledVelocity(edu.wpi.first.units.measure.AngularVelocity)">
+<h3>convertRawVelocityToScaledVelocity</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a></span>&nbsp;<span class="element-name">convertRawVelocityToScaledVelocity</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;rawVelocity)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="convertScaledVelocityToRawVelocity(edu.wpi.first.units.measure.AngularVelocity)">
+<h3>convertScaledVelocityToRawVelocity</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a></span>&nbsp;<span class="element-name">convertScaledVelocityToRawVelocity</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;scaledVelocity)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="invertRatio(edu.wpi.first.units.Measure)">
+<h3>invertRatio</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="type-parameters">&lt;N extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Unit.html" title="class or interface in edu.wpi.first.units" class="external-link">Unit</a>,<wbr>
+D extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Unit.html" title="class or interface in edu.wpi.first.units" class="external-link">Unit</a>&gt;</span>
+<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Measure.html" title="class or interface in edu.wpi.first.units" class="external-link">Measure</a>&lt;? extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/PerUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">PerUnit</a>&lt;D,<wbr>N&gt;&gt;</span>&nbsp;<span class="element-name">invertRatio</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Measure.html" title="class or interface in edu.wpi.first.units" class="external-link">Measure</a>&lt;? extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/PerUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">PerUnit</a>&lt;N,<wbr>D&gt;&gt;&nbsp;ratio)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="convertToAngularVelocity(edu.wpi.first.units.Measure)">
+<h3>convertToAngularVelocity</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Measure.html" title="class or interface in edu.wpi.first.units" class="external-link">Measure</a>&lt;? extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/PerUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">PerUnit</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngularVelocityUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngularVelocityUnit</a>,<wbr><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngularVelocityUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngularVelocityUnit</a>&gt;&gt;</span>&nbsp;<span class="element-name">convertToAngularVelocity</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/Measure.html" title="class or interface in edu.wpi.first.units" class="external-link">Measure</a>&lt;? extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/PerUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">PerUnit</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>,<wbr><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>&gt;&gt;&nbsp;base)</span></div>
 </section>
 </li>
 </ul>
