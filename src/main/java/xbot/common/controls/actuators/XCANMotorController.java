@@ -102,7 +102,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(XCANMotorController.class);
 
-    protected Measure<? extends PerUnit<DistanceUnit, AngleUnit>> distancePerAngleScaleFactor;
+    protected Measure<? extends PerUnit<DistanceUnit, AngleUnit>> distancePerMotorRotationsScaleFactor;
     protected Measure<? extends PerUnit<AngleUnit, AngleUnit>> angleScaleFactor;
 
     protected Supplier<Boolean> softwareReverseLimit = () -> false;
@@ -242,10 +242,26 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     public abstract void setPowerRange(double minPower, double maxPower);
 
-    public void setDistancePerAngleScaleFactor(Measure<? extends PerUnit<DistanceUnit, AngleUnit>> distancePerAngle) {
-        this.distancePerAngleScaleFactor = distancePerAngle;
+    /**
+     * Set the distance per motor rotation scaling factor for the motor controller.
+     * This is used to convert the motor controller's position to a distance.
+     * <p>Example: <code>setDistancePerMotorRotationScaleFactor(Meters.per(Rotation).of(0.5))</code></p>
+     * @apiNote This is useful if you ever want to easily convert the motor controller's position to a distance
+     * for calculating the position of a mechanism like an elevator.
+     * @param distancePerAngle The distance per angle scaling factor to set.
+     */
+    public void setDistancePerMotorRotationsScaleFactor(Measure<? extends PerUnit<DistanceUnit, AngleUnit>> distancePerAngle) {
+        this.distancePerMotorRotationsScaleFactor = distancePerAngle;
     }
 
+    /**
+     * Set the angle scaling factor for the motor controller.
+     * This is used to convert the motor controller's position to an angle.
+     * <p>Example: <code>setAngleScaleFactor(Degrees.per(Rotation).of(488))</code></p>
+     * @apiNote This is useful if you ever want to easily scale the reported angle of the motor controller,
+     * like if you have some gearing on the output of the motor that directly affects the position of an arm.
+     * @param angleScaleFactor The angle scaling factor to set.
+     */
     public void setAngleScaleFactor(Measure<? extends PerUnit<AngleUnit, AngleUnit>> angleScaleFactor) {
         this.angleScaleFactor = angleScaleFactor;
     }
@@ -265,11 +281,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
      * @return The position reported by the motor controller.
      */
     public Distance getPositionAsDistance() {
-        if (distancePerAngleScaleFactor == null) {
-            log.warn("Distance per angle not set for motor controller {}", akitName);
-            return Meters.zero();
-        }
-        return getRawPosition().timesConversionFactor(distancePerAngleScaleFactor);
+        return convertRawAngleToDistance(getRawPosition());
     }
 
     /**
@@ -278,27 +290,22 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
      * @return The position reported by the motor controller.
      */
     public Angle getPosition() {
-        if (angleScaleFactor == null) {
-            return getRawPosition();
-        }
-        return getRawPosition().timesConversionFactor(angleScaleFactor);
+        return convertRawAngleToScaledAngle(getRawPosition());
     }
 
     /**
      * Override the position of the motor controller.
+     * <p>Typically, this would be called to zero the reported position of the motor as part of a calibration routine.</p>
      * @param position The new position to set.
      * @apiNote Angle scaling factors configured on the motor controller are applied.
      */
     public void setPosition(Angle position) {
-        if (angleScaleFactor == null) {
-            setRawPosition(position);
-        } else {
-            setRawPosition(position.timesConversionFactor(invertRatio(angleScaleFactor)));
-        }
+        setRawPosition(convertScaledAngleToRawAngle(position));
     }
 
     /**
      * Override the position of the motor controller.
+     * <p>Typically, this would be called to zero the reported position of the motor as part of a calibration routine.</p>
      * @param position The new position to set.
      * @apiNote Angle scaling factors configured on the motor controller are ignored.
      */
@@ -331,40 +338,36 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
      * @apiNote Angle scaling factors configured on the motor controller are applied.
      */
     public void setPositionTarget(Angle position, MotorPidMode mode, int slot) {
-        if (angleScaleFactor == null) {
-            setRawPositionTarget(position, mode, slot);
-        } else {
-            setRawPositionTarget(position.timesConversionFactor(invertRatio(angleScaleFactor)), mode, slot);
-        }
+        setRawPositionTarget(convertScaledAngleToRawAngle(position), mode, slot);
     }
 
     /**
      * Set the target position for the motor controller.
-     * @param position The target position to set.
+     * @param rawPosition The target position to set.
      * @apiNote Angle scaling factors configured on the motor controller are ignored.
      */
-    public void setRawPositionTarget(Angle position) {
-        setRawPositionTarget(position, MotorPidMode.DutyCycle);
+    public void setRawPositionTarget(Angle rawPosition) {
+        setRawPositionTarget(rawPosition, MotorPidMode.DutyCycle);
     }
 
     /**
      * Set the target position for the motor controller.
-     * @param position The target position to set.
+     * @param rawPosition The target position to set.
      * @param mode The PID mode to use when setting the target position.
      * @apiNote Angle scaling factors configured on the motor controller are ignored.
      */
-    public void setRawPositionTarget(Angle position, MotorPidMode mode) {
-        setRawPositionTarget(position, mode, 0);
+    public void setRawPositionTarget(Angle rawPosition, MotorPidMode mode) {
+        setRawPositionTarget(rawPosition, mode, 0);
     }
 
     /**
      * Set the target position for the motor controller.
-     * @param position The target position to set.
+     * @param rawPosition The target position to set.
      * @param mode The PID mode to use when setting the target position.
      * @param slot The PID slot to use when setting the target position.
      * @apiNote Angle scaling factors configured on the motor controller are ignored.
      */
-    public abstract void setRawPositionTarget(Angle position, MotorPidMode mode, int slot);
+    public abstract void setRawPositionTarget(Angle rawPosition, MotorPidMode mode, int slot);
 
     /**
      * Get the velocity reported by the motor controller.
@@ -372,10 +375,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
      * @apiNote Angle scaling factors configured on the motor controller are applied.
      */
     public AngularVelocity getVelocity() {
-        if (angleScaleFactor == null) {
-            return getRawVelocity();
-        }
-        return getRawVelocity().timesConversionFactor(convertToAngularVelocity(angleScaleFactor));
+        return convertRawVelocityToScaledVelocity(getRawVelocity());
     }
 
     /**
@@ -414,40 +414,36 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
      * @apiNote Angle scaling factors configured on the motor controller are applied.
      */
     public void setVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot) {
-        if (angleScaleFactor == null) {
-            setRawVelocityTarget(velocity, mode, slot);
-        } else {
-            setRawVelocityTarget(velocity.timesConversionFactor(convertToAngularVelocity(invertRatio(angleScaleFactor))), mode, slot);
-        }
+        setRawVelocityTarget(convertScaledVelocityToRawVelocity(velocity), mode, slot);
     }
 
     /**
      * Set the target velocity for the motor controller.
-     * @param velocity The target velocity to set.
+     * @param rawVelocity The target velocity to set.
      * @apiNote Angle scaling factors configured on the motor controller are ignored.
      */
-    public void setRawVelocityTarget(AngularVelocity velocity) {
-        setRawVelocityTarget(velocity, MotorPidMode.DutyCycle);
+    public void setRawVelocityTarget(AngularVelocity rawVelocity) {
+        setRawVelocityTarget(rawVelocity, MotorPidMode.DutyCycle);
     }
 
     /**
      * Set the target velocity for the motor controller.
-     * @param velocity The target velocity to set.
+     * @param rawVelocity The target velocity to set.
      * @param mode The PID mode to use when setting the target velocity.
      * @apiNote Angle scaling factors configured on the motor controller are ignored.
      */
-    public void setRawVelocityTarget(AngularVelocity velocity, MotorPidMode mode) {
-        setRawVelocityTarget(velocity, mode, 0);
+    public void setRawVelocityTarget(AngularVelocity rawVelocity, MotorPidMode mode) {
+        setRawVelocityTarget(rawVelocity, mode, 0);
     }
 
     /**
      * Set the target velocity for the motor controller.
-     * @param velocity The target velocity to set.
+     * @param rawVelocity The target velocity to set.
      * @param mode The PID mode to use when setting the target velocity.
      * @param slot The PID slot to use when setting the target velocity.
      * @apiNote Angle scaling factors configured on the motor controller are ignored.
      */
-    public abstract void setRawVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot);
+    public abstract void setRawVelocityTarget(AngularVelocity rawVelocity, MotorPidMode mode, int slot);
 
     public abstract void setVoltage(Voltage voltage);
 
@@ -492,6 +488,42 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             return false;
         }
         return true;
+    }
+
+    protected Angle convertRawAngleToScaledAngle(Angle rawAngle) {
+        if (angleScaleFactor == null) {
+            return rawAngle;
+        }
+        return rawAngle.timesConversionFactor(angleScaleFactor);
+    }
+
+    protected Distance convertRawAngleToDistance(Angle rawAngle) {
+        if (distancePerMotorRotationsScaleFactor == null) {
+            log.warn("Distance per angle not set for motor controller {}", akitName);
+            return Meters.zero();
+        }
+        return rawAngle.timesConversionFactor(distancePerMotorRotationsScaleFactor);
+    }
+
+    protected Angle convertScaledAngleToRawAngle(Angle scaledAngle) {
+        if (angleScaleFactor == null) {
+            return scaledAngle;
+        }
+        return scaledAngle.timesConversionFactor(invertRatio(angleScaleFactor));
+    }
+
+    protected AngularVelocity convertRawVelocityToScaledVelocity(AngularVelocity rawVelocity) {
+        if (angleScaleFactor == null) {
+            return rawVelocity;
+        }
+        return rawVelocity.timesConversionFactor(convertToAngularVelocity(angleScaleFactor));
+    }
+
+    protected AngularVelocity convertScaledVelocityToRawVelocity(AngularVelocity scaledVelocity) {
+        if (angleScaleFactor == null) {
+            return scaledVelocity;
+        }
+        return scaledVelocity.timesConversionFactor(convertToAngularVelocity(invertRatio(angleScaleFactor)));
     }
 
     protected <N extends Unit, D extends Unit> Measure<? extends PerUnit<D, N>> invertRatio(Measure<? extends PerUnit<N, D>> ratio) {

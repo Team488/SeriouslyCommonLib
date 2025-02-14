@@ -93,7 +93,7 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
         var motor = (MockCANMotorController)getInjectorComponent().motorControllerFactory().create(info, "TestOwningPrefix", "TestPIDPrefix", null);
 
         motor.setAngleScaleFactor(Rotations.per(Rotations).of(2));
-        motor.setDistancePerAngleScaleFactor(Meters.per(Rotations).of(4));
+        motor.setDistancePerMotorRotationsScaleFactor(Meters.per(Rotations).of(4));
 
         motor.setRawPosition(Rotations.of(1));
 

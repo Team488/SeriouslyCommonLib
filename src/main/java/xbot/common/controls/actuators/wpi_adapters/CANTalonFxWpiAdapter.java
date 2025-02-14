@@ -164,14 +164,14 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setRawPositionTarget(Angle position, MotorPidMode mode, int slot) {
+    public void setRawPositionTarget(Angle rawPosition, MotorPidMode mode, int slot) {
         ControlRequest controlRequest;
         switch (mode) {
-            case DutyCycle -> controlRequest = new PositionDutyCycle(position).withSlot(slot);
-            case Voltage -> controlRequest = new PositionVoltage(position).withSlot(slot);
-            case TrapezoidalVoltage -> controlRequest = new MotionMagicVoltage(position).withSlot(slot);
+            case DutyCycle -> controlRequest = new PositionDutyCycle(rawPosition).withSlot(slot);
+            case Voltage -> controlRequest = new PositionVoltage(rawPosition).withSlot(slot);
+            case TrapezoidalVoltage -> controlRequest = new MotionMagicVoltage(rawPosition).withSlot(slot);
             default -> {
-                controlRequest = new PositionDutyCycle(position).withSlot(slot);
+                controlRequest = new PositionDutyCycle(rawPosition).withSlot(slot);
                 //noinspection resource
                 new Alert(this.getClass().getName(),
                         "Tried to use unsupported mode in setPositionTarget " + mode + ", defaulting to DutyCycle", Alert.AlertType.kWarning).set(true);
@@ -186,14 +186,14 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setRawVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot) {
+    public void setRawVelocityTarget(AngularVelocity rawVelocity, MotorPidMode mode, int slot) {
         ControlRequest controlRequest;
         switch (mode) {
-            case DutyCycle -> controlRequest = new VelocityDutyCycle(velocity).withSlot(slot);
-            case Voltage -> controlRequest = new VelocityVoltage(velocity).withSlot(slot);
-            case TrapezoidalVoltage -> controlRequest = new MotionMagicVelocityVoltage(velocity).withSlot(slot);
+            case DutyCycle -> controlRequest = new VelocityDutyCycle(rawVelocity).withSlot(slot);
+            case Voltage -> controlRequest = new VelocityVoltage(rawVelocity).withSlot(slot);
+            case TrapezoidalVoltage -> controlRequest = new MotionMagicVelocityVoltage(rawVelocity).withSlot(slot);
             default -> {
-                controlRequest = new VelocityDutyCycle(velocity).withSlot(slot);
+                controlRequest = new VelocityDutyCycle(rawVelocity).withSlot(slot);
                 //noinspection resource
                 new Alert(this.getClass().getName(),
                         "Tried to use unsupported mode in setVelocityTarget " + mode + ", defaulting to DutyCycle", Alert.AlertType.kWarning).set(true);
