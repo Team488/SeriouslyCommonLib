@@ -55,9 +55,14 @@ public class SwerveBezierTrajectoryCommand extends SwerveSimpleTrajectoryCommand
         allPoints.addAll(controlPoints);
         allPoints.add(endPoint.getTranslation());
 
+        Rotation2d startingRotation = pose.getCurrentPose2d().getRotation();
         for (int i = 1; i <= steps; i++) {
             double lerpFraction = i / (double) steps;
-            XbotSwervePoint point = new XbotSwervePoint(deCasteljauIterative(allPoints, lerpFraction), 10);
+            XbotSwervePoint point = new XbotSwervePoint(
+                    deCasteljauIterative(allPoints, lerpFraction),
+                    startingRotation.plus((endPoint.getRotation().minus(startingRotation)).times(lerpFraction)),
+                    10
+            );
             bezierPoints.add(point);
         }
 
@@ -65,7 +70,7 @@ public class SwerveBezierTrajectoryCommand extends SwerveSimpleTrajectoryCommand
     }
 
     // ChatGPT said that this is better
-    private Pose2d deCasteljauIterative(List<Translation2d> points, double lerpFraction) {
+    private Translation2d deCasteljauIterative(List<Translation2d> points, double lerpFraction) {
         int n = points.size();
         List<Translation2d> temp = new ArrayList<>(points);
 
@@ -78,21 +83,7 @@ public class SwerveBezierTrajectoryCommand extends SwerveSimpleTrajectoryCommand
             }
         }
 
-        // After calculating the position, compute the desired rotation (angle to the next point)
-        Translation2d currentPosition = temp.get(0);
-        Translation2d nextPosition = (n > 1) ? temp.get(1) : currentPosition; // Use next point for rotation or current position
-        Rotation2d desiredRotation;
-        if (lerpFraction < 1) {
-            // Interpolate rotation between current and next points
-            desiredRotation = new Rotation2d(nextPosition.getX() - currentPosition.getX(),
-                    nextPosition.getY() - currentPosition.getY());
-        } else {
-            // If it's the last point, keep the rotation consistent with the end point's rotation
-            desiredRotation = endPoint.getRotation();
-        }
-
-        // Return the Pose2d (position + rotation)
-        return new Pose2d(currentPosition, desiredRotation);
+        return temp.get(0);
     }
 
     /**
