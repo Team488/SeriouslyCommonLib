@@ -79,7 +79,7 @@ loadScripts(document, 'script');</script>
 </div>
 <section class="class-description" id="class-description">
 <hr>
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">XCANMotorControllerPIDProperties</span>(double&nbsp;p, double&nbsp;i, double&nbsp;d, double&nbsp;velocityFeedForward, double&nbsp;gravityFeedForward, double&nbsp;maxOutput, double&nbsp;minOutput)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">XCANMotorControllerPIDProperties</span>(double&nbsp;p, double&nbsp;i, double&nbsp;d, double&nbsp;velocityFeedForward, double&nbsp;gravityFeedForward, double&nbsp;maxPowerOutput, double&nbsp;minPowerOutput)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 </section>
 <section class="summary">
@@ -103,8 +103,8 @@ loadScripts(document, 'script');</script>
  double&nbsp;d,
  double&nbsp;velocityFeedForward,
  double&nbsp;gravityFeedForward,
- double&nbsp;maxOutput,
- double&nbsp;minOutput)</code></div>
+ double&nbsp;maxPowerOutput,
+ double&nbsp;minPowerOutput)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>XCANMotorControllerPIDProperties</code> record class.</div>
 </div>
@@ -148,14 +148,14 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the value of the <code>i</code> record component.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maxOutput()" class="member-name-link">maxOutput</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maxPowerOutput()" class="member-name-link">maxPowerOutput</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <code>maxOutput</code> record component.</div>
+<div class="block">Returns the value of the <code>maxPowerOutput</code> record component.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#minOutput()" class="member-name-link">minOutput</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#minPowerOutput()" class="member-name-link">minPowerOutput</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <code>minOutput</code> record component.</div>
+<div class="block">Returns the value of the <code>minPowerOutput</code> record component.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#p()" class="member-name-link">p</a>()</code></div>
@@ -211,8 +211,8 @@ loadScripts(document, 'script');</script>
  double&nbsp;d,
  double&nbsp;velocityFeedForward,
  double&nbsp;gravityFeedForward,
- double&nbsp;maxOutput,
- double&nbsp;minOutput)</span></div>
+ double&nbsp;maxPowerOutput,
+ double&nbsp;minPowerOutput)</span></div>
 <div class="block">Creates an instance of a <code>XCANMotorControllerPIDProperties</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -221,8 +221,8 @@ loadScripts(document, 'script');</script>
 <dd><code>d</code> - the value for the <code>d</code> record component</dd>
 <dd><code>velocityFeedForward</code> - the value for the <code>velocityFeedForward</code> record component</dd>
 <dd><code>gravityFeedForward</code> - the value for the <code>gravityFeedForward</code> record component</dd>
-<dd><code>maxOutput</code> - the value for the <code>maxOutput</code> record component</dd>
-<dd><code>minOutput</code> - the value for the <code>minOutput</code> record component</dd>
+<dd><code>maxPowerOutput</code> - the value for the <code>maxPowerOutput</code> record component</dd>
+<dd><code>minPowerOutput</code> - the value for the <code>minPowerOutput</code> record component</dd>
 </dl>
 </section>
 </li>
@@ -331,24 +331,24 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="maxOutput()">
-<h3>maxOutput</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">maxOutput</span>()</div>
-<div class="block">Returns the value of the <code>maxOutput</code> record component.</div>
+<section class="detail" id="maxPowerOutput()">
+<h3>maxPowerOutput</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">maxPowerOutput</span>()</div>
+<div class="block">Returns the value of the <code>maxPowerOutput</code> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the value of the <code>maxOutput</code> record component</dd>
+<dd>the value of the <code>maxPowerOutput</code> record component</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="minOutput()">
-<h3>minOutput</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">minOutput</span>()</div>
-<div class="block">Returns the value of the <code>minOutput</code> record component.</div>
+<section class="detail" id="minPowerOutput()">
+<h3>minPowerOutput</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">minPowerOutput</span>()</div>
+<div class="block">Returns the value of the <code>minPowerOutput</code> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the value of the <code>minOutput</code> record component</dd>
+<dd>the value of the <code>minPowerOutput</code> record component</dd>
 </dl>
 </section>
 </li>

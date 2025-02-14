@@ -135,6 +135,32 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="col-first even-row-color"><code>protected xbot.common.controls.io_inputs.XCANMotorControllerInputsAutoLogged</code></div>
 <div class="col-second even-row-color"><code><a href="#inputs" class="member-name-link">inputs</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#kDProp" class="member-name-link">kDProp</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
+<div class="col-second even-row-color"><code><a href="#kGravityFFProp" class="member-name-link">kGravityFFProp</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#kIProp" class="member-name-link">kIProp</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
+<div class="col-second even-row-color"><code><a href="#kMaxOutputProp" class="member-name-link">kMaxOutputProp</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#kMinOutputProp" class="member-name-link">kMinOutputProp</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
+<div class="col-second even-row-color"><code><a href="#kPProp" class="member-name-link">kPProp</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected <a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#kVelocityFFProp" class="member-name-link">kVelocityFFProp</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Voltage.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Voltage</a></code></div>
+<div class="col-second even-row-color"><code><a href="#MAX_VOLTAGE" class="member-name-link">MAX_VOLTAGE</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">The maximum voltage that the motor controller can accept.</div>
+</div>
 <div class="col-first odd-row-color"><code>final <a href="../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#propertyFactory" class="member-name-link">propertyFactory</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
@@ -294,9 +320,13 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setVoltage(edu.wpi.first.units.measure.Voltage)" class="member-name-link">setVoltage</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Voltage.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Voltage</a>&nbsp;voltage)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XCANMotorControllerInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../io_inputs/XCANMotorControllerInputs.html" title="class in xbot.common.controls.io_inputs">XCANMotorControllerInputs</a>&nbsp;inputs)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setVoltageRange(edu.wpi.first.units.measure.Voltage,edu.wpi.first.units.measure.Voltage)" class="member-name-link">setVoltageRange</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Voltage.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Voltage</a>&nbsp;minVoltage,
+ <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Voltage.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Voltage</a>&nbsp;maxVoltage)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XCANMotorControllerInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../io_inputs/XCANMotorControllerInputs.html" title="class in xbot.common.controls.io_inputs">XCANMotorControllerInputs</a>&nbsp;inputs)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -314,6 +344,14 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <section class="field-details" id="field-detail">
 <h2>Field Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="MAX_VOLTAGE">
+<h3>MAX_VOLTAGE</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Voltage.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Voltage</a></span>&nbsp;<span class="element-name">MAX_VOLTAGE</span></div>
+<div class="block">The maximum voltage that the motor controller can accept.
+ This is typically 12V, but at the start of a match the voltage could be a little higher..</div>
+</section>
+</li>
 <li>
 <section class="detail" id="busId">
 <h3>busId</h3>
@@ -354,6 +392,48 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <section class="detail" id="firstPeriodicCall">
 <h3>firstPeriodicCall</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">firstPeriodicCall</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="kPProp">
+<h3>kPProp</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">kPProp</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="kIProp">
+<h3>kIProp</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">kIProp</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="kDProp">
+<h3>kDProp</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">kDProp</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="kVelocityFFProp">
+<h3>kVelocityFFProp</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">kVelocityFFProp</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="kGravityFFProp">
+<h3>kGravityFFProp</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">kGravityFFProp</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="kMaxOutputProp">
+<h3>kMaxOutputProp</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">kMaxOutputProp</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="kMinOutputProp">
+<h3>kMinOutputProp</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../../properties/DoubleProperty.html" title="class in xbot.common.properties">DoubleProperty</a></span>&nbsp;<span class="element-name">kMinOutputProp</span></div>
 </section>
 </li>
 <li>
@@ -571,6 +651,13 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <section class="detail" id="getVoltage()">
 <h3>getVoltage</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Voltage.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Voltage</a></span>&nbsp;<span class="element-name">getVoltage</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setVoltageRange(edu.wpi.first.units.measure.Voltage,edu.wpi.first.units.measure.Voltage)">
+<h3>setVoltageRange</h3>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVoltageRange</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Voltage.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Voltage</a>&nbsp;minVoltage,
+ <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Voltage.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Voltage</a>&nbsp;maxVoltage)</span></div>
 </section>
 </li>
 <li>

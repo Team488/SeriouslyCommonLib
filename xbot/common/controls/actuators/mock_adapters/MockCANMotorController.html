@@ -142,7 +142,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-xbot.common.controls.actuators.XCANMotorController">Fields inherited from class&nbsp;xbot.common.controls.actuators.<a href="../XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></h3>
-<code><a href="../XCANMotorController.html#akitName">akitName</a>, <a href="../XCANMotorController.html#busId">busId</a>, <a href="../XCANMotorController.html#deviceId">deviceId</a>, <a href="../XCANMotorController.html#firstPeriodicCall">firstPeriodicCall</a>, <a href="../XCANMotorController.html#inputs">inputs</a>, <a href="../XCANMotorController.html#propertyFactory">propertyFactory</a>, <a href="../XCANMotorController.html#softwareForwardLimit">softwareForwardLimit</a>, <a href="../XCANMotorController.html#softwareReverseLimit">softwareReverseLimit</a>, <a href="../XCANMotorController.html#usesPropertySystem">usesPropertySystem</a></code></div>
+<code><a href="../XCANMotorController.html#akitName">akitName</a>, <a href="../XCANMotorController.html#busId">busId</a>, <a href="../XCANMotorController.html#deviceId">deviceId</a>, <a href="../XCANMotorController.html#firstPeriodicCall">firstPeriodicCall</a>, <a href="../XCANMotorController.html#inputs">inputs</a>, <a href="../XCANMotorController.html#kDProp">kDProp</a>, <a href="../XCANMotorController.html#kGravityFFProp">kGravityFFProp</a>, <a href="../XCANMotorController.html#kIProp">kIProp</a>, <a href="../XCANMotorController.html#kMaxOutputProp">kMaxOutputProp</a>, <a href="../XCANMotorController.html#kMinOutputProp">kMinOutputProp</a>, <a href="../XCANMotorController.html#kPProp">kPProp</a>, <a href="../XCANMotorController.html#kVelocityFFProp">kVelocityFFProp</a>, <a href="../XCANMotorController.html#MAX_VOLTAGE">MAX_VOLTAGE</a>, <a href="../XCANMotorController.html#propertyFactory">propertyFactory</a>, <a href="../XCANMotorController.html#softwareForwardLimit">softwareForwardLimit</a>, <a href="../XCANMotorController.html#softwareReverseLimit">softwareReverseLimit</a>, <a href="../XCANMotorController.html#usesPropertySystem">usesPropertySystem</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -249,9 +249,13 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVoltage(edu.wpi.first.units.measure.Voltage)" class="member-name-link">setVoltage</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Voltage.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Voltage</a>&nbsp;voltage)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XCANMotorControllerInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../io_inputs/XCANMotorControllerInputs.html" title="class in xbot.common.controls.io_inputs">XCANMotorControllerInputs</a>&nbsp;inputs)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVoltageRange(edu.wpi.first.units.measure.Voltage,edu.wpi.first.units.measure.Voltage)" class="member-name-link">setVoltageRange</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Voltage.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Voltage</a>&nbsp;minVoltage,
+ <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Voltage.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Voltage</a>&nbsp;maxVoltage)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XCANMotorControllerInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../io_inputs/XCANMotorControllerInputs.html" title="class in xbot.common.controls.io_inputs">XCANMotorControllerInputs</a>&nbsp;inputs)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -529,6 +533,17 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../XCANMotorController.html#setVoltage(edu.wpi.first.units.measure.Voltage)">setVoltage</a></code>&nbsp;in class&nbsp;<code><a href="../XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setVoltageRange(edu.wpi.first.units.measure.Voltage,edu.wpi.first.units.measure.Voltage)">
+<h3>setVoltageRange</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVoltageRange</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Voltage.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Voltage</a>&nbsp;minVoltage,
+ <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Voltage.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Voltage</a>&nbsp;maxVoltage)</span></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../XCANMotorController.html#setVoltageRange(edu.wpi.first.units.measure.Voltage,edu.wpi.first.units.measure.Voltage)">setVoltageRange</a></code>&nbsp;in class&nbsp;<code><a href="../XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></code></dd>
 </dl>
 </section>
 </li>
