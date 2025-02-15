@@ -128,9 +128,11 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
         this.propertyFactory.setPrefix(owningSystemPrefix + "/" + info.name());
         police.registerDevice(DevicePolice.DeviceType.CAN, busId, info.deviceId(), info.name());
-        this.akitName = info.name()+"CANMotorController";
+        this.akitName = info.name()+"/CANMotorController";
 
-        this.unhealthyAlert = new Alert("Motor Controller " + info.deviceId() + " on CAN bus " + busId.toString() +  " is unhealthy", Alert.AlertType.kError);
+        this.unhealthyAlert = new Alert("Motor Controller " + info.deviceId() + " on CAN bus " + busId.toString() +  " (" + owningSystemPrefix + ") is " +
+                "unhealthy",
+                Alert.AlertType.kError);
 
         if (defaultPIDProperties == null) {
             // If the controller wasn't given a default PID configuration, we shouldn't create
@@ -203,7 +205,14 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     public abstract DeviceHealth getHealth();
 
     public void periodic() {
-        unhealthyAlert.set(getHealth() == DeviceHealth.Unhealthy);
+        var isUnhealthy = getHealth() == DeviceHealth.Unhealthy;
+        unhealthyAlert.set(isUnhealthy);
+
+        if (isUnhealthy) {
+            // If the device is unhealthy none of the other periodic logic
+            // will work, so we return early.
+            return;
+        }
 
         if (softwareForwardLimit.get() && getVoltage().gt(Volts.of(0))) {
             log.warn("Forward software limit hit");
