@@ -15,7 +15,7 @@ import static org.junit.Assert.assertNotNull;
 public class GameFieldTest extends BaseCommonLibTest {
     @Test
     public void testGetFieldWidth() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
+        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
         var symmetry = GameField.Symmetry.Rotational;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -24,7 +24,7 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetFieldLength() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
+        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
         var symmetry = GameField.Symmetry.Rotational;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -33,7 +33,7 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetSymmetry() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
+        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
         var symmetry = GameField.Symmetry.Rotational;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -42,7 +42,7 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetFieldCenter() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
+        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
         var symmetry = GameField.Symmetry.Rotational;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -52,7 +52,7 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetMirroredTranslation() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
+        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
         var symmetry = GameField.Symmetry.Rotational;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -65,7 +65,7 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetMirroredRotation() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
+        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
         var symmetry = GameField.Symmetry.Rotational;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -77,7 +77,7 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetMirroredPose() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape);
+        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
         var symmetry = GameField.Symmetry.Rotational;
         var gameField = new GameField(fieldLayout, symmetry);
 

@@ -40,6 +40,10 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
         public abstract AprilTagVisionIOPhotonVision create(@Assisted String name, @Assisted Transform3d robotToCamera);
     }
 
+    private static final int[] EMPTY_TAG_IDS_OBSERVATION = new int[0];
+    private static final PoseObservation[] EMPTY_POSE_OBSERVATION = new PoseObservation[0];
+    private static final TargetObservation EMPTY_TARGET_OBSERVATION = new TargetObservation(0, new Rotation2d(), new Rotation2d(), new Transform3d());
+
     protected final PhotonCamera camera;
     protected final Transform3d robotToCamera;
     private final AprilTagFieldLayout aprilTagFieldLayout;
@@ -62,9 +66,17 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
     public void updateInputs(VisionIOInputs inputs) {
         inputs.connected = camera.isConnected();
 
+        if (!inputs.connected) {
+            inputs.tagIds = EMPTY_TAG_IDS_OBSERVATION;
+            inputs.poseObservations = EMPTY_POSE_OBSERVATION;
+            inputs.latestTargetObservation = EMPTY_TARGET_OBSERVATION;
+            return;
+        }
+
         // Read new camera observations
         Set<Short> tagIds = new HashSet<>();
         List<PoseObservation> poseObservations = new LinkedList<>();
+
         for (var result : camera.getAllUnreadResults()) {
             // Update latest target observation
             if (result.hasTargets()) {
@@ -75,7 +87,7 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
                                 Rotation2d.fromDegrees(result.getBestTarget().getPitch()),
                                 result.getBestTarget().getBestCameraToTarget());
             } else {
-                inputs.latestTargetObservation = new TargetObservation(0, new Rotation2d(), new Rotation2d(), new Transform3d());
+                inputs.latestTargetObservation = EMPTY_TARGET_OBSERVATION;
             }
 
             // Add pose observation
