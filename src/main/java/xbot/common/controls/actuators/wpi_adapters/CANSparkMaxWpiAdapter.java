@@ -29,6 +29,7 @@ import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.resiliency.DeviceHealth;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.RPM;
@@ -146,6 +147,12 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         this.internalSparkMax.configure(config,
                 SparkBase.ResetMode.kNoResetSafeParameters,
                 SparkBase.PersistMode.kNoPersistParameters);
+    }
+
+    @Override
+    public DeviceHealth getHealth() {
+        var faults = this.internalSparkMax.getFaults();
+        return (faults.can || faults.firmware) ? DeviceHealth.Unhealthy : DeviceHealth.Healthy;
     }
 
     @Override

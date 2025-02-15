@@ -18,6 +18,7 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.resiliency.DeviceHealth;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.RPM;
@@ -98,6 +99,11 @@ public class MockCANMotorController extends XCANMotorController {
         this.d = d;
         this.f = velocityFF;
         this.g = gravityFF;
+    }
+
+    @Override
+    public DeviceHealth getHealth() {
+        return DeviceHealth.Healthy;
     }
 
     @Override
