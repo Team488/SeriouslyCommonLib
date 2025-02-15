@@ -26,6 +26,7 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
+import xbot.common.logging.AlertGroups;
 import xbot.common.logic.LogicUtils;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
@@ -130,8 +131,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
         police.registerDevice(DevicePolice.DeviceType.CAN, busId, info.deviceId(), info.name());
         this.akitName = info.name()+"/CANMotorController";
 
-        this.unhealthyAlert = new Alert("Motor Controller " + info.deviceId() + " on CAN bus " + busId.toString() +  " (" + owningSystemPrefix + ") is " +
-                "unhealthy",
+        this.unhealthyAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Motor Controller " + info.deviceId() + " on CAN bus " + busId.toString() +  " ("
+                + owningSystemPrefix + ") is unhealthy",
                 Alert.AlertType.kError);
 
         if (defaultPIDProperties == null) {

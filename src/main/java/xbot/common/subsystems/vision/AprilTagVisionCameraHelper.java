@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.Alert;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.logging.AlertGroups;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
@@ -51,8 +52,8 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.io = io;
         this.inputs = new VisionIOInputsAutoLogged();
         this.aprilTagFieldLayout = fieldLayout;
-        this.disconnectedAlert = new Alert(
-                "Vision camera " + prefix + " is disconnected.", Alert.AlertType.kWarning);
+        this.disconnectedAlert = new Alert(AlertGroups.DEVICE_HEALTH,
+                "Vision camera " + prefix + " is disconnected.", Alert.AlertType.kError);
 
         pf.setPrefix(this.logPath);
         this.maxAmbiguity = pf.createPersistentProperty("MaxAmbiguity", 0.3);
