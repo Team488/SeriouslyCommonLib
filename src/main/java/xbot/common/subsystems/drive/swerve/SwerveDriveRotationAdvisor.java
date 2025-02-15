@@ -31,7 +31,7 @@ public class SwerveDriveRotationAdvisor {
 
         aKitLogger = new AKitLogger(pf.getPrefix());
 
-        this.minimumMagnitudeToSnap = pf.createPersistentProperty("MinimumMagnitudeToSnap", 0.75);
+        this.minimumMagnitudeToSnap = pf.createPersistentProperty("MinimumMagnitudeToSnap", 0.65);
     }
 
     public SwerveSuggestedRotation getSuggestedRotationValue(XYPair snappingInput, double triggerRotateIntent) {
@@ -52,17 +52,17 @@ public class SwerveDriveRotationAdvisor {
 
     private SwerveSuggestedRotation evaluateSnappingInput(XYPair input) {
         double heading = input.getAngle();
-
+        aKitLogger.record("heading", heading);
         // Rebound the heading to be within -45 to 315 (diagnal X) then shift to 0 to 360 (for division purposes)
-        double reboundedHeading = ContiguousDouble.reboundValue(heading, -45, 315) + 45;
-
+        double reboundedHeading = ContiguousDouble.reboundValue(heading, -30, 330) + 30;
+        aKitLogger.record("reboundedHeading", reboundedHeading);
         // Get which quadrant our rebounded heading is in
-        int quadrant = (int) (reboundedHeading / 90);
+        int quadrant = (int) (reboundedHeading / 60);
         double desiredHeading = switch (quadrant) {
             // Modify here if specific heading for certain quadrant(s)
-            default -> quadrant * 90;
+            default -> quadrant * 60;
         };
-
+        aKitLogger.record("Quadrant", quadrant);
         if (DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Red) {
             desiredHeading += 180;
         }
