@@ -1,14 +1,18 @@
 package xbot.common.controls.sensors;
 
 import com.ctre.phoenix6.StatusCode;
+import edu.wpi.first.wpilibj.Alert;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.controls.io_inputs.XCANCoderInputs;
 import xbot.common.controls.io_inputs.XCANCoderInputsAutoLogged;
 import xbot.common.injection.electrical_contract.DeviceInfo;
+import xbot.common.resiliency.DeviceHealth;
 
 public abstract class XCANCoder extends XAbsoluteEncoder {
 
     XCANCoderInputsAutoLogged inputs;
+
+    private final Alert unhealtyAlert;
 
     public interface XCANCoderFactory extends XAbsoluteEncoderFactory {
         XCANCoder create(DeviceInfo deviceInfo, String owningSystemPrefix);
@@ -17,6 +21,7 @@ public abstract class XCANCoder extends XAbsoluteEncoder {
     public XCANCoder(DeviceInfo info) {
         super(info);
         inputs = new XCANCoderInputsAutoLogged();
+        unhealtyAlert = new Alert("CANCoder " + info.channel + " on CAN bus " + info.canBusId + " is unhealthy", Alert.AlertType.kError);
     }
 
     /**
@@ -46,5 +51,7 @@ public abstract class XCANCoder extends XAbsoluteEncoder {
         super.refreshDataFrame();
         updateInputs(inputs);
         Logger.processInputs(info.name+"/CANCoder", inputs);
+
+        unhealtyAlert.set(getHealth() == DeviceHealth.Unhealthy);
     }
 }

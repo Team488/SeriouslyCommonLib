@@ -15,6 +15,7 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.Logger;
 
@@ -28,6 +29,7 @@ import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.logic.LogicUtils;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.resiliency.DeviceHealth;
 
 import java.util.function.Supplier;
 
@@ -108,6 +110,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     protected Supplier<Boolean> softwareReverseLimit = () -> false;
     protected Supplier<Boolean> softwareForwardLimit = () -> false;
 
+    private final Alert unhealthyAlert;
+
     protected XCANMotorController(
             CANMotorControllerInfo info,
             String owningSystemPrefix,
@@ -125,6 +129,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
         this.propertyFactory.setPrefix(owningSystemPrefix + "/" + info.name());
         police.registerDevice(DevicePolice.DeviceType.CAN, busId, info.deviceId(), info.name());
         this.akitName = info.name()+"CANMotorController";
+
+        this.unhealthyAlert = new Alert("Motor Controller " + info.deviceId() + " on CAN bus " + busId.toString() +  " is unhealthy", Alert.AlertType.kError);
 
         if (defaultPIDProperties == null) {
             // If the controller wasn't given a default PID configuration, we shouldn't create
@@ -194,7 +200,11 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
         }
     }
 
+    public abstract DeviceHealth getHealth();
+
     public void periodic() {
+        unhealthyAlert.set(getHealth() == DeviceHealth.Unhealthy);
+
         if (softwareForwardLimit.get() && getVoltage().gt(Volts.of(0))) {
             log.warn("Forward software limit hit");
             setPower(0);

@@ -1,11 +1,13 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
 import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Velocity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,6 +24,9 @@ import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
+import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+
 public class CANCoderAdapter extends XCANCoder {
 
     private static final Logger log = LogManager.getLogger(CANCoderAdapter.class);
@@ -31,6 +36,11 @@ public class CANCoderAdapter extends XCANCoder {
 
     private double magnetOffset;
     private boolean inverted;
+
+    private final StatusSignal<Integer> versionSignal;
+    private final StatusSignal<Angle> positionSignal;
+    private final StatusSignal<Angle> absolutePositionSignal;
+    private final StatusSignal<AngularVelocity> velocitySignal;
 
     @AssistedFactory
     public abstract static class CANCoderAdapterFactory implements XCANCoderFactory {
@@ -61,6 +71,11 @@ public class CANCoderAdapter extends XCANCoder {
 
         this.deviceId = deviceInfo.channel;
 
+        this.versionSignal = cancoder.getVersionMajor(false);
+        this.positionSignal = cancoder.getPosition(false);
+        this.absolutePositionSignal = cancoder.getAbsolutePosition(false);
+        this.velocitySignal = cancoder.getVelocity(false);
+
         police.registerDevice(DeviceType.CAN, deviceInfo.canBusId, deviceInfo.channel, this);
     }
 
@@ -70,23 +85,26 @@ public class CANCoderAdapter extends XCANCoder {
     }
 
     public Angle getPosition_internal() {
-        return this.cancoder.getPosition().getValue();
+        positionSignal.refresh(false);
+        return positionSignal.getValue();
     }
 
     public Angle getAbsolutePosition_internal() {
-        return this.cancoder.getAbsolutePosition().getValue();
+        absolutePositionSignal.refresh(false);
+        return absolutePositionSignal.getValue();
     }
 
     public AngularVelocity getVelocity_internal() {
-        return this.cancoder.getVelocity().getValue();
+        velocitySignal.refresh(false);
+        return velocitySignal.getValue();
     }
 
     public DeviceHealth getHealth_internal() {
-        // Needs to be tested on the actual robot with devices unplugged to see if this is a valid approach
-        if (this.cancoder.getVersionMajor().getValueAsDouble() > 0) {
-            return DeviceHealth.Healthy;
+        versionSignal.refresh(false);
+        if (versionSignal.getStatus().isError()) {
+            return DeviceHealth.Unhealthy;
         }
-        return DeviceHealth.Unhealthy;
+        return DeviceHealth.Healthy;
     }
 
     @Override

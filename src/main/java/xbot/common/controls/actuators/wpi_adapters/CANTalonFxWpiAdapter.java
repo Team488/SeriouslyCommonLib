@@ -40,6 +40,7 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.resiliency.DeviceHealth;
 
 public class CANTalonFxWpiAdapter extends XCANMotorController {
 
@@ -104,6 +105,11 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
                 .withKG(gravityFF);
         slotConfig.SlotNumber = slot;
         this.internalTalonFx.getConfigurator().apply(slotConfig);
+    }
+
+    @Override
+    public DeviceHealth getHealth() {
+        return this.internalTalonFx.isConnected() ? DeviceHealth.Healthy : DeviceHealth.Unhealthy;
     }
 
     @Override
