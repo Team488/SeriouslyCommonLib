@@ -1,5 +1,6 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
@@ -56,6 +57,11 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     private final TalonFX internalTalonFx;
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(CANTalonFxWpiAdapter.class);
 
+    private final StatusSignal<Angle> rotorPositionSignal;
+    private final StatusSignal<AngularVelocity> rotorVelocitySignal;
+    private final StatusSignal<Voltage> motorVoltageSignal;
+    private final StatusSignal<Current> statorCurrentSignal;
+
     @AssistedInject
     public CANTalonFxWpiAdapter(
             @Assisted("info") CANMotorControllerInfo info,
@@ -67,6 +73,11 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     ) {
         super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties);
         this.internalTalonFx = new TalonFX(info.deviceId(), info.busId().id());
+
+        this.rotorPositionSignal = this.internalTalonFx.getRotorPosition(false);
+        this.rotorVelocitySignal = this.internalTalonFx.getRotorVelocity(false);
+        this.motorVoltageSignal = this.internalTalonFx.getMotorVoltage(false);
+        this.statorCurrentSignal = this.internalTalonFx.getStatorCurrent(false);
 
         setConfiguration(info.outputConfig());
     }
@@ -161,7 +172,8 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public Angle getRawPosition() {
-        return this.internalTalonFx.getRotorPosition().getValue();
+        rotorPositionSignal.refresh(false);
+        return rotorPositionSignal.getValue();
     }
 
     @Override
@@ -188,7 +200,8 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public AngularVelocity getRawVelocity() {
-        return this.internalTalonFx.getRotorVelocity().getValue();
+        rotorVelocitySignal.refresh(false);
+        return rotorVelocitySignal.getValue();
     }
 
     @Override
@@ -217,7 +230,8 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     public Voltage getVoltage() {
-        return this.internalTalonFx.getMotorVoltage().getValue();
+        motorVoltageSignal.refresh(false);
+        return motorVoltageSignal.getValue();
     }
 
     @Override
@@ -230,7 +244,8 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     public Current getCurrent() {
-        return this.internalTalonFx.getStatorCurrent().getValue();
+        statorCurrentSignal.refresh(false);
+        return statorCurrentSignal.getValue();
     }
 
     @Override
