@@ -45,7 +45,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
 
     private final DoubleProperty powerScale;
     private double targetRotation;
-    private final double gearRatio;
+    private final DoubleProperty gearRatioProp;
     private boolean useMotorControllerPid;
     private final DoubleProperty maxMotorEncoderDrift;
     private final SysIdRoutine sysId;
@@ -69,7 +69,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         this.pid = pidf.create(super.getPrefix() + "PID", 0.2, 0.0, 0.005, -1.0, 1.0);
         this.powerScale = pf.createPersistentProperty("PowerScaleFactor", 5);
 
-        this.gearRatio = electricalContract.getSteeringGearRatio();
+        this.gearRatioProp = pf.createPersistentProperty("GearRatio", electricalContract.getSteeringGearRatio());
         this.useMotorControllerPid = true;
         this.maxMotorEncoderDrift = pf.createPersistentProperty("MaxEncoderDriftDegrees", 1.0);
         this.currentModuleHeadingRotation2d = Rotation2d.fromDegrees(0);
@@ -89,7 +89,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
                     super.getPrefix() + "SteeringPID",
                     new XCANMotorControllerPIDProperties(1, 0, 0, 0, 0, 1, -1));
             this.motorController.setPowerRange(-1, 1);
-            setMotorControllerGearRatio();
+            setMotorControllerGearRatio(gearRatioProp.get());
         }
         if (electricalContract.areCanCodersReady()) {
             this.encoder = canCoderFactory.create(electricalContract.getSteeringEncoder(swerveInstance), this.getPrefix());
@@ -360,14 +360,18 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         return BaseSetpointSubsystem.areTwoDoublesEquivalent(target1, target2);
     }
 
-    private void setMotorControllerGearRatio() {
-        getMotorController().ifPresent(mc -> mc.setAngleScaleFactor(Rotations.per(Rotation).of(gearRatio)));
+    private void setMotorControllerGearRatio(double ratio) {
+        getMotorController().ifPresent(mc -> mc.setAngleScaleFactor(Rotations.per(Rotation).of(ratio)));
     }
 
     @Override
     public void periodic() {
         getMotorController().ifPresent(XCANMotorController::periodic);
         setupStatusFramesAsNeeded();
+
+        if (gearRatioProp.hasChangedSinceLastCheck()) {
+            setMotorControllerGearRatio(gearRatioProp.get());
+        }
 
         aKitLog.record("BestEncoderPositionDegrees",
                 getBestEncoderPosition().in(Degrees));

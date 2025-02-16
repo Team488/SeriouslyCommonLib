@@ -10,7 +10,6 @@ import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
 import xbot.common.injection.swerve.SwerveInstance;
 import xbot.common.injection.swerve.SwerveSingleton;
 import xbot.common.properties.BooleanProperty;
-import xbot.common.properties.DistanceProperty;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
@@ -31,8 +30,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
 
     private final BooleanProperty enableDrivePid;
     private final double minVelocityToEngagePid;
-    private final Distance wheelDiameter;
-    private final double gearRatio;
+    private final DoubleProperty metersPerMotorRotationProp;
     private double targetVelocity;
 
     private XCANMotorController motorController;
@@ -46,8 +44,8 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
 
         // Create properties shared among all instances
         pf.setPrefix(super.getPrefix());
-        this.wheelDiameter = electricalContract.getDriveWheelDiameter();
-        this.gearRatio = electricalContract.getDriveGearRatio();
+        this.metersPerMotorRotationProp = pf.createPersistentProperty("MetersPerMotorRotation",
+                getMetersPerMotorRotation(electricalContract.getDriveWheelDiameter(), electricalContract.getDriveGearRatio()));
         this.enableDrivePid = pf.createPersistentProperty("EnableDrivePID", true);
         this.minVelocityToEngagePid = 0.01;
 
@@ -60,7 +58,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
             this.motorController.setPowerRange(-1, 1);
             setupStatusFramesAsNeeded();
             setCurrentLimitsForMode(CurrentLimitMode.Teleop);
-            setMotorControllerRatio();
+            setMotorControllerRatio(metersPerMotorRotationProp.get());
         }
     }
 
@@ -108,7 +106,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     @Override
     public Double getCurrentValue() {
         return getMotorController()
-                .map(mc -> mc.getVelocity().in(RotationsPerSecond) * getMetersPerMotorRotation())
+                .map(mc -> mc.getVelocity().in(RotationsPerSecond) * metersPerMotorRotationProp.get())
                 .orElse(0.0);
     }
 
@@ -162,7 +160,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
         }
 
         // Get the target speed in RPM
-        double targetRPM = targetVelocity / getMetersPerMotorRotation() * 60.0;
+        double targetRPM = targetVelocity / metersPerMotorRotationProp.get() * 60.0;
         aKitLog.record("TargetRPM", targetRPM);
         getMotorController().ifPresent(mc -> mc.setRawVelocityTarget(RPM.of(targetRPM), XCANMotorController.MotorPidMode.DutyCycle, 0));
     }
@@ -180,13 +178,13 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
         return BaseSetpointSubsystem.areTwoDoublesEquivalent(target1, target2);
     }
 
-    private double getMetersPerMotorRotation() {
-        return this.wheelDiameter.in(Meters) * Math.PI / this.gearRatio;
+    private double getMetersPerMotorRotation(Distance wheelDiameter, double gearRatio) {
+        return wheelDiameter.in(Meters) * Math.PI / gearRatio;
     }
 
-    private void setMotorControllerRatio() {
+    private void setMotorControllerRatio(double metersPerMotorRotation) {
         getMotorController()
-                .ifPresent(mc -> mc.setDistancePerMotorRotationsScaleFactor(Meters.per(Rotation).of(getMetersPerMotorRotation())));
+                .ifPresent(mc -> mc.setDistancePerMotorRotationsScaleFactor(Meters.per(Rotation).of(metersPerMotorRotation)));
     }
 
     @Override
@@ -194,6 +192,10 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
         aKitLog.record("CurrentVelocity", this.getCurrentValue());
         setupStatusFramesAsNeeded();
         getMotorController().ifPresent(XCANMotorController::periodic);
+
+        if (metersPerMotorRotationProp.hasChangedSinceLastCheck()) {
+            setMotorControllerRatio(metersPerMotorRotationProp.get());
+        }
     }
 
     public void refreshDataFrame() {
