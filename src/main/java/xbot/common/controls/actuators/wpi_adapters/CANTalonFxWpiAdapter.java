@@ -157,7 +157,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         if (!isValidPowerRequest(power)) {
             return;
         }
-        invokeWithRetry(() -> this.internalTalonFx.setControl(new DutyCycleOut(power)), 3);
+        invokeWithRetry(() -> this.internalTalonFx.setControl(new DutyCycleOut(power)), 1);
     }
 
     @Override
@@ -182,7 +182,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setRawPosition(Angle position) {
-        invokeWithRetry(() -> this.internalTalonFx.setPosition(position), 3);
+        invokeWithRetry(() -> this.internalTalonFx.setPosition(position), 1);
     }
 
     @Override
@@ -197,7 +197,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
                 this.unsupportedPIDModeAlert.set(true);
             }
         }
-        invokeWithRetry(() -> this.internalTalonFx.setControl(controlRequest), 3);
+        invokeWithRetry(() -> this.internalTalonFx.setControl(controlRequest), 1);
     }
 
     @Override
@@ -218,7 +218,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
                 this.unsupportedPIDModeAlert.set(true);
             }
         }
-        invokeWithRetry(() -> this.internalTalonFx.setControl(controlRequest), 3);
+        invokeWithRetry(() -> this.internalTalonFx.setControl(controlRequest), 1);
     }
 
     @Override
@@ -226,7 +226,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         if (!isValidVoltageRequest(voltage)) {
             return;
         }
-        invokeWithRetry(() -> this.internalTalonFx.setControl(new VoltageOut(voltage)), 3);
+        invokeWithRetry(() -> this.internalTalonFx.setControl(new VoltageOut(voltage)), 1);
     }
 
     public Voltage getVoltage() {
@@ -269,10 +269,10 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
                 return;
             }
             log.error("""
-                    Failed to invoke command for module with ID {}
+                    Failed to invoke command for module with ID {} ({})
                     Status code: {}
                     Retry attempt: {}/{}
-                    """, this.deviceId, statusCode.getDescription(), attempt, retryCount);
+                    """, this.deviceId, this.akitName, statusCode.getDescription(), attempt, retryCount);
         }
     }
 }
