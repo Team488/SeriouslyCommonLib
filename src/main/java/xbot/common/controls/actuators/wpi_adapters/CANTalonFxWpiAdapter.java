@@ -1,5 +1,6 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -43,6 +44,8 @@ import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
+import java.util.function.Supplier;
+
 public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @AssistedFactory
@@ -62,6 +65,8 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     private final StatusSignal<Voltage> motorVoltageSignal;
     private final StatusSignal<Current> statorCurrentSignal;
 
+    private final Alert unsupportedPIDModeAlert;
+
     @AssistedInject
     public CANTalonFxWpiAdapter(
             @Assisted("info") CANMotorControllerInfo info,
@@ -78,6 +83,8 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         this.rotorVelocitySignal = this.internalTalonFx.getRotorVelocity(false);
         this.motorVoltageSignal = this.internalTalonFx.getMotorVoltage(false);
         this.statorCurrentSignal = this.internalTalonFx.getStatorCurrent(false);
+
+        this.unsupportedPIDModeAlert = new Alert("Tried to use an unsupported PID mode", Alert.AlertType.kWarning);
 
         setConfiguration(info.outputConfig());
     }
@@ -99,11 +106,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         overallConfig.MotorOutput = outputConfigs;
         overallConfig.CurrentLimits = currentConfigs;
 
-        var statusCode = this.internalTalonFx.getConfigurator().apply(overallConfig);
-        if (!statusCode.isOK()) {
-            log.error("Failed to apply configuration to TalonFX for module with ID {}", this.internalTalonFx.getDeviceID());
-            log.error("Status code: {}", statusCode.getDescription());
-        }
+        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(overallConfig), 5);
     }
 
     @Override
@@ -115,7 +118,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
                 .withKV(velocityFF)
                 .withKG(gravityFF);
         slotConfig.SlotNumber = slot;
-        this.internalTalonFx.getConfigurator().apply(slotConfig);
+        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(slotConfig), 5);
     }
 
     @Override
@@ -125,26 +128,28 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setOpenLoopRampRates(Time dutyCyclePeriod, Time voltagePeriod) {
-        this.internalTalonFx.getConfigurator().apply(new OpenLoopRampsConfigs()
+        var configuration = new OpenLoopRampsConfigs()
                 .withDutyCycleOpenLoopRampPeriod(dutyCyclePeriod)
-                .withVoltageOpenLoopRampPeriod(voltagePeriod));
+                .withVoltageOpenLoopRampPeriod(voltagePeriod);
+        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(configuration), 3);
     }
 
     @Override
     public void setClosedLoopRampRates(Time dutyCyclePeriod, Time voltagePeriod) {
-        this.internalTalonFx.getConfigurator().apply(new ClosedLoopRampsConfigs()
+        var configuration = new ClosedLoopRampsConfigs()
                 .withDutyCycleClosedLoopRampPeriod(dutyCyclePeriod)
-                .withVoltageClosedLoopRampPeriod(voltagePeriod));
+                .withVoltageClosedLoopRampPeriod(voltagePeriod);
+        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(configuration), 3);
     }
 
     @Override
     public void setTrapezoidalProfileAcceleration(AngularAcceleration acceleration) {
-        this.internalTalonFx.getConfigurator().apply(new MotionMagicConfigs().withMotionMagicAcceleration(acceleration));
+        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(new MotionMagicConfigs().withMotionMagicAcceleration(acceleration)), 3);
     }
 
     @Override
     public void setTrapezoidalProfileJerk(Velocity<AngularAccelerationUnit> jerk) {
-        this.internalTalonFx.getConfigurator().apply(new MotionMagicConfigs().withMotionMagicJerk(jerk));
+        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(new MotionMagicConfigs().withMotionMagicJerk(jerk)), 3);
     }
 
     @Override
@@ -152,7 +157,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         if (!isValidPowerRequest(power)) {
             return;
         }
-        this.internalTalonFx.setControl(new DutyCycleOut(power));
+        invokeWithRetry(() -> this.internalTalonFx.setControl(new DutyCycleOut(power)), 1);
     }
 
     @Override
@@ -166,8 +171,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         this.internalTalonFx.getConfigurator().refresh(motorConfigs);
         motorConfigs.withPeakForwardDutyCycle(maxPower)
                 .withPeakReverseDutyCycle(minPower);
-
-        this.internalTalonFx.getConfigurator().apply(motorConfigs);
+        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(motorConfigs), 3);
     }
 
     @Override
@@ -178,7 +182,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setRawPosition(Angle position) {
-        this.internalTalonFx.setPosition(position);
+        invokeWithRetry(() -> this.internalTalonFx.setPosition(position), 1);
     }
 
     @Override
@@ -190,12 +194,10 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
             case TrapezoidalVoltage -> controlRequest = new MotionMagicVoltage(rawPosition).withSlot(slot);
             default -> {
                 controlRequest = new PositionDutyCycle(rawPosition).withSlot(slot);
-                //noinspection resource
-                new Alert(this.getClass().getName(),
-                        "Tried to use unsupported mode in setPositionTarget " + mode + ", defaulting to DutyCycle", Alert.AlertType.kWarning).set(true);
+                this.unsupportedPIDModeAlert.set(true);
             }
         }
-        this.internalTalonFx.setControl(controlRequest);
+        invokeWithRetry(() -> this.internalTalonFx.setControl(controlRequest), 1);
     }
 
     @Override
@@ -213,12 +215,10 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
             case TrapezoidalVoltage -> controlRequest = new MotionMagicVelocityVoltage(rawVelocity).withSlot(slot);
             default -> {
                 controlRequest = new VelocityDutyCycle(rawVelocity).withSlot(slot);
-                //noinspection resource
-                new Alert(this.getClass().getName(),
-                        "Tried to use unsupported mode in setVelocityTarget " + mode + ", defaulting to DutyCycle", Alert.AlertType.kWarning).set(true);
+                this.unsupportedPIDModeAlert.set(true);
             }
         }
-        this.internalTalonFx.setControl(controlRequest);
+        invokeWithRetry(() -> this.internalTalonFx.setControl(controlRequest), 1);
     }
 
     @Override
@@ -226,7 +226,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         if (!isValidVoltageRequest(voltage)) {
             return;
         }
-        this.internalTalonFx.setControl(new VoltageOut(voltage));
+        invokeWithRetry(() -> this.internalTalonFx.setControl(new VoltageOut(voltage)), 1);
     }
 
     public Voltage getVoltage() {
@@ -240,7 +240,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         this.internalTalonFx.getConfigurator().refresh(voltageConfigs);
         voltageConfigs.withPeakForwardVoltage(maxVoltage)
                 .withPeakReverseVoltage(minVoltage);
-        this.internalTalonFx.getConfigurator().apply(voltageConfigs);
+        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(voltageConfigs), 3);
     }
 
     public Current getCurrent() {
@@ -260,5 +260,19 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         inputs.angularVelocity = getVelocity();
         inputs.voltage = getVoltage();
         inputs.current = getCurrent();
+    }
+
+    private void invokeWithRetry(Supplier<StatusCode> applyFunction, int retryCount) {
+        for (int attempt = 1; attempt <= retryCount; attempt++) {
+            var statusCode = applyFunction.get();
+            if (statusCode.isOK()) {
+                return;
+            }
+            log.error("""
+                    Failed to invoke command for module with ID {} ({})
+                    Status code: {}
+                    Retry attempt: {}/{}
+                    """, this.deviceId, this.akitName, statusCode.getDescription(), attempt, retryCount);
+        }
     }
 }
