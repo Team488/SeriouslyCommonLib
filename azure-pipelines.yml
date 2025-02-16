@@ -15,9 +15,7 @@ jobs:
         jdkSourceOption: 'PreInstalled'
     - task: Cache@2
       inputs:
-        key: 'gradle | "$(Agent.OS)" | $(Build.SourcesDirectory)/build.gradle | $(Build.SourcesDirectory)/settings
-        .gradle | $(Build.SourcesDirectory)/gradle/wrapper/gradle-wrapper.properties | $(Build.SourcesDirectory)
-        /vendordeps/*'
+        key: 'gradle | "$(Agent.OS)" | $(Build.SourcesDirectory)/build.gradle | $(Build.SourcesDirectory)/settings.gradle | $(Build.SourcesDirectory)/gradle/wrapper/gradle-wrapper.properties | $(Build.SourcesDirectory)/vendordeps/*'
         path: $(GRADLE_USER_HOME)
       displayName: 'Cache Gradle dependencies'
     - task: Gradle@3
