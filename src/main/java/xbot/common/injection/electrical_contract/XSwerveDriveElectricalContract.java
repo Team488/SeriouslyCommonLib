@@ -56,7 +56,7 @@ public interface XSwerveDriveElectricalContract {
      * @return The diameter of the drive wheels.
      */
     default Distance getDriveWheelDiameter() {
-        return Inches.of(2);
+        return Inches.of(4);
     }
 
     /**
