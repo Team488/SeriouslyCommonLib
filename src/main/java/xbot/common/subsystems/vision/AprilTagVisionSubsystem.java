@@ -14,92 +14,47 @@
 package xbot.common.subsystems.vision;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.wpilibj.Alert;
-import edu.wpi.first.wpilibj.Alert.AlertType;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
+import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.injection.electrical_contract.XCameraElectricalContract;
-import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Subsystem for processing AprilTag vision data.
  * Based on the AdvantageKit sample implementation by team 6328.
  */
 @Singleton
-public class AprilTagVisionSubsystem extends SubsystemBase {
-    private final VisionConsumer consumer;
+public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameRefreshable {
+    private final CameraInfo[] cameras;
     private final AprilTagFieldLayout aprilTagFieldLayout;
-    private final AprilTagVisionIO[] io;
-    private final VisionIOInputsAutoLogged[] inputs;
-    private final Alert[] disconnectedAlerts;
-
-    // Basic filtering thresholds
-    private final DoubleProperty maxAmbiguity;
-    private final DoubleProperty maxZError;
-
-    // Standard deviation baselines, for 1 meter distance and 1 tag
-    // (Adjusted automatically based on distance and # of tags)
-    private final DoubleProperty linearStdDevBaseline;
-    private final DoubleProperty angularStdDevBaseline;
-
-    // Multipliers to apply for MegaTag 2 observations
-    private final DoubleProperty linearStdDevMegatag2Factor;
-    private final DoubleProperty angularStdDevMegatag2Factor;
-
-    // Standard deviation multipliers for each camera
-    // (Adjust to trust some cameras more than others)
-    public static double[] cameraStdDevFactors = new double[] {
-            1.0, // Camera 0
-            1.0 // Camera 1
-    };
+    final AprilTagVisionIO[] io;
+    final AprilTagVisionCameraHelper[] cameraHelpers;
 
     @Inject
-    public AprilTagVisionSubsystem(VisionConsumer consumer, PropertyFactory pf, AprilTagFieldLayout fieldLayout,
+    public AprilTagVisionSubsystem(PropertyFactory pf, AprilTagFieldLayout fieldLayout,
             XCameraElectricalContract contract,
-            AprilTagVisionIOPhotonVision.Factory visionIOFactory) {
-        this.consumer = consumer;
+            AprilTagVisionIOFactory visionIOFactory) {
         this.aprilTagFieldLayout = fieldLayout;
 
-        var cameraList = contract.getAprilTagCameras();
-        this.io = new AprilTagVisionIO[cameraList.length];
+        this.cameras = contract.getAprilTagCameras();
+        this.io = new AprilTagVisionIO[this.cameras.length];
+        this.cameraHelpers = new AprilTagVisionCameraHelper[this.cameras.length];
         for (int i = 0; i < io.length; i++) {
-            var cameraInfo = cameraList[i];
+            var cameraInfo = this.cameras[i];
             io[i] = visionIOFactory.create(cameraInfo.networkTablesName(), cameraInfo.position());
-        }
-
-        pf.setPrefix(this.getName());
-        this.maxAmbiguity = pf.createPersistentProperty("MaxAmbiguity", 0.3);
-        this.maxZError = pf.createPersistentProperty("MaxZError", 0.75);
-        this.linearStdDevBaseline = pf.createPersistentProperty("LinearStdDevBaseline", 0.02 /* meters */);
-        this.angularStdDevBaseline = pf.createPersistentProperty("AngularStdDevBaseline", 0.06 /* radians */);
-        this.linearStdDevMegatag2Factor = pf.createPersistentProperty("LinearStdDevMegatag2Factor", 0.5);
-        this.angularStdDevMegatag2Factor = pf.createPersistentProperty("AngularStdDevMegatag2Factor",
-                Double.POSITIVE_INFINITY);
-
-        // Initialize inputs
-        this.inputs = new VisionIOInputsAutoLogged[io.length];
-        for (int i = 0; i < inputs.length; i++) {
-            inputs[i] = new VisionIOInputsAutoLogged();
-        }
-
-        // Initialize disconnected alerts
-        this.disconnectedAlerts = new Alert[io.length];
-        for (int i = 0; i < inputs.length; i++) {
-            disconnectedAlerts[i] = new Alert(
-                    "Vision camera " + Integer.toString(i) + " is disconnected.", AlertType.kWarning);
+            cameraHelpers[i] = new AprilTagVisionCameraHelper(this.getName() + "/Cameras/" + cameraInfo.friendlyName(), pf, io[i], fieldLayout);
         }
     }
 
@@ -111,140 +66,108 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
     }
 
     /**
+     * Gets the position of the camera relative to the robot.
+     * @param cameraIndex The index of the camera to use.
+     * @return The 3D position of the camera relative to the robot.
+     */
+    public Transform3d getCameraPosition(int cameraIndex) {
+        return this.cameras[cameraIndex].position();
+    }
+
+    /**
+     * Returns the latest target observation.
+     * @param cameraIndex The index of the camera to use.
+     * @return The latest target observation.
+     */
+    public AprilTagVisionIO.TargetObservation getLatestTargetObservation(int cameraIndex) {
+        return cameraHelpers[cameraIndex].inputs.latestTargetObservation;
+    }
+
+    /**
      * Returns the X angle to the best target, which can be used for simple servoing
      * with vision.
      *
      * @param cameraIndex The index of the camera to use.
      */
     public Rotation2d getTargetX(int cameraIndex) {
-        return inputs[cameraIndex].latestTargetObservation.tx();
+        return cameraHelpers[cameraIndex].inputs.latestTargetObservation.tx();
+    }
+
+    /**
+     * Returns <c>true</c> if the camera can see the specified tag.
+     * @param cameraIndex The camera to check.
+     * @param tagId The tag to check.
+     * @return <c>true</c> if the camera can see the tag.
+     */
+    public boolean tagVisibleByCamera(int cameraIndex, int tagId) {
+        return cameraHelpers[cameraIndex].isTagVisible(tagId);
+    }
+
+    /**
+     * Returns <c>true</c> if any camera can see the specified tag.
+     * @param tagId The tag to check.
+     * @return <c>true</c> if any camera can see the tag.
+     */
+    public boolean tagVisibleByAnyCamera(int tagId) {
+        for (int i = 0; i < cameraHelpers.length; i++) {
+            if (tagVisibleByCamera(i, tagId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns the set of cameras that can see the specified tag.
+     * @param tagId The tag to check.
+     * @return The set of cameras that can see the tag.
+     */
+    public Set<Integer> camerasWithTagVisible(int tagId) {
+        HashSet<Integer> result = new HashSet<>();
+        for (int i = 0; i < cameraHelpers.length; i++) {
+            if (tagVisibleByCamera(i, tagId)) {
+                result.add(i);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Gets all the pose observations in this iteration of the scheduler loop.
+     * @return A list of pose observations.
+     */
+    public List<VisionPoseObservation> getAllPoseObservations() {
+        List<VisionPoseObservation> result = new LinkedList<>();
+        for (AprilTagVisionCameraHelper cameraHelper : cameraHelpers) {
+            result.addAll(cameraHelper.getPoseObservations());
+        }
+        return result;
+    }
+
+    @Override
+    public void refreshDataFrame() {
+        for (int i = 0; i < cameraHelpers.length; i++) {
+            cameraHelpers[i].refreshDataFrame();
+        }
     }
 
     @Override
     public void periodic() {
-        for (int i = 0; i < io.length; i++) {
-            io[i].updateInputs(inputs[i]);
-            Logger.processInputs("Vision/Camera" + Integer.toString(i), inputs[i]);
-        }
-
-        // Initialize logging values
-        List<Pose3d> allTagPoses = new LinkedList<>();
-        List<Pose3d> allRobotPoses = new LinkedList<>();
-        List<Pose3d> allRobotPosesAccepted = new LinkedList<>();
-        List<Pose3d> allRobotPosesRejected = new LinkedList<>();
-
         // Loop over cameras
-        for (int cameraIndex = 0; cameraIndex < io.length; cameraIndex++) {
-            // Update disconnected alert
-            disconnectedAlerts[cameraIndex].set(!inputs[cameraIndex].connected);
-
-            // Initialize logging values
-            List<Pose3d> tagPoses = new LinkedList<>();
-            List<Pose3d> robotPoses = new LinkedList<>();
-            List<Pose3d> robotPosesAccepted = new LinkedList<>();
-            List<Pose3d> robotPosesRejected = new LinkedList<>();
-
-            // Add tag poses
-            for (int tagId : inputs[cameraIndex].tagIds) {
-                var tagPose = aprilTagFieldLayout.getTagPose(tagId);
-                tagPose.ifPresent(tagPoses::add);
-            }
-
-            // Loop over pose observations
-            for (var observation : inputs[cameraIndex].poseObservations) {
-                // Check whether to reject pose
-                boolean rejectPose = observation.tagCount() == 0 // Must have at least one tag
-                        || isObservationAmbiguous(observation)
-                        || Math.abs(observation.pose().getZ()) > maxZError.get() // Must have realistic Z coordinate
-
-                        || isObservationOutOfBounds(observation.pose());
-
-                // Add pose to log
-                robotPoses.add(observation.pose());
-                if (rejectPose) {
-                    robotPosesRejected.add(observation.pose());
-                } else {
-                    robotPosesAccepted.add(observation.pose());
-                }
-
-                // Skip if rejected
-                if (rejectPose) {
-                    continue;
-                }
-
-                // Calculate standard deviations
-                double stdDevFactor = Math.pow(observation.averageTagDistance(), 2.0) / observation.tagCount();
-                double linearStdDev = linearStdDevBaseline.get() * stdDevFactor;
-                double angularStdDev = angularStdDevBaseline.get() * stdDevFactor;
-                if (observation.type() == AprilTagVisionIO.PoseObservationType.MEGATAG_2) {
-                    linearStdDev *= linearStdDevMegatag2Factor.get();
-                    angularStdDev *= angularStdDevMegatag2Factor.get();
-                }
-                if (cameraIndex < cameraStdDevFactors.length) {
-                    linearStdDev *= cameraStdDevFactors[cameraIndex];
-                    angularStdDev *= cameraStdDevFactors[cameraIndex];
-                }
-
-                // Send vision observation
-                consumer.acceptVisionPose(
-                        observation.pose().toPose2d(),
-                        observation.timestamp(),
-                        VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev));
-            }
-
-            // Log camera datadata
+        for (AprilTagVisionCameraHelper cameraHelper : cameraHelpers) {
+            // Log camera data
             Logger.recordOutput(
-                    "Vision/Camera" + Integer.toString(cameraIndex) + "/TagPoses",
-                    tagPoses.toArray(new Pose3d[tagPoses.size()]));
+                    cameraHelper.getLogPath() + "/TagPoses",
+                    cameraHelper.getTagPoses().toArray(new Pose3d[0]));
             Logger.recordOutput(
-                    "Vision/Camera" + Integer.toString(cameraIndex) + "/RobotPoses",
-                    robotPoses.toArray(new Pose3d[robotPoses.size()]));
+                    cameraHelper.getLogPath() + "/RobotPoses",
+                    cameraHelper.getRobotPoses().toArray(new Pose3d[0]));
             Logger.recordOutput(
-                    "Vision/Camera" + Integer.toString(cameraIndex) + "/RobotPosesAccepted",
-                    robotPosesAccepted.toArray(new Pose3d[robotPosesAccepted.size()]));
+                    cameraHelper.getLogPath() + "/RobotPosesAccepted",
+                    cameraHelper.getRobotPosesAccepted().toArray(new Pose3d[0]));
             Logger.recordOutput(
-                    "Vision/Camera" + Integer.toString(cameraIndex) + "/RobotPosesRejected",
-                    robotPosesRejected.toArray(new Pose3d[robotPosesRejected.size()]));
-            allTagPoses.addAll(tagPoses);
-            allRobotPoses.addAll(robotPoses);
-            allRobotPosesAccepted.addAll(robotPosesAccepted);
-            allRobotPosesRejected.addAll(robotPosesRejected);
+                    cameraHelper.getLogPath() + "/RobotPosesRejected",
+                    cameraHelper.getRobotPosesRejected().toArray(new Pose3d[0]));
         }
-
-        // Log summary data
-        Logger.recordOutput(
-                "Vision/Summary/TagPoses", allTagPoses.toArray(new Pose3d[allTagPoses.size()]));
-        Logger.recordOutput(
-                "Vision/Summary/RobotPoses", allRobotPoses.toArray(new Pose3d[allRobotPoses.size()]));
-        Logger.recordOutput(
-                "Vision/Summary/RobotPosesAccepted",
-                allRobotPosesAccepted.toArray(new Pose3d[allRobotPosesAccepted.size()]));
-        Logger.recordOutput(
-                "Vision/Summary/RobotPosesRejected",
-                allRobotPosesRejected.toArray(new Pose3d[allRobotPosesRejected.size()]));
-    }
-
-    private boolean isObservationAmbiguous(AprilTagVisionIO.PoseObservation observation) {
-        return (observation.tagCount() == 1
-                && observation.ambiguity() > maxAmbiguity.get()); // Cannot be high ambiguity;
-    }
-
-    private boolean isObservationOutOfBounds(Pose3d pose) {
-        // Must be within the field boundaries
-        return pose.getX() < 0.0
-                || pose.getX() > aprilTagFieldLayout.getFieldLength()
-                || pose.getY() < 0.0
-                || pose.getY() > aprilTagFieldLayout.getFieldWidth();
-    }
-
-    /**
-     * Implement this interface on the subsystem that receives vision data.
-     */
-    @FunctionalInterface
-    public interface VisionConsumer {
-        void acceptVisionPose(
-                Pose2d visionRobotPoseMeters,
-                double timestampSeconds,
-                Matrix<N3, N1> visionMeasurementStdDevs);
     }
 }

@@ -1,5 +1,6 @@
 package xbot.common.simulation;
 
+import static edu.wpi.first.units.Units.Rotations;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
@@ -35,9 +36,9 @@ public class SimulatedMockAbsoluteEncoderTest extends BaseSimulationTest {
         JSONArray sensorList = new JSONArray();
         sensorList.put(singleSensor);
         overallPayload.put("Sensors", sensorList);
-        
+
         distributor.distributeSimulationPayload(overallPayload);
 
-        assertEquals(43.2, this.simulatedEncoder.getAbsolutePosition_internal(), 0.001);
+        assertEquals(Rotations.of(43.2), this.simulatedEncoder.getAbsolutePosition_internal());
     }
 }

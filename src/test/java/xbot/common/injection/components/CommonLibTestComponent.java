@@ -12,6 +12,7 @@ import xbot.common.injection.modules.MockControlsModule;
 import xbot.common.injection.modules.MockDevicesModule;
 import xbot.common.injection.modules.UnitTestModule;
 import xbot.common.injection.modules.UnitTestRobotModule;
+import xbot.common.subsystems.pose.GameField;
 import xbot.common.subsystems.pose.commands.ResetDistanceCommand;
 import xbot.common.subsystems.pose.commands.SetRobotHeadingCommand;
 import xbot.common.subsystems.simple.MockSimpleMotorSubsystem;
@@ -38,5 +39,5 @@ public abstract class CommonLibTestComponent extends PurePursuitTestComponent {
 
     public abstract AprilTagVisionSubsystem getAprilTagVisionSubsystem();
 
-    public abstract AprilTagVisionSubsystem.VisionConsumer getAprilTagVisionConsumer();
+    public abstract GameField getGameField();
 }

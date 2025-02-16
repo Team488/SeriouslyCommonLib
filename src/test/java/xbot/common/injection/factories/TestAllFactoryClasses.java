@@ -1,16 +1,14 @@
 package xbot.common.injection.factories;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import xbot.common.controls.actuators.XCANTalon;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
-import xbot.common.injection.electrical_contract.CANTalonInfo;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.injection.electrical_contract.MotorControllerType;
 import xbot.common.logging.RobotAssertionException;
@@ -68,19 +66,19 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
 //        getInjectorComponent().canSparkMaxFactory().create(
 //                new DeviceInfo("left", 11), "drive", "left", "motorGroup",
 //                new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
-        XCANTalon talon = getInjectorComponent().canTalonFactory().create(new CANTalonInfo(1));
-        getInjectorComponent().as5600Factory().create(talon);
-        getInjectorComponent().canVictorSpxFactory().create(5);
+
         getInjectorComponent().absoluteEncoderFactory().create(new DeviceInfo("test",6), "test");
         getInjectorComponent().stallDetectorFactory().create("owningSystem");
         getInjectorComponent().canCoderFactory().create(new DeviceInfo("test",7), "test");
         getInjectorComponent().dutyCycleEncoderFactory().create(new DeviceInfo("test",8));
+        getInjectorComponent().laserCANFactory().create(new DeviceInfo("laserTest",9), "test");
+
     }
 
     @Test(expected = RobotAssertionException.class)
     public void doubleAllocate() {
-        getInjectorComponent().canTalonFactory().create(new CANTalonInfo(1));
-        getInjectorComponent().canTalonFactory().create(new CANTalonInfo(1));
-        assertTrue("You shouldn't be able to double-allocate!", false);
+        getInjectorComponent().canCoderFactory().create(new DeviceInfo("", 1), "");
+        getInjectorComponent().canCoderFactory().create(new DeviceInfo("", 1), "");
+        fail("You shouldn't be able to double-allocate!");
     }
 }

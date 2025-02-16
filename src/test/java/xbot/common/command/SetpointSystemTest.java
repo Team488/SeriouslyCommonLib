@@ -26,9 +26,9 @@ public class SetpointSystemTest extends BaseCommonLibTest {
     @Ignore
     public void testSetpointCommandsCollide() {
         XScheduler xScheduler = getInjectorComponent().scheduler();
-        xScheduler.removeAll();
-        xScheduler.removeAll();
-        xScheduler.removeAll();
+        xScheduler.cancelAll();
+        xScheduler.cancelAll();
+        xScheduler.cancelAll();
         xScheduler.run();
         xScheduler.run();
         xScheduler.run();
