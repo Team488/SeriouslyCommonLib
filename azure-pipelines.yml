@@ -7,6 +7,8 @@ jobs:
  - job: Windows_64_Bit
    pool:
      vmImage: 'windows-latest'
+   variables:
+     GRADLE_USER_HOME: $(Build.SourcesDirectory)/build/.gradle
    steps:
     - task: JavaToolInstaller@0
       inputs:
@@ -37,7 +39,7 @@ jobs:
       displayName: 'Maven Authenticate'
       inputs:
         artifactsFeeds: XBot
-    - task: Gradle@2
+    - task: Gradle@3
       displayName: 'Publish to Maven'
       inputs:
         workingDirectory: ''
@@ -47,7 +49,7 @@ jobs:
         tasks: 'publish --info'
       env:
         GRADLE_USER_HOME: $(GRADLE_USER_HOME)
-    - task: Gradle@2
+    - task: Gradle@3
       displayName: Generate Javadoc
       inputs:
         workingDirectory: ''
