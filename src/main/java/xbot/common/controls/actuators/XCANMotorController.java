@@ -35,6 +35,7 @@ import xbot.common.resiliency.DeviceHealth;
 import java.util.function.Supplier;
 
 import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Volts;
 
@@ -105,11 +106,16 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(XCANMotorController.class);
 
-    protected Measure<? extends PerUnit<DistanceUnit, AngleUnit>> distancePerMotorRotationsScaleFactor;
-    protected Measure<? extends PerUnit<AngleUnit, AngleUnit>> angleScaleFactor;
-
     protected Supplier<Boolean> softwareReverseLimit = () -> false;
     protected Supplier<Boolean> softwareForwardLimit = () -> false;
+
+    // Scale factors, with pre-computed inverses for performance.
+    private Measure<? extends PerUnit<DistanceUnit, AngleUnit>> distancePerMotorRotationsScaleFactor;
+    private Measure<? extends PerUnit<AngleUnit, DistanceUnit>> distancePerMotorRotationsInverseScaleFactor;
+    private Measure<? extends PerUnit<AngleUnit, AngleUnit>> angleScaleFactor;
+    private Measure<? extends PerUnit<AngleUnit, AngleUnit>> angleInverseScaleFactor;
+    private Measure<? extends PerUnit<AngularVelocityUnit, AngularVelocityUnit>> angularVelocityScaleFactor;
+    private Measure<? extends PerUnit<AngularVelocityUnit, AngularVelocityUnit>> angularVelocityInverseScaleFactor;
 
     private final Alert unhealthyAlert;
 
@@ -272,6 +278,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
      */
     public void setDistancePerMotorRotationsScaleFactor(Measure<? extends PerUnit<DistanceUnit, AngleUnit>> distancePerAngle) {
         this.distancePerMotorRotationsScaleFactor = distancePerAngle;
+        this.distancePerMotorRotationsInverseScaleFactor = invertRatio(this.distancePerMotorRotationsScaleFactor);
     }
 
     /**
@@ -284,6 +291,9 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
      */
     public void setAngleScaleFactor(Measure<? extends PerUnit<AngleUnit, AngleUnit>> angleScaleFactor) {
         this.angleScaleFactor = angleScaleFactor;
+        this.angleInverseScaleFactor = invertRatio(this.angleScaleFactor);
+        this.angularVelocityScaleFactor = convertToAngularVelocity(angleScaleFactor);
+        this.angularVelocityInverseScaleFactor = invertRatio(this.angularVelocityScaleFactor);
     }
 
     /**
@@ -525,33 +535,49 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
         return rawAngle.timesConversionFactor(distancePerMotorRotationsScaleFactor);
     }
 
+    protected Angle convertDistanceToRawAngle(Distance distance) {
+        if (distancePerMotorRotationsInverseScaleFactor == null) {
+            log.warn("Distance per angle not set for motor controller {}", akitName);
+            return Rotations.zero();
+        }
+        return distance.timesConversionFactor(distancePerMotorRotationsInverseScaleFactor);
+    }
+
     protected Angle convertScaledAngleToRawAngle(Angle scaledAngle) {
         if (angleScaleFactor == null) {
             return scaledAngle;
         }
-        return scaledAngle.timesConversionFactor(invertRatio(angleScaleFactor));
+        return scaledAngle.timesConversionFactor(angleInverseScaleFactor);
     }
 
     protected AngularVelocity convertRawVelocityToScaledVelocity(AngularVelocity rawVelocity) {
-        if (angleScaleFactor == null) {
+        if (angularVelocityScaleFactor == null) {
             return rawVelocity;
         }
-        return rawVelocity.timesConversionFactor(convertToAngularVelocity(angleScaleFactor));
+        return rawVelocity.timesConversionFactor(angularVelocityScaleFactor);
     }
 
     protected AngularVelocity convertScaledVelocityToRawVelocity(AngularVelocity scaledVelocity) {
-        if (angleScaleFactor == null) {
+        if (angularVelocityInverseScaleFactor == null) {
             return scaledVelocity;
         }
-        return scaledVelocity.timesConversionFactor(convertToAngularVelocity(invertRatio(angleScaleFactor)));
+        return scaledVelocity.timesConversionFactor(angularVelocityInverseScaleFactor);
     }
 
-    protected <N extends Unit, D extends Unit> Measure<? extends PerUnit<D, N>> invertRatio(Measure<? extends PerUnit<N, D>> ratio) {
+    private <N extends Unit, D extends Unit> Measure<? extends PerUnit<D, N>> invertRatio(Measure<? extends PerUnit<N, D>> ratio) {
+        if (ratio == null) {
+            return null;
+        }
+
         return ratio.unit().reciprocal().of(1 / ratio.magnitude());
     }
 
-    protected Measure<? extends PerUnit<AngularVelocityUnit, AngularVelocityUnit>> convertToAngularVelocity(Measure<? extends PerUnit<AngleUnit,
+    private Measure<? extends PerUnit<AngularVelocityUnit, AngularVelocityUnit>> convertToAngularVelocity(Measure<? extends PerUnit<AngleUnit,
                                                                                                             AngleUnit>> base) {
+        if (base == null) {
+            return null;
+        }
+
         var magnitude = base.magnitude();
         var unit = base.unit();
         var numeratorUnit = unit.numerator().per(Second);
