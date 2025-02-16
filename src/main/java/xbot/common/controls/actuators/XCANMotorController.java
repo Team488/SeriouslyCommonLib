@@ -107,6 +107,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     protected Measure<? extends PerUnit<DistanceUnit, AngleUnit>> distancePerMotorRotationsScaleFactor;
     protected Measure<? extends PerUnit<AngleUnit, AngleUnit>> angleScaleFactor;
+    protected Measure<? extends PerUnit<AngularVelocityUnit, AngularVelocityUnit>> angularVelocityScaleFactor;
 
     protected Supplier<Boolean> softwareReverseLimit = () -> false;
     protected Supplier<Boolean> softwareForwardLimit = () -> false;
@@ -284,6 +285,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
      */
     public void setAngleScaleFactor(Measure<? extends PerUnit<AngleUnit, AngleUnit>> angleScaleFactor) {
         this.angleScaleFactor = angleScaleFactor;
+        this.angularVelocityScaleFactor = convertToAngularVelocity(angleScaleFactor);
     }
 
     /**
@@ -533,25 +535,29 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     }
 
     protected AngularVelocity convertRawVelocityToScaledVelocity(AngularVelocity rawVelocity) {
-        if (angleScaleFactor == null) {
+        if (angularVelocityScaleFactor == null) {
             return rawVelocity;
         }
-        return rawVelocity.timesConversionFactor(convertToAngularVelocity(angleScaleFactor));
+        return rawVelocity.timesConversionFactor(angularVelocityScaleFactor);
     }
 
     protected AngularVelocity convertScaledVelocityToRawVelocity(AngularVelocity scaledVelocity) {
-        if (angleScaleFactor == null) {
+        if (angularVelocityScaleFactor == null) {
             return scaledVelocity;
         }
-        return scaledVelocity.timesConversionFactor(convertToAngularVelocity(invertRatio(angleScaleFactor)));
+        return scaledVelocity.timesConversionFactor(invertRatio(angularVelocityScaleFactor));
     }
 
     protected <N extends Unit, D extends Unit> Measure<? extends PerUnit<D, N>> invertRatio(Measure<? extends PerUnit<N, D>> ratio) {
         return ratio.unit().reciprocal().of(1 / ratio.magnitude());
     }
 
-    protected Measure<? extends PerUnit<AngularVelocityUnit, AngularVelocityUnit>> convertToAngularVelocity(Measure<? extends PerUnit<AngleUnit,
+    private Measure<? extends PerUnit<AngularVelocityUnit, AngularVelocityUnit>> convertToAngularVelocity(Measure<? extends PerUnit<AngleUnit,
                                                                                                             AngleUnit>> base) {
+        if (base == null) {
+            return null;
+        }
+
         var magnitude = base.magnitude();
         var unit = base.unit();
         var numeratorUnit = unit.numerator().per(Second);
