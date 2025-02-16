@@ -40,8 +40,6 @@ repositories {
 
     maven { url uri ("../SeriouslyCommonLib/lib/")}
 
-
-
     mavenLocal()
 }
 

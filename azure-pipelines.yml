@@ -7,13 +7,20 @@ jobs:
  - job: Windows_64_Bit
    pool:
      vmImage: 'windows-latest'
+   variables:
+     GRADLE_USER_HOME: $(Build.SourcesDirectory)/build/.gradle
    steps:
     - task: JavaToolInstaller@0
       inputs:
         versionSpec: '17'
         jdkArchitectureOption: 'x64'
         jdkSourceOption: 'PreInstalled'
-    - task: Gradle@2
+    - task: Cache@2
+      inputs:
+        key: 'gradle | "$(Agent.OS)" | $(Build.SourcesDirectory)/build.gradle | $(Build.SourcesDirectory)/settings.gradle | $(Build.SourcesDirectory)/gradle/wrapper/gradle-wrapper.properties | $(Build.SourcesDirectory)/vendordeps/*'
+        path: $(GRADLE_USER_HOME)
+      displayName: 'Cache Gradle dependencies'
+    - task: Gradle@3
       inputs:
         workingDirectory: ''
         gradleWrapperFile: 'gradlew'
@@ -21,9 +28,9 @@ jobs:
         publishJUnitResults: true
         testResultsFiles: '**/TEST-*.xml'
         tasks: 'build --stacktrace --info'
-        # checkStyleRunAnalysis: true
-        # pmdRunAnalysis: true
-    - task: PublishCodeCoverageResults@1
+      env:
+        GRADLE_USER_HOME: $(GRADLE_USER_HOME)
+    - task: PublishCodeCoverageResults@2
       inputs:
         codeCoverageTool: 'JaCoCo'
         summaryFileLocation: 'build/reports/jacoco/test/jacocoTestReport.xml'
@@ -32,7 +39,7 @@ jobs:
       displayName: 'Maven Authenticate'
       inputs:
         artifactsFeeds: XBot
-    - task: Gradle@2
+    - task: Gradle@3
       displayName: 'Publish to Maven'
       inputs:
         workingDirectory: ''
@@ -40,13 +47,26 @@ jobs:
         gradleOptions: '-Xmx3072m'
         publishJUnitResults: true
         tasks: 'publish --info'
-    - task: Gradle@2
+      env:
+        GRADLE_USER_HOME: $(GRADLE_USER_HOME)
+    - task: Gradle@3
       displayName: Generate Javadoc
       inputs:
         workingDirectory: ''
         gradleWrapperFile: 'gradlew'
         gradleOptions: '-Xmx3072m'
         tasks: 'javadoc'
+      env:
+        GRADLE_USER_HOME: $(GRADLE_USER_HOME)
+    - task: Gradle@3
+      displayName: Stop gradle daemon
+      inputs:
+        workingDirectory: ''
+        gradleWrapperFile: 'gradlew'
+        gradleOptions: '-Xmx3072m'
+        tasks: '--stop'
+      env:
+        GRADLE_USER_HOME: $(GRADLE_USER_HOME)
     - task: PublishPipelineArtifact@0
       displayName: 'Publish javadoc as an artifact'
       inputs:
