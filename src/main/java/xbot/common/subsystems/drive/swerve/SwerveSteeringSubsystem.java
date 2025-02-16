@@ -34,6 +34,7 @@ import java.util.Optional;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.RPM;
+import static edu.wpi.first.units.Units.Rotation;
 import static edu.wpi.first.units.Units.Rotations;
 
 @SwerveSingleton
@@ -44,7 +45,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
 
     private final DoubleProperty powerScale;
     private double targetRotation;
-    private final DoubleProperty degreesPerMotorRotation;
+    private final double gearRatio;
     private boolean useMotorControllerPid;
     private final DoubleProperty maxMotorEncoderDrift;
     private final SysIdRoutine sysId;
@@ -67,7 +68,8 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         pf.setPrefix(super.getPrefix());
         this.pid = pidf.create(super.getPrefix() + "PID", 0.2, 0.0, 0.005, -1.0, 1.0);
         this.powerScale = pf.createPersistentProperty("PowerScaleFactor", 5);
-        this.degreesPerMotorRotation = pf.createPersistentProperty("DegreesPerMotorRotation", 28.1503);
+
+        this.gearRatio = electricalContract.getSteeringGearRatio();
         this.useMotorControllerPid = true;
         this.maxMotorEncoderDrift = pf.createPersistentProperty("MaxEncoderDriftDegrees", 1.0);
         this.currentModuleHeadingRotation2d = Rotation2d.fromDegrees(0);
@@ -87,6 +89,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
                     super.getPrefix() + "SteeringPID",
                     new XCANMotorControllerPIDProperties(1, 0, 0, 0, 0, 1, -1));
             this.motorController.setPowerRange(-1, 1);
+            setMotorControllerGearRatio();
         }
         if (electricalContract.areCanCodersReady()) {
             this.encoder = canCoderFactory.create(electricalContract.getSteeringEncoder(swerveInstance), this.getPrefix());
@@ -210,7 +213,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
 
                     // Force motors to manual control before resetting position
                     this.setPower(0.0);
-                    motorController.setPosition(currentCanCoderPosition.div(this.degreesPerMotorRotation.get()));
+                    motorController.setPosition(currentCanCoderPosition);
                 }
             }
         }
@@ -269,12 +272,12 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
     }
 
     /**
-     * Gets the reported position of the encoder on the NEO motor.
-     * @return The position of the encoder on the NEO motor.
+     * Gets the reported position of the encoder on the motor.
+     * @return The position of the encoder on the motor.
      */
     public Angle getMotorControllerEncoderPosition() {
         return getMotorController()
-                .map(mc -> mc.getPosition().times(degreesPerMotorRotation.get()))
+                .map(XCANMotorController::getPosition)
                 .orElse(Degrees.zero());
     }
 
@@ -342,9 +345,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
             aKitLog.record("angleBetweenDesiredAndCurrent-Degrees", angleBetweenDesiredAndCurrent.in(Degrees));
             aKitLog.record("MotorControllerPosition-Rotations", motorController.getPosition().in(Rotations));
 
-            Angle targetPosition = motorController.getPosition().plus(
-                    Rotations.of(angleBetweenDesiredAndCurrent.in(Degrees) / degreesPerMotorRotation.get())
-            );
+            Angle targetPosition = motorController.getPosition().plus(angleBetweenDesiredAndCurrent);
 
             aKitLog.record("TargetPosition-Rotations", targetPosition.in(Rotations));
             motorController.setPositionTarget(targetPosition, XCANMotorController.MotorPidMode.Voltage, 0);
@@ -357,6 +358,10 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
     @Override
     protected boolean areTwoTargetsEquivalent(Double target1, Double target2) {
         return BaseSetpointSubsystem.areTwoDoublesEquivalent(target1, target2);
+    }
+
+    private void setMotorControllerGearRatio() {
+        getMotorController().ifPresent(mc -> mc.setAngleScaleFactor(Rotations.per(Rotation).of(gearRatio)));
     }
 
     @Override
