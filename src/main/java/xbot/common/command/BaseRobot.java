@@ -70,6 +70,7 @@ public abstract class BaseRobot extends LoggedRobot {
     boolean forceWebots = true; // TODO: figure out a better way to swap between simulation and replay.
 
     public BaseRobot() {
+        super(0.04);
     }
 
     /**
@@ -115,7 +116,7 @@ public abstract class BaseRobot extends LoggedRobot {
         Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
         DriverStation.silenceJoystickConnectionWarning(true);
 
-        
+
         log = LogManager.getLogger(BaseRobot.class);
         log.info("========== BASE ROBOT INITIALIZING ==========");
         setupInjectionModule();
@@ -141,22 +142,22 @@ public abstract class BaseRobot extends LoggedRobot {
         if (!DriverStation.isEnabled()) {
             return "disabled";
         }
-        
+
         if (DriverStation.isAutonomous()) {
             return "auto";
         }
-        
+
         if (DriverStation.isTeleop()) {
             return "teleop";
         }
-        
+
         if (DriverStation.isTest()) {
             return "test";
         }
-        
+
         return "enabled/unknown";
     }
-    
+
     protected void updateLoggingContext() {
         String dsStatus = DriverStation.isDSAttached() ? "DS" : "no DS";
         String fmsStatus = DriverStation.isFMSAttached() ? "FMS" : "no FMS";
@@ -190,7 +191,7 @@ public abstract class BaseRobot extends LoggedRobot {
     public void disabledPeriodic() {
         this.sharedPeriodic();
     }
-    
+
     protected String getMatchContextString() {
         return DriverStation.getAlliance().toString() + DriverStation.getLocation() + ", "
             + DriverStation.getMatchTime() + "s, "
@@ -248,7 +249,7 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     double outsidePeriodicStart = 0;
-    
+
     protected void sharedPeriodic() {
         double outsidePeriodicEnd = getPerformanceTimestampInMs();
         Logger.recordOutput("OutsidePeriodicMs", outsidePeriodicEnd - outsidePeriodicStart);
@@ -274,11 +275,11 @@ public abstract class BaseRobot extends LoggedRobot {
         xScheduler.run();
         double schedulerEnd = getPerformanceTimestampInMs();
         Logger.recordOutput("SchedulerMs", schedulerEnd - schedulerStart);
-        
+
         outsidePeriodicStart = getPerformanceTimestampInMs();
     }
 
-    
+
     @Override
     public void simulationInit() {
         // TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
@@ -317,7 +318,7 @@ public abstract class BaseRobot extends LoggedRobot {
         }*/
     }
 
-    private double getPerformanceTimestampInMs() {
+    protected double getPerformanceTimestampInMs() {
         return org.littletonrobotics.junction.Logger.getRealTimestamp()*1.0 / 1000.0;
 
     }
