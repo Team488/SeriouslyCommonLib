@@ -41,6 +41,7 @@ import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
+import xbot.common.logging.AlertGroups;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
@@ -66,6 +67,8 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     private final StatusSignal<Current> statorCurrentSignal;
 
     private final Alert unsupportedPIDModeAlert;
+    private final Alert notOnlineDuringConfigAlert;
+    private final Alert lastCommandFailedAlert;
 
     @AssistedInject
     public CANTalonFxWpiAdapter(
@@ -85,8 +88,22 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         this.statorCurrentSignal = this.internalTalonFx.getStatorCurrent(false);
 
         this.unsupportedPIDModeAlert = new Alert("Tried to use an unsupported PID mode", Alert.AlertType.kWarning);
+        this.notOnlineDuringConfigAlert = new Alert(AlertGroups.DEVICE_HEALTH, "TalonFX " + info.deviceId()
+                + " (" + info.name() + ") is not online and cannot be configured",
+                Alert.AlertType.kError);
+        this.lastCommandFailedAlert = new Alert(AlertGroups.DEVICE_HEALTH, "", Alert.AlertType.kError);
 
+        waitForOnline();
         setConfiguration(info.outputConfig());
+    }
+
+    private void waitForOnline() {
+        this.internalTalonFx.getVersionMajor().waitForUpdate(2.0, false);
+        if (!this.internalTalonFx.getVersionMajor(false).getStatus().isOK()) {
+            this.notOnlineDuringConfigAlert.set(true);
+            log.error(this.notOnlineDuringConfigAlert.getText());
+        }
+        this.notOnlineDuringConfigAlert.set(false);
     }
 
     @Override
@@ -106,7 +123,9 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         overallConfig.MotorOutput = outputConfigs;
         overallConfig.CurrentLimits = currentConfigs;
 
-        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(overallConfig), 5);
+        if (!invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(overallConfig), 5)) {
+            log.error("Configuration set to TalonFX {} ({}) failed.", deviceId, akitName);
+        }
     }
 
     @Override
@@ -262,17 +281,17 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         inputs.current = getCurrent();
     }
 
-    private void invokeWithRetry(Supplier<StatusCode> applyFunction, int retryCount) {
+    private boolean invokeWithRetry(Supplier<StatusCode> applyFunction, int retryCount) {
         for (int attempt = 1; attempt <= retryCount; attempt++) {
             var statusCode = applyFunction.get();
             if (statusCode.isOK()) {
-                return;
+                lastCommandFailedAlert.set(false);
+                return true;
             }
-            log.error("""
-                    Failed to invoke command for module with ID {} ({})
-                    Status code: {}
-                    Retry attempt: {}/{}
-                    """, this.deviceId, this.akitName, statusCode.getDescription(), attempt, retryCount);
+            lastCommandFailedAlert.setText(String.format("Failed to invoke command for module with ID %d (%s), Status code: %s",
+                    this.deviceId, this.akitName, statusCode.getDescription()));
+            lastCommandFailedAlert.set(true);
         }
+        return false;
     }
 }
