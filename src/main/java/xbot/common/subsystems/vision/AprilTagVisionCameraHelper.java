@@ -26,6 +26,9 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     // Basic filtering thresholds
     private final DoubleProperty maxAmbiguity;
     private final DoubleProperty maxZError;
+    private final DoubleProperty maxSingleTagDistance;
+    private final DoubleProperty maxMultiTagDistance;
+    private final DoubleProperty minTagDistance;
 
     // Standard deviation baselines, for 1 meter distance and 1 tag
     // (Adjusted automatically based on distance and # of tags)
@@ -64,6 +67,9 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.angularStdDevMegatag2Factor = pf.createPersistentProperty("AngularStdDevMegatag2Factor",
                 Double.POSITIVE_INFINITY);
         this.cameraStdDevFactor = pf.createPersistentProperty("CameraStdDevFactor", 1.0);
+        this.maxSingleTagDistance = pf.createPersistentProperty("MaxSingleTagDistance", 1.0);
+        this.maxMultiTagDistance = pf.createPersistentProperty("MaxMultiTagDistance", 5.0);
+        this.minTagDistance = pf.createPersistentProperty("MinTagDistance", 0.5);
     }
 
     @Override
@@ -124,11 +130,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         // Loop over pose observations
         for (var observation : inputs.poseObservations) {
             // Check whether to reject pose
-            boolean rejectPose = observation.tagCount() == 0 // Must have at least one tag
-                    || isObservationAmbiguous(observation)
-                    || Math.abs(observation.pose().getZ()) > maxZError.get() // Must have realistic Z coordinate
-                    || isObservationOutOfBounds(observation.pose());
-
+            boolean rejectPose = shouldRejectObservation(observation);
             // Add pose to log
             robotPoses.add(observation.pose());
             if (rejectPose) {
@@ -171,5 +173,32 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
                 || pose.getX() > aprilTagFieldLayout.getFieldLength()
                 || pose.getY() < 0.0
                 || pose.getY() > aprilTagFieldLayout.getFieldWidth();
+    }
+
+    private boolean isObservationAprilTagInGoldilocksZone(AprilTagVisionIO.PoseObservation observation) {
+        if (observation.type() == AprilTagVisionIO.PoseObservationType.PHOTONVISION) {
+            return observation.averageTagDistance() > maxSingleTagDistance.get();
+        }
+        if (observation.type() == AprilTagVisionIO.PoseObservationType.MEGATAG_1
+                || observation.type() == AprilTagVisionIO.PoseObservationType.MEGATAG_2) {
+            return observation.averageTagDistance() > maxMultiTagDistance.get();
+        }
+        if (observation.averageTagDistance() < minTagDistance.get()) {
+            return false;
+        }
+
+        // No idea?
+        return false;
+    }
+
+    private boolean shouldRejectObservation(AprilTagVisionIO.PoseObservation observation) {
+        boolean shouldReject = false;
+        shouldReject |= observation.tagCount() == 0; // Must have at least one tag
+        shouldReject |= isObservationAmbiguous(observation);
+        shouldReject |= Math.abs(observation.pose().getZ()) > maxZError.get(); // Must have realistic Z coordinate
+        shouldReject |= isObservationOutOfBounds(observation.pose());
+        shouldReject |= isObservationAprilTagInGoldilocksZone(observation);
+
+        return shouldReject;
     }
 }
