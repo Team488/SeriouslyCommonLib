@@ -22,6 +22,7 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.sim.TalonFXSimState;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
@@ -46,7 +47,7 @@ import xbot.common.resiliency.DeviceHealth;
 
 import java.util.function.Supplier;
 
-public class CANTalonFxWpiAdapter extends XCANMotorController {
+public class CANTalonFxWpiAdapter extends XCANMotorController implements AutoCloseable {
 
     @AssistedFactory
     public abstract static class CANTalonFxWpiAdapterFactory implements XCANMotorControllerFactory {
@@ -253,6 +254,14 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         var motorConfigs = new MotorOutputConfigs();
         this.internalTalonFx.getConfigurator().refresh(motorConfigs);
         return motorConfigs.Inverted == InvertedValue.Clockwise_Positive;
+    }
+
+    public TalonFXSimState getSimState() {
+        return this.internalTalonFx.getSimState();
+    }
+
+    public void close() {
+        this.internalTalonFx.close();
     }
 
     protected void updateInputs(XCANMotorControllerInputs inputs) {
