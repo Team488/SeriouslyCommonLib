@@ -186,17 +186,20 @@ implements <a href="../../../simulation/ISimulatableSensor.html" title="interfac
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Updates how often we get data about the CANCoder position.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://api.ctr-electronics.com/phoenix6/release/java/com/ctre/phoenix6/StatusCode.html" title="class or interface in com.ctre.phoenix6" class="external-link">StatusCode</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stopAllUnsetSignals()" class="member-name-link">stopAllUnsetSignals</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocity(edu.wpi.first.units.measure.AngularVelocity)" class="member-name-link">setVelocity</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;newVelocity)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://api.ctr-electronics.com/phoenix6/release/java/com/ctre/phoenix6/StatusCode.html" title="class or interface in com.ctre.phoenix6" class="external-link">StatusCode</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stopAllUnsetSignals()" class="member-name-link">stopAllUnsetSignals</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Stops all signals that are not explicitly set.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XAbsoluteEncoderInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../io_inputs/XAbsoluteEncoderInputs.html" title="class in xbot.common.controls.io_inputs">XAbsoluteEncoderInputs</a>&nbsp;inputs)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XCANCoderInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../io_inputs/XCANCoderInputs.html" title="class in xbot.common.controls.io_inputs">XCANCoderInputs</a>&nbsp;inputs)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XAbsoluteEncoderInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../io_inputs/XAbsoluteEncoderInputs.html" title="class in xbot.common.controls.io_inputs">XAbsoluteEncoderInputs</a>&nbsp;inputs)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XCANCoderInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../io_inputs/XCANCoderInputs.html" title="class in xbot.common.controls.io_inputs">XCANCoderInputs</a>&nbsp;inputs)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -260,6 +263,12 @@ implements <a href="../../../simulation/ISimulatableSensor.html" title="interfac
 <section class="detail" id="getAbsolutePosition_internal()">
 <h3>getAbsolutePosition_internal</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a></span>&nbsp;<span class="element-name">getAbsolutePosition_internal</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setVelocity(edu.wpi.first.units.measure.AngularVelocity)">
+<h3>setVelocity</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVelocity</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;newVelocity)</span></div>
 </section>
 </li>
 <li>
