@@ -1,7 +1,9 @@
 package xbot.common.subsystems.pose;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.math.geometry.Rotation2d;
 import xbot.common.advantage.DataFrameRefreshable;
@@ -20,8 +22,10 @@ import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.drive.swerve.ISwerveAdvisorPoseSupport;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.Radians;
 
 public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable, ISwerveAdvisorPoseSupport {
 
@@ -34,7 +38,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     public double velocityX;
     public double velocityY;
     protected double totalVelocity;
-    protected WrappedRotation2d currentHeading;
     protected double headingOffset;
     // These are two common robot starting positions - kept here as convenient shorthand.
     public static final double FACING_AWAY_FROM_DRIVERS = 0;
@@ -53,6 +56,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     public static Distance fieldXMidpoint = Meters.of(8.7785);
     public static Distance fieldYHeight = Inches.of(317);
 
+    private final MutAngle currentHeading;
+
     public BasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {
         log.info("Creating");
         propManager.setPrefix(this);
@@ -61,7 +66,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
 
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
-        currentHeading = WrappedRotation2d.fromDegrees(0);
+        currentHeading = Degrees.mutable(0);
 
         propManager.setDefaultLevel(Property.PropertyLevel.Debug);
         rioRotated = propManager.createPersistentProperty("RIO rotated", false);
@@ -70,14 +75,14 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     }
 
     protected double getCompassHeading(Rotation2d standardHeading) {
-        return Rotation2d.fromDegrees(currentHeading.getDegrees()).getDegrees();
+        return Rotation2d.fromDegrees(currentHeading.in(Degrees)).getDegrees();
     }
 
     protected void updateCurrentHeading() {
-        currentHeading = WrappedRotation2d.fromDegrees(getRobotYaw().getDegrees() + headingOffset);
+        currentHeading.mut_replace(MathUtil.inputModulus(getRobotYaw().getDegrees() + headingOffset, -180, 180), Degrees);
 
-        aKitLog.record("AdjustedHeadingDegrees", currentHeading.getDegrees());
-        aKitLog.record("AdjustedHeadingRadians", currentHeading.getRadians());
+        aKitLog.record("AdjustedHeadingDegrees", currentHeading.in(Degrees));
+        aKitLog.record("AdjustedHeadingRadians", currentHeading.in(Radians));
         //aKitLog.record("AdjustedPitchDegrees", this.getRobotPitch());
         //aKitLog.record("AdjustedRollDegrees", this.getRobotRoll());
         aKitLog.record("AdjustedYawVelocityDegrees", getYawAngularVelocity());
@@ -108,8 +113,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
         totalDistanceYRobotPerspective += totalDistance;
 
         // get X and Y
-        double deltaY = currentHeading.getSin() * totalDistance;
-        double deltaX = currentHeading.getCos() * totalDistance;
+        double deltaY = Math.sin(currentHeading.in(Radians)) * totalDistance;
+        double deltaX = Math.cos(currentHeading.in(Radians)) * totalDistance;
 
         double instantVelocity = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 
@@ -130,7 +135,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
      */
     public WrappedRotation2d getCurrentHeadingGyroOnly() {
         updateCurrentHeading();
-        return currentHeading;
+        return WrappedRotation2d.fromDegrees(currentHeading.in(Degrees));
     }
 
     /**
@@ -141,7 +146,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     public WrappedRotation2d getCurrentHeading() {
         return getCurrentHeadingGyroOnly();
     }
-
 
     public XYPair getFieldOrientedTotalDistanceTraveled() {
         return getTravelVector().clone();
@@ -210,11 +214,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     /**
      * This should be called as often as reasonably possible, to increase accuracy
      * of the "distance traveled" calculation.
-     *
-     * The PoseSubsystem can't directly own positional sensors, so some command will need to feed in the
+     * <p>The PoseSubsystem can't directly own positional sensors, so some command will need to feed in the
      * distance values coming from the DriveSubsystem. In order to have accurate calculations, these
      * values need to be in inches, and should never be reset - any resetting should be done here
-     * in the PoseSubsystem
+     * in the PoseSubsystem</p>
      */
     protected void updatePose() {
         updateCurrentHeading();

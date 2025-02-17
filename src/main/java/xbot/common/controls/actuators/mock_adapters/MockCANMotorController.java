@@ -8,6 +8,11 @@ import edu.wpi.first.units.AngularAccelerationUnit;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.units.measure.MutAngle;
+import edu.wpi.first.units.measure.MutAngularVelocity;
+import edu.wpi.first.units.measure.MutCurrent;
+import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
@@ -22,6 +27,7 @@ import xbot.common.resiliency.DeviceHealth;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.RPM;
+import static edu.wpi.first.units.Units.Volt;
 import static edu.wpi.first.units.Units.Volts;
 import static edu.wpi.first.units.Units.Rotations;
 
@@ -34,10 +40,12 @@ public class MockCANMotorController extends XCANMotorController {
 
     private ControlMode controlMode = ControlMode.DutyCycle;
     private double power = 0.0;
-    private Angle position = Rotations.zero();
-    private Angle targetPosition = Rotations.zero();
-    private AngularVelocity targetVelocity = RPM.zero();
-    private AngularVelocity velocity = RPM.zero();
+    private final MutVoltage voltage = Volts.mutable(0);
+    private final MutCurrent current = Amps.mutable(0);
+    private final MutAngle position = Rotations.mutable(0);
+    private final MutAngle targetPosition = Rotations.mutable(0);
+    private final MutAngularVelocity targetVelocity = RPM.mutable(0);
+    private final MutAngularVelocity velocity = RPM.mutable(0);
     public double p;
     public double i;
     public double d;
@@ -113,6 +121,8 @@ public class MockCANMotorController extends XCANMotorController {
         }
         controlMode = ControlMode.DutyCycle;
         this.power = MathUtil.clamp(power, -1.0, 1.0);
+        this.voltage.mut_replace(MathUtil.clamp(power * 12.0, -12.0, 12.0), Volts);
+        this.current.mut_replace(MathUtil.clamp(power, -1.0, 1.0), Amps);
     }
 
     /*
@@ -141,13 +151,13 @@ public class MockCANMotorController extends XCANMotorController {
 
     @Override
     public void setRawPosition(Angle position) {
-        this.position = position;
+        this.position.mut_replace(position);
     }
 
     @Override
     public void setRawPositionTarget(Angle rawPosition, MotorPidMode mode, int slot) {
         controlMode = ControlMode.Position;
-        this.targetPosition = rawPosition;
+        this.targetPosition.mut_replace(rawPosition);
     }
 
     public Angle getTargetPosition() {
@@ -164,17 +174,17 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     public void setVelocity(AngularVelocity velocity) {
-        this.velocity = convertScaledVelocityToRawVelocity(velocity);
+        this.velocity.mut_replace(convertScaledVelocityToRawVelocity(velocity));
     }
 
     public void setRawVelocity(AngularVelocity rawVelocity) {
-        this.velocity = rawVelocity;
+        this.velocity.mut_replace(rawVelocity);
     }
 
     @Override
     public void setRawVelocityTarget(AngularVelocity rawVelocity, MotorPidMode mode, int slot) {
         controlMode = ControlMode.Velocity;
-        this.targetVelocity = rawVelocity;
+        this.targetVelocity.mut_replace(rawVelocity);
     }
 
     public AngularVelocity getRawTargetVelocity() {
@@ -186,7 +196,9 @@ public class MockCANMotorController extends XCANMotorController {
         if (!isValidVoltageRequest(voltage)) {
             return;
         }
+        this.voltage.mut_replace(voltage);
         this.power = MathUtil.clamp(voltage.in(Volts) / 12.0, -1.0, 1.0);
+        this.current.mut_replace(voltage.in(Volts) / 12.0, Amps);
     }
 
     @Override
@@ -206,7 +218,7 @@ public class MockCANMotorController extends XCANMotorController {
     protected void updateInputs(XCANMotorControllerInputs inputs) {
         inputs.angle = getPosition();
         inputs.angularVelocity = getVelocity();
-        inputs.voltage = Volts.of(power * 12);
-        inputs.current = Amps.of(power * 1);
+        inputs.voltage = voltage;
+        inputs.current = current;
     }
 }

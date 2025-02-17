@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -48,8 +49,8 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
     private boolean useMotorControllerPid;
     private final DoubleProperty maxMotorEncoderDrift;
     private final SysIdRoutine sysId;
+    private final MutAngle currentModuleHeading;
 
-    private Rotation2d currentModuleHeadingRotation2d;
     private XCANMotorController motorController;
     private XCANCoder encoder;
 
@@ -70,7 +71,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         this.degreesPerMotorRotation = pf.createPersistentProperty("DegreesPerMotorRotation", 28.1503);
         this.useMotorControllerPid = true;
         this.maxMotorEncoderDrift = pf.createPersistentProperty("MaxEncoderDriftDegrees", 1.0);
-        this.currentModuleHeadingRotation2d = Rotation2d.fromDegrees(0);
+        this.currentModuleHeading = Degrees.mutable(0);
 
         sysId =
                 new SysIdRoutine(
@@ -134,7 +135,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      * Gets current angle as a Rotation2d
      */
     public Rotation2d getCurrentRotation() {
-        return this.currentModuleHeadingRotation2d;
+        return new Rotation2d(this.currentModuleHeading);
     }
 
     /**
@@ -288,21 +289,18 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         // your target state. Since rotation is circular, that's not the case: if you are at 170 degrees,
         // and you want to go to -170 degrees, you could travel -340 degrees... or just +20.
 
-        // So, we perform our own error calculation here that takes that into account (thanks to the WrappedRotation2d
-        // class, which is aware of such circular effects), and then feed that into a PID where
+        // So, we perform our own error calculation here that takes that into account (thanks to inputModulus,
+        // which is aware of such circular effects), and then feed that into a PID where
         // Goal is 0 and Current is our error.
-
-        double errorInDegrees = WrappedRotation2d.fromDegrees(getTargetValue() - getCurrentValue()).getDegrees();
+        double errorInDegrees = MathUtil.inputModulus(getTargetValue() - getCurrentValue(), -180, 180);
 
         // Constrain the error values before calculating PID. PID only constrains the output after
         // calculating the outputs, which means it could accumulate values significantly larger than
         // max power internally if we don't constrain the input.
-        double scaledError = MathUtils.constrainDouble(errorInDegrees / 90 * powerScale.get(), -1, 1);
+        double scaledError = MathUtil.clamp(errorInDegrees / 90 * powerScale.get(), -1, 1);
 
         // Now we feed it into a PID system, where the goal is to have 0 error.
-        double rotationalPower = -this.pid.calculate(0, scaledError);
-
-        return rotationalPower;
+        return -this.pid.calculate(0, scaledError);
     }
 
     /**
@@ -326,25 +324,23 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
     public void setMotorControllerPidTarget() {
         if (getMotorController().isPresent()) {
             var motorController = getMotorController().orElseThrow();
-            Angle target = Degrees.of(getTargetValue());
 
             // Since there are four modules, any values here will be very noisy. Setting data
             // logging to DEBUG.
             aKitLog.setLogLevel(AKitLogger.LogLevel.DEBUG);
-            aKitLog.record("TargetDegrees", target.in(Degrees));
+            aKitLog.record("TargetDegrees", getTargetValue());
 
             // We can rely on either encoder for the starting position, to get the change in angle. Using the CANCoder
             // position to calculate this will help us to avoid any drift on the motor encoder. Then we just set our
             // target based on the motor encoder's current position. Unless the wheels are moving rapidly, the measurements
             // on each encoder are probably taken close enough together in time for our purposes.
             Angle currentPosition = getBestEncoderPosition();
-            Angle angleBetweenDesiredAndCurrent = Degrees.of(MathUtil.inputModulus(target.minus(currentPosition).in(Degrees), -90, 90));
-            aKitLog.record("angleBetweenDesiredAndCurrent-Degrees", angleBetweenDesiredAndCurrent.in(Degrees));
+            double degreesBetweenDesiredAndCurrent = MathUtil.inputModulus(Degrees.mutable(getTargetValue()).mut_minus(currentPosition).in(Degrees), -90, 90);
+            aKitLog.record("angleBetweenDesiredAndCurrent-Degrees", degreesBetweenDesiredAndCurrent);
             aKitLog.record("MotorControllerPosition-Rotations", motorController.getPosition().in(Rotations));
 
-            Angle targetPosition = motorController.getPosition().plus(
-                    Rotations.of(angleBetweenDesiredAndCurrent.in(Degrees) / degreesPerMotorRotation.get())
-            );
+            MutAngle targetPosition = Degrees.mutable(degreesBetweenDesiredAndCurrent / degreesPerMotorRotation.get())
+                    .mut_plus(motorController.getPosition());
 
             aKitLog.record("TargetPosition-Rotations", targetPosition.in(Rotations));
             motorController.setPositionTarget(targetPosition, XCANMotorController.MotorPidMode.Voltage, 0);
@@ -382,8 +378,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         //    new trajectories, arm positions, etc.) Notably, children will be called ahead of parents so that
         //    the parents can fuse data from mulitple systems.
         // 3) CommandScheduler invokes individual commands, which use all this information to make decisions.
-        double positionInDegrees = getBestEncoderPosition().in(Degrees);
-        currentModuleHeadingRotation2d = Rotation2d.fromDegrees(positionInDegrees);
+        currentModuleHeading.mut_replace(getBestEncoderPosition());
     }
 
     private void setVoltage(Voltage voltage) {
