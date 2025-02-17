@@ -136,7 +136,7 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
         this.currentState.speedMetersPerSecond = getDriveSubsystem().getCurrentValue();
         this.currentState.angle = getSteeringSubsystem().getCurrentRotation();
 
-        this.currentPosition.distanceMeters = getDriveSubsystem().getCurrentPositionValue().in(Meters);
+        this.currentPosition.distanceMeters = getDriveSubsystem().getCurrentPositionValue();
         this.currentPosition.angle = getSteeringSubsystem().getCurrentRotation();
     }
 }
