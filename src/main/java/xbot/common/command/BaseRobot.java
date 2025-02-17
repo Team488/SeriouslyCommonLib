@@ -70,6 +70,7 @@ public abstract class BaseRobot extends LoggedRobot {
     boolean forceWebots = true; // TODO: figure out a better way to swap between simulation and replay.
 
     public BaseRobot() {
+        super(0.04);
     }
 
     public BaseRobot(double loopInterval) {
