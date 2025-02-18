@@ -148,6 +148,12 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         }
 
         switch (slot) {
+            case 0 -> talonConfiguration.Slot0
+                    .withKP(p)
+                    .withKI(i)
+                    .withKD(d)
+                    .withKV(velocityFF)
+                    .withKG(gravityFF);
             case 1 -> talonConfiguration.Slot1
                     .withKP(p)
                     .withKI(i)
@@ -160,12 +166,10 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
                     .withKD(d)
                     .withKV(velocityFF)
                     .withKG(gravityFF);
-            case 0, default -> talonConfiguration.Slot0
-                    .withKP(p)
-                    .withKI(i)
-                    .withKD(d)
-                    .withKV(velocityFF)
-                    .withKG(gravityFF);
+            default -> {
+                log.error("Invalid PID slot {} for TalonFX {} ({})", slot, deviceId, akitName);
+                return;
+            }
         }
         invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(talonConfiguration), 5);
     }
