@@ -2,6 +2,7 @@ package xbot.common.controls.sensors.wpi_adapters;
 
 import au.grapplerobotics.LaserCan;
 import au.grapplerobotics.interfaces.LaserCanInterface;
+import com.fasterxml.jackson.databind.introspect.AnnotatedClassResolver;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
@@ -31,6 +32,11 @@ public class LaserCANWpiAdapter extends XLaserCAN {
             DevicePolice police) {
         super(police, info, owningSystemPrefix);
         laserCan = new LaserCan(info.channel);
+        try {
+            laserCan.setRangingMode(LaserCanInterface.RangingMode.SHORT);
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
