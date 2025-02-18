@@ -18,13 +18,14 @@ public abstract class XGyro implements DataFrameRefreshable
     public enum ImuType {
         nav6,
         navX,
-        mock
+        mock,
+        pigeon2
     }
-    
+
     protected ImuType imuType;
 
     protected XGyroIoInputsAutoLogged io;
-    
+
     public abstract static class XGyroFactory {
         public abstract XGyro create(InterfaceType interfaceType);
 
@@ -33,21 +34,21 @@ public abstract class XGyro implements DataFrameRefreshable
         }
     }
 
-    protected XGyro(ImuType imuType) 
+    protected XGyro(ImuType imuType)
     {
         this.imuType = imuType;
         io = new XGyroIoInputsAutoLogged();
     }
-    
+
     public abstract boolean isBroken();
-    
+
     protected ImuType getImuType() {
         return imuType;
     }
 
     // Below are the "safe" methods that return gyro information. They pay attention
     // to the state of the gyro, and as such will ideally not cause exceptions.
-    
+
     /**
      * In degrees
      */
@@ -57,56 +58,56 @@ public abstract class XGyro implements DataFrameRefreshable
         }
         return WrappedRotation2d.fromDegrees(0);
     }
-    
+
     public double getRoll() {
         if (!isBroken()) {
             return getDeviceRoll();
         }
         return 0;
     }
-    
+
     public double getPitch() {
         if (!isBroken()) {
             return getDevicePitch();
         }
         return 0;
     }
-    
+
     public double getYawAngularVelocity() {
         if (!isBroken()) {
             return getDeviceYawAngularVelocity();
         }
         return 0;
     }
-    
+
     // What follows are the primitive "gets" for the gyro. These aren't protected,
     // and could cause exceptions if called while they gyro is not connected.
-    
+
     public boolean isConnected() {
         return io.isConnected;
     }
-    
+
     /**
      * In degrees
      */
     private double getDeviceRoll() {
         return io.roll;
     }
-    
+
     /**
      * In degrees
      */
     private double getDevicePitch() {
         return io.pitch;
     }
-    
+
     /**
      * In degrees
      */
     private double getDeviceYaw() {
         return io.yaw;
     }
-    
+
     /**
      * In degrees per second
      */
