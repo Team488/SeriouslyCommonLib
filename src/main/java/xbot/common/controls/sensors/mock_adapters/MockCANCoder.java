@@ -4,8 +4,6 @@ import com.ctre.phoenix6.StatusCode;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.MutAngle;
-import edu.wpi.first.units.measure.MutAngularVelocity;
 import org.json.JSONObject;
 
 import dagger.assisted.Assisted;
@@ -24,18 +22,17 @@ import xbot.common.resiliency.DeviceHealth;
 import xbot.common.simulation.ISimulatableSensor;
 
 import static edu.wpi.first.units.Units.RPM;
-import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.Rotations;
 
 public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
 
     private final int deviceId;
+    private boolean inverted;
     private double simulationScale;
     private double positionOffset;
 
-    private final boolean inverted;
-    private final MutAngularVelocity velocity;
-    private final MutAngle position;
+    private AngularVelocity velocity;
+    private Angle position;
 
     @AssistedFactory
     public abstract static class MockCANCoderFactory implements XCANCoderFactory {
@@ -52,8 +49,8 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
         pf.setPrefix(owningSystemPrefix);
 
         this.deviceId = deviceInfo.channel;
-        this.velocity = RPM.mutable(0);
-        this.position = Rotations.mutable(0);
+        this.velocity = RPM.zero();
+        this.position = Rotations.zero();
         pf.setDefaultLevel(Property.PropertyLevel.Debug);
         this.positionOffset = 0;
         this.inverted = deviceInfo.inverted;
@@ -68,24 +65,24 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
     }
 
     public Angle getPosition_internal() {
-        return position;
+        return position.times(inverted ? -1 : 1);
     }
+
 
     public Angle getAbsolutePosition_internal() {
-        return Radians.of(MathUtil.angleModulus(this.position.in(Radians)));
-    }
-
-    public void setVelocity(AngularVelocity newVelocity) {
-        this.velocity.mut_replace(newVelocity.times(inverted ? -1 : 1));
+        // With the new Phoenix 6 library, the encoder now returns units of whole rotations bounded
+        // between -0.5 and 0.5.
+        var scaledValue = Rotations.of(MathUtil.inputModulus(position.in(Rotations), -0.5, 0.5));
+        return scaledValue.times(inverted ? -1 : 1);
     }
 
     public AngularVelocity getVelocity_internal() {
-        return this.velocity;
+        return this.velocity.times(inverted ? -1 : 1);
     }
 
     @Override
     public void setPosition(Angle newPosition) {
-        position.mut_replace(newPosition.times(inverted ? -1 : 1));
+        position = newPosition;
     }
 
     public double getPositionOffset() {
@@ -93,7 +90,7 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
     }
 
     public void setAbsolutePosition(Angle position) {
-        this.position.mut_replace(position.times(inverted ? -1 : 1));
+        this.position = position.times(inverted ? -1 : 1);
     }
 
     @Override
