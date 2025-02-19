@@ -2,14 +2,7 @@ package xbot.common.controls.actuators.wpi_adapters;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
-import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
-import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
@@ -65,10 +58,12 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     private final StatusSignal<AngularVelocity> rotorVelocitySignal;
     private final StatusSignal<Voltage> motorVoltageSignal;
     private final StatusSignal<Current> statorCurrentSignal;
+    private final TalonFXConfiguration talonConfiguration;
 
     private final Alert unsupportedPIDModeAlert;
     private final Alert notOnlineDuringConfigAlert;
     private final Alert lastCommandFailedAlert;
+    private final Alert configCacheFailedAlert;
 
     @AssistedInject
     public CANTalonFxWpiAdapter(
@@ -86,17 +81,26 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         this.rotorVelocitySignal = this.internalTalonFx.getRotorVelocity(false);
         this.motorVoltageSignal = this.internalTalonFx.getMotorVoltage(false);
         this.statorCurrentSignal = this.internalTalonFx.getStatorCurrent(false);
+        this.talonConfiguration = new TalonFXConfiguration();
 
         this.unsupportedPIDModeAlert = new Alert("Tried to use an unsupported PID mode", Alert.AlertType.kWarning);
         this.notOnlineDuringConfigAlert = new Alert(AlertGroups.DEVICE_HEALTH, "TalonFX " + info.deviceId()
                 + " (" + info.name() + ") is not online and cannot be configured",
                 Alert.AlertType.kError);
+        this.configCacheFailedAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Failed to cache configuration for TalonFX " + info.deviceId()
+                + " (" + info.name() + ")",
+                Alert.AlertType.kError);
         this.lastCommandFailedAlert = new Alert(AlertGroups.DEVICE_HEALTH, "", Alert.AlertType.kError);
 
         waitForOnline();
+        cacheConfiguration();
         setConfiguration(info.outputConfig());
     }
 
+    /**
+     * Waits for the TalonFX to publish its version number, indicating it is online.
+     * This may block for up to 2 seconds.
+     */
     private void waitForOnline() {
         this.internalTalonFx.getVersionMajor().waitForUpdate(2.0, false);
         if (!this.internalTalonFx.getVersionMajor(false).getStatus().isOK()) {
@@ -106,38 +110,68 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         this.notOnlineDuringConfigAlert.set(false);
     }
 
+    /**
+     * Caches the configuration of the TalonFX. This is done to avoid having to refresh individual
+     * configurations every time we want to apply a configuration.
+     */
+    private void cacheConfiguration() {
+        var status = this.internalTalonFx.getConfigurator().refresh(this.talonConfiguration);
+        this.configCacheFailedAlert.set(!status.isOK());
+    }
+
     @Override
     public void setConfiguration(CANMotorControllerOutputConfig outputConfig) {
-        var outputConfigs = new MotorOutputConfigs()
+        if (configCacheFailedAlert.get()) {
+            cacheConfiguration();
+        }
+
+        this.talonConfiguration.MotorOutput
                 .withInverted(outputConfig.inversionType == CANMotorControllerOutputConfig.InversionType.Normal
                         ? InvertedValue.CounterClockwise_Positive
                         : InvertedValue.Clockwise_Positive)
                 .withNeutralMode(outputConfig.neutralMode == CANMotorControllerOutputConfig.NeutralMode.Brake
                         ? NeutralModeValue.Brake
                         : NeutralModeValue.Coast);
-        var currentConfigs = new CurrentLimitsConfigs()
+        this.talonConfiguration.CurrentLimits
                 .withStatorCurrentLimitEnable(outputConfig.statorCurrentLimit != null)
                 .withStatorCurrentLimit(outputConfig.statorCurrentLimit);
 
-        var overallConfig = new TalonFXConfiguration();
-        overallConfig.MotorOutput = outputConfigs;
-        overallConfig.CurrentLimits = currentConfigs;
-
-        if (!invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(overallConfig), 5)) {
+        if (!invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(talonConfiguration), 5)) {
             log.error("Configuration set to TalonFX {} ({}) failed.", deviceId, akitName);
         }
     }
 
     @Override
     public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot) {
-        var slotConfig = new SlotConfigs()
-                .withKP(p)
-                .withKI(i)
-                .withKD(d)
-                .withKV(velocityFF)
-                .withKG(gravityFF);
-        slotConfig.SlotNumber = slot;
-        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(slotConfig), 5);
+        if (configCacheFailedAlert.get()) {
+            cacheConfiguration();
+        }
+
+        switch (slot) {
+            case 0 -> talonConfiguration.Slot0
+                    .withKP(p)
+                    .withKI(i)
+                    .withKD(d)
+                    .withKV(velocityFF)
+                    .withKG(gravityFF);
+            case 1 -> talonConfiguration.Slot1
+                    .withKP(p)
+                    .withKI(i)
+                    .withKD(d)
+                    .withKV(velocityFF)
+                    .withKG(gravityFF);
+            case 2 -> talonConfiguration.Slot2
+                    .withKP(p)
+                    .withKI(i)
+                    .withKD(d)
+                    .withKV(velocityFF)
+                    .withKG(gravityFF);
+            default -> {
+                log.error("Invalid PID slot {} for TalonFX {} ({})", slot, deviceId, akitName);
+                return;
+            }
+        }
+        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(talonConfiguration), 5);
     }
 
     @Override
@@ -147,28 +181,46 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setOpenLoopRampRates(Time dutyCyclePeriod, Time voltagePeriod) {
-        var configuration = new OpenLoopRampsConfigs()
+        if (configCacheFailedAlert.get()) {
+            cacheConfiguration();
+        }
+
+        this.talonConfiguration.OpenLoopRamps
                 .withDutyCycleOpenLoopRampPeriod(dutyCyclePeriod)
                 .withVoltageOpenLoopRampPeriod(voltagePeriod);
-        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(configuration), 3);
+        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(this.talonConfiguration.OpenLoopRamps), 3);
     }
 
     @Override
     public void setClosedLoopRampRates(Time dutyCyclePeriod, Time voltagePeriod) {
-        var configuration = new ClosedLoopRampsConfigs()
+        if (configCacheFailedAlert.get()) {
+            cacheConfiguration();
+        }
+
+        this.talonConfiguration.ClosedLoopRamps
                 .withDutyCycleClosedLoopRampPeriod(dutyCyclePeriod)
                 .withVoltageClosedLoopRampPeriod(voltagePeriod);
-        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(configuration), 3);
+        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(this.talonConfiguration.ClosedLoopRamps), 3);
     }
 
     @Override
     public void setTrapezoidalProfileAcceleration(AngularAcceleration acceleration) {
-        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(new MotionMagicConfigs().withMotionMagicAcceleration(acceleration)), 3);
+        if (configCacheFailedAlert.get()) {
+            cacheConfiguration();
+        }
+
+        this.talonConfiguration.MotionMagic.withMotionMagicAcceleration(acceleration);
+        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(this.talonConfiguration.MotionMagic), 3);
     }
 
     @Override
     public void setTrapezoidalProfileJerk(Velocity<AngularAccelerationUnit> jerk) {
-        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(new MotionMagicConfigs().withMotionMagicJerk(jerk)), 3);
+        if (configCacheFailedAlert.get()) {
+            cacheConfiguration();
+        }
+
+        this.talonConfiguration.MotionMagic.withMotionMagicJerk(jerk);
+        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(this.talonConfiguration.MotionMagic), 3);
     }
 
     @Override
@@ -186,11 +238,14 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setPowerRange(double minPower, double maxPower) {
-        var motorConfigs = new MotorOutputConfigs();
-        this.internalTalonFx.getConfigurator().refresh(motorConfigs);
-        motorConfigs.withPeakForwardDutyCycle(maxPower)
+        if (configCacheFailedAlert.get()) {
+            cacheConfiguration();
+        }
+
+        talonConfiguration.MotorOutput
+                .withPeakForwardDutyCycle(maxPower)
                 .withPeakReverseDutyCycle(minPower);
-        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(motorConfigs), 3);
+        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(talonConfiguration.MotorOutput), 3);
     }
 
     @Override
@@ -255,11 +310,14 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public void setVoltageRange(Voltage minVoltage, Voltage maxVoltage) {
-        var voltageConfigs = new VoltageConfigs();
-        this.internalTalonFx.getConfigurator().refresh(voltageConfigs);
-        voltageConfigs.withPeakForwardVoltage(maxVoltage)
+        if (configCacheFailedAlert.get()) {
+            cacheConfiguration();
+        }
+
+        talonConfiguration.Voltage
+                .withPeakForwardVoltage(maxVoltage)
                 .withPeakReverseVoltage(minVoltage);
-        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(voltageConfigs), 3);
+        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(this.talonConfiguration.Voltage), 3);
     }
 
     public Current getCurrent() {
@@ -269,9 +327,11 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public boolean isInverted() {
-        var motorConfigs = new MotorOutputConfigs();
-        this.internalTalonFx.getConfigurator().refresh(motorConfigs);
-        return motorConfigs.Inverted == InvertedValue.Clockwise_Positive;
+        if (configCacheFailedAlert.get()) {
+            cacheConfiguration();
+        }
+
+        return this.talonConfiguration.MotorOutput.Inverted == InvertedValue.Clockwise_Positive;
     }
 
     protected void updateInputs(XCANMotorControllerInputs inputs) {
