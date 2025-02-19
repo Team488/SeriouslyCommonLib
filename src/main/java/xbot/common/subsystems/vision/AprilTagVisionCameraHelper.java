@@ -169,9 +169,9 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
 
     private boolean isObservationOutOfBounds(Pose3d pose) {
         // Must be within the field boundaries
-        return pose.getX() < 0.0
+        return pose.getX() <= 0.0
                 || pose.getX() > aprilTagFieldLayout.getFieldLength()
-                || pose.getY() < 0.0
+                || pose.getY() <= 0.0
                 || pose.getY() > aprilTagFieldLayout.getFieldWidth();
     }
 
