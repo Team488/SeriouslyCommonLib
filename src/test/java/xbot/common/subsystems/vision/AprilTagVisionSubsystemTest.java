@@ -1,6 +1,8 @@
 package xbot.common.subsystems.vision;
 
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import org.junit.Test;
 import xbot.common.injection.BaseCommonLibTest;
 
@@ -27,9 +29,12 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
 
         var io = (MockAprilTagVisionIO)subsystem.io[0];
         io.poseObservations = new AprilTagVisionIO.PoseObservation[] {
-                new AprilTagVisionIO.PoseObservation(1, new Pose3d(), 0, 2, 0, AprilTagVisionIO.PoseObservationType.PHOTONVISION),
-                new AprilTagVisionIO.PoseObservation(2, new Pose3d(), 0, 2, 0, AprilTagVisionIO.PoseObservationType.PHOTONVISION),
-                new AprilTagVisionIO.PoseObservation(3, new Pose3d(), 0, 2, 0, AprilTagVisionIO.PoseObservationType.PHOTONVISION)
+                new AprilTagVisionIO.PoseObservation(1, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()), 0, 2, 0,
+                        AprilTagVisionIO.PoseObservationType.PHOTONVISION),
+                new AprilTagVisionIO.PoseObservation(2, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()), 0, 2, 0,
+                        AprilTagVisionIO.PoseObservationType.PHOTONVISION),
+                new AprilTagVisionIO.PoseObservation(3, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()), 0, 2, 0,
+                        AprilTagVisionIO.PoseObservationType.PHOTONVISION)
         };
         io.tagIds = new int[] {1, 2, 3};
         subsystem.refreshDataFrame();
