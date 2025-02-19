@@ -9,6 +9,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.units.measure.Frequency;
 import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.units.measure.MutAngularVelocity;
 import edu.wpi.first.units.measure.MutCurrent;
@@ -212,6 +213,11 @@ public class MockCANMotorController extends XCANMotorController {
 
     public ControlMode getControlMode() {
         return controlMode;
+    }
+
+    @Override
+    public void setPositionAndVelocityUpdateFrequency(Frequency frequency) {
+        // Do nothing
     }
 
     @Override

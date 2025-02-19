@@ -12,6 +12,7 @@ import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.Frequency;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
@@ -584,4 +585,6 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
         var denominatorUnit = unit.denominator().per(Second);
         return AngularVelocityUnit.combine(numeratorUnit, denominatorUnit).of(magnitude);
     }
+
+    public abstract void setPositionAndVelocityUpdateFrequency(Frequency frequency);
 }
