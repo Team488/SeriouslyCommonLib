@@ -4,12 +4,16 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 jobs:
- - job: Windows_64_Bit
-   pool:
-     vmImage: 'windows-latest'
-   variables:
-     GRADLE_USER_HOME: $(Build.SourcesDirectory)/build/.gradle
-   steps:
+  - job: Windows_64_Bit
+    pool:
+      vmImage: 'windows-latest'
+    variables:
+      GRADLE_USER_HOME: $(Build.SourcesDirectory)/build/.gradle
+    steps:
+    - checkout: self
+      displayName: 'Checkout sources'
+      submodules: true
+      clean: true
     - task: JavaToolInstaller@0
       inputs:
         versionSpec: '17'
@@ -39,16 +43,18 @@ jobs:
       displayName: 'Maven Authenticate'
       inputs:
         artifactsFeeds: XBot
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
     - task: Gradle@3
       displayName: 'Publish to Maven'
       inputs:
         workingDirectory: ''
         gradleWrapperFile: 'gradlew'
         gradleOptions: '-Xmx3072m'
-        publishJUnitResults: true
         tasks: 'publish --info'
+        publishJUnitResults: false
       env:
         GRADLE_USER_HOME: $(GRADLE_USER_HOME)
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
     - task: Gradle@3
       displayName: Generate Javadoc
       inputs:
@@ -56,6 +62,7 @@ jobs:
         gradleWrapperFile: 'gradlew'
         gradleOptions: '-Xmx3072m'
         tasks: 'javadoc'
+        publishJUnitResults: false
       env:
         GRADLE_USER_HOME: $(GRADLE_USER_HOME)
     - task: Gradle@3
@@ -65,6 +72,7 @@ jobs:
         gradleWrapperFile: 'gradlew'
         gradleOptions: '-Xmx3072m'
         tasks: '--stop'
+        publishJUnitResults: false
       env:
         GRADLE_USER_HOME: $(GRADLE_USER_HOME)
     - task: PublishPipelineArtifact@0
