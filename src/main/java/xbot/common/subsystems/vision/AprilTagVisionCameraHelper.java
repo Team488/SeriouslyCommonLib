@@ -124,7 +124,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
             if (tagPose.isPresent()) {
                 this.tagPoses.add(tagPose.get());
                 this.tagIds.add(tagId);
-            };
+            }
         }
 
         // Loop over pose observations
@@ -177,8 +177,8 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
 
     private boolean isObservationOutOfSafeRange(AprilTagVisionIO.PoseObservation observation) {
         if (observation.tagCount() == 1) {
-            return observation.averageTagDistance() > maxSingleTagDistance.get() ||
-                    observation.averageTagDistance() < minTagDistance.get();
+            return observation.averageTagDistance() > maxSingleTagDistance.get()
+                    || observation.averageTagDistance() < minTagDistance.get();
         }
 
         return observation.averageTagDistance() > maxMultiTagDistance.get();
