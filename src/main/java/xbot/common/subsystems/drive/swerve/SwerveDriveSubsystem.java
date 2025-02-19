@@ -52,7 +52,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
                     electricalContract.getDriveMotor(swerveInstance),
                     "DriveMotor",
                     super.getPrefix() + "DrivePID",
-                    new XCANMotorControllerPIDProperties(1, 0, 0, 0, 0, 1, -1));
+                    new XCANMotorControllerPIDProperties(0, 0, 0, 0.01, 0, 1, -1));
             this.motorController.setPowerRange(-1, 1);
             setupStatusFramesAsNeeded();
             setCurrentLimitsForMode(CurrentLimitMode.Teleop);
