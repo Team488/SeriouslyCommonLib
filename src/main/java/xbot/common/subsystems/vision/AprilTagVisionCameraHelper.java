@@ -124,7 +124,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
             if (tagPose.isPresent()) {
                 this.tagPoses.add(tagPose.get());
                 this.tagIds.add(tagId);
-            };
+            }
         }
 
         // Loop over pose observations
@@ -175,20 +175,13 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
                 || pose.getY() > aprilTagFieldLayout.getFieldWidth();
     }
 
-    private boolean isObservationAprilTagInGoldilocksZone(AprilTagVisionIO.PoseObservation observation) {
-        if (observation.type() == AprilTagVisionIO.PoseObservationType.PHOTONVISION) {
-            return observation.averageTagDistance() > maxSingleTagDistance.get();
-        }
-        if (observation.type() == AprilTagVisionIO.PoseObservationType.MEGATAG_1
-                || observation.type() == AprilTagVisionIO.PoseObservationType.MEGATAG_2) {
-            return observation.averageTagDistance() > maxMultiTagDistance.get();
-        }
-        if (observation.averageTagDistance() < minTagDistance.get()) {
-            return false;
+    private boolean isObservationOutOfSafeRange(AprilTagVisionIO.PoseObservation observation) {
+        if (observation.tagCount() == 1) {
+            return observation.averageTagDistance() > maxSingleTagDistance.get()
+                    || observation.averageTagDistance() < minTagDistance.get();
         }
 
-        // No idea?
-        return false;
+        return observation.averageTagDistance() > maxMultiTagDistance.get();
     }
 
     private boolean shouldRejectObservation(AprilTagVisionIO.PoseObservation observation) {
@@ -197,7 +190,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         shouldReject |= isObservationAmbiguous(observation);
         shouldReject |= Math.abs(observation.pose().getZ()) > maxZError.get(); // Must have realistic Z coordinate
         shouldReject |= isObservationOutOfBounds(observation.pose());
-        shouldReject |= isObservationAprilTagInGoldilocksZone(observation);
+        shouldReject |= isObservationOutOfSafeRange(observation);
 
         return shouldReject;
     }
