@@ -1,5 +1,6 @@
 package xbot.common.subsystems.drive.swerve;
 
+import edu.wpi.first.units.measure.Distance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.command.BaseSetpointSubsystem;
@@ -16,6 +17,7 @@ import javax.inject.Inject;
 
 import java.util.Optional;
 
+import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
@@ -43,7 +45,10 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
         // Create properties shared among all instances
         pf.setPrefix(super.getPrefix());
         this.metersPerMotorRotation = pf.createPersistentProperty(
-                "MetersPerMotorRotation", 0.0532676904732978);
+                "MetersPerMotorRotation", metersPerMotorRotationFromGearRatioAndWheelDiameter(
+                        electricalContract.getDriveGearRatio(),
+                        electricalContract.getDriveWheelDiameter()
+                ));
         this.enableDrivePid = pf.createPersistentProperty("EnableDrivePID", true);
         this.minVelocityToEngagePid = 0.01;
 
@@ -173,6 +178,10 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     @Override
     protected boolean areTwoTargetsEquivalent(Double target1, Double target2) {
         return BaseSetpointSubsystem.areTwoDoublesEquivalent(target1, target2);
+    }
+
+    private double metersPerMotorRotationFromGearRatioAndWheelDiameter(double gearRatio, Distance wheelDiameter) {
+        return wheelDiameter.in(Meters) * Math.PI / gearRatio;
     }
 
     @Override
