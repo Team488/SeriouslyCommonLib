@@ -67,7 +67,8 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         pf.setPrefix(super.getPrefix());
         this.pid = pidf.create(super.getPrefix() + "PID", 0.2, 0.0, 0.005, -1.0, 1.0);
         this.powerScale = pf.createPersistentProperty("PowerScaleFactor", 5);
-        this.degreesPerMotorRotation = pf.createPersistentProperty("DegreesPerMotorRotation", 28.1503);
+        this.degreesPerMotorRotation = pf.createPersistentProperty("DegreesPerMotorRotation",
+                degreesPerMotorRotationFromGearRatio(electricalContract.getSteeringGearRatio()));
         this.useMotorControllerPid = true;
         this.maxMotorEncoderDrift = pf.createPersistentProperty("MaxEncoderDriftDegrees", 1.0);
         this.currentModuleHeadingRotation2d = Rotation2d.fromDegrees(0);
@@ -85,7 +86,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
                     electricalContract.getSteeringMotor(swerveInstance),
                     "SteeringMC",
                     super.getPrefix() + "SteeringPID",
-                    new XCANMotorControllerPIDProperties(1, 0, 0, 0, 0, 1, -1));
+                    new XCANMotorControllerPIDProperties(3, 0, 0, 0, 0, 1, -1));
             this.motorController.setPowerRange(-1, 1);
         }
         if (electricalContract.areCanCodersReady()) {
@@ -384,6 +385,10 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         // 3) CommandScheduler invokes individual commands, which use all this information to make decisions.
         double positionInDegrees = getBestEncoderPosition().in(Degrees);
         currentModuleHeadingRotation2d = Rotation2d.fromDegrees(positionInDegrees);
+    }
+
+    private double degreesPerMotorRotationFromGearRatio(double gearRatio) {
+        return 360.0 / gearRatio;
     }
 
     private void setVoltage(Voltage voltage) {

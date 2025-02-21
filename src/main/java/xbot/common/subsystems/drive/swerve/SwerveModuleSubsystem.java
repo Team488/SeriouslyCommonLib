@@ -18,6 +18,8 @@ import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
+import static edu.wpi.first.units.Units.Meters;
+
 @SwerveSingleton
 public class SwerveModuleSubsystem extends BaseSubsystem {
     private static final Logger log = LogManager.getLogger(SwerveModuleSubsystem.class);
@@ -32,7 +34,9 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
 
     private final Translation2d moduleTranslation;
 
-    private SwerveModuleState targetState;
+    private final SwerveModuleState currentState;
+    private final SwerveModulePosition currentPosition;
+    private final SwerveModuleState targetState;
 
     @Inject
     public SwerveModuleSubsystem(SwerveInstance swerveInstance, SwerveDriveSubsystem driveSubsystem, SwerveSteeringSubsystem steeringSubsystem,
@@ -53,6 +57,8 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
                 xOffsetInches.get() / BasePoseSubsystem.INCHES_IN_A_METER,
                 yOffsetInches.get() / BasePoseSubsystem.INCHES_IN_A_METER);
 
+        this.currentState = new SwerveModuleState();
+        this.currentPosition = new SwerveModulePosition();
         this.targetState = new SwerveModuleState();
     }
 
@@ -61,7 +67,9 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
      * @param swerveModuleState Metric swerve module state
      */
     public void setTargetState(SwerveModuleState swerveModuleState) {
-        this.targetState = SwerveModuleState.optimize(swerveModuleState, getSteeringSubsystem().getCurrentRotation());
+        this.targetState.speedMetersPerSecond = swerveModuleState.speedMetersPerSecond;
+        this.targetState.angle = swerveModuleState.angle;
+        this.targetState.optimize(getSteeringSubsystem().getCurrentRotation());
 
         this.getSteeringSubsystem().setTargetValue(new WrappedRotation2d(this.targetState.angle.getRadians()).getDegrees());
         // The kinetmatics library does everything in metric, so we need to transform that back to US Customary Units
@@ -73,15 +81,11 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
      * @return Metric swerve module state
      */
     public SwerveModuleState getCurrentState() {
-        return new SwerveModuleState(
-                this.getDriveSubsystem().getCurrentValue(),
-                this.getSteeringSubsystem().getCurrentRotation());
+        return this.currentState;
     }
 
     public SwerveModulePosition getCurrentPosition() {
-        return new SwerveModulePosition(
-                this.getDriveSubsystem().getCurrentPositionValue(),
-                this.getSteeringSubsystem().getCurrentRotation());
+        return this.currentPosition;
     }
 
     public SwerveModuleState getTargetState() {
@@ -128,5 +132,11 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
     public void refreshDataFrame() {
         getDriveSubsystem().refreshDataFrame();
         getSteeringSubsystem().refreshDataFrame();
+
+        this.currentState.speedMetersPerSecond = getDriveSubsystem().getCurrentValue();
+        this.currentState.angle = getSteeringSubsystem().getCurrentRotation();
+
+        this.currentPosition.distanceMeters = getDriveSubsystem().getCurrentPositionValue();
+        this.currentPosition.angle = getSteeringSubsystem().getCurrentRotation();
     }
 }

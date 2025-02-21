@@ -9,7 +9,7 @@ import edu.wpi.first.gradlerio.deploy.roborio.RoboRIO
  */
 
 plugins {
-    id "edu.wpi.first.GradleRIO" version "2025.2.1"
+    id "edu.wpi.first.GradleRIO" version "2025.3.1"
     id 'scala'
     id 'checkstyle'
     id 'jacoco'
@@ -39,8 +39,6 @@ repositories {
     maven { url "https://storage.googleapis.com/grapple-frc-maven"}
 
     maven { url uri ("../SeriouslyCommonLib/lib/")}
-
-
 
     mavenLocal()
 }

@@ -15,6 +15,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.units.measure.Frequency;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
@@ -29,6 +30,7 @@ import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.resiliency.DeviceHealth;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.RPM;
@@ -149,7 +151,16 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     @Override
+    public DeviceHealth getHealth() {
+        var faults = this.internalSparkMax.getFaults();
+        return (faults.can || faults.firmware) ? DeviceHealth.Unhealthy : DeviceHealth.Healthy;
+    }
+
+    @Override
     public void setPower(double power) {
+        if (!isValidPowerRequest(power)) {
+            return;
+        }
         this.internalSparkMax.set(MathUtil.clamp(power, minPower, maxPower));
     }
 
@@ -172,17 +183,17 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public Angle getPosition() {
+    public Angle getRawPosition() {
         return Rotations.of(this.internalSparkMax.getEncoder().getPosition());
     }
 
     @Override
-    public void setPosition(Angle position) {
-        this.internalSparkMax.getEncoder().setPosition(0);
+    public void setRawPosition(Angle position) {
+        this.internalSparkMax.getEncoder().setPosition(position.in(Rotations));
     }
 
     @Override
-    public void setPositionTarget(Angle position, MotorPidMode mode, int slot) {
+    public void setRawPositionTarget(Angle rawPosition, MotorPidMode mode, int slot) {
         SparkBase.ControlType controlType;
         switch (mode) {
             case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kPosition;
@@ -194,16 +205,16 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         }
         this.internalSparkMax
                 .getClosedLoopController()
-                .setReference(position.in(Rotations), controlType, getClosedLoopSlot(slot));
+                .setReference(rawPosition.in(Rotations), controlType, getClosedLoopSlot(slot));
     }
 
     @Override
-    public AngularVelocity getVelocity() {
+    public AngularVelocity getRawVelocity() {
         return RPM.of(this.internalSparkMax.getEncoder().getVelocity());
     }
 
     @Override
-    public void setVelocityTarget(AngularVelocity velocity, MotorPidMode mode, int slot) {
+    public void setRawVelocityTarget(AngularVelocity rawVelocity, MotorPidMode mode, int slot) {
         SparkBase.ControlType controlType;
         switch (mode) {
             case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kVelocity;
@@ -215,11 +226,14 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         }
         this.internalSparkMax
                 .getClosedLoopController()
-                .setReference(velocity.in(RPM), controlType, getClosedLoopSlot(slot));
+                .setReference(rawVelocity.in(RPM), controlType, getClosedLoopSlot(slot));
     }
 
     @Override
     public void setVoltage(Voltage voltage) {
+        if (!isValidVoltageRequest(voltage)) {
+            return;
+        }
         this.internalSparkMax.setVoltage(voltage);
     }
 
@@ -241,6 +255,11 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
                 this.internalSparkMax.getAppliedOutput() * internalSparkMax.getBusVoltage());
     }
 
+    @Override
+    public void setVoltageRange(Voltage minVoltage, Voltage maxVoltage) {
+        log.warn("setVoltageRange: Voltage range is not supported by SparkMax");
+    }
+
     public Current getCurrent() {
         return Amps.of(this.internalSparkMax.getOutputCurrent());
     }
@@ -255,5 +274,10 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         inputs.angularVelocity = getVelocity();
         inputs.voltage = getVoltage();
         inputs.current = getCurrent();
+    }
+
+    @Override
+    public void setPositionAndVelocityUpdateFrequency(Frequency frequency) {
+        // Don't know how to do this yet in CANSparkMax
     }
 }

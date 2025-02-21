@@ -1,5 +1,6 @@
 package xbot.common.subsystems.drive.swerve;
 
+import edu.wpi.first.units.measure.Distance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.command.BaseSetpointSubsystem;
@@ -16,6 +17,7 @@ import javax.inject.Inject;
 
 import java.util.Optional;
 
+import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
@@ -43,7 +45,10 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
         // Create properties shared among all instances
         pf.setPrefix(super.getPrefix());
         this.metersPerMotorRotation = pf.createPersistentProperty(
-                "MetersPerMotorRotation", 0.0532676904732978);
+                "MetersPerMotorRotation", metersPerMotorRotationFromGearRatioAndWheelDiameter(
+                        electricalContract.getDriveGearRatio(),
+                        electricalContract.getDriveWheelDiameter()
+                ));
         this.enableDrivePid = pf.createPersistentProperty("EnableDrivePID", true);
         this.minVelocityToEngagePid = 0.01;
 
@@ -52,7 +57,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
                     electricalContract.getDriveMotor(swerveInstance),
                     "DriveMotor",
                     super.getPrefix() + "DrivePID",
-                    new XCANMotorControllerPIDProperties(1, 0, 0, 0, 0, 1, -1));
+                    new XCANMotorControllerPIDProperties(0, 0, 0, 0.01, 0, 1, -1));
             this.motorController.setPowerRange(-1, 1);
             setupStatusFramesAsNeeded();
             setCurrentLimitsForMode(CurrentLimitMode.Teleop);
@@ -159,7 +164,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
         // Get the target speed in RPM
         double targetRPM = targetVelocity / this.metersPerMotorRotation.get() * 60.0;
         aKitLog.record("TargetRPM", targetRPM);
-        getMotorController().ifPresent(mc -> mc.setVelocityTarget(RPM.of(targetRPM), XCANMotorController.MotorPidMode.DutyCycle, 0));
+        getMotorController().ifPresent(mc -> mc.setRawVelocityTarget(RPM.of(targetRPM), XCANMotorController.MotorPidMode.DutyCycle, 0));
     }
 
     public void setNoviceMode(boolean enabled) {
@@ -173,6 +178,10 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     @Override
     protected boolean areTwoTargetsEquivalent(Double target1, Double target2) {
         return BaseSetpointSubsystem.areTwoDoublesEquivalent(target1, target2);
+    }
+
+    private double metersPerMotorRotationFromGearRatioAndWheelDiameter(double gearRatio, Distance wheelDiameter) {
+        return wheelDiameter.in(Meters) * Math.PI / gearRatio;
     }
 
     @Override

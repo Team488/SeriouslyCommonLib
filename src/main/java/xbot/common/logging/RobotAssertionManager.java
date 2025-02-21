@@ -9,34 +9,31 @@ import org.apache.logging.log4j.Logger;
 /**
  * Base class for safe assertion manager. Allows context-based management of
  * exceptions and assertion conditions.
- *
  */
 public abstract class RobotAssertionManager {
     static Logger log = LogManager.getLogger(RobotAssertionManager.class);
-    
+
     public final void throwException(RuntimeException e) {
-        log.error("Safe exception encountered (exception throw " + (this.isExceptionsEnabled() ? "enabled" : "disabled") + "): "
-                +  e.getMessage());
-        log.error("Stack trace: \n    "
-                + Arrays.stream(e.getStackTrace())
-                    .map(elem -> elem.toString())
-                    .collect(Collectors.joining("\n    ")));
-        
+        log.error("Safe exception encountered (exception throw {}): {}", this.isExceptionsEnabled() ? "enabled" : "disabled", e.getMessage());
+        log.error("Stack trace: \n    {}", Arrays.stream(e.getStackTrace())
+                .map(StackTraceElement::toString)
+                .collect(Collectors.joining("\n    ")));
+
         handlePlatformException(e);
     }
-    
+
     public final void throwException(String message, Throwable cause) {
         throwException(new RuntimeException(message, cause));
     }
 
     protected abstract void handlePlatformException(RuntimeException e);
-    
+
     public abstract boolean isExceptionsEnabled();
-    
+
     public final void fail(String message) {
         throwException(new RobotAssertionException(message));
     }
-    
+
     public final void assertTrue(boolean value, String assertionFaliureCause) {
         if(!value) {
             fail(assertionFaliureCause);
