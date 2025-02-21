@@ -13,6 +13,7 @@ import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
+import xbot.common.injection.electrical_contract.IMUInfo;
 
 public class InertialMeasurementUnitAdapter extends XGyro {
 
@@ -20,18 +21,18 @@ public class InertialMeasurementUnitAdapter extends XGyro {
     boolean isBroken = false;
 
     static Logger log = LogManager.getLogger(InertialMeasurementUnitAdapter.class);
-    
+
     @AssistedFactory
     public abstract static class InertialMeasurementUnitAdapterFactory extends XGyroFactory {
-        public abstract InertialMeasurementUnitAdapter create(@Assisted InterfaceType interfaceType);
+        public abstract InertialMeasurementUnitAdapter create(@Assisted IMUInfo imuInfo);
     }
 
     @AssistedInject
-    public InertialMeasurementUnitAdapter(DevicePolice police, @Assisted InterfaceType interfaceType) {
+    public InertialMeasurementUnitAdapter(DevicePolice police, @Assisted IMUInfo imuInfo) {
         super(ImuType.navX);
         /* Options: Port.kMXP, SPI.kMXP, I2C.kMXP or SerialPort.kUSB */
         try {
-            switch (interfaceType) {
+            switch (imuInfo.interfaceType()) {
                 case spi -> this.ahrs = new AHRS(AHRS.NavXComType.kMXP_SPI);
                 case serial -> this.ahrs = new AHRS(AHRS.NavXComType.kMXP_UART);
                 case i2c -> this.ahrs = new AHRS(AHRS.NavXComType.kI2C);
@@ -75,7 +76,7 @@ public class InertialMeasurementUnitAdapter extends XGyro {
     public boolean isBroken() {
         return isBroken;
     }
-    
+
     /**
      * Note: this is in degrees per second.
      */
