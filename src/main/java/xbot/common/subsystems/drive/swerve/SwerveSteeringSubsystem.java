@@ -40,21 +40,14 @@ import static edu.wpi.first.units.Units.Rotations;
 public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
     private static final Logger log = LogManager.getLogger(SwerveSteeringSubsystem.class);
     private final String label;
-    private final PIDManager pid;
 
-    private final DoubleProperty powerScale;
     private double targetRotation;
     private final DoubleProperty degreesPerMotorRotation;
-    private boolean useMotorControllerPid;
-    private final DoubleProperty maxMotorEncoderDrift;
     private final SysIdRoutine sysId;
 
     private Rotation2d currentModuleHeadingRotation2d;
     private XCANMotorController motorController;
     private XCANCoder encoder;
-
-    private boolean calibrated = false;
-    private boolean canCoderAvailable = false;
 
     @Inject
     public SwerveSteeringSubsystem(SwerveInstance swerveInstance, XCANMotorController.XCANMotorControllerFactory mcFactory, XCANCoderFactory canCoderFactory,
@@ -65,12 +58,8 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
 
         // Create properties shared among all instances
         pf.setPrefix(super.getPrefix());
-        this.pid = pidf.create(super.getPrefix() + "PID", 0.2, 0.0, 0.005, -1.0, 1.0);
-        this.powerScale = pf.createPersistentProperty("PowerScaleFactor", 5);
         this.degreesPerMotorRotation = pf.createPersistentProperty("DegreesPerMotorRotation",
                 degreesPerMotorRotationFromGearRatio(electricalContract.getSteeringGearRatio()));
-        this.useMotorControllerPid = true;
-        this.maxMotorEncoderDrift = pf.createPersistentProperty("MaxEncoderDriftDegrees", 1.0);
         this.currentModuleHeadingRotation2d = Rotation2d.fromDegrees(0);
 
         sysId =
@@ -93,10 +82,8 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
             this.encoder = canCoderFactory.create(electricalContract.getSteeringEncoder(swerveInstance), this.getPrefix());
             // Since the CANCoders start with absolute knowledge from the start, that means this system
             // is always calibrated.
-            calibrated = true;
             // As a special case, we have to perform the first refresh in order to have any useful data.
             encoder.refreshDataFrame();
-            canCoderAvailable = this.encoder.getHealth() != DeviceHealth.Unhealthy;
         }
         setupStatusFramesAsNeeded();
     }
@@ -166,7 +153,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
 
     @Override
     public boolean isCalibrated() {
-        return canCoderAvailable || calibrated;
+        return true; // Always true due to reliance on CANCoder.
     }
 
     /**
@@ -187,42 +174,8 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         return sysId.dynamic(direction);
     }
 
-    /**
-     * Mark the current encoder position as facing forward (0 degrees)
-     */
-    public void calibrateHere() {
-        getMotorController().ifPresent(mc -> mc.setPosition(Degrees.of(0)));
-        this.calibrated = true;
-    }
-
-    /**
-     * Reset the SparkMax encoder position based on the CanCoder measurement.
-     * This should only be called when the mechanism is stationary.
-     */
-    public void calibrateMotorControllerPositionFromCanCoder() {
-        if (getMotorController().isPresent() && getEncoder().isPresent() && canCoderAvailable) {
-            var motorController = getMotorController().orElseThrow();
-            Angle currentCanCoderPosition = getAbsoluteEncoderPosition();
-            Angle currentMotorControllerPosition = getMotorControllerEncoderPosition();
-
-            if (isMotorControllerDriftTooHigh(currentCanCoderPosition, currentMotorControllerPosition, this.maxMotorEncoderDrift.get())) {
-                if (!(motorController.getVelocity().magnitude() > 0)) {
-                    log.warn("Motor controller encoder drift is too high, recalibrating!");
-
-                    // Force motors to manual control before resetting position
-                    this.setPower(0.0);
-                    motorController.setPosition(currentCanCoderPosition.div(this.degreesPerMotorRotation.get()));
-                }
-            }
-        }
-    }
-
     public AngularVelocity getVelocity() {
         return getMotorController().map(XCANMotorController::getVelocity).orElse(RPM.zero());
-    }
-
-    public static boolean isMotorControllerDriftTooHigh(Angle currentCanCoderPosition, Angle currentMotorControllerPosition, double maxDelta) {
-        return !currentCanCoderPosition.isNear(currentMotorControllerPosition, Degrees.of(maxDelta));
     }
 
     /**
@@ -246,17 +199,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      * @return The position in degrees.
      */
     public Angle getBestEncoderPosition() {
-        aKitLog.setLogLevel(AKitLogger.LogLevel.DEBUG);
-        aKitLog.record("CanCoderAvailable", canCoderAvailable);
-        aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
-
-        if (canCoderAvailable) {
-            return getAbsoluteEncoderPosition();
-        }
-
-        // If the CANCoders aren't available, we can use the built-in encoders in the steering motors. Experience suggests
-        // that this will work for about 30 seconds of driving before getting wildly out of alignment.
-        return getMotorControllerEncoderPosition();
+        return getAbsoluteEncoderPosition();
     }
 
     /**
@@ -270,63 +213,11 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
     }
 
     /**
-     * Gets the reported position of the encoder on the NEO motor.
-     * @return The position of the encoder on the NEO motor.
-     */
-    public Angle getMotorControllerEncoderPosition() {
-        return getMotorController()
-                .map(mc -> mc.getPosition().times(degreesPerMotorRotation.get()))
-                .orElse(Degrees.zero());
-    }
-
-    /**
-     * Calculate the target motor power using software PID.
-     * @return The target power required to approach our setpoint.
-     */
-    public double calculatePower() {
-        // We need to calculate our own error function. Why?
-        // PID works great, but it assumes there is a linear relationship between your current state and
-        // your target state. Since rotation is circular, that's not the case: if you are at 170 degrees,
-        // and you want to go to -170 degrees, you could travel -340 degrees... or just +20.
-
-        // So, we perform our own error calculation here that takes that into account (thanks to the WrappedRotation2d
-        // class, which is aware of such circular effects), and then feed that into a PID where
-        // Goal is 0 and Current is our error.
-
-        double errorInDegrees = WrappedRotation2d.fromDegrees(getTargetValue() - getCurrentValue()).getDegrees();
-
-        // Constrain the error values before calculating PID. PID only constrains the output after
-        // calculating the outputs, which means it could accumulate values significantly larger than
-        // max power internally if we don't constrain the input.
-        double scaledError = MathUtils.constrainDouble(errorInDegrees / 90 * powerScale.get(), -1, 1);
-
-        // Now we feed it into a PID system, where the goal is to have 0 error.
-        double rotationalPower = -this.pid.calculate(0, scaledError);
-
-        return rotationalPower;
-    }
-
-    /**
-     * Reset the software PID.
-     */
-    public void resetPid() {
-        this.pid.reset();
-    }
-
-    /**
-     * Gets a flag indicating whether we are using the motor controller's PID or software PID.
-     * @return <b>true</b> if using motor controller's PID.
-     */
-    public boolean isUsingMotorControllerPid() {
-        return this.useMotorControllerPid;
-    }
-
-    /**
      * Calculates the nearest position on the motor encoder to targetDegrees and sets the controller's PID target.
      */
     public void setMotorControllerPidTarget() {
         if (getMotorController().isPresent()) {
-            var motorController = getMotorController().orElseThrow();
+            var motorController = getMotorController().get();
             Angle target = Degrees.of(getTargetValue());
 
             // Since there are four modules, any values here will be very noisy. Setting data
