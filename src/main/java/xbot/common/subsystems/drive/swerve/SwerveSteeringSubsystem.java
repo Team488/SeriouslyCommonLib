@@ -80,10 +80,6 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
         }
         if (electricalContract.areCanCodersReady()) {
             this.encoder = canCoderFactory.create(electricalContract.getSteeringEncoder(swerveInstance), this.getPrefix());
-            // Since the CANCoders start with absolute knowledge from the start, that means this system
-            // is always calibrated.
-            // As a special case, we have to perform the first refresh in order to have any useful data.
-            encoder.refreshDataFrame();
         }
         setupStatusFramesAsNeeded();
     }
