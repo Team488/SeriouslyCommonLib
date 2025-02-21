@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj.MockServo.MockServoFactory;
 import edu.wpi.first.wpilibj.MockSolenoid.MockSolenoidFactory;
 import edu.wpi.first.wpilibj.MockSpeedController.MockSpeedControllerFactory;
 import xbot.common.controls.actuators.XCANMotorController;
-import xbot.common.controls.actuators.XCANTalon.XCANTalonFactory;
-import xbot.common.controls.actuators.XCANVictorSPX.XCANVictorSPXFactory;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
 import xbot.common.controls.actuators.XDigitalOutput.XDigitalOutputFactory;
 import xbot.common.controls.actuators.XPWM.XPWMFactory;
@@ -22,8 +20,6 @@ import xbot.common.controls.actuators.XServo.XServoFactory;
 import xbot.common.controls.actuators.XSolenoid.XSolenoidFactory;
 import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
 import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
-import xbot.common.controls.actuators.mock_adapters.MockCANTalon.MockCANTalonFactory;
-import xbot.common.controls.actuators.mock_adapters.MockCANVictorSPX.MockCANVictorSPXFactory;
 import xbot.common.controls.actuators.mock_adapters.MockCompressor.MockCompressorFactory;
 import xbot.common.controls.actuators.mock_adapters.MockRelay.MockRelayFactory;
 import xbot.common.controls.sensors.SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory;
@@ -35,6 +31,7 @@ import xbot.common.controls.sensors.XDigitalInput.XDigitalInputFactory;
 import xbot.common.controls.sensors.XDutyCycleEncoder;
 import xbot.common.controls.sensors.XEncoder.XEncoderFactory;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
+import xbot.common.controls.sensors.XLaserCAN;
 import xbot.common.controls.sensors.XLidarLite.XLidarLiteFactory;
 import xbot.common.controls.sensors.XPowerDistributionPanel.XPowerDistributionPanelFactory;
 import xbot.common.controls.sensors.mock_adapters.MockAbsoluteEncoder.MockAbsoluteEncoderFactory;
@@ -42,6 +39,7 @@ import xbot.common.controls.sensors.mock_adapters.MockCANCoder.MockCANCoderFacto
 import xbot.common.controls.sensors.mock_adapters.MockDutyCycleEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder.MockEncoderFactory;
 import xbot.common.controls.sensors.mock_adapters.MockGyro.MockGyroFactory;
+import xbot.common.controls.sensors.mock_adapters.MockLaserCAN;
 import xbot.common.networking.MockZeromqListener.MockZeromqListenerFactory;
 import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
 
@@ -79,7 +77,7 @@ public abstract class MockDevicesModule {
     @Binds
     @Singleton
     public abstract XGyroFactory getGyroFactory(MockGyroFactory impl);
-    
+
     @Binds
     @Singleton
     public abstract XServoFactory getServoFactory(MockServoFactory impl);
@@ -87,14 +85,6 @@ public abstract class MockDevicesModule {
     @Binds
     @Singleton
     public abstract XAnalogDistanceSensorFactory getAnalogDistanceSensorFactory(SimulatedAnalogDistanceSensorFactory impl);
-
-    @Binds
-    @Singleton
-    public abstract XCANTalonFactory getCANTalonFactory(MockCANTalonFactory impl);
-
-    @Binds
-    @Singleton
-    public abstract XCANVictorSPXFactory getCANVictorSPXFactory(MockCANVictorSPXFactory impl);
 
     @Binds
     @Singleton
@@ -135,4 +125,8 @@ public abstract class MockDevicesModule {
     @Binds
     @Singleton
     public abstract XDutyCycleEncoder.XDutyCycleEncoderFactory getDutyCycleEncoderFactory(MockDutyCycleEncoder.MockDutyCycleEncoderFactory impl);
+
+    @Binds
+    @Singleton
+    public abstract XLaserCAN.XLaserCANFactory getLaserCANFactory(MockLaserCAN.MockLaserCANFactory impl);
 }

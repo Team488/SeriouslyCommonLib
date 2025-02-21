@@ -1,11 +1,13 @@
 package xbot.common.controls.sensors;
 
 import org.littletonrobotics.junction.Logger;
+
+import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.controls.io_inputs.XGyroIoInputsAutoLogged;
 import xbot.common.math.WrappedRotation2d;
 
-public abstract class XGyro
+public abstract class XGyro implements DataFrameRefreshable
 {
     public enum InterfaceType {
         spi,

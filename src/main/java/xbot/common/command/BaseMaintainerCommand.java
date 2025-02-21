@@ -72,6 +72,12 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
     }
 
     @Override
+    public void initialize() {
+        log.info("Initializing");
+        subsystemToMaintain.setTargetValue(subsystemToMaintain.getCurrentValue());
+    }
+
+    @Override
     public void execute() {
         maintain();
         subsystemToMaintain.setMaintainerIsAtGoal(isMaintainerAtGoal());
@@ -180,7 +186,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
      * Maintainer systems already check for error tolerance and time stability. If
      * there are any other checks that should be made, override this method and place them
      * here.
-     * 
+     *
      * @return true by default, can be overridden by child classes.
      */
     protected boolean additionalAtGoalChecks() {
@@ -210,7 +216,7 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
      * Gets the human input to use for the maintain command.
      * @return The human input.
      */
-    protected abstract T getHumanInput();
+    protected abstract double getHumanInput();
 
     /**
      * Gets the magnitude of the human input to use for the maintain command,

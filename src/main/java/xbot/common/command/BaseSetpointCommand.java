@@ -12,6 +12,8 @@ public abstract class BaseSetpointCommand extends BaseCommand {
 
     @Override
     public boolean isFinished() {
-        return false;
+        // Setpoint commands end instantly by default since the set operation usually
+        // happens in initialize and then nothing else needs to happen
+        return true;
     }
 }

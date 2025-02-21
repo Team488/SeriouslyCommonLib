@@ -31,7 +31,7 @@ public class MockSetpointSubsystem extends BaseSetpointSubsystem<Double> {
     }
 
     @Override
-    public void setPower(Double power) {
+    public void setPower(double power) {
     }
 
     @Override

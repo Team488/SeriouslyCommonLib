@@ -6,38 +6,35 @@ import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
 
 public abstract class BaseDriveSubsystem extends BaseSubsystem {
-    
+
     public abstract PIDManager getPositionalPid();
     public abstract PIDManager getRotateToHeadingPid();
     public abstract PIDManager getRotateDecayPid();
     boolean isQuickTurn;
 
-    public Translation2d lastRawCommandedDirection = new Translation2d();
-    public double lastRawCommandedRotation = 0;
-
     public abstract void move(XYPair translate, double rotate);
-    
+
     /**
      * Returns the total distance tracked by the encoder
      * - On the LEFT side of the robot
      * - Pointing in the direction of +Y travel
      */
     public abstract double getLeftTotalDistance();
-    
+
     /**
      * Returns the total distance tracked by the encoder
      * - On the RIGHT side of the robot
      * - Pointing in the direction of +Y travel
      */
     public abstract double getRightTotalDistance();
-    
+
     /**
      * Returns the total distance tracked by the encoder
      * - In the center of the robot
      * - Pointing in the direction of +X travel
      */
     public abstract double getTransverseDistance();
-    
+
     /**
      * Commands each of the XCANTalons to respond to translation/rotation input.
      * Each "wheel" is independently responsible, and as such there isn't any actual
@@ -48,7 +45,7 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
      *        normalized so that 1 is the maximum?
      */
     public void drive(XYPair translation, double rotation, boolean normalize) {
-    
+
         double normalizationFactor = 1;
         if (normalize) {
             normalizationFactor = Math.max(1, getMaxOutput(translation, rotation));
@@ -59,7 +56,7 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
 
         move(translationIntent, rotationIntent);
     }
-    
+
     /**
      * Commands each of the XCANTalons to respond to translation/rotation input.
      * Each "wheel" is independently responsible, and as such there isn't any actual
@@ -70,7 +67,7 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     public void drive(XYPair translation, double rotation) {
         drive(translation, rotation, false);
     }
-    
+
     /**
      * Classic tank drive.
      * @param left Power to the left drive motor. Range between -1 and 1.
@@ -79,28 +76,24 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     public void drive(double left, double right) {
         // the amount of "forward" we want to go is the average of the two joysticks
         double yTranslation = (left + right) / 2;
-        
-        // the amount of rotation we want is the difference between the two joysticks, normalized 
+
+        // the amount of rotation we want is the difference between the two joysticks, normalized
         // to (-1, 1).
         double rotation = (right - left) /  2;
-        
+
         drive(new XYPair(0, yTranslation), rotation);
     }
-    
-    public void fieldOrientedDrive(
-            XYPair translation, 
-            double rotation, 
-            double currentHeading, 
-            boolean normalize) {
-        // rotate the translation vector into the robot coordinate frame
-        lastRawCommandedDirection = new Translation2d(translation.x, translation.y);
-        lastRawCommandedRotation = rotation;
 
+    public void fieldOrientedDrive(
+            XYPair translation,
+            double rotation,
+            double currentHeading,
+            boolean normalize) {
         XYPair fieldRelativeVector = translation.clone();
-        
+
         // 90 degrees is the defined "forward" direction for a driver
         fieldRelativeVector.rotate(-currentHeading);
-        
+
         // send the rotated vector to be driven
         drive(fieldRelativeVector, rotation, normalize);
     }
@@ -116,7 +109,7 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
      * Slightly adapted from 254's 2016 CheesyDriveHelper.java.
      */
     public void cheesyDrive(double translation, double rotation) {
-        
+
         double overPower;
         double angularPower;
 
@@ -140,7 +133,7 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
 
         double rightPwm = translation + angularPower;
         double leftPwm = translation - angularPower;
-        
+
         if (overPower >= 0) {
             if (leftPwm > 1.0) {
                 rightPwm -= overPower * (leftPwm - 1.0);
@@ -159,7 +152,7 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
 
         drive(leftPwm, rightPwm);
     }
-    
+
     public void stop() {
         drive(new XYPair(0, 0), 0);
     }
@@ -181,7 +174,7 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
     public void tankDrive(double left, double right) {
         drive(left, right);
     }
-    
+
     /**
      * Determine the largest commanded output for a given wheel for a given
      * translation/rotation input. For example, you would see a maximum output of
@@ -190,5 +183,25 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
      */
     protected double getMaxOutput(XYPair translation, double rotation) {
         return Math.abs(translation.x) + Math.abs(translation.y) + Math.abs(rotation);
+    }
+
+
+    /**
+     * Returns the recommended power (units -1 to 1) to achieve a relative position change.
+     * @param goalPosition The desired change in position, relative to the robot.
+     * @return Power to apply to the drive subsystem (e.g. the magnitude of a Translation2d, whose x/y
+     * components would be sent to a move() call.
+     */
+    public Translation2d getPowerForRelativePositionChange(Translation2d goalPosition) {
+        double goalMagnitude = goalPosition.getNorm();
+
+        if (Math.abs(goalMagnitude) <  0.0001) {
+            goalMagnitude = 0.0001;
+        }
+        Translation2d normalizedGoalVector = goalPosition.div(goalMagnitude);
+
+        double power = -this.getPositionalPid().calculate(0, goalMagnitude);
+
+        return normalizedGoalVector.times(power);
     }
 }

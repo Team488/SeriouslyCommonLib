@@ -1,6 +1,11 @@
 package xbot.common.controls.sensors.mock_adapters;
 
 import com.ctre.phoenix6.StatusCode;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.MutAngle;
+import edu.wpi.first.units.measure.MutAngularVelocity;
 import org.json.JSONObject;
 
 import dagger.assisted.Assisted;
@@ -13,23 +18,24 @@ import xbot.common.controls.sensors.XCANCoder;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
-import xbot.common.math.WrappedRotation2d;
-import xbot.common.properties.BooleanProperty;
-import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 import xbot.common.simulation.ISimulatableSensor;
 
+import static edu.wpi.first.units.Units.RPM;
+import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.Rotations;
+
 public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
 
     private final int deviceId;
-    private boolean inverted;
     private double simulationScale;
     private double positionOffset;
 
-    private double velocity;
-    private WrappedRotation2d absolutePosition;
+    private final boolean inverted;
+    private final MutAngularVelocity velocity;
+    private final MutAngle position;
 
     @AssistedFactory
     public abstract static class MockCANCoderFactory implements XCANCoderFactory {
@@ -46,8 +52,8 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
         pf.setPrefix(owningSystemPrefix);
 
         this.deviceId = deviceInfo.channel;
-        this.velocity = 0;
-        this.absolutePosition = new WrappedRotation2d(0);
+        this.velocity = RPM.mutable(0);
+        this.position = Rotations.mutable(0);
         pf.setDefaultLevel(Property.PropertyLevel.Debug);
         this.positionOffset = 0;
         this.inverted = deviceInfo.inverted;
@@ -55,42 +61,45 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
 
         police.registerDevice(DeviceType.CAN, deviceInfo.channel, this);
     }
-    
+
     @Override
     public int getDeviceId() {
         return this.deviceId;
     }
 
-    public double getPosition_internal() {
-        return WrappedRotation2d.fromDegrees(this.absolutePosition.getDegrees() + this.positionOffset).getDegrees() * (inverted ? -1 : 1);
+    public Angle getPosition_internal() {
+        return position;
     }
 
-    public double getAbsolutePosition_internal() {
-        return this.absolutePosition.getDegrees() * (inverted ? -1 : 1);
+    public Angle getAbsolutePosition_internal() {
+        return Radians.of(MathUtil.angleModulus(this.position.in(Radians)));
     }
 
-    public double getVelocity_internal() {
-        return this.velocity * (inverted ? -1 : 1);
+    public void setVelocity(AngularVelocity newVelocity) {
+        this.velocity.mut_replace(newVelocity.times(inverted ? -1 : 1));
+    }
+
+    public AngularVelocity getVelocity_internal() {
+        return this.velocity;
     }
 
     @Override
-    public void setPosition(double newPosition) {
-        this.positionOffset = (WrappedRotation2d.fromDegrees(newPosition).minus(this.absolutePosition).getDegrees());
+    public void setPosition(Angle newPosition) {
+        position.mut_replace(newPosition.times(inverted ? -1 : 1));
     }
-    
 
     public double getPositionOffset() {
         return this.positionOffset;
     }
 
-    public void setAbsolutePosition(double position) {
-        this.absolutePosition = WrappedRotation2d.fromDegrees(position * (inverted ? -1 : 1));
+    public void setAbsolutePosition(Angle position) {
+        this.position.mut_replace(position.times(inverted ? -1 : 1));
     }
 
     @Override
     public void ingestSimulationData(JSONObject payload) {
         setAbsolutePosition(
-            payload.getBigDecimal("EncoderTicks").doubleValue() * this.simulationScale
+            Rotations.of(payload.getBigDecimal("EncoderTicks").doubleValue() * this.simulationScale)
         );
     }
 
@@ -113,7 +122,7 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
     public StatusCode clearStickyFaults() {
         return StatusCode.OK;
     }
-    
+
     public boolean hasResetOccurred_internal() {
         return false;
     }

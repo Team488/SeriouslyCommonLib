@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
+import edu.wpi.first.units.measure.LinearVelocity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.advantage.AKitLogger;
@@ -18,6 +19,11 @@ import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
+import static edu.wpi.first.units.Units.Seconds;
 
 public class SwerveSimpleTrajectoryLogic {
 
@@ -137,8 +143,7 @@ public class SwerveSimpleTrajectoryLogic {
     public void reset(Pose2d currentPose) {
         log.info("Resetting");
         keyPoints = keyPointsProvider.get();
-        log.info("Key points size: " + keyPoints.size());
-        interpolator.resetCalculator();
+        log.debug("Key points size: " + keyPoints.size());
 
         var initialPoint = new XbotSwervePoint(currentPose, 0);
 
@@ -170,7 +175,7 @@ public class SwerveSimpleTrajectoryLogic {
                 }
                 keyPoints = getKinematicsAdjustedSwervePoints(initialPoint, keyPoints);
             }
-            case KinematicsForPointsList -> {
+            case GlobalKinematicsValue -> {
                 if (globalKinematics == null) {
                     assertionManager.throwException("Needs to set globalKinematics!", new Exception());
                 }
@@ -216,7 +221,7 @@ public class SwerveSimpleTrajectoryLogic {
 
         interpolator.setMaximumDistanceFromChasePointInMeters(0.5);
         interpolator.setKeyPoints(keyPoints);
-        interpolator.initialize(initialPoint);
+        interpolator.initialize(initialPoint, mode);
     }
 
     private void handleAimingAtFinalLeg(Pose2d currentPose) {
@@ -268,9 +273,8 @@ public class SwerveSimpleTrajectoryLogic {
         ArrayList<XbotSwervePoint> velocityAdjustedPoints = new ArrayList<>();
 
         // Now, the rest follow this general pattern. Compare the current point to the next point, and adjust the duration.
+        XbotSwervePoint previous = initialPoint;
         for (int i = 0; i < swervePoints.size(); i++) {
-
-            XbotSwervePoint previous = initialPoint;
             if (i > 0) {
                 // If we've moved on to later points, we can now safely get previous entries in the list.
                 previous = swervePoints.get(i - 1);
@@ -303,23 +307,23 @@ public class SwerveSimpleTrajectoryLogic {
         ArrayList<XbotSwervePoint> adjustedPoints = new ArrayList<>();
 
         SwerveKinematicsCalculator calculator = null;
+        XbotSwervePoint previous = initialPoint;
         for (int i = 0; i < swervePoints.size(); i++) {
-            XbotSwervePoint previous = initialPoint;
             var current = swervePoints.get(i);
             if (i > 0) {
                 // If we've moved on to later points, we can now safely get previous entries in the list.
                 previous = swervePoints.get(i - 1);
                 // Calculate the initial velocity of current node
-                current.setKinematics(current.kinematics.kinematicsWithNewVi(calculator.getVelocityAtFinish()));
+                current.setKinematics(current.kinematics.kinematicsWithNewInitialVelocity(calculator.getVelocityAtFinish()));
             }
             double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
             calculator = new SwerveKinematicsCalculator(
                     assertionManager,
-                    0,
-                    distance,
+                    Meters.zero(),
+                    Meters.of(distance),
                     current.getKinematics()
             );
-            double adjustedDuration = calculator.getTotalOperationTime();
+            double adjustedDuration = calculator.getTotalOperationTime().in(Seconds);
 
             if (adjustedDuration > 0) {
                 XbotSwervePoint point = new XbotSwervePoint(current.keyPose, adjustedDuration);
@@ -354,14 +358,14 @@ public class SwerveSimpleTrajectoryLogic {
 
         SwerveKinematicsCalculator calculator = new SwerveKinematicsCalculator(
                 assertionManager,
-                0,
-                totalDistance,
+                Meters.zero(),
+                Meters.of(totalDistance),
                 globalKinematics
         );
 
         double accumulatedDistance = 0;
+        XbotSwervePoint previous = initialPoint;
         for (int i = 0; i < swervePoints.size(); i++) {
-            XbotSwervePoint previous = initialPoint;
             var current = swervePoints.get(i);
             if (i > 0) {
                 // If we've moved on to later points, we can now safely get previous entries in the list.
@@ -370,23 +374,23 @@ public class SwerveSimpleTrajectoryLogic {
 
             // NEED: acceleration, initialVelocity, finalVelocity, maxVelocity,
             // we got a and vMax which is global now we need vInitial and vFinal
-            double vi = calculator.getVelocityAtDistanceTravelled(accumulatedDistance);
+            LinearVelocity vi = calculator.getVelocityAtDistanceTravelled(Meters.of(accumulatedDistance));
             double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
             accumulatedDistance += distance;
-            double vf = calculator.getVelocityAtDistanceTravelled(accumulatedDistance);
+            LinearVelocity vf = calculator.getVelocityAtDistanceTravelled(Meters.of(accumulatedDistance));
 
             SwerveKinematicsCalculator operationCalculator = new SwerveKinematicsCalculator(
                     assertionManager,
-                    0,
-                    distance,
-                    new SwervePointKinematics(globalKinematics.getAcceleration(), vi, vf, globalKinematics.getMaxVelocity())
+                    Meters.zero(),
+                    Meters.of(distance),
+                    new SwervePointKinematics(globalKinematics.acceleration(), vi, vf, globalKinematics.maxVelocity())
             );
 
-            double adjustedDuration = operationCalculator.getTotalOperationTime();
+            double adjustedDuration = operationCalculator.getTotalOperationTime().in(Seconds);
 
             if (adjustedDuration > 0) {
                 XbotSwervePoint point = new XbotSwervePoint(current.keyPose, adjustedDuration);
-                point.setKinematics(new SwervePointKinematics(globalKinematics.getAcceleration(), vi, vf, globalKinematics.getMaxVelocity()));
+                point.setKinematics(new SwervePointKinematics(globalKinematics.acceleration(), vi, vf, globalKinematics.maxVelocity()));
                 adjustedPoints.add(point);
             }
         }
@@ -400,10 +404,10 @@ public class SwerveSimpleTrajectoryLogic {
     }
 
     public XYPair getGoalVector(Pose2d currentPose) {
-        lastResult = interpolator.calculateTarget(currentPose.getTranslation(), mode);
+        lastResult = interpolator.calculateTarget(currentPose.getTranslation());
         var chasePoint = lastResult.chasePoint;
 
-        aKitLog.record("chasePoint", new Pose2d(chasePoint, Rotation2d.fromDegrees(0)));
+        aKitLog.record("chasePoint", new Pose2d(chasePoint, lastResult.chaseHeading));
 
         XYPair targetPosition = new XYPair(chasePoint.getX(), chasePoint.getY());
         XYPair currentPosition = new XYPair(currentPose.getX(), currentPose.getY());
@@ -427,7 +431,7 @@ public class SwerveSimpleTrajectoryLogic {
         // from our proven SwerveToPointCommand. Eventually, the common components should be
         // refactored and should also move towards WPI objects (e.g. Pose2d rather than FieldPose).
 
-        // PID on the magnitude of the goal. Kind of similar to rotation,
+        // PID on the magnitude of the goal (chase point). Kind of similar to rotation,
         // our goal is "zero error".
         aKitLog.record("goalVector", goalVector);
         double magnitudeGoal = goalVector.getMagnitude();
@@ -461,19 +465,16 @@ public class SwerveSimpleTrajectoryLogic {
 
         aKitLog.record("UpdatedIntent", intent);
 
-        // In the future we can add different adjustments for if we are ahead/behind in schedule
         // If we have no max velocity set, or we are on the last point and almost done, just use the position PID
         if (maximumVelocity <= 0 || (lastResult.isOnFinalPoint && lastResult.distanceToTargetPoint < 0.5) || lastResult.lerpFraction > 1) {
             return new Twist2d(intent.x, intent.y, headingPower);
 
         } else {
             // Otherwise, add the known velocity vector, so we can catch up to our goal.
-
-            // Get the dot product between the normalized goal vector and the normalized velocity vector.
-            // Quick check for being right on the goal point
-
             var plannedVelocityVector = lastResult.plannedVector;
 
+            // This does some fancy dot product magic so that we go slower if we are off-track
+            // Giving PositionalPID additional time to push us back to our desired route
             if (goalVector.getMagnitude() > 0.33) {
                 var normalizedGoalVector = goalVector.scale(1 / goalVector.getMagnitude());
                 var normalizedVelocityVector = plannedVelocityVector.times(1 / plannedVelocityVector.getNorm());
@@ -485,15 +486,17 @@ public class SwerveSimpleTrajectoryLogic {
             }
 
             // Scale the planned vector, which is currently in velocity space, to "power space" so we can add it to the intent.
-            double scalarFactor = plannedVelocityVector.getNorm() / maximumVelocity;
-            var scaledPlannedVector = plannedVelocityVector.times(scalarFactor / maximumVelocity);
+            // This makes our scaledPlannedVector to be a ratio with maximumVelocity, to represent amount of power to input.
+            var scaledPlannedVector = plannedVelocityVector.div(maximumVelocity);
             aKitLog.record("scaledPlannedVector", scaledPlannedVector);
-            // Add the PositionPID powers
+
+            // Add our natural velocity vector to the PositionPID powers into a combined vector
+            // NOTE: This combinedVector is in "power space" so it SHOULD be in the range of [-1, 1]
             var combinedVector = scaledPlannedVector.plus(new Translation2d(intent.x, intent.y));
 
-            // If we've somehow gone above 100% power, scale it back down
+            // If we have *somehow* gone above 100% power, scale it back to magnitude of 1
             if (combinedVector.getNorm() > 1) {
-                combinedVector = combinedVector.times(1 / combinedVector.getNorm());
+                combinedVector = combinedVector.div(combinedVector.getNorm());
             }
 
             // If we're close to our target but not aimed at it, scale back translation so rotation can finish

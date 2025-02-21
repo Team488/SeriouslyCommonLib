@@ -1,5 +1,9 @@
 package xbot.common.controls.sensors;
 
+import static edu.wpi.first.units.Units.Seconds;
+
+import edu.wpi.first.units.measure.Time;
+
 public class XTimer
 {
     private static XTimerImpl impl;
@@ -14,6 +18,14 @@ public class XTimer
      */
     public static double getFPGATimestamp() {
         return impl.getFPGATimestamp();
+    }
+
+    /**
+     * Returns the current time in seconds since the FPGA was powered on.
+     * @return Time in seconds
+     */
+    public static Time getFPGATimestampTime() {
+        return Seconds.of(impl.getFPGATimestamp());
     }
 
     public static double getMatchTime() {

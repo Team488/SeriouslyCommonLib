@@ -17,25 +17,25 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  */
 @Singleton
 public class XScheduler {
-    
+
     private static Logger log = LogManager.getLogger(XScheduler.class);
-    
+
     boolean crashedPreviously = false;
-    
+
     int numberOfCrashes = 0;
-    
+
     CommandScheduler scheduler;
-    
+
     @Inject
     public XScheduler() {
         this.scheduler = CommandScheduler.getInstance();
     }
-    
+
     public int getNumberOfCrashes()
     {
         return numberOfCrashes;
     }
-    
+
     public void run() {
         try {
             scheduler.run();
@@ -54,8 +54,17 @@ public class XScheduler {
         }
     }
 
-    public void removeAll() {
+    public void reset() {
         scheduler.cancelAll();
+        scheduler.unregisterAllSubsystems();
+    }
+
+    public void cancelAll() {
+        scheduler.cancelAll();
+    }
+
+    public void unregisterAllSubsystems() {
+        scheduler.unregisterAllSubsystems();
     }
 
     public void registerSubsystem(Subsystem... subsystems) {
