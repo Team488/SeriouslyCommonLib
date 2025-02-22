@@ -457,10 +457,10 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         This should only be used when all swerve modules need to be at the same target state.
      */
     public void setAllSwerveModulesToTargetState(SwerveModuleState swerveModuleState) {
-        this.getFrontLeftSwerveModuleSubsystem().setTargetState(swerveModuleState);
-        this.getFrontRightSwerveModuleSubsystem().setTargetState(swerveModuleState);
-        this.getRearLeftSwerveModuleSubsystem().setTargetState(swerveModuleState);
-        this.getRearRightSwerveModuleSubsystem().setTargetState(swerveModuleState);
+        this.getFrontLeftSwerveModuleSubsystem().setTargetState(swerveModuleState, false);
+        this.getFrontRightSwerveModuleSubsystem().setTargetState(swerveModuleState, false);
+        this.getRearLeftSwerveModuleSubsystem().setTargetState(swerveModuleState, false);
+        this.getRearRightSwerveModuleSubsystem().setTargetState(swerveModuleState, false);
     }
 
     /***

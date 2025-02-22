@@ -226,7 +226,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
             // target based on the motor encoder's current position. Unless the wheels are moving rapidly, the measurements
             // on each encoder are probably taken close enough together in time for our purposes.
             Angle currentPosition = getBestEncoderPosition();
-            Angle angleBetweenDesiredAndCurrent = Degrees.of(MathUtil.inputModulus(target.minus(currentPosition).in(Degrees), -90, 90));
+            Angle angleBetweenDesiredAndCurrent = Degrees.of(MathUtil.inputModulus(target.minus(currentPosition).in(Degrees), -180, 180));
             aKitLog.record("angleBetweenDesiredAndCurrent-Degrees", angleBetweenDesiredAndCurrent.in(Degrees));
             aKitLog.record("MotorControllerPosition-Rotations", motorController.getPosition().in(Rotations));
 
