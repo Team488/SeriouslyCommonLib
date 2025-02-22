@@ -48,7 +48,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
                 "MetersPerMotorRotation", metersPerMotorRotationFromGearRatioAndWheelDiameter(
                         electricalContract.getDriveGearRatio(),
                         electricalContract.getDriveWheelDiameter()
-                ));
+                )); // Measured value: 0.0492434, very close to precalculated 0.49.
         this.enableDrivePid = pf.createPersistentProperty("EnableDrivePID", true);
         this.minVelocityToEngagePid = 0.01;
 
