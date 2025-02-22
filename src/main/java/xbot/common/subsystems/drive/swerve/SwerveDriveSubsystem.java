@@ -87,6 +87,10 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
         //this.motorController.setSecondaryCurrentLimit(secondaryCurrentLimit);
     }
 
+    public double getMetersPerMotorRotation() {
+        return this.metersPerMotorRotation.get();
+    }
+
     /**
      * Set up status frame intervals to reduce unnecessary CAN activity.
      */

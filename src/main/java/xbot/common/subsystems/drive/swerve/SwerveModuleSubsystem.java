@@ -76,10 +76,17 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
      * @param swerveModuleState Metric swerve module state
      */
     public void setTargetState(SwerveModuleState swerveModuleState) {
+        setTargetState(swerveModuleState, true);
+    }
+
+    public void setTargetState(SwerveModuleState swerveModuleState, boolean optimize) {
         if (!degraded) {
             this.targetState.speedMetersPerSecond = swerveModuleState.speedMetersPerSecond;
             this.targetState.angle = swerveModuleState.angle;
-            this.targetState.optimize(getSteeringSubsystem().getCurrentRotation());
+
+            if (optimize) {
+                this.targetState.optimize(getSteeringSubsystem().getCurrentRotation());
+            }
 
             this.getSteeringSubsystem().setTargetValue(new WrappedRotation2d(this.targetState.angle.getRadians()).getDegrees());
             // The kinematics library does everything in metric, so we need to transform that back to US Customary Units
