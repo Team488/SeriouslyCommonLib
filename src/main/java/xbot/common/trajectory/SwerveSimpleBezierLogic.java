@@ -217,7 +217,7 @@ public class SwerveSimpleBezierLogic {
 
         aKitLog.record("Trajectory", XbotSwervePoint.generateTrajectory(keyPoints));
 
-        interpolator.setMinimumDistanceFromChasePointInMeters(0.45);
+        interpolator.setMinimumDistanceFromChasePointInMeters(0.5);
         interpolator.setKeyPoints(keyPoints);
         interpolator.initialize(initialPoint, mode);
     }
