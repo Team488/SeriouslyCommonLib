@@ -26,7 +26,7 @@ import static edu.wpi.first.units.Units.Seconds;
 public class SwerveSimpleBezierLogic {
 
     Logger log = LogManager.getLogger(this.getClass());
-    final AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator/");
+    final AKitLogger aKitLog = new AKitLogger("SimpleInterpolator/");
 
     private Supplier<List<XbotSwervePoint>> keyPointsProvider;
     private List<XbotSwervePoint> keyPoints;
@@ -217,7 +217,7 @@ public class SwerveSimpleBezierLogic {
 
         aKitLog.record("Trajectory", XbotSwervePoint.generateTrajectory(keyPoints));
 
-        interpolator.setMaximumDistanceFromChasePointInMeters(0.5);
+        interpolator.setMinimumDistanceFromChasePointInMeters(0.5);
         interpolator.setKeyPoints(keyPoints);
         interpolator.initialize(initialPoint, mode);
     }

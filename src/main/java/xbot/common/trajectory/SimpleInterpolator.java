@@ -20,18 +20,17 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 
 public class SimpleInterpolator {
 
-    double accumulatedProductiveSeconds;
-    double previousTimestamp;
+
     ProvidesInterpolationData baseline;
     int index;
-    double maximumDistanceFromChasePointInMeters = 0.3;
+    double minimumDistanceFromChasePointInMeters = 0.3;
 
     SwerveKinematicsCalculator calculator;
 
     private List<? extends ProvidesInterpolationData> keyPoints;
 
     Logger log = LogManager.getLogger(SimpleInterpolator.class);
-    AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator/");
+    AKitLogger aKitLog = new AKitLogger("SimpleInterpolator/");
     RobotAssertionManager assertionManager;
     private boolean usingKinematics;
 
@@ -92,15 +91,13 @@ public class SimpleInterpolator {
         this.keyPoints = keyPoints;
     }
 
-    public void setMaximumDistanceFromChasePointInMeters(double maximumDistanceFromChasePointInMeters) {
-        this.maximumDistanceFromChasePointInMeters = maximumDistanceFromChasePointInMeters;
+    public void setMinimumDistanceFromChasePointInMeters(double minimumDistanceFromChasePointInMeters) {
+        this.minimumDistanceFromChasePointInMeters = minimumDistanceFromChasePointInMeters;
     }
 
     public void initialize(ProvidesInterpolationData baseline, SwerveSimpleTrajectoryMode mode) {
         log.debug("Initializing a SimpleTimeInterpolator");
         this.baseline = baseline;
-        accumulatedProductiveSeconds = 0;
-        previousTimestamp = XTimer.getFPGATimestamp();
         index = 0;
         calculator = null;
         usingKinematics = (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints) || (mode == SwerveSimpleTrajectoryMode.GlobalKinematicsValue);
@@ -116,13 +113,6 @@ public class SimpleInterpolator {
     }
 
     public InterpolationResult calculateTarget(Translation2d currentLocation) {
-        double currentTime = XTimer.getFPGATimestamp();
-        aKitLog.record("CurrentTime", currentTime);
-
-        double secondsSinceLastExecute = currentTime - previousTimestamp;
-        previousTimestamp = currentTime;
-        accumulatedProductiveSeconds += secondsSinceLastExecute;
-
         // If we have no key points to visit, do nothing.
         if (keyPoints == null || keyPoints.size() == 0) {
             log.warn("No key points to visit!");
@@ -145,10 +135,9 @@ public class SimpleInterpolator {
         Translation2d chasePoint = targetKeyPoint.getTranslation2d();
 
         // Instead of smoothly interpolating, wait at the target key point until the robot gets close.
-        if (currentLocation.getDistance(chasePoint) < maximumDistanceFromChasePointInMeters && index < keyPoints.size() - 1) {
+        if (currentLocation.getDistance(chasePoint) < minimumDistanceFromChasePointInMeters && index < keyPoints.size() - 1) {
             // Robot is close enough: advance to the next key point.
             baseline = targetKeyPoint;
-            accumulatedProductiveSeconds = 0; // reset timing if you still want to use it elsewhere
             index++;
             targetKeyPoint = keyPoints.get(index);
             log.debug("Reached keypoint, advancing to next: " + targetKeyPoint.getTranslation2d());
@@ -161,7 +150,7 @@ public class SimpleInterpolator {
         // Calculate plannedVector as the immediate direction from the robot to the chase point.
         Translation2d plannedVector = chasePoint.minus(currentLocation);
         if (usingKinematics) {
-            // Optionally, incorporate kinematics into your velocity command.
+            // Optionally, incorporate kinematics into the command.
             Distance totalDistance = Meters.of(baseline.getTranslation2d().minus(targetKeyPoint.getTranslation2d()).getNorm());
             double fractionAlongSegment = 0;
             if (totalDistance.in(Meters) > 0) {
@@ -172,13 +161,10 @@ public class SimpleInterpolator {
             if (plannedVector.getNorm() > 0) {
                 plannedVector = plannedVector.times(velocityScalar.in(MetersPerSecond) / plannedVector.getNorm());
             }
-        } else {
-            // In non-kinematics mode, you might choose to use a constant speed,
-            // or simply let plannedVector be the difference (to be handled by your PID controller).
         }
 
         boolean targetingFinalPoint = (index == keyPoints.size() - 1)
-                && (currentLocation.getDistance(chasePoint) < maximumDistanceFromChasePointInMeters);
+                && (currentLocation.getDistance(chasePoint) < minimumDistanceFromChasePointInMeters);
         boolean isOnFinalLeg = (index == keyPoints.size() - 1);
         double distanceToTarget = currentLocation.getDistance(targetKeyPoint.getTranslation2d());
         // Since we are not interpolating along a time fraction, set lerpFraction to 0.
