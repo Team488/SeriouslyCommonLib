@@ -223,11 +223,11 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
         }
 
         if (softwareForwardLimit.get() && getVoltage().gt(Volts.of(0))) {
-            log.warn("Forward software limit hit");
+            //log.warn("Forward software limit hit");
             setPower(0);
         }
         if (softwareReverseLimit.get() && getVoltage().lt(Volts.of(0))) {
-            log.warn("Reverse software limit hit");
+            //log.warn("Reverse software limit hit");
             setPower(0);
         }
 
