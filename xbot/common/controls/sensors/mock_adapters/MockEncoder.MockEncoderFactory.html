@@ -117,10 +117,11 @@ implements <a href="../XEncoder.XEncoderFactory.html" title="interface in xbot.c
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="MockEncoder.html" title="class in xbot.common.controls.sensors.mock_adapters">MockEncoder</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#create(java.lang.String,int,int,double)" class="member-name-link">create</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#create(java.lang.String,int,int,double,java.lang.String)" class="member-name-link">create</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  int&nbsp;aChannel,
  int&nbsp;bChannel,
- double&nbsp;defaultDistancePerPulse)</code></div>
+ double&nbsp;defaultDistancePerPulse,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;owningSystemPrefix)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
@@ -154,7 +155,7 @@ implements <a href="../XEncoder.XEncoderFactory.html" title="interface in xbot.c
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="create(java.lang.String,int,int,double)">
+<section class="detail" id="create(java.lang.String,int,int,double,java.lang.String)">
 <h3>create</h3>
 <div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="MockEncoder.html" title="class in xbot.common.controls.sensors.mock_adapters">MockEncoder</a></span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(@Assisted("name")
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
@@ -163,10 +164,12 @@ implements <a href="../XEncoder.XEncoderFactory.html" title="interface in xbot.c
  @Assisted("bChannel")
  int&nbsp;bChannel,
  @Assisted("defaultDistancePerPulse")
- double&nbsp;defaultDistancePerPulse)</span></div>
+ double&nbsp;defaultDistancePerPulse,
+ @Assisted("owningSystemPrefix")
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;owningSystemPrefix)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../XEncoder.XEncoderFactory.html#create(java.lang.String,int,int,double)">create</a></code>&nbsp;in interface&nbsp;<code><a href="../XEncoder.XEncoderFactory.html" title="interface in xbot.common.controls.sensors">XEncoder.XEncoderFactory</a></code></dd>
+<dd><code><a href="../XEncoder.XEncoderFactory.html#create(java.lang.String,int,int,double,java.lang.String)">create</a></code>&nbsp;in interface&nbsp;<code><a href="../XEncoder.XEncoderFactory.html" title="interface in xbot.common.controls.sensors">XEncoder.XEncoderFactory</a></code></dd>
 </dl>
 </section>
 </li>
