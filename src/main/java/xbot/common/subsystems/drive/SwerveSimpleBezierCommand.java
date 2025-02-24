@@ -8,6 +8,7 @@ import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import xbot.common.subsystems.drive.control_logic.HeadingModule.HeadingModuleFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
+import xbot.common.trajectory.SwerveSimpleBezierLogic;
 import xbot.common.trajectory.SwerveSimpleTrajectoryLogic;
 
 import javax.inject.Inject;
@@ -18,7 +19,7 @@ public class SwerveSimpleBezierCommand extends BaseCommand {
     protected BaseSwerveDriveSubsystem drive;
     protected BasePoseSubsystem pose;
     protected HeadingModule headingModule;
-    public SwerveSimpleTrajectoryLogic logic;
+    public SwerveSimpleBezierLogic logic;
     public Supplier<Double> constantRotationPowerSupplier;
     private Supplier<Boolean> alternativeIsFinishedSupplier;
     public boolean constantRotationEnabled = false;
@@ -32,7 +33,7 @@ public class SwerveSimpleBezierCommand extends BaseCommand {
 
         pf.setPrefix(this);
         this.addRequirements(drive);
-        logic = new SwerveSimpleTrajectoryLogic(assertionManager);
+        logic = new SwerveSimpleBezierLogic(assertionManager);
         alternativeIsFinishedSupplier = () -> false;
     }
 
