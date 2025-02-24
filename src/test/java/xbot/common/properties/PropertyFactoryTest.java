@@ -38,4 +38,22 @@ public class PropertyFactoryTest extends BaseCommonLibTest {
         // suffix should be modified to state the units
         assertEquals("test-in-Inches", propertyInches.suffix);
     }
+
+    @Test
+    public void testAngleProperty() {
+        PropertyFactory factory = getInjectorComponent().propertyFactory();
+        factory.setPrefix("myPrefix");
+
+        // should get back the same value as we put in with the same unit as the defaultValue
+        AngleProperty propertyDegrees = factory.createPersistentProperty("test", edu.wpi.first.units.Units.Degrees.of(90.0));
+        assertEquals(90.0, propertyDegrees.get().in(edu.wpi.first.units.Units.Degrees), 0.0001);
+        // suffix should be modified to state the units
+        assertEquals("test-in-Degrees", propertyDegrees.suffix);
+
+        // should get back the same value as we put in with the same unit as the defaultValue
+        AngleProperty propertyRadians = factory.createPersistentProperty("test", edu.wpi.first.units.Units.Radians.of(Math.PI));
+        assertEquals(Math.PI, propertyRadians.get().in(edu.wpi.first.units.Units.Radians), 0.0001);
+        // suffix should be modified to state the units
+        assertEquals("test-in-Radians", propertyRadians.suffix);
+    }
 }
