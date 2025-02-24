@@ -15,6 +15,7 @@ import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
+import xbot.common.injection.electrical_contract.IMUInfo;
 import xbot.common.simulation.ISimulatableSensor;
 
 public class MockGyro extends XGyro implements ISimulatableSensor {
@@ -33,11 +34,11 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
 
     @AssistedFactory
     public abstract static class MockGyroFactory extends XGyroFactory {
-        public abstract MockGyro create(@Assisted InterfaceType interfaceType);
+        public abstract MockGyro create(@Assisted IMUInfo imuInfo);
     }
 
     @AssistedInject
-    public MockGyro(DevicePolice police, @Assisted InterfaceType interfaceType) {
+    public MockGyro(DevicePolice police, @Assisted IMUInfo imuInfo) {
         super(ImuType.mock);
         police.registerDevice(DeviceType.IMU, 1, this);
     }
