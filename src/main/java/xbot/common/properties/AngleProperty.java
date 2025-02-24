@@ -7,8 +7,7 @@ import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 import edu.wpi.first.units.AngleUnit;
 import edu.wpi.first.units.measure.Angle;
-
-
+import edu.wpi.first.units.measure.MutAngle;
 import xbot.common.logging.Pluralizer;
 
 /**
@@ -19,8 +18,8 @@ import xbot.common.logging.Pluralizer;
 public class AngleProperty extends Property {
     final Angle defaultValue;
     final AngleUnit defaultUnit;
-    Angle lastValue;
-    Angle currentValue;
+    final MutAngle lastValue;
+    final MutAngle currentValue;
 
     private final LoggableInputs inputs = new LoggableInputs() {
         public void toLog(LogTable table) {
@@ -28,7 +27,7 @@ public class AngleProperty extends Property {
         }
 
         public void fromLog(LogTable table) {
-            currentValue = table.get(suffix, defaultValue);
+            currentValue.mut_replace(table.get(suffix, defaultValue));
         }
     };
 
@@ -41,14 +40,18 @@ public class AngleProperty extends Property {
         this.defaultValue = defaultValue;
         this.defaultUnit = defaultValue.unit();
 
+        currentValue = defaultValue.mutableCopy();
+        lastValue = defaultValue.mutableCopy();
+
+
         // Check for non-default on load; also store a "last value" we can use
         // to check if a property has changed recently.
         Angle firstValue = get_internal();
-        if (get_internal() != defaultValue) {
+        if (firstValue != defaultValue) {
             log.info("Property " + key + " has the non-default value " + firstValue);
         }
-        lastValue = firstValue;
-        currentValue = firstValue;
+        lastValue.mut_replace(firstValue);
+        currentValue.mut_replace(firstValue.mutableCopy());
     }
 
     public Angle get() {
@@ -71,7 +74,7 @@ public class AngleProperty extends Property {
 
     public void set(Angle value) {
         activeStore.setDouble(key, value.in(defaultUnit));
-        currentValue = value;
+        currentValue.mut_replace(value);
     }
 
     public void hasChangedSinceLastCheck(Consumer<Angle> callback) {
@@ -79,13 +82,13 @@ public class AngleProperty extends Property {
         if (!currentValue.isEquivalent(lastValue)) {
             callback.accept(currentValue);
         }
-        lastValue = currentValue;
+        lastValue.mut_replace(currentValue);
     }
 
     public boolean hasChangedSinceLastCheck() {
         Angle currentValue = get();
         boolean changed = !currentValue.isEquivalent(lastValue);
-        lastValue = currentValue;
+        lastValue.mut_replace(currentValue);
         return changed;
     }
 
@@ -95,7 +98,7 @@ public class AngleProperty extends Property {
 
     @Override
     public void refreshDataFrame() {
-        currentValue = get_internal();
+        currentValue.mut_replace(get_internal());
         Logger.processInputs(prefix, inputs);
     }
 }
