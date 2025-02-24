@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.Property.PropertyLevel;
@@ -186,6 +187,28 @@ public class PropertyFactory {
     public DistanceProperty createPersistentProperty(String suffix, Distance defaultValue, PropertyLevel level) {
         checkPrefixSet();
         return new DistanceProperty(getCleanPrefix(), suffix, defaultValue, this.propertyManager, level);
+    }
+
+    /**
+     * Creates a persistent property for an angle.
+     * @param suffix The suffix for the property.
+     * @param defaultValue The default value for the property.
+     * @return The property.
+     */
+    public AngleProperty createPersistentProperty(String suffix, Angle defaultValue) {
+        return this.createPersistentProperty(suffix, defaultValue, defaultLevel);
+    }
+
+    /**
+     * Creates a persistent property for an angle with a specified property level.
+     * @param suffix The suffix for the property.
+     * @param defaultValue The default value for the property.
+     * @param level The property level.
+     * @return The property.
+     */
+    public AngleProperty createPersistentProperty(String suffix, Angle defaultValue, PropertyLevel level) {
+        checkPrefixSet();
+        return new AngleProperty(getCleanPrefix(), suffix, defaultValue, this.propertyManager, level);
     }
 
 }
