@@ -81,6 +81,14 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         calculatePoses();
     }
 
+    public void setSearchMode(AprilTagVisionIO.SearchMode searchMode) {
+        io.setSearchMode(searchMode);
+    }
+
+    public void setSpecificTagIdToSearchFor(int tagId) {
+        io.setSpecificTagIdToSearchFor(tagId);
+    }
+
     public String getLogPath() {
         return logPath;
     }

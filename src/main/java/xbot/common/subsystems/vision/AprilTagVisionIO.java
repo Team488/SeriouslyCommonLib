@@ -50,5 +50,14 @@ public interface AprilTagVisionIO {
         PHOTONVISION
     }
 
+    enum SearchMode {
+        BEST_TAG,
+        PRIORITIZE_SPECIFIC_TAG
+    }
+
+    public void setSearchMode(SearchMode mode);
+
+    public void setSpecificTagIdToSearchFor(int tagId);
+
     default void updateInputs(VisionIOInputs inputs) {}
 }

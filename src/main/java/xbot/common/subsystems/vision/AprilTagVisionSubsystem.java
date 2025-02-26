@@ -132,6 +132,20 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
         return result;
     }
 
+    public void setCameraSearchMode(int cameraIndex, AprilTagVisionIO.SearchMode searchMode) {
+        cameraHelpers[cameraIndex].setSearchMode(searchMode);
+    }
+
+    public void setCameraSpecificTagIdToSearchFor(int cameraIndex, int tagId) {
+        cameraHelpers[cameraIndex].setSpecificTagIdToSearchFor(tagId);
+    }
+
+    public void setAllCamerasToRegularSearchMode() {
+        for (int i = 0; i < cameraHelpers.length; i++) {
+            setCameraSearchMode(i, AprilTagVisionIO.SearchMode.BEST_TAG);
+        }
+    }
+
     /**
      * Gets all the pose observations in this iteration of the scheduler loop.
      * @return A list of pose observations.

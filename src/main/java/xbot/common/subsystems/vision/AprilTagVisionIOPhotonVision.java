@@ -47,6 +47,8 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
     protected final PhotonCamera camera;
     protected final Transform3d robotToCamera;
     private final AprilTagFieldLayout aprilTagFieldLayout;
+    protected SearchMode searchMode;
+    protected int specificTagId;
 
     /**
      * Creates a new VisionIOPhotonVision.
@@ -60,6 +62,17 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
         camera = new PhotonCamera(name);
         this.robotToCamera = robotToCamera;
         this.aprilTagFieldLayout = fieldLayout;
+        searchMode = SearchMode.BEST_TAG;
+    }
+
+    @Override
+    public void setSearchMode(SearchMode searchMode) {
+        this.searchMode = searchMode;
+    }
+
+    @Override
+    public void setSpecificTagIdToSearchFor(int tagId) {
+        this.specificTagId = tagId;
     }
 
     @Override
@@ -80,12 +93,23 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
         for (var result : camera.getAllUnreadResults()) {
             // Update latest target observation
             if (result.hasTargets()) {
+                var target = result.getBestTarget();
+                if (searchMode == SearchMode.PRIORITIZE_SPECIFIC_TAG && specificTagId > 0) {
+                    // We want to prioritize a specific tag. If it's not found, we'll use the best tag.
+                    for (var t : result.getTargets()) {
+                        if (t.getFiducialId() == specificTagId) {
+                            target = t;
+                            break;
+                        }
+                    }
+                }
+
                 inputs.latestTargetObservation =
                         new TargetObservation(
-                                result.getBestTarget().getFiducialId(),
-                                Rotation2d.fromDegrees(result.getBestTarget().getYaw()),
-                                Rotation2d.fromDegrees(result.getBestTarget().getPitch()),
-                                result.getBestTarget().getBestCameraToTarget());
+                                target.getFiducialId(),
+                                Rotation2d.fromDegrees(target.getYaw()),
+                                Rotation2d.fromDegrees(target.getPitch()),
+                                target.getBestCameraToTarget());
             } else {
                 inputs.latestTargetObservation = EMPTY_TARGET_OBSERVATION;
             }

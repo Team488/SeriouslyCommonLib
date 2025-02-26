@@ -33,6 +33,16 @@ public class MockAprilTagVisionIO implements AprilTagVisionIO {
     }
 
     @Override
+    public void setSearchMode(SearchMode mode) {
+
+    }
+
+    @Override
+    public void setSpecificTagIdToSearchFor(int tagId) {
+
+    }
+
+    @Override
     public void updateInputs(VisionIOInputs inputs) {
         inputs.connected = this.connected;
         inputs.tagIds = this.tagIds;
