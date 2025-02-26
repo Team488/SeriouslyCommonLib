@@ -94,6 +94,19 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
     public Rotation2d getTargetX(int cameraIndex) {
         return cameraHelpers[cameraIndex].inputs.latestTargetObservation.tx();
     }
+    
+    /**
+     * Returns the X angle to the specified target, which can be used for simple servoing
+     * with vision.
+     *
+     * @param cameraIndex The index of the camera to use.
+     * @param tagId The tag to check.
+     * @return The X angle to the specified target.
+     */
+    public Optional<Rotation2d> getTargetX(int cameraIndex, int tagId) {
+        return getTargetObservation(cameraIndex, tagId)
+                .map(AprilTagVisionIO.TargetObservation::tx);
+    }
 
     /**
      * Returns the ID of the best target.
@@ -107,19 +120,6 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
             return Optional.empty();
         }
         return Optional.of(id);
-    }
-
-    /**
-     * Returns the X angle to the specified target, which can be used for simple servoing
-     * with vision.
-     *
-     * @param cameraIndex The index of the camera to use.
-     * @param tagId The tag to check.
-     * @return The X angle to the specified target.
-     */
-    public Optional<Rotation2d> getTargetX(int cameraIndex, int tagId) {
-        return getTargetObservation(cameraIndex, tagId)
-                .map(AprilTagVisionIO.TargetObservation::tx);
     }
 
     /**
