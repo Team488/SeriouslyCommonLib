@@ -1,6 +1,10 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
 import java.nio.ByteBuffer;
+import java.util.Arrays;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -13,6 +17,7 @@ import xbot.common.controls.sensors.XSpiController;
 public class SpiWPIAdapter extends XSpiController {
     private static final Character END_CHARACTER = '\uffff';
     private SPI internalSpi;
+    private Logger log = LogManager.getLogger(SpiWPIAdapter.class);
 
     @AssistedFactory
     public abstract static class SpiWPIAdapterFactory implements XSpiControllerFactory {
@@ -35,8 +40,8 @@ public class SpiWPIAdapter extends XSpiController {
         //add end char \uffff to signal end of package
         int packetSize = size + Character.BYTES;
         ByteBuffer packet = ByteBuffer.allocate(packetSize);
-        packet.put(dataToSend);
-        packet.putChar(size, END_CHARACTER);
+        packet.put(dataToSend.array());
+        packet.putChar(END_CHARACTER);
 
         return internalSpi.write(packet, packetSize);
     }
