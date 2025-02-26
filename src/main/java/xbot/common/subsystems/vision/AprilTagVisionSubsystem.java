@@ -26,9 +26,11 @@ import xbot.common.properties.PropertyFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -91,6 +93,46 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
      */
     public Rotation2d getTargetX(int cameraIndex) {
         return cameraHelpers[cameraIndex].inputs.latestTargetObservation.tx();
+    }
+
+    /**
+     * Returns the ID of the best target.
+     *
+     * @param cameraIndex The index of the camera to use.
+     * @return The ID of the best target.
+     */
+    public Optional<Integer> getBestTargetId(int cameraIndex) {
+        var id = cameraHelpers[cameraIndex].inputs.latestTargetObservation.fiducialId();
+        if (id == 0) {
+            return Optional.empty();
+        }
+        return Optional.of(id);
+    }
+
+    /**
+     * Returns the X angle to the specified target, which can be used for simple servoing
+     * with vision.
+     *
+     * @param cameraIndex The index of the camera to use.
+     * @param tagId The tag to check.
+     * @return The X angle to the specified target.
+     */
+    public Optional<Rotation2d> getTargetX(int cameraIndex, int tagId) {
+        return getTargetObservation(cameraIndex, tagId)
+                .map(AprilTagVisionIO.TargetObservation::tx);
+    }
+
+    /**
+     * Returns the raw observation data for the specified target.
+     *
+     * @param cameraIndex The index of the camera to use.
+     * @param tagId The tag to check.
+     * @return The raw observation data for the specified target.
+     */
+    public Optional<AprilTagVisionIO.TargetObservation> getTargetObservation(int cameraIndex, int tagId) {
+        return Arrays.stream(cameraHelpers[cameraIndex].inputs.targetObservations)
+                .filter(t -> t.fiducialId() == tagId)
+                .findFirst();
     }
 
     /**
