@@ -23,7 +23,7 @@ public class SwerveDriveRotationAdvisor {
     AKitLogger aKitLogger;
 
     public SwerveDriveRotationAdvisor(ISwerveAdvisorPoseSupport pose, ISwerveAdvisorDriveSupport drive, PropertyFactory pf,
-                                      HumanVsMachineDecider hvmDecider) {
+                                      HumanVsMachineDecider hvmDecider, double defaultDeadband) {
         pf.setPrefix("SwerveDriveRotationAdvisor/");
         this.hvmDecider = hvmDecider;
         this.drive = drive;
@@ -32,6 +32,13 @@ public class SwerveDriveRotationAdvisor {
         aKitLogger = new AKitLogger(pf.getPrefix());
 
         this.minimumMagnitudeToSnap = pf.createPersistentProperty("MinimumMagnitudeToSnap", 0.75);
+
+        hvmDecider.setDeadband(defaultDeadband);
+    }
+
+    public SwerveDriveRotationAdvisor(ISwerveAdvisorPoseSupport pose, ISwerveAdvisorDriveSupport drive, PropertyFactory pf,
+                                      HumanVsMachineDecider hvmDecider) {
+        this(pose, drive, pf, hvmDecider, 0.05);
     }
 
     public SwerveSuggestedRotation getSuggestedRotationValue(XYPair snappingInput, double triggerRotateIntent) {

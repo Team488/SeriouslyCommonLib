@@ -27,13 +27,14 @@ public interface AprilTagVisionIO {
     class VisionIOInputs {
         public boolean connected = false;
         public TargetObservation latestTargetObservation =
-                new TargetObservation(0, new Rotation2d(), new Rotation2d(), new Transform3d());
+                new TargetObservation(0, new Rotation2d(), new Rotation2d(), new Transform3d(), 1);
+        public TargetObservation[] targetObservations = new TargetObservation[0];
         public PoseObservation[] poseObservations = new PoseObservation[0];
         public int[] tagIds = new int[0];
     }
 
     /** Represents the angle to a simple target, not used for pose estimation. */
-    record TargetObservation(int fiducialId, Rotation2d tx, Rotation2d ty, Transform3d cameraToTarget) {}
+    record TargetObservation(int fiducialId, Rotation2d tx, Rotation2d ty, Transform3d cameraToTarget, double ambiguity) {}
 
     /** Represents a robot pose sample used for pose estimation. */
     record PoseObservation(

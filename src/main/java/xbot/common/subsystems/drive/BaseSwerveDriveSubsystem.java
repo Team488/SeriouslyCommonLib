@@ -1,5 +1,6 @@
 package xbot.common.subsystems.drive;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -12,8 +13,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.advantage.AKitLogger;
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.swerve.SwerveComponent;
-import xbot.common.math.MathUtils;
 import xbot.common.math.PIDDefaults;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
@@ -35,6 +36,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
 
     private final DoubleProperty maxTargetSpeedMps;
     private final DoubleProperty maxTargetTurnRate;
+    private final DoubleProperty maxAccelerationMps2;
 
     private final SwerveDriveKinematics swerveDriveKinematics;
     private String activeModuleLabel;
@@ -77,6 +79,9 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
 
     private boolean noviceMode = false;
 
+    private SlewRateLimiter slewRateLimiter;
+    private double lastMoveCallTime;
+
     public BaseSwerveDriveSubsystem(PIDManager.PIDManagerFactory pidFactory, PropertyFactory pf,
                                     SwerveComponent frontLeftSwerve, SwerveComponent frontRightSwerve,
                                     SwerveComponent rearLeftSwerve, SwerveComponent rearRightSwerve) {
@@ -97,6 +102,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
 
         this.maxTargetSpeedMps = pf.createPersistentProperty("MaxTargetSpeedMetersPerSecond", 4.5);
         this.maxTargetTurnRate = pf.createPersistentProperty("MaxTargetTurnRate", 8.0);
+        this.maxAccelerationMps2 = pf.createPersistentProperty("MaxAccelerationMps2", 9.0); //TODO: tune.
+
         this.activeModuleLabel = activeModule.toString();
         this.desiredHeading = 0;
 
@@ -108,7 +115,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         // TODO: eventually, this should retrieved from auto or the pose subsystem as a field like
         // "Desired initial wheel direction" so there's no thrash right at the start of a match.
         // Probably not a huge priority, Since as soon as we move once the robot remembers the last commanded direction.
-        lastCommandedDirection = new XYPair(0, 90);
+        lastCommandedDirection = new XYPair(0.1, 0);
 
         positionalPidManager = pidFactory.create(
                 this.getPrefix() + "PositionPID",
@@ -122,6 +129,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         headingPidManager.setEnableErrorThreshold(true);
         headingPidManager.setEnableTimeThreshold(true);
 
+        slewRateLimiter = new SlewRateLimiter(maxAccelerationMps2.get());
     }
 
     /**
@@ -166,6 +174,10 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
 
     public double getMaxTargetSpeedMetersPerSecond() {
         return maxTargetSpeedMps.get();
+    }
+
+    public double getMaxAccelerationMetersPerSecondSquared() {
+        return maxAccelerationMps2.get();
     }
 
     public double getMaxTargetTurnRate() {
@@ -329,6 +341,31 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
      * @param centerOfRotationInches The center of rotation.
      */
     public void move(XYPair translate, double rotate, XYPair centerOfRotationInches) {
+        // We want to smooth out any sudden changes in velocity. Given that we need to compare two vectors, really what we're saying is that
+        // the magnitude of the distance between the last commanded vector and the newly commanded vector should be constrained.
+
+        if (XTimer.getFPGATimestamp() - lastMoveCallTime > 1) {
+            // It's been over 1 second since somebody last called the drive. This means any ephemeral state is very stale.
+            // Setting the last commanded direction to the current direction will prevent surprising behavior. This will allow for
+            // powerful motions if the joystick is being held in a direction as the robot enables. Ideally this would use the robot's
+            // current velocity, but the drive subsystem doesn't have access to that information.
+            lastCommandedDirection = translate;
+        }
+
+        // First, discover this vector.
+        XYPair deltaVector = translate.clone().add(lastCommandedDirection.clone().scale(-1));
+
+        // Limit its magnitude based on the slew rate limiter.
+        double deltaMagnitude = deltaVector.getMagnitude();
+        double maxDeltaMagnitude = slewRateLimiter.calculate(deltaMagnitude);
+
+        if (Math.abs(deltaMagnitude - maxDeltaMagnitude) > 0.001 && !unlockFullDrivePower) {
+            // Only scale the vector if we have to, and if we're not in "full power" mode.
+            deltaVector = XYPair.fromPolar(deltaVector.getAngle(), maxDeltaMagnitude);
+
+            // Override the "Translate" vector with this result
+            translate = lastCommandedDirection.clone().add(deltaVector);
+        }
 
         if (activateBrakeOverride) {
             this.setWheelsToXMode();
@@ -401,6 +438,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
             lastCommandedDirection = translate;
             lastCommandedRotation = rotate;
         }
+
+        lastMoveCallTime = XTimer.getFPGATimestamp();
     }
 
     public void setActivateBrakeOverride(boolean activateBrakeOverride) {
@@ -422,10 +461,10 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         This should only be used when all swerve modules need to be at the same target state.
      */
     public void setAllSwerveModulesToTargetState(SwerveModuleState swerveModuleState) {
-        this.getFrontLeftSwerveModuleSubsystem().setTargetState(swerveModuleState);
-        this.getFrontRightSwerveModuleSubsystem().setTargetState(swerveModuleState);
-        this.getRearLeftSwerveModuleSubsystem().setTargetState(swerveModuleState);
-        this.getRearRightSwerveModuleSubsystem().setTargetState(swerveModuleState);
+        this.getFrontLeftSwerveModuleSubsystem().setTargetState(swerveModuleState, false);
+        this.getFrontRightSwerveModuleSubsystem().setTargetState(swerveModuleState, false);
+        this.getRearLeftSwerveModuleSubsystem().setTargetState(swerveModuleState, false);
+        this.getRearRightSwerveModuleSubsystem().setTargetState(swerveModuleState, false);
     }
 
     /***
@@ -601,6 +640,10 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         aKitLog.setLogLevel(AKitLogger.LogLevel.DEBUG);
         aKitLog.record("VelocityMaintainerTargets",
             new Translation2d(velocityMaintainerXTarget, velocityMaintainerXTarget));
+
+        if (maxAccelerationMps2.hasChangedSinceLastCheck()) {
+            slewRateLimiter = new SlewRateLimiter(maxAccelerationMps2.get());
+        }
     }
 
     public void refreshDataFrame() {

@@ -11,16 +11,12 @@ public class SwerveSteeringMaintainerCommand extends BaseMaintainerCommand<Doubl
 
     private final SwerveSteeringSubsystem subsystem;
 
-    private boolean enableAutoCalibrate;
-
     @Inject
     public SwerveSteeringMaintainerCommand(SwerveSteeringSubsystem subsystemToMaintain, PropertyFactory pf, HumanVsMachineDeciderFactory hvmFactory) {
         super(subsystemToMaintain, pf, hvmFactory, 0.001, 0.001);
         pf.setPrefix(this);
 
         this.subsystem = subsystemToMaintain;
-
-        this.enableAutoCalibrate = true;
     }
 
     @Override
@@ -30,15 +26,7 @@ public class SwerveSteeringMaintainerCommand extends BaseMaintainerCommand<Doubl
 
     @Override
     protected void calibratedMachineControlAction() {
-        if (this.subsystem.isUsingMotorControllerPid()) {
-            this.subsystem.setMotorControllerPidTarget();
-        } else {
-            this.subsystem.setPower(this.subsystem.calculatePower());
-        }
-
-        if (enableAutoCalibrate && isMaintainerAtGoal() && subsystem.getVelocity().magnitude() < 0.001) {
-            this.subsystem.calibrateMotorControllerPositionFromCanCoder();
-        }
+        this.subsystem.setMotorControllerPidTarget();
     }
 
     @Override
@@ -62,17 +50,11 @@ public class SwerveSteeringMaintainerCommand extends BaseMaintainerCommand<Doubl
     public void initialize() {
         this.subsystem.setTargetValue(this.subsystem.getCurrentValue());
         this.subsystem.setPower(0.0);
-        this.subsystem.resetPid();
-
-        if (enableAutoCalibrate) {
-            this.subsystem.calibrateMotorControllerPositionFromCanCoder();
-        }
     }
 
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
-
         this.initialize();
     }
 }

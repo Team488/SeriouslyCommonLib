@@ -13,7 +13,7 @@ public abstract class XCANCoder extends XAbsoluteEncoder {
 
     XCANCoderInputsAutoLogged inputs;
 
-    private final Alert unhealtyAlert;
+    private final Alert unhealthyAlert;
 
     public interface XCANCoderFactory extends XAbsoluteEncoderFactory {
         XCANCoder create(DeviceInfo deviceInfo, String owningSystemPrefix);
@@ -22,7 +22,7 @@ public abstract class XCANCoder extends XAbsoluteEncoder {
     public XCANCoder(DeviceInfo info) {
         super(info);
         inputs = new XCANCoderInputsAutoLogged();
-        unhealtyAlert = new Alert(AlertGroups.DEVICE_HEALTH, "CANCoder " + info.channel + " on CAN bus " + info.canBusId + " is unhealthy",
+        unhealthyAlert = new Alert(AlertGroups.DEVICE_HEALTH, "CANCoder " + info.channel + " on CAN bus " + info.canBusId + " is unhealthy",
                 Alert.AlertType.kError);
     }
 
@@ -54,6 +54,6 @@ public abstract class XCANCoder extends XAbsoluteEncoder {
         updateInputs(inputs);
         Logger.processInputs(info.name+"/CANCoder", inputs);
 
-        unhealtyAlert.set(getHealth() == DeviceHealth.Unhealthy);
+        unhealthyAlert.set(getHealth() == DeviceHealth.Unhealthy);
     }
 }
