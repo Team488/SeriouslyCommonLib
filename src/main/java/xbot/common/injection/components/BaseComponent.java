@@ -16,6 +16,8 @@ import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
 import xbot.common.controls.sensors.XDutyCycleEncoder;
 import xbot.common.controls.sensors.XLaserCAN;
 import xbot.common.controls.sensors.XSettableTimerImpl;
+import xbot.common.controls.sensors.XSpiController;
+import xbot.common.controls.sensors.XSpiController.XSpiControllerFactory;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.XAbsoluteEncoder.XAbsoluteEncoderFactory;
 import xbot.common.controls.sensors.XAnalogDistanceSensor.XAnalogDistanceSensorFactory;
@@ -173,4 +175,6 @@ public abstract class BaseComponent {
     public abstract XDutyCycleEncoder.XDutyCycleEncoderFactory dutyCycleEncoderFactory();
 
     public abstract XLaserCAN.XLaserCANFactory laserCANFactory();
+
+    public abstract XSpiControllerFactory spiControllerFactory();
 }

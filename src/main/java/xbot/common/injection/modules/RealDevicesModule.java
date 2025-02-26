@@ -28,6 +28,7 @@ import xbot.common.controls.sensors.XDutyCycleEncoder;
 import xbot.common.controls.sensors.XEncoder.XEncoderFactory;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
 import xbot.common.controls.sensors.XLaserCAN;
+import xbot.common.controls.sensors.XSpiController;
 import xbot.common.controls.sensors.XLidarLite.XLidarLiteFactory;
 import xbot.common.controls.sensors.XPowerDistributionPanel.XPowerDistributionPanelFactory;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater.AnalogInputWPIAdapaterFactory;
@@ -37,6 +38,7 @@ import xbot.common.controls.sensors.wpi_adapters.DutyCycleEncoderWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter.EncoderWPIAdapterFactory;
 import xbot.common.controls.sensors.wpi_adapters.InertialMeasurementUnitAdapter.InertialMeasurementUnitAdapterFactory;
 import xbot.common.controls.sensors.wpi_adapters.LaserCANWpiAdapter;
+import xbot.common.controls.sensors.wpi_adapters.SpiWPIAdapter;
 import xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter.LidarLiteWpiAdapterFactory;
 import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter.PowerDistributionPanelWPIAdapaterFactory;
 import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
@@ -128,4 +130,8 @@ public abstract class RealDevicesModule {
     @Binds
     @Singleton
     public abstract XLaserCAN.XLaserCANFactory getLaserCANFactory(LaserCANWpiAdapter.LaserCANWpiAdapterFactory impl);
+
+    @Binds
+    @Singleton
+    public abstract XSpiController.XSpiControllerFactory getSpiControllerFactory(SpiWPIAdapter.SpiWPIAdapterFactory impl);
 }
