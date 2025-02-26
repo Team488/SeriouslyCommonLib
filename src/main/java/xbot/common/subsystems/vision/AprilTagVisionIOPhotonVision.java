@@ -42,7 +42,8 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
 
     private static final int[] EMPTY_TAG_IDS_OBSERVATION = new int[0];
     private static final PoseObservation[] EMPTY_POSE_OBSERVATION = new PoseObservation[0];
-    private static final TargetObservation EMPTY_TARGET_OBSERVATION = new TargetObservation(0, new Rotation2d(), new Rotation2d(), new Transform3d());
+    private static final TargetObservation[] EMPTY_TARGET_OBSERVATIONS = new TargetObservation[0];
+    private static final TargetObservation EMPTY_TARGET_OBSERVATION = new TargetObservation(0, new Rotation2d(), new Rotation2d(), new Transform3d(), 1);
 
     protected final PhotonCamera camera;
     protected final Transform3d robotToCamera;
@@ -70,6 +71,7 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
             inputs.tagIds = EMPTY_TAG_IDS_OBSERVATION;
             inputs.poseObservations = EMPTY_POSE_OBSERVATION;
             inputs.latestTargetObservation = EMPTY_TARGET_OBSERVATION;
+            inputs.targetObservations = EMPTY_TARGET_OBSERVATIONS;
             return;
         }
 
@@ -80,14 +82,29 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
         for (var result : camera.getAllUnreadResults()) {
             // Update latest target observation
             if (result.hasTargets()) {
+                var bestTarget = result.getBestTarget();
                 inputs.latestTargetObservation =
                         new TargetObservation(
-                                result.getBestTarget().getFiducialId(),
-                                Rotation2d.fromDegrees(result.getBestTarget().getYaw()),
-                                Rotation2d.fromDegrees(result.getBestTarget().getPitch()),
-                                result.getBestTarget().getBestCameraToTarget());
+                                bestTarget.getFiducialId(),
+                                Rotation2d.fromDegrees(bestTarget.getYaw()),
+                                Rotation2d.fromDegrees(bestTarget.getPitch()),
+                                bestTarget.getBestCameraToTarget(),
+                                bestTarget.getPoseAmbiguity());
+
+                var targetObservations = new TargetObservation[result.targets.size()];
+                var targetIndex = 0;
+                for (var target : result.targets) {
+                    targetObservations[targetIndex++] = new TargetObservation(
+                            target.fiducialId,
+                            Rotation2d.fromDegrees(target.getYaw()),
+                            Rotation2d.fromDegrees(target.getPitch()),
+                            target.getBestCameraToTarget(),
+                            target.getPoseAmbiguity());
+                }
+                inputs.targetObservations = targetObservations;
             } else {
                 inputs.latestTargetObservation = EMPTY_TARGET_OBSERVATION;
+                inputs.targetObservations = EMPTY_TARGET_OBSERVATIONS;
             }
 
             // Add pose observation
