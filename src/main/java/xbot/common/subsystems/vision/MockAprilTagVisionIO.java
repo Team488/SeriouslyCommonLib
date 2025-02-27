@@ -19,7 +19,8 @@ public class MockAprilTagVisionIO implements AprilTagVisionIO {
     public boolean connected = true;
     public int[] tagIds = {};
     public PoseObservation[] poseObservations = {};
-    public TargetObservation latestTargetObservation = new TargetObservation(1, new Rotation2d(), new Rotation2d(), new Transform3d());
+    public TargetObservation latestTargetObservation = new TargetObservation(1, new Rotation2d(), new Rotation2d(), new Transform3d(), 1);
+    public TargetObservation[] targetObservations = { latestTargetObservation };
 
     @AssistedFactory
     public abstract static class FactoryImpl implements AprilTagVisionIOFactory {
@@ -38,5 +39,6 @@ public class MockAprilTagVisionIO implements AprilTagVisionIO {
         inputs.tagIds = this.tagIds;
         inputs.poseObservations = this.poseObservations;
         inputs.latestTargetObservation = this.latestTargetObservation;
+        inputs.targetObservations = this.targetObservations;
     }
 }
