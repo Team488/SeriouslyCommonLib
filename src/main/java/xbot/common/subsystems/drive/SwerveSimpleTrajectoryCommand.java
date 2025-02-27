@@ -78,7 +78,9 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
     public void setAlternativeIsFinishedSupplier(Supplier<Boolean> alternativeIsFinishedSupplier) {
         this.alternativeIsFinishedSupplier = alternativeIsFinishedSupplier;
     }
-
+    public Supplier<Boolean> getAlternativeIsFinishedSupplier() {
+        return alternativeIsFinishedSupplier;
+    }
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
