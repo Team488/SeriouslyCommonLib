@@ -34,14 +34,14 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
 
     @AssistedFactory
     public abstract static class CANVictorSPXWpiAdapterFactory implements XCANMotorControllerFactory {
-        public abstract CANSparkMaxWpiAdapter create(
+        public abstract CANVictorSPXWpiAdapter create(
                 @Assisted("info") CANMotorControllerInfo info,
                 @Assisted("owningSystemPrefix") String owningSystemPrefix,
                 @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
                 @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties);
     }
 
-    private static final Logger log = LogManager.getLogger(CANSparkMaxWpiAdapter.class);
+    private static final Logger log = LogManager.getLogger(CANVictorSPXWpiAdapter.class);
 
     private final VictorSPX internalVictor;
     private final RobotAssertionManager assertionManager;
@@ -64,7 +64,7 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
         this.assertionManager = assertionManager;
 
         if (info.busId() != CANBusId.RIO) {
-            this.assertionManager.fail("CANSparkMax must be connected to the RIO");
+            this.assertionManager.fail("VictorSPX must be connected to the RIO");
         }
         setConfiguration(info.outputConfig());
     }
