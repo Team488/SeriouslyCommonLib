@@ -1,16 +1,10 @@
 package xbot.common.command;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.simulation.DriverStationSim;
-
 import org.apache.logging.log4j.LogManager;
-import org.json.JSONObject;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -30,18 +24,11 @@ import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.components.BaseComponent;
-import xbot.common.logging.TimeLogger;
-import xbot.common.logic.Latch;
-import xbot.common.logic.Latch.EdgeType;
-import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.properties.XPropertyManager;
-import xbot.common.simulation.ISimulatableMotor;
-import xbot.common.simulation.ISimulatableSolenoid;
 import xbot.common.simulation.SimulationPayloadDistributor;
 import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
-import xbot.common.subsystems.drive.BaseDriveSubsystem;
 
 /**
  * Core Robot class which configures logging, properties,
@@ -68,6 +55,8 @@ public abstract class BaseRobot extends LoggedRobot {
     protected List<DataFrameRefreshable> dataFrameRefreshables = new ArrayList<>();
 
     boolean forceWebots = true; // TODO: figure out a better way to swap between simulation and replay.
+
+    public Throwable initException = null;
 
     public BaseRobot() {
     }
@@ -100,45 +89,50 @@ public abstract class BaseRobot extends LoggedRobot {
      * This function is run when the robot is first started up and should be used for any initialization code.
      */
     public void robotInit() {
-
-        Logger.recordMetadata("ProjectName", "XbotProject"); // Set a metadata value
-        if (isReal() || forceWebots) {
-            var logDirectory = new File("/U/logs");
-            if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
-                Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
+        initException = null;
+        try {
+            Logger.recordMetadata("ProjectName", "XbotProject"); // Set a metadata value
+            if (isReal() || forceWebots) {
+                var logDirectory = new File("/U/logs");
+                if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
+                    Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
+                }
+                Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+                new PowerDistribution(1, PowerDistribution.ModuleType.kRev); // Enables power distribution logging
+            } else {
+                setUseTiming(false); // Run as fast as possible
+                String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
+                Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
+                Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
             }
-            Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
-            new PowerDistribution(1, PowerDistribution.ModuleType.kRev); // Enables power distribution logging
-        } else {
-            setUseTiming(false); // Run as fast as possible
-            String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
-            Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
-            Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
-        }
 
-        Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
-        DriverStation.silenceJoystickConnectionWarning(true);
-
-
-        log = LogManager.getLogger(BaseRobot.class);
-        log.info("========== BASE ROBOT INITIALIZING ==========");
-        setupInjectionModule();
-        log.info("========== INJECTOR CREATED ==========");
-        this.initializeSystems();
-        log.info("========== SYSTEMS INITIALIZED ==========");
-        SmartDashboard.putData(CommandScheduler.getInstance());
-
-        if (this.isReal()) {
-            // We're just so tired of seeing these in logs. We may re-enable this at competition time.
+            Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
             DriverStation.silenceJoystickConnectionWarning(true);
-        }
-        PropertyFactory pf = injectorComponent.propertyFactory();
 
-        devicePolice = injectorComponent.devicePolice();
-        if (forceWebots) {
-            simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
+
+            log = LogManager.getLogger(BaseRobot.class);
+            log.info("========== BASE ROBOT INITIALIZING ==========");
+            setupInjectionModule();
+            log.info("========== INJECTOR CREATED ==========");
+            this.initializeSystems();
+            log.info("========== SYSTEMS INITIALIZED ==========");
+            SmartDashboard.putData(CommandScheduler.getInstance());
+
+            if (this.isReal()) {
+                // We're just so tired of seeing these in logs. We may re-enable this at competition time.
+                DriverStation.silenceJoystickConnectionWarning(true);
+            }
+            PropertyFactory pf = injectorComponent.propertyFactory();
+
+            devicePolice = injectorComponent.devicePolice();
+            if (forceWebots) {
+                simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
+            }
+            LiveWindow.disableAllTelemetry();
+        } catch (Exception e) {
+            this.initException = e;
+            throw e;
         }
-        LiveWindow.disableAllTelemetry();
     }
 
     protected String getEnableTypeString() {

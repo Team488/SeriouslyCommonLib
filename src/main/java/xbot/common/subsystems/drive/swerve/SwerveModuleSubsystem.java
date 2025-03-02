@@ -1,4 +1,5 @@
 package xbot.common.subsystems.drive.swerve;
+
 import javax.inject.Inject;
 
 import edu.wpi.first.wpilibj.Alert;
@@ -73,6 +74,7 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
 
     /**
      * Sets the target steering angle and drive power for this module, in METRIC UNITS.
+     *
      * @param swerveModuleState Metric swerve module state
      */
     public void setTargetState(SwerveModuleState swerveModuleState) {
@@ -91,7 +93,7 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
             this.getSteeringSubsystem().setTargetValue(new WrappedRotation2d(this.targetState.angle.getRadians()).getDegrees());
             // The kinematics library does everything in metric, so we need to transform that back to US Customary Units
             this.getDriveSubsystem().setTargetValue(this.targetState.speedMetersPerSecond);
-        } else{
+        } else {
             // We are in degraded state. Don't set anything, pray the other modules can keep working.
             this.getSteeringSubsystem().setPower(0);
             this.getDriveSubsystem().setPower(0);
@@ -100,6 +102,7 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
 
     /**
      * Gets the current state of the module, in METRIC UNITS.
+     *
      * @return Metric swerve module state
      */
     public SwerveModuleState getCurrentState() {
@@ -153,12 +156,13 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
 
     @Override
     public void periodic() {
-        if (steeringSubsystem.getEncoder().isEmpty()) {
-            degraded = true;
-        } else {
-            // The encoder exists, so we can call it.
-            degraded = steeringSubsystem.getEncoder().get().getHealth() == DeviceHealth.Unhealthy;
-        }
+        steeringSubsystem.getEncoder().ifPresentOrElse(
+                encoder -> {
+                    degraded = encoder.getHealth() == DeviceHealth.Unhealthy;
+                },
+                () -> {
+                    degraded = true;
+                });
         degradedModuleAlert.set(degraded);
     }
 
