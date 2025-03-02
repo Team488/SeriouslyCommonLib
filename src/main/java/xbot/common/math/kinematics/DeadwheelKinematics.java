@@ -37,7 +37,6 @@ public class DeadwheelKinematics
      */
     public DeadwheelKinematics(double robotWidthMeters) {
         this.robotWidthMeters = robotWidthMeters;
-        MathSharedStore.reportUsage(MathUsageId.kKinematics_DifferentialDrive, 1);
     }
 
     /**
@@ -67,7 +66,7 @@ public class DeadwheelKinematics
         return new ChassisSpeeds(
                 vx,
                 vy,
-                Math.sqrt(Math.pow(vx, 2.0) + Math.pow(vy, 2.0)) / (this.robotWidthMeters / 2.0));
+                0);
     }
 
     /**
@@ -119,7 +118,7 @@ public class DeadwheelKinematics
         return new Twist2d(
                 dx,
                 dy,
-                Math.sqrt(Math.pow(dx, 2.0) + Math.pow(dy, 2.0)) / (this.robotWidthMeters / 2.0));
+                0);
     }
 
     @Override
