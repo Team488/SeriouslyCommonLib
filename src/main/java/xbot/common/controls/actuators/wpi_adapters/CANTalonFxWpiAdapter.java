@@ -361,4 +361,22 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         rotorPositionSignal.setUpdateFrequency(frequency);
         rotorVelocitySignal.setUpdateFrequency(frequency);
     }
+
+    public void setEnableMusicDuringDisable(boolean enabled) {
+        if (configCacheFailedAlert.get()) {
+            cacheConfiguration();
+        }
+
+        talonConfiguration.Audio.withAllowMusicDurDisable(enabled);
+        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(talonConfiguration.Audio), 3);
+    }
+
+    /**
+     * Returns the internal TalonFX object.
+     * This should not be accessed directly, but is provided for use if needed.
+     * @return the internal TalonFX object
+     */
+    public TalonFX getInternalTalonFx() {
+        return internalTalonFx;
+    }
 }
