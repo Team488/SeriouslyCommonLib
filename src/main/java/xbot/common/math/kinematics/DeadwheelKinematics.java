@@ -62,8 +62,8 @@ public class DeadwheelKinematics
      */
     @Override
     public ChassisSpeeds toChassisSpeeds(DeadwheelWheelSpeeds wheelSpeeds) {
-        var vx = (wheelSpeeds.leftMetersPerSecond + wheelSpeeds.rightMetersPerSecond) / 2;
-        var vy = (wheelSpeeds.frontMetersPerSecond + wheelSpeeds.rearMetersPerSecond) / 2;
+        var vx = (wheelSpeeds.frontMetersPerSecond + wheelSpeeds.rearMetersPerSecond) / 2.0;
+        var vy =  (wheelSpeeds.leftMetersPerSecond + wheelSpeeds.rightMetersPerSecond) / 2.0;
         return new ChassisSpeeds(
                 vx,
                 vy,
@@ -114,8 +114,8 @@ public class DeadwheelKinematics
      */
     public Twist2d toTwist2d(double leftDistanceMeters, double rightDistanceMeters, double frontDistanceMeters,
             double rearDistanceMeters) {
-        var dx = (leftDistanceMeters + rightDistanceMeters) / 2.0;
-        var dy = (frontDistanceMeters + rearDistanceMeters) / 2.0;
+        var dx = (frontDistanceMeters + rearDistanceMeters) / 2.0;
+        var dy =  (leftDistanceMeters + rightDistanceMeters)/ 2.0;
         return new Twist2d(
                 dx,
                 dy,
