@@ -77,7 +77,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
                 String owningSystemPrefix,
                 String pidPropertyPrefix
         ) {
-            return create(info, owningSystemPrefix, pidPropertyPrefix, new XCANMotorControllerPIDProperties());
+            return create(info, owningSystemPrefix, pidPropertyPrefix, null);
         }
     }
 
