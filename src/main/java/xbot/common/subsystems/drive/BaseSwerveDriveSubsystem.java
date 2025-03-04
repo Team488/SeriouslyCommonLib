@@ -392,6 +392,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
             translate = lastCommandedDirection.clone().add(deltaVector);
         }
 
+
         if (activateBrakeOverride) {
             this.setWheelsToXMode();
             return;
