@@ -26,7 +26,7 @@ import edu.wpi.first.units.measure.Distance;
  */
 public class DeadwheelOdometry extends Odometry<DeadwheelWheelPositions> {
     /**
-     * Constructs a DifferentialDriveOdometry object.
+     * Constructs a DeadwheelOdometry object.
      *
      * @param gyroAngle           The angle reported by the gyroscope.
      * @param leftDistanceMeters  The distance traveled by the left encoder.
@@ -49,7 +49,7 @@ public class DeadwheelOdometry extends Odometry<DeadwheelWheelPositions> {
     }
 
     /**
-     * Constructs a DifferentialDriveOdometry object.
+     * Constructs a DeadwheelOdometry object.
      *
      * @param gyroAngle         The angle reported by the gyroscope.
      * @param leftDistance      The distance traveled by the left encoder.
@@ -68,7 +68,7 @@ public class DeadwheelOdometry extends Odometry<DeadwheelWheelPositions> {
     }
 
     /**
-     * Constructs a DifferentialDriveOdometry object.
+     * Constructs a DeadwheelOdometry object.
      *
      * @param gyroAngle           The angle reported by the gyroscope.
      * @param leftDistanceMeters  The distance traveled by the left encoder.
@@ -81,7 +81,7 @@ public class DeadwheelOdometry extends Odometry<DeadwheelWheelPositions> {
     }
 
     /**
-     * Constructs a DifferentialDriveOdometry object.
+     * Constructs a DeadwheelOdometry object.
      *
      * @param gyroAngle     The angle reported by the gyroscope.
      * @param leftDistance  The distance traveled by the left encoder.
