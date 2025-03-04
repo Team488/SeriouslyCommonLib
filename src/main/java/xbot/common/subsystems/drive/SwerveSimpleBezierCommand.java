@@ -21,7 +21,7 @@ public class SwerveSimpleBezierCommand extends BaseCommand {
     protected HeadingModule headingModule;
     public SwerveSimpleBezierLogic logic;
     public Supplier<Double> constantRotationPowerSupplier;
-    private Supplier<Boolean> alternativeIsFinishedSupplier;
+    protected Supplier<Boolean> alternativeIsFinishedSupplier;
     public boolean constantRotationEnabled = false;
 
     @Inject
@@ -78,6 +78,10 @@ public class SwerveSimpleBezierCommand extends BaseCommand {
 
     public void setAlternativeIsFinishedSupplier(Supplier<Boolean> alternativeIsFinishedSupplier) {
         this.alternativeIsFinishedSupplier = alternativeIsFinishedSupplier;
+    }
+
+    public Supplier<Boolean> getAlternativeIsFinishedSupplier() {
+        return alternativeIsFinishedSupplier;
     }
 
     @Override
