@@ -188,6 +188,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns true if all the given values are true.</div>
 </dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveSimpleBezierCommand.html#alternativeIsFinishedSupplier" class="member-name-link">alternativeIsFinishedSupplier</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveSimpleBezierCommand.html" title="class in xbot.common.subsystems.drive">SwerveSimpleBezierCommand</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIO.PoseObservation.html#ambiguity()" class="member-name-link">ambiguity()</a> - Method in record class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIO.PoseObservation.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIO.PoseObservation</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>ambiguity</code> record component.</div>
@@ -439,7 +441,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" class="type-name-link" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a> - Class in <a href="xbot/common/subsystems/drive/package-summary.html">xbot.common.subsystems.drive</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#%3Cinit%3E(xbot.common.math.PIDManager.PIDManagerFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent)" class="member-name-link">BaseSwerveDriveSubsystem(PIDManager.PIDManagerFactory, PropertyFactory, SwerveComponent, SwerveComponent, SwerveComponent, SwerveComponent)</a> - Constructor for class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
+<dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#%3Cinit%3E(xbot.common.math.PIDManager.PIDManagerFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.electrical_contract.XDeadwheelElectricalContract)" class="member-name-link">BaseSwerveDriveSubsystem(PIDManager.PIDManagerFactory, PropertyFactory, SwerveComponent, SwerveComponent, SwerveComponent, SwerveComponent, XDeadwheelElectricalContract)</a> - Constructor for class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.SwerveModuleLocation.html" class="type-name-link" title="enum class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem.SwerveModuleLocation</a> - Enum Class in <a href="xbot/common/subsystems/drive/package-summary.html">xbot.common.subsystems.drive</a></dt>
 <dd>&nbsp;</dd>
@@ -901,9 +903,14 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.html#convertScaledVelocityToRawVelocity(edu.wpi.first.units.measure.AngularVelocity)" class="member-name-link">convertScaledVelocityToRawVelocity(AngularVelocity)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelKinematics.html#copy(xbot.common.math.kinematics.DeadwheelWheelPositions)" class="member-name-link">copy(DeadwheelWheelPositions)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelKinematics.html" title="class in xbot.common.math.kinematics">DeadwheelKinematics</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelKinematics.html#copyInto(xbot.common.math.kinematics.DeadwheelWheelPositions,xbot.common.math.kinematics.DeadwheelWheelPositions)" class="member-name-link">copyInto(DeadwheelWheelPositions, DeadwheelWheelPositions)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelKinematics.html" title="class in xbot.common.math.kinematics">DeadwheelKinematics</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#crabDrive(double,double)" class="member-name-link">crabDrive(double, double)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
 <dd>
-<div class="block">Give the same power to all steering modules, and the another power to all the drive wheels.</div>
+<div class="block">Give the same power to all steering modules, and the another power to all the
+ drive wheels.</div>
 </dd>
 <dt><a href="edu/wpi/first/wpilibj/MockPowerDistributionPanel.MockPowerDistributionPanelFactory.html#create()" class="member-name-link">create()</a> - Method in class edu.wpi.first.wpilibj.<a href="edu/wpi/first/wpilibj/MockPowerDistributionPanel.MockPowerDistributionPanelFactory.html" title="class in edu.wpi.first.wpilibj">MockPowerDistributionPanel.MockPowerDistributionPanelFactory</a></dt>
 <dd>&nbsp;</dd>
@@ -1222,6 +1229,81 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/MathUtils.html#deadband(double,double,java.util.function.Function)" class="member-name-link">deadband(double, double, Function&lt;Double, Double&gt;)</a> - Static method in class xbot.common.math.<a href="xbot/common/math/MathUtils.html" title="class in xbot.common.math">MathUtils</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelKinematics.html" class="type-name-link" title="class in xbot.common.math.kinematics">DeadwheelKinematics</a> - Class in <a href="xbot/common/math/kinematics/package-summary.html">xbot.common.math.kinematics</a></dt>
+<dd>
+<div class="block">Helper class that converts a deadwheel velocity (dx and dtheta components) to
+ left and right wheel
+ velocities for a differential drive.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelKinematics.html#%3Cinit%3E(double)" class="member-name-link">DeadwheelKinematics(double)</a> - Constructor for class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelKinematics.html" title="class in xbot.common.math.kinematics">DeadwheelKinematics</a></dt>
+<dd>
+<div class="block">Constructs a deadwheel kinematics object.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelKinematics.html#%3Cinit%3E(edu.wpi.first.units.measure.Distance)" class="member-name-link">DeadwheelKinematics(Distance)</a> - Constructor for class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelKinematics.html" title="class in xbot.common.math.kinematics">DeadwheelKinematics</a></dt>
+<dd>
+<div class="block">Constructs a deadwheel kinematics object.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelOdometry.html" class="type-name-link" title="class in xbot.common.math.kinematics">DeadwheelOdometry</a> - Class in <a href="xbot/common/math/kinematics/package-summary.html">xbot.common.math.kinematics</a></dt>
+<dd>
+<div class="block">Class for deadwheel odometry.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelOdometry.html#%3Cinit%3E(edu.wpi.first.math.geometry.Rotation2d,double,double,double,double)" class="member-name-link">DeadwheelOdometry(Rotation2d, double, double, double, double)</a> - Constructor for class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelOdometry.html" title="class in xbot.common.math.kinematics">DeadwheelOdometry</a></dt>
+<dd>
+<div class="block">Constructs a DeadwheelOdometry object.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelOdometry.html#%3Cinit%3E(edu.wpi.first.math.geometry.Rotation2d,double,double,double,double,edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">DeadwheelOdometry(Rotation2d, double, double, double, double, Pose2d)</a> - Constructor for class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelOdometry.html" title="class in xbot.common.math.kinematics">DeadwheelOdometry</a></dt>
+<dd>
+<div class="block">Constructs a DeadwheelOdometry object.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelOdometry.html#%3Cinit%3E(edu.wpi.first.math.geometry.Rotation2d,edu.wpi.first.units.measure.Distance,edu.wpi.first.units.measure.Distance,edu.wpi.first.units.measure.Distance,edu.wpi.first.units.measure.Distance)" class="member-name-link">DeadwheelOdometry(Rotation2d, Distance, Distance, Distance, Distance)</a> - Constructor for class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelOdometry.html" title="class in xbot.common.math.kinematics">DeadwheelOdometry</a></dt>
+<dd>
+<div class="block">Constructs a DeadwheelOdometry object.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelOdometry.html#%3Cinit%3E(edu.wpi.first.math.geometry.Rotation2d,edu.wpi.first.units.measure.Distance,edu.wpi.first.units.measure.Distance,edu.wpi.first.units.measure.Distance,edu.wpi.first.units.measure.Distance,edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">DeadwheelOdometry(Rotation2d, Distance, Distance, Distance, Distance, Pose2d)</a> - Constructor for class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelOdometry.html" title="class in xbot.common.math.kinematics">DeadwheelOdometry</a></dt>
+<dd>
+<div class="block">Constructs a DeadwheelOdometry object.</div>
+</dd>
+<dt><a href="xbot/common/math/estimator/DeadwheelPoseEstimator.html" class="type-name-link" title="class in xbot.common.math.estimator">DeadwheelPoseEstimator</a> - Class in <a href="xbot/common/math/estimator/package-summary.html">xbot.common.math.estimator</a></dt>
+<dd>
+<div class="block">This class wraps <code>Differential Drive
+ Odometry</code> to fuse
+ latency-compensated vision measurements with differential drive encoder
+ measurements.</div>
+</dd>
+<dt><a href="xbot/common/math/estimator/DeadwheelPoseEstimator.html#%3Cinit%3E(xbot.common.math.kinematics.DeadwheelKinematics,edu.wpi.first.math.geometry.Rotation2d,double,double,double,double,edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">DeadwheelPoseEstimator(DeadwheelKinematics, Rotation2d, double, double, double, double, Pose2d)</a> - Constructor for class xbot.common.math.estimator.<a href="xbot/common/math/estimator/DeadwheelPoseEstimator.html" title="class in xbot.common.math.estimator">DeadwheelPoseEstimator</a></dt>
+<dd>
+<div class="block">Constructs a DifferentialDrivePoseEstimator with default standard deviations
+ for the model and
+ vision measurements.</div>
+</dd>
+<dt><a href="xbot/common/math/estimator/DeadwheelPoseEstimator.html#%3Cinit%3E(xbot.common.math.kinematics.DeadwheelKinematics,edu.wpi.first.math.geometry.Rotation2d,double,double,double,double,edu.wpi.first.math.geometry.Pose2d,edu.wpi.first.math.Matrix,edu.wpi.first.math.Matrix)" class="member-name-link">DeadwheelPoseEstimator(DeadwheelKinematics, Rotation2d, double, double, double, double, Pose2d, Matrix&lt;N3, N1&gt;, Matrix&lt;N3, N1&gt;)</a> - Constructor for class xbot.common.math.estimator.<a href="xbot/common/math/estimator/DeadwheelPoseEstimator.html" title="class in xbot.common.math.estimator">DeadwheelPoseEstimator</a></dt>
+<dd>
+<div class="block">Constructs a DifferentialDrivePoseEstimator.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html" class="type-name-link" title="class in xbot.common.math.kinematics">DeadwheelWheelPositions</a> - Class in <a href="xbot/common/math/kinematics/package-summary.html">xbot.common.math.kinematics</a></dt>
+<dd>
+<div class="block">Represents the wheel positions for a differential drive drivetrain.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html#%3Cinit%3E(double,double,double,double)" class="member-name-link">DeadwheelWheelPositions(double, double, double, double)</a> - Constructor for class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html" title="class in xbot.common.math.kinematics">DeadwheelWheelPositions</a></dt>
+<dd>
+<div class="block">Constructs a DeadwheelWheelPositions.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html#%3Cinit%3E(edu.wpi.first.units.measure.Distance,edu.wpi.first.units.measure.Distance,edu.wpi.first.units.measure.Distance,edu.wpi.first.units.measure.Distance)" class="member-name-link">DeadwheelWheelPositions(Distance, Distance, Distance, Distance)</a> - Constructor for class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html" title="class in xbot.common.math.kinematics">DeadwheelWheelPositions</a></dt>
+<dd>
+<div class="block">Constructs a DeadwheelWheelPositions.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html" class="type-name-link" title="class in xbot.common.math.kinematics">DeadwheelWheelSpeeds</a> - Class in <a href="xbot/common/math/kinematics/package-summary.html">xbot.common.math.kinematics</a></dt>
+<dd>
+<div class="block">Represents the wheel speeds for deadwheels.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html#%3Cinit%3E()" class="member-name-link">DeadwheelWheelSpeeds()</a> - Constructor for class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html" title="class in xbot.common.math.kinematics">DeadwheelWheelSpeeds</a></dt>
+<dd>
+<div class="block">Constructs a DeadwheelWheelSpeeds with zeros for left and right speeds.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html#%3Cinit%3E(double,double,double,double)" class="member-name-link">DeadwheelWheelSpeeds(double, double, double, double)</a> - Constructor for class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html" title="class in xbot.common.math.kinematics">DeadwheelWheelSpeeds</a></dt>
+<dd>
+<div class="block">Constructs a DifferentialDriveWheelSpeeds.</div>
+</dd>
 <dt><a href="xbot/common/properties/Property.PropertyLevel.html#Debug" class="member-name-link">Debug</a> - Enum constant in enum class xbot.common.properties.<a href="xbot/common/properties/Property.PropertyLevel.html" title="enum class in xbot.common.properties">Property.PropertyLevel</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/advantage/AKitLogger.LogLevel.html#DEBUG" class="member-name-link">DEBUG</a> - Enum constant in enum class xbot.common.advantage.<a href="xbot/common/advantage/AKitLogger.LogLevel.html" title="enum class in xbot.common.advantage">AKitLogger.LogLevel</a></dt>
@@ -1272,6 +1354,16 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/math/PID.OffTargetReason.html#DerivativeTooLarge" class="member-name-link">DerivativeTooLarge</a> - Enum constant in enum class xbot.common.math.<a href="xbot/common/math/PID.OffTargetReason.html" title="enum class in xbot.common.math">PID.OffTargetReason</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html#desaturate(double)" class="member-name-link">desaturate(double)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html" title="class in xbot.common.math.kinematics">DeadwheelWheelSpeeds</a></dt>
+<dd>
+<div class="block">Renormalizes the wheel speeds if any either side is above the specified
+ maximum.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html#desaturate(edu.wpi.first.units.measure.LinearVelocity)" class="member-name-link">desaturate(LinearVelocity)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html" title="class in xbot.common.math.kinematics">DeadwheelWheelSpeeds</a></dt>
+<dd>
+<div class="block">Renormalizes the wheel speeds if any either side is above the specified
+ maximum.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/drive/swerve/SwerveSuggestedRotation.RotationGoalType.html#DesiredHeading" class="member-name-link">DesiredHeading</a> - Enum constant in enum class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveSuggestedRotation.RotationGoalType.html" title="enum class in xbot.common.subsystems.drive.swerve">SwerveSuggestedRotation.RotationGoalType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/logging/AlertGroups.html#DEVICE_HEALTH" class="member-name-link">DEVICE_HEALTH</a> - Static variable in class xbot.common.logging.<a href="xbot/common/logging/AlertGroups.html" title="class in xbot.common.logging">AlertGroups</a></dt>
@@ -1405,6 +1497,11 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/simulation/SimulationPayloadDistributor.html#distributeSimulationPayload(org.json.JSONObject)" class="member-name-link">distributeSimulationPayload(JSONObject)</a> - Method in class xbot.common.simulation.<a href="xbot/common/simulation/SimulationPayloadDistributor.html" title="class in xbot.common.simulation">SimulationPayloadDistributor</a></dt>
 <dd>
 <div class="block">Fans out data from a simulation (like Webots) to all the simulatable devices registered on the robot.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html#div(double)" class="member-name-link">div(double)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html" title="class in xbot.common.math.kinematics">DeadwheelWheelSpeeds</a></dt>
+<dd>
+<div class="block">Divides the DifferentialDriveWheelSpeeds by a scalar and returns the new
+ DifferentialDriveWheelSpeeds.</div>
 </dd>
 <dt><a href="xbot/common/math/MovingAverage.SumFunction.html#divide(T,int)" class="member-name-link">divide(T, int)</a> - Method in interface xbot.common.math.<a href="xbot/common/math/MovingAverage.SumFunction.html" title="interface in xbot.common.math">MovingAverage.SumFunction</a></dt>
 <dd>&nbsp;</dd>
@@ -1552,6 +1649,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html" title="class in xbot.common.math.kinematics">DeadwheelWheelPositions</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PIDDefaults.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class xbot.common.math.<a href="xbot/common/math/PIDDefaults.html" title="class in xbot.common.math">PIDDefaults</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
@@ -1732,6 +1831,14 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">This annotation denotes the front left swerve module.</div>
 </dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html#frontMeters" class="member-name-link">frontMeters</a> - Variable in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html" title="class in xbot.common.math.kinematics">DeadwheelWheelPositions</a></dt>
+<dd>
+<div class="block">Distance measured by the front side.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html#frontMetersPerSecond" class="member-name-link">frontMetersPerSecond</a> - Variable in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html" title="class in xbot.common.math.kinematics">DeadwheelWheelSpeeds</a></dt>
+<dd>
+<div class="block">Speed of the right side of the robot.</div>
+</dd>
 <dt><a href="xbot/common/injection/swerve/SwerveComponentHolder.html#frontRight" class="member-name-link">frontRight</a> - Variable in class xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/SwerveComponentHolder.html" title="class in xbot.common.injection.swerve">SwerveComponentHolder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/swerve/FrontRightDrive.html" class="type-name-link" title="annotation interface in xbot.common.injection.swerve">FrontRightDrive</a> - Annotation Interface in <a href="xbot/common/injection/swerve/package-summary.html">xbot.common.injection.swerve</a></dt>
@@ -1868,6 +1975,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Gets all the pose observations in this iteration of the scheduler loop.</div>
 </dd>
 <dt><a href="org/photonvision/PhotonCameraExtended.html#getAllUnreadResults()" class="member-name-link">getAllUnreadResults()</a> - Method in class org.photonvision.<a href="org/photonvision/PhotonCameraExtended.html" title="class in org.photonvision">PhotonCameraExtended</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveSimpleBezierCommand.html#getAlternativeIsFinishedSupplier()" class="member-name-link">getAlternativeIsFinishedSupplier()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveSimpleBezierCommand.html" title="class in xbot.common.subsystems.drive">SwerveSimpleBezierCommand</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryCommand.html#getAlternativeIsFinishedSupplier()" class="member-name-link">getAlternativeIsFinishedSupplier()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryCommand.html" title="class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryCommand</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/modules/RealDevicesModule.html#getAnalogDistanceSensorFactory(xbot.common.controls.sensors.AnalogDistanceSensor.AnalogDistanceSensorFactory)" class="member-name-link">getAnalogDistanceSensorFactory(AnalogDistanceSensor.AnalogDistanceSensorFactory)</a> - Method in class xbot.common.injection.modules.<a href="xbot/common/injection/modules/RealDevicesModule.html" title="class in xbot.common.injection.modules">RealDevicesModule</a></dt>
 <dd>&nbsp;</dd>
@@ -2086,6 +2197,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Get the deadband value.</div>
 </dd>
+<dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#getDeadwheelDriveKinematics()" class="member-name-link">getDeadwheelDriveKinematics()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/FieldPose.html#getDeltaAngleToRabbit(xbot.common.math.FieldPose,double)" class="member-name-link">getDeltaAngleToRabbit(FieldPose, double)</a> - Method in class xbot.common.math.<a href="xbot/common/math/FieldPose.html" title="class in xbot.common.math">FieldPose</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PIDPropertyManager.html#getDerivativeThreshold()" class="member-name-link">getDerivativeThreshold()</a> - Method in class xbot.common.math.<a href="xbot/common/math/PIDPropertyManager.html" title="class in xbot.common.math">PIDPropertyManager</a></dt>
@@ -2179,6 +2292,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/controls/sensors/XLidarLite.html#getDistance()" class="member-name-link">getDistance()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XLidarLite.html" title="class in xbot.common.controls.sensors">XLidarLite</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/FieldPose.html#getDistanceAlongPoseLine(xbot.common.math.XYPair)" class="member-name-link">getDistanceAlongPoseLine(XYPair)</a> - Method in class xbot.common.math.<a href="xbot/common/math/FieldPose.html" title="class in xbot.common.math">FieldPose</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/XDeadwheelElectricalContract.html#getDistanceFromCenterToOuterBumperX()" class="member-name-link">getDistanceFromCenterToOuterBumperX()</a> - Method in interface xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/XDeadwheelElectricalContract.html" title="interface in xbot.common.injection.electrical_contract">XDeadwheelElectricalContract</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.html#getDistanceToCenter(edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">getDistanceToCenter(Translation2d)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a></dt>
 <dd>
@@ -3284,6 +3399,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html#hashCode()" class="member-name-link">hashCode()</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html" title="class in xbot.common.math.kinematics">DeadwheelWheelPositions</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PIDDefaults.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class xbot.common.math.<a href="xbot/common/math/PIDDefaults.html" title="class in xbot.common.math">PIDDefaults</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
@@ -3535,6 +3652,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/logging/IntermittentConsoleLogger.html" class="type-name-link" title="class in xbot.common.logging">IntermittentConsoleLogger</a> - Class in <a href="xbot/common/logging/package-summary.html">xbot.common.logging</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/logging/IntermittentConsoleLogger.html#%3Cinit%3E()" class="member-name-link">IntermittentConsoleLogger()</a> - Constructor for class xbot.common.logging.<a href="xbot/common/logging/IntermittentConsoleLogger.html" title="class in xbot.common.logging">IntermittentConsoleLogger</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html#interpolate(xbot.common.math.kinematics.DeadwheelWheelPositions,double)" class="member-name-link">interpolate(DeadwheelWheelPositions, double)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html" title="class in xbot.common.math.kinematics">DeadwheelWheelPositions</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelKinematics.html#interpolate(xbot.common.math.kinematics.DeadwheelWheelPositions,xbot.common.math.kinematics.DeadwheelWheelPositions,double)" class="member-name-link">interpolate(DeadwheelWheelPositions, DeadwheelWheelPositions, double)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelKinematics.html" title="class in xbot.common.math.kinematics">DeadwheelKinematics</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/InterpolatingFieldPoseBuffer.html" class="type-name-link" title="class in xbot.common.math">InterpolatingFieldPoseBuffer</a> - Class in <a href="xbot/common/math/package-summary.html">xbot.common.math</a></dt>
 <dd>&nbsp;</dd>
@@ -3897,6 +4018,14 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XXboxController.XboxButton.html#LeftJoystickYAxisPositive" class="member-name-link">LeftJoystickYAxisPositive</a> - Enum constant in enum class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XXboxController.XboxButton.html" title="enum class in xbot.common.controls.sensors">XXboxController.XboxButton</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html#leftMeters" class="member-name-link">leftMeters</a> - Variable in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html" title="class in xbot.common.math.kinematics">DeadwheelWheelPositions</a></dt>
+<dd>
+<div class="block">Distance measured by the left side.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html#leftMetersPerSecond" class="member-name-link">leftMetersPerSecond</a> - Variable in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html" title="class in xbot.common.math.kinematics">DeadwheelWheelSpeeds</a></dt>
+<dd>
+<div class="block">Speed of the left side of the robot.</div>
+</dd>
 <dt><a href="xbot/common/controls/sensors/XXboxController.XboxButton.html#LeftStick" class="member-name-link">LeftStick</a> - Enum constant in enum class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XXboxController.XboxButton.html" title="enum class in xbot.common.controls.sensors">XXboxController.XboxButton</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/MockDriveSubsystem.html#leftTank" class="member-name-link">leftTank</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/MockDriveSubsystem.html" title="class in xbot.common.subsystems.drive">MockDriveSubsystem</a></dt>
@@ -4028,6 +4157,12 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html#minPowerOutput()" class="member-name-link">minPowerOutput()</a> - Method in record class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>minPowerOutput</code> record component.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html#minus(xbot.common.math.kinematics.DeadwheelWheelSpeeds)" class="member-name-link">minus(DeadwheelWheelSpeeds)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html" title="class in xbot.common.math.kinematics">DeadwheelWheelSpeeds</a></dt>
+<dd>
+<div class="block">Subtracts the other DifferentialDriveWheelSpeeds from the current
+ DifferentialDriveWheelSpeeds
+ and returns the difference.</div>
 </dd>
 <dt><a href="xbot/common/subsystems/pose/GameField.Symmetry.html#Mirrored" class="member-name-link">Mirrored</a> - Enum constant in enum class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/GameField.Symmetry.html" title="enum class in xbot.common.subsystems.pose">GameField.Symmetry</a></dt>
 <dd>
@@ -4275,13 +4410,15 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#move(xbot.common.math.XYPair,double)" class="member-name-link">move(XYPair, double)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
 <dd>
-<div class="block">Set the target movement speed and rotation, rotating around the center of the robot.</div>
+<div class="block">Set the target movement speed and rotation, rotating around the center of the
+ robot.</div>
 </dd>
 <dt><a href="xbot/common/subsystems/drive/MockDriveSubsystem.html#move(xbot.common.math.XYPair,double)" class="member-name-link">move(XYPair, double)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/MockDriveSubsystem.html" title="class in xbot.common.subsystems.drive">MockDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#move(xbot.common.math.XYPair,double,xbot.common.math.XYPair)" class="member-name-link">move(XYPair, double, XYPair)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
 <dd>
-<div class="block">Set the target movement speed and rotation, with an arbitrary center of rotation.</div>
+<div class="block">Set the target movement speed and rotation, with an arbitrary center of
+ rotation.</div>
 </dd>
 <dt><a href="xbot/common/trajectory/Obstacle.html#movePointOutsideOfBounds(edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">movePointOutsideOfBounds(Translation2d)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a></dt>
 <dd>&nbsp;</dd>
@@ -4559,6 +4696,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/logging/Pluralizer.html#%3Cinit%3E()" class="member-name-link">Pluralizer()</a> - Constructor for class xbot.common.logging.<a href="xbot/common/logging/Pluralizer.html" title="class in xbot.common.logging">Pluralizer</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html#plus(xbot.common.math.kinematics.DeadwheelWheelSpeeds)" class="member-name-link">plus(DeadwheelWheelSpeeds)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html" title="class in xbot.common.math.kinematics">DeadwheelWheelSpeeds</a></dt>
+<dd>
+<div class="block">Adds two DifferentialDriveWheelSpeeds and returns the sum.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/drive/PurePursuitCommand.html#pointIndex" class="member-name-link">pointIndex</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/PurePursuitCommand.html" title="class in xbot.common.subsystems.drive">PurePursuitCommand</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/RabbitPoint.html#pointType" class="member-name-link">pointType</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/RabbitPoint.html" title="class in xbot.common.subsystems.drive">RabbitPoint</a></dt>
@@ -4790,6 +4931,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/injection/swerve/RearLeftDrive.html" class="type-name-link" title="annotation interface in xbot.common.injection.swerve">RearLeftDrive</a> - Annotation Interface in <a href="xbot/common/injection/swerve/package-summary.html">xbot.common.injection.swerve</a></dt>
 <dd>
 <div class="block">This annotation denotes the rear left swerve module.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html#rearMeters" class="member-name-link">rearMeters</a> - Variable in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html" title="class in xbot.common.math.kinematics">DeadwheelWheelPositions</a></dt>
+<dd>
+<div class="block">Distance measured by the left side.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html#rearMetersPerSecond" class="member-name-link">rearMetersPerSecond</a> - Variable in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html" title="class in xbot.common.math.kinematics">DeadwheelWheelSpeeds</a></dt>
+<dd>
+<div class="block">Speed of the right side of the robot.</div>
 </dd>
 <dt><a href="xbot/common/injection/swerve/SwerveComponentHolder.html#rearRight" class="member-name-link">rearRight</a> - Variable in class xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/SwerveComponentHolder.html" title="class in xbot.common.injection.swerve">SwerveComponentHolder</a></dt>
 <dd>&nbsp;</dd>
@@ -5025,6 +5174,18 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/simulation/WebotsClient.html#resetPosition(double,double,double)" class="member-name-link">resetPosition(double, double, double)</a> - Method in class xbot.common.simulation.<a href="xbot/common/simulation/WebotsClient.html" title="class in xbot.common.simulation">WebotsClient</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/estimator/DeadwheelPoseEstimator.html#resetPosition(edu.wpi.first.math.geometry.Rotation2d,double,double,double,double,edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">resetPosition(Rotation2d, double, double, double, double, Pose2d)</a> - Method in class xbot.common.math.estimator.<a href="xbot/common/math/estimator/DeadwheelPoseEstimator.html" title="class in xbot.common.math.estimator">DeadwheelPoseEstimator</a></dt>
+<dd>
+<div class="block">Resets the robot's position on the field.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelOdometry.html#resetPosition(edu.wpi.first.math.geometry.Rotation2d,double,double,double,double,edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">resetPosition(Rotation2d, double, double, double, double, Pose2d)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelOdometry.html" title="class in xbot.common.math.kinematics">DeadwheelOdometry</a></dt>
+<dd>
+<div class="block">Resets the robot's position on the field.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelOdometry.html#resetPosition(edu.wpi.first.math.geometry.Rotation2d,edu.wpi.first.units.measure.Distance,edu.wpi.first.units.measure.Distance,edu.wpi.first.units.measure.Distance,edu.wpi.first.units.measure.Distance,edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">resetPosition(Rotation2d, Distance, Distance, Distance, Distance, Pose2d)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelOdometry.html" title="class in xbot.common.math.kinematics">DeadwheelOdometry</a></dt>
+<dd>
+<div class="block">Resets the robot's position on the field.</div>
+</dd>
 <dt><a href="xbot/common/simulation/ResetSimulatorPositionCommand.html" class="type-name-link" title="class in xbot.common.simulation">ResetSimulatorPositionCommand</a> - Class in <a href="xbot/common/simulation/package-summary.html">xbot.common.simulation</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/simulation/ResetSimulatorPositionCommand.html#%3Cinit%3E(xbot.common.simulation.WebotsClient,xbot.common.subsystems.pose.BasePoseSubsystem,xbot.common.simulation.SimulationPayloadDistributor)" class="member-name-link">ResetSimulatorPositionCommand(WebotsClient, BasePoseSubsystem, SimulationPayloadDistributor)</a> - Constructor for class xbot.common.simulation.<a href="xbot/common/simulation/ResetSimulatorPositionCommand.html" title="class in xbot.common.simulation">ResetSimulatorPositionCommand</a></dt>
@@ -5043,6 +5204,14 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XXboxController.XboxButton.html#RightJoystickYAxisPositive" class="member-name-link">RightJoystickYAxisPositive</a> - Enum constant in enum class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XXboxController.XboxButton.html" title="enum class in xbot.common.controls.sensors">XXboxController.XboxButton</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html#rightMeters" class="member-name-link">rightMeters</a> - Variable in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html" title="class in xbot.common.math.kinematics">DeadwheelWheelPositions</a></dt>
+<dd>
+<div class="block">Distance measured by the right side.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html#rightMetersPerSecond" class="member-name-link">rightMetersPerSecond</a> - Variable in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html" title="class in xbot.common.math.kinematics">DeadwheelWheelSpeeds</a></dt>
+<dd>
+<div class="block">Speed of the right side of the robot.</div>
+</dd>
 <dt><a href="xbot/common/controls/sensors/XXboxController.XboxButton.html#RightStick" class="member-name-link">RightStick</a> - Enum constant in enum class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XXboxController.XboxButton.html" title="enum class in xbot.common.controls.sensors">XXboxController.XboxButton</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/MockDriveSubsystem.html#rightTank" class="member-name-link">rightTank</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/MockDriveSubsystem.html" title="class in xbot.common.subsystems.drive">MockDriveSubsystem</a></dt>
@@ -5089,6 +5258,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIOPhotonVision.html#robotToCamera" class="member-name-link">robotToCamera</a> - Variable in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIOPhotonVision.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIOPhotonVision</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelKinematics.html#robotWidthMeters" class="member-name-link">robotWidthMeters</a> - Variable in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelKinematics.html" title="class in xbot.common.math.kinematics">DeadwheelKinematics</a></dt>
+<dd>
+<div class="block">Differential drive trackwidth.</div>
+</dd>
 <dt><a href="xbot/common/controls/io_inputs/XGyroIoInputs.html#roll" class="member-name-link">roll</a> - Variable in class xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/XGyroIoInputs.html" title="class in xbot.common.controls.io_inputs">XGyroIoInputs</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/XYPair.html#rotate(double)" class="member-name-link">rotate(double)</a> - Method in class xbot.common.math.<a href="xbot/common/math/XYPair.html" title="class in xbot.common.math">XYPair</a></dt>
@@ -6572,6 +6745,11 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/TimerWpiAdapter.html#%3Cinit%3E()" class="member-name-link">TimerWpiAdapter()</a> - Constructor for class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/TimerWpiAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">TimerWpiAdapter</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html#times(double)" class="member-name-link">times(double)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html" title="class in xbot.common.math.kinematics">DeadwheelWheelSpeeds</a></dt>
+<dd>
+<div class="block">Multiplies the DifferentialDriveWheelSpeeds by a scalar and returns the new
+ DifferentialDriveWheelSpeeds.</div>
+</dd>
 <dt><a href="xbot/common/command/BaseMaintainerCommand.html#timeStableValidator" class="member-name-link">timeStableValidator</a> - Variable in class xbot.common.command.<a href="xbot/common/command/BaseMaintainerCommand.html" title="class in xbot.common.command">BaseMaintainerCommand</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/logic/TimeStableValidator.html" class="type-name-link" title="class in xbot.common.logic">TimeStableValidator</a> - Class in <a href="xbot/common/logic/package-summary.html">xbot.common.logic</a></dt>
@@ -6597,6 +6775,11 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/math/PIDDefaults.html#timeThreshold()" class="member-name-link">timeThreshold()</a> - Method in record class xbot.common.math.<a href="xbot/common/math/PIDDefaults.html" title="class in xbot.common.math">PIDDefaults</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>timeThreshold</code> record component.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelKinematics.html#toChassisSpeeds(xbot.common.math.kinematics.DeadwheelWheelSpeeds)" class="member-name-link">toChassisSpeeds(DeadwheelWheelSpeeds)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelKinematics.html" title="class in xbot.common.math.kinematics">DeadwheelKinematics</a></dt>
+<dd>
+<div class="block">Returns a chassis speed from left and right component velocities using
+ forward kinematics.</div>
 </dd>
 <dt><a href="xbot/common/controls/sensors/buttons/SettableBooleanSuppler.html#toggle()" class="member-name-link">toggle()</a> - Method in class xbot.common.controls.sensors.buttons.<a href="xbot/common/controls/sensors/buttons/SettableBooleanSuppler.html" title="class in xbot.common.controls.sensors.buttons">SettableBooleanSuppler</a></dt>
 <dd>&nbsp;</dd>
@@ -6638,6 +6821,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/FieldPose.html#toString()" class="member-name-link">toString()</a> - Method in class xbot.common.math.<a href="xbot/common/math/FieldPose.html" title="class in xbot.common.math">FieldPose</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html#toString()" class="member-name-link">toString()</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html" title="class in xbot.common.math.kinematics">DeadwheelWheelPositions</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html#toString()" class="member-name-link">toString()</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html" title="class in xbot.common.math.kinematics">DeadwheelWheelSpeeds</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PIDDefaults.html#toString()" class="member-name-link">toString()</a> - Method in record class xbot.common.math.<a href="xbot/common/math/PIDDefaults.html" title="class in xbot.common.math">PIDDefaults</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
@@ -6674,6 +6861,19 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/XYPair.html#toTranslation2d()" class="member-name-link">toTranslation2d()</a> - Method in class xbot.common.math.<a href="xbot/common/math/XYPair.html" title="class in xbot.common.math">XYPair</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelKinematics.html#toTwist2d(double,double,double,double)" class="member-name-link">toTwist2d(double, double, double, double)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelKinematics.html" title="class in xbot.common.math.kinematics">DeadwheelKinematics</a></dt>
+<dd>
+<div class="block">Performs forward kinematics to return the resulting Twist2d from the given
+ left and right side
+ distance deltas.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelKinematics.html#toTwist2d(xbot.common.math.kinematics.DeadwheelWheelPositions,xbot.common.math.kinematics.DeadwheelWheelPositions)" class="member-name-link">toTwist2d(DeadwheelWheelPositions, DeadwheelWheelPositions)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelKinematics.html" title="class in xbot.common.math.kinematics">DeadwheelKinematics</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelKinematics.html#toWheelSpeeds(edu.wpi.first.math.kinematics.ChassisSpeeds)" class="member-name-link">toWheelSpeeds(ChassisSpeeds)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelKinematics.html" title="class in xbot.common.math.kinematics">DeadwheelKinematics</a></dt>
+<dd>
+<div class="block">Returns left and right component velocities from a chassis speed using
+ inverse kinematics.</div>
+</dd>
 <dt><a href="xbot/common/math/PurePursuitTest.PursuitEnvironmentState.html#translatePower" class="member-name-link">translatePower</a> - Variable in class xbot.common.math.<a href="xbot/common/math/PurePursuitTest.PursuitEnvironmentState.html" title="class in xbot.common.math">PurePursuitTest.PursuitEnvironmentState</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/PurePursuitCommand.RabbitChaseInfo.html#translation" class="member-name-link">translation</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/PurePursuitCommand.RabbitChaseInfo.html" title="class in xbot.common.subsystems.drive">PurePursuitCommand.RabbitChaseInfo</a></dt>
@@ -6710,6 +6910,10 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:U">U</h2>
 <dl class="index">
+<dt><a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html#unaryMinus()" class="member-name-link">unaryMinus()</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html" title="class in xbot.common.math.kinematics">DeadwheelWheelSpeeds</a></dt>
+<dd>
+<div class="block">Returns the inverse of the current DifferentialDriveWheelSpeeds.</div>
+</dd>
 <dt><a href="xbot/common/command/BaseMaintainerCommand.html#uncalibratedMachineControlAction()" class="member-name-link">uncalibratedMachineControlAction()</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseMaintainerCommand.html" title="class in xbot.common.command">BaseMaintainerCommand</a></dt>
 <dd>
 <div class="block">The uncalibrated machine control action.</div>
@@ -6756,6 +6960,15 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XLidarLite.html#update()" class="member-name-link">update()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XLidarLite.html" title="class in xbot.common.controls.sensors">XLidarLite</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/estimator/DeadwheelPoseEstimator.html#update(edu.wpi.first.math.geometry.Rotation2d,double,double,double,double)" class="member-name-link">update(Rotation2d, double, double, double, double)</a> - Method in class xbot.common.math.estimator.<a href="xbot/common/math/estimator/DeadwheelPoseEstimator.html" title="class in xbot.common.math.estimator">DeadwheelPoseEstimator</a></dt>
+<dd>
+<div class="block">Updates the pose estimator with wheel encoder and gyro information.</div>
+</dd>
+<dt><a href="xbot/common/math/kinematics/DeadwheelOdometry.html#update(edu.wpi.first.math.geometry.Rotation2d,double,double,double,double)" class="member-name-link">update(Rotation2d, double, double, double, double)</a> - Method in class xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelOdometry.html" title="class in xbot.common.math.kinematics">DeadwheelOdometry</a></dt>
+<dd>
+<div class="block">Updates the robot position on the field using distance measurements from
+ encoders.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/pose/BasePoseSubsystem.html#updateCurrentHeading()" class="member-name-link">updateCurrentHeading()</a> - Method in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/BasePoseSubsystem.html" title="class in xbot.common.subsystems.pose">BasePoseSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="edu/wpi/first/wpilibj/MockDigitalOutput.html#updateDutyCycle(double)" class="member-name-link">updateDutyCycle(double)</a> - Method in class edu.wpi.first.wpilibj.<a href="edu/wpi/first/wpilibj/MockDigitalOutput.html" title="class in edu.wpi.first.wpilibj">MockDigitalOutput</a></dt>
@@ -6843,6 +7056,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/math/PlanarVisualizationPanel.html#updateViz(xbot.common.math.PurePursuitTest.PursuitEnvironmentState)" class="member-name-link">updateViz(PurePursuitTest.PursuitEnvironmentState)</a> - Method in class xbot.common.math.<a href="xbot/common/math/PlanarVisualizationPanel.html" title="class in xbot.common.math">PlanarVisualizationPanel</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/estimator/DeadwheelPoseEstimator.html#updateWithTime(double,edu.wpi.first.math.geometry.Rotation2d,double,double,double,double)" class="member-name-link">updateWithTime(double, Rotation2d, double, double, double, double)</a> - Method in class xbot.common.math.estimator.<a href="xbot/common/math/estimator/DeadwheelPoseEstimator.html" title="class in xbot.common.math.estimator">DeadwheelPoseEstimator</a></dt>
+<dd>
+<div class="block">Updates the pose estimator with wheel encoder and gyro information.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/drive/RabbitPoint.html#upgradeFieldPoseList(java.util.List)" class="member-name-link">upgradeFieldPoseList(List&lt;FieldPose&gt;)</a> - Static method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/RabbitPoint.html" title="class in xbot.common.subsystems.drive">RabbitPoint</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/DevicePolice.DeviceType.html#USB" class="member-name-link">USB</a> - Enum constant in enum class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.DeviceType.html" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a></dt>
@@ -7397,6 +7614,10 @@ the order they are declared.</div>
 <dd>
 <div class="block">Math utilities.</div>
 </dd>
+<dt><a href="xbot/common/math/estimator/package-summary.html">xbot.common.math.estimator</a> - package xbot.common.math.estimator</dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/math/kinematics/package-summary.html">xbot.common.math.kinematics</a> - package xbot.common.math.kinematics</dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/networking/package-summary.html">xbot.common.networking</a> - package xbot.common.networking</dt>
 <dd>
 <div class="block">Networking utilities.</div>
@@ -7522,6 +7743,11 @@ the order they are declared.</div>
 <dt><a href="xbot/common/controls/actuators/XCompressor.XCompressorFactory.html" class="type-name-link" title="interface in xbot.common.controls.actuators">XCompressor.XCompressorFactory</a> - Interface in <a href="xbot/common/controls/actuators/package-summary.html">xbot.common.controls.actuators</a></dt>
 <dd>
 <div class="block">A factory to create XCompressor instances.</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/XDeadwheelElectricalContract.html" class="type-name-link" title="interface in xbot.common.injection.electrical_contract">XDeadwheelElectricalContract</a> - Interface in <a href="xbot/common/injection/electrical_contract/package-summary.html">xbot.common.injection.electrical_contract</a></dt>
+<dd>
+<div class="block">This interface defines the base electrical contract
+ for robots implementing a deadwheel assisted drive based system.</div>
 </dd>
 <dt><a href="xbot/common/controls/sensors/XDigitalInput.html" class="type-name-link" title="class in xbot.common.controls.sensors">XDigitalInput</a> - Class in <a href="xbot/common/controls/sensors/package-summary.html">xbot.common.controls.sensors</a></dt>
 <dd>&nbsp;</dd>

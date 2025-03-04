@@ -19,6 +19,8 @@ xbot.common.injection.swerve
 xbot.common.logging
 xbot.common.logic
 xbot.common.math
+xbot.common.math.estimator
+xbot.common.math.kinematics
 xbot.common.networking
 xbot.common.properties
 xbot.common.resiliency

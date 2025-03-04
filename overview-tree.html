@@ -73,6 +73,8 @@ loadScripts(document, 'script');</script>
 <li><a href="xbot/common/logging/package-tree.html">xbot.common.logging</a>, </li>
 <li><a href="xbot/common/logic/package-tree.html">xbot.common.logic</a>, </li>
 <li><a href="xbot/common/math/package-tree.html">xbot.common.math</a>, </li>
+<li><a href="xbot/common/math/estimator/package-tree.html">xbot.common.math.estimator</a>, </li>
+<li><a href="xbot/common/math/kinematics/package-tree.html">xbot.common.math.kinematics</a>, </li>
 <li><a href="xbot/common/networking/package-tree.html">xbot.common.networking</a>, </li>
 <li><a href="xbot/common/properties/package-tree.html">xbot.common.properties</a>, </li>
 <li><a href="xbot/common/resiliency/package-tree.html">xbot.common.resiliency</a>, </li>
@@ -206,6 +208,9 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CompressorWPIAdapter.CompressorWPIAdapterFactory.html" class="type-name-link" title="class in xbot.common.controls.actuators.wpi_adapters">CompressorWPIAdapter.CompressorWPIAdapterFactory</a> (implements xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCompressor.XCompressorFactory.html" title="interface in xbot.common.controls.actuators">XCompressor.XCompressorFactory</a>)</li>
 <li class="circle">xbot.common.math.<a href="xbot/common/math/ContiguousDouble.html" class="type-name-link" title="class in xbot.common.math">ContiguousDouble</a></li>
 <li class="circle">xbot.common.properties.<a href="xbot/common/properties/DatabaseStorageBase.html" class="type-name-link" title="class in xbot.common.properties">DatabaseStorageBase</a> (implements xbot.common.properties.<a href="xbot/common/properties/PermanentStorage.html" title="interface in xbot.common.properties">PermanentStorage</a>)</li>
+<li class="circle">xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelKinematics.html" class="type-name-link" title="class in xbot.common.math.kinematics">DeadwheelKinematics</a> (implements edu.wpi.first.math.kinematics.<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/kinematics/Kinematics.html" title="class or interface in edu.wpi.first.math.kinematics" class="external-link">Kinematics</a>&lt;S,<wbr>P&gt;)</li>
+<li class="circle">xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelPositions.html" class="type-name-link" title="class in xbot.common.math.kinematics">DeadwheelWheelPositions</a> (implements edu.wpi.first.math.interpolation.<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/interpolation/Interpolatable.html" title="class or interface in edu.wpi.first.math.interpolation" class="external-link">Interpolatable</a>&lt;T&gt;)</li>
+<li class="circle">xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelWheelSpeeds.html" class="type-name-link" title="class in xbot.common.math.kinematics">DeadwheelWheelSpeeds</a></li>
 <li class="circle">xbot.common.properties.<a href="xbot/common/properties/DebugFlag.html" class="type-name-link" title="class in xbot.common.properties">DebugFlag</a></li>
 <li class="circle">xbot.common.injection.modules.<a href="xbot/common/injection/modules/DefaultVisionModule.html" class="type-name-link" title="class in xbot.common.injection.modules">DefaultVisionModule</a></li>
 <li class="circle">xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/DeviceInfo.html" class="type-name-link" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a></li>
@@ -276,6 +281,11 @@ loadScripts(document, 'script');</script>
 </ul>
 </li>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/MultiplexedLidarPair.html" class="type-name-link" title="class in xbot.common.controls.sensors">MultiplexedLidarPair</a> (implements xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/DistanceSensorPair.html" title="interface in xbot.common.controls.sensors">DistanceSensorPair</a>)</li>
+<li class="circle">edu.wpi.first.math.kinematics.<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/kinematics/Odometry.html" class="type-name-link external-link" title="class or interface in edu.wpi.first.math.kinematics">Odometry</a>&lt;T&gt;
+<ul>
+<li class="circle">xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelOdometry.html" class="type-name-link" title="class in xbot.common.math.kinematics">DeadwheelOdometry</a></li>
+</ul>
+</li>
 <li class="circle">org.photonvision.<a href="https://photonvision.github.io/photonvision/built-docs/javadoc/org/photonvision/PhotonCamera.html" class="type-name-link external-link" title="class or interface in org.photonvision">PhotonCamera</a> (implements java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/AutoCloseable.html" title="class or interface in java.lang" class="external-link">AutoCloseable</a>)
 <ul>
 <li class="circle">org.photonvision.<a href="org/photonvision/PhotonCameraExtended.html" class="type-name-link" title="class in org.photonvision">PhotonCameraExtended</a> (implements xbot.common.advantage.<a href="xbot/common/advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a>)</li>
@@ -293,6 +303,11 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.math.<a href="xbot/common/math/PlanarEngine.html" class="type-name-link" title="class in xbot.common.math">PlanarEngine</a></li>
 <li class="circle">xbot.common.math.<a href="xbot/common/math/PlanarTestVisualizer.html" class="type-name-link" title="class in xbot.common.math">PlanarTestVisualizer</a></li>
 <li class="circle">xbot.common.logging.<a href="xbot/common/logging/Pluralizer.html" class="type-name-link" title="class in xbot.common.logging">Pluralizer</a></li>
+<li class="circle">edu.wpi.first.math.estimator.<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/estimator/PoseEstimator.html" class="type-name-link external-link" title="class or interface in edu.wpi.first.math.estimator">PoseEstimator</a>&lt;T&gt;
+<ul>
+<li class="circle">xbot.common.math.estimator.<a href="xbot/common/math/estimator/DeadwheelPoseEstimator.html" class="type-name-link" title="class in xbot.common.math.estimator">DeadwheelPoseEstimator</a></li>
+</ul>
+</li>
 <li class="circle">xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/PowerDistributionPanelWPIAdapter.PowerDistributionPanelWPIAdapaterFactory.html" class="type-name-link" title="class in xbot.common.controls.sensors.wpi_adapters">PowerDistributionPanelWPIAdapter.PowerDistributionPanelWPIAdapaterFactory</a> (implements xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XPowerDistributionPanel.XPowerDistributionPanelFactory.html" title="interface in xbot.common.controls.sensors">XPowerDistributionPanel.XPowerDistributionPanelFactory</a>)</li>
 <li class="circle">xbot.common.properties.<a href="xbot/common/properties/PreferenceStorage.html" class="type-name-link" title="class in xbot.common.properties">PreferenceStorage</a> (implements xbot.common.properties.<a href="xbot/common/properties/PermanentStorage.html" title="interface in xbot.common.properties">PermanentStorage</a>)</li>
 <li class="circle">xbot.common.properties.<a href="xbot/common/properties/Property.html" class="type-name-link" title="class in xbot.common.properties">Property</a> (implements xbot.common.advantage.<a href="xbot/common/advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a>)
@@ -685,6 +700,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/XCameraElectricalContract.html" class="type-name-link" title="interface in xbot.common.injection.electrical_contract">XCameraElectricalContract</a></li>
 <li class="circle">xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.XCANMotorControllerFactory.html" class="type-name-link" title="interface in xbot.common.controls.actuators">XCANMotorController.XCANMotorControllerFactory</a></li>
 <li class="circle">xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCompressor.XCompressorFactory.html" class="type-name-link" title="interface in xbot.common.controls.actuators">XCompressor.XCompressorFactory</a></li>
+<li class="circle">xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/XDeadwheelElectricalContract.html" class="type-name-link" title="interface in xbot.common.injection.electrical_contract">XDeadwheelElectricalContract</a></li>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XDigitalInput.XDigitalInputFactory.html" class="type-name-link" title="interface in xbot.common.controls.sensors">XDigitalInput.XDigitalInputFactory</a></li>
 <li class="circle">xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XDigitalOutput.XDigitalOutputFactory.html" class="type-name-link" title="interface in xbot.common.controls.actuators">XDigitalOutput.XDigitalOutputFactory</a></li>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XDutyCycleEncoder.XDutyCycleEncoderFactory.html" class="type-name-link" title="interface in xbot.common.controls.sensors">XDutyCycleEncoder.XDutyCycleEncoderFactory</a></li>
