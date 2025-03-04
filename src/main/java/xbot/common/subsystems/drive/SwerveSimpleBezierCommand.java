@@ -21,7 +21,7 @@ public class SwerveSimpleBezierCommand extends BaseCommand {
     protected HeadingModule headingModule;
     public SwerveSimpleBezierLogic logic;
     public Supplier<Double> constantRotationPowerSupplier;
-    public Supplier<Boolean> alternativeIsFinishedSupplier;
+    protected Supplier<Boolean> alternativeIsFinishedSupplier;
     public boolean constantRotationEnabled = false;
 
     @Inject
