@@ -29,7 +29,7 @@ import static edu.wpi.first.units.Units.Radians;
 
 public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable, ISwerveAdvisorPoseSupport {
 
-    public XGyro imu;
+    public final XGyro imu;
     protected double leftDriveDistance;
     protected double rightDriveDistance;
     protected double totalDistanceX;
@@ -59,9 +59,13 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     private final MutAngle currentHeading;
 
     public BasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {
+        this(gyroFactory.create(), propManager);
+    }
+
+    public BasePoseSubsystem(XGyro gyro, PropertyFactory propManager) {
         log.info("Creating");
         propManager.setPrefix(this);
-        imu = gyroFactory.create();
+        imu = gyro;
         this.classInstantiationTime = XTimer.getFPGATimestamp();
 
         // Right when the system is initialized, we need to have the old value be
@@ -72,10 +76,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
         rioRotated = propManager.createPersistentProperty("RIO rotated", false);
         inherentRioPitch = propManager.createPersistentProperty("Inherent RIO pitch", 0.0);
         inherentRioRoll = propManager.createPersistentProperty("Inherent RIO roll", 0.0);
-    }
-
-    protected void replaceIMU(XGyro imu) {
-        this.imu = imu;
     }
 
     protected double getCompassHeading(Rotation2d standardHeading) {
