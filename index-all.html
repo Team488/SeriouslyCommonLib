@@ -610,6 +610,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/DeviceInfo.html#canBusId" class="member-name-link">canBusId</a> - Variable in class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html#canBusId()" class="member-name-link">canBusId()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>canBusId</code> record component.</div>
+</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANBusId.html" class="type-name-link" title="class in xbot.common.injection.electrical_contract">CANBusId</a> - Record Class in <a href="xbot/common/injection/electrical_contract/package-summary.html">xbot.common.injection.electrical_contract</a></dt>
 <dd>
 <div class="block">Represents a CAN bus ID</div>
@@ -782,6 +786,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Clone the object</div>
 </dd>
+<dt><a href="xbot/common/controls/sensors/wpi_adapters/Pigeon2Adapter.html#close()" class="member-name-link">close()</a> - Method in class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/Pigeon2Adapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">Pigeon2Adapter</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.NeutralMode.html#Coast" class="member-name-link">Coast</a> - Enum constant in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.NeutralMode.html" title="enum class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig.NeutralMode</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineMode.html#Coast" class="member-name-link">Coast</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineMode.html" title="enum class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineMode</a></dt>
@@ -1064,12 +1070,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XDoubleSolenoid.XDoubleSolenoidFactory.html#create(xbot.common.controls.actuators.XSolenoid,xbot.common.controls.actuators.XSolenoid)" class="member-name-link">create(XSolenoid, XSolenoid)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XDoubleSolenoid.XDoubleSolenoidFactory.html" title="class in xbot.common.controls.actuators">XDoubleSolenoid.XDoubleSolenoidFactory</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/controls/sensors/mock_adapters/MockGyro.MockGyroFactory.html#create(xbot.common.controls.sensors.XGyro.InterfaceType)" class="member-name-link">create(XGyro.InterfaceType)</a> - Method in class xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockGyro.MockGyroFactory.html" title="class in xbot.common.controls.sensors.mock_adapters">MockGyro.MockGyroFactory</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.InertialMeasurementUnitAdapterFactory.html#create(xbot.common.controls.sensors.XGyro.InterfaceType)" class="member-name-link">create(XGyro.InterfaceType)</a> - Method in class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.InertialMeasurementUnitAdapterFactory.html" title="class in xbot.common.controls.sensors.wpi_adapters">InertialMeasurementUnitAdapter.InertialMeasurementUnitAdapterFactory</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="xbot/common/controls/sensors/XGyro.XGyroFactory.html#create(xbot.common.controls.sensors.XGyro.InterfaceType)" class="member-name-link">create(XGyro.InterfaceType)</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XGyro.XGyroFactory.html" title="class in xbot.common.controls.sensors">XGyro.XGyroFactory</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/feedback/RumbleManager.RumbleManagerFactory.html#create(xbot.common.controls.sensors.XJoystick)" class="member-name-link">create(XJoystick)</a> - Method in class xbot.common.subsystems.feedback.<a href="xbot/common/subsystems/feedback/RumbleManager.RumbleManagerFactory.html" title="class in xbot.common.subsystems.feedback">RumbleManager.RumbleManagerFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/feedback/XRumbleManager.XRumbleManagerFactory.html#create(xbot.common.controls.sensors.XJoystick)" class="member-name-link">create(XJoystick)</a> - Method in interface xbot.common.subsystems.feedback.<a href="xbot/common/subsystems/feedback/XRumbleManager.XRumbleManagerFactory.html" title="interface in xbot.common.subsystems.feedback">XRumbleManager.XRumbleManagerFactory</a></dt>
@@ -1123,6 +1123,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/controls/sensors/XDigitalInput.XDigitalInputFactory.html#create(xbot.common.injection.electrical_contract.DeviceInfo,java.lang.String)" class="member-name-link">create(DeviceInfo, String)</a> - Method in interface xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XDigitalInput.XDigitalInputFactory.html" title="interface in xbot.common.controls.sensors">XDigitalInput.XDigitalInputFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XLaserCAN.XLaserCANFactory.html#create(xbot.common.injection.electrical_contract.DeviceInfo,java.lang.String)" class="member-name-link">create(DeviceInfo, String)</a> - Method in interface xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XLaserCAN.XLaserCANFactory.html" title="interface in xbot.common.controls.sensors">XLaserCAN.XLaserCANFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/mock_adapters/MockGyro.MockGyroFactory.html#create(xbot.common.injection.electrical_contract.IMUInfo)" class="member-name-link">create(IMUInfo)</a> - Method in class xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockGyro.MockGyroFactory.html" title="class in xbot.common.controls.sensors.mock_adapters">MockGyro.MockGyroFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.InertialMeasurementUnitAdapterFactory.html#create(xbot.common.injection.electrical_contract.IMUInfo)" class="member-name-link">create(IMUInfo)</a> - Method in class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.InertialMeasurementUnitAdapterFactory.html" title="class in xbot.common.controls.sensors.wpi_adapters">InertialMeasurementUnitAdapter.InertialMeasurementUnitAdapterFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/wpi_adapters/Pigeon2Adapter.Pigeon2AdapterFactory.html#create(xbot.common.injection.electrical_contract.IMUInfo)" class="member-name-link">create(IMUInfo)</a> - Method in class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/Pigeon2Adapter.Pigeon2AdapterFactory.html" title="class in xbot.common.controls.sensors.wpi_adapters">Pigeon2Adapter.Pigeon2AdapterFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/XGyro.XGyroFactory.html#create(xbot.common.injection.electrical_contract.IMUInfo)" class="member-name-link">create(IMUInfo)</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XGyro.XGyroFactory.html" title="class in xbot.common.controls.sensors">XGyro.XGyroFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/control_logic/HeadingModule.HeadingModuleFactory.html#create(xbot.common.math.PIDManager)" class="member-name-link">create(PIDManager)</a> - Method in class xbot.common.subsystems.drive.control_logic.<a href="xbot/common/subsystems/drive/control_logic/HeadingModule.HeadingModuleFactory.html" title="class in xbot.common.subsystems.drive.control_logic">HeadingModule.HeadingModuleFactory</a></dt>
 <dd>&nbsp;</dd>
@@ -1377,6 +1385,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.html#deviceId" class="member-name-link">deviceId</a> - Variable in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html#deviceId()" class="member-name-link">deviceId()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>deviceId</code> record component.</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html#deviceId()" class="member-name-link">deviceId()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>deviceId</code> record component.</div>
 </dd>
@@ -1642,6 +1654,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
@@ -1959,6 +1975,18 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/controls/sensors/mock_adapters/MockCANCoder.html#getAbsolutePosition_internal()" class="member-name-link">getAbsolutePosition_internal()</a> - Method in class xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockCANCoder.html" title="class in xbot.common.controls.sensors.mock_adapters">MockCANCoder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/CANCoderAdapter.html#getAbsolutePosition_internal()" class="member-name-link">getAbsolutePosition_internal()</a> - Method in class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/CANCoderAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">CANCoderAdapter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#getAccelerationX()" class="member-name-link">getAccelerationX()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#getAccelerationY()" class="member-name-link">getAccelerationY()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#getAccelerationZ()" class="member-name-link">getAccelerationZ()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#getAccumGyroX()" class="member-name-link">getAccumGyroX()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#getAccumGyroY()" class="member-name-link">getAccumGyroY()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#getAccumGyroZ()" class="member-name-link">getAccumGyroZ()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#getActiveSwerveModuleSubsystem()" class="member-name-link">getActiveSwerveModuleSubsystem()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
@@ -2781,6 +2809,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/FieldPose.html#getPerpendicularHeadingTowardsPoint(xbot.common.math.FieldPose)" class="member-name-link">getPerpendicularHeadingTowardsPoint(FieldPose)</a> - Method in class xbot.common.math.<a href="xbot/common/math/FieldPose.html" title="class in xbot.common.math">FieldPose</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#getPitch()" class="member-name-link">getPitch()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XGyro.html#getPitch()" class="member-name-link">getPitch()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/PurePursuitCommand.html#getPlannedPointsToVisit()" class="member-name-link">getPlannedPointsToVisit()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/PurePursuitCommand.html" title="class in xbot.common.subsystems.drive">PurePursuitCommand</a></dt>
@@ -3056,6 +3086,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">If the RoboRIO is mounted in a position other than "flat" (e.g.</div>
 </dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#getRoll()" class="member-name-link">getRoll()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XGyro.html#getRoll()" class="member-name-link">getRoll()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html#getRotateDecayPid()" class="member-name-link">getRotateDecayPid()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseDriveSubsystem</a></dt>
@@ -3070,9 +3102,13 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/MockDriveSubsystem.html#getRotateToHeadingPid()" class="member-name-link">getRotateToHeadingPid()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/MockDriveSubsystem.html" title="class in xbot.common.subsystems.drive">MockDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#getRotation2d()" class="member-name-link">getRotation2d()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/ProvidesInterpolationData.html#getRotation2d()" class="member-name-link">getRotation2d()</a> - Method in interface xbot.common.trajectory.<a href="xbot/common/trajectory/ProvidesInterpolationData.html" title="interface in xbot.common.trajectory">ProvidesInterpolationData</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/XbotSwervePoint.html#getRotation2d()" class="member-name-link">getRotation2d()</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#getRotation3d()" class="member-name-link">getRotation3d()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="edu/wpi/first/wpilibj/MockXboxControllerAdapter.html#getRumbleManager()" class="member-name-link">getRumbleManager()</a> - Method in class edu.wpi.first.wpilibj.<a href="edu/wpi/first/wpilibj/MockXboxControllerAdapter.html" title="class in edu.wpi.first.wpilibj">MockXboxControllerAdapter</a></dt>
 <dd>&nbsp;</dd>
@@ -3174,6 +3210,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Supplier indicates whether the analog value is in the button's range</div>
 </dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#getSupplyVoltage()" class="member-name-link">getSupplyVoltage()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#getSwerveDriveKinematics()" class="member-name-link">getSwerveDriveKinematics()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/XSwerveDriveElectricalContract.html#getSwerveModuleOffsetsInInches(xbot.common.injection.swerve.SwerveInstance)" class="member-name-link">getSwerveModuleOffsetsInInches(SwerveInstance)</a> - Method in interface xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/XSwerveDriveElectricalContract.html" title="interface in xbot.common.injection.electrical_contract">XSwerveDriveElectricalContract</a></dt>
@@ -3214,6 +3252,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the X angle to the specified target, which can be used for simple servoing
  with vision.</div>
 </dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#getTemperature()" class="member-name-link">getTemperature()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PIDPropertyManager.html#getTimeThreshold()" class="member-name-link">getTimeThreshold()</a> - Method in class xbot.common.math.<a href="xbot/common/math/PIDPropertyManager.html" title="class in xbot.common.math">PIDPropertyManager</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html#getTotalOperationDistance()" class="member-name-link">getTotalOperationDistance()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html" title="class in xbot.common.subsystems.drive">SwerveKinematicsCalculator</a></dt>
@@ -3328,6 +3368,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/JoystickWPIAdapter.html#getY()" class="member-name-link">getY()</a> - Method in class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/JoystickWPIAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">JoystickWPIAdapter</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#getYaw()" class="member-name-link">getYaw()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XGyro.html#getYawAngularVelocity()" class="member-name-link">getYawAngularVelocity()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/pose/BasePoseSubsystem.html#getYawAngularVelocity()" class="member-name-link">getYawAngularVelocity()</a> - Method in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/BasePoseSubsystem.html" title="class in xbot.common.subsystems.pose">BasePoseSubsystem</a></dt>
@@ -3392,6 +3434,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
@@ -3529,6 +3575,14 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/DevicePolice.DeviceType.html#IMU" class="member-name-link">IMU</a> - Enum constant in enum class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.DeviceType.html" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html" class="type-name-link" title="class in xbot.common.injection.electrical_contract">IMUInfo</a> - Record Class in <a href="xbot/common/injection/electrical_contract/package-summary.html">xbot.common.injection.electrical_contract</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html#%3Cinit%3E(xbot.common.controls.sensors.XGyro.InterfaceType)" class="member-name-link">IMUInfo(XGyro.InterfaceType)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html#%3Cinit%3E(xbot.common.controls.sensors.XGyro.InterfaceType,xbot.common.injection.electrical_contract.CANBusId,int)" class="member-name-link">IMUInfo(XGyro.InterfaceType, CANBusId, int)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>IMUInfo</code> record class.</div>
+</dd>
 <dt><a href="xbot/common/controls/sensors/XGyro.html#imuType" class="member-name-link">imuType</a> - Variable in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/XPropertyManager.html#IN_MEMORY_STORE_NAME" class="member-name-link">IN_MEMORY_STORE_NAME</a> - Static variable in class xbot.common.properties.<a href="xbot/common/properties/XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a></dt>
@@ -3543,7 +3597,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.html" class="type-name-link" title="class in xbot.common.controls.sensors.wpi_adapters">InertialMeasurementUnitAdapter</a> - Class in <a href="xbot/common/controls/sensors/wpi_adapters/package-summary.html">xbot.common.controls.sensors.wpi_adapters</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.html#%3Cinit%3E(xbot.common.injection.DevicePolice,xbot.common.controls.sensors.XGyro.InterfaceType)" class="member-name-link">InertialMeasurementUnitAdapter(DevicePolice, XGyro.InterfaceType)</a> - Constructor for class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">InertialMeasurementUnitAdapter</a></dt>
+<dt><a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.html#%3Cinit%3E(xbot.common.injection.DevicePolice,xbot.common.injection.electrical_contract.IMUInfo)" class="member-name-link">InertialMeasurementUnitAdapter(DevicePolice, IMUInfo)</a> - Constructor for class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">InertialMeasurementUnitAdapter</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.InertialMeasurementUnitAdapterFactory.html" class="type-name-link" title="class in xbot.common.controls.sensors.wpi_adapters">InertialMeasurementUnitAdapter.InertialMeasurementUnitAdapterFactory</a> - Class in <a href="xbot/common/controls/sensors/wpi_adapters/package-summary.html">xbot.common.controls.sensors.wpi_adapters</a></dt>
 <dd>&nbsp;</dd>
@@ -3629,6 +3683,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <code>initialVelocity</code> record component.</div>
 </dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#initSendable(edu.wpi.first.util.sendable.SendableBuilder)" class="member-name-link">initSendable(SendableBuilder)</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/simulation/BaseSimulationTest.html#injectorComponent" class="member-name-link">injectorComponent</a> - Variable in class xbot.common.simulation.<a href="xbot/common/simulation/BaseSimulationTest.html" title="class in xbot.common.simulation">BaseSimulationTest</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/XPropertyManager.html#inMemoryRandomAccessStore" class="member-name-link">inMemoryRandomAccessStore</a> - Variable in class xbot.common.properties.<a href="xbot/common/properties/XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a></dt>
@@ -3649,6 +3705,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/math/InterpolatingFieldPoseBuffer.html#insert(xbot.common.math.FieldPose)" class="member-name-link">insert(FieldPose)</a> - Method in class xbot.common.math.<a href="xbot/common/math/InterpolatingFieldPoseBuffer.html" title="class in xbot.common.math">InterpolatingFieldPoseBuffer</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html#interfaceType()" class="member-name-link">interfaceType()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>interfaceType</code> record component.</div>
+</dd>
 <dt><a href="xbot/common/logging/IntermittentConsoleLogger.html" class="type-name-link" title="class in xbot.common.logging">IntermittentConsoleLogger</a> - Class in <a href="xbot/common/logging/package-summary.html">xbot.common.logging</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/logging/IntermittentConsoleLogger.html#%3Cinit%3E()" class="member-name-link">IntermittentConsoleLogger()</a> - Constructor for class xbot.common.logging.<a href="xbot/common/logging/IntermittentConsoleLogger.html" title="class in xbot.common.logging">IntermittentConsoleLogger</a></dt>
@@ -3727,6 +3787,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.html#isBroken()" class="member-name-link">isBroken()</a> - Method in class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">InertialMeasurementUnitAdapter</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/wpi_adapters/Pigeon2Adapter.html#isBroken()" class="member-name-link">isBroken()</a> - Method in class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/Pigeon2Adapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">Pigeon2Adapter</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XGyro.html#isBroken()" class="member-name-link">isBroken()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/BaseSetpointSubsystem.html#isCalibrated()" class="member-name-link">isCalibrated()</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a></dt>
@@ -3748,6 +3810,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/controls/sensors/mock_adapters/MockGyro.html#isConnected()" class="member-name-link">isConnected()</a> - Method in class xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockGyro.html" title="class in xbot.common.controls.sensors.mock_adapters">MockGyro</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.html#isConnected()" class="member-name-link">isConnected()</a> - Method in class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">InertialMeasurementUnitAdapter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#isConnected()" class="member-name-link">isConnected()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XGyro.html#isConnected()" class="member-name-link">isConnected()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></dt>
 <dd>&nbsp;</dd>
@@ -4290,7 +4354,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/mock_adapters/MockGyro.html" class="type-name-link" title="class in xbot.common.controls.sensors.mock_adapters">MockGyro</a> - Class in <a href="xbot/common/controls/sensors/mock_adapters/package-summary.html">xbot.common.controls.sensors.mock_adapters</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/controls/sensors/mock_adapters/MockGyro.html#%3Cinit%3E(xbot.common.injection.DevicePolice,xbot.common.controls.sensors.XGyro.InterfaceType)" class="member-name-link">MockGyro(DevicePolice, XGyro.InterfaceType)</a> - Constructor for class xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockGyro.html" title="class in xbot.common.controls.sensors.mock_adapters">MockGyro</a></dt>
+<dt><a href="xbot/common/controls/sensors/mock_adapters/MockGyro.html#%3Cinit%3E(xbot.common.injection.DevicePolice,xbot.common.injection.electrical_contract.IMUInfo)" class="member-name-link">MockGyro(DevicePolice, IMUInfo)</a> - Constructor for class xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockGyro.html" title="class in xbot.common.controls.sensors.mock_adapters">MockGyro</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/mock_adapters/MockGyro.MockGyroFactory.html" class="type-name-link" title="class in xbot.common.controls.sensors.mock_adapters">MockGyro.MockGyroFactory</a> - Class in <a href="xbot/common/controls/sensors/mock_adapters/package-summary.html">xbot.common.controls.sensors.mock_adapters</a></dt>
 <dd>&nbsp;</dd>
@@ -4665,6 +4729,16 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/injection/components/BaseComponent.html#pidPropertyManagerFactory()" class="member-name-link">pidPropertyManagerFactory()</a> - Method in class xbot.common.injection.components.<a href="xbot/common/injection/components/BaseComponent.html" title="class in xbot.common.injection.components">BaseComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PIDPropertyManager.PIDPropertyManagerFactory.html#%3Cinit%3E()" class="member-name-link">PIDPropertyManagerFactory()</a> - Constructor for class xbot.common.math.<a href="xbot/common/math/PIDPropertyManager.PIDPropertyManagerFactory.html" title="class in xbot.common.math">PIDPropertyManager.PIDPropertyManagerFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/XGyro.ImuType.html#pigeon2" class="member-name-link">pigeon2</a> - Enum constant in enum class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/wpi_adapters/Pigeon2Adapter.html" class="type-name-link" title="class in xbot.common.controls.sensors.wpi_adapters">Pigeon2Adapter</a> - Class in <a href="xbot/common/controls/sensors/wpi_adapters/package-summary.html">xbot.common.controls.sensors.wpi_adapters</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/wpi_adapters/Pigeon2Adapter.html#%3Cinit%3E(xbot.common.injection.DevicePolice,xbot.common.injection.electrical_contract.IMUInfo)" class="member-name-link">Pigeon2Adapter(DevicePolice, IMUInfo)</a> - Constructor for class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/Pigeon2Adapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">Pigeon2Adapter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/wpi_adapters/Pigeon2Adapter.Pigeon2AdapterFactory.html" class="type-name-link" title="class in xbot.common.controls.sensors.wpi_adapters">Pigeon2Adapter.Pigeon2AdapterFactory</a> - Class in <a href="xbot/common/controls/sensors/wpi_adapters/package-summary.html">xbot.common.controls.sensors.wpi_adapters</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/wpi_adapters/Pigeon2Adapter.Pigeon2AdapterFactory.html#%3Cinit%3E()" class="member-name-link">Pigeon2AdapterFactory()</a> - Constructor for class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/Pigeon2Adapter.Pigeon2AdapterFactory.html" title="class in xbot.common.controls.sensors.wpi_adapters">Pigeon2Adapter.Pigeon2AdapterFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/io_inputs/PhotonCameraExtendedInputs.html#pipelineResults" class="member-name-link">pipelineResults</a> - Variable in class xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/PhotonCameraExtendedInputs.html" title="class in xbot.common.controls.io_inputs">PhotonCameraExtendedInputs</a></dt>
 <dd>&nbsp;</dd>
@@ -5123,6 +5197,8 @@ loadScripts(document, 'script');</script>
 </div>
 </dd>
 <dt><a href="xbot/common/command/XScheduler.html#reset()" class="member-name-link">reset()</a> - Method in class xbot.common.command.<a href="xbot/common/command/XScheduler.html" title="class in xbot.common.command">XScheduler</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#reset()" class="member-name-link">reset()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/logic/CalibrationDecider.html#reset()" class="member-name-link">reset()</a> - Method in class xbot.common.logic.<a href="xbot/common/logic/CalibrationDecider.html" title="class in xbot.common.logic">CalibrationDecider</a></dt>
 <dd>&nbsp;</dd>
@@ -6291,6 +6367,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/mock_adapters/MockGyro.html#setYaw(double)" class="member-name-link">setYaw(double)</a> - Method in class xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockGyro.html" title="class in xbot.common.controls.sensors.mock_adapters">MockGyro</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#setYaw(edu.wpi.first.units.measure.Angle)" class="member-name-link">setYaw(Angle)</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/mock_adapters/MockGyro.html#setYawAngularVelocity(double)" class="member-name-link">setYawAngularVelocity(double)</a> - Method in class xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockGyro.html" title="class in xbot.common.controls.sensors.mock_adapters">MockGyro</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/BaseRobot.html#sharedPeriodic()" class="member-name-link">sharedPeriodic()</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseRobot.html" title="class in xbot.common.command">BaseRobot</a></dt>
@@ -6813,6 +6891,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
+<dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html#toString()" class="member-name-link">toString()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
 <dt><a href="xbot/common/injection/swerve/SwerveInstance.html#toString()" class="member-name-link">toString()</a> - Method in record class xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/SwerveInstance.html" title="class in xbot.common.injection.swerve">SwerveInstance</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
@@ -7034,6 +7116,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/controls/sensors/mock_adapters/MockGyro.html#updateInputs(xbot.common.controls.io_inputs.XGyroIoInputs)" class="member-name-link">updateInputs(XGyroIoInputs)</a> - Method in class xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockGyro.html" title="class in xbot.common.controls.sensors.mock_adapters">MockGyro</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.html#updateInputs(xbot.common.controls.io_inputs.XGyroIoInputs)" class="member-name-link">updateInputs(XGyroIoInputs)</a> - Method in class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/InertialMeasurementUnitAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">InertialMeasurementUnitAdapter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/wpi_adapters/Pigeon2Adapter.html#updateInputs(xbot.common.controls.io_inputs.XGyroIoInputs)" class="member-name-link">updateInputs(XGyroIoInputs)</a> - Method in class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/Pigeon2Adapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">Pigeon2Adapter</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XGyro.html#updateInputs(xbot.common.controls.io_inputs.XGyroIoInputs)" class="member-name-link">updateInputs(XGyroIoInputs)</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></dt>
 <dd>&nbsp;</dd>
@@ -7701,6 +7785,10 @@ the order they are declared.</div>
 <dt><a href="xbot/common/controls/io_inputs/XCANCoderInputs.html" class="type-name-link" title="class in xbot.common.controls.io_inputs">XCANCoderInputs</a> - Class in <a href="xbot/common/controls/io_inputs/package-summary.html">xbot.common.controls.io_inputs</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/io_inputs/XCANCoderInputs.html#%3Cinit%3E()" class="member-name-link">XCANCoderInputs()</a> - Constructor for class xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/XCANCoderInputs.html" title="class in xbot.common.controls.io_inputs">XCANCoderInputs</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html" class="type-name-link" title="class in xbot.common.controls.sensors">XCANImu</a> - Class in <a href="xbot/common/controls/sensors/package-summary.html">xbot.common.controls.sensors</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/sensors/XCANImu.html#%3Cinit%3E()" class="member-name-link">XCANImu()</a> - Constructor for class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.html" class="type-name-link" title="class in xbot.common.controls.actuators">XCANMotorController</a> - Class in <a href="xbot/common/controls/actuators/package-summary.html">xbot.common.controls.actuators</a></dt>
 <dd>&nbsp;</dd>
