@@ -29,7 +29,7 @@ import static edu.wpi.first.units.Units.Radians;
 
 public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable, ISwerveAdvisorPoseSupport {
 
-    public final XGyro imu;
+    public XGyro imu;
     protected double leftDriveDistance;
     protected double rightDriveDistance;
     protected double totalDistanceX;
@@ -72,6 +72,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
         rioRotated = propManager.createPersistentProperty("RIO rotated", false);
         inherentRioPitch = propManager.createPersistentProperty("Inherent RIO pitch", 0.0);
         inherentRioRoll = propManager.createPersistentProperty("Inherent RIO roll", 0.0);
+    }
+
+    protected void replaceIMU(XGyro imu) {
+        this.imu = imu;
     }
 
     protected double getCompassHeading(Rotation2d standardHeading) {
