@@ -38,7 +38,7 @@ public class Pigeon2Adapter extends XGyro {
 
     @Override
     public boolean isBroken() {
-        return false;
+        return !pigeon.isConnected();
     }
 
     @Override
