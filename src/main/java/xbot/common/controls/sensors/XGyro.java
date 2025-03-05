@@ -1,6 +1,7 @@
 package xbot.common.controls.sensors;
 
 import dagger.assisted.Assisted;
+import edu.wpi.first.units.measure.Acceleration;
 import org.littletonrobotics.junction.Logger;
 
 import xbot.common.advantage.DataFrameRefreshable;
@@ -10,7 +11,7 @@ import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.IMUInfo;
 import xbot.common.math.WrappedRotation2d;
 
-public abstract class XGyro implements DataFrameRefreshable
+public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
 {
     public enum InterfaceType {
         spi,
@@ -81,6 +82,22 @@ public abstract class XGyro implements DataFrameRefreshable
             return getDeviceYawAngularVelocity();
         }
         return 0;
+    }
+
+    public double getAccelerationX() {
+        return io.acceleration.get(0);
+    }
+
+    public double getAccelerationY() {
+        return io.acceleration.get(1);
+    }
+
+    public double getAccelerationZ() {
+        return io.acceleration.get(2);
+    }
+
+    public double getAcceleration() {
+        return io.acceleration.norm();
     }
 
     // What follows are the primitive "gets" for the gyro. These aren't protected,

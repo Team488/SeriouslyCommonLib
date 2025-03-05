@@ -107,4 +107,11 @@ public class InertialMeasurementUnitAdapter extends XGyro {
     public double getDeviceRawAccelZ() {
         return ahrs.getRawAccelZ();
     }
+
+    @Override
+    public void close() throws Exception {
+        if (ahrs != null) {
+            ahrs.close();
+        }
+    }
 }
