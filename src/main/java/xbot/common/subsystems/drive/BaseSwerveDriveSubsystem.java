@@ -360,39 +360,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
      * @param centerOfRotationInches The center of rotation.
      */
     public void move(XYPair translate, double rotate, XYPair centerOfRotationInches) {
-        // We want to smooth out any sudden changes in velocity. Given that we need to
-        // compare two vectors, really what we're saying is that
-        // the magnitude of the distance between the last commanded vector and the newly
-        // commanded vector should be constrained.
-
-        if (XTimer.getFPGATimestamp() - lastMoveCallTime > 1) {
-            // It's been over 1 second since somebody last called the drive. This means any
-            // ephemeral state is very stale.
-            // Setting the last commanded direction to the current direction will prevent
-            // surprising behavior. This will allow for
-            // powerful motions if the joystick is being held in a direction as the robot
-            // enables. Ideally this would use the robot's
-            // current velocity, but the drive subsystem doesn't have access to that
-            // information.
-            lastCommandedDirection = translate;
-        }
-
-        // First, discover this vector.
-        XYPair deltaVector = translate.clone().add(lastCommandedDirection.clone().scale(-1));
-
-        // Limit its magnitude based on the slew rate limiter.
-        double deltaMagnitude = deltaVector.getMagnitude();
-        double maxDeltaMagnitude = slewRateLimiter.calculate(deltaMagnitude);
-
-        if (Math.abs(deltaMagnitude - maxDeltaMagnitude) > 0.001 && !unlockFullDrivePower) {
-            // Only scale the vector if we have to, and if we're not in "full power" mode.
-            deltaVector = XYPair.fromPolar(deltaVector.getAngle(), maxDeltaMagnitude);
-
-            // Override the "Translate" vector with this result
-            translate = lastCommandedDirection.clone().add(deltaVector);
-        }
-
-
         if (activateBrakeOverride) {
             this.setWheelsToXMode();
             return;
