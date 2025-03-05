@@ -147,7 +147,7 @@ public class MockCANMotorController extends XCANMotorController {
 
     @Override
     public Angle getRawPosition() {
-        return this.position;
+        return this.position.copy();
     }
 
     @Override
@@ -166,12 +166,12 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     public Angle getRawTargetPosition() {
-        return targetPosition;
+        return targetPosition.copy();
     }
 
     @Override
     public AngularVelocity getRawVelocity() {
-        return velocity;
+        return velocity.copy();
     }
 
     public void setVelocity(AngularVelocity velocity) {
@@ -189,7 +189,7 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     public AngularVelocity getRawTargetVelocity() {
-        return targetVelocity;
+        return targetVelocity.copy();
     }
 
     @Override

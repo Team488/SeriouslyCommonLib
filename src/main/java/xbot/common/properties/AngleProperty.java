@@ -5,21 +5,21 @@ import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
-import edu.wpi.first.units.DistanceUnit;
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.MutDistance;
+import edu.wpi.first.units.AngleUnit;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.MutAngle;
 import xbot.common.logging.Pluralizer;
 
 /**
- * This manages a Distance in the property system.
+ * This manages an Angle in the property system.
  *
  * @author Alex
  */
-public class DistanceProperty extends Property {
-    final Distance defaultValue;
-    final DistanceUnit defaultUnit;
-    final MutDistance lastValue;
-    final MutDistance currentValue;
+public class AngleProperty extends Property {
+    final Angle defaultValue;
+    final AngleUnit defaultUnit;
+    final MutAngle lastValue;
+    final MutAngle currentValue;
 
     private final LoggableInputs inputs = new LoggableInputs() {
         public void toLog(LogTable table) {
@@ -31,11 +31,11 @@ public class DistanceProperty extends Property {
         }
     };
 
-    public DistanceProperty(String prefix, String name, Distance defaultValue, XPropertyManager manager) {
+    public AngleProperty(String prefix, String name, Angle defaultValue, XPropertyManager manager) {
         this(prefix, name, defaultValue, manager, PropertyLevel.Important);
     }
 
-    public DistanceProperty(String prefix, String name, Distance defaultValue, XPropertyManager manager, PropertyLevel level) {
+    public AngleProperty(String prefix, String name, Angle defaultValue, XPropertyManager manager, PropertyLevel level) {
         super(prefix, name  + "-in-" + Pluralizer.pluralize(defaultValue.unit().name()), manager, level);
         this.defaultValue = defaultValue;
         this.defaultUnit = defaultValue.unit();
@@ -43,22 +43,23 @@ public class DistanceProperty extends Property {
         currentValue = defaultValue.mutableCopy();
         lastValue = defaultValue.mutableCopy();
 
+
         // Check for non-default on load; also store a "last value" we can use
         // to check if a property has changed recently.
-        Distance firstValue = get_internal();
-        if (get_internal() != defaultValue) {
+        Angle firstValue = get_internal();
+        if (firstValue != defaultValue) {
             log.info("Property " + key + " has the non-default value " + firstValue);
         }
         lastValue.mut_replace(firstValue);
-        currentValue.mut_replace(firstValue);
+        currentValue.mut_replace(firstValue.mutableCopy());
     }
 
-    public Distance get() {
+    public Angle get() {
         return currentValue;
     }
 
 
-    public Distance get_internal() {
+    public Angle get_internal() {
         Double nullableTableValue = activeStore.getDouble(key);
 
         if(nullableTableValue == null) {
@@ -71,13 +72,13 @@ public class DistanceProperty extends Property {
         return defaultUnit.of(nullableTableValue);
     }
 
-    public void set(Distance value) {
+    public void set(Angle value) {
         activeStore.setDouble(key, value.in(defaultUnit));
         currentValue.mut_replace(value);
     }
 
-    public void hasChangedSinceLastCheck(Consumer<Distance> callback) {
-        Distance currentValue = get();
+    public void hasChangedSinceLastCheck(Consumer<Angle> callback) {
+        Angle currentValue = get();
         if (!currentValue.isEquivalent(lastValue)) {
             callback.accept(currentValue);
         }
@@ -85,7 +86,7 @@ public class DistanceProperty extends Property {
     }
 
     public boolean hasChangedSinceLastCheck() {
-        Distance currentValue = get();
+        Angle currentValue = get();
         boolean changed = !currentValue.isEquivalent(lastValue);
         lastValue.mut_replace(currentValue);
         return changed;

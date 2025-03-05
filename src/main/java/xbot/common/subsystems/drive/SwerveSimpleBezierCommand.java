@@ -8,31 +8,32 @@ import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import xbot.common.subsystems.drive.control_logic.HeadingModule.HeadingModuleFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
+import xbot.common.trajectory.SwerveSimpleBezierLogic;
 import xbot.common.trajectory.SwerveSimpleTrajectoryLogic;
 
 import javax.inject.Inject;
 import java.util.function.Supplier;
 
-public class SwerveSimpleTrajectoryCommand extends BaseCommand {
+public class SwerveSimpleBezierCommand extends BaseCommand {
 
     protected BaseSwerveDriveSubsystem drive;
     protected BasePoseSubsystem pose;
     protected HeadingModule headingModule;
-    public SwerveSimpleTrajectoryLogic logic;
+    public SwerveSimpleBezierLogic logic;
     public Supplier<Double> constantRotationPowerSupplier;
-    private Supplier<Boolean> alternativeIsFinishedSupplier;
+    protected Supplier<Boolean> alternativeIsFinishedSupplier;
     public boolean constantRotationEnabled = false;
 
     @Inject
-    public SwerveSimpleTrajectoryCommand(BaseSwerveDriveSubsystem drive, BasePoseSubsystem pose, PropertyFactory pf,
-                                         HeadingModuleFactory headingModuleFactory, RobotAssertionManager assertionManager) {
+    public SwerveSimpleBezierCommand(BaseSwerveDriveSubsystem drive, BasePoseSubsystem pose, PropertyFactory pf,
+                                     HeadingModuleFactory headingModuleFactory, RobotAssertionManager assertionManager) {
         this.drive = drive;
         this.pose = pose;
         headingModule = headingModuleFactory.create(drive.getRotateToHeadingPid());
 
         pf.setPrefix(this);
         this.addRequirements(drive);
-        logic = new SwerveSimpleTrajectoryLogic(assertionManager);
+        logic = new SwerveSimpleBezierLogic(assertionManager);
         alternativeIsFinishedSupplier = () -> false;
     }
 
@@ -78,9 +79,11 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
     public void setAlternativeIsFinishedSupplier(Supplier<Boolean> alternativeIsFinishedSupplier) {
         this.alternativeIsFinishedSupplier = alternativeIsFinishedSupplier;
     }
+
     public Supplier<Boolean> getAlternativeIsFinishedSupplier() {
         return alternativeIsFinishedSupplier;
     }
+
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);

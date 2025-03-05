@@ -77,7 +77,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
                 String owningSystemPrefix,
                 String pidPropertyPrefix
         ) {
-            return create(info, owningSystemPrefix, pidPropertyPrefix, new XCANMotorControllerPIDProperties());
+            return create(info, owningSystemPrefix, pidPropertyPrefix, null);
         }
     }
 
@@ -223,11 +223,11 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
         }
 
         if (softwareForwardLimit.get() && getVoltage().gt(Volts.of(0))) {
-            log.warn("Forward software limit hit");
+            //log.warn("Forward software limit hit");
             setPower(0);
         }
         if (softwareReverseLimit.get() && getVoltage().lt(Volts.of(0))) {
-            log.warn("Reverse software limit hit");
+            //log.warn("Reverse software limit hit");
             setPower(0);
         }
 
@@ -499,11 +499,12 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     protected boolean isValidVoltageRequest(Voltage voltage) {
         if (voltage.gt(Volts.of(0)) && softwareForwardLimit.get()) {
-            log.warn("Attempted to set positive voltage on motor controller with forward software limit enabled");
+            // TODO: Change these various warnings to only trigger once on the rising edge of the issue.
+            //log.warn("Attempted to set positive voltage on motor controller with forward software limit enabled");
             return false;
         }
         if (voltage.lt(Volts.of(0)) && softwareReverseLimit.get()) {
-            log.warn("Attempted to set negative voltage on motor controller with reverse software limit enabled");
+            //log.warn("Attempted to set negative voltage on motor controller with reverse software limit enabled");
             return false;
         }
         return true;
@@ -511,11 +512,11 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     protected boolean isValidPowerRequest(double power) {
         if (power > 0 && softwareForwardLimit.get()) {
-            log.warn("Attempted to set positive power on motor controller with forward software limit enabled");
+            //log.warn("Attempted to set positive power on motor controller with forward software limit enabled");
             return false;
         }
         if (power < 0 && softwareReverseLimit.get()) {
-            log.warn("Attempted to set negative power on motor controller with reverse software limit enabled");
+            //log.warn("Attempted to set negative power on motor controller with reverse software limit enabled");
             return false;
         }
         return true;
@@ -530,7 +531,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     protected Distance convertRawAngleToDistance(Angle rawAngle) {
         if (distancePerMotorRotationsScaleFactor == null) {
-            log.warn("Distance per angle not set for motor controller {}", akitName);
+            //log.warn("Distance per angle not set for motor controller {}", akitName);
             return Meters.zero();
         }
         return rawAngle.timesConversionFactor(distancePerMotorRotationsScaleFactor);
@@ -538,7 +539,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     protected Angle convertDistanceToRawAngle(Distance distance) {
         if (distancePerMotorRotationsInverseScaleFactor == null) {
-            log.warn("Distance per angle not set for motor controller {}", akitName);
+            //log.warn("Distance per angle not set for motor controller {}", akitName);
             return Rotations.zero();
         }
         return distance.timesConversionFactor(distancePerMotorRotationsInverseScaleFactor);

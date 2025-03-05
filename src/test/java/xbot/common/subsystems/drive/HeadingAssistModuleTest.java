@@ -157,11 +157,14 @@ public class HeadingAssistModuleTest extends BaseCommonLibTest {
         step3_timePasses();
 
         // just like the position-based one, this should try to turn right if the robot is suddenly rotated left
+        // The heading module needs to run at least once, as initially the "previous error" is empty and so no the PID
+        // will have no response.
+        double power = ham.calculateHeadingPower(0);
         step4_robotRotated();
 
         // However, unlike the position-based one, this one will try and turn left if the robot is suddenly rotated right.
         setHeading(pose.getCurrentHeading().getDegrees()-90);
-        double power = ham.calculateHeadingPower(0);
+        power = ham.calculateHeadingPower(0);
         assertEquals(1, power, 0.001);
     }
 
