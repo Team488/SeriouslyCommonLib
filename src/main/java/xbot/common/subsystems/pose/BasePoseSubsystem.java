@@ -59,9 +59,13 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     private final MutAngle currentHeading;
 
     public BasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {
+        this(gyroFactory.create(), propManager);
+    }
+
+    public BasePoseSubsystem(XGyro gyro, PropertyFactory propManager) {
         log.info("Creating");
         propManager.setPrefix(this);
-        imu = gyroFactory.create();
+        imu = gyro;
         this.classInstantiationTime = XTimer.getFPGATimestamp();
 
         // Right when the system is initialized, we need to have the old value be

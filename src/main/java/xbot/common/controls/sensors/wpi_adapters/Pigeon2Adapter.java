@@ -4,6 +4,7 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+import edu.wpi.first.math.VecBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
@@ -30,6 +31,7 @@ public class Pigeon2Adapter extends XGyro {
     public Pigeon2Adapter(DevicePolice police, @Assisted IMUInfo imuInfo) {
         super(ImuType.pigeon2);
         this.pigeon = new Pigeon2(imuInfo.deviceId(), imuInfo.canBusId().id());
+        police.registerDevice(DevicePolice.DeviceType.CAN, imuInfo.canBusId(), imuInfo.deviceId(), this);
     }
 
     public void close() {
@@ -38,7 +40,7 @@ public class Pigeon2Adapter extends XGyro {
 
     @Override
     public boolean isBroken() {
-        return !pigeon.isConnected();
+        return !io.isConnected;
     }
 
     @Override
@@ -47,6 +49,11 @@ public class Pigeon2Adapter extends XGyro {
         inputs.pitch = pigeon.getPitch().getValue().in(Degrees);
         inputs.roll = pigeon.getRoll().getValue().in(Degrees);
         inputs.yawAngularVelocity = pigeon.getAngularVelocityZDevice().getValue().in(DegreesPerSecond);
+        inputs.acceleration = VecBuilder.fill(
+                pigeon.getAccelerationX().getValueAsDouble(),
+                pigeon.getAccelerationY().getValueAsDouble(),
+                pigeon.getAccelerationZ().getValueAsDouble()
+        );
         inputs.isConnected = pigeon.isConnected();
     }
 }
