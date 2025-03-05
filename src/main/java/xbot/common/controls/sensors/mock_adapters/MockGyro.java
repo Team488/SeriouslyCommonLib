@@ -147,6 +147,11 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
     }
 
     @Override
+    public void close() throws Exception {
+        // No-op
+    }
+
+    @Override
     public void ingestSimulationData(JSONObject payload) {
         BigDecimal intermediateYaw = (BigDecimal)payload.get("Roll");
         BigDecimal intermediateYawVelocity = (BigDecimal)payload.get("YawVelocity");
