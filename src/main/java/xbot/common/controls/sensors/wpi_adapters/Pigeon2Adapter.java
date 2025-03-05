@@ -4,13 +4,11 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.math.VecBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.injection.DevicePolice;
-import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.IMUInfo;
 
 import static edu.wpi.first.units.Units.Degrees;
@@ -49,11 +47,11 @@ public class Pigeon2Adapter extends XGyro {
         inputs.pitch = pigeon.getPitch().getValue().in(Degrees);
         inputs.roll = pigeon.getRoll().getValue().in(Degrees);
         inputs.yawAngularVelocity = pigeon.getAngularVelocityZDevice().getValue().in(DegreesPerSecond);
-        inputs.acceleration = VecBuilder.fill(
+        inputs.acceleration = new double[]{
                 pigeon.getAccelerationX().getValueAsDouble(),
                 pigeon.getAccelerationY().getValueAsDouble(),
                 pigeon.getAccelerationZ().getValueAsDouble()
-        );
+        };
         inputs.isConnected = pigeon.isConnected();
     }
 }

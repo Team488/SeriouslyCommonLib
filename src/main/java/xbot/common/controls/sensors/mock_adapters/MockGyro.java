@@ -2,16 +2,12 @@ package xbot.common.controls.sensors.mock_adapters;
 
 import java.math.BigDecimal;
 
-import edu.wpi.first.math.VecBuilder;
 import org.json.JSONObject;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SerialPort;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.injection.DevicePolice;
@@ -66,7 +62,7 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
         inputs.pitch = pitch;
         inputs.roll = roll;
         inputs.yawAngularVelocity = yawAngularVelocity;
-        inputs.acceleration = VecBuilder.fill(rawAccelX, rawAccelY, rawAccelZ);
+        inputs.acceleration = new double[] { rawAccelX, rawAccelY, rawAccelZ };
         inputs.isConnected = true;
     }
 

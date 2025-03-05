@@ -69,6 +69,11 @@ public class InertialMeasurementUnitAdapter extends XGyro {
         inputs.yawAngularVelocity = getDeviceYawAngularVelocity();
         inputs.pitch = getDevicePitch();
         inputs.roll = getDeviceRoll();
+        inputs.acceleration = new double[]{
+            getDeviceRawAccelX(),
+            getDeviceRawAccelY(),
+            getDeviceRawAccelZ()
+        };
         inputs.isConnected = isConnected();
     }
 

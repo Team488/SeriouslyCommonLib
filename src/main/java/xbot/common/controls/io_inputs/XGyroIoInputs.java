@@ -10,6 +10,6 @@ public class XGyroIoInputs {
     public double yawAngularVelocity;
     public double pitch;
     public double roll;
-    public Vector<N3> acceleration;
+    public double[] acceleration;
     public boolean isConnected;
 }

@@ -1,7 +1,6 @@
 package xbot.common.controls.sensors;
 
-import dagger.assisted.Assisted;
-import edu.wpi.first.units.measure.Acceleration;
+import edu.wpi.first.math.VecBuilder;
 import org.littletonrobotics.junction.Logger;
 
 import xbot.common.advantage.DataFrameRefreshable;
@@ -85,19 +84,19 @@ public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
     }
 
     public double getAccelerationX() {
-        return io.acceleration.get(0);
+        return io.acceleration[0];
     }
 
     public double getAccelerationY() {
-        return io.acceleration.get(1);
+        return io.acceleration[1];
     }
 
     public double getAccelerationZ() {
-        return io.acceleration.get(2);
+        return io.acceleration[2];
     }
 
     public double getAcceleration() {
-        return io.acceleration.norm();
+        return VecBuilder.fill(getAccelerationX(), getAccelerationY(), getAccelerationX()).norm();
     }
 
     // What follows are the primitive "gets" for the gyro. These aren't protected,
