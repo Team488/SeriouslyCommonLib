@@ -29,7 +29,7 @@ public class InertialMeasurementUnitAdapter extends XGyro {
 
     @AssistedInject
     public InertialMeasurementUnitAdapter(DevicePolice police, @Assisted IMUInfo imuInfo) {
-        super(ImuType.navX);
+        super(imuInfo);
         /* Options: Port.kMXP, SPI.kMXP, I2C.kMXP or SerialPort.kUSB */
         try {
             switch (imuInfo.interfaceType()) {

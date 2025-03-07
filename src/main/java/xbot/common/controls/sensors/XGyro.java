@@ -6,7 +6,6 @@ import org.littletonrobotics.junction.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.controls.io_inputs.XGyroIoInputsAutoLogged;
-import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.IMUInfo;
 import xbot.common.math.WrappedRotation2d;
 
@@ -25,22 +24,24 @@ public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
         pigeon2
     }
 
-    protected ImuType imuType;
+    protected final ImuType imuType;
+    protected final String deviceName;
 
-    protected XGyroIoInputsAutoLogged io;
+    protected final XGyroIoInputsAutoLogged io;
 
     public abstract static class XGyroFactory {
         public abstract XGyro create(IMUInfo imuInfo);
 
         public XGyro create() {
-            return create(new IMUInfo(InterfaceType.spi, CANBusId.DefaultCanivore, 1));
+            return create(new IMUInfo(InterfaceType.spi));
         }
     }
 
-    protected XGyro(ImuType imuType)
+    protected XGyro(IMUInfo info)
     {
-        this.imuType = imuType;
-        io = new XGyroIoInputsAutoLogged();
+        this.imuType = info.imuType();
+        this.deviceName = info.name();
+        this.io = new XGyroIoInputsAutoLogged();
     }
 
     public abstract boolean isBroken();
@@ -169,7 +170,6 @@ public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
 
     public void refreshDataFrame() {
         updateInputs(io);
-        // TODO: get a name for the gyro so we don't have to use a hardcoded one.
-        Logger.processInputs("IMU", io);
+        Logger.processInputs(this.deviceName, io);
     }
 }

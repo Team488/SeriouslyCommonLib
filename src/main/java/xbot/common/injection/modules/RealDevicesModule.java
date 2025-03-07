@@ -27,6 +27,7 @@ import xbot.common.controls.sensors.XDigitalInput.XDigitalInputFactory;
 import xbot.common.controls.sensors.XDutyCycleEncoder;
 import xbot.common.controls.sensors.XEncoder.XEncoderFactory;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
+import xbot.common.controls.sensors.XGyroFactoryImpl;
 import xbot.common.controls.sensors.XLaserCAN;
 import xbot.common.controls.sensors.XLidarLite.XLidarLiteFactory;
 import xbot.common.controls.sensors.XPowerDistributionPanel.XPowerDistributionPanelFactory;
@@ -75,7 +76,7 @@ public abstract class RealDevicesModule {
 
     @Binds
     @Singleton
-    public abstract XGyroFactory getGyroFactory(InertialMeasurementUnitAdapterFactory impl);
+    public abstract XGyroFactory getGyroFactory(XGyroFactoryImpl impl);
 
     @Binds
     @Singleton
