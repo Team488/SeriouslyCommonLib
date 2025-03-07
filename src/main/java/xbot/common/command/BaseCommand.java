@@ -2,7 +2,6 @@ package xbot.common.command;
 
 import javax.inject.Inject;
 
-import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj2.command.Command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +16,6 @@ import xbot.common.properties.IPropertySupport;
  */
 public abstract class BaseCommand extends Command implements IPropertySupport {
 
-    protected final Alert runningAlert;
     protected final Logger log;
     protected final AKitLogger aKitLog;
     protected final TimeLogger monitor;
@@ -30,7 +28,6 @@ public abstract class BaseCommand extends Command implements IPropertySupport {
         log = LogManager.getLogger(this.getName());
         aKitLog = new AKitLogger(this);
         monitor = new TimeLogger(this.getName(), 20);
-        runningAlert = new Alert("Commands", this.getName(), Alert.AlertType.kInfo);
     }
 
     @Override
@@ -47,16 +44,7 @@ public abstract class BaseCommand extends Command implements IPropertySupport {
     }
 
     @Override
-    public void initialize() {
-        // the name might not be set at construction, so let's update it here
-        this.runningAlert.setText(this.getName());
-        this.runningAlert.set(true);
-    }
-
-    @Override
-    public void end(boolean isInterrupted) {
-        this.runningAlert.set(false);
-    }
+    public abstract void initialize();
 
     public void includeOnSmartDashboard() {
         if (commandPutter != null) {
