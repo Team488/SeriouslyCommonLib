@@ -121,12 +121,15 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>protected <a href="XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a></code></div>
-<div class="col-second even-row-color"><code><a href="#imuType" class="member-name-link">imuType</a></code></div>
+<div class="col-first even-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#deviceName" class="member-name-link">deviceName</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected xbot.common.controls.io_inputs.XGyroIoInputsAutoLogged</code></div>
-<div class="col-second odd-row-color"><code><a href="#io" class="member-name-link">io</a></code></div>
+<div class="col-first odd-row-color"><code>protected final <a href="XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#imuType" class="member-name-link">imuType</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected final xbot.common.controls.io_inputs.XGyroIoInputsAutoLogged</code></div>
+<div class="col-second even-row-color"><code><a href="#io" class="member-name-link">io</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -140,7 +143,7 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="table-header col-second">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>protected </code></div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.controls.sensors.XGyro.ImuType)" class="member-name-link">XGyro</a><wbr>(<a href="XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a>&nbsp;imuType)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.injection.electrical_contract.IMUInfo)" class="member-name-link">XGyro</a><wbr>(<a href="../../injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a>&nbsp;info)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -222,13 +225,19 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <li>
 <section class="detail" id="imuType">
 <h3>imuType</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a></span>&nbsp;<span class="element-name">imuType</span></div>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a></span>&nbsp;<span class="element-name">imuType</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="deviceName">
+<h3>deviceName</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">deviceName</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="io">
 <h3>io</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">xbot.common.controls.io_inputs.XGyroIoInputsAutoLogged</span>&nbsp;<span class="element-name">io</span></div>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">xbot.common.controls.io_inputs.XGyroIoInputsAutoLogged</span>&nbsp;<span class="element-name">io</span></div>
 </section>
 </li>
 </ul>
@@ -240,9 +249,9 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(xbot.common.controls.sensors.XGyro.ImuType)">
+<section class="detail" id="&lt;init&gt;(xbot.common.injection.electrical_contract.IMUInfo)">
 <h3>XGyro</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">XGyro</span><wbr><span class="parameters">(<a href="XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a>&nbsp;imuType)</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">XGyro</span><wbr><span class="parameters">(<a href="../../injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a>&nbsp;info)</span></div>
 </section>
 </li>
 </ul>
