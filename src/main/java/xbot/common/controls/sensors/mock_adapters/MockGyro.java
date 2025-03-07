@@ -36,8 +36,8 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
 
     @AssistedInject
     public MockGyro(DevicePolice police, @Assisted IMUInfo imuInfo) {
-        super(ImuType.mock);
-        police.registerDevice(DeviceType.IMU, 1, this);
+        super(IMUInfo.createMock(imuInfo));
+        police.registerDevice(DeviceType.IMU, imuInfo.deviceId(), this);
     }
 
     public boolean isConnected() {

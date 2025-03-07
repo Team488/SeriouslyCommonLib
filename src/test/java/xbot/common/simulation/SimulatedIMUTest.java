@@ -21,7 +21,7 @@ public class SimulatedIMUTest extends BaseSimulationTest {
     public void setUp() {
         super.setUp();
 
-        simulatedGyro = (MockGyro)injectorComponent.gyroFactory().create(new IMUInfo(XGyro.InterfaceType.serial, null, 1));
+        simulatedGyro = (MockGyro)injectorComponent.gyroFactory().create(new IMUInfo(XGyro.InterfaceType.serial));
     }
 
     @Test

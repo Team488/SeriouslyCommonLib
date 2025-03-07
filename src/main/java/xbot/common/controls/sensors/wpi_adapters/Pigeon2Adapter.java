@@ -27,7 +27,7 @@ public class Pigeon2Adapter extends XGyro {
 
     @AssistedInject
     public Pigeon2Adapter(DevicePolice police, @Assisted IMUInfo imuInfo) {
-        super(ImuType.pigeon2);
+        super(imuInfo);
         this.pigeon = new Pigeon2(imuInfo.deviceId(), imuInfo.canBusId().id());
         police.registerDevice(DevicePolice.DeviceType.CAN, imuInfo.canBusId(), imuInfo.deviceId(), this);
     }
