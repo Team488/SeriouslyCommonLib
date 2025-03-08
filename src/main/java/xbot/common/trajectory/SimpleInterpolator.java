@@ -22,12 +22,12 @@ public class SimpleInterpolator {
 
 
     ProvidesInterpolationData baseline;
-    int index;
+    public int index;
     double minimumDistanceFromChasePointInMeters = 0.3;
 
     SwerveKinematicsCalculator calculator;
 
-    private List<? extends ProvidesInterpolationData> keyPoints;
+    public List<? extends ProvidesInterpolationData> keyPoints;
 
     Logger log = LogManager.getLogger(SimpleInterpolator.class);
     AKitLogger aKitLog = new AKitLogger("SimpleInterpolator/");

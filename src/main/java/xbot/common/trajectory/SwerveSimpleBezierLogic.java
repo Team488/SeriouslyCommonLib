@@ -31,7 +31,7 @@ public class SwerveSimpleBezierLogic {
     private Supplier<List<XbotSwervePoint>> keyPointsProvider;
     private List<XbotSwervePoint> keyPoints;
     private boolean stopWhenFinished = true;
-    private final SimpleInterpolator interpolator;
+    public final SimpleInterpolator interpolator;
     SimpleInterpolator.InterpolationResult lastResult;
     double maxPower = 1.0;
     double maxTurningPower = 1.0;
