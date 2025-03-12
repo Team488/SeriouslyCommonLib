@@ -94,7 +94,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
     public Rotation2d getTargetX(int cameraIndex) {
         return cameraHelpers[cameraIndex].inputs.latestTargetObservation.tx();
     }
-    
+
     /**
      * Returns the X angle to the specified target, which can be used for simple servoing
      * with vision.
@@ -172,6 +172,10 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
             }
         }
         return result;
+    }
+
+    public boolean isCameraConnected(int cameraIndex) {
+        return cameraHelpers[cameraIndex].inputs.connected;
     }
 
     /**
