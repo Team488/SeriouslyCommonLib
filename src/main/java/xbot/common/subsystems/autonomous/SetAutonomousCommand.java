@@ -21,6 +21,10 @@ public class SetAutonomousCommand extends BaseCommand {
         return true;
     }
 
+    public void setAutoCommand(Command autonomousCommand) {
+        setAutoCommand(autonomousCommand, new Pose2d());
+    }
+
     public void setAutoCommand(Command autonomousCommand, Pose2d startingPosition) {
         this.autonomousCommand = autonomousCommand;
         selector.setCurrentAutonomousStartingPosition(startingPosition);
