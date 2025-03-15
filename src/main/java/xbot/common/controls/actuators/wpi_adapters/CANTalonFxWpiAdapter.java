@@ -249,8 +249,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(talonConfiguration.MotorOutput), 3);
     }
 
-    @Override
-    public Angle getRawPosition() {
+    public Angle getRawPosition_internal() {
         rotorPositionSignal.refresh(false);
         return rotorPositionSignal.getValue();
     }
@@ -275,8 +274,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         invokeWithRetry(() -> this.internalTalonFx.setControl(controlRequest), 1);
     }
 
-    @Override
-    public AngularVelocity getRawVelocity() {
+    public AngularVelocity getRawVelocity_internal() {
         rotorVelocitySignal.refresh(false);
         return rotorVelocitySignal.getValue();
     }
@@ -304,7 +302,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         invokeWithRetry(() -> this.internalTalonFx.setControl(new VoltageOut(voltage)), 1);
     }
 
-    public Voltage getVoltage() {
+    private Voltage getVoltage_internal() {
         motorVoltageSignal.refresh(false);
         return motorVoltageSignal.getValue();
     }
@@ -321,7 +319,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(this.talonConfiguration.Voltage), 3);
     }
 
-    public Current getCurrent() {
+    private Current getCurrent_internal() {
         statorCurrentSignal.refresh(false);
         return statorCurrentSignal.getValue();
     }
@@ -336,10 +334,10 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     protected void updateInputs(XCANMotorControllerInputs inputs) {
-        inputs.angle = getPosition();
-        inputs.angularVelocity = getVelocity();
-        inputs.voltage = getVoltage();
-        inputs.current = getCurrent();
+        inputs.angle = getRawPosition_internal();
+        inputs.angularVelocity = getRawVelocity_internal();
+        inputs.voltage = getVoltage_internal();
+        inputs.current = getCurrent_internal();
     }
 
     private boolean invokeWithRetry(Supplier<StatusCode> applyFunction, int retryCount) {
