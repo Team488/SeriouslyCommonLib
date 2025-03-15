@@ -182,8 +182,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
                 SparkBase.PersistMode.kNoPersistParameters);
     }
 
-    @Override
-    public Angle getRawPosition() {
+    public Angle getRawPosition_internal() {
         return Rotations.of(this.internalSparkMax.getEncoder().getPosition());
     }
 
@@ -208,8 +207,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
                 .setReference(rawPosition.in(Rotations), controlType, getClosedLoopSlot(slot));
     }
 
-    @Override
-    public AngularVelocity getRawVelocity() {
+    public AngularVelocity getRawVelocity_internal() {
         return RPM.of(this.internalSparkMax.getEncoder().getVelocity());
     }
 
@@ -250,7 +248,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         };
     }
 
-    public Voltage getVoltage() {
+    public Voltage getVoltage_internal() {
         return Volts.of(
                 this.internalSparkMax.getAppliedOutput() * internalSparkMax.getBusVoltage());
     }
@@ -260,7 +258,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         log.warn("setVoltageRange: Voltage range is not supported by SparkMax");
     }
 
-    public Current getCurrent() {
+    private Current getCurrent_internal() {
         return Amps.of(this.internalSparkMax.getOutputCurrent());
     }
 
@@ -270,10 +268,10 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     protected void updateInputs(XCANMotorControllerInputs inputs) {
-        inputs.angle = getPosition();
-        inputs.angularVelocity = getVelocity();
-        inputs.voltage = getVoltage();
-        inputs.current = getCurrent();
+        inputs.angle = getRawPosition_internal();
+        inputs.angularVelocity = getRawVelocity_internal();
+        inputs.voltage = getVoltage_internal();
+        inputs.current = getCurrent_internal();
     }
 
     @Override
