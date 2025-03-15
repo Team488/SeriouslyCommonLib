@@ -39,11 +39,19 @@ public class MockBasePoseSubsystem extends BasePoseSubsystem {
     public void setDriveEncoderDistances(int left, int right) {
         ((MockCANMotorController)this.left).setPosition(Rotations.of(left));
         ((MockCANMotorController)this.right).setPosition(Rotations.of(right));
+        refreshDataFrame();
         periodic();
     }
 
     public void forceTotalXandY(double x, double y) {
         totalDistanceX = x;
         totalDistanceY = y;
+    }
+
+    @Override
+    public void refreshDataFrame() {
+        super.refreshDataFrame();
+        left.refreshDataFrame();
+        right.refreshDataFrame();
     }
 }

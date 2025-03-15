@@ -8,7 +8,6 @@ import edu.wpi.first.units.AngularAccelerationUnit;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Frequency;
 import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.units.measure.MutAngularVelocity;
@@ -28,7 +27,6 @@ import xbot.common.resiliency.DeviceHealth;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.RPM;
-import static edu.wpi.first.units.Units.Volt;
 import static edu.wpi.first.units.Units.Volts;
 import static edu.wpi.first.units.Units.Rotations;
 
@@ -145,8 +143,7 @@ public class MockCANMotorController extends XCANMotorController {
         this.maxPower = maxPower;
     }
 
-    @Override
-    public Angle getRawPosition() {
+    public Angle getRawPosition_internal() {
         return this.position.copy();
     }
 
@@ -169,8 +166,7 @@ public class MockCANMotorController extends XCANMotorController {
         return targetPosition.copy();
     }
 
-    @Override
-    public AngularVelocity getRawVelocity() {
+    public AngularVelocity getRawVelocity_internal() {
         return velocity.copy();
     }
 
@@ -222,8 +218,8 @@ public class MockCANMotorController extends XCANMotorController {
 
     @Override
     protected void updateInputs(XCANMotorControllerInputs inputs) {
-        inputs.angle = getPosition();
-        inputs.angularVelocity = getVelocity();
+        inputs.angle = getRawPosition_internal();
+        inputs.angularVelocity = getRawVelocity_internal();
         inputs.voltage = voltage;
         inputs.current = current;
     }
