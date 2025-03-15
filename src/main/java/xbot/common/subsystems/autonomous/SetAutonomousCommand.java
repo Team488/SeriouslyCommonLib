@@ -2,6 +2,7 @@ package xbot.common.subsystems.autonomous;
 
 import javax.inject.Inject;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import xbot.common.command.BaseCommand;
 
@@ -20,8 +21,9 @@ public class SetAutonomousCommand extends BaseCommand {
         return true;
     }
 
-    public void setAutoCommand(Command autonomousCommand) {
+    public void setAutoCommand(Command autonomousCommand, Pose2d startingPosition) {
         this.autonomousCommand = autonomousCommand;
+        selector.setCurrentAutonomousStartingPosition(startingPosition);
     }
 
     @Override
