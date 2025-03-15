@@ -11,6 +11,8 @@ public class SetAutonomousCommand extends BaseCommand {
     private final AutonomousCommandSelector selector;
     private Command autonomousCommand;
 
+    private Pose2d autonomousStartingPosition;
+
     @Inject
     public SetAutonomousCommand(AutonomousCommandSelector selector) {
         this.selector = selector;
@@ -27,7 +29,7 @@ public class SetAutonomousCommand extends BaseCommand {
 
     public void setAutoCommand(Command autonomousCommand, Pose2d startingPosition) {
         this.autonomousCommand = autonomousCommand;
-        selector.setCurrentAutonomousStartingPosition(startingPosition);
+        this.autonomousStartingPosition = startingPosition;
     }
 
     @Override
@@ -35,6 +37,7 @@ public class SetAutonomousCommand extends BaseCommand {
         if (autonomousCommand != null) {
             log.info("Setting Auto to: " + autonomousCommand.getName());
             selector.setCurrentAutonomousCommand(autonomousCommand);
+            selector.setCurrentAutonomousStartingPosition(autonomousStartingPosition);
         } else {
             log.warn("No autonomous command configured. Not changing the current autonomous command.");
         }
