@@ -1,5 +1,6 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
+import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
@@ -85,22 +86,18 @@ public class CANCoderAdapter extends XCANCoder {
     }
 
     public Angle getPosition_internal() {
-        positionSignal.refresh(false);
         return positionSignal.getValue();
     }
 
     public Angle getAbsolutePosition_internal() {
-        absolutePositionSignal.refresh(false);
         return absolutePositionSignal.getValue();
     }
 
     public AngularVelocity getVelocity_internal() {
-        velocitySignal.refresh(false);
         return velocitySignal.getValue();
     }
 
     public DeviceHealth getHealth_internal() {
-        versionSignal.refresh(false);
         if (versionSignal.getStatus().isError()) {
             return DeviceHealth.Unhealthy;
         }
@@ -174,8 +171,18 @@ public class CANCoderAdapter extends XCANCoder {
         return this.cancoder.getConfigurator().apply(toApply);
     }
 
+    private void refreshAllSignals() {
+        BaseStatusSignal.refreshAll(
+            this.versionSignal,
+            this.positionSignal,
+            this.absolutePositionSignal,
+            this.velocitySignal
+        );
+    }
+
     @Override
     public void updateInputs(XAbsoluteEncoderInputs inputs) {
+        refreshAllSignals();
         inputs.deviceHealth = this.getHealth_internal().toString();
         inputs.position = this.getPosition_internal();
         inputs.absolutePosition = this.getAbsolutePosition_internal();

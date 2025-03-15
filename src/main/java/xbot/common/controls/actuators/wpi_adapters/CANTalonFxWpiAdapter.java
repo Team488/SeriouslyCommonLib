@@ -1,5 +1,6 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -250,7 +251,6 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     public Angle getRawPosition_internal() {
-        rotorPositionSignal.refresh(false);
         return rotorPositionSignal.getValue();
     }
 
@@ -275,7 +275,6 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     public AngularVelocity getRawVelocity_internal() {
-        rotorVelocitySignal.refresh(false);
         return rotorVelocitySignal.getValue();
     }
 
@@ -303,7 +302,6 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     private Voltage getVoltage_internal() {
-        motorVoltageSignal.refresh(false);
         return motorVoltageSignal.getValue();
     }
 
@@ -320,7 +318,6 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     private Current getCurrent_internal() {
-        statorCurrentSignal.refresh(false);
         return statorCurrentSignal.getValue();
     }
 
@@ -333,7 +330,17 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         return this.talonConfiguration.MotorOutput.Inverted == InvertedValue.Clockwise_Positive;
     }
 
+    private void refreshAllSignals() {
+        BaseStatusSignal.refreshAll(
+            rotorPositionSignal,
+            rotorVelocitySignal,
+            motorVoltageSignal,
+            statorCurrentSignal
+        );
+    }
+
     protected void updateInputs(XCANMotorControllerInputs inputs) {
+        refreshAllSignals();
         inputs.angle = getRawPosition_internal();
         inputs.angularVelocity = getRawVelocity_internal();
         inputs.voltage = getVoltage_internal();
