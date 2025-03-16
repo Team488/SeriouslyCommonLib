@@ -39,6 +39,10 @@ public class MockEncoder extends XEncoder implements ISimulatableSensor {
         this.distance = distance * (isInverted ? -1 : 1);
     }
 
+    public void addDistance(double distance) {
+        this.setDistance(this.getDistance() + distance);
+    }
+
     protected double getRate() {
         return rate;
     }
