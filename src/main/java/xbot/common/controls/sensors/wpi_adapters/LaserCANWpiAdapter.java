@@ -6,6 +6,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.Alert;
 import xbot.common.controls.io_inputs.LaserCANInputs;
 import xbot.common.controls.sensors.XLaserCAN;
@@ -21,7 +22,7 @@ public class LaserCANWpiAdapter extends XLaserCAN {
 
     protected LaserCan laserCan;
     private Distance previousMeasurement = Meters.zero();
-    private double previousMeasurementTime = Double.MIN_VALUE;
+    private Time previousMeasurementTime = Seconds.of(Double.MAX_VALUE);
     final Alert healthAlert;
 
     @AssistedFactory
@@ -53,11 +54,11 @@ public class LaserCANWpiAdapter extends XLaserCAN {
         LaserCanInterface.Measurement measurement = laserCan.getMeasurement();
         if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
             inputs.distance = Meters.of(measurement.distance_mm / 1000.0);
-            if (inputs.distance != previousMeasurement) {
-                previousMeasurementTime = XTimer.getFPGATimestamp();
+            if (!inputs.distance.isEquivalent(previousMeasurement)) {
+                previousMeasurementTime = XTimer.getFPGATimestampTime();
                 previousMeasurement = inputs.distance;
             }
-            inputs.measurementLatency = Seconds.of(XTimer.getFPGATimestamp() - previousMeasurementTime);
+            inputs.measurementLatency = XTimer.getFPGATimestampTime().minus(previousMeasurementTime);
         } else {
             inputs.distance = Meters.of(0);
             inputs.measurementLatency = Seconds.zero();
