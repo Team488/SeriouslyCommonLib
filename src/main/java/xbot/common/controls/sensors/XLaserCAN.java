@@ -1,6 +1,7 @@
 package xbot.common.controls.sensors;
 
 import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.Time;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.io_inputs.LaserCANInputs;
@@ -28,6 +29,10 @@ public abstract class XLaserCAN implements DataFrameRefreshable {
 
     public Distance getDistance() {
         return inputs.distance;
+    }
+
+    public Time getMeasurementLatency() {
+        return inputs.measurementLatency;
     }
 
     public abstract void updateInputs(LaserCANInputs inputs);
