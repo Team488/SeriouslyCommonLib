@@ -51,7 +51,7 @@ public class MockEncoder extends XEncoder implements ISimulatableSensor {
         this.rate = newRate;
     }
 
-    public double getDistance() {
+    protected double getDistance() {
         return distance;
     }
 
