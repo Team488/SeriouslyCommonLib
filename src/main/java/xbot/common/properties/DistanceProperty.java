@@ -1,5 +1,7 @@
 package xbot.common.properties;
 
+import static edu.wpi.first.units.Units.Meters;
+
 import java.util.function.Consumer;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.Logger;
@@ -20,6 +22,7 @@ public class DistanceProperty extends Property {
     final DistanceUnit defaultUnit;
     final MutDistance lastValue;
     final MutDistance currentValue;
+    final static Distance equivalenceThreshold = Meters.of(0.0001);
 
     private final LoggableInputs inputs = new LoggableInputs() {
         public void toLog(LogTable table) {
@@ -78,7 +81,7 @@ public class DistanceProperty extends Property {
 
     public void hasChangedSinceLastCheck(Consumer<Distance> callback) {
         Distance currentValue = get();
-        if (!currentValue.isEquivalent(lastValue)) {
+        if (!currentValue.isNear(lastValue, equivalenceThreshold)) {
             callback.accept(currentValue);
         }
         lastValue.mut_replace(currentValue);
@@ -86,7 +89,7 @@ public class DistanceProperty extends Property {
 
     public boolean hasChangedSinceLastCheck() {
         Distance currentValue = get();
-        boolean changed = !currentValue.isEquivalent(lastValue);
+        boolean changed = !currentValue.isNear(lastValue, equivalenceThreshold);
         lastValue.mut_replace(currentValue);
         return changed;
     }
