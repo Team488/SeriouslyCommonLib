@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.Seconds;
 
 @AutoLog
 public class LaserCANInputs {
+    public boolean isMeasurementValid = false;
     public Distance distance = Meters.zero();
     public Time measurementLatency = Seconds.zero();
 }

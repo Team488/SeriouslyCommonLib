@@ -10,6 +10,8 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 
+import java.util.Optional;
+
 public abstract class XLaserCAN implements DataFrameRefreshable {
 
     final LaserCANInputsAutoLogged inputs;
@@ -27,8 +29,11 @@ public abstract class XLaserCAN implements DataFrameRefreshable {
         inputs = new LaserCANInputsAutoLogged();
     }
 
-    public Distance getDistance() {
-        return inputs.distance;
+    public Optional<Distance> getDistance() {
+        if (inputs.isMeasurementValid) {
+            return Optional.of(inputs.distance);
+        }
+        return Optional.empty();
     }
 
     public Time getMeasurementLatency() {

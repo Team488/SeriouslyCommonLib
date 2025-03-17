@@ -38,6 +38,7 @@ public class MockLaserCAN extends XLaserCAN {
 
     @Override
     public void updateInputs(LaserCANInputs inputs) {
+        inputs.isMeasurementValid = true;
         inputs.distance = edu.wpi.first.units.Units.Meters.of(distanceMeters);
         inputs.measurementLatency = Seconds.of(XTimer.getFPGATimestamp() - measurementTime);
     }
