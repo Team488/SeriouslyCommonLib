@@ -46,7 +46,7 @@ public class DistanceProperty extends Property {
         // Check for non-default on load; also store a "last value" we can use
         // to check if a property has changed recently.
         Distance firstValue = get_internal();
-        if (get_internal() != defaultValue) {
+        if (!get_internal().isEquivalent(defaultValue)) {
             log.info("Property " + key + " has the non-default value " + firstValue);
         }
         lastValue.mut_replace(firstValue);
