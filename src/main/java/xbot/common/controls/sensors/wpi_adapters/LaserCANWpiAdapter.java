@@ -22,7 +22,7 @@ public class LaserCANWpiAdapter extends XLaserCAN {
 
     protected LaserCan laserCan;
     private Distance previousMeasurement = Meters.zero();
-    private Time previousMeasurementTime = Seconds.of(Double.MAX_VALUE);
+    private Time previousMeasurementTime = Seconds.of(Double.MIN_VALUE);
     final Alert healthAlert;
 
     @AssistedFactory
