@@ -20,23 +20,27 @@ public class MockEncoder extends XEncoder implements ISimulatableSensor {
     @AssistedFactory
     public abstract static class MockEncoderFactory implements XEncoderFactory {
         public abstract MockEncoder create(
-            @Assisted("name") String name,
-            @Assisted("aChannel") int aChannel,
-            @Assisted("bChannel") int bChannel,
-            @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix);
+                @Assisted("name") String name,
+                @Assisted("aChannel") int aChannel,
+                @Assisted("bChannel") int bChannel,
+                @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse,
+                @Assisted("owningSystemPrefix") String owningSystemPrefix);
     }
 
     @AssistedInject
     public MockEncoder(@Assisted("name") String name, @Assisted("aChannel") int aChannel,
             @Assisted("bChannel") int bChannel, @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse,
-                       @Assisted("owningSystemPrefix") String owningSystemPrefix,
+            @Assisted("owningSystemPrefix") String owningSystemPrefix,
             PropertyFactory propMan, DevicePolice police) {
         super(name, aChannel, bChannel, defaultDistancePerPulse, owningSystemPrefix, propMan, police);
     }
 
     public void setDistance(double distance) {
         this.distance = distance * (isInverted ? -1 : 1);
+    }
+
+    public void addDistance(double distance) {
+        this.setDistance(((isInverted ? -1 : 1) * this.getDistance()) + distance);
     }
 
     protected double getRate() {
@@ -56,7 +60,7 @@ public class MockEncoder extends XEncoder implements ISimulatableSensor {
 
     @Override
     public void ingestSimulationData(JSONObject payload) {
-        setDistance((double)payload.get("EncoderTicks"));
+        setDistance((double) payload.get("EncoderTicks"));
     }
 
     @Override
