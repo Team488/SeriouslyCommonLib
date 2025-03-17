@@ -1,7 +1,5 @@
 package xbot.common.properties;
 
-import static edu.wpi.first.units.Units.Degrees;
-
 import java.util.function.Consumer;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.Logger;
@@ -9,7 +7,6 @@ import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 import edu.wpi.first.units.AngleUnit;
 import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.MutAngle;
 import xbot.common.logging.Pluralizer;
 
@@ -23,7 +20,6 @@ public class AngleProperty extends Property {
     final AngleUnit defaultUnit;
     final MutAngle lastValue;
     final MutAngle currentValue;
-    final static Angle equivalenceThreshold = Degrees.of(0.001);
 
     private final LoggableInputs inputs = new LoggableInputs() {
         public void toLog(LogTable table) {
@@ -83,7 +79,7 @@ public class AngleProperty extends Property {
 
     public void hasChangedSinceLastCheck(Consumer<Angle> callback) {
         Angle currentValue = get();
-        if (!currentValue.isNear(lastValue, equivalenceThreshold)) {
+        if (!currentValue.isEquivalent(lastValue)) {
             callback.accept(currentValue);
         }
         lastValue.mut_replace(currentValue);
@@ -91,7 +87,7 @@ public class AngleProperty extends Property {
 
     public boolean hasChangedSinceLastCheck() {
         Angle currentValue = get();
-        boolean changed = !currentValue.isNear(lastValue, equivalenceThreshold);
+        boolean changed = !currentValue.isEquivalent(lastValue);
         lastValue.mut_replace(currentValue);
         return changed;
     }
