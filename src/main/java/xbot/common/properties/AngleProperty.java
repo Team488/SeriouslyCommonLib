@@ -47,7 +47,7 @@ public class AngleProperty extends Property {
         // Check for non-default on load; also store a "last value" we can use
         // to check if a property has changed recently.
         Angle firstValue = get_internal();
-        if (firstValue != defaultValue) {
+        if (!firstValue.isEquivalent(defaultValue)) {
             log.info("Property " + key + " has the non-default value " + firstValue);
         }
         lastValue.mut_replace(firstValue);
