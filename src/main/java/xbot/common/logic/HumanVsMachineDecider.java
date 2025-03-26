@@ -3,6 +3,7 @@ package xbot.common.logic;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+import edu.wpi.first.wpilibj.DriverStation;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
@@ -22,7 +23,7 @@ public class HumanVsMachineDecider {
         InitializeMachineControl,
         MachineControl
     }
-    
+
     private double lastHumanTime;
     private final DoubleProperty deadbandProp;
     private final DoubleProperty coastTimeProp;
@@ -78,22 +79,26 @@ public class HumanVsMachineDecider {
      * @return The recommended mode.
      */
     public HumanVsMachineMode getRecommendedMode(double humanInput) {
-                
+
+        if (DriverStation.isDisabled()) {
+            return HumanVsMachineMode.Coast;
+        }
+
         if (Math.abs(humanInput) > deadbandProp.get()) {
             lastHumanTime = XTimer.getFPGATimestamp();
             inAutomaticMode = false;
             return HumanVsMachineMode.HumanControl;
         }
-        
+
         if (XTimer.getFPGATimestamp() - lastHumanTime < coastTimeProp.get()) {
             return HumanVsMachineMode.Coast;
         }
-        
+
         if (!inAutomaticMode) {
             inAutomaticMode = true;
             return HumanVsMachineMode.InitializeMachineControl;
         }
-        
+
         return HumanVsMachineMode.MachineControl;
     }
 
