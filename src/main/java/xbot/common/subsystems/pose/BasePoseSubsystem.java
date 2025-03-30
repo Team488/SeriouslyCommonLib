@@ -23,6 +23,7 @@ import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.drive.swerve.ISwerveAdvisorPoseSupport;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Radians;
@@ -244,21 +245,21 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
      * then this method will need to be overridden.
      */
     protected WrappedRotation2d getRobotYaw() {
-        return imu.getHeading();
+        return WrappedRotation2d.fromDegrees(imu.getHeading().in(Degrees));
     }
 
     protected double getUntrimmedPitch() {
         if (rioRotated.get()) {
-            return imu.getRoll();
+            return imu.getRoll().in(Degrees);
         }
-        return imu.getPitch();
+        return imu.getPitch().in(Degrees);
     }
 
     protected double getUntrimmedRoll() {
         if (rioRotated.get()) {
-            return imu.getPitch();
+            return imu.getPitch().in(Degrees);
         }
-        return imu.getRoll();
+        return imu.getRoll().in(Degrees);
     }
 
     public void calibrateInherentRioOrientation() {
@@ -267,7 +268,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     }
 
     public double getYawAngularVelocity(){
-        return imu.getYawAngularVelocity();
+        return imu.getYawAngularVelocity().in(DegreesPerSecond);
     }
 
     public boolean getNavXReady() {
