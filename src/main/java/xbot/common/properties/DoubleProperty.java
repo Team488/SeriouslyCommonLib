@@ -39,7 +39,7 @@ public class DoubleProperty extends Property {
         // to check if a property has changed recently.
         double firstValue = get_internal();
         if (get_internal() != defaultValue) {
-            log.info("Property " + key + " has the non-default value " + (double) firstValue);
+            log.info("Property " + key + " has the non-default value " + firstValue);
         }
         lastValue = firstValue;
         currentValue = firstValue;
