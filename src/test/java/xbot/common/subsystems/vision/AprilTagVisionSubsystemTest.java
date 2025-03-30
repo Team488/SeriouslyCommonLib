@@ -70,7 +70,7 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
         subsystem.refreshDataFrame();
         subsystem.periodic();
 
-        assertEquals(1, subsystem.getBestTargetId(0).get().intValue());
+        assertEquals(1, subsystem.getBestTargetId(0).getAsInt());
         assertTrue(subsystem.tagVisibleByAnyCamera(1));
         assertFalse(subsystem.tagVisibleByAnyCamera(5));
         assertEquals(Set.of(0), subsystem.camerasWithTagVisible(1));

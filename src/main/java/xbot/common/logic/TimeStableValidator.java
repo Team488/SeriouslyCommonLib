@@ -1,6 +1,6 @@
 package xbot.common.logic;
 
-import java.util.function.Supplier;
+import java.util.function.DoubleSupplier;
 
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.logic.Latch.EdgeType;
@@ -13,7 +13,7 @@ public class TimeStableValidator {
     Latch latch;
     double risingEdgeTime;
     double stableWindow;
-    Supplier<Double> stableWindowProvider;
+    DoubleSupplier stableWindowProvider;
     boolean lastStableEvaluation = false;
 
     /**
@@ -29,7 +29,7 @@ public class TimeStableValidator {
      * Creates a new TimeStableValidator using a window from a supplier.
      * @param stableWindowProvider A supplier that provides a time window, in seconds.
      */
-    public TimeStableValidator(Supplier<Double> stableWindowProvider) {
+    public TimeStableValidator(DoubleSupplier stableWindowProvider) {
         setStableWindowProvider(stableWindowProvider);
         initialize();
     }
@@ -43,7 +43,7 @@ public class TimeStableValidator {
      * Update the stable window using a supplier.
      * @param stableWindowProvider A supplier that provides a time window, in seconds.
      */
-    public void setStableWindowProvider(Supplier<Double> stableWindowProvider) {
+    public void setStableWindowProvider(DoubleSupplier stableWindowProvider) {
         this.stableWindowProvider = stableWindowProvider;
     }
 
@@ -59,7 +59,7 @@ public class TimeStableValidator {
         if (stableWindowProvider == null) {
             return stableWindow;
         }
-        return stableWindowProvider.get();
+        return stableWindowProvider.getAsDouble();
     }
 
     /**

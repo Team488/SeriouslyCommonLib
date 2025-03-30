@@ -31,6 +31,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.Set;
 
 /**
@@ -114,12 +115,12 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
      * @param cameraIndex The index of the camera to use.
      * @return The ID of the best target.
      */
-    public Optional<Integer> getBestTargetId(int cameraIndex) {
+    public OptionalInt getBestTargetId(int cameraIndex) {
         var id = cameraHelpers[cameraIndex].inputs.latestTargetObservation.fiducialId();
         if (id == 0) {
-            return Optional.empty();
+            return OptionalInt.empty();
         }
-        return Optional.of(id);
+        return OptionalInt.of(id);
     }
 
     /**
