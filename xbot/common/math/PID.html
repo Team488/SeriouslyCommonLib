@@ -79,8 +79,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">PID</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">This PID was extracted from WPILib. It has all the same functionality, but
- does not run on its own separate thread.</div>
+<div class="block">This PID was extracted from WPILib. It has all the same functionality, but does not run on its own separate thread.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -227,21 +226,16 @@ loadScripts(document, 'script');</script>
 <div class="block">Set tolerances for the PID system.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>errorTolerance</code> - How close the error can be before it is considered
-  "on-target."
-
-  Negative values will cause that constraint to skipped when checking
-  isOnTarget().
-
-  This is in the same units as your current and goal values.</dd>
-<dd><code>derivativeTolerance</code> - Set how small the derivative of the error can be before it is considered
-  "on-target."
-
-  This is roughly in the same units as your current and goal values,
-  but per 1/20th of a second.
-
-  e.g. if you wanted a minimum rotation speed of 5 degrees per second,
-  this tolerance would need to be 0.25.</dd>
+<dd><code>errorTolerance</code> - How close the error can be before it is considered "on-target."
+                            <p>
+                            Negative values will cause that constraint to skipped when checking isOnTarget().
+                            <p>
+                            This is in the same units as your current and goal values.</dd>
+<dd><code>derivativeTolerance</code> - Set how small the derivative of the error can be before it is considered "on-target."
+                            <p>
+                            This is roughly in the same units as your current and goal values, but per 1/20th of a second.
+                            <p>
+                            e.g. if you wanted a minimum rotation speed of 5 degrees per second, this tolerance would need to be 0.25.</dd>
 </dl>
 </section>
 </li>
@@ -332,12 +326,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getOffTargetReason()">
 <h3>getOffTargetReason</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="PID.OffTargetReason.html" title="enum class in xbot.common.math">PID.OffTargetReason</a></span>&nbsp;<span class="element-name">getOffTargetReason</span>()</div>
-<div class="block">Returns an enum explaining the reason the PID is not on target.
- It has the following priority list if there are multiple reasons (higher ones overrule lower ones):
- - Too much error
- - Too much derivative
- - Waiting for time stability
- - On Target</div>
+<div class="block">Returns an enum explaining the reason the PID is not on target. It has the following priority list if there are multiple reasons (higher ones overrule
+ lower ones): - Too much error - Too much derivative - Waiting for time stability - On Target</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The reason the PID is not on target.</dd>

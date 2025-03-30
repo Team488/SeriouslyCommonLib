@@ -129,9 +129,9 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.controls.sensors.XAnalogInput.XAnalogInputFactory,int,java.util.function.DoubleFunction,java.lang.String,xbot.common.properties.PropertyFactory)" class="member-name-link">AnalogDistanceSensor</a><wbr>(<a href="XAnalogInput.XAnalogInputFactory.html" title="interface in xbot.common.controls.sensors">XAnalogInput.XAnalogInputFactory</a>&nbsp;analogInputFactory,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.controls.sensors.XAnalogInput.XAnalogInputFactory,int,java.util.function.DoubleUnaryOperator,java.lang.String,xbot.common.properties.PropertyFactory)" class="member-name-link">AnalogDistanceSensor</a><wbr>(<a href="XAnalogInput.XAnalogInputFactory.html" title="interface in xbot.common.controls.sensors">XAnalogInput.XAnalogInputFactory</a>&nbsp;analogInputFactory,
  int&nbsp;channel,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleFunction.html" title="class or interface in java.util.function" class="external-link">DoubleFunction</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;voltageMap,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;voltageMap,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;prefix,
  <a href="../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;propMan)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
@@ -193,14 +193,14 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(xbot.common.controls.sensors.XAnalogInput.XAnalogInputFactory,int,java.util.function.DoubleFunction,java.lang.String,xbot.common.properties.PropertyFactory)">
+<section class="detail" id="&lt;init&gt;(xbot.common.controls.sensors.XAnalogInput.XAnalogInputFactory,int,java.util.function.DoubleUnaryOperator,java.lang.String,xbot.common.properties.PropertyFactory)">
 <h3>AnalogDistanceSensor</h3>
 <div class="member-signature"><span class="annotations">@AssistedInject
 </span><span class="modifiers">public</span>&nbsp;<span class="element-name">AnalogDistanceSensor</span><wbr><span class="parameters">(<a href="XAnalogInput.XAnalogInputFactory.html" title="interface in xbot.common.controls.sensors">XAnalogInput.XAnalogInputFactory</a>&nbsp;analogInputFactory,
  @Assisted("channel")
  int&nbsp;channel,
  @Assisted("voltageMap")
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleFunction.html" title="class or interface in java.util.function" class="external-link">DoubleFunction</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;voltageMap,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;voltageMap,
  @Assisted("prefix")
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;prefix,
  <a href="../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;propMan)</span></div>

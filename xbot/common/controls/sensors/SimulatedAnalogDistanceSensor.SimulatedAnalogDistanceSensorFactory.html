@@ -117,8 +117,8 @@ implements <a href="XAnalogDistanceSensor.XAnalogDistanceSensorFactory.html" tit
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="SimulatedAnalogDistanceSensor.html" title="class in xbot.common.controls.sensors">SimulatedAnalogDistanceSensor</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#create(int,java.util.function.DoubleFunction,java.lang.String)" class="member-name-link">create</a><wbr>(int&nbsp;channel,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleFunction.html" title="class or interface in java.util.function" class="external-link">DoubleFunction</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;voltageMap,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#create(int,java.util.function.DoubleUnaryOperator,java.lang.String)" class="member-name-link">create</a><wbr>(int&nbsp;channel,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;voltageMap,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;prefix)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
@@ -153,17 +153,17 @@ implements <a href="XAnalogDistanceSensor.XAnalogDistanceSensorFactory.html" tit
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="create(int,java.util.function.DoubleFunction,java.lang.String)">
+<section class="detail" id="create(int,java.util.function.DoubleUnaryOperator,java.lang.String)">
 <h3>create</h3>
 <div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="SimulatedAnalogDistanceSensor.html" title="class in xbot.common.controls.sensors">SimulatedAnalogDistanceSensor</a></span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(@Assisted("channel")
  int&nbsp;channel,
  @Assisted("voltageMap")
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleFunction.html" title="class or interface in java.util.function" class="external-link">DoubleFunction</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;voltageMap,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;voltageMap,
  @Assisted("prefix")
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;prefix)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="XAnalogDistanceSensor.XAnalogDistanceSensorFactory.html#create(int,java.util.function.DoubleFunction,java.lang.String)">create</a></code>&nbsp;in interface&nbsp;<code><a href="XAnalogDistanceSensor.XAnalogDistanceSensorFactory.html" title="interface in xbot.common.controls.sensors">XAnalogDistanceSensor.XAnalogDistanceSensorFactory</a></code></dd>
+<dd><code><a href="XAnalogDistanceSensor.XAnalogDistanceSensorFactory.html#create(int,java.util.function.DoubleUnaryOperator,java.lang.String)">create</a></code>&nbsp;in interface&nbsp;<code><a href="XAnalogDistanceSensor.XAnalogDistanceSensorFactory.html" title="interface in xbot.common.controls.sensors">XAnalogDistanceSensor.XAnalogDistanceSensorFactory</a></code></dd>
 </dl>
 </section>
 </li>
