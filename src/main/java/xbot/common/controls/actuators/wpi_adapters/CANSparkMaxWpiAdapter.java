@@ -134,6 +134,15 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     @Override
+    public void setTrapezoidalProfileMaxVelocity(AngularVelocity velocity) {
+        var config = new SparkMaxConfig();
+        config.closedLoop.maxMotion.maxVelocity(velocity.in(RPM));
+        this.internalSparkMax.configure(config,
+                SparkBase.ResetMode.kNoResetSafeParameters,
+                SparkBase.PersistMode.kNoPersistParameters);
+    }
+
+    @Override
     public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot) {
         if (gravityFF != 0) {
             log.warn("setPidDirectly: Gravity feedforward is not supported by SparkMax");
