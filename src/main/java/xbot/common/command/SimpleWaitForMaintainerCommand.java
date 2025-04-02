@@ -1,6 +1,6 @@
 package xbot.common.command;
 
-import java.util.function.Supplier;
+import java.util.function.DoubleSupplier;
 
 import xbot.common.controls.sensors.XTimer;
 
@@ -10,7 +10,7 @@ import xbot.common.controls.sensors.XTimer;
 public class SimpleWaitForMaintainerCommand extends BaseCommand {
 
     private final BaseSetpointSubsystem<?> subsystem;
-    private final Supplier<Double> delaySupplier;
+    private final DoubleSupplier delaySupplier;
     private double startTime;
 
     /**
@@ -18,7 +18,7 @@ public class SimpleWaitForMaintainerCommand extends BaseCommand {
      * @param subsystem The maintainer subsystem.
      * @param delaySupplier The timeout duration in seconds via a supplier.
      */
-    public SimpleWaitForMaintainerCommand(BaseSetpointSubsystem<?> subsystem, Supplier<Double> delaySupplier) {
+    public SimpleWaitForMaintainerCommand(BaseSetpointSubsystem<?> subsystem, DoubleSupplier delaySupplier) {
         this.subsystem = subsystem;
         this.delaySupplier = delaySupplier;
     }
@@ -39,6 +39,6 @@ public class SimpleWaitForMaintainerCommand extends BaseCommand {
     }
 
     private boolean isTimeoutExpired() {
-        return XTimer.getFPGATimestamp() > startTime + delaySupplier.get();
+        return XTimer.getFPGATimestamp() > startTime + delaySupplier.getAsDouble();
     }
 }

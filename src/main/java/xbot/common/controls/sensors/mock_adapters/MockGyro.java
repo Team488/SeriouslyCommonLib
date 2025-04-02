@@ -2,6 +2,8 @@ package xbot.common.controls.sensors.mock_adapters;
 
 import java.math.BigDecimal;
 
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import org.json.JSONObject;
 
 import dagger.assisted.Assisted;
@@ -15,13 +17,16 @@ import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.IMUInfo;
 import xbot.common.simulation.ISimulatableSensor;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
+
 public class MockGyro extends XGyro implements ISimulatableSensor {
     private boolean isBroken;
 
-    private double yaw;
-    private double pitch;
-    private double roll;
-    private double yawAngularVelocity;
+    private Angle yaw = Degrees.zero();
+    private Angle pitch = Degrees.zero();
+    private Angle roll = Degrees.zero();
+    private AngularVelocity yawAngularVelocity = DegreesPerSecond.zero();
     private double velocityX;
     private double velocityY;
     private double velocityZ;
@@ -44,11 +49,11 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
         return true;
     }
 
-    public void setYaw(double yaw) {
+    public void setYaw(Angle yaw) {
         this.yaw = yaw;
     }
 
-    public double getDeviceYaw() {
+    public Angle getDeviceYaw() {
         return yaw;
     }
 
@@ -70,27 +75,27 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
         return isBroken;
     }
 
-    public void setRoll(double roll) {
+    public void setRoll(Angle roll) {
         this.roll = roll;
     }
 
-    public double getDeviceRoll() {
+    public Angle getDeviceRoll() {
         return roll;
     }
 
-    public void setPitch(double pitch) {
+    public void setPitch(Angle pitch) {
         this.pitch = pitch;
     }
 
-    public double getDevicePitch() {
+    public Angle getDevicePitch() {
         return pitch;
     }
 
-    public void setYawAngularVelocity(double yawAngularVelocity) {
+    public void setYawAngularVelocity(AngularVelocity yawAngularVelocity) {
         this.yawAngularVelocity = yawAngularVelocity;
     }
 
-    public double getDeviceYawAngularVelocity() {
+    public AngularVelocity getDeviceYawAngularVelocity() {
         return yawAngularVelocity;
     }
 
@@ -157,8 +162,8 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
         double yawInDegrees = intermediateYaw.doubleValue() * 180.0 / Math.PI;
         double yawVelocityInDegrees = intermediateYawVelocity.doubleValue() * 180.0 / Math.PI;
 
-        this.setYaw(yawInDegrees);
-        this.setYawAngularVelocity(yawVelocityInDegrees);
+        this.setYaw(Degrees.of(yawInDegrees));
+        this.setYawAngularVelocity(DegreesPerSecond.of(yawVelocityInDegrees));
 
         // Eventually we will have more of these for more IMU elements
     }

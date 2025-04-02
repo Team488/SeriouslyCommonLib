@@ -11,7 +11,7 @@ import xbot.common.controls.sensors.XAnalogInput.XAnalogInputFactory;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
-import java.util.function.DoubleFunction;
+import java.util.function.DoubleUnaryOperator;
 
 public class AnalogDistanceSensor extends XAnalogDistanceSensor {
 
@@ -31,7 +31,7 @@ public class AnalogDistanceSensor extends XAnalogDistanceSensor {
     public abstract static class AnalogDistanceSensorFactory implements XAnalogDistanceSensorFactory {
         public abstract AnalogDistanceSensor create(
                 @Assisted("channel") int channel,
-                @Assisted("voltageMap") DoubleFunction<Double> voltageMap,
+                @Assisted("voltageMap") DoubleUnaryOperator voltageMap,
                 @Assisted("prefix") String prefix);
     }
 
@@ -39,7 +39,7 @@ public class AnalogDistanceSensor extends XAnalogDistanceSensor {
     public AnalogDistanceSensor(
             XAnalogInputFactory analogInputFactory,
             @Assisted("channel") int channel,
-            @Assisted("voltageMap") DoubleFunction<Double> voltageMap,
+            @Assisted("voltageMap") DoubleUnaryOperator voltageMap,
             @Assisted("prefix") String prefix,
             PropertyFactory propMan) {
         super(channel, voltageMap);
@@ -58,7 +58,7 @@ public class AnalogDistanceSensor extends XAnalogDistanceSensor {
     @Override
     public double getDistance() {
         double voltage = isAveragingEnabled ? input.getAverageVoltage() : input.getVoltage();
-        return (voltageMap.apply(voltage + voltageOffset.get()) + distanceOffset.get()) * scalarMultiplier.get();
+        return (voltageMap.applyAsDouble(voltage + voltageOffset.get()) + distanceOffset.get()) * scalarMultiplier.get();
     }
 
     @Override

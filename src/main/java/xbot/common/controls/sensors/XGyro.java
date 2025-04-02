@@ -1,6 +1,8 @@
 package xbot.common.controls.sensors;
 
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import org.littletonrobotics.junction.Logger;
 
 import xbot.common.advantage.DataFrameRefreshable;
@@ -8,6 +10,9 @@ import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.controls.io_inputs.XGyroIoInputsAutoLogged;
 import xbot.common.injection.electrical_contract.IMUInfo;
 import xbot.common.math.WrappedRotation2d;
+
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
 
 public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
 {
@@ -56,32 +61,32 @@ public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
     /**
      * In degrees
      */
-    public WrappedRotation2d getHeading() {
+    public Angle getHeading() {
         if (!isBroken()) {
-            return WrappedRotation2d.fromDegrees(getDeviceYaw());
+            return getDeviceYaw();
         }
-        return WrappedRotation2d.fromDegrees(0);
+        return Degrees.zero();
     }
 
-    public double getRoll() {
+    public Angle getRoll() {
         if (!isBroken()) {
             return getDeviceRoll();
         }
-        return 0;
+        return Degrees.zero();
     }
 
-    public double getPitch() {
+    public Angle getPitch() {
         if (!isBroken()) {
             return getDevicePitch();
         }
-        return 0;
+        return Degrees.zero();
     }
 
-    public double getYawAngularVelocity() {
+    public AngularVelocity getYawAngularVelocity() {
         if (!isBroken()) {
             return getDeviceYawAngularVelocity();
         }
-        return 0;
+        return DegreesPerSecond.zero();
     }
 
     public double getAccelerationX() {
@@ -107,31 +112,19 @@ public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
         return io.isConnected;
     }
 
-    /**
-     * In degrees
-     */
-    private double getDeviceRoll() {
+    private Angle getDeviceRoll() {
         return io.roll;
     }
 
-    /**
-     * In degrees
-     */
-    private double getDevicePitch() {
+    private Angle getDevicePitch() {
         return io.pitch;
     }
 
-    /**
-     * In degrees
-     */
-    private double getDeviceYaw() {
+    private Angle getDeviceYaw() {
         return io.yaw;
     }
 
-    /**
-     * In degrees per second
-     */
-    private double getDeviceYawAngularVelocity() {
+    private AngularVelocity getDeviceYawAngularVelocity() {
         return io.yawAngularVelocity;
     }
 

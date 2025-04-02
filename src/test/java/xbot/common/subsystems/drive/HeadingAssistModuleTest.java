@@ -12,6 +12,7 @@ import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.MockBasePoseSubsystem;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static org.junit.Assert.assertEquals;
 
 public class HeadingAssistModuleTest extends BaseCommonLibTest {
@@ -169,7 +170,7 @@ public class HeadingAssistModuleTest extends BaseCommonLibTest {
     }
 
     protected void setHeading(double heading) {
-        ((MockGyro)pose.imu).setYaw(heading);
+        ((MockGyro)pose.imu).setYaw(Degrees.of(heading));
         pose.refreshDataFrame();
         pose.periodic();
     }

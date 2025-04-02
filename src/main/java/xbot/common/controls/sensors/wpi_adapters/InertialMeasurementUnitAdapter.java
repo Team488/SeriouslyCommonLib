@@ -2,6 +2,8 @@ package xbot.common.controls.sensors.wpi_adapters;
 
 import com.studica.frc.AHRS;
 
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,6 +16,9 @@ import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.IMUInfo;
+
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
 
 public class InertialMeasurementUnitAdapter extends XGyro {
 
@@ -51,16 +56,16 @@ public class InertialMeasurementUnitAdapter extends XGyro {
         return this.ahrs.isConnected();
     }
 
-    protected double getDeviceYaw() {
-        return -this.ahrs.getYaw();
+    private Angle getDeviceYaw() {
+        return Degrees.of(-this.ahrs.getYaw());
     }
 
-    public double getDeviceRoll() {
-        return -this.ahrs.getRoll();
+    private Angle getDeviceRoll() {
+        return Degrees.of(-this.ahrs.getRoll());
     }
 
-    public double getDevicePitch() {
-        return -this.ahrs.getPitch();
+    private Angle getDevicePitch() {
+        return Degrees.of(-this.ahrs.getPitch());
     }
 
     @Override
@@ -85,8 +90,8 @@ public class InertialMeasurementUnitAdapter extends XGyro {
     /**
      * Note: this is in degrees per second.
      */
-    public double getDeviceYawAngularVelocity(){
-        return ahrs.getRate();
+    public AngularVelocity getDeviceYawAngularVelocity(){
+        return DegreesPerSecond.of(ahrs.getRate());
     }
 
     public double getDeviceVelocityX() {
@@ -114,7 +119,7 @@ public class InertialMeasurementUnitAdapter extends XGyro {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         if (ahrs != null) {
             ahrs.close();
         }

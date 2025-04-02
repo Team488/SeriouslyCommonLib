@@ -1,5 +1,7 @@
 package xbot.common.simulation;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
@@ -33,7 +35,7 @@ public class SimulatedIMUTest extends BaseSimulationTest {
 
         this.distributor.distributeSimulationPayload(fullSensorPayload);
         simulatedGyro.refreshDataFrame();
-        assertEquals(45.223, simulatedGyro.getHeading().getDegrees(), 0.001);
-        assertEquals(12, simulatedGyro.getYawAngularVelocity(), 0.001);
+        assertEquals(45.223, simulatedGyro.getHeading().in(Degrees), 0.001);
+        assertEquals(12, simulatedGyro.getYawAngularVelocity().in(DegreesPerSecond), 0.001);
     }
 }
