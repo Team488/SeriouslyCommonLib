@@ -19,7 +19,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
+
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.controls.sensors.XGyro.XGyroFactory;
 import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.injection.electrical_contract.XCameraElectricalContract;
 import xbot.common.properties.PropertyFactory;
@@ -38,15 +40,14 @@ import java.util.Set;
 @Singleton
 public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameRefreshable {
     private final CameraInfo[] cameras;
-    private final AprilTagFieldLayout aprilTagFieldLayout;
     final AprilTagVisionIO[] io;
     final AprilTagVisionCameraHelper[] cameraHelpers;
 
     @Inject
     public AprilTagVisionSubsystem(PropertyFactory pf, AprilTagFieldLayout fieldLayout,
             XCameraElectricalContract contract,
-            AprilTagVisionIOFactory visionIOFactory) {
-        this.aprilTagFieldLayout = fieldLayout;
+            AprilTagVisionIOFactory visionIOFactory,
+            XGyroFactory gyroFactory) {
 
         this.cameras = contract.getAprilTagCameras();
         this.io = new AprilTagVisionIO[this.cameras.length];
@@ -54,7 +55,13 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
         for (int i = 0; i < io.length; i++) {
             var cameraInfo = this.cameras[i];
             io[i] = visionIOFactory.create(cameraInfo.networkTablesName(), cameraInfo.position());
-            cameraHelpers[i] = new AprilTagVisionCameraHelper(this.getName() + "/Cameras/" + cameraInfo.friendlyName(), pf, io[i], fieldLayout);
+            cameraHelpers[i] = new AprilTagVisionCameraHelper(
+                this.getName() + "/Cameras/",
+                pf, 
+                io[i], 
+                fieldLayout, 
+                cameraInfo, 
+                gyroFactory.create());
         }
     }
 
@@ -168,6 +175,9 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
             Logger.recordOutput(
                     cameraHelper.getLogPath() + "/RobotPosesRejected",
                     cameraHelper.getRobotPosesRejected().toArray(new Pose3d[0]));
+            Logger.recordOutput(
+                    cameraHelper.getLogPath() + "/RobotEstimatedPoses",
+                    cameraHelper.getEstimatedRobotPoses().toArray(new Pose3d[0]));
         }
     }
 }

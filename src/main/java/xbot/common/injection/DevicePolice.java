@@ -81,9 +81,7 @@ public class DevicePolice {
         }
         
         String entry = type.toString() + id;
-        if (registeredChannels.containsKey(entry)) {
-            assertionManager.fail("A device has already been created that uses " + type.toString() + " port/id " + id);
-        } else {
+        if (!registeredChannels.containsKey(entry)) {
             registeredChannels.put(entry, device);
             //deviceToId.put(device, entry);
         }

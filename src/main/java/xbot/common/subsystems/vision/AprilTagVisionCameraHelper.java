@@ -3,14 +3,24 @@ package xbot.common.subsystems.vision;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.wpilibj.Alert;
 import org.littletonrobotics.junction.Logger;
+import org.photonvision.EstimatedRobotPose;
+import org.photonvision.PhotonCameraExtended;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.targeting.PhotonPipelineResult;
+
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.controls.sensors.XGyro;
+import xbot.common.controls.sensors.XTimer;
+import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Helper class for ingesting data from a single AprilTag vision camera.
@@ -21,6 +31,8 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final String logPath;
     private final Alert disconnectedAlert;
     private final AprilTagFieldLayout aprilTagFieldLayout;
+    private final AprilTagCamera aprilCam;
+    private final XGyro imu;
 
     // Basic filtering thresholds
     private final DoubleProperty maxAmbiguity;
@@ -45,12 +57,14 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final List<Pose3d> robotPosesAccepted = new LinkedList<>();
     private final List<Pose3d> robotPosesRejected = new LinkedList<>();
     private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
+    private final List<Pose3d> estimatedRobotPoses = new LinkedList<>();
 
-    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout) {
-        this.logPath = prefix;
+    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout, CameraInfo cameraInfo, XGyro imu) {
+        this.logPath = prefix + cameraInfo.friendlyName();
         this.io = io;
         this.inputs = new VisionIOInputsAutoLogged();
         this.aprilTagFieldLayout = fieldLayout;
+        this.imu = imu;
         this.disconnectedAlert = new Alert(
                 "Vision camera " + prefix + " is disconnected.", Alert.AlertType.kWarning);
 
@@ -63,6 +77,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.angularStdDevMegatag2Factor = pf.createPersistentProperty("AngularStdDevMegatag2Factor",
                 Double.POSITIVE_INFINITY);
         this.cameraStdDevFactor = pf.createPersistentProperty("CameraStdDevFactor", 1.0);
+        this.aprilCam = new AprilTagCamera(cameraInfo, fieldLayout, this.logPath);
     }
 
     @Override
@@ -72,6 +87,8 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
 
         disconnectedAlert.set(!inputs.connected);
         calculatePoses();
+
+        calculateRobotPoseUsingPNPTrig();
     }
 
     public String getLogPath() {
@@ -100,6 +117,31 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
 
     public List<VisionPoseObservation> getPoseObservations() {
         return poseObservations;
+    }
+
+    public List<Pose3d> getEstimatedRobotPoses() {
+        return estimatedRobotPoses;
+    }
+
+    private void calculateRobotPoseUsingPNPTrig() {
+        PhotonCameraExtended camExt = aprilCam.getCamera();
+        camExt.refreshDataFrame();
+
+        //clear poses
+        estimatedRobotPoses.clear();
+
+        //update heading
+        Rotation3d heading = new Rotation3d(imu.getRoll(), imu.getPitch(), imu.getYaw());
+        PhotonPoseEstimator estimator = aprilCam.getPoseEstimator();
+        estimator.addHeadingData(XTimer.getFPGATimestamp(), heading);
+
+        //get results
+        int nResults = camExt.getAllUnreadResults().size();
+        if(nResults > 0) {
+            PhotonPipelineResult lastResult = camExt.getAllUnreadResults().get(nResults - 1);
+            Optional<EstimatedRobotPose> pose = estimator.update(lastResult, camExt.getCameraMatrix(), camExt.getDistCoeffs());
+            pose.ifPresent(val -> this.estimatedRobotPoses.add(val.estimatedPose));
+        }
     }
 
     private void calculatePoses() {

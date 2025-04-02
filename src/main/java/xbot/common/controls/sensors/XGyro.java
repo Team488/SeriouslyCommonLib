@@ -71,6 +71,13 @@ public abstract class XGyro implements DataFrameRefreshable
         }
         return 0;
     }
+
+    public double getYaw() {
+        if (!isBroken()) {
+            return getDeviceYaw();
+        }
+        return 0;
+    }
     
     public double getYawAngularVelocity() {
         if (!isBroken()) {

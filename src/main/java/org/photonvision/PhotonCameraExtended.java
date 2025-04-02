@@ -36,6 +36,7 @@ public class PhotonCameraExtended extends PhotonCamera implements DataFrameRefre
 
     @Override
     public List<PhotonPipelineResult> getAllUnreadResults() {
+        if(io.pipelineResults == null) return Arrays.stream(new PhotonPipelineResult[0]).toList();
         return Arrays.stream(io.pipelineResults).toList();
     }
 
