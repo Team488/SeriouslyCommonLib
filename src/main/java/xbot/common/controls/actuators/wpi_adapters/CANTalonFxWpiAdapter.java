@@ -226,6 +226,16 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     @Override
+    public void setTrapezoidalProfileMaxVelocity(AngularVelocity velocity) {
+        if (configCacheFailedAlert.get()) {
+            cacheConfiguration();
+        }
+
+        this.talonConfiguration.MotionMagic.withMotionMagicCruiseVelocity(velocity);
+        invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(this.talonConfiguration.MotionMagic), 3);
+    }
+
+    @Override
     public void setPower(double power) {
         if (!isValidPowerRequest(power)) {
             return;

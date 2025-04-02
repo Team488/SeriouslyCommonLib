@@ -100,6 +100,11 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     @Override
+    public void setTrapezoidalProfileMaxVelocity(AngularVelocity velocity) {
+
+    }
+
+    @Override
     public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot) {
         this.p = p;
         this.i = i;

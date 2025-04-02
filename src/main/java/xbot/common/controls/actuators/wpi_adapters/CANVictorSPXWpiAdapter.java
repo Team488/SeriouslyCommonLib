@@ -107,6 +107,11 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
     }
 
     @Override
+    public void setTrapezoidalProfileMaxVelocity(AngularVelocity velocity) {
+
+    }
+
+    @Override
     public void setPower(double power) {
         internalVictor.set(VictorSPXControlMode.PercentOutput, power);
     }

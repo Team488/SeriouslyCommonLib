@@ -263,6 +263,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     public abstract void setTrapezoidalProfileJerk(Velocity<AngularAccelerationUnit> jerk);
 
+    public abstract void setTrapezoidalProfileMaxVelocity(AngularVelocity velocity);
+
     public abstract void setPower(double power);
 
     public abstract double getPower();
