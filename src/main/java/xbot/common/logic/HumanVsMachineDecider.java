@@ -81,6 +81,7 @@ public class HumanVsMachineDecider {
     public HumanVsMachineMode getRecommendedMode(double humanInput) {
 
         if (DriverStation.isDisabled()) {
+            inAutomaticMode = false;
             return HumanVsMachineMode.Coast;
         }
 
@@ -91,6 +92,7 @@ public class HumanVsMachineDecider {
         }
 
         if (XTimer.getFPGATimestamp() - lastHumanTime < coastTimeProp.get()) {
+            inAutomaticMode = false;
             return HumanVsMachineMode.Coast;
         }
 
