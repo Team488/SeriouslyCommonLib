@@ -29,16 +29,19 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
     public void testHandleResult() {
         var subsystem = this.getInjectorComponent().getAprilTagVisionSubsystem();
 
-        var io = (MockAprilTagVisionIO)subsystem.io[0];
+        var io = (MockAprilTagVisionIO) subsystem.io[0];
         io.poseObservations = new AprilTagVisionIO.PoseObservation[] {
-                new AprilTagVisionIO.PoseObservation(1, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()), 0, 2, 0,
+                new AprilTagVisionIO.PoseObservation(1, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()),
+                        0, 2, 0,
                         AprilTagVisionIO.PoseObservationType.PHOTONVISION),
-                new AprilTagVisionIO.PoseObservation(2, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()), 0, 2, 0,
+                new AprilTagVisionIO.PoseObservation(2, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()),
+                        0, 2, 0,
                         AprilTagVisionIO.PoseObservationType.PHOTONVISION),
-                new AprilTagVisionIO.PoseObservation(3, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()), 0, 2, 0,
+                new AprilTagVisionIO.PoseObservation(3, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()),
+                        0, 2, 0,
                         AprilTagVisionIO.PoseObservationType.PHOTONVISION)
         };
-        io.tagIds = new int[] {1, 2, 3};
+        io.tagIds = new int[] { 1, 2, 3 };
         subsystem.refreshDataFrame();
         subsystem.periodic();
 
@@ -59,14 +62,18 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
     public void testHandleTargetObservations() {
         var subsystem = this.getInjectorComponent().getAprilTagVisionSubsystem();
 
-        var io = (MockAprilTagVisionIO)subsystem.io[0];
-        io.latestTargetObservation = new AprilTagVisionIO.TargetObservation(1, new Rotation2d(), new Rotation2d(), new Transform3d(), 0.2);
+        var io = (MockAprilTagVisionIO) subsystem.io[0];
+        io.latestTargetObservation = new AprilTagVisionIO.TargetObservation(0, 1, new Rotation2d(), new Rotation2d(),
+                new Transform3d(), 0.2, false);
         io.targetObservations = new AprilTagVisionIO.TargetObservation[] {
-                new AprilTagVisionIO.TargetObservation(1, new Rotation2d(), new Rotation2d(), new Transform3d(), 0.2),
-                new AprilTagVisionIO.TargetObservation(2, new Rotation2d(), new Rotation2d(), new Transform3d(), 0.2),
-                new AprilTagVisionIO.TargetObservation(3, new Rotation2d(), new Rotation2d(), new Transform3d(), 0.2)
+                new AprilTagVisionIO.TargetObservation(0, 1, new Rotation2d(), new Rotation2d(), new Transform3d(), 0.2,
+                        false),
+                new AprilTagVisionIO.TargetObservation(0, 2, new Rotation2d(), new Rotation2d(), new Transform3d(), 0.2,
+                        false),
+                new AprilTagVisionIO.TargetObservation(0, 3, new Rotation2d(), new Rotation2d(), new Transform3d(), 0.2,
+                        false)
         };
-        io.tagIds = new int[] {1, 2, 3};
+        io.tagIds = new int[] { 1, 2, 3 };
         subsystem.refreshDataFrame();
         subsystem.periodic();
 

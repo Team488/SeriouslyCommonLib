@@ -5,6 +5,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj.Timer;
 
 import java.lang.annotation.Target;
 
@@ -19,7 +20,8 @@ public class MockAprilTagVisionIO implements AprilTagVisionIO {
     public boolean connected = true;
     public int[] tagIds = {};
     public PoseObservation[] poseObservations = {};
-    public TargetObservation latestTargetObservation = new TargetObservation(1, new Rotation2d(), new Rotation2d(), new Transform3d(), 1);
+    public TargetObservation latestTargetObservation = new TargetObservation(0, 1, new Rotation2d(), new Rotation2d(),
+            new Transform3d(), 1, false);
     public TargetObservation[] targetObservations = { latestTargetObservation };
 
     @AssistedFactory
@@ -35,6 +37,10 @@ public class MockAprilTagVisionIO implements AprilTagVisionIO {
 
     @Override
     public void updateInputs(VisionIOInputs inputs) {
+        this.latestTargetObservation = new TargetObservation(Timer.getFPGATimestamp(),
+                this.latestTargetObservation.fiducialId(), this.latestTargetObservation.tx(),
+                this.latestTargetObservation.ty(), this.latestTargetObservation.cameraToTarget(),
+                this.latestTargetObservation.ambiguity(), false);
         inputs.connected = this.connected;
         inputs.tagIds = this.tagIds;
         inputs.poseObservations = this.poseObservations;
