@@ -33,7 +33,7 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
-import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Rotations;
@@ -107,8 +107,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(XCANMotorController.class);
 
-    protected BooleanSupplier softwareReverseLimit = () -> false;
-    protected BooleanSupplier softwareForwardLimit = () -> false;
+    protected Supplier<Boolean> softwareReverseLimit = () -> false;
+    protected Supplier<Boolean> softwareForwardLimit = () -> false;
 
     // Scale factors, with pre-computed inverses for performance.
     private Measure<? extends PerUnit<DistanceUnit, AngleUnit>> distancePerMotorRotationsScaleFactor;
@@ -168,7 +168,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
      * This is evaluated on every periodic call.
      * @param softwareForwardLimit A supplier that returns true if the forward limit is hit.
      */
-    public void setSoftwareForwardLimit(BooleanSupplier softwareForwardLimit) {
+    public void setSoftwareForwardLimit(Supplier<Boolean> softwareForwardLimit) {
         this.softwareForwardLimit = softwareForwardLimit;
     }
 
@@ -178,7 +178,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
      * This is evaluated on every periodic call.
      * @param softwareReverseLimit A supplier that returns true if the reverse limit is hit.
      */
-    public void setSoftwareReverseLimit(BooleanSupplier softwareReverseLimit) {
+    public void setSoftwareReverseLimit(Supplier<Boolean> softwareReverseLimit) {
         this.softwareReverseLimit = softwareReverseLimit;
     }
 
@@ -222,11 +222,11 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             return;
         }
 
-        if (softwareForwardLimit.getAsBoolean() && getVoltage().gt(Volts.of(0))) {
+        if (softwareForwardLimit.get() && getVoltage().gt(Volts.of(0))) {
             //log.warn("Forward software limit hit");
             setPower(0);
         }
-        if (softwareReverseLimit.getAsBoolean() && getVoltage().lt(Volts.of(0))) {
+        if (softwareReverseLimit.get() && getVoltage().lt(Volts.of(0))) {
             //log.warn("Reverse software limit hit");
             setPower(0);
         }
@@ -500,12 +500,12 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     }
 
     protected boolean isValidVoltageRequest(Voltage voltage) {
-        if (voltage.gt(Volts.of(0)) && softwareForwardLimit.getAsBoolean()) {
+        if (voltage.gt(Volts.of(0)) && softwareForwardLimit.get()) {
             // TODO: Change these various warnings to only trigger once on the rising edge of the issue.
             //log.warn("Attempted to set positive voltage on motor controller with forward software limit enabled");
             return false;
         }
-        if (voltage.lt(Volts.of(0)) && softwareReverseLimit.getAsBoolean()) {
+        if (voltage.lt(Volts.of(0)) && softwareReverseLimit.get()) {
             //log.warn("Attempted to set negative voltage on motor controller with reverse software limit enabled");
             return false;
         }
@@ -513,11 +513,11 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     }
 
     protected boolean isValidPowerRequest(double power) {
-        if (power > 0 && softwareForwardLimit.getAsBoolean()) {
+        if (power > 0 && softwareForwardLimit.get()) {
             //log.warn("Attempted to set positive power on motor controller with forward software limit enabled");
             return false;
         }
-        if (power < 0 && softwareReverseLimit.getAsBoolean()) {
+        if (power < 0 && softwareReverseLimit.get()) {
             //log.warn("Attempted to set negative power on motor controller with reverse software limit enabled");
             return false;
         }

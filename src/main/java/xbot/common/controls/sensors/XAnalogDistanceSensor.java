@@ -1,21 +1,21 @@
 package xbot.common.controls.sensors;
 
-import java.util.function.DoubleUnaryOperator;
+import java.util.function.DoubleFunction;
 
 public abstract class XAnalogDistanceSensor implements DistanceSensor {
 
-    DoubleUnaryOperator voltageMap;
-
+    DoubleFunction<Double> voltageMap;
+    
     public interface XAnalogDistanceSensorFactory {
         XAnalogDistanceSensor create(
             int channel,
-            DoubleUnaryOperator voltageMap,
+            DoubleFunction<Double> voltageMap,
             String prefix);
     }
 
     protected XAnalogDistanceSensor(
-            int channel,
-            DoubleUnaryOperator voltageMap) {
+            int channel, 
+            DoubleFunction<Double> voltageMap) {
                 this.voltageMap = voltageMap;
     }
 
@@ -26,7 +26,7 @@ public abstract class XAnalogDistanceSensor implements DistanceSensor {
     public abstract void setVoltageOffset(double offset);
 
     public abstract void setDistanceOffset(double offset);
-
+    
     public static class VoltageMaps
     {
         public static final double sharp0A51SK(double voltage)

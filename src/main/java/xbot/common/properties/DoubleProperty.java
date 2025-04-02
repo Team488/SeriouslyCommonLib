@@ -1,10 +1,14 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package xbot.common.properties;
 
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
-import java.util.function.DoubleConsumer;
+import java.util.function.Consumer;
 
 /**
  * This manages a double in the property system.
@@ -37,9 +41,9 @@ public class DoubleProperty extends Property {
 
         // Check for non-default on load; also store a "last value" we can use
         // to check if a property has changed recently.
-        double firstValue = get_internal();
+        Double firstValue = get_internal();
         if (get_internal() != defaultValue) {
-            log.info("Property " + key + " has the non-default value " + firstValue);
+            log.info("Property " + key + " has the non-default value " + firstValue.doubleValue());
         }
         lastValue = firstValue;
         currentValue = firstValue;
@@ -68,7 +72,7 @@ public class DoubleProperty extends Property {
         currentValue = value;
     }
 
-    public void hasChangedSinceLastCheck(DoubleConsumer callback) {
+    public void hasChangedSinceLastCheck(Consumer<Double> callback) {
         double currentValue = get();
         // TODO: Check if we can just use direct equality here, since we are in fact comparing a value to itself.
         if (Math.abs(currentValue - lastValue) > 0.00000000001) {

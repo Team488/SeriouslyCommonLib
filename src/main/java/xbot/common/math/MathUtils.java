@@ -1,6 +1,6 @@
 package xbot.common.math;
 
-import java.util.function.DoubleUnaryOperator;
+import java.util.function.Function;
 
 public class MathUtils
 {
@@ -41,7 +41,7 @@ public class MathUtils
         return deadband(input, deadband, (x) -> x);
     }
 
-    public static double deadband(double input, double deadband, DoubleUnaryOperator function) {
+    public static double deadband(double input, double deadband, Function<Double, Double> function) {
         if (Math.abs(input) < deadband) {
             return 0;
         }
@@ -58,7 +58,7 @@ public class MathUtils
         double scaledInput = reducedInput / (1-deadband);
 
         // Apply whatever further function is appropriate
-        return function.applyAsDouble(scaledInput);
+        return function.apply(scaledInput);
     }
 
     public static double Tau = Math.PI * 2;

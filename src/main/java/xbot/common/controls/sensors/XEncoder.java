@@ -1,6 +1,6 @@
 package xbot.common.controls.sensors;
 
-import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
 import org.littletonrobotics.junction.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
@@ -15,7 +15,7 @@ public abstract class XEncoder implements DataFrameRefreshable {
 
     protected boolean isInverted;
     protected DoubleProperty distancePerPulse;
-    protected DoubleSupplier distancePerPulseSupplier;
+    protected Supplier<Double> distancePerPulseSupplier;
 
     private final String akitName;
     final XEncoderInputsAutoLogged inputs;
@@ -47,16 +47,16 @@ public abstract class XEncoder implements DataFrameRefreshable {
         inputs = new XEncoderInputsAutoLogged();
     }
 
-    public void setDistancePerPulseSupplier(DoubleSupplier supplier) {
+    public void setDistancePerPulseSupplier(Supplier<Double> supplier) {
         distancePerPulseSupplier = supplier;
     }
 
     public double getAdjustedDistance() {
-        return getDistance() * (isInverted ? -1d : 1d) * distancePerPulseSupplier.getAsDouble();
+        return getDistance() * (isInverted ? -1d : 1d) * distancePerPulseSupplier.get();
     }
 
     public double getAdjustedRate() {
-        return getRate() * (isInverted ? -1d : 1d) * distancePerPulseSupplier.getAsDouble();
+        return getRate() * (isInverted ? -1d : 1d) * distancePerPulseSupplier.get();
     }
 
     public void setInverted(boolean inverted) {
