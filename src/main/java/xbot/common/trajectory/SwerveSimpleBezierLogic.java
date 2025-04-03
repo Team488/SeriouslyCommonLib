@@ -502,7 +502,7 @@ public class SwerveSimpleBezierLogic {
             boolean closeAndOnFinalLeg = lastResult.isOnFinalLeg && lastResult.distanceToTargetPoint < distanceThresholdToPrioritizeRotation;
             boolean engageTranslationSlowdown = featureEnabledAndRotationCommanded && closeAndOnFinalLeg;
             if (engageTranslationSlowdown) {
-                combinedVector = combinedVector.times(0.01);
+                combinedVector = combinedVector.times(0.1);
             }
 
             aKitLog.record("FeatureEnabledAndRotationCommanded", featureEnabledAndRotationCommanded);
