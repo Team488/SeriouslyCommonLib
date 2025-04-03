@@ -27,6 +27,7 @@ public class SwerveSimpleBezierLogic {
 
     Logger log = LogManager.getLogger(this.getClass());
     final AKitLogger aKitLog = new AKitLogger("SimpleInterpolator/");
+    private double rotationPrioritizationScaleback = 0.3;
 
     private Supplier<List<XbotSwervePoint>> keyPointsProvider;
     private List<XbotSwervePoint> keyPoints;
@@ -64,6 +65,10 @@ public class SwerveSimpleBezierLogic {
 
     public void setEnableSpecialAimDuringFinalLeg(boolean enableSpecialAimDuringFinalLeg) {
         this.enableSpecialAimDuringFinalLeg = enableSpecialAimDuringFinalLeg;
+    }
+    public SwerveSimpleBezierLogic setRotationPrioritizationScaleback(double rotationPrioritizationScaleback) {
+        this.rotationPrioritizationScaleback = rotationPrioritizationScaleback;
+        return this;
     }
 
     public void setSpecialAimTarget(Pose2d specialAimTarget) {
@@ -502,7 +507,7 @@ public class SwerveSimpleBezierLogic {
             boolean closeAndOnFinalLeg = lastResult.isOnFinalLeg && lastResult.distanceToTargetPoint < distanceThresholdToPrioritizeRotation;
             boolean engageTranslationSlowdown = featureEnabledAndRotationCommanded && closeAndOnFinalLeg;
             if (engageTranslationSlowdown) {
-                combinedVector = combinedVector.times(0.1);
+                combinedVector = combinedVector.times(rotationPrioritizationScaleback);
             }
 
             aKitLog.record("FeatureEnabledAndRotationCommanded", featureEnabledAndRotationCommanded);
