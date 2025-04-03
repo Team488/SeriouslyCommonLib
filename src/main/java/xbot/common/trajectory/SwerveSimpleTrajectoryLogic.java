@@ -39,6 +39,7 @@ public class SwerveSimpleTrajectoryLogic {
     double maxTurningPower = 1.0;
     private ProvidesWaypoints waypointRouter;
     private boolean aimAtGoalDuringFinalLeg;
+    private double rotationPrioritizationScaleback = 0.01;
     private boolean aimAtIntermediateNonFinalLegs;
     private boolean driveBackwards = false;
     private boolean enableSpecialAimTarget = false;
@@ -62,6 +63,11 @@ public class SwerveSimpleTrajectoryLogic {
 
     public void setEnableSpecialAimTarget(boolean enableSpecialAimTarget) {
         this.enableSpecialAimTarget = enableSpecialAimTarget;
+    }
+
+    public SwerveSimpleTrajectoryLogic setRotationPrioritizationScaleback(double rotationPrioritizationScaleback) {
+        this.rotationPrioritizationScaleback = rotationPrioritizationScaleback;
+        return this;
     }
 
     public void setEnableSpecialAimDuringFinalLeg(boolean enableSpecialAimDuringFinalLeg) {
@@ -504,7 +510,7 @@ public class SwerveSimpleTrajectoryLogic {
             boolean closeAndOnFinalLeg = lastResult.isOnFinalLeg && lastResult.distanceToTargetPoint < distanceThresholdToPrioritizeRotation;
             boolean engageTranslationSlowdown = featureEnabledAndRotationCommanded && closeAndOnFinalLeg;
             if (engageTranslationSlowdown) {
-                combinedVector = combinedVector.times(0.01);
+                combinedVector = combinedVector.times(rotationPrioritizationScaleback);
             }
 
             aKitLog.record("FeatureEnabledAndRotationCommanded", featureEnabledAndRotationCommanded);
