@@ -27,7 +27,7 @@ public class SwerveSimpleBezierLogic {
 
     Logger log = LogManager.getLogger(this.getClass());
     final AKitLogger aKitLog = new AKitLogger("SimpleInterpolator/");
-    private double rotationPrioritizationScaleback = 0.3;
+    private double rotationPrioritizationScaleback = 0.25;
 
     private Supplier<List<XbotSwervePoint>> keyPointsProvider;
     private List<XbotSwervePoint> keyPoints;
