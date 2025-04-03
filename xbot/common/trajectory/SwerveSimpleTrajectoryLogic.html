@@ -176,18 +176,21 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPrioritizeRotationIfCloseToGoal(boolean)" class="member-name-link">setPrioritizeRotationIfCloseToGoal</a><wbr>(boolean&nbsp;prioritizeRotationIfCloseToGoal)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSpecialAimTarget(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">setSpecialAimTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/geometry/Pose2d.html" title="class or interface in edu.wpi.first.math.geometry" class="external-link">Pose2d</a>&nbsp;specialAimTarget)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRotationPrioritizationScaleback(double)" class="member-name-link">setRotationPrioritizationScaleback</a><wbr>(double&nbsp;rotationPrioritizationScaleback)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStopWhenFinished(boolean)" class="member-name-link">setStopWhenFinished</a><wbr>(boolean&nbsp;newValue)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSpecialAimTarget(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">setSpecialAimTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/geometry/Pose2d.html" title="class or interface in edu.wpi.first.math.geometry" class="external-link">Pose2d</a>&nbsp;specialAimTarget)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityMode(xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode)" class="member-name-link">setVelocityMode</a><wbr>(<a href="../subsystems/drive/SwerveSimpleTrajectoryMode.html" title="enum class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryMode</a>&nbsp;mode)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStopWhenFinished(boolean)" class="member-name-link">setStopWhenFinished</a><wbr>(boolean&nbsp;newValue)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWaypointRouter(xbot.common.trajectory.ProvidesWaypoints)" class="member-name-link">setWaypointRouter</a><wbr>(<a href="ProvidesWaypoints.html" title="interface in xbot.common.trajectory">ProvidesWaypoints</a>&nbsp;waypointRouter)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityMode(xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode)" class="member-name-link">setVelocityMode</a><wbr>(<a href="../subsystems/drive/SwerveSimpleTrajectoryMode.html" title="enum class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryMode</a>&nbsp;mode)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWaypointRouter(xbot.common.trajectory.ProvidesWaypoints)" class="member-name-link">setWaypointRouter</a><wbr>(<a href="ProvidesWaypoints.html" title="interface in xbot.common.trajectory">ProvidesWaypoints</a>&nbsp;waypointRouter)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -223,6 +226,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="setEnableSpecialAimTarget(boolean)">
 <h3>setEnableSpecialAimTarget</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setEnableSpecialAimTarget</span><wbr><span class="parameters">(boolean&nbsp;enableSpecialAimTarget)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="setRotationPrioritizationScaleback(double)">
+<h3>setRotationPrioritizationScaleback</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></span>&nbsp;<span class="element-name">setRotationPrioritizationScaleback</span><wbr><span class="parameters">(double&nbsp;rotationPrioritizationScaleback)</span></div>
 </section>
 </li>
 <li>
