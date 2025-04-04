@@ -12,5 +12,14 @@ public record CameraInfo(
         String networkTablesName,
         String friendlyName,
         Transform3d position,
+        EnumSet<CameraCapabilities> capabilities,
+        boolean useForPoseEstimates) {
+
+    public CameraInfo(
+        String networkTablesName,
+        String friendlyName,
+        Transform3d position,
         EnumSet<CameraCapabilities> capabilities) {
+        this(networkTablesName, friendlyName, position, capabilities, true);
+    }
 }

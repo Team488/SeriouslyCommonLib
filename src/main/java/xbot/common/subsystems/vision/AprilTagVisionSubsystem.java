@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Subsystem for processing AprilTag vision data.
@@ -57,7 +58,8 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
         for (int i = 0; i < io.length; i++) {
             var cameraInfo = this.cameras[i];
             io[i] = visionIOFactory.create(cameraInfo.networkTablesName(), cameraInfo.position());
-            cameraHelpers[i] = new AprilTagVisionCameraHelper(this.getName() + "/Cameras/" + cameraInfo.friendlyName(), pf, io[i], fieldLayout);
+            cameraHelpers[i] = new AprilTagVisionCameraHelper(this.getName() + "/Cameras/" + cameraInfo.friendlyName(),
+                    pf, io[i], fieldLayout, cameraInfo.useForPoseEstimates());
         }
     }
 
@@ -180,12 +182,22 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
     }
 
     /**
+     * Retrieves the set of cameras that should be used for pose estimations
+     * @return The set of cameras that are meant for pose.
+     */
+    public List<AprilTagVisionCameraHelper> getAllPoseCameras() {
+        return Arrays.asList(this.cameraHelpers).stream()
+            .filter(c -> c.getUseForPoseEstimates())
+            .collect(Collectors.toList());
+    }
+
+    /**
      * Gets all the pose observations in this iteration of the scheduler loop.
      * @return A list of pose observations.
      */
     public List<VisionPoseObservation> getAllPoseObservations() {
         List<VisionPoseObservation> result = new LinkedList<>();
-        for (AprilTagVisionCameraHelper cameraHelper : cameraHelpers) {
+        for (AprilTagVisionCameraHelper cameraHelper : this.getAllPoseCameras()) {
             result.addAll(cameraHelper.getPoseObservations());
         }
         return result;
