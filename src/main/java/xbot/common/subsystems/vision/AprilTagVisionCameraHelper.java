@@ -22,6 +22,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final String logPath;
     private final Alert disconnectedAlert;
     private final AprilTagFieldLayout aprilTagFieldLayout;
+    private final boolean useForPoseEstimates;
 
     // Basic filtering thresholds
     private final DoubleProperty maxAmbiguity;
@@ -50,13 +51,14 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final List<Pose3d> robotPosesRejected = new LinkedList<>();
     private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
 
-    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout) {
+    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout, boolean useForPoseEstimates) {
         this.logPath = prefix;
         this.io = io;
         this.inputs = new VisionIOInputsAutoLogged();
         this.aprilTagFieldLayout = fieldLayout;
         this.disconnectedAlert = new Alert(AlertGroups.DEVICE_HEALTH,
                 "Vision camera " + prefix + " is disconnected.", Alert.AlertType.kError);
+        this.useForPoseEstimates = useForPoseEstimates;
 
         pf.setPrefix(this.logPath);
         this.maxAmbiguity = pf.createPersistentProperty("MaxAmbiguity", 0.3);
@@ -107,6 +109,10 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
 
     public List<VisionPoseObservation> getPoseObservations() {
         return poseObservations;
+    }
+
+    public boolean getUseForPoseEstimates() {
+        return useForPoseEstimates;
     }
 
     private void calculatePoses() {
