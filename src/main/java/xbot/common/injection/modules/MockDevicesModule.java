@@ -32,6 +32,7 @@ import xbot.common.controls.sensors.XDutyCycleEncoder;
 import xbot.common.controls.sensors.XEncoder.XEncoderFactory;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
 import xbot.common.controls.sensors.XLaserCAN;
+import xbot.common.controls.sensors.XSpiController;
 import xbot.common.controls.sensors.XLidarLite.XLidarLiteFactory;
 import xbot.common.controls.sensors.XPowerDistributionPanel.XPowerDistributionPanelFactory;
 import xbot.common.controls.sensors.mock_adapters.MockAbsoluteEncoder.MockAbsoluteEncoderFactory;
@@ -40,6 +41,7 @@ import xbot.common.controls.sensors.mock_adapters.MockDutyCycleEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder.MockEncoderFactory;
 import xbot.common.controls.sensors.mock_adapters.MockGyro.MockGyroFactory;
 import xbot.common.controls.sensors.mock_adapters.MockLaserCAN;
+import xbot.common.controls.sensors.mock_adapters.MockSpiController;
 import xbot.common.networking.MockZeromqListener.MockZeromqListenerFactory;
 import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
 
@@ -129,4 +131,8 @@ public abstract class MockDevicesModule {
     @Binds
     @Singleton
     public abstract XLaserCAN.XLaserCANFactory getLaserCANFactory(MockLaserCAN.MockLaserCANFactory impl);
+
+    @Binds
+    @Singleton
+    public abstract XSpiController.XSpiControllerFactory getSpiControllerFactory(MockSpiController.MockSpiControllerFactory impl);
 }
