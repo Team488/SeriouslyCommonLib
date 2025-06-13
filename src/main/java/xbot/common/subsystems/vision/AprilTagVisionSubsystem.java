@@ -28,10 +28,14 @@ import xbot.common.properties.PropertyFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Subsystem for processing AprilTag vision data.
@@ -55,6 +59,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
         for (int i = 0; i < io.length; i++) {
             var cameraInfo = this.cameras[i];
             io[i] = visionIOFactory.create(cameraInfo.networkTablesName(), cameraInfo.position());
+            
             cameraHelpers[i] = new AprilTagVisionCameraHelper(
                 this.getName() + "/Cameras/",
                 pf, 
@@ -62,6 +67,9 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
                 fieldLayout, 
                 cameraInfo, 
                 gyroFactory.create());
+
+            cameraHelpers[i] = new AprilTagVisionCameraHelper(this.getName() + "/Cameras/" + cameraInfo.friendlyName(),
+                    pf, io[i], fieldLayout, cameraInfo.useForPoseEstimates());
         }
     }
 
@@ -98,6 +106,46 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
      */
     public Rotation2d getTargetX(int cameraIndex) {
         return cameraHelpers[cameraIndex].inputs.latestTargetObservation.tx();
+    }
+
+    /**
+     * Returns the X angle to the specified target, which can be used for simple servoing
+     * with vision.
+     *
+     * @param cameraIndex The index of the camera to use.
+     * @param tagId The tag to check.
+     * @return The X angle to the specified target.
+     */
+    public Optional<Rotation2d> getTargetX(int cameraIndex, int tagId) {
+        return getTargetObservation(cameraIndex, tagId)
+                .map(AprilTagVisionIO.TargetObservation::tx);
+    }
+
+    /**
+     * Returns the ID of the best target.
+     *
+     * @param cameraIndex The index of the camera to use.
+     * @return The ID of the best target.
+     */
+    public OptionalInt getBestTargetId(int cameraIndex) {
+        var id = cameraHelpers[cameraIndex].inputs.latestTargetObservation.fiducialId();
+        if (id == 0) {
+            return OptionalInt.empty();
+        }
+        return OptionalInt.of(id);
+    }
+
+    /**
+     * Returns the raw observation data for the specified target.
+     *
+     * @param cameraIndex The index of the camera to use.
+     * @param tagId The tag to check.
+     * @return The raw observation data for the specified target.
+     */
+    public Optional<AprilTagVisionIO.TargetObservation> getTargetObservation(int cameraIndex, int tagId) {
+        return Arrays.stream(cameraHelpers[cameraIndex].inputs.targetObservations)
+                .filter(t -> t.fiducialId() == tagId)
+                .findFirst();
     }
 
     /**
@@ -139,13 +187,27 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
         return result;
     }
 
+    public boolean isCameraConnected(int cameraIndex) {
+        return cameraHelpers[cameraIndex].inputs.connected;
+    }
+
+    /**
+     * Retrieves the set of cameras that should be used for pose estimations
+     * @return The set of cameras that are meant for pose.
+     */
+    public List<AprilTagVisionCameraHelper> getAllPoseCameras() {
+        return Arrays.asList(this.cameraHelpers).stream()
+            .filter(c -> c.getUseForPoseEstimates())
+            .collect(Collectors.toList());
+    }
+
     /**
      * Gets all the pose observations in this iteration of the scheduler loop.
      * @return A list of pose observations.
      */
     public List<VisionPoseObservation> getAllPoseObservations() {
         List<VisionPoseObservation> result = new LinkedList<>();
-        for (AprilTagVisionCameraHelper cameraHelper : cameraHelpers) {
+        for (AprilTagVisionCameraHelper cameraHelper : this.getAllPoseCameras()) {
             result.addAll(cameraHelper.getPoseObservations());
         }
         return result;

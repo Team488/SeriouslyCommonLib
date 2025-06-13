@@ -4,6 +4,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import edu.wpi.first.wpilibj.Encoder;
+import xbot.common.controls.io_inputs.XEncoderInputs;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.injection.DevicePolice;
 import xbot.common.properties.PropertyFactory;
@@ -18,18 +19,20 @@ public class EncoderWPIAdapter extends XEncoder {
             @Assisted("name") String name,
             @Assisted("aChannel") int aChannel,
             @Assisted("bChannel") int bChannel,
-            @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse);
+            @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse,
+            @Assisted("owningSystemPrefix") String owningSystemPrefix);
     }
 
     @AssistedInject
     public EncoderWPIAdapter(
-            @Assisted("name")String name, 
-            @Assisted("aChannel") int aChannel, 
-            @Assisted("bChannel") int bChannel, 
-            @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse, 
+            @Assisted("name")String name,
+            @Assisted("aChannel") int aChannel,
+            @Assisted("bChannel") int bChannel,
+            @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse,
+            @Assisted("owningSystemPrefix") String owningSystemPrefix,
             PropertyFactory propMan,
             DevicePolice police) {
-        super(name, aChannel, bChannel, defaultDistancePerPulse, propMan, police);
+        super(name, aChannel, bChannel, defaultDistancePerPulse, owningSystemPrefix, propMan, police);
         internalEncoder = new Encoder(aChannel, bChannel);
     }
 
@@ -43,5 +46,11 @@ public class EncoderWPIAdapter extends XEncoder {
 
     public void setSamplesToAverage(int samples) {
         internalEncoder.setSamplesToAverage(samples);
+    }
+
+    @Override
+    public void updateInputs(XEncoderInputs inputs) {
+        inputs.rate = getRate();
+        inputs.distance = getDistance();
     }
 }

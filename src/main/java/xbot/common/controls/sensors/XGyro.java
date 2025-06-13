@@ -1,13 +1,20 @@
 package xbot.common.controls.sensors;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import org.littletonrobotics.junction.Logger;
 
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.controls.io_inputs.XGyroIoInputsAutoLogged;
+import xbot.common.injection.electrical_contract.IMUInfo;
 import xbot.common.math.WrappedRotation2d;
 
-public abstract class XGyro implements DataFrameRefreshable
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
+
+public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
 {
     public enum InterfaceType {
         spi,
@@ -18,58 +25,61 @@ public abstract class XGyro implements DataFrameRefreshable
     public enum ImuType {
         nav6,
         navX,
-        mock
+        mock,
+        pigeon2
     }
-    
-    protected ImuType imuType;
 
-    protected XGyroIoInputsAutoLogged io;
-    
+    protected final ImuType imuType;
+    protected final String deviceName;
+
+    protected final XGyroIoInputsAutoLogged io;
+
     public abstract static class XGyroFactory {
-        public abstract XGyro create(InterfaceType interfaceType);
+        public abstract XGyro create(IMUInfo imuInfo);
 
         public XGyro create() {
-            return create(InterfaceType.spi);
+            return create(new IMUInfo(InterfaceType.spi));
         }
     }
 
-    protected XGyro(ImuType imuType) 
+    protected XGyro(IMUInfo info)
     {
-        this.imuType = imuType;
-        io = new XGyroIoInputsAutoLogged();
+        this.imuType = info.imuType();
+        this.deviceName = info.name();
+        this.io = new XGyroIoInputsAutoLogged();
     }
-    
+
     public abstract boolean isBroken();
-    
+
     protected ImuType getImuType() {
         return imuType;
     }
 
     // Below are the "safe" methods that return gyro information. They pay attention
     // to the state of the gyro, and as such will ideally not cause exceptions.
-    
+
     /**
      * In degrees
      */
-    public WrappedRotation2d getHeading() {
+    public Angle getHeading() {
         if (!isBroken()) {
-            return WrappedRotation2d.fromDegrees(getDeviceYaw());
+            return getDeviceYaw();
         }
-        return WrappedRotation2d.fromDegrees(0);
+        return Degrees.zero();
     }
-    
-    public double getRoll() {
+
+    public Angle getRoll() {
         if (!isBroken()) {
             return getDeviceRoll();
         }
-        return 0;
+        return Degrees.zero();
     }
-    
-    public double getPitch() {
+
+    public Angle getPitch() {
         if (!isBroken()) {
             return getDevicePitch();
         }
-        return 0;
+        return Degrees.zero();
     }
 
     public double getYaw() {
@@ -79,45 +89,49 @@ public abstract class XGyro implements DataFrameRefreshable
         return 0;
     }
     
-    public double getYawAngularVelocity() {
+    public AngularVelocity getYawAngularVelocity() {
         if (!isBroken()) {
             return getDeviceYawAngularVelocity();
         }
-        return 0;
+        return DegreesPerSecond.zero();
     }
-    
+
+    public double getAccelerationX() {
+        return io.acceleration[0];
+    }
+
+    public double getAccelerationY() {
+        return io.acceleration[1];
+    }
+
+    public double getAccelerationZ() {
+        return io.acceleration[2];
+    }
+
+    public double getAcceleration() {
+        return VecBuilder.fill(getAccelerationX(), getAccelerationY(), getAccelerationX()).norm();
+    }
+
     // What follows are the primitive "gets" for the gyro. These aren't protected,
     // and could cause exceptions if called while they gyro is not connected.
-    
+
     public boolean isConnected() {
         return io.isConnected;
     }
-    
-    /**
-     * In degrees
-     */
-    private double getDeviceRoll() {
+
+    private Angle getDeviceRoll() {
         return io.roll;
     }
-    
-    /**
-     * In degrees
-     */
-    private double getDevicePitch() {
+
+    private Angle getDevicePitch() {
         return io.pitch;
     }
-    
-    /**
-     * In degrees
-     */
-    private double getDeviceYaw() {
+
+    private Angle getDeviceYaw() {
         return io.yaw;
     }
-    
-    /**
-     * In degrees per second
-     */
-    private double getDeviceYawAngularVelocity() {
+
+    private AngularVelocity getDeviceYawAngularVelocity() {
         return io.yawAngularVelocity;
     }
 
@@ -156,7 +170,6 @@ public abstract class XGyro implements DataFrameRefreshable
 
     public void refreshDataFrame() {
         updateInputs(io);
-        // TODO: get a name for the gyro so we don't have to use a hardcoded one.
-        Logger.processInputs("IMU", io);
+        Logger.processInputs(this.deviceName, io);
     }
 }

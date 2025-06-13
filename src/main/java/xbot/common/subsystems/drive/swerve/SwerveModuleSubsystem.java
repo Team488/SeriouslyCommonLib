@@ -1,6 +1,8 @@
 package xbot.common.subsystems.drive.swerve;
+
 import javax.inject.Inject;
 
+import edu.wpi.first.wpilibj.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,12 +13,16 @@ import xbot.common.command.BaseSubsystem;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
 import xbot.common.injection.swerve.SwerveInstance;
 import xbot.common.injection.swerve.SwerveSingleton;
+import xbot.common.logging.AlertGroups;
 import xbot.common.math.WrappedRotation2d;
 import xbot.common.math.XYPair;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.resiliency.DeviceHealth;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
+
+import static edu.wpi.first.units.Units.Meters;
 
 @SwerveSingleton
 public class SwerveModuleSubsystem extends BaseSubsystem {
@@ -32,7 +38,12 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
 
     private final Translation2d moduleTranslation;
 
-    private SwerveModuleState targetState;
+    private final SwerveModuleState currentState;
+    private final SwerveModulePosition currentPosition;
+    private final SwerveModuleState targetState;
+
+    private final Alert degradedModuleAlert;
+    private boolean degraded = false;
 
     @Inject
     public SwerveModuleSubsystem(SwerveInstance swerveInstance, SwerveDriveSubsystem driveSubsystem, SwerveSteeringSubsystem steeringSubsystem,
@@ -53,35 +64,53 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
                 xOffsetInches.get() / BasePoseSubsystem.INCHES_IN_A_METER,
                 yOffsetInches.get() / BasePoseSubsystem.INCHES_IN_A_METER);
 
+        this.currentState = new SwerveModuleState();
+        this.currentPosition = new SwerveModulePosition();
         this.targetState = new SwerveModuleState();
+
+        degradedModuleAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Module " + this.label + " cannot reach CANCoder, and is disabling itself.",
+                Alert.AlertType.kError);
     }
 
     /**
      * Sets the target steering angle and drive power for this module, in METRIC UNITS.
+     *
      * @param swerveModuleState Metric swerve module state
      */
     public void setTargetState(SwerveModuleState swerveModuleState) {
-        this.targetState = SwerveModuleState.optimize(swerveModuleState, getSteeringSubsystem().getCurrentRotation());
+        setTargetState(swerveModuleState, true);
+    }
 
-        this.getSteeringSubsystem().setTargetValue(new WrappedRotation2d(this.targetState.angle.getRadians()).getDegrees());
-        // The kinetmatics library does everything in metric, so we need to transform that back to US Customary Units
-        this.getDriveSubsystem().setTargetValue(this.targetState.speedMetersPerSecond);
+    public void setTargetState(SwerveModuleState swerveModuleState, boolean optimize) {
+        if (!degraded) {
+            this.targetState.speedMetersPerSecond = swerveModuleState.speedMetersPerSecond;
+            this.targetState.angle = swerveModuleState.angle;
+
+            if (optimize) {
+                this.targetState.optimize(getSteeringSubsystem().getCurrentRotation());
+            }
+
+            this.getSteeringSubsystem().setTargetValue(new WrappedRotation2d(this.targetState.angle.getRadians()).getDegrees());
+            // The kinematics library does everything in metric, so we need to transform that back to US Customary Units
+            this.getDriveSubsystem().setTargetValue(this.targetState.speedMetersPerSecond);
+        } else {
+            // We are in degraded state. Don't set anything, pray the other modules can keep working.
+            this.getSteeringSubsystem().setPower(0);
+            this.getDriveSubsystem().setPower(0);
+        }
     }
 
     /**
      * Gets the current state of the module, in METRIC UNITS.
+     *
      * @return Metric swerve module state
      */
     public SwerveModuleState getCurrentState() {
-        return new SwerveModuleState(
-                this.getDriveSubsystem().getCurrentValue(),
-                this.getSteeringSubsystem().getCurrentRotation());
+        return this.currentState;
     }
 
     public SwerveModulePosition getCurrentPosition() {
-        return new SwerveModulePosition(
-                this.getDriveSubsystem().getCurrentPositionValue(),
-                this.getSteeringSubsystem().getCurrentRotation());
+        return this.currentPosition;
     }
 
     public SwerveModuleState getTargetState() {
@@ -125,8 +154,26 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
         getDriveSubsystem().setCurrentLimitsForMode(mode);
     }
 
+    @Override
+    public void periodic() {
+        steeringSubsystem.getEncoder().ifPresentOrElse(
+                encoder -> {
+                    degraded = encoder.getHealth() == DeviceHealth.Unhealthy;
+                },
+                () -> {
+                    degraded = true;
+                });
+        degradedModuleAlert.set(degraded);
+    }
+
     public void refreshDataFrame() {
         getDriveSubsystem().refreshDataFrame();
         getSteeringSubsystem().refreshDataFrame();
+
+        this.currentState.speedMetersPerSecond = getDriveSubsystem().getCurrentValue();
+        this.currentState.angle = getSteeringSubsystem().getCurrentRotation();
+
+        this.currentPosition.distanceMeters = getDriveSubsystem().getCurrentPositionValue();
+        this.currentPosition.angle = getSteeringSubsystem().getCurrentRotation();
     }
 }

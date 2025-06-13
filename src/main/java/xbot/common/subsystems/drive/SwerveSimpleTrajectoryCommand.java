@@ -11,7 +11,8 @@ import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.trajectory.SwerveSimpleTrajectoryLogic;
 
 import javax.inject.Inject;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 
 public class SwerveSimpleTrajectoryCommand extends BaseCommand {
 
@@ -19,8 +20,8 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
     protected BasePoseSubsystem pose;
     protected HeadingModule headingModule;
     public SwerveSimpleTrajectoryLogic logic;
-    public Supplier<Double> constantRotationPowerSupplier;
-    private Supplier<Boolean> alternativeIsFinishedSupplier;
+    public DoubleSupplier constantRotationPowerSupplier;
+    private BooleanSupplier alternativeIsFinishedSupplier;
     public boolean constantRotationEnabled = false;
 
     @Inject
@@ -46,7 +47,7 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
         logic.reset(pose.getCurrentPose2d());
     }
 
-    public void setConstantRotationPowerSupplier(Supplier<Double> constantRotationPowerSupplier) {
+    public void setConstantRotationPowerSupplier(DoubleSupplier constantRotationPowerSupplier) {
         this.constantRotationEnabled = true;
         this.constantRotationPowerSupplier = constantRotationPowerSupplier;
     }
@@ -58,7 +59,7 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
 
         if (constantRotationEnabled) {
             if (constantRotationPowerSupplier != null) {
-                powers.dtheta = constantRotationPowerSupplier.get();
+                powers.dtheta = constantRotationPowerSupplier.getAsDouble();
             }
         }
 
@@ -72,13 +73,15 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
     @Override
     public boolean isFinished() {
         return logic.recommendIsFinished(pose.getCurrentPose2d(), drive.getPositionalPid(), headingModule)
-                || alternativeIsFinishedSupplier.get();
+                || alternativeIsFinishedSupplier.getAsBoolean();
     }
 
-    public void setAlternativeIsFinishedSupplier(Supplier<Boolean> alternativeIsFinishedSupplier) {
+    public void setAlternativeIsFinishedSupplier(BooleanSupplier alternativeIsFinishedSupplier) {
         this.alternativeIsFinishedSupplier = alternativeIsFinishedSupplier;
     }
-
+    public BooleanSupplier getAlternativeIsFinishedSupplier() {
+        return alternativeIsFinishedSupplier;
+    }
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);

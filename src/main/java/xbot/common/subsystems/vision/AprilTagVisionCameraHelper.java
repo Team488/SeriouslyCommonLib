@@ -15,6 +15,7 @@ import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.electrical_contract.CameraInfo;
+import xbot.common.logging.AlertGroups;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
@@ -33,10 +34,14 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final AprilTagFieldLayout aprilTagFieldLayout;
     private final AprilTagCamera aprilCam;
     private final XGyro imu;
+    private final boolean useForPoseEstimates;
 
     // Basic filtering thresholds
     private final DoubleProperty maxAmbiguity;
     private final DoubleProperty maxZError;
+    private final DoubleProperty maxSingleTagDistance;
+    private final DoubleProperty maxMultiTagDistance;
+    private final DoubleProperty minTagDistance;
 
     // Standard deviation baselines, for 1 meter distance and 1 tag
     // (Adjusted automatically based on distance and # of tags)
@@ -67,6 +72,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.imu = imu;
         this.disconnectedAlert = new Alert(
                 "Vision camera " + prefix + " is disconnected.", Alert.AlertType.kWarning);
+        
 
         pf.setPrefix(this.logPath);
         this.maxAmbiguity = pf.createPersistentProperty("MaxAmbiguity", 0.3);
@@ -77,7 +83,31 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.angularStdDevMegatag2Factor = pf.createPersistentProperty("AngularStdDevMegatag2Factor",
                 Double.POSITIVE_INFINITY);
         this.cameraStdDevFactor = pf.createPersistentProperty("CameraStdDevFactor", 1.0);
+
         this.aprilCam = new AprilTagCamera(cameraInfo, fieldLayout, this.logPath);
+    }
+
+    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout, boolean useForPoseEstimates) {
+        this.logPath = prefix;
+        this.io = io;
+        this.inputs = new VisionIOInputsAutoLogged();
+        this.aprilTagFieldLayout = fieldLayout;
+        this.disconnectedAlert = new Alert(AlertGroups.DEVICE_HEALTH,
+                "Vision camera " + prefix + " is disconnected.", Alert.AlertType.kError);
+        this.useForPoseEstimates = useForPoseEstimates;
+
+        pf.setPrefix(this.logPath);
+        this.maxAmbiguity = pf.createPersistentProperty("MaxAmbiguity", 0.3);
+        this.maxZError = pf.createPersistentProperty("MaxZError", 0.75);
+        this.linearStdDevBaseline = pf.createPersistentProperty("LinearStdDevBaseline", 0.02 /* meters */);
+        this.angularStdDevBaseline = pf.createPersistentProperty("AngularStdDevBaseline", 0.06 /* radians */);
+        this.linearStdDevMegatag2Factor = pf.createPersistentProperty("LinearStdDevMegatag2Factor", 0.5);
+        this.angularStdDevMegatag2Factor = pf.createPersistentProperty("AngularStdDevMegatag2Factor",
+                Double.POSITIVE_INFINITY);
+        this.cameraStdDevFactor = pf.createPersistentProperty("CameraStdDevFactor", 1.0);
+        this.maxSingleTagDistance = pf.createPersistentProperty("MaxSingleTagDistance", 1.0);
+        this.maxMultiTagDistance = pf.createPersistentProperty("MaxMultiTagDistance", 5.0);
+        this.minTagDistance = pf.createPersistentProperty("MinTagDistance", 0.5);
     }
 
     @Override
@@ -144,6 +174,10 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         }
     }
 
+    public boolean getUseForPoseEstimates() {
+        return useForPoseEstimates;
+    }
+
     private void calculatePoses() {
         // Clear the lists
         this.tagPoses.clear();
@@ -159,17 +193,13 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
             if (tagPose.isPresent()) {
                 this.tagPoses.add(tagPose.get());
                 this.tagIds.add(tagId);
-            };
+            }
         }
 
         // Loop over pose observations
         for (var observation : inputs.poseObservations) {
             // Check whether to reject pose
-            boolean rejectPose = observation.tagCount() == 0 // Must have at least one tag
-                    || isObservationAmbiguous(observation)
-                    || Math.abs(observation.pose().getZ()) > maxZError.get() // Must have realistic Z coordinate
-                    || isObservationOutOfBounds(observation.pose());
-
+            boolean rejectPose = shouldRejectObservation(observation);
             // Add pose to log
             robotPoses.add(observation.pose());
             if (rejectPose) {
@@ -208,9 +238,29 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
 
     private boolean isObservationOutOfBounds(Pose3d pose) {
         // Must be within the field boundaries
-        return pose.getX() < 0.0
+        return pose.getX() <= 0.0
                 || pose.getX() > aprilTagFieldLayout.getFieldLength()
-                || pose.getY() < 0.0
+                || pose.getY() <= 0.0
                 || pose.getY() > aprilTagFieldLayout.getFieldWidth();
+    }
+
+    private boolean isObservationOutOfSafeRange(AprilTagVisionIO.PoseObservation observation) {
+        if (observation.tagCount() == 1) {
+            return observation.averageTagDistance() > maxSingleTagDistance.get()
+                    || observation.averageTagDistance() < minTagDistance.get();
+        }
+
+        return observation.averageTagDistance() > maxMultiTagDistance.get();
+    }
+
+    private boolean shouldRejectObservation(AprilTagVisionIO.PoseObservation observation) {
+        boolean shouldReject = false;
+        shouldReject |= observation.tagCount() == 0; // Must have at least one tag
+        shouldReject |= isObservationAmbiguous(observation);
+        shouldReject |= Math.abs(observation.pose().getZ()) > maxZError.get(); // Must have realistic Z coordinate
+        shouldReject |= isObservationOutOfBounds(observation.pose());
+        shouldReject |= isObservationOutOfSafeRange(observation);
+
+        return shouldReject;
     }
 }

@@ -41,6 +41,9 @@ public abstract class XAbsoluteEncoder implements DataFrameRefreshable {
     public abstract void setPosition(Angle newPostition);
 
     public DeviceHealth getHealth() {
+        if (inputs.deviceHealth == null) {
+            return DeviceHealth.Unhealthy;
+        }
         return DeviceHealth.valueOf(inputs.deviceHealth);
     }
 

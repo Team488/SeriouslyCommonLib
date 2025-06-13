@@ -26,14 +26,17 @@ public interface AprilTagVisionIO {
     @AutoLog
     class VisionIOInputs {
         public boolean connected = false;
-        public TargetObservation latestTargetObservation =
-                new TargetObservation(0, new Rotation2d(), new Rotation2d(), new Transform3d());
+        public TargetObservation latestTargetObservation = new TargetObservation(0, 0, new Rotation2d(),
+                new Rotation2d(), new Transform3d(), 1, true);
+        public TargetObservation[] targetObservations = new TargetObservation[0];
         public PoseObservation[] poseObservations = new PoseObservation[0];
         public int[] tagIds = new int[0];
     }
 
     /** Represents the angle to a simple target, not used for pose estimation. */
-    record TargetObservation(int fiducialId, Rotation2d tx, Rotation2d ty, Transform3d cameraToTarget) {}
+    record TargetObservation(double timestamp, int fiducialId, Rotation2d tx, Rotation2d ty, Transform3d cameraToTarget,
+            double ambiguity, boolean stale) {
+    }
 
     /** Represents a robot pose sample used for pose estimation. */
     record PoseObservation(
@@ -42,7 +45,8 @@ public interface AprilTagVisionIO {
             double ambiguity,
             int tagCount,
             double averageTagDistance,
-            PoseObservationType type) {}
+            PoseObservationType type) {
+    }
 
     enum PoseObservationType {
         MEGATAG_1,
@@ -50,5 +54,6 @@ public interface AprilTagVisionIO {
         PHOTONVISION
     }
 
-    default void updateInputs(VisionIOInputs inputs) {}
+    default void updateInputs(VisionIOInputs inputs) {
+    }
 }

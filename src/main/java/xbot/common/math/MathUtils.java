@@ -1,6 +1,6 @@
 package xbot.common.math;
 
-import java.util.function.Function;
+import java.util.function.DoubleUnaryOperator;
 
 public class MathUtils
 {
@@ -8,12 +8,12 @@ public class MathUtils
     {
         return Math.max(lowerBound, Math.min(value, upperBound));
     }
-    
+
     public static int constrainInt(int value, int lowerBound, int upperBound)
     {
         return Math.max(lowerBound, Math.min(value, upperBound));
     }
-    
+
     public static double scaleDouble(double value, double oldMin, double oldMax, double newMin, double newMax)
     {
         value -= oldMin;
@@ -22,11 +22,11 @@ public class MathUtils
         value += newMin;
         return value;
     }
-    
+
     public static double constrainDoubleToRobotScale(double value) {
         return constrainDouble(value, -1, 1);
     }
-    
+
     public static double squareAndRetainSign(double value) {
         double squared = Math.pow(value, 2);
         return value < 0 ? -squared : squared;
@@ -34,17 +34,14 @@ public class MathUtils
 
     public static double exponentAndRetainSign(double value, int exponent) {
         double raised = Math.pow(value, exponent);
-        return (value < 0 && raised > 0) ? -raised : raised; 
-    }
-    
-    public static double deadband(double input, double deadband) {
-        if (Math.abs(input) < deadband) {
-            return 0;
-        }
-        return input;
+        return (value < 0 && raised > 0) ? -raised : raised;
     }
 
-    public static double deadband(double input, double deadband, Function<Double, Double> function) {
+    public static double deadband(double input, double deadband) {
+        return deadband(input, deadband, (x) -> x);
+    }
+
+    public static double deadband(double input, double deadband, DoubleUnaryOperator function) {
         if (Math.abs(input) < deadband) {
             return 0;
         }
@@ -61,7 +58,7 @@ public class MathUtils
         double scaledInput = reducedInput / (1-deadband);
 
         // Apply whatever further function is appropriate
-        return function.apply(scaledInput);
+        return function.applyAsDouble(scaledInput);
     }
 
     public static double Tau = Math.PI * 2;

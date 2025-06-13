@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,6 +23,7 @@ public class AutonomousCommandSelector extends BaseSubsystem {
     Supplier<Command> commandSupplier;
 
     Command currentAutonomousCommand;
+    Pose2d currentAutonomousStartingPosition;
     boolean isDefault;
 
     @Inject
@@ -38,8 +40,17 @@ public class AutonomousCommandSelector extends BaseSubsystem {
         return currentAutonomousCommand;
     }
 
+    public Pose2d getCurrentAutonomousStartingPosition(){
+        return currentAutonomousStartingPosition;
+    }
+
+    public void setCurrentAutonomousStartingPosition(Pose2d position){
+        this.currentAutonomousStartingPosition = position;
+    }
+
     public void setCurrentAutonomousCommand(Command currentAutonomousCommand) {
         log.info("Setting CurrentAutonomousCommand to " + currentAutonomousCommand);
+        log.info("Setting CurrentStartingPosition to " + currentAutonomousStartingPosition);
         aKitLog.record("Current autonomous command name",
                 currentAutonomousCommand == null ? "No command set" : currentAutonomousCommand.getName());
 
@@ -47,7 +58,7 @@ public class AutonomousCommandSelector extends BaseSubsystem {
         commandSupplier = null;
         isDefault = false;
     }
-    
+
     public void setCurrentAutonomousCommandSupplier(Supplier<Command> supplier) {
         commandSupplier = supplier;
         this.currentAutonomousCommand = null;

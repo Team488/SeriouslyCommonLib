@@ -1,5 +1,6 @@
 package xbot.common.subsystems.drive;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -77,7 +78,7 @@ public class HeadingModuleTest extends BaseCommonLibTest {
 
     protected void setHeading(double heading)
     {
-        ((MockGyro)pose.imu).setYaw(heading);
+        ((MockGyro)pose.imu).setYaw(Degrees.of(heading));
         pose.refreshDataFrame();
         pose.periodic();
     }

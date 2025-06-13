@@ -1,10 +1,12 @@
 package xbot.common.subsystems.drive;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -12,11 +14,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.advantage.AKitLogger;
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.controls.sensors.XTimer;
+import xbot.common.injection.electrical_contract.XDeadwheelElectricalContract;
 import xbot.common.injection.swerve.SwerveComponent;
-import xbot.common.math.MathUtils;
 import xbot.common.math.PIDDefaults;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
+import xbot.common.math.kinematics.DeadwheelKinematics;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
@@ -25,7 +29,8 @@ import xbot.common.subsystems.drive.swerve.SwerveDriveSubsystem;
 import xbot.common.subsystems.drive.swerve.SwerveModuleSubsystem;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
-public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implements DataFrameRefreshable, ISwerveAdvisorDriveSupport {
+public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
+        implements DataFrameRefreshable, ISwerveAdvisorDriveSupport {
     private static final Logger log = LogManager.getLogger(BaseSwerveDriveSubsystem.class);
 
     private final SwerveModuleSubsystem frontLeftSwerveModuleSubsystem;
@@ -35,8 +40,10 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
 
     private final DoubleProperty maxTargetSpeedMps;
     private final DoubleProperty maxTargetTurnRate;
+    private final DoubleProperty maxAccelerationMps2;
 
     private final SwerveDriveKinematics swerveDriveKinematics;
+    private final DeadwheelKinematics deadwheelDriveKinematics;
     private String activeModuleLabel;
 
     private double translationXTargetMPS;
@@ -66,6 +73,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         REAR_RIGHT;
 
         private static SwerveModuleLocation[] values = values();
+
         public SwerveModuleLocation next() {
             return values[(this.ordinal() + 1) % values.length];
         }
@@ -77,9 +85,13 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
 
     private boolean noviceMode = false;
 
+    private SlewRateLimiter slewRateLimiter;
+    private double lastMoveCallTime;
+
     public BaseSwerveDriveSubsystem(PIDManager.PIDManagerFactory pidFactory, PropertyFactory pf,
-                                    SwerveComponent frontLeftSwerve, SwerveComponent frontRightSwerve,
-                                    SwerveComponent rearLeftSwerve, SwerveComponent rearRightSwerve) {
+            SwerveComponent frontLeftSwerve, SwerveComponent frontRightSwerve,
+            SwerveComponent rearLeftSwerve, SwerveComponent rearRightSwerve,
+            XDeadwheelElectricalContract deadwheelContract) {
         log.info("Creating DriveSubsystem");
         pf.setPrefix(this);
 
@@ -92,11 +104,14 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
                 this.frontLeftSwerveModuleSubsystem.getModuleTranslation(),
                 this.frontRightSwerveModuleSubsystem.getModuleTranslation(),
                 this.rearLeftSwerveModuleSubsystem.getModuleTranslation(),
-                this.rearRightSwerveModuleSubsystem.getModuleTranslation()
-        );
+                this.rearRightSwerveModuleSubsystem.getModuleTranslation());
+        this.deadwheelDriveKinematics = new DeadwheelKinematics(
+                deadwheelContract.getDistanceFromCenterToOuterBumperX().in(Units.Meters) * 2.0);
 
         this.maxTargetSpeedMps = pf.createPersistentProperty("MaxTargetSpeedMetersPerSecond", 4.5);
         this.maxTargetTurnRate = pf.createPersistentProperty("MaxTargetTurnRate", 8.0);
+        this.maxAccelerationMps2 = pf.createPersistentProperty("MaxAccelerationMps2", 9.0); // TODO: tune.
+
         this.activeModuleLabel = activeModule.toString();
         this.desiredHeading = 0;
 
@@ -105,10 +120,13 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         this.minTranslateSpeed = pf.createPersistentProperty("Minimum translate speed", 0.02);
         this.minRotationalSpeed = pf.createPersistentProperty("Minimum rotational speed", 0.02);
 
-        // TODO: eventually, this should retrieved from auto or the pose subsystem as a field like
-        // "Desired initial wheel direction" so there's no thrash right at the start of a match.
-        // Probably not a huge priority, Since as soon as we move once the robot remembers the last commanded direction.
-        lastCommandedDirection = new XYPair(0, 90);
+        // TODO: eventually, this should retrieved from auto or the pose subsystem as a
+        // field like
+        // "Desired initial wheel direction" so there's no thrash right at the start of
+        // a match.
+        // Probably not a huge priority, Since as soon as we move once the robot
+        // remembers the last commanded direction.
+        lastCommandedDirection = new XYPair(0.1, 0);
 
         positionalPidManager = pidFactory.create(
                 this.getPrefix() + "PositionPID",
@@ -122,11 +140,13 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         headingPidManager.setEnableErrorThreshold(true);
         headingPidManager.setEnableTimeThreshold(true);
 
+        slewRateLimiter = new SlewRateLimiter(maxAccelerationMps2.get());
     }
 
     /**
      * Returns the default PID values for the positional PID.
      * Override this method to change the default values.
+     *
      * @return The default PID values.
      */
     protected PIDDefaults getPositionalPIDDefaults() {
@@ -145,6 +165,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
     /**
      * Returns the default PID values for the heading PID.
      * Override this method to change the default values.
+     *
      * @return The default PID values.
      */
     protected PIDDefaults getHeadingPIDDefaults() {
@@ -160,12 +181,20 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
                 0.2); // Time threshold
     }
 
+    public DeadwheelKinematics getDeadwheelDriveKinematics() {
+        return this.deadwheelDriveKinematics;
+    }
+
     public SwerveDriveKinematics getSwerveDriveKinematics() {
         return swerveDriveKinematics;
     }
 
     public double getMaxTargetSpeedMetersPerSecond() {
         return maxTargetSpeedMps.get();
+    }
+
+    public double getMaxAccelerationMetersPerSecondSquared() {
+        return maxAccelerationMps2.get();
     }
 
     public double getMaxTargetTurnRate() {
@@ -255,8 +284,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
                 () -> {
                     log.info("Locking maximum drive power");
                     setUnlockFullDrivePower(false);
-                }
-        );
+                });
     }
 
     public boolean isPrecisionTranslationActive() {
@@ -303,7 +331,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         return quickAlignActive;
     }
 
-
     public boolean isRotateToHubActive() {
         return rotateToHubActive;
     }
@@ -313,9 +340,11 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
     }
 
     /**
-     * Set the target movement speed and rotation, rotating around the center of the robot.
+     * Set the target movement speed and rotation, rotating around the center of the
+     * robot.
+     *
      * @param translate The translation velocity.
-     * @param rotate The rotation velocity.
+     * @param rotate    The rotation velocity.
      */
     @Override
     public void move(XYPair translate, double rotate) {
@@ -323,32 +352,37 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
     }
 
     /**
-     * Set the target movement speed and rotation, with an arbitrary center of rotation.
-     * @param translate The translation velocity.
-     * @param rotate The rotation velocity.
+     * Set the target movement speed and rotation, with an arbitrary center of
+     * rotation.
+     *
+     * @param translate              The translation velocity.
+     * @param rotate                 The rotation velocity.
      * @param centerOfRotationInches The center of rotation.
      */
     public void move(XYPair translate, double rotate, XYPair centerOfRotationInches) {
-
         if (activateBrakeOverride) {
             this.setWheelsToXMode();
             return;
         }
-        // First, we need to check if we've been asked to move at all. If not, we should look at the last time we were given a commanded direction
-        // and keep the wheels pointed that way. That prevents the wheels from returning to "0" degrees when the driver has gone back to
+        // First, we need to check if we've been asked to move at all. If not, we should
+        // look at the last time we were given a commanded direction
+        // and keep the wheels pointed that way. That prevents the wheels from returning
+        // to "0" degrees when the driver has gone back to
         // neutral joystick position.
-        boolean isNotMoving = translate.getMagnitude() < this.minTranslateSpeed.get() && Math.abs(rotate) < this.minRotationalSpeed.get();
+        boolean isNotMoving = translate.getMagnitude() < this.minTranslateSpeed.get()
+                && Math.abs(rotate) < this.minRotationalSpeed.get();
 
-        if (isNotMoving)
-        {
+        if (isNotMoving) {
             translate = lastCommandedDirection;
             rotate = lastCommandedRotation;
         }
 
         double noviceFactor = noviceMode ? 0.3 : 1;
 
-        // Then we translate the translation and rotation "intents" into velocities. Basically,
-        // going from the -1 to 1 power scale to -maxTargetSpeed to +maxTargetSpeed. We also need to convert them
+        // Then we translate the translation and rotation "intents" into velocities.
+        // Basically,
+        // going from the -1 to 1 power scale to -maxTargetSpeed to +maxTargetSpeed. We
+        // also need to convert them
         // into metric units, since the next library we call expects metric units.
         double targetXmetersPerSecond = translate.x * maxTargetSpeedMps.get() * noviceFactor;
         double targetYmetersPerSecond = translate.y * maxTargetSpeedMps.get() * noviceFactor;
@@ -358,27 +392,40 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         translationYTargetMPS = targetYmetersPerSecond;
         rotationTargetRadians = targetRotationRadiansPerSecond;
 
-        // This handy library from WPILib will take our robot's overall desired translation & rotation and figure out
+        // This handy library from WPILib will take our robot's overall desired
+        // translation & rotation and figure out
         // what each swerve module should be doing in order to achieve that.
-        ChassisSpeeds targetMotion = new ChassisSpeeds(targetXmetersPerSecond, targetYmetersPerSecond, targetRotationRadiansPerSecond);
+        ChassisSpeeds targetMotion = new ChassisSpeeds(targetXmetersPerSecond, targetYmetersPerSecond,
+                targetRotationRadiansPerSecond);
 
-        // One optional step - we can choose to rotate around a specific point, rather than the center of the robot.
+        // One optional step - we can choose to rotate around a specific point, rather
+        // than the center of the robot.
         Translation2d centerOfRotationTranslationMeters = new Translation2d(
                 centerOfRotationInches.x / BasePoseSubsystem.INCHES_IN_A_METER,
                 centerOfRotationInches.y / BasePoseSubsystem.INCHES_IN_A_METER);
-        SwerveModuleState[] moduleStates = swerveDriveKinematics.toSwerveModuleStates(targetMotion, centerOfRotationTranslationMeters);
+        SwerveModuleState[] moduleStates = swerveDriveKinematics.toSwerveModuleStates(targetMotion,
+                centerOfRotationTranslationMeters);
 
-        // Another potentially optional step - it's possible that in the calculations above, one or more swerve modules could be asked to
-        // move at higher than its maximum speed. At this point, we have a choice. Either:
-        // - "Prioritize speed/power" - don't change any module powers, and anything going above 100% will, due to reality, be capped at 100%.
-        //   This means that the robot's motion might be a little odd, but this could be useful if we want to push as hard as possible.
-        // - "Prioritize motion" - reduce all module powers proportionately so that the "fastest" module is moving at 100%. For example, if you had modules
-        //   initially asked to move at 200%, 100%, 100%, and 50%, this would reduce them all to 100%, 50%, 50%, and 25%.
-        //   This means the overall motion will be more correct, but we will lose some speed/power.
-        // For now, we're choosing to prioritize motion. We're somewhat new to swerve, so debugging any strange motion will be easier if we know the system is
+        // Another potentially optional step - it's possible that in the calculations
+        // above, one or more swerve modules could be asked to
+        // move at higher than its maximum speed. At this point, we have a choice.
+        // Either:
+        // - "Prioritize speed/power" - don't change any module powers, and anything
+        // going above 100% will, due to reality, be capped at 100%.
+        // This means that the robot's motion might be a little odd, but this could be
+        // useful if we want to push as hard as possible.
+        // - "Prioritize motion" - reduce all module powers proportionately so that the
+        // "fastest" module is moving at 100%. For example, if you had modules
+        // initially asked to move at 200%, 100%, 100%, and 50%, this would reduce them
+        // all to 100%, 50%, 50%, and 25%.
+        // This means the overall motion will be more correct, but we will lose some
+        // speed/power.
+        // For now, we're choosing to prioritize motion. We're somewhat new to swerve,
+        // so debugging any strange motion will be easier if we know the system is
         // always trying to prioritize motion.
 
-        // Also, one more special check - if there was no commanded motion, set the speed to 0.
+        // Also, one more special check - if there was no commanded motion, set the
+        // speed to 0.
         if (isNotMoving) {
             for (SwerveModuleState moduleState : moduleStates) {
                 moduleState.speedMetersPerSecond = 0;
@@ -389,7 +436,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         }
 
         aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
-        // Finally, we can tell each swerve module what it should be doing. Log these values for debugging.
+        // Finally, we can tell each swerve module what it should be doing. Log these
+        // values for debugging.
         aKitLog.record("DesiredSwerveState", moduleStates);
         this.getFrontLeftSwerveModuleSubsystem().setTargetState(moduleStates[0]);
         this.getFrontRightSwerveModuleSubsystem().setTargetState(moduleStates[1]);
@@ -401,6 +449,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
             lastCommandedDirection = translate;
             lastCommandedRotation = rotate;
         }
+
+        lastMoveCallTime = XTimer.getFPGATimestamp();
     }
 
     public void setActivateBrakeOverride(boolean activateBrakeOverride) {
@@ -418,20 +468,23 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
     }
 
     /*
-        Method sets all swerve modules to one target SwerveModuleState.
-        This should only be used when all swerve modules need to be at the same target state.
+     * Method sets all swerve modules to one target SwerveModuleState.
+     * This should only be used when all swerve modules need to be at the same
+     * target state.
      */
     public void setAllSwerveModulesToTargetState(SwerveModuleState swerveModuleState) {
-        this.getFrontLeftSwerveModuleSubsystem().setTargetState(swerveModuleState);
-        this.getFrontRightSwerveModuleSubsystem().setTargetState(swerveModuleState);
-        this.getRearLeftSwerveModuleSubsystem().setTargetState(swerveModuleState);
-        this.getRearRightSwerveModuleSubsystem().setTargetState(swerveModuleState);
+        this.getFrontLeftSwerveModuleSubsystem().setTargetState(swerveModuleState, false);
+        this.getFrontRightSwerveModuleSubsystem().setTargetState(swerveModuleState, false);
+        this.getRearLeftSwerveModuleSubsystem().setTargetState(swerveModuleState, false);
+        this.getRearRightSwerveModuleSubsystem().setTargetState(swerveModuleState, false);
     }
 
     /***
-     * Give the same power to all steering modules, and the another power to all the drive wheels.
+     * Give the same power to all steering modules, and the another power to all the
+     * drive wheels.
      * Does not currently use PID! As a result, wheel positions will vary wildly!
-     * @param drivePower -1 to 1 power to apply to the drive wheels.
+     *
+     * @param drivePower    -1 to 1 power to apply to the drive wheels.
      * @param steeringPower -1 to 1 power to apply to the steering modules.
      */
     public void crabDrive(double drivePower, double steeringPower) {
@@ -475,6 +528,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
     /**
      * Meant to be used alongside debugging methods.
      * Has no effect when the robot is in normal, "Maintainer" operation.
+     *
      * @param activeModule Which module to set as the active module.
      */
     public void setActiveModule(SwerveModuleLocation activeModule) {
@@ -485,7 +539,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
     /**
      * Meant to be used alongside debugging methods.
      * Has no effect when the robot is in normal, "Maintainer" operation.
-     * Moves the active module to the next module, according to the pattern FrontLeft, FrontRight, RearLeft, RearRight.
+     * Moves the active module to the next module, according to the pattern
+     * FrontLeft, FrontRight, RearLeft, RearRight.
      */
     public void setNextModuleAsActiveModule() {
         setActiveModule(this.activeModule.next());
@@ -506,7 +561,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
             case REAR_RIGHT:
                 return this.getRearRightSwerveModuleSubsystem();
             default:
-                log.warn("Attempted to get a SwerveModuleSubsystem for an invalid SwerveModuleLocation. Returning front left so that something is returned.");
+                log.warn(
+                        "Attempted to get a SwerveModuleSubsystem for an invalid SwerveModuleLocation. Returning front left so that something is returned.");
                 return this.getFrontLeftSwerveModuleSubsystem();
         }
     }
@@ -529,9 +585,12 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
     }
 
     /**
-     * Controls the drive power and steering power of the active module. Stops all other modules.
-     * Intended for use when you want to investigate a single module without moving all the others.
-     * @param drivePower -1 to 1 power to apply to the drive component.
+     * Controls the drive power and steering power of the active module. Stops all
+     * other modules.
+     * Intended for use when you want to investigate a single module without moving
+     * all the others.
+     *
+     * @param drivePower    -1 to 1 power to apply to the drive component.
      * @param steeringPower -1 to 1 power to apply to the steering component.
      */
     public void controlOnlyActiveSwerveModuleSubsystem(double drivePower, double steeringPower) {
@@ -558,12 +617,11 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
     public Command createEnableDisableQuickAlignActive() {
         return Commands.startEnd(
                 () -> this.setQuickAlignActive(true),
-                () -> this.setQuickAlignActive(false)
-        );
+                () -> this.setQuickAlignActive(false));
     }
 
     public SwerveModuleState[] getSwerveModuleStates() {
-        return new SwerveModuleState[]{
+        return new SwerveModuleState[] {
                 getFrontLeftSwerveModuleSubsystem().getCurrentState(),
                 getFrontRightSwerveModuleSubsystem().getCurrentState(),
                 getRearLeftSwerveModuleSubsystem().getCurrentState(),
@@ -590,17 +648,21 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
         return Commands.runOnce(() -> setDriveModuleCurrentLimits(mode));
     }
 
-                                                         @Override
+    @Override
     public void periodic() {
         aKitLog.setLogLevel(AKitLogger.LogLevel.DEBUG);
         aKitLog.record("ActiveSwerveModule", activeModuleLabel);
         aKitLog.record("TranslationTarget",
-            new Translation2d(translationXTargetMPS, translationYTargetMPS));
+                new Translation2d(translationXTargetMPS, translationYTargetMPS));
         aKitLog.record("RotationTarget", rotationTargetRadians);
         aKitLog.record("DesiredHeading", desiredHeading);
         aKitLog.setLogLevel(AKitLogger.LogLevel.DEBUG);
         aKitLog.record("VelocityMaintainerTargets",
-            new Translation2d(velocityMaintainerXTarget, velocityMaintainerXTarget));
+                new Translation2d(velocityMaintainerXTarget, velocityMaintainerXTarget));
+
+        if (maxAccelerationMps2.hasChangedSinceLastCheck()) {
+            slewRateLimiter = new SlewRateLimiter(maxAccelerationMps2.get());
+        }
     }
 
     public void refreshDataFrame() {

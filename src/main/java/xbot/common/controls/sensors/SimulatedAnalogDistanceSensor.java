@@ -1,7 +1,7 @@
 package xbot.common.controls.sensors;
 
 import java.math.BigDecimal;
-import java.util.function.DoubleFunction;
+import java.util.function.DoubleUnaryOperator;
 
 import org.json.JSONObject;
 
@@ -21,13 +21,13 @@ public class SimulatedAnalogDistanceSensor extends XAnalogDistanceSensor impleme
     public abstract static class SimulatedAnalogDistanceSensorFactory implements XAnalogDistanceSensorFactory {
         public abstract SimulatedAnalogDistanceSensor create(
                 @Assisted("channel") int channel,
-                @Assisted("voltageMap") DoubleFunction<Double> voltageMap,
+                @Assisted("voltageMap") DoubleUnaryOperator voltageMap,
                 @Assisted("prefix") String prefix);
     }
 
     @AssistedInject
     public SimulatedAnalogDistanceSensor(@Assisted("channel") int channel,
-            @Assisted("voltageMap") DoubleFunction<Double> voltageMap, @Assisted("prefix") String prefix,
+            @Assisted("voltageMap") DoubleUnaryOperator voltageMap, @Assisted("prefix") String prefix,
             PropertyFactory propMan, DevicePolice police) {
         super(channel, voltageMap);
 

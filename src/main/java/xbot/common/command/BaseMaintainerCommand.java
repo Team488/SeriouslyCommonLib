@@ -63,12 +63,23 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
         decider = humanVsMachineDeciderFactory.create(this.getPrefix());
     }
 
+    @Override
+    public boolean runsWhenDisabled() {
+        return true;
+    }
+
     /**
      * Resets the decider to the given mode.
      * @param startInAutomaticMode True to start in automatic mode, false to start in human control mode.
      */
     protected void resetDecider(boolean startInAutomaticMode) {
         decider.reset(startInAutomaticMode);
+    }
+
+    @Override
+    public void initialize() {
+        log.info("Initializing");
+        subsystemToMaintain.setTargetValue(subsystemToMaintain.getCurrentValue());
     }
 
     @Override

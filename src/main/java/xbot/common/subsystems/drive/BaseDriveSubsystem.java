@@ -192,7 +192,7 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
      * @return Power to apply to the drive subsystem (e.g. the magnitude of a Translation2d, whose x/y
      * components would be sent to a move() call.
      */
-    public Translation2d getPowerForRelativePositionChange(Translation2d goalPosition) {
+    public Translation2d getPowerForRelativePositionChange(PIDManager pidManager, Translation2d goalPosition) {
         double goalMagnitude = goalPosition.getNorm();
 
         if (Math.abs(goalMagnitude) <  0.0001) {
@@ -200,8 +200,12 @@ public abstract class BaseDriveSubsystem extends BaseSubsystem {
         }
         Translation2d normalizedGoalVector = goalPosition.div(goalMagnitude);
 
-        double power = -this.getPositionalPid().calculate(0, goalMagnitude);
+        double power = -pidManager.calculate(0, goalMagnitude);
 
         return normalizedGoalVector.times(power);
+    }
+
+    public Translation2d getPowerForRelativePositionChange(Translation2d goalPosition) {
+        return getPowerForRelativePositionChange(this.getPositionalPid(), goalPosition);
     }
 }
