@@ -1,18 +1,16 @@
 package xbot.common.controls.sensors;
 
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.math.VecBuilder;
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.controls.io_inputs.XGyroIoInputsAutoLogged;
 import xbot.common.injection.electrical_contract.IMUInfo;
-import xbot.common.math.WrappedRotation2d;
-
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.DegreesPerSecond;
 
 public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
 {
@@ -82,11 +80,11 @@ public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
         return Degrees.zero();
     }
 
-    public double getYaw() {
+    public Angle getYaw() {
         if (!isBroken()) {
             return getDeviceYaw();
         }
-        return 0;
+        return Degrees.zero();
     }
     
     public AngularVelocity getYawAngularVelocity() {

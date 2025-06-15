@@ -1,5 +1,12 @@
 package org.photonvision;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.photonvision.targeting.PhotonPipelineResult;
+
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
@@ -7,15 +14,8 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.numbers.N8;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import org.apache.logging.log4j.LogManager;
-import org.photonvision.targeting.PhotonPipelineResult;
-
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.io_inputs.PhotonCameraExtendedInputs;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 public class PhotonCameraExtended extends PhotonCamera implements DataFrameRefreshable {
 
@@ -36,7 +36,9 @@ public class PhotonCameraExtended extends PhotonCamera implements DataFrameRefre
 
     @Override
     public List<PhotonPipelineResult> getAllUnreadResults() {
-        if(io.pipelineResults == null) return Arrays.stream(new PhotonPipelineResult[0]).toList();
+        if(io.pipelineResults == null) {
+            return Arrays.stream(new PhotonPipelineResult[0]).toList();
+        }
         return Arrays.stream(io.pipelineResults).toList();
     }
 

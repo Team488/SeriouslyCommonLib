@@ -13,21 +13,6 @@
 
 package xbot.common.subsystems.vision;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import org.littletonrobotics.junction.Logger;
-
-import xbot.common.advantage.DataFrameRefreshable;
-import xbot.common.controls.sensors.XGyro.XGyroFactory;
-import xbot.common.injection.electrical_contract.CameraInfo;
-import xbot.common.injection.electrical_contract.XCameraElectricalContract;
-import xbot.common.properties.PropertyFactory;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -36,6 +21,22 @@ import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import org.littletonrobotics.junction.Logger;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.controls.sensors.XGyro.XGyroFactory;
+import xbot.common.injection.electrical_contract.CameraInfo;
+import xbot.common.injection.electrical_contract.XCameraElectricalContract;
+import xbot.common.properties.PropertyFactory;
 
 /**
  * Subsystem for processing AprilTag vision data.
@@ -48,10 +49,12 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
     final AprilTagVisionCameraHelper[] cameraHelpers;
 
     @Inject
-    public AprilTagVisionSubsystem(PropertyFactory pf, AprilTagFieldLayout fieldLayout,
-            XCameraElectricalContract contract,
-            AprilTagVisionIOFactory visionIOFactory,
-            XGyroFactory gyroFactory) {
+    public AprilTagVisionSubsystem(
+        PropertyFactory pf, 
+        AprilTagFieldLayout fieldLayout,
+        XCameraElectricalContract contract,
+        AprilTagVisionIOFactory visionIOFactory,
+        XGyroFactory gyroFactory) {
 
         this.cameras = contract.getAprilTagCameras();
         this.io = new AprilTagVisionIO[this.cameras.length];
@@ -68,8 +71,13 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
                 cameraInfo, 
                 gyroFactory.create());
 
-            cameraHelpers[i] = new AprilTagVisionCameraHelper(this.getName() + "/Cameras/" + cameraInfo.friendlyName(),
-                    pf, io[i], fieldLayout, cameraInfo.useForPoseEstimates());
+            cameraHelpers[i] = new AprilTagVisionCameraHelper(
+                this.getName() + "/Cameras/" + cameraInfo.friendlyName(),
+                pf,
+                io[i],
+                fieldLayout,
+                cameraInfo, 
+                gyroFactory.create());
         }
     }
 

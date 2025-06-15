@@ -1,16 +1,20 @@
 package xbot.common.subsystems.vision;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.wpilibj.Alert;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+
 import org.littletonrobotics.junction.Logger;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCameraExtended;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.targeting.PhotonPipelineResult;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.wpilibj.Alert;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XTimer;
@@ -18,10 +22,6 @@ import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.logging.AlertGroups;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Helper class for ingesting data from a single AprilTag vision camera.
@@ -64,37 +64,20 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
     private final List<Pose3d> estimatedRobotPoses = new LinkedList<>();
 
-    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout, CameraInfo cameraInfo, XGyro imu) {
+    public AprilTagVisionCameraHelper(
+        String prefix, 
+        PropertyFactory pf, 
+        AprilTagVisionIO io, 
+        AprilTagFieldLayout fieldLayout, 
+        CameraInfo cameraInfo, 
+        XGyro imu) {
         this.logPath = prefix + cameraInfo.friendlyName();
-        this.io = io;
-        this.inputs = new VisionIOInputsAutoLogged();
-        this.aprilTagFieldLayout = fieldLayout;
-        this.imu = imu;
-        this.disconnectedAlert = new Alert(
-                "Vision camera " + prefix + " is disconnected.", Alert.AlertType.kWarning);
-        
-
-        pf.setPrefix(this.logPath);
-        this.maxAmbiguity = pf.createPersistentProperty("MaxAmbiguity", 0.3);
-        this.maxZError = pf.createPersistentProperty("MaxZError", 0.75);
-        this.linearStdDevBaseline = pf.createPersistentProperty("LinearStdDevBaseline", 0.02 /* meters */);
-        this.angularStdDevBaseline = pf.createPersistentProperty("AngularStdDevBaseline", 0.06 /* radians */);
-        this.linearStdDevMegatag2Factor = pf.createPersistentProperty("LinearStdDevMegatag2Factor", 0.5);
-        this.angularStdDevMegatag2Factor = pf.createPersistentProperty("AngularStdDevMegatag2Factor",
-                Double.POSITIVE_INFINITY);
-        this.cameraStdDevFactor = pf.createPersistentProperty("CameraStdDevFactor", 1.0);
-
-        this.aprilCam = new AprilTagCamera(cameraInfo, fieldLayout, this.logPath);
-    }
-
-    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout, boolean useForPoseEstimates) {
-        this.logPath = prefix;
         this.io = io;
         this.inputs = new VisionIOInputsAutoLogged();
         this.aprilTagFieldLayout = fieldLayout;
         this.disconnectedAlert = new Alert(AlertGroups.DEVICE_HEALTH,
                 "Vision camera " + prefix + " is disconnected.", Alert.AlertType.kError);
-        this.useForPoseEstimates = useForPoseEstimates;
+        this.useForPoseEstimates = cameraInfo.useForPoseEstimates();
 
         pf.setPrefix(this.logPath);
         this.maxAmbiguity = pf.createPersistentProperty("MaxAmbiguity", 0.3);
@@ -108,6 +91,8 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.maxSingleTagDistance = pf.createPersistentProperty("MaxSingleTagDistance", 1.0);
         this.maxMultiTagDistance = pf.createPersistentProperty("MaxMultiTagDistance", 5.0);
         this.minTagDistance = pf.createPersistentProperty("MinTagDistance", 0.5);
+        this.imu = imu;
+        this.aprilCam = new AprilTagCamera(cameraInfo, null, fieldLayout, this.logPath);
     }
 
     @Override
