@@ -1,17 +1,17 @@
 package xbot.common.subsystems.vision;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.Alert;
-import org.littletonrobotics.junction.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.logging.AlertGroups;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Helper class for ingesting data from a single AprilTag vision camera.
@@ -49,9 +49,11 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final List<Pose3d> robotPoses = new LinkedList<>();
     private final List<Pose3d> robotPosesAccepted = new LinkedList<>();
     private final List<Pose3d> robotPosesRejected = new LinkedList<>();
-    private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
+    private final List<VisionPoseObservation> acceptedPoseObservations = new LinkedList<>();
+    private final List<VisionPoseObservation> allPoseObservations = new LinkedList<>();
 
-    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout, boolean useForPoseEstimates) {
+    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io,
+            AprilTagFieldLayout fieldLayout, boolean useForPoseEstimates) {
         this.logPath = prefix;
         this.io = io;
         this.inputs = new VisionIOInputsAutoLogged();
@@ -107,8 +109,12 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         return robotPosesRejected;
     }
 
-    public List<VisionPoseObservation> getPoseObservations() {
-        return poseObservations;
+    public List<VisionPoseObservation> getAcceptedPoseObservations() {
+        return acceptedPoseObservations;
+    }
+
+    public List<VisionPoseObservation> getAllPoseObservations() {
+        return allPoseObservations;
     }
 
     public boolean getUseForPoseEstimates() {
@@ -122,7 +128,8 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.robotPoses.clear();
         this.robotPosesAccepted.clear();
         this.robotPosesRejected.clear();
-        this.poseObservations.clear();
+        this.acceptedPoseObservations.clear();
+        this.allPoseObservations.clear();
 
         // Add the tag poses
         for (int tagId : inputs.tagIds) {
@@ -145,14 +152,24 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
                 robotPosesAccepted.add(observation.pose());
             }
 
-            // Skip if rejected
-            if (rejectPose) {
-                continue;
-            }
+            // We do this later instead so we can record debug values about rejected
+            // obervations.
+            // // Skip if rejected
+            // if (rejectPose) {
+            // continue;
+            // }
 
-            poseObservations.add(new VisionPoseObservation(observation.pose().toPose2d(),
-                                                           observation.timestamp(),
-                                                           observation.estimatedStdDevs()));
+            var visionPoseObservation = new VisionPoseObservation(
+                    observation.pose().toPose2d(),
+                    observation.timestamp(),
+                    observation.estimatedStdDevs(),
+                    observation.ambiguity(),
+                    observation.tagCount());
+
+            allPoseObservations.add(visionPoseObservation);
+            if (!rejectPose) {
+                acceptedPoseObservations.add(visionPoseObservation);
+            }
         }
     }
 
