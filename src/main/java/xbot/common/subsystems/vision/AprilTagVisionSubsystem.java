@@ -222,6 +222,9 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
                     cameraHelper.getLogPath() + "/RobotPoses",
                     cameraHelper.getRobotPoses().toArray(new Pose3d[0]));
             Logger.recordOutput(
+                    cameraHelper.getLogPath() + "/PoseObservations",
+                    cameraHelper.getPoseObservations().toArray(new VisionPoseObservation[0]));
+            Logger.recordOutput(
                     cameraHelper.getLogPath() + "/RobotPosesAccepted",
                     cameraHelper.getRobotPosesAccepted().toArray(new Pose3d[0]));
             Logger.recordOutput(
