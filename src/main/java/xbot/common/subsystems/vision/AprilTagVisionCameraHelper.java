@@ -50,6 +50,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final List<Pose3d> robotPosesAccepted = new LinkedList<>();
     private final List<Pose3d> robotPosesRejected = new LinkedList<>();
     private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
+    private final List<VisionPoseObservation> poseObservationsImproved = new LinkedList<>();
     private final List<VisionPoseObservation> allPoseObservations = new LinkedList<>();
 
     public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout, boolean useForPoseEstimates) {
@@ -113,6 +114,10 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         return poseObservations;
     }
 
+    public List<VisionPoseObservation> getPoseObservationsImproved() {
+        return poseObservationsImproved;
+    }
+
     public List<VisionPoseObservation> getAllPoseObservations() {
         return allPoseObservations;
     }
@@ -129,6 +134,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.robotPosesAccepted.clear();
         this.robotPosesRejected.clear();
         this.poseObservations.clear();
+        this.poseObservationsImproved.clear();
         this.allPoseObservations.clear();
 
         // Add the tag poses
@@ -151,6 +157,11 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
             } else {
                 robotPosesAccepted.add(observation.pose());
             }
+
+            // Check whether to reject pose under our improved rejection conditions
+            boolean rejectPoseForImprovedVision = shouldRejectObservationImproved(observation);
+            // Add pose to log
+            robotPoses.add(observation.pose());
 
             // We do this later instead so we can record debug values about rejected obervations.
             // // Skip if rejected
@@ -183,6 +194,13 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
                     observation.ambiguity(),
                     observation.tagCount()));
             }
+            if (!rejectPoseForImprovedVision) {
+                poseObservationsImproved.add(new VisionPoseObservation(observation.pose().toPose2d(),
+                    observation.timestamp(),
+                    VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev),
+                    observation.ambiguity(),
+                    observation.tagCount()));
+            }
         }
     }
 
@@ -209,6 +227,19 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     }
 
     private boolean shouldRejectObservation(AprilTagVisionIO.PoseObservation observation) {
+        // should we reject a given observation under our standard (baseline) rejection conditions?
+        boolean shouldReject = false;
+        shouldReject |= observation.tagCount() == 0; // Must have at least one tag
+        shouldReject |= isObservationAmbiguous(observation);
+        shouldReject |= Math.abs(observation.pose().getZ()) > maxZError.get(); // Must have realistic Z coordinate
+        shouldReject |= isObservationOutOfBounds(observation.pose());
+        shouldReject |= isObservationOutOfSafeRange(observation);
+
+        return shouldReject;
+    }
+
+    private boolean shouldRejectObservationImproved(AprilTagVisionIO.PoseObservation observation) {
+        // should we reject a given observation under our experimental rejection conditions?
         boolean shouldReject = false;
         shouldReject |= observation.tagCount() == 0; // Must have at least one tag
         shouldReject |= isObservationAmbiguous(observation);

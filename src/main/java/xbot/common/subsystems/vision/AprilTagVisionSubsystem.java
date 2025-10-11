@@ -203,6 +203,19 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
         return result;
     }
 
+    /**
+     * Gets all the pose observations in this iteration of the scheduler loop accepted
+     * by our new experimental rejection conditions.
+     * @return A list of pose observations.
+     */
+    public List<VisionPoseObservation> getAllPoseObservationsImproved() {
+        List<VisionPoseObservation> result = new LinkedList<>();
+        for (AprilTagVisionCameraHelper cameraHelper : this.getAllPoseCameras()) {
+            result.addAll(cameraHelper.getPoseObservationsImproved());
+        }
+        return result;
+    }
+
     @Override
     public void refreshDataFrame() {
         for (int i = 0; i < cameraHelpers.length; i++) {
