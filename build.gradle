@@ -164,7 +164,7 @@ javadoc {
             "https://github.wpilib.org/allwpilib/docs/release/java/",
             "https://api.ctr-electronics.com/phoenix6/release/java/",
             "https://codedocs.revrobotics.com/java/",
-            "https://photonvision.github.io/photonvision/built-docs/javadoc/"
+            "https://javadocs.photonvision.org/release/"
     ]
 }
 
