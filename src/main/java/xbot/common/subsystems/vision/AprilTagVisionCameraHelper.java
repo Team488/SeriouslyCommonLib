@@ -44,6 +44,26 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     // (Adjust to trust some cameras more than others)
     private final DoubleProperty cameraStdDevFactor;
 
+    // Basic filtering thresholds
+    private final DoubleProperty experimentalVisionImprovedMaxAmbiguity;
+    private final DoubleProperty experimentalVisionImprovedMaxZError;
+    private final DoubleProperty experimentalVisionImprovedMaxSingleTagDistance;
+    private final DoubleProperty experimentalVisionImprovedMaxMultiTagDistance;
+    private final DoubleProperty experimentalVisionImprovedMinTagDistance;
+
+    // Standard deviation baselines, for 1 meter distance and 1 tag
+    // (Adjusted automatically based on distance and # of tags)
+    private final DoubleProperty experimentalVisionImprovedLinearStdDevBaseline;
+    private final DoubleProperty experimentalVisionImprovedAngularStdDevBaseline;
+
+    // Multipliers to apply for MegaTag 2 observations
+    private final DoubleProperty experimentalVisionImprovedLinearStdDevMegatag2Factor;
+    private final DoubleProperty experimentalVisionImprovedAngularStdDevMegatag2Factor;
+
+    // Standard deviation multipliers for each camera
+    // (Adjust to trust some cameras more than others)
+    private final DoubleProperty experimentalVisionImprovedCameraStdDevFactor;
+
     private final List<Pose3d> tagPoses = new LinkedList<>();
     private final List<Integer> tagIds = new LinkedList<>();
     private final List<Pose3d> robotPoses = new LinkedList<>();
@@ -62,7 +82,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
                 "Vision camera " + prefix + " is disconnected.", Alert.AlertType.kError);
         this.useForPoseEstimates = useForPoseEstimates;
 
-        pf.setPrefix(this.logPath);
+        pf.setPrefix(this.logPath + "Baseline/");
         this.maxAmbiguity = pf.createPersistentProperty("MaxAmbiguity", 0.3);
         this.maxZError = pf.createPersistentProperty("MaxZError", 0.75);
         this.linearStdDevBaseline = pf.createPersistentProperty("LinearStdDevBaseline", 0.02 /* meters */);
@@ -74,6 +94,20 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.maxSingleTagDistance = pf.createPersistentProperty("MaxSingleTagDistance", 1.0);
         this.maxMultiTagDistance = pf.createPersistentProperty("MaxMultiTagDistance", 5.0);
         this.minTagDistance = pf.createPersistentProperty("MinTagDistance", 0.5);
+
+        pf.setPrefix(this.logPath + "ExperimentalVisionImproved/");
+        this.experimentalVisionImprovedMaxAmbiguity = pf.createPersistentProperty("MaxAmbiguity", 0.3);
+        this.experimentalVisionImprovedMaxZError = pf.createPersistentProperty("MaxZError", 0.75);
+        this.experimentalVisionImprovedLinearStdDevBaseline = pf.createPersistentProperty("LinearStdDevBaseline", 0.02 /* meters */);
+        this.experimentalVisionImprovedAngularStdDevBaseline = pf.createPersistentProperty("AngularStdDevBaseline", 0.06 /* radians */);
+        this.experimentalVisionImprovedLinearStdDevMegatag2Factor = pf.createPersistentProperty("LinearStdDevMegatag2Factor", 0.5);
+        this.experimentalVisionImprovedAngularStdDevMegatag2Factor = pf.createPersistentProperty("AngularStdDevMegatag2Factor",
+                Double.POSITIVE_INFINITY);
+        this.experimentalVisionImprovedCameraStdDevFactor = pf.createPersistentProperty("CameraStdDevFactor", 1.0);
+        this.experimentalVisionImprovedMaxSingleTagDistance = pf.createPersistentProperty("MaxSingleTagDistance", 1.0);
+        this.experimentalVisionImprovedMaxMultiTagDistance = pf.createPersistentProperty("MaxMultiTagDistance", 5.0);
+        this.experimentalVisionImprovedMinTagDistance = pf.createPersistentProperty("MinTagDistance", 0.5);
+        pf.setPrefix(this.logPath);
     }
 
     @Override
@@ -208,7 +242,20 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
                 && observation.ambiguity() > maxAmbiguity.get()); // Cannot be high ambiguity;
     }
 
+    private boolean isObservationAmbiguousImproved(AprilTagVisionIO.PoseObservation observation) {
+        return (observation.tagCount() == 1
+                && observation.ambiguity() > experimentalVisionImprovedMaxAmbiguity.get()); // Cannot be high ambiguity;
+    }
+
     private boolean isObservationOutOfBounds(Pose3d pose) {
+        // Must be within the field boundaries
+        return pose.getX() <= 0.0
+                || pose.getX() > aprilTagFieldLayout.getFieldLength()
+                || pose.getY() <= 0.0
+                || pose.getY() > aprilTagFieldLayout.getFieldWidth();
+    }
+
+    private boolean isObservationOutOfBoundsImproved(Pose3d pose) {
         // Must be within the field boundaries
         return pose.getX() <= 0.0
                 || pose.getX() > aprilTagFieldLayout.getFieldLength()
@@ -223,6 +270,15 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         }
 
         return observation.averageTagDistance() > maxMultiTagDistance.get();
+    }
+
+    private boolean isObservationOutOfSafeRangeImproved(AprilTagVisionIO.PoseObservation observation) {
+        if (observation.tagCount() == 1) {
+            return observation.averageTagDistance() > experimentalVisionImprovedMaxSingleTagDistance.get()
+                    || observation.averageTagDistance() < experimentalVisionImprovedMinTagDistance.get();
+        }
+
+        return observation.averageTagDistance() > experimentalVisionImprovedMaxMultiTagDistance.get();
     }
 
     private boolean shouldRejectObservation(AprilTagVisionIO.PoseObservation observation) {
@@ -241,9 +297,9 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         // should we reject a given observation under our experimental rejection conditions?
         boolean shouldReject = false;
         shouldReject |= observation.tagCount() == 0; // Must have at least one tag
-        shouldReject |= isObservationAmbiguous(observation);
-        shouldReject |= Math.abs(observation.pose().getZ()) > maxZError.get(); // Must have realistic Z coordinate
-        shouldReject |= isObservationOutOfBounds(observation.pose());
+        shouldReject |= isObservationAmbiguousImproved(observation);
+        shouldReject |= Math.abs(observation.pose().getZ()) > experimentalVisionImprovedMaxZError.get(); // Must have realistic Z coordinate
+        shouldReject |= isObservationOutOfBoundsImproved(observation.pose());
         shouldReject |= isObservationOutOfSafeRange(observation);
 
         return shouldReject;
