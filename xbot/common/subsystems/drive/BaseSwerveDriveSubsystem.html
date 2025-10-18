@@ -128,13 +128,12 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.math.PIDManager.PIDManagerFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.electrical_contract.XDeadwheelElectricalContract)" class="member-name-link">BaseSwerveDriveSubsystem</a><wbr>(<a href="../../math/PIDManager.PIDManagerFactory.html" title="class in xbot.common.math">PIDManager.PIDManagerFactory</a>&nbsp;pidFactory,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.math.PIDManager.PIDManagerFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent)" class="member-name-link">BaseSwerveDriveSubsystem</a><wbr>(<a href="../../math/PIDManager.PIDManagerFactory.html" title="class in xbot.common.math">PIDManager.PIDManagerFactory</a>&nbsp;pidFactory,
  <a href="../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf,
  <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;frontLeftSwerve,
  <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;frontRightSwerve,
  <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;rearLeftSwerve,
- <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;rearRightSwerve,
- <a href="../../injection/electrical_contract/XDeadwheelElectricalContract.html" title="interface in xbot.common.injection.electrical_contract">XDeadwheelElectricalContract</a>&nbsp;deadwheelContract)</code></div>
+ <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;rearRightSwerve)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -181,204 +180,201 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getActiveSwerveModuleSubsystem()" class="member-name-link">getActiveSwerveModuleSubsystem</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../math/kinematics/DeadwheelKinematics.html" title="class in xbot.common.math.kinematics">DeadwheelKinematics</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDeadwheelDriveKinematics()" class="member-name-link">getDeadwheelDriveKinematics</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDesiredHeading()" class="member-name-link">getDesiredHeading</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFrontLeftSwerveModuleSubsystem()" class="member-name-link">getFrontLeftSwerveModuleSubsystem</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDesiredHeading()" class="member-name-link">getDesiredHeading</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFrontRightSwerveModuleSubsystem()" class="member-name-link">getFrontRightSwerveModuleSubsystem</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFrontLeftSwerveModuleSubsystem()" class="member-name-link">getFrontLeftSwerveModuleSubsystem</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="../../math/PIDDefaults.html" title="class in xbot.common.math">PIDDefaults</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeadingPIDDefaults()" class="member-name-link">getHeadingPIDDefaults</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFrontRightSwerveModuleSubsystem()" class="member-name-link">getFrontRightSwerveModuleSubsystem</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="../../math/PIDDefaults.html" title="class in xbot.common.math">PIDDefaults</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeadingPIDDefaults()" class="member-name-link">getHeadingPIDDefaults</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the default PID values for the heading PID.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLeftTotalDistance()" class="member-name-link">getLeftTotalDistance</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLeftTotalDistance()" class="member-name-link">getLeftTotalDistance</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the total distance tracked by the encoder
  - On the LEFT side of the robot
  - Pointing in the direction of +Y travel</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxAccelerationMetersPerSecondSquared()" class="member-name-link">getMaxAccelerationMetersPerSecondSquared</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxAccelerationMetersPerSecondSquared()" class="member-name-link">getMaxAccelerationMetersPerSecondSquared</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxTargetSpeedMetersPerSecond()" class="member-name-link">getMaxTargetSpeedMetersPerSecond</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxTargetSpeedMetersPerSecond()" class="member-name-link">getMaxTargetSpeedMetersPerSecond</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxTargetTurnRate()" class="member-name-link">getMaxTargetTurnRate</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxTargetTurnRate()" class="member-name-link">getMaxTargetTurnRate</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../math/PIDManager.html" title="class in xbot.common.math">PIDManager</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPositionalPid()" class="member-name-link">getPositionalPid</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../math/PIDManager.html" title="class in xbot.common.math">PIDManager</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPositionalPid()" class="member-name-link">getPositionalPid</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="../../math/PIDDefaults.html" title="class in xbot.common.math">PIDDefaults</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPositionalPIDDefaults()" class="member-name-link">getPositionalPIDDefaults</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="../../math/PIDDefaults.html" title="class in xbot.common.math">PIDDefaults</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPositionalPIDDefaults()" class="member-name-link">getPositionalPIDDefaults</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the default PID values for the positional PID.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPositionMaintainerXTarget()" class="member-name-link">getPositionMaintainerXTarget</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRearLeftSwerveModuleSubsystem()" class="member-name-link">getRearLeftSwerveModuleSubsystem</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPositionMaintainerXTarget()" class="member-name-link">getPositionMaintainerXTarget</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRearRightSwerveModuleSubsystem()" class="member-name-link">getRearRightSwerveModuleSubsystem</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRearLeftSwerveModuleSubsystem()" class="member-name-link">getRearLeftSwerveModuleSubsystem</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRightTotalDistance()" class="member-name-link">getRightTotalDistance</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRearRightSwerveModuleSubsystem()" class="member-name-link">getRearRightSwerveModuleSubsystem</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRightTotalDistance()" class="member-name-link">getRightTotalDistance</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the total distance tracked by the encoder
  - On the RIGHT side of the robot
  - Pointing in the direction of +Y travel</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../math/PIDManager.html" title="class in xbot.common.math">PIDManager</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRotateDecayPid()" class="member-name-link">getRotateDecayPid</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../math/PIDManager.html" title="class in xbot.common.math">PIDManager</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRotateToHeadingPid()" class="member-name-link">getRotateToHeadingPid</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRotateDecayPid()" class="member-name-link">getRotateDecayPid</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/kinematics/SwerveDriveKinematics.html" title="class or interface in edu.wpi.first.math.kinematics" class="external-link">SwerveDriveKinematics</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSwerveDriveKinematics()" class="member-name-link">getSwerveDriveKinematics</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../math/PIDManager.html" title="class in xbot.common.math">PIDManager</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRotateToHeadingPid()" class="member-name-link">getRotateToHeadingPid</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/kinematics/SwerveModuleState.html" title="class or interface in edu.wpi.first.math.kinematics" class="external-link">SwerveModuleState</a>[]</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSwerveModuleStates()" class="member-name-link">getSwerveModuleStates</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/kinematics/SwerveDriveKinematics.html" title="class or interface in edu.wpi.first.math.kinematics" class="external-link">SwerveDriveKinematics</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSwerveDriveKinematics()" class="member-name-link">getSwerveDriveKinematics</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTransverseDistance()" class="member-name-link">getTransverseDistance</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/kinematics/SwerveModuleState.html" title="class or interface in edu.wpi.first.math.kinematics" class="external-link">SwerveModuleState</a>[]</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSwerveModuleStates()" class="member-name-link">getSwerveModuleStates</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTransverseDistance()" class="member-name-link">getTransverseDistance</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the total distance tracked by the encoder
  - In the center of the robot
  - Pointing in the direction of +X travel</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVelocityMaintainerXTarget()" class="member-name-link">getVelocityMaintainerXTarget</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isCollectorRotationActive()" class="member-name-link">isCollectorRotationActive</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVelocityMaintainerXTarget()" class="member-name-link">getVelocityMaintainerXTarget</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isExtremePrecisionTranslationActive()" class="member-name-link">isExtremePrecisionTranslationActive</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isCollectorRotationActive()" class="member-name-link">isCollectorRotationActive</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isGamePieceRotationActive()" class="member-name-link">isGamePieceRotationActive</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isExtremePrecisionTranslationActive()" class="member-name-link">isExtremePrecisionTranslationActive</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isManualBalanceModeActive()" class="member-name-link">isManualBalanceModeActive</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isGamePieceRotationActive()" class="member-name-link">isGamePieceRotationActive</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isPrecisionRotationActive()" class="member-name-link">isPrecisionRotationActive</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isManualBalanceModeActive()" class="member-name-link">isManualBalanceModeActive</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isPrecisionTranslationActive()" class="member-name-link">isPrecisionTranslationActive</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isPrecisionRotationActive()" class="member-name-link">isPrecisionRotationActive</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isQuickAlignActive()" class="member-name-link">isQuickAlignActive</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isPrecisionTranslationActive()" class="member-name-link">isPrecisionTranslationActive</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isRobotOrientedDriveActive()" class="member-name-link">isRobotOrientedDriveActive</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isQuickAlignActive()" class="member-name-link">isQuickAlignActive</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isRotateToHubActive()" class="member-name-link">isRotateToHubActive</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isRobotOrientedDriveActive()" class="member-name-link">isRobotOrientedDriveActive</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isUnlockFullDrivePowerActive()" class="member-name-link">isUnlockFullDrivePowerActive</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isRotateToHubActive()" class="member-name-link">isRotateToHubActive</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#move(xbot.common.math.XYPair,double)" class="member-name-link">move</a><wbr>(<a href="../../math/XYPair.html" title="class in xbot.common.math">XYPair</a>&nbsp;translate,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isUnlockFullDrivePowerActive()" class="member-name-link">isUnlockFullDrivePowerActive</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#move(xbot.common.math.XYPair,double)" class="member-name-link">move</a><wbr>(<a href="../../math/XYPair.html" title="class in xbot.common.math">XYPair</a>&nbsp;translate,
  double&nbsp;rotate)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the target movement speed and rotation, rotating around the center of the
  robot.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#move(xbot.common.math.XYPair,double,xbot.common.math.XYPair)" class="member-name-link">move</a><wbr>(<a href="../../math/XYPair.html" title="class in xbot.common.math">XYPair</a>&nbsp;translate,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#move(xbot.common.math.XYPair,double,xbot.common.math.XYPair)" class="member-name-link">move</a><wbr>(<a href="../../math/XYPair.html" title="class in xbot.common.math">XYPair</a>&nbsp;translate,
  double&nbsp;rotate,
  <a href="../../math/XYPair.html" title="class in xbot.common.math">XYPair</a>&nbsp;centerOfRotationInches)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the target movement speed and rotation, with an arbitrary center of
  rotation.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#periodic()" class="member-name-link">periodic</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#periodic()" class="member-name-link">periodic</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">This method is called on each <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/CommandScheduler.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link"><code>CommandScheduler</code></a> loop.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#refreshDataFrame()" class="member-name-link">refreshDataFrame</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#refreshDataFrame()" class="member-name-link">refreshDataFrame</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Consumes and processes inputs from the device or subsystem.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setActivateBrakeOverride(boolean)" class="member-name-link">setActivateBrakeOverride</a><wbr>(boolean&nbsp;activateBrakeOverride)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setActiveModule(xbot.common.subsystems.drive.BaseSwerveDriveSubsystem.SwerveModuleLocation)" class="member-name-link">setActiveModule</a><wbr>(<a href="BaseSwerveDriveSubsystem.SwerveModuleLocation.html" title="enum class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem.SwerveModuleLocation</a>&nbsp;activeModule)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Meant to be used alongside debugging methods.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAllSwerveModulesToTargetState(edu.wpi.first.math.kinematics.SwerveModuleState)" class="member-name-link">setAllSwerveModulesToTargetState</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/kinematics/SwerveModuleState.html" title="class or interface in edu.wpi.first.math.kinematics" class="external-link">SwerveModuleState</a>&nbsp;swerveModuleState)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCollectorOrientedTurningActive(boolean)" class="member-name-link">setCollectorOrientedTurningActive</a><wbr>(boolean&nbsp;isActive)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setActivateBrakeOverride(boolean)" class="member-name-link">setActivateBrakeOverride</a><wbr>(boolean&nbsp;activateBrakeOverride)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDesiredHeading(double)" class="member-name-link">setDesiredHeading</a><wbr>(double&nbsp;heading)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDriveModuleCurrentLimits(xbot.common.subsystems.drive.swerve.SwerveDriveSubsystem.CurrentLimitMode)" class="member-name-link">setDriveModuleCurrentLimits</a><wbr>(<a href="swerve/SwerveDriveSubsystem.CurrentLimitMode.html" title="enum class in xbot.common.subsystems.drive.swerve">SwerveDriveSubsystem.CurrentLimitMode</a>&nbsp;mode)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setExtremePrecisionTranslationActive(boolean)" class="member-name-link">setExtremePrecisionTranslationActive</a><wbr>(boolean&nbsp;isActive)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setGamePieceOrientatedRotationActive(boolean)" class="member-name-link">setGamePieceOrientatedRotationActive</a><wbr>(boolean&nbsp;isActive)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setIsRobotOrientedDrive(boolean)" class="member-name-link">setIsRobotOrientedDrive</a><wbr>(boolean&nbsp;isActive)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setManualBalanceMode(boolean)" class="member-name-link">setManualBalanceMode</a><wbr>(boolean&nbsp;isActive)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setNextModuleAsActiveModule()" class="member-name-link">setNextModuleAsActiveModule</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setActiveModule(xbot.common.subsystems.drive.BaseSwerveDriveSubsystem.SwerveModuleLocation)" class="member-name-link">setActiveModule</a><wbr>(<a href="BaseSwerveDriveSubsystem.SwerveModuleLocation.html" title="enum class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem.SwerveModuleLocation</a>&nbsp;activeModule)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Meant to be used alongside debugging methods.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setNoviceMode(boolean)" class="member-name-link">setNoviceMode</a><wbr>(boolean&nbsp;enabled)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAllSwerveModulesToTargetState(edu.wpi.first.math.kinematics.SwerveModuleState)" class="member-name-link">setAllSwerveModulesToTargetState</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/kinematics/SwerveModuleState.html" title="class or interface in edu.wpi.first.math.kinematics" class="external-link">SwerveModuleState</a>&nbsp;swerveModuleState)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPositionMaintainerXTarget(double)" class="member-name-link">setPositionMaintainerXTarget</a><wbr>(double&nbsp;positionMaintainerXTarget)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCollectorOrientedTurningActive(boolean)" class="member-name-link">setCollectorOrientedTurningActive</a><wbr>(boolean&nbsp;isActive)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPrecisionRotationActive(boolean)" class="member-name-link">setPrecisionRotationActive</a><wbr>(boolean&nbsp;isActive)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDesiredHeading(double)" class="member-name-link">setDesiredHeading</a><wbr>(double&nbsp;heading)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPrecisionTranslationActive(boolean)" class="member-name-link">setPrecisionTranslationActive</a><wbr>(boolean&nbsp;isActive)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDriveModuleCurrentLimits(xbot.common.subsystems.drive.swerve.SwerveDriveSubsystem.CurrentLimitMode)" class="member-name-link">setDriveModuleCurrentLimits</a><wbr>(<a href="swerve/SwerveDriveSubsystem.CurrentLimitMode.html" title="enum class in xbot.common.subsystems.drive.swerve">SwerveDriveSubsystem.CurrentLimitMode</a>&nbsp;mode)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setQuickAlignActive(boolean)" class="member-name-link">setQuickAlignActive</a><wbr>(boolean&nbsp;isActive)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setExtremePrecisionTranslationActive(boolean)" class="member-name-link">setExtremePrecisionTranslationActive</a><wbr>(boolean&nbsp;isActive)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRotateToHubActive(boolean)" class="member-name-link">setRotateToHubActive</a><wbr>(boolean&nbsp;isActive)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setGamePieceOrientatedRotationActive(boolean)" class="member-name-link">setGamePieceOrientatedRotationActive</a><wbr>(boolean&nbsp;isActive)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUnlockFullDrivePower(boolean)" class="member-name-link">setUnlockFullDrivePower</a><wbr>(boolean&nbsp;value)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setIsRobotOrientedDrive(boolean)" class="member-name-link">setIsRobotOrientedDrive</a><wbr>(boolean&nbsp;isActive)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityMaintainerXTarget(double)" class="member-name-link">setVelocityMaintainerXTarget</a><wbr>(double&nbsp;velocityMaintainerXTarget)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setManualBalanceMode(boolean)" class="member-name-link">setManualBalanceMode</a><wbr>(boolean&nbsp;isActive)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWheelsToXMode()" class="member-name-link">setWheelsToXMode</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setNextModuleAsActiveModule()" class="member-name-link">setNextModuleAsActiveModule</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Meant to be used alongside debugging methods.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setNoviceMode(boolean)" class="member-name-link">setNoviceMode</a><wbr>(boolean&nbsp;enabled)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPositionMaintainerXTarget(double)" class="member-name-link">setPositionMaintainerXTarget</a><wbr>(double&nbsp;positionMaintainerXTarget)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPrecisionRotationActive(boolean)" class="member-name-link">setPrecisionRotationActive</a><wbr>(boolean&nbsp;isActive)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPrecisionTranslationActive(boolean)" class="member-name-link">setPrecisionTranslationActive</a><wbr>(boolean&nbsp;isActive)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setQuickAlignActive(boolean)" class="member-name-link">setQuickAlignActive</a><wbr>(boolean&nbsp;isActive)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRotateToHubActive(boolean)" class="member-name-link">setRotateToHubActive</a><wbr>(boolean&nbsp;isActive)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUnlockFullDrivePower(boolean)" class="member-name-link">setUnlockFullDrivePower</a><wbr>(boolean&nbsp;value)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityMaintainerXTarget(double)" class="member-name-link">setVelocityMaintainerXTarget</a><wbr>(double&nbsp;velocityMaintainerXTarget)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWheelsToXMode()" class="member-name-link">setWheelsToXMode</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -412,15 +408,14 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(xbot.common.math.PIDManager.PIDManagerFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.electrical_contract.XDeadwheelElectricalContract)">
+<section class="detail" id="&lt;init&gt;(xbot.common.math.PIDManager.PIDManagerFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent)">
 <h3>BaseSwerveDriveSubsystem</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">BaseSwerveDriveSubsystem</span><wbr><span class="parameters">(<a href="../../math/PIDManager.PIDManagerFactory.html" title="class in xbot.common.math">PIDManager.PIDManagerFactory</a>&nbsp;pidFactory,
  <a href="../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf,
  <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;frontLeftSwerve,
  <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;frontRightSwerve,
  <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;rearLeftSwerve,
- <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;rearRightSwerve,
- <a href="../../injection/electrical_contract/XDeadwheelElectricalContract.html" title="interface in xbot.common.injection.electrical_contract">XDeadwheelElectricalContract</a>&nbsp;deadwheelContract)</span></div>
+ <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;rearRightSwerve)</span></div>
 </section>
 </li>
 </ul>
@@ -453,12 +448,6 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <dt>Returns:</dt>
 <dd>The default PID values.</dd>
 </dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getDeadwheelDriveKinematics()">
-<h3>getDeadwheelDriveKinematics</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../math/kinematics/DeadwheelKinematics.html" title="class in xbot.common.math.kinematics">DeadwheelKinematics</a></span>&nbsp;<span class="element-name">getDeadwheelDriveKinematics</span>()</div>
 </section>
 </li>
 <li>
