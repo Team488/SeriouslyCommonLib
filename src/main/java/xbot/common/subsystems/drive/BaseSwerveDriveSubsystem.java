@@ -6,7 +6,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -15,12 +14,10 @@ import org.apache.logging.log4j.Logger;
 import xbot.common.advantage.AKitLogger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.sensors.XTimer;
-import xbot.common.injection.electrical_contract.XDeadwheelElectricalContract;
 import xbot.common.injection.swerve.SwerveComponent;
 import xbot.common.math.PIDDefaults;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
-import xbot.common.math.kinematics.DeadwheelKinematics;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
@@ -43,7 +40,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
     private final DoubleProperty maxAccelerationMps2;
 
     private final SwerveDriveKinematics swerveDriveKinematics;
-    private final DeadwheelKinematics deadwheelDriveKinematics;
     private String activeModuleLabel;
 
     private double translationXTargetMPS;
@@ -90,8 +86,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
 
     public BaseSwerveDriveSubsystem(PIDManager.PIDManagerFactory pidFactory, PropertyFactory pf,
             SwerveComponent frontLeftSwerve, SwerveComponent frontRightSwerve,
-            SwerveComponent rearLeftSwerve, SwerveComponent rearRightSwerve,
-            XDeadwheelElectricalContract deadwheelContract) {
+            SwerveComponent rearLeftSwerve, SwerveComponent rearRightSwerve) {
         log.info("Creating DriveSubsystem");
         pf.setPrefix(this);
 
@@ -105,9 +100,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
                 this.frontRightSwerveModuleSubsystem.getModuleTranslation(),
                 this.rearLeftSwerveModuleSubsystem.getModuleTranslation(),
                 this.rearRightSwerveModuleSubsystem.getModuleTranslation());
-        this.deadwheelDriveKinematics = new DeadwheelKinematics(
-                deadwheelContract.getDistanceFromCenterToOuterBumperX().in(Units.Meters) * 2.0);
-
         this.maxTargetSpeedMps = pf.createPersistentProperty("MaxTargetSpeedMetersPerSecond", 4.5);
         this.maxTargetTurnRate = pf.createPersistentProperty("MaxTargetTurnRate", 8.0);
         this.maxAccelerationMps2 = pf.createPersistentProperty("MaxAccelerationMps2", 9.0); // TODO: tune.
@@ -179,10 +171,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
                 2.0, // Error threshold
                 0.2, // Derivative threshold
                 0.2); // Time threshold
-    }
-
-    public DeadwheelKinematics getDeadwheelDriveKinematics() {
-        return this.deadwheelDriveKinematics;
     }
 
     public SwerveDriveKinematics getSwerveDriveKinematics() {
