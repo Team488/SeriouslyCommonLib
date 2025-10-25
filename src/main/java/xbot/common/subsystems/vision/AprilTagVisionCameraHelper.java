@@ -82,7 +82,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
                 "Vision camera " + prefix + " is disconnected.", Alert.AlertType.kError);
         this.useForPoseEstimates = useForPoseEstimates;
 
-        pf.setPrefix(this.logPath + "Baseline/");
+        pf.setPrefix(this.logPath + "/Baseline");
         this.maxAmbiguity = pf.createPersistentProperty("MaxAmbiguity", 0.3);
         this.maxZError = pf.createPersistentProperty("MaxZError", 0.75);
         this.linearStdDevBaseline = pf.createPersistentProperty("LinearStdDevBaseline", 0.02 /* meters */);
@@ -95,7 +95,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.maxMultiTagDistance = pf.createPersistentProperty("MaxMultiTagDistance", 5.0);
         this.minTagDistance = pf.createPersistentProperty("MinTagDistance", 0.5);
 
-        pf.setPrefix(this.logPath + "ExperimentalVisionImproved/");
+        pf.setPrefix(this.logPath + "/ExperimentalVisionImproved");
         this.experimentalVisionImprovedMaxAmbiguity = pf.createPersistentProperty("MaxAmbiguity", 0.3);
         this.experimentalVisionImprovedMaxZError = pf.createPersistentProperty("MaxZError", 0.75);
         this.experimentalVisionImprovedLinearStdDevBaseline = pf.createPersistentProperty("LinearStdDevBaseline", 0.02 /* meters */);
