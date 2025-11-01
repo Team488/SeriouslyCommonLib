@@ -36,7 +36,7 @@ public class BaseSwerveDriveSubsystemTest extends BaseCommonLibTest {
 
     @Test
     public void getTargetSwerveStates() {
-        var states = subsystem.getCurrentSwerveStates();
+        var states = subsystem.getTargetSwerveStates();
         assertNotNull(states);
         assertNotNull(states.frontLeft());
         assertNotNull(states.frontRight());
