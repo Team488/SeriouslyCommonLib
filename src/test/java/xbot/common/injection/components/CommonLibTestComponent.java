@@ -10,8 +10,11 @@ import xbot.common.injection.modules.CommonLibTestModule;
 import xbot.common.injection.modules.DefaultVisionModule;
 import xbot.common.injection.modules.MockControlsModule;
 import xbot.common.injection.modules.MockDevicesModule;
+import xbot.common.injection.modules.SwerveInjectionModule;
 import xbot.common.injection.modules.UnitTestModule;
 import xbot.common.injection.modules.UnitTestRobotModule;
+import xbot.common.injection.swerve.SwerveComponentHolder;
+import xbot.common.subsystems.drive.BaseSwerveDriveSubsystem;
 import xbot.common.subsystems.pose.GameField;
 import xbot.common.subsystems.pose.commands.ResetDistanceCommand;
 import xbot.common.subsystems.pose.commands.SetRobotHeadingCommand;
@@ -23,7 +26,7 @@ import xbot.common.subsystems.vision.AprilTagVisionSubsystem;
  */
 @Singleton
 @Component(modules = {UnitTestModule.class, MockDevicesModule.class, MockControlsModule.class, UnitTestRobotModule.class, CommonLibTestModule.class,
-        DefaultVisionModule.class})
+        DefaultVisionModule.class, SwerveInjectionModule.class})
 public abstract class CommonLibTestComponent extends PurePursuitTestComponent {
     public abstract MockSetpointCommand mockSetpointCommand();
 
@@ -36,6 +39,8 @@ public abstract class CommonLibTestComponent extends PurePursuitTestComponent {
     public abstract SetRobotHeadingCommand setRobotHeadingCommand();
 
     public abstract MockSimpleMotorSubsystem mockSimpleMotorSubsystem();
+
+    public abstract BaseSwerveDriveSubsystem getSwerveDriveSubsystem();
 
     public abstract AprilTagVisionSubsystem getAprilTagVisionSubsystem();
 
