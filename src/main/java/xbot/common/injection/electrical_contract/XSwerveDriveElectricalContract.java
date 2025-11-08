@@ -1,8 +1,8 @@
 package xbot.common.injection.electrical_contract;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Distance;
 import xbot.common.injection.swerve.SwerveInstance;
-import xbot.common.math.XYPair;
 
 import static edu.wpi.first.units.Units.Inches;
 
@@ -45,11 +45,11 @@ public interface XSwerveDriveElectricalContract {
     DeviceInfo getSteeringEncoder(SwerveInstance swerveInstance);
 
     /**
-     * Returns the offset from the center of the robot as an {@link XYPair} for the given {@link SwerveInstance}.
+     * Returns the offset from the center of the robot as a {@link Translation2d} for the given {@link SwerveInstance}.
      * @param swerveInstance The swerve instance.
-     * @return The offset from the center of the robot as an {@link XYPair} for the given {@link SwerveInstance}, in inches.
+     * @return The offset from the center of the robot as a {@link Translation2d} for the given {@link SwerveInstance}, in inches.
      */
-    XYPair getSwerveModuleOffsetsInInches(SwerveInstance swerveInstance);
+    Translation2d getSwerveModuleOffsets(SwerveInstance swerveInstance);
 
     /**
      * Returns the diameter of the drive wheels.
