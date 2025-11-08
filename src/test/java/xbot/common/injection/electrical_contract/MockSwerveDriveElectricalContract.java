@@ -1,9 +1,11 @@
 package xbot.common.injection.electrical_contract;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import xbot.common.injection.swerve.SwerveInstance;
-import xbot.common.math.XYPair;
 
 import javax.inject.Inject;
+
+import static edu.wpi.first.units.Units.Inches;
 
 public class MockSwerveDriveElectricalContract implements XSwerveDriveElectricalContract {
 
@@ -131,19 +133,19 @@ public class MockSwerveDriveElectricalContract implements XSwerveDriveElectrical
     }
 
     @Override
-    public XYPair getSwerveModuleOffsetsInInches(SwerveInstance swerveInstance) {
+    public Translation2d getSwerveModuleOffsets(SwerveInstance swerveInstance) {
         switch (swerveInstance.label()) {
             case "FrontLeftDrive" -> {
-                return new XYPair(-10, 10);
+                return new Translation2d(Inches.of(-10), Inches.of(10));
             }
             case "FrontRightDrive" -> {
-                return new XYPair(10, 10);
+                return new Translation2d(Inches.of(10), Inches.of(10));
             }
             case "RearLeftDrive" -> {
-                return new XYPair(-10, -10);
+                return new Translation2d(Inches.of(-10), Inches.of(-10));
             }
             case "RearRightDrive" -> {
-                return new XYPair(10, -10);
+                return new Translation2d(Inches.of(10), Inches.of(-10));
             }
             default -> throw new IllegalArgumentException("Unknown SwerveInstance: " + swerveInstance.label());
         }

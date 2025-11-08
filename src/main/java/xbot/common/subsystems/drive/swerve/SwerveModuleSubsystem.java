@@ -15,14 +15,12 @@ import xbot.common.injection.swerve.SwerveInstance;
 import xbot.common.injection.swerve.SwerveSingleton;
 import xbot.common.logging.AlertGroups;
 import xbot.common.math.WrappedRotation2d;
-import xbot.common.math.XYPair;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
-import xbot.common.subsystems.pose.BasePoseSubsystem;
 
-import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.Inches;
 
 @SwerveSingleton
 public class SwerveModuleSubsystem extends BaseSubsystem {
@@ -49,20 +47,19 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
     public SwerveModuleSubsystem(SwerveInstance swerveInstance, SwerveDriveSubsystem driveSubsystem, SwerveSteeringSubsystem steeringSubsystem,
                                  XSwerveDriveElectricalContract contract, PropertyFactory pf) {
         this.label = swerveInstance.label();
-        log.info("Creating SwerveModuleSubsystem " + this.label);
+        log.info("Creating SwerveModuleSubsystem {}", this.label);
         pf.setPrefix(this);
 
         this.driveSubsystem = driveSubsystem;
         this.steeringSubsystem = steeringSubsystem;
 
-        XYPair defaultModuleOffsets = contract.getSwerveModuleOffsetsInInches(swerveInstance);
-        pf.setDefaultLevel(Property.PropertyLevel.Debug);
-        this.xOffsetInches = pf.createPersistentProperty("XOffsetInches", defaultModuleOffsets.x);
-        this.yOffsetInches = pf.createPersistentProperty("YOffsetInches", defaultModuleOffsets.y);
+        var defaultModuleTranslation = contract.getSwerveModuleOffsets(swerveInstance);
+        this.xOffsetInches = pf.createPersistentProperty("XOffsetInches", defaultModuleTranslation.getMeasureX().in(Inches), Property.PropertyLevel.Debug);
+        this.yOffsetInches = pf.createPersistentProperty("YOffsetInches", defaultModuleTranslation.getMeasureY().in(Inches), Property.PropertyLevel.Debug);
 
         this.moduleTranslation = new Translation2d(
-                xOffsetInches.get() / BasePoseSubsystem.INCHES_IN_A_METER,
-                yOffsetInches.get() / BasePoseSubsystem.INCHES_IN_A_METER);
+                Inches.of(xOffsetInches.get()),
+                Inches.of(yOffsetInches.get()));
 
         this.currentState = new SwerveModuleState();
         this.currentPosition = new SwerveModulePosition();
