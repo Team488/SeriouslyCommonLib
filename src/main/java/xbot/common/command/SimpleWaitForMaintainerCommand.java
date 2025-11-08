@@ -9,7 +9,7 @@ import xbot.common.controls.sensors.XTimer;
  */
 public class SimpleWaitForMaintainerCommand extends BaseCommand {
 
-    private final BaseSetpointSubsystem<?> subsystem;
+    private final BaseSetpointSubsystem<?, ?> subsystem;
     private final DoubleSupplier delaySupplier;
     private double startTime;
 
@@ -18,7 +18,7 @@ public class SimpleWaitForMaintainerCommand extends BaseCommand {
      * @param subsystem The maintainer subsystem.
      * @param delaySupplier The timeout duration in seconds via a supplier.
      */
-    public SimpleWaitForMaintainerCommand(BaseSetpointSubsystem<?> subsystem, DoubleSupplier delaySupplier) {
+    public SimpleWaitForMaintainerCommand(BaseSetpointSubsystem<?, ?> subsystem, DoubleSupplier delaySupplier) {
         this.subsystem = subsystem;
         this.delaySupplier = delaySupplier;
     }

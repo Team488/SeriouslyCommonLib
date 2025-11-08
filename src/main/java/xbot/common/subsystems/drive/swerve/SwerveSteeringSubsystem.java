@@ -37,7 +37,7 @@ import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Rotations;
 
 @SwerveSingleton
-public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
+public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double, Double> {
     private static final Logger log = LogManager.getLogger(SwerveSteeringSubsystem.class);
     private final String label;
 
@@ -142,7 +142,7 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double> {
      * @param power The power value, between -1 and 1.
      */
     @Override
-    public void setPower(double power) {
+    public void setPower(Double power) {
         getMotorController().ifPresent(mc -> mc.setPower(power));
         aKitLog.record("DirectPower", power);
     }

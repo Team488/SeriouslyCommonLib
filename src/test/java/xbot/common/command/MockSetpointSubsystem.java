@@ -4,7 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class MockSetpointSubsystem extends BaseSetpointSubsystem<Double> {
+public class MockSetpointSubsystem extends BaseSetpointSubsystem<Double, Double> {
 
     private Double currentValue = 0.0;
 
@@ -31,7 +31,7 @@ public class MockSetpointSubsystem extends BaseSetpointSubsystem<Double> {
     }
 
     @Override
-    public void setPower(double power) {
+    public void setPower(Double power) {
     }
 
     @Override
