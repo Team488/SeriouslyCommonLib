@@ -226,7 +226,7 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
 
     /**
      * Gets the magnitude of the human input to use for the maintain command,
-     * since the generic type T may not be a number.
+     * since the generic type {@code PowerT} may not be a number.
      * @return The magnitude of the human input.
      */
     protected abstract double getHumanInputMagnitude();
