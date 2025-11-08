@@ -538,10 +538,10 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
      * @param targetStates The target states to set all four swerve modules to.
      */
     public void setTargetSwerveStates(SwerveModuleStates targetStates) {
-        this.getFrontLeftSwerveModuleSubsystem().setTargetState(targetStates.getFrontLeft());
-        this.getFrontRightSwerveModuleSubsystem().setTargetState(targetStates.getFrontRight());
-        this.getRearLeftSwerveModuleSubsystem().setTargetState(targetStates.getRearLeft());
-        this.getRearRightSwerveModuleSubsystem().setTargetState(targetStates.getRearRight());
+        this.getFrontLeftSwerveModuleSubsystem().setTargetState(targetStates.frontLeft());
+        this.getFrontRightSwerveModuleSubsystem().setTargetState(targetStates.frontRight());
+        this.getRearLeftSwerveModuleSubsystem().setTargetState(targetStates.rearLeft());
+        this.getRearRightSwerveModuleSubsystem().setTargetState(targetStates.rearRight());
     }
 
     /***
