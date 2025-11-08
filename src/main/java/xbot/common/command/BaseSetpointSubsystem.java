@@ -5,14 +5,15 @@ import xbot.common.controls.sensors.XTimer;
 
 /**
  * Base class for subsystems that have a setpoint managed by a maintainer.
- * @param <T> The type of the target value.
+ * @param <TargetT> The type of the target value.
+ * @param <PowerT> The type of the power value.
  */
-public abstract class BaseSetpointSubsystem<T> extends BaseSubsystem implements SupportsSetpointLock {
+public abstract class BaseSetpointSubsystem<TargetT, PowerT> extends BaseSubsystem implements SupportsSetpointLock {
 
     private final Subsystem setpointLock;
     private double lastUpdateTimeFromMaintainer;
     protected boolean atGoal;
-    protected T lastTargetValueUsedforAtGoal;
+    protected TargetT lastTargetValueUsedforAtGoal;
 
     public BaseSetpointSubsystem() {
         setpointLock = new Subsystem() {};
@@ -51,24 +52,24 @@ public abstract class BaseSetpointSubsystem<T> extends BaseSubsystem implements 
         lastTargetValueUsedforAtGoal = getTargetValue();
     }
 
-    public abstract T getCurrentValue();
+    public abstract TargetT getCurrentValue();
 
-    public abstract T getTargetValue();
+    public abstract TargetT getTargetValue();
 
-    public abstract void setTargetValue(T value);
+    public abstract void setTargetValue(TargetT value);
 
-    public abstract void setPower(double power);
+    public abstract void setPower(PowerT power);
 
     public abstract boolean isCalibrated();
 
-    protected abstract boolean areTwoTargetsEquivalent(T target1, T target2);
+    protected abstract boolean areTwoTargetsEquivalent(TargetT target1, TargetT target2);
 
-    public SetTargetCommand<T> createSetTargetCommand() {
-        return new SetTargetCommand<T>(this);
+    public SetTargetCommand<TargetT> createSetTargetCommand() {
+        return new SetTargetCommand<>(this);
     }
 
-    public SetTargetCommand<T> createSetTargetCommand(T value) {
-        var command = new SetTargetCommand<T>(this);
+    public SetTargetCommand<TargetT> createSetTargetCommand(TargetT value) {
+        var command = new SetTargetCommand<>(this);
         command.setTargetValue(value);
         return command;
     }

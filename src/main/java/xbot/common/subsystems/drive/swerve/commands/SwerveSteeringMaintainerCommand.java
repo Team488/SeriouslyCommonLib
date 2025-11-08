@@ -7,7 +7,7 @@ import xbot.common.subsystems.drive.swerve.SwerveSteeringSubsystem;
 
 import javax.inject.Inject;
 
-public class SwerveSteeringMaintainerCommand extends BaseMaintainerCommand<Double> {
+public class SwerveSteeringMaintainerCommand extends BaseMaintainerCommand<Double, Double> {
 
     private final SwerveSteeringSubsystem subsystem;
 
@@ -35,7 +35,7 @@ public class SwerveSteeringMaintainerCommand extends BaseMaintainerCommand<Doubl
     }
 
     @Override
-    protected double getHumanInput() {
+    protected Double getHumanInput() {
         // never hooked directly to human input, human input handled by drive
         return 0.0;
     }

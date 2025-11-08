@@ -23,7 +23,7 @@ import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 @SwerveSingleton
-public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
+public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double, Double> {
     private static final Logger log = LogManager.getLogger(SwerveDriveSubsystem.class);
 
     private final String label;
@@ -139,7 +139,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     }
 
     @Override
-    public void setPower(double power) {
+    public void setPower(Double power) {
         getMotorController().ifPresent(mc -> mc.setPower(power));
     }
 
