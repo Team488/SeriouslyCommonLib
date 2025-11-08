@@ -177,9 +177,19 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
  double&nbsp;currentHeading,
  <a href="../../math/XYPair.html" title="class in xbot.common.math">XYPair</a>&nbsp;centerOfRotationInches)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getActiveSwerveModuleSubsystem()" class="member-name-link">getActiveSwerveModuleSubsystem</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#forEachSwerveModule(java.util.function.Consumer)" class="member-name-link">forEachSwerveModule</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a>&gt;&nbsp;consumer)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Applies the given consumer to each swerve module subsystem.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getActiveSwerveModuleSubsystem()" class="member-name-link">getActiveSwerveModuleSubsystem</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="swerve/SwerveModuleStates.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleStates</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentSwerveStates()" class="member-name-link">getCurrentSwerveStates</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the current states of all four swerve modules.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDesiredHeading()" class="member-name-link">getDesiredHeading</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -243,9 +253,11 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/kinematics/SwerveDriveKinematics.html" title="class or interface in edu.wpi.first.math.kinematics" class="external-link">SwerveDriveKinematics</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSwerveDriveKinematics()" class="member-name-link">getSwerveDriveKinematics</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/kinematics/SwerveModuleState.html" title="class or interface in edu.wpi.first.math.kinematics" class="external-link">SwerveModuleState</a>[]</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSwerveModuleStates()" class="member-name-link">getSwerveModuleStates</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="swerve/SwerveModuleStates.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleStates</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTargetSwerveStates()" class="member-name-link">getTargetSwerveStates</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the target states of all four swerve modules.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTransverseDistance()" class="member-name-link">getTransverseDistance</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -367,14 +379,19 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRotateToHubActive(boolean)" class="member-name-link">setRotateToHubActive</a><wbr>(boolean&nbsp;isActive)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUnlockFullDrivePower(boolean)" class="member-name-link">setUnlockFullDrivePower</a><wbr>(boolean&nbsp;value)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setTargetSwerveStates(xbot.common.subsystems.drive.swerve.SwerveModuleStates)" class="member-name-link">setTargetSwerveStates</a><wbr>(<a href="swerve/SwerveModuleStates.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleStates</a>&nbsp;targetStates)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the target states of all four swerve modules.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityMaintainerXTarget(double)" class="member-name-link">setVelocityMaintainerXTarget</a><wbr>(double&nbsp;velocityMaintainerXTarget)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUnlockFullDrivePower(boolean)" class="member-name-link">setUnlockFullDrivePower</a><wbr>(boolean&nbsp;value)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWheelsToXMode()" class="member-name-link">setWheelsToXMode</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityMaintainerXTarget(double)" class="member-name-link">setVelocityMaintainerXTarget</a><wbr>(double&nbsp;velocityMaintainerXTarget)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWheelsToXMode()" class="member-name-link">setWheelsToXMode</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -771,6 +788,50 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 </section>
 </li>
 <li>
+<section class="detail" id="getCurrentSwerveStates()">
+<h3>getCurrentSwerveStates</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="swerve/SwerveModuleStates.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleStates</a></span>&nbsp;<span class="element-name">getCurrentSwerveStates</span>()</div>
+<div class="block">Gets the current states of all four swerve modules.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The current states of all four swerve modules.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getTargetSwerveStates()">
+<h3>getTargetSwerveStates</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="swerve/SwerveModuleStates.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleStates</a></span>&nbsp;<span class="element-name">getTargetSwerveStates</span>()</div>
+<div class="block">Gets the target states of all four swerve modules.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The target states of all four swerve modules.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setTargetSwerveStates(xbot.common.subsystems.drive.swerve.SwerveModuleStates)">
+<h3>setTargetSwerveStates</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setTargetSwerveStates</span><wbr><span class="parameters">(<a href="swerve/SwerveModuleStates.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleStates</a>&nbsp;targetStates)</span></div>
+<div class="block">Sets the target states of all four swerve modules.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>targetStates</code> - The target states to set all four swerve modules to.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="forEachSwerveModule(java.util.function.Consumer)">
+<h3>forEachSwerveModule</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">forEachSwerveModule</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a>&gt;&nbsp;consumer)</span></div>
+<div class="block">Applies the given consumer to each swerve module subsystem.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>consumer</code> - The consumer to apply to each swerve module subsystem.</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="setActiveModule(xbot.common.subsystems.drive.BaseSwerveDriveSubsystem.SwerveModuleLocation)">
 <h3>setActiveModule</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setActiveModule</span><wbr><span class="parameters">(<a href="BaseSwerveDriveSubsystem.SwerveModuleLocation.html" title="enum class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem.SwerveModuleLocation</a>&nbsp;activeModule)</span></div>
@@ -862,12 +923,6 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <section class="detail" id="createEnableDisableQuickAlignActive()">
 <h3>createEnableDisableQuickAlignActive</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">Command</a></span>&nbsp;<span class="element-name">createEnableDisableQuickAlignActive</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getSwerveModuleStates()">
-<h3>getSwerveModuleStates</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/kinematics/SwerveModuleState.html" title="class or interface in edu.wpi.first.math.kinematics" class="external-link">SwerveModuleState</a>[]</span>&nbsp;<span class="element-name">getSwerveModuleStates</span>()</div>
 </section>
 </li>
 <li>
