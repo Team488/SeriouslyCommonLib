@@ -1,6 +1,6 @@
 package xbot.common.subsystems.drive.swerve.commands;
 
-import xbot.common.command.BaseMaintainerCommand;
+import xbot.common.command.BaseSimpleMaintainerCommand;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.drive.BaseSwerveDriveSubsystem;
@@ -8,7 +8,7 @@ import xbot.common.subsystems.drive.swerve.SwerveDriveSubsystem;
 
 import javax.inject.Inject;
 
-public class SwerveDriveMaintainerCommand extends BaseMaintainerCommand<Double, Double> {
+public class SwerveDriveMaintainerCommand extends BaseSimpleMaintainerCommand {
 
     private final SwerveDriveSubsystem subsystem;
     private final BaseSwerveDriveSubsystem drive;

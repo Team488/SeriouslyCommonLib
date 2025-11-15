@@ -13,7 +13,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 
 import edu.wpi.first.math.MathUtil;
 import xbot.common.advantage.AKitLogger;
-import xbot.common.command.BaseSetpointSubsystem;
+import xbot.common.command.BaseSimpleSetpointSubsystem;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.controls.sensors.XAbsoluteEncoder;
@@ -22,13 +22,9 @@ import xbot.common.controls.sensors.XCANCoder.XCANCoderFactory;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
 import xbot.common.injection.swerve.SwerveInstance;
 import xbot.common.injection.swerve.SwerveSingleton;
-import xbot.common.math.MathUtils;
-import xbot.common.math.PIDManager;
-import xbot.common.math.WrappedRotation2d;
 import xbot.common.math.PIDManager.PIDManagerFactory;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
-import xbot.common.resiliency.DeviceHealth;
 
 import java.util.Optional;
 
@@ -37,7 +33,7 @@ import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Rotations;
 
 @SwerveSingleton
-public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double, Double> {
+public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem {
     private static final Logger log = LogManager.getLogger(SwerveSteeringSubsystem.class);
     private final String label;
 
@@ -240,11 +236,6 @@ public class SwerveSteeringSubsystem extends BaseSetpointSubsystem<Double, Doubl
             // restore typical log level
             aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
         }
-    }
-
-    @Override
-    protected boolean areTwoTargetsEquivalent(Double target1, Double target2) {
-        return BaseSetpointSubsystem.areTwoDoublesEquivalent(target1, target2);
     }
 
     @Override
