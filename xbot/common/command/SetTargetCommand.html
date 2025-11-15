@@ -70,25 +70,30 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">xbot.common.command</a></div>
-<h1 title="Class SetTargetCommand" class="title">Class SetTargetCommand&lt;T&gt;</h1>
+<h1 title="Class SetTargetCommand" class="title">Class SetTargetCommand&lt;TargetT&gt;</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">edu.wpi.first.wpilibj2.command.Command</a>
 <div class="inheritance"><a href="BaseCommand.html" title="class in xbot.common.command">xbot.common.command.BaseCommand</a>
 <div class="inheritance"><a href="BaseSetpointCommand.html" title="class in xbot.common.command">xbot.common.command.BaseSetpointCommand</a>
-<div class="inheritance">xbot.common.command.SetTargetCommand&lt;T&gt;</div>
+<div class="inheritance">xbot.common.command.SetTargetCommand&lt;TargetT&gt;</div>
 </div>
 </div>
 </div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><code>TargetT</code> - The type of the target value.</dd>
+</dl>
+<dl class="notes">
 <dt>All Implemented Interfaces:</dt>
 <dd><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/util/sendable/Sendable.html" title="class or interface in edu.wpi.first.util.sendable" class="external-link">Sendable</a></code>, <code><a href="../properties/IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SetTargetCommand&lt;T&gt;</span>
+<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SetTargetCommand&lt;TargetT&gt;</span>
 <span class="extends-implements">extends <a href="BaseSetpointCommand.html" title="class in xbot.common.command">BaseSetpointCommand</a></span></div>
+<div class="block">A command that sets a target value on a BaseSetpointSubsystem.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -110,10 +115,10 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>protected final <a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;<a href="SetTargetCommand.html" title="type parameter in SetTargetCommand">T</a>&gt;</code></div>
+<div class="col-first even-row-color"><code>protected final <a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;<a href="SetTargetCommand.html" title="type parameter in SetTargetCommand">TargetT</a>,<wbr>?&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#system" class="member-name-link">system</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected <a href="SetTargetCommand.html" title="type parameter in SetTargetCommand">T</a></code></div>
+<div class="col-first odd-row-color"><code>protected <a href="SetTargetCommand.html" title="type parameter in SetTargetCommand">TargetT</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#targetValue" class="member-name-link">targetValue</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 </div>
@@ -130,8 +135,10 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem)" class="member-name-link">SetTargetCommand</a><wbr>(<a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;<a href="SetTargetCommand.html" title="type parameter in SetTargetCommand">T</a>&gt;&nbsp;system)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem)" class="member-name-link">SetTargetCommand</a><wbr>(<a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;<a href="SetTargetCommand.html" title="type parameter in SetTargetCommand">TargetT</a>,<wbr>?&gt;&nbsp;system)</code></div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new SetTargetCommand.</div>
+</div>
 </div>
 </section>
 </li>
@@ -153,8 +160,10 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isFinished()" class="member-name-link">isFinished</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setTargetValue(T)" class="member-name-link">setTargetValue</a><wbr>(<a href="SetTargetCommand.html" title="type parameter in SetTargetCommand">T</a>&nbsp;value)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setTargetValue(TargetT)" class="member-name-link">setTargetValue</a><wbr>(<a href="SetTargetCommand.html" title="type parameter in SetTargetCommand">TargetT</a>&nbsp;value)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the target value to be applied when the command is initialized.</div>
+</div>
 </div>
 </div>
 </div>
@@ -181,13 +190,13 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="targetValue">
 <h3>targetValue</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="SetTargetCommand.html" title="type parameter in SetTargetCommand">T</a></span>&nbsp;<span class="element-name">targetValue</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="SetTargetCommand.html" title="type parameter in SetTargetCommand">TargetT</a></span>&nbsp;<span class="element-name">targetValue</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="system">
 <h3>system</h3>
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;<a href="SetTargetCommand.html" title="type parameter in SetTargetCommand">T</a>&gt;</span>&nbsp;<span class="element-name">system</span></div>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;<a href="SetTargetCommand.html" title="type parameter in SetTargetCommand">TargetT</a>,<wbr>?&gt;</span>&nbsp;<span class="element-name">system</span></div>
 </section>
 </li>
 </ul>
@@ -201,7 +210,12 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;(xbot.common.command.BaseSetpointSubsystem)">
 <h3>SetTargetCommand</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SetTargetCommand</span><wbr><span class="parameters">(<a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;<a href="SetTargetCommand.html" title="type parameter in SetTargetCommand">T</a>&gt;&nbsp;system)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SetTargetCommand</span><wbr><span class="parameters">(<a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;<a href="SetTargetCommand.html" title="type parameter in SetTargetCommand">TargetT</a>,<wbr>?&gt;&nbsp;system)</span></div>
+<div class="block">Creates a new SetTargetCommand.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>system</code> - The BaseSetpointSubsystem to set the target value on.</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -213,9 +227,14 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="setTargetValue(T)">
+<section class="detail" id="setTargetValue(TargetT)">
 <h3 id="setTargetValue(java.lang.Object)">setTargetValue</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setTargetValue</span><wbr><span class="parameters">(<a href="SetTargetCommand.html" title="type parameter in SetTargetCommand">T</a>&nbsp;value)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setTargetValue</span><wbr><span class="parameters">(<a href="SetTargetCommand.html" title="type parameter in SetTargetCommand">TargetT</a>&nbsp;value)</span></div>
+<div class="block">Sets the target value to be applied when the command is initialized.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>value</code> - The target value to set.</dd>
+</dl>
 </section>
 </li>
 <li>

@@ -64,11 +64,15 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">xbot.common.command.<a href="BaseCommand.html" class="type-name-link" title="class in xbot.common.command">BaseCommand</a> (implements xbot.common.properties.<a href="../properties/IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a>)
 <ul>
-<li class="circle">xbot.common.command.<a href="BaseMaintainerCommand.html" class="type-name-link" title="class in xbot.common.command">BaseMaintainerCommand</a>&lt;T&gt;</li>
+<li class="circle">xbot.common.command.<a href="BaseMaintainerCommand.html" class="type-name-link" title="class in xbot.common.command">BaseMaintainerCommand</a>&lt;TargetT,<wbr>PowerT&gt;
+<ul>
+<li class="circle">xbot.common.command.<a href="BaseSimpleMaintainerCommand.html" class="type-name-link" title="class in xbot.common.command">BaseSimpleMaintainerCommand</a></li>
+</ul>
+</li>
 <li class="circle">xbot.common.command.<a href="BaseSequentialCommandGroup.html" class="type-name-link" title="class in xbot.common.command">BaseSequentialCommandGroup</a></li>
 <li class="circle">xbot.common.command.<a href="BaseSetpointCommand.html" class="type-name-link" title="class in xbot.common.command">BaseSetpointCommand</a>
 <ul>
-<li class="circle">xbot.common.command.<a href="SetTargetCommand.html" class="type-name-link" title="class in xbot.common.command">SetTargetCommand</a>&lt;T&gt;</li>
+<li class="circle">xbot.common.command.<a href="SetTargetCommand.html" class="type-name-link" title="class in xbot.common.command">SetTargetCommand</a>&lt;TargetT&gt;</li>
 </ul>
 </li>
 <li class="circle">xbot.common.command.<a href="BaseWaitForMaintainerCommand.html" class="type-name-link" title="class in xbot.common.command">BaseWaitForMaintainerCommand</a></li>
@@ -113,7 +117,11 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">xbot.common.command.<a href="BaseSubsystem.html" class="type-name-link" title="class in xbot.common.command">BaseSubsystem</a> (implements xbot.common.advantage.<a href="../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a>, xbot.common.properties.<a href="../properties/IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a>)
 <ul>
-<li class="circle">xbot.common.command.<a href="BaseSetpointSubsystem.html" class="type-name-link" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;T&gt; (implements xbot.common.command.<a href="SupportsSetpointLock.html" title="interface in xbot.common.command">SupportsSetpointLock</a>)</li>
+<li class="circle">xbot.common.command.<a href="BaseSetpointSubsystem.html" class="type-name-link" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;TargetT,<wbr>PowerT&gt; (implements xbot.common.command.<a href="SupportsSetpointLock.html" title="interface in xbot.common.command">SupportsSetpointLock</a>)
+<ul>
+<li class="circle">xbot.common.command.<a href="BaseSimpleSetpointSubsystem.html" class="type-name-link" title="class in xbot.common.command">BaseSimpleSetpointSubsystem</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

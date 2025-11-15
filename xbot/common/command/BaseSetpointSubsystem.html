@@ -70,19 +70,20 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">xbot.common.command</a></div>
-<h1 title="Class BaseSetpointSubsystem" class="title">Class BaseSetpointSubsystem&lt;T&gt;</h1>
+<h1 title="Class BaseSetpointSubsystem" class="title">Class BaseSetpointSubsystem&lt;TargetT,<wbr>PowerT&gt;</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/SubsystemBase.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">edu.wpi.first.wpilibj2.command.SubsystemBase</a>
 <div class="inheritance"><a href="BaseSubsystem.html" title="class in xbot.common.command">xbot.common.command.BaseSubsystem</a>
-<div class="inheritance">xbot.common.command.BaseSetpointSubsystem&lt;T&gt;</div>
+<div class="inheritance">xbot.common.command.BaseSetpointSubsystem&lt;TargetT,<wbr>PowerT&gt;</div>
 </div>
 </div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>Type Parameters:</dt>
-<dd><code>T</code> - The type of the target value.</dd>
+<dd><code>TargetT</code> - The type of the target value.</dd>
+<dd><code>PowerT</code> - The type of the power value.</dd>
 </dl>
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
@@ -90,10 +91,10 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
-<dd><code><a href="../subsystems/drive/swerve/SwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveDriveSubsystem</a></code>, <code><a href="../subsystems/drive/swerve/SwerveSteeringSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveSteeringSubsystem</a></code></dd>
+<dd><code><a href="BaseSimpleSetpointSubsystem.html" title="class in xbot.common.command">BaseSimpleSetpointSubsystem</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">BaseSetpointSubsystem&lt;T&gt;</span>
+<div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">BaseSetpointSubsystem&lt;TargetT,<wbr>PowerT&gt;</span>
 <span class="extends-implements">extends <a href="BaseSubsystem.html" title="class in xbot.common.command">BaseSubsystem</a>
 implements <a href="SupportsSetpointLock.html" title="interface in xbot.common.command">SupportsSetpointLock</a></span></div>
 <div class="block">Base class for subsystems that have a setpoint managed by a maintainer.</div>
@@ -112,7 +113,7 @@ implements <a href="SupportsSetpointLock.html" title="interface in xbot.common.c
 <div class="col-first even-row-color"><code>protected boolean</code></div>
 <div class="col-second even-row-color"><code><a href="#atGoal" class="member-name-link">atGoal</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a></code></div>
+<div class="col-first odd-row-color"><code>protected <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#lastTargetValueUsedforAtGoal" class="member-name-link">lastTargetValueUsedforAtGoal</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 </div>
@@ -155,22 +156,22 @@ implements <a href="SupportsSetpointLock.html" title="interface in xbot.common.c
  double&nbsp;tolerance)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#areTwoTargetsEquivalent(T,T)" class="member-name-link">areTwoTargetsEquivalent</a><wbr>(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;target1,
- <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;target2)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#areTwoTargetsEquivalent(TargetT,TargetT)" class="member-name-link">areTwoTargetsEquivalent</a><wbr>(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a>&nbsp;target1,
+ <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a>&nbsp;target2)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a>&lt;<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a>&lt;<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createSetTargetCommand()" class="member-name-link">createSetTargetCommand</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a>&lt;<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createSetTargetCommand(T)" class="member-name-link">createSetTargetCommand</a><wbr>(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;value)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a>&lt;<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createSetTargetCommand(TargetT)" class="member-name-link">createSetTargetCommand</a><wbr>(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a>&nbsp;value)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getCurrentValue()" class="member-name-link">getCurrentValue</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Subsystem.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">Subsystem</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSetpointLock()" class="member-name-link">getSetpointLock</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getTargetValue()" class="member-name-link">getTargetValue</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract boolean</code></div>
@@ -183,10 +184,10 @@ implements <a href="SupportsSetpointLock.html" title="interface in xbot.common.c
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaintainerIsAtGoal(boolean)" class="member-name-link">setMaintainerIsAtGoal</a><wbr>(boolean&nbsp;atGoal)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setPower(double)" class="member-name-link">setPower</a><wbr>(double&nbsp;power)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setPower(PowerT)" class="member-name-link">setPower</a><wbr>(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">PowerT</a>&nbsp;power)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTargetValue(T)" class="member-name-link">setTargetValue</a><wbr>(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;value)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTargetValue(TargetT)" class="member-name-link">setTargetValue</a><wbr>(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a>&nbsp;value)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
@@ -223,7 +224,7 @@ implements <a href="SupportsSetpointLock.html" title="interface in xbot.common.c
 <li>
 <section class="detail" id="lastTargetValueUsedforAtGoal">
 <h3>lastTargetValueUsedforAtGoal</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a></span>&nbsp;<span class="element-name">lastTargetValueUsedforAtGoal</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a></span>&nbsp;<span class="element-name">lastTargetValueUsedforAtGoal</span></div>
 </section>
 </li>
 </ul>
@@ -273,25 +274,25 @@ implements <a href="SupportsSetpointLock.html" title="interface in xbot.common.c
 <li>
 <section class="detail" id="getCurrentValue()">
 <h3>getCurrentValue</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a></span>&nbsp;<span class="element-name">getCurrentValue</span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a></span>&nbsp;<span class="element-name">getCurrentValue</span>()</div>
 </section>
 </li>
 <li>
 <section class="detail" id="getTargetValue()">
 <h3>getTargetValue</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a></span>&nbsp;<span class="element-name">getTargetValue</span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a></span>&nbsp;<span class="element-name">getTargetValue</span>()</div>
 </section>
 </li>
 <li>
-<section class="detail" id="setTargetValue(T)">
+<section class="detail" id="setTargetValue(TargetT)">
 <h3 id="setTargetValue(java.lang.Object)">setTargetValue</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setTargetValue</span><wbr><span class="parameters">(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;value)</span></div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setTargetValue</span><wbr><span class="parameters">(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a>&nbsp;value)</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="setPower(double)">
-<h3>setPower</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPower</span><wbr><span class="parameters">(double&nbsp;power)</span></div>
+<section class="detail" id="setPower(PowerT)">
+<h3 id="setPower(java.lang.Object)">setPower</h3>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPower</span><wbr><span class="parameters">(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">PowerT</a>&nbsp;power)</span></div>
 </section>
 </li>
 <li>
@@ -301,22 +302,22 @@ implements <a href="SupportsSetpointLock.html" title="interface in xbot.common.c
 </section>
 </li>
 <li>
-<section class="detail" id="areTwoTargetsEquivalent(T,T)">
+<section class="detail" id="areTwoTargetsEquivalent(TargetT,TargetT)">
 <h3 id="areTwoTargetsEquivalent(java.lang.Object,java.lang.Object)">areTwoTargetsEquivalent</h3>
-<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">areTwoTargetsEquivalent</span><wbr><span class="parameters">(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;target1,
- <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;target2)</span></div>
+<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">areTwoTargetsEquivalent</span><wbr><span class="parameters">(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a>&nbsp;target1,
+ <a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a>&nbsp;target2)</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="createSetTargetCommand()">
 <h3>createSetTargetCommand</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a>&lt;<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&gt;</span>&nbsp;<span class="element-name">createSetTargetCommand</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a>&lt;<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a>&gt;</span>&nbsp;<span class="element-name">createSetTargetCommand</span>()</div>
 </section>
 </li>
 <li>
-<section class="detail" id="createSetTargetCommand(T)">
+<section class="detail" id="createSetTargetCommand(TargetT)">
 <h3 id="createSetTargetCommand(java.lang.Object)">createSetTargetCommand</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a>&lt;<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&gt;</span>&nbsp;<span class="element-name">createSetTargetCommand</span><wbr><span class="parameters">(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&nbsp;value)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a>&lt;<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a>&gt;</span>&nbsp;<span class="element-name">createSetTargetCommand</span><wbr><span class="parameters">(<a href="BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a>&nbsp;value)</span></div>
 </section>
 </li>
 <li>

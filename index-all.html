@@ -350,11 +350,9 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/BaseSetpointSubsystem.html#areTwoDoublesEquivalent(double,double,double)" class="member-name-link">areTwoDoublesEquivalent(double, double, double)</a> - Static method in class xbot.common.command.<a href="xbot/common/command/BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/subsystems/drive/swerve/SwerveDriveSubsystem.html#areTwoTargetsEquivalent(java.lang.Double,java.lang.Double)" class="member-name-link">areTwoTargetsEquivalent(Double, Double)</a> - Method in class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveDriveSubsystem</a></dt>
+<dt><a href="xbot/common/command/BaseSimpleSetpointSubsystem.html#areTwoTargetsEquivalent(java.lang.Double,java.lang.Double)" class="member-name-link">areTwoTargetsEquivalent(Double, Double)</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseSimpleSetpointSubsystem.html" title="class in xbot.common.command">BaseSimpleSetpointSubsystem</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/subsystems/drive/swerve/SwerveSteeringSubsystem.html#areTwoTargetsEquivalent(java.lang.Double,java.lang.Double)" class="member-name-link">areTwoTargetsEquivalent(Double, Double)</a> - Method in class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveSteeringSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveSteeringSubsystem</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="xbot/common/command/BaseSetpointSubsystem.html#areTwoTargetsEquivalent(T,T)" class="member-name-link">areTwoTargetsEquivalent(T, T)</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a></dt>
+<dt><a href="xbot/common/command/BaseSetpointSubsystem.html#areTwoTargetsEquivalent(TargetT,TargetT)" class="member-name-link">areTwoTargetsEquivalent(TargetT, TargetT)</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XXboxController.html#assertionManager" class="member-name-link">assertionManager</a> - Variable in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XXboxController.html" title="class in xbot.common.controls.sensors">XXboxController</a></dt>
 <dd>&nbsp;</dd>
@@ -416,11 +414,11 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html#%3Cinit%3E()" class="member-name-link">BaseDriveSubsystem()</a> - Constructor for class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/command/BaseMaintainerCommand.html" class="type-name-link" title="class in xbot.common.command">BaseMaintainerCommand</a>&lt;<a href="xbot/common/command/BaseMaintainerCommand.html" title="type parameter in BaseMaintainerCommand">T</a>&gt; - Class in <a href="xbot/common/command/package-summary.html">xbot.common.command</a></dt>
+<dt><a href="xbot/common/command/BaseMaintainerCommand.html" class="type-name-link" title="class in xbot.common.command">BaseMaintainerCommand</a>&lt;<a href="xbot/common/command/BaseMaintainerCommand.html" title="type parameter in BaseMaintainerCommand">TargetT</a>,<wbr><a href="xbot/common/command/BaseMaintainerCommand.html" title="type parameter in BaseMaintainerCommand">PowerT</a>&gt; - Class in <a href="xbot/common/command/package-summary.html">xbot.common.command</a></dt>
 <dd>
 <div class="block">A command that maintains a subsystem at a goal value (and allows human override).</div>
 </dd>
-<dt><a href="xbot/common/command/BaseMaintainerCommand.html#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem,xbot.common.properties.PropertyFactory,xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory,double,double)" class="member-name-link">BaseMaintainerCommand(BaseSetpointSubsystem&lt;T&gt;, PropertyFactory, HumanVsMachineDecider.HumanVsMachineDeciderFactory, double, double)</a> - Constructor for class xbot.common.command.<a href="xbot/common/command/BaseMaintainerCommand.html" title="class in xbot.common.command">BaseMaintainerCommand</a></dt>
+<dt><a href="xbot/common/command/BaseMaintainerCommand.html#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem,xbot.common.properties.PropertyFactory,xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory,double,double)" class="member-name-link">BaseMaintainerCommand(BaseSetpointSubsystem&lt;TargetT, PowerT&gt;, PropertyFactory, HumanVsMachineDecider.HumanVsMachineDeciderFactory, double, double)</a> - Constructor for class xbot.common.command.<a href="xbot/common/command/BaseMaintainerCommand.html" title="class in xbot.common.command">BaseMaintainerCommand</a></dt>
 <dd>
 <div class="block">Creates a new maintainer command.</div>
 </dd>
@@ -471,11 +469,27 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/BaseSetpointCommand.html#%3Cinit%3E(xbot.common.command.SupportsSetpointLock,xbot.common.command.SupportsSetpointLock...)" class="member-name-link">BaseSetpointCommand(SupportsSetpointLock, SupportsSetpointLock...)</a> - Constructor for class xbot.common.command.<a href="xbot/common/command/BaseSetpointCommand.html" title="class in xbot.common.command">BaseSetpointCommand</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/command/BaseSetpointSubsystem.html" class="type-name-link" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;<a href="xbot/common/command/BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&gt; - Class in <a href="xbot/common/command/package-summary.html">xbot.common.command</a></dt>
+<dt><a href="xbot/common/command/BaseSetpointSubsystem.html" class="type-name-link" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;<a href="xbot/common/command/BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a>,<wbr><a href="xbot/common/command/BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">PowerT</a>&gt; - Class in <a href="xbot/common/command/package-summary.html">xbot.common.command</a></dt>
 <dd>
 <div class="block">Base class for subsystems that have a setpoint managed by a maintainer.</div>
 </dd>
 <dt><a href="xbot/common/command/BaseSetpointSubsystem.html#%3Cinit%3E()" class="member-name-link">BaseSetpointSubsystem()</a> - Constructor for class xbot.common.command.<a href="xbot/common/command/BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/command/BaseSimpleMaintainerCommand.html" class="type-name-link" title="class in xbot.common.command">BaseSimpleMaintainerCommand</a> - Class in <a href="xbot/common/command/package-summary.html">xbot.common.command</a></dt>
+<dd>
+<div class="block">A base class for maintainer commands that use simple Double values for both
+ current and target values.</div>
+</dd>
+<dt><a href="xbot/common/command/BaseSimpleMaintainerCommand.html#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem,xbot.common.properties.PropertyFactory,xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory,double,double)" class="member-name-link">BaseSimpleMaintainerCommand(BaseSetpointSubsystem&lt;Double, Double&gt;, PropertyFactory, HumanVsMachineDecider.HumanVsMachineDeciderFactory, double, double)</a> - Constructor for class xbot.common.command.<a href="xbot/common/command/BaseSimpleMaintainerCommand.html" title="class in xbot.common.command">BaseSimpleMaintainerCommand</a></dt>
+<dd>
+<div class="block">Creates a new maintainer command.</div>
+</dd>
+<dt><a href="xbot/common/command/BaseSimpleSetpointSubsystem.html" class="type-name-link" title="class in xbot.common.command">BaseSimpleSetpointSubsystem</a> - Class in <a href="xbot/common/command/package-summary.html">xbot.common.command</a></dt>
+<dd>
+<div class="block">A base class for setpoint subsystems that use simple Double values for both
+ current and target values.</div>
+</dd>
+<dt><a href="xbot/common/command/BaseSimpleSetpointSubsystem.html#%3Cinit%3E()" class="member-name-link">BaseSimpleSetpointSubsystem()</a> - Constructor for class xbot.common.command.<a href="xbot/common/command/BaseSimpleSetpointSubsystem.html" title="class in xbot.common.command">BaseSimpleSetpointSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/simulation/BaseSimulationTest.html" class="type-name-link" title="class in xbot.common.simulation">BaseSimulationTest</a> - Class in <a href="xbot/common/simulation/package-summary.html">xbot.common.simulation</a></dt>
 <dd>&nbsp;</dd>
@@ -495,7 +509,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Command that waits for a setpoint subsystem to reach its goal</div>
 </dd>
-<dt><a href="xbot/common/command/BaseWaitForMaintainerCommand.html#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem,xbot.common.properties.PropertyFactory,double)" class="member-name-link">BaseWaitForMaintainerCommand(BaseSetpointSubsystem, PropertyFactory, double)</a> - Constructor for class xbot.common.command.<a href="xbot/common/command/BaseWaitForMaintainerCommand.html" title="class in xbot.common.command">BaseWaitForMaintainerCommand</a></dt>
+<dt><a href="xbot/common/command/BaseWaitForMaintainerCommand.html#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem,xbot.common.properties.PropertyFactory,double)" class="member-name-link">BaseWaitForMaintainerCommand(BaseSetpointSubsystem&lt;?, ?&gt;, PropertyFactory, double)</a> - Constructor for class xbot.common.command.<a href="xbot/common/command/BaseWaitForMaintainerCommand.html" title="class in xbot.common.command">BaseWaitForMaintainerCommand</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/BaseWPITest.html" class="type-name-link" title="class in xbot.common.injection">BaseWPITest</a> - Class in <a href="xbot/common/injection/package-summary.html">xbot.common.injection</a></dt>
 <dd>&nbsp;</dd>
@@ -1254,7 +1268,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/BaseSetpointSubsystem.html#createSetTargetCommand()" class="member-name-link">createSetTargetCommand()</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/command/BaseSetpointSubsystem.html#createSetTargetCommand(T)" class="member-name-link">createSetTargetCommand(T)</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a></dt>
+<dt><a href="xbot/common/command/BaseSetpointSubsystem.html#createSetTargetCommand(TargetT)" class="member-name-link">createSetTargetCommand(TargetT)</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/simulation/BaseSimulationTest.html#createSimpleSensorPayload(java.lang.String,org.json.JSONObject)" class="member-name-link">createSimpleSensorPayload(String, JSONObject)</a> - Method in class xbot.common.simulation.<a href="xbot/common/simulation/BaseSimulationTest.html" title="class in xbot.common.simulation">BaseSimulationTest</a></dt>
 <dd>&nbsp;</dd>
@@ -2621,7 +2635,7 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/command/BaseMaintainerCommand.html#getHumanInputMagnitude()" class="member-name-link">getHumanInputMagnitude()</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseMaintainerCommand.html" title="class in xbot.common.command">BaseMaintainerCommand</a></dt>
 <dd>
 <div class="block">Gets the magnitude of the human input to use for the maintain command,
- since the generic type T may not be a number.</div>
+ since the generic type <code>PowerT</code> may not be a number.</div>
 </dd>
 <dt><a href="xbot/common/subsystems/drive/swerve/commands/SwerveDriveMaintainerCommand.html#getHumanInputMagnitude()" class="member-name-link">getHumanInputMagnitude()</a> - Method in class xbot.common.subsystems.drive.swerve.commands.<a href="xbot/common/subsystems/drive/swerve/commands/SwerveDriveMaintainerCommand.html" title="class in xbot.common.subsystems.drive.swerve.commands">SwerveDriveMaintainerCommand</a></dt>
 <dd>&nbsp;</dd>
@@ -6109,8 +6123,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set the target position for the motor controller.</div>
 </dd>
-<dt><a href="xbot/common/command/BaseSetpointSubsystem.html#setPower(double)" class="member-name-link">setPower(double)</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html#setPower(double)" class="member-name-link">setPower(double)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/wpi_adapters/CANSparkMaxWpiAdapter.html#setPower(double)" class="member-name-link">setPower(double)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANSparkMaxWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANSparkMaxWpiAdapter</a></dt>
@@ -6123,16 +6135,18 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XSpeedController.html#setPower(double)" class="member-name-link">setPower(double)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XSpeedController.html" title="class in xbot.common.controls.actuators">XSpeedController</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/subsystems/drive/swerve/SwerveDriveSubsystem.html#setPower(double)" class="member-name-link">setPower(double)</a> - Method in class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveDriveSubsystem</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="xbot/common/subsystems/drive/swerve/SwerveSteeringSubsystem.html#setPower(double)" class="member-name-link">setPower(double)</a> - Method in class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveSteeringSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveSteeringSubsystem</a></dt>
-<dd>
-<div class="block">Sets the output power of the motor.</div>
-</dd>
 <dt><a href="xbot/common/subsystems/simple/SimpleMotorSubsystem.html#setPower(double)" class="member-name-link">setPower(double)</a> - Method in class xbot.common.subsystems.simple.<a href="xbot/common/subsystems/simple/SimpleMotorSubsystem.html" title="class in xbot.common.subsystems.simple">SimpleMotorSubsystem</a></dt>
 <dd>
 <div class="block">Sets the motor output power.</div>
 </dd>
+<dt><a href="xbot/common/subsystems/drive/swerve/SwerveDriveSubsystem.html#setPower(java.lang.Double)" class="member-name-link">setPower(Double)</a> - Method in class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveDriveSubsystem</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/subsystems/drive/swerve/SwerveSteeringSubsystem.html#setPower(java.lang.Double)" class="member-name-link">setPower(Double)</a> - Method in class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveSteeringSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveSteeringSubsystem</a></dt>
+<dd>
+<div class="block">Sets the output power of the motor.</div>
+</dd>
+<dt><a href="xbot/common/command/BaseSetpointSubsystem.html#setPower(PowerT)" class="member-name-link">setPower(PowerT)</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html#setPowerInternal(double)" class="member-name-link">setPowerInternal(double)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html#setPowerRange(double,double)" class="member-name-link">setPowerRange(double, double)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController</a></dt>
@@ -6363,10 +6377,14 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/components/BaseComponent.html#settableTimerImplementation()" class="member-name-link">settableTimerImplementation()</a> - Method in class xbot.common.injection.components.<a href="xbot/common/injection/components/BaseComponent.html" title="class in xbot.common.injection.components">BaseComponent</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/command/SetTargetCommand.html" class="type-name-link" title="class in xbot.common.command">SetTargetCommand</a>&lt;<a href="xbot/common/command/SetTargetCommand.html" title="type parameter in SetTargetCommand">T</a>&gt; - Class in <a href="xbot/common/command/package-summary.html">xbot.common.command</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="xbot/common/command/SetTargetCommand.html#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem)" class="member-name-link">SetTargetCommand(BaseSetpointSubsystem&lt;T&gt;)</a> - Constructor for class xbot.common.command.<a href="xbot/common/command/SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a></dt>
-<dd>&nbsp;</dd>
+<dt><a href="xbot/common/command/SetTargetCommand.html" class="type-name-link" title="class in xbot.common.command">SetTargetCommand</a>&lt;<a href="xbot/common/command/SetTargetCommand.html" title="type parameter in SetTargetCommand">TargetT</a>&gt; - Class in <a href="xbot/common/command/package-summary.html">xbot.common.command</a></dt>
+<dd>
+<div class="block">A command that sets a target value on a BaseSetpointSubsystem.</div>
+</dd>
+<dt><a href="xbot/common/command/SetTargetCommand.html#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem)" class="member-name-link">SetTargetCommand(BaseSetpointSubsystem&lt;TargetT, ?&gt;)</a> - Constructor for class xbot.common.command.<a href="xbot/common/command/SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a></dt>
+<dd>
+<div class="block">Creates a new SetTargetCommand.</div>
+</dd>
 <dt><a href="xbot/common/simulation/ResetSimulatorPositionCommand.html#setTargetPose(xbot.common.math.FieldPose)" class="member-name-link">setTargetPose(FieldPose)</a> - Method in class xbot.common.simulation.<a href="xbot/common/simulation/ResetSimulatorPositionCommand.html" title="class in xbot.common.simulation">ResetSimulatorPositionCommand</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/swerve/SwerveModuleSubsystem.html#setTargetState(edu.wpi.first.math.kinematics.SwerveModuleState)" class="member-name-link">setTargetState(SwerveModuleState)</a> - Method in class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></dt>
@@ -6387,10 +6405,12 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets target angle in degrees</div>
 </dd>
-<dt><a href="xbot/common/command/BaseSetpointSubsystem.html#setTargetValue(T)" class="member-name-link">setTargetValue(T)</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a></dt>
+<dt><a href="xbot/common/command/BaseSetpointSubsystem.html#setTargetValue(TargetT)" class="member-name-link">setTargetValue(TargetT)</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/command/SetTargetCommand.html#setTargetValue(T)" class="member-name-link">setTargetValue(T)</a> - Method in class xbot.common.command.<a href="xbot/common/command/SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a></dt>
-<dd>&nbsp;</dd>
+<dt><a href="xbot/common/command/SetTargetCommand.html#setTargetValue(TargetT)" class="member-name-link">setTargetValue(TargetT)</a> - Method in class xbot.common.command.<a href="xbot/common/command/SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a></dt>
+<dd>
+<div class="block">Sets the target value to be applied when the command is initialized.</div>
+</dd>
 <dt><a href="edu/wpi/first/wpilibj/MockLidarLite.html#setTestDistance(int)" class="member-name-link">setTestDistance(int)</a> - Method in class edu.wpi.first.wpilibj.<a href="edu/wpi/first/wpilibj/MockLidarLite.html" title="class in edu.wpi.first.wpilibj">MockLidarLite</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/logic/VelocityThrottleModule.html#setThrottleLimits(double,double)" class="member-name-link">setThrottleLimits(double, double)</a> - Method in class xbot.common.logic.<a href="xbot/common/logic/VelocityThrottleModule.html" title="class in xbot.common.logic">VelocityThrottleModule</a></dt>
@@ -6615,7 +6635,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Command that waits for a maintainer to be at its goal or until a timeout.</div>
 </dd>
-<dt><a href="xbot/common/command/SimpleWaitForMaintainerCommand.html#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem,java.util.function.DoubleSupplier)" class="member-name-link">SimpleWaitForMaintainerCommand(BaseSetpointSubsystem&lt;?&gt;, DoubleSupplier)</a> - Constructor for class xbot.common.command.<a href="xbot/common/command/SimpleWaitForMaintainerCommand.html" title="class in xbot.common.command">SimpleWaitForMaintainerCommand</a></dt>
+<dt><a href="xbot/common/command/SimpleWaitForMaintainerCommand.html#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem,java.util.function.DoubleSupplier)" class="member-name-link">SimpleWaitForMaintainerCommand(BaseSetpointSubsystem&lt;?, ?&gt;, DoubleSupplier)</a> - Constructor for class xbot.common.command.<a href="xbot/common/command/SimpleWaitForMaintainerCommand.html" title="class in xbot.common.command">SimpleWaitForMaintainerCommand</a></dt>
 <dd>
 <div class="block">Creates a new SimpleWaitForMaintainerCommand instance.</div>
 </dd>

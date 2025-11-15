@@ -156,7 +156,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseDriveSubsystem</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/command/BaseMaintainerCommand.html" title="class in xbot.common.command">BaseMaintainerCommand</a>&lt;<a href="xbot/common/command/BaseMaintainerCommand.html" title="type parameter in BaseMaintainerCommand">T</a>&gt;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/command/BaseMaintainerCommand.html" title="class in xbot.common.command">BaseMaintainerCommand</a>&lt;<a href="xbot/common/command/BaseMaintainerCommand.html" title="type parameter in BaseMaintainerCommand">TargetT</a>,<wbr><a href="xbot/common/command/BaseMaintainerCommand.html" title="type parameter in BaseMaintainerCommand">PowerT</a>&gt;</div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A command that maintains a subsystem at a goal value (and allows human override).</div>
 </div>
@@ -183,9 +183,19 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/command/BaseSetpointCommand.html" title="class in xbot.common.command">BaseSetpointCommand</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/command/BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;<a href="xbot/common/command/BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">T</a>&gt;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/command/BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;<a href="xbot/common/command/BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">TargetT</a>,<wbr><a href="xbot/common/command/BaseSetpointSubsystem.html" title="type parameter in BaseSetpointSubsystem">PowerT</a>&gt;</div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Base class for subsystems that have a setpoint managed by a maintainer.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/command/BaseSimpleMaintainerCommand.html" title="class in xbot.common.command">BaseSimpleMaintainerCommand</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">A base class for maintainer commands that use simple Double values for both
+ current and target values.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/command/BaseSimpleSetpointSubsystem.html" title="class in xbot.common.command">BaseSimpleSetpointSubsystem</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">A base class for setpoint subsystems that use simple Double values for both
+ current and target values.</div>
 </div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/simulation/BaseSimulationTest.html" title="class in xbot.common.simulation">BaseSimulationTest</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
@@ -772,8 +782,10 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/controls/sensors/buttons/SettableBooleanSuppler.html" title="class in xbot.common.controls.sensors.buttons">SettableBooleanSuppler</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/command/SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a>&lt;<a href="xbot/common/command/SetTargetCommand.html" title="type parameter in SetTargetCommand">T</a>&gt;</div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/command/SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a>&lt;<a href="xbot/common/command/SetTargetCommand.html" title="type parameter in SetTargetCommand">TargetT</a>&gt;</div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">A command that sets a target value on a BaseSetpointSubsystem.</div>
+</div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="xbot/common/logging/SilentRobotAssertionManager.html" title="class in xbot.common.logging">SilentRobotAssertionManager</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Version of RobotAssertionManager that prevents throwing of exceptions.</div>

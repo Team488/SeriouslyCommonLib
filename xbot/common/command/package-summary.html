@@ -172,7 +172,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Enhanced version of WPILib's Command that allows for extension of existing
  functionality.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="BaseMaintainerCommand.html" title="class in xbot.common.command">BaseMaintainerCommand</a>&lt;T&gt;</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="BaseMaintainerCommand.html" title="class in xbot.common.command">BaseMaintainerCommand</a>&lt;TargetT,<wbr>PowerT&gt;</div>
 <div class="col-last odd-row-color class-summary class-summary-tab2">
 <div class="block">A command that maintains a subsystem at a goal value (and allows human override).</div>
 </div>
@@ -197,9 +197,19 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first even-row-color class-summary class-summary-tab2"><a href="BaseSetpointCommand.html" title="class in xbot.common.command">BaseSetpointCommand</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">&nbsp;</div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;T&gt;</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;TargetT,<wbr>PowerT&gt;</div>
 <div class="col-last odd-row-color class-summary class-summary-tab2">
 <div class="block">Base class for subsystems that have a setpoint managed by a maintainer.</div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="BaseSimpleMaintainerCommand.html" title="class in xbot.common.command">BaseSimpleMaintainerCommand</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">
+<div class="block">A base class for maintainer commands that use simple Double values for both
+ current and target values.</div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="BaseSimpleSetpointSubsystem.html" title="class in xbot.common.command">BaseSimpleSetpointSubsystem</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
+<div class="block">A base class for setpoint subsystems that use simple Double values for both
+ current and target values.</div>
 </div>
 <div class="col-first even-row-color class-summary class-summary-tab2"><a href="BaseSubsystem.html" title="class in xbot.common.command">BaseSubsystem</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">&nbsp;</div>
@@ -220,8 +230,10 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color class-summary class-summary-tab2">&nbsp;</div>
 <div class="col-first even-row-color class-summary class-summary-tab2"><a href="RealSmartDashboardCommandPutter.html" title="class in xbot.common.command">RealSmartDashboardCommandPutter</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">&nbsp;</div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a>&lt;T&gt;</div>
-<div class="col-last odd-row-color class-summary class-summary-tab2">&nbsp;</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="SetTargetCommand.html" title="class in xbot.common.command">SetTargetCommand</a>&lt;TargetT&gt;</div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
+<div class="block">A command that sets a target value on a BaseSetpointSubsystem.</div>
+</div>
 <div class="col-first even-row-color class-summary class-summary-tab2"><a href="SimpleWaitForMaintainerCommand.html" title="class in xbot.common.command">SimpleWaitForMaintainerCommand</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">
 <div class="block">Command that waits for a maintainer to be at its goal or until a timeout.</div>
