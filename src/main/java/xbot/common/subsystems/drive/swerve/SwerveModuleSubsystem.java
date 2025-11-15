@@ -92,8 +92,8 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
             this.getDriveSubsystem().setTargetValue(this.targetState.speedMetersPerSecond);
         } else {
             // We are in degraded state. Don't set anything, pray the other modules can keep working.
-            this.getSteeringSubsystem().setPower(0);
-            this.getDriveSubsystem().setPower(0);
+            this.getSteeringSubsystem().setPower(0.0);
+            this.getDriveSubsystem().setPower(0.0);
         }
     }
 

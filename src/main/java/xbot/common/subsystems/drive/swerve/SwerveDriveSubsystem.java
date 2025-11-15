@@ -3,7 +3,7 @@ package xbot.common.subsystems.drive.swerve;
 import edu.wpi.first.units.measure.Distance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import xbot.common.command.BaseSetpointSubsystem;
+import xbot.common.command.BaseSimpleSetpointSubsystem;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
@@ -23,7 +23,7 @@ import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 @SwerveSingleton
-public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
+public class SwerveDriveSubsystem extends BaseSimpleSetpointSubsystem {
     private static final Logger log = LogManager.getLogger(SwerveDriveSubsystem.class);
 
     private final String label;
@@ -139,7 +139,7 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
     }
 
     @Override
-    public void setPower(double power) {
+    public void setPower(Double power) {
         getMotorController().ifPresent(mc -> mc.setPower(power));
     }
 
@@ -177,11 +177,6 @@ public class SwerveDriveSubsystem extends BaseSetpointSubsystem<Double> {
         } else {
             getMotorController().ifPresent(mc -> mc.setPowerRange(-1, 1));
         }
-    }
-
-    @Override
-    protected boolean areTwoTargetsEquivalent(Double target1, Double target2) {
-        return BaseSetpointSubsystem.areTwoDoublesEquivalent(target1, target2);
     }
 
     private double metersPerMotorRotationFromGearRatioAndWheelDiameter(double gearRatio, Distance wheelDiameter) {
