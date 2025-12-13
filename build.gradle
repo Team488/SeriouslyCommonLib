@@ -101,6 +101,18 @@ task(replayWatch, type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
+// Configuration for Electrical Contract Report
+task(electricalReport, type: JavaExec) {
+    mainClass = "xbot.electrical.contract_report.Main"
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+// Configuration for Electrical Analysis
+task(electricalAnalysis, type: JavaExec) {
+    mainClass = "xbot.electrical.analysis.Main"
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 sourceSets {
     main {
         resources {
