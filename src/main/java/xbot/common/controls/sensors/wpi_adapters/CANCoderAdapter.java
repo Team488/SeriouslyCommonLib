@@ -60,7 +60,7 @@ public class CANCoderAdapter extends XCANCoder {
         this.inverted = deviceInfo.inverted;
         this.magnetOffset = 0.0;
 
-        this.cancoder = new CANcoder(deviceInfo.channel, deviceInfo.canBusId.id());
+        this.cancoder = new CANcoder(deviceInfo.channel, deviceInfo.canBusId.toPhoenixCANBus());
 
         var currentConfig = getCurrentConfiguration();
         currentConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;

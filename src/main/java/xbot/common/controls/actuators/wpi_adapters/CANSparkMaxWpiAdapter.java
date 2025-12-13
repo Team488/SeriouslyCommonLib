@@ -136,7 +136,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     @Override
     public void setTrapezoidalProfileMaxVelocity(AngularVelocity velocity) {
         var config = new SparkMaxConfig();
-        config.closedLoop.maxMotion.maxVelocity(velocity.in(RPM));
+        config.closedLoop.maxMotion.cruiseVelocity(velocity.in(RPM));
         this.internalSparkMax.configure(config,
                 SparkBase.ResetMode.kNoResetSafeParameters,
                 SparkBase.PersistMode.kNoPersistParameters);
@@ -152,8 +152,8 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         config.closedLoop
                 .p(p, getClosedLoopSlot(slot))
                 .i(i, getClosedLoopSlot(slot))
-                .d(d, getClosedLoopSlot(slot))
-                .velocityFF(velocityFF, getClosedLoopSlot(slot));
+                .d(d, getClosedLoopSlot(slot));
+        config.closedLoop.feedForward.kV(velocityFF, getClosedLoopSlot(slot));
         this.internalSparkMax.configure(config,
                 SparkBase.ResetMode.kNoResetSafeParameters,
                 SparkBase.PersistMode.kNoPersistParameters);
@@ -213,7 +213,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         }
         this.internalSparkMax
                 .getClosedLoopController()
-                .setReference(rawPosition.in(Rotations), controlType, getClosedLoopSlot(slot));
+                .setSetpoint(rawPosition.in(Rotations), controlType, getClosedLoopSlot(slot));
     }
 
     public AngularVelocity getRawVelocity_internal() {
@@ -233,7 +233,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         }
         this.internalSparkMax
                 .getClosedLoopController()
-                .setReference(rawVelocity.in(RPM), controlType, getClosedLoopSlot(slot));
+                .setSetpoint(rawVelocity.in(RPM), controlType, getClosedLoopSlot(slot));
     }
 
     @Override

@@ -3,7 +3,7 @@
   "name": "AdvantageKit",
   "version": "4.0.0",
   "uuid": "d820cc26-74e3-11ec-90d6-0242ac120003",
-  "frcYear": "2025",
+  "frcYear": "2026beta",
   "mavenUrls": [
     "https://frcmaven.wpi.edu/artifactory/littletonrobotics-mvn-release/"
   ],

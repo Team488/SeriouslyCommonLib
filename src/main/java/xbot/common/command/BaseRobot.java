@@ -210,7 +210,7 @@ public abstract class BaseRobot extends LoggedRobot {
         this.autonomousCommand = this.autonomousCommandSelector.getCurrentAutonomousCommand();
         if(this.autonomousCommand != null) {
             log.info("Starting autonomous command: " + this.autonomousCommand);
-            this.autonomousCommand.schedule();
+            CommandScheduler.getInstance().schedule(this.autonomousCommand);
         } else {
             log.warn("No autonomous command set.");
         }
