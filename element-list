@@ -37,3 +37,5 @@ xbot.common.subsystems.pose.commands
 xbot.common.subsystems.simple
 xbot.common.subsystems.vision
 xbot.common.trajectory
+xbot.electrical.analysis
+xbot.electrical.contract_report
