@@ -6,5 +6,5 @@ package xbot.common.injection.electrical_contract;
  */
 public record CANBusId(String id) {
     public static final CANBusId RIO = new CANBusId("rio");
-    public static final CANBusId DefaultCanivore = new CANBusId("*");
+    public static final CANBusId Canivore = new CANBusId("*");
 }
