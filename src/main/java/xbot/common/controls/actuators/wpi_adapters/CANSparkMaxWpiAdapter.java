@@ -1,5 +1,7 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkLowLevel;
@@ -87,8 +89,8 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
                         : SparkBaseConfig.IdleMode.kCoast)
                 .smartCurrentLimit((int) outputConfig.statorCurrentLimit.in(Amps));
         this.internalSparkMax.configure(config,
-                SparkBase.ResetMode.kResetSafeParameters,
-                SparkBase.PersistMode.kPersistParameters);
+                ResetMode.kResetSafeParameters,
+                PersistMode.kPersistParameters);
     }
 
     @Override
@@ -100,8 +102,8 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         var config = new SparkMaxConfig();
         config.openLoopRampRate(dutyCyclePeriod.in(Seconds));
         this.internalSparkMax.configure(config,
-                SparkBase.ResetMode.kNoResetSafeParameters,
-                SparkBase.PersistMode.kNoPersistParameters);
+                ResetMode.kNoResetSafeParameters,
+                PersistMode.kNoPersistParameters);
     }
 
     @Override
@@ -113,8 +115,8 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         var config = new SparkMaxConfig();
         config.closedLoopRampRate(dutyCyclePeriod.in(Seconds));
         this.internalSparkMax.configure(config,
-                SparkBase.ResetMode.kNoResetSafeParameters,
-                SparkBase.PersistMode.kNoPersistParameters);
+                ResetMode.kNoResetSafeParameters,
+                PersistMode.kNoPersistParameters);
     }
 
     @Override
@@ -122,8 +124,8 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         var config = new SparkMaxConfig();
         config.closedLoop.maxMotion.maxAcceleration(acceleration.in(RPM.per(Second)));
         this.internalSparkMax.configure(config,
-                SparkBase.ResetMode.kNoResetSafeParameters,
-                SparkBase.PersistMode.kNoPersistParameters);
+                ResetMode.kNoResetSafeParameters,
+                PersistMode.kNoPersistParameters);
     }
 
     @Override
@@ -138,8 +140,8 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         var config = new SparkMaxConfig();
         config.closedLoop.maxMotion.cruiseVelocity(velocity.in(RPM));
         this.internalSparkMax.configure(config,
-                SparkBase.ResetMode.kNoResetSafeParameters,
-                SparkBase.PersistMode.kNoPersistParameters);
+                ResetMode.kNoResetSafeParameters,
+                PersistMode.kNoPersistParameters);
     }
 
     @Override
@@ -155,8 +157,8 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
                 .d(d, getClosedLoopSlot(slot));
         config.closedLoop.feedForward.kV(velocityFF, getClosedLoopSlot(slot));
         this.internalSparkMax.configure(config,
-                SparkBase.ResetMode.kNoResetSafeParameters,
-                SparkBase.PersistMode.kNoPersistParameters);
+                ResetMode.kNoResetSafeParameters,
+                PersistMode.kNoPersistParameters);
     }
 
     @Override
@@ -187,8 +189,8 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
                 .minOutput(minPower)
                 .maxOutput(maxPower);
         this.internalSparkMax.configure(config,
-                SparkBase.ResetMode.kNoResetSafeParameters,
-                SparkBase.PersistMode.kNoPersistParameters);
+                ResetMode.kNoResetSafeParameters,
+                PersistMode.kNoPersistParameters);
     }
 
     public Angle getRawPosition_internal() {
