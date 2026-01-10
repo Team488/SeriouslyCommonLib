@@ -1,7 +1,6 @@
 package xbot.common.injection.electrical_contract;
 
 import com.ctre.phoenix6.CANBus;
-import scala.util.hashing.Hashing;
 
 /**
  * Represents a CAN bus ID

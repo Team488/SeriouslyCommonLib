@@ -316,7 +316,6 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     protected double getPerformanceTimestampInMs() {
-        return XTimer.getFPGATimestamp() / 1000.0;
-
+        return XTimer.getFPGATimestamp() * 1000.0;
     }
 }

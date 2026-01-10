@@ -7,7 +7,7 @@ import xbot.common.controls.sensors.XTimer;
 
 public class TimeLogger {
 
-    private static Logger log = LogManager.getLogger(TimeLogger.class);
+    private static final Logger log = LogManager.getLogger(TimeLogger.class);
 
     boolean firstCall;
     double lastReportTime;
@@ -47,13 +47,13 @@ public class TimeLogger {
 
         if (getPerformanceTimestamp() - lastReportTime > reportingIntervalInSeconds && callCount > 0) {
             double averageLoopDuration = accumulatedTime / (double)callCount;
-            log.info("Average duration for " + name + " was: " + averageLoopDuration);
+            log.info("Average duration for {} was: {} seconds", name, averageLoopDuration);
 
             reset();
         }
     }
 
     private double getPerformanceTimestamp() {
-        return XTimer.getFPGATimestamp() / 1000000.0;
+        return XTimer.getFPGATimestamp();
     }
 }
