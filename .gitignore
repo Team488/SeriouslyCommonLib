@@ -42,3 +42,6 @@ WPI_Native_Libraries.properties
 .project
 .apt_generated*
 *.dll
+
+#Claude
+.claude/
