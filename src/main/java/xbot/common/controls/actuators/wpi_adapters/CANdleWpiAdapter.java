@@ -162,11 +162,10 @@ public class CANdleWpiAdapter extends XCANLightController {
                         .withColor(toRGBWColor(color)));
     }
 
-
+    /**
+     * Converts a WPILib Color to a CTRE RGBWColor.
+     */
     private RGBWColor toRGBWColor(Color color) {
-        return new RGBWColor(
-                (int)(color.red * 255),
-                (int)(color.green * 255),
-                (int)(color.blue * 255), 0);
+        return new RGBWColor(color);
     }
 }
