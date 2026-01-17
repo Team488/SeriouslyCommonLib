@@ -210,7 +210,7 @@ public abstract class BaseRobot extends LoggedRobot {
         this.autonomousCommand = this.autonomousCommandSelector.getCurrentAutonomousCommand();
         if(this.autonomousCommand != null) {
             log.info("Starting autonomous command: " + this.autonomousCommand);
-            this.autonomousCommand.schedule();
+            CommandScheduler.getInstance().schedule(this.autonomousCommand);
         } else {
             log.warn("No autonomous command set.");
         }
@@ -316,7 +316,6 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     protected double getPerformanceTimestampInMs() {
-        return org.littletonrobotics.junction.Logger.getRealTimestamp()*1.0 / 1000.0;
-
+        return XTimer.getFPGATimestamp() * 1000.0;
     }
 }

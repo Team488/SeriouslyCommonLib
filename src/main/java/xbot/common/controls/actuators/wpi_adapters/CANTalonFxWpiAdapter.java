@@ -77,7 +77,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
             @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties
     ) {
         super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties);
-        this.internalTalonFx = new TalonFX(info.deviceId(), info.busId().id());
+        this.internalTalonFx = new TalonFX(info.deviceId(), info.busId().toPhoenixCANBus());
 
         this.rotorPositionSignal = this.internalTalonFx.getRotorPosition(false);
         this.rotorVelocitySignal = this.internalTalonFx.getRotorVelocity(false);

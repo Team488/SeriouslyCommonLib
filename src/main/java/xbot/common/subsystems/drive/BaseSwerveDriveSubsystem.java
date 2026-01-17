@@ -6,7 +6,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -15,19 +14,20 @@ import org.apache.logging.log4j.Logger;
 import xbot.common.advantage.AKitLogger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.sensors.XTimer;
-import xbot.common.injection.electrical_contract.XDeadwheelElectricalContract;
 import xbot.common.injection.swerve.SwerveComponent;
 import xbot.common.math.PIDDefaults;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
-import xbot.common.math.kinematics.DeadwheelKinematics;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.drive.swerve.ISwerveAdvisorDriveSupport;
+import xbot.common.subsystems.drive.swerve.SwerveModuleStates;
 import xbot.common.subsystems.drive.swerve.SwerveDriveSubsystem;
 import xbot.common.subsystems.drive.swerve.SwerveModuleSubsystem;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
+
+import java.util.function.Consumer;
 
 public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
         implements DataFrameRefreshable, ISwerveAdvisorDriveSupport {
@@ -43,7 +43,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
     private final DoubleProperty maxAccelerationMps2;
 
     private final SwerveDriveKinematics swerveDriveKinematics;
-    private final DeadwheelKinematics deadwheelDriveKinematics;
     private String activeModuleLabel;
 
     private double translationXTargetMPS;
@@ -90,8 +89,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
 
     public BaseSwerveDriveSubsystem(PIDManager.PIDManagerFactory pidFactory, PropertyFactory pf,
             SwerveComponent frontLeftSwerve, SwerveComponent frontRightSwerve,
-            SwerveComponent rearLeftSwerve, SwerveComponent rearRightSwerve,
-            XDeadwheelElectricalContract deadwheelContract) {
+            SwerveComponent rearLeftSwerve, SwerveComponent rearRightSwerve) {
         log.info("Creating DriveSubsystem");
         pf.setPrefix(this);
 
@@ -105,9 +103,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
                 this.frontRightSwerveModuleSubsystem.getModuleTranslation(),
                 this.rearLeftSwerveModuleSubsystem.getModuleTranslation(),
                 this.rearRightSwerveModuleSubsystem.getModuleTranslation());
-        this.deadwheelDriveKinematics = new DeadwheelKinematics(
-                deadwheelContract.getDistanceFromCenterToOuterBumperX().in(Units.Meters) * 2.0);
-
         this.maxTargetSpeedMps = pf.createPersistentProperty("MaxTargetSpeedMetersPerSecond", 4.5);
         this.maxTargetTurnRate = pf.createPersistentProperty("MaxTargetTurnRate", 8.0);
         this.maxAccelerationMps2 = pf.createPersistentProperty("MaxAccelerationMps2", 9.0); // TODO: tune.
@@ -179,10 +174,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
                 2.0, // Error threshold
                 0.2, // Derivative threshold
                 0.2); // Time threshold
-    }
-
-    public DeadwheelKinematics getDeadwheelDriveKinematics() {
-        return this.deadwheelDriveKinematics;
     }
 
     public SwerveDriveKinematics getSwerveDriveKinematics() {
@@ -464,7 +455,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
         this.getFrontRightSwerveModuleSubsystem().setTargetState(frontRight);
         this.getRearLeftSwerveModuleSubsystem().setTargetState(frontRight);
         this.getRearRightSwerveModuleSubsystem().setTargetState(frontLeft);
-
     }
 
     /*
@@ -473,10 +463,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
      * target state.
      */
     public void setAllSwerveModulesToTargetState(SwerveModuleState swerveModuleState) {
-        this.getFrontLeftSwerveModuleSubsystem().setTargetState(swerveModuleState, false);
-        this.getFrontRightSwerveModuleSubsystem().setTargetState(swerveModuleState, false);
-        this.getRearLeftSwerveModuleSubsystem().setTargetState(swerveModuleState, false);
-        this.getRearRightSwerveModuleSubsystem().setTargetState(swerveModuleState, false);
+        forEachSwerveModule(module -> module.setTargetState(swerveModuleState, false));
     }
 
     /***
@@ -488,10 +475,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
      * @param steeringPower -1 to 1 power to apply to the steering modules.
      */
     public void crabDrive(double drivePower, double steeringPower) {
-        this.getFrontLeftSwerveModuleSubsystem().setPowers(drivePower, steeringPower);
-        this.getFrontRightSwerveModuleSubsystem().setPowers(drivePower, steeringPower);
-        this.getRearLeftSwerveModuleSubsystem().setPowers(drivePower, steeringPower);
-        this.getRearRightSwerveModuleSubsystem().setPowers(drivePower, steeringPower);
+        forEachSwerveModule(module -> module.setPowers(drivePower, steeringPower));
     }
 
     @Override
@@ -523,6 +507,52 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
 
     public SwerveModuleSubsystem getRearRightSwerveModuleSubsystem() {
         return this.rearRightSwerveModuleSubsystem;
+    }
+
+    /***
+     * Gets the current states of all four swerve modules.
+     * @return The current states of all four swerve modules.
+     */
+    public SwerveModuleStates getCurrentSwerveStates() {
+        return new SwerveModuleStates(
+                this.getFrontLeftSwerveModuleSubsystem().getCurrentState(),
+                this.getFrontRightSwerveModuleSubsystem().getCurrentState(),
+                this.getRearLeftSwerveModuleSubsystem().getCurrentState(),
+                this.getRearRightSwerveModuleSubsystem().getCurrentState());
+    }
+
+    /***
+     * Gets the target states of all four swerve modules.
+     * @return The target states of all four swerve modules.
+     */
+    public SwerveModuleStates getTargetSwerveStates() {
+        return new SwerveModuleStates(
+                this.getFrontLeftSwerveModuleSubsystem().getTargetState(),
+                this.getFrontRightSwerveModuleSubsystem().getTargetState(),
+                this.getRearLeftSwerveModuleSubsystem().getTargetState(),
+                this.getRearRightSwerveModuleSubsystem().getTargetState());
+    }
+
+    /***
+     * Sets the target states of all four swerve modules.
+     * @param targetStates The target states to set all four swerve modules to.
+     */
+    public void setTargetSwerveStates(SwerveModuleStates targetStates) {
+        this.getFrontLeftSwerveModuleSubsystem().setTargetState(targetStates.frontLeft());
+        this.getFrontRightSwerveModuleSubsystem().setTargetState(targetStates.frontRight());
+        this.getRearLeftSwerveModuleSubsystem().setTargetState(targetStates.rearLeft());
+        this.getRearRightSwerveModuleSubsystem().setTargetState(targetStates.rearRight());
+    }
+
+    /***
+     * Applies the given consumer to each swerve module subsystem.
+     * @param consumer The consumer to apply to each swerve module subsystem.
+     */
+    public void forEachSwerveModule(Consumer<SwerveModuleSubsystem> consumer) {
+        consumer.accept(this.getFrontLeftSwerveModuleSubsystem());
+        consumer.accept(this.getFrontRightSwerveModuleSubsystem());
+        consumer.accept(this.getRearLeftSwerveModuleSubsystem());
+        consumer.accept(this.getRearRightSwerveModuleSubsystem());
     }
 
     /**
@@ -620,28 +650,13 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
                 () -> this.setQuickAlignActive(false));
     }
 
-    public SwerveModuleState[] getSwerveModuleStates() {
-        return new SwerveModuleState[] {
-                getFrontLeftSwerveModuleSubsystem().getCurrentState(),
-                getFrontRightSwerveModuleSubsystem().getCurrentState(),
-                getRearLeftSwerveModuleSubsystem().getCurrentState(),
-                getRearRightSwerveModuleSubsystem().getCurrentState()
-        };
-    }
-
     public void setNoviceMode(boolean enabled) {
         noviceMode = enabled;
-        getFrontLeftSwerveModuleSubsystem().setNoviceMode(enabled);
-        getFrontRightSwerveModuleSubsystem().setNoviceMode(enabled);
-        getRearLeftSwerveModuleSubsystem().setNoviceMode(enabled);
-        getRearRightSwerveModuleSubsystem().setNoviceMode(enabled);
+        forEachSwerveModule(module -> module.setNoviceMode(enabled));
     }
 
     public void setDriveModuleCurrentLimits(SwerveDriveSubsystem.CurrentLimitMode mode) {
-        getFrontLeftSwerveModuleSubsystem().setDriveCurrentLimits(mode);
-        getFrontRightSwerveModuleSubsystem().setDriveCurrentLimits(mode);
-        getRearLeftSwerveModuleSubsystem().setDriveCurrentLimits(mode);
-        getRearRightSwerveModuleSubsystem().setDriveCurrentLimits(mode);
+        forEachSwerveModule(module -> module.setDriveCurrentLimits(mode));
     }
 
     public Command createChangeDriveCurrentLimitsCommand(SwerveDriveSubsystem.CurrentLimitMode mode) {
@@ -666,12 +681,9 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
     }
 
     public void refreshDataFrame() {
-        frontLeftSwerveModuleSubsystem.refreshDataFrame();
-        frontRightSwerveModuleSubsystem.refreshDataFrame();
-        rearLeftSwerveModuleSubsystem.refreshDataFrame();
-        rearRightSwerveModuleSubsystem.refreshDataFrame();
+        forEachSwerveModule(SwerveModuleSubsystem::refreshDataFrame);
 
         aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
-        aKitLog.record("CurrentSwerveState", getSwerveModuleStates());
+        aKitLog.record("CurrentSwerveState", getCurrentSwerveStates().toArray());
     }
 }

@@ -11,7 +11,8 @@ import xbot.common.properties.PropertyFactory;
 
 /**
  * A command that maintains a subsystem at a goal value (and allows human override).
- * @param <T> The type of the setpoint being maintained.
+ * @param <TargetT> The type of the setpoint being maintained.
+ * @param <PowerT> The type of the power being applied to the subsystem.
  * It runs a state machine to decide if the subsystem should be in human control, machine control, or coasting:
  * <pre class="mermaid">
     flowchart TD
@@ -28,9 +29,9 @@ import xbot.common.properties.PropertyFactory;
         IMC-->MC
  * </pre>
  */
-public abstract class BaseMaintainerCommand<T> extends BaseCommand {
+public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand {
 
-    BaseSetpointSubsystem<T> subsystemToMaintain;
+    BaseSetpointSubsystem<TargetT, PowerT> subsystemToMaintain;
 
 
     protected final DoubleProperty errorToleranceProp;
@@ -48,9 +49,9 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
      * @param defaultErrorTolerance The default error tolerance.
      * @param defaultTimeStableWindow The default time stable window.
      */
-    public BaseMaintainerCommand(BaseSetpointSubsystem<T> subsystemToMaintain, PropertyFactory pf,
-            HumanVsMachineDeciderFactory humanVsMachineDeciderFactory,
-            double defaultErrorTolerance, double defaultTimeStableWindow) {
+    public BaseMaintainerCommand(BaseSetpointSubsystem<TargetT, PowerT> subsystemToMaintain, PropertyFactory pf,
+                                 HumanVsMachineDeciderFactory humanVsMachineDeciderFactory,
+                                 double defaultErrorTolerance, double defaultTimeStableWindow) {
         this.subsystemToMaintain = subsystemToMaintain;
         this.addRequirements(subsystemToMaintain);
 
@@ -221,11 +222,11 @@ public abstract class BaseMaintainerCommand<T> extends BaseCommand {
      * Gets the human input to use for the maintain command.
      * @return The human input.
      */
-    protected abstract double getHumanInput();
+    protected abstract PowerT getHumanInput();
 
     /**
      * Gets the magnitude of the human input to use for the maintain command,
-     * since the generic type T may not be a number.
+     * since the generic type {@code PowerT} may not be a number.
      * @return The magnitude of the human input.
      */
     protected abstract double getHumanInputMagnitude();

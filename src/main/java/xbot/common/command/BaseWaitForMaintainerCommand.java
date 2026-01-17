@@ -9,12 +9,12 @@ import xbot.common.properties.PropertyFactory;
  */
 public abstract class BaseWaitForMaintainerCommand extends BaseCommand {
 
-    private final BaseSetpointSubsystem system;
+    private final BaseSetpointSubsystem<?, ?> system;
     private final DoubleProperty timeoutProperty;
 
     private double startTime;
 
-    public BaseWaitForMaintainerCommand(BaseSetpointSubsystem system, PropertyFactory pf, double defaultTimeout) {
+    public BaseWaitForMaintainerCommand(BaseSetpointSubsystem<?, ?> system, PropertyFactory pf, double defaultTimeout) {
         this.system = system;
 
         pf.setPrefix(this);
