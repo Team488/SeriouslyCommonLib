@@ -2,6 +2,7 @@ package xbot.common.injection.modules;
 
 import dagger.Binds;
 import dagger.Module;
+import xbot.common.controls.actuators.XCANLightController;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerFactoryImpl;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
@@ -11,6 +12,7 @@ import xbot.common.controls.actuators.XRelay.XRelayFactory;
 import xbot.common.controls.actuators.XServo.XServoFactory;
 import xbot.common.controls.actuators.XSolenoid.XSolenoidFactory;
 import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
+import xbot.common.controls.actuators.wpi_adapters.CANdleWpiAdapter;
 import xbot.common.controls.actuators.wpi_adapters.CompressorWPIAdapter.CompressorWPIAdapterFactory;
 import xbot.common.controls.actuators.wpi_adapters.DigitalOutputWPIAdapter.DigitalOutputWPIAdapterFactory;
 import xbot.common.controls.actuators.wpi_adapters.PWMWPIAdapter.PWMWPIAdapterFactory;
@@ -129,4 +131,8 @@ public abstract class RealDevicesModule {
     @Binds
     @Singleton
     public abstract XLaserCAN.XLaserCANFactory getLaserCANFactory(LaserCANWpiAdapter.LaserCANWpiAdapterFactory impl);
+
+    @Binds
+    @Singleton
+    public abstract XCANLightController.XCANLightControllerFactory getLightControllerFactory(CANdleWpiAdapter.CANdleWpiAdapterFactory impl);
 }
