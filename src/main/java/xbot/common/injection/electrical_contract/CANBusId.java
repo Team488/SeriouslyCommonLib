@@ -20,7 +20,7 @@ public record CANBusId(String id) {
     public CANBus toPhoenixCANBus() {
         if (this.equals(RIO)) {
             return DefaultPhoenixRio;
-        } else if (this.equals(DefaultCanivore)) {
+        } else if (this.equals(Canivore)) {
             return DefaultPhoenixCanivore;
         } else {
             throw new IllegalArgumentException("Unknown CAN bus ID: " + this.id);
