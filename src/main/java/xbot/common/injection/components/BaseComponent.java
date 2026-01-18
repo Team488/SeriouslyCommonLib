@@ -4,6 +4,7 @@ import javax.inject.Named;
 
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.command.XScheduler;
+import xbot.common.controls.actuators.XCANLightController;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
 import xbot.common.controls.actuators.XDigitalOutput.XDigitalOutputFactory;
@@ -173,4 +174,6 @@ public abstract class BaseComponent {
     public abstract XDutyCycleEncoder.XDutyCycleEncoderFactory dutyCycleEncoderFactory();
 
     public abstract XLaserCAN.XLaserCANFactory laserCANFactory();
+
+    public abstract XCANLightController.XCANLightControllerFactory lightControllerFactory();
 }

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.MockPowerDistributionPanel.MockPowerDistributionPan
 import edu.wpi.first.wpilibj.MockServo.MockServoFactory;
 import edu.wpi.first.wpilibj.MockSolenoid.MockSolenoidFactory;
 import edu.wpi.first.wpilibj.MockSpeedController.MockSpeedControllerFactory;
+import xbot.common.controls.actuators.XCANLightController;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
 import xbot.common.controls.actuators.XDigitalOutput.XDigitalOutputFactory;
@@ -19,6 +20,7 @@ import xbot.common.controls.actuators.XRelay.XRelayFactory;
 import xbot.common.controls.actuators.XServo.XServoFactory;
 import xbot.common.controls.actuators.XSolenoid.XSolenoidFactory;
 import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
+import xbot.common.controls.actuators.mock_adapters.MockCANLightController;
 import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
 import xbot.common.controls.actuators.mock_adapters.MockCompressor.MockCompressorFactory;
 import xbot.common.controls.actuators.mock_adapters.MockRelay.MockRelayFactory;
@@ -129,4 +131,8 @@ public abstract class MockDevicesModule {
     @Binds
     @Singleton
     public abstract XLaserCAN.XLaserCANFactory getLaserCANFactory(MockLaserCAN.MockLaserCANFactory impl);
+
+    @Binds
+    @Singleton
+    public abstract XCANLightController.XCANLightControllerFactory getLightControllerFactory(MockCANLightController.MockCANLightControllerFactory impl);
 }
