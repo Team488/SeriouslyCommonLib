@@ -27,7 +27,7 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
         CANMotorControllerInfo info = new CANMotorControllerInfo(
                 "Test",
                 MotorControllerType.TalonFx,
-                CANBusId.DefaultCanivore,
+                CANBusId.Canivore,
                 1,
                 new CANMotorControllerOutputConfig());
 
@@ -46,7 +46,7 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
 
     @Test
     public void createWithPidProperties() {
-        CANMotorControllerInfo info = new CANMotorControllerInfo("Test", MotorControllerType.TalonFx, CANBusId.DefaultCanivore, 1,
+        CANMotorControllerInfo info = new CANMotorControllerInfo("Test", MotorControllerType.TalonFx, CANBusId.Canivore, 1,
                 new CANMotorControllerOutputConfig());
 
         XCANMotorControllerPIDProperties pidProperties = new XCANMotorControllerPIDProperties(1, 2, 3, 4, 5, 1, -1);
@@ -66,7 +66,7 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
 
     @Test
     public void softwareLimitTests() {
-        CANMotorControllerInfo info = new CANMotorControllerInfo("Test", MotorControllerType.TalonFx, CANBusId.DefaultCanivore, 1,
+        CANMotorControllerInfo info = new CANMotorControllerInfo("Test", MotorControllerType.TalonFx, CANBusId.Canivore, 1,
                 new CANMotorControllerOutputConfig());
         XCANMotorController motor = getInjectorComponent().motorControllerFactory().create(info, "TestOwningPrefix", "TestPIDPrefix", null);
 
@@ -88,7 +88,7 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
 
     @Test
     public void testScaleFactors() {
-        CANMotorControllerInfo info = new CANMotorControllerInfo("Test", MotorControllerType.TalonFx, CANBusId.DefaultCanivore, 1,
+        CANMotorControllerInfo info = new CANMotorControllerInfo("Test", MotorControllerType.TalonFx, CANBusId.Canivore, 1,
                 new CANMotorControllerOutputConfig());
         var motor = (MockCANMotorController)getInjectorComponent().motorControllerFactory().create(info, "TestOwningPrefix", "TestPIDPrefix", null);
 

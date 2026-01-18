@@ -17,6 +17,7 @@ import static edu.wpi.first.units.Units.DegreesPerSecond;
 public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
 {
     public enum InterfaceType {
+        CAN,
         spi,
         serial,
         i2c

@@ -8,7 +8,7 @@ import com.ctre.phoenix6.CANBus;
  */
 public record CANBusId(String id) {
     public static final CANBusId RIO = new CANBusId("rio");
-    public static final CANBusId DefaultCanivore = new CANBusId("*");
+    public static final CANBusId Canivore = new CANBusId("*");
 
     private static final CANBus DefaultPhoenixRio = CANBus.roboRIO();
     private static final CANBus DefaultPhoenixCanivore = new CANBus("*");
@@ -20,7 +20,7 @@ public record CANBusId(String id) {
     public CANBus toPhoenixCANBus() {
         if (this.equals(RIO)) {
             return DefaultPhoenixRio;
-        } else if (this.equals(DefaultCanivore)) {
+        } else if (this.equals(Canivore)) {
             return DefaultPhoenixCanivore;
         } else {
             throw new IllegalArgumentException("Unknown CAN bus ID: " + this.id);
