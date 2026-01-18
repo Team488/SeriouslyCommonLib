@@ -75,7 +75,7 @@ public class MockCANLightController extends XCANLightController {
     }
 
     @Override
-    public void twinkleOff(int slot, Frequency frameRate, int density, Color color) {
+    public void twinkleOff(int slot, Frequency frameRate, double density, Color color) {
 
     }
 

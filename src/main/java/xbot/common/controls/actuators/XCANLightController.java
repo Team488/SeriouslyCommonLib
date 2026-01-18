@@ -109,7 +109,7 @@ public abstract class XCANLightController {
 
     public abstract void strobe(int slot, Frequency frameRate, Color color);
 
-    public abstract void twinkleOff(int slot, Frequency frameRate, int density, Color color);
+    public abstract void twinkleOff(int slot, Frequency frameRate, double density, Color color);
 
     public abstract void twinkle(int slot, Frequency frameRate, Color color);
 }
