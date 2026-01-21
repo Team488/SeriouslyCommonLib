@@ -539,6 +539,14 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.NeutralMode.html#Brake" class="member-name-link">Brake</a> - Enum constant in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.NeutralMode.html" title="enum class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig.NeutralMode</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/LEDStripType.html#BRG" class="member-name-link">BRG</a> - Enum constant in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/LEDStripType.html" title="enum class in xbot.common.injection.electrical_contract">LEDStripType</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/LEDStripType.html#BRGW" class="member-name-link">BRGW</a> - Enum constant in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/LEDStripType.html" title="enum class in xbot.common.injection.electrical_contract">LEDStripType</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html#brightness()" class="member-name-link">brightness()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerOutputConfig</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html#param-brightness"><code>brightness</code></a> record component.</div>
+</dd>
 <dt><a href="xbot/common/injection/swerve/SwerveComponent.Builder.html#build()" class="member-name-link">build()</a> - Method in interface xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/SwerveComponent.Builder.html" title="interface in xbot.common.injection.swerve">SwerveComponent.Builder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/RabbitPointBuilder.html#build()" class="member-name-link">build()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/RabbitPointBuilder.html" title="class in xbot.common.subsystems.drive">RabbitPointBuilder</a></dt>
@@ -546,6 +554,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/simulation/ISimulatableSolenoid.html#buildMotorObject(int,boolean)" class="member-name-link">buildMotorObject(int, boolean)</a> - Method in interface xbot.common.simulation.<a href="xbot/common/simulation/ISimulatableSolenoid.html" title="interface in xbot.common.simulation">ISimulatableSolenoid</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/simulation/ISimulatableMotor.html#buildMotorObject(java.lang.String,float)" class="member-name-link">buildMotorObject(String, float)</a> - Method in interface xbot.common.simulation.<a href="xbot/common/simulation/ISimulatableMotor.html" title="interface in xbot.common.simulation">ISimulatableMotor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html#busId" class="member-name-link">busId</a> - Variable in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.html" title="class in xbot.common.controls.actuators">XCANLightController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.html#busId" class="member-name-link">busId</a> - Variable in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
 <dd>&nbsp;</dd>
@@ -672,6 +682,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/DeviceInfo.html#canBusId" class="member-name-link">canBusId</a> - Variable in class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html#canBusId()" class="member-name-link">canBusId()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>canBusId</code> record component.</div>
+</dd>
 <dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html#canBusId()" class="member-name-link">canBusId()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>canBusId</code> record component.</div>
@@ -696,6 +710,36 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/components/BaseComponent.html#canCoderFactory()" class="member-name-link">canCoderFactory()</a> - Method in class xbot.common.injection.components.<a href="xbot/common/injection/components/BaseComponent.html" title="class in xbot.common.injection.components">BaseComponent</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html#candle" class="member-name-link">candle</a> - Variable in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/LightControllerType.html#Candle" class="member-name-link">Candle</a> - Enum constant in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/LightControllerType.html" title="enum class in xbot.common.injection.electrical_contract">LightControllerType</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html" class="type-name-link" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter</a> - Class in <a href="xbot/common/controls/actuators/wpi_adapters/package-summary.html">xbot.common.controls.actuators.wpi_adapters</a></dt>
+<dd>
+<div class="block">WPI adapter for the CANdle light controller from CTRE.</div>
+</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html#%3Cinit%3E(xbot.common.injection.electrical_contract.CANLightControllerInfo,xbot.common.injection.DevicePolice)" class="member-name-link">CANdleWpiAdapter(CANLightControllerInfo, DevicePolice)</a> - Constructor for class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.CANdleWpiAdapterFactory.html" class="type-name-link" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter.CANdleWpiAdapterFactory</a> - Class in <a href="xbot/common/controls/actuators/wpi_adapters/package-summary.html">xbot.common.controls.actuators.wpi_adapters</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.CANdleWpiAdapterFactory.html#%3Cinit%3E()" class="member-name-link">CANdleWpiAdapterFactory()</a> - Constructor for class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.CANdleWpiAdapterFactory.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter.CANdleWpiAdapterFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" class="type-name-link" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a> - Record Class in <a href="xbot/common/injection/electrical_contract/package-summary.html">xbot.common.injection.electrical_contract</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.LightControllerType,xbot.common.injection.electrical_contract.CANBusId,int)" class="member-name-link">CANLightControllerInfo(String, LightControllerType, CANBusId, int)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.LightControllerType,xbot.common.injection.electrical_contract.CANBusId,int,xbot.common.injection.electrical_contract.CANLightControllerOutputConfig)" class="member-name-link">CANLightControllerInfo(String, LightControllerType, CANBusId, int, CANLightControllerOutputConfig)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>CANLightControllerInfo</code> record class.</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html" class="type-name-link" title="class in xbot.common.injection.electrical_contract">CANLightControllerOutputConfig</a> - Record Class in <a href="xbot/common/injection/electrical_contract/package-summary.html">xbot.common.injection.electrical_contract</a></dt>
+<dd>
+<div class="block">Configuration data for CAN light controllers.</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html#%3Cinit%3E(xbot.common.injection.electrical_contract.LEDStripType,double,int%5B%5D)" class="member-name-link">CANLightControllerOutputConfig(LEDStripType, double, int[])</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerOutputConfig</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>CANLightControllerOutputConfig</code> record class.</div>
+</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" class="type-name-link" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a> - Record Class in <a href="xbot/common/injection/electrical_contract/package-summary.html">xbot.common.injection.electrical_contract</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html#%3Cinit%3E(java.lang.String,int)" class="member-name-link">CANMotorControllerInfo(String, int)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a></dt>
@@ -834,6 +878,12 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/TableProxy.html#clear()" class="member-name-link">clear()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/TableProxy.html" title="class in xbot.common.properties">TableProxy</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html#clearAnimation(int)" class="member-name-link">clearAnimation(int)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html#clearAnimation(int)" class="member-name-link">clearAnimation(int)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html#clearAnimation(int)" class="member-name-link">clearAnimation(int)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.html" title="class in xbot.common.controls.actuators">XCANLightController</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/mock_adapters/MockCANCoder.html#clearStickyFaults()" class="member-name-link">clearStickyFaults()</a> - Method in class xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockCANCoder.html" title="class in xbot.common.controls.sensors.mock_adapters">MockCANCoder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/CANCoderAdapter.html#clearStickyFaults()" class="member-name-link">clearStickyFaults()</a> - Method in class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/CANCoderAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">CANCoderAdapter</a></dt>
@@ -866,6 +916,14 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/swerve/commands/SwerveSteeringMaintainerCommand.html#coastAction()" class="member-name-link">coastAction()</a> - Method in class xbot.common.subsystems.drive.swerve.commands.<a href="xbot/common/subsystems/drive/swerve/commands/SwerveSteeringMaintainerCommand.html" title="class in xbot.common.subsystems.drive.swerve.commands">SwerveSteeringMaintainerCommand</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html#colorFlow(int,edu.wpi.first.units.measure.Frequency,edu.wpi.first.wpilibj.util.Color)" class="member-name-link">colorFlow(int, Frequency, Color)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html#colorFlow(int,edu.wpi.first.units.measure.Frequency,edu.wpi.first.wpilibj.util.Color)" class="member-name-link">colorFlow(int, Frequency, Color)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html#colorFlow(int,edu.wpi.first.units.measure.Frequency,edu.wpi.first.wpilibj.util.Color)" class="member-name-link">colorFlow(int, Frequency, Color)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.html" title="class in xbot.common.controls.actuators">XCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html#ColorFlow" class="member-name-link">ColorFlow</a> - Enum constant in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html" title="enum class in xbot.common.controls.actuators">XCANLightController.AnimationType</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PurePursuitTest.html#command" class="member-name-link">command</a> - Variable in class xbot.common.math.<a href="xbot/common/math/PurePursuitTest.html" title="class in xbot.common.math">PurePursuitTest</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/compressor/CompressorSubsystem.html#compressor" class="member-name-link">compressor</a> - Variable in class xbot.common.subsystems.compressor.<a href="xbot/common/subsystems/compressor/CompressorSubsystem.html" title="class in xbot.common.subsystems.compressor">CompressorSubsystem</a></dt>
@@ -887,6 +945,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/controls/actuators/wpi_adapters/CompressorWPIAdapter.CompressorWPIAdapterFactory.html" class="type-name-link" title="class in xbot.common.controls.actuators.wpi_adapters">CompressorWPIAdapter.CompressorWPIAdapterFactory</a> - Class in <a href="xbot/common/controls/actuators/wpi_adapters/package-summary.html">xbot.common.controls.actuators.wpi_adapters</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/wpi_adapters/CompressorWPIAdapter.CompressorWPIAdapterFactory.html#%3Cinit%3E()" class="member-name-link">CompressorWPIAdapterFactory()</a> - Constructor for class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CompressorWPIAdapter.CompressorWPIAdapterFactory.html" title="class in xbot.common.controls.actuators.wpi_adapters">CompressorWPIAdapter.CompressorWPIAdapterFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html#config" class="member-name-link">config</a> - Variable in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.html" title="class in xbot.common.controls.actuators">XCANLightController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/components/PurePursuitTestComponent.html#configurablePurePursuitCommand()" class="member-name-link">configurablePurePursuitCommand()</a> - Method in class xbot.common.injection.components.<a href="xbot/common/injection/components/PurePursuitTestComponent.html" title="class in xbot.common.injection.components">PurePursuitTestComponent</a></dt>
 <dd>&nbsp;</dd>
@@ -1148,6 +1208,12 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/buttons/AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory.html#create(xbot.common.controls.sensors.XJoystick,xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDDescription)" class="member-name-link">create(XJoystick, AnalogHIDButtonTrigger.AnalogHIDDescription)</a> - Method in class xbot.common.controls.sensors.buttons.<a href="xbot/common/controls/sensors/buttons/AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory.html" title="class in xbot.common.controls.sensors.buttons">AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.MockCANLightControllerFactory.html#create(xbot.common.injection.electrical_contract.CANLightControllerInfo)" class="member-name-link">create(CANLightControllerInfo)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.MockCANLightControllerFactory.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController.MockCANLightControllerFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.CANdleWpiAdapterFactory.html#create(xbot.common.injection.electrical_contract.CANLightControllerInfo)" class="member-name-link">create(CANLightControllerInfo)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.CANdleWpiAdapterFactory.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter.CANdleWpiAdapterFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.XCANLightControllerFactory.html#create(xbot.common.injection.electrical_contract.CANLightControllerInfo)" class="member-name-link">create(CANLightControllerInfo)</a> - Method in interface xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.XCANLightControllerFactory.html" title="interface in xbot.common.controls.actuators">XCANLightController.XCANLightControllerFactory</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.XCANMotorControllerFactory.html#create(xbot.common.injection.electrical_contract.CANMotorControllerInfo,java.lang.String,java.lang.String)" class="member-name-link">create(CANMotorControllerInfo, String, String)</a> - Method in interface xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.XCANMotorControllerFactory.html" title="interface in xbot.common.controls.actuators">XCANMotorController.XCANMotorControllerFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.MockCANMotorControllerFactory.html#create(xbot.common.injection.electrical_contract.CANMotorControllerInfo,java.lang.String,java.lang.String,xbot.common.controls.actuators.XCANMotorControllerPIDProperties)" class="member-name-link">create(CANMotorControllerInfo, String, String, XCANMotorControllerPIDProperties)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.MockCANMotorControllerFactory.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController.MockCANMotorControllerFactory</a></dt>
@@ -1396,6 +1462,11 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/BaseMaintainerCommand.html#decider" class="member-name-link">decider</a> - Variable in class xbot.common.command.<a href="xbot/common/command/BaseMaintainerCommand.html" title="class in xbot.common.command">BaseMaintainerCommand</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html#Default" class="member-name-link">Default</a> - Static variable in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerOutputConfig</a></dt>
+<dd>
+<div class="block">A default configuration with GRB strip type, full brightness,
+ and two LED strips of lengths 8 and 30.</div>
+</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.html#defaultBottomLeft" class="member-name-link">defaultBottomLeft</a> - Variable in class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.html#defaultBottomRight" class="member-name-link">defaultBottomRight</a> - Variable in class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a></dt>
@@ -1452,8 +1523,14 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/resiliency/DeviceHealth.html" class="type-name-link" title="enum class in xbot.common.resiliency">DeviceHealth</a> - Enum Class in <a href="xbot/common/resiliency/package-summary.html">xbot.common.resiliency</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html#deviceId" class="member-name-link">deviceId</a> - Variable in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.html" title="class in xbot.common.controls.actuators">XCANLightController</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.html#deviceId" class="member-name-link">deviceId</a> - Variable in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html#deviceId()" class="member-name-link">deviceId()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>deviceId</code> record component.</div>
+</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html#deviceId()" class="member-name-link">deviceId()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>deviceId</code> record component.</div>
@@ -1733,6 +1810,14 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerOutputConfig</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
@@ -1884,6 +1969,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/subsystems/pose/BasePoseSubsystem.html#fieldYHeight" class="member-name-link">fieldYHeight</a> - Static variable in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/BasePoseSubsystem.html" title="class in xbot.common.subsystems.pose">BasePoseSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.html#findClosestPointOnPerimeterToPoint(edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">findClosestPointOnPerimeterToPoint(Translation2d)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html#fire(int,edu.wpi.first.units.measure.Frequency,double,double,double)" class="member-name-link">fire(int, Frequency, double, double, double)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html#fire(int,edu.wpi.first.units.measure.Frequency,double,double,double)" class="member-name-link">fire(int, Frequency, double, double, double)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html#fire(int,edu.wpi.first.units.measure.Frequency,double,double,double)" class="member-name-link">fire(int, Frequency, double, double, double)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.html" title="class in xbot.common.controls.actuators">XCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html#Fire" class="member-name-link">Fire</a> - Enum constant in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html" title="enum class in xbot.common.controls.actuators">XCANLightController.AnimationType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.PointProjectionCombination.html#FirstInside" class="member-name-link">FirstInside</a> - Enum constant in enum class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.PointProjectionCombination.html" title="enum class in xbot.common.trajectory">Obstacle.PointProjectionCombination</a></dt>
 <dd>&nbsp;</dd>
@@ -2606,13 +2699,19 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/pose/BasePoseSubsystem.html#getHeadingResetRecently()" class="member-name-link">getHeadingResetRecently()</a> - Method in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/BasePoseSubsystem.html" title="class in xbot.common.subsystems.pose">BasePoseSubsystem</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html#getHealth()" class="member-name-link">getHealth()</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html#getHealth()" class="member-name-link">getHealth()</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html#getHealth()" class="member-name-link">getHealth()</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/wpi_adapters/CANSparkMaxWpiAdapter.html#getHealth()" class="member-name-link">getHealth()</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANSparkMaxWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANSparkMaxWpiAdapter</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/wpi_adapters/CANTalonFxWpiAdapter.html#getHealth()" class="member-name-link">getHealth()</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANTalonFxWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANTalonFxWpiAdapter</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/wpi_adapters/CANVictorSPXWpiAdapter.html#getHealth()" class="member-name-link">getHealth()</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANVictorSPXWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANVictorSPXWpiAdapter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html#getHealth()" class="member-name-link">getHealth()</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.html" title="class in xbot.common.controls.actuators">XCANLightController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.html#getHealth()" class="member-name-link">getHealth()</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
 <dd>&nbsp;</dd>
@@ -2805,6 +2904,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/injection/modules/MockDevicesModule.html#getLidarLiteFactory(edu.wpi.first.wpilibj.MockLidarLite.MockLidarLiteFactory)" class="member-name-link">getLidarLiteFactory(MockLidarLite.MockLidarLiteFactory)</a> - Method in class xbot.common.injection.modules.<a href="xbot/common/injection/modules/MockDevicesModule.html" title="class in xbot.common.injection.modules">MockDevicesModule</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/modules/RealDevicesModule.html#getLidarLiteFactory(xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter.LidarLiteWpiAdapterFactory)" class="member-name-link">getLidarLiteFactory(LidarLiteWpiAdapter.LidarLiteWpiAdapterFactory)</a> - Method in class xbot.common.injection.modules.<a href="xbot/common/injection/modules/RealDevicesModule.html" title="class in xbot.common.injection.modules">RealDevicesModule</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/modules/MockDevicesModule.html#getLightControllerFactory(xbot.common.controls.actuators.mock_adapters.MockCANLightController.MockCANLightControllerFactory)" class="member-name-link">getLightControllerFactory(MockCANLightController.MockCANLightControllerFactory)</a> - Method in class xbot.common.injection.modules.<a href="xbot/common/injection/modules/MockDevicesModule.html" title="class in xbot.common.injection.modules">MockDevicesModule</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/modules/RealDevicesModule.html#getLightControllerFactory(xbot.common.controls.actuators.wpi_adapters.CANdleWpiAdapter.CANdleWpiAdapterFactory)" class="member-name-link">getLightControllerFactory(CANdleWpiAdapter.CANdleWpiAdapterFactory)</a> - Method in class xbot.common.injection.modules.<a href="xbot/common/injection/modules/RealDevicesModule.html" title="class in xbot.common.injection.modules">RealDevicesModule</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.html#getLineIntersectionPoint(edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Translation2d,edu.wpi.first.math.geometry.Translation2d)" class="member-name-link">getLineIntersectionPoint(Translation2d, Translation2d, Translation2d, Translation2d)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a></dt>
 <dd>
@@ -3280,6 +3383,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/XYPairStruct.html#getSize()" class="member-name-link">getSize()</a> - Method in class xbot.common.math.<a href="xbot/common/math/XYPairStruct.html" title="class in xbot.common.math">XYPairStruct</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html#getSlotEndIndex(int)" class="member-name-link">getSlotEndIndex(int)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.html" title="class in xbot.common.controls.actuators">XCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html#getSlotStartIndex(int)" class="member-name-link">getSlotStartIndex(int)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.html" title="class in xbot.common.controls.actuators">XCANLightController</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/modules/MockDevicesModule.html#getSolenoidFactory(edu.wpi.first.wpilibj.MockSolenoid.MockSolenoidFactory)" class="member-name-link">getSolenoidFactory(MockSolenoid.MockSolenoidFactory)</a> - Method in class xbot.common.injection.modules.<a href="xbot/common/injection/modules/MockDevicesModule.html" title="class in xbot.common.injection.modules">MockDevicesModule</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/modules/RealDevicesModule.html#getSolenoidFactory(xbot.common.controls.actuators.wpi_adapters.SolenoidWPIAdapter.SolenoidWPIAdapterFactory)" class="member-name-link">getSolenoidFactory(SolenoidWPIAdapter.SolenoidWPIAdapterFactory)</a> - Method in class xbot.common.injection.modules.<a href="xbot/common/injection/modules/RealDevicesModule.html" title="class in xbot.common.injection.modules">RealDevicesModule</a></dt>
@@ -3512,6 +3619,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <code>gravityFeedForward</code> record component.</div>
 </dd>
+<dt><a href="xbot/common/injection/electrical_contract/LEDStripType.html#GRB" class="member-name-link">GRB</a> - Enum constant in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/LEDStripType.html" title="enum class in xbot.common.injection.electrical_contract">LEDStripType</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/LEDStripType.html#GRBW" class="member-name-link">GRBW</a> - Enum constant in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/LEDStripType.html" title="enum class in xbot.common.injection.electrical_contract">LEDStripType</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/components/BaseComponent.html#gyroFactory()" class="member-name-link">gyroFactory()</a> - Method in class xbot.common.injection.components.<a href="xbot/common/injection/components/BaseComponent.html" title="class in xbot.common.injection.components">BaseComponent</a></dt>
 <dd>&nbsp;</dd>
 </dl>
@@ -3548,6 +3659,14 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANBusId.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerOutputConfig</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
@@ -4179,6 +4298,14 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <a href="./xbot/common/injection/swerve/SwerveInstance.html#param-label"><code>label</code></a> record component.</div>
 </dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html#larson(int,edu.wpi.first.units.measure.Frequency,edu.wpi.first.wpilibj.util.Color,com.ctre.phoenix6.signals.LarsonBounceValue)" class="member-name-link">larson(int, Frequency, Color, LarsonBounceValue)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html#larson(int,edu.wpi.first.units.measure.Frequency,edu.wpi.first.wpilibj.util.Color,com.ctre.phoenix6.signals.LarsonBounceValue)" class="member-name-link">larson(int, Frequency, Color, LarsonBounceValue)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html#larson(int,edu.wpi.first.units.measure.Frequency,edu.wpi.first.wpilibj.util.Color,com.ctre.phoenix6.signals.LarsonBounceValue)" class="member-name-link">larson(int, Frequency, Color, LarsonBounceValue)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.html" title="class in xbot.common.controls.actuators">XCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html#Larson" class="member-name-link">Larson</a> - Enum constant in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html" title="enum class in xbot.common.controls.actuators">XCANLightController.AnimationType</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/LaserCANWpiAdapter.html#laserCan" class="member-name-link">laserCan</a> - Variable in class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/LaserCANWpiAdapter.html" title="class in xbot.common.controls.sensors.wpi_adapters">LaserCANWpiAdapter</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/components/BaseComponent.html#laserCANFactory()" class="member-name-link">laserCANFactory()</a> - Method in class xbot.common.injection.components.<a href="xbot/common/injection/components/BaseComponent.html" title="class in xbot.common.injection.components">BaseComponent</a></dt>
@@ -4219,6 +4346,12 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIO.VisionIOInputs.html#latestTargetObservation" class="member-name-link">latestTargetObservation</a> - Variable in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIO.VisionIOInputs.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIO.VisionIOInputs</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/vision/MockAprilTagVisionIO.html#latestTargetObservation" class="member-name-link">latestTargetObservation</a> - Variable in class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/MockAprilTagVisionIO.html" title="class in xbot.common.subsystems.vision">MockAprilTagVisionIO</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html#ledStripLengths()" class="member-name-link">ledStripLengths()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerOutputConfig</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html#param-ledStripLengths"><code>ledStripLengths</code></a> record component.</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/LEDStripType.html" class="type-name-link" title="enum class in xbot.common.injection.electrical_contract">LEDStripType</a> - Enum Class in <a href="xbot/common/injection/electrical_contract/package-summary.html">xbot.common.injection.electrical_contract</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.ParallelCrossingType.html#LeftAndRight" class="member-name-link">LeftAndRight</a> - Enum constant in enum class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.ParallelCrossingType.html" title="enum class in xbot.common.trajectory">Obstacle.ParallelCrossingType</a></dt>
 <dd>&nbsp;</dd>
@@ -4271,6 +4404,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/LidarLiteWpiAdapter.LidarLiteWpiAdapterFactory.html" class="type-name-link" title="class in xbot.common.controls.sensors.wpi_adapters">LidarLiteWpiAdapter.LidarLiteWpiAdapterFactory</a> - Class in <a href="xbot/common/controls/sensors/wpi_adapters/package-summary.html">xbot.common.controls.sensors.wpi_adapters</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/LidarLiteWpiAdapter.LidarLiteWpiAdapterFactory.html#%3Cinit%3E()" class="member-name-link">LidarLiteWpiAdapterFactory()</a> - Constructor for class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/LidarLiteWpiAdapter.LidarLiteWpiAdapterFactory.html" title="class in xbot.common.controls.sensors.wpi_adapters">LidarLiteWpiAdapter.LidarLiteWpiAdapterFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/components/BaseComponent.html#lightControllerFactory()" class="member-name-link">lightControllerFactory()</a> - Method in class xbot.common.injection.components.<a href="xbot/common/injection/components/BaseComponent.html" title="class in xbot.common.injection.components">BaseComponent</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/LightControllerType.html" class="type-name-link" title="enum class in xbot.common.injection.electrical_contract">LightControllerType</a> - Enum Class in <a href="xbot/common/injection/electrical_contract/package-summary.html">xbot.common.injection.electrical_contract</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/MockPermanentStorage.html#lineSeperator" class="member-name-link">lineSeperator</a> - Variable in class xbot.common.properties.<a href="xbot/common/properties/MockPermanentStorage.html" title="class in xbot.common.properties">MockPermanentStorage</a></dt>
 <dd>
@@ -4431,6 +4568,16 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/controls/sensors/mock_adapters/MockCANCoder.MockCANCoderFactory.html" class="type-name-link" title="class in xbot.common.controls.sensors.mock_adapters">MockCANCoder.MockCANCoderFactory</a> - Class in <a href="xbot/common/controls/sensors/mock_adapters/package-summary.html">xbot.common.controls.sensors.mock_adapters</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/mock_adapters/MockCANCoder.MockCANCoderFactory.html#%3Cinit%3E()" class="member-name-link">MockCANCoderFactory()</a> - Constructor for class xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockCANCoder.MockCANCoderFactory.html" title="class in xbot.common.controls.sensors.mock_adapters">MockCANCoder.MockCANCoderFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html" class="type-name-link" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController</a> - Class in <a href="xbot/common/controls/actuators/mock_adapters/package-summary.html">xbot.common.controls.actuators.mock_adapters</a></dt>
+<dd>
+<div class="block">Mock adapter for the CAN light controller for testing purposes.</div>
+</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html#%3Cinit%3E(xbot.common.injection.electrical_contract.CANLightControllerInfo,xbot.common.injection.DevicePolice)" class="member-name-link">MockCANLightController(CANLightControllerInfo, DevicePolice)</a> - Constructor for class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.MockCANLightControllerFactory.html" class="type-name-link" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController.MockCANLightControllerFactory</a> - Class in <a href="xbot/common/controls/actuators/mock_adapters/package-summary.html">xbot.common.controls.actuators.mock_adapters</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.MockCANLightControllerFactory.html#%3Cinit%3E()" class="member-name-link">MockCANLightControllerFactory()</a> - Constructor for class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.MockCANLightControllerFactory.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController.MockCANLightControllerFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html" class="type-name-link" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController</a> - Class in <a href="xbot/common/controls/actuators/mock_adapters/package-summary.html">xbot.common.controls.actuators.mock_adapters</a></dt>
 <dd>&nbsp;</dd>
@@ -4675,6 +4822,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.html#name" class="member-name-link">name</a> - Variable in class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html#name()" class="member-name-link">name()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>name</code> record component.</div>
+</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html#name()" class="member-name-link">name()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>name</code> record component.</div>
@@ -4709,6 +4860,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/trajectory/SimpleTimeInterpolator.html#newCalculator(edu.wpi.first.math.geometry.Translation2d,xbot.common.subsystems.drive.SwervePointKinematics)" class="member-name-link">newCalculator(Translation2d, SwervePointKinematics)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/SimpleTimeInterpolator.html" title="class in xbot.common.trajectory">SimpleTimeInterpolator</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.SwerveModuleLocation.html#next()" class="member-name-link">next()</a> - Method in enum class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.SwerveModuleLocation.html" title="enum class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem.SwerveModuleLocation</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html#None" class="member-name-link">None</a> - Enum constant in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html" title="enum class in xbot.common.controls.actuators">XCANLightController.AnimationType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.ParallelCrossingType.html#None" class="member-name-link">None</a> - Enum constant in enum class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.ParallelCrossingType.html" title="enum class in xbot.common.trajectory">Obstacle.ParallelCrossingType</a></dt>
 <dd>&nbsp;</dd>
@@ -4763,6 +4916,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="org/photonvision/package-summary.html">org.photonvision</a> - package org.photonvision</dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html#outputConfig()" class="member-name-link">outputConfig()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>outputConfig</code> record component.</div>
+</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html#outputConfig()" class="member-name-link">outputConfig()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>outputConfig</code> record component.</div>
@@ -5142,6 +5299,14 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/RabbitPointBuilder.html#%3Cinit%3E()" class="member-name-link">RabbitPointBuilder()</a> - Constructor for class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/RabbitPointBuilder.html" title="class in xbot.common.subsystems.drive">RabbitPointBuilder</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html#rainbow(int,edu.wpi.first.units.measure.Frequency,double,com.ctre.phoenix6.signals.AnimationDirectionValue)" class="member-name-link">rainbow(int, Frequency, double, AnimationDirectionValue)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html#rainbow(int,edu.wpi.first.units.measure.Frequency,double,com.ctre.phoenix6.signals.AnimationDirectionValue)" class="member-name-link">rainbow(int, Frequency, double, AnimationDirectionValue)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html#rainbow(int,edu.wpi.first.units.measure.Frequency,double,com.ctre.phoenix6.signals.AnimationDirectionValue)" class="member-name-link">rainbow(int, Frequency, double, AnimationDirectionValue)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.html" title="class in xbot.common.controls.actuators">XCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html#Rainbow" class="member-name-link">Rainbow</a> - Enum constant in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html" title="enum class in xbot.common.controls.actuators">XCANLightController.AnimationType</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/io_inputs/XEncoderInputs.html#rate" class="member-name-link">rate</a> - Variable in class xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/XEncoderInputs.html" title="class in xbot.common.controls.io_inputs">XEncoderInputs</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/MockPermanentStorage.html#readFromFile()" class="member-name-link">readFromFile()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/MockPermanentStorage.html" title="class in xbot.common.properties">MockPermanentStorage</a></dt>
@@ -5447,6 +5612,18 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/controls/actuators/XDoubleSolenoid.DoubleSolenoidMode.html#REVERSE" class="member-name-link">REVERSE</a> - Enum constant in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XDoubleSolenoid.DoubleSolenoidMode.html" title="enum class in xbot.common.controls.actuators">XDoubleSolenoid.DoubleSolenoidMode</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XDoubleSolenoid.html#reverseSolenoid" class="member-name-link">reverseSolenoid</a> - Variable in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XDoubleSolenoid.html" title="class in xbot.common.controls.actuators">XDoubleSolenoid</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/LEDStripType.html#RGB" class="member-name-link">RGB</a> - Enum constant in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/LEDStripType.html" title="enum class in xbot.common.injection.electrical_contract">LEDStripType</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html#rgbFade(int,edu.wpi.first.units.measure.Frequency,double)" class="member-name-link">rgbFade(int, Frequency, double)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html#rgbFade(int,edu.wpi.first.units.measure.Frequency,double)" class="member-name-link">rgbFade(int, Frequency, double)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html#rgbFade(int,edu.wpi.first.units.measure.Frequency,double)" class="member-name-link">rgbFade(int, Frequency, double)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.html" title="class in xbot.common.controls.actuators">XCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html#RgbFade" class="member-name-link">RgbFade</a> - Enum constant in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html" title="enum class in xbot.common.controls.actuators">XCANLightController.AnimationType</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/LEDStripType.html#RGBW" class="member-name-link">RGBW</a> - Enum constant in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/LEDStripType.html" title="enum class in xbot.common.injection.electrical_contract">LEDStripType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XXboxController.XboxButton.html#RightBumper" class="member-name-link">RightBumper</a> - Enum constant in enum class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XXboxController.XboxButton.html" title="enum class in xbot.common.controls.sensors">XXboxController.XboxButton</a></dt>
 <dd>&nbsp;</dd>
@@ -6691,6 +6868,16 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/DeviceInfo.html#simulationScalingValue" class="member-name-link">simulationScalingValue</a> - Variable in class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html#singleFade(int,edu.wpi.first.units.measure.Frequency,edu.wpi.first.wpilibj.util.Color)" class="member-name-link">singleFade(int, Frequency, Color)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html#singleFade(int,edu.wpi.first.units.measure.Frequency,edu.wpi.first.wpilibj.util.Color)" class="member-name-link">singleFade(int, Frequency, Color)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html#singleFade(int,edu.wpi.first.units.measure.Frequency,edu.wpi.first.wpilibj.util.Color)" class="member-name-link">singleFade(int, Frequency, Color)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.html" title="class in xbot.common.controls.actuators">XCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html#SingleFade" class="member-name-link">SingleFade</a> - Enum constant in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html" title="enum class in xbot.common.controls.actuators">XCANLightController.AnimationType</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html#SLOT_COUNT" class="member-name-link">SLOT_COUNT</a> - Static variable in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/components/BaseComponent.html#smartDashboardCommandPutter()" class="member-name-link">smartDashboardCommandPutter()</a> - Method in class xbot.common.injection.components.<a href="xbot/common/injection/components/BaseComponent.html" title="class in xbot.common.injection.components">BaseComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/SmartDashboardCommandPutter.html" class="type-name-link" title="interface in xbot.common.command">SmartDashboardCommandPutter</a> - Interface in <a href="xbot/common/command/package-summary.html">xbot.common.command</a></dt>
@@ -6818,6 +7005,18 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/properties/StringProperty.html#%3Cinit%3E(java.lang.String,java.lang.String,java.lang.String,xbot.common.properties.XPropertyManager)" class="member-name-link">StringProperty(String, String, String, XPropertyManager)</a> - Constructor for class xbot.common.properties.<a href="xbot/common/properties/StringProperty.html" title="class in xbot.common.properties">StringProperty</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/StringProperty.html#%3Cinit%3E(java.lang.String,java.lang.String,java.lang.String,xbot.common.properties.XPropertyManager,xbot.common.properties.Property.PropertyLevel)" class="member-name-link">StringProperty(String, String, String, XPropertyManager, Property.PropertyLevel)</a> - Constructor for class xbot.common.properties.<a href="xbot/common/properties/StringProperty.html" title="class in xbot.common.properties">StringProperty</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html#stripType()" class="member-name-link">stripType()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerOutputConfig</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html#param-stripType"><code>stripType</code></a> record component.</div>
+</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html#strobe(int,edu.wpi.first.units.measure.Frequency,edu.wpi.first.wpilibj.util.Color)" class="member-name-link">strobe(int, Frequency, Color)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html#strobe(int,edu.wpi.first.units.measure.Frequency,edu.wpi.first.wpilibj.util.Color)" class="member-name-link">strobe(int, Frequency, Color)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html#strobe(int,edu.wpi.first.units.measure.Frequency,edu.wpi.first.wpilibj.util.Color)" class="member-name-link">strobe(int, Frequency, Color)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.html" title="class in xbot.common.controls.actuators">XCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html#Strobe" class="member-name-link">Strobe</a> - Enum constant in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html" title="enum class in xbot.common.controls.actuators">XCANLightController.AnimationType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/XYPair.html#struct" class="member-name-link">struct</a> - Static variable in class xbot.common.math.<a href="xbot/common/math/XYPair.html" title="class in xbot.common.math">XYPair</a></dt>
 <dd>
@@ -7105,6 +7304,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Converts this CANBusId to a Phoenix CANBus object.</div>
 </dd>
+<dt><a href="xbot/common/injection/electrical_contract/LEDStripType.html#toPhoenixStripTypeValue()" class="member-name-link">toPhoenixStripTypeValue()</a> - Method in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/LEDStripType.html" title="enum class in xbot.common.injection.electrical_contract">LEDStripType</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.html#topLeft" class="member-name-link">topLeft</a> - Variable in class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.html#topLeftAvailable" class="member-name-link">topLeftAvailable</a> - Variable in class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a></dt>
@@ -7124,6 +7325,14 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANBusId.html#toString()" class="member-name-link">toString()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html#toString()" class="member-name-link">toString()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html#toString()" class="member-name-link">toString()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerOutputConfig</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
@@ -7215,6 +7424,22 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PurePursuitTest.PursuitEnvironmentState.html#turnPower" class="member-name-link">turnPower</a> - Variable in class xbot.common.math.<a href="xbot/common/math/PurePursuitTest.PursuitEnvironmentState.html" title="class in xbot.common.math">PurePursuitTest.PursuitEnvironmentState</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html#twinkle(int,edu.wpi.first.units.measure.Frequency,edu.wpi.first.wpilibj.util.Color)" class="member-name-link">twinkle(int, Frequency, Color)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html#twinkle(int,edu.wpi.first.units.measure.Frequency,edu.wpi.first.wpilibj.util.Color)" class="member-name-link">twinkle(int, Frequency, Color)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html#twinkle(int,edu.wpi.first.units.measure.Frequency,edu.wpi.first.wpilibj.util.Color)" class="member-name-link">twinkle(int, Frequency, Color)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.html" title="class in xbot.common.controls.actuators">XCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html#Twinkle" class="member-name-link">Twinkle</a> - Enum constant in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html" title="enum class in xbot.common.controls.actuators">XCANLightController.AnimationType</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html#twinkleOff(int,edu.wpi.first.units.measure.Frequency,double,edu.wpi.first.wpilibj.util.Color)" class="member-name-link">twinkleOff(int, Frequency, double, Color)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html#twinkleOff(int,edu.wpi.first.units.measure.Frequency,double,edu.wpi.first.wpilibj.util.Color)" class="member-name-link">twinkleOff(int, Frequency, double, Color)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html#twinkleOff(int,edu.wpi.first.units.measure.Frequency,double,edu.wpi.first.wpilibj.util.Color)" class="member-name-link">twinkleOff(int, Frequency, double, Color)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.html" title="class in xbot.common.controls.actuators">XCANLightController</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html#TwinkleOff" class="member-name-link">TwinkleOff</a> - Enum constant in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html" title="enum class in xbot.common.controls.actuators">XCANLightController.AnimationType</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/vision/AprilTagVisionIO.TargetObservation.html#tx()" class="member-name-link">tx()</a> - Method in record class xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/AprilTagVisionIO.TargetObservation.html" title="class in xbot.common.subsystems.vision">AprilTagVisionIO.TargetObservation</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>tx</code> record component.</div>
@@ -7225,6 +7450,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="xbot/common/subsystems/drive/swerve/SwerveSuggestedRotation.html#type" class="member-name-link">type</a> - Variable in class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveSuggestedRotation.html" title="class in xbot.common.subsystems.drive.swerve">SwerveSuggestedRotation</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html#type()" class="member-name-link">type()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>type</code> record component.</div>
+</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html#type()" class="member-name-link">type()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>type</code> record component.</div>
@@ -7425,6 +7654,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html" title="enum class in xbot.common.controls.actuators">XCANLightController.AnimationType</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this class with the specified name.</div>
+</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.MotorPidMode.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
@@ -7462,6 +7695,14 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.NeutralMode.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.NeutralMode.html" title="enum class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig.NeutralMode</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this class with the specified name.</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/LEDStripType.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/LEDStripType.html" title="enum class in xbot.common.injection.electrical_contract">LEDStripType</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this class with the specified name.</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/LightControllerType.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/LightControllerType.html" title="enum class in xbot.common.injection.electrical_contract">LightControllerType</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
@@ -7567,6 +7808,11 @@ the order they are declared.</div>
 <div class="block">Returns an array containing the constants of this enum class, in
 the order they are declared.</div>
 </dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html#values()" class="member-name-link">values()</a> - Static method in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html" title="enum class in xbot.common.controls.actuators">XCANLightController.AnimationType</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum class, in
+the order they are declared.</div>
+</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.MotorPidMode.html#values()" class="member-name-link">values()</a> - Static method in enum class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum class, in
@@ -7613,6 +7859,16 @@ the order they are declared.</div>
 the order they are declared.</div>
 </dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.NeutralMode.html#values()" class="member-name-link">values()</a> - Static method in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.NeutralMode.html" title="enum class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig.NeutralMode</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum class, in
+the order they are declared.</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/LEDStripType.html#values()" class="member-name-link">values()</a> - Static method in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/LEDStripType.html" title="enum class in xbot.common.injection.electrical_contract">LEDStripType</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum class, in
+the order they are declared.</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/LightControllerType.html#values()" class="member-name-link">values()</a> - Static method in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/LightControllerType.html" title="enum class in xbot.common.injection.electrical_contract">LightControllerType</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum class, in
 the order they are declared.</div>
@@ -8042,6 +8298,22 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XCANImu.html#%3Cinit%3E()" class="member-name-link">XCANImu()</a> - Constructor for class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XCANImu.html" title="class in xbot.common.controls.sensors">XCANImu</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html" class="type-name-link" title="class in xbot.common.controls.actuators">XCANLightController</a> - Class in <a href="xbot/common/controls/actuators/package-summary.html">xbot.common.controls.actuators</a></dt>
+<dd>
+<div class="block">Abstract base class for CAN-based light controllers.</div>
+</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.html#%3Cinit%3E(xbot.common.injection.electrical_contract.CANLightControllerInfo,xbot.common.injection.DevicePolice)" class="member-name-link">XCANLightController(CANLightControllerInfo, DevicePolice)</a> - Constructor for class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANLightController.html" title="class in xbot.common.controls.actuators">XCANLightController</a></dt>
+<dd>
+<div class="block">Constructor for XCANLightController.</div>
+</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.AnimationType.html" class="type-name-link" title="enum class in xbot.common.controls.actuators">XCANLightController.AnimationType</a> - Enum Class in <a href="xbot/common/controls/actuators/package-summary.html">xbot.common.controls.actuators</a></dt>
+<dd>
+<div class="block">Types of animations supported by the light controller.</div>
+</dd>
+<dt><a href="xbot/common/controls/actuators/XCANLightController.XCANLightControllerFactory.html" class="type-name-link" title="interface in xbot.common.controls.actuators">XCANLightController.XCANLightControllerFactory</a> - Interface in <a href="xbot/common/controls/actuators/package-summary.html">xbot.common.controls.actuators</a></dt>
+<dd>
+<div class="block">Factory interface for creating instances of XCANLightController.</div>
+</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.html" class="type-name-link" title="class in xbot.common.controls.actuators">XCANMotorController</a> - Class in <a href="xbot/common/controls/actuators/package-summary.html">xbot.common.controls.actuators</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.html#%3Cinit%3E(xbot.common.injection.electrical_contract.CANMotorControllerInfo,java.lang.String,xbot.common.properties.PropertyFactory,xbot.common.injection.DevicePolice,java.lang.String,xbot.common.controls.actuators.XCANMotorControllerPIDProperties)" class="member-name-link">XCANMotorController(CANMotorControllerInfo, String, PropertyFactory, DevicePolice, String, XCANMotorControllerPIDProperties)</a> - Constructor for class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
