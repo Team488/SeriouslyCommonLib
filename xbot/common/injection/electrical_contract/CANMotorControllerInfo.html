@@ -79,7 +79,7 @@ loadScripts(document, 'script');</script>
 </div>
 <section class="class-description" id="class-description">
 <hr>
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">CANMotorControllerInfo</span>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, <a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a>&nbsp;type, <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;busId, int&nbsp;deviceId, <a href="CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a>&nbsp;outputConfig)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">CANMotorControllerInfo</span>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, <a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a>&nbsp;type, <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;busId, int&nbsp;deviceId, <a href="PDHPort.html" title="enum class in xbot.common.injection.electrical_contract">PDHPort</a>&nbsp;pdhPort, <a href="CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a>&nbsp;outputConfig)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 </section>
 <section class="summary">
@@ -104,6 +104,19 @@ loadScripts(document, 'script');</script>
  <a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a>&nbsp;type,
  <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;busId,
  int&nbsp;deviceId,
+ <a href="CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a>&nbsp;outputConfig)</code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,xbot.common.injection.electrical_contract.CANBusId,int,xbot.common.injection.electrical_contract.PDHPort)" class="member-name-link">CANMotorControllerInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a>&nbsp;type,
+ <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;busId,
+ int&nbsp;deviceId,
+ <a href="PDHPort.html" title="enum class in xbot.common.injection.electrical_contract">PDHPort</a>&nbsp;pdhPort)</code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,xbot.common.injection.electrical_contract.CANBusId,int,xbot.common.injection.electrical_contract.PDHPort,xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig)" class="member-name-link">CANMotorControllerInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a>&nbsp;type,
+ <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;busId,
+ int&nbsp;deviceId,
+ <a href="PDHPort.html" title="enum class in xbot.common.injection.electrical_contract">PDHPort</a>&nbsp;pdhPort,
  <a href="CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a>&nbsp;outputConfig)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>CANMotorControllerInfo</code> record class.</div>
@@ -152,14 +165,19 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>outputConfig</code> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="PDHPort.html" title="enum class in xbot.common.injection.electrical_contract">PDHPort</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pdhPort()" class="member-name-link">pdhPort</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <code>pdhPort</code> record component.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>type</code> record component.</div>
 </div>
 </div>
@@ -203,6 +221,27 @@ loadScripts(document, 'script');</script>
  <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;busId,
  int&nbsp;deviceId,
  <a href="CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a>&nbsp;outputConfig)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,xbot.common.injection.electrical_contract.CANBusId,int,xbot.common.injection.electrical_contract.PDHPort)">
+<h3>CANMotorControllerInfo</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CANMotorControllerInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a>&nbsp;type,
+ <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;busId,
+ int&nbsp;deviceId,
+ <a href="PDHPort.html" title="enum class in xbot.common.injection.electrical_contract">PDHPort</a>&nbsp;pdhPort)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,xbot.common.injection.electrical_contract.CANBusId,int,xbot.common.injection.electrical_contract.PDHPort,xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig)">
+<h3>CANMotorControllerInfo</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CANMotorControllerInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a>&nbsp;type,
+ <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;busId,
+ int&nbsp;deviceId,
+ <a href="PDHPort.html" title="enum class in xbot.common.injection.electrical_contract">PDHPort</a>&nbsp;pdhPort,
+ <a href="CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a>&nbsp;outputConfig)</span></div>
 <div class="block">Creates an instance of a <code>CANMotorControllerInfo</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -210,6 +249,7 @@ loadScripts(document, 'script');</script>
 <dd><code>type</code> - the value for the <code>type</code> record component</dd>
 <dd><code>busId</code> - the value for the <code>busId</code> record component</dd>
 <dd><code>deviceId</code> - the value for the <code>deviceId</code> record component</dd>
+<dd><code>pdhPort</code> - the value for the <code>pdhPort</code> record component</dd>
 <dd><code>outputConfig</code> - the value for the <code>outputConfig</code> record component</dd>
 </dl>
 </section>
@@ -304,6 +344,17 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the value of the <code>deviceId</code> record component</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="pdhPort()">
+<h3>pdhPort</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="PDHPort.html" title="enum class in xbot.common.injection.electrical_contract">PDHPort</a></span>&nbsp;<span class="element-name">pdhPort</span>()</div>
+<div class="block">Returns the value of the <code>pdhPort</code> record component.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the value of the <code>pdhPort</code> record component</dd>
 </dl>
 </section>
 </li>

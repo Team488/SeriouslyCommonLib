@@ -79,7 +79,7 @@ loadScripts(document, 'script');</script>
 </div>
 <section class="class-description" id="class-description">
 <hr>
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">IMUInfo</span>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, <a href="../../controls/sensors/XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a>&nbsp;imuType, <a href="../../controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType, <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;canBusId, int&nbsp;deviceId)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">IMUInfo</span>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, <a href="../../controls/sensors/XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a>&nbsp;imuType, <a href="../../controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType, <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;canBusId, int&nbsp;deviceId, <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 </section>
 <section class="summary">
@@ -97,14 +97,28 @@ loadScripts(document, 'script');</script>
  <a href="../../controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType,
  <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;canBusId,
  int&nbsp;deviceId)</code></div>
-<div class="col-last even-row-color">
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,xbot.common.controls.sensors.XGyro.ImuType,xbot.common.controls.sensors.XGyro.InterfaceType,xbot.common.injection.electrical_contract.CANBusId,int,xbot.common.injection.electrical_contract.PowerSource)" class="member-name-link">IMUInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="../../controls/sensors/XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a>&nbsp;imuType,
+ <a href="../../controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType,
+ <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;canBusId,
+ int&nbsp;deviceId,
+ <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</code></div>
+<div class="col-last odd-row-color">
 <div class="block">Creates an instance of a <code>IMUInfo</code> record class.</div>
 </div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(xbot.common.controls.sensors.XGyro.InterfaceType)" class="member-name-link">IMUInfo</a><wbr>(<a href="../../controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.controls.sensors.XGyro.InterfaceType)" class="member-name-link">IMUInfo</a><wbr>(<a href="../../controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType)</code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(xbot.common.controls.sensors.XGyro.InterfaceType,xbot.common.injection.electrical_contract.PowerSource)" class="member-name-link">IMUInfo</a><wbr>(<a href="../../controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType,
+ <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.injection.electrical_contract.CANBusId,int)" class="member-name-link">IMUInfo</a><wbr>(<a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;canBusId,
  int&nbsp;deviceId)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(xbot.common.injection.electrical_contract.CANBusId,int,xbot.common.injection.electrical_contract.PowerSource)" class="member-name-link">IMUInfo</a><wbr>(<a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;canBusId,
+ int&nbsp;deviceId,
+ <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -157,9 +171,14 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>name</code> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#powerFrom()" class="member-name-link">powerFrom</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <code>powerFrom</code> record component.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
 </div>
@@ -180,9 +199,26 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,xbot.common.controls.sensors.XGyro.ImuType,xbot.common.controls.sensors.XGyro.InterfaceType,xbot.common.injection.electrical_contract.CANBusId,int)">
+<h3>IMUInfo</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">IMUInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="../../controls/sensors/XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a>&nbsp;imuType,
+ <a href="../../controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType,
+ <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;canBusId,
+ int&nbsp;deviceId)</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="&lt;init&gt;(xbot.common.controls.sensors.XGyro.InterfaceType)">
 <h3>IMUInfo</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">IMUInfo</span><wbr><span class="parameters">(<a href="../../controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(xbot.common.controls.sensors.XGyro.InterfaceType,xbot.common.injection.electrical_contract.PowerSource)">
+<h3>IMUInfo</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">IMUInfo</span><wbr><span class="parameters">(<a href="../../controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType,
+ <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</span></div>
 </section>
 </li>
 <li>
@@ -193,13 +229,22 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;(java.lang.String,xbot.common.controls.sensors.XGyro.ImuType,xbot.common.controls.sensors.XGyro.InterfaceType,xbot.common.injection.electrical_contract.CANBusId,int)">
+<section class="detail" id="&lt;init&gt;(xbot.common.injection.electrical_contract.CANBusId,int,xbot.common.injection.electrical_contract.PowerSource)">
+<h3>IMUInfo</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">IMUInfo</span><wbr><span class="parameters">(<a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;canBusId,
+ int&nbsp;deviceId,
+ <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,xbot.common.controls.sensors.XGyro.ImuType,xbot.common.controls.sensors.XGyro.InterfaceType,xbot.common.injection.electrical_contract.CANBusId,int,xbot.common.injection.electrical_contract.PowerSource)">
 <h3>IMUInfo</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">IMUInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="../../controls/sensors/XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a>&nbsp;imuType,
  <a href="../../controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType,
  <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;canBusId,
- int&nbsp;deviceId)</span></div>
+ int&nbsp;deviceId,
+ <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</span></div>
 <div class="block">Creates an instance of a <code>IMUInfo</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -208,6 +253,7 @@ loadScripts(document, 'script');</script>
 <dd><code>interfaceType</code> - the value for the <code>interfaceType</code> record component</dd>
 <dd><code>canBusId</code> - the value for the <code>canBusId</code> record component</dd>
 <dd><code>deviceId</code> - the value for the <code>deviceId</code> record component</dd>
+<dd><code>powerFrom</code> - the value for the <code>powerFrom</code> record component</dd>
 </dl>
 </section>
 </li>
@@ -318,6 +364,17 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the value of the <code>deviceId</code> record component</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="powerFrom()">
+<h3>powerFrom</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a></span>&nbsp;<span class="element-name">powerFrom</span>()</div>
+<div class="block">Returns the value of the <code>powerFrom</code> record component.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the value of the <code>powerFrom</code> record component</dd>
 </dl>
 </section>
 </li>
