@@ -7,9 +7,11 @@ import org.junit.Test;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.injection.electrical_contract.CANBusId;
+import xbot.common.injection.electrical_contract.CANLightControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.injection.electrical_contract.DeviceInfo;
+import xbot.common.injection.electrical_contract.LightControllerType;
 import xbot.common.injection.electrical_contract.MotorControllerType;
 import xbot.common.logging.RobotAssertionException;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
@@ -72,6 +74,7 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().canCoderFactory().create(new DeviceInfo("test",7, null), "test");
         getInjectorComponent().dutyCycleEncoderFactory().create(new DeviceInfo("test",8, null));
         getInjectorComponent().laserCANFactory().create(new DeviceInfo("laserTest",9, null), "test");
+        getInjectorComponent().lightControllerFactory().create(new CANLightControllerInfo("lights", LightControllerType.Candle, CANBusId.RIO, 60));
 
     }
 
