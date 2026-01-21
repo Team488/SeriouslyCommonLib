@@ -5,8 +5,25 @@ public record CANLightControllerInfo(
         LightControllerType type,
         CANBusId canBusId,
         int deviceId,
-        CANLightControllerOutputConfig outputConfig
+        CANLightControllerOutputConfig outputConfig,
+        PowerSource powerFrom
 ) {
+    public CANLightControllerInfo(
+            String name,
+            LightControllerType type,
+            CANBusId canBusId,
+            int deviceId,
+            CANLightControllerOutputConfig outputConfig) {
+        this(
+                name,
+                type,
+                canBusId,
+                deviceId,
+                outputConfig,
+                null
+        );
+    }
+
     public CANLightControllerInfo(
             String name,
             LightControllerType type,
@@ -17,7 +34,8 @@ public record CANLightControllerInfo(
                 type,
                 canBusId,
                 deviceId,
-                CANLightControllerOutputConfig.Default
+                CANLightControllerOutputConfig.Default,
+                null
         );
     }
 }
