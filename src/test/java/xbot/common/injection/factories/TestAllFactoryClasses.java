@@ -24,7 +24,7 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().pidPropertyManagerFactory().create("pid", 0, 0, 0, 0);
         getInjectorComponent().powerDistributionPanelFactory().create();
         getInjectorComponent().encoderFactory().create("foo", 1, 2, 1, "TestPrefix");
-        getInjectorComponent().digitalInputFactory().create(new DeviceInfo("foo", 5), "TestPrefix");
+        getInjectorComponent().digitalInputFactory().create(new DeviceInfo("foo", 5, null), "TestPrefix");
         getInjectorComponent().analogInputFactory().create(1);
         getInjectorComponent().xboxControllerFactory().create(2);
         getInjectorComponent().solenoidFactory().create(1);
@@ -36,7 +36,7 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
                         new CANMotorControllerInfo(
                                 "",
                                 MotorControllerType.TalonFx,
-                                CANBusId.DefaultCanivore,
+                                CANBusId.Canivore,
                                 12,
                                 new CANMotorControllerOutputConfig()),
                         "",
@@ -69,19 +69,19 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
 //                new DeviceInfo("left", 11), "drive", "left", "motorGroup",
 //                new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
 
-        getInjectorComponent().absoluteEncoderFactory().create(new DeviceInfo("test",6), "test");
+        getInjectorComponent().absoluteEncoderFactory().create(new DeviceInfo("test",6, null), "test");
         getInjectorComponent().stallDetectorFactory().create("owningSystem");
-        getInjectorComponent().canCoderFactory().create(new DeviceInfo("test",7), "test");
-        getInjectorComponent().dutyCycleEncoderFactory().create(new DeviceInfo("test",8));
-        getInjectorComponent().laserCANFactory().create(new DeviceInfo("laserTest",9), "test");
+        getInjectorComponent().canCoderFactory().create(new DeviceInfo("test",7, null), "test");
+        getInjectorComponent().dutyCycleEncoderFactory().create(new DeviceInfo("test",8, null));
+        getInjectorComponent().laserCANFactory().create(new DeviceInfo("laserTest",9, null), "test");
         getInjectorComponent().lightControllerFactory().create(new CANLightControllerInfo("lights", LightControllerType.Candle, CANBusId.RIO, 60));
 
     }
 
     @Test(expected = RobotAssertionException.class)
     public void doubleAllocate() {
-        getInjectorComponent().canCoderFactory().create(new DeviceInfo("", 1), "");
-        getInjectorComponent().canCoderFactory().create(new DeviceInfo("", 1), "");
+        getInjectorComponent().canCoderFactory().create(new DeviceInfo("", 1, null), "");
+        getInjectorComponent().canCoderFactory().create(new DeviceInfo("", 1, null), "");
         fail("You shouldn't be able to double-allocate!");
     }
 }
