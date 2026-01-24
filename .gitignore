@@ -45,3 +45,4 @@ WPI_Native_Libraries.properties
 
 #Claude
 .claude/
+ctre_sim/
