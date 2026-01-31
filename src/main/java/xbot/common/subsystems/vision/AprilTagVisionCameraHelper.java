@@ -72,8 +72,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.cameraStdDevFactor = pf.createPersistentProperty("CameraStdDevFactor", 1.0);
         this.maxSingleTagDistance = pf.createPersistentProperty("MaxSingleTagDistance", 1.0);
         this.maxMultiTagDistance = pf.createPersistentProperty("MaxMultiTagDistance", 5.0);
-        this.minTagDistance = pf.
-        ("MinTagDistance", 0.5);
+        this.minTagDistance = pf.createPersistentProperty("MinTagDistance", 0.5);
     }
 
     @Override
