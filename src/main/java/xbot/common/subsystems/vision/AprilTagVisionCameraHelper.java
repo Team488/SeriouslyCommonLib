@@ -151,12 +151,6 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
                 robotPosesAccepted.add(observation.pose());
             }
 
-            // We do this later instead so we can record debug values about rejected obervations.
-            // // Skip if rejected
-            // if (rejectPose) {
-            //     continue;
-            // }
-
             // Calculate standard deviations
             double stdDevFactor = Math.pow(observation.averageTagDistance(), 2.0) / observation.tagCount();
             double linearStdDev = linearStdDevBaseline.get() * stdDevFactor;
