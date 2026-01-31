@@ -30,6 +30,11 @@ import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Volts;
 import static edu.wpi.first.units.Units.Rotations;
 
+/**
+ * Mock XCANMotorController for simulation.
+ * - Power and voltage is grouped.
+ * - The user is responsible for updating its position and velocity.
+ */
 public class MockCANMotorController extends XCANMotorController {
     public enum ControlMode {
         DutyCycle,
