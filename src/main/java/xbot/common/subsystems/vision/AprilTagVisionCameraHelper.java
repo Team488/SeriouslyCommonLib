@@ -49,10 +49,11 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final List<Pose3d> robotPoses = new LinkedList<>();
     private final List<Pose3d> robotPosesAccepted = new LinkedList<>();
     private final List<Pose3d> robotPosesRejected = new LinkedList<>();
-    private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
+    private final List<VisionPoseObservation> acceptedPoseObservations = new LinkedList<>();
     private final List<VisionPoseObservation> allPoseObservations = new LinkedList<>();
 
-    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout, boolean useForPoseEstimates) {
+    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io,
+            AprilTagFieldLayout fieldLayout, boolean useForPoseEstimates) {
         this.logPath = prefix;
         this.io = io;
         this.inputs = new VisionIOInputsAutoLogged();
@@ -108,8 +109,8 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         return robotPosesRejected;
     }
 
-    public List<VisionPoseObservation> getPoseObservations() {
-        return poseObservations;
+    public List<VisionPoseObservation> getAcceptedPoseObservations() {
+        return acceptedPoseObservations;
     }
 
     public List<VisionPoseObservation> getAllPoseObservations() {
@@ -127,7 +128,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.robotPoses.clear();
         this.robotPosesAccepted.clear();
         this.robotPosesRejected.clear();
-        this.poseObservations.clear();
+        this.acceptedPoseObservations.clear();
         this.allPoseObservations.clear();
 
         // Add the tag poses
@@ -163,18 +164,20 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
             linearStdDev *= cameraStdDevFactor.get();
             angularStdDev *= cameraStdDevFactor.get();
 
-            allPoseObservations.add(new VisionPoseObservation(observation.pose().toPose2d(),
+            allPoseObservations.add(new VisionPoseObservation(
+                    observation.pose().toPose2d(),
                     observation.timestamp(),
                     VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev),
                     observation.ambiguity(),
                     observation.tagCount()));
 
             if (!rejectPose) {
-                poseObservations.add(new VisionPoseObservation(observation.pose().toPose2d(),
-                    observation.timestamp(),
-                    VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev),
-                    observation.ambiguity(),
-                    observation.tagCount()));
+                acceptedPoseObservations.add(new VisionPoseObservation(
+                        observation.pose().toPose2d(),
+                        observation.timestamp(),
+                        VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev),
+                        observation.ambiguity(),
+                        observation.tagCount()));
             }
         }
     }

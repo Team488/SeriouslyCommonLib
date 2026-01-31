@@ -198,7 +198,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
     public List<VisionPoseObservation> getAllPoseObservations() {
         List<VisionPoseObservation> result = new LinkedList<>();
         for (AprilTagVisionCameraHelper cameraHelper : this.getAllPoseCameras()) {
-            result.addAll(cameraHelper.getPoseObservations());
+            result.addAll(cameraHelper.getAcceptedPoseObservations());
         }
         return result;
     }
@@ -223,7 +223,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
                     cameraHelper.getRobotPoses().toArray(new Pose3d[0]));
             Logger.recordOutput(
                     cameraHelper.getLogPath() + "/AcceptedPoseObservations",
-                    cameraHelper.getPoseObservations().toArray(new VisionPoseObservation[0]));
+                    cameraHelper.getAcceptedPoseObservations().toArray(new VisionPoseObservation[0]));
             Logger.recordOutput(
                     cameraHelper.getLogPath() + "/AllPoseObservations",
                     cameraHelper.getAllPoseObservations().toArray(new VisionPoseObservation[0]));
