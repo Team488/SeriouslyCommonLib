@@ -42,6 +42,8 @@ import xbot.common.resiliency.DeviceHealth;
 
 import java.util.function.Supplier;
 
+import static edu.wpi.first.units.Units.Amps;
+
 public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @AssistedFactory
@@ -134,9 +136,17 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
                 .withNeutralMode(outputConfig.neutralMode == CANMotorControllerOutputConfig.NeutralMode.Brake
                         ? NeutralModeValue.Brake
                         : NeutralModeValue.Coast);
-        this.talonConfiguration.CurrentLimits
-                .withStatorCurrentLimitEnable(outputConfig.statorCurrentLimit != null)
-                .withStatorCurrentLimit(outputConfig.statorCurrentLimit);
+        if (outputConfig.statorCurrentLimit == null) {
+            this.talonConfiguration.CurrentLimits.withStatorCurrentLimitEnable(false);
+        } else {
+            this.talonConfiguration.CurrentLimits.withStatorCurrentLimitEnable(true)
+                    .withStatorCurrentLimit(outputConfig.statorCurrentLimit);
+        }
+
+        this.talonConfiguration.CurrentLimits.withSupplyCurrentLimitEnable(true)
+                .withSupplyCurrentLowerLimit(outputConfig.supplyCurrentLimit)
+                .withSupplyCurrentLimit(outputConfig.burstSupplyCurrentLimit)
+                .withSupplyCurrentLowerTime(outputConfig.supplyCurrentBurstDuration);
 
         if (!invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(talonConfiguration), 5)) {
             log.error("Configuration set to TalonFX {} ({}) failed.", deviceId, akitName);

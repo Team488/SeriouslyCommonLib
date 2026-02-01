@@ -87,7 +87,10 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
                 .idleMode(outputConfig.neutralMode == CANMotorControllerOutputConfig.NeutralMode.Brake
                         ? SparkBaseConfig.IdleMode.kBrake
                         : SparkBaseConfig.IdleMode.kCoast)
-                .smartCurrentLimit((int) outputConfig.statorCurrentLimit.in(Amps));
+                .smartCurrentLimit(
+                        (int) outputConfig.sparkStallCurrentLimit.in(Amps),
+                        (int) outputConfig.sparkFreeCurrentLimit.in(Amps),
+                        (int) outputConfig.sparkStallSpeed.in(RPM));
         this.internalSparkMax.configure(config,
                 ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
