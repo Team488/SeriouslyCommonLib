@@ -30,6 +30,7 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
+import xbot.common.injection.electrical_contract.SparkMaxMotorControllerOutputConfig;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
@@ -86,11 +87,20 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
                 .inverted(outputConfig.inversionType == CANMotorControllerOutputConfig.InversionType.Inverted)
                 .idleMode(outputConfig.neutralMode == CANMotorControllerOutputConfig.NeutralMode.Brake
                         ? SparkBaseConfig.IdleMode.kBrake
-                        : SparkBaseConfig.IdleMode.kCoast)
-                .smartCurrentLimit(
-                        (int) outputConfig.sparkStallCurrentLimit.in(Amps),
-                        (int) outputConfig.sparkFreeCurrentLimit.in(Amps),
-                        (int) outputConfig.sparkStallSpeed.in(RPM));
+                        : SparkBaseConfig.IdleMode.kCoast);
+
+        if (outputConfig.getClass() != SparkMaxMotorControllerOutputConfig.class) {
+            log.error("Tried to set Spark Max {} ({}) configuration with incompatible config class {}. Skipping device-specific settings.",
+                    deviceId, akitName, outputConfig.getClass().getSimpleName());
+        } else {
+            var sparkConfig = (SparkMaxMotorControllerOutputConfig) outputConfig;
+
+            config.smartCurrentLimit(
+                    (int) sparkConfig.sparkStallCurrentLimit.in(Amps),
+                    (int) sparkConfig.sparkFreeCurrentLimit.in(Amps),
+                    (int) sparkConfig.sparkStallSpeed.in(RPM));
+        }
+
         this.internalSparkMax.configure(config,
                 ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);

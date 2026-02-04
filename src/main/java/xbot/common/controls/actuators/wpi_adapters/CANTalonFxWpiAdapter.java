@@ -36,6 +36,7 @@ import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
+import xbot.common.injection.electrical_contract.TalonFxMotorControllerOutputConfig;
 import xbot.common.logging.AlertGroups;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
@@ -136,17 +137,25 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
                 .withNeutralMode(outputConfig.neutralMode == CANMotorControllerOutputConfig.NeutralMode.Brake
                         ? NeutralModeValue.Brake
                         : NeutralModeValue.Coast);
-        if (outputConfig.statorCurrentLimit == null) {
-            this.talonConfiguration.CurrentLimits.withStatorCurrentLimitEnable(false);
-        } else {
-            this.talonConfiguration.CurrentLimits.withStatorCurrentLimitEnable(true)
-                    .withStatorCurrentLimit(outputConfig.statorCurrentLimit);
-        }
 
-        this.talonConfiguration.CurrentLimits.withSupplyCurrentLimitEnable(true)
-                .withSupplyCurrentLowerLimit(outputConfig.supplyCurrentLimit)
-                .withSupplyCurrentLimit(outputConfig.burstSupplyCurrentLimit)
-                .withSupplyCurrentLowerTime(outputConfig.supplyCurrentBurstDuration);
+        if (outputConfig.getClass() != TalonFxMotorControllerOutputConfig.class) {
+            log.error("Tried to set TalonFX {} ({}) configuration with incompatible config class {}. Skipping device-specific settings.",
+                    deviceId, akitName, outputConfig.getClass().getSimpleName());
+        } else {
+            var talonFxOutputConfig = (TalonFxMotorControllerOutputConfig) outputConfig;
+
+            if (talonFxOutputConfig.statorCurrentLimit == null) {
+                this.talonConfiguration.CurrentLimits.withStatorCurrentLimitEnable(false);
+            } else {
+                this.talonConfiguration.CurrentLimits.withStatorCurrentLimitEnable(true)
+                        .withStatorCurrentLimit(talonFxOutputConfig.statorCurrentLimit);
+            }
+
+            this.talonConfiguration.CurrentLimits.withSupplyCurrentLimitEnable(true)
+                    .withSupplyCurrentLowerLimit(talonFxOutputConfig.supplyCurrentLimit)
+                    .withSupplyCurrentLimit(talonFxOutputConfig.burstSupplyCurrentLimit)
+                    .withSupplyCurrentLowerTime(talonFxOutputConfig.supplyCurrentBurstDuration);
+        }
 
         if (!invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(talonConfiguration), 5)) {
             log.error("Configuration set to TalonFX {} ({}) failed.", deviceId, akitName);
