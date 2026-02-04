@@ -7,6 +7,10 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
 import xbot.common.math.PIDManager;
 
+/**
+ * Utility for running simple PID logic on a MockCANMotorController in simulation.
+ * Applies PID output as motor power based on the motor’s current control mode.
+ */
 public class MotorInternalPIDHelper {
     public static void updateInternalPID(MockCANMotorController motor, PIDManager pidManager) {
         updateInternalPIDWithGravity(motor, pidManager, 0.0);
@@ -23,7 +27,6 @@ public class MotorInternalPIDHelper {
                     + gravityFeedForward;
             motor.setPower(output);
         } else {
-            // Duty Cycle
             pidManager.reset();
         }
     }
