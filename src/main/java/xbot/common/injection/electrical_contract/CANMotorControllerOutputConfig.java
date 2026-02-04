@@ -1,9 +1,5 @@
 package xbot.common.injection.electrical_contract;
 
-import edu.wpi.first.units.measure.Current;
-
-import static edu.wpi.first.units.Units.Amps;
-
 public class CANMotorControllerOutputConfig {
     public enum InversionType {
         Normal,
@@ -19,20 +15,19 @@ public class CANMotorControllerOutputConfig {
 
     public NeutralMode neutralMode = NeutralMode.Coast;
 
-    public Current statorCurrentLimit = Amps.of(80);
-
+    /**
+     * Sets the inversion type for the motor controller.
+     */
     public CANMotorControllerOutputConfig withInversionType(InversionType inversionType) {
         this.inversionType = inversionType;
         return this;
     }
 
+    /**
+     * Sets the neutral mode for the motor controller.
+     */
     public CANMotorControllerOutputConfig withNeutralMode(NeutralMode neutralMode) {
         this.neutralMode = neutralMode;
-        return this;
-    }
-
-    public CANMotorControllerOutputConfig withStatorCurrentLimit(Current statorCurrentLimit) {
-        this.statorCurrentLimit = statorCurrentLimit;
         return this;
     }
 }
