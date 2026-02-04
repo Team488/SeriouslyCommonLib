@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 
 public class PowerDistributionPanelWPIAdapter extends XPowerDistributionPanel {
-    
+
     private PowerDistribution pdp;
-    
+
     @AssistedFactory
     public abstract static class PowerDistributionPanelWPIAdapaterFactory implements XPowerDistributionPanelFactory {
         @Override
@@ -17,12 +17,26 @@ public class PowerDistributionPanelWPIAdapter extends XPowerDistributionPanel {
     }
 
     @AssistedInject
-    public PowerDistributionPanelWPIAdapter() {
-        pdp = new PowerDistribution();
-    }
-    
+    public PowerDistributionPanelWPIAdapter() { pdp = new PowerDistribution();}
+
     @Override
-    public double getCurrent(int channel) {
-        return pdp.getCurrent(channel);
-    }
+    public double getCurrent(int channel) { return pdp.getCurrent(channel);}
+
+    @Override
+    public double getVoltage(int channel) { return pdp.getVoltage();}
+
+    @Override
+    public double getTemperature(int channel) { return pdp.getTemperature();}
+
+    @Override
+    public double getTotalCurrent(int channel) { return pdp.getTotalCurrent();}
+
+    @Override
+    public double getTotalPower(int channel) { return pdp.getTotalPower();}
+
+    @Override
+    public double getTotalEnergy(int channel) { return pdp.getTotalEnergy();}
+
+    @Override
+    public double getModule(int channel) { return pdp.getModule();}
 }
