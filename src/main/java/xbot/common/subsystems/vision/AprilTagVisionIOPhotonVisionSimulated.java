@@ -68,6 +68,8 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
         cameraSim.enableRawStream(true);
         cameraSim.enableProcessedStream(true);
         cameraSim.enableDrawWireframe(true);
+        cameraSim.setMaxSightRange(6.0); // higher than the rejection range so we can test rejection logic
+        cameraSim.setMinTargetAreaPixels(200);
         visionSim.addCamera(cameraSim, robotToCamera);
     }
 
