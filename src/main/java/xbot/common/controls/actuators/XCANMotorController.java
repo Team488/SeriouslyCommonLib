@@ -33,6 +33,8 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.BooleanSupplier;
 
 import static edu.wpi.first.units.Units.Meters;
@@ -91,6 +93,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     public final int deviceId;
     public final PropertyFactory propertyFactory;
 
+    protected Map<Integer, XCANMotorControllerPIDProperties> pidProperties = new HashMap<>();
+
     protected XCANMotorControllerInputsAutoLogged inputs;
     protected String akitName;
 
@@ -127,7 +131,9 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             DevicePolice police,
             String pidPropertyPrefix,
             XCANMotorControllerPIDProperties defaultPIDProperties
+
     ) {
+
         this.busId = info.busId();
         this.deviceId = info.deviceId();
         this.propertyFactory = propertyFactory;
@@ -158,6 +164,9 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             kMaxOutputProp = propertyFactory.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxPowerOutput());
             kMinOutputProp = propertyFactory.createPersistentProperty("kMinOutput", defaultPIDProperties.minPowerOutput());
         }
+        if (defaultPIDProperties != null) {
+            pidProperties.put(0,defaultPIDProperties);
+        }
     }
 
     public abstract void setConfiguration(CANMotorControllerOutputConfig outputConfig);
@@ -187,10 +196,12 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     }
 
     public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF) {
-        setPidDirectly(p, i, d, velocityFF, gravityFF, 0);
     }
 
-    public abstract void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot);
+    public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot){
+        pidProperties.put(slot, new XCANMotorControllerPIDProperties(p, i, d, velocityFF, gravityFF, 1, -1));
+
+    }
 
     private void setAllPidValuesFromProperties() {
         if (usesPropertySystem) {
@@ -577,7 +588,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     }
 
     private Measure<? extends PerUnit<AngularVelocityUnit, AngularVelocityUnit>> convertToAngularVelocity(Measure<? extends PerUnit<AngleUnit,
-                                                                                                            AngleUnit>> base) {
+            AngleUnit>> base) {
         if (base == null) {
             return null;
         }
@@ -591,3 +602,4 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     public abstract void setPositionAndVelocityUpdateFrequency(Frequency frequency);
 }
+    
