@@ -53,6 +53,7 @@ public class MockCANMotorController extends XCANMotorController {
     public double p;
     public double i;
     public double d;
+    public double s;
     public double f;
     public double g;
     public double maxPower;
@@ -110,10 +111,11 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     @Override
-    public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot) {
+    public void setPidDirectly(double p, double i, double d, double staticFF, double velocityFF, double gravityFF, int slot) {
         this.p = p;
         this.i = i;
         this.d = d;
+        this.s = staticFF;
         this.f = velocityFF;
         this.g = gravityFF;
     }

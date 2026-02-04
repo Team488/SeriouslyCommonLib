@@ -100,6 +100,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     protected DoubleProperty kPProp;
     protected DoubleProperty kIProp;
     protected DoubleProperty kDProp;
+    protected DoubleProperty kStaticFFProp;
     protected DoubleProperty kVelocityFFProp;
     protected DoubleProperty kGravityFFProp;
     protected DoubleProperty kMaxOutputProp;
@@ -153,6 +154,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             kPProp = propertyFactory.createPersistentProperty("kP", defaultPIDProperties.p());
             kIProp = propertyFactory.createPersistentProperty("kI", defaultPIDProperties.i());
             kDProp = propertyFactory.createPersistentProperty("kD", defaultPIDProperties.d());
+            kStaticFFProp = propertyFactory.createPersistentProperty("kStaticFeedForward", defaultPIDProperties.staticFeedForward());
             kVelocityFFProp = propertyFactory.createPersistentProperty("kVelocityFeedForward", defaultPIDProperties.velocityFeedForward());
             kGravityFFProp = propertyFactory.createPersistentProperty("kGravityFeedForward", defaultPIDProperties.gravityFeedForward());
             kMaxOutputProp = propertyFactory.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxPowerOutput());
@@ -187,10 +189,21 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     }
 
     public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF) {
-        setPidDirectly(p, i, d, velocityFF, gravityFF, 0);
+        setPidDirectly(p, i, d, 0, velocityFF, gravityFF, 0);
     }
 
-    public abstract void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot);
+    public abstract void setPidDirectly(double p, double i, double d, double staticFF, double velocityFF, double gravityFF, int slot);
+
+    public void setPidDirectly(XCANMotorControllerPIDProperties pidProperties, int slot) {
+        setPidDirectly(
+                pidProperties.p(),
+                pidProperties.i(),
+                pidProperties.d(),
+                pidProperties.staticFeedForward(),
+                pidProperties.velocityFeedForward(),
+                pidProperties.gravityFeedForward(),
+                slot);
+    }
 
     private void setAllPidValuesFromProperties() {
         if (usesPropertySystem) {
@@ -204,7 +217,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     private void setPIDFromProperties() {
         if (usesPropertySystem) {
-            setPidDirectly(kPProp.get(), kIProp.get(), kDProp.get(), kVelocityFFProp.get(), kGravityFFProp.get());
+            setPidDirectly(kPProp.get(), kIProp.get(), kDProp.get(), kStaticFFProp.get(), kVelocityFFProp.get(), kGravityFFProp.get(), 0);
         } else {
             log.warn("setPIDFromProperties called on a Motor Controller that doesn't use the property system");
         }

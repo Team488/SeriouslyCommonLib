@@ -163,7 +163,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot) {
+    public void setPidDirectly(double p, double i, double d, double staticFF, double velocityFF, double gravityFF, int slot) {
         if (configCacheFailedAlert.get()) {
             cacheConfiguration();
         }
@@ -173,18 +173,21 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
                     .withKP(p)
                     .withKI(i)
                     .withKD(d)
+                    .withKS(staticFF)
                     .withKV(velocityFF)
                     .withKG(gravityFF);
             case 1 -> talonConfiguration.Slot1
                     .withKP(p)
                     .withKI(i)
                     .withKD(d)
+                    .withKS(staticFF)
                     .withKV(velocityFF)
                     .withKG(gravityFF);
             case 2 -> talonConfiguration.Slot2
                     .withKP(p)
                     .withKI(i)
                     .withKD(d)
+                    .withKS(staticFF)
                     .withKV(velocityFF)
                     .withKG(gravityFF);
             default -> {

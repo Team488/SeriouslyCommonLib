@@ -77,7 +77,7 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot) {
+    public void setPidDirectly(double p, double i, double d, double staticFF, double velocityFF, double gravityFF, int slot) {
 
     }
 

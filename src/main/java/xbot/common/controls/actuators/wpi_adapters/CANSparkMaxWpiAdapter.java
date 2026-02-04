@@ -158,7 +158,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot) {
+    public void setPidDirectly(double p, double i, double d, double staticFF, double velocityFF, double gravityFF, int slot) {
         if (gravityFF != 0) {
             log.warn("setPidDirectly: Gravity feedforward is not supported by SparkMax");
         }
@@ -168,6 +168,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
                 .p(p, getClosedLoopSlot(slot))
                 .i(i, getClosedLoopSlot(slot))
                 .d(d, getClosedLoopSlot(slot));
+        config.closedLoop.feedForward.kS(staticFF, getClosedLoopSlot(slot));
         config.closedLoop.feedForward.kV(velocityFF, getClosedLoopSlot(slot));
         this.internalSparkMax.configure(config,
                 ResetMode.kNoResetSafeParameters,
