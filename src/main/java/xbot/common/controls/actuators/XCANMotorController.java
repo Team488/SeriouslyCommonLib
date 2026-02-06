@@ -316,6 +316,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
         this.angularVelocityInverseScaleFactor = invertRatio(this.angularVelocityScaleFactor);
     }
 
+
     public void configurePidSlots(
             int slot,
             XCANMotorControllerPIDProperties pid
@@ -518,10 +519,11 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     protected abstract void updateInputs(XCANMotorControllerInputs inputs);
 
-    protected abstract void applyingPidToHardware(
+    protected void applyingPidToHardware(
             int slot,
-            XCANMotorControllerPIDProperties xcanMotorControllerPIDProperties
-    );
+            XCANMotorControllerPIDProperties pid) {
+        // no-op or real implementation
+    }
 
     public void refreshDataFrame() {
         updateInputs(inputs);
