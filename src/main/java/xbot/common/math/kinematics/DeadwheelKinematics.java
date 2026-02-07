@@ -42,7 +42,7 @@ public class DeadwheelKinematics
     /**
      * Constructs a deadwheel kinematics object.
      *
-     * @param trackWidth The track width of the drivetrain. Theoretically, this is
+     * @param robotWidth The track width of the drivetrain. Theoretically, this is
      *                   the distance
      *                   between the left wheels and right wheels. However, the
      *                   empirical value may be larger than
