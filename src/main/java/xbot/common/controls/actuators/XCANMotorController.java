@@ -224,12 +224,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF) {
     }
 
-    protected void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot){
-        var pid =  new XCANMotorControllerPIDProperties(p, i, d, velocityFF, gravityFF, 1, -1);
-
-        configurePidSlots(slot, pid);
-
-    }
+    protected abstract void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot);
 
     private void setAllPidValuesFromProperties() {
         if (usesPropertySystem) {
@@ -295,7 +290,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
                         kIProps.get(slot).hasChangedSinceLastCheck(),
                         kDProps.get(slot).hasChangedSinceLastCheck(),
                         kVelocityFFProps.get(slot).hasChangedSinceLastCheck(),
-                        kGravityFFProps.get(slot).hasChangedSinceLastCheck())) {
+                        kGravityFFProps.get(slot).hasChangedSinceLastCheck()))
+                {
 
                     var pid = new XCANMotorControllerPIDProperties(
                             kPProps.get(slot).get(),
@@ -317,8 +313,16 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
                             slot
                     );
                 }
+
             }
+
         }
+
+        kMaxOutputProps.get(currentPidSlot).hasChangedSinceLastCheck((value) ->
+                setPowerRange(kMinOutputProps.get(currentPidSlot).get(), value));
+        kMinOutputProps.get(currentPidSlot).hasChangedSinceLastCheck((value) ->
+                setPowerRange(value, kMaxOutputProps.get(currentPidSlot).get()));
+
     }
 
     public abstract void setOpenLoopRampRates(Time dutyCyclePeriod, Time voltagePeriod);
@@ -366,13 +370,6 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     }
 
 
-    public void configurePidSlots(
-            int slot,
-            XCANMotorControllerPIDProperties pid
-    ) {
-        pidProperties.put(slot, pid);
-        applyingPidToHardware(slot, pid);
-    }
     /**
      * Get the position reported by the motor controller.
      * @apiNote Angle scaling factors configured on the motor controller are ignored.
@@ -568,11 +565,6 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     protected abstract void updateInputs(XCANMotorControllerInputs inputs);
 
-    protected void applyingPidToHardware(
-            int slot,
-            XCANMotorControllerPIDProperties pid) {
-        // no-op or real implementation
-    }
 
     public void refreshDataFrame() {
         updateInputs(inputs);
