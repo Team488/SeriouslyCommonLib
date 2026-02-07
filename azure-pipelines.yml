@@ -43,7 +43,7 @@ jobs:
       displayName: 'Maven Authenticate'
       inputs:
         artifactsFeeds: XBot
-      condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
     - task: Gradle@3
       displayName: 'Publish to Maven'
       inputs:
@@ -54,7 +54,7 @@ jobs:
         publishJUnitResults: false
       env:
         GRADLE_USER_HOME: $(GRADLE_USER_HOME)
-      condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
     - task: Gradle@3
       displayName: Generate Javadoc
       inputs:
