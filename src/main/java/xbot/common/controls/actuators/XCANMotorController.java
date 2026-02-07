@@ -128,7 +128,7 @@
 
         private final Alert unhealthyAlert;
 
-        private static final int pidSlot = 0;
+        private int pidSlot = 0;
 
         protected XCANMotorController(
                 CANMotorControllerInfo info,
