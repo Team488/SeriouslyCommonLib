@@ -17,26 +17,42 @@ public class PowerDistributionPanelWPIAdapter extends XPowerDistributionPanel {
     }
 
     @AssistedInject
-    public PowerDistributionPanelWPIAdapter() { pdp = new PowerDistribution();}
+    public PowerDistributionPanelWPIAdapter() {
+        pdp = new PowerDistribution();
+    }
 
     @Override
-    public double getCurrent(int channel) { return pdp.getCurrent(channel);}
+    public double getCurrent(int channel) {
+        return pdp.getCurrent(channel);
+    }
 
     @Override
-    public double getVoltage(int channel) { return pdp.getVoltage();}
+    public double getVoltage() {
+        return pdp.getVoltage();
+    }
 
     @Override
-    public double getTemperature(int channel) { return pdp.getTemperature();}
+    public double getTemperature() {
+        return pdp.getTemperature();
+    }
 
     @Override
-    public double getTotalCurrent(int channel) { return pdp.getTotalCurrent();}
+    public double getTotalCurrent() {
+        return pdp.getTotalCurrent();
+    }
 
     @Override
-    public double getTotalPower(int channel) { return pdp.getTotalPower();}
+    public double getTotalPower() {
+        return pdp.getTotalPower();
+    }
 
     @Override
-    public double getTotalEnergy(int channel) { return pdp.getTotalEnergy();}
+    public double getTotalEnergy() {
+        return pdp.getTotalEnergy();
+    }
 
     @Override
-    public double getModule(int channel) { return pdp.getModule();}
+    public double getModule() {
+        return pdp.getModule();
+    }
 }

@@ -37,32 +37,32 @@ public class MockPowerDistributionPanel extends XPowerDistributionPanel {
     }
 
     @Override
-    public double getVoltage(int channel) {
+    public double getVoltage() {
         return 0;
     }
 
     @Override
-    public double getTemperature(int channel) {
+    public double getTemperature() {
         return 0;
     }
 
     @Override
-    public double getTotalCurrent(int channel) {
+    public double getTotalCurrent() {
         return 0;
     }
 
     @Override
-    public double getTotalPower(int channel) {
+    public double getTotalPower() {
         return 0;
     }
 
     @Override
-    public double getTotalEnergy(int channel) {
+    public double getTotalEnergy() {
         return 0;
     }
 
     @Override
-    public double getModule(int channel) {
+    public double getModule() {
         return 0;
     }
 }
