@@ -1,21 +1,30 @@
-package competition.subsystems.drive.commands;
+package xbot.common.subsystems.drive.swerve.commands;
 
-import competition.operator_interface.OperatorInterface;
-import competition.subsystems.drive.DriveSubsystem;
-import edu.wpi.first.math.MathUtil;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
+import xbot.common.controls.sensors.XXboxController;
+import xbot.common.subsystems.drive.OperatorInterface;
 import xbot.common.command.BaseCommand;
+import xbot.common.subsystems.drive.BaseSwerveDriveSubsystem;
 
 import javax.inject.Inject;
 
 public class DebugSwerveModuleCommand extends BaseCommand {
 
-    final DriveSubsystem drive;
-    final OperatorInterface oi;
+    final BaseSwerveDriveSubsystem drive;
+    final XXboxController gamepad;
 
-    @Inject
-    public DebugSwerveModuleCommand(DriveSubsystem drive, OperatorInterface oi) {
+    @AssistedFactory
+    public abstract static class OperatorInterfaceFactory {
+        public abstract OperatorInterface create(
+                @Assisted("joystick") XXboxController joystick);
+    }
+
+    @AssistedInject
+    public DebugSwerveModuleCommand(BaseSwerveDriveSubsystem drive, @Assisted XXboxController gamepad) {
         this.drive = drive;
-        this.oi = oi;
+        this.gamepad = gamepad;
         this.addRequirements(drive);
 
         this.addRequirements(drive.getFrontLeftSwerveModuleSubsystem().getDriveSubsystem());
@@ -36,8 +45,8 @@ public class DebugSwerveModuleCommand extends BaseCommand {
 
     @Override
     public void execute() {
-        double drivePower = MathUtil.applyDeadband(oi.driverGamepad.getLeftStickY(), oi.getDriverGamepadTypicalDeadband());
-        double turnPower = MathUtil.applyDeadband(oi.driverGamepad.getRightStickX(), oi.getDriverGamepadTypicalDeadband());
+        double drivePower = gamepad.getLeftStickY();
+        double turnPower = gamepad.getRightStickX();
 
         drive.controlOnlyActiveSwerveModuleSubsystem(drivePower, turnPower);
     }
