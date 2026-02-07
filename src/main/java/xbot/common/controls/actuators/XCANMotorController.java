@@ -318,10 +318,15 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
         }
 
-        kMaxOutputProps.get(currentPidSlot).hasChangedSinceLastCheck((value) ->
-                setPowerRange(kMinOutputProps.get(currentPidSlot).get(), value));
-        kMinOutputProps.get(currentPidSlot).hasChangedSinceLastCheck((value) ->
-                setPowerRange(value, kMaxOutputProps.get(currentPidSlot).get()));
+        if (kMaxOutputProps.get(currentPidSlot) != null) {
+            kMaxOutputProps.get(currentPidSlot).hasChangedSinceLastCheck((value) ->
+                    setPowerRange(kMinOutputProps.get(currentPidSlot).get(), value));
+        }
+        if (kMinOutputProps.get(currentPidSlot) != null) {
+            kMinOutputProps.get(currentPidSlot).hasChangedSinceLastCheck((value) ->
+                    setPowerRange(value, kMaxOutputProps.get(currentPidSlot).get()));
+        }
+
 
     }
 
