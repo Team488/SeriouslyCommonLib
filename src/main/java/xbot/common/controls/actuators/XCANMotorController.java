@@ -128,7 +128,8 @@
 
         private final Alert unhealthyAlert;
 
-        private int pidSlot = 0;
+        private static final int totalPidSlot = 4;
+        private int currentPidSlot = 0;
 
         protected XCANMotorController(
                 CANMotorControllerInfo info,
@@ -147,6 +148,7 @@
             this.inputs = new XCANMotorControllerInputsAutoLogged();
 
             this.propertyFactory.setPrefix(owningSystemPrefix + "/" + info.name());
+
             police.registerDevice(DevicePolice.DeviceType.CAN, busId, info.deviceId(), info.name());
             this.akitName = info.name()+"/CANMotorController";
 
@@ -162,8 +164,11 @@
                 usesPropertySystem = false;
             } else  {
 
-                for (int slot = 0; slot <= pidSlot; slot++) {
-                    propertyFactory.setPrefix(owningSystemPrefix + "/" + slot + "/");
+                for (int slot = 0; slot < totalPidSlot; slot++) {
+                    propertyFactory.setPrefix(
+                            owningSystemPrefix + "/" + pidPropertyPrefix + "/" + slot + "/"
+                    );
+
 
                     kPProps.put(slot, propertyFactory.createPersistentProperty("kP", defaultPIDProperties.p()));
                     kIProps.put(slot, propertyFactory.createPersistentProperty("kI", defaultPIDProperties.i()));
@@ -187,9 +192,6 @@
                 }
                 this.propertyFactory.setPrefix(pidPropertyPrefix);
 
-            }
-            if (defaultPIDProperties != null) {
-                pidProperties.put(0,defaultPIDProperties);
             }
         }
 
@@ -222,7 +224,7 @@
         public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF) {
         }
 
-        public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot){
+        protected void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot){
             var pid =  new XCANMotorControllerPIDProperties(p, i, d, velocityFF, gravityFF, 1, -1);
 
             configurePidSlots(slot, pid);
@@ -231,8 +233,9 @@
 
         private void setAllPidValuesFromProperties() {
             if (usesPropertySystem) {
-                setPowerRange(kMinOutputProps.get(pidSlot).get(), kMaxOutputProps.get(pidSlot).get());
-                setVoltageRange(MAX_VOLTAGE.times(kMinOutputProps.get(pidSlot).get()), MAX_VOLTAGE.times(kMaxOutputProps.get(pidSlot).get()));
+                setPowerRange(kMinOutputProps.get(currentPidSlot).get(), kMaxOutputProps.get(currentPidSlot).get());
+                setVoltageRange(MAX_VOLTAGE.times(kMinOutputProps.get(currentPidSlot).get()),
+                        MAX_VOLTAGE.times(kMaxOutputProps.get(currentPidSlot).get()));
                 setPIDFromProperties();
             } else {
                 log.warn("setAllProperties called on a Motor Controller that doesn't use the property system");
@@ -241,11 +244,18 @@
 
         private void setPIDFromProperties() {
             if (usesPropertySystem) {
-                setPidDirectly(kPProps.get(pidSlot).get(), kIProps.get(pidSlot).get(), kDProps.get(pidSlot).get(), kVelocityFFProps.get(pidSlot).get(),
-                        kGravityFFProps.get(pidSlot).get(),
-                        pidSlot);
+                setPidDirectly(kPProps.get(currentPidSlot).get(), kIProps.get(currentPidSlot).get(), kDProps.get(currentPidSlot).get(),
+                        kVelocityFFProps.get(currentPidSlot).get(),
+                        kGravityFFProps.get(currentPidSlot).get(),
+                        currentPidSlot);
             } else {
                 log.warn("setPIDFromProperties called on a Motor Controller that doesn't use the property system");
+            }
+        }
+
+        private void validateSlot(int slot) {
+            if (slot < 0 || slot >= totalPidSlot) {
+                throw new IllegalArgumentException("Invalid PID slot: " + slot);
             }
         }
 
@@ -279,7 +289,7 @@
                 // Since it costs the same to set all the PID values, we check to see if any have changed and then set them as a group.
                 // In practice, it would be hard for a human to do this fast enough during tuning to really get any benefit, but it could happen
                 // during some automated process.
-                for (int slot = 0; slot < pidSlot; slot++) {
+                for (int slot = 0; slot < totalPidSlot; slot++) {
                     if (LogicUtils.anyOf(
                             kPProps.get(slot).hasChangedSinceLastCheck(),
                             kIProps.get(slot).hasChangedSinceLastCheck(),
