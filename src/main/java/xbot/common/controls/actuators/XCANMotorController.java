@@ -101,9 +101,6 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     protected boolean usesPropertySystem = true;
     protected boolean firstPeriodicCall = true;
 
-//        DefaultPIDProperties defaultPIDProperties = new DefaultPIDProperties(pidSlot);
-
-
     protected Map<Integer, DoubleProperty> kPProps = new HashMap<>();
     protected Map<Integer, DoubleProperty> kIProps = new HashMap<>();
     protected Map<Integer, DoubleProperty> kDProps = new HashMap<>();
@@ -111,7 +108,6 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     protected Map<Integer, DoubleProperty> kGravityFFProps = new HashMap<>();
     protected Map<Integer, DoubleProperty> kMaxOutputProps = new HashMap<>();
     protected Map<Integer, DoubleProperty> kMinOutputProps = new HashMap<>();
-
 
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(XCANMotorController.class);
 
