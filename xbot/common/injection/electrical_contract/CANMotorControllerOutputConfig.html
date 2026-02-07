@@ -76,6 +76,10 @@ loadScripts(document, 'script');</script>
 <div class="inheritance">xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig</div>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>Direct Known Subclasses:</dt>
+<dd><code><a href="SparkMaxMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">SparkMaxMotorControllerOutputConfig</a></code>, <code><a href="TalonFxMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">TalonFxMotorControllerOutputConfig</a></code></dd>
+</dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">CANMotorControllerOutputConfig</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
@@ -115,9 +119,6 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color"><code><a href="CANMotorControllerOutputConfig.NeutralMode.html" title="enum class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig.NeutralMode</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#neutralMode" class="member-name-link">neutralMode</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Current.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Current</a></code></div>
-<div class="col-second even-row-color"><code><a href="#statorCurrentLimit" class="member-name-link">statorCurrentLimit</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -147,13 +148,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#withInversionType(xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig.InversionType)" class="member-name-link">withInversionType</a><wbr>(<a href="CANMotorControllerOutputConfig.InversionType.html" title="enum class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig.InversionType</a>&nbsp;inversionType)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the inversion type for the motor controller.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#withNeutralMode(xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig.NeutralMode)" class="member-name-link">withNeutralMode</a><wbr>(<a href="CANMotorControllerOutputConfig.NeutralMode.html" title="enum class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig.NeutralMode</a>&nbsp;neutralMode)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#withStatorCurrentLimit(edu.wpi.first.units.measure.Current)" class="member-name-link">withStatorCurrentLimit</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Current.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Current</a>&nbsp;statorCurrentLimit)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the neutral mode for the motor controller.</div>
+</div>
 </div>
 </div>
 </div>
@@ -183,12 +185,6 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CANMotorControllerOutputConfig.NeutralMode.html" title="enum class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig.NeutralMode</a></span>&nbsp;<span class="element-name">neutralMode</span></div>
 </section>
 </li>
-<li>
-<section class="detail" id="statorCurrentLimit">
-<h3>statorCurrentLimit</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Current.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Current</a></span>&nbsp;<span class="element-name">statorCurrentLimit</span></div>
-</section>
-</li>
 </ul>
 </section>
 </li>
@@ -215,18 +211,14 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="withInversionType(xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig.InversionType)">
 <h3>withInversionType</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a></span>&nbsp;<span class="element-name">withInversionType</span><wbr><span class="parameters">(<a href="CANMotorControllerOutputConfig.InversionType.html" title="enum class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig.InversionType</a>&nbsp;inversionType)</span></div>
+<div class="block">Sets the inversion type for the motor controller.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="withNeutralMode(xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig.NeutralMode)">
 <h3>withNeutralMode</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a></span>&nbsp;<span class="element-name">withNeutralMode</span><wbr><span class="parameters">(<a href="CANMotorControllerOutputConfig.NeutralMode.html" title="enum class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig.NeutralMode</a>&nbsp;neutralMode)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="withStatorCurrentLimit(edu.wpi.first.units.measure.Current)">
-<h3>withStatorCurrentLimit</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a></span>&nbsp;<span class="element-name">withStatorCurrentLimit</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Current.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Current</a>&nbsp;statorCurrentLimit)</span></div>
+<div class="block">Sets the neutral mode for the motor controller.</div>
 </section>
 </li>
 </ul>
