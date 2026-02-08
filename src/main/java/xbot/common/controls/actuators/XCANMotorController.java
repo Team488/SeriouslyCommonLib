@@ -315,10 +315,10 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             }
 
         }
-
-        kMaxOutputProps.hasChangedSinceLastCheck((value) -> setPowerRange(kMinOutputProps.get(), value));
-        kMinOutputProps.hasChangedSinceLastCheck((value) -> setPowerRange(value, kMaxOutputProps.get()));
-
+        if (kMinOutputProps != null && kMaxOutputProps != null) {
+            kMaxOutputProps.hasChangedSinceLastCheck((value) -> setPowerRange(kMinOutputProps.get(), value));
+            kMinOutputProps.hasChangedSinceLastCheck((value) -> setPowerRange(value, kMaxOutputProps.get()));
+        }
     }
 
     public abstract void setOpenLoopRampRates(Time dutyCyclePeriod, Time voltagePeriod);
