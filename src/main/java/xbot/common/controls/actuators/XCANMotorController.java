@@ -106,8 +106,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     protected Map<Integer, DoubleProperty> kDProps = new HashMap<>();
     protected Map<Integer, DoubleProperty> kVelocityFFProps = new HashMap<>();
     protected Map<Integer, DoubleProperty> kGravityFFProps = new HashMap<>();
-    protected Map<Integer, DoubleProperty> kMaxOutputProps = new HashMap<>();
-    protected Map<Integer, DoubleProperty> kMinOutputProps = new HashMap<>();
+    protected DoubleProperty kMaxOutputProps;
+    protected DoubleProperty kMinOutputProps;
 
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(XCANMotorController.class);
 
@@ -171,8 +171,9 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
                 kDProps.put(slot, propertyFactory.createPersistentProperty("kD", defaultPIDProperties.d()));
                 kVelocityFFProps.put(slot, propertyFactory.createPersistentProperty("kVelocityFeedForward", defaultPIDProperties.velocityFeedForward()));
                 kGravityFFProps.put(slot, propertyFactory.createPersistentProperty("kGravityFeedForward", defaultPIDProperties.gravityFeedForward()));
-                kMaxOutputProps.put(slot, propertyFactory.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxPowerOutput()));
-                kMinOutputProps.put(slot, propertyFactory.createPersistentProperty("kMinOutput", defaultPIDProperties.minPowerOutput()));
+                kMaxOutputProps = propertyFactory.createPersistentProperty("kMaxOutputProps", defaultPIDProperties.maxPowerOutput());
+                kMinOutputProps = propertyFactory.createPersistentProperty("kMinOutputProps", defaultPIDProperties.minPowerOutput());
+
 
                 pidProperties.put(slot, new XCANMotorControllerPIDProperties(
                         kPProps.get(slot).get(),
@@ -180,8 +181,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
                         kDProps.get(slot).get(),
                         kVelocityFFProps.get(slot).get(),
                         kGravityFFProps.get(slot).get(),
-                        kMaxOutputProps.get(slot).get(),
-                        kMinOutputProps.get(slot).get()
+                        kMaxOutputProps.get(),
+                        kMinOutputProps.get()
                 )
                 );
 
@@ -220,13 +221,13 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF) {
     }
 
-    protected abstract void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot);
+    public abstract void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot);
 
     private void setAllPidValuesFromProperties() {
         if (usesPropertySystem) {
-            setPowerRange(kMinOutputProps.get(currentPidSlot).get(), kMaxOutputProps.get(currentPidSlot).get());
-            setVoltageRange(MAX_VOLTAGE.times(kMinOutputProps.get(currentPidSlot).get()),
-                    MAX_VOLTAGE.times(kMaxOutputProps.get(currentPidSlot).get()));
+            setPowerRange(kMinOutputProps.get(), kMaxOutputProps.get());
+            setVoltageRange(MAX_VOLTAGE.times(kMinOutputProps.get()),
+                    MAX_VOLTAGE.times(kMaxOutputProps.get()));
             setPIDFromProperties();
         } else {
             log.warn("setAllProperties called on a Motor Controller that doesn't use the property system");
@@ -246,7 +247,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     private void validateSlot(int slot) {
         if (slot < 0 || slot >= totalPidSlot) {
-            throw new IllegalArgumentException("Invalid PID slot: " + slot);
+            log.warn("Slot is not 0-4. Its now set to 0");
+            currentPidSlot = 0;
         }
     }
 
@@ -295,8 +297,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
                             kDProps.get(slot).get(),
                             kVelocityFFProps.get(slot).get(),
                             kGravityFFProps.get(slot).get(),
-                            kMaxOutputProps.get(slot).get(),
-                            kMinOutputProps.get(slot).get()
+                            kMaxOutputProps.get(),
+                            kMinOutputProps.get()
                     );
                     pidProperties.put(slot, pid);
 
@@ -314,15 +316,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
         }
 
-        if (kMaxOutputProps.get(currentPidSlot) != null) {
-            kMaxOutputProps.get(currentPidSlot).hasChangedSinceLastCheck((value) ->
-                    setPowerRange(kMinOutputProps.get(currentPidSlot).get(), value));
-        }
-        if (kMinOutputProps.get(currentPidSlot) != null) {
-            kMinOutputProps.get(currentPidSlot).hasChangedSinceLastCheck((value) ->
-                    setPowerRange(value, kMaxOutputProps.get(currentPidSlot).get()));
-        }
-
+        kMaxOutputProps.hasChangedSinceLastCheck((value) -> setPowerRange(kMinOutputProps.get(), value));
+        kMinOutputProps.hasChangedSinceLastCheck((value) -> setPowerRange(value, kMaxOutputProps.get()));
 
     }
 
