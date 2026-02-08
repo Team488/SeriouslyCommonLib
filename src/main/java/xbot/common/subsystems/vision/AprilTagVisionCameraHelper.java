@@ -49,9 +49,11 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final List<Pose3d> robotPoses = new LinkedList<>();
     private final List<Pose3d> robotPosesAccepted = new LinkedList<>();
     private final List<Pose3d> robotPosesRejected = new LinkedList<>();
-    private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
+    private final List<VisionPoseObservation> acceptedPoseObservations = new LinkedList<>();
+    private final List<VisionPoseObservation> allPoseObservations = new LinkedList<>();
 
-    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout, boolean useForPoseEstimates) {
+    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io,
+            AprilTagFieldLayout fieldLayout, boolean useForPoseEstimates) {
         this.logPath = prefix;
         this.io = io;
         this.inputs = new VisionIOInputsAutoLogged();
@@ -107,8 +109,12 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         return robotPosesRejected;
     }
 
-    public List<VisionPoseObservation> getPoseObservations() {
-        return poseObservations;
+    public List<VisionPoseObservation> getAcceptedPoseObservations() {
+        return acceptedPoseObservations;
+    }
+
+    public List<VisionPoseObservation> getAllPoseObservations() {
+        return allPoseObservations;
     }
 
     public boolean getUseForPoseEstimates() {
@@ -122,7 +128,8 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.robotPoses.clear();
         this.robotPosesAccepted.clear();
         this.robotPosesRejected.clear();
-        this.poseObservations.clear();
+        this.acceptedPoseObservations.clear();
+        this.allPoseObservations.clear();
 
         // Add the tag poses
         for (int tagId : inputs.tagIds) {
@@ -145,11 +152,6 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
                 robotPosesAccepted.add(observation.pose());
             }
 
-            // Skip if rejected
-            if (rejectPose) {
-                continue;
-            }
-
             // Calculate standard deviations
             double stdDevFactor = Math.pow(observation.averageTagDistance(), 2.0) / observation.tagCount();
             double linearStdDev = linearStdDevBaseline.get() * stdDevFactor;
@@ -162,9 +164,17 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
             linearStdDev *= cameraStdDevFactor.get();
             angularStdDev *= cameraStdDevFactor.get();
 
-            poseObservations.add(new VisionPoseObservation(observation.pose().toPose2d(),
+            var visionPoseObservation = new VisionPoseObservation(
+                    observation.pose().toPose2d(),
                     observation.timestamp(),
-                    VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev)));
+                    VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev),
+                    observation.ambiguity(),
+                    observation.tagCount());
+
+            allPoseObservations.add(visionPoseObservation);
+            if (!rejectPose) {
+                acceptedPoseObservations.add(visionPoseObservation);
+            }
         }
     }
 
