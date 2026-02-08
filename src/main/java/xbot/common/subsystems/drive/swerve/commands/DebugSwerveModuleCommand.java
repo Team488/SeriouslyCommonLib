@@ -18,7 +18,7 @@ public class DebugSwerveModuleCommand extends BaseCommand {
     @AssistedFactory
     public abstract static class DebugSwerveModuleCommandFactory {
         public abstract DebugSwerveModuleCommand create(
-                @Assisted("joystick") XXboxController joystick);
+                @Assisted XXboxController gamepad);
     }
 
     @AssistedInject
