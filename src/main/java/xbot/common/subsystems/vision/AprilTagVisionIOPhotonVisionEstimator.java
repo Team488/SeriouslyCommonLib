@@ -67,7 +67,6 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
     protected final PhotonCamera camera;
     private final PhotonPoseEstimator photonEstimator;
     private final AprilTagFieldLayout aprilTagFieldLayout;
-    private Matrix<N3, N1> curStdDevs;
 
     protected final Transform3d robotToCamera;
 
@@ -109,12 +108,11 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
             if (visionEst.isEmpty()) {
                 visionEst = this.photonEstimator.estimateLowestAmbiguityPose(result);
             }
-            this.updateEstimationStdDevs(visionEst, result.getTargets());
 
             visionEst.ifPresent(
                                 est -> {
                                     // Change our trust in the measurement based on the tags we can see
-                                    var estStdDevs = getEstimationStdDevs();
+                                    var estStdDevs = this.getEstimationStdDevs(visionEst, result.getTargets());
                                     var targets = result.getTargets();
                                     var ambiguityStats = targets.stream()
                                         .map(t -> t.getPoseAmbiguity())
@@ -135,7 +133,8 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
                                                             ambiguityStats.getAverage(),
                                                             (int) ambiguityStats.getCount(),
                                                             distanceStats.getAverage(),
-                                                            PoseObservationType.PHOTONVISION)
+                                                            estStdDevs,
+                                                            PoseObservationType.PHOTONVISION),
                                                          );
                                 });
         }
@@ -152,52 +151,47 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
      * @param estimatedPose The estimated pose to guess standard deviations for.
      * @param targets All targets in this camera frame
      */
-    private void updateEstimationStdDevs(
-            Optional<EstimatedRobotPose> estimatedPose, List<PhotonTrackedTarget> targets) {
-        if (estimatedPose.isEmpty()) {
-            // No pose input. Default to single-tag std devs
-            curStdDevs = kSingleTagStdDevs;
+    private Matrix<N3, N1> getEstimationStdDevs(
+            EstimatedRobotPose estimatedPose, List<PhotonTrackedTarget> targets) {
+        // Pose present. Start running Heuristic
+        var estStdDevs = kSingleTagStdDevs;
+        int numTags = 0;
+        double avgDist = 0;
 
-        } else {
-            // Pose present. Start running Heuristic
-            var estStdDevs = kSingleTagStdDevs;
-            int numTags = 0;
-            double avgDist = 0;
-
-            // Precalculation - see how many tags we found, and calculate an average-distance metric
-            for (var tgt : targets) {
-                var tagPose = photonEstimator.getFieldTags().getTagPose(tgt.getFiducialId());
-                if (tagPose.isEmpty()) {
-                    continue;
-                }
-                numTags++;
-                avgDist +=
-                        tagPose
-                                .get()
-                                .toPose2d()
-                                .getTranslation()
-                                .getDistance(estimatedPose.get().estimatedPose.toPose2d().getTranslation());
+        // Precalculation - see how many tags we found, and calculate an average-distance metric
+        for (var tgt : targets) {
+            var tagPose = photonEstimator.getFieldTags().getTagPose(tgt.getFiducialId());
+            if (tagPose.isEmpty()) {
+                continue;
             }
+            numTags++;
+            avgDist +=
+                tagPose
+                .get()
+                .toPose2d()
+                .getTranslation()
+                .getDistance(estimatedPose.estimatedPose.toPose2d().getTranslation());
+        }
 
-            if (numTags == 0) {
-                // No tags visible. Default to single-tag std devs
-                curStdDevs = kSingleTagStdDevs;
+        if (numTags == 0) {
+            // No tags visible. Default to single-tag std devs
+            return kSingleTagStdDevs;
+        } else {
+            // One or more tags visible, run the full heuristic.
+            avgDist /= numTags;
+            // Decrease std devs if multiple targets are visible
+            if (numTags > 1) {
+                estStdDevs = kMultiTagStdDevs;
+            }
+            // Increase std devs based on (average) distance
+            if (numTags == 1 && avgDist > 4) {
+                estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
             } else {
-                // One or more tags visible, run the full heuristic.
-                avgDist /= numTags;
-                // Decrease std devs if multiple targets are visible
-                if (numTags > 1) {
-                    estStdDevs = kMultiTagStdDevs;
-                }
-                // Increase std devs based on (average) distance
-                if (numTags == 1 && avgDist > 4) {
-                    estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
-                } else {
-                    estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
-                }
-                curStdDevs = estStdDevs;
+                estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
             }
         }
+
+        return estStdDevs;
     }
 
 

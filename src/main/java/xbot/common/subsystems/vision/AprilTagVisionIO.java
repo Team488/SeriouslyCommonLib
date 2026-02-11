@@ -45,6 +45,7 @@ public interface AprilTagVisionIO {
             double ambiguity,
             int tagCount,
             double averageTagDistance,
+            Matrix<N3, N1> estimatedStdDevs,
             PoseObservationType type) {
     }
 
