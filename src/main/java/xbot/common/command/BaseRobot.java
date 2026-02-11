@@ -262,9 +262,10 @@ public abstract class BaseRobot extends LoggedRobot {
 
         // Then, refresh any Subsystem or other components that implement DataFrameRefreshable.
         double dataFrameStart = getPerformanceTimestampInMs();
-        for (DataFrameRefreshable refreshable : dataFrameRefreshables) {
-            refreshable.refreshDataFrame();
-        }
+        refreshAllSubsystems();
+//        for (DataFrameRefreshable refreshable : dataFrameRefreshables) {
+//            refreshable.refreshDataFrame();
+//        }
         double dataFrameEnd = getPerformanceTimestampInMs();
         Logger.recordOutput("RefreshDevicesMs", dataFrameEnd - dataFrameStart);
 
@@ -276,6 +277,11 @@ public abstract class BaseRobot extends LoggedRobot {
         outsidePeriodicStart = getPerformanceTimestampInMs();
     }
 
+    public void refreshAllSubsystems() {
+        for (BaseSubsystem subsystem : DataFrameRegistry.getAllSubsystems()) {
+            subsystem.refreshDataFrame();
+        }
+    }
 
     @Override
     public void simulationInit() {
