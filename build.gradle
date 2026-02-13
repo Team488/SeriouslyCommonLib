@@ -199,6 +199,16 @@ tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
 apply plugin: 'maven-publish'
 
 publishing {
@@ -206,8 +216,11 @@ publishing {
         myPublication(MavenPublication) { 
             groupId 'xbot.common' 
             artifactId 'SeriouslyCommonLib' 
-            version System.getenv('BUILD_BUILDNUMBER') ?: '1.0.0'  
-            artifact 'build/libs/SeriouslyCommonLib.jar'   
+            version System.getenv('BUILD_BUILDNUMBER') ?: '1.0.0'
+
+            artifact jar
+            artifact sourcesJar
+            artifact javadocJar
         } 
     }
     repositories {
