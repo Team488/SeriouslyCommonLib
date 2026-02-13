@@ -68,6 +68,7 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
 
     protected final PhotonCamera camera;
     private final PhotonPoseEstimator photonEstimator;
+    private final String logPath;
     private final AprilTagFieldLayout aprilTagFieldLayout;
 
     private final DoubleProperty singleTagStdDev1;
@@ -91,6 +92,7 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
     @AssistedInject
     public AprilTagVisionIOPhotonVisionEstimator(@Assisted String name, @Assisted Transform3d robotToCamera,
                                                  AprilTagFieldLayout fieldLayout, PropertyFactory pf) {
+        this.logPath = name;
         this.camera = new PhotonCamera(name);
         this.aprilTagFieldLayout= fieldLayout;
         this.robotToCamera = robotToCamera;
