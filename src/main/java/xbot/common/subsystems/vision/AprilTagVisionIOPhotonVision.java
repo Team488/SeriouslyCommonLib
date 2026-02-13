@@ -18,6 +18,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.wpilibj.Timer;
 
 import java.util.HashSet;
@@ -143,6 +144,7 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
                                 multitagResult.estimatedPose.ambiguity, // Ambiguity
                                 multitagResult.fiducialIDsUsed.size(), // Tag count
                                 totalTagDistance / result.targets.size(), // Average tag distance
+                                VecBuilder.fill(0.02, 0.02, 0.6), // This is from LinearStdDevBaseline, and AngularStdDevBaseline from the old way.
                                 PoseObservationType.PHOTONVISION)); // Observation type
 
             } else if (!result.targets.isEmpty()) { // Single tag result
@@ -169,6 +171,7 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
                                     target.poseAmbiguity, // Ambiguity
                                     1, // Tag count
                                     cameraToTarget.getTranslation().getNorm(), // Average tag distance
+                                    VecBuilder.fill(0.02, 0.02, 0.6), // This is from LinearStdDevBaseline, and AngularStdDevBaseline from the old way.
                                     PoseObservationType.PHOTONVISION)); // Observation type
                 }
             }

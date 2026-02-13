@@ -23,6 +23,8 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.Timer;
+import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.PropertyFactory;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -68,6 +70,15 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
     private final PhotonPoseEstimator photonEstimator;
     private final AprilTagFieldLayout aprilTagFieldLayout;
 
+    private final DoubleProperty singleTagStdDev1;
+    private final DoubleProperty singleTagStdDev2;
+    private final DoubleProperty singleTagAngularStdDev;
+
+    private final DoubleProperty multipleTagStdDev1;
+    private final DoubleProperty multipleTagStdDev2;
+    private final DoubleProperty multipleTagAngularStdDev;
+
+
     protected final Transform3d robotToCamera;
 
     /**
@@ -79,11 +90,19 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
      */
     @AssistedInject
     public AprilTagVisionIOPhotonVisionEstimator(@Assisted String name, @Assisted Transform3d robotToCamera,
-                                                 AprilTagFieldLayout fieldLayout) {
+                                                 AprilTagFieldLayout fieldLayout, PropertyFactory pf) {
         this.camera = new PhotonCamera(name);
         this.aprilTagFieldLayout= fieldLayout;
         this.robotToCamera = robotToCamera;
         this.photonEstimator = new PhotonPoseEstimator(this.aprilTagFieldLayout, this.robotToCamera);
+
+        this.singleTagStdDev1 = pf.createPersistentProperty("singleTagStdDev1", 4);
+        this.singleTagStdDev2 = pf.createPersistentProperty("singleTagStdDev2", 4);
+        this.singleTagAngularStdDev = pf.createPersistentProperty("singleTagAngularStdDev", 8);
+
+        this.multipleTagStdDev1 = pf.createPersistentProperty("multipleTagStdDev1", 0.5);
+        this.multipleTagStdDev2 = pf.createPersistentProperty("multipleTagStdDev2", 0.5);
+        this.multipleTagAngularStdDev = pf.createPersistentProperty("multipleTagAngularStdDev", 1);
     }
 
     @Override
@@ -112,7 +131,7 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
             visionEst.ifPresent(
                                 est -> {
                                     // Change our trust in the measurement based on the tags we can see
-                                    var estStdDevs = this.getEstimationStdDevs(visionEst, result.getTargets());
+                                    var estStdDevs = this.getEstimationStdDevs(est, result.getTargets());
                                     var targets = result.getTargets();
                                     var ambiguityStats = targets.stream()
                                         .map(t -> t.getPoseAmbiguity())
@@ -134,8 +153,7 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
                                                             (int) ambiguityStats.getCount(),
                                                             distanceStats.getAverage(),
                                                             estStdDevs,
-                                                            PoseObservationType.PHOTONVISION),
-                                                         );
+                                                            PoseObservationType.PHOTONVISION));
                                 });
         }
         inputs.poseObservations = poseObservations.stream().toArray(PoseObservation[]::new);
@@ -153,8 +171,10 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
      */
     private Matrix<N3, N1> getEstimationStdDevs(
             EstimatedRobotPose estimatedPose, List<PhotonTrackedTarget> targets) {
+        var singleTagStdDevs = VecBuilder.fill(this.singleTagStdDev1.get(), this.singleTagStdDev2.get(), this.singleTagAngularStdDev.get());
+        var multipleTagStdDevs = VecBuilder.fill(this.multipleTagStdDev1.get(), this.multipleTagStdDev2.get(), this.multipleTagAngularStdDev.get());
         // Pose present. Start running Heuristic
-        var estStdDevs = kSingleTagStdDevs;
+        var estStdDevs = singleTagStdDevs;
         int numTags = 0;
         double avgDist = 0;
 
@@ -175,13 +195,13 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
 
         if (numTags == 0) {
             // No tags visible. Default to single-tag std devs
-            return kSingleTagStdDevs;
+            return singleTagStdDevs;
         } else {
             // One or more tags visible, run the full heuristic.
             avgDist /= numTags;
             // Decrease std devs if multiple targets are visible
             if (numTags > 1) {
-                estStdDevs = kMultiTagStdDevs;
+                estStdDevs = multipleTagStdDevs;
             }
             // Increase std devs based on (average) distance
             if (numTags == 1 && avgDist > 4) {
@@ -192,17 +212,5 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
         }
 
         return estStdDevs;
-    }
-
-
-
-    /**
-     * Returns the latest standard deviations of the estimated pose from {@link
-     * #getEstimatedGlobalPose()}, for use with {@link
-     * edu.wpi.first.math.estimator.SwerveDrivePoseEstimator SwerveDrivePoseEstimator}. This should
-     * only be used when there are targets visible.
-     */
-    public Matrix<N3, N1> getEstimationStdDevs() {
-        return curStdDevs;
     }
 }
