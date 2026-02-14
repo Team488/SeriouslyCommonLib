@@ -59,7 +59,7 @@ public class TimedAndBoundedServo {
     public double getAbsoluteCurrentPosition() {
         double targetPosition = servo.get();
         double fullRange = maxPosition - minPosition;
-        double moveDistance = Math.abs(targetPosition - startPosition);
+        double moveDistance = Math.abs(targetPosition - startPosition + 0.00001); // Prevents NaN
 
         double elapsedTime = XTimer.getFPGATimestamp() - lastCommandTimestamp;
         double requiredTime = minToMaxSeconds * (moveDistance / fullRange);
