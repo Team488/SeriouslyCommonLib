@@ -7,5 +7,8 @@ import edu.wpi.first.math.numbers.N3;
 
 public record VisionPoseObservation(Pose2d visionRobotPoseMeters,
                                     double timestampSeconds,
-                                    Matrix<N3, N1> visionMeasurementStdDevs) {
+                                    Matrix<N3, N1> visionMeasurementStdDevs,
+                                    double observationAmbiguity,
+                                    int tagCount
+                                    ) {
 }
