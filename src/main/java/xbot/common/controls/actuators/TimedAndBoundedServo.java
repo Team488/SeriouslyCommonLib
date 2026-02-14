@@ -34,12 +34,12 @@ public class TimedAndBoundedServo {
     /**
      * @param targetPosition to set the Servo to, targetPosition should be within bounds
      */
-    public void set(double targetPosition) {
+    public void setTargetPosition(double targetPosition) {
         if (targetPosition < minPosition || targetPosition > maxPosition) {
             return;
         }
 
-        startPosition = get();
+        startPosition = getServoPosition();
         lastCommandTimestamp = XTimer.getFPGATimestamp();
         servo.set(targetPosition);
     }
@@ -47,7 +47,7 @@ public class TimedAndBoundedServo {
     /**
      * @return a dynamic position calculated based on delta time
      */
-    public double get() {
+    public double getServoPosition() {
         double targetPosition = servo.get();
         double fullRange = maxPosition - minPosition;
         double moveDistance = Math.abs(targetPosition - startPosition);
