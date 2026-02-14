@@ -20,6 +20,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.injection.electrical_contract.XCameraElectricalContract;
 import xbot.common.properties.PropertyFactory;
@@ -40,7 +41,7 @@ import java.util.stream.Collectors;
  * Based on the AdvantageKit sample implementation by team 6328.
  */
 @Singleton
-public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameRefreshable {
+public class AprilTagVisionSubsystem extends SubsystemBase {
     private final CameraInfo[] cameras;
     private final AprilTagFieldLayout aprilTagFieldLayout;
     final AprilTagVisionIO[] io;
@@ -49,7 +50,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
     @Inject
     public AprilTagVisionSubsystem(PropertyFactory pf, AprilTagFieldLayout fieldLayout,
             XCameraElectricalContract contract,
-            AprilTagVisionIOFactory visionIOFactory) {
+            AprilTagVisionIOFactory visionIOFactory, DataFrameRegistry registry) {
         this.aprilTagFieldLayout = fieldLayout;
 
         this.cameras = contract.getAprilTagCameras();
@@ -59,7 +60,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
             var cameraInfo = this.cameras[i];
             io[i] = visionIOFactory.create(cameraInfo.networkTablesName(), cameraInfo.position());
             cameraHelpers[i] = new AprilTagVisionCameraHelper(this.getName() + "/Cameras/" + cameraInfo.friendlyName(),
-                    pf, io[i], fieldLayout, cameraInfo.useForPoseEstimates());
+                    pf, io[i], fieldLayout, registry, cameraInfo.useForPoseEstimates());
         }
     }
 

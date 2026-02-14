@@ -52,7 +52,8 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final List<Pose3d> robotPosesRejected = new LinkedList<>();
     private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
 
-    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout, DataFrameRegistry registry, boolean useForPoseEstimates) {
+    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io,
+            AprilTagFieldLayout fieldLayout, DataFrameRegistry registry, boolean useForPoseEstimates) {
         this.logPath = prefix;
         this.io = io;
         this.inputs = new VisionIOInputsAutoLogged();

@@ -125,6 +125,7 @@ public class PoseSubsystemTest extends BasePoseTest {
     }
 
     private void refreshPoseSubsystem() {
+        this.getInjectorComponent().dataFrameRegistry().refreshAll();
         pose.refreshDataFrame();
         pose.periodic();
     }
