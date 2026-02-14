@@ -1,8 +1,5 @@
 package xbot.common.command;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,20 +12,23 @@ public abstract class BaseSubsystem extends SubsystemBase implements IPropertySu
 
     protected final Logger log;
     protected final AKitLogger aKitLog;
-    protected final List<DataFrameRefreshable> dataFrameRefreshables = new ArrayList<>();
+//    protected final List<DataFrameRefreshable> dataFrameRefreshables = new ArrayList<>();
 
     public BaseSubsystem() {
+        super();
         log = LogManager.getLogger(this.getName());
         aKitLog = new AKitLogger(this);
+
+        DataFrameRegistry.registerSubsystem(this);
     }
 
     public String getPrefix() {
         return this.getName() + "/";
     }
 
-    protected void registerDataFrameRefreshable(DataFrameRefreshable refreshable) {
-        dataFrameRefreshables.add(refreshable);
-    }
+//    protected void registerDataFrameRefreshable(DataFrameRefreshable refreshable) {
+//        dataFrameRefreshables.add(refreshable);
+//    }
 
     /**
      * This method is called on each {@link edu.wpi.first.wpilibj2.command.CommandScheduler} loop.
@@ -43,8 +43,5 @@ public abstract class BaseSubsystem extends SubsystemBase implements IPropertySu
 
     @Override
     public void refreshDataFrame() {
-        for (DataFrameRefreshable refreshable : dataFrameRefreshables) {
-            refreshable.refreshDataFrame();
-        }
     }
 }
