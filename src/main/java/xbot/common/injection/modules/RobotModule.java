@@ -20,6 +20,7 @@ import xbot.common.properties.TableProxy;
 import xbot.common.properties.XPropertyManager;
 import xbot.common.subsystems.vision.AprilTagVisionIOFactory;
 import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVision;
+import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVisionEstimator;
 
 /**
  * Module mapping interfaces to implementations for a real robot.
@@ -58,5 +59,5 @@ public abstract class RobotModule {
 
     @Binds
     @Singleton
-    abstract AprilTagVisionIOFactory getAprilTagVisionIOPhotonVisionFactory(AprilTagVisionIOPhotonVision.FactoryImpl impl);
+    abstract AprilTagVisionIOFactory getAprilTagVisionIOPhotonVisionFactory(AprilTagVisionIOPhotonVisionEstimator.FactoryImpl impl);
 }

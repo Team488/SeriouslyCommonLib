@@ -150,21 +150,9 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
                 continue;
             }
 
-            // Calculate standard deviations
-            double stdDevFactor = Math.pow(observation.averageTagDistance(), 2.0) / observation.tagCount();
-            double linearStdDev = linearStdDevBaseline.get() * stdDevFactor;
-            double angularStdDev = angularStdDevBaseline.get() * stdDevFactor;
-            if (observation.type() == AprilTagVisionIO.PoseObservationType.MEGATAG_2) {
-                linearStdDev *= linearStdDevMegatag2Factor.get();
-                angularStdDev *= angularStdDevMegatag2Factor.get();
-            }
-
-            linearStdDev *= cameraStdDevFactor.get();
-            angularStdDev *= cameraStdDevFactor.get();
-
             poseObservations.add(new VisionPoseObservation(observation.pose().toPose2d(),
-                    observation.timestamp(),
-                    VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev)));
+                                                           observation.timestamp(),
+                                                           observation.estimatedStdDevs()));
         }
     }
 
