@@ -1,5 +1,6 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.injection.DevicePolice;
 import dagger.assisted.Assisted;
@@ -18,8 +19,8 @@ public class ServoWPIAdapter extends XServo {
     }
 
     @AssistedInject
-    public ServoWPIAdapter(@Assisted("channel") int channel, @Assisted("name") String name, DevicePolice police) {
-        super(channel, name, police);
+    public ServoWPIAdapter(@Assisted("channel") int channel, @Assisted("name") String name, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
+        super(channel, name, police, dataFrameRegistry);
         this.servo = new Servo(channel);
     }
     

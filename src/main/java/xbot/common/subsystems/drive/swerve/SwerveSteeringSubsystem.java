@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 
 import edu.wpi.first.math.MathUtil;
 import xbot.common.advantage.AKitLogger;
+import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.BaseSimpleSetpointSubsystem;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
@@ -33,7 +34,7 @@ import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Rotations;
 
 @SwerveSingleton
-public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem {
+public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem implements DataFrameRefreshable {
     private static final Logger log = LogManager.getLogger(SwerveSteeringSubsystem.class);
     private final String label;
 

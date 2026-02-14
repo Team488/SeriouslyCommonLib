@@ -49,10 +49,10 @@ public abstract class BaseRobot extends LoggedRobot {
     protected AutonomousCommandSelector autonomousCommandSelector;
 
     protected WebotsClient webots;
+
     protected DevicePolice devicePolice;
     protected SimulationPayloadDistributor simulationPayloadDistributor;
-
-    protected List<DataFrameRefreshable> dataFrameRefreshables = new ArrayList<>();
+    protected DataFrameRegistry dataFrameRegistry;
 
     boolean forceWebots = true; // TODO: figure out a better way to swap between simulation and replay.
 
@@ -124,6 +124,8 @@ public abstract class BaseRobot extends LoggedRobot {
             PropertyFactory pf = injectorComponent.propertyFactory();
 
             devicePolice = injectorComponent.devicePolice();
+            dataFrameRegistry = injectorComponent.dataFrameRegistry();
+
             if (forceWebots) {
                 simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
             }
@@ -261,10 +263,7 @@ public abstract class BaseRobot extends LoggedRobot {
 
         // Then, refresh any Subsystem or other components that implement DataFrameRefreshable.
         double dataFrameStart = getPerformanceTimestampInMs();
-        refreshAllSubsystems();
-//        for (DataFrameRefreshable refreshable : dataFrameRefreshables) {
-//            refreshable.refreshDataFrame();
-//        }
+        refreshAllDataFrames();
         double dataFrameEnd = getPerformanceTimestampInMs();
         Logger.recordOutput("RefreshDevicesMs", dataFrameEnd - dataFrameStart);
 
@@ -276,10 +275,8 @@ public abstract class BaseRobot extends LoggedRobot {
         outsidePeriodicStart = getPerformanceTimestampInMs();
     }
 
-    public void refreshAllSubsystems() {
-        for (BaseSubsystem subsystem : DataFrameRegistry.getAllSubsystems()) {
-            subsystem.refreshDataFrame();
-        }
+    public void refreshAllDataFrames() {
+        dataFrameRegistry.refreshAll();
     }
 
     @Override
