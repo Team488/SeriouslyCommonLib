@@ -57,7 +57,11 @@ public class SwerveDriveSubsystem extends BaseSimpleSetpointSubsystem {
                     electricalContract.getDriveMotor(swerveInstance),
                     SwerveDriveSubsystem.class.getSimpleName(),
                     "DrivePID",
-                    new XCANMotorControllerPIDProperties(0, 0, 0, 0.01, 0, 1, -1));
+                    new XCANMotorControllerPIDProperties.Builder()
+                            .withVelocityFeedForward(0.01)
+                            .withMaxPowerOutput(1.0)
+                            .withMinPowerOutput(-1.0)
+                            .build());
             this.motorController.setPowerRange(-1, 1);
             setupStatusFramesAsNeeded();
             setCurrentLimitsForMode(CurrentLimitMode.Teleop);
