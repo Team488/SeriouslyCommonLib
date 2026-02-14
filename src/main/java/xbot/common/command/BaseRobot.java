@@ -99,7 +99,9 @@ public abstract class BaseRobot extends LoggedRobot {
                     Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
                 }
                 Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
-                LoggedPowerDistribution.getInstance(PowerDistribution.kDefaultModule, PowerDistribution.ModuleType.kRev); // Log power distribution data from the PDH
+                LoggedPowerDistribution.getInstance(
+                        PowerDistribution.kDefaultModule,
+                        PowerDistribution.ModuleType.kRev); // Log power distribution data from the configured module
             } else {
                 setUseTiming(false); // Run as fast as possible
                 String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
