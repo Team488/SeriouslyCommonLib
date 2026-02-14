@@ -49,7 +49,16 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
         CANMotorControllerInfo info = new CANMotorControllerInfo("Test", MotorControllerType.TalonFx, CANBusId.Canivore, 1,
                 new CANMotorControllerOutputConfig());
 
-        XCANMotorControllerPIDProperties pidProperties = new XCANMotorControllerPIDProperties(1, 2, 3, 4, 5, 1, -1);
+        XCANMotorControllerPIDProperties pidProperties = new XCANMotorControllerPIDProperties.Builder()
+                .withP(1)
+                .withI(2)
+                .withD(3)
+                .withStaticFeedForward(4)
+                .withVelocityFeedForward(5)
+                .withGravityFeedForward(6)
+                .withMinPowerOutput(-1.0)
+                .withMaxPowerOutput(1.0)
+                .build();
 
         XCANMotorController motor = getInjectorComponent().motorControllerFactory().create(info, "TestOwningPrefix", "TestPIDPrefix", pidProperties);
 
@@ -60,8 +69,9 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
         assertEquals(1, mockMotor.p, 0.001);
         assertEquals(2, mockMotor.i, 0.001);
         assertEquals(3, mockMotor.d, 0.001);
-        assertEquals(4, mockMotor.f, 0.001);
-        assertEquals(5, mockMotor.g, 0.001);
+        assertEquals(4, mockMotor.s, 0.001);
+        assertEquals(5, mockMotor.f, 0.001);
+        assertEquals(6, mockMotor.g, 0.001);
     }
 
     @Test

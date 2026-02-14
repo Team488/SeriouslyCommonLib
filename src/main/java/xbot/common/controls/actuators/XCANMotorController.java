@@ -106,6 +106,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     protected Map<Integer, DoubleProperty> kPProps = new HashMap<>();
     protected Map<Integer, DoubleProperty> kIProps = new HashMap<>();
     protected Map<Integer, DoubleProperty> kDProps = new HashMap<>();
+    protected Map<Integer, DoubleProperty> kStaticFFProps = new HashMap<>();
     protected Map<Integer, DoubleProperty> kVelocityFFProps = new HashMap<>();
     protected Map<Integer, DoubleProperty> kGravityFFProps = new HashMap<>();
     protected DoubleProperty kMaxOutputProps;
@@ -173,6 +174,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
                 kPProps.put(slot, propertyFactory.createPersistentProperty("kP", defaultPIDProperties.p()));
                 kIProps.put(slot, propertyFactory.createPersistentProperty("kI", defaultPIDProperties.i()));
                 kDProps.put(slot, propertyFactory.createPersistentProperty("kD", defaultPIDProperties.d()));
+                kStaticFFProps.put(slot, propertyFactory.createPersistentProperty("kStaticFeedForward", defaultPIDProperties.staticFeedForward()));
                 kVelocityFFProps.put(slot, propertyFactory.createPersistentProperty("kVelocityFeedForward", defaultPIDProperties.velocityFeedForward()));
                 kGravityFFProps.put(slot, propertyFactory.createPersistentProperty("kGravityFeedForward", defaultPIDProperties.gravityFeedForward()));
 
@@ -180,6 +182,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
                         kPProps.get(slot).get(),
                         kIProps.get(slot).get(),
                         kDProps.get(slot).get(),
+                        kStaticFFProps.get(slot).get(),
                         kVelocityFFProps.get(slot).get(),
                         kGravityFFProps.get(slot).get(),
                         kMaxOutputProps.get(),
@@ -213,14 +216,69 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
         this.softwareReverseLimit = softwareReverseLimit;
     }
 
+    /**
+     * Set the PID values for the motor controller directly, without using the property system.
+     * This method sets the PID values on slot 0, and leaves feed forward values at 0.
+     * @param p The proportional gain to set.
+     * @param i The integral gain to set.
+     * @param d The derivative gain to set.
+     */
     public void setPidDirectly(double p, double i, double d) {
-        setPidDirectly(p, i, d, 0, 0);
+        setPidDirectly(new XCANMotorControllerPIDProperties.Builder()
+                .withP(p)
+                .withI(i)
+                .withD(d)
+                .withVelocityFeedForward(0)
+                .withGravityFeedForward(0)
+                .build(), 0);
     }
 
+    /**
+     * Set the PID values for the motor controller directly, without using the property system.
+     * This method sets the PID values on slot 0.
+     * @param p The proportional gain to set.
+     * @param i The integral gain to set.
+     * @param d The derivative gain to set.
+     * @param velocityFF The velocity feed forward to set.
+     * @param gravityFF The gravity feed forward to set.
+     */
     public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF) {
+        setPidDirectly(new XCANMotorControllerPIDProperties.Builder()
+                .withP(p)
+                .withI(i)
+                .withD(d)
+                .withVelocityFeedForward(velocityFF)
+                .withGravityFeedForward(gravityFF)
+                .build(), 0);
     }
 
-    public abstract void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot);
+    /**
+     * Set the PID values for the motor controller directly, without using the property system.
+     * @param p The proportional gain to set.
+     * @param i The integral gain to set.
+     * @param d The derivative gain to set.
+     * @param staticFF The static feed forward to set.
+     * @param velocityFF The velocity feed forward to set.
+     * @param gravityFF The gravity feed forward to set.
+     * @param slot The PID slot to set the values for.
+     */
+    public void setPidDirectly(double p, double i, double d, double staticFF, double velocityFF, double gravityFF, int slot) {
+        setPidDirectly(new XCANMotorControllerPIDProperties.Builder()
+                .withP(p)
+                .withI(i)
+                .withD(d)
+                .withStaticFeedForward(staticFF)
+                .withVelocityFeedForward(velocityFF)
+                .withGravityFeedForward(gravityFF)
+                .build(), slot);
+    }
+
+    /**
+     * Set the PID values for the motor controller directly, without using the property system.
+     * @param pidProperties The PID properties to set.
+     * @param slot The PID slot to set the values for.
+     */
+    public abstract void setPidDirectly(XCANMotorControllerPIDProperties pidProperties, int slot);
 
     private void setAllPidValuesFromProperties() {
         if (usesPropertySystem) {
@@ -236,6 +294,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     private void setPIDFromProperties() {
         if (usesPropertySystem) {
             setPidDirectly(kPProps.get(currentPidSlot).get(), kIProps.get(currentPidSlot).get(), kDProps.get(currentPidSlot).get(),
+                    kStaticFFProps.get(currentPidSlot).get(),
                     kVelocityFFProps.get(currentPidSlot).get(),
                     kGravityFFProps.get(currentPidSlot).get(),
                     currentPidSlot);
@@ -286,6 +345,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
                         kPProps.get(slot).hasChangedSinceLastCheck(),
                         kIProps.get(slot).hasChangedSinceLastCheck(),
                         kDProps.get(slot).hasChangedSinceLastCheck(),
+                        kStaticFFProps.get(slot).hasChangedSinceLastCheck(),
                         kVelocityFFProps.get(slot).hasChangedSinceLastCheck(),
                         kGravityFFProps.get(slot).hasChangedSinceLastCheck()))
                 {
@@ -294,6 +354,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
                             kPProps.get(slot).get(),
                             kIProps.get(slot).get(),
                             kDProps.get(slot).get(),
+                            kStaticFFProps.get(slot).get(),
                             kVelocityFFProps.get(slot).get(),
                             kGravityFFProps.get(slot).get(),
                             kMaxOutputProps.get(),
@@ -305,6 +366,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
                             pid.p(),
                             pid.i(),
                             pid.d(),
+                            pid.staticFeedForward(),
                             pid.velocityFeedForward(),
                             pid.gravityFeedForward(),
                             slot
@@ -363,7 +425,6 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
         this.angularVelocityScaleFactor = convertToAngularVelocity(angleScaleFactor);
         this.angularVelocityInverseScaleFactor = invertRatio(this.angularVelocityScaleFactor);
     }
-
 
     /**
      * Get the position reported by the motor controller.
@@ -559,7 +620,6 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     public abstract boolean isInverted();
 
     protected abstract void updateInputs(XCANMotorControllerInputs inputs);
-
 
     public void refreshDataFrame() {
         updateInputs(inputs);
