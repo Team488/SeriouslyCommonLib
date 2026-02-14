@@ -45,7 +45,7 @@ loadScripts(document, 'script');</script>
 <div>
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested-class-summary">Nested</a>&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
@@ -79,11 +79,28 @@ loadScripts(document, 'script');</script>
 </div>
 <section class="class-description" id="class-description">
 <hr>
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">XCANMotorControllerPIDProperties</span>(double&nbsp;p, double&nbsp;i, double&nbsp;d, double&nbsp;velocityFeedForward, double&nbsp;gravityFeedForward, double&nbsp;maxPowerOutput, double&nbsp;minPowerOutput)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">XCANMotorControllerPIDProperties</span>(double&nbsp;p, double&nbsp;i, double&nbsp;d, double&nbsp;staticFeedForward, double&nbsp;velocityFeedForward, double&nbsp;gravityFeedForward, double&nbsp;maxPowerOutput, double&nbsp;minPowerOutput)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<li>
+<section class="nested-class-summary" id="nested-class-summary">
+<h2>Nested Class Summary</h2>
+<div class="caption"><span>Nested Classes</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Class</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>static class&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="XCANMotorControllerPIDProperties.Builder.html" class="type-name-link" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties.Builder</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Builder class for XCANMotorControllerPIDProperties to facilitate easier construction with optional parameters.</div>
+</div>
+</div>
+</section>
+</li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <li>
 <section class="constructor-summary" id="constructor-summary">
@@ -98,9 +115,10 @@ loadScripts(document, 'script');</script>
  double&nbsp;i,
  double&nbsp;d)</code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(double,double,double,double,double,double,double)" class="member-name-link">XCANMotorControllerPIDProperties</a><wbr>(double&nbsp;p,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(double,double,double,double,double,double,double,double)" class="member-name-link">XCANMotorControllerPIDProperties</a><wbr>(double&nbsp;p,
  double&nbsp;i,
  double&nbsp;d,
+ double&nbsp;staticFeedForward,
  double&nbsp;velocityFeedForward,
  double&nbsp;gravityFeedForward,
  double&nbsp;maxPowerOutput,
@@ -162,14 +180,19 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>p</code> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#staticFeedForward()" class="member-name-link">staticFeedForward</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <code>staticFeedForward</code> record component.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#velocityFeedForward()" class="member-name-link">velocityFeedForward</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#velocityFeedForward()" class="member-name-link">velocityFeedForward</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>velocityFeedForward</code> record component.</div>
 </div>
 </div>
@@ -204,11 +227,12 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;(double,double,double,double,double,double,double)">
+<section class="detail" id="&lt;init&gt;(double,double,double,double,double,double,double,double)">
 <h3>XCANMotorControllerPIDProperties</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">XCANMotorControllerPIDProperties</span><wbr><span class="parameters">(double&nbsp;p,
  double&nbsp;i,
  double&nbsp;d,
+ double&nbsp;staticFeedForward,
  double&nbsp;velocityFeedForward,
  double&nbsp;gravityFeedForward,
  double&nbsp;maxPowerOutput,
@@ -219,6 +243,7 @@ loadScripts(document, 'script');</script>
 <dd><code>p</code> - the value for the <code>p</code> record component</dd>
 <dd><code>i</code> - the value for the <code>i</code> record component</dd>
 <dd><code>d</code> - the value for the <code>d</code> record component</dd>
+<dd><code>staticFeedForward</code> - the value for the <code>staticFeedForward</code> record component</dd>
 <dd><code>velocityFeedForward</code> - the value for the <code>velocityFeedForward</code> record component</dd>
 <dd><code>gravityFeedForward</code> - the value for the <code>gravityFeedForward</code> record component</dd>
 <dd><code>maxPowerOutput</code> - the value for the <code>maxPowerOutput</code> record component</dd>
@@ -305,6 +330,17 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the value of the <code>d</code> record component</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="staticFeedForward()">
+<h3>staticFeedForward</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">staticFeedForward</span>()</div>
+<div class="block">Returns the value of the <code>staticFeedForward</code> record component.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the value of the <code>staticFeedForward</code> record component</dd>
 </dl>
 </section>
 </li>

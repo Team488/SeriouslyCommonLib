@@ -549,9 +549,13 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <a href="./xbot/common/injection/electrical_contract/CANLightControllerOutputConfig.html#param-brightness"><code>brightness</code></a> record component.</div>
 </dd>
+<dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html#build()" class="member-name-link">build()</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties.Builder</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/swerve/SwerveComponent.Builder.html#build()" class="member-name-link">build()</a> - Method in interface xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/SwerveComponent.Builder.html" title="interface in xbot.common.injection.swerve">SwerveComponent.Builder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/RabbitPointBuilder.html#build()" class="member-name-link">build()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/RabbitPointBuilder.html" title="class in xbot.common.subsystems.drive">RabbitPointBuilder</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html#%3Cinit%3E()" class="member-name-link">Builder()</a> - Constructor for class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties.Builder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/simulation/ISimulatableSolenoid.html#buildMotorObject(int,boolean)" class="member-name-link">buildMotorObject(int, boolean)</a> - Method in interface xbot.common.simulation.<a href="xbot/common/simulation/ISimulatableSolenoid.html" title="interface in xbot.common.simulation">ISimulatableSolenoid</a></dt>
 <dd>&nbsp;</dd>
@@ -4361,6 +4365,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.html#kPProps" class="member-name-link">kPProps</a> - Variable in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANMotorController.html#kStaticFFProps" class="member-name-link">kStaticFFProps</a> - Variable in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html#kThrottleDeadband" class="member-name-link">kThrottleDeadband</a> - Static variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.html#kVelocityFFProps" class="member-name-link">kVelocityFFProps</a> - Variable in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
@@ -5984,6 +5990,8 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:S">S</h2>
 <dl class="index">
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html#s" class="member-name-link">s</a> - Variable in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/XYPair.html#scale(double)" class="member-name-link">scale(double)</a> - Method in class xbot.common.math.<a href="xbot/common/math/XYPair.html" title="class in xbot.common.math">XYPair</a></dt>
 <dd>
 <div class="block">Scales the current coordinate by a magnitude equally in both dimensions.</div>
@@ -6481,19 +6489,29 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/math/PIDPropertyManager.html#setP(double)" class="member-name-link">setP(double)</a> - Method in class xbot.common.math.<a href="xbot/common/math/PIDPropertyManager.html" title="class in xbot.common.math">PIDPropertyManager</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.html#setPidDirectly(double,double,double)" class="member-name-link">setPidDirectly(double, double, double)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Set the PID values for the motor controller directly, without using the property system.</div>
+</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.html#setPidDirectly(double,double,double,double,double)" class="member-name-link">setPidDirectly(double, double, double, double, double)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
+<dd>
+<div class="block">Set the PID values for the motor controller directly, without using the property system.</div>
+</dd>
+<dt><a href="xbot/common/controls/actuators/XCANMotorController.html#setPidDirectly(double,double,double,double,double,double,int)" class="member-name-link">setPidDirectly(double, double, double, double, double, double, int)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
+<dd>
+<div class="block">Set the PID values for the motor controller directly, without using the property system.</div>
+</dd>
+<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html#setPidDirectly(xbot.common.controls.actuators.XCANMotorControllerPIDProperties,int)" class="member-name-link">setPidDirectly(XCANMotorControllerPIDProperties, int)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html#setPidDirectly(double,double,double,double,double,int)" class="member-name-link">setPidDirectly(double, double, double, double, double, int)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANMotorController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANMotorController</a></dt>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANSparkMaxWpiAdapter.html#setPidDirectly(xbot.common.controls.actuators.XCANMotorControllerPIDProperties,int)" class="member-name-link">setPidDirectly(XCANMotorControllerPIDProperties, int)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANSparkMaxWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANSparkMaxWpiAdapter</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANSparkMaxWpiAdapter.html#setPidDirectly(double,double,double,double,double,int)" class="member-name-link">setPidDirectly(double, double, double, double, double, int)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANSparkMaxWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANSparkMaxWpiAdapter</a></dt>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANTalonFxWpiAdapter.html#setPidDirectly(xbot.common.controls.actuators.XCANMotorControllerPIDProperties,int)" class="member-name-link">setPidDirectly(XCANMotorControllerPIDProperties, int)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANTalonFxWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANTalonFxWpiAdapter</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANTalonFxWpiAdapter.html#setPidDirectly(double,double,double,double,double,int)" class="member-name-link">setPidDirectly(double, double, double, double, double, int)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANTalonFxWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANTalonFxWpiAdapter</a></dt>
+<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANVictorSPXWpiAdapter.html#setPidDirectly(xbot.common.controls.actuators.XCANMotorControllerPIDProperties,int)" class="member-name-link">setPidDirectly(XCANMotorControllerPIDProperties, int)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANVictorSPXWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANVictorSPXWpiAdapter</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/controls/actuators/wpi_adapters/CANVictorSPXWpiAdapter.html#setPidDirectly(double,double,double,double,double,int)" class="member-name-link">setPidDirectly(double, double, double, double, double, int)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANVictorSPXWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANVictorSPXWpiAdapter</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="xbot/common/controls/actuators/XCANMotorController.html#setPidDirectly(double,double,double,double,double,int)" class="member-name-link">setPidDirectly(double, double, double, double, double, int)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
-<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANMotorController.html#setPidDirectly(xbot.common.controls.actuators.XCANMotorControllerPIDProperties,int)" class="member-name-link">setPidDirectly(XCANMotorControllerPIDProperties, int)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
+<dd>
+<div class="block">Set the PID values for the motor controller directly, without using the property system.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/drive/PurePursuitCommand.html#setPIDs(xbot.common.subsystems.drive.control_logic.HeadingModule,xbot.common.math.PIDManager)" class="member-name-link">setPIDs(HeadingModule, PIDManager)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/PurePursuitCommand.html" title="class in xbot.common.subsystems.drive">PurePursuitCommand</a></dt>
 <dd>
 <div class="block">By default, the PurePursuitCommand uses the HeadingModule and PositionalPid from the DriveSubsystem.</div>
@@ -7208,6 +7226,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/DelayViaSupplierCommand.html#startTime" class="member-name-link">startTime</a> - Variable in class xbot.common.command.<a href="xbot/common/command/DelayViaSupplierCommand.html" title="class in xbot.common.command">DelayViaSupplierCommand</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html#staticFeedForward()" class="member-name-link">staticFeedForward()</a> - Method in record class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>staticFeedForward</code> record component.</div>
+</dd>
 <dt><a href="xbot/common/injection/electrical_contract/TalonFxMotorControllerOutputConfig.html#statorCurrentLimit" class="member-name-link">statorCurrentLimit</a> - Variable in class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/TalonFxMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">TalonFxMotorControllerOutputConfig</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PlanarEngine.html#step(double,double)" class="member-name-link">step(double, double)</a> - Method in class xbot.common.math.<a href="xbot/common/math/PlanarEngine.html" title="class in xbot.common.math">PlanarEngine</a></dt>
@@ -8410,6 +8432,12 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/buttons/AdvancedXboxButtonTrigger.html#whileTrue(edu.wpi.first.wpilibj2.command.Command)" class="member-name-link">whileTrue(Command)</a> - Method in class xbot.common.controls.sensors.buttons.<a href="xbot/common/controls/sensors/buttons/AdvancedXboxButtonTrigger.html" title="class in xbot.common.controls.sensors.buttons">AdvancedXboxButtonTrigger</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html#withD(double)" class="member-name-link">withD(double)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties.Builder</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html#withGravityFeedForward(double)" class="member-name-link">withGravityFeedForward(double)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties.Builder</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html#withI(double)" class="member-name-link">withI(double)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties.Builder</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.html#withInversionType(xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig.InversionType)" class="member-name-link">withInversionType(CANMotorControllerOutputConfig.InversionType)</a> - Method in class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a></dt>
 <dd>
 <div class="block">Sets the inversion type for the motor controller.</div>
@@ -8417,6 +8445,10 @@ the order they are declared.</div>
 <dt><a href="xbot/common/injection/electrical_contract/SparkMaxMotorControllerOutputConfig.html#withInversionType(xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig.InversionType)" class="member-name-link">withInversionType(CANMotorControllerOutputConfig.InversionType)</a> - Method in class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/SparkMaxMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">SparkMaxMotorControllerOutputConfig</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/TalonFxMotorControllerOutputConfig.html#withInversionType(xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig.InversionType)" class="member-name-link">withInversionType(CANMotorControllerOutputConfig.InversionType)</a> - Method in class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/TalonFxMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">TalonFxMotorControllerOutputConfig</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html#withMaxPowerOutput(double)" class="member-name-link">withMaxPowerOutput(double)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties.Builder</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html#withMinPowerOutput(double)" class="member-name-link">withMinPowerOutput(double)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties.Builder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.html#withNeutralMode(xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig.NeutralMode)" class="member-name-link">withNeutralMode(CANMotorControllerOutputConfig.NeutralMode)</a> - Method in class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a></dt>
 <dd>
@@ -8426,6 +8458,8 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/TalonFxMotorControllerOutputConfig.html#withNeutralMode(xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig.NeutralMode)" class="member-name-link">withNeutralMode(CANMotorControllerOutputConfig.NeutralMode)</a> - Method in class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/TalonFxMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">TalonFxMotorControllerOutputConfig</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html#withP(double)" class="member-name-link">withP(double)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties.Builder</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/SparkMaxMotorControllerOutputConfig.html#withSmartCurrentLimit(edu.wpi.first.units.measure.Current)" class="member-name-link">withSmartCurrentLimit(Current)</a> - Method in class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/SparkMaxMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">SparkMaxMotorControllerOutputConfig</a></dt>
 <dd>
 <div class="block">Sets the smart current limits for Spark motor controllers, using the same current for stall and free.</div>
@@ -8434,6 +8468,8 @@ the order they are declared.</div>
 <dd>
 <div class="block">Sets the smart current limits for Spark motor controllers.</div>
 </dd>
+<dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html#withStaticFeedForward(double)" class="member-name-link">withStaticFeedForward(double)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties.Builder</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/TalonFxMotorControllerOutputConfig.html#withStatorCurrentLimit(edu.wpi.first.units.measure.Current)" class="member-name-link">withStatorCurrentLimit(Current)</a> - Method in class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/TalonFxMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">TalonFxMotorControllerOutputConfig</a></dt>
 <dd>
 <div class="block">Sets the continuous current limit for the motor controller's stator current.</div>
@@ -8442,6 +8478,8 @@ the order they are declared.</div>
 <dd>
 <div class="block">Sets the continuous current limit for the motor controller's supply current.</div>
 </dd>
+<dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html#withVelocityFeedForward(double)" class="member-name-link">withVelocityFeedForward(double)</a> - Method in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties.Builder</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/WrappedRotation2d.html" class="type-name-link" title="class in xbot.common.math">WrappedRotation2d</a> - Class in <a href="xbot/common/math/package-summary.html">xbot.common.math</a></dt>
 <dd>
 <div class="block">A rotation in a 2d coordinate frame, with its rotation wrapped from -pi to pi radians (-180 to 180 degrees).</div>
@@ -8689,9 +8727,13 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html#%3Cinit%3E(double,double,double)" class="member-name-link">XCANMotorControllerPIDProperties(double, double, double)</a> - Constructor for record class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html#%3Cinit%3E(double,double,double,double,double,double,double)" class="member-name-link">XCANMotorControllerPIDProperties(double, double, double, double, double, double, double)</a> - Constructor for record class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties</a></dt>
+<dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html#%3Cinit%3E(double,double,double,double,double,double,double,double)" class="member-name-link">XCANMotorControllerPIDProperties(double, double, double, double, double, double, double, double)</a> - Constructor for record class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>XCANMotorControllerPIDProperties</code> record class.</div>
+</dd>
+<dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.Builder.html" class="type-name-link" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties.Builder</a> - Class in <a href="xbot/common/controls/actuators/package-summary.html">xbot.common.controls.actuators</a></dt>
+<dd>
+<div class="block">Builder class for XCANMotorControllerPIDProperties to facilitate easier construction with optional parameters.</div>
 </dd>
 <dt><a href="xbot/common/controls/io_inputs/XCANSparkMaxInputs.html" class="type-name-link" title="class in xbot.common.controls.io_inputs">XCANSparkMaxInputs</a> - Class in <a href="xbot/common/controls/io_inputs/package-summary.html">xbot.common.controls.io_inputs</a></dt>
 <dd>&nbsp;</dd>
