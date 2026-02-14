@@ -216,26 +216,69 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
         this.softwareReverseLimit = softwareReverseLimit;
     }
 
+    /**
+     * Set the PID values for the motor controller directly, without using the property system.
+     * This method sets the PID values on slot 0, and leaves feed forward values at 0.
+     * @param p The proportional gain to set.
+     * @param i The integral gain to set.
+     * @param d The derivative gain to set.
+     */
     public void setPidDirectly(double p, double i, double d) {
-        setPidDirectly(p, i, d, 0, 0);
+        setPidDirectly(new XCANMotorControllerPIDProperties.Builder()
+                .withP(p)
+                .withI(i)
+                .withD(d)
+                .withVelocityFeedForward(0)
+                .withGravityFeedForward(0)
+                .build(), 0);
     }
 
+    /**
+     * Set the PID values for the motor controller directly, without using the property system.
+     * This method sets the PID values on slot 0.
+     * @param p The proportional gain to set.
+     * @param i The integral gain to set.
+     * @param d The derivative gain to set.
+     * @param velocityFF The velocity feed forward to set.
+     * @param gravityFF The gravity feed forward to set.
+     */
     public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF) {
-        setPidDirectly(p, i, d, 0, velocityFF, gravityFF, 0);
+        setPidDirectly(new XCANMotorControllerPIDProperties.Builder()
+                .withP(p)
+                .withI(i)
+                .withD(d)
+                .withVelocityFeedForward(velocityFF)
+                .withGravityFeedForward(gravityFF)
+                .build(), 0);
     }
 
-    public abstract void setPidDirectly(double p, double i, double d, double staticFF, double velocityFF, double gravityFF, int slot);
-
-    public void setPidDirectly(XCANMotorControllerPIDProperties pidProperties, int slot) {
-        setPidDirectly(
-                pidProperties.p(),
-                pidProperties.i(),
-                pidProperties.d(),
-                pidProperties.staticFeedForward(),
-                pidProperties.velocityFeedForward(),
-                pidProperties.gravityFeedForward(),
-                slot);
+    /**
+     * Set the PID values for the motor controller directly, without using the property system.
+     * @param p The proportional gain to set.
+     * @param i The integral gain to set.
+     * @param d The derivative gain to set.
+     * @param staticFF The static feed forward to set.
+     * @param velocityFF The velocity feed forward to set.
+     * @param gravityFF The gravity feed forward to set.
+     * @param slot The PID slot to set the values for.
+     */
+    public void setPidDirectly(double p, double i, double d, double staticFF, double velocityFF, double gravityFF, int slot) {
+        setPidDirectly(new XCANMotorControllerPIDProperties.Builder()
+                .withP(p)
+                .withI(i)
+                .withD(d)
+                .withStaticFeedForward(staticFF)
+                .withVelocityFeedForward(velocityFF)
+                .withGravityFeedForward(gravityFF)
+                .build(), slot);
     }
+
+    /**
+     * Set the PID values for the motor controller directly, without using the property system.
+     * @param pidProperties The PID properties to set.
+     * @param slot The PID slot to set the values for.
+     */
+    public abstract void setPidDirectly(XCANMotorControllerPIDProperties pidProperties, int slot);
 
     private void setAllPidValuesFromProperties() {
         if (usesPropertySystem) {

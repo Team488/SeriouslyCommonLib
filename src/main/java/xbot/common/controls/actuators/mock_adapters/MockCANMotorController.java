@@ -111,13 +111,13 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     @Override
-    public void setPidDirectly(double p, double i, double d, double staticFF, double velocityFF, double gravityFF, int slot) {
-        this.p = p;
-        this.i = i;
-        this.d = d;
-        this.s = staticFF;
-        this.f = velocityFF;
-        this.g = gravityFF;
+    public void setPidDirectly(XCANMotorControllerPIDProperties pidProperties, int slot) {
+        this.p = pidProperties.p();
+        this.i = pidProperties.i();
+        this.d = pidProperties.d();
+        this.s = pidProperties.staticFeedForward();
+        this.f = pidProperties.velocityFeedForward();
+        this.g = pidProperties.gravityFeedForward();
     }
 
     @Override

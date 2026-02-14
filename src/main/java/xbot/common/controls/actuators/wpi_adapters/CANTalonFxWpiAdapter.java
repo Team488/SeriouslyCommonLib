@@ -163,33 +163,33 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setPidDirectly(double p, double i, double d, double staticFF, double velocityFF, double gravityFF, int slot) {
+    public void setPidDirectly(XCANMotorControllerPIDProperties pidProperties, int slot) {
         if (configCacheFailedAlert.get()) {
             cacheConfiguration();
         }
 
         switch (slot) {
             case 0 -> talonConfiguration.Slot0
-                    .withKP(p)
-                    .withKI(i)
-                    .withKD(d)
-                    .withKS(staticFF)
-                    .withKV(velocityFF)
-                    .withKG(gravityFF);
+                    .withKP(pidProperties.p())
+                    .withKI(pidProperties.i())
+                    .withKD(pidProperties.d())
+                    .withKS(pidProperties.staticFeedForward())
+                    .withKV(pidProperties.velocityFeedForward())
+                    .withKG(pidProperties.gravityFeedForward());
             case 1 -> talonConfiguration.Slot1
-                    .withKP(p)
-                    .withKI(i)
-                    .withKD(d)
-                    .withKS(staticFF)
-                    .withKV(velocityFF)
-                    .withKG(gravityFF);
+                    .withKP(pidProperties.p())
+                    .withKI(pidProperties.i())
+                    .withKD(pidProperties.d())
+                    .withKS(pidProperties.staticFeedForward())
+                    .withKV(pidProperties.velocityFeedForward())
+                    .withKG(pidProperties.gravityFeedForward());
             case 2 -> talonConfiguration.Slot2
-                    .withKP(p)
-                    .withKI(i)
-                    .withKD(d)
-                    .withKS(staticFF)
-                    .withKV(velocityFF)
-                    .withKG(gravityFF);
+                    .withKP(pidProperties.p())
+                    .withKI(pidProperties.i())
+                    .withKD(pidProperties.d())
+                    .withKS(pidProperties.staticFeedForward())
+                    .withKV(pidProperties.velocityFeedForward())
+                    .withKG(pidProperties.gravityFeedForward());
             default -> {
                 log.error("Invalid PID slot {} for TalonFX {} ({})", slot, deviceId, akitName);
                 return;
