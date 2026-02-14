@@ -1,6 +1,7 @@
 package xbot.common.controls.actuators;
 
 import xbot.common.controls.sensors.XTimer;
+import xbot.common.math.MathUtils;
 
 /**
  * A wrapper around XServo where Servo positions are bounded and get() returns
@@ -33,22 +34,29 @@ public class TimedAndBoundedServo {
     }
 
     /**
-     * @param targetPosition to set the Servo to, targetPosition should be within bounds
+     * @param target to set the Servo to, targetPosition should be within bounds
      */
-    public void setTargetPosition(double targetPosition) {
-        if (targetPosition < minPosition || targetPosition > maxPosition) {
-            return;
-        }
-
-        startPosition = getServoPosition();
+    public void setAbsoluteTargetPosition(double target) {
+        target = MathUtils.constrainDouble(target, minPosition, maxPosition);
+        startPosition = getAbsoluteCurrentPosition();
         lastCommandTimestamp = XTimer.getFPGATimestamp();
-        servo.set(targetPosition);
+        servo.set(target);
+    }
+
+    /**
+     * @param target to set the Servo to, in % of completion, where 0 is
+     *               the minPositon and 1 is the maxPosition.
+     */
+    public void setNormalizedTargetPosition(double target) {
+        target = MathUtils.constrainDouble(target, 0, 1);
+        double calculatedTarget = (maxPosition - minPosition) * target + minPosition;
+        setAbsoluteTargetPosition(calculatedTarget);
     }
 
     /**
      * @return a dynamic position calculated based on delta time
      */
-    public double getServoPosition() {
+    public double getAbsoluteCurrentPosition() {
         double targetPosition = servo.get();
         double fullRange = maxPosition - minPosition;
         double moveDistance = Math.abs(targetPosition - startPosition);
@@ -57,5 +65,14 @@ public class TimedAndBoundedServo {
         double requiredTime = minToMaxSeconds * (moveDistance / fullRange);
         double progress = elapsedTime / requiredTime;
         return startPosition + (targetPosition - startPosition) * Math.min(1, progress);
+    }
+
+    /**
+     * @return the current absolute servo position normalized to [0, 1]
+     */
+    public double getNormalizedCurrentPosition() {
+        double fullRange = maxPosition - minPosition;
+        double normalized = (getAbsoluteCurrentPosition() - minPosition) / fullRange;
+        return MathUtils.constrainDouble(normalized, 0, 1);
     }
 }
