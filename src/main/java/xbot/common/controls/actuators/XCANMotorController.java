@@ -92,6 +92,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     public final CANBusId busId;
     public final int deviceId;
     public final PropertyFactory propertyFactory;
+    private final String defaultPropertyPrefix;
+    private final String pidPropertyPrefix;
 
     protected Map<Integer, XCANMotorControllerPIDProperties> pidProperties = new HashMap<>();
 
@@ -134,16 +136,17 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             DevicePolice police,
             String pidPropertyPrefix,
             XCANMotorControllerPIDProperties defaultPIDProperties
-
     ) {
-
         this.busId = info.busId();
         this.deviceId = info.deviceId();
         this.propertyFactory = propertyFactory;
 
         this.inputs = new XCANMotorControllerInputsAutoLogged();
 
-        this.propertyFactory.setPrefix(owningSystemPrefix + "/" + info.name());
+        this.defaultPropertyPrefix = owningSystemPrefix + "/" + info.name();
+        this.pidPropertyPrefix = owningSystemPrefix + "/" + pidPropertyPrefix;
+
+        this.propertyFactory.setPrefix(defaultPropertyPrefix);
 
         police.registerDevice(DevicePolice.DeviceType.CAN, busId, info.deviceId(), info.name());
         this.akitName = info.name()+"/CANMotorController";
@@ -159,21 +162,19 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             // "open loop" controllers don't need them.
             usesPropertySystem = false;
         } else  {
+            // Min/max output are not settable via slots on our primary motor controller type
+            propertyFactory.setPrefix(this.pidPropertyPrefix);
+            kMaxOutputProps = propertyFactory.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxPowerOutput());
+            kMinOutputProps = propertyFactory.createPersistentProperty("kMinOutput", defaultPIDProperties.minPowerOutput());
 
             for (int slot = 0; slot < totalPidSlot; slot++) {
-                propertyFactory.setPrefix(
-                        owningSystemPrefix + "/" + pidPropertyPrefix + "/" + slot + "/"
-                );
-
+                propertyFactory.setPrefix(this.pidPropertyPrefix + "/" + slot);
 
                 kPProps.put(slot, propertyFactory.createPersistentProperty("kP", defaultPIDProperties.p()));
                 kIProps.put(slot, propertyFactory.createPersistentProperty("kI", defaultPIDProperties.i()));
                 kDProps.put(slot, propertyFactory.createPersistentProperty("kD", defaultPIDProperties.d()));
                 kVelocityFFProps.put(slot, propertyFactory.createPersistentProperty("kVelocityFeedForward", defaultPIDProperties.velocityFeedForward()));
                 kGravityFFProps.put(slot, propertyFactory.createPersistentProperty("kGravityFeedForward", defaultPIDProperties.gravityFeedForward()));
-                kMaxOutputProps = propertyFactory.createPersistentProperty("kMaxOutputProps", defaultPIDProperties.maxPowerOutput());
-                kMinOutputProps = propertyFactory.createPersistentProperty("kMinOutputProps", defaultPIDProperties.minPowerOutput());
-
 
                 pidProperties.put(slot, new XCANMotorControllerPIDProperties(
                         kPProps.get(slot).get(),
@@ -182,13 +183,11 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
                         kVelocityFFProps.get(slot).get(),
                         kGravityFFProps.get(slot).get(),
                         kMaxOutputProps.get(),
-                        kMinOutputProps.get()
-                )
+                        kMinOutputProps.get())
                 );
 
             }
-            this.propertyFactory.setPrefix(pidPropertyPrefix);
-
+            this.propertyFactory.setPrefix(this.defaultPropertyPrefix);
         }
     }
 
