@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.LogFileUtil;
+import org.littletonrobotics.junction.LoggedPowerDistribution;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
@@ -98,6 +99,7 @@ public abstract class BaseRobot extends LoggedRobot {
                     Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
                 }
                 Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+                LoggedPowerDistribution.getInstance(1, PowerDistribution.ModuleType.kRev); // Log power distribution data from the PDH
             } else {
                 setUseTiming(false); // Run as fast as possible
                 String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
