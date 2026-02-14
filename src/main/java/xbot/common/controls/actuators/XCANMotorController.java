@@ -33,6 +33,8 @@ import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.BooleanSupplier;
 
 import static edu.wpi.first.units.Units.Meters;
@@ -90,6 +92,10 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     public final CANBusId busId;
     public final int deviceId;
     public final PropertyFactory propertyFactory;
+    private final String defaultPropertyPrefix;
+    private final String pidPropertyPrefix;
+
+    protected Map<Integer, XCANMotorControllerPIDProperties> pidProperties = new HashMap<>();
 
     protected XCANMotorControllerInputsAutoLogged inputs;
     protected String akitName;
@@ -97,13 +103,13 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     protected boolean usesPropertySystem = true;
     protected boolean firstPeriodicCall = true;
 
-    protected DoubleProperty kPProp;
-    protected DoubleProperty kIProp;
-    protected DoubleProperty kDProp;
-    protected DoubleProperty kVelocityFFProp;
-    protected DoubleProperty kGravityFFProp;
-    protected DoubleProperty kMaxOutputProp;
-    protected DoubleProperty kMinOutputProp;
+    protected Map<Integer, DoubleProperty> kPProps = new HashMap<>();
+    protected Map<Integer, DoubleProperty> kIProps = new HashMap<>();
+    protected Map<Integer, DoubleProperty> kDProps = new HashMap<>();
+    protected Map<Integer, DoubleProperty> kVelocityFFProps = new HashMap<>();
+    protected Map<Integer, DoubleProperty> kGravityFFProps = new HashMap<>();
+    protected DoubleProperty kMaxOutputProps;
+    protected DoubleProperty kMinOutputProps;
 
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(XCANMotorController.class);
 
@@ -120,6 +126,9 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     private final Alert unhealthyAlert;
 
+    private static final int totalPidSlot = 4;
+    private int currentPidSlot = 0;
+
     protected XCANMotorController(
             CANMotorControllerInfo info,
             String owningSystemPrefix,
@@ -134,7 +143,11 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
         this.inputs = new XCANMotorControllerInputsAutoLogged();
 
-        this.propertyFactory.setPrefix(owningSystemPrefix + "/" + info.name());
+        this.defaultPropertyPrefix = owningSystemPrefix + "/" + info.name();
+        this.pidPropertyPrefix = owningSystemPrefix + "/" + pidPropertyPrefix;
+
+        this.propertyFactory.setPrefix(defaultPropertyPrefix);
+
         police.registerDevice(DevicePolice.DeviceType.CAN, busId, info.deviceId(), info.name());
         this.akitName = info.name()+"/CANMotorController";
 
@@ -148,15 +161,33 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             // and we typically only need them for a subset of motor controllers on the robot - simpler
             // "open loop" controllers don't need them.
             usesPropertySystem = false;
-        } else {
-            this.propertyFactory.setPrefix(pidPropertyPrefix);
-            kPProp = propertyFactory.createPersistentProperty("kP", defaultPIDProperties.p());
-            kIProp = propertyFactory.createPersistentProperty("kI", defaultPIDProperties.i());
-            kDProp = propertyFactory.createPersistentProperty("kD", defaultPIDProperties.d());
-            kVelocityFFProp = propertyFactory.createPersistentProperty("kVelocityFeedForward", defaultPIDProperties.velocityFeedForward());
-            kGravityFFProp = propertyFactory.createPersistentProperty("kGravityFeedForward", defaultPIDProperties.gravityFeedForward());
-            kMaxOutputProp = propertyFactory.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxPowerOutput());
-            kMinOutputProp = propertyFactory.createPersistentProperty("kMinOutput", defaultPIDProperties.minPowerOutput());
+        } else  {
+            // Min/max output are not settable via slots on our primary motor controller type
+            propertyFactory.setPrefix(this.pidPropertyPrefix);
+            kMaxOutputProps = propertyFactory.createPersistentProperty("kMaxOutput", defaultPIDProperties.maxPowerOutput());
+            kMinOutputProps = propertyFactory.createPersistentProperty("kMinOutput", defaultPIDProperties.minPowerOutput());
+
+            for (int slot = 0; slot < totalPidSlot; slot++) {
+                propertyFactory.setPrefix(this.pidPropertyPrefix + "/" + slot);
+
+                kPProps.put(slot, propertyFactory.createPersistentProperty("kP", defaultPIDProperties.p()));
+                kIProps.put(slot, propertyFactory.createPersistentProperty("kI", defaultPIDProperties.i()));
+                kDProps.put(slot, propertyFactory.createPersistentProperty("kD", defaultPIDProperties.d()));
+                kVelocityFFProps.put(slot, propertyFactory.createPersistentProperty("kVelocityFeedForward", defaultPIDProperties.velocityFeedForward()));
+                kGravityFFProps.put(slot, propertyFactory.createPersistentProperty("kGravityFeedForward", defaultPIDProperties.gravityFeedForward()));
+
+                pidProperties.put(slot, new XCANMotorControllerPIDProperties(
+                        kPProps.get(slot).get(),
+                        kIProps.get(slot).get(),
+                        kDProps.get(slot).get(),
+                        kVelocityFFProps.get(slot).get(),
+                        kGravityFFProps.get(slot).get(),
+                        kMaxOutputProps.get(),
+                        kMinOutputProps.get())
+                );
+
+            }
+            this.propertyFactory.setPrefix(this.defaultPropertyPrefix);
         }
     }
 
@@ -187,15 +218,15 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     }
 
     public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF) {
-        setPidDirectly(p, i, d, velocityFF, gravityFF, 0);
     }
 
     public abstract void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot);
 
     private void setAllPidValuesFromProperties() {
         if (usesPropertySystem) {
-            setPowerRange(kMinOutputProp.get(), kMaxOutputProp.get());
-            setVoltageRange(MAX_VOLTAGE.times(kMinOutputProp.get()), MAX_VOLTAGE.times(kMaxOutputProp.get()));
+            setPowerRange(kMinOutputProps.get(), kMaxOutputProps.get());
+            setVoltageRange(MAX_VOLTAGE.times(kMinOutputProps.get()),
+                    MAX_VOLTAGE.times(kMaxOutputProps.get()));
             setPIDFromProperties();
         } else {
             log.warn("setAllProperties called on a Motor Controller that doesn't use the property system");
@@ -204,9 +235,19 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     private void setPIDFromProperties() {
         if (usesPropertySystem) {
-            setPidDirectly(kPProp.get(), kIProp.get(), kDProp.get(), kVelocityFFProp.get(), kGravityFFProp.get());
+            setPidDirectly(kPProps.get(currentPidSlot).get(), kIProps.get(currentPidSlot).get(), kDProps.get(currentPidSlot).get(),
+                    kVelocityFFProps.get(currentPidSlot).get(),
+                    kGravityFFProps.get(currentPidSlot).get(),
+                    currentPidSlot);
         } else {
             log.warn("setPIDFromProperties called on a Motor Controller that doesn't use the property system");
+        }
+    }
+
+    private void validateSlot(int slot) {
+        if (slot < 0 || slot >= totalPidSlot) {
+            log.warn("Slot is not 0-4. Its now set to 0");
+            currentPidSlot = 0;
         }
     }
 
@@ -240,18 +281,42 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             // Since it costs the same to set all the PID values, we check to see if any have changed and then set them as a group.
             // In practice, it would be hard for a human to do this fast enough during tuning to really get any benefit, but it could happen
             // during some automated process.
-            if (LogicUtils.anyOf(
-                    kPProp.hasChangedSinceLastCheck(),
-                    kIProp.hasChangedSinceLastCheck(),
-                    kDProp.hasChangedSinceLastCheck(),
-                    kVelocityFFProp.hasChangedSinceLastCheck(),
-                    kGravityFFProp.hasChangedSinceLastCheck()))
-            {
-                setPIDFromProperties();
+            for (int slot = 0; slot < totalPidSlot; slot++) {
+                if (LogicUtils.anyOf(
+                        kPProps.get(slot).hasChangedSinceLastCheck(),
+                        kIProps.get(slot).hasChangedSinceLastCheck(),
+                        kDProps.get(slot).hasChangedSinceLastCheck(),
+                        kVelocityFFProps.get(slot).hasChangedSinceLastCheck(),
+                        kGravityFFProps.get(slot).hasChangedSinceLastCheck()))
+                {
+
+                    var pid = new XCANMotorControllerPIDProperties(
+                            kPProps.get(slot).get(),
+                            kIProps.get(slot).get(),
+                            kDProps.get(slot).get(),
+                            kVelocityFFProps.get(slot).get(),
+                            kGravityFFProps.get(slot).get(),
+                            kMaxOutputProps.get(),
+                            kMinOutputProps.get()
+                    );
+                    pidProperties.put(slot, pid);
+
+                    setPidDirectly(
+                            pid.p(),
+                            pid.i(),
+                            pid.d(),
+                            pid.velocityFeedForward(),
+                            pid.gravityFeedForward(),
+                            slot
+                    );
+                }
+
             }
 
-            kMaxOutputProp.hasChangedSinceLastCheck((value) -> setPowerRange(kMinOutputProp.get(), value));
-            kMinOutputProp.hasChangedSinceLastCheck((value) -> setPowerRange(value, kMaxOutputProp.get()));
+        }
+        if (kMinOutputProps != null && kMaxOutputProps != null) {
+            kMaxOutputProps.hasChangedSinceLastCheck((value) -> setPowerRange(kMinOutputProps.get(), value));
+            kMinOutputProps.hasChangedSinceLastCheck((value) -> setPowerRange(value, kMaxOutputProps.get()));
         }
     }
 
@@ -298,6 +363,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
         this.angularVelocityScaleFactor = convertToAngularVelocity(angleScaleFactor);
         this.angularVelocityInverseScaleFactor = invertRatio(this.angularVelocityScaleFactor);
     }
+
 
     /**
      * Get the position reported by the motor controller.
@@ -494,6 +560,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
     protected abstract void updateInputs(XCANMotorControllerInputs inputs);
 
+
     public void refreshDataFrame() {
         updateInputs(inputs);
         Logger.processInputs(akitName, inputs);
@@ -577,7 +644,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     }
 
     private Measure<? extends PerUnit<AngularVelocityUnit, AngularVelocityUnit>> convertToAngularVelocity(Measure<? extends PerUnit<AngleUnit,
-                                                                                                            AngleUnit>> base) {
+            AngleUnit>> base) {
         if (base == null) {
             return null;
         }
