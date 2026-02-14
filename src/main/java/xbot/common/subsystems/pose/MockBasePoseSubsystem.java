@@ -47,11 +47,4 @@ public class MockBasePoseSubsystem extends BasePoseSubsystem {
         totalDistanceX = x;
         totalDistanceY = y;
     }
-
-    @Override
-    public void refreshDataFrame() {
-        super.refreshDataFrame();
-        left.refreshDataFrame();
-        right.refreshDataFrame();
-    }
 }

@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.Alert;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.logging.AlertGroups;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
@@ -51,10 +52,11 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final List<Pose3d> robotPosesRejected = new LinkedList<>();
     private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
 
-    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout, boolean useForPoseEstimates) {
+    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout, DataFrameRegistry registry, boolean useForPoseEstimates) {
         this.logPath = prefix;
         this.io = io;
         this.inputs = new VisionIOInputsAutoLogged();
+        registry.register(this);
         this.aprilTagFieldLayout = fieldLayout;
         this.disconnectedAlert = new Alert(AlertGroups.DEVICE_HEALTH,
                 "Vision camera " + prefix + " is disconnected.", Alert.AlertType.kError);

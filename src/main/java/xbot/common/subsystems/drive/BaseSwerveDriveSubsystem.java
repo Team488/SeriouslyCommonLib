@@ -30,7 +30,7 @@ import xbot.common.subsystems.pose.BasePoseSubsystem;
 import java.util.function.Consumer;
 
 public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
-        implements DataFrameRefreshable, ISwerveAdvisorDriveSupport {
+        implements ISwerveAdvisorDriveSupport {
     private static final Logger log = LogManager.getLogger(BaseSwerveDriveSubsystem.class);
 
     private final SwerveModuleSubsystem frontLeftSwerveModuleSubsystem;
@@ -681,8 +681,6 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
     }
 
     public void refreshDataFrame() {
-        forEachSwerveModule(SwerveModuleSubsystem::refreshDataFrame);
-
         aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
         aKitLog.record("CurrentSwerveState", getCurrentSwerveStates().toArray());
     }

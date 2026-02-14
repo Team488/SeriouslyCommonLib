@@ -28,7 +28,7 @@ import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Radians;
 
-public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable, ISwerveAdvisorPoseSupport {
+public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerveAdvisorPoseSupport {
 
     public final XGyro imu;
     protected double leftDriveDistance;
@@ -376,11 +376,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
             isNavXReady = true;
         }
         updatePose();
-    }
-
-    @Override
-    public void refreshDataFrame() {
-        imu.refreshDataFrame();
     }
 
     public Pose2d getSimulatedFieldPose() {

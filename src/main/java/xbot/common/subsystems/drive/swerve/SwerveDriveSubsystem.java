@@ -189,8 +189,4 @@ public class SwerveDriveSubsystem extends BaseSimpleSetpointSubsystem {
         setupStatusFramesAsNeeded();
         getMotorController().ifPresent(XCANMotorController::periodic);
     }
-
-    public void refreshDataFrame() {
-        getMotorController().ifPresent(XCANMotorController::refreshDataFrame);
-    }
 }

@@ -250,9 +250,6 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
 
     @Override
     public void refreshDataFrame() {
-        getMotorController().ifPresent(XCANMotorController::refreshDataFrame);
-        getEncoder().ifPresent(XCANCoder::refreshDataFrame);
-
         // TODO: Once we've moved to an architecture where we control the order periodic() is called in
         // (so we can guarantee that child components, like this SwerveSteeringElement, are called before
         // the the parent component, like the DriveSubsystem), this will be moved to periodic.
