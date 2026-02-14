@@ -5,6 +5,7 @@ import xbot.common.controls.sensors.XTimer;
 /**
  * A wrapper around XServo where Servo positions are bounded and get() returns
  * the Servo's position dynamically based on the given minToMaxSeconds.
+ * NOTE: Clients will need to register the servo for DataFrameRefreshable beforehand.
  */
 public class TimedAndBoundedServo {
     private final XServo servo;
