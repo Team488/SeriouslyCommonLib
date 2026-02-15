@@ -37,7 +37,6 @@ public class HeadingAssistModuleTest extends BaseCommonLibTest {
 
         ((MockTimer)getInjectorComponent().timerImplementation()).advanceTimeInSecondsBy(10);
         getInjectorComponent().dataFrameRegistry().refreshAll();
-        pose.refreshDataFrame();
         pose.periodic();
 
     }
@@ -172,8 +171,7 @@ public class HeadingAssistModuleTest extends BaseCommonLibTest {
 
     protected void setHeading(double heading) {
         ((MockGyro)pose.imu).setYaw(Degrees.of(heading));
-        getInjectorComponent().dataFrameRegistry().refreshAll();
-        pose.refreshDataFrame();
+        ((MockGyro)pose.imu).refreshDataFrame();
         pose.periodic();
     }
 }

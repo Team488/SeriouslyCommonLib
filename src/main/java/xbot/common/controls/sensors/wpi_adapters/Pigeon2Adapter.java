@@ -11,6 +11,8 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.LinearAcceleration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.injection.DevicePolice;
@@ -36,10 +38,11 @@ public class Pigeon2Adapter extends XGyro {
     }
 
     @AssistedInject
-    public Pigeon2Adapter(DevicePolice police, @Assisted IMUInfo imuInfo) {
+    public Pigeon2Adapter(DevicePolice police, DataFrameRegistry registry, @Assisted IMUInfo imuInfo) {
         super(imuInfo);
         this.pigeon = new Pigeon2(imuInfo.deviceId(), imuInfo.canBusId().toPhoenixCANBus());
         police.registerDevice(DevicePolice.DeviceType.CAN, imuInfo.canBusId(), imuInfo.deviceId(), this);
+        registry.register(this);
 
         this.yawSignal = pigeon.getYaw();
         this.pitchSignal = pigeon.getPitch();

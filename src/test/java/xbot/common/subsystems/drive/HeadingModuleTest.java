@@ -79,8 +79,7 @@ public class HeadingModuleTest extends BaseCommonLibTest {
     protected void setHeading(double heading)
     {
         ((MockGyro)pose.imu).setYaw(Degrees.of(heading));
-        this.getInjectorComponent().dataFrameRegistry().refreshAll();
-        pose.refreshDataFrame();
+        ((MockGyro)pose.imu).refreshDataFrame();
         pose.periodic();
     }
 }

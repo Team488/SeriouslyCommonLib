@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.crypto.Data;
+
 import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
@@ -52,7 +54,8 @@ public abstract class BaseRobot extends LoggedRobot {
 
     protected DevicePolice devicePolice;
     protected SimulationPayloadDistributor simulationPayloadDistributor;
-    protected DataFrameRegistry dataFrameRegistry;
+    protected DataFrameRegistry deviceDataFrameRegistry;
+    protected List<DataFrameRefreshable> dataFrameRefreshables = new ArrayList<>();
 
     boolean forceWebots = true; // TODO: figure out a better way to swap between simulation and replay.
 
@@ -124,7 +127,7 @@ public abstract class BaseRobot extends LoggedRobot {
             PropertyFactory pf = injectorComponent.propertyFactory();
 
             devicePolice = injectorComponent.devicePolice();
-            dataFrameRegistry = injectorComponent.dataFrameRegistry();
+            deviceDataFrameRegistry = injectorComponent.dataFrameRegistry();
 
             if (forceWebots) {
                 simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
@@ -276,7 +279,13 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     public void refreshAllDataFrames() {
-        dataFrameRegistry.refreshAll();
+        // all devices are refreshed first, order doesn't matter
+        deviceDataFrameRegistry.refreshAll();
+
+        // other things like subsystems refreshed here, they should be done in order
+        for (DataFrameRefreshable refreshable : dataFrameRefreshables) {
+            refreshable.refreshDataFrame();
+        }
     }
 
     @Override

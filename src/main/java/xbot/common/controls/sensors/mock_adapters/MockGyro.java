@@ -11,6 +11,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XGyro;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
@@ -40,9 +41,10 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
     }
 
     @AssistedInject
-    public MockGyro(DevicePolice police, @Assisted IMUInfo imuInfo) {
+    public MockGyro(DevicePolice police, DataFrameRegistry dataFrameRegistry, @Assisted IMUInfo imuInfo) {
         super(IMUInfo.createMock(imuInfo));
         police.registerDevice(DeviceType.IMU, imuInfo.deviceId(), this);
+        dataFrameRegistry.register(this);
     }
 
     public boolean isConnected() {

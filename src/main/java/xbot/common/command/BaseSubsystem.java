@@ -1,16 +1,13 @@
 package xbot.common.command;
 
-import javax.inject.Inject;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import xbot.common.advantage.AKitLogger;
-import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.properties.IPropertySupport;
 
-public abstract class BaseSubsystem extends SubsystemBase implements IPropertySupport, DataFrameRefreshable {
+public abstract class BaseSubsystem extends SubsystemBase implements IPropertySupport {
 
     protected final Logger log;
     protected final AKitLogger aKitLog;
@@ -25,11 +22,6 @@ public abstract class BaseSubsystem extends SubsystemBase implements IPropertySu
         return this.getName() + "/";
     }
 
-    @Inject
-    protected void registerDataFrame(DataFrameRegistry registry) {
-        registry.register(this);
-    }
-
     /**
      * This method is called on each {@link edu.wpi.first.wpilibj2.command.CommandScheduler} loop.
      * @apiNote Subsystem periodic() methods are not executed in a predictable order.
@@ -39,9 +31,5 @@ public abstract class BaseSubsystem extends SubsystemBase implements IPropertySu
     @Override
     public void periodic() {
         super.periodic();
-    }
-
-    @Override
-    public void refreshDataFrame() {
     }
 }

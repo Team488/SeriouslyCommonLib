@@ -1,6 +1,7 @@
 package xbot.common.subsystems.drive.swerve;
 
 import javax.inject.Inject;
+import javax.xml.crypto.Data;
 
 import edu.wpi.first.wpilibj.Alert;
 import org.apache.logging.log4j.LogManager;
@@ -9,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
 import xbot.common.injection.swerve.SwerveInstance;
@@ -23,7 +25,7 @@ import xbot.common.resiliency.DeviceHealth;
 import static edu.wpi.first.units.Units.Inches;
 
 @SwerveSingleton
-public class SwerveModuleSubsystem extends BaseSubsystem {
+public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRefreshable {
     private static final Logger log = LogManager.getLogger(SwerveModuleSubsystem.class);
 
     private final String label;
@@ -164,7 +166,6 @@ public class SwerveModuleSubsystem extends BaseSubsystem {
     }
 
     public void refreshDataFrame() {
-        getDriveSubsystem().refreshDataFrame();
         getSteeringSubsystem().refreshDataFrame();
 
         this.currentState.speedMetersPerSecond = getDriveSubsystem().getCurrentValue();

@@ -6,7 +6,6 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.math.geometry.Rotation2d;
-import xbot.common.advantage.DataFrameRefreshable;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import xbot.common.command.BaseSubsystem;
