@@ -1,6 +1,5 @@
 package xbot.common.controls.actuators;
 
-import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.actuators.wpi_adapters.CANSparkMaxWpiAdapter;
 import xbot.common.controls.actuators.wpi_adapters.CANTalonFxWpiAdapter;
 import xbot.common.controls.actuators.wpi_adapters.CANVictorSPXWpiAdapter;
@@ -15,19 +14,16 @@ public class XCANMotorControllerFactoryImpl implements XCANMotorController.XCANM
     private final CANTalonFxWpiAdapter.CANTalonFxWpiAdapterFactory talonFxFactory;
     private final CANSparkMaxWpiAdapter.CANSparkMaxWpiAdapterFactory sparkMaxFactory;
     private final CANVictorSPXWpiAdapter.CANVictorSPXWpiAdapterFactory victorSPXFactory;
-    private final DataFrameRegistry dataFrameRegistry;
 
     @Inject
     public XCANMotorControllerFactoryImpl(
             CANTalonFxWpiAdapter.CANTalonFxWpiAdapterFactory talonFxFactory,
             CANSparkMaxWpiAdapter.CANSparkMaxWpiAdapterFactory sparkMaxFactory,
-            CANVictorSPXWpiAdapter.CANVictorSPXWpiAdapterFactory victorSPXFactory,
-            DataFrameRegistry dataFrameRegistry
+            CANVictorSPXWpiAdapter.CANVictorSPXWpiAdapterFactory victorSPXFactory
     ) {
         this.talonFxFactory = talonFxFactory;
         this.sparkMaxFactory = sparkMaxFactory;
         this.victorSPXFactory = victorSPXFactory;
-        this.dataFrameRegistry = dataFrameRegistry;
     }
 
     @Override
@@ -50,7 +46,7 @@ public class XCANMotorControllerFactoryImpl implements XCANMotorController.XCANM
             // TODO: can't throw exceptions unless they come from the RobotAssertionManager.
             default -> throw new IllegalArgumentException("Unknown motor controller type: " + info.type());
         }
-        dataFrameRegistry.register(result);
+        // Note: Motor controllers self-register with DataFrameRegistry in their constructor
         return result;
     }
 }

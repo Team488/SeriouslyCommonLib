@@ -4,6 +4,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import edu.wpi.first.wpilibj.Encoder;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XEncoderInputs;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.injection.DevicePolice;
@@ -31,8 +32,9 @@ public class EncoderWPIAdapter extends XEncoder {
             @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
             PropertyFactory propMan,
-            DevicePolice police) {
-        super(name, aChannel, bChannel, defaultDistancePerPulse, owningSystemPrefix, propMan, police);
+            DevicePolice police,
+            DataFrameRegistry dataFrameRegistry) {
+        super(name, aChannel, bChannel, defaultDistancePerPulse, owningSystemPrefix, propMan, police, dataFrameRegistry);
         internalEncoder = new Encoder(aChannel, bChannel);
     }
 
