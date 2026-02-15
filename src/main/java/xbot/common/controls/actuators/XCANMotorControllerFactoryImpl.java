@@ -32,21 +32,18 @@ public class XCANMotorControllerFactoryImpl implements XCANMotorController.XCANM
             String owningSystemPrefix,
             String pidPropertyPrefix,
             XCANMotorControllerPIDProperties defaultPIDProperties) {
-        XCANMotorController result;
         switch (info.type()) {
             case TalonFx -> {
-                result = talonFxFactory.create(info, owningSystemPrefix, pidPropertyPrefix, defaultPIDProperties);
+                return talonFxFactory.create(info, owningSystemPrefix, pidPropertyPrefix, defaultPIDProperties);
             }
             case SparkMax -> {
-                result = sparkMaxFactory.create(info, owningSystemPrefix, pidPropertyPrefix, defaultPIDProperties);
+                return sparkMaxFactory.create(info, owningSystemPrefix, pidPropertyPrefix, defaultPIDProperties);
             }
             case VictorSPX -> {
-                result = victorSPXFactory.create(info, owningSystemPrefix, pidPropertyPrefix, defaultPIDProperties);
+                return victorSPXFactory.create(info, owningSystemPrefix, pidPropertyPrefix, defaultPIDProperties);
             }
             // TODO: can't throw exceptions unless they come from the RobotAssertionManager.
             default -> throw new IllegalArgumentException("Unknown motor controller type: " + info.type());
         }
-        // Note: Motor controllers self-register with DataFrameRegistry in their constructor
-        return result;
     }
 }

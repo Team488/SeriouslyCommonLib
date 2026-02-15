@@ -58,9 +58,10 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
             DevicePolice police,
             RobotAssertionManager assertionManager,
             @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
-            @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties
+            @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties,
+            DataFrameRegistry dataFrameRegistry
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties);
+        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, dataFrameRegistry);
         this.internalVictor = new VictorSPX(info.deviceId());
         this.assertionManager = assertionManager;
 
