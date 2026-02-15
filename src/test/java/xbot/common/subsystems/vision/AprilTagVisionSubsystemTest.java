@@ -18,9 +18,11 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
     @Test
     public void testBasicOperation() {
         var subsystem = this.getInjectorComponent().getAprilTagVisionSubsystem();
+        var registry = this.getInjectorComponent().dataFrameRegistry();
+        
         assertEquals(1, subsystem.getCameraCount());
         assertEquals(1, subsystem.io.length);
-        subsystem.refreshDataFrame();
+        registry.refreshAll();
         subsystem.periodic();
         assertEquals(0, subsystem.getAllPoseObservations().size());
     }
@@ -28,6 +30,7 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
     @Test
     public void testHandleResult() {
         var subsystem = this.getInjectorComponent().getAprilTagVisionSubsystem();
+        var registry = this.getInjectorComponent().dataFrameRegistry();
 
         var io = (MockAprilTagVisionIO) subsystem.io[0];
         io.poseObservations = new AprilTagVisionIO.PoseObservation[] {
@@ -42,7 +45,7 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
                         AprilTagVisionIO.PoseObservationType.PHOTONVISION)
         };
         io.tagIds = new int[] { 1, 2, 3 };
-        subsystem.refreshDataFrame();
+        registry.refreshAll();
         subsystem.periodic();
 
         assertEquals(3, subsystem.getAllPoseObservations().size());
@@ -52,7 +55,7 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
 
         io.poseObservations = new AprilTagVisionIO.PoseObservation[0];
 
-        subsystem.refreshDataFrame();
+        registry.refreshAll();
         subsystem.periodic();
 
         assertEquals(0, subsystem.getAllPoseObservations().size());
@@ -61,6 +64,7 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
     @Test
     public void testHandleTargetObservations() {
         var subsystem = this.getInjectorComponent().getAprilTagVisionSubsystem();
+        var registry = this.getInjectorComponent().dataFrameRegistry();
 
         var io = (MockAprilTagVisionIO) subsystem.io[0];
         io.latestTargetObservation = new AprilTagVisionIO.TargetObservation(0, 1, new Rotation2d(), new Rotation2d(),
@@ -74,7 +78,7 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
                         false)
         };
         io.tagIds = new int[] { 1, 2, 3 };
-        subsystem.refreshDataFrame();
+        registry.refreshAll();
         subsystem.periodic();
 
         assertEquals(1, subsystem.getBestTargetId(0).getAsInt());

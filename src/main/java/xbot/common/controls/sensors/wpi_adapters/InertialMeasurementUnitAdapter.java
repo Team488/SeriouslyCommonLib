@@ -12,6 +12,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XGyro;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
@@ -33,7 +34,7 @@ public class InertialMeasurementUnitAdapter extends XGyro {
     }
 
     @AssistedInject
-    public InertialMeasurementUnitAdapter(DevicePolice police, @Assisted IMUInfo imuInfo) {
+    public InertialMeasurementUnitAdapter(DevicePolice police, DataFrameRegistry registry, @Assisted IMUInfo imuInfo) {
         super(imuInfo);
         /* Options: Port.kMXP, SPI.kMXP, I2C.kMXP or SerialPort.kUSB */
         try {
@@ -43,6 +44,7 @@ public class InertialMeasurementUnitAdapter extends XGyro {
                 case i2c -> this.ahrs = new AHRS(AHRS.NavXComType.kI2C);
                 default -> this.ahrs = new AHRS(AHRS.NavXComType.kMXP_SPI);
             }
+            registry.register(this);
             police.registerDevice(DeviceType.IMU, 1, this);
             log.info("AHRS successfully created");
         }

@@ -4,6 +4,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XDutyCycleEncoderInputs;
 import xbot.common.controls.sensors.XDutyCycleEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockDutyCycleEncoder;
@@ -20,8 +21,8 @@ public class DutyCycleEncoderWpiAdapter extends XDutyCycleEncoder {
     }
 
     @AssistedInject
-    public DutyCycleEncoderWpiAdapter(@Assisted("info") DeviceInfo info, DevicePolice police) {
-        super(info, police);
+    public DutyCycleEncoderWpiAdapter(@Assisted("info") DeviceInfo info, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
+        super(info, police, dataFrameRegistry);
         internalEncoder = new DutyCycleEncoder(info.channel);
     }
 

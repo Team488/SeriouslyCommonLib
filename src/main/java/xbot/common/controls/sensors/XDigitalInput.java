@@ -3,6 +3,7 @@ package xbot.common.controls.sensors;
 import org.littletonrobotics.junction.Logger;
 
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.XBaseIO;
 import xbot.common.controls.io_inputs.XDigitalInputs;
 import xbot.common.controls.io_inputs.XDigitalInputsAutoLogged;
@@ -21,12 +22,13 @@ public abstract class XDigitalInput implements XBaseIO, DataFrameRefreshable {
         XDigitalInput create(DeviceInfo info, String owningSystemPrefix);
     }
 
-    public XDigitalInput(DevicePolice police, DeviceInfo info, String owningSystemPrefix) {
+    public XDigitalInput(DevicePolice police, DeviceInfo info, String owningSystemPrefix, DataFrameRegistry dataFrameRegistry) {
         police.registerDevice(DeviceType.DigitalIO, info.channel, this);
         inputs = new XDigitalInputsAutoLogged();
         this.info = info;
         akitName = owningSystemPrefix + info.name + "DigitalInput";
         this.setInverted(info.inverted);
+        dataFrameRegistry.register(this);
     }
     
     public boolean get() {

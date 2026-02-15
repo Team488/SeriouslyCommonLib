@@ -8,6 +8,7 @@ import dagger.assisted.AssistedInject;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.Alert;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.LaserCANInputs;
 import xbot.common.controls.sensors.XLaserCAN;
 import xbot.common.controls.sensors.XTimer;
@@ -37,8 +38,8 @@ public class LaserCANWpiAdapter extends XLaserCAN {
     public LaserCANWpiAdapter(
             @Assisted("info") DeviceInfo info,
             @Assisted("owningSystemPrefix")String owningSystemPrefix,
-            DevicePolice police) {
-        super(police, info, owningSystemPrefix);
+            DevicePolice police, DataFrameRegistry dataFrameRegistry) {
+        super(police, info, owningSystemPrefix, dataFrameRegistry);
         healthAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Failed to set LaserCAN configuration", Alert.AlertType.kError);
         laserCan = new LaserCan(info.channel);
         try {

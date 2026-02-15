@@ -14,7 +14,6 @@ import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -50,9 +49,10 @@ public abstract class BaseRobot extends LoggedRobot {
     protected AutonomousCommandSelector autonomousCommandSelector;
 
     protected WebotsClient webots;
+
     protected DevicePolice devicePolice;
     protected SimulationPayloadDistributor simulationPayloadDistributor;
-
+    protected DataFrameRegistry deviceDataFrameRegistry;
     protected List<DataFrameRefreshable> dataFrameRefreshables = new ArrayList<>();
 
     boolean forceWebots = true; // TODO: figure out a better way to swap between simulation and replay.
@@ -128,6 +128,8 @@ public abstract class BaseRobot extends LoggedRobot {
             PropertyFactory pf = injectorComponent.propertyFactory();
 
             devicePolice = injectorComponent.devicePolice();
+            deviceDataFrameRegistry = injectorComponent.dataFrameRegistry();
+
             if (forceWebots) {
                 simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
             }
@@ -265,9 +267,7 @@ public abstract class BaseRobot extends LoggedRobot {
 
         // Then, refresh any Subsystem or other components that implement DataFrameRefreshable.
         double dataFrameStart = getPerformanceTimestampInMs();
-        for (DataFrameRefreshable refreshable : dataFrameRefreshables) {
-            refreshable.refreshDataFrame();
-        }
+        refreshAllDataFrames();
         double dataFrameEnd = getPerformanceTimestampInMs();
         Logger.recordOutput("RefreshDevicesMs", dataFrameEnd - dataFrameStart);
 
@@ -279,6 +279,15 @@ public abstract class BaseRobot extends LoggedRobot {
         outsidePeriodicStart = getPerformanceTimestampInMs();
     }
 
+    public void refreshAllDataFrames() {
+        // all devices are refreshed first, order doesn't matter
+        deviceDataFrameRegistry.refreshAll();
+
+        // other things like subsystems refreshed here, they should be done in order
+        for (DataFrameRefreshable refreshable : dataFrameRefreshables) {
+            refreshable.refreshDataFrame();
+        }
+    }
 
     @Override
     public void simulationInit() {

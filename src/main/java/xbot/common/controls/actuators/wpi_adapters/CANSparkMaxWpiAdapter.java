@@ -23,6 +23,7 @@ import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
@@ -69,9 +70,10 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
             DevicePolice police,
             RobotAssertionManager assertionManager,
             @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
-            @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties
+            @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties,
+            DataFrameRegistry dataFrameRegistry
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties);
+        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, dataFrameRegistry);
         this.internalSparkMax = new SparkMax(info.deviceId(), SparkLowLevel.MotorType.kBrushless);
         this.assertionManager = assertionManager;
 
