@@ -13,13 +13,12 @@ import xbot.common.injection.modules.MockDevicesModule;
 import xbot.common.injection.modules.SwerveInjectionModule;
 import xbot.common.injection.modules.UnitTestModule;
 import xbot.common.injection.modules.UnitTestRobotModule;
-import xbot.common.injection.swerve.SwerveComponentHolder;
 import xbot.common.subsystems.drive.BaseSwerveDriveSubsystem;
 import xbot.common.subsystems.pose.GameField;
 import xbot.common.subsystems.pose.commands.ResetDistanceCommand;
 import xbot.common.subsystems.pose.commands.SetRobotHeadingCommand;
 import xbot.common.subsystems.simple.MockSimpleMotorSubsystem;
-import xbot.common.subsystems.vision.AprilTagVisionSubsystem;
+import xbot.common.subsystems.vision.april_tag.AprilTagVisionSubsystem;
 
 /**
  * Do not use this directly. Use auto-generated class DaggerUnitTestComponent.

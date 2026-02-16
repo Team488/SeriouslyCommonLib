@@ -1,4 +1,4 @@
-package xbot.common.subsystems.vision;
+package xbot.common.subsystems.vision.april_tag;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -6,8 +6,6 @@ import dagger.assisted.AssistedInject;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.Timer;
-
-import java.lang.annotation.Target;
 
 /**
  * Mock AprilTagVisionIO implementation.

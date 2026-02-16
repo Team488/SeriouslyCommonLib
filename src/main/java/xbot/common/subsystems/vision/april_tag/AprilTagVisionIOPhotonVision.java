@@ -11,7 +11,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 
-package xbot.common.subsystems.vision;
+package xbot.common.subsystems.vision.april_tag;
 
 import dagger.assisted.AssistedFactory;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;

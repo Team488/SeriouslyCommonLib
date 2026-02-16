@@ -17,10 +17,8 @@ import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.PreferenceStorage;
 import xbot.common.properties.SmartDashboardTableWrapper;
 import xbot.common.properties.XPropertyManager;
-import xbot.common.subsystems.pose.BasePoseSubsystem;
-import xbot.common.subsystems.pose.SimulatedPositionSupplier;
-import xbot.common.subsystems.vision.AprilTagVisionIOFactory;
-import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVisionSimulated;
+import xbot.common.subsystems.vision.april_tag.AprilTagVisionIOFactory;
+import xbot.common.subsystems.vision.april_tag.AprilTagVisionIOPhotonVisionSimulated;
 
 /**
  * Module mapping interfaces to implementations for a simulated robot.

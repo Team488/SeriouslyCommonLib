@@ -11,7 +11,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 
-package xbot.common.subsystems.vision;
+package xbot.common.subsystems.vision.game_specific;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -23,6 +23,7 @@ import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.injection.electrical_contract.XCameraElectricalContract;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.subsystems.vision.VisionPoseObservation;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -40,25 +41,25 @@ import java.util.stream.Collectors;
  * Based on the AdvantageKit sample implementation by team 6328.
  */
 @Singleton
-public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameRefreshable {
+public class GameSpecificVisionSubsystem extends SubsystemBase implements DataFrameRefreshable {
     private final CameraInfo[] cameras;
     private final AprilTagFieldLayout aprilTagFieldLayout;
-    final AprilTagVisionIO[] io;
-    final AprilTagVisionCameraHelper[] cameraHelpers;
+    final GameSpecificVisionIO[] io;
+    final GameSpecificVisionCameraHelper[] cameraHelpers;
 
     @Inject
-    public AprilTagVisionSubsystem(PropertyFactory pf, AprilTagFieldLayout fieldLayout,
-            XCameraElectricalContract contract,
-            AprilTagVisionIOFactory visionIOFactory) {
+    public GameSpecificVisionSubsystem(PropertyFactory pf, AprilTagFieldLayout fieldLayout,
+                                       XCameraElectricalContract contract,
+                                       GameSpecificVisionIOFactory visionIOFactory) {
         this.aprilTagFieldLayout = fieldLayout;
 
         this.cameras = contract.getAprilTagCameras();
-        this.io = new AprilTagVisionIO[this.cameras.length];
-        this.cameraHelpers = new AprilTagVisionCameraHelper[this.cameras.length];
+        this.io = new GameSpecificVisionIO[this.cameras.length];
+        this.cameraHelpers = new GameSpecificVisionCameraHelper[this.cameras.length];
         for (int i = 0; i < io.length; i++) {
             var cameraInfo = this.cameras[i];
             io[i] = visionIOFactory.create(cameraInfo.networkTablesName(), cameraInfo.position());
-            cameraHelpers[i] = new AprilTagVisionCameraHelper(this.getName() + "/Cameras/" + cameraInfo.friendlyName(),
+            cameraHelpers[i] = new GameSpecificVisionCameraHelper(this.getName() + "/Cameras/" + cameraInfo.friendlyName(),
                     pf, io[i], fieldLayout, cameraInfo.useForPoseEstimates());
         }
     }
@@ -84,7 +85,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
      * @param cameraIndex The index of the camera to use.
      * @return The latest target observation.
      */
-    public AprilTagVisionIO.TargetObservation getLatestTargetObservation(int cameraIndex) {
+    public GameSpecificVisionIO.TargetObservation getLatestTargetObservation(int cameraIndex) {
         return cameraHelpers[cameraIndex].inputs.latestTargetObservation;
     }
 
@@ -108,7 +109,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
      */
     public Optional<Rotation2d> getTargetX(int cameraIndex, int tagId) {
         return getTargetObservation(cameraIndex, tagId)
-                .map(AprilTagVisionIO.TargetObservation::tx);
+                .map(GameSpecificVisionIO.TargetObservation::tx);
     }
 
     /**
@@ -132,7 +133,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
      * @param tagId The tag to check.
      * @return The raw observation data for the specified target.
      */
-    public Optional<AprilTagVisionIO.TargetObservation> getTargetObservation(int cameraIndex, int tagId) {
+    public Optional<GameSpecificVisionIO.TargetObservation> getTargetObservation(int cameraIndex, int tagId) {
         return Arrays.stream(cameraHelpers[cameraIndex].inputs.targetObservations)
                 .filter(t -> t.fiducialId() == tagId)
                 .findFirst();
@@ -185,7 +186,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
      * Retrieves the set of cameras that should be used for pose estimations
      * @return The set of cameras that are meant for pose.
      */
-    public List<AprilTagVisionCameraHelper> getAllPoseCameras() {
+    public List<GameSpecificVisionCameraHelper> getAllPoseCameras() {
         return Arrays.asList(this.cameraHelpers).stream()
             .filter(c -> c.getUseForPoseEstimates())
             .collect(Collectors.toList());
@@ -197,7 +198,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
      */
     public List<VisionPoseObservation> getAllPoseObservations() {
         List<VisionPoseObservation> result = new LinkedList<>();
-        for (AprilTagVisionCameraHelper cameraHelper : this.getAllPoseCameras()) {
+        for (GameSpecificVisionCameraHelper cameraHelper : this.getAllPoseCameras()) {
             result.addAll(cameraHelper.getPoseObservations());
         }
         return result;
@@ -213,7 +214,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
     @Override
     public void periodic() {
         // Loop over cameras
-        for (AprilTagVisionCameraHelper cameraHelper : cameraHelpers) {
+        for (GameSpecificVisionCameraHelper cameraHelper : cameraHelpers) {
             // Log camera data
             Logger.recordOutput(
                     cameraHelper.getLogPath() + "/TagPoses",

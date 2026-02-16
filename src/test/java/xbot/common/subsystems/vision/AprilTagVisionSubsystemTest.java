@@ -7,6 +7,8 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import org.junit.Test;
 import xbot.common.injection.BaseCommonLibTest;
+import xbot.common.subsystems.vision.april_tag.AprilTagVisionIO;
+import xbot.common.subsystems.vision.april_tag.MockAprilTagVisionIO;
 
 import java.util.Set;
 

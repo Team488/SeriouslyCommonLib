@@ -18,8 +18,10 @@ import xbot.common.properties.PreferenceStorage;
 import xbot.common.properties.SmartDashboardTableWrapper;
 import xbot.common.properties.TableProxy;
 import xbot.common.properties.XPropertyManager;
-import xbot.common.subsystems.vision.AprilTagVisionIOFactory;
-import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVision;
+import xbot.common.subsystems.vision.april_tag.AprilTagVisionIOFactory;
+import xbot.common.subsystems.vision.april_tag.AprilTagVisionIOPhotonVision;
+import xbot.common.subsystems.vision.game_specific.GameSpecificVisionIOFactory;
+import xbot.common.subsystems.vision.game_specific.GameSpecificVisionIOPhotonVision;
 
 /**
  * Module mapping interfaces to implementations for a real robot.
@@ -59,4 +61,8 @@ public abstract class RobotModule {
     @Binds
     @Singleton
     abstract AprilTagVisionIOFactory getAprilTagVisionIOPhotonVisionFactory(AprilTagVisionIOPhotonVision.FactoryImpl impl);
+
+    @Binds
+    @Singleton
+    abstract GameSpecificVisionIOFactory getGameSpecificVisionIOPhotonVisionFactory(GameSpecificVisionIOPhotonVision.FactoryImpl impl);
 }

@@ -1,16 +1,17 @@
-package xbot.common.subsystems.vision;
+package xbot.common.subsystems.vision.game_specific;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import org.photonvision.PhotonPoseEstimator;
 import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.logic.TimeStableValidator;
+import xbot.common.subsystems.vision.SimpleCamera;
 
 import java.util.function.DoubleSupplier;
 
 /**
  * This class provides common base implementation for April Tag capable cameras on the robot.
  */
-public class AprilTagCamera extends SimpleCamera {
+public class GameSpecificCamera extends SimpleCamera {
     private final PhotonPoseEstimator poseEstimator;
 
     private final TimeStableValidator isStable;
@@ -22,10 +23,10 @@ public class AprilTagCamera extends SimpleCamera {
      * @param poseStableTime The time that the pose must be stable for before it is considered valid.
      * @param fieldLayout The layout of the field.
      */
-    public AprilTagCamera(CameraInfo cameraInfo,
-                          DoubleSupplier poseStableTime,
-                          AprilTagFieldLayout fieldLayout,
-                          String prefix) {
+    public GameSpecificCamera(CameraInfo cameraInfo,
+                              DoubleSupplier poseStableTime,
+                              AprilTagFieldLayout fieldLayout,
+                              String prefix) {
         super(cameraInfo, prefix);
         this.poseEstimator = new PhotonPoseEstimator(fieldLayout,
                 PhotonPoseEstimator.PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,

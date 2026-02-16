@@ -1,4 +1,4 @@
-package xbot.common.subsystems.vision;
+package xbot.common.subsystems.vision.game_specific;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.VecBuilder;
@@ -9,6 +9,8 @@ import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.logging.AlertGroups;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.subsystems.vision.VisionIOInputsAutoLogged;
+import xbot.common.subsystems.vision.VisionPoseObservation;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -16,8 +18,8 @@ import java.util.List;
 /**
  * Helper class for ingesting data from a single AprilTag vision camera.
  */
-class AprilTagVisionCameraHelper implements DataFrameRefreshable {
-    private final AprilTagVisionIO io;
+class GameSpecificVisionCameraHelper implements DataFrameRefreshable {
+    private final GameSpecificVisionIO io;
     final VisionIOInputsAutoLogged inputs;
     private final String logPath;
     private final Alert disconnectedAlert;
@@ -51,7 +53,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final List<Pose3d> robotPosesRejected = new LinkedList<>();
     private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
 
-    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout, boolean useForPoseEstimates) {
+    public GameSpecificVisionCameraHelper(String prefix, PropertyFactory pf, GameSpecificVisionIO io, AprilTagFieldLayout fieldLayout, boolean useForPoseEstimates) {
         this.logPath = prefix;
         this.io = io;
         this.inputs = new VisionIOInputsAutoLogged();
@@ -154,7 +156,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
             double stdDevFactor = Math.pow(observation.averageTagDistance(), 2.0) / observation.tagCount();
             double linearStdDev = linearStdDevBaseline.get() * stdDevFactor;
             double angularStdDev = angularStdDevBaseline.get() * stdDevFactor;
-            if (observation.type() == AprilTagVisionIO.PoseObservationType.MEGATAG_2) {
+            if (observation.type() == GameSpecificVisionIO.PoseObservationType.MEGATAG_2) {
                 linearStdDev *= linearStdDevMegatag2Factor.get();
                 angularStdDev *= angularStdDevMegatag2Factor.get();
             }
@@ -168,7 +170,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         }
     }
 
-    private boolean isObservationAmbiguous(AprilTagVisionIO.PoseObservation observation) {
+    private boolean isObservationAmbiguous(GameSpecificVisionIO.PoseObservation observation) {
         return (observation.tagCount() == 1
                 && observation.ambiguity() > maxAmbiguity.get()); // Cannot be high ambiguity;
     }
@@ -181,7 +183,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
                 || pose.getY() > aprilTagFieldLayout.getFieldWidth();
     }
 
-    private boolean isObservationOutOfSafeRange(AprilTagVisionIO.PoseObservation observation) {
+    private boolean isObservationOutOfSafeRange(GameSpecificVisionIO.PoseObservation observation) {
         if (observation.tagCount() == 1) {
             return observation.averageTagDistance() > maxSingleTagDistance.get()
                     || observation.averageTagDistance() < minTagDistance.get();
@@ -190,7 +192,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         return observation.averageTagDistance() > maxMultiTagDistance.get();
     }
 
-    private boolean shouldRejectObservation(AprilTagVisionIO.PoseObservation observation) {
+    private boolean shouldRejectObservation(GameSpecificVisionIO.PoseObservation observation) {
         boolean shouldReject = false;
         shouldReject |= observation.tagCount() == 0; // Must have at least one tag
         shouldReject |= isObservationAmbiguous(observation);
