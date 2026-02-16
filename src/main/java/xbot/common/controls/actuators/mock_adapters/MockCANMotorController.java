@@ -22,6 +22,7 @@ import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
+import xbot.common.properties.PowerDistributionProperties;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
@@ -75,9 +76,10 @@ public class MockCANMotorController extends XCANMotorController {
             PropertyFactory propertyFactory,
             DevicePolice police,
             @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
-            @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties
+            @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties,
+            PowerDistributionProperties pdProperties
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties);
+        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, pdProperties);
     }
 
     @Override
