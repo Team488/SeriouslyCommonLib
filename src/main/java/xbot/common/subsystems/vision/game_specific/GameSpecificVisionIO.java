@@ -24,7 +24,7 @@ import org.littletonrobotics.junction.AutoLog;
  */
 public interface GameSpecificVisionIO {
     @AutoLog
-    class VisionIOInputs {
+    class GameSpecificVisionIOInputs {
         public boolean connected = false;
         public TargetObservation latestTargetObservation = new TargetObservation(0, 0, new Rotation2d(),
                 new Rotation2d(), new Transform3d(), 1, true);
@@ -54,6 +54,6 @@ public interface GameSpecificVisionIO {
         PHOTONVISION
     }
 
-    default void updateInputs(VisionIOInputs inputs) {
+    default void updateInputs(GameSpecificVisionIOInputs inputs) {
     }
 }

@@ -70,7 +70,7 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
     }
 
     @Override
-    public void updateInputs(VisionIOInputs inputs) {
+    public void updateInputs(AprilTagVisionIOInputs inputs) {
         inputs.connected = camera.isConnected();
 
         if (!inputs.connected) {

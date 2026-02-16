@@ -72,7 +72,7 @@ public class GameSpecificVisionIOPhotonVisionSimulated extends GameSpecificVisio
     }
 
     @Override
-    public void updateInputs(VisionIOInputs inputs) {
+    public void updateInputs(GameSpecificVisionIOInputs inputs) {
         visionSim.update(poseSupplier.get().getGroundTruthPose());
         super.updateInputs(inputs);
     }

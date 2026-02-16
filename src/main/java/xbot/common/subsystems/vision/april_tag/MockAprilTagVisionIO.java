@@ -34,7 +34,7 @@ public class MockAprilTagVisionIO implements AprilTagVisionIO {
     }
 
     @Override
-    public void updateInputs(VisionIOInputs inputs) {
+    public void updateInputs(AprilTagVisionIOInputs inputs) {
         this.latestTargetObservation = new TargetObservation(Timer.getFPGATimestamp(),
                 this.latestTargetObservation.fiducialId(), this.latestTargetObservation.tx(),
                 this.latestTargetObservation.ty(), this.latestTargetObservation.cameraToTarget(),

@@ -68,7 +68,7 @@ public class GameSpecificVisionIOPhotonVision implements GameSpecificVisionIO {
     }
 
     @Override
-    public void updateInputs(VisionIOInputs inputs) {
+    public void updateInputs(GameSpecificVisionIOInputs inputs) {
         inputs.connected = camera.isConnected();
 
         if (!inputs.connected) {

@@ -74,7 +74,7 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
     }
 
     @Override
-    public void updateInputs(VisionIOInputs inputs) {
+    public void updateInputs(AprilTagVisionIOInputs inputs) {
         visionSim.update(poseSupplier.get().getGroundTruthPose());
         super.updateInputs(inputs);
     }

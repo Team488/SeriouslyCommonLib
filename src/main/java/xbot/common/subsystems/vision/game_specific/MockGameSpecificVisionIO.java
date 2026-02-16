@@ -34,7 +34,7 @@ public class MockGameSpecificVisionIO implements GameSpecificVisionIO {
     }
 
     @Override
-    public void updateInputs(VisionIOInputs inputs) {
+    public void updateInputs(GameSpecificVisionIOInputs inputs) {
         this.latestTargetObservation = new TargetObservation(Timer.getFPGATimestamp(),
                 this.latestTargetObservation.fiducialId(), this.latestTargetObservation.tx(),
                 this.latestTargetObservation.ty(), this.latestTargetObservation.cameraToTarget(),
