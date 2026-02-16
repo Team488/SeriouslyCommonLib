@@ -9,7 +9,6 @@ import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.logging.AlertGroups;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
-import xbot.common.subsystems.vision.VisionIOInputsAutoLogged;
 import xbot.common.subsystems.vision.VisionPoseObservation;
 
 import java.util.LinkedList;
@@ -20,7 +19,7 @@ import java.util.List;
  */
 class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final AprilTagVisionIO io;
-    final VisionIOInputsAutoLogged inputs;
+    final AprilTagVisionIOInputsAutoLogged inputs;
     private final String logPath;
     private final Alert disconnectedAlert;
     private final AprilTagFieldLayout aprilTagFieldLayout;
@@ -56,7 +55,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io, AprilTagFieldLayout fieldLayout, boolean useForPoseEstimates) {
         this.logPath = prefix;
         this.io = io;
-        this.inputs = new VisionIOInputsAutoLogged();
+        this.inputs = new AprilTagVisionIOInputsAutoLogged();
         this.aprilTagFieldLayout = fieldLayout;
         this.disconnectedAlert = new Alert(AlertGroups.DEVICE_HEALTH,
                 "Vision camera " + prefix + " is disconnected.", Alert.AlertType.kError);

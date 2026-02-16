@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
 public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameRefreshable {
     private final CameraInfo[] cameras;
     private final AprilTagFieldLayout aprilTagFieldLayout;
-    final AprilTagVisionIO[] io;
+    public final AprilTagVisionIO[] io;
     final AprilTagVisionCameraHelper[] cameraHelpers;
 
     @Inject

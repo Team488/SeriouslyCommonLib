@@ -9,7 +9,7 @@ import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.logging.AlertGroups;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
-import xbot.common.subsystems.vision.VisionIOInputsAutoLogged;
+
 import xbot.common.subsystems.vision.VisionPoseObservation;
 
 import java.util.LinkedList;
@@ -20,7 +20,7 @@ import java.util.List;
  */
 class GameSpecificVisionCameraHelper implements DataFrameRefreshable {
     private final GameSpecificVisionIO io;
-    final VisionIOInputsAutoLogged inputs;
+    final GameSpecificVisionIOInputsAutoLogged inputs;
     private final String logPath;
     private final Alert disconnectedAlert;
     private final AprilTagFieldLayout aprilTagFieldLayout;
@@ -53,10 +53,11 @@ class GameSpecificVisionCameraHelper implements DataFrameRefreshable {
     private final List<Pose3d> robotPosesRejected = new LinkedList<>();
     private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
 
-    public GameSpecificVisionCameraHelper(String prefix, PropertyFactory pf, GameSpecificVisionIO io, AprilTagFieldLayout fieldLayout, boolean useForPoseEstimates) {
+    public GameSpecificVisionCameraHelper(String prefix, PropertyFactory pf, GameSpecificVisionIO io,
+                                          AprilTagFieldLayout fieldLayout, boolean useForPoseEstimates) {
         this.logPath = prefix;
         this.io = io;
-        this.inputs = new VisionIOInputsAutoLogged();
+        this.inputs = new GameSpecificVisionIOInputsAutoLogged();
         this.aprilTagFieldLayout = fieldLayout;
         this.disconnectedAlert = new Alert(AlertGroups.DEVICE_HEALTH,
                 "Vision camera " + prefix + " is disconnected.", Alert.AlertType.kError);
