@@ -16,17 +16,10 @@ package xbot.common.subsystems.vision.game_specific;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.Timer;
 import org.photonvision.PhotonCamera;
-
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
 
 /**
  * IO implementation for real PhotonVision hardware.
@@ -39,8 +32,6 @@ public class GameSpecificVisionIOPhotonVision implements GameSpecificVisionIO {
         public abstract GameSpecificVisionIOPhotonVision create(@Assisted String name, @Assisted Transform3d robotToCamera);
     }
 
-    private static final int[] EMPTY_TAG_IDS_OBSERVATION = new int[0];
-    private static final PoseObservation[] EMPTY_POSE_OBSERVATION = new PoseObservation[0];
     private static final TargetObservation[] EMPTY_TARGET_OBSERVATIONS = new TargetObservation[0];
     private static final TargetObservation EMPTY_TARGET_OBSERVATION = new TargetObservation(0, 0, new Rotation2d(),
             new Rotation2d(), new Transform3d(), 1, true);
@@ -50,21 +41,17 @@ public class GameSpecificVisionIOPhotonVision implements GameSpecificVisionIO {
 
     protected final PhotonCamera camera;
     protected final Transform3d robotToCamera;
-    private final AprilTagFieldLayout aprilTagFieldLayout;
 
     /**
      * Creates a new VisionIOPhotonVision.
      *
      * @param name          The configured name of the camera.
      * @param robotToCamera The 3D position of the camera relative to the robot.
-     * @param fieldLayout   The April Tag field layout.
      */
     @AssistedInject
-    public GameSpecificVisionIOPhotonVision(@Assisted String name, @Assisted Transform3d robotToCamera,
-                                            AprilTagFieldLayout fieldLayout) {
+    public GameSpecificVisionIOPhotonVision(@Assisted String name, @Assisted Transform3d robotToCamera) {
         camera = new PhotonCamera(name);
         this.robotToCamera = robotToCamera;
-        this.aprilTagFieldLayout = fieldLayout;
     }
 
     @Override
@@ -72,17 +59,12 @@ public class GameSpecificVisionIOPhotonVision implements GameSpecificVisionIO {
         inputs.connected = camera.isConnected();
 
         if (!inputs.connected) {
-            inputs.tagIds = EMPTY_TAG_IDS_OBSERVATION;
-            inputs.poseObservations = EMPTY_POSE_OBSERVATION;
             inputs.latestTargetObservation = EMPTY_TARGET_OBSERVATION;
             inputs.targetObservations = EMPTY_TARGET_OBSERVATIONS;
             return;
         }
 
         // Read new camera observations
-        Set<Short> tagIds = new HashSet<>();
-        List<PoseObservation> poseObservations = new LinkedList<>();
-
         for (var result : camera.getAllUnreadResults()) {
             boolean stale = Timer.getFPGATimestamp() - result.getTimestampSeconds() > HEARTBEAT_DEBOUNCE_SEC;
             // Update latest target observation
@@ -114,75 +96,6 @@ public class GameSpecificVisionIOPhotonVision implements GameSpecificVisionIO {
                 inputs.latestTargetObservation = EMPTY_TARGET_OBSERVATION;
                 inputs.targetObservations = EMPTY_TARGET_OBSERVATIONS;
             }
-
-            // Add pose observation
-            if (result.multitagResult.isPresent()) { // Multitag result
-                var multitagResult = result.multitagResult.get();
-
-                // Calculate robot pose
-                Transform3d fieldToCamera = multitagResult.estimatedPose.best;
-                Transform3d fieldToRobot = fieldToCamera.plus(robotToCamera.inverse());
-                Pose3d robotPose = new Pose3d(fieldToRobot.getTranslation(), fieldToRobot.getRotation());
-
-                // Calculate average tag distance
-                double totalTagDistance = 0.0;
-                for (var target : result.targets) {
-                    totalTagDistance += target.bestCameraToTarget.getTranslation().getNorm();
-                }
-
-                // Add tag IDs
-                tagIds.addAll(multitagResult.fiducialIDsUsed);
-
-                // Add observation
-                poseObservations.add(
-                        new PoseObservation(
-                                result.getTimestampSeconds(), // Timestamp
-                                robotPose, // 3D pose estimate
-                                multitagResult.estimatedPose.ambiguity, // Ambiguity
-                                multitagResult.fiducialIDsUsed.size(), // Tag count
-                                totalTagDistance / result.targets.size(), // Average tag distance
-                                PoseObservationType.PHOTONVISION)); // Observation type
-
-            } else if (!result.targets.isEmpty()) { // Single tag result
-                var target = result.targets.get(0);
-
-                // Calculate robot pose
-                var tagPose = this.aprilTagFieldLayout.getTagPose(target.fiducialId);
-                if (tagPose.isPresent()) {
-                    Transform3d fieldToTarget = new Transform3d(tagPose.get().getTranslation(),
-                            tagPose.get().getRotation());
-                    Transform3d cameraToTarget = target.bestCameraToTarget;
-                    Transform3d fieldToCamera = fieldToTarget.plus(cameraToTarget.inverse());
-                    Transform3d fieldToRobot = fieldToCamera.plus(robotToCamera.inverse());
-                    Pose3d robotPose = new Pose3d(fieldToRobot.getTranslation(), fieldToRobot.getRotation());
-
-                    // Add tag ID
-                    tagIds.add((short) target.fiducialId);
-
-                    // Add observation
-                    poseObservations.add(
-                            new PoseObservation(
-                                    result.getTimestampSeconds(), // Timestamp
-                                    robotPose, // 3D pose estimate
-                                    target.poseAmbiguity, // Ambiguity
-                                    1, // Tag count
-                                    cameraToTarget.getTranslation().getNorm(), // Average tag distance
-                                    PoseObservationType.PHOTONVISION)); // Observation type
-                }
-            }
-        }
-
-        // Save pose observations to inputs object
-        inputs.poseObservations = new PoseObservation[poseObservations.size()];
-        for (int i = 0; i < poseObservations.size(); i++) {
-            inputs.poseObservations[i] = poseObservations.get(i);
-        }
-
-        // Save tag IDs to inputs objects
-        inputs.tagIds = new int[tagIds.size()];
-        int i = 0;
-        for (int id : tagIds) {
-            inputs.tagIds[i++] = id;
         }
     }
 }

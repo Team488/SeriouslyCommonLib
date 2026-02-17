@@ -8,7 +8,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
- * Mock AprilTagVisionIO implementation.
+ * Mock GameSpecificVisionIO implementation.
  */
 public class MockGameSpecificVisionIO implements GameSpecificVisionIO {
 
@@ -16,8 +16,6 @@ public class MockGameSpecificVisionIO implements GameSpecificVisionIO {
     private final Transform3d robotToCamera;
 
     public boolean connected = true;
-    public int[] tagIds = {};
-    public PoseObservation[] poseObservations = {};
     public TargetObservation latestTargetObservation = new TargetObservation(0, 1, new Rotation2d(), new Rotation2d(),
             new Transform3d(), 1, false);
     public TargetObservation[] targetObservations = { latestTargetObservation };
@@ -40,8 +38,6 @@ public class MockGameSpecificVisionIO implements GameSpecificVisionIO {
                 this.latestTargetObservation.ty(), this.latestTargetObservation.cameraToTarget(),
                 this.latestTargetObservation.ambiguity(), false);
         inputs.connected = this.connected;
-        inputs.tagIds = this.tagIds;
-        inputs.poseObservations = this.poseObservations;
         inputs.latestTargetObservation = this.latestTargetObservation;
         inputs.targetObservations = this.targetObservations;
     }

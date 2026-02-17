@@ -13,16 +13,10 @@
 
 package xbot.common.subsystems.vision.game_specific;
 
-import dagger.Lazy;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Transform3d;
-import org.photonvision.simulation.PhotonCameraSim;
-import org.photonvision.simulation.SimCameraProperties;
-import org.photonvision.simulation.VisionSystemSim;
-import xbot.common.subsystems.pose.SimulatedPositionSupplier;
 
 /**
  * IO implementation for a simulated PhotonVision environment.
@@ -35,45 +29,20 @@ public class GameSpecificVisionIOPhotonVisionSimulated extends GameSpecificVisio
         public abstract GameSpecificVisionIOPhotonVisionSimulated create(String name, Transform3d robotToCamera);
     }
 
-    private static VisionSystemSim visionSim;
-    private final Lazy<SimulatedPositionSupplier> poseSupplier;
-    private final PhotonCameraSim cameraSim;
-
     /**
-     * Creates a new AprilTagVisionIOPhotonVisionSimulated.
+     * Creates a new GameSpecificVisionIOPhotonVisionSimulated.
      *
      * @param name          The configured name of the camera.
      * @param robotToCamera The 3D position of the camera relative to the robot.
-     * @param fieldLayout   The April Tag field layout.
-     * @param poseSupplier  The simulated position supplier, tells the simulated vision system where the robot is on the simulated field.
      */
     @AssistedInject
-    public GameSpecificVisionIOPhotonVisionSimulated(@Assisted String name, @Assisted Transform3d robotToCamera,
-                                                     AprilTagFieldLayout fieldLayout, Lazy<SimulatedPositionSupplier> poseSupplier) {
-        super(name, robotToCamera, fieldLayout);
-
-        this.poseSupplier = poseSupplier;
-
-        // Initialize vision sim
-        if (visionSim == null) {
-            visionSim = new VisionSystemSim("main");
-            visionSim.addAprilTags(fieldLayout);
-        }
-
-        // Add sim camera
-        var cameraProperties = new SimCameraProperties();
-        cameraSim = new PhotonCameraSim(camera, cameraProperties);
-        cameraSim.enableRawStream(true);
-        cameraSim.enableProcessedStream(true);
-        cameraSim.enableDrawWireframe(true);
-        cameraSim.setMaxSightRange(6.0); // higher than the rejection range so we can test rejection logic
-        cameraSim.setMinTargetAreaPixels(200);
-        visionSim.addCamera(cameraSim, robotToCamera);
+    public GameSpecificVisionIOPhotonVisionSimulated(@Assisted String name, @Assisted Transform3d robotToCamera) {
+        super(name, robotToCamera);
     }
 
     @Override
     public void updateInputs(GameSpecificVisionIOInputs inputs) {
-        visionSim.update(poseSupplier.get().getGroundTruthPose());
+        // In simulation, just call parent update
         super.updateInputs(inputs);
     }
 

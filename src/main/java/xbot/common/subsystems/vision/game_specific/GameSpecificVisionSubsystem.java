@@ -13,8 +13,6 @@
 
 package xbot.common.subsystems.vision.game_specific;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,44 +21,35 @@ import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.injection.electrical_contract.XCameraElectricalContract;
 import xbot.common.properties.PropertyFactory;
-import xbot.common.subsystems.vision.VisionPoseObservation;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
- * Subsystem for processing AprilTag vision data.
+ * Subsystem for processing game-specific vision data.
  * Based on the AdvantageKit sample implementation by team 6328.
  */
 @Singleton
 public class GameSpecificVisionSubsystem extends SubsystemBase implements DataFrameRefreshable {
     private final CameraInfo[] cameras;
-    private final AprilTagFieldLayout aprilTagFieldLayout;
     final GameSpecificVisionIO[] io;
     final GameSpecificVisionCameraHelper[] cameraHelpers;
 
     @Inject
-    public GameSpecificVisionSubsystem(PropertyFactory pf, AprilTagFieldLayout fieldLayout,
-                                       XCameraElectricalContract contract,
+    public GameSpecificVisionSubsystem(PropertyFactory pf, XCameraElectricalContract contract,
                                        GameSpecificVisionIOFactory visionIOFactory) {
-        this.aprilTagFieldLayout = fieldLayout;
-
-        this.cameras = contract.getAprilTagCameras();
+        this.cameras = contract.getGameSpecificCameras();
         this.io = new GameSpecificVisionIO[this.cameras.length];
         this.cameraHelpers = new GameSpecificVisionCameraHelper[this.cameras.length];
         for (int i = 0; i < io.length; i++) {
             var cameraInfo = this.cameras[i];
             io[i] = visionIOFactory.create(cameraInfo.networkTablesName(), cameraInfo.position());
-            cameraHelpers[i] = new GameSpecificVisionCameraHelper(this.getName() + "/Cameras/" + cameraInfo.friendlyName(),
-                    pf, io[i], fieldLayout, cameraInfo.useForPoseEstimates());
+            cameraHelpers[i] = new GameSpecificVisionCameraHelper(
+                    this.getName() + "/Cameras/" + cameraInfo.friendlyName(),
+                    pf, io[i]);
         }
     }
 
@@ -104,11 +93,11 @@ public class GameSpecificVisionSubsystem extends SubsystemBase implements DataFr
      * with vision.
      *
      * @param cameraIndex The index of the camera to use.
-     * @param tagId The tag to check.
+     * @param targetId The target to check.
      * @return The X angle to the specified target.
      */
-    public Optional<Rotation2d> getTargetX(int cameraIndex, int tagId) {
-        return getTargetObservation(cameraIndex, tagId)
+    public Optional<Rotation2d> getTargetX(int cameraIndex, int targetId) {
+        return getTargetObservation(cameraIndex, targetId)
                 .map(GameSpecificVisionIO.TargetObservation::tx);
     }
 
@@ -130,78 +119,41 @@ public class GameSpecificVisionSubsystem extends SubsystemBase implements DataFr
      * Returns the raw observation data for the specified target.
      *
      * @param cameraIndex The index of the camera to use.
-     * @param tagId The tag to check.
+     * @param targetId The target to check.
      * @return The raw observation data for the specified target.
      */
-    public Optional<GameSpecificVisionIO.TargetObservation> getTargetObservation(int cameraIndex, int tagId) {
+    public Optional<GameSpecificVisionIO.TargetObservation> getTargetObservation(int cameraIndex, int targetId) {
         return Arrays.stream(cameraHelpers[cameraIndex].inputs.targetObservations)
-                .filter(t -> t.fiducialId() == tagId)
+                .filter(t -> t.fiducialId() == targetId)
                 .findFirst();
     }
 
     /**
-     * Returns <c>true</c> if the camera can see the specified tag.
+     * Returns <c>true</c> if the camera can see the specified target.
      * @param cameraIndex The camera to check.
-     * @param tagId The tag to check.
-     * @return <c>true</c> if the camera can see the tag.
+     * @param targetId The target to check.
+     * @return <c>true</c> if the camera can see the target.
      */
-    public boolean tagVisibleByCamera(int cameraIndex, int tagId) {
-        return cameraHelpers[cameraIndex].isTagVisible(tagId);
+    public boolean targetVisibleByCamera(int cameraIndex, int targetId) {
+        return cameraHelpers[cameraIndex].isTargetVisible(targetId);
     }
 
     /**
-     * Returns <c>true</c> if any camera can see the specified tag.
-     * @param tagId The tag to check.
-     * @return <c>true</c> if any camera can see the tag.
+     * Returns <c>true</c> if any camera can see the specified target.
+     * @param targetId The target to check.
+     * @return <c>true</c> if any camera can see the target.
      */
-    public boolean tagVisibleByAnyCamera(int tagId) {
+    public boolean targetVisibleByAnyCamera(int targetId) {
         for (int i = 0; i < cameraHelpers.length; i++) {
-            if (tagVisibleByCamera(i, tagId)) {
+            if (targetVisibleByCamera(i, targetId)) {
                 return true;
             }
         }
         return false;
     }
 
-    /**
-     * Returns the set of cameras that can see the specified tag.
-     * @param tagId The tag to check.
-     * @return The set of cameras that can see the tag.
-     */
-    public Set<Integer> camerasWithTagVisible(int tagId) {
-        HashSet<Integer> result = new HashSet<>();
-        for (int i = 0; i < cameraHelpers.length; i++) {
-            if (tagVisibleByCamera(i, tagId)) {
-                result.add(i);
-            }
-        }
-        return result;
-    }
-
     public boolean isCameraConnected(int cameraIndex) {
         return cameraHelpers[cameraIndex].inputs.connected;
-    }
-
-    /**
-     * Retrieves the set of cameras that should be used for pose estimations
-     * @return The set of cameras that are meant for pose.
-     */
-    public List<GameSpecificVisionCameraHelper> getAllPoseCameras() {
-        return Arrays.asList(this.cameraHelpers).stream()
-            .filter(c -> c.getUseForPoseEstimates())
-            .collect(Collectors.toList());
-    }
-
-    /**
-     * Gets all the pose observations in this iteration of the scheduler loop.
-     * @return A list of pose observations.
-     */
-    public List<VisionPoseObservation> getAllPoseObservations() {
-        List<VisionPoseObservation> result = new LinkedList<>();
-        for (GameSpecificVisionCameraHelper cameraHelper : this.getAllPoseCameras()) {
-            result.addAll(cameraHelper.getPoseObservations());
-        }
-        return result;
     }
 
     @Override
@@ -213,21 +165,6 @@ public class GameSpecificVisionSubsystem extends SubsystemBase implements DataFr
 
     @Override
     public void periodic() {
-        // Loop over cameras
-        for (GameSpecificVisionCameraHelper cameraHelper : cameraHelpers) {
-            // Log camera data
-            Logger.recordOutput(
-                    cameraHelper.getLogPath() + "/TagPoses",
-                    cameraHelper.getTagPoses().toArray(new Pose3d[0]));
-            Logger.recordOutput(
-                    cameraHelper.getLogPath() + "/RobotPoses",
-                    cameraHelper.getRobotPoses().toArray(new Pose3d[0]));
-            Logger.recordOutput(
-                    cameraHelper.getLogPath() + "/RobotPosesAccepted",
-                    cameraHelper.getRobotPosesAccepted().toArray(new Pose3d[0]));
-            Logger.recordOutput(
-                    cameraHelper.getLogPath() + "/RobotPosesRejected",
-                    cameraHelper.getRobotPosesRejected().toArray(new Pose3d[0]));
-        }
+        // Game-specific vision logging can be added here if needed
     }
 }

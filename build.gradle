@@ -38,7 +38,7 @@ repositories {
 
     maven { url "https://storage.googleapis.com/grapple-frc-maven"}
 
-    maven { url uri ("../SeriouslyCommonLib/lib/")}
+    maven { url uri ("../SeriouslyCommonLibrary/lib/")}
 
     mavenLocal()
 }
