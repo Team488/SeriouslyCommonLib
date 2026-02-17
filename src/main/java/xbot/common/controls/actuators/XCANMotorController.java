@@ -23,7 +23,6 @@ import org.littletonrobotics.junction.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputsAutoLogged;
-import xbot.common.controls.sensors.XPowerDistributionPanel;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
