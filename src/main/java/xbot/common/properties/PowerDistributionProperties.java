@@ -43,8 +43,16 @@ public class PowerDistributionProperties {
             return;
         }
 
-        var currentMapping = deviceMappingEntry.getStringArray(new String[0]);
         int expectedSize = PDHPort.values().length;
+        
+        // Check if port index is within valid range
+        if (channel.getPortNumber() >= expectedSize) {
+            log.error("Port index {} is out of range for device {}. Maximum valid index is {}.", 
+                    channel.getPortNumber(), deviceName, expectedSize - 1);
+            return;
+        }
+        
+        var currentMapping = deviceMappingEntry.getStringArray(new String[0]);
         
         // If the array is empty or undersized, resize it to the expected port count
         if (currentMapping.length < expectedSize) {
@@ -54,13 +62,6 @@ public class PowerDistributionProperties {
             Arrays.fill(resizedMapping, UnknownDevice);
             System.arraycopy(currentMapping, 0, resizedMapping, 0, currentMapping.length);
             currentMapping = resizedMapping;
-        }
-        
-        // Check if port index is within valid range
-        if (channel.getPortNumber() >= currentMapping.length) {
-            log.error("Port index {} is out of range for device {}. Maximum valid index is {}.", 
-                    channel.getPortNumber(), deviceName, currentMapping.length - 1);
-            return;
         }
         
         currentMapping[channel.getPortNumber()] = deviceName;
