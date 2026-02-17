@@ -27,7 +27,7 @@ public class PowerDistributionProperties {
     public PowerDistributionProperties() {
         var table = NetworkTableInstance.getDefault().getTable("AdvantageKit/PowerDistribution");
         this.deviceMappingEntry = table.getEntry("DeviceMapping");
-        var defaultDeviceMapping = new String[20];
+        var defaultDeviceMapping = new String[PDHPort.values().length];
         Arrays.fill(defaultDeviceMapping, UnknownDevice);
         this.deviceMappingEntry.setDefaultStringArray(defaultDeviceMapping);
     }
