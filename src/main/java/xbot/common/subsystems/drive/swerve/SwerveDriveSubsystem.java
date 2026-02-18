@@ -55,9 +55,13 @@ public class SwerveDriveSubsystem extends BaseSimpleSetpointSubsystem {
         if (electricalContract.isDriveReady()) {
             this.motorController = mcFactory.create(
                     electricalContract.getDriveMotor(swerveInstance),
-                    "DriveMotor",
-                    super.getPrefix() + "DrivePID",
-                    new XCANMotorControllerPIDProperties(0, 0, 0, 0.01, 0, 1, -1));
+                    SwerveDriveSubsystem.class.getSimpleName(),
+                    "DrivePID",
+                    new XCANMotorControllerPIDProperties.Builder()
+                            .withVelocityFeedForward(0.01)
+                            .withMaxPowerOutput(1.0)
+                            .withMinPowerOutput(-1.0)
+                            .build());
             this.motorController.setPowerRange(-1, 1);
             setupStatusFramesAsNeeded();
             setCurrentLimitsForMode(CurrentLimitMode.Teleop);
