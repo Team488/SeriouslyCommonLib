@@ -4,11 +4,8 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import xbot.common.controls.sensors.XXboxController;
-import xbot.common.subsystems.drive.OperatorInterface;
 import xbot.common.command.BaseCommand;
 import xbot.common.subsystems.drive.BaseSwerveDriveSubsystem;
-
-import javax.inject.Inject;
 
 public class DebugSwerveModuleCommand extends BaseCommand {
 
