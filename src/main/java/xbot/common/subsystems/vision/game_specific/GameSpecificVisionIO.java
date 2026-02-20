@@ -25,13 +25,13 @@ public interface GameSpecificVisionIO {
     @AutoLog
     class GameSpecificVisionIOInputs {
         public boolean connected = false;
-        public TargetObservation latestTargetObservation = new TargetObservation(0, 0, new Rotation2d(),
+        public TargetObservation latestTargetObservation = new TargetObservation(0, new Rotation2d(),
                 new Rotation2d(), new Transform3d(), 1, true);
         public TargetObservation[] targetObservations = new TargetObservation[0];
     }
 
     /** Represents the angle to a simple target. */
-    record TargetObservation(double timestamp, int fiducialId, Rotation2d tx, Rotation2d ty, Transform3d cameraToTarget,
+    record TargetObservation(double timestamp, Rotation2d tx, Rotation2d ty, Transform3d cameraToTarget,
             double ambiguity, boolean stale) {
     }
 

@@ -33,7 +33,7 @@ public class GameSpecificVisionIOPhotonVision implements GameSpecificVisionIO {
     }
 
     private static final TargetObservation[] EMPTY_TARGET_OBSERVATIONS = new TargetObservation[0];
-    private static final TargetObservation EMPTY_TARGET_OBSERVATION = new TargetObservation(0, 0, new Rotation2d(),
+    private static final TargetObservation EMPTY_TARGET_OBSERVATION = new TargetObservation(0, new Rotation2d(),
             new Rotation2d(), new Transform3d(), 1, true);
     // Using same heartbeat bounce as photonvision:
     // https://github.com/PhotonVision/photonvision/blob/3c332db4bfe9083fc0311ae71cff92de588939ad/photon-lib/src/main/java/org/photonvision/PhotonCamera.java#L107
@@ -72,7 +72,6 @@ public class GameSpecificVisionIOPhotonVision implements GameSpecificVisionIO {
                 var bestTarget = result.getBestTarget();
                 inputs.latestTargetObservation = new TargetObservation(
                         result.getTimestampSeconds(),
-                        bestTarget.getFiducialId(),
                         Rotation2d.fromDegrees(bestTarget.getYaw()),
                         Rotation2d.fromDegrees(bestTarget.getPitch()),
                         bestTarget.getBestCameraToTarget(),
@@ -84,7 +83,6 @@ public class GameSpecificVisionIOPhotonVision implements GameSpecificVisionIO {
                 for (var target : result.targets) {
                     targetObservations[targetIndex++] = new TargetObservation(
                             result.getTimestampSeconds(),
-                            target.fiducialId,
                             Rotation2d.fromDegrees(target.getYaw()),
                             Rotation2d.fromDegrees(target.getPitch()),
                             target.getBestCameraToTarget(),

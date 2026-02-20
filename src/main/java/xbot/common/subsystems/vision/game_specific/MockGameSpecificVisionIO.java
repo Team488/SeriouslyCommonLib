@@ -16,7 +16,7 @@ public class MockGameSpecificVisionIO implements GameSpecificVisionIO {
     private final Transform3d robotToCamera;
 
     public boolean connected = true;
-    public TargetObservation latestTargetObservation = new TargetObservation(0, 1, new Rotation2d(), new Rotation2d(),
+    public TargetObservation latestTargetObservation = new TargetObservation(0, new Rotation2d(), new Rotation2d(),
             new Transform3d(), 1, false);
     public TargetObservation[] targetObservations = { latestTargetObservation };
 
@@ -34,7 +34,7 @@ public class MockGameSpecificVisionIO implements GameSpecificVisionIO {
     @Override
     public void updateInputs(GameSpecificVisionIOInputs inputs) {
         this.latestTargetObservation = new TargetObservation(Timer.getFPGATimestamp(),
-                this.latestTargetObservation.fiducialId(), this.latestTargetObservation.tx(),
+                this.latestTargetObservation.tx(),
                 this.latestTargetObservation.ty(), this.latestTargetObservation.cameraToTarget(),
                 this.latestTargetObservation.ambiguity(), false);
         inputs.connected = this.connected;

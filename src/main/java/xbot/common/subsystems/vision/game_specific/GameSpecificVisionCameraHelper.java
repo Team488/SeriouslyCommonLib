@@ -36,13 +36,4 @@ class GameSpecificVisionCameraHelper implements DataFrameRefreshable {
     public String getLogPath() {
         return logPath;
     }
-
-    public boolean isTargetVisible(int targetId) {
-        for (var target : inputs.targetObservations) {
-            if (target.fiducialId() == targetId) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

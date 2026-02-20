@@ -24,9 +24,6 @@ import xbot.common.properties.PropertyFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.OptionalInt;
 
 /**
  * Subsystem for processing game-specific vision data.
@@ -86,70 +83,6 @@ public class GameSpecificVisionSubsystem extends SubsystemBase implements DataFr
      */
     public Rotation2d getTargetX(int cameraIndex) {
         return cameraHelpers[cameraIndex].inputs.latestTargetObservation.tx();
-    }
-
-    /**
-     * Returns the X angle to the specified target, which can be used for simple servoing
-     * with vision.
-     *
-     * @param cameraIndex The index of the camera to use.
-     * @param targetId The target to check.
-     * @return The X angle to the specified target.
-     */
-    public Optional<Rotation2d> getTargetX(int cameraIndex, int targetId) {
-        return getTargetObservation(cameraIndex, targetId)
-                .map(GameSpecificVisionIO.TargetObservation::tx);
-    }
-
-    /**
-     * Returns the ID of the best target.
-     *
-     * @param cameraIndex The index of the camera to use.
-     * @return The ID of the best target.
-     */
-    public OptionalInt getBestTargetId(int cameraIndex) {
-        var id = cameraHelpers[cameraIndex].inputs.latestTargetObservation.fiducialId();
-        if (id == 0) {
-            return OptionalInt.empty();
-        }
-        return OptionalInt.of(id);
-    }
-
-    /**
-     * Returns the raw observation data for the specified target.
-     *
-     * @param cameraIndex The index of the camera to use.
-     * @param targetId The target to check.
-     * @return The raw observation data for the specified target.
-     */
-    public Optional<GameSpecificVisionIO.TargetObservation> getTargetObservation(int cameraIndex, int targetId) {
-        return Arrays.stream(cameraHelpers[cameraIndex].inputs.targetObservations)
-                .filter(t -> t.fiducialId() == targetId)
-                .findFirst();
-    }
-
-    /**
-     * Returns <c>true</c> if the camera can see the specified target.
-     * @param cameraIndex The camera to check.
-     * @param targetId The target to check.
-     * @return <c>true</c> if the camera can see the target.
-     */
-    public boolean targetVisibleByCamera(int cameraIndex, int targetId) {
-        return cameraHelpers[cameraIndex].isTargetVisible(targetId);
-    }
-
-    /**
-     * Returns <c>true</c> if any camera can see the specified target.
-     * @param targetId The target to check.
-     * @return <c>true</c> if any camera can see the target.
-     */
-    public boolean targetVisibleByAnyCamera(int targetId) {
-        for (int i = 0; i < cameraHelpers.length; i++) {
-            if (targetVisibleByCamera(i, targetId)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public boolean isCameraConnected(int cameraIndex) {
