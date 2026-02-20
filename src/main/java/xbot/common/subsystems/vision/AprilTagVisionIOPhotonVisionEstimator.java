@@ -21,10 +21,16 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.Timer;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.controls.sensors.XGyro;
+import xbot.common.controls.sensors.XGyro.XGyroFactory;
+import xbot.common.injection.electrical_contract.CANBusId;
+import xbot.common.injection.electrical_contract.IMUInfo;
+import xbot.common.controls.sensors.XTimer;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -70,6 +76,7 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
     private final PhotonPoseEstimator photonEstimator;
     private final String logPath;
     private final AprilTagFieldLayout aprilTagFieldLayout;
+    private final XGyro gyro;
 
     private final DoubleProperty singleTagStdDev1;
     private final DoubleProperty singleTagStdDev2;
@@ -78,7 +85,6 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
     private final DoubleProperty multipleTagStdDev1;
     private final DoubleProperty multipleTagStdDev2;
     private final DoubleProperty multipleTagAngularStdDev;
-
 
     protected final Transform3d robotToCamera;
 
@@ -90,13 +96,18 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
      * @param fieldLayout   The April Tag field layout.
      */
     @AssistedInject
-    public AprilTagVisionIOPhotonVisionEstimator(@Assisted String name, @Assisted Transform3d robotToCamera,
-                                                 AprilTagFieldLayout fieldLayout, PropertyFactory pf) {
+    public AprilTagVisionIOPhotonVisionEstimator(
+        @Assisted String name, 
+        @Assisted Transform3d robotToCamera,
+        AprilTagFieldLayout fieldLayout,
+        PropertyFactory pf,
+        XGyroFactory gyroFactory) {
         this.logPath = name;
         this.camera = new PhotonCamera(name);
         this.aprilTagFieldLayout= fieldLayout;
         this.robotToCamera = robotToCamera;
         this.photonEstimator = new PhotonPoseEstimator(this.aprilTagFieldLayout, this.robotToCamera);
+        this.gyro = gyroFactory.create(new IMUInfo(CANBusId.Canivore, 10));
 
         pf.setPrefix(this.logPath);
         this.singleTagStdDev1 = pf.createPersistentProperty("singleTagStdDev1", 4);
@@ -123,10 +134,12 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
         // Read new camera observations
         Set<Integer> tagIds = new HashSet<>();
         List<PoseObservation> poseObservations = new LinkedList<>();
+        Rotation3d heading = new Rotation3d(gyro.getRoll(), gyro.getPitch(), gyro.getHeading());
+        this.photonEstimator.addHeadingData(XTimer.getFPGATimestamp(), heading);
 
         Optional<EstimatedRobotPose> visionEst = Optional.empty();
         for (var result : this.camera.getAllUnreadResults()) {
-            visionEst = this.photonEstimator.estimateCoprocMultiTagPose(result);
+            visionEst = this.photonEstimator.estimatePnpDistanceTrigSolvePose(result);
             if (visionEst.isEmpty()) {
                 visionEst = this.photonEstimator.estimateLowestAmbiguityPose(result);
             }
