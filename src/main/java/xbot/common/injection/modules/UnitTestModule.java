@@ -17,8 +17,10 @@ import xbot.common.properties.MockPermanentStorage;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.TableProxy;
 import xbot.common.properties.XPropertyManager;
-import xbot.common.subsystems.vision.AprilTagVisionIOFactory;
-import xbot.common.subsystems.vision.MockAprilTagVisionIO;
+import xbot.common.subsystems.vision.april_tag.AprilTagVisionIOFactory;
+import xbot.common.subsystems.vision.april_tag.MockAprilTagVisionIO;
+import xbot.common.subsystems.vision.game_specific.GameSpecificVisionIOFactory;
+import xbot.common.subsystems.vision.game_specific.MockGameSpecificVisionIO;
 
 /**
  * Module mapping interfaces to implementations for unit tests.
@@ -57,4 +59,8 @@ public abstract class UnitTestModule {
     @Binds
     @Singleton
     abstract AprilTagVisionIOFactory getAprilTagVisionIOPhotonVisionFactory(MockAprilTagVisionIO.FactoryImpl impl);
+
+    @Binds
+    @Singleton
+    abstract GameSpecificVisionIOFactory getGameSpecificVisionIOFactory(MockGameSpecificVisionIO.FactoryImpl impl);
 }

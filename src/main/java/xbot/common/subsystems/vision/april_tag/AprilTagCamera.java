@@ -1,9 +1,10 @@
-package xbot.common.subsystems.vision;
+package xbot.common.subsystems.vision.april_tag;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import org.photonvision.PhotonPoseEstimator;
 import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.logic.TimeStableValidator;
+import xbot.common.subsystems.vision.SimpleCamera;
 
 import java.util.function.DoubleSupplier;
 

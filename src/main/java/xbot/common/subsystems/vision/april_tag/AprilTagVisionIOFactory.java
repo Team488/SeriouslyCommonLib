@@ -1,4 +1,4 @@
-package xbot.common.subsystems.vision;
+package xbot.common.subsystems.vision.april_tag;
 
 import edu.wpi.first.math.geometry.Transform3d;
 

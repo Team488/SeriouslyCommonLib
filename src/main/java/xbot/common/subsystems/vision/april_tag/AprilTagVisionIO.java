@@ -11,7 +11,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 
-package xbot.common.subsystems.vision;
+package xbot.common.subsystems.vision.april_tag;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -24,7 +24,7 @@ import org.littletonrobotics.junction.AutoLog;
  */
 public interface AprilTagVisionIO {
     @AutoLog
-    class VisionIOInputs {
+    class AprilTagVisionIOInputs {
         public boolean connected = false;
         public TargetObservation latestTargetObservation = new TargetObservation(0, 0, new Rotation2d(),
                 new Rotation2d(), new Transform3d(), 1, true);
@@ -54,6 +54,6 @@ public interface AprilTagVisionIO {
         PHOTONVISION
     }
 
-    default void updateInputs(VisionIOInputs inputs) {
+    default void updateInputs(AprilTagVisionIOInputs inputs) {
     }
 }

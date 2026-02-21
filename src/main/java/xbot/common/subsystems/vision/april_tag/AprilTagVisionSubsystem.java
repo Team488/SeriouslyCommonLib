@@ -11,7 +11,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 
-package xbot.common.subsystems.vision;
+package xbot.common.subsystems.vision.april_tag;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -23,6 +23,7 @@ import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.injection.electrical_contract.XCameraElectricalContract;
 import xbot.common.properties.PropertyFactory;
+import xbot.common.subsystems.vision.VisionPoseObservation;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -43,7 +44,7 @@ import java.util.stream.Collectors;
 public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameRefreshable {
     private final CameraInfo[] cameras;
     private final AprilTagFieldLayout aprilTagFieldLayout;
-    final AprilTagVisionIO[] io;
+    public final AprilTagVisionIO[] io;
     final AprilTagVisionCameraHelper[] cameraHelpers;
 
     @Inject

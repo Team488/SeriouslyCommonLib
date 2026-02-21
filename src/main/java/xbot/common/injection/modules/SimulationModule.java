@@ -17,10 +17,10 @@ import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.PreferenceStorage;
 import xbot.common.properties.SmartDashboardTableWrapper;
 import xbot.common.properties.XPropertyManager;
-import xbot.common.subsystems.pose.BasePoseSubsystem;
-import xbot.common.subsystems.pose.SimulatedPositionSupplier;
-import xbot.common.subsystems.vision.AprilTagVisionIOFactory;
-import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVisionSimulated;
+import xbot.common.subsystems.vision.april_tag.AprilTagVisionIOFactory;
+import xbot.common.subsystems.vision.april_tag.AprilTagVisionIOPhotonVisionSimulated;
+import xbot.common.subsystems.vision.game_specific.GameSpecificVisionIOFactory;
+import xbot.common.subsystems.vision.game_specific.GameSpecificVisionIOPhotonVisionSimulated;
 
 /**
  * Module mapping interfaces to implementations for a simulated robot.
@@ -59,4 +59,8 @@ public abstract class SimulationModule {
     @Binds
     @Singleton
     abstract AprilTagVisionIOFactory getAprilTagVisionIOPhotonVisionFactory(AprilTagVisionIOPhotonVisionSimulated.FactoryImpl impl);
+
+    @Binds
+    @Singleton
+    abstract GameSpecificVisionIOFactory getGameSpecificVisionIOPhotonVisionFactory(GameSpecificVisionIOPhotonVisionSimulated.FactoryImpl impl);
 }

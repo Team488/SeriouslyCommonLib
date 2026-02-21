@@ -23,4 +23,13 @@ public interface XCameraElectricalContract {
     default CameraInfo[] getAprilTagCameras() {
         return Arrays.stream(getCameraInfo()).filter(info -> info.capabilities().contains(CameraCapabilities.APRIL_TAG)).toArray(CameraInfo[]::new);
     }
+
+    /**
+     * Get the information about the cameras on the robot that support object detection.
+     *
+     * @return An array of CameraInfo objects, each representing a camera on the robot.
+     */
+    default CameraInfo[] getGameSpecificCameras() {
+        return Arrays.stream(getCameraInfo()).filter(info -> info.capabilities().contains(CameraCapabilities.GAME_SPECIFIC)).toArray(CameraInfo[]::new);
+    }
 }

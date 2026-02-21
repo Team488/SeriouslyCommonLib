@@ -11,7 +11,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 
-package xbot.common.subsystems.vision;
+package xbot.common.subsystems.vision.april_tag;
 
 import dagger.Lazy;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -74,7 +74,7 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
     }
 
     @Override
-    public void updateInputs(VisionIOInputs inputs) {
+    public void updateInputs(AprilTagVisionIOInputs inputs) {
         visionSim.update(poseSupplier.get().getGroundTruthPose());
         super.updateInputs(inputs);
     }
