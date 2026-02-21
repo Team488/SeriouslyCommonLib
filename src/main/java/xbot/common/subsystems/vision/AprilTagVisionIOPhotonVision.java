@@ -47,9 +47,10 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
     private static final TargetObservation[] EMPTY_TARGET_OBSERVATIONS = new TargetObservation[0];
     private static final TargetObservation EMPTY_TARGET_OBSERVATION = new TargetObservation(0, 0, new Rotation2d(),
             new Rotation2d(), new Transform3d(), 1, true);
-    // Using same heartbeat bounce as photonvision:
+    // Originally based off same heartbeat bounce as photonvision:
     // https://github.com/PhotonVision/photonvision/blob/3c332db4bfe9083fc0311ae71cff92de588939ad/photon-lib/src/main/java/org/photonvision/PhotonCamera.java#L107
-    private static final double HEARTBEAT_DEBOUNCE_SEC = 0.5;
+    // However, testing indicated that a lower value would be better than 0.5s:
+    private static final double HEARTBEAT_DEBOUNCE_SEC = 0.060;
 
     protected final PhotonCamera camera;
     protected final Transform3d robotToCamera;
