@@ -213,6 +213,16 @@ public class PropertyFactory {
     }
 
     /**
+     * Creates a persistent property for an angular velocity.
+     * @param suffix The suffix for the property.
+     * @param defaultValue The default value for the property.
+     * @return The property.
+     */
+    public AngularVelocityProperty createPersistentProperty(String suffix, AngularVelocity defaultValue) {
+        return this.createPersistentProperty(suffix, defaultValue, defaultLevel);
+    }
+
+    /**
      * Creates a persistent property for an angle velocity with a specified property level.
      * @param suffix The suffix for the property.
      * @param defaultValue The default value for the property.
@@ -223,5 +233,4 @@ public class PropertyFactory {
         checkPrefixSet();
         return new AngularVelocityProperty(getCleanPrefix(), suffix, defaultValue, this.propertyManager, level);
     }
-
 }
