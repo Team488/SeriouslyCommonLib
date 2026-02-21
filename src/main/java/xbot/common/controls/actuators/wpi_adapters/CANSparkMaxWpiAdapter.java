@@ -32,6 +32,7 @@ import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.injection.electrical_contract.SparkMaxMotorControllerOutputConfig;
 import xbot.common.logging.RobotAssertionManager;
+import xbot.common.properties.PowerDistributionProperties;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
@@ -69,9 +70,10 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
             DevicePolice police,
             RobotAssertionManager assertionManager,
             @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
-            @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties
+            @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties,
+            PowerDistributionProperties pdProperties
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties);
+        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, pdProperties);
         this.internalSparkMax = new SparkMax(info.deviceId(), SparkLowLevel.MotorType.kBrushless);
         this.assertionManager = assertionManager;
 
