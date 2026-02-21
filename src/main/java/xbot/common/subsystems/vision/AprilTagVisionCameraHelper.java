@@ -150,27 +150,10 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
                 continue;
             }
 
-            // Calculate standard deviations
-            double stdDevFactor = Math.pow(observation.averageTagDistance(), 2.0) / observation.tagCount();
-            double linearStdDev = linearStdDevBaseline.get() * stdDevFactor;
-            double angularStdDev = angularStdDevBaseline.get() * stdDevFactor;
-            if (observation.type() == AprilTagVisionIO.PoseObservationType.MEGATAG_2) {
-                linearStdDev *= linearStdDevMegatag2Factor.get();
-                angularStdDev *= angularStdDevMegatag2Factor.get();
-            }
-
-            linearStdDev *= cameraStdDevFactor.get();
-            angularStdDev *= cameraStdDevFactor.get();
-
             poseObservations.add(new VisionPoseObservation(observation.pose().toPose2d(),
-                    observation.timestamp(),
-                    VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev)));
+                                                           observation.timestamp(),
+                                                           observation.estimatedStdDevs()));
         }
-    }
-
-    private boolean isObservationAmbiguous(AprilTagVisionIO.PoseObservation observation) {
-        return (observation.tagCount() == 1
-                && observation.ambiguity() > maxAmbiguity.get()); // Cannot be high ambiguity;
     }
 
     private boolean isObservationOutOfBounds(Pose3d pose) {
@@ -181,22 +164,11 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
                 || pose.getY() > aprilTagFieldLayout.getFieldWidth();
     }
 
-    private boolean isObservationOutOfSafeRange(AprilTagVisionIO.PoseObservation observation) {
-        if (observation.tagCount() == 1) {
-            return observation.averageTagDistance() > maxSingleTagDistance.get()
-                    || observation.averageTagDistance() < minTagDistance.get();
-        }
-
-        return observation.averageTagDistance() > maxMultiTagDistance.get();
-    }
-
     private boolean shouldRejectObservation(AprilTagVisionIO.PoseObservation observation) {
         boolean shouldReject = false;
         shouldReject |= observation.tagCount() == 0; // Must have at least one tag
-        shouldReject |= isObservationAmbiguous(observation);
-        shouldReject |= Math.abs(observation.pose().getZ()) > maxZError.get(); // Must have realistic Z coordinate
-        shouldReject |= isObservationOutOfBounds(observation.pose());
-        shouldReject |= isObservationOutOfSafeRange(observation);
+        // For teesting purpposes, remove for real comp.
+        // shouldReject |= isObservationOutOfBounds(observation.pose());
 
         return shouldReject;
     }
