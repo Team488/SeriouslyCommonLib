@@ -53,7 +53,7 @@ public class AngularVelocityProperty extends Property {
     }
 
     public AngularVelocity get() {
-        return currentValue;
+        return currentValue.copy();
     }
 
 

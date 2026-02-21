@@ -55,7 +55,7 @@ public class AngleProperty extends Property {
     }
 
     public Angle get() {
-        return currentValue;
+        return currentValue.copy();
     }
 
 
