@@ -2,6 +2,7 @@ package xbot.common.properties;
 
 import javax.inject.Inject;
 
+import edu.wpi.first.units.measure.AngularVelocity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -209,6 +210,18 @@ public class PropertyFactory {
     public AngleProperty createPersistentProperty(String suffix, Angle defaultValue, PropertyLevel level) {
         checkPrefixSet();
         return new AngleProperty(getCleanPrefix(), suffix, defaultValue, this.propertyManager, level);
+    }
+
+    /**
+     * Creates a persistent property for an angle velocity with a specified property level.
+     * @param suffix The suffix for the property.
+     * @param defaultValue The default value for the property.
+     * @param level The property level.
+     * @return The property.
+     */
+    public AngularVelocityProperty createPersistentProperty(String suffix, AngularVelocity defaultValue, PropertyLevel level) {
+        checkPrefixSet();
+        return new AngularVelocityProperty(getCleanPrefix(), suffix, defaultValue, this.propertyManager, level);
     }
 
 }
