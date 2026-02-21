@@ -1,25 +1,23 @@
 package xbot.common.properties;
 
-import java.util.function.Consumer;
+import edu.wpi.first.units.AngularVelocityUnit;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.MutAngularVelocity;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
-
-import edu.wpi.first.units.AngleUnit;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.MutAngle;
 import xbot.common.logging.Pluralizer;
 
+import java.util.function.Consumer;
+
 /**
- * This manages an Angle in the property system.
- *
- * @author Alex
+ * This manages an AngleVelocity in the property system.
  */
-public class AngleProperty extends Property {
-    final Angle defaultValue;
-    final AngleUnit defaultUnit;
-    final MutAngle lastValue;
-    final MutAngle currentValue;
+public class AngularVelocityProperty extends Property {
+    final AngularVelocity defaultValue;
+    final AngularVelocityUnit defaultUnit;
+    final MutAngularVelocity lastValue;
+    final MutAngularVelocity currentValue;
 
     private final LoggableInputs inputs = new LoggableInputs() {
         public void toLog(LogTable table) {
@@ -31,11 +29,11 @@ public class AngleProperty extends Property {
         }
     };
 
-    public AngleProperty(String prefix, String name, Angle defaultValue, XPropertyManager manager) {
+    public AngularVelocityProperty(String prefix, String name, AngularVelocity defaultValue, XPropertyManager manager) {
         this(prefix, name, defaultValue, manager, PropertyLevel.Important);
     }
 
-    public AngleProperty(String prefix, String name, Angle defaultValue, XPropertyManager manager, PropertyLevel level) {
+    public AngularVelocityProperty(String prefix, String name, AngularVelocity defaultValue, XPropertyManager manager, PropertyLevel level) {
         super(prefix, name  + "-in-" + Pluralizer.pluralize(defaultValue.unit().name()), manager, level);
         this.defaultValue = defaultValue;
         this.defaultUnit = defaultValue.unit();
@@ -46,7 +44,7 @@ public class AngleProperty extends Property {
 
         // Check for non-default on load; also store a "last value" we can use
         // to check if a property has changed recently.
-        Angle firstValue = get_internal();
+        AngularVelocity firstValue = get_internal();
         if (!firstValue.isEquivalent(defaultValue)) {
             log.info("Property " + key + " has the non-default value " + firstValue);
         }
@@ -54,12 +52,12 @@ public class AngleProperty extends Property {
         currentValue.mut_replace(firstValue.mutableCopy());
     }
 
-    public Angle get() {
+    public AngularVelocity get() {
         return currentValue.copy();
     }
 
 
-    public Angle get_internal() {
+    public AngularVelocity get_internal() {
         Double nullableTableValue = activeStore.getDouble(key);
 
         if(nullableTableValue == null) {
@@ -72,13 +70,13 @@ public class AngleProperty extends Property {
         return defaultUnit.of(nullableTableValue);
     }
 
-    public void set(Angle value) {
+    public void set(AngularVelocity value) {
         activeStore.setDouble(key, value.in(defaultUnit));
         currentValue.mut_replace(value);
     }
 
-    public void hasChangedSinceLastCheck(Consumer<Angle> callback) {
-        Angle currentValue = get();
+    public void hasChangedSinceLastCheck(Consumer<AngularVelocity> callback) {
+        AngularVelocity currentValue = get();
         if (!currentValue.isEquivalent(lastValue)) {
             callback.accept(currentValue);
         }
@@ -86,7 +84,7 @@ public class AngleProperty extends Property {
     }
 
     public boolean hasChangedSinceLastCheck() {
-        Angle currentValue = get();
+        AngularVelocity currentValue = get();
         boolean changed = !currentValue.isEquivalent(lastValue);
         lastValue.mut_replace(currentValue);
         return changed;
