@@ -30,6 +30,7 @@ import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.logging.AlertGroups;
 import xbot.common.logic.LogicUtils;
 import xbot.common.properties.DoubleProperty;
+import xbot.common.properties.PowerDistributionProperties;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
@@ -136,11 +137,13 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             PropertyFactory propertyFactory,
             DevicePolice police,
             String pidPropertyPrefix,
-            XCANMotorControllerPIDProperties defaultPIDProperties
+            XCANMotorControllerPIDProperties defaultPIDProperties,
+            PowerDistributionProperties pdProperties
     ) {
         this.busId = info.busId();
         this.deviceId = info.deviceId();
         this.propertyFactory = propertyFactory;
+        pdProperties.setDeviceMapping(info.pdhPort(), info.name());
 
         this.inputs = new XCANMotorControllerInputsAutoLogged();
 
