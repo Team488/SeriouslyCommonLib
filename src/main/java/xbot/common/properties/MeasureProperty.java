@@ -2,6 +2,7 @@ package xbot.common.properties;
 
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.MutableMeasure;
+import edu.wpi.first.units.Unit;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
@@ -10,14 +11,14 @@ import xbot.common.logging.Pluralizer;
 import java.util.function.Consumer;
 
 public class MeasureProperty<
-        ImmutMeasure extends Measure<Unit>,
-        MutMeasure extends MutableMeasure<Unit, ImmutMeasure, MutMeasure>,
-        Unit extends edu.wpi.first.units.Unit
+        MeasureT extends Measure<UnitT>,
+        MutMeasureT extends MutableMeasure<UnitT, MeasureT, MutMeasureT>,
+        UnitT extends Unit
         > extends Property {
-    final ImmutMeasure defaultValue;
-    final Unit defaultUnit;
-    final MutMeasure lastValue;
-    final MutMeasure currentValue;
+    final MeasureT defaultValue;
+    final UnitT defaultUnit;
+    final MutMeasureT lastValue;
+    final MutMeasureT currentValue;
 
     private final LoggableInputs inputs = new LoggableInputs() {
         public void toLog(LogTable table) {
@@ -29,35 +30,35 @@ public class MeasureProperty<
         }
     };
 
-    public MeasureProperty(String prefix, String name, ImmutMeasure defaultValue, XPropertyManager manager) {
+    public MeasureProperty(String prefix, String name, MeasureT defaultValue, XPropertyManager manager) {
         this(prefix, name, defaultValue, manager, PropertyLevel.Important);
     }
 
-    public MeasureProperty(String prefix, String name, ImmutMeasure defaultValue, XPropertyManager manager, PropertyLevel level) {
+    public MeasureProperty(String prefix, String name, MeasureT defaultValue, XPropertyManager manager, PropertyLevel level) {
         super(prefix, name  + "-in-" + Pluralizer.pluralize(defaultValue.unit().name()), manager, level);
         this.defaultValue = defaultValue;
         this.defaultUnit = defaultValue.unit();
 
-        currentValue = (MutMeasure) defaultValue.mutableCopy();
-        lastValue = (MutMeasure) defaultValue.mutableCopy();
+        currentValue = (MutMeasureT) defaultValue.mutableCopy();
+        lastValue = (MutMeasureT) defaultValue.mutableCopy();
 
 
         // Check for non-default on load; also store a "last value" we can use
         // to check if a property has changed recently.
-        ImmutMeasure firstValue = get_internal();
+        MeasureT firstValue = get_internal();
         if (!firstValue.isEquivalent(defaultValue)) {
             log.info("Property " + key + " has the non-default value " + firstValue);
         }
         lastValue.mut_replace(firstValue);
-        currentValue.mut_replace((ImmutMeasure) firstValue.copy());
+        currentValue.mut_replace((MeasureT) firstValue.copy());
     }
 
-    public ImmutMeasure get() {
+    public MeasureT get() {
         return currentValue.copy();
     }
 
 
-    public ImmutMeasure get_internal() {
+    public MeasureT get_internal() {
         Double nullableTableValue = activeStore.getDouble(key);
 
         if(nullableTableValue == null) {
@@ -67,16 +68,16 @@ public class MeasureProperty<
             return defaultValue;
         }
 
-        return (ImmutMeasure) defaultUnit.of(nullableTableValue);
+        return (MeasureT) defaultUnit.of(nullableTableValue);
     }
 
-    public void set(ImmutMeasure value) {
+    public void set(MeasureT value) {
         activeStore.setDouble(key, value.in(defaultUnit));
         currentValue.mut_replace(value);
     }
 
-    public void hasChangedSinceLastCheck(Consumer<ImmutMeasure> callback) {
-        ImmutMeasure currentValue = get();
+    public void hasChangedSinceLastCheck(Consumer<MeasureT> callback) {
+        MeasureT currentValue = get();
         if (!currentValue.isEquivalent(lastValue)) {
             callback.accept(currentValue);
         }
@@ -84,7 +85,7 @@ public class MeasureProperty<
     }
 
     public boolean hasChangedSinceLastCheck() {
-        ImmutMeasure currentValue = get();
+        MeasureT currentValue = get();
         boolean changed = !currentValue.isEquivalent(lastValue);
         lastValue.mut_replace(currentValue);
         return changed;
