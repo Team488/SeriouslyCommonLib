@@ -23,6 +23,7 @@ import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.injection.electrical_contract.XCameraElectricalContract;
 import xbot.common.properties.PropertyFactory;
+import edu.wpi.first.wpilibj.Timer;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -227,6 +228,10 @@ public class AprilTagVisionSubsystem extends SubsystemBase implements DataFrameR
             Logger.recordOutput(
                     cameraHelper.getLogPath() + "/RobotPosesRejected",
                     cameraHelper.getRobotPosesRejected().toArray(new Pose3d[0]));
+            double now = Timer.getFPGATimestamp();
+            Logger.recordOutput(
+                    cameraHelper.getLogPath() + "/Staleness",
+                    cameraHelper.getPoseObservations().stream().map(p -> (now - p.timestampSeconds())).mapToDouble(Double::doubleValue).toArray());
         }
     }
 }
