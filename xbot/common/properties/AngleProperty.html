@@ -15,11 +15,7 @@
 <script type="text/javascript" src="../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="class-declaration-page">
-<script type="text/javascript">var evenRowColor = "even-row-color";
-var oddRowColor = "odd-row-color";
-var tableTab = "table-tab";
-var activeTableTab = "active-table-tab";
-var pathtoroot = "../../../";
+<script type="text/javascript">var pathtoroot = "../../../";
 loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
@@ -54,7 +50,7 @@ loadScripts(document, 'script');</script>
 <li>Detail:&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor-detail">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#method-detail">Method</a></li>
+<li>Method</li>
 </ul>
 </div>
 <div class="nav-list-search"><label for="search-input">SEARCH:</label>
@@ -74,7 +70,9 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance"><a href="Property.html" title="class in xbot.common.properties">xbot.common.properties.Property</a>
+<div class="inheritance"><a href="MeasureProperty.html" title="class in xbot.common.properties">xbot.common.properties.MeasureProperty</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>,<wbr><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/MutAngle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">MutAngle</a>,<wbr><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>&gt;
 <div class="inheritance">xbot.common.properties.AngleProperty</div>
+</div>
 </div>
 </div>
 <section class="class-description" id="class-description">
@@ -84,7 +82,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">AngleProperty</span>
-<span class="extends-implements">extends <a href="Property.html" title="class in xbot.common.properties">Property</a></span></div>
+<span class="extends-implements">extends <a href="MeasureProperty.html" title="class in xbot.common.properties">MeasureProperty</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>,<wbr><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/MutAngle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">MutAngle</a>,<wbr><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngleUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngleUnit</a>&gt;</span></div>
 <div class="block">This manages an Angle in the property system.</div>
 </section>
 <section class="summary">
@@ -133,41 +131,9 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
-<div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
-<div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
-<div class="summary-table three-column-summary">
-<div class="table-header col-first">Modifier and Type</div>
-<div class="table-header col-second">Method</div>
-<div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#get()" class="member-name-link">get</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#get_internal()" class="member-name-link">get_internal</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasChangedSinceLastCheck()" class="member-name-link">hasChangedSinceLastCheck</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasChangedSinceLastCheck(java.util.function.Consumer)" class="member-name-link">hasChangedSinceLastCheck</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&gt;&nbsp;callback)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isSetToDefault()" class="member-name-link">isSetToDefault</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Checks if the property's current value matches the default.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#refreshDataFrame()" class="member-name-link">refreshDataFrame</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Consumes and processes inputs from the device or subsystem.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#set(edu.wpi.first.units.measure.Angle)" class="member-name-link">set</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;value)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-</div>
-</div>
-</div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-xbot.common.properties.MeasureProperty">Methods inherited from class&nbsp;xbot.common.properties.<a href="MeasureProperty.html" title="class in xbot.common.properties">MeasureProperty</a></h3>
+<code><a href="MeasureProperty.html#get()">get</a>, <a href="MeasureProperty.html#get_internal()">get_internal</a>, <a href="MeasureProperty.html#hasChangedSinceLastCheck()">hasChangedSinceLastCheck</a>, <a href="MeasureProperty.html#hasChangedSinceLastCheck(java.util.function.Consumer)">hasChangedSinceLastCheck</a>, <a href="MeasureProperty.html#isSetToDefault()">isSetToDefault</a>, <a href="MeasureProperty.html#refreshDataFrame()">refreshDataFrame</a>, <a href="MeasureProperty.html#set(MeasureT)">set</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-xbot.common.properties.Property">Methods inherited from class&nbsp;xbot.common.properties.<a href="Property.html" title="class in xbot.common.properties">Property</a></h3>
 <code><a href="Property.html#getLevel()">getLevel</a></code></div>
@@ -202,66 +168,6 @@ loadScripts(document, 'script');</script>
  <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;defaultValue,
  <a href="XPropertyManager.html" title="class in xbot.common.properties">XPropertyManager</a>&nbsp;manager,
  <a href="Property.PropertyLevel.html" title="enum class in xbot.common.properties">Property.PropertyLevel</a>&nbsp;level)</span></div>
-</section>
-</li>
-</ul>
-</section>
-</li>
-<!-- ============ METHOD DETAIL ========== -->
-<li>
-<section class="method-details" id="method-detail">
-<h2>Method Details</h2>
-<ul class="member-list">
-<li>
-<section class="detail" id="get()">
-<h3>get</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a></span>&nbsp;<span class="element-name">get</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="get_internal()">
-<h3>get_internal</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a></span>&nbsp;<span class="element-name">get_internal</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="set(edu.wpi.first.units.measure.Angle)">
-<h3>set</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">set</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&nbsp;value)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="hasChangedSinceLastCheck(java.util.function.Consumer)">
-<h3>hasChangedSinceLastCheck</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">hasChangedSinceLastCheck</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Angle.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Angle</a>&gt;&nbsp;callback)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="hasChangedSinceLastCheck()">
-<h3>hasChangedSinceLastCheck</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasChangedSinceLastCheck</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="isSetToDefault()">
-<h3>isSetToDefault</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isSetToDefault</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="Property.html#isSetToDefault()">Property</a></code></span></div>
-<div class="block">Checks if the property's current value matches the default.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="Property.html#isSetToDefault()">isSetToDefault</a></code>&nbsp;in class&nbsp;<code><a href="Property.html" title="class in xbot.common.properties">Property</a></code></dd>
-<dt>Returns:</dt>
-<dd>True if the current value is the default.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="refreshDataFrame()">
-<h3>refreshDataFrame</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">refreshDataFrame</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../advantage/DataFrameRefreshable.html#refreshDataFrame()">DataFrameRefreshable</a></code></span></div>
-<div class="block">Consumes and processes inputs from the device or subsystem.</div>
 </section>
 </li>
 </ul>
