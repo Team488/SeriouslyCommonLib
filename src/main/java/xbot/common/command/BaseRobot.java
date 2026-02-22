@@ -1,6 +1,12 @@
 package xbot.common.command;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +21,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,6 +44,131 @@ import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
  * of CommonLib functionality.
  */
 public abstract class BaseRobot extends LoggedRobot {
+
+    /**
+     * Path to the NetworkTables 4 persistent storage file on the roboRIO.
+     * The NT server (started in {@link RobotBase}'s constructor) loads preferences
+     * from this file on every boot.
+     */
+    static final String NT_PERSISTENT_FILE_PATH = "/home/lvuser/networktables.json";
+
+    /**
+     * Path to the backup file written by the NT server's atomic save process.
+     *
+     * <p>When the NT server saves the persistent file it follows three steps:
+     * <ol>
+     *   <li>Write new data to {@code networktables.json.tmp}</li>
+     *   <li>Rename {@code networktables.json} → {@code networktables.json.bck}</li>
+     *   <li>Rename {@code networktables.json.tmp} → {@code networktables.json}</li>
+     * </ol>
+     * If the process is killed between steps 2 and 3 (e.g. during a code deploy),
+     * {@code networktables.json} is <em>missing</em> while {@code networktables.json.bck}
+     * contains the last good state.  The NT server's {@code LoadPersistent} function does
+     * <strong>not</strong> fall back to this backup — it simply writes an empty {@code []}
+     * and loses all preferences.  The static initializer below recovers from this scenario
+     * before the NT server has a chance to start.
+     */
+    static final String NT_PERSISTENT_BACKUP_FILE_PATH = NT_PERSISTENT_FILE_PATH + ".bck";
+
+    // This static initializer runs after all parent-class static initializers but
+    // BEFORE the RobotBase() constructor, which is where the NT server is started
+    // via NetworkTableInstance.startServer().  That ordering gives us a window to
+    // repair a missing or empty networktables.json from the .bck backup before the
+    // NT server ever sees the file.
+    static {
+        tryRecoverNetworkTablesFile();
+    }
+
+    /**
+     * Attempts to restore {@code networktables.json} from its {@code .bck} backup when the
+     * primary file is missing or effectively empty.
+     *
+     * <p>This method is called from the static initializer so it runs <em>before</em> the
+     * {@link RobotBase} constructor starts the NT server.  On simulation this is a no-op
+     * because the roboRIO-specific paths do not exist.
+     *
+     * <p>The NT server's atomic-save sequence is:
+     * <ol>
+     *   <li>Write new data to {@code .tmp}</li>
+     *   <li>Rename existing file → {@code .bck}</li>
+     *   <li>Rename {@code .tmp} → primary file</li>
+     * </ol>
+     * If the JVM is killed between steps 2 and 3 the primary file is absent while
+     * {@code .bck} holds the last successfully persisted state.  Without this recovery
+     * step the NT server silently resets all preferences to defaults.
+     */
+    private static void tryRecoverNetworkTablesFile() {
+        try {
+            if (RobotBase.isSimulation()) {
+                return;
+            }
+            recoverNetworkTablesFileIfNeeded(
+                    Paths.get(NT_PERSISTENT_FILE_PATH),
+                    Paths.get(NT_PERSISTENT_BACKUP_FILE_PATH));
+        } catch (Exception e) {
+            System.err.println("[BaseRobot] Unexpected error during NT file recovery check: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Core recovery logic, extracted for testability.
+     *
+     * <p>If {@code mainFile} is missing or contains only a trivial (empty-array) JSON value,
+     * and {@code backupFile} exists with meaningful content, {@code backupFile} is copied over
+     * {@code mainFile}.
+     *
+     * @param mainFile   path to {@code networktables.json}
+     * @param backupFile path to {@code networktables.json.bck}
+     */
+    static void recoverNetworkTablesFileIfNeeded(Path mainFile, Path backupFile) {
+        if (isNtFileUsable(mainFile)) {
+            return;
+        }
+        if (!isNtFileUsable(backupFile)) {
+            return;
+        }
+        System.out.println("[BaseRobot] networktables.json is missing or empty; restoring from backup: " + backupFile);
+        try {
+            Files.copy(backupFile, mainFile, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("[BaseRobot] Successfully restored networktables.json from backup.");
+        } catch (IOException e) {
+            System.err.println("[BaseRobot] Failed to restore networktables.json from backup: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Returns {@code true} when {@code filePath} exists, is larger than a trivial empty-array
+     * JSON value ({@code []\n}), and its first non-whitespace byte is {@code '['} — the
+     * required start character for an NT4 persistent-storage file.
+     *
+     * @param filePath path to the file to inspect
+     * @return {@code true} if the file appears to contain usable NT preference data
+     */
+    static boolean isNtFileUsable(Path filePath) {
+        try {
+            if (!Files.exists(filePath)) {
+                return false;
+            }
+            // An NT4 file with no entries is written as "[]\n" (3 bytes) or "[]\r\n" (4 bytes).
+            // Any file that small cannot contain real preferences.
+            if (Files.size(filePath) <= 4) {
+                return false;
+            }
+            // Verify the file starts with '[' as required by the NT4 JSON format.
+            try (InputStream in = Files.newInputStream(filePath)) {
+                int b;
+                while ((b = in.read()) != -1) {
+                    if (Character.isWhitespace((char) b)) {
+                        continue;
+                    }
+                    return b == '[';
+                }
+            }
+            return false;
+        } catch (IOException e) {
+            return false;
+        }
+    }
 
     org.apache.logging.log4j.Logger log;
 
