@@ -16,6 +16,7 @@ import xbot.common.subsystems.pose.IFieldObstacle;
 import xbot.common.subsystems.pose.ObstacleMap;
 
 import java.awt.geom.Point2D;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class SwervePointPathPlanning {
 
     private static Logger log = LogManager.getLogger(SwervePointPathPlanning.class);
 
+    @Inject
     public SwervePointPathPlanning(ObstacleMap obstacleMap, GameField gameField, XSwerveDriveElectricalContract electrical_contract) {
         this.obstacleMap = obstacleMap;
         this.gameField = gameField;
