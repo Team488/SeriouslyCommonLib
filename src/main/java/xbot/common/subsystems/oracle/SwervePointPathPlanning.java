@@ -35,7 +35,7 @@ public class SwervePointPathPlanning {
     }
 
     /**
-     * Generates a list of swerve points from Point A -> B while avoiding the big reef
+     * Generates a list of swerve points from Point A -> B while avoiding any obstacles in the map.
      * @param startingPose you are at
      * @param endingPose you want to go to
      * @return a list of swerve points to destination
