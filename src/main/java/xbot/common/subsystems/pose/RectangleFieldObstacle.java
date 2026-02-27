@@ -11,9 +11,9 @@ import edu.wpi.first.units.Units;
  * <=> segment intersects the rectangle inflated by robotRadius in X and Y.
  */
 public class RectangleFieldObstacle implements IFieldObstacle {
-    private final Translation2d center;
-    private final Distance halfWidth;
-    private final Distance halfHeight;
+    protected final Translation2d center;
+    protected final Distance halfWidth;
+    protected final Distance halfHeight;
     private final boolean isToughTerrain;
 
     public RectangleFieldObstacle(
@@ -35,7 +35,15 @@ public class RectangleFieldObstacle implements IFieldObstacle {
 
     @Override
     public Translation2d center() {
-        return this.center();
+        return this.center;
+    }
+
+    public Distance getHalfWidth() {
+        return this.halfWidth;
+    }
+
+    public Distance getHalfHeight() {
+        return this.halfHeight;
     }
 
     @Override
