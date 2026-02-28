@@ -70,4 +70,10 @@ public interface XSwerveDriveElectricalContract {
      * @return The gear ratio for the steering motors.
      */
     double getSteeringGearRatio();
+
+    /**
+     * Returns the largest radius of the robot.
+     * @return The longest point to the edge of the robot back to the center.
+     */
+    Distance getRadiusOfRobot();
 }
