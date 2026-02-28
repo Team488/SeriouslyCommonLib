@@ -4,6 +4,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.Units;
 
+import org.littletonrobotics.junction.Logger;
+
 /**
  * Rectangle obstacle defined by center + half extents.
  *
@@ -63,7 +65,12 @@ public class RectangleFieldObstacle implements IFieldObstacle {
         final double minY = center.getY() - hy;
         final double maxY = center.getY() + hy;
 
-        return segmentIntersectsRectangle(start, end, minX, minY, maxX, maxY);
+        var doesIntersect = segmentIntersectsRectangle(start, end, minX, minY, maxX, maxY);
+
+        var prefix = String.format("Path/Obstacle(%.2f,%.2f)/Path((%.2f,%.2f)To(%.2f,%.2f)", center.getX(), center.getY(), start.getX(), start.getY(), end.getX(), end.getY());
+        Logger.recordOutput(prefix + "/doesIntersect", doesIntersect);
+
+        return doesIntersect;
     }
 
     // Note - the math in this class is AI generated and has not been fully verified.
