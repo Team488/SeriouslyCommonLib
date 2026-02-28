@@ -86,6 +86,7 @@ loadScripts(document, 'script');</script>
 <li><a href="xbot/common/subsystems/drive/swerve/package-tree.html">xbot.common.subsystems.drive.swerve</a>, </li>
 <li><a href="xbot/common/subsystems/drive/swerve/commands/package-tree.html">xbot.common.subsystems.drive.swerve.commands</a>, </li>
 <li><a href="xbot/common/subsystems/feedback/package-tree.html">xbot.common.subsystems.feedback</a>, </li>
+<li><a href="xbot/common/subsystems/oracle/package-tree.html">xbot.common.subsystems.oracle</a>, </li>
 <li><a href="xbot/common/subsystems/pose/package-tree.html">xbot.common.subsystems.pose</a>, </li>
 <li><a href="xbot/common/subsystems/pose/commands/package-tree.html">xbot.common.subsystems.pose.commands</a>, </li>
 <li><a href="xbot/common/subsystems/simple/package-tree.html">xbot.common.subsystems.simple</a>, </li>
@@ -145,6 +146,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANTalonFxWpiAdapter.CANTalonFxWpiAdapterFactory.html" class="type-name-link" title="class in xbot.common.controls.actuators.wpi_adapters">CANTalonFxWpiAdapter.CANTalonFxWpiAdapterFactory</a> (implements xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.XCANMotorControllerFactory.html" title="interface in xbot.common.controls.actuators">XCANMotorController.XCANMotorControllerFactory</a>)</li>
 <li class="circle">xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANVictorSPXWpiAdapter.CANVictorSPXWpiAdapterFactory.html" class="type-name-link" title="class in xbot.common.controls.actuators.wpi_adapters">CANVictorSPXWpiAdapter.CANVictorSPXWpiAdapterFactory</a> (implements xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.XCANMotorControllerFactory.html" title="interface in xbot.common.controls.actuators">XCANMotorController.XCANMotorControllerFactory</a>)</li>
 <li class="circle">xbot.common.controls.sensors.buttons.<a href="xbot/common/controls/sensors/buttons/ChordTrigger.ChordTriggerFactory.html" class="type-name-link" title="class in xbot.common.controls.sensors.buttons">ChordTrigger.ChordTriggerFactory</a></li>
+<li class="circle">xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/CircleFieldObstacle.html" class="type-name-link" title="class in xbot.common.subsystems.pose">CircleFieldObstacle</a> (implements xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/IFieldObstacle.html" title="interface in xbot.common.subsystems.pose">IFieldObstacle</a>)</li>
 <li class="circle">edu.wpi.first.wpilibj2.command.<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html" class="type-name-link external-link" title="class or interface in edu.wpi.first.wpilibj2.command">Command</a> (implements edu.wpi.first.util.sendable.<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/util/sendable/Sendable.html" title="class or interface in edu.wpi.first.util.sendable" class="external-link">Sendable</a>)
 <ul>
 <li class="circle">xbot.common.command.<a href="xbot/common/command/BaseCommand.html" class="type-name-link" title="class in xbot.common.command">BaseCommand</a> (implements xbot.common.properties.<a href="xbot/common/properties/IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a>)
@@ -304,6 +306,7 @@ loadScripts(document, 'script');</script>
 </ul>
 </li>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/MultiplexedLidarPair.html" class="type-name-link" title="class in xbot.common.controls.sensors">MultiplexedLidarPair</a> (implements xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/DistanceSensorPair.html" title="interface in xbot.common.controls.sensors">DistanceSensorPair</a>)</li>
+<li class="circle">xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/ObstacleMap.html" class="type-name-link" title="class in xbot.common.subsystems.pose">ObstacleMap</a></li>
 <li class="circle">edu.wpi.first.math.kinematics.<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/kinematics/Odometry.html" class="type-name-link external-link" title="class or interface in edu.wpi.first.math.kinematics">Odometry</a>&lt;T&gt;
 <ul>
 <li class="circle">xbot.common.math.kinematics.<a href="xbot/common/math/kinematics/DeadwheelOdometry.html" class="type-name-link" title="class in xbot.common.math.kinematics">DeadwheelOdometry</a></li>
@@ -374,6 +377,11 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwervePointKinematics.html" class="type-name-link" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a></li>
 <li class="circle">xbot.common.subsystems.vision.<a href="xbot/common/subsystems/vision/VisionPoseObservation.html" class="type-name-link" title="class in xbot.common.subsystems.vision">VisionPoseObservation</a></li>
 <li class="circle">xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html" class="type-name-link" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties</a></li>
+</ul>
+</li>
+<li class="circle">xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/RectangleFieldObstacle.html" class="type-name-link" title="class in xbot.common.subsystems.pose">RectangleFieldObstacle</a> (implements xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/IFieldObstacle.html" title="interface in xbot.common.subsystems.pose">IFieldObstacle</a>)
+<ul>
+<li class="circle">xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/SquareFieldObstacle.html" class="type-name-link" title="class in xbot.common.subsystems.pose">SquareFieldObstacle</a></li>
 </ul>
 </li>
 <li class="circle">java.awt.geom.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.desktop/java/awt/geom/RectangularShape.html" class="type-name-link external-link" title="class or interface in java.awt.geom">RectangularShape</a> (implements java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Cloneable.html" title="class or interface in java.lang" class="external-link">Cloneable</a>, java.awt.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.desktop/java/awt/Shape.html" title="class or interface in java.awt" class="external-link">Shape</a>)
@@ -476,6 +484,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveDriveRotationAdvisor.html" class="type-name-link" title="class in xbot.common.subsystems.drive.swerve">SwerveDriveRotationAdvisor</a></li>
 <li class="circle">xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveKinematicsCalculator.html" class="type-name-link" title="class in xbot.common.subsystems.drive">SwerveKinematicsCalculator</a></li>
 <li class="circle">xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/SwerveModule.html" class="type-name-link" title="class in xbot.common.injection.swerve">SwerveModule</a></li>
+<li class="circle">xbot.common.subsystems.oracle.<a href="xbot/common/subsystems/oracle/SwervePointPathPlanning.html" class="type-name-link" title="class in xbot.common.subsystems.oracle">SwervePointPathPlanning</a></li>
 <li class="circle">xbot.common.trajectory.<a href="xbot/common/trajectory/SwerveSimpleBezierLogic.html" class="type-name-link" title="class in xbot.common.trajectory">SwerveSimpleBezierLogic</a></li>
 <li class="circle">xbot.common.trajectory.<a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" class="type-name-link" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></li>
 <li class="circle">xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveSuggestedRotation.html" class="type-name-link" title="class in xbot.common.subsystems.drive.swerve">SwerveSuggestedRotation</a></li>
@@ -717,6 +726,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">xbot.common.advantage.<a href="xbot/common/advantage/DataFrameRefreshable.html" class="type-name-link" title="interface in xbot.common.advantage">DataFrameRefreshable</a></li>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/DistanceSensor.html" class="type-name-link" title="interface in xbot.common.controls.sensors">DistanceSensor</a></li>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/DistanceSensorPair.html" class="type-name-link" title="interface in xbot.common.controls.sensors">DistanceSensorPair</a></li>
+<li class="circle">xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/IFieldObstacle.html" class="type-name-link" title="interface in xbot.common.subsystems.pose">IFieldObstacle</a></li>
 <li class="circle">xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/IGamepad.html" class="type-name-link" title="interface in xbot.common.controls.sensors">IGamepad</a></li>
 <li class="circle">xbot.common.properties.<a href="xbot/common/properties/IPropertySupport.html" class="type-name-link" title="interface in xbot.common.properties">IPropertySupport</a></li>
 <li class="circle">xbot.common.subsystems.feedback.<a href="xbot/common/subsystems/feedback/IRumbler.html" class="type-name-link" title="interface in xbot.common.subsystems.feedback">IRumbler</a></li>

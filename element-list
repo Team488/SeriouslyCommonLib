@@ -32,6 +32,7 @@ xbot.common.subsystems.drive.control_logic
 xbot.common.subsystems.drive.swerve
 xbot.common.subsystems.drive.swerve.commands
 xbot.common.subsystems.feedback
+xbot.common.subsystems.oracle
 xbot.common.subsystems.pose
 xbot.common.subsystems.pose.commands
 xbot.common.subsystems.simple
