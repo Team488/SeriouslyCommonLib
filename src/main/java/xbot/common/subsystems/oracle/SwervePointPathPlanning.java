@@ -80,6 +80,7 @@ public class SwervePointPathPlanning {
 
         int escape = 0;
         while (this.obstacleMap.doesRobotPathIntersect(tangentPoint, end, allowToughTerrain)) {
+            closestObstacle = this.obstacleMap.closestObstacle(tangentPoint, false).orElseThrow();
             escape++;
             tangentPoint = moveAlongCircumference(tangentPoint, end, 0.25, closestObstacle);
             trajectoryPoses.add(new Pose2d(tangentPoint, endingPose.getRotation()));
