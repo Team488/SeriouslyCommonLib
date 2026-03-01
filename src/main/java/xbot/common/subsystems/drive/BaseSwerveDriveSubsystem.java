@@ -509,6 +509,33 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
         return this.rearRightSwerveModuleSubsystem;
     }
 
+    /**
+     * Gets the current robot-relative chassis speeds by converting the current swerve module states
+     * through inverse kinematics. This is needed by PathPlanner's AutoBuilder.
+     * @return The current robot-relative ChassisSpeeds.
+     */
+    public ChassisSpeeds getRobotRelativeSpeeds() {
+        var states = getCurrentSwerveStates();
+        return swerveDriveKinematics.toChassisSpeeds(states.toArray());
+    }
+
+    /**
+     * Drives the robot using the given robot-relative ChassisSpeeds. Converts the ChassisSpeeds
+     * to individual swerve module states and applies them. This is needed by PathPlanner's AutoBuilder.
+     * @param chassisSpeeds The desired robot-relative chassis speeds.
+     */
+    public void driveWithChassisSpeeds(ChassisSpeeds chassisSpeeds) {
+        SwerveModuleState[] moduleStates = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, maxTargetSpeedMps.get());
+
+        aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
+        aKitLog.record("DesiredSwerveState", moduleStates);
+        this.getFrontLeftSwerveModuleSubsystem().setTargetState(moduleStates[0]);
+        this.getFrontRightSwerveModuleSubsystem().setTargetState(moduleStates[1]);
+        this.getRearLeftSwerveModuleSubsystem().setTargetState(moduleStates[2]);
+        this.getRearRightSwerveModuleSubsystem().setTargetState(moduleStates[3]);
+    }
+
     /***
      * Gets the current states of all four swerve modules.
      * @return The current states of all four swerve modules.
