@@ -29,7 +29,7 @@ public class SwervePointPathPlanning {
     private final GameField gameField;
     private final ObstacleMap obstacleMap;
     private final AKitLogger aKitLog;
-    private final DoubleProperty additionalClearanceOfObstaclesMeters;
+    public final DoubleProperty additionalClearanceOfObstaclesMeters;
 
     private static Logger log = LogManager.getLogger(SwervePointPathPlanning.class);
 
@@ -43,7 +43,11 @@ public class SwervePointPathPlanning {
 
         this.aKitLog = new AKitLogger("SwervePointPathPlanning/");
         this.additionalClearanceOfObstaclesMeters = pf.createPersistentProperty("additionalClearanceOfObstaclesMeters",
-                0.25);
+                0.1);
+    }
+
+    public Distance getAdditionalClearance() {
+        return Meters.of(this.additionalClearanceOfObstaclesMeters.get());
     }
 
     /**
