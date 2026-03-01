@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.Meters;
 import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import xbot.common.advantage.AKitLogger;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
 import xbot.common.trajectory.XbotSwervePoint;
 import xbot.common.subsystems.pose.GameField;
@@ -24,6 +25,7 @@ public class SwervePointPathPlanning {
     private final Distance radius;
     private final GameField gameField;
     private final ObstacleMap obstacleMap;
+    private final AKitLogger aKitLog;
 
     private static Logger log = LogManager.getLogger(SwervePointPathPlanning.class);
 
@@ -32,6 +34,8 @@ public class SwervePointPathPlanning {
         this.obstacleMap = obstacleMap;
         this.gameField = gameField;
         this.radius = electrical_contract.getRadiusOfRobot();
+
+        this.aKitLog = new AKitLogger("SwervePointPathPlanning/");
     }
 
     /**
@@ -51,18 +55,26 @@ public class SwervePointPathPlanning {
             swervePoints.add(new XbotSwervePoint(endingPose, 0.001)); // Set to small number so SSTC does not complain.
             return swervePoints;
         }
+        var prefix = String.format("/(%.2f,%.2f)->(%.2f,%.2f)", startingPose.getX(), startingPose.getY(), endingPose.getX(), endingPose.getY());
         var closestObstacle = this.obstacleMap.closestObstacle(startingPose, false).orElseThrow();
 
         Translation2d tangentPoint = null;
+        var trajectoryPoses = new ArrayList<Pose2d>();
         // If we are currently in a rough terrain then it doesn't matter.
         if (this.obstacleMap.doesRobotPathIntersect(start, start, false)) {
+            System.out.println("We are in blocked terrain adjusting start.");
+
             // If we're inside the routing circle and there is a collision, we need to first back out to the routing circle.
             Translation2d direction = start.minus(closestObstacle.center());
             tangentPoint = closestObstacle.center().plus(direction.times(closestObstacle.avoidanceRadius().in(Meters) / direction.getNorm()));
+            trajectoryPoses.add(new Pose2d(tangentPoint, startingPose.getRotation()));
             swervePoints.add(new XbotSwervePoint(new Pose2d(tangentPoint, startingPose.getRotation()), 10));
         } else {
+            System.out.println("We are not in blocked terrain adjusting start.");
+
             // otherwise, we're outside the routing circle, and we need to first move to the tangent point.
             tangentPoint = findClosestTangentPoint(start, end, closestObstacle);
+            trajectoryPoses.add(new Pose2d(tangentPoint, endingPose.getRotation()));
             swervePoints.add(new XbotSwervePoint(new Pose2d(tangentPoint, endingPose.getRotation()), 0.001));
         }
 
@@ -70,12 +82,22 @@ public class SwervePointPathPlanning {
         while (this.obstacleMap.doesRobotPathIntersect(tangentPoint, end, allowToughTerrain)) {
             escape++;
             tangentPoint = moveAlongCircumference(tangentPoint, end, 0.25, closestObstacle);
+            trajectoryPoses.add(new Pose2d(tangentPoint, endingPose.getRotation()));
             swervePoints.add(new XbotSwervePoint(new Pose2d(tangentPoint, endingPose.getRotation()), 10));
             if (escape > 100) {
                 log.warn("Infinite loop detected in generateSwervePoints, breaking out!");
                 break;
             }
         }
+
+        var wpiStates = new ArrayList<Trajectory.State>();
+        for (var pose : trajectoryPoses) {
+            Trajectory.State state = new Trajectory.State();
+            state.poseMeters = pose;
+
+            wpiStates.add(state);
+        }
+        aKitLog.record(prefix + "/trajectory", new Trajectory(wpiStates));
 
         swervePoints.add(new XbotSwervePoint(endingPose, 10));
         return swervePoints;
