@@ -23,8 +23,7 @@ public class RectangleFieldObstacle implements IFieldObstacle {
             Translation2d center,
             Distance halfWidth,
             Distance halfHeight,
-            boolean isToughTerrain
-    ) {
+            boolean isToughTerrain) {
         this.center = center;
         this.halfWidth = halfWidth;
         this.halfHeight = halfHeight;
@@ -70,20 +69,22 @@ public class RectangleFieldObstacle implements IFieldObstacle {
 
         var doesIntersect = segmentIntersectsRectangle(start, end, minX, minY, maxX, maxY);
 
-        var prefix = String.format("Path/Obstacle(%.2f,%.2f)/Path((%.2f,%.2f)To(%.2f,%.2f)", center.getX(), center.getY(), start.getX(), start.getY(), end.getX(), end.getY());
+        var prefix = String.format("Path/Obstacle(%.2f,%.2f)/Path((%.2f,%.2f)To(%.2f,%.2f)", center.getX(),
+                center.getY(), start.getX(), start.getY(), end.getX(), end.getY());
         Logger.recordOutput(prefix + "/doesIntersect", doesIntersect);
 
         return doesIntersect;
     }
 
-    // Note - the math in this class is AI generated and has not been fully verified.
-    // Segment vs axis-aligned bounding box intersection using the parametric "slab" method.
+    // Note - the math in this class is AI generated and has not been fully
+    // verified.
+    // Segment vs axis-aligned bounding box intersection using the parametric "slab"
+    // method.
     private static boolean segmentIntersectsRectangle(
             Translation2d a,
             Translation2d b,
             double minX, double minY,
-            double maxX, double maxY
-    ) {
+            double maxX, double maxY) {
         final double ax = a.getX();
         final double ay = a.getY();
         final double bx = b.getX();
