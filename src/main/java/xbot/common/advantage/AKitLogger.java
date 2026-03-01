@@ -206,6 +206,13 @@ public class AKitLogger {
         Logger.recordOutput(this.prefix + key, value);
     }
 
+    public <T extends StructSerializable> void recordOutput(String key, T[][] value) {
+        if(this.shouldSkipLogging()) {
+            return;
+        }
+        Logger.recordOutput(this.prefix + key, value);
+    }
+
     public void record(String key, LoggedMechanism2d value) {
         if(this.shouldSkipLogging()) {
             return;

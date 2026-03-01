@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.units.measure.Distance;
 import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.Radians;
 import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -56,7 +57,7 @@ public class SwervePointPathPlanning {
             return swervePoints;
         }
         var prefix = String.format("/(%.2f,%.2f)->(%.2f,%.2f)", startingPose.getX(), startingPose.getY(), endingPose.getX(), endingPose.getY());
-        var closestObstacle = this.obstacleMap.closestObstacle(startingPose, false).orElseThrow();
+        var closestObstacle = this.obstacleMap.closestObstacle(startingPose, allowToughTerrain).orElseThrow();
 
         Translation2d tangentPoint = null;
         var trajectoryPoses = new ArrayList<Pose2d>();
@@ -74,98 +75,68 @@ public class SwervePointPathPlanning {
 
             // otherwise, we're outside the routing circle, and we need to first move to the tangent point.
             tangentPoint = findClosestTangentPoint(start, end, closestObstacle);
-            trajectoryPoses.add(new Pose2d(tangentPoint, endingPose.getRotation()));
-            swervePoints.add(new XbotSwervePoint(new Pose2d(tangentPoint, endingPose.getRotation()), 0.001));
+            trajectoryPoses.add(new Pose2d(tangentPoint, startingPose.getRotation()));
+            swervePoints.add(new XbotSwervePoint(new Pose2d(tangentPoint, startingPose.getRotation()), 0.001));
         }
+
+        aKitLog.record("/closestObstacle/center", closestObstacle.center());
+        aKitLog.record("/closestObstacle/avoidanceRadius", closestObstacle.avoidanceRadius());
+        aKitLog.record("/firstTangent", new Pose2d(tangentPoint, endingPose.getRotation()));
 
         int escape = 0;
         while (this.obstacleMap.doesRobotPathIntersect(tangentPoint, end, allowToughTerrain)) {
-            closestObstacle = this.obstacleMap.closestObstacle(tangentPoint, false).orElseThrow();
             escape++;
-            tangentPoint = moveAlongCircumference(tangentPoint, end, 0.25, closestObstacle);
-            trajectoryPoses.add(new Pose2d(tangentPoint, endingPose.getRotation()));
-            swervePoints.add(new XbotSwervePoint(new Pose2d(tangentPoint, endingPose.getRotation()), 10));
-            if (escape > 100) {
+            tangentPoint = moveAlongCircumference(tangentPoint, end, closestObstacle);
+            var tangentPose = new Pose2d(tangentPoint, endingPose.getRotation());
+            closestObstacle = this.obstacleMap.closestObstacle(tangentPose, allowToughTerrain).orElseThrow();
+            trajectoryPoses.add(tangentPose);
+            swervePoints.add(new XbotSwervePoint(tangentPose, 10));
+            if (escape > 1000) {
                 log.warn("Infinite loop detected in generateSwervePoints, breaking out!");
                 break;
             }
         }
 
-        var wpiStates = new ArrayList<Trajectory.State>();
-        for (var pose : trajectoryPoses) {
-            Trajectory.State state = new Trajectory.State();
-            state.poseMeters = pose;
-
-            wpiStates.add(state);
-        }
-        aKitLog.record(prefix + "/trajectory", new Trajectory(wpiStates));
-
         swervePoints.add(new XbotSwervePoint(endingPose, 10));
+        log.warn("trajectoryPoses.size: %d%n", trajectoryPoses.size());
+
+        aKitLog.record(prefix + "/trajectory", trajectoryPoses.toArray(new Pose2d[0]));
         return swervePoints;
     }
 
-    // Note - the math in this class is AI generated and has not been fully verified.
-    // Some tests have been run, but it needs to be more hardened for robotics (e.g. protection against division by zero)
-    // TODO: additional protections
     private Translation2d findClosestTangentPoint(Translation2d point, Translation2d endPoint, IFieldObstacle closestObstacle) {
-        double cx = closestObstacle.center().getX();
-        double cy = closestObstacle.center().getY();
-        double r = radius.in(Meters);
-        double px = point.getX();
-        double py = point.getY();
+        var obstacleCenter = closestObstacle.center();
+        var distanceToCenter = point.getDistance(obstacleCenter);
+        var vectorToObstacleCenter = obstacleCenter.minus(point);
+        var fullAvoidanceRadius = closestObstacle.avoidanceRadius().in(Meters) + this.radius.in(Meters);
+        boolean closeToObstacle = closestObstacle.avoidanceRadius().in(Meters) < distanceToCenter;
 
-        // Distance from circle center to external point
-        double dx = px - cx;
-        double dy = py - cy;
-        double dSq = dx * dx + dy * dy;
-        double d = Math.sqrt(dSq);
-
-        // Check for cases like already on the circle or inside the circle
-        if ((d < 1e-12) || (d<r) || (Math.abs(d - r) < 1e-12)) {
+        // If we're already really close to a spot that is the avoidance radius then don't really move.
+        if ((distanceToCenter - closestObstacle.avoidanceRadius().in(Meters)) < 0.01) {
             return point;
         }
 
-        // Otherwise, there are two tangents.
-        // 1. Calculate a = r^2 / d^2
-        double a = (r * r) / (dSq);
+        // Move either away or towards the obstacle based on distance to center, and then go to the edge of the avoidance radius.
+        Translation2d fromObstacleCenter;
+        if (closeToObstacle) {
+            var moveAwayVector = vectorToObstacleCenter.unaryMinus();
+            fromObstacleCenter = new Translation2d(closestObstacle.avoidanceRadius().in(Meters), moveAwayVector.getAngle());
+        } else {
+            fromObstacleCenter =  new Translation2d(closestObstacle.avoidanceRadius().in(Meters), vectorToObstacleCenter.getAngle());
+        }
 
-        // 2. Point M = C + a*(P - C)
-        double mx = cx + a * dx;
-        double my = cy + a * dy;
-
-        // 3. Vector w = ( - (y1 - y0), x1 - x0 ) = perpendicular to CP
-        //    In our notation, w = ( -dy, dx )
-        double wx = -dy;
-        double wy = dx;
-
-        // 4. Distance from M to each tangent point = b = (r/d) * sqrt(d^2 - r^2)
-        double h = Math.sqrt(dSq - r * r);
-        double b = (r / d) * h;
-
-        // Length of w is d; normalize and scale by b
-        double wxScaled = wx * (b / d);
-        double wyScaled = wy * (b / d);
-
-        // 5. The two tangent points T1 and T2
-        double t1x = mx + wxScaled;
-        double t1y = my + wyScaled;
-        double t2x = mx - wxScaled;
-        double t2y = my - wyScaled;
-
-        Translation2d tangentPoint1 = new Translation2d(t1x, t1y);
-        Translation2d tangentPoint2 = new Translation2d(t2x, t2y);
-
-        // Choose the tangent point closest to the end point
-        double distanceToEnd1 = tangentPoint1.getDistance(endPoint);
-        double distanceToEnd2 = tangentPoint2.getDistance(endPoint);
-
-        return distanceToEnd1 < distanceToEnd2 ? tangentPoint1 : tangentPoint2;
+        return obstacleCenter.plus(fromObstacleCenter);
     }
 
-    private Translation2d moveAlongCircumference(Translation2d currentPoint, Translation2d targetPoint, double distance, IFieldObstacle closestObstacle) {
-        double angleToTarget = Math.atan2(targetPoint.getY() - closestObstacle.center().getY(), targetPoint.getX() - closestObstacle.center().getX());
-        double angleCurrent = Math.atan2(currentPoint.getY() - closestObstacle.center().getY(), currentPoint.getX() - closestObstacle.center().getX());
-        double angleStep = distance / radius.in(Meters);
+    private Translation2d moveAlongCircumference(Translation2d currentPoint, Translation2d targetPoint, IFieldObstacle closestObstacle) {
+        var fullAvoidanceRadius = closestObstacle.avoidanceRadius().in(Meters) + this.radius.in(Meters);
+        var obstacleCenter = closestObstacle.center();
+        var vectorToObstacleCenter = currentPoint.minus(obstacleCenter);
+        var vectorToTarget = targetPoint.minus(obstacleCenter);
+
+        double angleToTarget = vectorToTarget.getAngle().getRadians();
+        double angleCurrent = vectorToObstacleCenter.getAngle().getRadians();
+        double angleStep = Math.PI / 18;
 
         double angleDifference = angleToTarget - angleCurrent;
         if (angleDifference > Math.PI) {
@@ -175,8 +146,7 @@ public class SwervePointPathPlanning {
         }
 
         double newAngle = angleCurrent + (angleDifference > 0 ? angleStep : -angleStep);
-        return new Translation2d(closestObstacle.center().getX() + radius.in(Meters) * Math.cos(newAngle),
-                                 closestObstacle.center().getY() + radius.in(Meters) * Math.sin(newAngle));
+        return obstacleCenter.plus(new Translation2d(fullAvoidanceRadius, Rotation2d.fromRadians(newAngle)));
     }
 
     private Trajectory visualizeCircleAsTrajectory(Translation2d center, double radius, int numberOfSteps) {

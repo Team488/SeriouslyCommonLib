@@ -1,5 +1,6 @@
 package xbot.common.subsystems.pose;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.Units;
@@ -50,7 +51,9 @@ public class RectangleFieldObstacle implements IFieldObstacle {
 
     @Override
     public Distance avoidanceRadius() {
-        return Units.Meters.of(Math.max(this.halfWidth.in(Units.Meters), this.halfHeight.in(Units.Meters)));
+        var radiusVector = new Translation2d(this.halfWidth, this.halfHeight);
+
+        return Units.Meters.of(radiusVector.getNorm());
     }
 
     @Override
