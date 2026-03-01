@@ -36,6 +36,7 @@ import java.util.stream.Collectors;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import dagger.assisted.Assisted;
@@ -96,7 +97,9 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
         this.camera = new PhotonCamera(name);
         this.aprilTagFieldLayout= fieldLayout;
         this.robotToCamera = robotToCamera;
-        this.photonEstimator = new PhotonPoseEstimator(this.aprilTagFieldLayout, this.robotToCamera);
+        this.photonEstimator = new PhotonPoseEstimator(this.aprilTagFieldLayout,
+                                                       PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+                                                       this.robotToCamera);
 
         pf.setPrefix(this.logPath);
         this.singleTagStdDev1 = pf.createPersistentProperty("singleTagStdDev1", 4);
