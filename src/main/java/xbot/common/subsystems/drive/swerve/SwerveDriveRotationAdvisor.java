@@ -61,13 +61,13 @@ public class SwerveDriveRotationAdvisor {
         double heading = input.getAngle();
 
         // Rebound the heading to be within -45 to 315 (diagnal X) then shift to 0 to 360 (for division purposes)
-        double reboundedHeading = ContiguousDouble.reboundValue(heading, -45, 315) + 45;
+        double reboundedHeading = ContiguousDouble.reboundValue(heading, -22.5, 337.5) + 22.5;
 
         // Get which quadrant our rebounded heading is in
-        int quadrant = (int) (reboundedHeading / 90);
+        int quadrant = (int) (reboundedHeading / 45);
         double desiredHeading = switch (quadrant) {
             // Modify here if specific heading for certain quadrant(s)
-            default -> quadrant * 90;
+            default -> quadrant * 45;
         };
 
         if (DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Red) {
