@@ -14,6 +14,7 @@ import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import dagger.assisted.Assisted;
@@ -155,6 +156,15 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
                     .withSupplyCurrentLowerLimit(talonFxOutputConfig.supplyCurrentLimit)
                     .withSupplyCurrentLimit(talonFxOutputConfig.burstSupplyCurrentLimit)
                     .withSupplyCurrentLowerTime(talonFxOutputConfig.supplyCurrentBurstDuration);
+
+            if (talonFxOutputConfig.feedbackCanCoderDeviceId != -1) {
+                this.talonConfiguration.Feedback
+                        .withFeedbackSensorSource(FeedbackSensorSourceValue.RemoteCANcoder)
+                        .withFeedbackRemoteSensorID(talonFxOutputConfig.feedbackCanCoderDeviceId);
+            } else {
+                this.talonConfiguration.Feedback
+                        .withFeedbackSensorSource(FeedbackSensorSourceValue.RotorSensor);
+            }
         }
 
         if (!invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(talonConfiguration), 5)) {
