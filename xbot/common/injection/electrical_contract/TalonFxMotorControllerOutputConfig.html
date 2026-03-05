@@ -106,15 +106,18 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Current.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Current</a></code></div>
 <div class="col-second even-row-color"><code><a href="#burstSupplyCurrentLimit" class="member-name-link">burstSupplyCurrentLimit</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Current.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Current</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#statorCurrentLimit" class="member-name-link">statorCurrentLimit</a></code></div>
+<div class="col-first odd-row-color"><code>int</code></div>
+<div class="col-second odd-row-color"><code><a href="#feedbackCanCoderDeviceId" class="member-name-link">feedbackCanCoderDeviceId</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Time.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Time</a></code></div>
-<div class="col-second even-row-color"><code><a href="#supplyCurrentBurstDuration" class="member-name-link">supplyCurrentBurstDuration</a></code></div>
+<div class="col-first even-row-color"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Current.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Current</a></code></div>
+<div class="col-second even-row-color"><code><a href="#statorCurrentLimit" class="member-name-link">statorCurrentLimit</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Current.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Current</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#supplyCurrentLimit" class="member-name-link">supplyCurrentLimit</a></code></div>
+<div class="col-first odd-row-color"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Time.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Time</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#supplyCurrentBurstDuration" class="member-name-link">supplyCurrentBurstDuration</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Current.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Current</a></code></div>
+<div class="col-second even-row-color"><code><a href="#supplyCurrentLimit" class="member-name-link">supplyCurrentLimit</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig">Fields inherited from class&nbsp;xbot.common.injection.electrical_contract.<a href="CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a></h3>
@@ -156,15 +159,20 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the neutral mode for the motor controller.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="TalonFxMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">TalonFxMotorControllerOutputConfig</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#withStatorCurrentLimit(edu.wpi.first.units.measure.Current)" class="member-name-link">withStatorCurrentLimit</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Current.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Current</a>&nbsp;statorCurrentLimit)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#withRemoteCanCoderFeedback(int)" class="member-name-link">withRemoteCanCoderFeedback</a><wbr>(int&nbsp;canCoderDeviceId)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets the continuous current limit for the motor controller's stator current.</div>
+<div class="block">Sets a CANCoder as the position source for the motor</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="TalonFxMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">TalonFxMotorControllerOutputConfig</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#withSupplyCurrentLimit(edu.wpi.first.units.measure.Current,edu.wpi.first.units.measure.Current,edu.wpi.first.units.measure.Time)" class="member-name-link">withSupplyCurrentLimit</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Current.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Current</a>&nbsp;continuousSupplyCurrentLimit,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#withStatorCurrentLimit(edu.wpi.first.units.measure.Current)" class="member-name-link">withStatorCurrentLimit</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Current.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Current</a>&nbsp;statorCurrentLimit)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the continuous current limit for the motor controller's stator current.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="TalonFxMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">TalonFxMotorControllerOutputConfig</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#withSupplyCurrentLimit(edu.wpi.first.units.measure.Current,edu.wpi.first.units.measure.Current,edu.wpi.first.units.measure.Time)" class="member-name-link">withSupplyCurrentLimit</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Current.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Current</a>&nbsp;continuousSupplyCurrentLimit,
  <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Current.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Current</a>&nbsp;burstSupplyCurrentLimit,
  <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Time.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Time</a>&nbsp;supplyCurrentBurstDuration)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the continuous current limit for the motor controller's supply current.</div>
 </div>
 </div>
@@ -206,6 +214,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="supplyCurrentBurstDuration">
 <h3>supplyCurrentBurstDuration</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Time.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Time</a></span>&nbsp;<span class="element-name">supplyCurrentBurstDuration</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="feedbackCanCoderDeviceId">
+<h3>feedbackCanCoderDeviceId</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">feedbackCanCoderDeviceId</span></div>
 </section>
 </li>
 </ul>
@@ -268,6 +282,17 @@ loadScripts(document, 'script');</script>
  <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Current.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Current</a>&nbsp;burstSupplyCurrentLimit,
  <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Time.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Time</a>&nbsp;supplyCurrentBurstDuration)</span></div>
 <div class="block">Sets the continuous current limit for the motor controller's supply current.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="withRemoteCanCoderFeedback(int)">
+<h3>withRemoteCanCoderFeedback</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="TalonFxMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">TalonFxMotorControllerOutputConfig</a></span>&nbsp;<span class="element-name">withRemoteCanCoderFeedback</span><wbr><span class="parameters">(int&nbsp;canCoderDeviceId)</span></div>
+<div class="block">Sets a CANCoder as the position source for the motor</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>canCoderDeviceId</code> - The CAN ID of the CANCoder to use as a remote sensor.</dd>
+</dl>
 </section>
 </li>
 </ul>
