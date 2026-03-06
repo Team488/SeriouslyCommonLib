@@ -61,13 +61,13 @@ public class SwerveDriveRotationAdvisor {
         double heading = input.getAngle();
 
         // Rebound the heading to be within -45 to 315 (diagnal X) then shift to 0 to 360 (for division purposes)
-        double reboundedHeading = ContiguousDouble.reboundValue(heading, -45, 315) + 45;
+        double reboundedHeading = ContiguousDouble.reboundValue(heading, -22.5, 337.5) + 22.5;
 
         // Get which quadrant our rebounded heading is in
-        int quadrant = (int) (reboundedHeading / 90);
+        int quadrant = (int) (reboundedHeading / 45);
         double desiredHeading = switch (quadrant) {
             // Modify here if specific heading for certain quadrant(s)
-            default -> quadrant * 90;
+            default -> quadrant * 45;
         };
 
         if (DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Red) {
@@ -83,19 +83,22 @@ public class SwerveDriveRotationAdvisor {
         return new SwerveSuggestedRotation(desiredHeading, SwerveSuggestedRotation.RotationGoalType.DesiredHeading);
     }
 
-    /** Stalk a point in 2d space, does not take in consideration of height */
+    /** Look at a translation in 2d space, does not take in consideration of height */
     private SwerveSuggestedRotation evaluateLookAtPoint() {
         Translation2d target = drive.getLookAtPointTarget();
-
         Pose2d currentPose = pose.getCurrentPose2d();
         Translation2d currentXY = new Translation2d(currentPose.getX(), currentPose.getY());
 
+        // By default, we need to add 180 to our desiredHeading.
         double desiredHeading = currentXY.minus(target).getAngle().getDegrees() + 180;
+        if (drive.getLookAtPointInverted()) {
+            desiredHeading -= 180;
+        }
         drive.setDesiredHeading(desiredHeading);
         return new SwerveSuggestedRotation(desiredHeading, SwerveSuggestedRotation.RotationGoalType.DesiredHeading);
     }
 
-    /** Look in a specific angle, statically */
+    /** Fix our robot to be in a specific angle/heading, statically */
     private SwerveSuggestedRotation evaluateStaticHeading() {
         double desiredHeading = drive.getStaticHeadingTarget().getDegrees();
         drive.setDesiredHeading(desiredHeading);
