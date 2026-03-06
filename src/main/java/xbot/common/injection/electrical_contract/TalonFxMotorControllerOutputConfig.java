@@ -19,6 +19,8 @@ public class TalonFxMotorControllerOutputConfig extends CANMotorControllerOutput
 
     public Time supplyCurrentBurstDuration = Seconds.of(1.0);
 
+    public int feedbackCanCoderDeviceId = -1;
+
     @Override
     public TalonFxMotorControllerOutputConfig withInversionType(InversionType inversionType) {
         return (TalonFxMotorControllerOutputConfig) super.withInversionType(inversionType);
@@ -46,6 +48,16 @@ public class TalonFxMotorControllerOutputConfig extends CANMotorControllerOutput
         this.supplyCurrentLimit = continuousSupplyCurrentLimit;
         this.burstSupplyCurrentLimit = burstSupplyCurrentLimit;
         this.supplyCurrentBurstDuration = supplyCurrentBurstDuration;
+        return this;
+    }
+
+    /**
+     * Sets a CANCoder as the position source for the motor
+     * @param canCoderDeviceId The CAN ID of the CANCoder to use as a remote sensor.
+     * @apiNote The CANCoder must be on the same bus as the motor controller.
+     */
+    public TalonFxMotorControllerOutputConfig withRemoteCanCoderFeedback(int canCoderDeviceId) {
+        this.feedbackCanCoderDeviceId = canCoderDeviceId;
         return this;
     }
 }
