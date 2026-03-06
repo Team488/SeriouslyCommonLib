@@ -97,9 +97,7 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
         this.camera = new PhotonCamera(name);
         this.aprilTagFieldLayout= fieldLayout;
         this.robotToCamera = robotToCamera;
-        this.photonEstimator = new PhotonPoseEstimator(this.aprilTagFieldLayout,
-                                                       PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-                                                       this.robotToCamera);
+        this.photonEstimator = new PhotonPoseEstimator(this.aprilTagFieldLayout, this.robotToCamera);
 
         pf.setPrefix(this.logPath);
         this.singleTagStdDev1 = pf.createPersistentProperty("singleTagStdDev1", 4);

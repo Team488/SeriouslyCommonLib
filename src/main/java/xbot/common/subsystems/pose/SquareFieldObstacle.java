@@ -6,7 +6,7 @@ import edu.wpi.first.units.measure.Distance;
 /**
  * Square obstacle defined by center + half extent.
  */
-public final class SquareFieldObstacle extends RectangleFieldObstacle {
+public class SquareFieldObstacle extends RectangleFieldObstacle {
     public SquareFieldObstacle(
             Translation2d center,
             Distance halfWidth,
