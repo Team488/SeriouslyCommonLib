@@ -7,8 +7,10 @@ import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.Milliseconds;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.Seconds;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -85,5 +87,25 @@ public class PropertyFactoryTest extends BaseCommonLibTest {
         assertEquals(Math.PI, propertyRadians.get().in(RadiansPerSecond), 0.0001);
         // suffix should be modified to state the units
         assertEquals("test-in-Radian per Seconds", propertyRadians.suffix);
+    }
+
+    @Test
+    public void testTimeProperty() {
+        PropertyFactory factory = getInjectorComponent().propertyFactory();
+        factory.setPrefix("myPrefix");
+
+        // should get back the same value as we put in with the same unit as the defaultValue
+        TimeProperty propertySeconds = factory.createPersistentProperty("test", Seconds.of(5));
+        assertEquals(5, propertySeconds.get().in(Seconds), 0.0001);
+        // suffix should be modified to state the units
+        assertEquals("test-in-Seconds", propertySeconds.suffix);
+        propertySeconds.set(Seconds.of(10));
+        assertEquals(10, propertySeconds.get().in(Seconds), 0.0001);
+
+        // should get back the same value as we put in with the same unit as the defaultValue
+        TimeProperty propertyMilliseconds = factory.createPersistentProperty("test", Milliseconds.of(Math.PI));
+        assertEquals(Math.PI, propertyMilliseconds.get().in(Milliseconds), 0.0001);
+        // suffix should be modified to state the units
+        assertEquals("test-in-Milliseconds", propertyMilliseconds.suffix);
     }
 }
