@@ -3,7 +3,6 @@ package xbot.common.injection.electrical_contract;
 /**
  * Represents the available ports on a Power Distribution Hub (PDH).
  * REV PDH has 20 ports (0-19), CTRE PDH has 24 ports (0-23).
- * Using the common 20-port standard here.
  */
 public enum PDHPort {
     PDH00(0),
@@ -25,7 +24,11 @@ public enum PDHPort {
     PDH16(16),
     PDH17(17),
     PDH18(18),
-    PDH19(19);
+    PDH19(19),
+    PDH20(20),
+    PDH21(21),
+    PDH22(22),
+    PDH23(23);
 
     private final int portNumber;
 
