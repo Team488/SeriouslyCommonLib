@@ -39,6 +39,5 @@ public abstract class ObstacleMap {
         return this.fieldObstacles.stream()
             .filter(obstacle -> !obstacle.isToughTerrain() || !allowToughTerrain)
             .anyMatch(obstacle -> obstacle.doesRobotPathIntersect(start, end, this.robotRadius));
-
     }
 }

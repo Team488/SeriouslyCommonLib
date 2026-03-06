@@ -23,7 +23,11 @@ public class CircleFieldObstacle implements IFieldObstacle {
 
     @Override
     public Translation2d center() {
-        return this.center();
+        return this.center;
+    }
+
+    public Distance radius() {
+        return this.radius;
     }
 
     @Override

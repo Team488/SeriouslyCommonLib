@@ -1,8 +1,11 @@
 package xbot.common.subsystems.pose;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.Units;
+
+import org.littletonrobotics.junction.Logger;
 
 /**
  * Rectangle obstacle defined by center + half extents.
@@ -11,17 +14,16 @@ import edu.wpi.first.units.Units;
  * <=> segment intersects the rectangle inflated by robotRadius in X and Y.
  */
 public class RectangleFieldObstacle implements IFieldObstacle {
-    private final Translation2d center;
-    private final Distance halfWidth;
-    private final Distance halfHeight;
+    protected final Translation2d center;
+    protected final Distance halfWidth;
+    protected final Distance halfHeight;
     private final boolean isToughTerrain;
 
     public RectangleFieldObstacle(
             Translation2d center,
             Distance halfWidth,
             Distance halfHeight,
-            boolean isToughTerrain
-    ) {
+            boolean isToughTerrain) {
         this.center = center;
         this.halfWidth = halfWidth;
         this.halfHeight = halfHeight;
@@ -35,12 +37,22 @@ public class RectangleFieldObstacle implements IFieldObstacle {
 
     @Override
     public Translation2d center() {
-        return this.center();
+        return this.center;
+    }
+
+    public Distance getHalfWidth() {
+        return this.halfWidth;
+    }
+
+    public Distance getHalfHeight() {
+        return this.halfHeight;
     }
 
     @Override
     public Distance avoidanceRadius() {
-        return Units.Meters.of(Math.max(this.halfWidth.in(Units.Meters), this.halfHeight.in(Units.Meters)));
+        var radiusVector = new Translation2d(this.halfWidth, this.halfHeight);
+
+        return Units.Meters.of(radiusVector.getNorm());
     }
 
     @Override
@@ -55,17 +67,24 @@ public class RectangleFieldObstacle implements IFieldObstacle {
         final double minY = center.getY() - hy;
         final double maxY = center.getY() + hy;
 
-        return segmentIntersectsRectangle(start, end, minX, minY, maxX, maxY);
+        var doesIntersect = segmentIntersectsRectangle(start, end, minX, minY, maxX, maxY);
+
+        var prefix = String.format("Path/Obstacle(%.2f,%.2f)/Path((%.2f,%.2f)To(%.2f,%.2f)", center.getX(),
+                center.getY(), start.getX(), start.getY(), end.getX(), end.getY());
+        Logger.recordOutput(prefix + "/doesIntersect", doesIntersect);
+
+        return doesIntersect;
     }
 
-    // Note - the math in this class is AI generated and has not been fully verified.
-    // Segment vs axis-aligned bounding box intersection using the parametric "slab" method.
+    // Note - the math in this class is AI generated and has not been fully
+    // verified.
+    // Segment vs axis-aligned bounding box intersection using the parametric "slab"
+    // method.
     private static boolean segmentIntersectsRectangle(
             Translation2d a,
             Translation2d b,
             double minX, double minY,
-            double maxX, double maxY
-    ) {
+            double maxX, double maxY) {
         final double ax = a.getX();
         final double ay = a.getY();
         final double bx = b.getX();
