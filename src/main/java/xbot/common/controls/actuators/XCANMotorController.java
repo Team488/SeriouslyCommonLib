@@ -608,6 +608,70 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
      */
     public abstract void setRawVelocityTarget(AngularVelocity rawVelocity, MotorPidMode mode, int slot);
 
+    /**
+     * Set the target velocity for the motor controller.
+     * @param velocity The target velocity to set.
+     * @param feedForward The additional feed forward to apply (-1..1 for duty-cycle PID mode).
+     * @apiNote Angle scaling factors configured on the motor controller are applied.
+     */
+    public void setVelocityTargetWithFeedForward(AngularVelocity velocity, double feedForward) {
+        setVelocityTargetWithFeedForward(velocity, MotorPidMode.DutyCycle, feedForward);
+    }
+
+    /**
+     * Set the target velocity for the motor controller.
+     * @param velocity The target velocity to set.
+     * @param mode The PID mode to use when setting the target velocity.
+     * @param feedForward The additional feed forward to apply (in volts for voltage PID modes or -1..1 for duty-cycle PID modes).
+     * @apiNote Angle scaling factors configured on the motor controller are applied.
+     */
+    public void setVelocityTargetWithFeedForward(AngularVelocity velocity, MotorPidMode mode, double feedForward) {
+        setVelocityTargetWithFeedForward(velocity, mode, feedForward,0);
+    }
+
+    /**
+     * Set the target velocity for the motor controller.
+     * @param velocity The target velocity to set.
+     * @param mode The PID mode to use when setting the target velocity.
+     * @param feedForward The additional feed forward to apply (in volts for voltage PID modes or -1..1 for duty-cycle PID modes).
+     * @param slot The PID slot to use when setting the target velocity.
+     * @apiNote Angle scaling factors configured on the motor controller are applied.
+     */
+    public void setVelocityTargetWithFeedForward(AngularVelocity velocity, MotorPidMode mode, double feedForward, int slot) {
+        setRawVelocityTargetWithFeedForward(convertScaledVelocityToRawVelocity(velocity), mode, feedForward, slot);
+    }
+
+    /**
+     * Set the target velocity for the motor controller.
+     * @param rawVelocity The target velocity to set.
+     * @param feedForward The additional feed forward to apply (-1..1 for duty-cycle PID mode).
+     * @apiNote Angle scaling factors configured on the motor controller are ignored.
+     */
+    public void setRawVelocityTargetWithFeedForward(AngularVelocity rawVelocity, double feedForward) {
+        setRawVelocityTargetWithFeedForward(rawVelocity, MotorPidMode.DutyCycle, feedForward);
+    }
+
+    /**
+     * Set the target velocity for the motor controller.
+     * @param rawVelocity The target velocity to set.
+     * @param mode The PID mode to use when setting the target velocity.
+     * @param feedForward The additional feed forward to apply (in volts for voltage PID modes or -1..1 for duty-cycle PID modes).
+     * @apiNote Angle scaling factors configured on the motor controller are ignored.
+     */
+    public void setRawVelocityTargetWithFeedForward(AngularVelocity rawVelocity, MotorPidMode mode, double feedForward) {
+        setRawVelocityTargetWithFeedForward(rawVelocity, mode, feedForward, 0);
+    }
+
+    /**
+     * Set the target velocity for the motor controller.
+     * @param rawVelocity The target velocity to set.
+     * @param mode The PID mode to use when setting the target velocity.
+     * @param feedForward The additional feed forward to apply (in volts for voltage PID modes or -1..1 for duty-cycle PID modes).
+     * @param slot The PID slot to use when setting the target velocity.
+     * @apiNote Angle scaling factors configured on the motor controller are ignored.
+     */
+    public abstract void setRawVelocityTargetWithFeedForward(AngularVelocity rawVelocity, MotorPidMode mode, double feedForward, int slot);
+
     public abstract void setVoltage(Voltage voltage);
 
     public Voltage getVoltage() {
