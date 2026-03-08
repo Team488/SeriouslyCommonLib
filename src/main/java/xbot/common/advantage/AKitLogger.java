@@ -12,6 +12,11 @@ import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
 import us.hebi.quickbuf.ProtoMessage;
 import xbot.common.properties.IPropertySupport;
 
+/**
+ * AKitLogger is a wrapper around the AdvantageKit Logger that adds some extra functionality, such as log levels and prefixes.
+ * The log level functionality allows you to control how much logging is sent to the network table, which can be useful for reducing network traffic.
+ * The prefix functionality allows you to easily organize your logs in the network table by subsystem or other categories.
+ */
 public class AKitLogger {
     public enum LogLevel {
         DEBUG, INFO
@@ -42,14 +47,41 @@ public class AKitLogger {
     }
 
     /**
+     * Temporarily changes the log level for this logger while running the provided code.
+     * This is useful for cases where you want to log something at a different level than the rest of the logger's logs.
+     *
+     * @param level log level to use while running the provided code
+     * @param loggingCode code to run with the temporary log level
+     */
+    public synchronized void withLogLevel(LogLevel level, Runnable loggingCode) {
+        LogLevel previousLogLevel = this.logLevel;
+        this.logLevel = level;
+        if (!this.shouldSkipLogging()) {
+            loggingCode.run();
+        }
+        this.logLevel = previousLogLevel;
+    }
+
+    /**
      * Set the log level for this particular logger instance.
      * Log calls made after this will have that level when checking
      * if they should record or not.
      *
      * @param level new level to set
+     * @apiNote Prefer using withLogLevel for temporary log level changes, as it will automatically reset
+     * the log level after the provided code runs, and skips any unnecessary calculations if the log level
+     * is not currently being consumed.
      */
     public void setLogLevel(LogLevel level) {
         this.logLevel = level;
+    }
+
+    /**
+     * Get the log level for this particular logger instance.
+     * @return the log level for this particular logger instance
+     */
+    public LogLevel getLogLevel() {
+        return this.logLevel;
     }
 
     /**
