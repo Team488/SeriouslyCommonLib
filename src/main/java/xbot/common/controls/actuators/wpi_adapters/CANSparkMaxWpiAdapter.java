@@ -253,6 +253,22 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     @Override
+    public void setRawVelocityTargetWithFeedForward(AngularVelocity rawVelocity, MotorPidMode mode, double feedForward, int slot) {
+        SparkBase.ControlType controlType;
+        switch (mode) {
+            case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kVelocity;
+            case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionVelocityControl;
+            default -> {
+                this.assertionManager.fail("Unsupported mode: " + mode);
+                controlType = SparkBase.ControlType.kVelocity;
+            }
+        }
+        this.internalSparkMax
+                .getClosedLoopController()
+                .setSetpoint(rawVelocity.in(RPM), controlType, getClosedLoopSlot(slot), feedForward);
+    }
+
+    @Override
     public void setVoltage(Voltage voltage) {
         if (!isValidVoltageRequest(voltage)) {
             return;

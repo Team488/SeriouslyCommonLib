@@ -198,6 +198,11 @@ public class MockCANMotorController extends XCANMotorController {
         this.targetVelocity.mut_replace(rawVelocity);
     }
 
+    @Override
+    public void setRawVelocityTargetWithFeedForward(AngularVelocity rawVelocity, MotorPidMode mode, double feedForward, int slot) {
+        setRawVelocityTarget(rawVelocity, mode, slot);
+    }
+
     public AngularVelocity getRawTargetVelocity() {
         return targetVelocity.copy();
     }
