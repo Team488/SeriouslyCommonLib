@@ -23,7 +23,7 @@ public class SwerveDriveRotationAdvisor {
     HumanVsMachineDecider hvmDecider;
     ISwerveAdvisorPoseSupport pose;
     ISwerveAdvisorDriveSupport drive;
-    double snappingZoneCount = 4;
+    int snappingZoneCount = 4;
 
     DoubleProperty minimumMagnitudeToSnap;
 
