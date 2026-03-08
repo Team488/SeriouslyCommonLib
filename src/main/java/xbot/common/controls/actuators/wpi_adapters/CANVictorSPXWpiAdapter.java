@@ -145,6 +145,11 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
     }
 
     @Override
+    public void setRawVelocityTargetWithFeedForward(AngularVelocity rawVelocity, MotorPidMode mode, double feedForward, int slot) {
+        // Do nothing, not relevant
+    }
+
+    @Override
     public void setVoltage(Voltage voltage) {
         internalVictor.set(VictorSPXControlMode.PercentOutput, voltage.in(Volts) / 12.0);
     }
