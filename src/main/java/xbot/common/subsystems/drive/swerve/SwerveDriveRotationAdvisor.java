@@ -37,7 +37,7 @@ public class SwerveDriveRotationAdvisor {
     }
 
     /**
-     * Factory for creating instances of SwerveDriveRotationAdvisor..
+     * Factory for creating instances of SwerveDriveRotationAdvisor.
      */
     @AssistedFactory
     public interface Factory {
