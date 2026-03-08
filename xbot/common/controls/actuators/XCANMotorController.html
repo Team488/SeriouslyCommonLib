@@ -415,38 +415,80 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="block">Set the target velocity for the motor controller.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSoftwareForwardLimit(java.util.function.BooleanSupplier)" class="member-name-link">setSoftwareForwardLimit</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/BooleanSupplier.html" title="class or interface in java.util.function" class="external-link">BooleanSupplier</a>&nbsp;softwareForwardLimit)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRawVelocityTargetWithFeedForward(edu.wpi.first.units.measure.AngularVelocity,double)" class="member-name-link">setRawVelocityTargetWithFeedForward</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;rawVelocity,
+ double&nbsp;feedForward)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the target velocity for the motor controller.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRawVelocityTargetWithFeedForward(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,double)" class="member-name-link">setRawVelocityTargetWithFeedForward</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;rawVelocity,
+ <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode,
+ double&nbsp;feedForward)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the target velocity for the motor controller.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setRawVelocityTargetWithFeedForward(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,double,int)" class="member-name-link">setRawVelocityTargetWithFeedForward</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;rawVelocity,
+ <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode,
+ double&nbsp;feedForward,
+ int&nbsp;slot)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Set the target velocity for the motor controller.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSoftwareForwardLimit(java.util.function.BooleanSupplier)" class="member-name-link">setSoftwareForwardLimit</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/BooleanSupplier.html" title="class or interface in java.util.function" class="external-link">BooleanSupplier</a>&nbsp;softwareForwardLimit)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the software forward limit for the motor controller.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSoftwareReverseLimit(java.util.function.BooleanSupplier)" class="member-name-link">setSoftwareReverseLimit</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/BooleanSupplier.html" title="class or interface in java.util.function" class="external-link">BooleanSupplier</a>&nbsp;softwareReverseLimit)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSoftwareReverseLimit(java.util.function.BooleanSupplier)" class="member-name-link">setSoftwareReverseLimit</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/BooleanSupplier.html" title="class or interface in java.util.function" class="external-link">BooleanSupplier</a>&nbsp;softwareReverseLimit)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the software reverse limit for the motor controller.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTrapezoidalProfileAcceleration(edu.wpi.first.units.measure.AngularAcceleration)" class="member-name-link">setTrapezoidalProfileAcceleration</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularAcceleration.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularAcceleration</a>&nbsp;acceleration)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTrapezoidalProfileJerk(edu.wpi.first.units.measure.Velocity)" class="member-name-link">setTrapezoidalProfileJerk</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Velocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Velocity</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngularAccelerationUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngularAccelerationUnit</a>&gt;&nbsp;jerk)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTrapezoidalProfileAcceleration(edu.wpi.first.units.measure.AngularAcceleration)" class="member-name-link">setTrapezoidalProfileAcceleration</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularAcceleration.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularAcceleration</a>&nbsp;acceleration)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTrapezoidalProfileMaxVelocity(edu.wpi.first.units.measure.AngularVelocity)" class="member-name-link">setTrapezoidalProfileMaxVelocity</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTrapezoidalProfileJerk(edu.wpi.first.units.measure.Velocity)" class="member-name-link">setTrapezoidalProfileJerk</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/Velocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">Velocity</a>&lt;<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/AngularAccelerationUnit.html" title="class or interface in edu.wpi.first.units" class="external-link">AngularAccelerationUnit</a>&gt;&nbsp;jerk)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTrapezoidalProfileMaxVelocity(edu.wpi.first.units.measure.AngularVelocity)" class="member-name-link">setTrapezoidalProfileMaxVelocity</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityTarget(edu.wpi.first.units.measure.AngularVelocity)" class="member-name-link">setVelocityTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the target velocity for the motor controller.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityTarget(edu.wpi.first.units.measure.AngularVelocity)" class="member-name-link">setVelocityTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityTarget(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode)" class="member-name-link">setVelocityTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity,
+ <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the target velocity for the motor controller.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityTarget(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode)" class="member-name-link">setVelocityTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity,
- <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityTarget(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,int)" class="member-name-link">setVelocityTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity,
+ <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode,
+ int&nbsp;slot)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the target velocity for the motor controller.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityTarget(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,int)" class="member-name-link">setVelocityTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityTargetWithFeedForward(edu.wpi.first.units.measure.AngularVelocity,double)" class="member-name-link">setVelocityTargetWithFeedForward</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity,
+ double&nbsp;feedForward)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the target velocity for the motor controller.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityTargetWithFeedForward(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,double)" class="member-name-link">setVelocityTargetWithFeedForward</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity,
  <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode,
+ double&nbsp;feedForward)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the target velocity for the motor controller.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityTargetWithFeedForward(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,double,int)" class="member-name-link">setVelocityTargetWithFeedForward</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity,
+ <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode,
+ double&nbsp;feedForward,
  int&nbsp;slot)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the target velocity for the motor controller.</div>
@@ -1046,6 +1088,96 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <dt>Parameters:</dt>
 <dd><code>rawVelocity</code> - The target velocity to set.</dd>
 <dd><code>mode</code> - The PID mode to use when setting the target velocity.</dd>
+<dd><code>slot</code> - The PID slot to use when setting the target velocity.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setVelocityTargetWithFeedForward(edu.wpi.first.units.measure.AngularVelocity,double)">
+<h3>setVelocityTargetWithFeedForward</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVelocityTargetWithFeedForward</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity,
+ double&nbsp;feedForward)</span></div>
+<div class="block">Set the target velocity for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>velocity</code> - The target velocity to set.</dd>
+<dd><code>feedForward</code> - The additional feed forward to apply (-1..1 for duty-cycle PID mode).</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setVelocityTargetWithFeedForward(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,double)">
+<h3>setVelocityTargetWithFeedForward</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVelocityTargetWithFeedForward</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity,
+ <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode,
+ double&nbsp;feedForward)</span></div>
+<div class="block">Set the target velocity for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>velocity</code> - The target velocity to set.</dd>
+<dd><code>mode</code> - The PID mode to use when setting the target velocity.</dd>
+<dd><code>feedForward</code> - The additional feed forward to apply (in volts for voltage PID modes or -1..1 for duty-cycle PID modes).</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setVelocityTargetWithFeedForward(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,double,int)">
+<h3>setVelocityTargetWithFeedForward</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVelocityTargetWithFeedForward</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;velocity,
+ <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode,
+ double&nbsp;feedForward,
+ int&nbsp;slot)</span></div>
+<div class="block">Set the target velocity for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>velocity</code> - The target velocity to set.</dd>
+<dd><code>mode</code> - The PID mode to use when setting the target velocity.</dd>
+<dd><code>feedForward</code> - The additional feed forward to apply (in volts for voltage PID modes or -1..1 for duty-cycle PID modes).</dd>
+<dd><code>slot</code> - The PID slot to use when setting the target velocity.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setRawVelocityTargetWithFeedForward(edu.wpi.first.units.measure.AngularVelocity,double)">
+<h3>setRawVelocityTargetWithFeedForward</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRawVelocityTargetWithFeedForward</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;rawVelocity,
+ double&nbsp;feedForward)</span></div>
+<div class="block">Set the target velocity for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>rawVelocity</code> - The target velocity to set.</dd>
+<dd><code>feedForward</code> - The additional feed forward to apply (-1..1 for duty-cycle PID mode).</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setRawVelocityTargetWithFeedForward(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,double)">
+<h3>setRawVelocityTargetWithFeedForward</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRawVelocityTargetWithFeedForward</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;rawVelocity,
+ <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode,
+ double&nbsp;feedForward)</span></div>
+<div class="block">Set the target velocity for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>rawVelocity</code> - The target velocity to set.</dd>
+<dd><code>mode</code> - The PID mode to use when setting the target velocity.</dd>
+<dd><code>feedForward</code> - The additional feed forward to apply (in volts for voltage PID modes or -1..1 for duty-cycle PID modes).</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setRawVelocityTargetWithFeedForward(edu.wpi.first.units.measure.AngularVelocity,xbot.common.controls.actuators.XCANMotorController.MotorPidMode,double,int)">
+<h3>setRawVelocityTargetWithFeedForward</h3>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRawVelocityTargetWithFeedForward</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/units/measure/AngularVelocity.html" title="class or interface in edu.wpi.first.units.measure" class="external-link">AngularVelocity</a>&nbsp;rawVelocity,
+ <a href="XCANMotorController.MotorPidMode.html" title="enum class in xbot.common.controls.actuators">XCANMotorController.MotorPidMode</a>&nbsp;mode,
+ double&nbsp;feedForward,
+ int&nbsp;slot)</span></div>
+<div class="block">Set the target velocity for the motor controller.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>rawVelocity</code> - The target velocity to set.</dd>
+<dd><code>mode</code> - The PID mode to use when setting the target velocity.</dd>
+<dd><code>feedForward</code> - The additional feed forward to apply (in volts for voltage PID modes or -1..1 for duty-cycle PID modes).</dd>
 <dd><code>slot</code> - The PID slot to use when setting the target velocity.</dd>
 </dl>
 </section>
