@@ -3,11 +3,9 @@ package xbot.common.subsystems.oracle;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.units.measure.Distance;
 import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.Radians;
-import edu.wpi.first.wpilibj.MockPowerDistributionPanel;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.advantage.AKitLogger;
@@ -19,7 +17,6 @@ import xbot.common.subsystems.pose.GameField;
 import xbot.common.subsystems.pose.IFieldObstacle;
 import xbot.common.subsystems.pose.ObstacleMap;
 
-import java.awt.geom.Point2D;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
