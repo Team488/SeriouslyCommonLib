@@ -1,4 +1,4 @@
-package edu.wpi.first.wpilibj;
+package xbot.common.controls.sensors.mock_adapters;
 
 import java.util.HashMap;
 
@@ -10,10 +10,16 @@ import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 
+/**
+ * Mock implementation of XPowerDistributionPanel for testing purposes.
+ * Allows setting mock voltage and mock current values for each channel.
+ */
 public class MockPowerDistributionPanel extends XPowerDistributionPanel {
-    private HashMap<Integer, Double> outputCurrents;
+    private final HashMap<Integer, Double> outputCurrents;
 
-    private static Logger log = LogManager.getLogger(MockPowerDistributionPanel.class);
+    private static final Logger log = LogManager.getLogger(MockPowerDistributionPanel.class);
+
+    private double voltage = 12.0;
 
     @AssistedFactory
     public abstract static class MockPowerDistributionPanelFactory implements XPowerDistributionPanelFactory {
@@ -31,6 +37,10 @@ public class MockPowerDistributionPanel extends XPowerDistributionPanel {
         outputCurrents.put(channel, current);
     }
 
+    public void setVoltage(double voltage) {
+        this.voltage = voltage;
+    }
+
     @Override
     public double getCurrent(int channel) {
         return outputCurrents.getOrDefault(channel, 0d);
@@ -38,7 +48,7 @@ public class MockPowerDistributionPanel extends XPowerDistributionPanel {
 
     @Override
     public double getVoltage() {
-        return 0;
+        return voltage;
     }
 
     @Override
@@ -48,7 +58,7 @@ public class MockPowerDistributionPanel extends XPowerDistributionPanel {
 
     @Override
     public double getTotalCurrent() {
-        return 0;
+        return outputCurrents.values().stream().reduce(0d, Double::sum);
     }
 
     @Override

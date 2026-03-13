@@ -336,6 +336,29 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     @Override
+    public void setRawVelocityTargetWithFeedForward(AngularVelocity rawVelocity, MotorPidMode mode, double feedForward, int slot) {
+        ControlRequest controlRequest;
+        switch (mode) {
+            case DutyCycle -> controlRequest = new VelocityDutyCycle(rawVelocity)
+                    .withSlot(slot)
+                    .withFeedForward(feedForward);
+            case Voltage -> controlRequest = new VelocityVoltage(rawVelocity)
+                    .withSlot(slot)
+                    .withFeedForward(feedForward);
+            case TrapezoidalVoltage -> controlRequest = new MotionMagicVelocityVoltage(rawVelocity)
+                    .withSlot(slot)
+                    .withFeedForward(feedForward);
+            default -> {
+                controlRequest = new VelocityDutyCycle(rawVelocity)
+                        .withSlot(slot)
+                        .withFeedForward(feedForward);
+                this.unsupportedPIDModeAlert.set(true);
+            }
+        }
+        invokeWithRetry(() -> this.internalTalonFx.setControl(controlRequest), 1);
+    }
+
+    @Override
     public void setVoltage(Voltage voltage) {
         if (!isValidVoltageRequest(voltage)) {
             return;
