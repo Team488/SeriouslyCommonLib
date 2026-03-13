@@ -45,7 +45,7 @@ loadScripts(document, 'script');</script>
 <div>
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested-class-summary">Nested</a>&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
@@ -79,9 +79,30 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SwerveDriveRotationAdvisor</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">This class is responsible for advising the drive subsystem on what heading to rotate to based on various inputs and modes.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<li>
+<section class="nested-class-summary" id="nested-class-summary">
+<h2>Nested Class Summary</h2>
+<div class="caption"><span>Nested Classes</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Class</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>static interface&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="SwerveDriveRotationAdvisor.Factory.html" class="type-name-link" title="interface in xbot.common.subsystems.drive.swerve">SwerveDriveRotationAdvisor.Factory</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Factory for creating instances of SwerveDriveRotationAdvisor.</div>
+</div>
+<div class="col-first odd-row-color"><code>static enum&nbsp;</code></div>
+<div class="col-second odd-row-color"><code><a href="SwerveDriveRotationAdvisor.SwerveDriveRotationAdvisorMode.html" class="type-name-link" title="enum class in xbot.common.subsystems.drive.swerve">SwerveDriveRotationAdvisor.SwerveDriveRotationAdvisorMode</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+</div>
+</section>
+</li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <li>
 <section class="constructor-summary" id="constructor-summary">
@@ -90,17 +111,13 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.subsystems.drive.swerve.ISwerveAdvisorPoseSupport,xbot.common.subsystems.drive.swerve.ISwerveAdvisorDriveSupport,xbot.common.properties.PropertyFactory,xbot.common.logic.HumanVsMachineDecider)" class="member-name-link">SwerveDriveRotationAdvisor</a><wbr>(<a href="ISwerveAdvisorPoseSupport.html" title="interface in xbot.common.subsystems.drive.swerve">ISwerveAdvisorPoseSupport</a>&nbsp;pose,
- <a href="ISwerveAdvisorDriveSupport.html" title="interface in xbot.common.subsystems.drive.swerve">ISwerveAdvisorDriveSupport</a>&nbsp;drive,
- <a href="../../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf,
- <a href="../../../logic/HumanVsMachineDecider.html" title="class in xbot.common.logic">HumanVsMachineDecider</a>&nbsp;hvmDecider)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(xbot.common.subsystems.drive.swerve.ISwerveAdvisorPoseSupport,xbot.common.subsystems.drive.swerve.ISwerveAdvisorDriveSupport,xbot.common.properties.PropertyFactory,xbot.common.logic.HumanVsMachineDecider,double)" class="member-name-link">SwerveDriveRotationAdvisor</a><wbr>(<a href="ISwerveAdvisorPoseSupport.html" title="interface in xbot.common.subsystems.drive.swerve">ISwerveAdvisorPoseSupport</a>&nbsp;pose,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.logging.RobotAssertionManager,xbot.common.subsystems.drive.swerve.ISwerveAdvisorPoseSupport,xbot.common.subsystems.drive.swerve.ISwerveAdvisorDriveSupport,xbot.common.properties.PropertyFactory,xbot.common.logic.HumanVsMachineDecider,double)" class="member-name-link">SwerveDriveRotationAdvisor</a><wbr>(<a href="../../../logging/RobotAssertionManager.html" title="class in xbot.common.logging">RobotAssertionManager</a>&nbsp;assertionManager,
+ <a href="ISwerveAdvisorPoseSupport.html" title="interface in xbot.common.subsystems.drive.swerve">ISwerveAdvisorPoseSupport</a>&nbsp;pose,
  <a href="ISwerveAdvisorDriveSupport.html" title="interface in xbot.common.subsystems.drive.swerve">ISwerveAdvisorDriveSupport</a>&nbsp;drive,
  <a href="../../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf,
  <a href="../../../logic/HumanVsMachineDecider.html" title="class in xbot.common.logic">HumanVsMachineDecider</a>&nbsp;hvmDecider,
- double&nbsp;defaultDeadband)</code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+ double&nbsp;hvmDeadband)</code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -116,12 +133,17 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="SwerveSuggestedRotation.html" title="class in xbot.common.subsystems.drive.swerve">SwerveSuggestedRotation</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSuggestedRotationValue(xbot.common.math.XYPair,double)" class="member-name-link">getSuggestedRotationValue</a><wbr>(<a href="../../../math/XYPair.html" title="class in xbot.common.math">XYPair</a>&nbsp;snappingInput,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSuggestedRotationValue(edu.wpi.first.math.geometry.Translation2d,double)" class="member-name-link">getSuggestedRotationValue</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/geometry/Translation2d.html" title="class or interface in edu.wpi.first.math.geometry" class="external-link">Translation2d</a>&nbsp;snappingInput,
  double&nbsp;triggerRotateIntent)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resetDecider()" class="member-name-link">resetDecider</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSnappingZoneCount(int)" class="member-name-link">setSnappingZoneCount</a><wbr>(int&nbsp;count)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set how many snapping zones there are.</div>
+</div>
 </div>
 </div>
 </div>
@@ -140,22 +162,17 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(xbot.common.subsystems.drive.swerve.ISwerveAdvisorPoseSupport,xbot.common.subsystems.drive.swerve.ISwerveAdvisorDriveSupport,xbot.common.properties.PropertyFactory,xbot.common.logic.HumanVsMachineDecider,double)">
+<section class="detail" id="&lt;init&gt;(xbot.common.logging.RobotAssertionManager,xbot.common.subsystems.drive.swerve.ISwerveAdvisorPoseSupport,xbot.common.subsystems.drive.swerve.ISwerveAdvisorDriveSupport,xbot.common.properties.PropertyFactory,xbot.common.logic.HumanVsMachineDecider,double)">
 <h3>SwerveDriveRotationAdvisor</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SwerveDriveRotationAdvisor</span><wbr><span class="parameters">(<a href="ISwerveAdvisorPoseSupport.html" title="interface in xbot.common.subsystems.drive.swerve">ISwerveAdvisorPoseSupport</a>&nbsp;pose,
+<div class="member-signature"><span class="annotations">@AssistedInject
+</span><span class="modifiers">public</span>&nbsp;<span class="element-name">SwerveDriveRotationAdvisor</span><wbr><span class="parameters">(<a href="../../../logging/RobotAssertionManager.html" title="class in xbot.common.logging">RobotAssertionManager</a>&nbsp;assertionManager,
+ <a href="ISwerveAdvisorPoseSupport.html" title="interface in xbot.common.subsystems.drive.swerve">ISwerveAdvisorPoseSupport</a>&nbsp;pose,
  <a href="ISwerveAdvisorDriveSupport.html" title="interface in xbot.common.subsystems.drive.swerve">ISwerveAdvisorDriveSupport</a>&nbsp;drive,
  <a href="../../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf,
+ @Assisted
  <a href="../../../logic/HumanVsMachineDecider.html" title="class in xbot.common.logic">HumanVsMachineDecider</a>&nbsp;hvmDecider,
- double&nbsp;defaultDeadband)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(xbot.common.subsystems.drive.swerve.ISwerveAdvisorPoseSupport,xbot.common.subsystems.drive.swerve.ISwerveAdvisorDriveSupport,xbot.common.properties.PropertyFactory,xbot.common.logic.HumanVsMachineDecider)">
-<h3>SwerveDriveRotationAdvisor</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SwerveDriveRotationAdvisor</span><wbr><span class="parameters">(<a href="ISwerveAdvisorPoseSupport.html" title="interface in xbot.common.subsystems.drive.swerve">ISwerveAdvisorPoseSupport</a>&nbsp;pose,
- <a href="ISwerveAdvisorDriveSupport.html" title="interface in xbot.common.subsystems.drive.swerve">ISwerveAdvisorDriveSupport</a>&nbsp;drive,
- <a href="../../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf,
- <a href="../../../logic/HumanVsMachineDecider.html" title="class in xbot.common.logic">HumanVsMachineDecider</a>&nbsp;hvmDecider)</span></div>
+ @Assisted("HvmDeadband")
+ double&nbsp;hvmDeadband)</span></div>
 </section>
 </li>
 </ul>
@@ -167,9 +184,21 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="getSuggestedRotationValue(xbot.common.math.XYPair,double)">
+<section class="detail" id="setSnappingZoneCount(int)">
+<h3>setSnappingZoneCount</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setSnappingZoneCount</span><wbr><span class="parameters">(int&nbsp;count)</span></div>
+<div class="block">Set how many snapping zones there are.
+ For example, 4 would mean we snap to the cardinal directions (0, 90, 180, 270) while 2 would mean we only snap to forward and reverse (0, 180).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>count</code> - The number of snapping zones, must be at least 2 (1 would mean we snap to everything, essentially disabling snapping zones)</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getSuggestedRotationValue(edu.wpi.first.math.geometry.Translation2d,double)">
 <h3>getSuggestedRotationValue</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SwerveSuggestedRotation.html" title="class in xbot.common.subsystems.drive.swerve">SwerveSuggestedRotation</a></span>&nbsp;<span class="element-name">getSuggestedRotationValue</span><wbr><span class="parameters">(<a href="../../../math/XYPair.html" title="class in xbot.common.math">XYPair</a>&nbsp;snappingInput,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SwerveSuggestedRotation.html" title="class in xbot.common.subsystems.drive.swerve">SwerveSuggestedRotation</a></span>&nbsp;<span class="element-name">getSuggestedRotationValue</span><wbr><span class="parameters">(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/geometry/Translation2d.html" title="class or interface in edu.wpi.first.math.geometry" class="external-link">Translation2d</a>&nbsp;snappingInput,
  double&nbsp;triggerRotateIntent)</span></div>
 </section>
 </li>
