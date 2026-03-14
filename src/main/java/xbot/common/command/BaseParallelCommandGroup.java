@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  *
  * <p>This class is provided by the NewCommands VendorDep
  */
-public class BaseParallelCommandGroup extends Command {
+public class BaseParallelCommandGroup extends BaseCommand {
   // maps commands in this composition to whether they are still running
   // LinkedHashMap guarantees we iterate over commands in the order they were added (Note that
   // changing the value associated with a command does NOT change the order)
