@@ -111,9 +111,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
         this.desiredHeading = 0;
 
         // These can be tuned to reduce twitchy wheels
-        pf.setDefaultLevel(Property.PropertyLevel.Debug);
         this.minTranslateSpeed = pf.createPersistentProperty("Minimum translate speed", 0.02);
-        this.minRotationalSpeed = pf.createPersistentProperty("Minimum rotational speed", 0.02);
+        this.minRotationalSpeed = pf.createPersistentProperty("Minimum rotational speed", 0.005);
 
         // TODO: eventually, this should retrieved from auto or the pose subsystem as a
         // field like
