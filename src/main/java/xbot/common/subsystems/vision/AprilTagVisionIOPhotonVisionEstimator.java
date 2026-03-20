@@ -49,11 +49,6 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
         public abstract AprilTagVisionIOPhotonVisionEstimator create(@Assisted String name, @Assisted Transform3d robotToCamera);
     }
 
-    // The standard deviations of our vision estimated poses, which affect correction rate
-    // (Fake values. Experiment and determine estimation noise on an actual robot.)
-    public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
-    public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
-
     private static final int[] EMPTY_TAG_IDS_OBSERVATION = new int[0];
     private static final PoseObservation[] EMPTY_POSE_OBSERVATION = new PoseObservation[0];
     private static final TargetObservation[] EMPTY_TARGET_OBSERVATIONS = new TargetObservation[0];
