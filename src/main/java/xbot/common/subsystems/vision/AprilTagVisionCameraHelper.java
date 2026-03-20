@@ -150,9 +150,10 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
                 continue;
             }
 
+            double[] stdDevs = observation.estimatedStdDevs();
             poseObservations.add(new VisionPoseObservation(observation.pose().toPose2d(),
                                                            observation.timestamp(),
-                                                           observation.estimatedStdDevs()));
+                                                           VecBuilder.fill(stdDevs[0], stdDevs[1], stdDevs[2])));
         }
     }
 

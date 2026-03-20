@@ -15,10 +15,6 @@ package xbot.common.subsystems.vision;
 
 import dagger.assisted.AssistedFactory;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -173,12 +169,12 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
      * @param estimatedPose The estimated pose to guess standard deviations for.
      * @param targets All targets in this camera frame
      */
-    private Matrix<N3, N1> getEstimationStdDevs(
+    private double[] getEstimationStdDevs(
             EstimatedRobotPose estimatedPose, List<PhotonTrackedTarget> targets) {
-        var singleTagStdDevs = VecBuilder.fill(this.singleTagStdDev1.get(), this.singleTagStdDev2.get(), this.singleTagAngularStdDev.get());
-        var multipleTagStdDevs = VecBuilder.fill(this.multipleTagStdDev1.get(), this.multipleTagStdDev2.get(), this.multipleTagAngularStdDev.get());
+        double[] singleTagStdDevs = new double[]{this.singleTagStdDev1.get(), this.singleTagStdDev2.get(), this.singleTagAngularStdDev.get()};
+        double[] multipleTagStdDevs = new double[]{this.multipleTagStdDev1.get(), this.multipleTagStdDev2.get(), this.multipleTagAngularStdDev.get()};
         // Pose present. Start running Heuristic
-        var estStdDevs = singleTagStdDevs;
+        double[] estStdDevs = singleTagStdDevs;
         int numTags = 0;
         double avgDist = 0;
 
@@ -209,9 +205,10 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
             }
             // Increase std devs based on (average) distance
             if (numTags == 1 && avgDist > 4) {
-                estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
+                estStdDevs = new double[]{Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE};
             } else {
-                estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
+                double scale = 1 + (avgDist * avgDist / 30);
+                estStdDevs = new double[]{estStdDevs[0] * scale, estStdDevs[1] * scale, estStdDevs[2] * scale};
             }
         }
 
