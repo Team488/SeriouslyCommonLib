@@ -89,9 +89,12 @@ public abstract class BaseRobot extends LoggedRobot {
      */
     public void robotInit() {
         initException = null;
+        String replayLogPath = null;
+        boolean isReplayMode = false;
         try {
             Logger.recordMetadata("ProjectName", "XbotProject"); // Set a metadata value
-            var isReplayMode = LogFileUtil.findReplayLog() != null; // Check if we're replaying from a log
+            replayLogPath = LogFileUtil.findReplayLog(); // Check if we're replaying from a log
+            isReplayMode = replayLogPath != null;
             if (isReal() || !isReplayMode) {
                 var logDirectory = new File("/U/logs");
                 if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
@@ -103,7 +106,6 @@ public abstract class BaseRobot extends LoggedRobot {
                         PowerDistribution.ModuleType.kRev); // Log power distribution data from the configured module
             } else {
                 String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
-                log.info("Replay log found, entering replay mode. Log path: " + logPath);
                 setUseTiming(false); // Run as fast as possible
                 Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
                 Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
@@ -115,6 +117,9 @@ public abstract class BaseRobot extends LoggedRobot {
 
             log = LogManager.getLogger(BaseRobot.class);
             log.info("========== BASE ROBOT INITIALIZING ==========");
+            if(isReplayMode) {
+                log.info("Running in replay mode with log: " + replayLogPath);
+            }
             setupInjectionModule();
             log.info("========== INJECTOR CREATED ==========");
             this.initializeSystems();
