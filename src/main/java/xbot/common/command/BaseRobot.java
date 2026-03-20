@@ -55,8 +55,6 @@ public abstract class BaseRobot extends LoggedRobot {
 
     protected List<DataFrameRefreshable> dataFrameRefreshables = new ArrayList<>();
 
-    boolean forceWebots = true; // TODO: figure out a better way to swap between simulation and replay.
-
     public Throwable initException = null;
 
     public BaseRobot() {
@@ -93,7 +91,8 @@ public abstract class BaseRobot extends LoggedRobot {
         initException = null;
         try {
             Logger.recordMetadata("ProjectName", "XbotProject"); // Set a metadata value
-            if (isReal() || forceWebots) {
+            var isReplayMode = LogFileUtil.findReplayLog() != null; // Check if we're replaying from a log
+            if (isReal() || !isReplayMode) {
                 var logDirectory = new File("/U/logs");
                 if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
                     Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
@@ -103,8 +102,9 @@ public abstract class BaseRobot extends LoggedRobot {
                         PowerDistribution.kDefaultModule,
                         PowerDistribution.ModuleType.kRev); // Log power distribution data from the configured module
             } else {
-                setUseTiming(false); // Run as fast as possible
                 String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
+                log.info("Replay log found, entering replay mode. Log path: " + logPath);
+                setUseTiming(false); // Run as fast as possible
                 Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
                 Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
             }
@@ -121,16 +121,12 @@ public abstract class BaseRobot extends LoggedRobot {
             log.info("========== SYSTEMS INITIALIZED ==========");
             SmartDashboard.putData(CommandScheduler.getInstance());
 
-            if (this.isReal()) {
-                // We're just so tired of seeing these in logs. We may re-enable this at competition time.
-                DriverStation.silenceJoystickConnectionWarning(true);
-            }
             PropertyFactory pf = injectorComponent.propertyFactory();
 
             devicePolice = injectorComponent.devicePolice();
-            if (forceWebots) {
+            if (!isReplayMode) {
                 simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
-            }
+            }      
             LiveWindow.disableAllTelemetry();
         } catch (Exception e) {
             this.initException = e;
