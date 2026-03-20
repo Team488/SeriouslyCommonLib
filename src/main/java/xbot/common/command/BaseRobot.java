@@ -85,6 +85,28 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     /**
+     * Returns the replay log path if one is available without blocking.
+     * Checks the AKIT_LOG_PATH environment variable and AdvantageScope's temp file.
+     * Returns null if no replay log is configured.
+     */
+    private static String findReplayLogNonBlocking() {
+        String logPath = System.getenv("AKIT_LOG_PATH");
+        if (logPath != null) {
+            return logPath;
+        }
+        File akitTempFile = new File(System.getProperty("java.io.tmpdir"), "akit-log-path.txt");
+        if (akitTempFile.exists()) {
+            try (java.util.Scanner s = new java.util.Scanner(akitTempFile)) {
+                String line = s.hasNextLine() ? s.nextLine().trim() : null;
+                if (line != null && !line.isEmpty()) {
+                    return line;
+                }
+            } catch (java.io.IOException e) { }
+        }
+        return null;
+    }
+
+    /**
      * This function is run when the robot is first started up and should be used for any initialization code.
      */
     public void robotInit() {
@@ -93,7 +115,7 @@ public abstract class BaseRobot extends LoggedRobot {
         boolean isReplayMode = false;
         try {
             Logger.recordMetadata("ProjectName", "XbotProject"); // Set a metadata value
-            replayLogPath = LogFileUtil.findReplayLog(); // Check if we're replaying from a log
+            replayLogPath = findReplayLogNonBlocking();
             isReplayMode = replayLogPath != null;
             if (isReal() || !isReplayMode) {
                 var logDirectory = new File("/U/logs");
@@ -105,10 +127,9 @@ public abstract class BaseRobot extends LoggedRobot {
                         PowerDistribution.kDefaultModule,
                         PowerDistribution.ModuleType.kRev); // Log power distribution data from the configured module
             } else {
-                String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
                 setUseTiming(false); // Run as fast as possible
-                Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
-                Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
+                Logger.setReplaySource(new WPILOGReader(replayLogPath)); // Read replay log
+                Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(replayLogPath, "_sim"))); // Save outputs to a new log
             }
 
             Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
