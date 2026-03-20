@@ -34,13 +34,13 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
         io.poseObservations = new AprilTagVisionIO.PoseObservation[] {
                 new AprilTagVisionIO.PoseObservation(1, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()),
                         0, 2, 0,
-                        VecBuilder.fill(0.02, 0.02, 0.6), AprilTagVisionIO.PoseObservationType.PHOTONVISION),
+                        0.02, 0.02, 0.6, AprilTagVisionIO.PoseObservationType.PHOTONVISION),
                 new AprilTagVisionIO.PoseObservation(2, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()),
                         0, 2, 0,
-                        VecBuilder.fill(0.02, 0.02, 0.6), AprilTagVisionIO.PoseObservationType.PHOTONVISION),
+                        0.02, 0.02, 0.6, AprilTagVisionIO.PoseObservationType.PHOTONVISION),
                 new AprilTagVisionIO.PoseObservation(3, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()),
                         0, 2, 0,
-                        VecBuilder.fill(0.02, 0.02, 0.6), AprilTagVisionIO.PoseObservationType.PHOTONVISION)
+                        0.02, 0.02, 0.6, AprilTagVisionIO.PoseObservationType.PHOTONVISION)
         };
         io.tagIds = new int[] { 1, 2, 3 };
         subsystem.refreshDataFrame();

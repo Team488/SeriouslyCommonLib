@@ -156,7 +156,9 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
                                                             ambiguityStats.getAverage(),
                                                             (int) ambiguityStats.getCount(),
                                                             distanceStats.getAverage(),
-                                                            estStdDevs,
+                                                            estStdDevs.get(0, 0),
+                                                            estStdDevs.get(1, 0),
+                                                            estStdDevs.get(2, 0),
                                                             PoseObservationType.PHOTONVISION));
                                 });
         }
