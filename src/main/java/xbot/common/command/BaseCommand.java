@@ -22,7 +22,7 @@ public abstract class BaseCommand extends Command implements IPropertySupport {
     protected final AKitLogger aKitLog;
     protected final TimeLogger monitor;
     private boolean configurableRunWhenDisabled;
-    
+
     @Inject
     SmartDashboardCommandPutter commandPutter;
 
@@ -41,20 +41,20 @@ public abstract class BaseCommand extends Command implements IPropertySupport {
     public void setRunsWhenDisabled(boolean value) {
         configurableRunWhenDisabled = value;
     }
-    
+
     public String getPrefix() {
         return this.getName() + "/";
     }
 
-    @Override
-    public void initialize() {
+    // Custom initialize method for logging to our CommandTracer
+    public final void onInitialize() {
         // the name might not be set at construction, so let's update it here
         this.runningAlert.setText(this.getName());
         this.runningAlert.set(true);
     }
 
-    @Override
-    public void end(boolean isInterrupted) {
+    // Custom end method for logging to our CommandTracer
+    public final void onEnd() {
         this.runningAlert.set(false);
     }
 

@@ -179,6 +179,25 @@ public abstract class BaseRobot extends LoggedRobot {
         // All this does is set the timeout period for the scheduler - the actual loop still runs at 50hz.
         CommandScheduler.getInstance().setPeriod(0.05);
         autonomousCommandSelector = injectorComponent.autonomousCommandSelector();
+
+        // Set up CommandScheduler hooks to call onInitialize and onEnd
+        CommandScheduler.getInstance().onCommandInitialize(command -> {
+            if (command instanceof BaseCommand traceable) {
+                traceable.onInitialize();
+            }
+        });
+
+        CommandScheduler.getInstance().onCommandFinish(command -> {
+            if (command instanceof BaseCommand traceable) {
+                traceable.onEnd();
+            }
+        });
+
+        CommandScheduler.getInstance().onCommandInterrupt(command -> {
+            if (command instanceof BaseCommand traceable) {
+                traceable.onEnd();
+            }
+        });
     }
 
     @Override
