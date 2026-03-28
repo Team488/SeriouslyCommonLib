@@ -46,7 +46,7 @@ loadScripts(document, 'script');</script>
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
 <li><a href="#nested-class-summary">Nested</a>&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
@@ -74,17 +74,19 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance"><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">edu.wpi.first.wpilibj2.command.Command</a>
+<div class="inheritance"><a href="BaseCommand.html" title="class in xbot.common.command">xbot.common.command.BaseCommand</a>
 <div class="inheritance">xbot.common.command.BaseParallelDeadlineGroup</div>
+</div>
 </div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/util/sendable/Sendable.html" title="class or interface in edu.wpi.first.util.sendable" class="external-link">Sendable</a></code></dd>
+<dd><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/util/sendable/Sendable.html" title="class or interface in edu.wpi.first.util.sendable" class="external-link">Sendable</a></code>, <code><a href="../properties/IPropertySupport.html" title="interface in xbot.common.properties">IPropertySupport</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">BaseParallelDeadlineGroup</span>
-<span class="extends-implements">extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">Command</a></span></div>
+<span class="extends-implements">extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseCommand</a></span></div>
 <div class="block">A command composition that runs a set of commands in parallel, ending only when a specific
  command (the "deadline") ends, interrupting all other commands that are still running at that
  point.
@@ -104,6 +106,15 @@ loadScripts(document, 'script');</script>
 <div class="inherited-list">
 <h2 id="nested-classes-inherited-from-class-edu.wpi.first.wpilibj2.command.Command">Nested classes/interfaces inherited from class&nbsp;edu.wpi.first.wpilibj2.command.<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">Command</a></h2>
 <code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.InterruptionBehavior.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">Command.InterruptionBehavior</a></code></div>
+</section>
+</li>
+<!-- =========== FIELD SUMMARY =========== -->
+<li>
+<section class="field-summary" id="field-summary">
+<h2>Field Summary</h2>
+<div class="inherited-list">
+<h3 id="fields-inherited-from-class-xbot.common.command.BaseCommand">Fields inherited from class&nbsp;xbot.common.command.<a href="BaseCommand.html" title="class in xbot.common.command">BaseCommand</a></h3>
+<code><a href="BaseCommand.html#aKitLog">aKitLog</a>, <a href="BaseCommand.html#log">log</a>, <a href="BaseCommand.html#monitor">monitor</a>, <a href="BaseCommand.html#runningAlert">runningAlert</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -167,6 +178,9 @@ loadScripts(document, 'script');</script>
 </div>
 </div>
 </div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-xbot.common.command.BaseCommand">Methods inherited from class&nbsp;xbot.common.command.<a href="BaseCommand.html" title="class in xbot.common.command">BaseCommand</a></h3>
+<code><a href="BaseCommand.html#getPrefix()">getPrefix</a>, <a href="BaseCommand.html#includeOnSmartDashboard()">includeOnSmartDashboard</a>, <a href="BaseCommand.html#includeOnSmartDashboard(java.lang.String)">includeOnSmartDashboard</a>, <a href="BaseCommand.html#requires(xbot.common.command.BaseSubsystem)">requires</a>, <a href="BaseCommand.html#setRunsWhenDisabled(boolean)">setRunsWhenDisabled</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-edu.wpi.first.wpilibj2.command.Command">Methods inherited from class&nbsp;edu.wpi.first.wpilibj2.command.<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">Command</a></h3>
 <code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#addRequirements(edu.wpi.first.wpilibj2.command.Subsystem...)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">addRequirements</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#addRequirements(java.util.Collection)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">addRequirements</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#alongWith(edu.wpi.first.wpilibj2.command.Command...)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">alongWith</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#andThen(edu.wpi.first.wpilibj2.command.Command...)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">andThen</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#andThen(java.lang.Runnable,edu.wpi.first.wpilibj2.command.Subsystem...)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">andThen</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#asProxy()" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">asProxy</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#beforeStarting(edu.wpi.first.wpilibj2.command.Command)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">beforeStarting</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#beforeStarting(java.lang.Runnable,edu.wpi.first.wpilibj2.command.Subsystem...)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">beforeStarting</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#cancel()" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">cancel</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#deadlineFor(edu.wpi.first.wpilibj2.command.Command...)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">deadlineFor</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#deadlineWith(edu.wpi.first.wpilibj2.command.Command...)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">deadlineWith</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#finallyDo(edu.wpi.first.util.function.BooleanConsumer)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">finallyDo</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#finallyDo(java.lang.Runnable)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">finallyDo</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#getName()" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">getName</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#getRequirements()" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">getRequirements</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#getSubsystem()" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">getSubsystem</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#handleInterrupt(java.lang.Runnable)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">handleInterrupt</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#hasRequirement(edu.wpi.first.wpilibj2.command.Subsystem)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">hasRequirement</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#ignoringDisable(boolean)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">ignoringDisable</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#isScheduled()" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">isScheduled</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#onlyIf(java.util.function.BooleanSupplier)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">onlyIf</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#onlyWhile(java.util.function.BooleanSupplier)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">onlyWhile</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#raceWith(edu.wpi.first.wpilibj2.command.Command...)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">raceWith</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#repeatedly()" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">repeatedly</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#schedule()" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">schedule</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#setName(java.lang.String)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">setName</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#setSubsystem(java.lang.String)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">setSubsystem</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#unless(java.util.function.BooleanSupplier)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">unless</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#until(java.util.function.BooleanSupplier)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">until</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#withDeadline(edu.wpi.first.wpilibj2.command.Command)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">withDeadline</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#withInterruptBehavior(edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">withInterruptBehavior</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#withName(java.lang.String)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">withName</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#withTimeout(double)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">withTimeout</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#withTimeout(edu.wpi.first.units.measure.Time)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">withTimeout</a></code></div>
@@ -241,7 +255,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initialize</span>()</div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#initialize()" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">initialize</a></code>&nbsp;in class&nbsp;<code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">Command</a></code></dd>
+<dd><code><a href="BaseCommand.html#initialize()">initialize</a></code>&nbsp;in class&nbsp;<code><a href="BaseCommand.html" title="class in xbot.common.command">BaseCommand</a></code></dd>
 </dl>
 </section>
 </li>
@@ -261,7 +275,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">end</span><wbr><span class="parameters">(boolean&nbsp;interrupted)</span></div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#end(boolean)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">end</a></code>&nbsp;in class&nbsp;<code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">Command</a></code></dd>
+<dd><code><a href="BaseCommand.html#end(boolean)">end</a></code>&nbsp;in class&nbsp;<code><a href="BaseCommand.html" title="class in xbot.common.command">BaseCommand</a></code></dd>
 </dl>
 </section>
 </li>
@@ -281,7 +295,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">runsWhenDisabled</span>()</div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html#runsWhenDisabled()" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">runsWhenDisabled</a></code>&nbsp;in class&nbsp;<code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">Command</a></code></dd>
+<dd><code><a href="BaseCommand.html#runsWhenDisabled()">runsWhenDisabled</a></code>&nbsp;in class&nbsp;<code><a href="BaseCommand.html" title="class in xbot.common.command">BaseCommand</a></code></dd>
 </dl>
 </section>
 </li>
