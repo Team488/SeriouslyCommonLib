@@ -26,6 +26,11 @@ public class PID {
     private double m_targetInputValue;
     private double m_currentInputValue;
 
+    private double m_last_p_contribution = 0;
+    private double m_last_i_contribution = 0;
+    private double m_last_d_contribution = 0;
+    private double m_last_f_contribution = 0;
+
     private OptionalDouble m_derivativeValue = OptionalDouble.empty();
     private boolean errorIsSmall = false;
     private boolean derivativeIsSmall = false;
@@ -118,16 +123,19 @@ public class PID {
         m_prevError.ifPresentOrElse(
                 aDouble -> m_derivativeValue = OptionalDouble.of(m_error - aDouble),
                 () -> m_derivativeValue = OptionalDouble.empty());
-        m_result = p * m_error + d * (m_derivativeValue.orElse(0.0)) + f * goal;
 
         // If iZone is configured, but we are outside the zone, clear any accumulated I.
         if (iZone > 0 && Math.abs(m_error) > iZone) {
             m_totalError = 0;
         }
-        // If iZone isn't configured, or we are within the iZone, accumulate I.
-        if (iZone <= 0 || Math.abs(m_error) < iZone) {
-            m_result += i * m_totalError;
-        }
+
+        var p_contribution = p * m_error;
+        var i_contribution = i * m_totalError;
+        var d_contribution = d * (m_derivativeValue.orElse(0.0));
+        var f_contribution = f * goal;
+
+        m_result = p_contribution + i_contribution + d_contribution + f_contribution;
+
         m_prevError = OptionalDouble.of(m_error);
 
         if (m_result > m_maximumOutput) {
@@ -151,6 +159,11 @@ public class PID {
 //        derivativeIsSmall = checkDerivativeThreshold && Math.abs(m_derivativeValue) < derivativeTolerance;
 
         checkIsOnTarget();
+
+        m_last_p_contribution = p_contribution;
+        m_last_i_contribution = i_contribution;
+        m_last_d_contribution = d_contribution;
+        m_last_f_contribution = f_contribution;
 
         return result;
     }
@@ -249,4 +262,12 @@ public class PID {
     public OffTargetReason getOffTargetReason() {
         return offTargetReason;
     }
+
+    public double getPContribution() { return m_last_p_contribution; }
+
+    public double getIContribution() { return m_last_i_contribution; }
+
+    public double getDContribution() { return m_last_d_contribution; }
+
+    public double getFContribution() { return m_last_f_contribution; }
 }
