@@ -161,7 +161,7 @@ public class PIDManager extends PIDPropertyManager {
                 aKitLog.record("I-Contribution", pid.getIContribution());
                 aKitLog.record("D-Contribution", pid.getDContribution());
                 aKitLog.record("F-Contribution", pid.getFContribution());
-                aKitLog.record("Error", current - goal);
+                aKitLog.record("Error", goal - current);
             });
 
             return MathUtils.constrainDouble(pidResult, minOutput.get(), maxOutput.get());

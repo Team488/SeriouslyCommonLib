@@ -175,7 +175,7 @@ public class PIDPropertyManager {
 
     public void setTimeThreshold(double timeThreshold) {
         assertionManager.assertTrue(timeThreshold >= 0, "Thresholds won't work if they are negative!");
-        propDerivativeThreshold.set(Math.abs(timeThreshold));
+        propTimeThreshold.set(Math.abs(timeThreshold));
     }
 
     public boolean getEnableErrorThreshold() {
