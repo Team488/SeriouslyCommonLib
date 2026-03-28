@@ -150,6 +150,11 @@ implements <a href="../advantage/DataFrameRefreshable.html" title="interface in 
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Adds the property to the local collection.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setShowAllDebugProperties(boolean)" class="member-name-link">setShowAllDebugProperties</a><wbr>(boolean&nbsp;show)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Globally enables or disables showing debug-level properties in NetworkTables.</div>
+</div>
 </div>
 </div>
 </div>
@@ -227,6 +232,20 @@ implements <a href="../advantage/DataFrameRefreshable.html" title="interface in 
 <h3>registerProperty</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">registerProperty</span><wbr><span class="parameters">(<a href="Property.html" title="class in xbot.common.properties">Property</a>&nbsp;property)</span></div>
 <div class="block">Adds the property to the local collection.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setShowAllDebugProperties(boolean)">
+<h3>setShowAllDebugProperties</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setShowAllDebugProperties</span><wbr><span class="parameters">(boolean&nbsp;show)</span></div>
+<div class="block">Globally enables or disables showing debug-level properties in NetworkTables.
+ When enabled, debug properties behave like Important properties: they are
+ backed by the permanent store and refreshed every robot loop.
+ When disabled, they revert to the in-memory store and are no longer published.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>show</code> - True to publish debug properties to NetworkTables.</dd>
+</dl>
 </section>
 </li>
 <li>
