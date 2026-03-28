@@ -26,9 +26,7 @@ public class SimpleTimeInterpolator {
     double previousTimestamp;
     ProvidesInterpolationData baseline;
     int index;
-    // We don't care if the chase point is too far away from us, it causes problems when it freezes.
-    // A non-optimal but working solution is changing it from 0.3 to 3 for more tolerance.
-    double maximumDistanceFromChasePointInMeters = 3;
+    double maximumDistanceFromChasePointInMeters = 0.3;
 
     SwerveKinematicsCalculator calculator;
 
@@ -169,6 +167,9 @@ public class SimpleTimeInterpolator {
                     break;
                 }
                 targetKeyPoint = keyPoints.get(index);
+                if (usingKinematics) {
+                    calculator = newCalculator(targetKeyPoint.getTranslation2d(), targetKeyPoint.getKinematics());
+                }
                 continue;
             }
 
@@ -187,7 +188,7 @@ public class SimpleTimeInterpolator {
             }
         }
 
-        lerpFraction = accumulatedProductiveSeconds / targetKeyPoint.getSecondsForSegment();
+        lerpFraction = Math.min(accumulatedProductiveSeconds / targetKeyPoint.getSecondsForSegment(), 1.0);
 
         // Most of the time, the fraction will be less than one.
         // In that case, we want to interpolate between the baseline and the target.
