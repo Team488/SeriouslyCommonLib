@@ -91,7 +91,7 @@ public class PIDPropertyManager {
 
         propF = propMan.createPersistentProperty("F", defaultF);
 
-        //propMan.setDefaultLevel(Property.PropertyLevel.Debug);
+        propMan.setDefaultLevel(Property.PropertyLevel.Debug);
 
         propErrorThreshold =
                 propMan.createPersistentProperty("Error threshold", errorThreshold);
