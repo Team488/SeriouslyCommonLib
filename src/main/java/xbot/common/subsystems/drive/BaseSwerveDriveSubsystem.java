@@ -111,9 +111,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
         this.desiredHeading = 0;
 
         // These can be tuned to reduce twitchy wheels
-        pf.setDefaultLevel(Property.PropertyLevel.Debug);
         this.minTranslateSpeed = pf.createPersistentProperty("Minimum translate speed", 0.02);
-        this.minRotationalSpeed = pf.createPersistentProperty("Minimum rotational speed", 0.02);
+        this.minRotationalSpeed = pf.createPersistentProperty("Minimum rotational speed", 0.005);
 
         // TODO: eventually, this should retrieved from auto or the pose subsystem as a
         // field like
@@ -426,10 +425,11 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
             SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, topSpeedMetersPerSecond);
         }
 
-        aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
         // Finally, we can tell each swerve module what it should be doing. Log these
         // values for debugging.
-        aKitLog.record("DesiredSwerveState", moduleStates);
+        aKitLog.withLogLevel(AKitLogger.LogLevel.INFO, () -> {
+            aKitLog.record("DesiredSwerveState", moduleStates);
+        });
         this.getFrontLeftSwerveModuleSubsystem().setTargetState(moduleStates[0]);
         this.getFrontRightSwerveModuleSubsystem().setTargetState(moduleStates[1]);
         this.getRearLeftSwerveModuleSubsystem().setTargetState(moduleStates[2]);
@@ -665,15 +665,15 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
 
     @Override
     public void periodic() {
-        aKitLog.setLogLevel(AKitLogger.LogLevel.DEBUG);
-        aKitLog.record("ActiveSwerveModule", activeModuleLabel);
-        aKitLog.record("TranslationTarget",
-                new Translation2d(translationXTargetMPS, translationYTargetMPS));
-        aKitLog.record("RotationTarget", rotationTargetRadians);
-        aKitLog.record("DesiredHeading", desiredHeading);
-        aKitLog.setLogLevel(AKitLogger.LogLevel.DEBUG);
-        aKitLog.record("VelocityMaintainerTargets",
-                new Translation2d(velocityMaintainerXTarget, velocityMaintainerXTarget));
+        aKitLog.withLogLevel(AKitLogger.LogLevel.DEBUG, () -> {
+            aKitLog.record("ActiveSwerveModule", activeModuleLabel);
+            aKitLog.record("TranslationTarget",
+                    new Translation2d(translationXTargetMPS, translationYTargetMPS));
+            aKitLog.record("RotationTarget", rotationTargetRadians);
+            aKitLog.record("DesiredHeading", desiredHeading);
+            aKitLog.record("VelocityMaintainerTargets",
+                    new Translation2d(velocityMaintainerXTarget, velocityMaintainerXTarget));
+        });
 
         if (maxAccelerationMps2.hasChangedSinceLastCheck()) {
             slewRateLimiter = new SlewRateLimiter(maxAccelerationMps2.get());
@@ -683,7 +683,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
     public void refreshDataFrame() {
         forEachSwerveModule(SwerveModuleSubsystem::refreshDataFrame);
 
-        aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
-        aKitLog.record("CurrentSwerveState", getCurrentSwerveStates().toArray());
+        aKitLog.withLogLevel(AKitLogger.LogLevel.INFO, () -> {
+            aKitLog.record("CurrentSwerveState", getCurrentSwerveStates().toArray());
+        });
     }
 }
