@@ -26,10 +26,10 @@ public class PID {
     private double m_targetInputValue;
     private double m_currentInputValue;
 
-    private double m_last_p_contribution = 0;
-    private double m_last_i_contribution = 0;
-    private double m_last_d_contribution = 0;
-    private double m_last_f_contribution = 0;
+    private double m_lastPContribution = 0;
+    private double m_lastIContribution = 0;
+    private double m_lastDContribution = 0;
+    private double m_lastFContribution = 0;
 
     private OptionalDouble m_derivativeValue = OptionalDouble.empty();
     private boolean errorIsSmall = false;
@@ -160,10 +160,10 @@ public class PID {
 
         checkIsOnTarget();
 
-        m_last_p_contribution = p_contribution;
-        m_last_i_contribution = i_contribution;
-        m_last_d_contribution = d_contribution;
-        m_last_f_contribution = f_contribution;
+        m_lastPContribution = p_contribution;
+        m_lastIContribution = i_contribution;
+        m_lastDContribution = d_contribution;
+        m_lastFContribution = f_contribution;
 
         return result;
     }
@@ -263,11 +263,11 @@ public class PID {
         return offTargetReason;
     }
 
-    public double getPContribution() { return m_last_p_contribution; }
+    public double getPContribution() { return m_lastPContribution; }
 
-    public double getIContribution() { return m_last_i_contribution; }
+    public double getIContribution() { return m_lastIContribution; }
 
-    public double getDContribution() { return m_last_d_contribution; }
+    public double getDContribution() { return m_lastDContribution; }
 
-    public double getFContribution() { return m_last_f_contribution; }
+    public double getFContribution() { return m_lastFContribution; }
 }
