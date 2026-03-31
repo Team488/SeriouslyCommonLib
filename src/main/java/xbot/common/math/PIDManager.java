@@ -155,6 +155,15 @@ public class PIDManager extends PIDPropertyManager {
         if (isEnabled.get()) {
             double pidResult = pid.calculate(goal, current, getP(), isIMasked ? 0 : getI(), getD(), getF(), getIZone());
             aKitLog.record("OffTargetReason", pid.getOffTargetReason());
+
+            aKitLog.withLogLevel(AKitLogger.LogLevel.DEBUG, () -> {
+                aKitLog.record("P-Contribution", pid.getPContribution());
+                aKitLog.record("I-Contribution", pid.getIContribution());
+                aKitLog.record("D-Contribution", pid.getDContribution());
+                aKitLog.record("F-Contribution", pid.getFContribution());
+                aKitLog.record("Error", goal - current);
+            });
+
             return MathUtils.constrainDouble(pidResult, minOutput.get(), maxOutput.get());
         } else {
             return 0;
