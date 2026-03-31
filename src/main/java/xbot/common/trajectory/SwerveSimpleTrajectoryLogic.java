@@ -528,8 +528,13 @@ public class SwerveSimpleTrajectoryLogic {
         // TODO: Move this threshold into a variable
         boolean isAtNoStoppingGoal = goalVector.getMagnitude() < 0.40;
 
-        boolean finished = (stopWhenFinished ? positionalPid.isOnTarget() : isAtNoStoppingGoal) && headingModule.isOnTarget()
-                && lastResult.isOnFinalPoint;
+        boolean finished = false;
+        if (!stopWhenFinished) {
+            finished = lastResult.isOnFinalPoint && isAtNoStoppingGoal;
+        } else {
+            finished =  lastResult.isOnFinalPoint && positionalPid.isOnTarget() && headingModule.isOnTarget();
+        }
+
         if (finished) {
             log.info(String.format("SwerveLogic recommends Finished, goal is %f away.", goalVector.getMagnitude()));
         }

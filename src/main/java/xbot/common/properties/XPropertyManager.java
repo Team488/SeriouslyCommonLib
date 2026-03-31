@@ -3,7 +3,6 @@ package xbot.common.properties;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.apache.logging.log4j.LogManager;
@@ -25,6 +24,8 @@ public class XPropertyManager implements DataFrameRefreshable {
     public final ArrayList<Property> properties;
     public final PermanentStorage permanentStore;
     public final ITableProxy inMemoryRandomAccessStore;
+    private final BooleanProperty showDebugPropertiesProp;
+    private boolean lastShowDebug = false;
 
     @Inject
     public XPropertyManager(
@@ -33,6 +34,8 @@ public class XPropertyManager implements DataFrameRefreshable {
         this.properties = new ArrayList<>();
         this.permanentStore = permanentStore;
         this.inMemoryRandomAccessStore = new TableProxy();
+        this.showDebugPropertiesProp = new BooleanProperty(
+                "Properties/", "ShowDebugProperties", false, this, Property.PropertyLevel.Important);
     }
 
     /**
@@ -40,6 +43,21 @@ public class XPropertyManager implements DataFrameRefreshable {
      */
     public void registerProperty(Property property) {
         properties.add(property);
+    }
+
+    /**
+     * Globally enables or disables showing debug-level properties in NetworkTables.
+     * When enabled, debug properties behave like Important properties: they are
+     * backed by the permanent store and refreshed every robot loop.
+     * When disabled, they revert to the in-memory store and are no longer published.
+     * @param show True to publish debug properties to NetworkTables.
+     */
+    public void setShowAllDebugProperties(boolean show) {
+        showDebugPropertiesProp.set(show);
+        ITableProxy targetStore = show ? permanentStore : inMemoryRandomAccessStore;
+        for (Property property : properties) {
+            property.updateActiveStore(targetStore);
+        }
     }
 
     int propertyRefreshIndex = 0;
@@ -50,17 +68,26 @@ public class XPropertyManager implements DataFrameRefreshable {
      */
     @Override
     public void refreshDataFrame() {
-        // Only refresh persistent/configuration properties.
+        // Sync debug mode from the NetworkTables-visible control property every loop.
+        showDebugPropertiesProp.refreshDataFrame();
+        boolean showDebug = showDebugPropertiesProp.get();
+        if (showDebug != lastShowDebug) {
+            lastShowDebug = showDebug;
+            setShowAllDebugProperties(showDebug);
+        }
 
-         if (propertyRefreshIndex > properties.size()-1) {
+        if (propertyRefreshIndex > properties.size()-1) {
             propertyRefreshIndex = 0;
-         }
+        }
 
-         var property = properties.get(propertyRefreshIndex);
-         if (property.level == Property.PropertyLevel.Important) {
-             property.refreshDataFrame();
-         }
+        var property = properties.get(propertyRefreshIndex);
+        // Skip the control property since it is already refreshed above.
+        if (property != showDebugPropertiesProp
+                && (property.level == Property.PropertyLevel.Important
+                    || (property.level == Property.PropertyLevel.Debug && lastShowDebug))) {
+            property.refreshDataFrame();
+        }
 
-         propertyRefreshIndex++;
+        propertyRefreshIndex++;
     }
 }

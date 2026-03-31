@@ -23,7 +23,7 @@ import java.util.Map;
  *
  * <p>This class is provided by the NewCommands VendorDep
  */
-public class BaseParallelDeadlineGroup extends Command {
+public class BaseParallelDeadlineGroup extends BaseCommand {
   // maps commands in this composition to whether they are still running
   // LinkedHashMap guarantees we iterate over commands in the order they were added (Note that
   // changing the value associated with a command does NOT change the order)
