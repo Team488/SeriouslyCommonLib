@@ -546,6 +546,8 @@ public class SwerveSimpleTrajectoryLogic {
                 double rotationDifference = lastResult.chaseHeading.getDegrees() - currentPose.getRotation().getDegrees();
                 boolean isNearPositionTarget = lastResult.distanceToTargetPoint < loosePositionThreshold;
                 boolean isNearRotationTarget = rotationDifference < looseRotationThreshold;
+
+                // Using isOnFinalLeg here instead of isOnFinalPoint as it's more loose
                 finished = lastResult.isOnFinalLeg && isNearPositionTarget && isNearRotationTarget;
                 break;
             case BeAtPidTarget: // Fall into default
