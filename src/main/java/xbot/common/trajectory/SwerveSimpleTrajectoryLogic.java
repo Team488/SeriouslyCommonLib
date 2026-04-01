@@ -145,6 +145,7 @@ public class SwerveSimpleTrajectoryLogic {
         this.distanceThresholdToPrioritizeRotation = distanceThresholdToPrioritizeRotation;
     }
 
+    // TODO: refactor to that setting velocity mode also requires corresponding double/kinematics as a 2nd parameter
     public void setVelocityMode(SwerveSimpleTrajectoryMode mode) {
         this.mode = mode;
     }
