@@ -15,24 +15,29 @@ import xbot.common.subsystems.drive.SwerveKinematicsCalculator;
 import xbot.common.subsystems.drive.SwervePointKinematics;
 import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
+import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
 import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 
+
 public class SwerveSimpleTrajectoryLogic {
+
+    public enum FinishMode {
+        LooseVelocity,
+        LoosePositionAndRotation,
+        BeAtPidTarget
+    }
 
     Logger log = LogManager.getLogger(this.getClass());
     final AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator/");
 
     private Supplier<List<XbotSwervePoint>> keyPointsProvider;
     private List<XbotSwervePoint> keyPoints;
-    private boolean stopWhenFinished = true;
     private final SimpleTimeInterpolator interpolator;
     SimpleTimeInterpolator.InterpolationResult lastResult;
     double maxPower = 1.0;
@@ -51,6 +56,13 @@ public class SwerveSimpleTrajectoryLogic {
     private SwervePointKinematics globalKinematics = null;
     private SwerveSimpleTrajectoryMode mode = SwerveSimpleTrajectoryMode.DurationInSeconds;
     RobotAssertionManager assertionManager;
+
+    // You can't use the threshold without ever setting them but as for now they are just
+    // arbitrary value that I think makes sense and that we can reference off of
+    private FinishMode finishMode = FinishMode.BeAtPidTarget;
+    private double looseVelocityThreshold = 0.4;
+    private double loosePositionThreshold = 0.5;
+    private double looseRotationThreshold = 30;
 
     public SwerveSimpleTrajectoryLogic(RobotAssertionManager assertionManager) {
         this.assertionManager = assertionManager;
@@ -118,8 +130,19 @@ public class SwerveSimpleTrajectoryLogic {
         return keyPoints;
     }
 
-    public void setStopWhenFinished(boolean newValue) {
-        this.stopWhenFinished = newValue;
+    public void setFinishModeLooseVelocity(double velocity) {
+        this.finishMode = FinishMode.LooseVelocity;
+        this.looseVelocityThreshold = velocity;
+    }
+
+    public void setFinishModeLoosePositionAndRotation(double position, double rotation) {
+        this.finishMode = FinishMode.LoosePositionAndRotation;
+        this.loosePositionThreshold = position;
+        this.looseRotationThreshold = rotation;
+    }
+
+    public void setFinishModeBeAtPidTarget() {
+        this.finishMode = FinishMode.BeAtPidTarget;
     }
 
     public void setPrioritizeRotationIfCloseToGoal(boolean prioritizeRotationIfCloseToGoal) {
@@ -524,15 +547,25 @@ public class SwerveSimpleTrajectoryLogic {
     }
 
     public boolean recommendIsFinished(Pose2d currentPose, PIDManager positionalPid, HeadingModule headingModule) {
+        // TODO: Figure out what world goalVector is in (Power? Something else?)
         var goalVector = getGoalVector(currentPose);
-        // TODO: Move this threshold into a variable
-        boolean isAtNoStoppingGoal = goalVector.getMagnitude() < 0.40;
 
         boolean finished = false;
-        if (!stopWhenFinished) {
-            finished = lastResult.isOnFinalPoint && isAtNoStoppingGoal;
-        } else {
-            finished =  lastResult.isOnFinalPoint && positionalPid.isOnTarget() && headingModule.isOnTarget();
+        switch (finishMode) {
+            case LooseVelocity:
+                boolean meetVelocityThreshold = goalVector.getMagnitude() < looseVelocityThreshold;
+                finished = lastResult.isOnFinalPoint && meetVelocityThreshold;
+                break;
+            case LoosePositionAndRotation:
+                double rotationDifference = lastResult.chaseHeading.getDegrees() - currentPose.getRotation().getDegrees();
+                boolean isNearPositionTarget = lastResult.distanceToTargetPoint < loosePositionThreshold;
+                boolean isNearRotationTarget = rotationDifference < looseRotationThreshold;
+                finished = lastResult.isOnFinalPoint && isNearPositionTarget && isNearRotationTarget;
+                break;
+            case BeAtPidTarget: // Fall into default
+            default:
+                finished =  lastResult.isOnFinalPoint && positionalPid.isOnTarget() && headingModule.isOnTarget();
+                break;
         }
 
         if (finished) {
