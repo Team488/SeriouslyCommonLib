@@ -16,6 +16,8 @@ package xbot.common.subsystems.vision;
 import dagger.Lazy;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Transform3d;
+import xbot.common.properties.BooleanProperty;
+import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.pose.SimulatedPositionSupplier;
 
 import org.photonvision.simulation.PhotonCameraSim;
@@ -40,6 +42,7 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
     private static VisionSystemSim visionSim;
     private final Lazy<SimulatedPositionSupplier> poseSupplier;
     private final PhotonCameraSim cameraSim;
+    private final BooleanProperty enableFancySim;
 
     /**
      * Creates a new AprilTagVisionIOPhotonVisionSimulated.
@@ -51,10 +54,11 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
      */
     @AssistedInject
     public AprilTagVisionIOPhotonVisionSimulated(@Assisted String name, @Assisted Transform3d robotToCamera,
-            AprilTagFieldLayout fieldLayout, Lazy<SimulatedPositionSupplier> poseSupplier) {
+            AprilTagFieldLayout fieldLayout, Lazy<SimulatedPositionSupplier> poseSupplier, PropertyFactory pf) {
         super(name, robotToCamera, fieldLayout);
 
         this.poseSupplier = poseSupplier;
+        this.enableFancySim = pf.createPersistentProperty("EnableFancyVisionSim", true);
 
         // Initialize vision sim
         if (visionSim == null) {
@@ -65,9 +69,11 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
         // Add sim camera
         var cameraProperties = new SimCameraProperties();
         cameraSim = new PhotonCameraSim(camera, cameraProperties);
-        cameraSim.enableRawStream(true);
-        cameraSim.enableProcessedStream(true);
-        cameraSim.enableDrawWireframe(true);
+        if (enableFancySim.get()) {
+            cameraSim.enableRawStream(true);
+            cameraSim.enableProcessedStream(true);
+            cameraSim.enableDrawWireframe(true);
+        }
         cameraSim.setMaxSightRange(6.0); // higher than the rejection range so we can test rejection logic
         cameraSim.setMinTargetAreaPixels(200);
         visionSim.addCamera(cameraSim, robotToCamera);
