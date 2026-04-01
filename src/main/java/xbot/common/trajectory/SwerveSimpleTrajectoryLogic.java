@@ -15,7 +15,6 @@ import xbot.common.subsystems.drive.SwerveKinematicsCalculator;
 import xbot.common.subsystems.drive.SwervePointKinematics;
 import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
-import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,6 @@ import static edu.wpi.first.units.Units.Seconds;
 public class SwerveSimpleTrajectoryLogic {
 
     public enum FinishMode {
-        LooseVelocity,
         LoosePositionAndRotation,
         BeAtPidTarget
     }
@@ -60,7 +58,6 @@ public class SwerveSimpleTrajectoryLogic {
     // You can't use the threshold without ever setting them but as for now they are just
     // arbitrary value that I think makes sense and that we can reference off of
     private FinishMode finishMode = FinishMode.BeAtPidTarget;
-    private double looseVelocityThreshold = 0.4;
     private double loosePositionThreshold = 0.5;
     private double looseRotationThreshold = 30;
 
@@ -128,11 +125,6 @@ public class SwerveSimpleTrajectoryLogic {
 
     public List<XbotSwervePoint> getResolvedKeyPoints() {
         return keyPoints;
-    }
-
-    public void setFinishModeLooseVelocity(double velocity) {
-        this.finishMode = FinishMode.LooseVelocity;
-        this.looseVelocityThreshold = velocity;
     }
 
     public void setFinishModeLoosePositionAndRotation(double position, double rotation) {
@@ -442,11 +434,9 @@ public class SwerveSimpleTrajectoryLogic {
         XYPair currentPosition = new XYPair(currentPose.getX(), currentPose.getY());
 
         // Get the difference between where we are, and where we want to be.
-        XYPair goalVector = targetPosition.clone().add(
+        return targetPosition.clone().add(
                 currentPosition.scale(-1)
         );
-
-        return goalVector;
     }
 
     public Twist2d calculatePowers(Pose2d currentPose, PIDManager positionalPid, HeadingModule headingModule) {
@@ -552,15 +542,11 @@ public class SwerveSimpleTrajectoryLogic {
 
         boolean finished = false;
         switch (finishMode) {
-            case LooseVelocity:
-                boolean meetVelocityThreshold = goalVector.getMagnitude() < looseVelocityThreshold;
-                finished = lastResult.isOnFinalPoint && meetVelocityThreshold;
-                break;
             case LoosePositionAndRotation:
                 double rotationDifference = lastResult.chaseHeading.getDegrees() - currentPose.getRotation().getDegrees();
                 boolean isNearPositionTarget = lastResult.distanceToTargetPoint < loosePositionThreshold;
                 boolean isNearRotationTarget = rotationDifference < looseRotationThreshold;
-                finished = lastResult.isOnFinalPoint && isNearPositionTarget && isNearRotationTarget;
+                finished = lastResult.isOnFinalLeg && isNearPositionTarget && isNearRotationTarget;
                 break;
             case BeAtPidTarget: // Fall into default
             default:
