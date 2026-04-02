@@ -538,7 +538,7 @@ public class SwerveSimpleTrajectoryLogic {
     }
 
     public boolean recommendIsFinished(Pose2d currentPose, PIDManager positionalPid, HeadingModule headingModule) {
-        double translationDifference = getGoalVector(currentPose).getMagnitude();
+        double translationDifference = lastResult.distanceToTargetPoint;
         double rotationDifference = lastResult.chaseHeading.getDegrees() - currentPose.getRotation().getDegrees();
 
         boolean finished = false;
