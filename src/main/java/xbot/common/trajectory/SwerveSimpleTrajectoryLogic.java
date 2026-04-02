@@ -538,14 +538,13 @@ public class SwerveSimpleTrajectoryLogic {
     }
 
     public boolean recommendIsFinished(Pose2d currentPose, PIDManager positionalPid, HeadingModule headingModule) {
-        // TODO: Figure out what world goalVector is in (Power? Something else?)
-        var goalVector = getGoalVector(currentPose);
+        double translationDifference = getGoalVector(currentPose).getMagnitude();
+        double rotationDifference = lastResult.chaseHeading.getDegrees() - currentPose.getRotation().getDegrees();
 
         boolean finished = false;
         switch (finishMode) {
             case LoosePositionAndRotation:
-                double rotationDifference = lastResult.chaseHeading.getDegrees() - currentPose.getRotation().getDegrees();
-                boolean isNearPositionTarget = lastResult.distanceToTargetPoint < loosePositionThreshold;
+                boolean isNearPositionTarget = translationDifference < loosePositionThreshold;
                 boolean isNearRotationTarget = rotationDifference < looseRotationThreshold;
 
                 // Using isOnFinalLeg here instead of isOnFinalPoint as it's more loose
@@ -558,7 +557,8 @@ public class SwerveSimpleTrajectoryLogic {
         }
 
         if (finished) {
-            log.info(String.format("SwerveLogic recommends Finished, goal is %f away.", goalVector.getMagnitude()));
+            String template = "SwerveLogic recommends Finished, position is %.2f away, rotation is %.1f away.";
+            log.info(String.format(template, translationDifference, rotationDifference));
         }
         return finished;
     }
