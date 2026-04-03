@@ -45,7 +45,7 @@ loadScripts(document, 'script');</script>
 <div>
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested-class-summary">Nested</a>&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
@@ -82,6 +82,21 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<li>
+<section class="nested-class-summary" id="nested-class-summary">
+<h2>Nested Class Summary</h2>
+<div class="caption"><span>Nested Classes</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Class</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>static enum&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="SwerveSimpleTrajectoryLogic.FinishMode.html" class="type-name-link" title="enum class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic.FinishMode</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+</div>
+</section>
+</li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <li>
 <section class="constructor-summary" id="constructor-summary">
@@ -159,6 +174,13 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setEnableSpecialAimTarget(boolean)" class="member-name-link">setEnableSpecialAimTarget</a><wbr>(boolean&nbsp;enableSpecialAimTarget)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFinishModeBeAtPidTarget()" class="member-name-link">setFinishModeBeAtPidTarget</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFinishModeLoosePositionAndRotation(double,double)" class="member-name-link">setFinishModeLoosePositionAndRotation</a><wbr>(double&nbsp;position,
+ double&nbsp;rotation)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setGlobalKinematicValues(xbot.common.subsystems.drive.SwervePointKinematics)" class="member-name-link">setGlobalKinematicValues</a><wbr>(<a href="../subsystems/drive/SwervePointKinematics.html" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a>&nbsp;globalKinematics)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
@@ -183,14 +205,11 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSpecialAimTarget(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">setSpecialAimTarget</a><wbr>(<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/math/geometry/Pose2d.html" title="class or interface in edu.wpi.first.math.geometry" class="external-link">Pose2d</a>&nbsp;specialAimTarget)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStopWhenFinished(boolean)" class="member-name-link">setStopWhenFinished</a><wbr>(boolean&nbsp;newValue)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityMode(xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode)" class="member-name-link">setVelocityMode</a><wbr>(<a href="../subsystems/drive/SwerveSimpleTrajectoryMode.html" title="enum class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryMode</a>&nbsp;mode)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocityMode(xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode)" class="member-name-link">setVelocityMode</a><wbr>(<a href="../subsystems/drive/SwerveSimpleTrajectoryMode.html" title="enum class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryMode</a>&nbsp;mode)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWaypointRouter(xbot.common.trajectory.ProvidesWaypoints)" class="member-name-link">setWaypointRouter</a><wbr>(<a href="ProvidesWaypoints.html" title="interface in xbot.common.trajectory">ProvidesWaypoints</a>&nbsp;waypointRouter)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWaypointRouter(xbot.common.trajectory.ProvidesWaypoints)" class="member-name-link">setWaypointRouter</a><wbr>(<a href="ProvidesWaypoints.html" title="interface in xbot.common.trajectory">ProvidesWaypoints</a>&nbsp;waypointRouter)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -307,9 +326,16 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="setStopWhenFinished(boolean)">
-<h3>setStopWhenFinished</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setStopWhenFinished</span><wbr><span class="parameters">(boolean&nbsp;newValue)</span></div>
+<section class="detail" id="setFinishModeLoosePositionAndRotation(double,double)">
+<h3>setFinishModeLoosePositionAndRotation</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setFinishModeLoosePositionAndRotation</span><wbr><span class="parameters">(double&nbsp;position,
+ double&nbsp;rotation)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="setFinishModeBeAtPidTarget()">
+<h3>setFinishModeBeAtPidTarget</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setFinishModeBeAtPidTarget</span>()</div>
 </section>
 </li>
 <li>
