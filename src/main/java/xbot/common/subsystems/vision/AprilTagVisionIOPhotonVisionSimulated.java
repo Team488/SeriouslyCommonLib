@@ -60,7 +60,7 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
         this.poseSupplier = poseSupplier;
 
         pf.setPrefix("AprilTagVisionIOPhotonVisionSimulated");
-        this.enableFancySim = pf.createPersistentProperty("EnableFancySim_RebootAfterChange", true);
+        this.enableFancySim = pf.createPersistentProperty("EnableFancySim_RebootAfterChange", false);
 
         // Initialize vision sim
         if (visionSim == null) {
