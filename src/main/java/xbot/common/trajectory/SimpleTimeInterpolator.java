@@ -37,7 +37,7 @@ public class SimpleTimeInterpolator {
     RobotAssertionManager assertionManager;
     private boolean usingKinematics;
 
-    public class InterpolationResult {
+    public static class InterpolationResult {
         public Translation2d chasePoint;
         public boolean isOnFinalPoint;
 
@@ -127,7 +127,7 @@ public class SimpleTimeInterpolator {
         accumulatedProductiveSeconds += secondsSinceLastExecute;
 
         // If we somehow have no points to visit, don't do anything.
-        if (keyPoints == null || keyPoints.size() == 0) {
+        if (keyPoints == null || keyPoints.isEmpty()) {
             log.warn("No key points to visit!");
             return new InterpolationResult(currentLocation, true, Rotation2d.fromDegrees(0));
         }
@@ -158,23 +158,37 @@ public class SimpleTimeInterpolator {
 
 
         // If the fraction is above 1, it's time to set a new baseline point and start LERPing on the next point
-        if (lerpFraction >= 1 && index < keyPoints.size()-1) {
-            // What was our target now becomes our baseline.
+        while (index < keyPoints.size() - 1) {
+            double segmentTime = targetKeyPoint.getSecondsForSegment();
+            if (segmentTime <= 0) {
+                log.warn("Cannot have a keypoint with a time of 0 or less! Skipping to next point.");
+                index++;
+                if (index >= keyPoints.size()) {
+                    break;
+                }
+                targetKeyPoint = keyPoints.get(index);
+                if (usingKinematics) {
+                    calculator = newCalculator(targetKeyPoint.getTranslation2d(), targetKeyPoint.getKinematics());
+                }
+                continue;
+            }
+
+            if (accumulatedProductiveSeconds < segmentTime) {
+                break;
+            }
+
+            accumulatedProductiveSeconds -= segmentTime;
             baseline = targetKeyPoint;
-            accumulatedProductiveSeconds = 0;
-            lerpFraction = 0;
-            log.debug("LerpFraction is above one, so advancing to next keypoint");
             index++;
 
-            // And set our new target to the next element of the list
             targetKeyPoint = keyPoints.get(index);
-            log.debug("Baseline is now " + baseline.getTranslation2d()
-                    + " and target is now " + targetKeyPoint.getTranslation2d());
-
+            log.info("Advancing to next keypoint, new baseline is {} and new target is {}", baseline.getTranslation2d(), targetKeyPoint.getTranslation2d());
             if (usingKinematics) {
                 calculator = newCalculator(targetKeyPoint.getTranslation2d(), targetKeyPoint.getKinematics());
             }
         }
+
+        lerpFraction = Math.min(accumulatedProductiveSeconds / targetKeyPoint.getSecondsForSegment(), 1.0);
 
         // Most of the time, the fraction will be less than one.
         // In that case, we want to interpolate between the baseline and the target.
