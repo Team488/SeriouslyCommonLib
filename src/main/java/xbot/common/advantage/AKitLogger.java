@@ -46,6 +46,10 @@ public class AKitLogger {
         this(parent.getPrefix());
     }
 
+    public AKitLogger(Object object) {
+        this(object.getClass().getName() + "/");
+    }
+
     /**
      * Temporarily changes the log level for this logger while running the provided code.
      * This is useful for cases where you want to log something at a different level than the rest of the logger's logs.
