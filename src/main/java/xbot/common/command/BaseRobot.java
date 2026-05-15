@@ -98,7 +98,12 @@ public abstract class BaseRobot extends LoggedRobot {
                 if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
                     Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
                 }
-                Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+
+                if (!DriverStation.isFMSAttached()) {
+                    // Publish data to NetworkTables if we're not on a real field
+                    Logger.addDataReceiver(new NT4Publisher());
+                }
+
                 LoggedPowerDistribution.getInstance(
                         PowerDistribution.kDefaultModule,
                         PowerDistribution.ModuleType.kRev); // Log power distribution data from the configured module
