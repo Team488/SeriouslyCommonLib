@@ -95,8 +95,7 @@ public abstract class BaseRobot extends LoggedRobot {
         initException = null;
         try {
             Logger.recordMetadata("ProjectName", "XbotProject"); // Set a metadata value
-            networkTablesPublishFilter = new NetworkTablesPublishFilter(
-                    NetworkTablesPublishFilter.defaultPersistenceFile());
+            networkTablesPublishFilter = new NetworkTablesPublishFilter();
             if (isReal() || forceWebots) {
                 var logDirectory = new File("/U/logs");
                 if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {

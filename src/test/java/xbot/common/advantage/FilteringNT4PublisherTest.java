@@ -1,15 +1,12 @@
 package xbot.common.advantage;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 import org.littletonrobotics.junction.LogDataReceiver;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.LogTable.LogValue;
+import xbot.common.advantage.NetworkTablesPublishFilter.AllowlistStore;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
@@ -21,19 +18,29 @@ import static org.junit.Assert.assertTrue;
 
 public class FilteringNT4PublisherTest {
 
-    @Rule
-    public TemporaryFolder tempFolder = new TemporaryFolder();
-
     private NetworkTablesPublishFilter filter;
     private CapturingReceiver wrapped;
     private FilteringNT4Publisher publisher;
 
     @Before
-    public void setUp() throws IOException {
-        Path file = tempFolder.newFolder().toPath().resolve("filter.json");
-        filter = new NetworkTablesPublishFilter(file);
+    public void setUp() {
+        filter = new NetworkTablesPublishFilter(new InMemoryStore());
         wrapped = new CapturingReceiver();
         publisher = new FilteringNT4Publisher(filter, wrapped);
+    }
+
+    private static final class InMemoryStore implements AllowlistStore {
+        private String value = "";
+
+        @Override
+        public String load() {
+            return value;
+        }
+
+        @Override
+        public void save(String value) {
+            this.value = value;
+        }
     }
 
     @Test

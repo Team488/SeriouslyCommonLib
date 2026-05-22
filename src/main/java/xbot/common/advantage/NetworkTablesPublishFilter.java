@@ -3,19 +3,11 @@ package xbot.common.advantage;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringArrayPublisher;
-import edu.wpi.first.networktables.StringArraySubscriber;
-import edu.wpi.first.networktables.StringArrayTopic;
+import edu.wpi.first.wpilibj.Preferences;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -27,23 +19,25 @@ import java.util.concurrent.ConcurrentSkipListSet;
  * {@code LogTable}). A small built-in "always-on" set ensures essentials like the timestamp,
  * driver-station data, and system stats keep flowing regardless of user configuration.
  *
- * <p>The rule list is persisted to a JSON file on disk so it survives reboots, and mirrored to
- * NetworkTables under {@code Tuning/AllowedPrefixes} so it can be edited live from a dashboard.
- * A running catalog of every key the system has ever seen is published to {@code Tuning/AvailableKeys}
- * so operators can discover what's available to allowlist.
+ * <p>The rule list is persisted via WPILib's {@code Preferences} system, so it survives reboots
+ * and is mirrored to NetworkTables under {@code /Preferences/Tuning/AllowedPrefixes} where any
+ * dashboard can edit it live. The value is stored as a comma-separated string. A running catalog
+ * of every key seen flows to {@code /Tuning/AvailableKeys} so operators can discover what's
+ * available to allowlist.
  *
- * <p>The class itself is decoupled from NetworkTables for testability — call
- * {@link #connectToNetworkTables()} once NT is ready, then call {@link #periodic()} every loop.
+ * <p>Persistence is decoupled from {@link Preferences} via {@link AllowlistStore} so tests can
+ * exercise the filter without a live NetworkTables instance.
  */
 public class NetworkTablesPublishFilter {
     private static final Logger log = LogManager.getLogger(NetworkTablesPublishFilter.class);
 
+    /** Preferences key used by the default production store. */
+    public static final String PREFERENCES_KEY = "Tuning/AllowedPrefixes";
+
     static final String NT_TABLE = "Tuning";
-    static final String NT_ALLOWED_PREFIXES = "AllowedPrefixes";
     static final String NT_AVAILABLE_KEYS = "AvailableKeys";
 
     static final long CATALOG_PUBLISH_INTERVAL_MS = 1000;
-    static final long FILE_WRITE_DEBOUNCE_MS = 1000;
 
     private static final List<String> ALWAYS_ON_PREFIXES = List.of(
             "/Timestamp",
@@ -53,42 +47,60 @@ public class NetworkTablesPublishFilter {
             "/ReplayMetadata"
     );
 
-    private static final String JSON_KEY_ALLOWED_PREFIXES = "allowedPrefixes";
+    /**
+     * Strategy for loading and saving the comma-separated allowlist string. Wraps either
+     * WPILib {@link Preferences} (production) or a trivial in-memory store (tests).
+     */
+    public interface AllowlistStore {
+        /** @return The persisted comma-separated allowlist, or an empty string if none. */
+        String load();
 
-    private final Path persistenceFile;
+        /** Persist the comma-separated allowlist. */
+        void save(String value);
+    }
 
+    /** Default store that reads and writes WPILib {@link Preferences}. */
+    public static final class PreferencesAllowlistStore implements AllowlistStore {
+        private final String key;
+
+        public PreferencesAllowlistStore() {
+            this(PREFERENCES_KEY);
+        }
+
+        public PreferencesAllowlistStore(String key) {
+            this.key = key;
+        }
+
+        @Override
+        public String load() {
+            return Preferences.containsKey(key) ? Preferences.getString(key, "") : "";
+        }
+
+        @Override
+        public void save(String value) {
+            Preferences.setString(key, value);
+        }
+    }
+
+    private final AllowlistStore store;
     private volatile List<String> allowedPrefixes = List.of();
+    private String lastStoreValue = "";
     private final ConcurrentSkipListSet<String> seenKeys = new ConcurrentSkipListSet<>();
 
-    private StringArrayPublisher allowedPrefixesPublisher;
-    private StringArraySubscriber allowedPrefixesSubscriber;
     private StringArrayPublisher availableKeysPublisher;
 
     private long lastCatalogPublishMs = 0;
     private int lastCatalogSize = -1;
-    private long lastFileWriteMs = 0;
-    private boolean pendingFileWrite = false;
 
-    public NetworkTablesPublishFilter(Path persistenceFile) {
-        this.persistenceFile = persistenceFile;
-        loadFromDisk();
+    /** Production constructor — backs the filter with WPILib {@link Preferences}. */
+    public NetworkTablesPublishFilter() {
+        this(new PreferencesAllowlistStore());
     }
 
-    /**
-     * Picks the appropriate persistence file location based on the runtime environment.
-     * Prefers a USB stick mount, falls back to the roboRIO home directory, and finally
-     * to the working directory (for desktop/sim).
-     */
-    public static Path defaultPersistenceFile() {
-        File usb = new File("/U");
-        if (usb.exists() && usb.isDirectory() && usb.canWrite()) {
-            return new File(usb, "tuning-filter.json").toPath();
-        }
-        File rioHome = new File("/home/lvuser");
-        if (rioHome.exists() && rioHome.isDirectory() && rioHome.canWrite()) {
-            return new File(rioHome, "tuning-filter.json").toPath();
-        }
-        return new File(System.getProperty("user.dir"), "tuning-filter.json").toPath();
+    /** Testable constructor — accepts any {@link AllowlistStore} implementation. */
+    public NetworkTablesPublishFilter(AllowlistStore store) {
+        this.store = store;
+        loadFromStore();
     }
 
     /**
@@ -99,8 +111,8 @@ public class NetworkTablesPublishFilter {
     }
 
     /**
-     * Replace the user-specified allowed prefixes with the given list. Mirrors the new value to
-     * NetworkTables (if connected) and schedules a debounced write to disk.
+     * Replace the user-specified allowed prefixes with the given list. Persists the new value
+     * via the configured {@link AllowlistStore}.
      *
      * <p>Prefixes are normalized to always start with a leading {@code /} so they match the keys
      * produced by AdvantageKit's {@code LogTable.getAll()}.
@@ -111,9 +123,10 @@ public class NetworkTablesPublishFilter {
             return;
         }
         this.allowedPrefixes = normalized;
-        pendingFileWrite = true;
-        if (allowedPrefixesPublisher != null) {
-            allowedPrefixesPublisher.set(normalized.toArray(new String[0]));
+        String serialized = serialize(normalized);
+        if (!serialized.equals(lastStoreValue)) {
+            store.save(serialized);
+            lastStoreValue = serialized;
         }
     }
 
@@ -156,8 +169,8 @@ public class NetworkTablesPublishFilter {
     }
 
     /**
-     * Connects to NetworkTables and starts mirroring the filter state. Must be called once
-     * before {@link #periodic()} will publish or react to NT updates.
+     * Connects to NetworkTables and starts publishing the available-keys catalog. Must be called
+     * once before {@link #periodic()} will publish.
      */
     public synchronized void connectToNetworkTables() {
         connectToNetworkTables(NetworkTableInstance.getDefault());
@@ -165,27 +178,25 @@ public class NetworkTablesPublishFilter {
 
     synchronized void connectToNetworkTables(NetworkTableInstance instance) {
         NetworkTable table = instance.getTable(NT_TABLE);
-        StringArrayTopic prefsTopic = table.getStringArrayTopic(NT_ALLOWED_PREFIXES);
-        allowedPrefixesPublisher = prefsTopic.publish();
-        allowedPrefixesSubscriber = prefsTopic.subscribe(allowedPrefixes.toArray(new String[0]));
         availableKeysPublisher = table.getStringArrayTopic(NT_AVAILABLE_KEYS).publish();
-        allowedPrefixesPublisher.set(allowedPrefixes.toArray(new String[0]));
     }
 
     /**
-     * Call once per robot loop. Polls NetworkTables for filter edits, publishes the
-     * available-keys catalog (debounced), and flushes the rule list to disk (debounced).
+     * Call once per robot loop. Picks up dashboard-driven edits to the allowlist (via the
+     * store) and publishes the available-keys catalog (debounced to roughly 1 Hz).
      */
     public synchronized void periodic() {
         periodic(System.currentTimeMillis());
     }
 
     synchronized void periodic(long nowMs) {
-        if (allowedPrefixesSubscriber != null) {
-            String[] ntValue = allowedPrefixesSubscriber.get();
-            if (ntValue != null
-                    && !Arrays.equals(ntValue, allowedPrefixes.toArray(new String[0]))) {
-                setAllowedPrefixes(Arrays.asList(ntValue));
+        // Pick up dashboard edits to the persisted allowlist.
+        String latest = store.load();
+        if (latest != null && !latest.equals(lastStoreValue)) {
+            lastStoreValue = latest;
+            List<String> parsed = parse(latest);
+            if (!parsed.equals(allowedPrefixes)) {
+                this.allowedPrefixes = parsed;
             }
         }
 
@@ -197,24 +208,33 @@ public class NetworkTablesPublishFilter {
             lastCatalogPublishMs = nowMs;
             lastCatalogSize = snapshot.length;
         }
+    }
 
-        if (pendingFileWrite && nowMs - lastFileWriteMs >= FILE_WRITE_DEBOUNCE_MS) {
-            saveToDisk();
-            pendingFileWrite = false;
-            lastFileWriteMs = nowMs;
+    private void loadFromStore() {
+        String raw = store.load();
+        if (raw == null) {
+            raw = "";
+        }
+        lastStoreValue = raw;
+        List<String> parsed = parse(raw);
+        this.allowedPrefixes = parsed;
+        if (!parsed.isEmpty()) {
+            log.info("Loaded {} allowed NT prefix(es) from store.", parsed.size());
         }
     }
 
-    /**
-     * Forces an immediate write of pending state to disk. Intended for shutdown hooks
-     * and tests.
-     */
-    public synchronized void flushToDisk() {
-        if (pendingFileWrite) {
-            saveToDisk();
-            pendingFileWrite = false;
-            lastFileWriteMs = System.currentTimeMillis();
+    private List<String> parse(String value) {
+        if (value == null || value.isEmpty()) {
+            return List.of();
         }
+        String[] parts = value.split(",");
+        List<String> list = new ArrayList<>(parts.length);
+        Collections.addAll(list, parts);
+        return normalize(list);
+    }
+
+    private String serialize(List<String> prefixes) {
+        return String.join(",", prefixes);
     }
 
     private List<String> normalize(List<String> prefixes) {
@@ -239,47 +259,5 @@ public class NetworkTablesPublishFilter {
         }
         Collections.sort(result);
         return List.copyOf(result);
-    }
-
-    private void loadFromDisk() {
-        if (!Files.exists(persistenceFile)) {
-            log.info("No tuning filter file at {}; starting with empty allowlist.", persistenceFile);
-            return;
-        }
-        try {
-            String content = Files.readString(persistenceFile);
-            JSONObject json = new JSONObject(content);
-            JSONArray arr = json.optJSONArray(JSON_KEY_ALLOWED_PREFIXES);
-            if (arr == null) {
-                log.warn("Tuning filter file at {} did not contain '{}'; starting with empty allowlist.",
-                        persistenceFile, JSON_KEY_ALLOWED_PREFIXES);
-                return;
-            }
-            List<String> loaded = new ArrayList<>(arr.length());
-            for (int i = 0; i < arr.length(); i++) {
-                loaded.add(arr.getString(i));
-            }
-            this.allowedPrefixes = normalize(loaded);
-            log.info("Loaded {} allowed NT prefix(es) from {}.", this.allowedPrefixes.size(), persistenceFile);
-        } catch (IOException e) {
-            log.error("Failed to read tuning filter file at " + persistenceFile, e);
-        } catch (RuntimeException e) {
-            log.error("Failed to parse tuning filter file at " + persistenceFile, e);
-        }
-    }
-
-    private void saveToDisk() {
-        try {
-            JSONObject json = new JSONObject();
-            json.put(JSON_KEY_ALLOWED_PREFIXES, new JSONArray(allowedPrefixes));
-            Path parent = persistenceFile.getParent();
-            if (parent != null && !Files.exists(parent)) {
-                Files.createDirectories(parent);
-            }
-            Files.writeString(persistenceFile, json.toString(2));
-            log.debug("Wrote {} allowed NT prefix(es) to {}.", allowedPrefixes.size(), persistenceFile);
-        } catch (IOException e) {
-            log.error("Failed to write tuning filter file at " + persistenceFile, e);
-        }
     }
 }

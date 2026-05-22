@@ -1,35 +1,44 @@
 package xbot.common.advantage;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import xbot.common.advantage.NetworkTablesPublishFilter.AllowlistStore;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 public class NetworkTablesPublishFilterTest {
 
-    @Rule
-    public TemporaryFolder tempFolder = new TemporaryFolder();
+    /** Trivial in-memory {@link AllowlistStore} for tests. */
+    private static final class InMemoryStore implements AllowlistStore {
+        String value;
 
-    private Path filterFile() throws IOException {
-        return tempFolder.newFolder().toPath().resolve("filter.json");
+        InMemoryStore() {
+            this("");
+        }
+
+        InMemoryStore(String initial) {
+            this.value = initial;
+        }
+
+        @Override
+        public String load() {
+            return value;
+        }
+
+        @Override
+        public void save(String value) {
+            this.value = value;
+        }
     }
 
     @Test
-    public void alwaysOnPrefixesArePublishedWithoutConfiguration() throws IOException {
-        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(filterFile());
+    public void alwaysOnPrefixesArePublishedWithoutConfiguration() {
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(new InMemoryStore());
         assertTrue(filter.shouldPublish("/Timestamp"));
         assertTrue(filter.shouldPublish("/SystemStats/BatteryVoltage"));
         assertTrue(filter.shouldPublish("/DriverStation/Alliance"));
@@ -38,15 +47,15 @@ public class NetworkTablesPublishFilterTest {
     }
 
     @Test
-    public void unconfiguredKeysAreNotPublished() throws IOException {
-        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(filterFile());
+    public void unconfiguredKeysAreNotPublished() {
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(new InMemoryStore());
         assertFalse(filter.shouldPublish("/RealOutputs/DriveSubsystem/MaxSpeed"));
         assertFalse(filter.shouldPublish("/Drive/PID/P"));
     }
 
     @Test
-    public void userPrefixesGateMatchingKeys() throws IOException {
-        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(filterFile());
+    public void userPrefixesGateMatchingKeys() {
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(new InMemoryStore());
         filter.setAllowedPrefixes(List.of("/RealOutputs/DriveSubsystem"));
 
         assertTrue(filter.shouldPublish("/RealOutputs/DriveSubsystem/MaxSpeed"));
@@ -55,8 +64,8 @@ public class NetworkTablesPublishFilterTest {
     }
 
     @Test
-    public void prefixesAreNormalizedWithLeadingSlash() throws IOException {
-        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(filterFile());
+    public void prefixesAreNormalizedWithLeadingSlash() {
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(new InMemoryStore());
         filter.setAllowedPrefixes(List.of("Drive/", "  Shooter/PID  "));
 
         List<String> stored = filter.getAllowedPrefixes();
@@ -66,66 +75,64 @@ public class NetworkTablesPublishFilterTest {
     }
 
     @Test
-    public void emptyAndNullPrefixesAreSkipped() throws IOException {
-        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(filterFile());
+    public void emptyAndNullPrefixesAreSkipped() {
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(new InMemoryStore());
         filter.setAllowedPrefixes(Arrays.asList("Drive/", "", "   ", null, "Shooter/"));
 
         assertEquals(2, filter.getAllowedPrefixes().size());
     }
 
     @Test
-    public void duplicatePrefixesAreCollapsed() throws IOException {
-        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(filterFile());
+    public void duplicatePrefixesAreCollapsed() {
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(new InMemoryStore());
         filter.setAllowedPrefixes(List.of("/Drive/", "Drive/", "/Drive/"));
 
         assertEquals(1, filter.getAllowedPrefixes().size());
     }
 
     @Test
-    public void allowedPrefixesPersistAcrossInstances() throws IOException {
-        Path file = filterFile();
+    public void allowedPrefixesAreWrittenToStore() {
+        InMemoryStore store = new InMemoryStore();
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(store);
+        filter.setAllowedPrefixes(List.of("Drive/", "Shooter/PID"));
 
-        NetworkTablesPublishFilter first = new NetworkTablesPublishFilter(file);
-        first.setAllowedPrefixes(List.of("Drive/", "Shooter/PID"));
-        first.flushToDisk();
+        // Store value is the normalized, comma-separated, sorted list.
+        assertEquals("/Drive/,/Shooter/PID", store.value);
+    }
 
-        NetworkTablesPublishFilter second = new NetworkTablesPublishFilter(file);
-        List<String> reloaded = second.getAllowedPrefixes();
+    @Test
+    public void allowedPrefixesAreReloadedFromStore() {
+        InMemoryStore store = new InMemoryStore("/Drive/,/Shooter/PID");
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(store);
+
+        List<String> reloaded = filter.getAllowedPrefixes();
         assertEquals(2, reloaded.size());
         assertTrue(reloaded.contains("/Drive/"));
         assertTrue(reloaded.contains("/Shooter/PID"));
-        assertTrue(second.shouldPublish("/Drive/Pose"));
+        assertTrue(filter.shouldPublish("/Drive/Pose"));
     }
 
     @Test
-    public void missingPersistenceFileIsHandledGracefully() throws IOException {
-        Path file = tempFolder.newFolder().toPath().resolve("does-not-exist.json");
-        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(file);
-        assertTrue(filter.getAllowedPrefixes().isEmpty());
-    }
-
-    @Test
-    public void malformedPersistenceFileIsHandledGracefully() throws IOException {
-        Path file = filterFile();
-        Files.writeString(file, "{not valid json");
-
-        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(file);
+    public void missingStoreValueIsHandledGracefully() {
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(new InMemoryStore(""));
         assertTrue(filter.getAllowedPrefixes().isEmpty());
         assertTrue(filter.shouldPublish("/Timestamp"));
     }
 
     @Test
-    public void persistenceFileMissingFieldIsHandledGracefully() throws IOException {
-        Path file = filterFile();
-        Files.writeString(file, "{}");
+    public void whitespaceInStoreValueIsTolerated() {
+        InMemoryStore store = new InMemoryStore("  Drive/ ,   Shooter/PID   ");
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(store);
 
-        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(file);
-        assertTrue(filter.getAllowedPrefixes().isEmpty());
+        List<String> loaded = filter.getAllowedPrefixes();
+        assertEquals(2, loaded.size());
+        assertTrue(loaded.contains("/Drive/"));
+        assertTrue(loaded.contains("/Shooter/PID"));
     }
 
     @Test
-    public void recordingSeenKeysTracksUniqueValues() throws IOException {
-        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(filterFile());
+    public void recordingSeenKeysTracksUniqueValues() {
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(new InMemoryStore());
         filter.recordSeenKey("/Foo");
         filter.recordSeenKey("/Bar");
         filter.recordSeenKey("/Foo");
@@ -138,8 +145,8 @@ public class NetworkTablesPublishFilterTest {
     }
 
     @Test
-    public void seenKeysAreReturnedInSortedOrder() throws IOException {
-        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(filterFile());
+    public void seenKeysAreReturnedInSortedOrder() {
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(new InMemoryStore());
         filter.recordSeenKey("/Charlie");
         filter.recordSeenKey("/Alpha");
         filter.recordSeenKey("/Bravo");
@@ -148,56 +155,32 @@ public class NetworkTablesPublishFilterTest {
     }
 
     @Test
-    public void setAllowedPrefixesIsIdempotent() throws IOException {
-        Path file = filterFile();
-        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(file);
+    public void setAllowedPrefixesIsIdempotent() {
+        TrackingStore store = new TrackingStore();
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(store);
         filter.setAllowedPrefixes(List.of("Drive/"));
-        filter.flushToDisk();
-        long firstModified = Files.getLastModifiedTime(file).toMillis();
+        int writesAfterFirst = store.writeCount;
 
-        // Wait long enough to detect mtime change if a write happened.
-        sleepQuietly(50);
-
-        filter.setAllowedPrefixes(List.of("/Drive/"));
-        filter.flushToDisk();
-        long secondModified = Files.getLastModifiedTime(file).toMillis();
-
-        assertEquals("Re-applying the same prefixes should not rewrite the file",
-                firstModified, secondModified);
+        filter.setAllowedPrefixes(List.of("/Drive/")); // Same after normalization.
+        assertEquals("Re-applying the same prefixes should not write the store again",
+                writesAfterFirst, store.writeCount);
     }
 
     @Test
-    public void differingPrefixesScheduleAFileWrite() throws IOException {
-        Path file = filterFile();
-        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(file);
+    public void differingPrefixesWriteToStore() {
+        TrackingStore store = new TrackingStore();
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(store);
         filter.setAllowedPrefixes(List.of("Drive/"));
-        filter.flushToDisk();
-        long firstModified = Files.getLastModifiedTime(file).toMillis();
-
-        sleepQuietly(50);
+        int writesAfterFirst = store.writeCount;
 
         filter.setAllowedPrefixes(List.of("Drive/", "Shooter/"));
-        filter.flushToDisk();
-        long secondModified = Files.getLastModifiedTime(file).toMillis();
-
-        assertNotEquals(firstModified, secondModified);
+        assertTrue("Adding a prefix should write the store again",
+                store.writeCount > writesAfterFirst);
     }
 
     @Test
-    public void saveToDiskProducesReadableJson() throws IOException {
-        Path file = filterFile();
-        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(file);
-        filter.setAllowedPrefixes(List.of("Drive/", "Shooter/PID"));
-        filter.flushToDisk();
-
-        JSONObject json = new JSONObject(Files.readString(file));
-        JSONArray arr = json.getJSONArray("allowedPrefixes");
-        assertEquals(2, arr.length());
-    }
-
-    @Test
-    public void emptyAllowlistOnlyPublishesAlwaysOnKeys() throws IOException {
-        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(filterFile());
+    public void emptyAllowlistOnlyPublishesAlwaysOnKeys() {
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(new InMemoryStore());
         filter.setAllowedPrefixes(Collections.emptyList());
 
         assertTrue(filter.shouldPublish("/Timestamp"));
@@ -205,19 +188,56 @@ public class NetworkTablesPublishFilterTest {
     }
 
     @Test
-    public void prefixesMustMatchStart() throws IOException {
-        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(filterFile());
+    public void prefixesMustMatchStart() {
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(new InMemoryStore());
         filter.setAllowedPrefixes(List.of("/Drive"));
 
         assertTrue(filter.shouldPublish("/Drive/Pose"));
         assertFalse(filter.shouldPublish("/Shooter/Drive"));
     }
 
-    private static void sleepQuietly(long ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+    @Test
+    public void externalStoreEditsArePickedUpByPeriodic() {
+        InMemoryStore store = new InMemoryStore();
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(store);
+        assertFalse(filter.shouldPublish("/Drive/Pose"));
+
+        // Simulate a dashboard writing a new value into the store directly.
+        store.value = "/Drive/";
+        filter.periodic(0);
+
+        assertTrue(filter.shouldPublish("/Drive/Pose"));
+        assertTrue(filter.getAllowedPrefixes().contains("/Drive/"));
+    }
+
+    @Test
+    public void periodicDoesNotReWriteStoreWhenNothingChanged() {
+        TrackingStore store = new TrackingStore();
+        NetworkTablesPublishFilter filter = new NetworkTablesPublishFilter(store);
+        filter.setAllowedPrefixes(List.of("Drive/"));
+        int writesAfterSetup = store.writeCount;
+
+        filter.periodic(0);
+        filter.periodic(1000);
+
+        assertEquals("Periodic should not touch the store when state matches",
+                writesAfterSetup, store.writeCount);
+    }
+
+    /** Store that tracks how many times save() is called. */
+    private static final class TrackingStore implements AllowlistStore {
+        String value = "";
+        int writeCount = 0;
+
+        @Override
+        public String load() {
+            return value;
+        }
+
+        @Override
+        public void save(String value) {
+            this.value = value;
+            writeCount++;
         }
     }
 }
