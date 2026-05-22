@@ -9,7 +9,6 @@ import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedPowerDistribution;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
@@ -21,6 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.advantage.FilteringNT4Publisher;
+import xbot.common.advantage.NetworkTablesPublishFilter;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.DevicePolice;
@@ -42,6 +43,7 @@ public abstract class BaseRobot extends LoggedRobot {
 
     protected XPropertyManager propertyManager;
     protected XScheduler xScheduler;
+    protected NetworkTablesPublishFilter networkTablesPublishFilter;
 
     // Other than initially creating required systems, you should never use the injector again
     private BaseComponent injectorComponent;
@@ -93,12 +95,16 @@ public abstract class BaseRobot extends LoggedRobot {
         initException = null;
         try {
             Logger.recordMetadata("ProjectName", "XbotProject"); // Set a metadata value
+            networkTablesPublishFilter = new NetworkTablesPublishFilter(
+                    NetworkTablesPublishFilter.defaultPersistenceFile());
             if (isReal() || forceWebots) {
                 var logDirectory = new File("/U/logs");
                 if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
                     Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
                 }
-                Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+                // Wrap the NT4 publisher so it only forwards keys allowlisted in the filter.
+                // The on-disk log still receives everything.
+                Logger.addDataReceiver(new FilteringNT4Publisher(networkTablesPublishFilter));
                 LoggedPowerDistribution.getInstance(
                         PowerDistribution.kDefaultModule,
                         PowerDistribution.ModuleType.kRev); // Log power distribution data from the configured module
@@ -110,6 +116,7 @@ public abstract class BaseRobot extends LoggedRobot {
             }
 
             Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
+            networkTablesPublishFilter.connectToNetworkTables();
             DriverStation.silenceJoystickConnectionWarning(true);
 
 
@@ -255,6 +262,9 @@ public abstract class BaseRobot extends LoggedRobot {
         Logger.recordOutput("OutsidePeriodicMs", outsidePeriodicEnd - outsidePeriodicStart);
         // Get a fresh data frame from all top-level components (typically large subsystems or shared sensors)
 
+        if (networkTablesPublishFilter != null) {
+            networkTablesPublishFilter.periodic();
+        }
 
         // Refresh the properties ahead of all other systems, since some may want to immediately
         // use the relevant values.
