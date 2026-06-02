@@ -90,7 +90,7 @@ public class SimpleTimeInterpolator {
         this.assertionManager = assertionManager;
     }
 
-    public void setKeyPoints(List<? extends ProvidesInterpolationData > keyPoints) {
+    public void setKeyPoints(List<? extends ProvidesInterpolationData> keyPoints) {
         this.keyPoints = keyPoints;
     }
 
@@ -126,7 +126,6 @@ public class SimpleTimeInterpolator {
 
         accumulatedProductiveSeconds += secondsSinceLastExecute;
 
-        // If we somehow have no points to visit, don't do anything.
         if (keyPoints == null || keyPoints.isEmpty()) {
             log.warn("No key points to visit!");
             return new InterpolationResult(currentLocation, true, Rotation2d.fromDegrees(0));
@@ -146,18 +145,11 @@ public class SimpleTimeInterpolator {
             );
         }
 
-        // First, assume we are just going to our target. (This is what all trajectories will eventually
-        // settle to - all this interpolation is for intermediate points.)
         Translation2d chasePoint = targetKeyPoint.getTranslation2d();
 
-        // Now, try to find a better point via linear interpolation.
-        // LerpFraction ranges from 0-1, and it is our goal completion progress to chasePoint
-        double lerpFraction = (accumulatedProductiveSeconds) / targetKeyPoint.getSecondsForSegment();
-        aKitLog.record("LerpFraction", lerpFraction);
+        aKitLog.record("LerpFraction", accumulatedProductiveSeconds / targetKeyPoint.getSecondsForSegment());
         aKitLog.record("accumulatedProductiveSeconds", accumulatedProductiveSeconds);
 
-
-        // If the fraction is above 1, it's time to set a new baseline point and start LERPing on the next point
         while (index < keyPoints.size() - 1) {
             double segmentTime = targetKeyPoint.getSecondsForSegment();
             if (segmentTime <= 0) {
@@ -182,39 +174,34 @@ public class SimpleTimeInterpolator {
             index++;
 
             targetKeyPoint = keyPoints.get(index);
-            log.info("Advancing to next keypoint, new baseline is {} and new target is {}", baseline.getTranslation2d(), targetKeyPoint.getTranslation2d());
+            log.debug("Advancing to next keypoint, new baseline is {} and new target is {}", baseline.getTranslation2d(), targetKeyPoint.getTranslation2d());
             if (usingKinematics) {
                 calculator = newCalculator(targetKeyPoint.getTranslation2d(), targetKeyPoint.getKinematics());
             }
         }
 
-        lerpFraction = Math.min(accumulatedProductiveSeconds / targetKeyPoint.getSecondsForSegment(), 1.0);
+        double lerpFraction = Math.max(0, Math.min(accumulatedProductiveSeconds / targetKeyPoint.getSecondsForSegment(), 1.0));
 
-        // Most of the time, the fraction will be less than one.
-        // In that case, we want to interpolate between the baseline and the target.
         if (lerpFraction < 1) {
             if (usingKinematics) {
-                // This will be a curve as the calculator will do some fancy stuff with acceleration and velocity
                 Distance expectedMagnitudeTravelled = calculator.getDistanceTravelledAtCompletionPercentage(lerpFraction);
                 double multiplier = expectedMagnitudeTravelled.div(calculator.getTotalOperationDistance()).in(Value);
                 chasePoint = baseline.getTranslation2d().interpolate(
                         targetKeyPoint.getTranslation2d(), multiplier);
             } else {
-                // This will be a linear interpolation
                 chasePoint = baseline.getTranslation2d().interpolate(
                         targetKeyPoint.getTranslation2d(), lerpFraction);
             }
         }
 
-        // Now, if that chase point is "too far ahead", we need to freeze the chasePoint to allow the robot to catch up!
-        // Ideally, this should NEVER happen unless there are outside interference, and we will rely on PID to push us near
-        // the chase point again and everything will continue like normal. This effectively "rewinds time" for the next loop.
+        // If the chase point is too far ahead, freeze it so the robot can catch up.
+        // This "rewinds time" so the next loop recalculates from an earlier point on the trajectory.
         if (currentLocation.getDistance(chasePoint) > maximumDistanceFromChasePointInMeters) {
             accumulatedProductiveSeconds -= secondsSinceLastExecute;
+            lerpFraction = Math.max(0, Math.min(accumulatedProductiveSeconds
+                    / targetKeyPoint.getSecondsForSegment(), 1.0));
         }
 
-        // The plannedVector is our speed at the current time, IRL and in simulation, this may be behind
-        // due to friction, but that's what PID is for.
         var plannedVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d());
 
         if (usingKinematics) {
@@ -222,7 +209,9 @@ public class SimpleTimeInterpolator {
             LinearVelocity velocityScalar = calculator.getVelocityAtDistanceTravelled(expectedMagnitudeTravelled);
 
             // We have a velocity, so we now only need to scale our plannedVector to that
-            plannedVector = plannedVector.times(velocityScalar.in(MetersPerSecond) / plannedVector.getNorm());
+            if (plannedVector.getNorm() > 0) {
+                plannedVector = plannedVector.times(velocityScalar.in(MetersPerSecond) / plannedVector.getNorm());
+            }
         } else {
             plannedVector = plannedVector.div(targetKeyPoint.getSecondsForSegment());
         }
