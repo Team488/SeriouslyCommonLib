@@ -9,7 +9,6 @@ import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedPowerDistribution;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
@@ -21,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.advantage.PropertySkippingNT4Publisher;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.DevicePolice;
@@ -98,10 +98,15 @@ public abstract class BaseRobot extends LoggedRobot {
                 if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
                     Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
                 }
+                
 
                 if (!DriverStation.isFMSAttached()) {
                     // Publish data to NetworkTables if we're not on a real field
-                    Logger.addDataReceiver(new NT4Publisher());
+
+                    // Publish data to NetworkTables, but skip the AKit-side mirror of Property
+                    // values (they're in the on-disk WPILOG for replay, and the editable surface
+                    // for dashboards lives at /Preferences/... via WPILib Preferences, untouched).
+                    Logger.addDataReceiver(new PropertySkippingNT4Publisher());
                 }
 
                 LoggedPowerDistribution.getInstance(
