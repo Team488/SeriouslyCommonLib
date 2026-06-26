@@ -27,7 +27,7 @@ public abstract class Property implements DataFrameRefreshable {
     public final String suffix;
 
     public final PropertyLevel level;
-    protected final ITableProxy activeStore;
+    protected ITableProxy activeStore;
     
     /** 
      * Enum to determine property persistence
@@ -74,6 +74,17 @@ public abstract class Property implements DataFrameRefreshable {
 
     public PropertyLevel getLevel() {
         return level;
+    }
+
+    /**
+     * Updates the backing store for debug-level properties. Called by XPropertyManager
+     * when the global "show all debug properties" flag changes.
+     * @param newStore The new store to use.
+     */
+    void updateActiveStore(ITableProxy newStore) {
+        if (this.level == PropertyLevel.Debug) {
+            this.activeStore = newStore;
+        }
     }
 
     /**

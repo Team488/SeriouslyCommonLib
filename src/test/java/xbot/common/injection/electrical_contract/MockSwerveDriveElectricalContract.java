@@ -1,6 +1,7 @@
 package xbot.common.injection.electrical_contract;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.units.measure.Distance;
 import xbot.common.injection.swerve.SwerveInstance;
 
 import javax.inject.Inject;
@@ -159,5 +160,10 @@ public class MockSwerveDriveElectricalContract implements XSwerveDriveElectrical
     @Override
     public double getSteeringGearRatio() {
         return 1;
+    }
+
+    @Override
+    public Distance getRadiusOfRobot() {
+        return Inches.of(18);
     }
 }

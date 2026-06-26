@@ -14,6 +14,7 @@ import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import dagger.assisted.Assisted;
@@ -39,12 +40,11 @@ import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.injection.electrical_contract.TalonFxMotorControllerOutputConfig;
 import xbot.common.logging.AlertGroups;
+import xbot.common.properties.PowerDistributionProperties;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
 import java.util.function.Supplier;
-
-import static edu.wpi.first.units.Units.Amps;
 
 public class CANTalonFxWpiAdapter extends XCANMotorController {
 
@@ -79,9 +79,10 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
             DevicePolice police,
             @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
             @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties,
-            DataFrameRegistry dataFrameRegistry
+            DataFrameRegistry dataFrameRegistry,
+            PowerDistributionProperties pdProperties
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, dataFrameRegistry);
+        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
         this.internalTalonFx = new TalonFX(info.deviceId(), info.busId().toPhoenixCANBus());
 
         this.rotorPositionSignal = this.internalTalonFx.getRotorPosition(false);
@@ -157,6 +158,15 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
                     .withSupplyCurrentLowerLimit(talonFxOutputConfig.supplyCurrentLimit)
                     .withSupplyCurrentLimit(talonFxOutputConfig.burstSupplyCurrentLimit)
                     .withSupplyCurrentLowerTime(talonFxOutputConfig.supplyCurrentBurstDuration);
+
+            if (talonFxOutputConfig.feedbackCanCoderDeviceId != -1) {
+                this.talonConfiguration.Feedback
+                        .withFeedbackSensorSource(FeedbackSensorSourceValue.RemoteCANcoder)
+                        .withFeedbackRemoteSensorID(talonFxOutputConfig.feedbackCanCoderDeviceId);
+            } else {
+                this.talonConfiguration.Feedback
+                        .withFeedbackSensorSource(FeedbackSensorSourceValue.RotorSensor);
+            }
         }
 
         if (!invokeWithRetry(() -> this.internalTalonFx.getConfigurator().apply(talonConfiguration), 5)) {
@@ -165,30 +175,33 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot) {
+    public void setPidDirectly(XCANMotorControllerPIDProperties pidProperties, int slot) {
         if (configCacheFailedAlert.get()) {
             cacheConfiguration();
         }
 
         switch (slot) {
             case 0 -> talonConfiguration.Slot0
-                    .withKP(p)
-                    .withKI(i)
-                    .withKD(d)
-                    .withKV(velocityFF)
-                    .withKG(gravityFF);
+                    .withKP(pidProperties.p())
+                    .withKI(pidProperties.i())
+                    .withKD(pidProperties.d())
+                    .withKS(pidProperties.staticFeedForward())
+                    .withKV(pidProperties.velocityFeedForward())
+                    .withKG(pidProperties.gravityFeedForward());
             case 1 -> talonConfiguration.Slot1
-                    .withKP(p)
-                    .withKI(i)
-                    .withKD(d)
-                    .withKV(velocityFF)
-                    .withKG(gravityFF);
+                    .withKP(pidProperties.p())
+                    .withKI(pidProperties.i())
+                    .withKD(pidProperties.d())
+                    .withKS(pidProperties.staticFeedForward())
+                    .withKV(pidProperties.velocityFeedForward())
+                    .withKG(pidProperties.gravityFeedForward());
             case 2 -> talonConfiguration.Slot2
-                    .withKP(p)
-                    .withKI(i)
-                    .withKD(d)
-                    .withKV(velocityFF)
-                    .withKG(gravityFF);
+                    .withKP(pidProperties.p())
+                    .withKI(pidProperties.i())
+                    .withKD(pidProperties.d())
+                    .withKS(pidProperties.staticFeedForward())
+                    .withKV(pidProperties.velocityFeedForward())
+                    .withKG(pidProperties.gravityFeedForward());
             default -> {
                 log.error("Invalid PID slot {} for TalonFX {} ({})", slot, deviceId, akitName);
                 return;
@@ -318,6 +331,29 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
             case TrapezoidalVoltage -> controlRequest = new MotionMagicVelocityVoltage(rawVelocity).withSlot(slot);
             default -> {
                 controlRequest = new VelocityDutyCycle(rawVelocity).withSlot(slot);
+                this.unsupportedPIDModeAlert.set(true);
+            }
+        }
+        invokeWithRetry(() -> this.internalTalonFx.setControl(controlRequest), 1);
+    }
+
+    @Override
+    public void setRawVelocityTargetWithFeedForward(AngularVelocity rawVelocity, MotorPidMode mode, double feedForward, int slot) {
+        ControlRequest controlRequest;
+        switch (mode) {
+            case DutyCycle -> controlRequest = new VelocityDutyCycle(rawVelocity)
+                    .withSlot(slot)
+                    .withFeedForward(feedForward);
+            case Voltage -> controlRequest = new VelocityVoltage(rawVelocity)
+                    .withSlot(slot)
+                    .withFeedForward(feedForward);
+            case TrapezoidalVoltage -> controlRequest = new MotionMagicVelocityVoltage(rawVelocity)
+                    .withSlot(slot)
+                    .withFeedForward(feedForward);
+            default -> {
+                controlRequest = new VelocityDutyCycle(rawVelocity)
+                        .withSlot(slot)
+                        .withFeedForward(feedForward);
                 this.unsupportedPIDModeAlert.set(true);
             }
         }

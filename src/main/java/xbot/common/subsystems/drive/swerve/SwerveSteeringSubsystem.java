@@ -72,7 +72,11 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
                     electricalContract.getSteeringMotor(swerveInstance),
                     SwerveSteeringSubsystem.class.getSimpleName(),
                     "SteeringPID",
-                    new XCANMotorControllerPIDProperties(3, 0, 0, 0, 0, 1, -1));
+                    new XCANMotorControllerPIDProperties.Builder()
+                            .withP(3.0)
+                            .withMinPowerOutput(-1.0)
+                            .withMaxPowerOutput(1.0)
+                            .build());
             this.motorController.setPowerRange(-1, 1);
         }
         if (electricalContract.areCanCodersReady()) {
@@ -213,29 +217,26 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
             var motorController = getMotorController().get();
             Angle target = Degrees.of(getTargetValue());
 
-            // Since there are four modules, any values here will be very noisy. Setting data
-            // logging to DEBUG.
-            aKitLog.setLogLevel(AKitLogger.LogLevel.DEBUG);
-            aKitLog.record("TargetDegrees", target.in(Degrees));
-
             // We can rely on either encoder for the starting position, to get the change in angle. Using the CANCoder
             // position to calculate this will help us to avoid any drift on the motor encoder. Then we just set our
             // target based on the motor encoder's current position. Unless the wheels are moving rapidly, the measurements
             // on each encoder are probably taken close enough together in time for our purposes.
             Angle currentPosition = getBestEncoderPosition();
             Angle angleBetweenDesiredAndCurrent = Degrees.of(MathUtil.inputModulus(target.minus(currentPosition).in(Degrees), -180, 180));
-            aKitLog.record("angleBetweenDesiredAndCurrent-Degrees", angleBetweenDesiredAndCurrent.in(Degrees));
-            aKitLog.record("MotorControllerPosition-Rotations", motorController.getPosition().in(Rotations));
 
             Angle targetPosition = motorController.getPosition().plus(
                     Rotations.of(angleBetweenDesiredAndCurrent.in(Degrees) / degreesPerMotorRotation.get())
             );
 
-            aKitLog.record("TargetPosition-Rotations", targetPosition.in(Rotations));
             motorController.setPositionTarget(targetPosition, XCANMotorController.MotorPidMode.Voltage, 0);
 
-            // restore typical log level
-            aKitLog.setLogLevel(AKitLogger.LogLevel.INFO);
+            // Since there are four modules, any values here will be very noisy.
+            aKitLog.withLogLevel(AKitLogger.LogLevel.DEBUG, () -> {
+                aKitLog.record("TargetDegrees", target.in(Degrees));
+                aKitLog.record("angleBetweenDesiredAndCurrent-Degrees", angleBetweenDesiredAndCurrent.in(Degrees));
+                aKitLog.record("MotorControllerPosition-Rotations", motorController.getPosition().in(Rotations));
+                aKitLog.record("TargetPosition-Rotations", targetPosition.in(Rotations));
+            });
         }
     }
 

@@ -24,6 +24,7 @@ import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.logging.RobotAssertionManager;
+import xbot.common.properties.PowerDistributionProperties;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
@@ -59,9 +60,10 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
             RobotAssertionManager assertionManager,
             @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
             @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties,
-            DataFrameRegistry dataFrameRegistry
+            DataFrameRegistry dataFrameRegistry,
+            PowerDistributionProperties pdProperties
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, dataFrameRegistry);
+        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
         this.internalVictor = new VictorSPX(info.deviceId());
         this.assertionManager = assertionManager;
 
@@ -79,8 +81,8 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot) {
-
+    public void setPidDirectly(XCANMotorControllerPIDProperties pidProperties, int slot) {
+        log.warn("VictorSPX does not support PID control, ignoring PID configuration");
     }
 
     @Override
@@ -141,6 +143,11 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
 
     @Override
     public void setRawVelocityTarget(AngularVelocity rawVelocity, MotorPidMode mode, int slot) {
+        // Do nothing, not relevant
+    }
+
+    @Override
+    public void setRawVelocityTargetWithFeedForward(AngularVelocity rawVelocity, MotorPidMode mode, double feedForward, int slot) {
         // Do nothing, not relevant
     }
 

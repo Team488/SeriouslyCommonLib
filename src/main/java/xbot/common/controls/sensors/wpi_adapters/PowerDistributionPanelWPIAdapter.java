@@ -3,12 +3,12 @@ package xbot.common.controls.sensors.wpi_adapters;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import edu.wpi.first.wpilibj.PowerDistribution;
+import org.littletonrobotics.conduit.ConduitApi;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 
 public class PowerDistributionPanelWPIAdapter extends XPowerDistributionPanel {
 
-    private PowerDistribution pdp;
+    private final ConduitApi conduit;
 
     @AssistedFactory
     public abstract static class PowerDistributionPanelWPIAdapaterFactory implements XPowerDistributionPanelFactory {
@@ -18,41 +18,42 @@ public class PowerDistributionPanelWPIAdapter extends XPowerDistributionPanel {
 
     @AssistedInject
     public PowerDistributionPanelWPIAdapter() {
-        pdp = new PowerDistribution();
+        // We need to use ConduitApi to get PDP settings to avoid conflicts with AdvantageKit
+        conduit = ConduitApi.getInstance();
     }
 
     @Override
     public double getCurrent(int channel) {
-        return pdp.getCurrent(channel);
+        return conduit.getPDPChannelCurrent(channel);
     }
 
     @Override
     public double getVoltage() {
-        return pdp.getVoltage();
+        return conduit.getPDPVoltage();
     }
 
     @Override
     public double getTemperature() {
-        return pdp.getTemperature();
+        return conduit.getPDPTemperature();
     }
 
     @Override
     public double getTotalCurrent() {
-        return pdp.getTotalCurrent();
+        return conduit.getPDPTotalCurrent();
     }
 
     @Override
     public double getTotalPower() {
-        return pdp.getTotalPower();
+        return conduit.getPDPTotalPower();
     }
 
     @Override
     public double getTotalEnergy() {
-        return pdp.getTotalEnergy();
+        return conduit.getPDPTotalEnergy();
     }
 
     @Override
     public double getModule() {
-        return pdp.getModule();
+        return conduit.getPDPModuleId();
     }
 }

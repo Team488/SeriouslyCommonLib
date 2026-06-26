@@ -15,6 +15,7 @@ import xbot.common.injection.modules.UnitTestModule;
 import xbot.common.injection.modules.UnitTestRobotModule;
 import xbot.common.injection.swerve.SwerveComponentHolder;
 import xbot.common.subsystems.drive.BaseSwerveDriveSubsystem;
+import xbot.common.subsystems.drive.swerve.SwerveDriveRotationAdvisor;
 import xbot.common.subsystems.pose.GameField;
 import xbot.common.subsystems.pose.commands.ResetDistanceCommand;
 import xbot.common.subsystems.pose.commands.SetRobotHeadingCommand;
@@ -43,6 +44,8 @@ public abstract class CommonLibTestComponent extends PurePursuitTestComponent {
     public abstract BaseSwerveDriveSubsystem getSwerveDriveSubsystem();
 
     public abstract AprilTagVisionSubsystem getAprilTagVisionSubsystem();
+
+    public abstract SwerveDriveRotationAdvisor.Factory swerveDriveRotationAdvisorFactory();
 
     public abstract GameField getGameField();
 }

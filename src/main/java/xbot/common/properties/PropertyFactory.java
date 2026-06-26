@@ -2,6 +2,8 @@ package xbot.common.properties;
 
 import javax.inject.Inject;
 
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Time;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,7 +11,6 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.Property.PropertyLevel;
-import xbot.common.properties.Property.PropertyPersistenceType;
 
 /**
  * A factory for creating properties. This is the preferred way to create properties.
@@ -211,4 +212,47 @@ public class PropertyFactory {
         return new AngleProperty(getCleanPrefix(), suffix, defaultValue, this.propertyManager, level);
     }
 
+    /**
+     * Creates a persistent property for an angular velocity.
+     * @param suffix The suffix for the property.
+     * @param defaultValue The default value for the property.
+     * @return The property.
+     */
+    public AngularVelocityProperty createPersistentProperty(String suffix, AngularVelocity defaultValue) {
+        return this.createPersistentProperty(suffix, defaultValue, defaultLevel);
+    }
+
+    /**
+     * Creates a persistent property for an angle velocity with a specified property level.
+     * @param suffix The suffix for the property.
+     * @param defaultValue The default value for the property.
+     * @param level The property level.
+     * @return The property.
+     */
+    public AngularVelocityProperty createPersistentProperty(String suffix, AngularVelocity defaultValue, PropertyLevel level) {
+        checkPrefixSet();
+        return new AngularVelocityProperty(getCleanPrefix(), suffix, defaultValue, this.propertyManager, level);
+    }
+
+    /**
+     * Creates a persistent property for an angle.
+     * @param suffix The suffix for the property.
+     * @param defaultValue The default value for the property.
+     * @return The property.
+     */
+    public TimeProperty createPersistentProperty(String suffix, Time defaultValue) {
+        return this.createPersistentProperty(suffix, defaultValue, defaultLevel);
+    }
+
+    /**
+     * Creates a persistent property for an angle with a specified property level.
+     * @param suffix The suffix for the property.
+     * @param defaultValue The default value for the property.
+     * @param level The property level.
+     * @return The property.
+     */
+    public TimeProperty createPersistentProperty(String suffix, Time defaultValue, PropertyLevel level) {
+        checkPrefixSet();
+        return new TimeProperty(getCleanPrefix(), suffix, defaultValue, this.propertyManager, level);
+    }
 }

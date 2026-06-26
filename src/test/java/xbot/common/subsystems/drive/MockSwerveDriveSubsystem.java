@@ -33,6 +33,9 @@ public class MockSwerveDriveSubsystem extends BaseSwerveDriveSubsystem {
     }
 
     @Override
+    public boolean getLookAtPointInverted() { return false; }
+
+    @Override
     public Rotation2d getStaticHeadingTarget() {
         return null;
     }

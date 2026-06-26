@@ -23,6 +23,7 @@ import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
+import xbot.common.properties.PowerDistributionProperties;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
@@ -54,6 +55,7 @@ public class MockCANMotorController extends XCANMotorController {
     public double p;
     public double i;
     public double d;
+    public double s;
     public double f;
     public double g;
     public double maxPower;
@@ -76,9 +78,10 @@ public class MockCANMotorController extends XCANMotorController {
             DevicePolice police,
             @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
             @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties,
-            DataFrameRegistry dataFrameRegistry
+            DataFrameRegistry dataFrameRegistry,
+            PowerDistributionProperties pdProperties
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, dataFrameRegistry);
+        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
     }
 
     @Override
@@ -112,12 +115,13 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     @Override
-    public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot) {
-        this.p = p;
-        this.i = i;
-        this.d = d;
-        this.f = velocityFF;
-        this.g = gravityFF;
+    public void setPidDirectly(XCANMotorControllerPIDProperties pidProperties, int slot) {
+        this.p = pidProperties.p();
+        this.i = pidProperties.i();
+        this.d = pidProperties.d();
+        this.s = pidProperties.staticFeedForward();
+        this.f = pidProperties.velocityFeedForward();
+        this.g = pidProperties.gravityFeedForward();
     }
 
     @Override
@@ -194,6 +198,11 @@ public class MockCANMotorController extends XCANMotorController {
     public void setRawVelocityTarget(AngularVelocity rawVelocity, MotorPidMode mode, int slot) {
         controlMode = ControlMode.Velocity;
         this.targetVelocity.mut_replace(rawVelocity);
+    }
+
+    @Override
+    public void setRawVelocityTargetWithFeedForward(AngularVelocity rawVelocity, MotorPidMode mode, double feedForward, int slot) {
+        setRawVelocityTarget(rawVelocity, mode, slot);
     }
 
     public AngularVelocity getRawTargetVelocity() {
