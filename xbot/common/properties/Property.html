@@ -128,23 +128,28 @@ implements <a href="../advantage/DataFrameRefreshable.html" title="interface in 
 <div class="col-first even-row-color"><code>protected <a href="ITableProxy.html" title="interface in xbot.common.properties">ITableProxy</a></code></div>
 <div class="col-second even-row-color"><code><a href="#activeStore" class="member-name-link">activeStore</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#key" class="member-name-link">key</a></code></div>
+<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#AKIT_LOG_NAMESPACE" class="member-name-link">AKIT_LOG_NAMESPACE</a></code></div>
 <div class="col-last odd-row-color">
+<div class="block">Namespace used for the AdvantageKit log subtable that Property values flow through.</div>
+</div>
+<div class="col-first even-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#key" class="member-name-link">key</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">The key for the property.</div>
 </div>
-<div class="col-first even-row-color"><code>final <a href="Property.PropertyLevel.html" title="enum class in xbot.common.properties">Property.PropertyLevel</a></code></div>
-<div class="col-second even-row-color"><code><a href="#level" class="member-name-link">level</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected org.apache.logging.log4j.Logger</code></div>
-<div class="col-second odd-row-color"><code><a href="#log" class="member-name-link">log</a></code></div>
+<div class="col-first odd-row-color"><code>final <a href="Property.PropertyLevel.html" title="enum class in xbot.common.properties">Property.PropertyLevel</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#level" class="member-name-link">level</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#prefix" class="member-name-link">prefix</a></code></div>
+<div class="col-first even-row-color"><code>protected org.apache.logging.log4j.Logger</code></div>
+<div class="col-second even-row-color"><code><a href="#log" class="member-name-link">log</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#suffix" class="member-name-link">suffix</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#prefix" class="member-name-link">prefix</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#suffix" class="member-name-link">suffix</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -183,12 +188,15 @@ implements <a href="../advantage/DataFrameRefreshable.html" title="interface in 
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Property.PropertyLevel.html" title="enum class in xbot.common.properties">Property.PropertyLevel</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLevel()" class="member-name-link">getLevel</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#akitLogPrefix()" class="member-name-link">akitLogPrefix</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#isSetToDefault()" class="member-name-link">isSetToDefault</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Property.PropertyLevel.html" title="enum class in xbot.common.properties">Property.PropertyLevel</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLevel()" class="member-name-link">getLevel</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#isSetToDefault()" class="member-name-link">isSetToDefault</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Checks if the property's current value matches the default.</div>
 </div>
 </div>
@@ -211,6 +219,32 @@ implements <a href="../advantage/DataFrameRefreshable.html" title="interface in 
 <section class="field-details" id="field-detail">
 <h2>Field Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="AKIT_LOG_NAMESPACE">
+<h3>AKIT_LOG_NAMESPACE</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">AKIT_LOG_NAMESPACE</span></div>
+<div class="block">Namespace used for the AdvantageKit log subtable that Property values flow through.
+ <p>
+ Every Property records its current value as a <code>LoggableInputs</code> via
+ <code>Logger.processInputs(akitLogPrefix(), inputs)</code> so replay sees the value the robot
+ actually used. The AKit-side mirror is then forwarded to NetworkTables by default â€” which
+ is redundant, because dashboards already see the value via WPILib's <code>/Preferences/...</code>
+ surface. Routing the Property log entries through this dedicated subtable lets the NT
+ publisher drop them by prefix without touching the on-disk log receiver (which still gets
+ everything, keeping replay correct).
+ <p>
+ The name <code>PropertyMirror</code> (rather than just <code>Properties</code>) avoids confusion with
+ the WPILib <code>Preferences</code> table that lives at <code>/Preferences/...</code> in NetworkTables.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../constant-values.html#xbot.common.properties.Property.AKIT_LOG_NAMESPACE">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
 <li>
 <section class="detail" id="key">
 <h3>key</h3>
@@ -304,6 +338,20 @@ implements <a href="../advantage/DataFrameRefreshable.html" title="interface in 
 <section class="detail" id="getLevel()">
 <h3>getLevel</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Property.PropertyLevel.html" title="enum class in xbot.common.properties">Property.PropertyLevel</a></span>&nbsp;<span class="element-name">getLevel</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="akitLogPrefix()">
+<h3>akitLogPrefix</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">akitLogPrefix</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The full prefix this Property uses when calling
+     <code>Logger.processInputs(...)</code>. Subclasses should pass this to
+     <code>Logger.processInputs</code> so their LogTable entries land under the
+     <a href="#AKIT_LOG_NAMESPACE"><code>Properties/</code></a> subtable rather than mixing in with
+     subsystem telemetry.</dd>
+</dl>
 </section>
 </li>
 <li>

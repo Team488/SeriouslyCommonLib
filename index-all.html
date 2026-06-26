@@ -180,6 +180,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Advance the timer</div>
 </dd>
+<dt><a href="xbot/common/properties/Property.html#AKIT_LOG_NAMESPACE" class="member-name-link">AKIT_LOG_NAMESPACE</a> - Static variable in class xbot.common.properties.<a href="xbot/common/properties/Property.html" title="class in xbot.common.properties">Property</a></dt>
+<dd>
+<div class="block">Namespace used for the AdvantageKit log subtable that Property values flow through.</div>
+</dd>
 <dt><a href="xbot/common/command/BaseCommand.html#aKitLog" class="member-name-link">aKitLog</a> - Variable in class xbot.common.command.<a href="xbot/common/command/BaseCommand.html" title="class in xbot.common.command">BaseCommand</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/BaseSubsystem.html#aKitLog" class="member-name-link">aKitLog</a> - Variable in class xbot.common.command.<a href="xbot/common/command/BaseSubsystem.html" title="class in xbot.common.command">BaseSubsystem</a></dt>
@@ -193,6 +197,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/advantage/AKitLogger.html#%3Cinit%3E(xbot.common.properties.IPropertySupport)" class="member-name-link">AKitLogger(IPropertySupport)</a> - Constructor for class xbot.common.advantage.<a href="xbot/common/advantage/AKitLogger.html" title="class in xbot.common.advantage">AKitLogger</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/advantage/AKitLogger.LogLevel.html" class="type-name-link" title="enum class in xbot.common.advantage">AKitLogger.LogLevel</a> - Enum Class in <a href="xbot/common/advantage/package-summary.html">xbot.common.advantage</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/properties/Property.html#akitLogPrefix()" class="member-name-link">akitLogPrefix()</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/Property.html" title="class in xbot.common.properties">Property</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorController.html#akitName" class="member-name-link">akitName</a> - Variable in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorController.html" title="class in xbot.common.controls.actuators">XCANMotorController</a></dt>
 <dd>&nbsp;</dd>
@@ -1889,6 +1895,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/EncoderWPIAdapter.EncoderWPIAdapterFactory.html" class="type-name-link" title="class in xbot.common.controls.sensors.wpi_adapters">EncoderWPIAdapter.EncoderWPIAdapterFactory</a> - Class in <a href="xbot/common/controls/sensors/wpi_adapters/package-summary.html">xbot.common.controls.sensors.wpi_adapters</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/wpi_adapters/EncoderWPIAdapter.EncoderWPIAdapterFactory.html#%3Cinit%3E()" class="member-name-link">EncoderWPIAdapterFactory()</a> - Constructor for class xbot.common.controls.sensors.wpi_adapters.<a href="xbot/common/controls/sensors/wpi_adapters/EncoderWPIAdapter.EncoderWPIAdapterFactory.html" title="class in xbot.common.controls.sensors.wpi_adapters">EncoderWPIAdapter.EncoderWPIAdapterFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/advantage/PropertySkippingNT4Publisher.html#end()" class="member-name-link">end()</a> - Method in class xbot.common.advantage.<a href="xbot/common/advantage/PropertySkippingNT4Publisher.html" title="class in xbot.common.advantage">PropertySkippingNT4Publisher</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/BaseCommand.html#end(boolean)" class="member-name-link">end(boolean)</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseCommand.html" title="class in xbot.common.command">BaseCommand</a></dt>
 <dd>&nbsp;</dd>
@@ -5618,6 +5626,13 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/components/BaseComponent.html#propertyManager()" class="member-name-link">propertyManager()</a> - Method in class xbot.common.injection.components.<a href="xbot/common/injection/components/BaseComponent.html" title="class in xbot.common.injection.components">BaseComponent</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/advantage/PropertySkippingNT4Publisher.html" class="type-name-link" title="class in xbot.common.advantage">PropertySkippingNT4Publisher</a> - Class in <a href="xbot/common/advantage/package-summary.html">xbot.common.advantage</a></dt>
+<dd>
+<div class="block">A <code>LogDataReceiver</code> that wraps <code>NT4Publisher</code> and skips any LogTable entry
+ under the <a href="xbot/common/properties/Property.html#AKIT_LOG_NAMESPACE"><code>Property.AKIT_LOG_NAMESPACE</code></a> subtable (currently <code>PropertyMirror/</code>).</div>
+</dd>
+<dt><a href="xbot/common/advantage/PropertySkippingNT4Publisher.html#%3Cinit%3E()" class="member-name-link">PropertySkippingNT4Publisher()</a> - Constructor for class xbot.common.advantage.<a href="xbot/common/advantage/PropertySkippingNT4Publisher.html" title="class in xbot.common.advantage">PropertySkippingNT4Publisher</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/ProvidesInterpolationData.html" class="type-name-link" title="interface in xbot.common.trajectory">ProvidesInterpolationData</a> - Interface in <a href="xbot/common/trajectory/package-summary.html">xbot.common.trajectory</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/ProvidesWaypoints.html" class="type-name-link" title="interface in xbot.common.trajectory">ProvidesWaypoints</a> - Interface in <a href="xbot/common/trajectory/package-summary.html">xbot.common.trajectory</a></dt>
@@ -5647,6 +5662,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/injection/components/PurePursuitTestComponent.html#%3Cinit%3E()" class="member-name-link">PurePursuitTestComponent()</a> - Constructor for class xbot.common.injection.components.<a href="xbot/common/injection/components/PurePursuitTestComponent.html" title="class in xbot.common.injection.components">PurePursuitTestComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PurePursuitTest.PursuitEnvironmentState.html#%3Cinit%3E(xbot.common.math.FieldPose,xbot.common.math.FieldPose,xbot.common.math.FieldPose,int,double,double,double)" class="member-name-link">PursuitEnvironmentState(FieldPose, FieldPose, FieldPose, int, double, double, double)</a> - Constructor for class xbot.common.math.<a href="xbot/common/math/PurePursuitTest.PursuitEnvironmentState.html" title="class in xbot.common.math">PurePursuitTest.PursuitEnvironmentState</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/advantage/PropertySkippingNT4Publisher.html#putTable(org.littletonrobotics.junction.LogTable)" class="member-name-link">putTable(LogTable)</a> - Method in class xbot.common.advantage.<a href="xbot/common/advantage/PropertySkippingNT4Publisher.html" title="class in xbot.common.advantage">PropertySkippingNT4Publisher</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/DevicePolice.DeviceType.html#PWM" class="member-name-link">PWM</a> - Enum constant in enum class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.DeviceType.html" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a></dt>
 <dd>&nbsp;</dd>
@@ -7433,6 +7450,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="xbot/common/logic/StallDetector.StallState.html#STALLED" class="member-name-link">STALLED</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/StallDetector.StallState.html" title="enum class in xbot.common.logic">StallDetector.StallState</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XJoystick.ButtonSource.html#Standard" class="member-name-link">Standard</a> - Enum constant in enum class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XJoystick.ButtonSource.html" title="enum class in xbot.common.controls.sensors">XJoystick.ButtonSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/advantage/PropertySkippingNT4Publisher.html#start()" class="member-name-link">start()</a> - Method in class xbot.common.advantage.<a href="xbot/common/advantage/PropertySkippingNT4Publisher.html" title="class in xbot.common.advantage">PropertySkippingNT4Publisher</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XLidarLite.html#start()" class="member-name-link">start()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XLidarLite.html" title="class in xbot.common.controls.sensors">XLidarLite</a></dt>
 <dd>&nbsp;</dd>
