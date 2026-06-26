@@ -19,7 +19,6 @@ import xbot.common.properties.SmartDashboardTableWrapper;
 import xbot.common.properties.TableProxy;
 import xbot.common.properties.XPropertyManager;
 import xbot.common.subsystems.vision.AprilTagVisionIOFactory;
-import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVision;
 import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVisionEstimator;
 
 /**
