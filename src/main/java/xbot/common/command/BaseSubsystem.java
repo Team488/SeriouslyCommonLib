@@ -26,8 +26,9 @@ public abstract class BaseSubsystem extends SubsystemBase implements IPropertySu
         return this.getName() + "/";
     }
 
-    protected void registerDataFrameRefreshable(DataFrameRefreshable refreshable) {
+    protected <T extends DataFrameRefreshable> T registerDataFrameRefreshable(T refreshable) {
         dataFrameRefreshables.add(refreshable);
+        return refreshable;
     }
 
     /**
