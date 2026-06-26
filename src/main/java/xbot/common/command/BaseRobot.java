@@ -102,6 +102,12 @@ public abstract class BaseRobot extends LoggedRobot {
                 // values (they're in the on-disk WPILOG for replay, and the editable surface
                 // for dashboards lives at /Preferences/... via WPILib Preferences, untouched).
                 Logger.addDataReceiver(new PropertySkippingNT4Publisher());
+
+                if (!DriverStation.isFMSAttached()) {
+                    // Publish data to NetworkTables if we're not on a real field
+                    Logger.addDataReceiver(new NT4Publisher());
+                }
+
                 LoggedPowerDistribution.getInstance(
                         PowerDistribution.kDefaultModule,
                         PowerDistribution.ModuleType.kRev); // Log power distribution data from the configured module
