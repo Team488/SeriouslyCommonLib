@@ -39,10 +39,9 @@ public class Pigeon2Adapter extends XGyro {
 
     @AssistedInject
     public Pigeon2Adapter(DevicePolice police, DataFrameRegistry registry, @Assisted IMUInfo imuInfo) {
-        super(imuInfo);
+        super(imuInfo, registry);
         this.pigeon = new Pigeon2(imuInfo.deviceId(), imuInfo.canBusId().toPhoenixCANBus());
         police.registerDevice(DevicePolice.DeviceType.CAN, imuInfo.canBusId(), imuInfo.deviceId(), this);
-        registry.register(this);
 
         this.yawSignal = pigeon.getYaw();
         this.pitchSignal = pigeon.getPitch();

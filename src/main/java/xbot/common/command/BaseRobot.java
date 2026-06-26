@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.DevicePolice;
@@ -54,7 +53,6 @@ public abstract class BaseRobot extends LoggedRobot {
     protected DevicePolice devicePolice;
     protected SimulationPayloadDistributor simulationPayloadDistributor;
     protected DataFrameRegistry deviceDataFrameRegistry;
-    protected List<DataFrameRefreshable> dataFrameRefreshables = new ArrayList<>();
 
     boolean forceWebots = true; // TODO: figure out a better way to swap between simulation and replay.
 
@@ -281,13 +279,10 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     public void refreshAllDataFrames() {
-        // all devices are refreshed first, order doesn't matter
+        // Devices register themselves with the registry when constructed (in dependency order), so
+        // subsystems that derive state from a device (e.g. SwerveModuleSubsystem) are refreshed after
+        // the devices they depend on.
         deviceDataFrameRegistry.refreshAll();
-
-        // other things like subsystems refreshed here, they should be done in order
-        for (DataFrameRefreshable refreshable : dataFrameRefreshables) {
-            refreshable.refreshDataFrame();
-        }
     }
 
     @Override

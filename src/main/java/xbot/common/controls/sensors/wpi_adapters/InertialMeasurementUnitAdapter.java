@@ -35,7 +35,7 @@ public class InertialMeasurementUnitAdapter extends XGyro {
 
     @AssistedInject
     public InertialMeasurementUnitAdapter(DevicePolice police, DataFrameRegistry registry, @Assisted IMUInfo imuInfo) {
-        super(imuInfo);
+        super(imuInfo, registry);
         /* Options: Port.kMXP, SPI.kMXP, I2C.kMXP or SerialPort.kUSB */
         try {
             switch (imuInfo.interfaceType()) {
@@ -44,7 +44,6 @@ public class InertialMeasurementUnitAdapter extends XGyro {
                 case i2c -> this.ahrs = new AHRS(AHRS.NavXComType.kI2C);
                 default -> this.ahrs = new AHRS(AHRS.NavXComType.kMXP_SPI);
             }
-            registry.register(this);
             police.registerDevice(DeviceType.IMU, 1, this);
             log.info("AHRS successfully created");
         }
