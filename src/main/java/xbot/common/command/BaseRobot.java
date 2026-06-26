@@ -98,14 +98,15 @@ public abstract class BaseRobot extends LoggedRobot {
                 if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
                     Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
                 }
-                // Publish data to NetworkTables, but skip the AKit-side mirror of Property
-                // values (they're in the on-disk WPILOG for replay, and the editable surface
-                // for dashboards lives at /Preferences/... via WPILib Preferences, untouched).
-                Logger.addDataReceiver(new PropertySkippingNT4Publisher());
+                
 
                 if (!DriverStation.isFMSAttached()) {
                     // Publish data to NetworkTables if we're not on a real field
-                    Logger.addDataReceiver(new NT4Publisher());
+
+                    // Publish data to NetworkTables, but skip the AKit-side mirror of Property
+                    // values (they're in the on-disk WPILOG for replay, and the editable surface
+                    // for dashboards lives at /Preferences/... via WPILib Preferences, untouched).
+                    Logger.addDataReceiver(new PropertySkippingNT4Publisher());
                 }
 
                 LoggedPowerDistribution.getInstance(
