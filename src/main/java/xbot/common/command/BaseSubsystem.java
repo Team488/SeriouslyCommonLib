@@ -13,7 +13,6 @@ public abstract class BaseSubsystem extends SubsystemBase implements IPropertySu
     protected final AKitLogger aKitLog;
 
     public BaseSubsystem() {
-        super();
         log = LogManager.getLogger(this.getName());
         aKitLog = new AKitLogger(this);
     }
