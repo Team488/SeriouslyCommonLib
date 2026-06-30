@@ -12,6 +12,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XGyro;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
@@ -33,8 +34,8 @@ public class InertialMeasurementUnitAdapter extends XGyro {
     }
 
     @AssistedInject
-    public InertialMeasurementUnitAdapter(DevicePolice police, @Assisted IMUInfo imuInfo) {
-        super(imuInfo);
+    public InertialMeasurementUnitAdapter(DevicePolice police, DataFrameRegistry registry, @Assisted IMUInfo imuInfo) {
+        super(imuInfo, registry);
         /* Options: Port.kMXP, SPI.kMXP, I2C.kMXP or SerialPort.kUSB */
         try {
             switch (imuInfo.interfaceType()) {

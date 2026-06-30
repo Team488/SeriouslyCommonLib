@@ -5,6 +5,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XDigitalInputs;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.injection.DevicePolice;
@@ -30,8 +31,8 @@ public class DigitalInputWPIAdapter extends XDigitalInput {
     public DigitalInputWPIAdapter(
             @Assisted("info") DeviceInfo info,
             @Assisted("owningSystemPrefix")String owningSystemPrefix,
-            DevicePolice police) {
-        super(police, info, owningSystemPrefix);
+            DevicePolice police, DataFrameRegistry dataFrameRegistry) {
+        super(police, info, owningSystemPrefix, dataFrameRegistry);
         adapter = new DigitalInput(info.channel);
     }
 

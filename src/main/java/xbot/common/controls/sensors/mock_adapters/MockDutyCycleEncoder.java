@@ -4,6 +4,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import edu.wpi.first.wpilibj.MockAnalogInput;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XDutyCycleEncoderInputs;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDutyCycleEncoder;
@@ -20,8 +21,8 @@ public class MockDutyCycleEncoder extends XDutyCycleEncoder {
     }
 
     @AssistedInject
-    public MockDutyCycleEncoder(@Assisted("info") DeviceInfo info, DevicePolice police) {
-        super(info, police);
+    public MockDutyCycleEncoder(@Assisted("info") DeviceInfo info, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
+        super(info, police, dataFrameRegistry);
     }
 
     public void setRawPosition(double rawPosition) {

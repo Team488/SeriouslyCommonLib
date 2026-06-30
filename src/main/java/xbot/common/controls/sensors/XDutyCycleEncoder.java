@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import org.littletonrobotics.junction.Logger;
 
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.XBaseIO;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
 import xbot.common.controls.io_inputs.XDutyCycleEncoderInputs;
@@ -24,13 +25,14 @@ public abstract class XDutyCycleEncoder implements XBaseIO, DataFrameRefreshable
         XDutyCycleEncoder create(DeviceInfo deviceInfo);
     }
 
-    public XDutyCycleEncoder(DeviceInfo info, DevicePolice police) {
+    public XDutyCycleEncoder(DeviceInfo info, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
         this.info = info;
         this.channel = info.channel;
         police.registerDevice(DevicePolice.DeviceType.DigitalIO, channel, this);
         setInverted(info.inverted);
 
         inputs = new XDutyCycleEncoderInputsAutoLogged();
+        dataFrameRegistry.register(this);
     }
 
     /**

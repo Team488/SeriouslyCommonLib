@@ -6,6 +6,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XDigitalInputs;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.injection.DevicePolice;
@@ -29,8 +30,9 @@ public class MockDigitalInput extends XDigitalInput implements ISimulatableSenso
     public MockDigitalInput(
             @Assisted("info") DeviceInfo info,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            DevicePolice police) {
-        super(police, info, owningSystemPrefix);
+            DevicePolice police,
+            DataFrameRegistry dataFrameRegistry) {
+        super(police, info, owningSystemPrefix, dataFrameRegistry);
         this.channel = info.channel;
     }
 

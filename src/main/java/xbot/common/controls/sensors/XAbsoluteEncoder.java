@@ -5,6 +5,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import org.littletonrobotics.junction.Logger;
 
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputsAutoLogged;
 import xbot.common.injection.electrical_contract.DeviceInfo;
@@ -19,9 +20,10 @@ public abstract class XAbsoluteEncoder implements DataFrameRefreshable {
         XAbsoluteEncoder create(DeviceInfo deviceInfo, String owningSystemPrefix);
     }
 
-    public XAbsoluteEncoder(DeviceInfo info) {
+    public XAbsoluteEncoder(DeviceInfo info, DataFrameRegistry dataFrameRegistry) {
         inputs = new XAbsoluteEncoderInputsAutoLogged();
         this.info = info;
+        dataFrameRegistry.register(this);
     }
 
     public abstract int getDeviceId();

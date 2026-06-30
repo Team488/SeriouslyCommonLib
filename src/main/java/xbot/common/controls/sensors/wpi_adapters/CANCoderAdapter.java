@@ -16,6 +16,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
 import xbot.common.controls.io_inputs.XCANCoderInputs;
 import xbot.common.controls.sensors.XCANCoder;
@@ -53,8 +54,8 @@ public class CANCoderAdapter extends XCANCoder {
     @AssistedInject
     public CANCoderAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            DevicePolice police, PropertyFactory pf) {
-        super(deviceInfo);
+            DevicePolice police, PropertyFactory pf, DataFrameRegistry dataFrameRegistry) {
+        super(deviceInfo, dataFrameRegistry);
         pf.setPrefix(owningSystemPrefix);
 
         this.inverted = deviceInfo.inverted;

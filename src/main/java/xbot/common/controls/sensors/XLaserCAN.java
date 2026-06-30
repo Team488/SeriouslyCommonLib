@@ -4,6 +4,7 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Time;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.LaserCANInputs;
 import xbot.common.controls.io_inputs.LaserCANInputsAutoLogged;
 import xbot.common.injection.DevicePolice;
@@ -22,11 +23,12 @@ public abstract class XLaserCAN implements DataFrameRefreshable {
         XLaserCAN create(DeviceInfo info, String owningSystemPrefix);
     }
 
-    public XLaserCAN(DevicePolice police, DeviceInfo info, String owningSystemPrefix) {
+    public XLaserCAN(DevicePolice police, DeviceInfo info, String owningSystemPrefix, DataFrameRegistry dataFrameRegistry) {
         this.info = info;
         police.registerDevice(DeviceType.CAN, info.channel, this);
         akitName = owningSystemPrefix + info.name + "LaserCAN";
         inputs = new LaserCANInputsAutoLogged();
+        dataFrameRegistry.register(this);
     }
 
     public Optional<Distance> getDistance() {
