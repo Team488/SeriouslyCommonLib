@@ -98,6 +98,6 @@ public class MeasureProperty<
     @Override
     public void refreshDataFrame() {
         currentValue.mut_replace(get_internal());
-        Logger.processInputs(prefix, inputs);
+        Logger.processInputs(akitLogPrefix(), inputs);
     }
 }
