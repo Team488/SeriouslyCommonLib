@@ -74,6 +74,6 @@ public class StringProperty extends Property {
     @Override
     public void refreshDataFrame() {
         currentValue = get_internal();
-        Logger.processInputs(prefix, inputs);
+        Logger.processInputs(akitLogPrefix(), inputs);
     }
 }

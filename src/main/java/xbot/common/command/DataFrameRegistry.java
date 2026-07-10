@@ -1,7 +1,7 @@
 package xbot.common.command;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -13,18 +13,18 @@ import xbot.common.advantage.DataFrameRefreshable;
  */
 @Singleton
 public final class DataFrameRegistry {
-    private final List<DataFrameRefreshable> refreshables = new ArrayList<>();
+    // LinkedHashSet gives O(1) duplicate-registration checks while preserving registration order,
+    // which refreshAll() relies on (devices are registered, and thus refreshed, before the
+    // higher-level subsystems that read their freshly-refreshed data).
+    private final Set<DataFrameRefreshable> refreshables = new LinkedHashSet<>();
 
     @Inject
     public DataFrameRegistry() {}
 
     public void register(DataFrameRefreshable refreshable) {
-        if (refreshables.contains(refreshable)) {
-            return;
-        }
         refreshables.add(refreshable);
     }
-    
+
     public void refreshAll() {
         for (DataFrameRefreshable refreshable : refreshables) {
             refreshable.refreshDataFrame();

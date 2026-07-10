@@ -11,8 +11,6 @@ import java.util.function.DoubleSupplier;
  * This class provides common base implementation for April Tag capable cameras on the robot.
  */
 public class AprilTagCamera extends SimpleCamera {
-    private final PhotonPoseEstimator poseEstimator;
-
     private final TimeStableValidator isStable;
 
     /**
@@ -27,19 +25,7 @@ public class AprilTagCamera extends SimpleCamera {
                           AprilTagFieldLayout fieldLayout,
                           String prefix) {
         super(cameraInfo, prefix);
-        this.poseEstimator = new PhotonPoseEstimator(fieldLayout,
-                PhotonPoseEstimator.PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-                cameraInfo.position());
         this.isStable = new TimeStableValidator(poseStableTime);
-    }
-
-    /**
-     * Get the pose estimator.
-     *
-     * @return The pose estimator.
-     */
-    public PhotonPoseEstimator getPoseEstimator() {
-        return this.poseEstimator;
     }
 
     /**

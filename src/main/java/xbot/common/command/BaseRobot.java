@@ -6,19 +6,20 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.LogFileUtil;
+import org.littletonrobotics.junction.LoggedPowerDistribution;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.advantage.PropertySkippingNT4Publisher;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.DevicePolice;
@@ -52,7 +53,6 @@ public abstract class BaseRobot extends LoggedRobot {
     protected DevicePolice devicePolice;
     protected SimulationPayloadDistributor simulationPayloadDistributor;
     protected DataFrameRegistry deviceDataFrameRegistry;
-    protected List<DataFrameRefreshable> dataFrameRefreshables = new ArrayList<>();
 
     boolean forceWebots = true; // TODO: figure out a better way to swap between simulation and replay.
 
@@ -97,7 +97,20 @@ public abstract class BaseRobot extends LoggedRobot {
                 if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
                     Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
                 }
-                Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+                
+
+                if (!DriverStation.isFMSAttached()) {
+                    // Publish data to NetworkTables if we're not on a real field
+
+                    // Publish data to NetworkTables, but skip the AKit-side mirror of Property
+                    // values (they're in the on-disk WPILOG for replay, and the editable surface
+                    // for dashboards lives at /Preferences/... via WPILib Preferences, untouched).
+                    Logger.addDataReceiver(new PropertySkippingNT4Publisher());
+                }
+
+                LoggedPowerDistribution.getInstance(
+                        PowerDistribution.kDefaultModule,
+                        PowerDistribution.ModuleType.kRev); // Log power distribution data from the configured module
             } else {
                 setUseTiming(false); // Run as fast as possible
                 String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
@@ -276,13 +289,10 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     public void refreshAllDataFrames() {
-        // all devices are refreshed first, order doesn't matter
+        // Devices register themselves with the registry when constructed (in dependency order), so
+        // subsystems that derive state from a device (e.g. SwerveModuleSubsystem) are refreshed after
+        // the devices they depend on.
         deviceDataFrameRegistry.refreshAll();
-
-        // other things like subsystems refreshed here, they should be done in order
-        for (DataFrameRefreshable refreshable : dataFrameRefreshables) {
-            refreshable.refreshDataFrame();
-        }
     }
 
     @Override

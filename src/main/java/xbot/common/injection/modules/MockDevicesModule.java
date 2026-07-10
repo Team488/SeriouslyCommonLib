@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.MockDigitalInput.MockDigitalInputFactory;
 import edu.wpi.first.wpilibj.MockDigitalOutput.MockDigitalOutputFactory;
 import edu.wpi.first.wpilibj.MockLidarLite.MockLidarLiteFactory;
 import edu.wpi.first.wpilibj.MockPWM.MockPWMFactory;
-import edu.wpi.first.wpilibj.MockPowerDistributionPanel.MockPowerDistributionPanelFactory;
 import edu.wpi.first.wpilibj.MockServo.MockServoFactory;
 import edu.wpi.first.wpilibj.MockSolenoid.MockSolenoidFactory;
 import edu.wpi.first.wpilibj.MockSpeedController.MockSpeedControllerFactory;
@@ -42,6 +41,7 @@ import xbot.common.controls.sensors.mock_adapters.MockDutyCycleEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder.MockEncoderFactory;
 import xbot.common.controls.sensors.mock_adapters.MockGyro.MockGyroFactory;
 import xbot.common.controls.sensors.mock_adapters.MockLaserCAN;
+import xbot.common.controls.sensors.mock_adapters.MockPowerDistributionPanel.MockPowerDistributionPanelFactory;
 import xbot.common.networking.MockZeromqListener.MockZeromqListenerFactory;
 import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
 

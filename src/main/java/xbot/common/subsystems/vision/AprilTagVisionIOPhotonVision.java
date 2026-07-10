@@ -18,6 +18,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.wpilibj.Timer;
 
 import java.util.HashSet;
@@ -46,9 +47,10 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
     private static final TargetObservation[] EMPTY_TARGET_OBSERVATIONS = new TargetObservation[0];
     private static final TargetObservation EMPTY_TARGET_OBSERVATION = new TargetObservation(0, 0, new Rotation2d(),
             new Rotation2d(), new Transform3d(), 1, true);
-    // Using same heartbeat bounce as photonvision:
+    // Originally based off same heartbeat bounce as photonvision:
     // https://github.com/PhotonVision/photonvision/blob/3c332db4bfe9083fc0311ae71cff92de588939ad/photon-lib/src/main/java/org/photonvision/PhotonCamera.java#L107
-    private static final double HEARTBEAT_DEBOUNCE_SEC = 0.5;
+    // However, testing indicated that a lower value would be better than 0.5s:
+    private static final double HEARTBEAT_DEBOUNCE_SEC = 0.060;
 
     protected final PhotonCamera camera;
     protected final Transform3d robotToCamera;
@@ -143,6 +145,7 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
                                 multitagResult.estimatedPose.ambiguity, // Ambiguity
                                 multitagResult.fiducialIDsUsed.size(), // Tag count
                                 totalTagDistance / result.targets.size(), // Average tag distance
+                                0.02, 0.02, 0.6, // This is from LinearStdDevBaseline, and AngularStdDevBaseline from the old way.
                                 PoseObservationType.PHOTONVISION)); // Observation type
 
             } else if (!result.targets.isEmpty()) { // Single tag result
@@ -169,6 +172,7 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
                                     target.poseAmbiguity, // Ambiguity
                                     1, // Tag count
                                     cameraToTarget.getTranslation().getNorm(), // Average tag distance
+                                    0.02, 0.02, 0.6, // This is from LinearStdDevBaseline, and AngularStdDevBaseline from the old way.
                                     PoseObservationType.PHOTONVISION)); // Observation type
                 }
             }

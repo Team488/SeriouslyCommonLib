@@ -1,4 +1,7 @@
-# Seriously Common Lib for FRC [![Build Status](https://dev.azure.com/Team488/Team%20488%20Builds/_apis/build/status%2FTeam488.SeriouslyCommonLib?branchName=main)](https://dev.azure.com/Team488/Team%20488%20Builds/_build/latest?definitionId=1&branchName=main)
+# Seriously Common Lib for FRC
+
+[![Build Status](https://dev.azure.com/Team488/Team%20488%20Builds/_apis/build/status%2FTeam488.SeriouslyCommonLib?branchName=main)](https://dev.azure.com/Team488/Team%20488%20Builds/_build/latest?definitionId=1&branchName=main)
+[![xbot.common:SeriouslyCommonLib package in XBot feed in Azure Artifacts](https://feeds.dev.azure.com/Team488/2ef6eee3-1df0-441a-9af8-5edc5c3cb203/_apis/public/Packaging/Feeds/XBot/Packages/1dc16f9c-8e55-4f41-ada6-7b73e2161843/Badge)](https://dev.azure.com/Team488/Team%20488%20Builds/_artifacts/feed/XBot/maven/xbot.common%2FSeriouslyCommonLib?preferRelease=true)
 
 ## Up-Front Warning
 

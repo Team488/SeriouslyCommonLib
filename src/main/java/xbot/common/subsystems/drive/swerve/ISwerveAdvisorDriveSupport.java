@@ -11,6 +11,8 @@ public interface ISwerveAdvisorDriveSupport {
     public boolean getStaticHeadingActive();
     public boolean getLookAtPointActive();
 
+    public boolean getLookAtPointInverted();
+
     public Rotation2d getStaticHeadingTarget();
     public Translation2d getLookAtPointTarget();
 

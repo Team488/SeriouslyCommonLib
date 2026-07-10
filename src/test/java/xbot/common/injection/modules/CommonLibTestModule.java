@@ -16,6 +16,9 @@ import xbot.common.injection.swerve.SwerveComponent;
 import xbot.common.injection.swerve.SwerveInstance;
 import xbot.common.subsystems.drive.BaseSwerveDriveSubsystem;
 import xbot.common.subsystems.drive.MockSwerveDriveSubsystem;
+import xbot.common.subsystems.drive.swerve.ISwerveAdvisorDriveSupport;
+import xbot.common.subsystems.drive.swerve.ISwerveAdvisorPoseSupport;
+import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.GameField;
 
 import javax.inject.Singleton;
@@ -25,6 +28,14 @@ public abstract class CommonLibTestModule {
     @Binds
     @Singleton
     public abstract BaseSwerveDriveSubsystem getSwerveDriveSubsystem(MockSwerveDriveSubsystem mockSubsystem);
+
+    @Binds
+    @Singleton
+    public abstract ISwerveAdvisorDriveSupport getSwerveAdvisorDriveSupport(BaseSwerveDriveSubsystem mockSubsystem);
+
+    @Binds
+    @Singleton
+    public abstract ISwerveAdvisorPoseSupport getSwerveAdvisorPoseSupport(BasePoseSubsystem mockSubsystem);
 
     @Binds
     @Singleton

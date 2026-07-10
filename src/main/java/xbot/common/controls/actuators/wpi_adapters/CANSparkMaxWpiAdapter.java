@@ -33,6 +33,7 @@ import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.injection.electrical_contract.SparkMaxMotorControllerOutputConfig;
 import xbot.common.logging.RobotAssertionManager;
+import xbot.common.properties.PowerDistributionProperties;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
@@ -71,9 +72,10 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
             RobotAssertionManager assertionManager,
             @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
             @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties,
-            DataFrameRegistry dataFrameRegistry
+            DataFrameRegistry dataFrameRegistry,
+            PowerDistributionProperties pdProperties
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, dataFrameRegistry);
+        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
         this.internalSparkMax = new SparkMax(info.deviceId(), SparkLowLevel.MotorType.kBrushless);
         this.assertionManager = assertionManager;
 
@@ -160,17 +162,16 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     @Override
-    public void setPidDirectly(double p, double i, double d, double velocityFF, double gravityFF, int slot) {
-        if (gravityFF != 0) {
-            log.warn("setPidDirectly: Gravity feedforward is not supported by SparkMax");
-        }
-
+    public void setPidDirectly(XCANMotorControllerPIDProperties pidProperties, int slot) {
         var config = new SparkMaxConfig();
         config.closedLoop
-                .p(p, getClosedLoopSlot(slot))
-                .i(i, getClosedLoopSlot(slot))
-                .d(d, getClosedLoopSlot(slot));
-        config.closedLoop.feedForward.kV(velocityFF, getClosedLoopSlot(slot));
+                .p(pidProperties.p(), getClosedLoopSlot(slot))
+                .i(pidProperties.i(), getClosedLoopSlot(slot))
+                .d(pidProperties.d(), getClosedLoopSlot(slot));
+        config.closedLoop.feedForward
+                .kS(pidProperties.staticFeedForward(), getClosedLoopSlot(slot))
+                .kV(pidProperties.velocityFeedForward(), getClosedLoopSlot(slot))
+                .kG(pidProperties.gravityFeedForward(), getClosedLoopSlot(slot));
         this.internalSparkMax.configure(config,
                 ResetMode.kNoResetSafeParameters,
                 PersistMode.kNoPersistParameters);
@@ -251,6 +252,22 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         this.internalSparkMax
                 .getClosedLoopController()
                 .setSetpoint(rawVelocity.in(RPM), controlType, getClosedLoopSlot(slot));
+    }
+
+    @Override
+    public void setRawVelocityTargetWithFeedForward(AngularVelocity rawVelocity, MotorPidMode mode, double feedForward, int slot) {
+        SparkBase.ControlType controlType;
+        switch (mode) {
+            case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kVelocity;
+            case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionVelocityControl;
+            default -> {
+                this.assertionManager.fail("Unsupported mode: " + mode);
+                controlType = SparkBase.ControlType.kVelocity;
+            }
+        }
+        this.internalSparkMax
+                .getClosedLoopController()
+                .setSetpoint(rawVelocity.in(RPM), controlType, getClosedLoopSlot(slot), feedForward);
     }
 
     @Override
