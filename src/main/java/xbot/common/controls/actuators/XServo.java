@@ -2,6 +2,7 @@ package xbot.common.controls.actuators;
 
 import org.littletonrobotics.junction.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.XBaseIO;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
@@ -32,10 +33,11 @@ public abstract class XServo implements XBaseIO, DataFrameRefreshable {
      * @param name The name of the servo for logging.
      * @param police The device police to register the servo with.
      */
-    protected XServo(int channel, String name, DevicePolice police) {
+    protected XServo(int channel, String name, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
         this.channel = channel;
         this.name = name;
         police.registerDevice(DeviceType.PWM, channel, this);
+        dataFrameRegistry.register(this);
     }
 
     /**

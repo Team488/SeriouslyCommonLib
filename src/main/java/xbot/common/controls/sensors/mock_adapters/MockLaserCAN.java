@@ -3,6 +3,7 @@ package xbot.common.controls.sensors.mock_adapters;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.LaserCANInputs;
 import xbot.common.controls.sensors.XLaserCAN;
 import xbot.common.controls.sensors.XTimer;
@@ -27,8 +28,8 @@ public class MockLaserCAN extends XLaserCAN {
     public MockLaserCAN(
             @Assisted("info") DeviceInfo info,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            DevicePolice police) {
-        super(police, info, owningSystemPrefix);
+            DevicePolice police, DataFrameRegistry dataFrameRegistry) {
+        super(police, info, owningSystemPrefix, dataFrameRegistry);
     }
 
     public void setDistance(double distanceMeters) {

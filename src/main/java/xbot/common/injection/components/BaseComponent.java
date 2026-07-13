@@ -2,6 +2,7 @@ package xbot.common.injection.components;
 
 import javax.inject.Named;
 
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.command.XScheduler;
 import xbot.common.controls.actuators.XCANLightController;
@@ -78,6 +79,8 @@ public abstract class BaseComponent {
     public abstract RobotAssertionManager robotAssertionManager();
 
     public abstract DevicePolice devicePolice();
+
+    public abstract DataFrameRegistry dataFrameRegistry();
 
     public abstract SmartDashboardCommandPutter smartDashboardCommandPutter();
 

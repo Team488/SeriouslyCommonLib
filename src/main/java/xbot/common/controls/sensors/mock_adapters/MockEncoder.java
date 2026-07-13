@@ -6,6 +6,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XEncoderInputs;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.injection.DevicePolice;
@@ -31,8 +32,8 @@ public class MockEncoder extends XEncoder implements ISimulatableSensor {
     public MockEncoder(@Assisted("name") String name, @Assisted("aChannel") int aChannel,
             @Assisted("bChannel") int bChannel, @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            PropertyFactory propMan, DevicePolice police) {
-        super(name, aChannel, bChannel, defaultDistancePerPulse, owningSystemPrefix, propMan, police);
+            PropertyFactory propMan, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
+        super(name, aChannel, bChannel, defaultDistancePerPulse, owningSystemPrefix, propMan, police, dataFrameRegistry);
     }
 
     public void setDistance(double distance) {

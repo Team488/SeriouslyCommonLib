@@ -21,6 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.Logger;
 
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputsAutoLogged;
 import xbot.common.injection.DevicePolice;
@@ -138,6 +139,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             DevicePolice police,
             String pidPropertyPrefix,
             XCANMotorControllerPIDProperties defaultPIDProperties,
+            DataFrameRegistry dataFrameRegistry,
             PowerDistributionProperties pdProperties
     ) {
         this.busId = info.busId();
@@ -195,6 +197,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             }
             this.propertyFactory.setPrefix(this.defaultPropertyPrefix);
         }
+
+        dataFrameRegistry.register(this);
     }
 
     public abstract void setConfiguration(CANMotorControllerOutputConfig outputConfig);

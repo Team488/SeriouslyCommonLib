@@ -6,7 +6,6 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.math.geometry.Rotation2d;
-import xbot.common.advantage.DataFrameRefreshable;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import xbot.common.command.BaseSubsystem;
@@ -28,7 +27,7 @@ import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Radians;
 
-public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable, ISwerveAdvisorPoseSupport {
+public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerveAdvisorPoseSupport {
 
     public final XGyro imu;
     protected double leftDriveDistance;
@@ -376,11 +375,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
             isNavXReady = true;
         }
         updatePose();
-    }
-
-    @Override
-    public void refreshDataFrame() {
-        imu.refreshDataFrame();
     }
 
     public Pose2d getSimulatedFieldPose() {
