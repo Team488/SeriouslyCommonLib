@@ -80,13 +80,12 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/util/sendable/Sendable.html" title="class or interface in edu.wpi.first.util.sendable" class="external-link">Sendable</a></code>, <code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Subsystem.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">Subsystem</a></code>, <code><a href="../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code></dd>
+<dd><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/util/sendable/Sendable.html" title="class or interface in edu.wpi.first.util.sendable" class="external-link">Sendable</a></code>, <code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Subsystem.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">Subsystem</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations">@Singleton
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">AprilTagVisionSubsystem</span>
-<span class="extends-implements">extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/SubsystemBase.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">SubsystemBase</a>
-implements <a href="../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></span></div>
+<span class="extends-implements">extends <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/SubsystemBase.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">SubsystemBase</a></span></div>
 <div class="block">Subsystem for processing AprilTag vision data.
  Based on the AdvantageKit sample implementation by team 6328.</div>
 </section>
@@ -100,10 +99,11 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.properties.PropertyFactory,edu.wpi.first.apriltag.AprilTagFieldLayout,xbot.common.injection.electrical_contract.XCameraElectricalContract,xbot.common.subsystems.vision.AprilTagVisionIOFactory)" class="member-name-link">AprilTagVisionSubsystem</a><wbr>(<a href="../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.properties.PropertyFactory,edu.wpi.first.apriltag.AprilTagFieldLayout,xbot.common.injection.electrical_contract.XCameraElectricalContract,xbot.common.subsystems.vision.AprilTagVisionIOFactory,xbot.common.command.DataFrameRegistry)" class="member-name-link">AprilTagVisionSubsystem</a><wbr>(<a href="../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf,
  <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/apriltag/AprilTagFieldLayout.html" title="class or interface in edu.wpi.first.apriltag" class="external-link">AprilTagFieldLayout</a>&nbsp;fieldLayout,
  <a href="../../injection/electrical_contract/XCameraElectricalContract.html" title="interface in xbot.common.injection.electrical_contract">XCameraElectricalContract</a>&nbsp;contract,
- <a href="AprilTagVisionIOFactory.html" title="interface in xbot.common.subsystems.vision">AprilTagVisionIOFactory</a>&nbsp;visionIOFactory)</code></div>
+ <a href="AprilTagVisionIOFactory.html" title="interface in xbot.common.subsystems.vision">AprilTagVisionIOFactory</a>&nbsp;visionIOFactory,
+ <a href="../../command/DataFrameRegistry.html" title="class in xbot.common.command">DataFrameRegistry</a>&nbsp;registry)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -179,20 +179,15 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#periodic()" class="member-name-link">periodic</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#refreshDataFrame()" class="member-name-link">refreshDataFrame</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tagVisibleByAnyCamera(int)" class="member-name-link">tagVisibleByAnyCamera</a><wbr>(int&nbsp;tagId)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Consumes and processes inputs from the device or subsystem.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tagVisibleByAnyCamera(int)" class="member-name-link">tagVisibleByAnyCamera</a><wbr>(int&nbsp;tagId)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns <c>true</c> if any camera can see the specified tag.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tagVisibleByCamera(int,int)" class="member-name-link">tagVisibleByCamera</a><wbr>(int&nbsp;cameraIndex,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tagVisibleByCamera(int,int)" class="member-name-link">tagVisibleByCamera</a><wbr>(int&nbsp;cameraIndex,
  int&nbsp;tagId)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns <c>true</c> if the camera can see the specified tag.</div>
 </div>
 </div>
@@ -219,13 +214,14 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(xbot.common.properties.PropertyFactory,edu.wpi.first.apriltag.AprilTagFieldLayout,xbot.common.injection.electrical_contract.XCameraElectricalContract,xbot.common.subsystems.vision.AprilTagVisionIOFactory)">
+<section class="detail" id="&lt;init&gt;(xbot.common.properties.PropertyFactory,edu.wpi.first.apriltag.AprilTagFieldLayout,xbot.common.injection.electrical_contract.XCameraElectricalContract,xbot.common.subsystems.vision.AprilTagVisionIOFactory,xbot.common.command.DataFrameRegistry)">
 <h3>AprilTagVisionSubsystem</h3>
 <div class="member-signature"><span class="annotations">@Inject
 </span><span class="modifiers">public</span>&nbsp;<span class="element-name">AprilTagVisionSubsystem</span><wbr><span class="parameters">(<a href="../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf,
  <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/apriltag/AprilTagFieldLayout.html" title="class or interface in edu.wpi.first.apriltag" class="external-link">AprilTagFieldLayout</a>&nbsp;fieldLayout,
  <a href="../../injection/electrical_contract/XCameraElectricalContract.html" title="interface in xbot.common.injection.electrical_contract">XCameraElectricalContract</a>&nbsp;contract,
- <a href="AprilTagVisionIOFactory.html" title="interface in xbot.common.subsystems.vision">AprilTagVisionIOFactory</a>&nbsp;visionIOFactory)</span></div>
+ <a href="AprilTagVisionIOFactory.html" title="interface in xbot.common.subsystems.vision">AprilTagVisionIOFactory</a>&nbsp;visionIOFactory,
+ <a href="../../command/DataFrameRegistry.html" title="class in xbot.common.command">DataFrameRegistry</a>&nbsp;registry)</span></div>
 </section>
 </li>
 </ul>
@@ -395,25 +391,9 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 </section>
 </li>
 <li>
-<section class="detail" id="refreshDataFrame()">
-<h3>refreshDataFrame</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">refreshDataFrame</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../../advantage/DataFrameRefreshable.html#refreshDataFrame()">DataFrameRefreshable</a></code></span></div>
-<div class="block">Consumes and processes inputs from the device or subsystem.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../../advantage/DataFrameRefreshable.html#refreshDataFrame()">refreshDataFrame</a></code>&nbsp;in interface&nbsp;<code><a href="../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="periodic()">
 <h3>periodic</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">periodic</span>()</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Subsystem.html#periodic()" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">periodic</a></code>&nbsp;in interface&nbsp;<code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Subsystem.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">Subsystem</a></code></dd>
-</dl>
 </section>
 </li>
 </ul>

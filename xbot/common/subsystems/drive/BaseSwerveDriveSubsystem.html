@@ -117,7 +117,7 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <code><a href="BaseDriveSubsystem.html#kThrottleDeadband">kThrottleDeadband</a></code></div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-xbot.common.command.BaseSubsystem">Fields inherited from class&nbsp;xbot.common.command.<a href="../../command/BaseSubsystem.html" title="class in xbot.common.command">BaseSubsystem</a></h3>
-<code><a href="../../command/BaseSubsystem.html#aKitLog">aKitLog</a>, <a href="../../command/BaseSubsystem.html#dataFrameRefreshables">dataFrameRefreshables</a></code></div>
+<code><a href="../../command/BaseSubsystem.html#aKitLog">aKitLog</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -128,12 +128,13 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.math.PIDManager.PIDManagerFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent)" class="member-name-link">BaseSwerveDriveSubsystem</a><wbr>(<a href="../../math/PIDManager.PIDManagerFactory.html" title="class in xbot.common.math">PIDManager.PIDManagerFactory</a>&nbsp;pidFactory,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.math.PIDManager.PIDManagerFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.command.DataFrameRegistry)" class="member-name-link">BaseSwerveDriveSubsystem</a><wbr>(<a href="../../math/PIDManager.PIDManagerFactory.html" title="class in xbot.common.math">PIDManager.PIDManagerFactory</a>&nbsp;pidFactory,
  <a href="../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf,
  <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;frontLeftSwerve,
  <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;frontRightSwerve,
  <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;rearLeftSwerve,
- <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;rearRightSwerve)</code></div>
+ <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;rearRightSwerve,
+ <a href="../../command/DataFrameRegistry.html" title="class in xbot.common.command">DataFrameRegistry</a>&nbsp;dataFrameRegistry)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -400,7 +401,7 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <code><a href="BaseDriveSubsystem.html#arcadeDrive(double,double)">arcadeDrive</a>, <a href="BaseDriveSubsystem.html#cheesyDrive(double,double)">cheesyDrive</a>, <a href="BaseDriveSubsystem.html#drive(double,double)">drive</a>, <a href="BaseDriveSubsystem.html#drive(xbot.common.math.XYPair,double)">drive</a>, <a href="BaseDriveSubsystem.html#drive(xbot.common.math.XYPair,double,boolean)">drive</a>, <a href="BaseDriveSubsystem.html#fieldOrientedDrive(xbot.common.math.XYPair,double,double,boolean)">fieldOrientedDrive</a>, <a href="BaseDriveSubsystem.html#getMaxOutput(xbot.common.math.XYPair,double)">getMaxOutput</a>, <a href="BaseDriveSubsystem.html#getPowerForRelativePositionChange(edu.wpi.first.math.geometry.Translation2d)">getPowerForRelativePositionChange</a>, <a href="BaseDriveSubsystem.html#getPowerForRelativePositionChange(xbot.common.math.PIDManager,edu.wpi.first.math.geometry.Translation2d)">getPowerForRelativePositionChange</a>, <a href="BaseDriveSubsystem.html#setQuickTurn(boolean)">setQuickTurn</a>, <a href="BaseDriveSubsystem.html#stop()">stop</a>, <a href="BaseDriveSubsystem.html#tankDrive(double,double)">tankDrive</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-xbot.common.command.BaseSubsystem">Methods inherited from class&nbsp;xbot.common.command.<a href="../../command/BaseSubsystem.html" title="class in xbot.common.command">BaseSubsystem</a></h3>
-<code><a href="../../command/BaseSubsystem.html#getPrefix()">getPrefix</a>, <a href="../../command/BaseSubsystem.html#registerDataFrameRefreshable(xbot.common.advantage.DataFrameRefreshable)">registerDataFrameRefreshable</a></code></div>
+<code><a href="../../command/BaseSubsystem.html#getPrefix()">getPrefix</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-edu.wpi.first.wpilibj2.command.SubsystemBase">Methods inherited from class&nbsp;edu.wpi.first.wpilibj2.command.<a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/SubsystemBase.html" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">SubsystemBase</a></h3>
 <code><a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/SubsystemBase.html#addChild(java.lang.String,edu.wpi.first.util.sendable.Sendable)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">addChild</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/SubsystemBase.html#getName()" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">getName</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/SubsystemBase.html#getSubsystem()" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">getSubsystem</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/SubsystemBase.html#initSendable(edu.wpi.first.util.sendable.SendableBuilder)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">initSendable</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/SubsystemBase.html#setName(java.lang.String)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">setName</a>, <a href="https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/SubsystemBase.html#setSubsystem(java.lang.String)" title="class or interface in edu.wpi.first.wpilibj2.command" class="external-link">setSubsystem</a></code></div>
@@ -425,14 +426,15 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(xbot.common.math.PIDManager.PIDManagerFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent)">
+<section class="detail" id="&lt;init&gt;(xbot.common.math.PIDManager.PIDManagerFactory,xbot.common.properties.PropertyFactory,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.injection.swerve.SwerveComponent,xbot.common.command.DataFrameRegistry)">
 <h3>BaseSwerveDriveSubsystem</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">BaseSwerveDriveSubsystem</span><wbr><span class="parameters">(<a href="../../math/PIDManager.PIDManagerFactory.html" title="class in xbot.common.math">PIDManager.PIDManagerFactory</a>&nbsp;pidFactory,
  <a href="../../properties/PropertyFactory.html" title="class in xbot.common.properties">PropertyFactory</a>&nbsp;pf,
  <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;frontLeftSwerve,
  <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;frontRightSwerve,
  <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;rearLeftSwerve,
- <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;rearRightSwerve)</span></div>
+ <a href="../../injection/swerve/SwerveComponent.html" title="class in xbot.common.injection.swerve">SwerveComponent</a>&nbsp;rearRightSwerve,
+ <a href="../../command/DataFrameRegistry.html" title="class in xbot.common.command">DataFrameRegistry</a>&nbsp;dataFrameRegistry)</span></div>
 </section>
 </li>
 </ul>
@@ -966,8 +968,6 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../advantage/DataFrameRefreshable.html#refreshDataFrame()">refreshDataFrame</a></code>&nbsp;in interface&nbsp;<code><a href="../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code></dd>
-<dt>Overrides:</dt>
-<dd><code><a href="../../command/BaseSubsystem.html#refreshDataFrame()">refreshDataFrame</a></code>&nbsp;in class&nbsp;<code><a href="../../command/BaseSubsystem.html" title="class in xbot.common.command">BaseSubsystem</a></code></dd>
 </dl>
 </section>
 </li>
