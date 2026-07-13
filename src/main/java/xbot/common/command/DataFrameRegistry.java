@@ -1,7 +1,6 @@
 package xbot.common.command;
 
 import java.util.LinkedHashSet;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -13,10 +12,12 @@ import xbot.common.advantage.DataFrameRefreshable;
  */
 @Singleton
 public final class DataFrameRegistry {
-    // LinkedHashSet gives O(1) duplicate-registration checks while preserving registration order,
-    // which refreshAll() relies on (devices are registered, and thus refreshed, before the
-    // higher-level subsystems that read their freshly-refreshed data).
-    private final Set<DataFrameRefreshable> refreshables = new LinkedHashSet<>();
+    // Declared as LinkedHashSet (not the Set interface) because refreshAll() relies on
+    // registration-order iteration: devices are registered, and thus refreshed, before the
+    // higher-level subsystems that read their freshly-refreshed data. Set makes no such
+    // ordering promise, so swapping the declared type would silently permit an unordered
+    // implementation (e.g. HashSet) to break that guarantee.
+    private final LinkedHashSet<DataFrameRefreshable> refreshables = new LinkedHashSet<>();
 
     @Inject
     public DataFrameRegistry() {}
