@@ -34,8 +34,6 @@ repositories {
     maven { url "https://mvnrepository.com/artifact/com.google.dagger/dagger-compiler" }
     maven { url "https://mvnrepository.com/artifact/org.zeromq/jeromq" }
 
-    maven { url "https://3015rangerrobotics.github.io/pathplannerlib/repo"}
-
     maven { url "https://storage.googleapis.com/grapple-frc-maven"}
 
     maven { url uri ("../SeriouslyCommonLib/lib/")}
