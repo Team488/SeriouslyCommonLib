@@ -32,7 +32,7 @@ import dagger.assisted.AssistedInject;
  * IO implementation for a simulated PhotonVision environment.
  * Based on the AdvantageKit sample implementation by team 6328.
  */
-public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhotonVision {
+public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhotonVisionEstimator {
 
     @AssistedFactory
     public abstract static class FactoryImpl implements AprilTagVisionIOFactory {
@@ -55,7 +55,7 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
     @AssistedInject
     public AprilTagVisionIOPhotonVisionSimulated(@Assisted String name, @Assisted Transform3d robotToCamera,
             AprilTagFieldLayout fieldLayout, Lazy<SimulatedPositionSupplier> poseSupplier, PropertyFactory pf) {
-        super(name, robotToCamera, fieldLayout);
+        super(name, robotToCamera, fieldLayout, pf);
 
         this.poseSupplier = poseSupplier;
 
