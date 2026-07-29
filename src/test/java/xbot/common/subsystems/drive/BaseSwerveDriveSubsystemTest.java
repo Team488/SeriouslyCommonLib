@@ -1,13 +1,13 @@
 package xbot.common.subsystems.drive;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.kinematics.SwerveModuleState;
 import org.junit.Test;
 import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.subsystems.drive.swerve.SwerveModuleStates;
 
-import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static org.wpilib.units.Units.RotationsPerSecond;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 

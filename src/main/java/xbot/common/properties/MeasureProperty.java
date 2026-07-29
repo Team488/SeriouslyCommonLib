@@ -1,8 +1,8 @@
 package xbot.common.properties;
 
-import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.MutableMeasure;
-import edu.wpi.first.units.Unit;
+import org.wpilib.units.Measure;
+import org.wpilib.units.MutableMeasure;
+import org.wpilib.units.Unit;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggableInputs;

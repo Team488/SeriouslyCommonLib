@@ -2,7 +2,7 @@ package xbot.common.subsystems.drive;
 
 import javax.inject.Inject;
 
-import edu.wpi.first.wpilibj.util.Color;
+import org.wpilib.util.Color;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
 import xbot.common.properties.PropertyFactory;

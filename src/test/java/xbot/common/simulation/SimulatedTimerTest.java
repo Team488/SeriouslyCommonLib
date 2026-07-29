@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import edu.wpi.first.wpilibj.MockTimer;
+import org.wpilib.MockTimer;
 
 @Ignore
 public class SimulatedTimerTest extends BaseSimulationTest {

@@ -1,6 +1,6 @@
 package xbot.common.subsystems.vision;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import org.wpilib.apriltag.AprilTagFieldLayout;
 import org.photonvision.PhotonPoseEstimator;
 import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.logic.TimeStableValidator;

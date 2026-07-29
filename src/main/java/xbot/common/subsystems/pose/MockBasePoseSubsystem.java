@@ -8,7 +8,7 @@ import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
 import xbot.common.properties.PropertyFactory;
 
-import static edu.wpi.first.units.Units.Rotations;
+import static org.wpilib.units.Units.Rotations;
 
 @Singleton
 public class MockBasePoseSubsystem extends BasePoseSubsystem {

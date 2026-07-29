@@ -7,10 +7,10 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import edu.wpi.first.wpilibj.MockTimer;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import org.wpilib.MockTimer;
+import org.wpilib.command2.Command;
+import org.wpilib.command2.CommandScheduler;
+import org.wpilib.command2.WaitCommand;
 import xbot.common.command.XScheduler;
 
 public class MockTimerTest extends BaseCommonLibTest {

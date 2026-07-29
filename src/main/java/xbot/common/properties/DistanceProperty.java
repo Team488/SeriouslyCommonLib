@@ -1,8 +1,8 @@
 package xbot.common.properties;
 
-import edu.wpi.first.units.DistanceUnit;
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.MutDistance;
+import org.wpilib.units.DistanceUnit;
+import org.wpilib.units.measure.Distance;
+import org.wpilib.units.measure.MutDistance;
 
 /**
  * This manages a Distance in the property system.

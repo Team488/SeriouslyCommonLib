@@ -4,8 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import xbot.common.properties.PropertyFactory;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.I2C.Port;
+import org.wpilib.I2C;
+import org.wpilib.I2C.Port;
 
 public class MultiplexedLidarPair implements DistanceSensorPair {
 

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Ignore;
 
-import edu.wpi.first.wpilibj.MockTimer;
+import org.wpilib.MockTimer;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;

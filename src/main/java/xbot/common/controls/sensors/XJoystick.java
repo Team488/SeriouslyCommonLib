@@ -5,8 +5,8 @@ import java.util.HashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.GenericHID;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.GenericHID;
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger;
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger;
 import xbot.common.controls.sensors.buttons.AdvancedTrigger;

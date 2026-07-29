@@ -8,16 +8,12 @@ import xbot.common.controls.actuators.XCANMotorControllerFactoryImpl;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
 import xbot.common.controls.actuators.XDigitalOutput.XDigitalOutputFactory;
 import xbot.common.controls.actuators.XPWM.XPWMFactory;
-import xbot.common.controls.actuators.XRelay.XRelayFactory;
-import xbot.common.controls.actuators.XServo.XServoFactory;
 import xbot.common.controls.actuators.XSolenoid.XSolenoidFactory;
 import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
 import xbot.common.controls.actuators.wpi_adapters.CANdleWpiAdapter;
 import xbot.common.controls.actuators.wpi_adapters.CompressorWPIAdapter.CompressorWPIAdapterFactory;
 import xbot.common.controls.actuators.wpi_adapters.DigitalOutputWPIAdapter.DigitalOutputWPIAdapterFactory;
 import xbot.common.controls.actuators.wpi_adapters.PWMWPIAdapter.PWMWPIAdapterFactory;
-import xbot.common.controls.actuators.wpi_adapters.RelayWPIAdapter.RelayWPIAdapterFactory;
-import xbot.common.controls.actuators.wpi_adapters.ServoWPIAdapter.ServoWPIAdapterFactory;
 import xbot.common.controls.actuators.wpi_adapters.SolenoidWPIAdapter.SolenoidWPIAdapterFactory;
 import xbot.common.controls.actuators.wpi_adapters.SpeedControllerWPIAdapter.SpeedControllerWPIAdapterFactory;
 import xbot.common.controls.sensors.AnalogDistanceSensor.AnalogDistanceSensorFactory;
@@ -82,10 +78,6 @@ public abstract class RealDevicesModule {
 
     @Binds
     @Singleton
-    public abstract XServoFactory getServoFactory(ServoWPIAdapterFactory impl);
-
-    @Binds
-    @Singleton
     public abstract XAnalogDistanceSensorFactory getAnalogDistanceSensorFactory(AnalogDistanceSensorFactory impl);
 
     @Binds
@@ -111,10 +103,6 @@ public abstract class RealDevicesModule {
     @Binds
     @Singleton
     public abstract XSolenoidFactory getSolenoidFactory(SolenoidWPIAdapterFactory impl);
-
-    @Binds
-    @Singleton
-    public abstract XRelayFactory getRelayFactory(RelayWPIAdapterFactory impl);
 
     @Binds
     @Singleton

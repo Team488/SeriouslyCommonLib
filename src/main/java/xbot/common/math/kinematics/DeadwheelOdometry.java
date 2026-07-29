@@ -1,11 +1,11 @@
 package xbot.common.math.kinematics;
 
-import static edu.wpi.first.units.Units.Meters;
+import static org.wpilib.units.Units.Meters;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.Odometry;
-import edu.wpi.first.units.measure.Distance;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.kinematics.Odometry;
+import org.wpilib.units.measure.Distance;
 
 /**
  * Class for deadwheel odometry. Odometry allows you to track the robot's

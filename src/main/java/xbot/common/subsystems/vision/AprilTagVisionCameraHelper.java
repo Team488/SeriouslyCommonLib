@@ -1,9 +1,9 @@
 package xbot.common.subsystems.vision;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.wpilibj.Alert;
+import org.wpilib.apriltag.AprilTagFieldLayout;
+import org.wpilib.math.VecBuilder;
+import org.wpilib.math.geometry.Pose3d;
+import org.wpilib.Alert;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;

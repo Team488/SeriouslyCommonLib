@@ -1,6 +1,6 @@
 package xbot.common.subsystems.simple;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.NamedRunCommand;
 import xbot.common.properties.DoubleProperty;

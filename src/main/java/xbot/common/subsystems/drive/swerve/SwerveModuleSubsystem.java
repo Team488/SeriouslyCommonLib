@@ -2,13 +2,13 @@ package xbot.common.subsystems.drive.swerve;
 
 import javax.inject.Inject;
 
-import edu.wpi.first.wpilibj.Alert;
+import org.wpilib.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.math.kinematics.SwerveModulePosition;
+import org.wpilib.math.kinematics.SwerveModuleState;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
@@ -21,7 +21,7 @@ import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
-import static edu.wpi.first.units.Units.Inches;
+import static org.wpilib.units.Units.Inches;
 
 @SwerveSingleton
 public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRefreshable {

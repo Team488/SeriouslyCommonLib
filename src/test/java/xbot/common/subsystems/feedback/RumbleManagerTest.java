@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import edu.wpi.first.wpilibj.MockTimer;
+import org.wpilib.MockTimer;
 import xbot.common.controls.sensors.mock_adapters.MockFTCGamepad;
 import xbot.common.injection.BaseCommonLibTest;
 

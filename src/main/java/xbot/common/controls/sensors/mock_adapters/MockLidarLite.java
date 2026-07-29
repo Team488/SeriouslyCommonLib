@@ -1,10 +1,10 @@
-package edu.wpi.first.wpilibj;
+package xbot.common.controls.sensors.mock_adapters;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import edu.wpi.first.wpilibj.I2C.Port;
+import org.wpilib.I2C.Port;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.injection.DevicePolice;
 import xbot.common.properties.PropertyFactory;

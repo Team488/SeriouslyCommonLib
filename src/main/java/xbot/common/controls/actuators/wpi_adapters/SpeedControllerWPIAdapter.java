@@ -1,11 +1,12 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import org.wpilib.hardware.motor.PWMMotorController;
+import org.wpilib.hardware.motor.Talon;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import edu.wpi.first.wpilibj.motorcontrol.PWMMotorController;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import xbot.common.controls.actuators.XSpeedController;
 import xbot.common.injection.DevicePolice;
 
@@ -27,11 +28,11 @@ public class SpeedControllerWPIAdapter extends XSpeedController
     
     public double get()
     {
-        return controller.get();
+        return controller.getThrottle();
     }
 
     public void set(double value)
     {
-        controller.set(value);
+        controller.setThrottle(value);
     }
 }

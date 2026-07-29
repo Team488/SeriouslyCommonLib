@@ -3,7 +3,7 @@ package xbot.common.logic;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.wpilibj.DriverStation;
+import org.wpilib.driverstation.DriverStation;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;

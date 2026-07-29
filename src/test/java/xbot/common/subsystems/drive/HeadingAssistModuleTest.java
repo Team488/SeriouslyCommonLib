@@ -1,6 +1,6 @@
 package xbot.common.subsystems.drive;
 
-import edu.wpi.first.wpilibj.MockTimer;
+import org.wpilib.MockTimer;
 import org.junit.Test;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
@@ -12,7 +12,7 @@ import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.MockBasePoseSubsystem;
 
-import static edu.wpi.first.units.Units.Degrees;
+import static org.wpilib.units.Units.Degrees;
 import static org.junit.Assert.assertEquals;
 
 public class HeadingAssistModuleTest extends BaseCommonLibTest {

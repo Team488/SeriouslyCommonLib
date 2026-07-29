@@ -14,12 +14,12 @@
 package xbot.common.subsystems.vision;
 
 import dagger.assisted.AssistedFactory;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.wpilibj.Timer;
+import org.wpilib.apriltag.AprilTagFieldLayout;
+import org.wpilib.math.geometry.Pose3d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Transform3d;
+import org.wpilib.math.VecBuilder;
+import org.wpilib.Timer;
 
 import java.util.HashSet;
 import java.util.LinkedList;

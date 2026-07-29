@@ -5,7 +5,7 @@ import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
-import edu.wpi.first.wpilibj.MockTimer;
+import org.wpilib.MockTimer;
 import xbot.common.command.MockSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.sensors.XSettableTimerImpl;

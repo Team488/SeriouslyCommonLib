@@ -1,11 +1,11 @@
 package xbot.common.subsystems.drive;
 
-import static edu.wpi.first.units.Units.Degrees;
+import static org.wpilib.units.Units.Degrees;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import edu.wpi.first.wpilibj.MockTimer;
+import org.wpilib.MockTimer;
 import org.junit.Test;
 
 import xbot.common.controls.actuators.XCANMotorController;

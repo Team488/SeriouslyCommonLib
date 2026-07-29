@@ -2,8 +2,8 @@ package xbot.common.command;
 
 import javax.inject.Inject;
 
-import edu.wpi.first.wpilibj.Alert;
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.Alert;
+import org.wpilib.command2.Command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -72,7 +72,7 @@ public abstract class BaseCommand extends Command implements IPropertySupport {
 
     /**
      * @deprecated
-     * Suggest use {@link #addRequirements(edu.wpi.first.wpilibj2.command.Subsystem...)} instead.
+     * Suggest use {@link #addRequirements(org.wpilib.command2.Subsystem...)} instead.
      * @param subsystem Requirement to add
      */
     @Deprecated

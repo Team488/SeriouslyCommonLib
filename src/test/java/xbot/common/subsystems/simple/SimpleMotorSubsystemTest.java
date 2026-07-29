@@ -1,6 +1,6 @@
 package xbot.common.subsystems.simple;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
 import org.junit.Before;
 import org.junit.Test;
 import xbot.common.injection.BaseCommonLibTest;

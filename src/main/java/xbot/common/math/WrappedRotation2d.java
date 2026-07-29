@@ -3,8 +3,8 @@ package xbot.common.math;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Rotation2d;
+import org.wpilib.math.MathUtil;
+import org.wpilib.math.geometry.Rotation2d;
 
 /**
  * A rotation in a 2d coordinate frame, with its rotation wrapped from -pi to pi radians (-180 to 180 degrees).

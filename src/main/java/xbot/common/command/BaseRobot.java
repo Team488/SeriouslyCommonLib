@@ -12,13 +12,14 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import org.wpilib.driverstation.DriverStation;
+import org.wpilib.driverstation.MatchState;
+import org.wpilib.driverstation.RobotState;
+import org.wpilib.hardware.power.PowerDistribution;
+import org.wpilib.smartdashboard.SmartDashboard;
+import org.wpilib.system.RobotController;
+import org.wpilib.command2.Command;
+import org.wpilib.command2.CommandScheduler;
 import xbot.common.advantage.PropertySkippingNT4Publisher;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
@@ -110,7 +111,7 @@ public abstract class BaseRobot extends LoggedRobot {
 
                 LoggedPowerDistribution.getInstance(
                         PowerDistribution.kDefaultModule,
-                        PowerDistribution.ModuleType.kRev); // Log power distribution data from the configured module
+                        PowerDistribution.ModuleType.REV); // Log power distribution data from the configured module
             } else {
                 setUseTiming(false); // Run as fast as possible
                 String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
@@ -142,7 +143,6 @@ public abstract class BaseRobot extends LoggedRobot {
             if (forceWebots) {
                 simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
             }
-            LiveWindow.disableAllTelemetry();
         } catch (Exception e) {
             this.initException = e;
             throw e;
@@ -150,29 +150,29 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     protected String getEnableTypeString() {
-        if (!DriverStation.isEnabled()) {
+        if (!RobotState.isEnabled()) {
             return "disabled";
         }
 
-        if (DriverStation.isAutonomous()) {
+        if (RobotState.isAutonomous()) {
             return "auto";
         }
 
-        if (DriverStation.isTeleop()) {
+        if (RobotState.isTeleop()) {
             return "teleop";
         }
 
-        if (DriverStation.isTest()) {
-            return "test";
+        if (RobotState.isUtility()) {
+            return "utility";
         }
 
         return "enabled/unknown";
     }
 
     protected void updateLoggingContext() {
-        String dsStatus = DriverStation.isDSAttached() ? "DS" : "no DS";
-        String fmsStatus = DriverStation.isFMSAttached() ? "FMS" : "no FMS";
-        String matchStatus = DriverStation.getMatchType().toString() + " " + DriverStation.getMatchNumber() + " " + DriverStation.getReplayNumber();
+        String dsStatus = RobotState.isDSAttached() ? "DS" : "no DS";
+        String fmsStatus = RobotState.isFMSAttached() ? "FMS" : "no FMS";
+        String matchStatus = MatchState.getMatchType().toString() + " " + DriverStation.getMatchNumber() + " " + DriverStation.getReplayNumber();
         String enableStatus = getEnableTypeString();
         String matchContext = dsStatus + ", " + fmsStatus + ", " + enableStatus + ", " + matchStatus;
     }
@@ -204,15 +204,15 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     protected String getMatchContextString() {
-        return DriverStation.getAlliance().toString() + DriverStation.getLocation() + ", "
-            + DriverStation.getMatchTime() + "s, "
-            + (DriverStation.isDSAttached() ? "DS connected" : "DS disconnected") + ", "
-            + (DriverStation.isFMSAttached() ? "FMS connected" : "FMS disconnected") + ", "
-            + "Is disabled: " + DriverStation.isDisabled() + ", "
-            + "Is enabled: " + DriverStation.isEnabled() + ", "
-            + "Is auto: " + DriverStation.isAutonomous() + ", "
-            + "Is teleop: " + DriverStation.isTeleop() + ", "
-            + "Is test: " + DriverStation.isTest() + ", "
+        return MatchState.getAlliance().toString() + MatchState.getLocation() + ", "
+            + MatchState.getMatchTime() + "s, "
+            + (RobotState.isDSAttached() ? "DS connected" : "DS disconnected") + ", "
+            + (RobotState.isFMSAttached() ? "FMS connected" : "FMS disconnected") + ", "
+            + "Is disabled: " + RobotState.isDisabled() + ", "
+            + "Is enabled: " + RobotState.isEnabled() + ", "
+            + "Is auto: " + RobotState.isAutonomous() + ", "
+            + "Is teleop: " + RobotState.isTeleop() + ", "
+            + "Is utility: " + RobotState.isUtility() + ", "
             + "Is browned out: " + RobotController.isBrownedOut() + ", "
             + "Is output enabled: " + RobotController.isSysActive() + ", "
             + "Battery voltage: " + RobotController.getBatteryVoltage();

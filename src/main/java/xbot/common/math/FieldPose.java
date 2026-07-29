@@ -1,6 +1,6 @@
 package xbot.common.math;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Rotation2d;
 
 /**
  * The FieldPose class represents a point on the field as well as a heading.

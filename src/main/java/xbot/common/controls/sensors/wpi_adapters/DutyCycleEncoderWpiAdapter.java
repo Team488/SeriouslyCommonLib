@@ -3,7 +3,7 @@ package xbot.common.controls.sensors.wpi_adapters;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import org.wpilib.DutyCycleEncoder;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XDutyCycleEncoderInputs;
 import xbot.common.controls.sensors.XDutyCycleEncoder;

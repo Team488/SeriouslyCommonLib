@@ -11,8 +11,8 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
+import org.wpilib.GenericHID;
+import org.wpilib.Joystick;
 
 public class JoystickWPIAdapter extends XJoystick {
     

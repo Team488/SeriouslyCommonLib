@@ -1,6 +1,6 @@
 package xbot.common.subsystems.drive.swerve;
 
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import org.wpilib.math.kinematics.SwerveModuleState;
 
 /**
  * A simple record to hold the states of all four swerve modules.

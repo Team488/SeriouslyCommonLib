@@ -1,6 +1,6 @@
 package xbot.common.trajectory;
 
-import edu.wpi.first.math.geometry.Translation2d;
+import org.wpilib.math.geometry.Translation2d;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;

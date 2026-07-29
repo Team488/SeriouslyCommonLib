@@ -1,12 +1,12 @@
 package xbot.common.injection.electrical_contract;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.units.measure.Distance;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.units.measure.Distance;
 import xbot.common.injection.swerve.SwerveInstance;
 
 import javax.inject.Inject;
 
-import static edu.wpi.first.units.Units.Inches;
+import static org.wpilib.units.Units.Inches;
 
 public class MockSwerveDriveElectricalContract implements XSwerveDriveElectricalContract {
 

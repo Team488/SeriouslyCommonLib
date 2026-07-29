@@ -1,9 +1,9 @@
 package xbot.common.math;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.struct.Translation2dStruct;
-import edu.wpi.first.util.struct.StructSerializable;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.math.geometry.struct.Translation2dStruct;
+import org.wpilib.util.struct.StructSerializable;
 
 import java.sql.Struct;
 

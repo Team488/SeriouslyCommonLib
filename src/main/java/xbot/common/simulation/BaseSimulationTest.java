@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Ignore;
 
-import edu.wpi.first.wpilibj.MockTimer;
+import org.wpilib.MockTimer;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.components.DaggerSimulationComponent;
 import xbot.common.math.PIDManager.PIDManagerFactory;

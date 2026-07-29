@@ -3,7 +3,7 @@ package xbot.common.controls.sensors.buttons;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import org.wpilib.command2.button.Trigger;
 
 public class ChordTrigger extends AdvancedTrigger {
 

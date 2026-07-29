@@ -2,8 +2,8 @@ package xbot.common.injection.modules;
 
 import dagger.Module;
 import dagger.Provides;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
+import org.wpilib.apriltag.AprilTagFieldLayout;
+import org.wpilib.apriltag.AprilTagFields;
 
 import javax.inject.Singleton;
 

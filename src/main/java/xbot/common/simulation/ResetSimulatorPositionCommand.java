@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import org.json.JSONObject;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Rotation2d;
 import xbot.common.command.BaseCommand;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;

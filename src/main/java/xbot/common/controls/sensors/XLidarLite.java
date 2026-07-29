@@ -9,7 +9,7 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
-import edu.wpi.first.wpilibj.I2C.Port;
+import org.wpilib.I2C.Port;
 
 public abstract class XLidarLite implements DistanceSensor {
 

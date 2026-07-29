@@ -6,7 +6,7 @@ import javax.inject.Singleton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import edu.wpi.first.wpilibj.Preferences;
+import org.wpilib.Preferences;
 
 /**
  * This saves properties to the robot using WPI's built-in

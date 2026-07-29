@@ -1,11 +1,11 @@
 package xbot.common.controls.io_inputs;
 
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.Time;
+import org.wpilib.units.measure.Distance;
+import org.wpilib.units.measure.Time;
 import org.littletonrobotics.junction.AutoLog;
 
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.Seconds;
+import static org.wpilib.units.Units.Meters;
+import static org.wpilib.units.Units.Seconds;
 
 @AutoLog
 public class LaserCANInputs {

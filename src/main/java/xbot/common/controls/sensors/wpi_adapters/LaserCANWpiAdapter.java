@@ -5,9 +5,9 @@ import au.grapplerobotics.interfaces.LaserCanInterface;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.Time;
-import edu.wpi.first.wpilibj.Alert;
+import org.wpilib.units.measure.Distance;
+import org.wpilib.units.measure.Time;
+import org.wpilib.Alert;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.LaserCANInputs;
 import xbot.common.controls.sensors.XLaserCAN;
@@ -16,8 +16,8 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.logging.AlertGroups;
 
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.Seconds;
+import static org.wpilib.units.Units.Meters;
+import static org.wpilib.units.Units.Seconds;
 
 public class LaserCANWpiAdapter extends XLaserCAN {
 

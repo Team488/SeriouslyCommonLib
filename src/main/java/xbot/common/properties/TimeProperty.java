@@ -1,8 +1,8 @@
 package xbot.common.properties;
 
-import edu.wpi.first.units.TimeUnit;
-import edu.wpi.first.units.measure.MutTime;
-import edu.wpi.first.units.measure.Time;
+import org.wpilib.units.TimeUnit;
+import org.wpilib.units.measure.MutTime;
+import org.wpilib.units.measure.Time;
 
 /**
  * This manages an Angle in the property system.

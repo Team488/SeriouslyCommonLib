@@ -2,9 +2,9 @@ package xbot.common.controls.sensors;
 
 import java.util.HashMap;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.driverstation.DriverStation;
+import org.wpilib.driverstation.DriverStation.Alliance;
 import xbot.common.controls.sensors.buttons.AdvancedXboxAxisTrigger;
 import xbot.common.controls.sensors.buttons.AdvancedXboxButtonTrigger;
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;

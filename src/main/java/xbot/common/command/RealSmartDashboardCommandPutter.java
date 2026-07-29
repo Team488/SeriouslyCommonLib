@@ -2,8 +2,8 @@ package xbot.common.command;
 
 import javax.inject.Inject;
 
-//import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import org.wpilib.command2.Command;
+import org.wpilib.smartdashboard.SmartDashboard;
 
 public class RealSmartDashboardCommandPutter implements SmartDashboardCommandPutter {
 

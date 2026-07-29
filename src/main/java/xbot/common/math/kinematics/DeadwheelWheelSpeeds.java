@@ -1,8 +1,8 @@
 package xbot.common.math.kinematics;
 
-import static edu.wpi.first.units.Units.MetersPerSecond;
+import static org.wpilib.units.Units.MetersPerSecond;
 
-import edu.wpi.first.units.measure.LinearVelocity;
+import org.wpilib.units.measure.LinearVelocity;
 
 /** Represents the wheel speeds for deadwheels. */
 public class DeadwheelWheelSpeeds {

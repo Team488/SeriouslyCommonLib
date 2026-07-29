@@ -16,12 +16,12 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Rotation2d;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import edu.wpi.first.wpilibj.util.Color;
+import org.wpilib.util.Color;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;

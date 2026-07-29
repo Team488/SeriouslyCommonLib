@@ -1,13 +1,13 @@
 package xbot.common.math.kinematics;
 
-import static edu.wpi.first.units.Units.Meters;
+import static org.wpilib.units.Units.Meters;
 
-import edu.wpi.first.math.MathSharedStore;
-import edu.wpi.first.math.MathUsageId;
-import edu.wpi.first.math.geometry.Twist2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.Kinematics;
-import edu.wpi.first.units.measure.Distance;
+import org.wpilib.math.MathSharedStore;
+import org.wpilib.math.MathUsageId;
+import org.wpilib.math.geometry.Twist2d;
+import org.wpilib.math.kinematics.ChassisSpeeds;
+import org.wpilib.math.kinematics.Kinematics;
+import org.wpilib.units.measure.Distance;
 
 /**
  * Helper class that converts a deadwheel velocity (dx and dtheta components) to

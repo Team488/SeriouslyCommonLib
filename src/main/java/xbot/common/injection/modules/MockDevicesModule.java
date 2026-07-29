@@ -2,27 +2,23 @@ package xbot.common.injection.modules;
 
 import dagger.Binds;
 import dagger.Module;
-import edu.wpi.first.wpilibj.MockAnalogInput.MockAnalogInputFactory;
-import edu.wpi.first.wpilibj.MockDigitalInput.MockDigitalInputFactory;
-import edu.wpi.first.wpilibj.MockDigitalOutput.MockDigitalOutputFactory;
-import edu.wpi.first.wpilibj.MockLidarLite.MockLidarLiteFactory;
-import edu.wpi.first.wpilibj.MockPWM.MockPWMFactory;
-import edu.wpi.first.wpilibj.MockServo.MockServoFactory;
-import edu.wpi.first.wpilibj.MockSolenoid.MockSolenoidFactory;
-import edu.wpi.first.wpilibj.MockSpeedController.MockSpeedControllerFactory;
+import org.wpilib.MockAnalogInput.MockAnalogInputFactory;
+import org.wpilib.MockDigitalInput.MockDigitalInputFactory;
+import org.wpilib.MockDigitalOutput.MockDigitalOutputFactory;
+import org.wpilib.MockLidarLite.MockLidarLiteFactory;
+import org.wpilib.MockPWM.MockPWMFactory;
+import org.wpilib.MockSolenoid.MockSolenoidFactory;
+import org.wpilib.MockSpeedController.MockSpeedControllerFactory;
 import xbot.common.controls.actuators.XCANLightController;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
 import xbot.common.controls.actuators.XDigitalOutput.XDigitalOutputFactory;
 import xbot.common.controls.actuators.XPWM.XPWMFactory;
-import xbot.common.controls.actuators.XRelay.XRelayFactory;
-import xbot.common.controls.actuators.XServo.XServoFactory;
 import xbot.common.controls.actuators.XSolenoid.XSolenoidFactory;
 import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
 import xbot.common.controls.actuators.mock_adapters.MockCANLightController;
 import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
 import xbot.common.controls.actuators.mock_adapters.MockCompressor.MockCompressorFactory;
-import xbot.common.controls.actuators.mock_adapters.MockRelay.MockRelayFactory;
 import xbot.common.controls.sensors.SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory;
 import xbot.common.controls.sensors.XAbsoluteEncoder.XAbsoluteEncoderFactory;
 import xbot.common.controls.sensors.XAnalogDistanceSensor.XAnalogDistanceSensorFactory;
@@ -82,10 +78,6 @@ public abstract class MockDevicesModule {
 
     @Binds
     @Singleton
-    public abstract XServoFactory getServoFactory(MockServoFactory impl);
-
-    @Binds
-    @Singleton
     public abstract XAnalogDistanceSensorFactory getAnalogDistanceSensorFactory(SimulatedAnalogDistanceSensorFactory impl);
 
     @Binds
@@ -111,10 +103,6 @@ public abstract class MockDevicesModule {
     @Binds
     @Singleton
     public abstract XSolenoidFactory getSolenoidFactory(MockSolenoidFactory impl);
-
-    @Binds
-    @Singleton
-    public abstract XRelayFactory getRelayFactory(MockRelayFactory impl);
 
     @Binds
     @Singleton

@@ -1,6 +1,6 @@
 package xbot.common.command;
 
-import edu.wpi.first.wpilibj.DriverStation;
+import org.wpilib.driverstation.DriverStation;
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;

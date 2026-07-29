@@ -2,8 +2,8 @@ package xbot.common.controls.sensors.mock_adapters;
 
 import java.math.BigDecimal;
 
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularVelocity;
 import org.json.JSONObject;
 
 import dagger.assisted.Assisted;
@@ -18,8 +18,8 @@ import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.IMUInfo;
 import xbot.common.simulation.ISimulatableSensor;
 
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.DegreesPerSecond;
+import static org.wpilib.units.Units.Degrees;
+import static org.wpilib.units.Units.DegreesPerSecond;
 
 public class MockGyro extends XGyro implements ISimulatableSensor {
     private boolean isBroken;

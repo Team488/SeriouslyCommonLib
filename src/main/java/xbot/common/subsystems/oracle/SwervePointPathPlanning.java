@@ -1,10 +1,10 @@
 package xbot.common.subsystems.oracle;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.units.measure.Distance;
-import static edu.wpi.first.units.Units.Meters;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.units.measure.Distance;
+import static org.wpilib.units.Units.Meters;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

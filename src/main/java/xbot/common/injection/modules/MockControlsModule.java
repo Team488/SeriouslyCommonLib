@@ -4,7 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
-import edu.wpi.first.wpilibj.MockXboxControllerAdapter.MockXboxControllerFactory;
+import org.wpilib.MockXboxControllerAdapter.MockXboxControllerFactory;
 import xbot.common.controls.sensors.XFTCGamepad.XFTCGamepadFactory;
 import xbot.common.controls.sensors.XJoystick.XJoystickFactory;
 import xbot.common.controls.sensors.XXboxController.XXboxControllerFactory;

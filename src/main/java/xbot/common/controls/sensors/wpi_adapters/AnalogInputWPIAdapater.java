@@ -3,7 +3,7 @@ package xbot.common.controls.sensors.wpi_adapters;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.wpilibj.AnalogInput;
+import org.wpilib.AnalogInput;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.injection.DevicePolice;
 
