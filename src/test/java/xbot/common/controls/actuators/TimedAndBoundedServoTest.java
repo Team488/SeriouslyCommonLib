@@ -1,8 +1,9 @@
 package xbot.common.controls.actuators;
 
-import edu.wpi.first.wpilibj.MockTimer;
 import org.junit.Before;
 import org.junit.Test;
+
+import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.injection.BaseCommonLibTest;
 
 import static org.junit.Assert.assertEquals;

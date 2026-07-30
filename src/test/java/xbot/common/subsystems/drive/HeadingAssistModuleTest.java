@@ -1,9 +1,9 @@
 package xbot.common.subsystems.drive;
 
-import edu.wpi.first.wpilibj.MockTimer;
 import org.junit.Test;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
+import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
