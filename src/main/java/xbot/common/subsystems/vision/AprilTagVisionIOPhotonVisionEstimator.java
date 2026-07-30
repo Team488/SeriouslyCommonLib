@@ -14,15 +14,14 @@
 package xbot.common.subsystems.vision;
 
 import dagger.assisted.AssistedFactory;
-import org.wpilib.apriltag.AprilTagFieldLayout;
-import org.wpilib.math.Matrix;
-import org.wpilib.math.VecBuilder;
 import org.wpilib.math.numbers.N1;
 import org.wpilib.math.numbers.N3;
-import org.wpilib.math.geometry.Pose3d;
+import org.wpilib.vision.apriltag.AprilTagFieldLayout;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Transform3d;
-import org.wpilib.Timer;
+import org.wpilib.math.linalg.Matrix;
+import org.wpilib.math.linalg.VecBuilder;
+
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
@@ -36,7 +35,6 @@ import java.util.stream.Collectors;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import dagger.assisted.Assisted;

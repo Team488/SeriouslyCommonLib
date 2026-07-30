@@ -2,10 +2,9 @@ package xbot.common.subsystems.drive.swerve;
 
 import javax.inject.Inject;
 
-import org.wpilib.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+import org.wpilib.driverstation.Alert;
 import org.wpilib.math.geometry.Translation2d;
 import org.wpilib.math.kinematics.SwerveModulePosition;
 import org.wpilib.math.kinematics.SwerveModuleState;
@@ -15,7 +14,6 @@ import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
 import xbot.common.injection.swerve.SwerveInstance;
 import xbot.common.injection.swerve.SwerveSingleton;
 import xbot.common.logging.AlertGroups;
-import xbot.common.math.WrappedRotation2d;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
 import xbot.common.properties.PropertyFactory;
@@ -88,7 +86,7 @@ public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRef
                 this.targetState.optimize(getSteeringSubsystem().getCurrentRotation());
             }
 
-            this.getSteeringSubsystem().setTargetValue(new WrappedRotation2d(this.targetState.angle.getRadians()).getDegrees());
+            this.getSteeringSubsystem().setTargetValue(new Rotation2d(this.targetState.angle.getRadians()).getDegrees());
             // The kinematics library does everything in metric, so we need to transform that back to US Customary Units
             this.getDriveSubsystem().setTargetValue(this.targetState.speedMetersPerSecond);
         } else {

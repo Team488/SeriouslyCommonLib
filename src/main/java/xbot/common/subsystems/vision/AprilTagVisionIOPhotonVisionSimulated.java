@@ -14,8 +14,9 @@
 package xbot.common.subsystems.vision;
 
 import dagger.Lazy;
-import org.wpilib.apriltag.AprilTagFieldLayout;
 import org.wpilib.math.geometry.Transform3d;
+import org.wpilib.vision.apriltag.AprilTagFieldLayout;
+
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.subsystems.pose.SimulatedPositionSupplier;

@@ -1,12 +1,12 @@
 package xbot.common.math.estimator;
 
-import org.wpilib.math.Matrix;
-import org.wpilib.math.VecBuilder;
 import org.wpilib.math.estimator.DifferentialDrivePoseEstimator;
 import org.wpilib.math.estimator.PoseEstimator;
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.kinematics.DifferentialDriveOdometry;
+import org.wpilib.math.linalg.Matrix;
+import org.wpilib.math.linalg.VecBuilder;
 import org.wpilib.math.numbers.N1;
 import org.wpilib.math.numbers.N3;
 import xbot.common.math.kinematics.DeadwheelKinematics;

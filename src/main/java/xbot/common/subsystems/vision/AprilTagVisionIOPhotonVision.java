@@ -14,12 +14,11 @@
 package xbot.common.subsystems.vision;
 
 import dagger.assisted.AssistedFactory;
-import org.wpilib.apriltag.AprilTagFieldLayout;
 import org.wpilib.math.geometry.Pose3d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Transform3d;
-import org.wpilib.math.VecBuilder;
-import org.wpilib.Timer;
+import org.wpilib.system.Timer;
+import org.wpilib.vision.apriltag.AprilTagFieldLayout;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -88,7 +87,7 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
         List<PoseObservation> poseObservations = new LinkedList<>();
 
         for (var result : camera.getAllUnreadResults()) {
-            boolean stale = Timer.getFPGATimestamp() - result.getTimestampSeconds() > HEARTBEAT_DEBOUNCE_SEC;
+            boolean stale = Timer.getMonotonicTimestamp() - result.getTimestampSeconds() > HEARTBEAT_DEBOUNCE_SEC;
             // Update latest target observation
             if (result.hasTargets()) {
                 var bestTarget = result.getBestTarget();

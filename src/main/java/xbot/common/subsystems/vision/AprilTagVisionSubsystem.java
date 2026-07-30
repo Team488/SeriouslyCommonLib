@@ -13,10 +13,11 @@
 
 package xbot.common.subsystems.vision;
 
-import org.wpilib.apriltag.AprilTagFieldLayout;
 import org.wpilib.math.geometry.Pose3d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Transform3d;
+import org.wpilib.system.Timer;
+import org.wpilib.vision.apriltag.AprilTagFieldLayout;
 import org.wpilib.command2.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
@@ -24,7 +25,6 @@ import xbot.common.command.DataFrameRegistry;
 import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.injection.electrical_contract.XCameraElectricalContract;
 import xbot.common.properties.PropertyFactory;
-import org.wpilib.Timer;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -222,7 +222,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
             Logger.recordOutput(
                     cameraHelper.getLogPath() + "/RobotPosesRejected",
                     cameraHelper.getRobotPosesRejected().toArray(new Pose3d[0]));
-            double now = Timer.getFPGATimestamp();
+            double now = Timer.getMonotonicTimestamp();
             Logger.recordOutput(
                     cameraHelper.getLogPath() + "/Staleness",
                     cameraHelper.getPoseObservations().stream().map(p -> (now - p.timestampSeconds())).mapToDouble(Double::doubleValue).toArray());

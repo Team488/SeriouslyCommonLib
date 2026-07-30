@@ -2,8 +2,8 @@ package xbot.common.math.kinematics;
 
 import static org.wpilib.units.Units.Meters;
 
-import org.wpilib.math.MathUtil;
 import org.wpilib.math.interpolation.Interpolatable;
+import org.wpilib.math.util.MathUtil;
 import org.wpilib.units.measure.Distance;
 import java.util.Objects;
 

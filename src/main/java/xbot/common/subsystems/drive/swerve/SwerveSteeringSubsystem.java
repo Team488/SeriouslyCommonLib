@@ -10,8 +10,8 @@ import org.wpilib.command2.sysid.SysIdRoutine;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.util.MathUtil;
 
-import org.wpilib.math.MathUtil;
 import xbot.common.advantage.AKitLogger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.BaseSimpleSetpointSubsystem;

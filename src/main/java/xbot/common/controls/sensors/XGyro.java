@@ -10,7 +10,6 @@ import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.controls.io_inputs.XGyroIoInputsAutoLogged;
 import xbot.common.injection.electrical_contract.IMUInfo;
-import xbot.common.math.WrappedRotation2d;
 
 import static org.wpilib.units.Units.Degrees;
 import static org.wpilib.units.Units.DegreesPerSecond;
