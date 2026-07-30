@@ -1,10 +1,12 @@
 package xbot.common.subsystems.pose;
 
-import org.wpilib.math.MathUtil;
 import org.wpilib.units.Units;
+import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.Distance;
-import org.wpilib.units.measure.MutAngle;
+import org.wpilib.driverstation.Alliance;
 import org.wpilib.driverstation.DriverStation;
+import org.wpilib.driverstation.MatchState;
+import org.wpilib.driverstation.RobotState;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Translation2d;
@@ -56,7 +58,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     public static Distance fieldXMidpoint = Meters.of(8.7785);
     public static Distance fieldYHeight = Inches.of(317);
 
-    private final MutAngle currentHeading;
+    private Angle currentHeading;
 
     public BasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {
         this(gyroFactory.create(), propManager);
@@ -70,7 +72,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
 
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
-        currentHeading = Degrees.mutable(0);
+        currentHeading = Degrees.zero();
 
         propManager.setDefaultLevel(Property.PropertyLevel.Debug);
         rioRotated = propManager.createPersistentProperty("RIO rotated", false);
@@ -83,7 +85,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     }
 
     protected void updateCurrentHeading() {
-        currentHeading.mut_replace(MathUtil.inputModulus(getRobotYaw().getDegrees() + headingOffset, -180, 180), Degrees);
+        currentHeading = Degrees.of(Math.inputModulus(getRobotYaw().getDegrees() + headingOffset, -180, 180));
 
         aKitLog.record("AdjustedHeadingDegrees", currentHeading.in(Degrees));
         aKitLog.record("AdjustedHeadingRadians", currentHeading.in(Radians));
@@ -339,7 +341,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
      * @return Red Translation2d if on Red alliance, otherwise the original Blue Translation2d
      */
     public static Translation2d convertBlueToRedIfNeeded(Translation2d blueCoordinates) {
-        if (DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Red) {
+        if (MatchState.getAlliance().orElse(Alliance.BLUE) == Alliance.RED) {
             return convertBlueToRed(blueCoordinates);
         }
         return blueCoordinates;
@@ -351,21 +353,21 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
      * @return Red Pose2d if on Red alliance, otherwise the original Blue Pose2d
      */
     public static Pose2d convertBlueToRedIfNeeded(Pose2d blueCoordinates) {
-        if (DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Red) {
+        if (MatchState.getAlliance().orElse(Alliance.BLUE) == Alliance.RED) {
             return convertBluetoRed(blueCoordinates);
         }
         return blueCoordinates;
     }
 
     public static Rotation2d convertBlueToRedIfNeeded(Rotation2d blueHeading) {
-        if (DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Red) {
+        if (MatchState.getAlliance().orElse(Alliance.BLUE) == Alliance.RED) {
             return convertBlueToRed(blueHeading);
         }
         return blueHeading;
     }
 
-    public static DriverStation.Alliance getAlliance() {
-        return DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue);
+    public static Alliance getAlliance() {
+        return MatchState.getAlliance().orElse(Alliance.BLUE);
     }
 
     @Override

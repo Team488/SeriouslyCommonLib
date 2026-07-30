@@ -2,14 +2,13 @@ package xbot.common.properties;
 
 import org.wpilib.units.AngleUnit;
 import org.wpilib.units.measure.Angle;
-import org.wpilib.units.measure.MutAngle;
 
 /**
  * This manages an Angle in the property system.
  *
  * @author Alex
  */
-public class AngleProperty extends MeasureProperty<Angle, MutAngle, AngleUnit> {
+public class AngleProperty extends MeasureProperty<Angle, AngleUnit> {
     public AngleProperty(String prefix, String name, Angle defaultValue, XPropertyManager manager) {
         super(prefix, name, defaultValue, manager);
     }

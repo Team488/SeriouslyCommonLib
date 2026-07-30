@@ -1,7 +1,6 @@
 package xbot.common.properties;
 
 import org.wpilib.units.Measure;
-import org.wpilib.units.MutableMeasure;
 import org.wpilib.units.Unit;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.Logger;
@@ -12,21 +11,20 @@ import java.util.function.Consumer;
 
 public class MeasureProperty<
         MeasureT extends Measure<UnitT>,
-        MutMeasureT extends MutableMeasure<UnitT, MeasureT, MutMeasureT>,
         UnitT extends Unit
         > extends Property {
     final MeasureT defaultValue;
     final UnitT defaultUnit;
-    final MutMeasureT lastValue;
-    final MutMeasureT currentValue;
+    MeasureT lastValue;
+    MeasureT currentValue;
 
     private final LoggableInputs inputs = new LoggableInputs() {
         public void toLog(LogTable table) {
-            table.put(suffix, currentValue);
+            table.putMeasure(suffix, currentValue);
         }
 
         public void fromLog(LogTable table) {
-            currentValue.mut_replace(table.get(suffix, defaultValue));
+            currentValue = table.getMeasure(suffix, defaultValue);
         }
     };
 
@@ -39,9 +37,8 @@ public class MeasureProperty<
         this.defaultValue = defaultValue;
         this.defaultUnit = defaultValue.unit();
 
-        currentValue = (MutMeasureT) defaultValue.mutableCopy();
-        lastValue = (MutMeasureT) defaultValue.mutableCopy();
-
+        this.currentValue = defaultValue;
+        this.lastValue = defaultValue;
 
         // Check for non-default on load; also store a "last value" we can use
         // to check if a property has changed recently.
@@ -49,15 +46,15 @@ public class MeasureProperty<
         if (!firstValue.isEquivalent(defaultValue)) {
             log.info("Property " + key + " has the non-default value " + firstValue);
         }
-        lastValue.mut_replace(firstValue);
-        currentValue.mut_replace((MeasureT) firstValue.copy());
+        lastValue = firstValue;
+        currentValue = firstValue;
     }
 
     public MeasureT get() {
-        return currentValue.copy();
+        return currentValue;
     }
 
-
+    @SuppressWarnings("unchecked")
     public MeasureT get_internal() {
         Double nullableTableValue = activeStore.getDouble(key);
 
@@ -73,7 +70,7 @@ public class MeasureProperty<
 
     public void set(MeasureT value) {
         activeStore.setDouble(key, value.in(defaultUnit));
-        currentValue.mut_replace(value);
+        currentValue = value;
     }
 
     public void hasChangedSinceLastCheck(Consumer<MeasureT> callback) {
@@ -81,13 +78,13 @@ public class MeasureProperty<
         if (!currentValue.isEquivalent(lastValue)) {
             callback.accept(currentValue);
         }
-        lastValue.mut_replace(currentValue);
+        lastValue = currentValue;
     }
 
     public boolean hasChangedSinceLastCheck() {
         MeasureT currentValue = get();
         boolean changed = !currentValue.isEquivalent(lastValue);
-        lastValue.mut_replace(currentValue);
+        lastValue = currentValue;
         return changed;
     }
 
@@ -97,7 +94,7 @@ public class MeasureProperty<
 
     @Override
     public void refreshDataFrame() {
-        currentValue.mut_replace(get_internal());
+        currentValue = get_internal();
         Logger.processInputs(akitLogPrefix(), inputs);
     }
 }

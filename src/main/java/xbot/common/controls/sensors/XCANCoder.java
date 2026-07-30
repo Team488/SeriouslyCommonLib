@@ -1,8 +1,9 @@
 package xbot.common.controls.sensors;
 
 import com.ctre.phoenix6.StatusCode;
-import org.wpilib.Alert;
 import org.littletonrobotics.junction.Logger;
+import org.wpilib.driverstation.Alert;
+
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XCANCoderInputs;
 import xbot.common.controls.io_inputs.XCANCoderInputsAutoLogged;
@@ -24,7 +25,7 @@ public abstract class XCANCoder extends XAbsoluteEncoder {
         super(info, dataFrameRegistry);
         inputs = new XCANCoderInputsAutoLogged();
         unhealthyAlert = new Alert(AlertGroups.DEVICE_HEALTH, "CANCoder " + info.channel + " on CAN bus " + info.canBusId + " is unhealthy",
-                Alert.AlertType.kError);
+                Alert.Level.HIGH);
     }
 
     /**

@@ -30,7 +30,7 @@ public abstract class BaseCommand extends Command implements IPropertySupport {
         log = LogManager.getLogger(this.getName());
         aKitLog = new AKitLogger(this);
         monitor = new TimeLogger(this.getName(), 20);
-        runningAlert = new Alert("Commands", this.getName(), Alert.AlertType.kInfo);
+        runningAlert = new Alert("Commands", this.getName(), Alert.Level.LOW);
     }
 
     @Override

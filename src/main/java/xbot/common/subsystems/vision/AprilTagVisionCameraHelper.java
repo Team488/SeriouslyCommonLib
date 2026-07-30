@@ -60,7 +60,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         registry.register(this);
         this.aprilTagFieldLayout = fieldLayout;
         this.disconnectedAlert = new Alert(AlertGroups.DEVICE_HEALTH,
-                "Vision camera " + prefix + " is disconnected.", Alert.AlertType.kError);
+                "Vision camera " + prefix + " is disconnected.", Alert.Level.HIGH);
         this.useForPoseEstimates = useForPoseEstimates;
 
         pf.setPrefix(this.logPath);

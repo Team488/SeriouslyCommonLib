@@ -1,6 +1,6 @@
 package xbot.common.controls.sensors;
 
-import org.wpilib.math.VecBuilder;
+import org.wpilib.math.linalg.VecBuilder;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularVelocity;
 import org.littletonrobotics.junction.Logger;

@@ -67,7 +67,7 @@ public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRef
         this.targetState = new SwerveModuleState();
 
         degradedModuleAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Module " + this.label + " cannot reach CANCoder, and is disabling itself.",
-                Alert.AlertType.kError);
+                Alert.Level.HIGH);
     }
 
     /**

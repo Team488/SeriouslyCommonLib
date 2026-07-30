@@ -40,7 +40,7 @@ public class LaserCANWpiAdapter extends XLaserCAN {
             @Assisted("owningSystemPrefix")String owningSystemPrefix,
             DevicePolice police, DataFrameRegistry dataFrameRegistry) {
         super(police, info, owningSystemPrefix, dataFrameRegistry);
-        healthAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Failed to set LaserCAN configuration", Alert.AlertType.kError);
+        healthAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Failed to set LaserCAN configuration", Alert.Level.HIGH);
         laserCan = new LaserCan(info.channel);
         try {
             laserCan.setRangingMode(LaserCanInterface.RangingMode.SHORT);

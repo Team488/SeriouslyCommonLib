@@ -2,10 +2,7 @@ package xbot.common.math;
 
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
-import org.wpilib.math.geometry.struct.Translation2dStruct;
 import org.wpilib.util.struct.StructSerializable;
-
-import java.sql.Struct;
 
 /**
  * Pair of X and Y coordinates. Can be used for points, vectors, or anything

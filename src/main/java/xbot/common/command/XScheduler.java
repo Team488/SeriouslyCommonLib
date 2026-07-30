@@ -32,7 +32,7 @@ public class XScheduler {
 
     @Inject
     public XScheduler() {
-        this.schedulerCrashedAlert = new Alert("Scheduler Crashed", Alert.AlertType.kError);
+        this.schedulerCrashedAlert = new Alert("Scheduler Crashed", Alert.Level.HIGH);
         this.scheduler = CommandScheduler.getInstance();
     }
 

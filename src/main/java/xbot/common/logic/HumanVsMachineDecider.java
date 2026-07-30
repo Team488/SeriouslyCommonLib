@@ -3,7 +3,8 @@ package xbot.common.logic;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import org.wpilib.driverstation.DriverStation;
+import org.wpilib.driverstation.RobotState;
+
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.Property;
@@ -80,7 +81,7 @@ public class HumanVsMachineDecider {
      */
     public HumanVsMachineMode getRecommendedMode(double humanInput) {
 
-        if (DriverStation.isDisabled()) {
+        if (RobotState.isDisabled()) {
             inAutomaticMode = false;
             return HumanVsMachineMode.Coast;
         }
