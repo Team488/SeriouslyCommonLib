@@ -90,7 +90,7 @@ public class MeasureProperty<
     }
 
     public boolean isSetToDefault() {
-        return get() == defaultValue;
+        return get().isEquivalent(defaultValue);
     }
 
     @Override
