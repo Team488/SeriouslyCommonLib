@@ -2,9 +2,9 @@ package xbot.common.math.kinematics;
 
 import static org.wpilib.units.Units.Meters;
 
-import org.wpilib.math.util.MathSharedStore;
 import org.wpilib.math.geometry.Twist2d;
-import org.wpilib.math.kinematics.ChassisSpeeds;
+import org.wpilib.math.kinematics.ChassisAccelerations;
+import org.wpilib.math.kinematics.ChassisVelocities;
 import org.wpilib.math.kinematics.Kinematics;
 import org.wpilib.units.measure.Distance;
 
@@ -21,7 +21,7 @@ import org.wpilib.units.measure.Distance;
  * chassis speed.
  */
 public class DeadwheelKinematics
-        implements Kinematics<DeadwheelWheelSpeeds, DeadwheelWheelPositions> {
+        implements Kinematics<DeadwheelWheelPositions, DeadwheelWheelSpeeds, DeadwheelWheelAccelerations> {
     /** Differential drive trackwidth. */
     public final double robotWidthMeters;
 
@@ -59,10 +59,10 @@ public class DeadwheelKinematics
      * @return The chassis speed.
      */
     @Override
-    public ChassisSpeeds toChassisSpeeds(DeadwheelWheelSpeeds wheelSpeeds) {
+    public ChassisVelocities toChassisVelocities(DeadwheelWheelSpeeds wheelSpeeds) {
         var vx = (wheelSpeeds.frontMetersPerSecond + wheelSpeeds.rearMetersPerSecond) / 2.0;
         var vy =  (wheelSpeeds.leftMetersPerSecond + wheelSpeeds.rightMetersPerSecond) / 2.0;
-        return new ChassisSpeeds(
+        return new ChassisVelocities(
                 vx,
                 vy,
                 0);
@@ -78,16 +78,51 @@ public class DeadwheelKinematics
      * @return The left, right, front, rear velocities.
      */
     @Override
-    public DeadwheelWheelSpeeds toWheelSpeeds(ChassisSpeeds chassisSpeeds) {
+    public DeadwheelWheelSpeeds toWheelVelocities(ChassisVelocities chassisVelocities) {
         return new DeadwheelWheelSpeeds(
-                chassisSpeeds.vxMetersPerSecond
-                        - robotWidthMeters / 2 * chassisSpeeds.omegaRadiansPerSecond,
-                chassisSpeeds.vxMetersPerSecond
-                        + robotWidthMeters / 2 * chassisSpeeds.omegaRadiansPerSecond,
-                chassisSpeeds.vyMetersPerSecond
-                        - robotWidthMeters / 2 * chassisSpeeds.omegaRadiansPerSecond,
-                chassisSpeeds.vyMetersPerSecond
-                        - robotWidthMeters / 2 * chassisSpeeds.omegaRadiansPerSecond);
+                chassisVelocities.vx
+                        - robotWidthMeters / 2 * chassisVelocities.omega,
+                chassisVelocities.vx
+                        + robotWidthMeters / 2 * chassisVelocities.omega,
+                chassisVelocities.vy
+                        - robotWidthMeters / 2 * chassisVelocities.omega,
+                chassisVelocities.vy
+                        - robotWidthMeters / 2 * chassisVelocities.omega);
+    }
+
+    /**
+     * Returns a chassis acceleration from left and right component accelerations using
+     * forward kinematics. Uses the same linear relationship as {@link #toChassisVelocities},
+     * since differentiating both sides of that relationship preserves it.
+     *
+     * @param wheelAccelerations The left, right, front, rear accelerations.
+     * @return The chassis acceleration.
+     */
+    @Override
+    public ChassisAccelerations toChassisAccelerations(DeadwheelWheelAccelerations wheelAccelerations) {
+        var ax = (wheelAccelerations.frontMetersPerSecondSquared + wheelAccelerations.rearMetersPerSecondSquared) / 2.0;
+        var ay = (wheelAccelerations.leftMetersPerSecondSquared + wheelAccelerations.rightMetersPerSecondSquared) / 2.0;
+        return new ChassisAccelerations(ax, ay, 0);
+    }
+
+    /**
+     * Returns left and right component accelerations from a chassis acceleration using
+     * inverse kinematics. Uses the same linear relationship as {@link #toWheelVelocities}.
+     *
+     * @param chassisAccelerations The linear and angular acceleration components.
+     * @return The left, right, front, rear accelerations.
+     */
+    @Override
+    public DeadwheelWheelAccelerations toWheelAccelerations(ChassisAccelerations chassisAccelerations) {
+        return new DeadwheelWheelAccelerations(
+                chassisAccelerations.ax
+                        - robotWidthMeters / 2 * chassisAccelerations.alpha,
+                chassisAccelerations.ax
+                        + robotWidthMeters / 2 * chassisAccelerations.alpha,
+                chassisAccelerations.ay
+                        - robotWidthMeters / 2 * chassisAccelerations.alpha,
+                chassisAccelerations.ay
+                        - robotWidthMeters / 2 * chassisAccelerations.alpha);
     }
 
     @Override

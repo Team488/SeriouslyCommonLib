@@ -3,7 +3,6 @@ package xbot.common.math.kinematics;
 import static org.wpilib.units.Units.Meters;
 
 import org.wpilib.math.interpolation.Interpolatable;
-import org.wpilib.math.util.MathUtil;
 import org.wpilib.units.measure.Distance;
 import java.util.Objects;
 
@@ -74,9 +73,9 @@ public class DeadwheelWheelPositions
     public DeadwheelWheelPositions interpolate(
             DeadwheelWheelPositions endValue, double t) {
         return new DeadwheelWheelPositions(
-                MathUtil.interpolate(this.leftMeters, endValue.leftMeters, t),
-                MathUtil.interpolate(this.rightMeters, endValue.rightMeters, t),
-                MathUtil.interpolate(this.frontMeters, endValue.frontMeters, t),
-                MathUtil.interpolate(this.rearMeters, endValue.rearMeters, t));
+                this.leftMeters + (endValue.leftMeters - this.leftMeters) * t,
+                this.rightMeters + (endValue.rightMeters - this.rightMeters) * t,
+                this.frontMeters + (endValue.frontMeters - this.frontMeters) * t,
+                this.rearMeters + (endValue.rearMeters - this.rearMeters) * t);
     }
 }

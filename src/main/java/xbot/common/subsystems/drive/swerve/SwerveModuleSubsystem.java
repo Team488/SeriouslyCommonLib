@@ -5,9 +5,10 @@ import javax.inject.Inject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.wpilib.driverstation.Alert;
+import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
 import org.wpilib.math.kinematics.SwerveModulePosition;
-import org.wpilib.math.kinematics.SwerveModuleState;
+import org.wpilib.math.kinematics.SwerveModuleVelocity;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
@@ -35,9 +36,9 @@ public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRef
 
     private final Translation2d moduleTranslation;
 
-    private final SwerveModuleState currentState;
-    private final SwerveModulePosition currentPosition;
-    private final SwerveModuleState targetState;
+    private SwerveModuleVelocity currentState;
+    private SwerveModulePosition currentPosition;
+    private SwerveModuleVelocity targetState;
 
     private final Alert degradedModuleAlert;
     private boolean degraded = false;
@@ -60,9 +61,9 @@ public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRef
                 Inches.of(xOffsetInches.get()),
                 Inches.of(yOffsetInches.get()));
 
-        this.currentState = new SwerveModuleState();
+        this.currentState = new SwerveModuleVelocity();
         this.currentPosition = new SwerveModulePosition();
-        this.targetState = new SwerveModuleState();
+        this.targetState = new SwerveModuleVelocity();
 
         degradedModuleAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Module " + this.label + " cannot reach CANCoder, and is disabling itself.",
                 Alert.Level.HIGH);
@@ -73,22 +74,21 @@ public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRef
      *
      * @param swerveModuleState Metric swerve module state
      */
-    public void setTargetState(SwerveModuleState swerveModuleState) {
+    public void setTargetState(SwerveModuleVelocity swerveModuleState) {
         setTargetState(swerveModuleState, true);
     }
 
-    public void setTargetState(SwerveModuleState swerveModuleState, boolean optimize) {
+    public void setTargetState(SwerveModuleVelocity swerveModuleState, boolean optimize) {
         if (!degraded) {
-            this.targetState.speedMetersPerSecond = swerveModuleState.speedMetersPerSecond;
-            this.targetState.angle = swerveModuleState.angle;
+            this.targetState = swerveModuleState;
 
             if (optimize) {
-                this.targetState.optimize(getSteeringSubsystem().getCurrentRotation());
+                this.targetState = this.targetState.optimize(getSteeringSubsystem().getCurrentRotation());
             }
 
             this.getSteeringSubsystem().setTargetValue(new Rotation2d(this.targetState.angle.getRadians()).getDegrees());
             // The kinematics library does everything in metric, so we need to transform that back to US Customary Units
-            this.getDriveSubsystem().setTargetValue(this.targetState.speedMetersPerSecond);
+            this.getDriveSubsystem().setTargetValue(this.targetState.velocity);
         } else {
             // We are in degraded state. Don't set anything, pray the other modules can keep working.
             this.getSteeringSubsystem().setPower(0.0);
@@ -101,7 +101,7 @@ public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRef
      *
      * @return Metric swerve module state
      */
-    public SwerveModuleState getCurrentState() {
+    public SwerveModuleVelocity getCurrentState() {
         return this.currentState;
     }
 
@@ -109,7 +109,7 @@ public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRef
         return this.currentPosition;
     }
 
-    public SwerveModuleState getTargetState() {
+    public SwerveModuleVelocity getTargetState() {
         return this.targetState;
     }
 
@@ -165,10 +165,10 @@ public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRef
     public void refreshDataFrame() {
         getSteeringSubsystem().refreshDataFrame();
 
-        this.currentState.speedMetersPerSecond = getDriveSubsystem().getCurrentValue();
-        this.currentState.angle = getSteeringSubsystem().getCurrentRotation();
+        this.currentState = new SwerveModuleVelocity(
+                getDriveSubsystem().getCurrentValue(), getSteeringSubsystem().getCurrentRotation());
 
-        this.currentPosition.distanceMeters = getDriveSubsystem().getCurrentPositionValue();
-        this.currentPosition.angle = getSteeringSubsystem().getCurrentRotation();
+        this.currentPosition = new SwerveModulePosition(
+                getDriveSubsystem().getCurrentPositionValue(), getSteeringSubsystem().getCurrentRotation());
     }
 }

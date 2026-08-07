@@ -10,12 +10,12 @@ import org.wpilib.driverstation.RobotState;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.math.util.MathUtil;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
 import xbot.common.math.FieldPose;
-import xbot.common.math.WrappedRotation2d;
 import xbot.common.math.XYPair;
 import xbot.common.properties.BooleanProperty;
 import xbot.common.properties.DoubleProperty;
@@ -85,7 +85,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     }
 
     protected void updateCurrentHeading() {
-        currentHeading = Degrees.of(Math.inputModulus(getRobotYaw().getDegrees() + headingOffset, -180, 180));
+        currentHeading = Degrees.of(MathUtil.inputModulus(getRobotYaw().getDegrees() + headingOffset, -180, 180));
 
         aKitLog.record("AdjustedHeadingDegrees", currentHeading.in(Degrees));
         aKitLog.record("AdjustedHeadingRadians", currentHeading.in(Radians));
@@ -139,9 +139,9 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     /**
      * @return Current heading but if the navX is still booting up it will return 0
      */
-    public WrappedRotation2d getCurrentHeadingGyroOnly() {
+    public Rotation2d getCurrentHeadingGyroOnly() {
         updateCurrentHeading();
-        return WrappedRotation2d.fromDegrees(currentHeading.in(Degrees));
+        return Rotation2d.fromDegrees(currentHeading.in(Degrees));
     }
 
     /**
@@ -149,7 +149,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
      * (e.g. a vision system, pose estimator, etc)
      * @return Current heading but if the navX is still booting up it will return 0
      */
-    public WrappedRotation2d getCurrentHeading() {
+    public Rotation2d getCurrentHeading() {
         return getCurrentHeadingGyroOnly();
     }
 
@@ -245,8 +245,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
      * If the RoboRIO is mounted in a position other than "flat" (e.g. with the pins facing upward)
      * then this method will need to be overridden.
      */
-    protected WrappedRotation2d getRobotYaw() {
-        return WrappedRotation2d.fromDegrees(imu.getHeading().in(Degrees));
+    protected Rotation2d getRobotYaw() {
+        return Rotation2d.fromDegrees(imu.getHeading().in(Degrees));
     }
 
     protected double getUntrimmedPitch() {

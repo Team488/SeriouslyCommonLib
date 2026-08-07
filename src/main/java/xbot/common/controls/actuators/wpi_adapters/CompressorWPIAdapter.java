@@ -17,7 +17,7 @@ public class CompressorWPIAdapter extends XCompressor {
 
     @AssistedInject
     public CompressorWPIAdapter() {
-        this.compressor = new Compressor(PneumaticsModuleType.REVPH);
+        this.compressor = new Compressor(0, PneumaticsModuleType.REV_PH); // default module
     }
 
     @Override

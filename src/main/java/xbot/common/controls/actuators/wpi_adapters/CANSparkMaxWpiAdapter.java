@@ -11,7 +11,6 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import org.wpilib.math.util.MathUtil;
 import org.wpilib.units.AngularAccelerationUnit;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularAcceleration;
@@ -76,7 +75,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
             PowerDistributionProperties pdProperties
     ) {
         super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
-        this.internalSparkMax = new SparkMax(info.deviceId(), SparkLowLevel.MotorType.kBrushless);
+        this.internalSparkMax = new SparkMax(info.deviceId(), 0, SparkLowLevel.MotorType.kBrushless); // default CAN bus
         this.assertionManager = assertionManager;
 
         if (info.busId() != CANBusId.RIO) {
@@ -179,7 +178,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
     @Override
     public DeviceHealth getHealth() {
-        var faults = this.internalSparkMax.getFaults();
+        var faults = this.internalSparkMax.getFaults().get();
         return (faults.can || faults.firmware) ? DeviceHealth.Unhealthy : DeviceHealth.Healthy;
     }
 
@@ -188,12 +187,12 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         if (!isValidPowerRequest(power)) {
             return;
         }
-        this.internalSparkMax.set(MathUtil.clamp(power, minPower, maxPower));
+        this.internalSparkMax.setThrottle(Math.clamp(power, minPower, maxPower));
     }
 
     @Override
     public double getPower() {
-        return this.internalSparkMax.getAppliedOutput();
+        return this.internalSparkMax.getAppliedOutput().get();
     }
 
     @Override
@@ -210,7 +209,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     public Angle getRawPosition_internal() {
-        return Rotations.of(this.internalSparkMax.getEncoder().getPosition());
+        return Rotations.of(this.internalSparkMax.getEncoder().getPosition().get());
     }
 
     @Override
@@ -235,7 +234,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     public AngularVelocity getRawVelocity_internal() {
-        return RPM.of(this.internalSparkMax.getEncoder().getVelocity());
+        return RPM.of(this.internalSparkMax.getEncoder().getVelocity().get());
     }
 
     @Override
@@ -275,7 +274,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         if (!isValidVoltageRequest(voltage)) {
             return;
         }
-        this.internalSparkMax.setVoltage(voltage);
+        this.internalSparkMax.setVoltage(voltage.in(Volts));
     }
 
     private ClosedLoopSlot getClosedLoopSlot(int slot) {
@@ -293,7 +292,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
     public Voltage getVoltage_internal() {
         return Volts.of(
-                this.internalSparkMax.getAppliedOutput() * internalSparkMax.getBusVoltage());
+                this.internalSparkMax.getAppliedOutput().get() * internalSparkMax.getBusVoltage().get());
     }
 
     @Override
@@ -302,12 +301,12 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     private Current getCurrent_internal() {
-        return Amps.of(this.internalSparkMax.getOutputCurrent());
+        return Amps.of(this.internalSparkMax.getOutputCurrent().get());
     }
 
     @Override
     public boolean isInverted() {
-        return this.internalSparkMax.configAccessor.getInverted();
+        return this.internalSparkMax.getInverted();
     }
 
     protected void updateInputs(XCANMotorControllerInputs inputs) {

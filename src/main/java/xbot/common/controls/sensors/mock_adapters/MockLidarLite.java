@@ -4,6 +4,8 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
+import org.wpilib.hardware.bus.I2C.Port;
+
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.injection.DevicePolice;
 import xbot.common.properties.PropertyFactory;

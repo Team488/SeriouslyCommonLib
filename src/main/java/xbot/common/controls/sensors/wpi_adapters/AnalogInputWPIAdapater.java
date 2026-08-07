@@ -10,6 +10,12 @@ import xbot.common.injection.DevicePolice;
 public class AnalogInputWPIAdapater extends XAnalogInput {
     AnalogInput input;
 
+    // WPILib 2027 removed AnalogInput's hardware oversampling/averaging support. This
+    // reimplements it as a software moving average over the configured sample window.
+    private double[] averageSamples = new double[1];
+    private int averageSampleIndex = 0;
+    private int averageSampleCount = 0;
+
     @AssistedFactory
     public abstract static class AnalogInputWPIAdapaterFactory implements XAnalogInputFactory {
         public abstract AnalogInputWPIAdapater create(@Assisted("channel") int channel);
@@ -30,11 +36,22 @@ public class AnalogInputWPIAdapater extends XAnalogInput {
     }
 
     public double getAverageVoltage() {
-        return input.getAverageVoltage();
+        averageSamples[averageSampleIndex] = input.getVoltage();
+        averageSampleIndex = (averageSampleIndex + 1) % averageSamples.length;
+        if (averageSampleCount < averageSamples.length) {
+            averageSampleCount++;
+        }
+        double sum = 0;
+        for (int i = 0; i < averageSampleCount; i++) {
+            sum += averageSamples[i];
+        }
+        return sum / averageSampleCount;
     }
 
     public void setAverageBits(int bits) {
-        input.setAverageBits(bits);
+        averageSamples = new double[Math.max(1, 1 << bits)];
+        averageSampleIndex = 0;
+        averageSampleCount = 0;
     }
 
     public AnalogInput getInternalDevice() {

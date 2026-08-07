@@ -158,7 +158,7 @@ public class AKitLogger {
         if (this.shouldSkipLogging()) {
             return;
         }
-        Logger.recordOutput(this.prefix + key, value);
+        Logger.recordOutputMeasure(this.prefix + key, value);
     }
 
     public void record(String key, boolean[] value) {

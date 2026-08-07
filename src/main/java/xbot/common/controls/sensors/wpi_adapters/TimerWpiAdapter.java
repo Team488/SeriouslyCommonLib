@@ -14,7 +14,7 @@ public class TimerWpiAdapter implements XSettableTimerImpl {
 
     @Override
     public double getFPGATimestamp() {
-        return Timer.getFPGATimestamp();
+        return Timer.getMonotonicTimestamp();
     }
 
     @Override
