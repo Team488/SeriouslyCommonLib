@@ -151,7 +151,9 @@ public class GameFieldTest extends BaseCommonLibTest {
         assertEquals(179, gameField.getMirroredRotation(Rotation2d.fromDegrees(1)).getDegrees(), 0.001);
         assertEquals(90, gameField.getMirroredRotation(Rotation2d.fromDegrees(90)).getDegrees(), 0.001);
         assertEquals(0, gameField.getMirroredRotation(Rotation2d.fromDegrees(180)).getDegrees(), 0.001);
-        assertEquals(270, gameField.getMirroredRotation(Rotation2d.fromDegrees(-90)).getDegrees(), 0.001);
+        // WPILib 2027 removed Rotation2d's raw "value" field; getDegrees() is now always
+        // computed via atan2(sin, cos) and normalized to (-180, 180], so 270 reads back as -90.
+        assertEquals(-90, gameField.getMirroredRotation(Rotation2d.fromDegrees(-90)).getDegrees(), 0.001);
     }
 
     @Test
