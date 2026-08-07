@@ -4,7 +4,6 @@ import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
 import org.wpilib.math.trajectory.Trajectory;
-import xbot.common.math.WrappedRotation2d;
 import xbot.common.subsystems.drive.SwervePointKinematics;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
@@ -53,7 +52,7 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
             state.poseMeters = new Pose2d(
                     point.keyPose.getTranslation().getX(),
                     point.keyPose.getTranslation().getY(),
-                    WrappedRotation2d.fromRotation2d(point.keyPose.getRotation())
+                    point.keyPose.getRotation()
             );
             state.velocityMetersPerSecond = 0;
             state.accelerationMetersPerSecondSq = 0;

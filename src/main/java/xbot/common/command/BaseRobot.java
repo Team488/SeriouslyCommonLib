@@ -12,7 +12,6 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
-import org.wpilib.driverstation.DriverStation;
 import org.wpilib.driverstation.MatchState;
 import org.wpilib.driverstation.RobotState;
 import org.wpilib.hardware.power.PowerDistribution;
@@ -100,7 +99,7 @@ public abstract class BaseRobot extends LoggedRobot {
                 }
                 
 
-                if (!DriverStation.isFMSAttached()) {
+                if (!RobotState.isFMSAttached()) {
                     // Publish data to NetworkTables if we're not on a real field
 
                     // Publish data to NetworkTables, but skip the AKit-side mirror of Property
@@ -110,6 +109,7 @@ public abstract class BaseRobot extends LoggedRobot {
                 }
 
                 LoggedPowerDistribution.getInstance(
+                        0, // default CAN bus
                         PowerDistribution.kDefaultModule,
                         PowerDistribution.ModuleType.REV); // Log power distribution data from the configured module
             } else {
@@ -120,7 +120,7 @@ public abstract class BaseRobot extends LoggedRobot {
             }
 
             Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
-            DriverStation.silenceJoystickConnectionWarning(true);
+            // Note: DriverStation.silenceJoystickConnectionWarning() was removed in WPILib 2027 with no replacement.
 
 
             log = LogManager.getLogger(BaseRobot.class);
@@ -131,10 +131,6 @@ public abstract class BaseRobot extends LoggedRobot {
             log.info("========== SYSTEMS INITIALIZED ==========");
             SmartDashboard.putData(CommandScheduler.getInstance());
 
-            if (this.isReal()) {
-                // We're just so tired of seeing these in logs. We may re-enable this at competition time.
-                DriverStation.silenceJoystickConnectionWarning(true);
-            }
             PropertyFactory pf = injectorComponent.propertyFactory();
 
             devicePolice = injectorComponent.devicePolice();
@@ -172,7 +168,7 @@ public abstract class BaseRobot extends LoggedRobot {
     protected void updateLoggingContext() {
         String dsStatus = RobotState.isDSAttached() ? "DS" : "no DS";
         String fmsStatus = RobotState.isFMSAttached() ? "FMS" : "no FMS";
-        String matchStatus = MatchState.getMatchType().toString() + " " + DriverStation.getMatchNumber() + " " + DriverStation.getReplayNumber();
+        String matchStatus = MatchState.getMatchType().toString() + " " + MatchState.getMatchNumber() + " " + MatchState.getReplayNumber();
         String enableStatus = getEnableTypeString();
         String matchContext = dsStatus + ", " + fmsStatus + ", " + enableStatus + ", " + matchStatus;
     }

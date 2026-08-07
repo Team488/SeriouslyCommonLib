@@ -4,7 +4,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import org.wpilib.DigitalOutput;
+import org.wpilib.hardware.discrete.DigitalOutput;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.injection.DevicePolice;
 

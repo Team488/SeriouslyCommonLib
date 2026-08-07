@@ -3,8 +3,8 @@ package xbot.common.controls.actuators.wpi_adapters;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import org.wpilib.Compressor;
-import org.wpilib.PneumaticsModuleType;
+import org.wpilib.hardware.pneumatic.Compressor;
+import org.wpilib.hardware.pneumatic.PneumaticsModuleType;
 import xbot.common.controls.actuators.XCompressor;
 
 public class CompressorWPIAdapter extends XCompressor {

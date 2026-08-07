@@ -2,7 +2,7 @@ package xbot.common.command;
 
 import javax.inject.Inject;
 
-import org.wpilib.Alert;
+import org.wpilib.driverstation.Alert;
 import org.wpilib.command2.Command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

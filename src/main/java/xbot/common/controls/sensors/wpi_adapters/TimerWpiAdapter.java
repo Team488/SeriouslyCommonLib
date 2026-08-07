@@ -3,7 +3,7 @@ package xbot.common.controls.sensors.wpi_adapters;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.wpilib.Timer;
+import org.wpilib.system.Timer;
 import xbot.common.controls.sensors.XSettableTimerImpl;
 
 @Singleton

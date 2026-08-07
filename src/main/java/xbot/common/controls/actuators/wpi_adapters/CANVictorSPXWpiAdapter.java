@@ -1,7 +1,5 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
@@ -20,7 +18,6 @@ import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
 import xbot.common.injection.DevicePolice;
-import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.logging.RobotAssertionManager;
@@ -28,9 +25,11 @@ import xbot.common.properties.PowerDistributionProperties;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
-import static org.wpilib.units.Units.Seconds;
-import static org.wpilib.units.Units.Volts;
-
+// TODO(2027 migration): CTRE has removed Phoenix 5 (and the VictorSPX device family with it)
+// for 2027 - confirmed by inspecting wpiapi-java-26.50.0-alpha-1.jar, which contains no
+// VictorSPX/TalonSRX classes at all. There is no vendor migration path, unlike other Phoenix 5
+// devices that moved to Phoenix 6. Stubbed out; VictorSPX hardware is unsupported until/unless
+// CTRE reintroduces it or the team retires the remaining VictorSPX controllers.
 public class CANVictorSPXWpiAdapter extends XCANMotorController {
 
 
@@ -45,11 +44,7 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
 
     private static final Logger log = LogManager.getLogger(CANVictorSPXWpiAdapter.class);
 
-    private final VictorSPX internalVictor;
     private final RobotAssertionManager assertionManager;
-
-    private double minPower = -1.0;
-    private double maxPower = 1.0;
 
     @AssistedInject
     public CANVictorSPXWpiAdapter(
@@ -64,20 +59,15 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
             PowerDistributionProperties pdProperties
     ) {
         super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
-        this.internalVictor = new VictorSPX(info.deviceId());
         this.assertionManager = assertionManager;
-
-        if (info.busId() != CANBusId.RIO) {
-            this.assertionManager.fail("VictorSPX must be connected to the RIO");
-        }
-        setConfiguration(info.outputConfig());
+        this.assertionManager.fail("VictorSPX is unsupported on WPILib 2027 (Phoenix 5 was removed by CTRE)");
+        log.warn("VictorSPX support is unavailable on WPILib 2027 - motor will not move!");
     }
 
 
     @Override
     public void setConfiguration(CANMotorControllerOutputConfig outputConfig) {
-        internalVictor.setInverted(
-                outputConfig.inversionType == CANMotorControllerOutputConfig.InversionType.Inverted);
+        // Do nothing, unsupported
     }
 
     @Override
@@ -87,17 +77,17 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
 
     @Override
     public DeviceHealth getHealth() {
-        return DeviceHealth.Healthy;
+        return DeviceHealth.Unhealthy;
     }
 
     @Override
     public void setOpenLoopRampRates(Time dutyCyclePeriod, Time voltagePeriod) {
-        internalVictor.configOpenloopRamp(voltagePeriod.in(Seconds));
+        // Do nothing, unsupported
     }
 
     @Override
     public void setClosedLoopRampRates(Time dutyCyclePeriod, Time voltagePeriod) {
-        internalVictor.configClosedloopRamp(voltagePeriod.in(Seconds));
+        // Do nothing, unsupported
     }
 
     @Override
@@ -112,23 +102,22 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
 
     @Override
     public void setTrapezoidalProfileMaxVelocity(AngularVelocity velocity) {
-
+        // Do nothing, not relevant
     }
 
     @Override
     public void setPower(double power) {
-        internalVictor.set(VictorSPXControlMode.PercentOutput, power);
+        // Do nothing, unsupported
     }
 
     @Override
     public double getPower() {
-        return internalVictor.getMotorOutputPercent();
+        return 0;
     }
 
     @Override
     public void setPowerRange(double minPower, double maxPower) {
-        internalVictor.configPeakOutputForward(maxPower);
-        internalVictor.configPeakOutputReverse(minPower);
+        // Do nothing, unsupported
     }
 
     @Override
@@ -153,7 +142,7 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
 
     @Override
     public void setVoltage(Voltage voltage) {
-        internalVictor.set(VictorSPXControlMode.PercentOutput, voltage.in(Volts) / 12.0);
+        // Do nothing, unsupported
     }
 
     @Override
@@ -163,7 +152,7 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
 
     @Override
     public boolean isInverted() {
-        return internalVictor.getInverted();
+        return false;
     }
 
     @Override

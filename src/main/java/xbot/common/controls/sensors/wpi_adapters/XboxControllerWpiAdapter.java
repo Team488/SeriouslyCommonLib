@@ -11,12 +11,12 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import org.wpilib.GenericHID;
-import org.wpilib.XboxController;
+import org.wpilib.driverstation.GenericHID;
+import org.wpilib.driverstation.Gamepad;
 
 public class XboxControllerWpiAdapter extends XXboxController {
 
-    protected XboxController controller;
+    protected Gamepad controller;
 
     @AssistedFactory
     public abstract static class XboxControllerWpiAdapterFactory implements XXboxControllerFactory {
@@ -29,7 +29,7 @@ public class XboxControllerWpiAdapter extends XXboxController {
             XRumbleManagerFactory rumbleManagerFactory, RobotAssertionManager manager, DevicePolice police) {
         super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, rumbleManagerFactory, manager,
                 police);
-        controller = new XboxController(port);
+        controller = new Gamepad(port);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class XboxControllerWpiAdapter extends XXboxController {
 
     @Override
     public int getPOV() {
-        return controller.getPOV();
+        return povDirectionToDegrees(controller.getPOV());
     }
 
     @Override

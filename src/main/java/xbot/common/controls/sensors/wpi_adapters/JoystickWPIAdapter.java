@@ -11,8 +11,8 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import org.wpilib.GenericHID;
-import org.wpilib.Joystick;
+import org.wpilib.driverstation.GenericHID;
+import org.wpilib.driverstation.Joystick;
 
 public class JoystickWPIAdapter extends XJoystick {
     
@@ -56,7 +56,7 @@ public class JoystickWPIAdapter extends XJoystick {
 
     @Override
     public int getPOV() {
-        return this.internalHID.getPOV();
+        return povDirectionToDegrees(this.internalHID.getPOV());
     }
 
     @Override

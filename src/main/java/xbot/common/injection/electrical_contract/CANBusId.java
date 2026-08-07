@@ -10,7 +10,7 @@ public record CANBusId(String id) {
     public static final CANBusId RIO = new CANBusId("rio");
     public static final CANBusId Canivore = new CANBusId("*");
 
-    private static final CANBus DefaultPhoenixRio = CANBus.roboRIO();
+    private static final CANBus DefaultPhoenixRio = CANBus.systemcore(0);
     private static final CANBus DefaultPhoenixCanivore = new CANBus("*");
 
     /**

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.wpilib.driverstation.GenericHID;
+import org.wpilib.driverstation.POVDirection;
 import org.wpilib.math.geometry.Translation2d;
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger;
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger;
@@ -107,7 +108,27 @@ public abstract class XJoystick
     
     public abstract GenericHID getGenericHID();
     
-    public abstract int getPOV();    
+    public abstract int getPOV();
+
+    /**
+     * WPILib 2027 changed GenericHID.getPOV() to return a POVDirection enum instead of the
+     * legacy HID hat-switch degree value. This converts back to that legacy convention
+     * (-1 centered, 0 up, clockwise in 45-degree increments) so this library's public
+     * int-based getPOV() contract is unchanged for downstream consumers.
+     */
+    protected static int povDirectionToDegrees(POVDirection direction) {
+        return switch (direction) {
+            case UP -> 0;
+            case UP_RIGHT -> 45;
+            case RIGHT -> 90;
+            case DOWN_RIGHT -> 135;
+            case DOWN -> 180;
+            case DOWN_LEFT -> 225;
+            case LEFT -> 270;
+            case UP_LEFT -> 315;
+            default -> -1;
+        };
+    }
 
     public void addAnalogButton(int axisNumber, double minThreshold, double maxThreshold) {
         addAnalogButton(new AnalogHIDDescription(axisNumber, minThreshold, maxThreshold));

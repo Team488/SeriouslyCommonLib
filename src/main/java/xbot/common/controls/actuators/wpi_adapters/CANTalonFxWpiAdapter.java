@@ -280,7 +280,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public double getPower() {
-        return this.internalTalonFx.get();
+        return this.internalTalonFx.getDutyCycle().refresh().getValue();
     }
 
     @Override

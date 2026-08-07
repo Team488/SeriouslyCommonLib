@@ -1,8 +1,8 @@
 package xbot.common.controls.sensors;
 
 import org.wpilib.math.geometry.Translation2d;
-import org.wpilib.driverstation.DriverStation;
-import org.wpilib.driverstation.DriverStation.Alliance;
+import org.wpilib.driverstation.MatchState;
+import org.wpilib.driverstation.Alliance;
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
@@ -60,7 +60,7 @@ public abstract class XFTCGamepad extends XJoystick implements IGamepad {
 
     public Translation2d getLeftFieldOrientedVector() {
         var blueTranslation = new Translation2d(getLeftJoystickYAxis(), getLeftJoystickXAxis()); 
-        if(DriverStation.getAlliance().orElseGet(() -> Alliance.Blue) == Alliance.Blue) {
+        if(MatchState.getAlliance().orElseGet(() -> Alliance.BLUE) == Alliance.BLUE) {
             return blueTranslation;
         } else {
             // when on red, both axis invert
@@ -70,7 +70,7 @@ public abstract class XFTCGamepad extends XJoystick implements IGamepad {
 
     public Translation2d getRightFieldOrientedVector() {
         var blueTranslation = new Translation2d(getRightJoystickYAxis(), getRightJoystickXAxis()); 
-        if(DriverStation.getAlliance().orElseGet(() -> Alliance.Blue) == Alliance.Blue) {
+        if(MatchState.getAlliance().orElseGet(() -> Alliance.BLUE) == Alliance.BLUE) {
             return blueTranslation;
         } else {
             // when on red, both axis invert

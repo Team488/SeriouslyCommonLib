@@ -1,9 +1,5 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
-import com.studica.frc.AHRS;
-
-import org.wpilib.units.measure.Angle;
-import org.wpilib.units.measure.AngularVelocity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,16 +11,18 @@ import xbot.common.controls.sensors.XGyro;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.injection.DevicePolice;
-import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.IMUInfo;
 
 import static org.wpilib.units.Units.Degrees;
 import static org.wpilib.units.Units.DegreesPerSecond;
 
+// TODO(2027 migration): Studica has not published a 2027-alpha-compatible Studica-java
+// vendordep yet (checked https://github.com/Studica-Robotics/NavX/releases, no releases
+// published at all as of this writing). Stubbed out until one is available; reports as
+// permanently broken/disconnected.
 public class InertialMeasurementUnitAdapter extends XGyro {
 
-    AHRS ahrs;
-    boolean isBroken = false;
+    boolean isBroken = true;
 
     static Logger log = LogManager.getLogger(InertialMeasurementUnitAdapter.class);
 
@@ -36,51 +34,21 @@ public class InertialMeasurementUnitAdapter extends XGyro {
     @AssistedInject
     public InertialMeasurementUnitAdapter(DevicePolice police, DataFrameRegistry registry, @Assisted IMUInfo imuInfo) {
         super(imuInfo, registry);
-        /* Options: Port.kMXP, SPI.kMXP, I2C.kMXP or SerialPort.kUSB */
-        try {
-            switch (imuInfo.interfaceType()) {
-                case spi -> this.ahrs = new AHRS(AHRS.NavXComType.kMXP_SPI);
-                case serial -> this.ahrs = new AHRS(AHRS.NavXComType.kMXP_UART);
-                case i2c -> this.ahrs = new AHRS(AHRS.NavXComType.kI2C);
-                default -> this.ahrs = new AHRS(AHRS.NavXComType.kMXP_SPI);
-            }
-            police.registerDevice(DeviceType.IMU, 1, this);
-            log.info("AHRS successfully created");
-        }
-        catch (Exception e){
-            isBroken = true;
-            log.warn("AHRS could not be created - gyro is broken!");
-        }
+        log.warn("NavX/AHRS support is unavailable on WPILib 2027 (no vendor build yet) - gyro is broken!");
     }
 
     public boolean isConnected() {
-        return this.ahrs.isConnected();
-    }
-
-    private Angle getDeviceYaw() {
-        return Degrees.of(-this.ahrs.getYaw());
-    }
-
-    private Angle getDeviceRoll() {
-        return Degrees.of(-this.ahrs.getRoll());
-    }
-
-    private Angle getDevicePitch() {
-        return Degrees.of(-this.ahrs.getPitch());
+        return false;
     }
 
     @Override
     protected void updateInputs(XGyroIoInputs inputs) {
-        inputs.yaw = getDeviceYaw();
-        inputs.yawAngularVelocity = getDeviceYawAngularVelocity();
-        inputs.pitch = getDevicePitch();
-        inputs.roll = getDeviceRoll();
-        inputs.acceleration = new double[]{
-            getDeviceRawAccelX(),
-            getDeviceRawAccelY(),
-            getDeviceRawAccelZ()
-        };
-        inputs.isConnected = isConnected();
+        inputs.yaw = Degrees.zero();
+        inputs.yawAngularVelocity = DegreesPerSecond.zero();
+        inputs.pitch = Degrees.zero();
+        inputs.roll = Degrees.zero();
+        inputs.acceleration = new double[]{0, 0, 0};
+        inputs.isConnected = false;
     }
 
     @Override
@@ -88,41 +56,7 @@ public class InertialMeasurementUnitAdapter extends XGyro {
         return isBroken;
     }
 
-    /**
-     * Note: this is in degrees per second.
-     */
-    public AngularVelocity getDeviceYawAngularVelocity(){
-        return DegreesPerSecond.of(ahrs.getRate());
-    }
-
-    public double getDeviceVelocityX() {
-        return ahrs.getVelocityX();
-    }
-
-    public double getDeviceVelocityY() {
-        return ahrs.getVelocityY();
-    }
-
-    public double getDeviceVelocityZ() {
-        return ahrs.getVelocityZ();
-    }
-
-    public double getDeviceRawAccelX() {
-        return ahrs.getRawAccelX();
-    }
-
-    public double getDeviceRawAccelY() {
-        return ahrs.getRawAccelY();
-    }
-
-    public double getDeviceRawAccelZ() {
-        return ahrs.getRawAccelZ();
-    }
-
     @Override
     public void close() {
-        if (ahrs != null) {
-            ahrs.close();
-        }
     }
 }
