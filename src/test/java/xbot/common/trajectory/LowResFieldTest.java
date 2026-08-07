@@ -15,7 +15,6 @@ import org.junit.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.math.FieldPose;
-import xbot.common.math.WrappedRotation2d;
 import xbot.common.math.XYPair;
 import xbot.common.subsystems.drive.RabbitPoint;
 

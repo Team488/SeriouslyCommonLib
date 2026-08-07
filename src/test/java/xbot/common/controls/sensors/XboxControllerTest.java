@@ -1,6 +1,6 @@
 package xbot.common.controls.sensors;
 
-import org.wpilib.MockXboxControllerAdapter;
+import xbot.common.controls.sensors.mock_adapters.MockXboxControllerAdapter;
 import org.junit.Test;
 
 import xbot.common.controls.sensors.XXboxController.XboxButton;

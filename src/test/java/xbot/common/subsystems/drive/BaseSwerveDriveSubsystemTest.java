@@ -1,7 +1,7 @@
 package xbot.common.subsystems.drive;
 
 import org.wpilib.math.geometry.Rotation2d;
-import org.wpilib.math.kinematics.SwerveModuleState;
+import org.wpilib.math.kinematics.SwerveModuleVelocity;
 import org.junit.Test;
 import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
 import xbot.common.injection.BaseCommonLibTest;
@@ -59,7 +59,7 @@ public class BaseSwerveDriveSubsystemTest extends BaseCommonLibTest {
 
         assertEquals(
                 subsystem.getFrontLeftSwerveModuleSubsystem().getDriveSubsystem().getCurrentValue(),
-                subsystem.getCurrentSwerveStates().frontLeft().speedMetersPerSecond,
+                subsystem.getCurrentSwerveStates().frontLeft().velocity,
                 0.001);
     }
 
@@ -67,24 +67,24 @@ public class BaseSwerveDriveSubsystemTest extends BaseCommonLibTest {
     public void setTargetSwerveStates() {
         subsystem.setTargetSwerveStates(
                 new SwerveModuleStates(
-                    new SwerveModuleState(1, Rotation2d.fromDegrees(90)),
-                    new SwerveModuleState(2, Rotation2d.fromDegrees(91)),
-                    new SwerveModuleState(3, Rotation2d.fromDegrees(92)),
-                    new SwerveModuleState(4, Rotation2d.fromDegrees(93))
+                    new SwerveModuleVelocity(1, Rotation2d.fromDegrees(90)),
+                    new SwerveModuleVelocity(2, Rotation2d.fromDegrees(91)),
+                    new SwerveModuleVelocity(3, Rotation2d.fromDegrees(92)),
+                    new SwerveModuleVelocity(4, Rotation2d.fromDegrees(93))
                 )
         );
 
         assertEquals(
-                new SwerveModuleState(1, Rotation2d.fromDegrees(90)),
+                new SwerveModuleVelocity(1, Rotation2d.fromDegrees(90)),
                 subsystem.getFrontLeftSwerveModuleSubsystem().getTargetState());
         assertEquals(
-                new SwerveModuleState(-2, Rotation2d.fromDegrees(-89)),
+                new SwerveModuleVelocity(-2, Rotation2d.fromDegrees(-89)),
                 subsystem.getFrontRightSwerveModuleSubsystem().getTargetState());
         assertEquals(
-                new SwerveModuleState(-3, Rotation2d.fromDegrees(-88)),
+                new SwerveModuleVelocity(-3, Rotation2d.fromDegrees(-88)),
                 subsystem.getRearLeftSwerveModuleSubsystem().getTargetState());
         assertEquals(
-                new SwerveModuleState(-4, Rotation2d.fromDegrees(-87)),
+                new SwerveModuleVelocity(-4, Rotation2d.fromDegrees(-87)),
                 subsystem.getRearRightSwerveModuleSubsystem().getTargetState());
     }
 }

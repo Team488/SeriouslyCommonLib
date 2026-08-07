@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import org.wpilib.MockSolenoid;
+import xbot.common.controls.actuators.mock_adapters.MockSolenoid;
 
 @Ignore
 public class SimulatedSolenoidTest extends BaseSimulationTest {

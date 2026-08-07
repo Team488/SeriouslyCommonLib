@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import org.wpilib.MockTimer;
+import xbot.common.controls.sensors.mock_adapters.MockTimer;
 
 @Ignore
 public class SimulatedTimerTest extends BaseSimulationTest {

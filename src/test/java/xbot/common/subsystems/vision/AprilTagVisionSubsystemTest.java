@@ -5,7 +5,7 @@ import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Rotation3d;
 import org.wpilib.math.geometry.Transform3d;
 import org.wpilib.math.geometry.Translation3d;
-import org.wpilib.math.VecBuilder;
+import org.wpilib.math.linalg.VecBuilder;
 import org.junit.Test;
 import xbot.common.injection.BaseCommonLibTest;
 
