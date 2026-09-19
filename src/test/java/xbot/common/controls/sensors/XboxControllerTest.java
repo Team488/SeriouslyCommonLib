@@ -4,6 +4,7 @@ import org.wpilib.MockXboxControllerAdapter;
 import org.junit.Test;
 
 import xbot.common.controls.sensors.XXboxController.XboxButton;
+import xbot.common.controls.sensors.mock_adapters.MockXboxControllerAdapter;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.logging.RobotAssertionException;
 

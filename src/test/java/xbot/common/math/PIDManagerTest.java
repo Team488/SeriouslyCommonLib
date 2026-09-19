@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.wpilib.MockTimer;
+import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.logging.RobotAssertionException;
 import xbot.common.math.PID.OffTargetReason;

@@ -2,7 +2,6 @@ package xbot.common.command;
 
 import javax.inject.Inject;
 
-import org.wpilib.Alert;
 import org.wpilib.command2.Command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,7 +21,7 @@ public abstract class BaseCommand extends Command implements IPropertySupport {
     protected final AKitLogger aKitLog;
     protected final TimeLogger monitor;
     private boolean configurableRunWhenDisabled;
-    
+
     @Inject
     SmartDashboardCommandPutter commandPutter;
 
@@ -41,7 +40,7 @@ public abstract class BaseCommand extends Command implements IPropertySupport {
     public void setRunsWhenDisabled(boolean value) {
         configurableRunWhenDisabled = value;
     }
-    
+
     public String getPrefix() {
         return this.getName() + "/";
     }

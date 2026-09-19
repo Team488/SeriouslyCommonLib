@@ -35,8 +35,8 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
     private double positionOffset;
 
     private final boolean inverted;
-    private final MutAngularVelocity velocity;
-    private final MutAngle position;
+    private AngularVelocity velocity;
+    private Angle position;
 
     @AssistedFactory
     public abstract static class MockCANCoderFactory implements XCANCoderFactory {
@@ -53,8 +53,8 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
         pf.setPrefix(owningSystemPrefix);
 
         this.deviceId = deviceInfo.channel;
-        this.velocity = RPM.mutable(0);
-        this.position = Rotations.mutable(0);
+        this.velocity = RPM.zero();
+        this.position = Rotations.zero();
         pf.setDefaultLevel(Property.PropertyLevel.Debug);
         this.positionOffset = 0;
         this.inverted = deviceInfo.inverted;
@@ -77,7 +77,7 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
     }
 
     public void setVelocity(AngularVelocity newVelocity) {
-        this.velocity.mut_replace(newVelocity.times(inverted ? -1 : 1));
+        this.velocity = newVelocity.times(inverted ? -1 : 1);
     }
 
     public AngularVelocity getVelocity_internal() {
@@ -86,7 +86,7 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
 
     @Override
     public void setPosition(Angle newPosition) {
-        position.mut_replace(newPosition.times(inverted ? -1 : 1));
+        position = newPosition.times(inverted ? -1 : 1);
     }
 
     public double getPositionOffset() {
@@ -94,7 +94,7 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
     }
 
     public void setAbsolutePosition(Angle position) {
-        this.position.mut_replace(position.times(inverted ? -1 : 1));
+        this.position = position.times(inverted ? -1 : 1);
     }
 
     @Override

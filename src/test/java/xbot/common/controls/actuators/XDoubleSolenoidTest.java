@@ -8,14 +8,15 @@ import org.junit.Test;
 
 import org.wpilib.MockSolenoid;
 import xbot.common.controls.actuators.XDoubleSolenoid.DoubleSolenoidMode;
+import xbot.common.controls.actuators.mock_adapters.MockSolenoid;
 import xbot.common.injection.BaseCommonLibTest;
 
 public class XDoubleSolenoidTest extends BaseCommonLibTest {
 
-    MockSolenoid forwardSolenoid;   
+    MockSolenoid forwardSolenoid;
     MockSolenoid reverseSolenoid;
     XDoubleSolenoid xDoubleSol;
-    
+
     @Before
     public void setup()
     {

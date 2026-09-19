@@ -4,6 +4,7 @@ import org.wpilib.MockTimer;
 import org.junit.Test;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
+import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;

@@ -43,12 +43,12 @@ public class MockCANMotorController extends XCANMotorController {
 
     private ControlMode controlMode = ControlMode.DutyCycle;
     private double power = 0.0;
-    private Voltage voltage = Volts.of(0);
-    private Current current = Amps.of(0);
-    private Angle position = Rotations.of(0);
-    private Angle targetPosition = Rotations.of(0);
-    private AngularVelocity targetVelocity = RPM.of(0);
-    private AngularVelocity velocity = RPM.of(0);
+    private Voltage voltage = Volts.zero();
+    private Current current = Amps.zero();
+    private Angle position = Rotations.zero();
+    private Angle targetPosition = Rotations.zero();
+    private AngularVelocity targetVelocity = RPM.zero();
+    private AngularVelocity velocity = RPM.zero();
     public double p;
     public double i;
     public double d;

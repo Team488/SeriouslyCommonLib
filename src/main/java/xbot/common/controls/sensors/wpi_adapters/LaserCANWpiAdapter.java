@@ -63,7 +63,7 @@ public class LaserCANWpiAdapter extends XLaserCAN {
             inputs.measurementLatency = XTimer.getFPGATimestampTime().minus(previousMeasurementTime);
             inputs.isMeasurementValid = true;
         } else {
-            inputs.distance = Meters.of(0);
+            inputs.distance = Meters.zero();
             inputs.measurementLatency = Seconds.zero();
             inputs.isMeasurementValid = false;
         }

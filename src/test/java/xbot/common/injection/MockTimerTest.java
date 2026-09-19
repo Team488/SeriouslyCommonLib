@@ -12,6 +12,7 @@ import org.wpilib.command2.Command;
 import org.wpilib.command2.CommandScheduler;
 import org.wpilib.command2.WaitCommand;
 import xbot.common.command.XScheduler;
+import xbot.common.controls.sensors.mock_adapters.MockTimer;
 
 public class MockTimerTest extends BaseCommonLibTest {
 
@@ -32,8 +33,8 @@ public class MockTimerTest extends BaseCommonLibTest {
         timer.setTimeInSeconds(10.0);
         assertEquals(10.0, timer.getFPGATimestamp(), 0.001);
     }
-    
-    @Test 
+
+    @Test
     @Ignore("Changes to WPI's Timer render this non-functional, until we find a way to inject depeer into their library")
     public void test_command_timed_out() {
         Command timeOut = new WaitCommand(5);
