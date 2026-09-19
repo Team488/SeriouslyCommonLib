@@ -1,7 +1,7 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import org.wpilib.drivers.motor.Talon;
 import org.wpilib.hardware.motor.PWMMotorController;
-import org.wpilib.hardware.motor.Talon;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;

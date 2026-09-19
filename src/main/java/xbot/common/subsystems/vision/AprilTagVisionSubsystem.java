@@ -17,8 +17,8 @@ import org.wpilib.math.geometry.Pose3d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Transform3d;
 import org.wpilib.system.Timer;
-import org.wpilib.vision.apriltag.AprilTagFieldLayout;
 import org.wpilib.command2.SubsystemBase;
+import org.wpilib.fields.Fields;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;
@@ -44,12 +44,12 @@ import java.util.stream.Collectors;
 @Singleton
 public class AprilTagVisionSubsystem extends SubsystemBase {
     private final CameraInfo[] cameras;
-    private final AprilTagFieldLayout aprilTagFieldLayout;
+    private final Fields aprilTagFieldLayout;
     final AprilTagVisionIO[] io;
     final AprilTagVisionCameraHelper[] cameraHelpers;
 
     @Inject
-    public AprilTagVisionSubsystem(PropertyFactory pf, AprilTagFieldLayout fieldLayout,
+    public AprilTagVisionSubsystem(PropertyFactory pf, Fields fieldLayout,
             XCameraElectricalContract contract,
             AprilTagVisionIOFactory visionIOFactory, DataFrameRegistry registry) {
         this.aprilTagFieldLayout = fieldLayout;

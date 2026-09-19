@@ -1,9 +1,10 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
+import org.wpilib.hardware.rotation.Encoder;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import org.wpilib.Encoder;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XEncoderInputs;
 import xbot.common.controls.sensors.XEncoder;

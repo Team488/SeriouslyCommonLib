@@ -14,11 +14,12 @@
 package xbot.common.subsystems.vision;
 
 import dagger.assisted.AssistedFactory;
+
+import org.wpilib.fields.Fields;
 import org.wpilib.math.geometry.Pose3d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Transform3d;
 import org.wpilib.system.Timer;
-import org.wpilib.vision.apriltag.AprilTagFieldLayout;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -53,7 +54,7 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
 
     protected final PhotonCamera camera;
     protected final Transform3d robotToCamera;
-    private final AprilTagFieldLayout aprilTagFieldLayout;
+    private final Fields aprilTagFieldLayout;
 
     /**
      * Creates a new VisionIOPhotonVision.
@@ -64,7 +65,7 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
      */
     @AssistedInject
     public AprilTagVisionIOPhotonVision(@Assisted String name, @Assisted Transform3d robotToCamera,
-            AprilTagFieldLayout fieldLayout) {
+            Fields fieldLayout) {
         camera = new PhotonCamera(name);
         this.robotToCamera = robotToCamera;
         this.aprilTagFieldLayout = fieldLayout;
@@ -151,7 +152,7 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
                 var target = result.targets.get(0);
 
                 // Calculate robot pose
-                var tagPose = this.aprilTagFieldLayout.getTagPose(target.fiducialId);
+                var tagPose = this.aprilTagFieldLayout.loadField().getTagPose(target.fiducialId);
                 if (tagPose.isPresent()) {
                     Transform3d fieldToTarget = new Transform3d(tagPose.get().getTranslation(),
                             tagPose.get().getRotation());

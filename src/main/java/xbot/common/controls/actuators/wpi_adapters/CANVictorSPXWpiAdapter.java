@@ -1,6 +1,7 @@
+/*
 package xbot.common.controls.actuators.wpi_adapters;
 
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.tre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -176,3 +177,4 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
         // Do nothing, not relevant
     }
 }
+    */

@@ -6,7 +6,6 @@ import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.LinearAcceleration;
 import org.wpilib.units.measure.Temperature;
 import org.wpilib.units.measure.Voltage;
-import org.wpilib.util.sendable.SendableBuilder;
 
 public abstract class XCANImu implements AutoCloseable {
 
@@ -35,8 +34,6 @@ public abstract class XCANImu implements AutoCloseable {
     public abstract void setYaw(Angle newValue);
 
     public abstract Temperature getTemperature();
-
-    public abstract void initSendable(SendableBuilder builder);
 
     public abstract Angle getAccumGyroX();
 

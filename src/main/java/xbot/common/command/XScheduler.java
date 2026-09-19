@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.wpilib.command2.Command;
 import org.wpilib.command2.CommandScheduler;
 import org.wpilib.command2.Subsystem;
-import org.wpilib.driverstation.Alert;
+import org.wpilib.util.Alert;
 
 /**
  * Wrapper for base Scheduler which intelligently manages exceptions.
@@ -32,7 +32,7 @@ public class XScheduler {
 
     @Inject
     public XScheduler() {
-        this.schedulerCrashedAlert = new Alert("Scheduler Crashed", Alert.Level.HIGH);
+        this.schedulerCrashedAlert = new Alert("SchedulerCrash", "Scheduler Crashed", Alert.Level.HIGH);
         this.scheduler = CommandScheduler.getInstance();
     }
 

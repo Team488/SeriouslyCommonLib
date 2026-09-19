@@ -1,10 +1,11 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import org.wpilib.hardware.discrete.DigitalOutput;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import org.wpilib.DigitalOutput;
 import xbot.common.controls.actuators.XDigitalOutput;
 import xbot.common.injection.DevicePolice;
 

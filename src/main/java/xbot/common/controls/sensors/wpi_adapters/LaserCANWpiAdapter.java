@@ -1,5 +1,6 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
+/*
 import au.grapplerobotics.LaserCan;
 import au.grapplerobotics.interfaces.LaserCanInterface;
 import dagger.assisted.Assisted;
@@ -69,3 +70,4 @@ public class LaserCANWpiAdapter extends XLaserCAN {
         }
     }
 }
+*/

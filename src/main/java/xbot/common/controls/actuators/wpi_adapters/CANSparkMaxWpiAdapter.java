@@ -11,7 +11,8 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import org.wpilib.math.MathUtil;
+
+import org.wpilib.math.util.MathUtil;
 import org.wpilib.units.AngularAccelerationUnit;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularAcceleration;

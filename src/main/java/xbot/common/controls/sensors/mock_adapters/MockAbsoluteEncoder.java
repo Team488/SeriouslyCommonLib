@@ -1,6 +1,6 @@
 package xbot.common.controls.sensors.mock_adapters;
 
-import org.wpilib.math.MathUtil;
+import org.wpilib.math.util.MathUtil;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularVelocity;
 import org.json.JSONObject;
@@ -15,7 +15,6 @@ import xbot.common.controls.sensors.XAbsoluteEncoder;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
-import xbot.common.math.WrappedRotation2d;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 import xbot.common.simulation.ISimulatableSensor;

@@ -1,10 +1,10 @@
 package xbot.common.subsystems.pose;
 
+import org.wpilib.fields.Fields;
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
 import org.wpilib.units.measure.Distance;
-import org.wpilib.vision.apriltag.AprilTagFieldLayout;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -41,9 +41,9 @@ public class GameField {
      * @param symmetry The symmetry of the field.
      */
     @Inject
-    public GameField(AprilTagFieldLayout fieldLayout, GameField.Symmetry symmetry) {
-        this.fieldWidth = Meters.of(fieldLayout.getFieldWidth());
-        this.fieldLength = Meters.of(fieldLayout.getFieldLength());
+    public GameField(Fields fieldLayout, GameField.Symmetry symmetry) {
+        this.fieldWidth = Meters.of(fieldLayout.loadField().getFieldWidth());
+        this.fieldLength = Meters.of(fieldLayout.loadField().getFieldLength());
         this.symmetry = symmetry;
     }
 

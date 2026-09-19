@@ -16,6 +16,7 @@ package xbot.common.subsystems.vision;
 import dagger.assisted.AssistedFactory;
 import org.wpilib.math.numbers.N1;
 import org.wpilib.math.numbers.N3;
+import org.wpilib.fields.Fields;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Transform3d;
 import org.wpilib.math.linalg.Matrix;
@@ -67,7 +68,7 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
     protected final PhotonCamera camera;
     private final PhotonPoseEstimator photonEstimator;
     private final String logPath;
-    private final AprilTagFieldLayout aprilTagFieldLayout;
+    private final Fields aprilTagFieldLayout;
 
     private final DoubleProperty singleTagStdDev1;
     private final DoubleProperty singleTagStdDev2;
@@ -89,12 +90,12 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
      */
     @AssistedInject
     public AprilTagVisionIOPhotonVisionEstimator(@Assisted String name, @Assisted Transform3d robotToCamera,
-                                                 AprilTagFieldLayout fieldLayout, PropertyFactory pf) {
+                                                 Fields fieldLayout, PropertyFactory pf) {
         this.logPath = name;
         this.camera = new PhotonCamera(name);
         this.aprilTagFieldLayout= fieldLayout;
         this.robotToCamera = robotToCamera;
-        this.photonEstimator = new PhotonPoseEstimator(this.aprilTagFieldLayout, this.robotToCamera);
+        this.photonEstimator = new PhotonPoseEstimator(this.aprilTagFieldLayout.loadField(), this.robotToCamera);
 
         pf.setPrefix(this.logPath);
         this.singleTagStdDev1 = pf.createPersistentProperty("singleTagStdDev1", 4);

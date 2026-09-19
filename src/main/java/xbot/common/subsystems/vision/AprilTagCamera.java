@@ -1,7 +1,7 @@
 package xbot.common.subsystems.vision;
 
 import org.photonvision.PhotonPoseEstimator;
-import org.wpilib.vision.apriltag.AprilTagFieldLayout;
+import org.wpilib.fields.Fields;
 
 import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.logic.TimeStableValidator;
@@ -23,7 +23,7 @@ public class AprilTagCamera extends SimpleCamera {
      */
     public AprilTagCamera(CameraInfo cameraInfo,
                           DoubleSupplier poseStableTime,
-                          AprilTagFieldLayout fieldLayout,
+                          Fields fieldLayout,
                           String prefix) {
         super(cameraInfo, prefix);
         this.isStable = new TimeStableValidator(poseStableTime);

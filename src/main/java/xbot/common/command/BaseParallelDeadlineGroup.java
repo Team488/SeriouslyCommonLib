@@ -4,7 +4,6 @@ package xbot.common.command;
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-import org.wpilib.util.sendable.SendableBuilder;
 import org.wpilib.command2.Command;
 import org.wpilib.command2.CommandScheduler;
 
@@ -31,7 +30,7 @@ public class BaseParallelDeadlineGroup extends BaseCommand {
   private boolean m_runWhenDisabled = true;
   private boolean m_finished = true;
   private Command m_deadline;
-  private InterruptionBehavior m_interruptBehavior = InterruptionBehavior.kCancelIncoming;
+  private InterruptionBehavior m_interruptBehavior = InterruptionBehavior.CANCEL_INCOMING;
 
   /**
    * Creates a new ParallelDeadlineGroup. The given commands, including the deadline, will be
@@ -91,8 +90,8 @@ public class BaseParallelDeadlineGroup extends BaseCommand {
       m_commands.put(command, false);
       addRequirements(command.getRequirements());
       m_runWhenDisabled &= command.runsWhenDisabled();
-      if (command.getInterruptionBehavior() == InterruptionBehavior.kCancelSelf) {
-        m_interruptBehavior = InterruptionBehavior.kCancelSelf;
+      if (command.getInterruptionBehavior() == InterruptionBehavior.CANCEL_SELF) {
+        m_interruptBehavior = InterruptionBehavior.CANCEL_SELF;
       }
     }
   }
@@ -147,12 +146,5 @@ public class BaseParallelDeadlineGroup extends BaseCommand {
   @Override
   public InterruptionBehavior getInterruptionBehavior() {
     return m_interruptBehavior;
-  }
-
-  @Override
-  public void initSendable(SendableBuilder builder) {
-    super.initSendable(builder);
-
-    builder.addStringProperty("deadline", m_deadline::getName, null);
   }
 }

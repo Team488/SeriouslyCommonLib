@@ -4,7 +4,6 @@
 
 package xbot.common.command;
 
-import org.wpilib.util.sendable.SendableBuilder;
 import org.wpilib.command2.Command;
 import org.wpilib.command2.CommandScheduler;
 
@@ -24,7 +23,7 @@ public class BaseSequentialCommandGroup extends BaseCommand {
   private final List<Command> m_commands = new ArrayList<>();
   private int m_currentCommandIndex = -1;
   private boolean m_runWhenDisabled = true;
-  private InterruptionBehavior m_interruptBehavior = InterruptionBehavior.kCancelIncoming;
+  private InterruptionBehavior m_interruptBehavior = InterruptionBehavior.CANCEL_INCOMING;
 
   /**
    * Creates a new SequentialCommandGroup. The given commands will be run sequentially, with the
@@ -60,8 +59,8 @@ public class BaseSequentialCommandGroup extends BaseCommand {
       m_commands.add(command);
       addRequirements(command.getRequirements());
       m_runWhenDisabled &= command.runsWhenDisabled();
-      if (command.getInterruptionBehavior() == InterruptionBehavior.kCancelSelf) {
-        m_interruptBehavior = InterruptionBehavior.kCancelSelf;
+      if (command.getInterruptionBehavior() == InterruptionBehavior.CANCEL_SELF) {
+        m_interruptBehavior = InterruptionBehavior.CANCEL_SELF;
       }
     }
   }
@@ -119,12 +118,5 @@ public class BaseSequentialCommandGroup extends BaseCommand {
   @Override
   public InterruptionBehavior getInterruptionBehavior() {
     return m_interruptBehavior;
-  }
-
-  @Override
-  public void initSendable(SendableBuilder builder) {
-    super.initSendable(builder);
-
-    builder.addIntegerProperty("index", () -> m_currentCommandIndex, null);
   }
 }

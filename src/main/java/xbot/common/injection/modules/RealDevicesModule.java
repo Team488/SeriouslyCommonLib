@@ -35,7 +35,7 @@ import xbot.common.controls.sensors.wpi_adapters.DigitalInputWPIAdapter.DigitalI
 import xbot.common.controls.sensors.wpi_adapters.DutyCycleEncoderWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter.EncoderWPIAdapterFactory;
 import xbot.common.controls.sensors.wpi_adapters.InertialMeasurementUnitAdapter.InertialMeasurementUnitAdapterFactory;
-import xbot.common.controls.sensors.wpi_adapters.LaserCANWpiAdapter;
+//import xbot.common.controls.sensors.wpi_adapters.LaserCANWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter.LidarLiteWpiAdapterFactory;
 import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter.PowerDistributionPanelWPIAdapaterFactory;
 import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
@@ -116,9 +116,9 @@ public abstract class RealDevicesModule {
     @Singleton
     public abstract XDutyCycleEncoder.XDutyCycleEncoderFactory getDutyCycleEncoderFactory(DutyCycleEncoderWpiAdapter.DutyCycleEncoderWpiAdapterFactory impl);
 
-    @Binds
-    @Singleton
-    public abstract XLaserCAN.XLaserCANFactory getLaserCANFactory(LaserCANWpiAdapter.LaserCANWpiAdapterFactory impl);
+    //@Binds
+    //@Singleton
+    //public abstract XLaserCAN.XLaserCANFactory getLaserCANFactory(LaserCANWpiAdapter.LaserCANWpiAdapterFactory impl);
 
     @Binds
     @Singleton

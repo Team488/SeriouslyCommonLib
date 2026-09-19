@@ -21,7 +21,6 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import org.wpilib.driverstation.Alert;
 import org.wpilib.units.AngularAccelerationUnit;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularAcceleration;
@@ -31,6 +30,7 @@ import org.wpilib.units.measure.Frequency;
 import org.wpilib.units.measure.Time;
 import org.wpilib.units.measure.Velocity;
 import org.wpilib.units.measure.Voltage;
+import org.wpilib.util.Alert;
 import org.apache.logging.log4j.LogManager;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.actuators.XCANMotorController;
@@ -92,7 +92,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         this.statorCurrentSignal = this.internalTalonFx.getStatorCurrent(false);
         this.talonConfiguration = new TalonFXConfiguration();
 
-        this.unsupportedPIDModeAlert = new Alert("Tried to use an unsupported PID mode", Alert.Level.MEDIUM);
+        this.unsupportedPIDModeAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Tried to use an unsupported PID mode", Alert.Level.MEDIUM);
         this.notOnlineDuringConfigAlert = new Alert(AlertGroups.DEVICE_HEALTH, "TalonFX " + info.deviceId()
                 + " (" + info.name() + ") is not online and cannot be configured",
                 Alert.Level.HIGH);
@@ -280,7 +280,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public double getPower() {
-        return this.internalTalonFx.get();
+        return this.internalTalonFx.getThrottle();
     }
 
     @Override

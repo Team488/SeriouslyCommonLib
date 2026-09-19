@@ -2,7 +2,7 @@ package xbot.common.controls.sensors;
 
 import com.ctre.phoenix6.StatusCode;
 import org.littletonrobotics.junction.Logger;
-import org.wpilib.driverstation.Alert;
+import org.wpilib.util.Alert;
 
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XCANCoderInputs;

@@ -27,7 +27,6 @@ import org.apache.logging.log4j.Logger;
 import xbot.common.controls.actuators.XCANLightController;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANLightControllerInfo;
-import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
 /**

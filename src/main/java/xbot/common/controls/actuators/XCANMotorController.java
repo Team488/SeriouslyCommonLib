@@ -1,6 +1,5 @@
 package xbot.common.controls.actuators;
 
-import org.wpilib.driverstation.Alert;
 import org.wpilib.units.AngleUnit;
 import org.wpilib.units.AngularAccelerationUnit;
 import org.wpilib.units.AngularVelocityUnit;
@@ -17,6 +16,7 @@ import org.wpilib.units.measure.Frequency;
 import org.wpilib.units.measure.Time;
 import org.wpilib.units.measure.Velocity;
 import org.wpilib.units.measure.Voltage;
+import org.wpilib.util.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.Logger;
 

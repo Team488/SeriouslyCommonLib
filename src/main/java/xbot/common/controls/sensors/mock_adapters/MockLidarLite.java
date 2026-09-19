@@ -1,5 +1,7 @@
 package xbot.common.controls.sensors.mock_adapters;
 
+import org.wpilib.hardware.bus.I2C.Port;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
