@@ -3,7 +3,6 @@ package xbot.common.controls.sensors.mock_adapters;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.wpilibj.MockAnalogInput;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XDutyCycleEncoderInputs;
 import xbot.common.controls.sensors.XAnalogInput;

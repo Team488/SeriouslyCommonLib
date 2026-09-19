@@ -7,11 +7,11 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import edu.wpi.first.wpilibj.MockTimer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import xbot.common.command.XScheduler;
+import xbot.common.controls.sensors.mock_adapters.MockTimer;
 
 public class MockTimerTest extends BaseCommonLibTest {
 

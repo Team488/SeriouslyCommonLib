@@ -5,11 +5,11 @@ import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
-import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.command.MockSmartDashboardCommandPutter;
 import xbot.common.command.SmartDashboardCommandPutter;
 import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
+import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.logging.LoudRobotAssertionManager;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.ITableProxy;

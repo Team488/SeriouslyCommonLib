@@ -6,8 +6,8 @@ import static org.junit.Assert.assertFalse;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.wpi.first.wpilibj.MockSolenoid;
 import xbot.common.controls.actuators.XDoubleSolenoid.DoubleSolenoidMode;
+import xbot.common.controls.actuators.mock_adapters.MockSolenoid;
 import xbot.common.injection.BaseCommonLibTest;
 
 public class XDoubleSolenoidTest extends BaseCommonLibTest {

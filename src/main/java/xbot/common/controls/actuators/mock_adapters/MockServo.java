@@ -1,4 +1,4 @@
-package edu.wpi.first.wpilibj;
+package xbot.common.controls.actuators.mock_adapters;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
