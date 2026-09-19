@@ -216,7 +216,9 @@ publishing {
         myPublication(MavenPublication) { 
             groupId 'xbot.common' 
             artifactId 'SeriouslyCommonLib' 
-            version System.getenv('BUILD_BUILDNUMBER') ?: '1.0.0'
+            // Azure DevOps exposed BUILD_BUILDNUMBER; GitHub Actions exposes
+            // GITHUB_RUN_NUMBER. Fall back to 1.0.0 for local builds.
+            version System.getenv('GITHUB_RUN_NUMBER') ?: System.getenv('BUILD_BUILDNUMBER') ?: '1.0.0'
 
             artifact jar
             artifact sourcesJar
@@ -225,10 +227,11 @@ publishing {
     }
     repositories {
         maven {
-            url 'https://pkgs.dev.azure.com/Team488/2ef6eee3-1df0-441a-9af8-5edc5c3cb203/_packaging/XBot/maven/v1'
-            name 'XBot'
-            authentication {
-                basic(BasicAuthentication)
+            name 'GitHubPackages'
+            url 'https://maven.pkg.github.com/Team488/SeriouslyCommonLib'
+            credentials {
+                username = System.getenv('GITHUB_ACTOR') ?: 'x-access-token'
+                password = System.getenv('GITHUB_TOKEN') ?: ''
             }
         }
     }

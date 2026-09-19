@@ -1,0 +1,114 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Cancel superseded runs on the same ref: PRs re-pushed don't waste minutes.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  packages: write
+  checks: write
+  pull-requests: write
+
+env:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Xmx3g -Dfile.encoding=UTF-8"
+  GRADLE_VERSION: "8.14.3"
+
+jobs:
+  build:
+    name: Build / Test / Lint
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      # Official Gradle setup: caches the wrapper dist, Gradle user home,
+      # configuration-cache and build-cache entries. This replaces the manual
+      # Cache@2 step from Azure and is incremental across branches.
+      # https://github.com/gradle/actions/blob/main/docs/setup-gradle.md
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          # Only allow cache writes on main so PRs can't poison the cache.
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+          add-job-summary: on-fail
+
+      - name: Build (tests + checkstyle + coverage)
+        run: ./gradlew build --build-cache --parallel --stacktrace --console=plain -Dorg.gradle.daemon=false
+
+      - name: Publish test results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: "**/build/test-results/test/TEST-*.xml"
+          check_name: "JUnit results"
+
+      - name: Upload JaCoCo report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jacoco-report
+          path: |
+            build/reports/jacoco/test/jacocoTestReport.xml
+            build/reports/jacoco/test/html/
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Build Javadoc
+        if: always()
+        run: ./gradlew javadoc --build-cache --parallel --stacktrace --console=plain -Dorg.gradle.daemon=false
+
+      - name: Upload Javadoc
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: javadoc
+          path: build/docs/javadoc
+          retention-days: 14
+          if-no-files-found: warn
+
+  publish:
+    name: Publish to GitHub Packages
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: false
+
+      - name: Publish
+        run: ./gradlew publish --build-cache --parallel --stacktrace --console=plain -Dorg.gradle.daemon=false
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
