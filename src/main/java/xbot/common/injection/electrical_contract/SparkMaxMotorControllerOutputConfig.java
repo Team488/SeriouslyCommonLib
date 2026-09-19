@@ -47,7 +47,7 @@ public class SparkMaxMotorControllerOutputConfig extends CANMotorControllerOutpu
     public SparkMaxMotorControllerOutputConfig withSmartCurrentLimit(Current stallCurrent) {
         this.sparkStallCurrentLimit = stallCurrent;
         this.sparkFreeCurrentLimit = stallCurrent;
-        this.sparkStallSpeed = RPM.of(0);
+        this.sparkStallSpeed = RPM.zero();
         return this;
     }
 }

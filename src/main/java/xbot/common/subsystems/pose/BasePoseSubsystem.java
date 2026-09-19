@@ -2,8 +2,8 @@ package xbot.common.subsystems.pose;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.Units;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -56,7 +56,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     public static Distance fieldXMidpoint = Meters.of(8.7785);
     public static Distance fieldYHeight = Inches.of(317);
 
-    private final MutAngle currentHeading;
+    private Angle currentHeading;
 
     public BasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {
         this(gyroFactory.create(), propManager);
@@ -70,7 +70,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
 
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
-        currentHeading = Degrees.mutable(0);
+        currentHeading = Degrees.zero();
 
         propManager.setDefaultLevel(Property.PropertyLevel.Debug);
         rioRotated = propManager.createPersistentProperty("RIO rotated", false);
@@ -83,7 +83,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     }
 
     protected void updateCurrentHeading() {
-        currentHeading.mut_replace(MathUtil.inputModulus(getRobotYaw().getDegrees() + headingOffset, -180, 180), Degrees);
+        currentHeading = Degrees.of(MathUtil.inputModulus(getRobotYaw().getDegrees() + headingOffset, -180, 180));
 
         aKitLog.record("AdjustedHeadingDegrees", currentHeading.in(Degrees));
         aKitLog.record("AdjustedHeadingRadians", currentHeading.in(Radians));
