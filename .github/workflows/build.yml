@@ -51,7 +51,7 @@ jobs:
           add-job-summary: on-fail
 
       - name: Build (tests + checkstyle + coverage)
-        run: ./gradlew build --build-cache --parallel --stacktrace --console=plain -Dorg.gradle.daemon=false
+        run: .\gradlew.bat build --build-cache --parallel --stacktrace --console=plain "-Dorg.gradle.daemon=false"
 
       - name: Publish test results
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -73,7 +73,7 @@ jobs:
 
       - name: Build Javadoc
         if: always()
-        run: ./gradlew javadoc --build-cache --parallel --stacktrace --console=plain -Dorg.gradle.daemon=false
+        run: .\gradlew.bat javadoc --build-cache --parallel --stacktrace --console=plain "-Dorg.gradle.daemon=false"
 
       - name: Upload Javadoc
         uses: actions/upload-artifact@v4
@@ -108,7 +108,7 @@ jobs:
           cache-read-only: false
 
       - name: Publish
-        run: ./gradlew publish --build-cache --parallel --stacktrace --console=plain -Dorg.gradle.daemon=false
+        run: .\gradlew.bat publish --build-cache --parallel --stacktrace --console=plain "-Dorg.gradle.daemon=false"
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
