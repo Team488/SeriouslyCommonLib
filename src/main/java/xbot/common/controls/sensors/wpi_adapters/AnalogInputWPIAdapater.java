@@ -31,7 +31,7 @@ public class AnalogInputWPIAdapater extends XAnalogInput {
     }
 
     public double getAverageVoltage() {
-        return input.getAverageVoltage();
+        return input.getVoltage();
     }
 
     public void setAverageBits(int bits) {

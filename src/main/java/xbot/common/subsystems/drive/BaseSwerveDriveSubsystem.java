@@ -3,7 +3,9 @@ package xbot.common.subsystems.drive;
 import org.wpilib.math.filter.SlewRateLimiter;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.math.kinematics.ChassisVelocities;
 import org.wpilib.math.kinematics.SwerveDriveKinematics;
+import org.wpilib.math.kinematics.SwerveModuleVelocity;
 import org.wpilib.command2.Command;
 import org.wpilib.command2.Commands;
 import org.wpilib.command2.StartEndCommand;
@@ -387,7 +389,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
         // This handy library from WPILib will take our robot's overall desired
         // translation & rotation and figure out
         // what each swerve module should be doing in order to achieve that.
-        ChassisSpeeds targetMotion = new ChassisSpeeds(targetXmetersPerSecond, targetYmetersPerSecond,
+        ChassisVelocities targetMotion = new ChassisVelocities(targetXmetersPerSecond, targetYmetersPerSecond,
                 targetRotationRadiansPerSecond);
 
         // One optional step - we can choose to rotate around a specific point, rather
@@ -395,7 +397,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
         Translation2d centerOfRotationTranslationMeters = new Translation2d(
                 centerOfRotationInches.x / BasePoseSubsystem.INCHES_IN_A_METER,
                 centerOfRotationInches.y / BasePoseSubsystem.INCHES_IN_A_METER);
-        SwerveModuleState[] moduleStates = swerveDriveKinematics.toSwerveModuleStates(targetMotion,
+        SwerveModuleVelocity[] moduleStates = swerveDriveKinematics.toSwerveModuleVelocities(targetMotion,
                 centerOfRotationTranslationMeters);
 
         // Another potentially optional step - it's possible that in the calculations
@@ -419,12 +421,12 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
         // Also, one more special check - if there was no commanded motion, set the
         // speed to 0.
         if (isNotMoving) {
-            for (SwerveModuleState moduleState : moduleStates) {
-                moduleState.speedMetersPerSecond = 0;
+            for (SwerveModuleVelocity moduleState : moduleStates) {
+                moduleState.velocity = 0;
             }
         } else {
             double topSpeedMetersPerSecond = maxTargetSpeedMps.get();
-            SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, topSpeedMetersPerSecond);
+            SwerveDriveKinematics.desaturateWheelVelocities(moduleStates, topSpeedMetersPerSecond);
         }
 
         // Finally, we can tell each swerve module what it should be doing. Log these
@@ -451,8 +453,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
     }
 
     public void setWheelsToXMode() {
-        SwerveModuleState frontLeft = new SwerveModuleState(0, new Rotation2d(+45));
-        SwerveModuleState frontRight = new SwerveModuleState(0, new Rotation2d(-45));
+        SwerveModuleVelocity frontLeft = new SwerveModuleVelocity(0, new Rotation2d(+45));
+        SwerveModuleVelocity frontRight = new SwerveModuleVelocity(0, new Rotation2d(-45));
         this.getFrontLeftSwerveModuleSubsystem().setTargetState(frontLeft);
         this.getFrontRightSwerveModuleSubsystem().setTargetState(frontRight);
         this.getRearLeftSwerveModuleSubsystem().setTargetState(frontRight);
@@ -464,7 +466,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
      * This should only be used when all swerve modules need to be at the same
      * target state.
      */
-    public void setAllSwerveModulesToTargetState(SwerveModuleState swerveModuleState) {
+    public void setAllSwerveModulesToTargetState(SwerveModuleVelocity swerveModuleState) {
         forEachSwerveModule(module -> module.setTargetState(swerveModuleState, false));
     }
 
