@@ -1,6 +1,6 @@
 plugins {
     id "java"
-    id "org.wpilib.GradleRIO" version "2027.0.0-alpha-6"
+    id "org.wpilib.GradleRIO" version "2027.0.0-alpha-7"
     id "com.gradleup.shadow" version "9.3.0"
     id 'scala'
     id 'checkstyle'
@@ -184,8 +184,7 @@ jacocoTestReport {
 // always generate the coverage report after the tests run
 test.finalizedBy { jacocoTestReport }
 
-// Configure jar and deploy tasks
-wpi.java.configureExecutableTasks(jar)
+// Configure deploy tasks
 wpi.java.configureTestTasks(test)
 
 // Configure string concat to always inline compile

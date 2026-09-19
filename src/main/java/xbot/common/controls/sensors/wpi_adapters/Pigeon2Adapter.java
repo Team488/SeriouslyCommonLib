@@ -77,10 +77,10 @@ public class Pigeon2Adapter extends XGyro {
         inputs.pitch = pitchSignal.getValue();
         inputs.roll = rollSignal.getValue();
         inputs.yawAngularVelocity = yawAngularVelocitySignal.getValue();
-        inputs.acceleration = new double[]{
-                accelerationXSignal.getValueAsDouble(),
-                accelerationYSignal.getValueAsDouble(),
-                accelerationZSignal.getValueAsDouble()
+        inputs.acceleration = new LinearAcceleration[]{
+                accelerationXSignal.getValue(),
+                accelerationYSignal.getValue(),
+                accelerationZSignal.getValue()
         };
         inputs.isConnected = pigeon.isConnected();
     }

@@ -16,7 +16,6 @@ package xbot.common.subsystems.vision;
 import dagger.assisted.AssistedFactory;
 import org.wpilib.math.numbers.N1;
 import org.wpilib.math.numbers.N3;
-import org.wpilib.vision.apriltag.AprilTagFieldLayout;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Transform3d;
 import org.wpilib.math.linalg.Matrix;

@@ -2,17 +2,18 @@ package xbot.common.controls.io_inputs;
 
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.LinearAcceleration;
 import org.littletonrobotics.junction.AutoLog;
 
-import static org.wpilib.units.Units.Degrees;
-import static org.wpilib.units.Units.DegreesPerSecond;
+import static org.wpilib.units.Units.Radians;
+import static org.wpilib.units.Units.RadiansPerSecond;
 
 @AutoLog
 public class XGyroIoInputs {
-    public Angle yaw = Degrees.zero();
-    public AngularVelocity yawAngularVelocity = DegreesPerSecond.zero();
-    public Angle pitch = Degrees.zero();
-    public Angle roll = Degrees.zero();
-    public double[] acceleration = new double[3];
+    public Angle yaw = Radians.zero();
+    public AngularVelocity yawAngularVelocity = RadiansPerSecond.zero();
+    public Angle pitch = Radians.zero();
+    public Angle roll = Radians.zero();
+    public LinearAcceleration[] acceleration = new LinearAcceleration[3];
     public boolean isConnected = false;
 }

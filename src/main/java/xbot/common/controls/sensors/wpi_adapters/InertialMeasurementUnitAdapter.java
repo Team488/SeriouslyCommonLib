@@ -1,9 +1,11 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
-import com.studica.frc.AHRS;
-
+import org.wpilib.hardware.imu.OnboardIMU;
+import org.wpilib.units.measure.Acceleration;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.LinearAcceleration;
+import org.wpilib.units.measure.Velocity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,12 +20,13 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.IMUInfo;
 
-import static org.wpilib.units.Units.Degrees;
-import static org.wpilib.units.Units.DegreesPerSecond;
+import static org.wpilib.units.Units.MetersPerSecondPerSecond;
+import static org.wpilib.units.Units.Radians;
+import static org.wpilib.units.Units.RadiansPerSecond;
 
 public class InertialMeasurementUnitAdapter extends XGyro {
 
-    AHRS ahrs;
+    OnboardIMU imu;
     boolean isBroken = false;
 
     static Logger log = LogManager.getLogger(InertialMeasurementUnitAdapter.class);
@@ -36,37 +39,31 @@ public class InertialMeasurementUnitAdapter extends XGyro {
     @AssistedInject
     public InertialMeasurementUnitAdapter(DevicePolice police, DataFrameRegistry registry, @Assisted IMUInfo imuInfo) {
         super(imuInfo, registry);
-        /* Options: Port.kMXP, SPI.kMXP, I2C.kMXP or SerialPort.kUSB */
         try {
-            switch (imuInfo.interfaceType()) {
-                case spi -> this.ahrs = new AHRS(AHRS.NavXComType.kMXP_SPI);
-                case serial -> this.ahrs = new AHRS(AHRS.NavXComType.kMXP_UART);
-                case i2c -> this.ahrs = new AHRS(AHRS.NavXComType.kI2C);
-                default -> this.ahrs = new AHRS(AHRS.NavXComType.kMXP_SPI);
-            }
-            police.registerDevice(DeviceType.IMU, 1, this);
-            log.info("AHRS successfully created");
+            this.imu = new OnboardIMU(imuInfo.mountOrientation());
+            police.registerDevice(DeviceType.IMU, imuInfo.deviceId(), this);
+            log.info("IMU successfully created");
         }
         catch (Exception e){
             isBroken = true;
-            log.warn("AHRS could not be created - gyro is broken!");
+            log.warn("IMU could not be created - gyro is broken!");
         }
     }
 
     public boolean isConnected() {
-        return this.ahrs.isConnected();
+        return true;
     }
 
     private Angle getDeviceYaw() {
-        return Degrees.of(-this.ahrs.getYaw());
+        return Radians.of(-this.imu.getYawRadians());
     }
 
     private Angle getDeviceRoll() {
-        return Degrees.of(-this.ahrs.getRoll());
+        return Radians.of(-this.imu.getRotation3d().getX());
     }
 
     private Angle getDevicePitch() {
-        return Degrees.of(-this.ahrs.getPitch());
+        return Radians.of(-this.imu.getRotation3d().getY());
     }
 
     @Override
@@ -75,7 +72,7 @@ public class InertialMeasurementUnitAdapter extends XGyro {
         inputs.yawAngularVelocity = getDeviceYawAngularVelocity();
         inputs.pitch = getDevicePitch();
         inputs.roll = getDeviceRoll();
-        inputs.acceleration = new double[]{
+        inputs.acceleration = new LinearAcceleration[]{
             getDeviceRawAccelX(),
             getDeviceRawAccelY(),
             getDeviceRawAccelZ()
@@ -88,41 +85,24 @@ public class InertialMeasurementUnitAdapter extends XGyro {
         return isBroken;
     }
 
-    /**
-     * Note: this is in degrees per second.
-     */
     public AngularVelocity getDeviceYawAngularVelocity(){
-        return DegreesPerSecond.of(ahrs.getRate());
+        return RadiansPerSecond.of(imu.getGyroRateZ());
     }
 
-    public double getDeviceVelocityX() {
-        return ahrs.getVelocityX();
+    public LinearAcceleration getDeviceRawAccelX() {
+        return MetersPerSecondPerSecond.of(imu.getAccelX());
     }
 
-    public double getDeviceVelocityY() {
-        return ahrs.getVelocityY();
+    public LinearAcceleration getDeviceRawAccelY() {
+        return MetersPerSecondPerSecond.of(imu.getAccelY());
     }
 
-    public double getDeviceVelocityZ() {
-        return ahrs.getVelocityZ();
-    }
-
-    public double getDeviceRawAccelX() {
-        return ahrs.getRawAccelX();
-    }
-
-    public double getDeviceRawAccelY() {
-        return ahrs.getRawAccelY();
-    }
-
-    public double getDeviceRawAccelZ() {
-        return ahrs.getRawAccelZ();
+    public LinearAcceleration getDeviceRawAccelZ() {
+        return MetersPerSecondPerSecond.of(imu.getAccelZ());
     }
 
     @Override
     public void close() {
-        if (ahrs != null) {
-            ahrs.close();
-        }
+        return;
     }
 }
