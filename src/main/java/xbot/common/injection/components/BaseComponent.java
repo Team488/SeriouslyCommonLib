@@ -11,8 +11,6 @@ import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
 import xbot.common.controls.actuators.XDigitalOutput.XDigitalOutputFactory;
 import xbot.common.controls.actuators.XDoubleSolenoid.XDoubleSolenoidFactory;
 import xbot.common.controls.actuators.XPWM.XPWMFactory;
-import xbot.common.controls.actuators.XRelay.XRelayFactory;
-import xbot.common.controls.actuators.XServo.XServoFactory;
 import xbot.common.controls.actuators.XSolenoid.XSolenoidFactory;
 import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
 import xbot.common.controls.sensors.XDutyCycleEncoder;
@@ -142,8 +140,6 @@ public abstract class BaseComponent {
 
     public abstract XGyroFactory gyroFactory();
 
-    public abstract XServoFactory servoFactory();
-
     public abstract HeadingModuleFactory headingModuleFactory();
 
     public abstract HeadingAssistModuleFactory headingAssistModuleFactory();
@@ -155,8 +151,6 @@ public abstract class BaseComponent {
     public abstract XCANCoderFactory canCoderFactory();
 
     public abstract XSolenoidFactory solenoidFactory();
-
-    public abstract XRelayFactory relayFactory();
 
     public abstract XDoubleSolenoidFactory doubleSolenoidFactory();
 

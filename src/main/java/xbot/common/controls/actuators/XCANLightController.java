@@ -2,15 +2,14 @@ package xbot.common.controls.actuators;
 
 import com.ctre.phoenix6.signals.AnimationDirectionValue;
 import com.ctre.phoenix6.signals.LarsonBounceValue;
-import edu.wpi.first.units.measure.Frequency;
-import edu.wpi.first.wpilibj.util.Color;
+import org.wpilib.units.measure.Frequency;
+import org.wpilib.util.Color;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANLightControllerInfo;
 import xbot.common.injection.electrical_contract.CANLightControllerOutputConfig;
-import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
 /**

@@ -3,7 +3,7 @@ package xbot.common.subsystems.compressor;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.NamedRunCommand;

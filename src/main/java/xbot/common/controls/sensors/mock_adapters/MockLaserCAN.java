@@ -10,7 +10,7 @@ import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 
-import static edu.wpi.first.units.Units.Seconds;
+import static org.wpilib.units.Units.Seconds;
 
 public class MockLaserCAN extends XLaserCAN {
 
@@ -40,7 +40,7 @@ public class MockLaserCAN extends XLaserCAN {
     @Override
     public void updateInputs(LaserCANInputs inputs) {
         inputs.isMeasurementValid = true;
-        inputs.distance = edu.wpi.first.units.Units.Meters.of(distanceMeters);
+        inputs.distance = org.wpilib.units.Units.Meters.of(distanceMeters);
         inputs.measurementLatency = Seconds.of(XTimer.getFPGATimestamp() - measurementTime);
     }
 }

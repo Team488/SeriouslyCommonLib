@@ -2,9 +2,9 @@ package xbot.common.controls.sensors;
 
 import java.util.HashMap;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import org.wpilib.driverstation.Alliance;
+import org.wpilib.driverstation.MatchState;
+import org.wpilib.math.geometry.Translation2d;
 import xbot.common.controls.sensors.buttons.AdvancedXboxAxisTrigger;
 import xbot.common.controls.sensors.buttons.AdvancedXboxButtonTrigger;
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
@@ -130,7 +130,7 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
 
     public Translation2d getLeftFieldOrientedVector() {
         var blueTranslation = new Translation2d(getLeftRawY(), getLeftRawX());
-        if(DriverStation.getAlliance().orElseGet(() -> Alliance.Blue) == Alliance.Blue) {
+        if(MatchState.getAlliance().orElseGet(() -> Alliance.BLUE) == Alliance.BLUE) {
             return blueTranslation;
         } else {
             // when on red, both axis invert
@@ -140,7 +140,7 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
 
     public Translation2d getRightFieldOrientedVector() {
         var blueTranslation = new Translation2d(getRightRawY(), getRightRawX());
-        if(DriverStation.getAlliance().orElseGet(() -> Alliance.Blue) == Alliance.Blue) {
+        if(MatchState.getAlliance().orElseGet(() -> Alliance.BLUE) == Alliance.BLUE) {
             return blueTranslation;
         } else {
             // when on red, both axis invert

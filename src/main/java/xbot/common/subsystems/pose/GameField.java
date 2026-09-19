@@ -1,15 +1,15 @@
 package xbot.common.subsystems.pose;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.units.measure.Distance;
+import org.wpilib.fields.Fields;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.units.measure.Distance;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import static edu.wpi.first.units.Units.Meters;
+import static org.wpilib.units.Units.Meters;
 
 /**
  * Represents the field the robot is on and provides helpers for transforming field coordinates.
@@ -41,9 +41,9 @@ public class GameField {
      * @param symmetry The symmetry of the field.
      */
     @Inject
-    public GameField(AprilTagFieldLayout fieldLayout, GameField.Symmetry symmetry) {
-        this.fieldWidth = Meters.of(fieldLayout.getFieldWidth());
-        this.fieldLength = Meters.of(fieldLayout.getFieldLength());
+    public GameField(Fields fieldLayout, GameField.Symmetry symmetry) {
+        this.fieldWidth = Meters.of(fieldLayout.loadField().getFieldWidth());
+        this.fieldLength = Meters.of(fieldLayout.loadField().getFieldLength());
         this.symmetry = symmetry;
     }
 

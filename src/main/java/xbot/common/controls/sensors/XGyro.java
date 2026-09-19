@@ -1,8 +1,10 @@
 package xbot.common.controls.sensors;
 
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
+import org.wpilib.hardware.imu.OnboardIMU.MountOrientation;
+import org.wpilib.math.linalg.VecBuilder;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.LinearAcceleration;
 import org.littletonrobotics.junction.Logger;
 
 import xbot.common.advantage.DataFrameRefreshable;
@@ -10,10 +12,10 @@ import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.controls.io_inputs.XGyroIoInputsAutoLogged;
 import xbot.common.injection.electrical_contract.IMUInfo;
-import xbot.common.math.WrappedRotation2d;
 
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.DegreesPerSecond;
+import static org.wpilib.units.Units.Degrees;
+import static org.wpilib.units.Units.DegreesPerSecond;
+import static org.wpilib.units.Units.MetersPerSecondPerSecond;
 
 public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
 {
@@ -25,8 +27,7 @@ public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
     }
 
     public enum ImuType {
-        nav6,
-        navX,
+        onboard,
         mock,
         pigeon2
     }
@@ -40,7 +41,7 @@ public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
         public abstract XGyro create(IMUInfo imuInfo);
 
         public XGyro create() {
-            return create(new IMUInfo(InterfaceType.spi));
+            return create(new IMUInfo(MountOrientation.FLAT));
         }
     }
 
@@ -92,20 +93,24 @@ public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
         return DegreesPerSecond.zero();
     }
 
-    public double getAccelerationX() {
+    public LinearAcceleration getAccelerationX() {
         return io.acceleration[0];
     }
 
-    public double getAccelerationY() {
+    public LinearAcceleration getAccelerationY() {
         return io.acceleration[1];
     }
 
-    public double getAccelerationZ() {
+    public LinearAcceleration getAccelerationZ() {
         return io.acceleration[2];
     }
 
-    public double getAcceleration() {
-        return VecBuilder.fill(getAccelerationX(), getAccelerationY(), getAccelerationX()).norm();
+    public LinearAcceleration getAcceleration() {
+        return MetersPerSecondPerSecond.of(VecBuilder.fill(
+            getAccelerationX().in(MetersPerSecondPerSecond),
+            getAccelerationY().in(MetersPerSecondPerSecond),
+            getAccelerationX().in(MetersPerSecondPerSecond)
+        ).norm());
     }
 
     // What follows are the primitive "gets" for the gyro. These aren't protected,
@@ -129,37 +134,6 @@ public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
 
     private AngularVelocity getDeviceYawAngularVelocity() {
         return io.yawAngularVelocity;
-    }
-
-
-    private double getDeviceVelocityX() {
-        // Not yet part of the io system
-        return 0;
-    }
-
-    private double getDeviceVelocityY() {
-        // Not yet part of the io system
-        return 0;
-    }
-
-    private double getDeviceVelocityZ() {
-        // Not yet part of the io system
-        return 0;
-    }
-
-    private double getDeviceRawAccelX() {
-        // Not yet part of the io system
-        return 0;
-    }
-
-    private double getDeviceRawAccelY() {
-        // Not yet part of the io system
-        return 0;
-    }
-
-    private double getDeviceRawAccelZ() {
-        // Not yet part of the io system
-        return 0;
     }
 
     protected abstract void updateInputs(XGyroIoInputs inputs);

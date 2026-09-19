@@ -1,18 +1,18 @@
 package xbot.common.subsystems.drive;
 
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.LinearVelocity;
-import edu.wpi.first.units.measure.Time;
+import org.wpilib.units.measure.Distance;
+import org.wpilib.units.measure.LinearVelocity;
+import org.wpilib.units.measure.Time;
 import xbot.common.logging.RobotAssertionManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static edu.wpi.first.units.Units.Meter;
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
-import static edu.wpi.first.units.Units.Seconds;
+import static org.wpilib.units.Units.Meter;
+import static org.wpilib.units.Units.Meters;
+import static org.wpilib.units.Units.MetersPerSecond;
+import static org.wpilib.units.Units.MetersPerSecondPerSecond;
+import static org.wpilib.units.Units.Seconds;
 
 /**
  * This class is designed to compute the motion of a swerve drive system from a starting position and velocity

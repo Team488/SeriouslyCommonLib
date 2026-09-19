@@ -2,13 +2,13 @@ package xbot.common.properties;
 
 import javax.inject.Inject;
 
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Time;
+import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.Time;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.Distance;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.Distance;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.Property.PropertyLevel;
 

@@ -14,15 +14,14 @@
 package xbot.common.subsystems.vision;
 
 import dagger.assisted.AssistedFactory;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.wpilibj.Timer;
+import org.wpilib.math.numbers.N1;
+import org.wpilib.math.numbers.N3;
+import org.wpilib.fields.Fields;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Transform3d;
+import org.wpilib.math.linalg.Matrix;
+import org.wpilib.math.linalg.VecBuilder;
+
 import xbot.common.properties.DoubleProperty;
 import xbot.common.properties.PropertyFactory;
 
@@ -36,7 +35,6 @@ import java.util.stream.Collectors;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import dagger.assisted.Assisted;
@@ -70,7 +68,7 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
     protected final PhotonCamera camera;
     private final PhotonPoseEstimator photonEstimator;
     private final String logPath;
-    private final AprilTagFieldLayout aprilTagFieldLayout;
+    private final Fields aprilTagFieldLayout;
 
     private final DoubleProperty singleTagStdDev1;
     private final DoubleProperty singleTagStdDev2;
@@ -92,12 +90,12 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
      */
     @AssistedInject
     public AprilTagVisionIOPhotonVisionEstimator(@Assisted String name, @Assisted Transform3d robotToCamera,
-                                                 AprilTagFieldLayout fieldLayout, PropertyFactory pf) {
+                                                 Fields fieldLayout, PropertyFactory pf) {
         this.logPath = name;
         this.camera = new PhotonCamera(name);
         this.aprilTagFieldLayout= fieldLayout;
         this.robotToCamera = robotToCamera;
-        this.photonEstimator = new PhotonPoseEstimator(this.aprilTagFieldLayout, this.robotToCamera);
+        this.photonEstimator = new PhotonPoseEstimator(this.aprilTagFieldLayout.loadField(), this.robotToCamera);
 
         pf.setPrefix(this.logPath);
         this.singleTagStdDev1 = pf.createPersistentProperty("singleTagStdDev1", 4);

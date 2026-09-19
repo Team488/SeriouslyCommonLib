@@ -1,7 +1,7 @@
 package xbot.common.properties;
 
-import edu.wpi.first.units.AngleUnit;
-import edu.wpi.first.units.measure.Angle;
+import org.wpilib.units.AngleUnit;
+import org.wpilib.units.measure.Angle;
 
 /**
  * This manages an Angle in the property system.

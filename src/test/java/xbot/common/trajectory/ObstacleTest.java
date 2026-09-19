@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import edu.wpi.first.math.geometry.Translation2d;
+import org.wpilib.math.geometry.Translation2d;
 import org.junit.Test;
 
 import xbot.common.injection.BaseCommonLibTest;

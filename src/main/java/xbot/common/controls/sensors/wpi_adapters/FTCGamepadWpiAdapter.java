@@ -1,11 +1,12 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
+import org.wpilib.driverstation.Gamepad;
+import org.wpilib.driverstation.GenericHID;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import xbot.common.controls.sensors.XFTCGamepad;
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
@@ -35,7 +36,7 @@ public class FTCGamepadWpiAdapter extends XFTCGamepad {
             DevicePolice police) {
         super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, assertionManager, numButtons, police);
 
-        internalHID = new Joystick(port);
+        internalHID = new Gamepad(port);
     }
 
     protected double getX() {

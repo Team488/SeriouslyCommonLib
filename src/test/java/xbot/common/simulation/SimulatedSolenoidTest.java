@@ -26,9 +26,9 @@ public class SimulatedSolenoidTest extends BaseSimulationTest {
         mockSolenoid.set(true);
         JSONObject result = mockSolenoid.getSimulationData();
 
-        assertEquals("Solenoid1", result.get("id")); 
-        assertEquals("VIRTUAL_SOLENOID", result.get("mode")); 
-        assertEquals("ON", result.get("val")); 
+        assertEquals("Solenoid1", result.get("id"));
+        assertEquals("VIRTUAL_SOLENOID", result.get("mode"));
+        assertEquals("ON", result.get("val"));
     }
 
     @Test
@@ -36,8 +36,8 @@ public class SimulatedSolenoidTest extends BaseSimulationTest {
         mockSolenoid.set(false);
         JSONObject result = mockSolenoid.getSimulationData();
 
-        assertEquals("Solenoid1", result.get("id")); 
-        assertEquals("VIRTUAL_SOLENOID", result.get("mode")); 
-        assertEquals("OFF", result.get("val")); 
+        assertEquals("Solenoid1", result.get("id"));
+        assertEquals("VIRTUAL_SOLENOID", result.get("mode"));
+        assertEquals("OFF", result.get("val"));
     }
 }

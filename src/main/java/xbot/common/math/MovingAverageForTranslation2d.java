@@ -1,6 +1,6 @@
 package xbot.common.math;
 
-import edu.wpi.first.math.geometry.Translation2d;
+import org.wpilib.math.geometry.Translation2d;
 
 public class MovingAverageForTranslation2d extends MovingAverage<Translation2d> {
     public MovingAverageForTranslation2d(int size) {

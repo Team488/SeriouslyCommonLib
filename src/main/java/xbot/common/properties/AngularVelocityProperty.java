@@ -1,7 +1,7 @@
 package xbot.common.properties;
 
-import edu.wpi.first.units.AngularVelocityUnit;
-import edu.wpi.first.units.measure.AngularVelocity;
+import org.wpilib.units.AngularVelocityUnit;
+import org.wpilib.units.measure.AngularVelocity;
 
 /**
  * This manages an AngleVelocity in the property system.

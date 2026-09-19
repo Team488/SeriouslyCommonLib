@@ -1,7 +1,7 @@
 package xbot.common.trajectory;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Translation2d;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

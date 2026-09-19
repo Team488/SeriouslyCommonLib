@@ -6,8 +6,8 @@ import java.util.function.BooleanSupplier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import org.wpilib.command2.Command;
+import org.wpilib.command2.button.Trigger;
 import xbot.common.controls.sensors.XXboxController;
 import xbot.common.controls.sensors.XXboxController.XboxButton;
 

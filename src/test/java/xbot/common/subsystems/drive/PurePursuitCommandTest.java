@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Rotation2d;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;

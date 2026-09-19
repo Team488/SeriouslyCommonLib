@@ -3,9 +3,9 @@ package xbot.common.subsystems.vision;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.wpilibj.Timer;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Transform3d;
+import org.wpilib.system.Timer;
 
 import java.lang.annotation.Target;
 
@@ -37,7 +37,7 @@ public class MockAprilTagVisionIO implements AprilTagVisionIO {
 
     @Override
     public void updateInputs(VisionIOInputs inputs) {
-        this.latestTargetObservation = new TargetObservation(Timer.getFPGATimestamp(),
+        this.latestTargetObservation = new TargetObservation(Timer.getMonotonicTimestamp(),
                 this.latestTargetObservation.fiducialId(), this.latestTargetObservation.tx(),
                 this.latestTargetObservation.ty(), this.latestTargetObservation.cameraToTarget(),
                 this.latestTargetObservation.ambiguity(), false);

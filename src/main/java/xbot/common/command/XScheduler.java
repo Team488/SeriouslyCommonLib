@@ -5,13 +5,13 @@ import java.util.Arrays;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import edu.wpi.first.wpilibj.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+import org.wpilib.command2.Command;
+import org.wpilib.command2.CommandScheduler;
+import org.wpilib.command2.Subsystem;
+import org.wpilib.util.Alert;
 
 /**
  * Wrapper for base Scheduler which intelligently manages exceptions.
@@ -32,7 +32,7 @@ public class XScheduler {
 
     @Inject
     public XScheduler() {
-        this.schedulerCrashedAlert = new Alert("Scheduler Crashed", Alert.AlertType.kError);
+        this.schedulerCrashedAlert = new Alert("SchedulerCrash", "Scheduler Crashed", Alert.Level.HIGH);
         this.scheduler = CommandScheduler.getInstance();
     }
 

@@ -20,16 +20,17 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.units.AngularAccelerationUnit;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularAcceleration;
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Current;
-import edu.wpi.first.units.measure.Frequency;
-import edu.wpi.first.units.measure.Time;
-import edu.wpi.first.units.measure.Velocity;
-import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj.Alert;
+
+import org.wpilib.units.AngularAccelerationUnit;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularAcceleration;
+import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.Current;
+import org.wpilib.units.measure.Frequency;
+import org.wpilib.units.measure.Time;
+import org.wpilib.units.measure.Velocity;
+import org.wpilib.units.measure.Voltage;
+import org.wpilib.util.Alert;
 import org.apache.logging.log4j.LogManager;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.actuators.XCANMotorController;
@@ -91,14 +92,14 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         this.statorCurrentSignal = this.internalTalonFx.getStatorCurrent(false);
         this.talonConfiguration = new TalonFXConfiguration();
 
-        this.unsupportedPIDModeAlert = new Alert("Tried to use an unsupported PID mode", Alert.AlertType.kWarning);
+        this.unsupportedPIDModeAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Tried to use an unsupported PID mode", Alert.Level.MEDIUM);
         this.notOnlineDuringConfigAlert = new Alert(AlertGroups.DEVICE_HEALTH, "TalonFX " + info.deviceId()
                 + " (" + info.name() + ") is not online and cannot be configured",
-                Alert.AlertType.kError);
+                Alert.Level.HIGH);
         this.configCacheFailedAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Failed to cache configuration for TalonFX " + info.deviceId()
                 + " (" + info.name() + ")",
-                Alert.AlertType.kError);
-        this.lastCommandFailedAlert = new Alert(AlertGroups.DEVICE_HEALTH, "", Alert.AlertType.kError);
+                Alert.Level.HIGH);
+        this.lastCommandFailedAlert = new Alert(AlertGroups.DEVICE_HEALTH, "", Alert.Level.HIGH);
 
         waitForOnline();
         cacheConfiguration();
@@ -279,7 +280,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public double getPower() {
-        return this.internalTalonFx.get();
+        return this.internalTalonFx.getThrottle();
     }
 
     @Override

@@ -3,8 +3,8 @@ package xbot.common.logic;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import edu.wpi.first.wpilibj.simulation.DriverStationSim;
-import edu.wpi.first.wpilibj.simulation.SimHooks;
+import org.wpilib.simulation.DriverStationSim;
+import org.wpilib.simulation.SimHooks;
 import org.junit.Test;
 
 import xbot.common.injection.BaseCommonLibTest;

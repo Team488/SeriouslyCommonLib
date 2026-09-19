@@ -1,9 +1,9 @@
 package xbot.common.simulation;
 
-import static edu.wpi.first.units.Units.RPM;
-import static edu.wpi.first.units.Units.Rotations;
+import static org.wpilib.units.Units.RPM;
+import static org.wpilib.units.Units.Rotations;
 
-import edu.wpi.first.units.measure.AngularVelocity;
+import org.wpilib.units.measure.AngularVelocity;
 import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
 import xbot.common.math.PIDManager;
 

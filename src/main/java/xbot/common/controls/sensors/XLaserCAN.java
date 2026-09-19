@@ -1,7 +1,7 @@
 package xbot.common.controls.sensors;
 
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.Time;
+import org.wpilib.units.measure.Distance;
+import org.wpilib.units.measure.Time;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;

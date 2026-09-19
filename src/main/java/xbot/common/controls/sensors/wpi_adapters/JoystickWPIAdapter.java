@@ -7,12 +7,11 @@ import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButt
 import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 
+import org.wpilib.driverstation.GenericHID;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 
 public class JoystickWPIAdapter extends XJoystick {
     

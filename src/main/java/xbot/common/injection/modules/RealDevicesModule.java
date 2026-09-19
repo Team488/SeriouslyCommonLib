@@ -8,16 +8,12 @@ import xbot.common.controls.actuators.XCANMotorControllerFactoryImpl;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
 import xbot.common.controls.actuators.XDigitalOutput.XDigitalOutputFactory;
 import xbot.common.controls.actuators.XPWM.XPWMFactory;
-import xbot.common.controls.actuators.XRelay.XRelayFactory;
-import xbot.common.controls.actuators.XServo.XServoFactory;
 import xbot.common.controls.actuators.XSolenoid.XSolenoidFactory;
 import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
 import xbot.common.controls.actuators.wpi_adapters.CANdleWpiAdapter;
 import xbot.common.controls.actuators.wpi_adapters.CompressorWPIAdapter.CompressorWPIAdapterFactory;
 import xbot.common.controls.actuators.wpi_adapters.DigitalOutputWPIAdapter.DigitalOutputWPIAdapterFactory;
 import xbot.common.controls.actuators.wpi_adapters.PWMWPIAdapter.PWMWPIAdapterFactory;
-import xbot.common.controls.actuators.wpi_adapters.RelayWPIAdapter.RelayWPIAdapterFactory;
-import xbot.common.controls.actuators.wpi_adapters.ServoWPIAdapter.ServoWPIAdapterFactory;
 import xbot.common.controls.actuators.wpi_adapters.SolenoidWPIAdapter.SolenoidWPIAdapterFactory;
 import xbot.common.controls.actuators.wpi_adapters.SpeedControllerWPIAdapter.SpeedControllerWPIAdapterFactory;
 import xbot.common.controls.sensors.AnalogDistanceSensor.AnalogDistanceSensorFactory;
@@ -39,7 +35,7 @@ import xbot.common.controls.sensors.wpi_adapters.DigitalInputWPIAdapter.DigitalI
 import xbot.common.controls.sensors.wpi_adapters.DutyCycleEncoderWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter.EncoderWPIAdapterFactory;
 import xbot.common.controls.sensors.wpi_adapters.InertialMeasurementUnitAdapter.InertialMeasurementUnitAdapterFactory;
-import xbot.common.controls.sensors.wpi_adapters.LaserCANWpiAdapter;
+//import xbot.common.controls.sensors.wpi_adapters.LaserCANWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter.LidarLiteWpiAdapterFactory;
 import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter.PowerDistributionPanelWPIAdapaterFactory;
 import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
@@ -82,10 +78,6 @@ public abstract class RealDevicesModule {
 
     @Binds
     @Singleton
-    public abstract XServoFactory getServoFactory(ServoWPIAdapterFactory impl);
-
-    @Binds
-    @Singleton
     public abstract XAnalogDistanceSensorFactory getAnalogDistanceSensorFactory(AnalogDistanceSensorFactory impl);
 
     @Binds
@@ -114,10 +106,6 @@ public abstract class RealDevicesModule {
 
     @Binds
     @Singleton
-    public abstract XRelayFactory getRelayFactory(RelayWPIAdapterFactory impl);
-
-    @Binds
-    @Singleton
     public abstract XSpeedControllerFactory getSpeedControllerFactory(SpeedControllerWPIAdapterFactory impl);
 
     @Binds
@@ -128,9 +116,9 @@ public abstract class RealDevicesModule {
     @Singleton
     public abstract XDutyCycleEncoder.XDutyCycleEncoderFactory getDutyCycleEncoderFactory(DutyCycleEncoderWpiAdapter.DutyCycleEncoderWpiAdapterFactory impl);
 
-    @Binds
-    @Singleton
-    public abstract XLaserCAN.XLaserCANFactory getLaserCANFactory(LaserCANWpiAdapter.LaserCANWpiAdapterFactory impl);
+    //@Binds
+    //@Singleton
+    //public abstract XLaserCAN.XLaserCANFactory getLaserCANFactory(LaserCANWpiAdapter.LaserCANWpiAdapterFactory impl);
 
     @Binds
     @Singleton

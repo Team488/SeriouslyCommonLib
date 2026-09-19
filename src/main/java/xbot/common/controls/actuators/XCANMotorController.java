@@ -1,22 +1,22 @@
 package xbot.common.controls.actuators;
 
-import edu.wpi.first.units.AngleUnit;
-import edu.wpi.first.units.AngularAccelerationUnit;
-import edu.wpi.first.units.AngularVelocityUnit;
-import edu.wpi.first.units.DistanceUnit;
-import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.PerUnit;
-import edu.wpi.first.units.Unit;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularAcceleration;
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Current;
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.Frequency;
-import edu.wpi.first.units.measure.Time;
-import edu.wpi.first.units.measure.Velocity;
-import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj.Alert;
+import org.wpilib.units.AngleUnit;
+import org.wpilib.units.AngularAccelerationUnit;
+import org.wpilib.units.AngularVelocityUnit;
+import org.wpilib.units.DistanceUnit;
+import org.wpilib.units.Measure;
+import org.wpilib.units.PerUnit;
+import org.wpilib.units.Unit;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularAcceleration;
+import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.Current;
+import org.wpilib.units.measure.Distance;
+import org.wpilib.units.measure.Frequency;
+import org.wpilib.units.measure.Time;
+import org.wpilib.units.measure.Velocity;
+import org.wpilib.units.measure.Voltage;
+import org.wpilib.util.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.Logger;
 
@@ -39,10 +39,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
 
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.Rotations;
-import static edu.wpi.first.units.Units.Second;
-import static edu.wpi.first.units.Units.Volts;
+import static org.wpilib.units.Units.Meters;
+import static org.wpilib.units.Units.Rotations;
+import static org.wpilib.units.Units.Second;
+import static org.wpilib.units.Units.Volts;
 
 public abstract class XCANMotorController implements DataFrameRefreshable {
 
@@ -159,7 +159,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
         this.unhealthyAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Motor Controller " + info.deviceId() + " on CAN bus " + busId.toString() +  " ("
                 + owningSystemPrefix + ") is unhealthy",
-                Alert.AlertType.kError);
+                Alert.Level.HIGH);
 
         if (defaultPIDProperties == null) {
             // If the controller wasn't given a default PID configuration, we shouldn't create

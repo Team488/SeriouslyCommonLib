@@ -29,7 +29,6 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().xboxControllerFactory().create(2);
         getInjectorComponent().solenoidFactory().create(1);
         getInjectorComponent().digitalOutputFactory().create(3);
-        getInjectorComponent().servoFactory().create(1);
         getInjectorComponent().speedControllerFactory().create(2);
         getInjectorComponent().motorControllerFactory()
                 .create(
@@ -53,7 +52,6 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().calibrationDeciderFactory().create("calibration");
         getInjectorComponent().velocityThrottleModuleFactory().create("velocityThrottleThing", pf.create("velocity", 1, 0, 0));
         getInjectorComponent().compressorFactory().create();
-        getInjectorComponent().relayFactory().create(5);
         getInjectorComponent().pwmFactory().create(3);
         getInjectorComponent().fieldPosePropertyManagerFactory().create("testo", 1, 2, 3);
         getInjectorComponent().zeromqListenerFactory().create("testo", "testo");

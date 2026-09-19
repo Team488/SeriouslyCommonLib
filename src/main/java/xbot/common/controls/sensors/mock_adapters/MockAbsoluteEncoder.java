@@ -1,8 +1,8 @@
 package xbot.common.controls.sensors.mock_adapters;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
+import org.wpilib.math.util.MathUtil;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularVelocity;
 import org.json.JSONObject;
 
 import dagger.assisted.Assisted;
@@ -15,13 +15,12 @@ import xbot.common.controls.sensors.XAbsoluteEncoder;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
-import xbot.common.math.WrappedRotation2d;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 import xbot.common.simulation.ISimulatableSensor;
 
-import static edu.wpi.first.units.Units.RPM;
-import static edu.wpi.first.units.Units.Rotations;
+import static org.wpilib.units.Units.RPM;
+import static org.wpilib.units.Units.Rotations;
 
 public class MockAbsoluteEncoder extends XAbsoluteEncoder implements ISimulatableSensor {
 

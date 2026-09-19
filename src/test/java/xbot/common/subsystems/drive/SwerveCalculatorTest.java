@@ -7,10 +7,10 @@ import xbot.common.logging.RobotAssertionManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
-import static edu.wpi.first.units.Units.Seconds;
+import static org.wpilib.units.Units.Meters;
+import static org.wpilib.units.Units.MetersPerSecond;
+import static org.wpilib.units.Units.MetersPerSecondPerSecond;
+import static org.wpilib.units.Units.Seconds;
 import static org.junit.Assert.assertEquals;
 
 public class SwerveCalculatorTest extends BaseCommonLibTest {

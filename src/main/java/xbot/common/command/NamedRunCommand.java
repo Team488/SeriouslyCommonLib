@@ -3,8 +3,8 @@ package xbot.common.command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+import org.wpilib.command2.RunCommand;
+import org.wpilib.command2.Subsystem;
 
 public class NamedRunCommand extends RunCommand {
     protected Logger log;

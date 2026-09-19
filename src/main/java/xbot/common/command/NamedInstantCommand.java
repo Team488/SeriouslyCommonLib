@@ -1,7 +1,7 @@
 package xbot.common.command;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+import org.wpilib.command2.InstantCommand;
+import org.wpilib.command2.Subsystem;
 
 /**
  * Convenience wrapper of InstantCommand that allows setting a human readable name for

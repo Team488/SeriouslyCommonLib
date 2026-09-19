@@ -1,7 +1,7 @@
 package xbot.common.properties;
 
-import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.Unit;
+import org.wpilib.units.Measure;
+import org.wpilib.units.Unit;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
@@ -20,11 +20,11 @@ public class MeasureProperty<
 
     private final LoggableInputs inputs = new LoggableInputs() {
         public void toLog(LogTable table) {
-            table.put(suffix, currentValue);
+            table.putMeasure(suffix, currentValue);
         }
 
         public void fromLog(LogTable table) {
-            currentValue = table.get(suffix, defaultValue);
+            currentValue = table.getMeasure(suffix, defaultValue);
         }
     };
 
@@ -37,9 +37,8 @@ public class MeasureProperty<
         this.defaultValue = defaultValue;
         this.defaultUnit = defaultValue.unit();
 
-        currentValue = defaultValue;
-        lastValue = defaultValue;
-
+        this.currentValue = defaultValue;
+        this.lastValue = defaultValue;
 
         // Check for non-default on load; also store a "last value" we can use
         // to check if a property has changed recently.
@@ -55,7 +54,7 @@ public class MeasureProperty<
         return currentValue;
     }
 
-
+    @SuppressWarnings("unchecked")
     public MeasureT get_internal() {
         Double nullableTableValue = activeStore.getDouble(key);
 

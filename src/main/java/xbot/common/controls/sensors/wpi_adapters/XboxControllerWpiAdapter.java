@@ -7,12 +7,13 @@ import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButt
 import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
+
+import org.wpilib.driverstation.GenericHID;
+import org.wpilib.driverstation.XboxController;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 
 public class XboxControllerWpiAdapter extends XXboxController {
 

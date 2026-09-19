@@ -6,9 +6,9 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.LinearAcceleration;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.LinearAcceleration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -77,10 +77,10 @@ public class Pigeon2Adapter extends XGyro {
         inputs.pitch = pitchSignal.getValue();
         inputs.roll = rollSignal.getValue();
         inputs.yawAngularVelocity = yawAngularVelocitySignal.getValue();
-        inputs.acceleration = new double[]{
-                accelerationXSignal.getValueAsDouble(),
-                accelerationYSignal.getValueAsDouble(),
-                accelerationZSignal.getValueAsDouble()
+        inputs.acceleration = new LinearAcceleration[]{
+                accelerationXSignal.getValue(),
+                accelerationYSignal.getValue(),
+                accelerationZSignal.getValue()
         };
         inputs.isConnected = pigeon.isConnected();
     }

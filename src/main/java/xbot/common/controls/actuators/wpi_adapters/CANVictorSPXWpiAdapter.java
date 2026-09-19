@@ -1,18 +1,19 @@
+/*
 package xbot.common.controls.actuators.wpi_adapters;
 
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.tre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.units.AngularAccelerationUnit;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularAcceleration;
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Frequency;
-import edu.wpi.first.units.measure.Time;
-import edu.wpi.first.units.measure.Velocity;
-import edu.wpi.first.units.measure.Voltage;
+import org.wpilib.units.AngularAccelerationUnit;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularAcceleration;
+import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.Frequency;
+import org.wpilib.units.measure.Time;
+import org.wpilib.units.measure.Velocity;
+import org.wpilib.units.measure.Voltage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.command.DataFrameRegistry;
@@ -28,8 +29,8 @@ import xbot.common.properties.PowerDistributionProperties;
 import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
-import static edu.wpi.first.units.Units.Seconds;
-import static edu.wpi.first.units.Units.Volts;
+import static org.wpilib.units.Units.Seconds;
+import static org.wpilib.units.Units.Volts;
 
 public class CANVictorSPXWpiAdapter extends XCANMotorController {
 
@@ -176,3 +177,4 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
         // Do nothing, not relevant
     }
 }
+    */

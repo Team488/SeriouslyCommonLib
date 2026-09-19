@@ -1,6 +1,6 @@
 package xbot.common.controls.sensors.mock_adapters;
 
-import edu.wpi.first.units.measure.Angle;
+import org.wpilib.units.measure.Angle;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
 import xbot.common.controls.sensors.XSparkAbsoluteEncoder;

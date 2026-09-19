@@ -1,22 +1,20 @@
 package xbot.common.subsystems.autonomous;
 
-import java.util.Objects;
 import java.util.function.Supplier;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.smartdashboard.SmartDashboard;
+import org.wpilib.command2.InstantCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
 
 import xbot.common.command.BaseSubsystem;
 import xbot.common.properties.PropertyFactory;
-import xbot.common.properties.StringProperty;
 
 @Singleton
 public class AutonomousCommandSelector extends BaseSubsystem {

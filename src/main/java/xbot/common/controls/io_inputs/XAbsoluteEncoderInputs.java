@@ -1,7 +1,7 @@
 package xbot.common.controls.io_inputs;
 
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularVelocity;
 import org.littletonrobotics.junction.AutoLog;
 
 @AutoLog

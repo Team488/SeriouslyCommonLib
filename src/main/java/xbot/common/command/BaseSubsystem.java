@@ -3,7 +3,7 @@ package xbot.common.command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.wpilib.command2.SubsystemBase;
 import xbot.common.advantage.AKitLogger;
 import xbot.common.properties.IPropertySupport;
 
@@ -22,7 +22,7 @@ public abstract class BaseSubsystem extends SubsystemBase implements IPropertySu
     }
 
     /**
-     * This method is called on each {@link edu.wpi.first.wpilibj2.command.CommandScheduler} loop.
+     * This method is called on each {@link org.wpilib.command2.CommandScheduler} loop.
      * @apiNote Subsystem periodic() methods are not executed in a predictable order.
      * If you need to ensure that some state is available before any other subsystems are run,
      * you should implement {@link #refreshDataFrame()} to update the state before the scheduler runs periodic() on all the subsystems.

@@ -14,12 +14,12 @@
 package xbot.common.subsystems.vision;
 
 import dagger.assisted.AssistedFactory;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.wpilibj.Timer;
+
+import org.wpilib.fields.Fields;
+import org.wpilib.math.geometry.Pose3d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Transform3d;
+import org.wpilib.system.Timer;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -54,7 +54,7 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
 
     protected final PhotonCamera camera;
     protected final Transform3d robotToCamera;
-    private final AprilTagFieldLayout aprilTagFieldLayout;
+    private final Fields aprilTagFieldLayout;
 
     /**
      * Creates a new VisionIOPhotonVision.
@@ -65,7 +65,7 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
      */
     @AssistedInject
     public AprilTagVisionIOPhotonVision(@Assisted String name, @Assisted Transform3d robotToCamera,
-            AprilTagFieldLayout fieldLayout) {
+            Fields fieldLayout) {
         camera = new PhotonCamera(name);
         this.robotToCamera = robotToCamera;
         this.aprilTagFieldLayout = fieldLayout;
@@ -88,7 +88,7 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
         List<PoseObservation> poseObservations = new LinkedList<>();
 
         for (var result : camera.getAllUnreadResults()) {
-            boolean stale = Timer.getFPGATimestamp() - result.getTimestampSeconds() > HEARTBEAT_DEBOUNCE_SEC;
+            boolean stale = Timer.getMonotonicTimestamp() - result.getTimestampSeconds() > HEARTBEAT_DEBOUNCE_SEC;
             // Update latest target observation
             if (result.hasTargets()) {
                 var bestTarget = result.getBestTarget();
@@ -152,7 +152,7 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
                 var target = result.targets.get(0);
 
                 // Calculate robot pose
-                var tagPose = this.aprilTagFieldLayout.getTagPose(target.fiducialId);
+                var tagPose = this.aprilTagFieldLayout.loadField().getTagPose(target.fiducialId);
                 if (tagPose.isPresent()) {
                     Transform3d fieldToTarget = new Transform3d(tagPose.get().getTranslation(),
                             tagPose.get().getRotation());

@@ -1,6 +1,5 @@
 package xbot.common.injection.modules;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Binds;
@@ -12,13 +11,8 @@ import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.wpi_adapters.TimerWpiAdapter;
 import xbot.common.logging.LoudRobotAssertionManager;
 import xbot.common.logging.RobotAssertionManager;
-import xbot.common.properties.ITableProxy;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.PreferenceStorage;
-import xbot.common.properties.SmartDashboardTableWrapper;
-import xbot.common.properties.XPropertyManager;
-import xbot.common.subsystems.pose.BasePoseSubsystem;
-import xbot.common.subsystems.pose.SimulatedPositionSupplier;
 import xbot.common.subsystems.vision.AprilTagVisionIOFactory;
 import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVisionSimulated;
 
@@ -34,15 +28,6 @@ public abstract class SimulationModule {
     @Binds
     @Singleton
     abstract XSettableTimerImpl getSettableTimer(TimerWpiAdapter impl);
-
-    @Binds
-    @Singleton
-    abstract ITableProxy getTableProxy(SmartDashboardTableWrapper impl);
-
-    @Binds
-    @Named(XPropertyManager.IN_MEMORY_STORE_NAME)
-    @Singleton
-    abstract ITableProxy getInMemoryTableProxy(SmartDashboardTableWrapper impl);
 
     @Binds
     @Singleton

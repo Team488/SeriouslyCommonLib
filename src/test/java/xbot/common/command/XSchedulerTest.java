@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import org.wpilib.command2.CommandScheduler;
 import xbot.common.injection.BaseCommonLibTest;
 
 public class XSchedulerTest extends BaseCommonLibTest {

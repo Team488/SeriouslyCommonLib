@@ -1,9 +1,9 @@
 package xbot.common.trajectory;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.LinearVelocity;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.units.measure.Distance;
+import org.wpilib.units.measure.LinearVelocity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.advantage.AKitLogger;
@@ -15,8 +15,8 @@ import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
 
 import java.util.List;
 
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
+import static org.wpilib.units.Units.Meters;
+import static org.wpilib.units.Units.MetersPerSecond;
 
 public class SimpleInterpolator {
 

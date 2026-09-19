@@ -2,8 +2,8 @@ package xbot.common.command;
 
 import javax.inject.Inject;
 
-import edu.wpi.first.wpilibj.Alert;
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
+import org.wpilib.util.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,7 +22,7 @@ public abstract class BaseCommand extends Command implements IPropertySupport {
     protected final AKitLogger aKitLog;
     protected final TimeLogger monitor;
     private boolean configurableRunWhenDisabled;
-    
+
     @Inject
     SmartDashboardCommandPutter commandPutter;
 
@@ -30,7 +30,7 @@ public abstract class BaseCommand extends Command implements IPropertySupport {
         log = LogManager.getLogger(this.getName());
         aKitLog = new AKitLogger(this);
         monitor = new TimeLogger(this.getName(), 20);
-        runningAlert = new Alert("Commands", this.getName(), Alert.AlertType.kInfo);
+        runningAlert = new Alert("Commands", this.getName(), Alert.Level.LOW);
     }
 
     @Override
@@ -41,7 +41,7 @@ public abstract class BaseCommand extends Command implements IPropertySupport {
     public void setRunsWhenDisabled(boolean value) {
         configurableRunWhenDisabled = value;
     }
-    
+
     public String getPrefix() {
         return this.getName() + "/";
     }
@@ -72,7 +72,7 @@ public abstract class BaseCommand extends Command implements IPropertySupport {
 
     /**
      * @deprecated
-     * Suggest use {@link #addRequirements(edu.wpi.first.wpilibj2.command.Subsystem...)} instead.
+     * Suggest use {@link #addRequirements(org.wpilib.command2.Subsystem...)} instead.
      * @param subsystem Requirement to add
      */
     @Deprecated

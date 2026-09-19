@@ -1,6 +1,6 @@
 package xbot.common.subsystems.pose;
 
-import static edu.wpi.first.units.Units.Degrees;
+import static org.wpilib.units.Units.Degrees;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;

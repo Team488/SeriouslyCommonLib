@@ -1,7 +1,7 @@
 package xbot.common.simulation;
 
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.DegreesPerSecond;
+import static org.wpilib.units.Units.Degrees;
+import static org.wpilib.units.Units.DegreesPerSecond;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;

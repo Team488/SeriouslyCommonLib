@@ -1,10 +1,11 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
+import org.wpilib.hardware.bus.I2C;
+import org.wpilib.hardware.bus.I2C.Port;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.I2C.Port;
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.DevicePolice;

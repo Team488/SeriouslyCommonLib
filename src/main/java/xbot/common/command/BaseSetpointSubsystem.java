@@ -1,6 +1,6 @@
 package xbot.common.command;
 
-import edu.wpi.first.wpilibj2.command.Subsystem;
+import org.wpilib.command2.Subsystem;
 import xbot.common.controls.sensors.XTimer;
 
 /**

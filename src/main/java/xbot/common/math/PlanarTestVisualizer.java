@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Rotation2d;
 import xbot.common.subsystems.drive.RabbitPoint;
 
 

@@ -1,9 +1,10 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
+import org.wpilib.hardware.discrete.AnalogInput;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.wpilibj.AnalogInput;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.injection.DevicePolice;
 
@@ -30,7 +31,7 @@ public class AnalogInputWPIAdapater extends XAnalogInput {
     }
 
     public double getAverageVoltage() {
-        return input.getAverageVoltage();
+        return input.getVoltage();
     }
 
     public void setAverageBits(int bits) {

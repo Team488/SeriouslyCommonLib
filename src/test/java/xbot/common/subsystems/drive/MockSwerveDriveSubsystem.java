@@ -1,7 +1,7 @@
 package xbot.common.subsystems.drive;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Translation2d;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.injection.swerve.FrontLeftDrive;
 import xbot.common.injection.swerve.FrontRightDrive;

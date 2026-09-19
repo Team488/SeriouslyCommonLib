@@ -1,7 +1,7 @@
 package xbot.common.properties;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
+import org.wpilib.networktables.NetworkTableEntry;
+import org.wpilib.networktables.NetworkTableInstance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.injection.electrical_contract.PDHPort;

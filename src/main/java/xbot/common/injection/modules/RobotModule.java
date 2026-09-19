@@ -15,7 +15,6 @@ import xbot.common.logging.SilentRobotAssertionManager;
 import xbot.common.properties.ITableProxy;
 import xbot.common.properties.PermanentStorage;
 import xbot.common.properties.PreferenceStorage;
-import xbot.common.properties.SmartDashboardTableWrapper;
 import xbot.common.properties.TableProxy;
 import xbot.common.properties.XPropertyManager;
 import xbot.common.subsystems.vision.AprilTagVisionIOFactory;
@@ -34,10 +33,6 @@ public abstract class RobotModule {
     @Binds
     @Singleton
     abstract XSettableTimerImpl getSettableTimer(TimerWpiAdapter impl);
-
-    @Binds
-    @Singleton
-    abstract ITableProxy getTableProxy(SmartDashboardTableWrapper impl);
 
     @Binds
     @Named(XPropertyManager.IN_MEMORY_STORE_NAME)

@@ -1,9 +1,9 @@
 package xbot.common.subsystems.vision;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.wpilibj.Alert;
+import org.wpilib.fields.Fields;
+import org.wpilib.math.geometry.Pose3d;
+import org.wpilib.math.linalg.VecBuilder;
+import org.wpilib.util.Alert;
 import org.littletonrobotics.junction.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;
@@ -22,7 +22,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     final VisionIOInputsAutoLogged inputs;
     private final String logPath;
     private final Alert disconnectedAlert;
-    private final AprilTagFieldLayout aprilTagFieldLayout;
+    private final Fields aprilTagFieldLayout;
     private final boolean useForPoseEstimates;
 
     // Basic filtering thresholds
@@ -53,14 +53,14 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
 
     public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io,
-            AprilTagFieldLayout fieldLayout, DataFrameRegistry registry, boolean useForPoseEstimates) {
+            Fields fieldLayout, DataFrameRegistry registry, boolean useForPoseEstimates) {
         this.logPath = prefix;
         this.io = io;
         this.inputs = new VisionIOInputsAutoLogged();
         registry.register(this);
         this.aprilTagFieldLayout = fieldLayout;
         this.disconnectedAlert = new Alert(AlertGroups.DEVICE_HEALTH,
-                "Vision camera " + prefix + " is disconnected.", Alert.AlertType.kError);
+                "Vision camera " + prefix + " is disconnected.", Alert.Level.HIGH);
         this.useForPoseEstimates = useForPoseEstimates;
 
         pf.setPrefix(this.logPath);
@@ -129,7 +129,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
 
         // Add the tag poses
         for (int tagId : inputs.tagIds) {
-            var tagPose = this.aprilTagFieldLayout.getTagPose(tagId);
+            var tagPose = this.aprilTagFieldLayout.loadField().getTagPose(tagId);
             if (tagPose.isPresent()) {
                 this.tagPoses.add(tagPose.get());
                 this.tagIds.add(tagId);
@@ -162,9 +162,9 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private boolean isObservationOutOfBounds(Pose3d pose) {
         // Must be within the field boundaries
         return pose.getX() <= 0.0
-                || pose.getX() > aprilTagFieldLayout.getFieldLength()
+                || pose.getX() > aprilTagFieldLayout.loadField().getFieldLength()
                 || pose.getY() <= 0.0
-                || pose.getY() > aprilTagFieldLayout.getFieldWidth();
+                || pose.getY() > aprilTagFieldLayout.loadField().getFieldWidth();
     }
 
     private boolean shouldRejectObservation(AprilTagVisionIO.PoseObservation observation) {

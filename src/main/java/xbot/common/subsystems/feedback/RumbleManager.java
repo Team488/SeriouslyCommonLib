@@ -1,11 +1,12 @@
 package xbot.common.subsystems.feedback;
 
+import org.wpilib.driverstation.GenericHID;
+import org.wpilib.driverstation.GenericHID.RumbleType;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.XTimer;
 
@@ -65,7 +66,7 @@ public class RumbleManager implements XRumbleManager {
         if (internalJoystick == null) {
             return;
         }
-        internalJoystick.setRumble(RumbleType.kLeftRumble, intensity);
-        internalJoystick.setRumble(RumbleType.kRightRumble, intensity);
+        internalJoystick.setRumble(RumbleType.LEFT_RUMBLE, intensity);
+        internalJoystick.setRumble(RumbleType.RIGHT_RUMBLE, intensity);
     }
 }

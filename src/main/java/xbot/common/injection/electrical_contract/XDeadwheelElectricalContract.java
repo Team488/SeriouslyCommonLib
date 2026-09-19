@@ -1,6 +1,6 @@
 package xbot.common.injection.electrical_contract;
 
-import edu.wpi.first.units.measure.Distance;
+import org.wpilib.units.measure.Distance;
 
 /**
  * This interface defines the base electrical contract

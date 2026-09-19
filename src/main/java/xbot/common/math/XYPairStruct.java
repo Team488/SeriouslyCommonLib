@@ -1,6 +1,6 @@
 package xbot.common.math;
 
-import edu.wpi.first.util.struct.Struct;
+import org.wpilib.util.struct.Struct;
 
 import java.nio.ByteBuffer;
 

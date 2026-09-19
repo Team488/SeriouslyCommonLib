@@ -17,16 +17,16 @@ public class RumbleManagerTest extends BaseCommonLibTest {
     MockFTCGamepad gamepad;
     RumbleManager rumbleManager;
     MockTimer timer;
-    
+
     @Override
     public void setUp() {
         super.setUp();
-        
+
         this.gamepad = (MockFTCGamepad)getInjectorComponent().ftcGamepadFactory().create(0, 10);
         this.rumbleManager = new RumbleManager(this.gamepad);
         this.timer = (MockTimer)getInjectorComponent().timerImplementation();
     }
-    
+
     @Test
     public void testGetIsRumbling() {
         assertFalse(rumbleManager.getIsRumbling());
@@ -37,7 +37,7 @@ public class RumbleManagerTest extends BaseCommonLibTest {
         rumbleManager.stopGamepadRumble();
         assertFalse(rumbleManager.getIsRumbling());
     }
-    
+
     @Test
     public void testRumbleGamepad() {
         double rumbleDuration = 10;

@@ -1,6 +1,6 @@
 package xbot.common.subsystems.drive.swerve;
 
-import edu.wpi.first.units.measure.Distance;
+import org.wpilib.units.measure.Distance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,10 +19,10 @@ import javax.inject.Inject;
 
 import java.util.Optional;
 
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.RPM;
-import static edu.wpi.first.units.Units.Rotations;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static org.wpilib.units.Units.Meters;
+import static org.wpilib.units.Units.RPM;
+import static org.wpilib.units.Units.Rotations;
+import static org.wpilib.units.Units.RotationsPerSecond;
 
 @SwerveSingleton
 public class SwerveDriveSubsystem extends BaseSimpleSetpointSubsystem {

@@ -20,14 +20,13 @@ import com.ctre.phoenix6.signals.StatusLedWhenActiveValue;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.units.measure.Frequency;
-import edu.wpi.first.wpilibj.util.Color;
+import org.wpilib.units.measure.Frequency;
+import org.wpilib.util.Color;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.controls.actuators.XCANLightController;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANLightControllerInfo;
-import xbot.common.properties.PropertyFactory;
 import xbot.common.resiliency.DeviceHealth;
 
 /**

@@ -1,13 +1,13 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
+/*
 import au.grapplerobotics.LaserCan;
 import au.grapplerobotics.interfaces.LaserCanInterface;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.Time;
-import edu.wpi.first.wpilibj.Alert;
+import org.wpilib.units.measure.Distance;
+import org.wpilib.units.measure.Time;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.LaserCANInputs;
 import xbot.common.controls.sensors.XLaserCAN;
@@ -16,8 +16,10 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.logging.AlertGroups;
 
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.Seconds;
+import static org.wpilib.units.Units.Meters;
+import static org.wpilib.units.Units.Seconds;
+
+import org.wpilib.driverstation.Alert;
 
 public class LaserCANWpiAdapter extends XLaserCAN {
 
@@ -40,7 +42,7 @@ public class LaserCANWpiAdapter extends XLaserCAN {
             @Assisted("owningSystemPrefix")String owningSystemPrefix,
             DevicePolice police, DataFrameRegistry dataFrameRegistry) {
         super(police, info, owningSystemPrefix, dataFrameRegistry);
-        healthAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Failed to set LaserCAN configuration", Alert.AlertType.kError);
+        healthAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Failed to set LaserCAN configuration", Alert.Level.HIGH);
         laserCan = new LaserCan(info.channel);
         try {
             laserCan.setRangingMode(LaserCanInterface.RangingMode.SHORT);
@@ -68,3 +70,4 @@ public class LaserCANWpiAdapter extends XLaserCAN {
         }
     }
 }
+*/

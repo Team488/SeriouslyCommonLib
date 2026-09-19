@@ -1,10 +1,12 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import org.wpilib.hardware.bus.CANPort;
+import org.wpilib.hardware.pneumatic.Compressor;
+import org.wpilib.hardware.pneumatic.PneumaticsModuleType;
+
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import xbot.common.controls.actuators.XCompressor;
 
 public class CompressorWPIAdapter extends XCompressor {
@@ -17,7 +19,7 @@ public class CompressorWPIAdapter extends XCompressor {
 
     @AssistedInject
     public CompressorWPIAdapter() {
-        this.compressor = new Compressor(PneumaticsModuleType.REVPH);
+        this.compressor = new Compressor(CANPort.CAN_D0, PneumaticsModuleType.REV_PH);
     }
 
     @Override

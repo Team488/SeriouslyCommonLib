@@ -7,8 +7,6 @@ import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
 import xbot.common.controls.actuators.XDigitalOutput.XDigitalOutputFactory;
 import xbot.common.controls.actuators.XPWM.XPWMFactory;
-import xbot.common.controls.actuators.XRelay.XRelayFactory;
-import xbot.common.controls.actuators.XServo.XServoFactory;
 import xbot.common.controls.actuators.XSolenoid.XSolenoidFactory;
 import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
 import xbot.common.controls.actuators.mock_adapters.MockCANLightController;
@@ -16,8 +14,6 @@ import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
 import xbot.common.controls.actuators.mock_adapters.MockCompressor.MockCompressorFactory;
 import xbot.common.controls.actuators.mock_adapters.MockDigitalOutput.MockDigitalOutputFactory;
 import xbot.common.controls.actuators.mock_adapters.MockPWM.MockPWMFactory;
-import xbot.common.controls.actuators.mock_adapters.MockRelay.MockRelayFactory;
-import xbot.common.controls.actuators.mock_adapters.MockServo.MockServoFactory;
 import xbot.common.controls.actuators.mock_adapters.MockSolenoid.MockSolenoidFactory;
 import xbot.common.controls.actuators.mock_adapters.MockSpeedController.MockSpeedControllerFactory;
 import xbot.common.controls.sensors.SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory;
@@ -41,6 +37,7 @@ import xbot.common.controls.sensors.mock_adapters.MockEncoder.MockEncoderFactory
 import xbot.common.controls.sensors.mock_adapters.MockGyro.MockGyroFactory;
 import xbot.common.controls.sensors.mock_adapters.MockLidarLite.MockLidarLiteFactory;
 import xbot.common.controls.sensors.mock_adapters.MockLaserCAN;
+import xbot.common.controls.sensors.mock_adapters.MockLidarLite.MockLidarLiteFactory;
 import xbot.common.controls.sensors.mock_adapters.MockPowerDistributionPanel.MockPowerDistributionPanelFactory;
 import xbot.common.networking.MockZeromqListener.MockZeromqListenerFactory;
 import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
@@ -82,10 +79,6 @@ public abstract class MockDevicesModule {
 
     @Binds
     @Singleton
-    public abstract XServoFactory getServoFactory(MockServoFactory impl);
-
-    @Binds
-    @Singleton
     public abstract XAnalogDistanceSensorFactory getAnalogDistanceSensorFactory(SimulatedAnalogDistanceSensorFactory impl);
 
     @Binds
@@ -111,10 +104,6 @@ public abstract class MockDevicesModule {
     @Binds
     @Singleton
     public abstract XSolenoidFactory getSolenoidFactory(MockSolenoidFactory impl);
-
-    @Binds
-    @Singleton
-    public abstract XRelayFactory getRelayFactory(MockRelayFactory impl);
 
     @Binds
     @Singleton
