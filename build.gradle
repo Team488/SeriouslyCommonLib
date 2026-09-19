@@ -13,11 +13,15 @@ plugins {
     id 'scala'
     id 'checkstyle'
     id 'jacoco'
-    id "net.linguica.maven-settings" version "0.5"
+    id "net.linguica.maven-settings" version "0.5" apply false
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
+
+if (!System.getenv("GITHUB_ACTIONS")) {
+    apply plugin: "net.linguica.maven-settings"
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
