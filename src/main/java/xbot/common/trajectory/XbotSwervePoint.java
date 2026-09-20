@@ -80,16 +80,4 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
         return keyPose.getRotation();
     }
 
-    public static XbotSwervePoint createPotentiallyFilppedXbotSwervePoint(
-            Translation2d targetLocation, Rotation2d targetHeading, double durationInSeconds) {
-        var potentiallyFlippedPose = BasePoseSubsystem.convertBlueToRedIfNeeded(new Pose2d(targetLocation, targetHeading));
-        return new XbotSwervePoint(potentiallyFlippedPose, durationInSeconds);
     }
-
-    public static XbotSwervePoint createPotentiallyFilppedXbotSwervePoint(
-            Pose2d pose, double durationInSeconds) {
-        var potentiallyFlippedPose = BasePoseSubsystem.convertBlueToRedIfNeeded(pose);
-        return new XbotSwervePoint(potentiallyFlippedPose, durationInSeconds);
-    }
-
-}
