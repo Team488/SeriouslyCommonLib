@@ -1,11 +1,8 @@
 package xbot.common.simulation;
 /*
-import static org.junit.Assert.assertEquals;
-
 import java.math.BigDecimal;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Ignore;
@@ -13,6 +10,8 @@ import org.junit.Test;
 
 import xbot.common.controls.actuators.mock_adapters.MockCANTalon;
 import xbot.common.injection.electrical_contract.CANTalonInfo;
+
+import static org.junit.Assert.assertEquals;
 
 @Ignore
 public class SimulateMockCANTalonTest extends BaseSimulationTest {

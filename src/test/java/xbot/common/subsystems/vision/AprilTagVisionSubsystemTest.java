@@ -1,15 +1,16 @@
 package xbot.common.subsystems.vision;
 
+import java.util.Set;
+
+import org.junit.Test;
+
 import org.wpilib.math.geometry.Pose3d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Rotation3d;
 import org.wpilib.math.geometry.Transform3d;
 import org.wpilib.math.geometry.Translation3d;
-import org.wpilib.math.linalg.VecBuilder;
-import org.junit.Test;
-import xbot.common.injection.BaseCommonLibTest;
 
-import java.util.Set;
+import xbot.common.injection.BaseCommonLibTest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

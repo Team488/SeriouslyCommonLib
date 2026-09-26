@@ -1,12 +1,16 @@
 package xbot.common.subsystems.drive.swerve;
 
-import org.wpilib.units.measure.Distance;
-import org.wpilib.tunable.TunableBoolean;
-import org.wpilib.tunable.TunableDouble;
+import java.util.Optional;
+
+import javax.inject.Inject;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import xbot.common.advantage.DataFrameRefreshable;
+import org.wpilib.tunable.TunableBoolean;
+import org.wpilib.tunable.TunableDouble;
+import org.wpilib.units.measure.Distance;
+
 import xbot.common.command.BaseSimpleSetpointSubsystem;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
@@ -14,10 +18,6 @@ import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
 import xbot.common.injection.swerve.SwerveInstance;
 import xbot.common.injection.swerve.SwerveSingleton;
 import xbot.common.properties.TunableFactory;
-
-import javax.inject.Inject;
-
-import java.util.Optional;
 
 import static org.wpilib.units.Units.Meters;
 import static org.wpilib.units.Units.RPM;

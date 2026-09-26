@@ -1,5 +1,14 @@
 package xbot.common.controls.actuators;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.BooleanSupplier;
+
+import org.apache.logging.log4j.LogManager;
+import org.littletonrobotics.junction.Logger;
+
+import org.wpilib.tunable.TunableDouble;
 import org.wpilib.units.AngleUnit;
 import org.wpilib.units.AngularAccelerationUnit;
 import org.wpilib.units.AngularVelocityUnit;
@@ -17,9 +26,6 @@ import org.wpilib.units.measure.Time;
 import org.wpilib.units.measure.Velocity;
 import org.wpilib.units.measure.Voltage;
 import org.wpilib.util.Alert;
-import org.wpilib.tunable.TunableDouble;
-import org.apache.logging.log4j.LogManager;
-import org.littletonrobotics.junction.Logger;
 
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;
@@ -33,11 +39,6 @@ import xbot.common.logging.AlertGroups;
 import xbot.common.properties.PowerDistributionProperties;
 import xbot.common.properties.TunableFactory;
 import xbot.common.resiliency.DeviceHealth;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.BooleanSupplier;
 
 import static org.wpilib.units.Units.Meters;
 import static org.wpilib.units.Units.Rotations;

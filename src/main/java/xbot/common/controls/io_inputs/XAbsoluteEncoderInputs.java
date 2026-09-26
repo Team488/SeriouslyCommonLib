@@ -1,8 +1,9 @@
 package xbot.common.controls.io_inputs;
 
+import org.littletonrobotics.junction.AutoLog;
+
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularVelocity;
-import org.littletonrobotics.junction.AutoLog;
 
 @AutoLog
 public class XAbsoluteEncoderInputs {

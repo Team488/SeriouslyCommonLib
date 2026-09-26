@@ -13,18 +13,6 @@
 
 package xbot.common.subsystems.vision;
 
-import dagger.assisted.AssistedFactory;
-import org.wpilib.math.numbers.N1;
-import org.wpilib.math.numbers.N3;
-import org.wpilib.fields.Fields;
-import org.wpilib.math.geometry.Rotation2d;
-import org.wpilib.math.geometry.Transform3d;
-import org.wpilib.math.linalg.Matrix;
-import org.wpilib.math.linalg.VecBuilder;
-
-import org.wpilib.tunable.TunableDouble;
-import xbot.common.properties.TunableFactory;
-
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,8 +25,20 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import org.wpilib.fields.Fields;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Transform3d;
+import org.wpilib.math.linalg.Matrix;
+import org.wpilib.math.linalg.VecBuilder;
+import org.wpilib.math.numbers.N1;
+import org.wpilib.math.numbers.N3;
+import org.wpilib.tunable.TunableDouble;
+
 import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+
+import xbot.common.properties.TunableFactory;
 
 /**
  * IO implementation for real PhotonVision hardware.

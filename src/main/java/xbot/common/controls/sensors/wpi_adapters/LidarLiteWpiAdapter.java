@@ -6,6 +6,7 @@ import org.wpilib.hardware.bus.I2C.Port;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.DevicePolice;

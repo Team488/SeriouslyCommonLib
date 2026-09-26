@@ -1,19 +1,20 @@
 package xbot.common.trajectory;
 
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
 import org.wpilib.units.measure.Distance;
 import org.wpilib.units.measure.LinearVelocity;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import xbot.common.advantage.AKitLogger;
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.subsystems.drive.SwerveKinematicsCalculator;
 import xbot.common.subsystems.drive.SwervePointKinematics;
 import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
-
-import java.util.List;
 
 import static org.wpilib.units.Units.Meters;
 import static org.wpilib.units.Units.MetersPerSecond;

@@ -9,8 +9,8 @@ import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.injection.electrical_contract.MotorControllerType;
 import xbot.common.math.PIDManager;
-import xbot.common.math.XYPair;
 import xbot.common.math.PIDManager.PIDManagerFactory;
+import xbot.common.math.XYPair;
 
 @Singleton
 public class MockDriveSubsystem extends BaseDriveSubsystem {

@@ -6,10 +6,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import org.apache.logging.log4j.Logger;
 
 import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.injection.DevicePolice;

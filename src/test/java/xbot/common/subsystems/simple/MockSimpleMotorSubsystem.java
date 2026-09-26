@@ -1,8 +1,8 @@
 package xbot.common.subsystems.simple;
 
-import xbot.common.properties.TunableFactory;
-
 import javax.inject.Inject;
+
+import xbot.common.properties.TunableFactory;
 
 public class MockSimpleMotorSubsystem extends SimpleMotorSubsystem {
     public double currentPower;

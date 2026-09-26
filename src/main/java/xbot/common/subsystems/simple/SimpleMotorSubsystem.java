@@ -1,9 +1,10 @@
 package xbot.common.subsystems.simple;
 
 import org.wpilib.command2.Command;
+import org.wpilib.tunable.TunableDouble;
+
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.NamedRunCommand;
-import org.wpilib.tunable.TunableDouble;
 import xbot.common.properties.TunableFactory;
 
 /**

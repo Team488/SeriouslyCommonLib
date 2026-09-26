@@ -1,12 +1,11 @@
 package xbot.common.math;
 
+import org.wpilib.tunable.TunableBoolean;
+import org.wpilib.tunable.TunableDouble;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-
-import org.littletonrobotics.junction.Logger;
-import org.wpilib.tunable.TunableBoolean;
-import org.wpilib.tunable.TunableDouble;
 
 import xbot.common.advantage.AKitLogger;
 import xbot.common.logging.RobotAssertionManager;

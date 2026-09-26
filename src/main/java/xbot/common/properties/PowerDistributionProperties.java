@@ -1,14 +1,17 @@
 package xbot.common.properties;
 
-import org.wpilib.networktables.NetworkTableEntry;
-import org.wpilib.networktables.NetworkTableInstance;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import xbot.common.injection.electrical_contract.PDHPort;
+import java.util.Arrays;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.Arrays;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import org.wpilib.networktables.NetworkTableEntry;
+import org.wpilib.networktables.NetworkTableInstance;
+
+import xbot.common.injection.electrical_contract.PDHPort;
 
 /**
  * This class manages properties related to the power distribution system (PDP/PDH)

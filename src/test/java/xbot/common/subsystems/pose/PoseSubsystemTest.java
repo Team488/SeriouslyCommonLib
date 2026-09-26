@@ -1,11 +1,11 @@
 package xbot.common.subsystems.pose;
 
-import static org.wpilib.units.Units.Degrees;
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
+
+import static org.junit.Assert.assertEquals;
+import static org.wpilib.units.Units.Degrees;
 
 public class PoseSubsystemTest extends BasePoseTest {
 

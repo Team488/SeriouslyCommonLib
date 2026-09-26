@@ -4,6 +4,7 @@ import java.util.TimerTask;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import org.wpilib.hardware.bus.I2C.Port;
 import org.wpilib.tunable.TunableDouble;
 

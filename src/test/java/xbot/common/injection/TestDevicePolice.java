@@ -1,12 +1,12 @@
 package xbot.common.injection;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.logging.RobotAssertionException;
 import xbot.common.logging.RobotAssertionManager;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit tests for DevicePolice

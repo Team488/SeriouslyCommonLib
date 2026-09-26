@@ -1,12 +1,12 @@
 package xbot.common.controls.sensors;
 
-import static org.wpilib.units.Units.Milliseconds;
-
 import java.util.function.DoubleSupplier;
 
 import org.littletonrobotics.junction.Logger;
+
 import org.wpilib.tunable.TunableDouble;
 import org.wpilib.units.measure.Time;
+
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XEncoderInputs;
@@ -14,6 +14,8 @@ import xbot.common.controls.io_inputs.XEncoderInputsAutoLogged;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.properties.TunableFactory;
+
+import static org.wpilib.units.Units.Milliseconds;
 
 public abstract class XEncoder implements DataFrameRefreshable {
 

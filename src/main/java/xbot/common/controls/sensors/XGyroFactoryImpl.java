@@ -1,10 +1,10 @@
 package xbot.common.controls.sensors;
 
+import javax.inject.Inject;
+
 import xbot.common.controls.sensors.wpi_adapters.InertialMeasurementUnitAdapter;
 import xbot.common.controls.sensors.wpi_adapters.Pigeon2Adapter;
 import xbot.common.injection.electrical_contract.IMUInfo;
-
-import javax.inject.Inject;
 
 public class XGyroFactoryImpl extends XGyro.XGyroFactory {
     private final Pigeon2Adapter.Pigeon2AdapterFactory pigeon2Factory;

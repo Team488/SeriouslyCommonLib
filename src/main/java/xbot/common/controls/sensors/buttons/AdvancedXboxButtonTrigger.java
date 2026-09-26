@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.wpilib.command2.Command;
 import org.wpilib.command2.button.Trigger;
 import org.wpilib.driverstation.XboxController.Button;
+
 import xbot.common.controls.sensors.XXboxController;
 
 public class AdvancedXboxButtonTrigger extends AdvancedTrigger {

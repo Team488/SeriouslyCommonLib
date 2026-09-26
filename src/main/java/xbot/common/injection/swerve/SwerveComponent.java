@@ -1,10 +1,11 @@
 package xbot.common.injection.swerve;
 
+import dagger.BindsInstance;
+import dagger.Subcomponent;
+
 import xbot.common.subsystems.drive.swerve.SwerveDriveSubsystem;
 import xbot.common.subsystems.drive.swerve.SwerveModuleSubsystem;
 import xbot.common.subsystems.drive.swerve.SwerveSteeringSubsystem;
-import dagger.BindsInstance;
-import dagger.Subcomponent;
 import xbot.common.subsystems.drive.swerve.commands.SwerveDriveMaintainerCommand;
 import xbot.common.subsystems.drive.swerve.commands.SwerveSteeringMaintainerCommand;
 

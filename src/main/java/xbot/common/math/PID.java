@@ -1,8 +1,8 @@
 package xbot.common.math;
 
-import xbot.common.controls.sensors.XTimer;
-
 import java.util.OptionalDouble;
+
+import xbot.common.controls.sensors.XTimer;
 
 /**
  * This PID was extracted from WPILib. It has all the same functionality, but does not run on its own separate thread.

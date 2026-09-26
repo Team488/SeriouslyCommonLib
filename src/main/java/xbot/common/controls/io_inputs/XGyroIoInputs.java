@@ -1,9 +1,10 @@
 package xbot.common.controls.io_inputs;
 
+import org.littletonrobotics.junction.AutoLog;
+
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularVelocity;
 import org.wpilib.units.measure.LinearAcceleration;
-import org.littletonrobotics.junction.AutoLog;
 
 import static org.wpilib.units.Units.Radians;
 import static org.wpilib.units.Units.RadiansPerSecond;

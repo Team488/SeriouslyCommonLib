@@ -6,11 +6,11 @@ import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
-import org.wpilib.units.measure.Angle;
-import org.wpilib.units.measure.AngularVelocity;
-import org.wpilib.units.measure.Velocity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularVelocity;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -25,9 +25,6 @@ import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.properties.TunableFactory;
 import xbot.common.resiliency.DeviceHealth;
-
-import static org.wpilib.units.Units.Rotations;
-import static org.wpilib.units.Units.RotationsPerSecond;
 
 public class CANCoderAdapter extends XCANCoder {
 

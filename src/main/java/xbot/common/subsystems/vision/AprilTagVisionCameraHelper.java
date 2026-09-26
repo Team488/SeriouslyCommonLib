@@ -1,19 +1,21 @@
 package xbot.common.subsystems.vision;
 
-import org.wpilib.fields.Fields;
-import org.wpilib.math.geometry.Pose3d;
-import org.wpilib.math.linalg.VecBuilder;
-import org.wpilib.util.Alert;
-import org.littletonrobotics.junction.Logger;
-import xbot.common.advantage.DataFrameRefreshable;
-import xbot.common.command.DataFrameRegistry;
-import xbot.common.logging.AlertGroups;
-import org.wpilib.tunable.TunableDouble;
-import xbot.common.properties.TunableFactory;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+
+import org.littletonrobotics.junction.Logger;
+
+import org.wpilib.fields.Fields;
+import org.wpilib.math.geometry.Pose3d;
+import org.wpilib.math.linalg.VecBuilder;
+import org.wpilib.tunable.TunableDouble;
+import org.wpilib.util.Alert;
+
+import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.command.DataFrameRegistry;
+import xbot.common.logging.AlertGroups;
+import xbot.common.properties.TunableFactory;
 
 /**
  * Helper class for ingesting data from a single AprilTag vision camera.

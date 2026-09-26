@@ -1,9 +1,10 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
+import org.littletonrobotics.conduit.ConduitApi;
+
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import org.littletonrobotics.conduit.ConduitApi;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 
 public class PowerDistributionPanelWPIAdapter extends XPowerDistributionPanel {

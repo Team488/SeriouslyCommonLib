@@ -4,26 +4,28 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.Test;
+
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.kinematics.SwerveModuleVelocity;
 import org.wpilib.tunable.TunableRegistry;
 import org.wpilib.util.Alert;
 import org.wpilib.util.AlertDataJNI;
 import org.wpilib.util.AlertDataJNI.AlertInfo;
-import org.junit.Test;
+
 import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.logging.AlertGroups;
 import xbot.common.math.XYPair;
-import xbot.common.subsystems.drive.swerve.SwerveModuleSubsystem;
 import xbot.common.subsystems.drive.swerve.SwerveModuleStates;
+import xbot.common.subsystems.drive.swerve.SwerveModuleSubsystem;
 
-import static org.wpilib.units.Units.MetersPerSecond;
-import static org.wpilib.units.Units.RotationsPerSecond;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.wpilib.units.Units.MetersPerSecond;
+import static org.wpilib.units.Units.RotationsPerSecond;
 
 public class BaseSwerveDriveSubsystemTest extends BaseCommonLibTest {
     BaseSwerveDriveSubsystem subsystem;

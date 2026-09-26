@@ -1,25 +1,28 @@
 package xbot.common.subsystems.oracle;
 
-import org.wpilib.math.geometry.Pose2d;
-import org.wpilib.math.geometry.Rotation2d;
-import org.wpilib.math.geometry.Translation2d;
-import org.wpilib.units.measure.Distance;
-import static org.wpilib.units.Units.Meters;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.tunable.TunableDouble;
+import org.wpilib.units.measure.Distance;
+
 import xbot.common.advantage.AKitLogger;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
-import org.wpilib.tunable.TunableDouble;
 import xbot.common.properties.TunableFactory;
-import xbot.common.trajectory.XbotSwervePoint;
 import xbot.common.subsystems.pose.GameField;
 import xbot.common.subsystems.pose.IFieldObstacle;
 import xbot.common.subsystems.pose.ObstacleMap;
+import xbot.common.trajectory.XbotSwervePoint;
 
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+import static org.wpilib.units.Units.Meters;
 
 public class SwervePointPathPlanning {
     private final Distance radius;

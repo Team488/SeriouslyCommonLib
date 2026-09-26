@@ -1,8 +1,7 @@
 package xbot.common.injection.factories;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Test;
+
 import org.wpilib.driverstation.POVDirection;
 
 import xbot.common.controls.sensors.XJoystick;
@@ -16,6 +15,8 @@ import xbot.common.injection.electrical_contract.LightControllerType;
 import xbot.common.injection.electrical_contract.MotorControllerType;
 import xbot.common.logging.RobotAssertionException;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
+
+import static org.junit.Assert.fail;
 
 public class TestAllFactoryClasses extends BaseCommonLibTest {
 

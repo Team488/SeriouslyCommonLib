@@ -1,6 +1,7 @@
 package xbot.common.advantage;
 
 import org.littletonrobotics.junction.Logger;
+import us.hebi.quickbuf.ProtoMessage;
 
 import org.wpilib.units.Measure;
 import org.wpilib.units.Unit;
@@ -8,7 +9,7 @@ import org.wpilib.util.WPISerializable;
 import org.wpilib.util.protobuf.Protobuf;
 import org.wpilib.util.struct.Struct;
 import org.wpilib.util.struct.StructSerializable;
-import us.hebi.quickbuf.ProtoMessage;
+
 import xbot.common.properties.IPropertySupport;
 
 /**

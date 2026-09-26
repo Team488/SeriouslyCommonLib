@@ -5,10 +5,11 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import javax.inject.Inject;
 
-import org.wpilib.command2.Command;
-import org.wpilib.util.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import org.wpilib.command2.Command;
+import org.wpilib.util.Alert;
 
 import xbot.common.advantage.AKitLogger;
 import xbot.common.logging.TimeLogger;

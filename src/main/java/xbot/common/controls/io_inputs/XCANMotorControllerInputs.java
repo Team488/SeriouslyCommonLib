@@ -1,10 +1,11 @@
 package xbot.common.controls.io_inputs;
 
+import org.littletonrobotics.junction.AutoLog;
+
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularVelocity;
 import org.wpilib.units.measure.Current;
 import org.wpilib.units.measure.Voltage;
-import org.littletonrobotics.junction.AutoLog;
 
 import static org.wpilib.units.Units.Amps;
 import static org.wpilib.units.Units.RPM;

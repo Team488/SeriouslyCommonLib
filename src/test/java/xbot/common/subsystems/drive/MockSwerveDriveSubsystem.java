@@ -1,7 +1,10 @@
 package xbot.common.subsystems.drive;
 
+import javax.inject.Inject;
+
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
+
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.injection.swerve.FrontLeftDrive;
 import xbot.common.injection.swerve.FrontRightDrive;
@@ -10,8 +13,6 @@ import xbot.common.injection.swerve.RearRightDrive;
 import xbot.common.injection.swerve.SwerveComponent;
 import xbot.common.math.PIDManager;
 import xbot.common.properties.TunableFactory;
-
-import javax.inject.Inject;
 
 public class MockSwerveDriveSubsystem extends BaseSwerveDriveSubsystem {
     @Inject

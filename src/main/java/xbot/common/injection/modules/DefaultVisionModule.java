@@ -1,11 +1,11 @@
 package xbot.common.injection.modules;
 
-import dagger.Module;
-import dagger.Provides;
-
 import javax.inject.Singleton;
 
 import org.wpilib.fields.Fields;
+
+import dagger.Module;
+import dagger.Provides;
 
 @Module
 public class DefaultVisionModule {

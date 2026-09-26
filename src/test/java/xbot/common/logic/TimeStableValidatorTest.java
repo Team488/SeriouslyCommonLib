@@ -1,11 +1,11 @@
 package xbot.common.logic;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class TimeStableValidatorTest extends BaseCommonLibTest {
 

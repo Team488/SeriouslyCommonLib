@@ -2,18 +2,19 @@ package xbot.common.controls.sensors.mock_adapters;
 
 import java.math.BigDecimal;
 
+import org.json.JSONObject;
+
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularVelocity;
 import org.wpilib.units.measure.LinearAcceleration;
-import org.json.JSONObject;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import xbot.common.controls.sensors.XGyro;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
+import xbot.common.controls.sensors.XGyro;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.IMUInfo;

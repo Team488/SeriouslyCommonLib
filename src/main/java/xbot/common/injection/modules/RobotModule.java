@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
+
 import xbot.common.command.RealTunableCommandPublisher;
 import xbot.common.command.TunableCommandPublisher;
 import xbot.common.controls.sensors.XSettableTimerImpl;
@@ -17,7 +18,6 @@ import xbot.common.properties.PreferencesTunablePersistence;
 import xbot.common.properties.TunableManager;
 import xbot.common.properties.TunablePersistence;
 import xbot.common.subsystems.vision.AprilTagVisionIOFactory;
-import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVision;
 import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVisionEstimator;
 
 /**

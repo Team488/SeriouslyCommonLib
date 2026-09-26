@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
+
 import xbot.common.controls.sensors.XGamepad.XGamepadFactory;
 import xbot.common.controls.sensors.XJoystick.XJoystickFactory;
 import xbot.common.controls.sensors.XXboxController.XXboxControllerFactory;

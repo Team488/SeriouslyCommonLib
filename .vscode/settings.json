@@ -1,5 +1,16 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
+    "java.format.settings.url": "xboteclipseprofile.xml",
+    "java.format.settings.profile": "XbotProfile",
+    "java.completion.importOrder": [
+        "java",
+        "javax",
+        "",
+        "org.wpilib",
+        "dagger",
+        "xbot",
+        "#"
+    ],
     "java.test.defaultConfig": "SeriouslyCommonLib",
     "java.test.config": [
         {

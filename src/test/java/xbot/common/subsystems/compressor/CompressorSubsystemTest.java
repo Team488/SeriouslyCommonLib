@@ -2,6 +2,7 @@ package xbot.common.subsystems.compressor;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.properties.TunableFactory;
 

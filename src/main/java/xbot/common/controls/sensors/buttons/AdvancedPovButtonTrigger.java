@@ -2,11 +2,13 @@ package xbot.common.controls.sensors.buttons;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import org.wpilib.driverstation.POVDirection;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+
 import xbot.common.controls.sensors.XJoystick;
 
 public class AdvancedPovButtonTrigger extends AdvancedTrigger {

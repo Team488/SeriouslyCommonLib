@@ -1,8 +1,5 @@
 package xbot.common.injection;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -10,8 +7,12 @@ import org.junit.Test;
 import org.wpilib.command2.Command;
 import org.wpilib.command2.CommandScheduler;
 import org.wpilib.command2.WaitCommand;
+
 import xbot.common.command.XScheduler;
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class MockTimerTest extends BaseCommonLibTest {
 

@@ -1,15 +1,15 @@
-package xbot.common.command;
-
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-import org.wpilib.command2.Command;
-import org.wpilib.command2.CommandScheduler;
+package xbot.common.command;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import org.wpilib.command2.Command;
+import org.wpilib.command2.CommandScheduler;
 
 /**
  * A command composition that runs a set of commands in parallel, ending only when a specific

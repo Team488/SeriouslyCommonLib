@@ -1,15 +1,15 @@
 package xbot.common.subsystems.drive.control_logic;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import org.wpilib.tunable.TunableDouble;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XTimer;
-import org.wpilib.tunable.TunableDouble;
 import xbot.common.properties.TunableFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 

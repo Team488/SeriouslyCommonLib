@@ -3,6 +3,7 @@ package xbot.common.injection.components;
 import javax.inject.Singleton;
 
 import dagger.Component;
+
 import xbot.common.injection.modules.DefaultVisionModule;
 import xbot.common.injection.modules.MockControlsModule;
 import xbot.common.injection.modules.MockDevicesModule;

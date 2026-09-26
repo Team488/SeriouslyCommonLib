@@ -13,22 +13,21 @@
 
 package xbot.common.subsystems.vision;
 
-import dagger.Lazy;
-
-import org.wpilib.fields.Fields;
-import org.wpilib.math.geometry.Transform3d;
-
-import org.wpilib.tunable.TunableBoolean;
-import xbot.common.properties.TunableFactory;
-import xbot.common.subsystems.pose.SimulatedPositionSupplier;
-
 import org.photonvision.simulation.PhotonCameraSim;
 import org.photonvision.simulation.SimCameraProperties;
 import org.photonvision.simulation.VisionSystemSim;
 
+import org.wpilib.fields.Fields;
+import org.wpilib.math.geometry.Transform3d;
+import org.wpilib.tunable.TunableBoolean;
+
+import dagger.Lazy;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+
+import xbot.common.properties.TunableFactory;
+import xbot.common.subsystems.pose.SimulatedPositionSupplier;
 
 /**
  * IO implementation for a simulated PhotonVision environment.

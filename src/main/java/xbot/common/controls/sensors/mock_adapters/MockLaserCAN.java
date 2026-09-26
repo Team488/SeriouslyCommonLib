@@ -3,6 +3,7 @@ package xbot.common.controls.sensors.mock_adapters;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.LaserCANInputs;
 import xbot.common.controls.sensors.XLaserCAN;

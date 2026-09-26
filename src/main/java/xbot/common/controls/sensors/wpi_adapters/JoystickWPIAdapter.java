@@ -1,12 +1,5 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
-import xbot.common.controls.sensors.XJoystick;
-import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
-import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
-import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
-import xbot.common.injection.DevicePolice;
-import xbot.common.logging.RobotAssertionManager;
-
 import org.wpilib.driverstation.GenericHID;
 import org.wpilib.driverstation.Joystick;
 import org.wpilib.driverstation.POVDirection;
@@ -14,6 +7,13 @@ import org.wpilib.driverstation.POVDirection;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+
+import xbot.common.controls.sensors.XJoystick;
+import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
+import xbot.common.injection.DevicePolice;
+import xbot.common.logging.RobotAssertionManager;
 
 public class JoystickWPIAdapter extends XJoystick {
     

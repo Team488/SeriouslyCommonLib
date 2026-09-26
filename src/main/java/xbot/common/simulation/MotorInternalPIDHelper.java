@@ -1,11 +1,12 @@
 package xbot.common.simulation;
 
-import static org.wpilib.units.Units.RPM;
-import static org.wpilib.units.Units.Rotations;
-
 import org.wpilib.units.measure.AngularVelocity;
+
 import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
 import xbot.common.math.PIDManager;
+
+import static org.wpilib.units.Units.RPM;
+import static org.wpilib.units.Units.Rotations;
 
 /**
  * Utility for running simple PID logic on a MockCANMotorController in simulation.

@@ -1,15 +1,17 @@
 package xbot.common.subsystems.pose;
 
+import org.junit.Test;
+
+import org.wpilib.fields.Fields;
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
-import org.wpilib.fields.Fields;
-import org.junit.Test;
+
 import xbot.common.injection.BaseCommonLibTest;
 
-import static org.wpilib.units.Units.Meters;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.wpilib.units.Units.Meters;
 
 public class GameFieldTest extends BaseCommonLibTest {
     @Test

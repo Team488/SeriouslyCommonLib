@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
+
 import org.wpilib.tunable.TunableRegistry;
 import org.wpilib.util.Alert;
 import org.wpilib.util.AlertDataJNI;
@@ -17,13 +18,13 @@ import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.injection.electrical_contract.MotorControllerType;
 
-import static org.wpilib.units.Units.Meters;
-import static org.wpilib.units.Units.Rotations;
-import static org.wpilib.units.Units.RotationsPerSecond;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+import static org.wpilib.units.Units.Meters;
+import static org.wpilib.units.Units.Rotations;
+import static org.wpilib.units.Units.RotationsPerSecond;
 
 public class CANMotorControllerTest extends BaseCommonLibTest {
 

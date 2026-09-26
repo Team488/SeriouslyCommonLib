@@ -1,22 +1,21 @@
 package xbot.common.subsystems.pose;
 
-import org.wpilib.units.Units;
-import org.wpilib.units.measure.Angle;
-import org.wpilib.units.measure.Distance;
 import org.wpilib.driverstation.Alliance;
-import org.wpilib.driverstation.DriverStation;
 import org.wpilib.driverstation.MatchState;
-import org.wpilib.driverstation.RobotState;
-import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
 import org.wpilib.math.util.MathUtil;
 import org.wpilib.tunable.TunableBoolean;
 import org.wpilib.tunable.TunableDouble;
+import org.wpilib.units.Units;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.Distance;
+
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.sensors.XGyro;
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
 import xbot.common.properties.TunableFactory;

@@ -1,12 +1,12 @@
 package xbot.common.simulation;
 
-import static org.junit.Assert.assertEquals;
-
 import org.json.JSONObject;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import xbot.common.controls.actuators.mock_adapters.MockSolenoid;
+
+import static org.junit.Assert.assertEquals;
 
 @Ignore
 public class SimulatedSolenoidTest extends BaseSimulationTest {

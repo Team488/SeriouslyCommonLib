@@ -1,6 +1,5 @@
 package xbot.common.subsystems.drive;
 
-
 import org.wpilib.units.measure.LinearAcceleration;
 import org.wpilib.units.measure.LinearVelocity;
 import org.wpilib.units.measure.Time;

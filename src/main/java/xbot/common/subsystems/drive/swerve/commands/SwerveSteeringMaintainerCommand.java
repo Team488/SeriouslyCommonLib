@@ -1,11 +1,11 @@
 package xbot.common.subsystems.drive.swerve.commands;
 
+import javax.inject.Inject;
+
 import xbot.common.command.BaseSimpleMaintainerCommand;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.properties.TunableFactory;
 import xbot.common.subsystems.drive.swerve.SwerveSteeringSubsystem;
-
-import javax.inject.Inject;
 
 public class SwerveSteeringMaintainerCommand extends BaseSimpleMaintainerCommand {
 

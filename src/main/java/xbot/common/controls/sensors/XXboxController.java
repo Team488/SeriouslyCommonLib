@@ -10,10 +10,11 @@ import org.wpilib.driverstation.POVDirection;
 import org.wpilib.driverstation.XboxController.Axis;
 import org.wpilib.driverstation.XboxController.Button;
 import org.wpilib.math.geometry.Translation2d;
-import xbot.common.controls.sensors.buttons.AdvancedXboxAxisTrigger;
-import xbot.common.controls.sensors.buttons.AdvancedXboxButtonTrigger;
+
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AdvancedXboxAxisTrigger;
+import xbot.common.controls.sensors.buttons.AdvancedXboxButtonTrigger;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;

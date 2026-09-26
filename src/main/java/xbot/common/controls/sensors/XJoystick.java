@@ -4,15 +4,17 @@ import java.util.HashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import org.wpilib.driverstation.GenericHID;
 import org.wpilib.driverstation.POVDirection;
 import org.wpilib.math.geometry.Translation2d;
+
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger;
+import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger;
+import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AdvancedTrigger;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger;
-import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
-import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDDescription;
 import xbot.common.controls.sensors.mock_adapters.MockJoystick;

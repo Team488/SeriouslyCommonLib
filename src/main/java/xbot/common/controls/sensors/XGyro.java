@@ -1,11 +1,12 @@
 package xbot.common.controls.sensors;
 
+import org.littletonrobotics.junction.Logger;
+
 import org.wpilib.hardware.imu.OnboardIMU.MountOrientation;
 import org.wpilib.math.linalg.VecBuilder;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularVelocity;
 import org.wpilib.units.measure.LinearAcceleration;
-import org.littletonrobotics.junction.Logger;
 
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;

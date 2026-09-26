@@ -1,11 +1,10 @@
 package xbot.common.subsystems.pose;
 
-import org.wpilib.math.geometry.Rotation2d;
-import org.wpilib.math.geometry.Translation2d;
-import org.wpilib.units.measure.Distance;
-import org.wpilib.units.Units;
-
 import org.littletonrobotics.junction.Logger;
+
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.units.Units;
+import org.wpilib.units.measure.Distance;
 
 /**
  * Rectangle obstacle defined by center + half extents.

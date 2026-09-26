@@ -13,10 +13,11 @@
 
 package xbot.common.subsystems.vision;
 
+import org.littletonrobotics.junction.AutoLog;
+
 import org.wpilib.math.geometry.Pose3d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Transform3d;
-import org.littletonrobotics.junction.AutoLog;
 
 /**
  * IO interface for AprilTag vision inputs.

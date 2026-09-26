@@ -1,12 +1,12 @@
 package xbot.common.subsystems.drive;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.math.XYPair;
+
+import static org.junit.Assert.assertEquals;
 
 public class DriveSubsystemTest extends BaseCommonLibTest {
 

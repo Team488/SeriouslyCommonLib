@@ -5,6 +5,7 @@ import org.wpilib.hardware.discrete.AnalogInput;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.injection.DevicePolice;

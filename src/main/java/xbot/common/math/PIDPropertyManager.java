@@ -1,11 +1,12 @@
 package xbot.common.math;
 
+import org.wpilib.tunable.TunableBoolean;
+import org.wpilib.tunable.TunableDouble;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import org.wpilib.tunable.TunableBoolean;
-import org.wpilib.tunable.TunableDouble;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.TunableFactory;
 import xbot.common.properties.TunableLevel;

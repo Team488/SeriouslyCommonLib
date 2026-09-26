@@ -1,13 +1,13 @@
 package xbot.common.subsystems.drive.swerve;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import xbot.common.injection.swerve.FrontLeftDrive;
 import xbot.common.injection.swerve.FrontRightDrive;
 import xbot.common.injection.swerve.RearLeftDrive;
 import xbot.common.injection.swerve.RearRightDrive;
 import xbot.common.injection.swerve.SwerveComponent;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
  * Sets up the default commands for the swerve subsystems

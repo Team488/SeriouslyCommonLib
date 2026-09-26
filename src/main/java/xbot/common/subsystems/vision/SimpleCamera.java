@@ -1,6 +1,7 @@
 package xbot.common.subsystems.vision;
 
 import org.photonvision.PhotonCameraExtended;
+
 import xbot.common.injection.electrical_contract.CameraInfo;
 
 /**

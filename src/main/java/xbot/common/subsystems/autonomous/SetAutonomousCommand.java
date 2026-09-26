@@ -2,8 +2,9 @@ package xbot.common.subsystems.autonomous;
 
 import javax.inject.Inject;
 
-import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.command2.Command;
+import org.wpilib.math.geometry.Pose2d;
+
 import xbot.common.command.BaseCommand;
 
 public class SetAutonomousCommand extends BaseCommand {

@@ -1,17 +1,18 @@
 package xbot.common.controls.sensors;
 
+import java.util.function.DoubleUnaryOperator;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import org.wpilib.tunable.TunableDouble;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import org.wpilib.tunable.TunableDouble;
 import xbot.common.controls.sensors.XAnalogInput.XAnalogInputFactory;
 import xbot.common.properties.TunableFactory;
-
-import java.util.function.DoubleUnaryOperator;
 
 public class AnalogDistanceSensor extends XAnalogDistanceSensor {
 

@@ -1,15 +1,16 @@
 package xbot.common.injection.modules;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
+
 import xbot.common.injection.swerve.FrontLeftDrive;
 import xbot.common.injection.swerve.FrontRightDrive;
 import xbot.common.injection.swerve.RearLeftDrive;
 import xbot.common.injection.swerve.RearRightDrive;
 import xbot.common.injection.swerve.SwerveComponent;
 import xbot.common.injection.swerve.SwerveInstance;
-
-import javax.inject.Singleton;
 
 @Module(subcomponents = { SwerveComponent.class })
 public class SwerveInjectionModule {

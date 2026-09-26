@@ -1,13 +1,5 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
-import xbot.common.controls.sensors.XXboxController;
-import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
-import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
-import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
-import xbot.common.injection.DevicePolice;
-import xbot.common.logging.RobotAssertionManager;
-import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
-
 import org.wpilib.driverstation.GenericHID;
 import org.wpilib.driverstation.POVDirection;
 import org.wpilib.driverstation.XboxController;
@@ -17,6 +9,14 @@ import org.wpilib.driverstation.XboxController.Button;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+
+import xbot.common.controls.sensors.XXboxController;
+import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
+import xbot.common.injection.DevicePolice;
+import xbot.common.logging.RobotAssertionManager;
+import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
 
 public class XboxControllerWpiAdapter extends XXboxController {
 

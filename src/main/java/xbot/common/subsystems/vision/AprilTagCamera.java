@@ -1,12 +1,11 @@
 package xbot.common.subsystems.vision;
 
-import org.photonvision.PhotonPoseEstimator;
+import java.util.function.DoubleSupplier;
+
 import org.wpilib.fields.Fields;
 
 import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.logic.TimeStableValidator;
-
-import java.util.function.DoubleSupplier;
 
 /**
  * This class provides common base implementation for April Tag capable cameras on the robot.

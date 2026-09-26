@@ -1,8 +1,5 @@
 package xbot.common.controls.actuators.mock_adapters;
 
-import dagger.assisted.Assisted;
-import dagger.assisted.AssistedFactory;
-import dagger.assisted.AssistedInject;
 import org.wpilib.units.AngularAccelerationUnit;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularAcceleration;
@@ -12,6 +9,11 @@ import org.wpilib.units.measure.Frequency;
 import org.wpilib.units.measure.Time;
 import org.wpilib.units.measure.Velocity;
 import org.wpilib.units.measure.Voltage;
+
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
+
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
@@ -25,9 +27,8 @@ import xbot.common.resiliency.DeviceHealth;
 
 import static org.wpilib.units.Units.Amps;
 import static org.wpilib.units.Units.RPM;
-import static org.wpilib.units.Units.Volts;
-
 import static org.wpilib.units.Units.Rotations;
+import static org.wpilib.units.Units.Volts;
 
 /**
  * Mock XCANMotorController for simulation.

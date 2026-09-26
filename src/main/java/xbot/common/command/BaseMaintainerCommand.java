@@ -2,6 +2,7 @@ package xbot.common.command;
 
 import org.wpilib.driverstation.RobotState;
 import org.wpilib.tunable.TunableDouble;
+
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;

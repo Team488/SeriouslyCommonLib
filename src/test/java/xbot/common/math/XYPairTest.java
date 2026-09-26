@@ -1,12 +1,13 @@
 package xbot.common.math;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
-
 import org.junit.Test;
+
 import org.wpilib.util.struct.Struct;
 
 import xbot.common.injection.BaseCommonLibTest;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 
 public class XYPairTest extends BaseCommonLibTest {
 

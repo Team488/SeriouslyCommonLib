@@ -1,18 +1,17 @@
 package xbot.common.controls.sensors;
 
+import org.littletonrobotics.junction.Logger;
+
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.units.measure.Angle;
-import org.littletonrobotics.junction.Logger;
 
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.XBaseIO;
-import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
 import xbot.common.controls.io_inputs.XDutyCycleEncoderInputs;
 import xbot.common.controls.io_inputs.XDutyCycleEncoderInputsAutoLogged;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
-import xbot.common.math.ContiguousDouble;
 
 public abstract class XDutyCycleEncoder implements XBaseIO, DataFrameRefreshable {
 

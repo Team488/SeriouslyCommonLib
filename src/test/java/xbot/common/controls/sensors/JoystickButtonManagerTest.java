@@ -1,11 +1,8 @@
 package xbot.common.controls.sensors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import org.junit.Before;
 import org.junit.Test;
+
 import org.wpilib.driverstation.POVDirection;
 import org.wpilib.math.geometry.Translation2d;
 
@@ -13,6 +10,9 @@ import xbot.common.controls.sensors.mock_adapters.MockJoystick;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.logging.RobotAssertionManager;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class JoystickButtonManagerTest extends BaseCommonLibTest {
     

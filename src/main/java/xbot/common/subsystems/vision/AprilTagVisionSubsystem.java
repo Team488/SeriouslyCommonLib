@@ -13,21 +13,6 @@
 
 package xbot.common.subsystems.vision;
 
-import org.wpilib.math.geometry.Pose3d;
-import org.wpilib.math.geometry.Rotation2d;
-import org.wpilib.math.geometry.Transform3d;
-import org.wpilib.system.Timer;
-import org.wpilib.command2.SubsystemBase;
-import org.wpilib.fields.Fields;
-import org.littletonrobotics.junction.Logger;
-import xbot.common.advantage.DataFrameRefreshable;
-import xbot.common.command.DataFrameRegistry;
-import xbot.common.injection.electrical_contract.CameraInfo;
-import xbot.common.injection.electrical_contract.XCameraElectricalContract;
-import xbot.common.properties.TunableFactory;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -36,6 +21,23 @@ import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import org.littletonrobotics.junction.Logger;
+
+import org.wpilib.command2.SubsystemBase;
+import org.wpilib.fields.Fields;
+import org.wpilib.math.geometry.Pose3d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Transform3d;
+import org.wpilib.system.Timer;
+
+import xbot.common.command.DataFrameRegistry;
+import xbot.common.injection.electrical_contract.CameraInfo;
+import xbot.common.injection.electrical_contract.XCameraElectricalContract;
+import xbot.common.properties.TunableFactory;
 
 /**
  * Subsystem for processing AprilTag vision data.

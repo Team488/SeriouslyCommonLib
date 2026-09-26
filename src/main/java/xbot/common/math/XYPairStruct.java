@@ -1,8 +1,8 @@
 package xbot.common.math;
 
-import org.wpilib.util.struct.Struct;
-
 import java.nio.ByteBuffer;
+
+import org.wpilib.util.struct.Struct;
 
 public class XYPairStruct implements Struct<XYPair> {
     @Override

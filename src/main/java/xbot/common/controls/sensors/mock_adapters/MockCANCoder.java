@@ -1,11 +1,11 @@
 package xbot.common.controls.sensors.mock_adapters;
 
 import com.ctre.phoenix6.StatusCode;
+import org.json.JSONObject;
 
 import org.wpilib.math.util.MathUtil;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularVelocity;
-import org.json.JSONObject;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;

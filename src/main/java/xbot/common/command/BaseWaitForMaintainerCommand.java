@@ -1,7 +1,8 @@
 package xbot.common.command;
 
-import xbot.common.controls.sensors.XTimer;
 import org.wpilib.tunable.TunableDouble;
+
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.TunableFactory;
 
 /**

@@ -1,14 +1,16 @@
 package xbot.common.subsystems.drive.swerve;
 
-import org.wpilib.math.geometry.Rotation2d;
-import org.wpilib.math.geometry.Translation2d;
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import xbot.common.injection.BaseCommonLibTest;
 
-import java.util.Arrays;
-import java.util.Collection;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Translation2d;
+
+import xbot.common.injection.BaseCommonLibTest;
 
 import static org.junit.Assert.assertEquals;
 

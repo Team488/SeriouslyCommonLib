@@ -1,12 +1,13 @@
 package xbot.common.trajectory;
 
+import java.util.List;
+
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
+
 import xbot.common.subsystems.drive.SwervePointKinematics;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
-
-import java.util.List;
 
 public class XbotSwervePoint implements ProvidesInterpolationData {
 

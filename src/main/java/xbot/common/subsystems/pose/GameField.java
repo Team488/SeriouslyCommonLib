@@ -1,13 +1,13 @@
 package xbot.common.subsystems.pose;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.wpilib.fields.Fields;
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
 import org.wpilib.units.measure.Distance;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import static org.wpilib.units.Units.Meters;
 

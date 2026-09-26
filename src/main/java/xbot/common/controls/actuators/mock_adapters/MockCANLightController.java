@@ -2,11 +2,14 @@ package xbot.common.controls.actuators.mock_adapters;
 
 import com.ctre.phoenix6.signals.AnimationDirectionValue;
 import com.ctre.phoenix6.signals.LarsonBounceValue;
+
+import org.wpilib.units.measure.Frequency;
+import org.wpilib.util.Color;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import org.wpilib.units.measure.Frequency;
-import org.wpilib.util.Color;
+
 import xbot.common.controls.actuators.XCANLightController;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANLightControllerInfo;

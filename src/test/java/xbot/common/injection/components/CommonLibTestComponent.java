@@ -3,6 +3,7 @@ package xbot.common.injection.components;
 import javax.inject.Singleton;
 
 import dagger.Component;
+
 import xbot.common.command.MockSetpointCommand;
 import xbot.common.command.MockSetpointSubsystem;
 import xbot.common.command.MockWaitForMaintainerCommand;
@@ -13,7 +14,6 @@ import xbot.common.injection.modules.MockDevicesModule;
 import xbot.common.injection.modules.SwerveInjectionModule;
 import xbot.common.injection.modules.UnitTestModule;
 import xbot.common.injection.modules.UnitTestRobotModule;
-import xbot.common.injection.swerve.SwerveComponentHolder;
 import xbot.common.subsystems.drive.BaseSwerveDriveSubsystem;
 import xbot.common.subsystems.drive.swerve.SwerveDriveRotationAdvisor;
 import xbot.common.subsystems.pose.GameField;

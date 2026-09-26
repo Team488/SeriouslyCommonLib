@@ -1,12 +1,11 @@
 package xbot.common.controls.actuators;
 
-import xbot.common.controls.actuators.wpi_adapters.CANSparkMaxWpiAdapter;
-import xbot.common.controls.actuators.wpi_adapters.CANTalonFxWpiAdapter;
-//import xbot.common.controls.actuators.wpi_adapters.CANVictorSPXWpiAdapter;
-import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import xbot.common.controls.actuators.wpi_adapters.CANSparkMaxWpiAdapter;
+import xbot.common.controls.actuators.wpi_adapters.CANTalonFxWpiAdapter;
+import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 
 @Singleton
 public class XCANMotorControllerFactoryImpl implements XCANMotorController.XCANMotorControllerFactory {

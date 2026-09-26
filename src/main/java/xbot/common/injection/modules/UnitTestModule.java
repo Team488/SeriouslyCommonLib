@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
+
 import xbot.common.command.MockTunableCommandPublisher;
 import xbot.common.command.TunableCommandPublisher;
 import xbot.common.controls.sensors.XSettableTimerImpl;

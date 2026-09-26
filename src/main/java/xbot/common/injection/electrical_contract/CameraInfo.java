@@ -1,9 +1,10 @@
 package xbot.common.injection.electrical_contract;
 
-import org.wpilib.math.geometry.Transform3d;
-import xbot.common.subsystems.vision.CameraCapabilities;
-
 import java.util.EnumSet;
+
+import org.wpilib.math.geometry.Transform3d;
+
+import xbot.common.subsystems.vision.CameraCapabilities;
 
 /**
  * This class is used to provide information about the cameras on the robot.

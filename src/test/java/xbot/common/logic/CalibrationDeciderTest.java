@@ -2,6 +2,7 @@ package xbot.common.logic;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.properties.TunableFactory;

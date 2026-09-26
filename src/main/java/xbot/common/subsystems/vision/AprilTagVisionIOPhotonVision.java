@@ -13,14 +13,6 @@
 
 package xbot.common.subsystems.vision;
 
-import dagger.assisted.AssistedFactory;
-
-import org.wpilib.fields.Fields;
-import org.wpilib.math.geometry.Pose3d;
-import org.wpilib.math.geometry.Rotation2d;
-import org.wpilib.math.geometry.Transform3d;
-import org.wpilib.system.Timer;
-
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +20,14 @@ import java.util.Set;
 
 import org.photonvision.PhotonCamera;
 
+import org.wpilib.fields.Fields;
+import org.wpilib.math.geometry.Pose3d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Transform3d;
+import org.wpilib.system.Timer;
+
 import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 /**

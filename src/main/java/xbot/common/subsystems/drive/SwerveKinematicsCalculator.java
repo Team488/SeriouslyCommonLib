@@ -1,12 +1,13 @@
 package xbot.common.subsystems.drive;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.wpilib.units.measure.Distance;
 import org.wpilib.units.measure.LinearVelocity;
 import org.wpilib.units.measure.Time;
-import xbot.common.logging.RobotAssertionManager;
 
-import java.util.ArrayList;
-import java.util.List;
+import xbot.common.logging.RobotAssertionManager;
 
 import static org.wpilib.units.Units.Meter;
 import static org.wpilib.units.Units.Meters;

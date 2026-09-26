@@ -1,6 +1,7 @@
 package xbot.common.controls.actuators;
 
 import org.junit.Test;
+
 import xbot.common.controls.actuators.mock_adapters.MockCANLightController;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.injection.electrical_contract.CANBusId;

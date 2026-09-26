@@ -1,7 +1,10 @@
 package xbot.common.injection.modules;
 
+import javax.inject.Singleton;
+
 import dagger.Binds;
 import dagger.Module;
+
 import xbot.common.controls.actuators.XCANLightController;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
@@ -35,14 +38,11 @@ import xbot.common.controls.sensors.mock_adapters.MockDigitalInput.MockDigitalIn
 import xbot.common.controls.sensors.mock_adapters.MockDutyCycleEncoder;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder.MockEncoderFactory;
 import xbot.common.controls.sensors.mock_adapters.MockGyro.MockGyroFactory;
-import xbot.common.controls.sensors.mock_adapters.MockLidarLite.MockLidarLiteFactory;
 import xbot.common.controls.sensors.mock_adapters.MockLaserCAN;
 import xbot.common.controls.sensors.mock_adapters.MockLidarLite.MockLidarLiteFactory;
 import xbot.common.controls.sensors.mock_adapters.MockPowerDistributionPanel.MockPowerDistributionPanelFactory;
 import xbot.common.networking.MockZeromqListener.MockZeromqListenerFactory;
 import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
-
-import javax.inject.Singleton;
 
 /**
  * Module for mapping device interfaces to mock implementations.

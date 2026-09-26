@@ -1,9 +1,8 @@
 package xbot.common.subsystems.pose;
 
 import org.wpilib.math.geometry.Translation2d;
-import org.wpilib.units.measure.Distance;
 import org.wpilib.units.Units;
-
+import org.wpilib.units.measure.Distance;
 
 public class CircleFieldObstacle implements IFieldObstacle {
     private final Translation2d center;

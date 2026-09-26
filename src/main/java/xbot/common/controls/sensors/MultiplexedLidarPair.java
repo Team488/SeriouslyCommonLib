@@ -2,6 +2,7 @@ package xbot.common.controls.sensors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import org.wpilib.hardware.bus.I2C;
 import org.wpilib.hardware.bus.I2C.Port;
 

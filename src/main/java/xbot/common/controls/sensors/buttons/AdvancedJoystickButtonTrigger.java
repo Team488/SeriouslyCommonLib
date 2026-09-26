@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+
 import xbot.common.controls.sensors.XJoystick;
 
 public class AdvancedJoystickButtonTrigger extends AdvancedTrigger

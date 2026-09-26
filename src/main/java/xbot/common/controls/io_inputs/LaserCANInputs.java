@@ -1,8 +1,9 @@
 package xbot.common.controls.io_inputs;
 
+import org.littletonrobotics.junction.AutoLog;
+
 import org.wpilib.units.measure.Distance;
 import org.wpilib.units.measure.Time;
-import org.littletonrobotics.junction.AutoLog;
 
 import static org.wpilib.units.Units.Meters;
 import static org.wpilib.units.Units.Seconds;

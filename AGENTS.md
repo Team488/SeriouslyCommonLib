@@ -89,16 +89,8 @@ All commands use the Gradle wrapper from the repository root.
 
 ### Code Style (Checkstyle – `xbotcheckstyle.xml`)
 
-- Max line length: **160 characters** (URLs and imports exempt)
-- **No tab characters** – use spaces
-- **No wildcard imports** (`import foo.*;`)
-- **One top-level class per file**
-- **Braces required** on all blocks (`if`, `else`, `for`, `while`, etc.)
-- **One statement per line**
-- Operators wrap to the **next line** (`NL`); commas wrap at **end of line** (`EOL`)
-- Dots wrap to the **next line** (`nl`)
-- `switch` statements must have a `default` case
-- Modifier order must follow Java conventions (`public static final`, etc.)
+Follow the repository formatting rules defined in `.editorconfig`. Checkstyle enforcement is
+configured in `xbotcheckstyle.xml`; do not duplicate individual formatting rules in this document.
 
 Use `// CHECKSTYLE:OFF` / `// CHECKSTYLE:ON` or add entries to
 `checkstyle_suppressions.xml` when a suppression is genuinely required.

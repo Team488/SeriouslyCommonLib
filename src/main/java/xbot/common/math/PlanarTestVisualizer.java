@@ -12,8 +12,8 @@ import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 
 import org.wpilib.math.geometry.Rotation2d;
-import xbot.common.subsystems.drive.RabbitPoint;
 
+import xbot.common.subsystems.drive.RabbitPoint;
 
 public class PlanarTestVisualizer {
     

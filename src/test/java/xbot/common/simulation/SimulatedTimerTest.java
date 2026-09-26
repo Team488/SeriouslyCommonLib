@@ -1,7 +1,5 @@
 package xbot.common.simulation;
 
-import static org.junit.Assert.assertEquals;
-
 import java.math.BigDecimal;
 
 import org.json.JSONObject;
@@ -9,6 +7,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
+
+import static org.junit.Assert.assertEquals;
 
 @Ignore
 public class SimulatedTimerTest extends BaseSimulationTest {

@@ -1,17 +1,20 @@
 package xbot.common.subsystems.drive.swerve;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 
-import org.wpilib.units.measure.Angle;
-import org.wpilib.units.measure.AngularVelocity;
-import org.wpilib.units.measure.Voltage;
-import org.wpilib.command2.Command;
-import org.wpilib.command2.sysid.SysIdRoutine;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import org.wpilib.command2.Command;
+import org.wpilib.command2.sysid.SysIdRoutine;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.util.MathUtil;
 import org.wpilib.tunable.TunableDouble;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.Voltage;
 
 import xbot.common.advantage.AKitLogger;
 import xbot.common.advantage.DataFrameRefreshable;
@@ -26,8 +29,6 @@ import xbot.common.injection.swerve.SwerveInstance;
 import xbot.common.injection.swerve.SwerveSingleton;
 import xbot.common.math.PIDManager.PIDManagerFactory;
 import xbot.common.properties.TunableFactory;
-
-import java.util.Optional;
 
 import static org.wpilib.units.Units.Degrees;
 import static org.wpilib.units.Units.RPM;

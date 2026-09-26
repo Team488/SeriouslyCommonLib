@@ -2,6 +2,7 @@ package xbot.common.trajectory;
 
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
+
 import xbot.common.subsystems.drive.SwervePointKinematics;
 
 public interface ProvidesInterpolationData {

@@ -1,13 +1,13 @@
 package xbot.common.controls.sensors;
 
-import static org.wpilib.units.Units.Degrees;
-import org.junit.Assert;
 import org.junit.Test;
+
 import xbot.common.controls.sensors.mock_adapters.MockDutyCycleEncoder;
 import xbot.common.injection.BaseCommonLibTest;
-import xbot.common.injection.BaseWPITest;
 import xbot.common.injection.electrical_contract.DeviceInfo;
+
 import static org.junit.Assert.assertEquals;
+import static org.wpilib.units.Units.Degrees;
 
 public class DutyCycleEncoderTest extends BaseCommonLibTest {
 

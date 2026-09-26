@@ -3,8 +3,9 @@ package xbot.common.subsystems.drive.swerve.commands;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import xbot.common.controls.sensors.XXboxController;
+
 import xbot.common.command.BaseCommand;
+import xbot.common.controls.sensors.XXboxController;
 import xbot.common.subsystems.drive.BaseSwerveDriveSubsystem;
 
 public class DebugSwerveModuleCommand extends BaseCommand {

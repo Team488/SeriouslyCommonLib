@@ -1,7 +1,10 @@
 package xbot.common.injection.modules;
 
+import javax.inject.Singleton;
+
 import dagger.Binds;
 import dagger.Module;
+
 import xbot.common.controls.actuators.XCANLightController;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerFactoryImpl;
@@ -26,7 +29,6 @@ import xbot.common.controls.sensors.XDutyCycleEncoder;
 import xbot.common.controls.sensors.XEncoder.XEncoderFactory;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
 import xbot.common.controls.sensors.XGyroFactoryImpl;
-import xbot.common.controls.sensors.XLaserCAN;
 import xbot.common.controls.sensors.XLidarLite.XLidarLiteFactory;
 import xbot.common.controls.sensors.XPowerDistributionPanel.XPowerDistributionPanelFactory;
 import xbot.common.controls.sensors.wpi_adapters.AnalogInputWPIAdapater.AnalogInputWPIAdapaterFactory;
@@ -34,14 +36,10 @@ import xbot.common.controls.sensors.wpi_adapters.CANCoderAdapter.CANCoderAdapter
 import xbot.common.controls.sensors.wpi_adapters.DigitalInputWPIAdapter.DigitalInputWPIAdapterFactory;
 import xbot.common.controls.sensors.wpi_adapters.DutyCycleEncoderWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter.EncoderWPIAdapterFactory;
-import xbot.common.controls.sensors.wpi_adapters.InertialMeasurementUnitAdapter.InertialMeasurementUnitAdapterFactory;
-//import xbot.common.controls.sensors.wpi_adapters.LaserCANWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter.LidarLiteWpiAdapterFactory;
 import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter.PowerDistributionPanelWPIAdapaterFactory;
 import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
 import xbot.common.networking.ZeromqListener.ZeromqListenerFactory;
-
-import javax.inject.Singleton;
 
 /**
  * Module for mapping device interfaces to real hardware.

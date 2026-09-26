@@ -2,6 +2,7 @@ package xbot.common.controls.sensors;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import org.wpilib.driverstation.POVDirection;
 import org.wpilib.math.util.MathUtil;
 

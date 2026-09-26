@@ -2,6 +2,7 @@ package xbot.common.injection.electrical_contract;
 
 import org.wpilib.math.geometry.Translation2d;
 import org.wpilib.units.measure.Distance;
+
 import xbot.common.injection.swerve.SwerveInstance;
 
 import static org.wpilib.units.Units.Inches;

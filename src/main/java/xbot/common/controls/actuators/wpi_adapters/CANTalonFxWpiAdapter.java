@@ -1,5 +1,7 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import java.util.function.Supplier;
+
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
@@ -17,9 +19,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import dagger.assisted.Assisted;
-import dagger.assisted.AssistedFactory;
-import dagger.assisted.AssistedInject;
+import org.apache.logging.log4j.LogManager;
 
 import org.wpilib.units.AngularAccelerationUnit;
 import org.wpilib.units.measure.Angle;
@@ -31,7 +31,11 @@ import org.wpilib.units.measure.Time;
 import org.wpilib.units.measure.Velocity;
 import org.wpilib.units.measure.Voltage;
 import org.wpilib.util.Alert;
-import org.apache.logging.log4j.LogManager;
+
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
+
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
@@ -44,8 +48,6 @@ import xbot.common.logging.AlertGroups;
 import xbot.common.properties.PowerDistributionProperties;
 import xbot.common.properties.TunableFactory;
 import xbot.common.resiliency.DeviceHealth;
-
-import java.util.function.Supplier;
 
 public class CANTalonFxWpiAdapter extends XCANMotorController {
 

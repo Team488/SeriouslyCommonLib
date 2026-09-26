@@ -1,22 +1,16 @@
 package xbot.common.trajectory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-
-import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Test;
 
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
-import xbot.common.math.FieldPose;
-import xbot.common.math.XYPair;
-import xbot.common.subsystems.drive.RabbitPoint;
+
+import static org.junit.Assert.assertEquals;
 
 public class LowResFieldTest extends BaseCommonLibTest {
 

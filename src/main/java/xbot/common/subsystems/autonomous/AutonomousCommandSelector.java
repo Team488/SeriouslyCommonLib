@@ -5,16 +5,16 @@ import java.util.function.Supplier;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import org.wpilib.command2.Command;
+import org.wpilib.command2.InstantCommand;
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.tunable.Tunable;
 import org.wpilib.tunable.TunableConfig;
 import org.wpilib.tunable.TunableOption;
 import org.wpilib.tunable.Tunables;
-import org.wpilib.command2.InstantCommand;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import org.wpilib.command2.Command;
 
 import xbot.common.command.BaseSubsystem;
 import xbot.common.properties.TunableFactory;

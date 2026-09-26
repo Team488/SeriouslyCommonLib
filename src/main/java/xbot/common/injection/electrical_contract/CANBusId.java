@@ -1,6 +1,7 @@
 package xbot.common.injection.electrical_contract;
 
 import com.ctre.phoenix6.CANBus;
+
 import org.wpilib.hardware.bus.CANPort;
 
 /**

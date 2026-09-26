@@ -5,6 +5,7 @@ import org.wpilib.hardware.rotation.Encoder;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XEncoderInputs;
 import xbot.common.controls.sensors.XEncoder;
