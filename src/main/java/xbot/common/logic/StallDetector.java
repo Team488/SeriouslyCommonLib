@@ -4,9 +4,9 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
+import org.wpilib.tunable.TunableDouble;
 import xbot.common.controls.sensors.XTimer;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 public class StallDetector {
 
@@ -30,15 +30,15 @@ public class StallDetector {
     }
 
     final TimeStableValidator currentLimitValidator;
-    final DoubleProperty currentTimeWindow;
-    final DoubleProperty currentLimit;
+    final TunableDouble currentTimeWindow;
+    final TunableDouble currentLimit;
 
     final TimeStableValidator noMotionValidator;
-    final DoubleProperty noMotionTimeWindow;
-    final DoubleProperty tryingHardVoltagePercentThreshold;
-    final DoubleProperty littleMotionThreshold;
+    final TunableDouble noMotionTimeWindow;
+    final TunableDouble tryingHardVoltagePercentThreshold;
+    final TunableDouble littleMotionThreshold;
 
-    final DoubleProperty stallCoolDown;
+    final TunableDouble stallCoolDown;
 
     double timeOfLastDetectedStall;
 
@@ -48,16 +48,17 @@ public class StallDetector {
     }
 
     @AssistedInject
-    public StallDetector(PropertyFactory pf, @Assisted("owningSystemPrefix") String owningSystemPrefix) {
-        pf.setPrefix(owningSystemPrefix + "StallDetector/");
-        currentTimeWindow = pf.createPersistentProperty("CurrentTimeWindow", 0.1);
-        currentLimit = pf.createPersistentProperty("CurrentLimit", 1000);
+    public StallDetector(TunableFactory tunableFactory, @Assisted("owningSystemPrefix") String owningSystemPrefix) {
+        tunableFactory.setPrefix(owningSystemPrefix + "StallDetector/");
+        currentTimeWindow = tunableFactory.createDouble("CurrentTimeWindow", 0.1);
+        currentLimit = tunableFactory.createDouble("CurrentLimit", 1000);
 
-        noMotionTimeWindow = pf.createPersistentProperty("NoMotionTimeWindow", 0.1);
-        tryingHardVoltagePercentThreshold = pf.createPersistentProperty("TryingHardVoltagePercentThreshold", 10);
-        littleMotionThreshold = pf.createPersistentProperty("LittleMotionThreshold", 1000.0);
+        noMotionTimeWindow = tunableFactory.createDouble("NoMotionTimeWindow", 0.1);
+        tryingHardVoltagePercentThreshold =
+                tunableFactory.createDouble("TryingHardVoltagePercentThreshold", 10);
+        littleMotionThreshold = tunableFactory.createDouble("LittleMotionThreshold", 1000.0);
 
-        stallCoolDown = pf.createPersistentProperty("StallCoolDown", 0.);
+        stallCoolDown = tunableFactory.createDouble("StallCoolDown", 0.);
 
         currentLimitValidator = new TimeStableValidator(() -> currentTimeWindow.get());
         noMotionValidator = new TimeStableValidator(() -> noMotionTimeWindow.get());

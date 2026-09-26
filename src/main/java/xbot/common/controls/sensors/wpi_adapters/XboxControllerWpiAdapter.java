@@ -9,7 +9,10 @@ import xbot.common.logging.RobotAssertionManager;
 import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
 
 import org.wpilib.driverstation.GenericHID;
+import org.wpilib.driverstation.POVDirection;
 import org.wpilib.driverstation.XboxController;
+import org.wpilib.driverstation.XboxController.Axis;
+import org.wpilib.driverstation.XboxController.Button;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -35,51 +38,65 @@ public class XboxControllerWpiAdapter extends XXboxController {
 
     @Override
     public double getRawAxis(int axis) {
-        return controller.getRawAxis(axis);
+        return controller.getHID().getRawAxis(axis);
     }
 
     @Override
     public boolean getButton(int button) {
-        return controller.getRawButton(button);
+        return controller.getHID().getRawButton(button);
     }
 
     @Override
-    public GenericHID getGenericHID() {
-        return controller;
+    public boolean getButton(Button button) {
+        return controller.getButton(button);
     }
 
     @Override
-    public int getPOV() {
-        return controller.getPOV();
+    public double getAxis(Axis axis) {
+        return controller.getAxis(axis);
     }
 
     @Override
-    protected double getLeftRawTriggerAxis() {
-        return controller.getLeftTriggerAxis();
+    public GenericHID getHID() {
+        return controller.getHID();
     }
 
     @Override
-    protected double getRightRawTriggerAxis() {
-        return controller.getRightTriggerAxis();
+    public POVDirection getPOV() {
+        return getPovDirection(
+                controller.getButton(Button.DPAD_UP),
+                controller.getButton(Button.DPAD_DOWN),
+                controller.getButton(Button.DPAD_LEFT),
+                controller.getButton(Button.DPAD_RIGHT));
     }
 
     @Override
-    protected double getLeftRawX() {
+    public double getLeftTrigger() {
+        return controller.getLeftTrigger();
+    }
+
+    @Override
+    public double getRightTrigger() {
+        return controller.getRightTrigger();
+    }
+
+    @Override
+    protected double getLeftX() {
         return controller.getLeftX();
     }
 
     @Override
-    protected double getLeftRawY() {
+    protected double getLeftY() {
         return controller.getLeftY();
     }
 
     @Override
-    protected double getRightRawX() {
+    protected double getRightX() {
         return controller.getRightX();
     }
 
     @Override
-    protected double getRightRawY() {
+    protected double getRightY() {
         return controller.getRightY();
     }
 }

@@ -3,17 +3,17 @@ package xbot.common.logic;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+import org.wpilib.tunable.TunableDouble;
 
 import xbot.common.math.MathUtils;
 import xbot.common.math.PIDManager;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 public class VelocityThrottleModule {
 
     final PIDManager velocityPid;
-    final DoubleProperty throttleUpperLimitProp;
-    final DoubleProperty throttleLowerLimitProp;
+    final TunableDouble throttleUpperLimitTunable;
+    final TunableDouble throttleLowerLimitTunable;
     private double throttle;
     
     @AssistedFactory
@@ -24,16 +24,19 @@ public class VelocityThrottleModule {
     }
 
     @AssistedInject
-    public VelocityThrottleModule(@Assisted("name") String name, @Assisted("velocityPid") PIDManager velocityPid, PropertyFactory propMan) {
+    public VelocityThrottleModule(
+            @Assisted("name") String name,
+            @Assisted("velocityPid") PIDManager velocityPid,
+            TunableFactory tunableFactory) {
         this.velocityPid = velocityPid;
-        propMan.setPrefix(name + "/ThrottleModule");
-        throttleUpperLimitProp = propMan.createPersistentProperty("ThrottleUpperLimit", 1);
-        throttleLowerLimitProp = propMan.createPersistentProperty("ThrottleLowerLimit", -1);
+        tunableFactory.setPrefix(name + "/ThrottleModule");
+        throttleUpperLimitTunable = tunableFactory.createDouble("ThrottleUpperLimit", 1);
+        throttleLowerLimitTunable = tunableFactory.createDouble("ThrottleLowerLimit", -1);
     }
     
     public void setThrottleLimits(double lowerLimit, double upperLimit) {
-        throttleUpperLimitProp.set(upperLimit);
-        throttleLowerLimitProp.set(lowerLimit);
+        throttleUpperLimitTunable.set(upperLimit);
+        throttleLowerLimitTunable.set(lowerLimit);
     }
     
     public void reset() {
@@ -44,7 +47,10 @@ public class VelocityThrottleModule {
     public double calculateThrottle(double goalSpeed, double currentSpeed) {
         double throttleDelta = velocityPid.calculate(goalSpeed, currentSpeed);
         throttle += throttleDelta;
-        throttle = MathUtils.constrainDouble(throttle, throttleLowerLimitProp.get(), throttleUpperLimitProp.get());
+        throttle = MathUtils.constrainDouble(
+                throttle,
+                throttleLowerLimitTunable.get(),
+                throttleUpperLimitTunable.get());
         return throttle;
     }
 }

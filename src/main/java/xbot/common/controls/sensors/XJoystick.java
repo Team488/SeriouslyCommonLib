@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.wpilib.driverstation.GenericHID;
+import org.wpilib.driverstation.POVDirection;
 import org.wpilib.math.geometry.Translation2d;
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger;
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger;
@@ -29,7 +30,7 @@ public abstract class XJoystick
 
     private HashMap<Integer, AdvancedJoystickButtonTrigger> buttonMap;
     private HashMap<AnalogHIDButtonTrigger.AnalogHIDDescription, AnalogHIDButtonTrigger> analogButtonMap;
-    private HashMap<Integer, AdvancedPovButtonTrigger> povButtonMap;
+    private HashMap<POVDirection, AdvancedPovButtonTrigger> povButtonMap;
     private int maxButtons;
 
     private AdvancedJoystickButtonTriggerFactory joystickButtonFactory;
@@ -61,15 +62,17 @@ public abstract class XJoystick
         
         this.buttonMap = new HashMap<Integer, AdvancedJoystickButtonTrigger>(numButtons);
         this.analogButtonMap = new HashMap<>();
-        this.povButtonMap = new HashMap<Integer, AdvancedPovButtonTrigger>();
+        this.povButtonMap = new HashMap<POVDirection, AdvancedPovButtonTrigger>();
         this.axisInversion = new boolean[6];
 
         for (int i = 1; i <= numButtons; i++) {
             this.set(i, joystickButtonFactory.create(this, i));
         }
         
-        for (int i = 0; i < 360; i+=45) {
-            povButtonMap.put(i, povButtonFactory.create(this, i));
+        for (POVDirection direction : POVDirection.values()) {
+            if (direction != POVDirection.CENTER) {
+                povButtonMap.put(direction, povButtonFactory.create(this, direction));
+            }
         }
         
         police.registerDevice(DeviceType.USB, port, this);
@@ -97,7 +100,7 @@ public abstract class XJoystick
 
     protected Translation2d getVectorForAxisPair(int xAxis, int yAxis) {
         double x = getRawAxis(xAxis) * (getAxisInverted(xAxis) ? -1 : 1);
-        double y = getRawAxis(xAxis) * (getAxisInverted(yAxis) ? -1 : 1);
+        double y = getRawAxis(yAxis) * (getAxisInverted(yAxis) ? -1 : 1);
         return new Translation2d(x, y);
     }
 
@@ -105,9 +108,9 @@ public abstract class XJoystick
     
     public abstract double getRawAxis(int axisNumber);
     
-    public abstract GenericHID getGenericHID();
+    public abstract GenericHID getHID();
     
-    public abstract int getPOV();    
+    public abstract POVDirection getPOV();
 
     public void addAnalogButton(int axisNumber, double minThreshold, double maxThreshold) {
         addAnalogButton(new AnalogHIDDescription(axisNumber, minThreshold, maxThreshold));
@@ -137,19 +140,48 @@ public abstract class XJoystick
     
     /**
      * Uses the d-pad as a button source.
-     * @param povNumber 0 == Up, 90 == Right, 180 == down, 270 == left
+     * @param direction The desired POV direction.
      * @return A trigger that represents the given POV direction.
      */
-    public AdvancedTrigger getPovIfAvailable(int povNumber) {
-        if (povNumber < -1 || povNumber > 315) {
-            return handleInvalidButton("button " + povNumber + " is out of range!");
-        }
-        
-        if (povButtonMap.containsKey(povNumber)) {
-            return povButtonMap.remove(povNumber);
+    public AdvancedTrigger getPovIfAvailable(POVDirection direction) {
+        if (povButtonMap.containsKey(direction)) {
+            onPovAllocated(direction);
+            return povButtonMap.remove(direction);
         } else {
-            return handleInvalidButton("button " + povNumber + " is already used! Cannot be used twice!");
+            throw new IllegalStateException("POV direction " + direction + " is unavailable or already used!");
         }
+    }
+
+    protected void assertPovDirectionsAvailable(POVDirection... directions) {
+        for (POVDirection direction : directions) {
+            if (!povButtonMap.containsKey(direction)) {
+                throw new IllegalStateException("POV direction " + direction + " is unavailable or already used!");
+            }
+        }
+    }
+
+    protected void onPovAllocated(POVDirection direction) {
+    }
+
+    protected static POVDirection getPovDirection(boolean up, boolean down, boolean left, boolean right) {
+        if (up && right) {
+            return POVDirection.UP_RIGHT;
+        } else if (down && right) {
+            return POVDirection.DOWN_RIGHT;
+        } else if (down && left) {
+            return POVDirection.DOWN_LEFT;
+        } else if (up && left) {
+            return POVDirection.UP_LEFT;
+        } else if (up) {
+            return POVDirection.UP;
+        } else if (right) {
+            return POVDirection.RIGHT;
+        } else if (down) {
+            return POVDirection.DOWN;
+        } else if (left) {
+            return POVDirection.LEFT;
+        }
+        return POVDirection.CENTER;
     }
     
     private AdvancedTrigger handleInvalidButton(String message) {

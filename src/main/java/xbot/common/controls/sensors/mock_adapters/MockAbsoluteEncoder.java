@@ -15,7 +15,7 @@ import xbot.common.controls.sensors.XAbsoluteEncoder;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 import xbot.common.resiliency.DeviceHealth;
 import xbot.common.simulation.ISimulatableSensor;
 
@@ -42,9 +42,9 @@ public class MockAbsoluteEncoder extends XAbsoluteEncoder implements ISimulatabl
     @AssistedInject
     public MockAbsoluteEncoder(@Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            DevicePolice police, PropertyFactory pf, DataFrameRegistry dataFrameRegistry) {
+            DevicePolice police, TunableFactory tunableFactory, DataFrameRegistry dataFrameRegistry) {
         super(deviceInfo, dataFrameRegistry);
-        pf.setPrefix(owningSystemPrefix);
+        tunableFactory.setPrefix(owningSystemPrefix);
 
         this.deviceId = deviceInfo.channel;
         this.velocity = RPM.zero();

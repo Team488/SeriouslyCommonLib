@@ -3,6 +3,7 @@ package xbot.common.injection.factories;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
+import org.wpilib.driverstation.POVDirection;
 
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.BaseCommonLibTest;
@@ -44,8 +45,8 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         XJoystick j = getInjectorComponent().joystickFactory().create(1, 12);
         getInjectorComponent().joystickButtonFactory().create(j, 1);
         getInjectorComponent().analogHidButtonFactory().create(j, 1, -1, 1);
-        getInjectorComponent().povButtonFactory().create(j, 1);
-        getInjectorComponent().ftcGamepadFactory().create(3, 10);
+        getInjectorComponent().povButtonFactory().create(j, POVDirection.UP);
+        getInjectorComponent().gamepadFactory().create(3);
         getInjectorComponent().humanVsMachineDeciderFactory().create("Agent Smith");
         HeadingModule h = getInjectorComponent().headingModuleFactory().create(pf.create("bar", 1, 0, 0));
         getInjectorComponent().headingAssistModuleFactory().create(h, "heading");

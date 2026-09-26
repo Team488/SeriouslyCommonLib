@@ -61,7 +61,7 @@ public class RumbleManager implements XRumbleManager {
      */
     private void writeRumble(XJoystick joystick, double intensity) {
 
-        GenericHID internalJoystick = joystick.getGenericHID();
+        GenericHID internalJoystick = joystick.getHID();
         isRumbling = intensity > 0;
         if (internalJoystick == null) {
             return;

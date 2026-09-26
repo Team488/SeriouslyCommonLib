@@ -4,21 +4,25 @@ import java.math.BigDecimal;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.wpilib.tunable.MockTunableBackend;
+import org.wpilib.tunable.TunableRegistry;
 
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.injection.components.DaggerSimulationComponent;
 import xbot.common.math.PIDManager.PIDManagerFactory;
 import xbot.common.injection.components.BaseComponent;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 @Ignore
 public class BaseSimulationTest {
     public BaseComponent injectorComponent;
 
-    public PropertyFactory propertyFactory;
+    public TunableFactory tunableFactory;
+    protected MockTunableBackend tunableBackend;
     
     protected PIDManagerFactory pf;
     
@@ -28,15 +32,23 @@ public class BaseSimulationTest {
 
     @Before
     public void setUp() {
+        TunableRegistry.reset();
+        tunableBackend = new MockTunableBackend();
+        TunableRegistry.registerBackend("", tunableBackend);
         injectorComponent = DaggerSimulationComponent.create();
         timer = (MockTimer)injectorComponent.timerImplementation();
         XTimer.setImplementation(timer);
 
-        propertyFactory = injectorComponent.propertyFactory();
+        tunableFactory = injectorComponent.tunableFactory();
         
         pf = injectorComponent.pidFactory();
 
         distributor = injectorComponent.simulationPayloadDistributor();
+    }
+
+    @After
+    public void tearDownTunables() {
+        TunableRegistry.reset();
     }
 
     protected JSONObject createSimpleSensorPayload(String id, JSONObject keysAndValues) {

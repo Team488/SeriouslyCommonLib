@@ -9,19 +9,19 @@ import xbot.common.injection.swerve.RearLeftDrive;
 import xbot.common.injection.swerve.RearRightDrive;
 import xbot.common.injection.swerve.SwerveComponent;
 import xbot.common.math.PIDManager;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 import javax.inject.Inject;
 
 public class MockSwerveDriveSubsystem extends BaseSwerveDriveSubsystem {
     @Inject
-    public MockSwerveDriveSubsystem(PIDManager.PIDManagerFactory pidFactory, PropertyFactory pf,
+    public MockSwerveDriveSubsystem(PIDManager.PIDManagerFactory pidFactory, TunableFactory tunableFactory,
                                     @FrontLeftDrive SwerveComponent frontLeftSwerve,
                                     @FrontRightDrive SwerveComponent frontRightSwerve,
                                     @RearLeftDrive SwerveComponent rearLeftSwerve,
                                     @RearRightDrive SwerveComponent rearRightSwerve,
                                     DataFrameRegistry dataFrameRegistry) {
-        super(pidFactory, pf, frontLeftSwerve, frontRightSwerve, rearLeftSwerve, rearRightSwerve, dataFrameRegistry);
+        super(pidFactory, tunableFactory, frontLeftSwerve, frontRightSwerve, rearLeftSwerve, rearRightSwerve, dataFrameRegistry);
     }
 
     @Override

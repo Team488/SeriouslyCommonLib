@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.wpilib.hardware.bus.I2C;
 import org.wpilib.hardware.bus.I2C.Port;
 
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 public class MultiplexedLidarPair implements DistanceSensorPair {
 
@@ -26,7 +26,7 @@ public class MultiplexedLidarPair implements DistanceSensorPair {
     private DistanceSensor sensorA;
     private DistanceSensor sensorB;
 
-    public MultiplexedLidarPair(Port port, byte lidarMuxIdA, byte lidarMuxIdB, PropertyFactory propMan) {
+    public MultiplexedLidarPair(Port port, byte lidarMuxIdA, byte lidarMuxIdB, TunableFactory tunableFactory) {
 
         log.info("Creating MultiplexedLidarPair on port: " + port.toString());
         

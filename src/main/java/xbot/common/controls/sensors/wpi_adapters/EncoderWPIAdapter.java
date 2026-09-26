@@ -9,7 +9,7 @@ import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XEncoderInputs;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.injection.DevicePolice;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 public class EncoderWPIAdapter extends XEncoder {
 
@@ -32,10 +32,10 @@ public class EncoderWPIAdapter extends XEncoder {
             @Assisted("bChannel") int bChannel,
             @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            PropertyFactory propMan,
+            TunableFactory tunableFactory,
             DevicePolice police,
             DataFrameRegistry dataFrameRegistry) {
-        super(name, aChannel, bChannel, defaultDistancePerPulse, owningSystemPrefix, propMan, police, dataFrameRegistry);
+        super(name, aChannel, bChannel, defaultDistancePerPulse, owningSystemPrefix, tunableFactory, police, dataFrameRegistry);
         internalEncoder = new Encoder(aChannel, bChannel);
     }
 

@@ -5,14 +5,14 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import org.wpilib.math.geometry.Rotation2d;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import org.wpilib.tunable.TunableDouble;
+import xbot.common.properties.TunableFactory;
 
 public class FieldPosePropertyManager {
 
-    private final DoubleProperty xProp;
-    private final DoubleProperty yProp;
-    private final DoubleProperty headingProp;
+    private final TunableDouble xTunable;
+    private final TunableDouble yTunable;
+    private final TunableDouble headingTunable;
 
     @AssistedFactory
     public abstract static class FieldPosePropertyManagerFactory {
@@ -35,14 +35,16 @@ public class FieldPosePropertyManager {
             @Assisted("x") double x,
             @Assisted("y") double y,
             @Assisted("heading") double heading,
-            PropertyFactory propMan) {
-        propMan.setPrefix(poseName);
-        xProp = propMan.createPersistentProperty("X", x);
-        yProp = propMan.createPersistentProperty("Y", y);
-        headingProp = propMan.createPersistentProperty("Heading", heading);
+            TunableFactory tunableFactory) {
+        tunableFactory.setPrefix(poseName);
+        xTunable = tunableFactory.createDouble("X", x);
+        yTunable = tunableFactory.createDouble("Y", y);
+        headingTunable = tunableFactory.createDouble("Heading", heading);
     }
 
     public FieldPose getPose() {
-        return new FieldPose(new XYPair(xProp.get(), yProp.get()), Rotation2d.fromDegrees(headingProp.get()));
+        return new FieldPose(
+                new XYPair(xTunable.get(), yTunable.get()),
+                Rotation2d.fromDegrees(headingTunable.get()));
     }
 }

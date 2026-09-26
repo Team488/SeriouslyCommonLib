@@ -23,7 +23,7 @@ import xbot.common.controls.sensors.XAnalogInput.XAnalogInputFactory;
 import xbot.common.controls.sensors.XCANCoder.XCANCoderFactory;
 import xbot.common.controls.sensors.XDigitalInput.XDigitalInputFactory;
 import xbot.common.controls.sensors.XEncoder.XEncoderFactory;
-import xbot.common.controls.sensors.XFTCGamepad.XFTCGamepadFactory;
+import xbot.common.controls.sensors.XGamepad.XGamepadFactory;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
 import xbot.common.controls.sensors.XJoystick.XJoystickFactory;
 import xbot.common.controls.sensors.XLidarLite.XLidarLiteFactory;
@@ -44,10 +44,9 @@ import xbot.common.math.FieldPosePropertyManager.FieldPosePropertyManagerFactory
 import xbot.common.math.PIDManager.PIDManagerFactory;
 import xbot.common.math.PIDPropertyManager.PIDPropertyManagerFactory;
 import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
-import xbot.common.properties.ITableProxy;
-import xbot.common.properties.PermanentStorage;
-import xbot.common.properties.PropertyFactory;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.TunableFactory;
+import xbot.common.properties.TunableManager;
+import xbot.common.properties.TunablePersistence;
 import xbot.common.simulation.SimulationPayloadDistributor;
 import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
@@ -68,12 +67,6 @@ public abstract class BaseComponent {
 
     public abstract XSettableTimerImpl settableTimerImplementation();
 
-    public abstract ITableProxy tableProxy();
-
-    public abstract @Named(XPropertyManager.IN_MEMORY_STORE_NAME) ITableProxy inMemoryTableProxy();
-
-    public abstract PermanentStorage permanentStorage();
-
     public abstract RobotAssertionManager robotAssertionManager();
 
     public abstract DevicePolice devicePolice();
@@ -84,9 +77,14 @@ public abstract class BaseComponent {
 
     public abstract XScheduler scheduler();
 
-    public abstract XPropertyManager propertyManager();
+    public abstract TunableManager tunableManager();
 
-    public abstract PropertyFactory propertyFactory();
+    public abstract TunableFactory tunableFactory();
+
+    public abstract TunablePersistence tunablePersistence();
+
+    public abstract @Named(TunableManager.IN_MEMORY_PERSISTENCE_NAME)
+            TunablePersistence inMemoryTunablePersistence();
 
     public abstract FieldPosePropertyManagerFactory fieldPosePropertyManagerFactory();
 
@@ -112,7 +110,7 @@ public abstract class BaseComponent {
 
     public abstract XXboxControllerFactory xboxControllerFactory();
 
-    public abstract XFTCGamepadFactory ftcGamepadFactory();
+    public abstract XGamepadFactory gamepadFactory();
 
     public abstract XRumbleManagerFactory rumbleManagerFactory();
 

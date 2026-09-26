@@ -1,13 +1,13 @@
 package xbot.common.command;
 
 import org.wpilib.driverstation.DriverStation;
+import org.wpilib.tunable.TunableDouble;
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
 import xbot.common.logic.TimeStableValidator;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.Property;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
+import xbot.common.properties.TunableLevel;
 
 /**
  * A command that maintains a subsystem at a goal value (and allows human override).
@@ -34,8 +34,8 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
     BaseSetpointSubsystem<TargetT, PowerT> subsystemToMaintain;
 
 
-    protected final DoubleProperty errorToleranceProp;
-    protected final DoubleProperty errorTimeStableWindowProp;
+    protected final TunableDouble errorToleranceTunable;
+    protected final TunableDouble errorTimeStableWindowTunable;
 
     protected final TimeStableValidator timeStableValidator;
     protected final HumanVsMachineDecider decider;
@@ -44,23 +44,25 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
     /**
      * Creates a new maintainer command.
      * @param subsystemToMaintain The subsystem to maintain.
-     * @param pf The property factory to use for creating properties.
+     * @param tunableFactory The tunable factory to use for creating configuration values.
      * @param humanVsMachineDeciderFactory The decider factory to use for creating the decider.
      * @param defaultErrorTolerance The default error tolerance.
      * @param defaultTimeStableWindow The default time stable window.
      */
-    public BaseMaintainerCommand(BaseSetpointSubsystem<TargetT, PowerT> subsystemToMaintain, PropertyFactory pf,
+    public BaseMaintainerCommand(BaseSetpointSubsystem<TargetT, PowerT> subsystemToMaintain,
+                                 TunableFactory tunableFactory,
                                  HumanVsMachineDeciderFactory humanVsMachineDeciderFactory,
                                  double defaultErrorTolerance, double defaultTimeStableWindow) {
         this.subsystemToMaintain = subsystemToMaintain;
         this.addRequirements(subsystemToMaintain);
 
-        pf.setPrefix(this);
-        pf.setDefaultLevel(Property.PropertyLevel.Important);
-        errorToleranceProp = pf.createPersistentProperty("Error Tolerance", defaultErrorTolerance);
-        errorTimeStableWindowProp = pf.createPersistentProperty("Error Time Stable Window", defaultTimeStableWindow);
+        tunableFactory.setPrefix(this);
+        tunableFactory.setDefaultLevel(TunableLevel.Important);
+        errorToleranceTunable = tunableFactory.createDouble("Error Tolerance", defaultErrorTolerance);
+        errorTimeStableWindowTunable =
+                tunableFactory.createDouble("Error Time Stable Window", defaultTimeStableWindow);
 
-        timeStableValidator = new TimeStableValidator(() -> errorTimeStableWindowProp.get());
+        timeStableValidator = new TimeStableValidator(() -> errorTimeStableWindowTunable.get());
         decider = humanVsMachineDeciderFactory.create(this.getPrefix());
     }
 
@@ -209,7 +211,7 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
      * computation.
      */
     protected boolean getErrorWithinTolerance() {
-        if (Math.abs(getErrorMagnitude()) < errorToleranceProp
+        if (Math.abs(getErrorMagnitude()) < errorToleranceTunable
                 .get()) {
             return true;
         }
@@ -236,6 +238,6 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
      * @param tolerance The error tolerance.
      */
     protected void setErrorTolerance(double tolerance) {
-        errorToleranceProp.set(tolerance);
+        errorToleranceTunable.set(tolerance);
     }
 }

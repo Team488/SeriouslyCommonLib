@@ -5,11 +5,11 @@ import java.util.TimerTask;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.wpilib.hardware.bus.I2C.Port;
+import org.wpilib.tunable.TunableDouble;
 
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 public abstract class XLidarLite implements DistanceSensor {
 
@@ -23,17 +23,17 @@ public abstract class XLidarLite implements DistanceSensor {
     protected final int lidar_config_register = 0x00;
     protected final int lidar_distance_register = 0x8f;
 
-    private DoubleProperty lidarPollDuration;
+    private TunableDouble lidarPollDuration;
 
     public interface XLidarLiteFactory {
         public abstract XLidarLite create(Port port, String prefix);
     }
 
-    public XLidarLite(Port port, PropertyFactory propMan, DevicePolice police, String prefix) {
+    public XLidarLite(Port port, TunableFactory tunableFactory, DevicePolice police, String prefix) {
 
         log.info("Creating Lidar on port: " + port.toString());
-        propMan.setPrefix(prefix);
-        lidarPollDuration = propMan.createPersistentProperty("LidarPollDurationMs", 100d);
+        tunableFactory.setPrefix(prefix);
+        lidarPollDuration = tunableFactory.createDouble("LidarPollDurationMs", 100d);
 
         distance = new byte[2];
 

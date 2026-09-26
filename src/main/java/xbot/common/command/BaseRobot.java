@@ -16,23 +16,23 @@ import org.wpilib.driverstation.DriverStation;
 import org.wpilib.driverstation.MatchState;
 import org.wpilib.driverstation.RobotState;
 import org.wpilib.hardware.power.PowerDistribution;
-import org.wpilib.smartdashboard.SmartDashboard;
 import org.wpilib.system.RobotController;
+import org.wpilib.tunable.Tunables;
 import org.wpilib.command2.Command;
 import org.wpilib.command2.CommandScheduler;
-import xbot.common.advantage.PropertySkippingNT4Publisher;
+
+import xbot.common.advantage.TunableSkippingNT4Publisher;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.components.BaseComponent;
-import xbot.common.properties.PropertyFactory;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.TunableManager;
 import xbot.common.simulation.SimulationPayloadDistributor;
 import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
 
 /**
- * Core Robot class which configures logging, properties,
+ * Core Robot class which configures logging, tunables,
  * scheduling, and the injector. Required for a fair amount
  * of CommonLib functionality.
  */
@@ -40,7 +40,7 @@ public abstract class BaseRobot extends LoggedRobot {
 
     org.apache.logging.log4j.Logger log;
 
-    protected XPropertyManager propertyManager;
+    protected TunableManager tunableManager;
     protected XScheduler xScheduler;
 
     // Other than initially creating required systems, you should never use the injector again
@@ -100,17 +100,17 @@ public abstract class BaseRobot extends LoggedRobot {
                 }
                 
 
-                if (!DriverStation.isFMSAttached()) {
+                if (!RobotState.isFMSAttached()) {
                     // Publish data to NetworkTables if we're not on a real field
 
-                    // Publish data to NetworkTables, but skip the AKit-side mirror of Property
+                    // Publish data to NetworkTables, but skip the AKit-side mirror of tunable
                     // values (they're in the on-disk WPILOG for replay, and the editable surface
-                    // for dashboards lives at /Preferences/... via WPILib Preferences, untouched).
-                    Logger.addDataReceiver(new PropertySkippingNT4Publisher());
+                    // for dashboards lives at /Tunables/...).
+                    Logger.addDataReceiver(new TunableSkippingNT4Publisher());
                 }
 
                 LoggedPowerDistribution.getInstance(
-                        PowerDistribution.kDefaultModule,
+                        PowerDistribution.DEFAULT_MODULE,
                         PowerDistribution.ModuleType.REV); // Log power distribution data from the configured module
             } else {
                 setUseTiming(false); // Run as fast as possible
@@ -120,7 +120,7 @@ public abstract class BaseRobot extends LoggedRobot {
             }
 
             Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
-            DriverStation.silenceJoystickConnectionWarning(true);
+            //DriverStation.silenceJoystickConnectionWarning(true);
 
 
             log = LogManager.getLogger(BaseRobot.class);
@@ -129,14 +129,12 @@ public abstract class BaseRobot extends LoggedRobot {
             log.info("========== INJECTOR CREATED ==========");
             this.initializeSystems();
             log.info("========== SYSTEMS INITIALIZED ==========");
-            SmartDashboard.putData(CommandScheduler.getInstance());
+            Tunables.publish("Scheduler", CommandScheduler.getInstance());
 
             if (this.isReal()) {
                 // We're just so tired of seeing these in logs. We may re-enable this at competition time.
-                DriverStation.silenceJoystickConnectionWarning(true);
+                //DriverStation.silenceJoystickConnectionWarning(true);
             }
-            PropertyFactory pf = injectorComponent.propertyFactory();
-
             devicePolice = injectorComponent.devicePolice();
             deviceDataFrameRegistry = injectorComponent.dataFrameRegistry();
 
@@ -183,8 +181,7 @@ public abstract class BaseRobot extends LoggedRobot {
         XTimerImpl timerimpl = injectorComponent.timerImplementation();
         XTimer.setImplementation(timerimpl);
 
-        // Get the property manager and get all properties from the robot disk
-        propertyManager = injectorComponent.propertyManager();
+        tunableManager = injectorComponent.tunableManager();
         xScheduler = injectorComponent.scheduler();
         xScheduler.reset();
         // All this does is set the timeout period for the scheduler - the actual loop still runs at 50hz.
@@ -195,7 +192,7 @@ public abstract class BaseRobot extends LoggedRobot {
     @Override
     public void disabledInit() {
         updateLoggingContext();
-        propertyManager.refreshDataFrame();
+        tunableManager.refreshDataFrame();
         log.info("Disabled init (" + getMatchContextString() + ")");
     }
 
@@ -267,12 +264,12 @@ public abstract class BaseRobot extends LoggedRobot {
         // Get a fresh data frame from all top-level components (typically large subsystems or shared sensors)
 
 
-        // Refresh the properties ahead of all other systems, since some may want to immediately
+        // Refresh tunable replay/logging state ahead of all other systems.
         // use the relevant values.
-        double propertyStart = getPerformanceTimestampInMs();
-        propertyManager.refreshDataFrame();
-        double propertyEnd = getPerformanceTimestampInMs();
-        Logger.recordOutput("RefreshPropertyMs", propertyEnd - propertyStart);
+        double tunableStart = getPerformanceTimestampInMs();
+        tunableManager.refreshDataFrame();
+        double tunableEnd = getPerformanceTimestampInMs();
+        Logger.recordOutput("RefreshTunablesMs", tunableEnd - tunableStart);
 
         // Then, refresh any Subsystem or other components that implement DataFrameRefreshable.
         double dataFrameStart = getPerformanceTimestampInMs();

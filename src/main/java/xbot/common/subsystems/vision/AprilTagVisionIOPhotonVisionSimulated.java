@@ -18,8 +18,8 @@ import dagger.Lazy;
 import org.wpilib.fields.Fields;
 import org.wpilib.math.geometry.Transform3d;
 
-import xbot.common.properties.BooleanProperty;
-import xbot.common.properties.PropertyFactory;
+import org.wpilib.tunable.TunableBoolean;
+import xbot.common.properties.TunableFactory;
 import xbot.common.subsystems.pose.SimulatedPositionSupplier;
 
 import org.photonvision.simulation.PhotonCameraSim;
@@ -44,7 +44,7 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
     private static VisionSystemSim visionSim;
     private final Lazy<SimulatedPositionSupplier> poseSupplier;
     private final PhotonCameraSim cameraSim;
-    private final BooleanProperty enableFancySim;
+    private final TunableBoolean enableFancySim;
 
     /**
      * Creates a new AprilTagVisionIOPhotonVisionSimulated.
@@ -56,13 +56,13 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
      */
     @AssistedInject
     public AprilTagVisionIOPhotonVisionSimulated(@Assisted String name, @Assisted Transform3d robotToCamera,
-            Fields fieldLayout, Lazy<SimulatedPositionSupplier> poseSupplier, PropertyFactory pf) {
+            Fields fieldLayout, Lazy<SimulatedPositionSupplier> poseSupplier, TunableFactory tunableFactory) {
         super(name, robotToCamera, fieldLayout);
 
         this.poseSupplier = poseSupplier;
 
-        pf.setPrefix("AprilTagVisionIOPhotonVisionSimulated");
-        this.enableFancySim = pf.createPersistentProperty("EnableFancySim_RebootAfterChange", false);
+        tunableFactory.setPrefix("AprilTagVisionIOPhotonVisionSimulated");
+        this.enableFancySim = tunableFactory.createBoolean("EnableFancySim_RebootAfterChange", false);
 
         // Initialize vision sim
         if (visionSim == null) {

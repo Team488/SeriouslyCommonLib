@@ -1,26 +1,21 @@
 /**
- * The property system. This allows sending values to Smart Dashboard and
- * configuring software at runtime or reporting values back to the drivers'
- * station.
+ * Tunable configuration values backed by WPILib Tunables.
  *<p>
  * In general, any property on the robot is for one specific purpose: Configuration. These values are written
  * infrequently, but often read constantly. Typical use cases would be for PID constants, subsystem limits,
  * thresholds, durations, and similar scenarios.
  *<p>
- * Properties load their values from a file on the robot (managed by WPI's Preferences system), and simultaneously
- * publish those values to the SmartDashboard in the "Preferences" table. Here, they can be modified by
- * drivers/programmers at runtime, and changes are immediately reflected in the robot's behavior.
+ * Important tunables load and save values through WPILib Preferences, while WPILib Tunables
+ * provides the editable dashboard surface under {@code /Tunables}.
  *<p>
- * The value of the properties in every robot "tick" is also persisted to AdvantageKit. Mostly this is just
+ * Tunable values are also recorded through AdvantageKit. Mostly this is just
  * duplication, however, this automatic logging also lets the robot perform an accurate "replay mode" if any
  * configuration values were changed at runtime.
  *<p>
- * Properties can be created with Important or Debug levels. Important properties are persisted to robot storage;
- * Debug properties are kept entirely in memory, meaning they effectively "load from default" every time the robot
- * boots.
+ * Tunables can be created with Important or Debug levels. Important tunables are persisted to robot storage;
+ * Debug tunables are kept in memory and published only while the global debug toggle is enabled.
  *<p>
- * This package used to have a separate Ephemeral property; that's been deprecated. If you want to publish an
- * interesting value to the human operators (as well as log it to disc), use AdvantageKit's logger,
+ * For read-only telemetry, use AdvantageKit's logger rather than a tunable,
  * as in the following example:
  *<p>
  * <pre>org.littletonrobotics.junction.Logger.recordOutput("DriveSubsystem/MaximumForwardSpeed", maxForwardSpeed);</pre>

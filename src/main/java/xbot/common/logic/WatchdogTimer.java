@@ -2,9 +2,6 @@ package xbot.common.logic;
 
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.logic.Latch.EdgeType;
-import xbot.common.properties.BooleanProperty;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
 
 public class WatchdogTimer {
     private double lastKick = Double.NEGATIVE_INFINITY;

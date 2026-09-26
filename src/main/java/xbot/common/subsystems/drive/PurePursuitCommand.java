@@ -9,8 +9,8 @@ import xbot.common.math.FieldPose;
 import xbot.common.math.MathUtils;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import org.wpilib.tunable.TunableDouble;
+import xbot.common.properties.TunableFactory;
 import xbot.common.subsystems.drive.RabbitPoint.PointDriveStyle;
 import xbot.common.subsystems.drive.RabbitPoint.PointTerminatingType;
 import xbot.common.subsystems.drive.RabbitPoint.PointType;
@@ -51,10 +51,10 @@ public abstract class PurePursuitCommand extends BaseCommand {
     protected final BasePoseSubsystem poseSystem;
     protected final BaseDriveSubsystem drive;
 
-    protected final DoubleProperty rabbitLookAhead;
-    protected final DoubleProperty perpindicularRatioProp;
-    final DoubleProperty pointDistanceThreshold;
-    final DoubleProperty motionBudget;
+    protected final TunableDouble rabbitLookAhead;
+    protected final TunableDouble perpindicularRatioTunable;
+    final TunableDouble pointDistanceThreshold;
+    final TunableDouble motionBudget;
     
     protected HeadingModule headingModule;
     protected PIDManager positionalPid;
@@ -83,28 +83,28 @@ public abstract class PurePursuitCommand extends BaseCommand {
      * @param headingModuleFactory HeadingModuleFactory
      * @param pose BasePoseSubsystem
      * @param drive BaseDriveSubsystem
-     * @param propMan PropertyManager
+     * @param tunableFactory TunableFactory
      */
     public PurePursuitCommand(HeadingModuleFactory headingModuleFactory, BasePoseSubsystem pose, BaseDriveSubsystem drive,
-            PropertyFactory propMan) {
+            TunableFactory tunableFactory) {
         this.poseSystem = pose;
         this.drive = drive;
         this.addRequirements(drive);
-        propMan.setPrefix(this);
+        tunableFactory.setPrefix(this);
 
         // The lookahead is particularly important - for large values, driving will be very smooth, but it may take a very long time
         // to converge to the proper path. Small values converge very quickly, but run a major risk of oscillation.
-        rabbitLookAhead = propMan.createPersistentProperty("Rabbit lookahead (in)", 12);
+        rabbitLookAhead = tunableFactory.createDouble("Rabbit lookahead (in)", 12);
         // Once under the pointDistanceThreshold, the algorithm prioritizes orientation over position. Essentially, if your point requests
         // 15 degrees, and your robot is at 20 degrees by the time it gets here, it will immediately rotate to 15 degrees and drive "straight".
-        pointDistanceThreshold = propMan.createPersistentProperty("Rabbit distance threshold", 12.0);
+        pointDistanceThreshold = tunableFactory.createDouble("Rabbit distance threshold", 12.0);
         // The motion budget was an attempt to smooth out driving. Essentially, requested rotation is subtracted from the budget, 
         // and translation can have what's left over.
         // The goal was to reduce the "whiplash" when the robot tried to head to a point that required an immediate large turn and full speed motion.
         // In practice, it didn't really work, but it did help the robot get oriented in roughly the right direction
         // before zooming off.
-        motionBudget = propMan.createPersistentProperty("Motion Budget", 1);
-        perpindicularRatioProp = propMan.createPersistentProperty("PerpindicularRatio", 1.5);
+        motionBudget = tunableFactory.createDouble("Motion Budget", 1);
+        perpindicularRatioTunable = tunableFactory.createDouble("PerpindicularRatio", 1.5);
         defaultHeadingModule = headingModuleFactory.create(drive.getRotateToHeadingPid());
         defaultPositionalPid = drive.getPositionalPid();
         setPIDsToDefault();
@@ -385,7 +385,7 @@ public abstract class PurePursuitCommand extends BaseCommand {
         // As a solution, if the ratio of "distance to pose line" vs "distance along path" is too high, we instead go into a
         // stupider mode until that ratio is reduced, as long as we are far away from the point.
         double perpindicularRatio = Math.abs(distanceRemainingToPointPerpindicularToPath / distanceRemainingToPointAlongPath);
-        if (perpindicularRatio > perpindicularRatioProp.get() && Math.abs(crowFliesDistance) > pointDistanceThreshold.get()) {
+        if (perpindicularRatio > perpindicularRatioTunable.get() && Math.abs(crowFliesDistance) > pointDistanceThreshold.get()) {
             log.info("Perpindicular ratio: " + perpindicularRatio + ". Forcing to DriveToPoint.");
             FieldPose adjustedPoint = target.pose.getPointAlongPoseLine(-4*12);
             RabbitPoint temporaryTarget = new RabbitPoint(adjustedPoint, PointType.HeadingOnly, PointTerminatingType.Continue);

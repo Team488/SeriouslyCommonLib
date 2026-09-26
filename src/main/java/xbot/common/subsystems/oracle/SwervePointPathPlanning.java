@@ -10,8 +10,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.advantage.AKitLogger;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import org.wpilib.tunable.TunableDouble;
+import xbot.common.properties.TunableFactory;
 import xbot.common.trajectory.XbotSwervePoint;
 import xbot.common.subsystems.pose.GameField;
 import xbot.common.subsystems.pose.IFieldObstacle;
@@ -26,20 +26,20 @@ public class SwervePointPathPlanning {
     private final GameField gameField;
     private final ObstacleMap obstacleMap;
     private final AKitLogger aKitLog;
-    public final DoubleProperty additionalClearanceOfObstaclesMeters;
+    public final TunableDouble additionalClearanceOfObstaclesMeters;
 
     private static Logger log = LogManager.getLogger(SwervePointPathPlanning.class);
 
     @Inject
     public SwervePointPathPlanning(ObstacleMap obstacleMap, GameField gameField,
-            XSwerveDriveElectricalContract electrical_contract, PropertyFactory pf) {
-        pf.setPrefix(SwervePointPathPlanning.class.getName());
+            XSwerveDriveElectricalContract electrical_contract, TunableFactory tunableFactory) {
+        tunableFactory.setPrefix(SwervePointPathPlanning.class.getName());
         this.obstacleMap = obstacleMap;
         this.gameField = gameField;
         this.radius = electrical_contract.getRadiusOfRobot();
 
         this.aKitLog = new AKitLogger("SwervePointPathPlanning/");
-        this.additionalClearanceOfObstaclesMeters = pf.createPersistentProperty("additionalClearanceOfObstaclesMeters",
+        this.additionalClearanceOfObstaclesMeters = tunableFactory.createDouble("additionalClearanceOfObstaclesMeters",
                 0.1);
     }
 

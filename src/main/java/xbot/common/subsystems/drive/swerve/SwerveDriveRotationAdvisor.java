@@ -9,13 +9,13 @@ import org.wpilib.math.geometry.Translation2d;
 import org.wpilib.math.util.MathUtil;
 import org.wpilib.driverstation.Alliance;
 import org.wpilib.driverstation.MatchState;
+import org.wpilib.tunable.TunableDouble;
 
 import xbot.common.advantage.AKitLogger;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 /**
  * This class is responsible for advising the drive subsystem on what heading to rotate to based on various inputs and modes.
@@ -27,7 +27,7 @@ public class SwerveDriveRotationAdvisor {
     ISwerveAdvisorDriveSupport drive;
     int snappingZoneCount = 4;
 
-    DoubleProperty minimumMagnitudeToSnap;
+    TunableDouble minimumMagnitudeToSnap;
 
     AKitLogger aKitLogger;
 
@@ -55,18 +55,18 @@ public class SwerveDriveRotationAdvisor {
     @AssistedInject
     public SwerveDriveRotationAdvisor(RobotAssertionManager assertionManager,
                                       ISwerveAdvisorPoseSupport pose, ISwerveAdvisorDriveSupport drive,
-                                      PropertyFactory pf,
+                                      TunableFactory tunableFactory,
                                       @Assisted HumanVsMachineDecider hvmDecider,
                                       @Assisted("HvmDeadband") double hvmDeadband) {
-        pf.setPrefix("SwerveDriveRotationAdvisor/");
+        tunableFactory.setPrefix("SwerveDriveRotationAdvisor/");
         this.assertionManager = assertionManager;
         this.hvmDecider = hvmDecider;
         this.drive = drive;
         this.pose = pose;
 
-        aKitLogger = new AKitLogger(pf.getPrefix());
+        aKitLogger = new AKitLogger(tunableFactory.getPrefix());
 
-        this.minimumMagnitudeToSnap = pf.createPersistentProperty("MinimumMagnitudeToSnap", 0.75);
+        this.minimumMagnitudeToSnap = tunableFactory.createDouble("MinimumMagnitudeToSnap", 0.75);
 
         hvmDecider.setDeadband(hvmDeadband);
     }

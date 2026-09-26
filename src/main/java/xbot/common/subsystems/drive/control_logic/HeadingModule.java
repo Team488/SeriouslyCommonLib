@@ -6,7 +6,7 @@ import dagger.assisted.AssistedInject;
 
 import org.wpilib.math.geometry.Rotation2d;
 import xbot.common.math.PIDManager;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 /**
@@ -36,7 +36,7 @@ public class HeadingModule {
     public HeadingModule(
             @Assisted("headingDrivePid") PIDManager headingDrivePid, 
             BasePoseSubsystem pose, 
-            PropertyFactory propMan)
+            TunableFactory tunableFactory)
     {
         this.pose = pose;
         

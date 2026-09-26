@@ -8,6 +8,8 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 
 import org.wpilib.driverstation.GenericHID;
+import org.wpilib.driverstation.Joystick;
+import org.wpilib.driverstation.POVDirection;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -15,7 +17,7 @@ import dagger.assisted.AssistedInject;
 
 public class JoystickWPIAdapter extends XJoystick {
     
-    private GenericHID internalHID;
+    private Joystick internalHID;
     
     @AssistedFactory
     public abstract static class JoystickWPIAdapterFactory implements XJoystickFactory {
@@ -54,12 +56,12 @@ public class JoystickWPIAdapter extends XJoystick {
     }
 
     @Override
-    public int getPOV() {
+    public POVDirection getPOV() {
         return this.internalHID.getPOV();
     }
 
     @Override
-    public GenericHID getGenericHID() {
-        return internalHID;
+    public GenericHID getHID() {
+        return internalHID.getHID();
     }
 }

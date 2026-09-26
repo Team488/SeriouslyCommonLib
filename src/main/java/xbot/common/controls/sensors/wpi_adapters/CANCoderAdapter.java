@@ -23,7 +23,7 @@ import xbot.common.controls.sensors.XCANCoder;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 import xbot.common.resiliency.DeviceHealth;
 
 import static org.wpilib.units.Units.Rotations;
@@ -54,9 +54,9 @@ public class CANCoderAdapter extends XCANCoder {
     @AssistedInject
     public CANCoderAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            DevicePolice police, PropertyFactory pf, DataFrameRegistry dataFrameRegistry) {
+            DevicePolice police, TunableFactory tunableFactory, DataFrameRegistry dataFrameRegistry) {
         super(deviceInfo, dataFrameRegistry);
-        pf.setPrefix(owningSystemPrefix);
+        tunableFactory.setPrefix(owningSystemPrefix);
 
         this.inverted = deviceInfo.inverted;
         this.magnetOffset = 0.0;

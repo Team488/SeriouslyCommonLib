@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import xbot.common.controls.sensors.mock_adapters.MockFTCGamepad;
+import xbot.common.controls.sensors.mock_adapters.MockGamepad;
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.injection.BaseCommonLibTest;
 
@@ -14,7 +14,7 @@ import xbot.common.injection.BaseCommonLibTest;
  */
 public class RumbleManagerTest extends BaseCommonLibTest {
 
-    MockFTCGamepad gamepad;
+    MockGamepad gamepad;
     RumbleManager rumbleManager;
     MockTimer timer;
 
@@ -22,7 +22,7 @@ public class RumbleManagerTest extends BaseCommonLibTest {
     public void setUp() {
         super.setUp();
 
-        this.gamepad = (MockFTCGamepad)getInjectorComponent().ftcGamepadFactory().create(0, 10);
+        this.gamepad = (MockGamepad)getInjectorComponent().gamepadFactory().create(0);
         this.rumbleManager = new RumbleManager(this.gamepad);
         this.timer = (MockTimer)getInjectorComponent().timerImplementation();
     }

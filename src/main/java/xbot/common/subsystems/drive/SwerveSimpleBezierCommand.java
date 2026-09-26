@@ -4,7 +4,7 @@ import org.wpilib.math.geometry.Twist2d;
 import xbot.common.command.BaseCommand;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import xbot.common.subsystems.drive.control_logic.HeadingModule.HeadingModuleFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
@@ -25,13 +25,13 @@ public class SwerveSimpleBezierCommand extends BaseCommand {
         public boolean constantRotationEnabled = false;
 
         @Inject
-        public SwerveSimpleBezierCommand(BaseSwerveDriveSubsystem drive, BasePoseSubsystem pose, PropertyFactory pf,
+        public SwerveSimpleBezierCommand(BaseSwerveDriveSubsystem drive, BasePoseSubsystem pose, TunableFactory tunableFactory,
                         HeadingModuleFactory headingModuleFactory, RobotAssertionManager assertionManager) {
                 this.drive = drive;
                 this.pose = pose;
                 headingModule = headingModuleFactory.create(drive.getRotateToHeadingPid());
 
-                pf.setPrefix(this);
+                tunableFactory.setPrefix(this);
                 this.addRequirements(drive);
                 logic = new SwerveSimpleTrajectoryLogic(assertionManager);
                 alternativeIsFinishedSupplier = () -> false;

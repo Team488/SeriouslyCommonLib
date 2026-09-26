@@ -10,7 +10,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 import xbot.common.simulation.ISimulatableSensor;
 
 public class SimulatedAnalogDistanceSensor extends XAnalogDistanceSensor implements ISimulatableSensor {
@@ -28,7 +28,7 @@ public class SimulatedAnalogDistanceSensor extends XAnalogDistanceSensor impleme
     @AssistedInject
     public SimulatedAnalogDistanceSensor(@Assisted("channel") int channel,
             @Assisted("voltageMap") DoubleUnaryOperator voltageMap, @Assisted("prefix") String prefix,
-            PropertyFactory propMan, DevicePolice police) {
+            TunableFactory tunableFactory, DevicePolice police) {
         super(channel, voltageMap);
 
         police.registerDevice(DeviceType.Analog, channel, this);

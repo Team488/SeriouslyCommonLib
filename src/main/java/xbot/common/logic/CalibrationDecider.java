@@ -4,9 +4,9 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
+import org.wpilib.tunable.TunableDouble;
 import xbot.common.controls.sensors.XTimer;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 public class CalibrationDecider {
 
@@ -14,7 +14,7 @@ public class CalibrationDecider {
         Attempting, Calibrated, GaveUp
     }
 
-    final DoubleProperty calibrationTimeProp;
+    final TunableDouble calibrationTimeTunable;
     double startTime;
 
     @AssistedFactory
@@ -23,9 +23,9 @@ public class CalibrationDecider {
     }
 
     @AssistedInject
-    public CalibrationDecider(@Assisted("name") String name, PropertyFactory propMan) {
-        propMan.setPrefix(name);
-        calibrationTimeProp = propMan.createPersistentProperty("CalibrationDecider/Attempt Time", 3);
+    public CalibrationDecider(@Assisted("name") String name, TunableFactory tunableFactory) {
+        tunableFactory.setPrefix(name);
+        calibrationTimeTunable = tunableFactory.createDouble("CalibrationDecider/Attempt Time", 3);
         reset();
     }
 
@@ -38,7 +38,7 @@ public class CalibrationDecider {
             return CalibrationMode.Calibrated;
         }
 
-        if (XTimer.getFPGATimestamp() - startTime > calibrationTimeProp.get()) {
+        if (XTimer.getFPGATimestamp() - startTime > calibrationTimeTunable.get()) {
             return CalibrationMode.GaveUp;
         }
 

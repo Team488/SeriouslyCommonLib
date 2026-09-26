@@ -6,7 +6,7 @@ import javax.inject.Singleton;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 import static org.wpilib.units.Units.Rotations;
 
@@ -17,8 +17,8 @@ public class MockBasePoseSubsystem extends BasePoseSubsystem {
     private XCANMotorController right;
 
     @Inject
-    public MockBasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {
-        super(gyroFactory, propManager);
+    public MockBasePoseSubsystem(XGyroFactory gyroFactory, TunableFactory tunableFactory) {
+        super(gyroFactory, tunableFactory);
     }
 
     public void setDriveMotors(XCANMotorController left, XCANMotorController right) {

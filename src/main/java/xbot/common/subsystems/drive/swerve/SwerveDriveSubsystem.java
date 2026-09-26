@@ -1,6 +1,8 @@
 package xbot.common.subsystems.drive.swerve;
 
 import org.wpilib.units.measure.Distance;
+import org.wpilib.tunable.TunableBoolean;
+import org.wpilib.tunable.TunableDouble;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,9 +13,7 @@ import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
 import xbot.common.injection.swerve.SwerveInstance;
 import xbot.common.injection.swerve.SwerveSingleton;
-import xbot.common.properties.BooleanProperty;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 import javax.inject.Inject;
 
@@ -30,8 +30,8 @@ public class SwerveDriveSubsystem extends BaseSimpleSetpointSubsystem {
 
     private final String label;
 
-    private final DoubleProperty metersPerMotorRotation;
-    private final BooleanProperty enableDrivePid;
+    private final TunableDouble metersPerMotorRotation;
+    private final TunableBoolean enableDrivePid;
     private final double minVelocityToEngagePid;
     private double targetVelocity;
 
@@ -39,19 +39,19 @@ public class SwerveDriveSubsystem extends BaseSimpleSetpointSubsystem {
 
     @Inject
     public SwerveDriveSubsystem(SwerveInstance swerveInstance, XCANMotorController.XCANMotorControllerFactory mcFactory,
-                                PropertyFactory pf, XSwerveDriveElectricalContract electricalContract) {
+                                TunableFactory tunableFactory, XSwerveDriveElectricalContract electricalContract) {
         this.label = swerveInstance.label();
         log.info("Creating SwerveDriveSubsystem {}", this.label);
         aKitLog.setPrefix(this.getPrefix());
 
         // Create properties shared among all instances
-        pf.setPrefix(super.getPrefix());
-        this.metersPerMotorRotation = pf.createPersistentProperty(
+        tunableFactory.setPrefix(super.getPrefix());
+        this.metersPerMotorRotation = tunableFactory.createDouble(
                 "MetersPerMotorRotation", metersPerMotorRotationFromGearRatioAndWheelDiameter(
                         electricalContract.getDriveGearRatio(),
                         electricalContract.getDriveWheelDiameter()
                 )); // Measured value: 0.0492434, very close to precalculated 0.49.
-        this.enableDrivePid = pf.createPersistentProperty("EnableDrivePID", true);
+        this.enableDrivePid = tunableFactory.createBoolean("EnableDrivePID", true);
         this.minVelocityToEngagePid = 0.01;
 
         if (electricalContract.isDriveReady()) {

@@ -8,7 +8,7 @@ import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.injection.DevicePolice;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 public class MockLidarLite extends XLidarLite {
 
@@ -18,8 +18,8 @@ public class MockLidarLite extends XLidarLite {
     }
 
     @AssistedInject
-    public MockLidarLite(@Assisted("port") Port port, PropertyFactory propMan, DevicePolice police, @Assisted("prefix") String prefix) {
-        super(port, propMan, police, prefix);
+    public MockLidarLite(@Assisted("port") Port port, TunableFactory tunableFactory, DevicePolice police, @Assisted("prefix") String prefix) {
+        super(port, tunableFactory, police, prefix);
     }
 
     @Override

@@ -12,11 +12,10 @@ import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.wpi_adapters.TimerWpiAdapter;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.logging.SilentRobotAssertionManager;
-import xbot.common.properties.ITableProxy;
-import xbot.common.properties.PermanentStorage;
-import xbot.common.properties.PreferenceStorage;
-import xbot.common.properties.TableProxy;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.DebugTunablePersistence;
+import xbot.common.properties.PreferencesTunablePersistence;
+import xbot.common.properties.TunableManager;
+import xbot.common.properties.TunablePersistence;
 import xbot.common.subsystems.vision.AprilTagVisionIOFactory;
 import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVision;
 import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVisionEstimator;
@@ -35,14 +34,13 @@ public abstract class RobotModule {
     abstract XSettableTimerImpl getSettableTimer(TimerWpiAdapter impl);
 
     @Binds
-    @Named(XPropertyManager.IN_MEMORY_STORE_NAME)
     @Singleton
-    // TODO: Figure out debug mode toggle
-    abstract ITableProxy getInMemoryTableProxy(TableProxy impl);
+    abstract TunablePersistence getTunablePersistence(PreferencesTunablePersistence impl);
 
     @Binds
+    @Named(TunableManager.IN_MEMORY_PERSISTENCE_NAME)
     @Singleton
-    abstract PermanentStorage getPermanentStorage(PreferenceStorage impl);
+    abstract TunablePersistence getInMemoryTunablePersistence(DebugTunablePersistence impl);
 
     @Binds
     @Singleton

@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 import javax.inject.Inject;
 
 import xbot.common.math.FieldPose;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 import xbot.common.subsystems.drive.control_logic.HeadingModule.HeadingModuleFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
@@ -18,8 +18,8 @@ public class ConfigurablePurePursuitCommand extends PurePursuitCommand {
 
     @Inject
     public ConfigurablePurePursuitCommand(HeadingModuleFactory headingModuleFactory, BasePoseSubsystem pose, BaseDriveSubsystem drive,
-            PropertyFactory propMan) {
-        super(headingModuleFactory, pose, drive, propMan);
+            TunableFactory tunableFactory) {
+        super(headingModuleFactory, pose, drive, tunableFactory);
         mode = PointLoadingMode.Absolute;
         originalPoints = new ArrayList<>();
         externalPointSource = null;

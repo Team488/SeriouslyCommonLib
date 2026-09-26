@@ -3,19 +3,19 @@ package xbot.common.controls.sensors;
 import java.util.function.DoubleSupplier;
 
 import org.littletonrobotics.junction.Logger;
+import org.wpilib.tunable.TunableDouble;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XEncoderInputs;
 import xbot.common.controls.io_inputs.XEncoderInputsAutoLogged;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 public abstract class XEncoder implements DataFrameRefreshable {
 
     protected boolean isInverted;
-    protected DoubleProperty distancePerPulse;
+    protected TunableDouble distancePerPulse;
     protected DoubleSupplier distancePerPulseSupplier;
 
     private final String akitName;
@@ -36,11 +36,11 @@ public abstract class XEncoder implements DataFrameRefreshable {
             int bChannel,
             double defaultDistancePerPulse,
             String owningSystemPrefix,
-            PropertyFactory propMan,
+            TunableFactory tunableFactory,
             DevicePolice police,
             DataFrameRegistry dataFrameRegistry) {
-        propMan.setPrefix(name);
-        distancePerPulse = propMan.createPersistentProperty("DistancePerPulse", defaultDistancePerPulse);
+        tunableFactory.setPrefix(name);
+        distancePerPulse = tunableFactory.createDouble("DistancePerPulse", defaultDistancePerPulse);
         setDistancePerPulseSupplier(() -> distancePerPulse.get());
         police.registerDevice(DeviceType.DigitalIO, aChannel, this);
         police.registerDevice(DeviceType.DigitalIO, bChannel, this);

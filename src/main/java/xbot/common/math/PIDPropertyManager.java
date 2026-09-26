@@ -4,27 +4,27 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
+import org.wpilib.tunable.TunableBoolean;
+import org.wpilib.tunable.TunableDouble;
 import xbot.common.logging.RobotAssertionManager;
-import xbot.common.properties.BooleanProperty;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.Property;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
+import xbot.common.properties.TunableLevel;
 
 public class PIDPropertyManager {
 
-    private final DoubleProperty propP;
-    private final DoubleProperty propI;
-    private final DoubleProperty propD;
-    private final DoubleProperty propF;
-    private final DoubleProperty propIZone;
+    private final TunableDouble pTunable;
+    private final TunableDouble iTunable;
+    private final TunableDouble dTunable;
+    private final TunableDouble fTunable;
+    private final TunableDouble iZoneTunable;
 
-    private final DoubleProperty propErrorThreshold;
-    private final DoubleProperty propDerivativeThreshold;
-    private final DoubleProperty propTimeThreshold;
+    private final TunableDouble errorThresholdTunable;
+    private final TunableDouble derivativeThresholdTunable;
+    private final TunableDouble timeThresholdTunable;
 
-    private final BooleanProperty propEnableErrorThreshold;
-    private final BooleanProperty propEnableDerivativeThreshold;
-    private final BooleanProperty propEnableTimeThreshold;
+    private final TunableBoolean enableErrorThresholdTunable;
+    private final TunableBoolean enableDerivativeThresholdTunable;
+    private final TunableBoolean enableTimeThresholdTunable;
 
     private final RobotAssertionManager assertionManager;
 
@@ -68,7 +68,7 @@ public class PIDPropertyManager {
     @AssistedInject
     public PIDPropertyManager(
             @Assisted String functionName,
-            PropertyFactory propMan,
+            TunableFactory tunableFactory,
             RobotAssertionManager assertionManager,
             @Assisted("defaultP") double defaultP,
             @Assisted("defaultI") double defaultI,
@@ -78,127 +78,127 @@ public class PIDPropertyManager {
             @Assisted("derivativeThreshold") double derivativeThreshold,
             @Assisted("timeThreshold") double timeThreshold,
             @Assisted("iZone") double defaultIZone) {
-        propMan.setPrefix(functionName);
+        tunableFactory.setPrefix(functionName);
 
-        propMan.setDefaultLevel(Property.PropertyLevel.Important);
-        propP = propMan.createPersistentProperty("P", defaultP);
-        propI = propMan.createPersistentProperty("I", defaultI);
-        propD = propMan.createPersistentProperty("D", defaultD);
-        propIZone = propMan.createPersistentProperty("IZone", defaultIZone);
+        tunableFactory.setDefaultLevel(TunableLevel.Important);
+        pTunable = tunableFactory.createDouble("P", defaultP);
+        iTunable = tunableFactory.createDouble("I", defaultI);
+        dTunable = tunableFactory.createDouble("D", defaultD);
+        iZoneTunable = tunableFactory.createDouble("IZone", defaultIZone);
 
         // TODO: Find a better way to turn this on/off from the driver station to quickly re-enable
         // configuration across multiple scenarios.
 
-        propF = propMan.createPersistentProperty("F", defaultF);
+        fTunable = tunableFactory.createDouble("F", defaultF);
 
-        propMan.setDefaultLevel(Property.PropertyLevel.Debug);
+        tunableFactory.setDefaultLevel(TunableLevel.Debug);
 
-        propErrorThreshold =
-                propMan.createPersistentProperty("Error threshold", errorThreshold);
-        propDerivativeThreshold =
-                propMan.createPersistentProperty("Derivative threshold", derivativeThreshold);
-        propTimeThreshold =
-                propMan.createPersistentProperty("Time threshold", timeThreshold);
+        errorThresholdTunable =
+                tunableFactory.createDouble("Error threshold", errorThreshold);
+        derivativeThresholdTunable =
+                tunableFactory.createDouble("Derivative threshold", derivativeThreshold);
+        timeThresholdTunable =
+                tunableFactory.createDouble("Time threshold", timeThreshold);
 
 
-        propEnableErrorThreshold =
-                propMan.createPersistentProperty("Enable error threshold", errorThreshold > 0);
-        propEnableDerivativeThreshold =
-                propMan.createPersistentProperty("Enable derivative threshold", derivativeThreshold > 0);
-        propEnableTimeThreshold =
-                propMan.createPersistentProperty("Enable time threshold", timeThreshold > 0);
+        enableErrorThresholdTunable =
+                tunableFactory.createBoolean("Enable error threshold", errorThreshold > 0);
+        enableDerivativeThresholdTunable =
+                tunableFactory.createBoolean("Enable derivative threshold", derivativeThreshold > 0);
+        enableTimeThresholdTunable =
+                tunableFactory.createBoolean("Enable time threshold", timeThreshold > 0);
 
         this.assertionManager = assertionManager;
     }
 
     public double getP() {
-        return propP.get();
+        return pTunable.get();
     }
 
     public void setP(double p) {
-        propP.set(p);
+        pTunable.set(p);
     }
 
     public double getI() {
-        return propI.get();
+        return iTunable.get();
     }
 
     public void setI(double i) {
-        propI.set(i);
+        iTunable.set(i);
     }
 
     public double getD() {
-        return propD.get();
+        return dTunable.get();
     }
 
     public void setD(double d) {
-        propD.set(d);
+        dTunable.set(d);
     }
 
     public double getF() {
-        return propF.get();
+        return fTunable.get();
     }
 
     public void setF(double f) {
-        propF.set(f);
+        fTunable.set(f);
     }
 
     public double getIZone() {
-        return propIZone.get();
+        return iZoneTunable.get();
     }
 
     public void setIZone(double iZone) {
-        propIZone.set(iZone);
+        iZoneTunable.set(iZone);
     }
 
     public double getErrorThreshold() {
-        return propErrorThreshold.get();
+        return errorThresholdTunable.get();
     }
 
     public void setErrorThreshold(double errorThreshold) {
         assertionManager.assertTrue(errorThreshold >= 0, "Thresholds won't work if they are negative!");
-        propErrorThreshold.set(Math.abs(errorThreshold));
+        errorThresholdTunable.set(Math.abs(errorThreshold));
     }
 
     public double getDerivativeThreshold() {
-        return propDerivativeThreshold.get();
+        return derivativeThresholdTunable.get();
     }
 
     public void setDerivativeThreshold(double derivativeThreshold) {
         assertionManager.assertTrue(derivativeThreshold >= 0, "Thresholds won't work if they are negative!");
-        propDerivativeThreshold.set(Math.abs(derivativeThreshold));
+        derivativeThresholdTunable.set(Math.abs(derivativeThreshold));
     }
 
     public double getTimeThreshold() {
-        return propTimeThreshold.get();
+        return timeThresholdTunable.get();
     }
 
     public void setTimeThreshold(double timeThreshold) {
         assertionManager.assertTrue(timeThreshold >= 0, "Thresholds won't work if they are negative!");
-        propTimeThreshold.set(Math.abs(timeThreshold));
+        timeThresholdTunable.set(Math.abs(timeThreshold));
     }
 
     public boolean getEnableErrorThreshold() {
-        return propEnableErrorThreshold.get();
+        return enableErrorThresholdTunable.get();
     }
 
     public void setEnableErrorThreshold(boolean isEnabled) {
-        propEnableErrorThreshold.set(isEnabled);
+        enableErrorThresholdTunable.set(isEnabled);
     }
 
     public boolean getEnableDerivativeThreshold() {
-        return propEnableDerivativeThreshold.get();
+        return enableDerivativeThresholdTunable.get();
     }
 
     public void setEnableDerivativeThreshold(boolean isEnabled) {
-        propEnableDerivativeThreshold.set(isEnabled);
+        enableDerivativeThresholdTunable.set(isEnabled);
     }
 
     public boolean getEnableTimeThreshold() {
-        return propEnableTimeThreshold.get();
+        return enableTimeThresholdTunable.get();
     }
 
     public void setEnableTimeThreshold(boolean isEnabled) {
-        propEnableTimeThreshold.set(isEnabled);
+        enableTimeThresholdTunable.set(isEnabled);
     }
 }

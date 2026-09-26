@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.wpilib.driverstation.GenericHID;
+import org.wpilib.driverstation.POVDirection;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -20,6 +21,7 @@ public class MockJoystick extends XJoystick {
 
     Map<Integer, Boolean> buttons = new HashMap<Integer, Boolean>();
     Map<Integer, Double> rawAxis = new HashMap<Integer, Double>();
+    private POVDirection povDirection = POVDirection.CENTER;
 
     @AssistedFactory
     public abstract static class MockJoystickFactory implements XJoystickFactory {
@@ -79,12 +81,16 @@ public class MockJoystick extends XJoystick {
     }
 
     @Override
-    public int getPOV() {
-        return 0;
+    public POVDirection getPOV() {
+        return povDirection;
+    }
+
+    public void setPOV(POVDirection povDirection) {
+        this.povDirection = povDirection;
     }
 
     @Override
-    public GenericHID getGenericHID() {
+    public GenericHID getHID() {
         // We don't have a real HID
         return null;
     }

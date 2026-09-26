@@ -5,7 +5,7 @@ import javax.inject.Inject;
 import org.wpilib.util.Color;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.drive.control_logic.HeadingModule.HeadingModuleFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
@@ -16,8 +16,8 @@ public class SimulatedPurePursuitCommand extends ConfigurablePurePursuitCommand 
 
     @Inject
     public SimulatedPurePursuitCommand(HeadingModuleFactory headingModuleFactory, BasePoseSubsystem pose, BaseDriveSubsystem drive,
-    PropertyFactory propMan, WebotsClient webots) {
-        super(headingModuleFactory, pose, drive, propMan);
+    TunableFactory tunableFactory, WebotsClient webots) {
+        super(headingModuleFactory, pose, drive, tunableFactory);
         this.webots = webots;
     }
 

@@ -2,8 +2,7 @@ package xbot.common.injection;
 
 import xbot.common.injection.components.CommonLibTestComponent;
 import xbot.common.injection.components.DaggerCommonLibTestComponent;
-import xbot.common.properties.PropertyFactory;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.TunableManager;
 
 public class BaseCommonLibTest extends BaseWPITest {
 
@@ -11,8 +10,8 @@ public class BaseCommonLibTest extends BaseWPITest {
         return (CommonLibTestComponent)super.getInjectorComponent();
     }
 
-    protected XPropertyManager getPropertyManager() {
-        return getInjectorComponent().propertyManager();
+    protected TunableManager getTunableManager() {
+        return getInjectorComponent().tunableManager();
     }
 
     @Override

@@ -24,7 +24,7 @@ import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.injection.electrical_contract.CameraInfo;
 import xbot.common.injection.electrical_contract.XCameraElectricalContract;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -49,7 +49,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
     final AprilTagVisionCameraHelper[] cameraHelpers;
 
     @Inject
-    public AprilTagVisionSubsystem(PropertyFactory pf, Fields fieldLayout,
+    public AprilTagVisionSubsystem(TunableFactory tunableFactory, Fields fieldLayout,
             XCameraElectricalContract contract,
             AprilTagVisionIOFactory visionIOFactory, DataFrameRegistry registry) {
         this.aprilTagFieldLayout = fieldLayout;
@@ -61,7 +61,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
             var cameraInfo = this.cameras[i];
             io[i] = visionIOFactory.create(cameraInfo.networkTablesName(), cameraInfo.position());
             cameraHelpers[i] = new AprilTagVisionCameraHelper(this.getName() + "/Cameras/" + cameraInfo.friendlyName(),
-                    pf, io[i], fieldLayout, registry, cameraInfo.useForPoseEstimates());
+                    tunableFactory, io[i], fieldLayout, registry, cameraInfo.useForPoseEstimates());
         }
     }
 

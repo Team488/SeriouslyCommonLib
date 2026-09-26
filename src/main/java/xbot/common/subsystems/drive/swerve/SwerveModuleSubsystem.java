@@ -8,6 +8,7 @@ import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
 import org.wpilib.math.kinematics.SwerveModulePosition;
 import org.wpilib.math.kinematics.SwerveModuleVelocity;
+import org.wpilib.tunable.TunableDouble;
 import org.wpilib.util.Alert;
 
 import xbot.common.advantage.DataFrameRefreshable;
@@ -16,9 +17,8 @@ import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
 import xbot.common.injection.swerve.SwerveInstance;
 import xbot.common.injection.swerve.SwerveSingleton;
 import xbot.common.logging.AlertGroups;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.Property;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
+import xbot.common.properties.TunableLevel;
 import xbot.common.resiliency.DeviceHealth;
 
 import static org.wpilib.units.Units.Inches;
@@ -32,8 +32,8 @@ public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRef
     private final SwerveDriveSubsystem driveSubsystem;
     private final SwerveSteeringSubsystem steeringSubsystem;
 
-    private final DoubleProperty xOffsetInches;
-    private final DoubleProperty yOffsetInches;
+    private final TunableDouble xOffsetInches;
+    private final TunableDouble yOffsetInches;
 
     private final Translation2d moduleTranslation;
 
@@ -46,17 +46,17 @@ public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRef
 
     @Inject
     public SwerveModuleSubsystem(SwerveInstance swerveInstance, SwerveDriveSubsystem driveSubsystem, SwerveSteeringSubsystem steeringSubsystem,
-                                 XSwerveDriveElectricalContract contract, PropertyFactory pf) {
+                                 XSwerveDriveElectricalContract contract, TunableFactory tunableFactory) {
         this.label = swerveInstance.label();
         log.info("Creating SwerveModuleSubsystem {}", this.label);
-        pf.setPrefix(this);
+        tunableFactory.setPrefix(this);
 
         this.driveSubsystem = driveSubsystem;
         this.steeringSubsystem = steeringSubsystem;
 
         var defaultModuleTranslation = contract.getSwerveModuleOffsets(swerveInstance);
-        this.xOffsetInches = pf.createPersistentProperty("XOffsetInches", defaultModuleTranslation.getMeasureX().in(Inches), Property.PropertyLevel.Debug);
-        this.yOffsetInches = pf.createPersistentProperty("YOffsetInches", defaultModuleTranslation.getMeasureY().in(Inches), Property.PropertyLevel.Debug);
+        this.xOffsetInches = tunableFactory.createDouble("XOffsetInches", defaultModuleTranslation.getMeasureX().in(Inches), TunableLevel.Debug);
+        this.yOffsetInches = tunableFactory.createDouble("YOffsetInches", defaultModuleTranslation.getMeasureY().in(Inches), TunableLevel.Debug);
 
         this.moduleTranslation = new Translation2d(
                 Inches.of(xOffsetInches.get()),

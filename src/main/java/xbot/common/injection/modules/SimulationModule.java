@@ -1,5 +1,6 @@
 package xbot.common.injection.modules;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Binds;
@@ -11,8 +12,10 @@ import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.wpi_adapters.TimerWpiAdapter;
 import xbot.common.logging.LoudRobotAssertionManager;
 import xbot.common.logging.RobotAssertionManager;
-import xbot.common.properties.PermanentStorage;
-import xbot.common.properties.PreferenceStorage;
+import xbot.common.properties.DebugTunablePersistence;
+import xbot.common.properties.PreferencesTunablePersistence;
+import xbot.common.properties.TunableManager;
+import xbot.common.properties.TunablePersistence;
 import xbot.common.subsystems.vision.AprilTagVisionIOFactory;
 import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVisionSimulated;
 
@@ -31,7 +34,12 @@ public abstract class SimulationModule {
 
     @Binds
     @Singleton
-    abstract PermanentStorage getPermanentStorage(PreferenceStorage impl);
+    abstract TunablePersistence getTunablePersistence(PreferencesTunablePersistence impl);
+
+    @Binds
+    @Named(TunableManager.IN_MEMORY_PERSISTENCE_NAME)
+    @Singleton
+    abstract TunablePersistence getInMemoryTunablePersistence(DebugTunablePersistence impl);
 
     @Binds
     @Singleton

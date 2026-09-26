@@ -22,8 +22,8 @@ import org.wpilib.math.geometry.Transform3d;
 import org.wpilib.math.linalg.Matrix;
 import org.wpilib.math.linalg.VecBuilder;
 
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import org.wpilib.tunable.TunableDouble;
+import xbot.common.properties.TunableFactory;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -70,13 +70,13 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
     private final String logPath;
     private final Fields aprilTagFieldLayout;
 
-    private final DoubleProperty singleTagStdDev1;
-    private final DoubleProperty singleTagStdDev2;
-    private final DoubleProperty singleTagAngularStdDev;
+    private final TunableDouble singleTagStdDev1;
+    private final TunableDouble singleTagStdDev2;
+    private final TunableDouble singleTagAngularStdDev;
 
-    private final DoubleProperty multipleTagStdDev1;
-    private final DoubleProperty multipleTagStdDev2;
-    private final DoubleProperty multipleTagAngularStdDev;
+    private final TunableDouble multipleTagStdDev1;
+    private final TunableDouble multipleTagStdDev2;
+    private final TunableDouble multipleTagAngularStdDev;
 
 
     protected final Transform3d robotToCamera;
@@ -90,21 +90,21 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
      */
     @AssistedInject
     public AprilTagVisionIOPhotonVisionEstimator(@Assisted String name, @Assisted Transform3d robotToCamera,
-                                                 Fields fieldLayout, PropertyFactory pf) {
+                                                 Fields fieldLayout, TunableFactory tunableFactory) {
         this.logPath = name;
         this.camera = new PhotonCamera(name);
         this.aprilTagFieldLayout= fieldLayout;
         this.robotToCamera = robotToCamera;
         this.photonEstimator = new PhotonPoseEstimator(this.aprilTagFieldLayout.loadField(), this.robotToCamera);
 
-        pf.setPrefix(this.logPath);
-        this.singleTagStdDev1 = pf.createPersistentProperty("singleTagStdDev1", 4);
-        this.singleTagStdDev2 = pf.createPersistentProperty("singleTagStdDev2", 4);
-        this.singleTagAngularStdDev = pf.createPersistentProperty("singleTagAngularStdDev", 8);
+        tunableFactory.setPrefix(this.logPath);
+        this.singleTagStdDev1 = tunableFactory.createDouble("singleTagStdDev1", 4);
+        this.singleTagStdDev2 = tunableFactory.createDouble("singleTagStdDev2", 4);
+        this.singleTagAngularStdDev = tunableFactory.createDouble("singleTagAngularStdDev", 8);
 
-        this.multipleTagStdDev1 = pf.createPersistentProperty("multipleTagStdDev1", 0.5);
-        this.multipleTagStdDev2 = pf.createPersistentProperty("multipleTagStdDev2", 0.5);
-        this.multipleTagAngularStdDev = pf.createPersistentProperty("multipleTagAngularStdDev", 1);
+        this.multipleTagStdDev1 = tunableFactory.createDouble("multipleTagStdDev1", 0.5);
+        this.multipleTagStdDev2 = tunableFactory.createDouble("multipleTagStdDev2", 0.5);
+        this.multipleTagAngularStdDev = tunableFactory.createDouble("multipleTagAngularStdDev", 1);
     }
 
     @Override

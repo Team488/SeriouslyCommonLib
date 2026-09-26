@@ -8,8 +8,8 @@ import org.littletonrobotics.junction.Logger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.logging.AlertGroups;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import org.wpilib.tunable.TunableDouble;
+import xbot.common.properties.TunableFactory;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,24 +26,24 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final boolean useForPoseEstimates;
 
     // Basic filtering thresholds
-    private final DoubleProperty maxAmbiguity;
-    private final DoubleProperty maxZError;
-    private final DoubleProperty maxSingleTagDistance;
-    private final DoubleProperty maxMultiTagDistance;
-    private final DoubleProperty minTagDistance;
+    private final TunableDouble maxAmbiguity;
+    private final TunableDouble maxZError;
+    private final TunableDouble maxSingleTagDistance;
+    private final TunableDouble maxMultiTagDistance;
+    private final TunableDouble minTagDistance;
 
     // Standard deviation baselines, for 1 meter distance and 1 tag
     // (Adjusted automatically based on distance and # of tags)
-    private final DoubleProperty linearStdDevBaseline;
-    private final DoubleProperty angularStdDevBaseline;
+    private final TunableDouble linearStdDevBaseline;
+    private final TunableDouble angularStdDevBaseline;
 
     // Multipliers to apply for MegaTag 2 observations
-    private final DoubleProperty linearStdDevMegatag2Factor;
-    private final DoubleProperty angularStdDevMegatag2Factor;
+    private final TunableDouble linearStdDevMegatag2Factor;
+    private final TunableDouble angularStdDevMegatag2Factor;
 
     // Standard deviation multipliers for each camera
     // (Adjust to trust some cameras more than others)
-    private final DoubleProperty cameraStdDevFactor;
+    private final TunableDouble cameraStdDevFactor;
 
     private final List<Pose3d> tagPoses = new LinkedList<>();
     private final List<Integer> tagIds = new LinkedList<>();
@@ -52,7 +52,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final List<Pose3d> robotPosesRejected = new LinkedList<>();
     private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
 
-    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io,
+    public AprilTagVisionCameraHelper(String prefix, TunableFactory tunableFactory, AprilTagVisionIO io,
             Fields fieldLayout, DataFrameRegistry registry, boolean useForPoseEstimates) {
         this.logPath = prefix;
         this.io = io;
@@ -63,18 +63,18 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
                 "Vision camera " + prefix + " is disconnected.", Alert.Level.HIGH);
         this.useForPoseEstimates = useForPoseEstimates;
 
-        pf.setPrefix(this.logPath);
-        this.maxAmbiguity = pf.createPersistentProperty("MaxAmbiguity", 0.3);
-        this.maxZError = pf.createPersistentProperty("MaxZError", 0.75);
-        this.linearStdDevBaseline = pf.createPersistentProperty("LinearStdDevBaseline", 0.02 /* meters */);
-        this.angularStdDevBaseline = pf.createPersistentProperty("AngularStdDevBaseline", 0.06 /* radians */);
-        this.linearStdDevMegatag2Factor = pf.createPersistentProperty("LinearStdDevMegatag2Factor", 0.5);
-        this.angularStdDevMegatag2Factor = pf.createPersistentProperty("AngularStdDevMegatag2Factor",
+        tunableFactory.setPrefix(this.logPath);
+        this.maxAmbiguity = tunableFactory.createDouble("MaxAmbiguity", 0.3);
+        this.maxZError = tunableFactory.createDouble("MaxZError", 0.75);
+        this.linearStdDevBaseline = tunableFactory.createDouble("LinearStdDevBaseline", 0.02 /* meters */);
+        this.angularStdDevBaseline = tunableFactory.createDouble("AngularStdDevBaseline", 0.06 /* radians */);
+        this.linearStdDevMegatag2Factor = tunableFactory.createDouble("LinearStdDevMegatag2Factor", 0.5);
+        this.angularStdDevMegatag2Factor = tunableFactory.createDouble("AngularStdDevMegatag2Factor",
                 Double.POSITIVE_INFINITY);
-        this.cameraStdDevFactor = pf.createPersistentProperty("CameraStdDevFactor", 1.0);
-        this.maxSingleTagDistance = pf.createPersistentProperty("MaxSingleTagDistance", 1.0);
-        this.maxMultiTagDistance = pf.createPersistentProperty("MaxMultiTagDistance", 5.0);
-        this.minTagDistance = pf.createPersistentProperty("MinTagDistance", 0.5);
+        this.cameraStdDevFactor = tunableFactory.createDouble("CameraStdDevFactor", 1.0);
+        this.maxSingleTagDistance = tunableFactory.createDouble("MaxSingleTagDistance", 1.0);
+        this.maxMultiTagDistance = tunableFactory.createDouble("MaxMultiTagDistance", 5.0);
+        this.minTagDistance = tunableFactory.createDouble("MinTagDistance", 0.5);
     }
 
     @Override
