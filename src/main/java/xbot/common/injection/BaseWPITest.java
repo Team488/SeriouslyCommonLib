@@ -3,8 +3,8 @@ package xbot.common.injection;
 import org.junit.Before;
 import org.junit.Ignore;
 
-import edu.wpi.first.wpilibj.MockTimer;
 import xbot.common.controls.sensors.XTimer;
+import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.injection.components.BaseComponent;
 import xbot.common.math.PIDManager.PIDManagerFactory;
 import xbot.common.properties.PropertyFactory;

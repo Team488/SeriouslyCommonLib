@@ -92,6 +92,6 @@ public class DoubleProperty extends Property {
     @Override
     public void refreshDataFrame() {
         currentValue = get_internal();
-        Logger.processInputs(prefix, inputs);
+        Logger.processInputs(akitLogPrefix(), inputs);
     }
 }

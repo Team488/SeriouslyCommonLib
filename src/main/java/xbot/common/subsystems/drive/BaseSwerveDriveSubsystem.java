@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xbot.common.advantage.AKitLogger;
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.swerve.SwerveComponent;
 import xbot.common.math.PIDDefaults;
@@ -89,7 +90,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
 
     public BaseSwerveDriveSubsystem(PIDManager.PIDManagerFactory pidFactory, PropertyFactory pf,
             SwerveComponent frontLeftSwerve, SwerveComponent frontRightSwerve,
-            SwerveComponent rearLeftSwerve, SwerveComponent rearRightSwerve) {
+            SwerveComponent rearLeftSwerve, SwerveComponent rearRightSwerve,
+            DataFrameRegistry dataFrameRegistry) {
         log.info("Creating DriveSubsystem");
         pf.setPrefix(this);
 
@@ -135,6 +137,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
         headingPidManager.setEnableTimeThreshold(true);
 
         slewRateLimiter = new SlewRateLimiter(maxAccelerationMps2.get());
+
+        dataFrameRegistry.register(this);
     }
 
     /**

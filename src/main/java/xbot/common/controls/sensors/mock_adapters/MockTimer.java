@@ -1,4 +1,4 @@
-package edu.wpi.first.wpilibj;
+package xbot.common.controls.sensors.mock_adapters;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

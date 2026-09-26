@@ -6,6 +6,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import org.littletonrobotics.junction.Logger;
 
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.controls.io_inputs.XGyroIoInputsAutoLogged;
 import xbot.common.injection.electrical_contract.IMUInfo;
@@ -43,11 +44,12 @@ public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
         }
     }
 
-    protected XGyro(IMUInfo info)
+    protected XGyro(IMUInfo info, DataFrameRegistry dataFrameRegistry)
     {
         this.imuType = info.imuType();
         this.deviceName = info.name();
         this.io = new XGyroIoInputsAutoLogged();
+        dataFrameRegistry.register(this);
     }
 
     public abstract boolean isBroken();

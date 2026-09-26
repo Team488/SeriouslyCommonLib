@@ -1,9 +1,9 @@
-package edu.wpi.first.wpilibj;
+package xbot.common.controls.actuators.mock_adapters;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.actuators.XServo;
 import xbot.common.injection.DevicePolice;
 
@@ -17,8 +17,8 @@ public class MockServo extends XServo {
     }
 
     @AssistedInject
-    public MockServo(@Assisted("channel") int channel, @Assisted("name") String name, DevicePolice police) {
-        super(channel, name, police);
+    public MockServo(@Assisted("channel") int channel, @Assisted("name") String name, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
+        super(channel, name, police, dataFrameRegistry);
     }
 
     @Override

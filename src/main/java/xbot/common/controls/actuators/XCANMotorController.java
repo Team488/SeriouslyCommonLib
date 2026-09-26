@@ -21,6 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.Logger;
 
 import xbot.common.advantage.DataFrameRefreshable;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputsAutoLogged;
 import xbot.common.injection.DevicePolice;
@@ -138,6 +139,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             DevicePolice police,
             String pidPropertyPrefix,
             XCANMotorControllerPIDProperties defaultPIDProperties,
+            DataFrameRegistry dataFrameRegistry,
             PowerDistributionProperties pdProperties
     ) {
         this.busId = info.busId();
@@ -195,6 +197,8 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             }
             this.propertyFactory.setPrefix(this.defaultPropertyPrefix);
         }
+
+        dataFrameRegistry.register(this);
     }
 
     public abstract void setConfiguration(CANMotorControllerOutputConfig outputConfig);
@@ -325,11 +329,11 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
             return;
         }
 
-        if (softwareForwardLimit.getAsBoolean() && getVoltage().gt(Volts.of(0))) {
+        if (softwareForwardLimit.getAsBoolean() && getVoltage().gt(Volts.zero())) {
             //log.warn("Forward software limit hit");
             setPower(0);
         }
-        if (softwareReverseLimit.getAsBoolean() && getVoltage().lt(Volts.of(0))) {
+        if (softwareReverseLimit.getAsBoolean() && getVoltage().lt(Volts.zero())) {
             //log.warn("Reverse software limit hit");
             setPower(0);
         }
@@ -694,12 +698,12 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     }
 
     protected boolean isValidVoltageRequest(Voltage voltage) {
-        if (voltage.gt(Volts.of(0)) && softwareForwardLimit.getAsBoolean()) {
+        if (voltage.gt(Volts.zero()) && softwareForwardLimit.getAsBoolean()) {
             // TODO: Change these various warnings to only trigger once on the rising edge of the issue.
             //log.warn("Attempted to set positive voltage on motor controller with forward software limit enabled");
             return false;
         }
-        if (voltage.lt(Volts.of(0)) && softwareReverseLimit.getAsBoolean()) {
+        if (voltage.lt(Volts.zero()) && softwareReverseLimit.getAsBoolean()) {
             //log.warn("Attempted to set negative voltage on motor controller with reverse software limit enabled");
             return false;
         }

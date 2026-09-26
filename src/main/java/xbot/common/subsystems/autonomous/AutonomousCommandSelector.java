@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,8 +52,11 @@ public class AutonomousCommandSelector extends BaseSubsystem {
     public void setCurrentAutonomousCommand(Command currentAutonomousCommand) {
         log.info("Setting CurrentAutonomousCommand to " + currentAutonomousCommand);
         log.info("Setting CurrentStartingPosition to " + currentAutonomousStartingPosition);
-        aKitLog.record("Current autonomous command name",
-                currentAutonomousCommand == null ? "No command set" : currentAutonomousCommand.getName());
+        var nameString = currentAutonomousCommand == null ? "No command set" : currentAutonomousCommand.getName();
+        aKitLog.record("Current autonomous command name", nameString);
+        
+        // to make sure this is always logged to networktables no matter what, also explicitly push it to the SD
+        SmartDashboard.putString("Current autunomous command name", nameString);
 
         this.currentAutonomousCommand = currentAutonomousCommand;
         commandSupplier = null;

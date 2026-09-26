@@ -2,6 +2,7 @@ package xbot.common.subsystems.drive;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.injection.swerve.FrontLeftDrive;
 import xbot.common.injection.swerve.FrontRightDrive;
 import xbot.common.injection.swerve.RearLeftDrive;
@@ -18,8 +19,9 @@ public class MockSwerveDriveSubsystem extends BaseSwerveDriveSubsystem {
                                     @FrontLeftDrive SwerveComponent frontLeftSwerve,
                                     @FrontRightDrive SwerveComponent frontRightSwerve,
                                     @RearLeftDrive SwerveComponent rearLeftSwerve,
-                                    @RearRightDrive SwerveComponent rearRightSwerve) {
-        super(pidFactory, pf, frontLeftSwerve, frontRightSwerve, rearLeftSwerve, rearRightSwerve);
+                                    @RearRightDrive SwerveComponent rearRightSwerve,
+                                    DataFrameRegistry dataFrameRegistry) {
+        super(pidFactory, pf, frontLeftSwerve, frontRightSwerve, rearLeftSwerve, rearRightSwerve, dataFrameRegistry);
     }
 
     @Override

@@ -2,11 +2,10 @@ package xbot.common.subsystems.pose;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.Units;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.MutAngle;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.math.geometry.Rotation2d;
-import xbot.common.advantage.DataFrameRefreshable;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import xbot.common.command.BaseSubsystem;
@@ -28,7 +27,7 @@ import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Radians;
 
-public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFrameRefreshable, ISwerveAdvisorPoseSupport {
+public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerveAdvisorPoseSupport {
 
     public final XGyro imu;
     protected double leftDriveDistance;
@@ -57,7 +56,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     public static Distance fieldXMidpoint = Meters.of(8.7785);
     public static Distance fieldYHeight = Inches.of(317);
 
-    private final MutAngle currentHeading;
+    private Angle currentHeading;
 
     public BasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {
         this(gyroFactory.create(), propManager);
@@ -71,7 +70,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
 
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
-        currentHeading = Degrees.mutable(0);
+        currentHeading = Degrees.zero();
 
         propManager.setDefaultLevel(Property.PropertyLevel.Debug);
         rioRotated = propManager.createPersistentProperty("RIO rotated", false);
@@ -84,7 +83,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
     }
 
     protected void updateCurrentHeading() {
-        currentHeading.mut_replace(MathUtil.inputModulus(getRobotYaw().getDegrees() + headingOffset, -180, 180), Degrees);
+        currentHeading = Degrees.of(MathUtil.inputModulus(getRobotYaw().getDegrees() + headingOffset, -180, 180));
 
         aKitLog.record("AdjustedHeadingDegrees", currentHeading.in(Degrees));
         aKitLog.record("AdjustedHeadingRadians", currentHeading.in(Radians));
@@ -376,11 +375,6 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements DataFra
             isNavXReady = true;
         }
         updatePose();
-    }
-
-    @Override
-    public void refreshDataFrame() {
-        imu.refreshDataFrame();
     }
 
     public Pose2d getSimulatedFieldPose() {

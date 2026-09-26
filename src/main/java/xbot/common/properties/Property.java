@@ -18,6 +18,22 @@ import xbot.common.advantage.DataFrameRefreshable;
  */
 public abstract class Property implements DataFrameRefreshable {
     /**
+     * Namespace used for the AdvantageKit log subtable that Property values flow through.
+     * <p>
+     * Every Property records its current value as a {@code LoggableInputs} via
+     * {@code Logger.processInputs(akitLogPrefix(), inputs)} so replay sees the value the robot
+     * actually used. The AKit-side mirror is then forwarded to NetworkTables by default — which
+     * is redundant, because dashboards already see the value via WPILib's {@code /Preferences/...}
+     * surface. Routing the Property log entries through this dedicated subtable lets the NT
+     * publisher drop them by prefix without touching the on-disk log receiver (which still gets
+     * everything, keeping replay correct).
+     * <p>
+     * The name {@code PropertyMirror} (rather than just {@code Properties}) avoids confusion with
+     * the WPILib {@code Preferences} table that lives at {@code /Preferences/...} in NetworkTables.
+     */
+    public static final String AKIT_LOG_NAMESPACE = "PropertyMirror/";
+
+    /**
      * The key for the property.
      */
     public final String key;
@@ -74,6 +90,17 @@ public abstract class Property implements DataFrameRefreshable {
 
     public PropertyLevel getLevel() {
         return level;
+    }
+
+    /**
+     * @return The full prefix this Property uses when calling
+     *     {@code Logger.processInputs(...)}. Subclasses should pass this to
+     *     {@code Logger.processInputs} so their LogTable entries land under the
+     *     {@link #AKIT_LOG_NAMESPACE Properties/} subtable rather than mixing in with
+     *     subsystem telemetry.
+     */
+    protected String akitLogPrefix() {
+        return AKIT_LOG_NAMESPACE + prefix;
     }
 
     /**
