@@ -8,7 +8,6 @@ import org.wpilib.util.WPISerializable;
 import org.wpilib.util.protobuf.Protobuf;
 import org.wpilib.util.struct.Struct;
 import org.wpilib.util.struct.StructSerializable;
-import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
 import us.hebi.quickbuf.ProtoMessage;
 import xbot.common.properties.IPropertySupport;
 
@@ -158,7 +157,7 @@ public class AKitLogger {
         if (this.shouldSkipLogging()) {
             return;
         }
-        Logger.recordOutput(this.prefix + key, value);
+        Logger.recordOutputMeasure(this.prefix + key, value);
     }
 
     public void record(String key, boolean[] value) {
@@ -243,13 +242,6 @@ public class AKitLogger {
     // CHECKSTYLE:ON
 
     public <T extends WPISerializable> void record(String key, T value) {
-        if (this.shouldSkipLogging()) {
-            return;
-        }
-        Logger.recordOutput(this.prefix + key, value);
-    }
-
-    public void record(String key, LoggedMechanism2d value) {
         if (this.shouldSkipLogging()) {
             return;
         }

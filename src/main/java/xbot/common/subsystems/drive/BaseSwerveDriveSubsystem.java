@@ -401,7 +401,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
         Translation2d centerOfRotationTranslationMeters = new Translation2d(
                 centerOfRotationInches.x / BasePoseSubsystem.INCHES_IN_A_METER,
                 centerOfRotationInches.y / BasePoseSubsystem.INCHES_IN_A_METER);
-        SwerveModuleVelocity[] moduleStates = swerveDriveKinematics.toSwerveModuleVelocities(targetMotion,
+        SwerveModuleVelocity[] calculatedModuleStates = swerveDriveKinematics.toSwerveModuleVelocities(targetMotion,
                 centerOfRotationTranslationMeters);
 
         // Another potentially optional step - it's possible that in the calculations
@@ -424,13 +424,17 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
 
         // Also, one more special check - if there was no commanded motion, set the
         // speed to 0.
+        SwerveModuleVelocity[] moduleStates;
         if (isNotMoving) {
-            for (SwerveModuleVelocity moduleState : moduleStates) {
-                moduleState.velocity = 0;
+            moduleStates = new SwerveModuleVelocity[calculatedModuleStates.length];
+            for (int i = 0; i < calculatedModuleStates.length; i++) {
+                moduleStates[i] = new SwerveModuleVelocity(0, calculatedModuleStates[i].angle);
             }
         } else {
             double topSpeedMetersPerSecond = maxTargetSpeedMps.get();
-            SwerveDriveKinematics.desaturateWheelVelocities(moduleStates, topSpeedMetersPerSecond);
+            moduleStates = SwerveDriveKinematics.desaturateWheelVelocities(
+                    calculatedModuleStates,
+                    topSpeedMetersPerSecond);
         }
 
         // Finally, we can tell each swerve module what it should be doing. Log these

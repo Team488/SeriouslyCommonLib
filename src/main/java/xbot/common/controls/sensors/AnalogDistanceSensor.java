@@ -15,7 +15,7 @@ import java.util.function.DoubleUnaryOperator;
 
 public class AnalogDistanceSensor extends XAnalogDistanceSensor {
 
-    private static final int NUM_AVERAGE_BITS = 2;
+    private static final int AVERAGE_SAMPLE_WINDOW = 4;
 
     public XAnalogInput input;
 
@@ -64,7 +64,7 @@ public class AnalogDistanceSensor extends XAnalogDistanceSensor {
     @Override
     public void setAveraging(boolean shouldAverage) {
         isAveragingEnabled = shouldAverage;
-        input.setAverageBits(shouldAverage ? NUM_AVERAGE_BITS : 0);
+        input.setAverageSampleWindow(shouldAverage ? AVERAGE_SAMPLE_WINDOW : 1);
     }
 
     public void setVoltageOffset(double offset) {

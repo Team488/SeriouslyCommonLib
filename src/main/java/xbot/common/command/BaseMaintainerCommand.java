@@ -1,6 +1,6 @@
 package xbot.common.command;
 
-import org.wpilib.driverstation.DriverStation;
+import org.wpilib.driverstation.RobotState;
 import org.wpilib.tunable.TunableDouble;
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
@@ -148,7 +148,7 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
         // any running command that
         // is trying to manipulate the setpoint.
 
-        if (subsystemToMaintain.getSetpointLock().getCurrentCommand() != null && !DriverStation.isAutonomous()) {
+        if (subsystemToMaintain.getSetpointLock().getCurrentCommand() != null && !RobotState.isAutonomous()) {
             subsystemToMaintain.getSetpointLock().getCurrentCommand().cancel();
         }
 

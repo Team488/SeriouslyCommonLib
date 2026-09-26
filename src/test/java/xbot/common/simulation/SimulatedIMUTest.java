@@ -9,10 +9,12 @@ import java.math.BigDecimal;
 import org.json.JSONObject;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.wpilib.hardware.imu.OnboardIMU.MountOrientation;
 
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.injection.electrical_contract.IMUInfo;
+import xbot.common.injection.electrical_contract.PowerSource;
 
 @Ignore
 public class SimulatedIMUTest extends BaseSimulationTest {
@@ -23,7 +25,8 @@ public class SimulatedIMUTest extends BaseSimulationTest {
     public void setUp() {
         super.setUp();
 
-        simulatedGyro = (MockGyro)injectorComponent.gyroFactory().create(new IMUInfo(XGyro.InterfaceType.serial));
+        simulatedGyro = (MockGyro)injectorComponent.gyroFactory().create(
+                new IMUInfo("IMU", XGyro.ImuType.onboard, XGyro.InterfaceType.serial, null, 1, MountOrientation.FLAT, PowerSource.RIO));
     }
 
     @Test

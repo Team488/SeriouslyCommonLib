@@ -36,6 +36,7 @@ import xbot.common.resiliency.DeviceHealth;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BooleanSupplier;
 
 import static org.wpilib.units.Units.Meters;
@@ -116,6 +117,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
     private Double lastAppliedMinOutput;
 
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(XCANMotorController.class);
+    private static final AtomicLong NEXT_ALERT_ID = new AtomicLong();
 
     protected BooleanSupplier softwareReverseLimit = () -> false;
     protected BooleanSupplier softwareForwardLimit = () -> false;
@@ -158,8 +160,9 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
         police.registerDevice(DevicePolice.DeviceType.CAN, busId, info.deviceId(), info.name());
         this.akitName = info.name()+"/CANMotorController";
 
-        this.unhealthyAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Motor Controller " + info.deviceId() + " on CAN bus " + busId.toString() +  " ("
-                + owningSystemPrefix + ") is unhealthy",
+        String alertId = getClass().getName() + "-" + busId.id() + "-" + info.deviceId() + "-" + NEXT_ALERT_ID.getAndIncrement();
+        this.unhealthyAlert = new Alert(AlertGroups.DEVICE_HEALTH, alertId,
+                "Motor Controller " + info.deviceId() + " on CAN bus " + busId + " (" + owningSystemPrefix + ") is unhealthy",
                 Alert.Level.HIGH);
 
         if (defaultPIDProperties == null) {

@@ -22,7 +22,7 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
     @Test
     public void makeOneOfEverything() {
         getInjectorComponent().pidFactory().create("pid");
-        getInjectorComponent().pidPropertyManagerFactory().create("pid", 0, 0, 0, 0);
+        getInjectorComponent().pidPropertyManagerFactory().create("pidProperties", 0, 0, 0, 0);
         getInjectorComponent().powerDistributionPanelFactory().create();
         getInjectorComponent().encoderFactory().create("foo", 1, 2, 1, "TestPrefix");
         getInjectorComponent().digitalInputFactory().create(new DeviceInfo("foo", 5, null), "TestPrefix");

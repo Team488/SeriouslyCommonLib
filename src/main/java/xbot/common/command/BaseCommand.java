@@ -1,5 +1,8 @@
 package xbot.common.command;
 
+import java.lang.ref.Cleaner;
+import java.util.concurrent.atomic.AtomicLong;
+
 import javax.inject.Inject;
 
 import org.wpilib.command2.Command;
@@ -15,22 +18,28 @@ import xbot.common.properties.IPropertySupport;
  * Enhanced version of WPILib's Command that allows for extension of existing
  * functionality.
  */
-public abstract class BaseCommand extends Command implements IPropertySupport {
+public abstract class BaseCommand extends Command implements AutoCloseable, IPropertySupport {
+
+    private static final Cleaner ALERT_CLEANER = Cleaner.create();
+    private static final AtomicLong NEXT_ALERT_ID = new AtomicLong();
 
     protected final Alert runningAlert;
+    private final Cleaner.Cleanable runningAlertCleanup;
     protected final Logger log;
     protected final AKitLogger aKitLog;
     protected final TimeLogger monitor;
     private boolean configurableRunWhenDisabled;
 
     @Inject
-    SmartDashboardCommandPutter commandPutter;
+    TunableCommandPublisher tunableCommandPublisher;
 
     public BaseCommand() {
         log = LogManager.getLogger(this.getName());
         aKitLog = new AKitLogger(this);
         monitor = new TimeLogger(this.getName(), 20);
-        runningAlert = new Alert("Commands", this.getName(), Alert.Level.LOW);
+        String alertId = getClass().getName() + "-" + NEXT_ALERT_ID.getAndIncrement();
+        runningAlert = new Alert("Commands", alertId, this.getName(), Alert.Level.LOW);
+        runningAlertCleanup = ALERT_CLEANER.register(this, runningAlert::close);
     }
 
     @Override
@@ -58,15 +67,23 @@ public abstract class BaseCommand extends Command implements IPropertySupport {
         this.runningAlert.set(false);
     }
 
-    public void includeOnSmartDashboard() {
-        if (commandPutter != null) {
-            commandPutter.addCommandToSmartDashboard(this);
+    /**
+     * Releases the native alert allocation when this command will no longer be used.
+     */
+    @Override
+    public void close() {
+        runningAlertCleanup.clean();
+    }
+
+    public void publishToTunables() {
+        if (tunableCommandPublisher != null) {
+            tunableCommandPublisher.publish(this);
         }
     }
 
-    public void includeOnSmartDashboard(String label) {
-        if (commandPutter != null) {
-            commandPutter.addCommandToSmartDashboard(label, this);
+    public void publishToTunables(String label) {
+        if (tunableCommandPublisher != null) {
+            tunableCommandPublisher.publish(label, this);
         }
     }
 

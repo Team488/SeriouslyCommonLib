@@ -138,13 +138,14 @@ public class SwervePointPathPlanning {
         // Move either away or towards the obstacle based on distance to center, and
         // then go to the edge of the avoidance radius.
         Translation2d fromObstacleCenter;
+        var fallbackDirection = getAngleOrDefault(endPoint.minus(obstacleCenter), new Rotation2d());
         if (closeToObstacle) {
             var moveAwayVector = vectorToObstacleCenter.unaryMinus();
             fromObstacleCenter = new Translation2d(clearanceRadius.in(Meters),
-                    moveAwayVector.getAngle());
+                    getAngleOrDefault(moveAwayVector, fallbackDirection));
         } else {
             fromObstacleCenter = new Translation2d(clearanceRadius.in(Meters),
-                    vectorToObstacleCenter.getAngle());
+                    getAngleOrDefault(vectorToObstacleCenter, fallbackDirection));
         }
 
         return obstacleCenter.plus(fromObstacleCenter);
@@ -156,7 +157,7 @@ public class SwervePointPathPlanning {
         var obstacleCenter = closestObstacle.center();
         var vectorToObstacleCenter = currentPoint.minus(obstacleCenter);
 
-        double angleCurrent = vectorToObstacleCenter.getAngle().getRadians();
+        double angleCurrent = getAngleOrDefault(vectorToObstacleCenter, new Rotation2d()).getRadians();
         double angleStep = Math.PI / 18;
 
         var moveGreaterInY = currentPoint.getY() > this.gameField.getFieldCenter().getY();
@@ -179,5 +180,9 @@ public class SwervePointPathPlanning {
     private Distance buildObstacleClearanceDistance(IFieldObstacle fieldObstacle) {
         var additionalClearance = Meters.of(this.additionalClearanceOfObstaclesMeters.get());
         return this.radius.plus(fieldObstacle.avoidanceRadius()).plus(additionalClearance);
+    }
+
+    static Rotation2d getAngleOrDefault(Translation2d vector, Rotation2d fallback) {
+        return vector.getAngle().orElse(fallback);
     }
 }

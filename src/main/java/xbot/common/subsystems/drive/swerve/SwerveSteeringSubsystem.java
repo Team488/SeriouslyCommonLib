@@ -53,8 +53,7 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
         log.info("Creating SwerveRotationSubsystem {}", this.label);
         aKitLog.setPrefix(this.getPrefix());
 
-        // Create properties shared among all instances
-        tunableFactory.setPrefix(super.getPrefix());
+        tunableFactory.setPrefix(this.getPrefix());
         this.degreesPerMotorRotation = tunableFactory.createDouble("DegreesPerMotorRotation",
                 degreesPerMotorRotationFromGearRatio(electricalContract.getSteeringGearRatio()));
         this.currentModuleHeadingRotation2d = Rotation2d.fromDegrees(0);
@@ -70,7 +69,7 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
         if (electricalContract.isDriveReady()) {
             this.motorController = mcFactory.create(
                     electricalContract.getSteeringMotor(swerveInstance),
-                    SwerveSteeringSubsystem.class.getSimpleName(),
+                    this.getPrefix(),
                     "SteeringPID",
                     new XCANMotorControllerPIDProperties.Builder()
                             .withP(3.0)

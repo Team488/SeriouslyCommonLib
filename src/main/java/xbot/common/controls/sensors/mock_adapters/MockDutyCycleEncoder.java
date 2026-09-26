@@ -1,5 +1,7 @@
 package xbot.common.controls.sensors.mock_adapters;
 
+import static org.wpilib.units.Units.Rotations;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
@@ -34,6 +36,6 @@ public class MockDutyCycleEncoder extends XDutyCycleEncoder {
 
     @Override
     public void updateInputs(XDutyCycleEncoderInputs inputs) {
-        inputs.absoluteRawPosition = rawPosition;
+        inputs.absoluteRawPosition = Rotations.of(rawPosition);
     }
 }

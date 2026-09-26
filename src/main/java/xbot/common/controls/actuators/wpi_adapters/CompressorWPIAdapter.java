@@ -19,7 +19,7 @@ public class CompressorWPIAdapter extends XCompressor {
 
     @AssistedInject
     public CompressorWPIAdapter() {
-        this.compressor = new Compressor(CANPort.CAN_D0, PneumaticsModuleType.REV_PH);
+        this.compressor = new Compressor(CANPort.CAN_S0, PneumaticsModuleType.REV_PH);
     }
 
     @Override

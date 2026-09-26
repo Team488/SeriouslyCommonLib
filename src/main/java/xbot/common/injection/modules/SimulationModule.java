@@ -5,8 +5,8 @@ import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
-import xbot.common.command.RealSmartDashboardCommandPutter;
-import xbot.common.command.SmartDashboardCommandPutter;
+import xbot.common.command.RealTunableCommandPublisher;
+import xbot.common.command.TunableCommandPublisher;
 import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.wpi_adapters.TimerWpiAdapter;
@@ -47,7 +47,7 @@ public abstract class SimulationModule {
 
     @Binds
     @Singleton
-    abstract SmartDashboardCommandPutter getSmartDashboardCommandPutter(RealSmartDashboardCommandPutter impl);
+    abstract TunableCommandPublisher getTunableCommandPublisher(RealTunableCommandPublisher impl);
 
     @Binds
     @Singleton

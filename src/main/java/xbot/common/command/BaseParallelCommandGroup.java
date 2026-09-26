@@ -27,7 +27,7 @@ public class BaseParallelCommandGroup extends BaseCommand {
   // changing the value associated with a command does NOT change the order)
   private final Map<Command, Boolean> m_commands = new LinkedHashMap<>();
   private boolean m_runWhenDisabled = true;
-  private InterruptionBehavior m_interruptBehavior = InterruptionBehavior.kCancelIncoming;
+  private InterruptionBehavior m_interruptBehavior = InterruptionBehavior.CANCEL_INCOMING;
 
   /**
    * Creates a new ParallelCommandGroup. The given commands will be executed simultaneously. The
@@ -62,8 +62,8 @@ public class BaseParallelCommandGroup extends BaseCommand {
       m_commands.put(command, false);
       addRequirements(command.getRequirements());
       m_runWhenDisabled &= command.runsWhenDisabled();
-      if (command.getInterruptionBehavior() == InterruptionBehavior.kCancelSelf) {
-        m_interruptBehavior = InterruptionBehavior.kCancelSelf;
+      if (command.getInterruptionBehavior() == InterruptionBehavior.CANCEL_SELF) {
+        m_interruptBehavior = InterruptionBehavior.CANCEL_SELF;
       }
     }
   }

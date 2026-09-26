@@ -12,9 +12,9 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
-import org.wpilib.driverstation.DriverStation;
 import org.wpilib.driverstation.MatchState;
 import org.wpilib.driverstation.RobotState;
+import org.wpilib.hardware.bus.CANPort;
 import org.wpilib.hardware.power.PowerDistribution;
 import org.wpilib.system.RobotController;
 import org.wpilib.tunable.Tunables;
@@ -110,6 +110,7 @@ public abstract class BaseRobot extends LoggedRobot {
                 }
 
                 LoggedPowerDistribution.getInstance(
+                        CANPort.CAN_S0.value,
                         PowerDistribution.DEFAULT_MODULE,
                         PowerDistribution.ModuleType.REV); // Log power distribution data from the configured module
             } else {
@@ -170,7 +171,7 @@ public abstract class BaseRobot extends LoggedRobot {
     protected void updateLoggingContext() {
         String dsStatus = RobotState.isDSAttached() ? "DS" : "no DS";
         String fmsStatus = RobotState.isFMSAttached() ? "FMS" : "no FMS";
-        String matchStatus = MatchState.getMatchType().toString() + " " + DriverStation.getMatchNumber() + " " + DriverStation.getReplayNumber();
+        String matchStatus = MatchState.getMatchType().toString() + " " + MatchState.getMatchNumber() + " " + MatchState.getReplayNumber();
         String enableStatus = getEnableTypeString();
         String matchContext = dsStatus + ", " + fmsStatus + ", " + enableStatus + ", " + matchStatus;
     }

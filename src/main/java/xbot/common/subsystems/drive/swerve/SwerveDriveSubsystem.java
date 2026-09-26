@@ -44,8 +44,7 @@ public class SwerveDriveSubsystem extends BaseSimpleSetpointSubsystem {
         log.info("Creating SwerveDriveSubsystem {}", this.label);
         aKitLog.setPrefix(this.getPrefix());
 
-        // Create properties shared among all instances
-        tunableFactory.setPrefix(super.getPrefix());
+        tunableFactory.setPrefix(this.getPrefix());
         this.metersPerMotorRotation = tunableFactory.createDouble(
                 "MetersPerMotorRotation", metersPerMotorRotationFromGearRatioAndWheelDiameter(
                         electricalContract.getDriveGearRatio(),
@@ -57,7 +56,7 @@ public class SwerveDriveSubsystem extends BaseSimpleSetpointSubsystem {
         if (electricalContract.isDriveReady()) {
             this.motorController = mcFactory.create(
                     electricalContract.getDriveMotor(swerveInstance),
-                    SwerveDriveSubsystem.class.getSimpleName(),
+                    this.getPrefix(),
                     "DrivePID",
                     new XCANMotorControllerPIDProperties.Builder()
                             .withVelocityFeedForward(0.01)

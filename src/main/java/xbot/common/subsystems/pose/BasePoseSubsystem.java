@@ -10,6 +10,7 @@ import org.wpilib.driverstation.RobotState;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.math.util.MathUtil;
 import org.wpilib.tunable.TunableBoolean;
 import org.wpilib.tunable.TunableDouble;
 import xbot.common.command.BaseSubsystem;
@@ -84,7 +85,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     }
 
     protected void updateCurrentHeading() {
-        currentHeading = Degrees.of(Math.inputModulus(getRobotYaw().getDegrees() + headingOffset, -180, 180));
+        currentHeading = Degrees.of(MathUtil.inputModulus(getRobotYaw().getDegrees() + headingOffset, -180, 180));
 
         aKitLog.record("AdjustedHeadingDegrees", currentHeading.in(Degrees));
         aKitLog.record("AdjustedHeadingRadians", currentHeading.in(Radians));

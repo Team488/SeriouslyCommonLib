@@ -1,6 +1,5 @@
 package xbot.common.subsystems.drive;
 
-import org.wpilib.MockTimer;
 import org.junit.Test;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;

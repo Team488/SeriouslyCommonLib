@@ -5,8 +5,8 @@ import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
-import xbot.common.command.MockSmartDashboardCommandPutter;
-import xbot.common.command.SmartDashboardCommandPutter;
+import xbot.common.command.MockTunableCommandPublisher;
+import xbot.common.command.TunableCommandPublisher;
 import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
@@ -47,7 +47,7 @@ public abstract class UnitTestModule {
 
     @Binds
     @Singleton
-    abstract SmartDashboardCommandPutter getSmartDashboardCommandPutter(MockSmartDashboardCommandPutter impl);
+    abstract TunableCommandPublisher getTunableCommandPublisher(MockTunableCommandPublisher impl);
 
     @Binds
     @Singleton

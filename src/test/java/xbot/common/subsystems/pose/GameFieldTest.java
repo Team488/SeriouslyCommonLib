@@ -3,8 +3,7 @@ package xbot.common.subsystems.pose;
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
-import org.wpilib.vision.apriltag.AprilTagFieldLayout;
-import org.wpilib.vision.apriltag.AprilTagFields;
+import org.wpilib.fields.Fields;
 import org.junit.Test;
 import xbot.common.injection.BaseCommonLibTest;
 
@@ -15,7 +14,7 @@ import static org.junit.Assert.assertNotNull;
 public class GameFieldTest extends BaseCommonLibTest {
     @Test
     public void testGetFieldWidth() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
+        var fieldLayout = Fields.FRC_2025_REEFSCAPE_WELDED;
         var symmetry = GameField.Symmetry.Rotational;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -24,7 +23,7 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetFieldLength() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
+        var fieldLayout = Fields.FRC_2025_REEFSCAPE_WELDED;
         var symmetry = GameField.Symmetry.Rotational;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -33,7 +32,7 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetSymmetry() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
+        var fieldLayout = Fields.FRC_2025_REEFSCAPE_WELDED;
         var symmetry = GameField.Symmetry.Rotational;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -42,7 +41,7 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetFieldCenter() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
+        var fieldLayout = Fields.FRC_2025_REEFSCAPE_WELDED;
         var symmetry = GameField.Symmetry.Rotational;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -52,7 +51,7 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetMirroredTranslation() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
+        var fieldLayout = Fields.FRC_2025_REEFSCAPE_WELDED;
         var symmetry = GameField.Symmetry.Rotational;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -65,7 +64,7 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetMirroredRotation() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
+        var fieldLayout = Fields.FRC_2025_REEFSCAPE_WELDED;
         var symmetry = GameField.Symmetry.Rotational;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -77,7 +76,7 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetMirroredPose() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
+        var fieldLayout = Fields.FRC_2025_REEFSCAPE_WELDED;
         var symmetry = GameField.Symmetry.Rotational;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -94,7 +93,7 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetFieldWidth_mirroredField() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
+        var fieldLayout = Fields.FRC_2024_CRESCENDO;
         var symmetry = GameField.Symmetry.Mirrored;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -103,7 +102,7 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetFieldLength_mirroredField() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
+        var fieldLayout = Fields.FRC_2024_CRESCENDO;
         var symmetry = GameField.Symmetry.Mirrored;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -112,7 +111,7 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetSymmetry_mirroredField() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
+        var fieldLayout = Fields.FRC_2024_CRESCENDO;
         var symmetry = GameField.Symmetry.Mirrored;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -121,7 +120,7 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetFieldCenter_mirroredField() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
+        var fieldLayout = Fields.FRC_2024_CRESCENDO;
         var symmetry = GameField.Symmetry.Mirrored;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -131,7 +130,7 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetMirroredTranslation_mirroredField() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
+        var fieldLayout = Fields.FRC_2024_CRESCENDO;
         var symmetry = GameField.Symmetry.Mirrored;
         var gameField = new GameField(fieldLayout, symmetry);
 
@@ -144,19 +143,20 @@ public class GameFieldTest extends BaseCommonLibTest {
 
     @Test
     public void testGetMirroredRotation_mirroredField() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
+        var fieldLayout = Fields.FRC_2024_CRESCENDO;
         var symmetry = GameField.Symmetry.Mirrored;
         var gameField = new GameField(fieldLayout, symmetry);
 
         assertEquals(179, gameField.getMirroredRotation(Rotation2d.fromDegrees(1)).getDegrees(), 0.001);
         assertEquals(90, gameField.getMirroredRotation(Rotation2d.fromDegrees(90)).getDegrees(), 0.001);
         assertEquals(0, gameField.getMirroredRotation(Rotation2d.fromDegrees(180)).getDegrees(), 0.001);
-        assertEquals(270, gameField.getMirroredRotation(Rotation2d.fromDegrees(-90)).getDegrees(), 0.001);
+        assertEquals(Rotation2d.fromDegrees(270).getDegrees(),
+                gameField.getMirroredRotation(Rotation2d.fromDegrees(-90)).getDegrees(), 0.001);
     }
 
     @Test
     public void testGetMirroredPose_mirroredField() {
-        var fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
+        var fieldLayout = Fields.FRC_2024_CRESCENDO;
         var symmetry = GameField.Symmetry.Mirrored;
         var gameField = new GameField(fieldLayout, symmetry);
 

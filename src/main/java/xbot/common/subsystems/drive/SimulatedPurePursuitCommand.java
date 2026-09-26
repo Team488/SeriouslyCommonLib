@@ -26,10 +26,10 @@ public class SimulatedPurePursuitCommand extends ConfigurablePurePursuitCommand 
         super.execute();
 
         // Draw a line from the robot to the "Rabbit"
-        webots.drawLine("RabbitLine", poseSystem.getCurrentFieldPose().getPoint(), chaseData.rabbit.getPoint(), Color.kGreen, 60);
+        webots.drawLine("RabbitLine", poseSystem.getCurrentFieldPose().getPoint(), chaseData.rabbit.getPoint(), Color.GREEN, 60);
 
         // Draw a line from the Rabbit to the goal point
-        webots.drawLine("PoseLine", chaseData.rabbit.getPoint(), chaseData.target.getPoint(), Color.kYellow, 60);
+        webots.drawLine("PoseLine", chaseData.rabbit.getPoint(), chaseData.target.getPoint(), Color.YELLOW, 60);
 
         // Draw something at all the planned points
         // Could be two lines of different color, using the pointAlongPose feature
@@ -38,8 +38,8 @@ public class SimulatedPurePursuitCommand extends ConfigurablePurePursuitCommand 
             FieldPose ahead = plannedPoint.pose.getPointAlongPoseLine(12);
             FieldPose behind = plannedPoint.pose.getPointAlongPoseLine(-12);
 
-            webots.drawLine("PlannedPointAhead"+i, ahead.getPoint(), plannedPoint.pose.getPoint(), Color.kBlue, 60);
-            webots.drawLine("PlannedPointBehind"+i, behind.getPoint(), plannedPoint.pose.getPoint(), Color.kRed, 60);
+            webots.drawLine("PlannedPointAhead"+i, ahead.getPoint(), plannedPoint.pose.getPoint(), Color.BLUE, 60);
+            webots.drawLine("PlannedPointBehind"+i, behind.getPoint(), plannedPoint.pose.getPoint(), Color.RED, 60);
 
             i++;
         }
@@ -50,8 +50,8 @@ public class SimulatedPurePursuitCommand extends ConfigurablePurePursuitCommand 
         super.end(interrupted);
         // Clear out all the nav markers when this command is no longer active
         for (int i = 0; i < this.getPlannedPointsToVisit().size(); i++){
-            webots.drawLine("PlannedPointAhead"+i, new XYPair(0,0), new XYPair(0,0), Color.kBlue, 60);
-            webots.drawLine("PlannedPointBehind"+i, new XYPair(0,0), new XYPair(0,0), Color.kRed, 60);
+            webots.drawLine("PlannedPointAhead"+i, new XYPair(0,0), new XYPair(0,0), Color.BLUE, 60);
+            webots.drawLine("PlannedPointBehind"+i, new XYPair(0,0), new XYPair(0,0), Color.RED, 60);
             i++;
         }
     }

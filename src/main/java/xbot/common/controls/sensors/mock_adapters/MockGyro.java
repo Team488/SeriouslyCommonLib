@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.LinearAcceleration;
 import org.json.JSONObject;
 
 import dagger.assisted.Assisted;
@@ -20,6 +21,7 @@ import xbot.common.simulation.ISimulatableSensor;
 
 import static org.wpilib.units.Units.Degrees;
 import static org.wpilib.units.Units.DegreesPerSecond;
+import static org.wpilib.units.Units.MetersPerSecondPerSecond;
 
 public class MockGyro extends XGyro implements ISimulatableSensor {
     private boolean isBroken;
@@ -31,9 +33,9 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
     private double velocityX;
     private double velocityY;
     private double velocityZ;
-    private double rawAccelX;
-    private double rawAccelY;
-    private double rawAccelZ;
+    private LinearAcceleration rawAccelX = MetersPerSecondPerSecond.zero();
+    private LinearAcceleration rawAccelY = MetersPerSecondPerSecond.zero();
+    private LinearAcceleration rawAccelZ = MetersPerSecondPerSecond.zero();
 
     @AssistedFactory
     public abstract static class MockGyroFactory extends XGyroFactory {
@@ -68,7 +70,7 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
         inputs.pitch = pitch;
         inputs.roll = roll;
         inputs.yawAngularVelocity = yawAngularVelocity;
-        inputs.acceleration = new double[] { rawAccelX, rawAccelY, rawAccelZ };
+        inputs.acceleration = new LinearAcceleration[] { rawAccelX, rawAccelY, rawAccelZ };
         inputs.isConnected = true;
     }
 
@@ -124,27 +126,39 @@ public class MockGyro extends XGyro implements ISimulatableSensor {
         this.velocityZ = velocity;
     }
 
-    public double getDeviceRawAccelX() {
+    public LinearAcceleration getDeviceRawAccelX() {
         return this.rawAccelX;
     }
 
     public void setDeviceRawAccelX(double accel) {
+        setDeviceRawAccelX(MetersPerSecondPerSecond.of(accel));
+    }
+
+    public void setDeviceRawAccelX(LinearAcceleration accel) {
         this.rawAccelX = accel;
     }
 
-    public double getDeviceRawAccelY() {
+    public LinearAcceleration getDeviceRawAccelY() {
         return this.rawAccelY;
     }
 
     public void setDeviceRawAccelY(double accel) {
+        setDeviceRawAccelY(MetersPerSecondPerSecond.of(accel));
+    }
+
+    public void setDeviceRawAccelY(LinearAcceleration accel) {
         this.rawAccelY = accel;
     }
 
-    public double getDeviceRawAccelZ() {
+    public LinearAcceleration getDeviceRawAccelZ() {
         return this.rawAccelZ;
     }
 
     public void setDeviceRawAccelZ(double accel) {
+        setDeviceRawAccelZ(MetersPerSecondPerSecond.of(accel));
+    }
+
+    public void setDeviceRawAccelZ(LinearAcceleration accel) {
         this.rawAccelZ = accel;
     }
 

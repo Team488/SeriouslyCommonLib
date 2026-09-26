@@ -13,11 +13,14 @@ import xbot.common.properties.TunableFactory;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Helper class for ingesting data from a single AprilTag vision camera.
  */
 class AprilTagVisionCameraHelper implements DataFrameRefreshable {
+    private static final AtomicLong NEXT_ALERT_ID = new AtomicLong();
+
     private final AprilTagVisionIO io;
     final VisionIOInputsAutoLogged inputs;
     private final String logPath;
@@ -59,7 +62,8 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.inputs = new VisionIOInputsAutoLogged();
         registry.register(this);
         this.aprilTagFieldLayout = fieldLayout;
-        this.disconnectedAlert = new Alert(AlertGroups.DEVICE_HEALTH,
+        String alertId = getClass().getName() + "-" + NEXT_ALERT_ID.getAndIncrement();
+        this.disconnectedAlert = new Alert(AlertGroups.DEVICE_HEALTH, alertId,
                 "Vision camera " + prefix + " is disconnected.", Alert.Level.HIGH);
         this.useForPoseEstimates = useForPoseEstimates;
 

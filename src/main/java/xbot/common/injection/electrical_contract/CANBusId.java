@@ -1,6 +1,7 @@
 package xbot.common.injection.electrical_contract;
 
 import com.ctre.phoenix6.CANBus;
+import org.wpilib.hardware.bus.CANPort;
 
 /**
  * Represents a CAN bus ID
@@ -10,8 +11,9 @@ public record CANBusId(String id) {
     public static final CANBusId RIO = new CANBusId("rio");
     public static final CANBusId Canivore = new CANBusId("*");
 
-    private static final CANBus DefaultPhoenixRio = CANBus.roboRIO();
+    private static final CANBus DefaultPhoenixRio = CANBus.systemcore(0);
     private static final CANBus DefaultPhoenixCanivore = new CANBus("*");
+    private static final CANPort DefaultWpiRio = CANPort.CAN_S0;
 
     /**
      * Converts this CANBusId to a Phoenix CANBus object.
@@ -24,6 +26,18 @@ public record CANBusId(String id) {
             return DefaultPhoenixCanivore;
         } else {
             throw new IllegalArgumentException("Unknown CAN bus ID: " + this.id);
+        }
+    }
+
+    /**
+     * Converts this CANBusId to a WPILib CANPort.
+     * @return Corresponding CANPort
+     */
+    public CANPort toWpiCANPort() {
+        if (this.equals(RIO)) {
+            return DefaultWpiRio;
+        } else {
+            throw new IllegalArgumentException("CAN bus is not available as a WPILib CAN port: " + this.id);
         }
     }
 }

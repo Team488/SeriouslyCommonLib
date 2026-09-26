@@ -4,7 +4,14 @@ import org.wpilib.hardware.imu.OnboardIMU.MountOrientation;
 
 import xbot.common.controls.sensors.XGyro;
 
-public record IMUInfo(String name, XGyro.ImuType imuType, XGyro.InterfaceType interfaceType, CANBusId canBusId, int deviceId, MountOrientation mountOrientation, PowerSource powerFrom) {
+public record IMUInfo(
+        String name,
+        XGyro.ImuType imuType,
+        XGyro.InterfaceType interfaceType,
+        CANBusId canBusId,
+        int deviceId,
+        MountOrientation mountOrientation,
+        PowerSource powerFrom) {
     public IMUInfo(MountOrientation mountOrientation) {
         this("IMU", XGyro.ImuType.onboard, null, null, 1, mountOrientation, PowerSource.RIO);
     }

@@ -4,10 +4,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
 import org.junit.Test;
+import org.wpilib.util.struct.Struct;
 
 import xbot.common.injection.BaseCommonLibTest;
 
 public class XYPairTest extends BaseCommonLibTest {
+
+    @Test
+    public void testStructSize() {
+        assertEquals(Struct.DOUBLE_SIZE * 2, new XYPairStruct().getSize());
+    }
 
     @Test
     public void testClone() {

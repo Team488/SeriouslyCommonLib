@@ -47,8 +47,9 @@ public class EncoderWPIAdapter extends XEncoder {
         return internalEncoder.getDistance();
     }
 
-    public void setSamplesToAverage(int samples) {
-        internalEncoder.setSamplesToAverage(samples);
+    @Override
+    protected void setRateWindowMilliseconds(int rateWindowMilliseconds) {
+        internalEncoder.setRateWindow(rateWindowMilliseconds);
     }
 
     @Override

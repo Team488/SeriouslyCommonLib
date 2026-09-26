@@ -56,7 +56,8 @@ public class MockEncoder extends XEncoder implements ISimulatableSensor {
         return distance;
     }
 
-    public void setSamplesToAverage(int samples) {
+    @Override
+    protected void setRateWindowMilliseconds(int rateWindowMilliseconds) {
     }
 
     @Override

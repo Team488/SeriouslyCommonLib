@@ -1,5 +1,7 @@
 package xbot.common.subsystems.drive.swerve;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 import javax.inject.Inject;
 
 import org.apache.logging.log4j.LogManager;
@@ -26,6 +28,7 @@ import static org.wpilib.units.Units.Inches;
 @SwerveSingleton
 public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRefreshable {
     private static final Logger log = LogManager.getLogger(SwerveModuleSubsystem.class);
+    private static final AtomicLong NEXT_ALERT_ID = new AtomicLong();
 
     private final String label;
 
@@ -66,8 +69,9 @@ public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRef
         this.currentPosition = new SwerveModulePosition();
         this.targetState = new SwerveModuleVelocity();
 
-        degradedModuleAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Module " + this.label + " cannot reach CANCoder, and is disabling itself.",
-                Alert.Level.HIGH);
+        String alertId = getClass().getName() + "-" + this.label + "-" + NEXT_ALERT_ID.getAndIncrement();
+        degradedModuleAlert = new Alert(AlertGroups.DEVICE_HEALTH, alertId,
+                "Module " + this.label + " cannot reach CANCoder, and is disabling itself.", Alert.Level.HIGH);
     }
 
     /**
@@ -81,16 +85,19 @@ public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRef
 
     public void setTargetState(SwerveModuleVelocity swerveModuleState, boolean optimize) {
         if (!degraded) {
-            this.targetState.velocity = swerveModuleState.velocity;
-            this.targetState.angle = swerveModuleState.angle;
-
+            SwerveModuleVelocity commandedState = new SwerveModuleVelocity(
+                    swerveModuleState.velocity,
+                    swerveModuleState.angle);
             if (optimize) {
-                this.targetState.optimize(getSteeringSubsystem().getCurrentRotation());
+                commandedState = commandedState.optimize(getSteeringSubsystem().getCurrentRotation());
             }
 
-            this.getSteeringSubsystem().setTargetValue(new Rotation2d(this.targetState.angle.getRadians()).getDegrees());
+            this.targetState.velocity = commandedState.velocity;
+            this.targetState.angle = commandedState.angle;
+
+            this.getSteeringSubsystem().setTargetValue(new Rotation2d(commandedState.angle.getRadians()).getDegrees());
             // The kinematics library does everything in metric, so we need to transform that back to US Customary Units
-            this.getDriveSubsystem().setTargetValue(this.targetState.velocity);
+            this.getDriveSubsystem().setTargetValue(commandedState.velocity);
         } else {
             // We are in degraded state. Don't set anything, pray the other modules can keep working.
             this.getSteeringSubsystem().setPower(0.0);

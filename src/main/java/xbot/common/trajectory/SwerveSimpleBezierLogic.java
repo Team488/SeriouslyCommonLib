@@ -156,7 +156,7 @@ public class SwerveSimpleBezierLogic {
 
             // Visualize direct raycast
             var start = new XbotSwervePoint(currentPose.getTranslation(), currentPose.getRotation(), 0);
-            var raycast = XbotSwervePoint.generateTrajectory(List.of(
+            var raycast = XbotSwervePoint.generatePathVisualization(List.of(
                     start, keyPoints.get(0))
             );
             aKitLog.record("Raycast", raycast);
@@ -220,7 +220,7 @@ public class SwerveSimpleBezierLogic {
             }
         }
 
-        aKitLog.record("Trajectory", XbotSwervePoint.generateTrajectory(keyPoints));
+        aKitLog.record("Trajectory", XbotSwervePoint.generatePathVisualization(keyPoints));
 
         interpolator.setMinimumDistanceFromChasePointInMeters(0.5);
         interpolator.setKeyPoints(keyPoints);

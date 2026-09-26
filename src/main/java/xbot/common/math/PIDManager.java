@@ -15,8 +15,8 @@ import xbot.common.properties.TunableFactory;
 import xbot.common.properties.TunableLevel;
 
 /**
- * Wrapper for PID class which automatically puts the P, I and D values on
- * the SmartDashboard.
+ * Wrapper for PID class which automatically publishes the P, I and D values
+ * as Tunables.
  */
 public class PIDManager extends PIDPropertyManager {
     private PID pid;
@@ -191,7 +191,7 @@ public class PIDManager extends PIDPropertyManager {
      * setDerivativeThreshold(), as well as
      * setEnableErrorThreshold() and/or setDerivativeErrorThreshold(), or if you
      * have set
-     * these values in the SmartDashboard at runtime.
+     * have set these values through Tunables at runtime.
      */
     public boolean isOnTarget() {
         return pid.isOnTarget();
