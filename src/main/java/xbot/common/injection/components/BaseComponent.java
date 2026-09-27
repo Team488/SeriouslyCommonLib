@@ -40,9 +40,9 @@ import xbot.common.logic.CalibrationDecider.CalibrationDeciderFactory;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.logic.StallDetector.StallDetectorFactory;
 import xbot.common.logic.VelocityThrottleModule.VelocityThrottleModuleFactory;
-import xbot.common.math.FieldPosePropertyManager.FieldPosePropertyManagerFactory;
+import xbot.common.math.FieldPoseTunableManager.FieldPoseTunableManagerFactory;
 import xbot.common.math.PIDManager.PIDManagerFactory;
-import xbot.common.math.PIDPropertyManager.PIDPropertyManagerFactory;
+import xbot.common.math.PIDTunableManager.PIDTunableManagerFactory;
 import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
 import xbot.common.properties.TunableFactory;
 import xbot.common.properties.TunableManager;
@@ -86,7 +86,7 @@ public abstract class BaseComponent {
     public abstract @Named(TunableManager.IN_MEMORY_PERSISTENCE_NAME)
             TunablePersistence inMemoryTunablePersistence();
 
-    public abstract FieldPosePropertyManagerFactory fieldPosePropertyManagerFactory();
+    public abstract FieldPoseTunableManagerFactory fieldPoseTunableManagerFactory();
 
     public abstract AutonomousCommandSelector autonomousCommandSelector();
 
@@ -96,7 +96,7 @@ public abstract class BaseComponent {
 
     public abstract PIDManagerFactory pidFactory();
 
-    public abstract PIDPropertyManagerFactory pidPropertyManagerFactory();
+    public abstract PIDTunableManagerFactory pidTunableManagerFactory();
 
     public abstract XPowerDistributionPanelFactory powerDistributionPanelFactory();
 

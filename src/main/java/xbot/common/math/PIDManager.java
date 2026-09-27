@@ -17,7 +17,7 @@ import xbot.common.properties.TunableLevel;
  * Wrapper for PID class which automatically publishes the P, I and D values
  * as Tunables.
  */
-public class PIDManager extends PIDPropertyManager {
+public class PIDManager extends PIDTunableManager {
     private PID pid;
 
     private TunableDouble maxOutput;

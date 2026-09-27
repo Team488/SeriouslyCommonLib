@@ -13,13 +13,13 @@ import org.wpilib.util.Alert;
 
 import xbot.common.advantage.AKitLogger;
 import xbot.common.logging.TimeLogger;
-import xbot.common.properties.IPropertySupport;
+import xbot.common.properties.TunablePrefixProvider;
 
 /**
  * Enhanced version of WPILib's Command that allows for extension of existing
  * functionality.
  */
-public abstract class BaseCommand extends Command implements AutoCloseable, IPropertySupport {
+public abstract class BaseCommand extends Command implements AutoCloseable, TunablePrefixProvider {
 
     private static final Cleaner ALERT_CLEANER = Cleaner.create();
     private static final AtomicLong NEXT_ALERT_ID = new AtomicLong();

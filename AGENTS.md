@@ -41,7 +41,7 @@ SeriouslyCommonLib/
 | `logic` | Utility helpers: `Latch`, `StallDetector`, `TimeStableValidator`, etc. |
 | `math` | PID, kinematics, interpolation, pose estimation, `XYPair` |
 | `networking` | ZeroMQ-based networking utilities |
-| `properties` | Persistent configurable properties (`XPropertyManager`, `PropertyFactory`) |
+| `properties` | WPILib Tunables integration (`TunableManager`, `TunableFactory`) |
 | `resiliency` | Exception handling and retry logic |
 | `simulation` | Webots client and simulation payload distributor |
 | `subsystems` | Pre-built subsystems: drive, swerve, pose, vision, autonomous |
@@ -127,11 +127,12 @@ through the abstract base class and inject the concrete implementation via Dagge
 - Log telemetry through `AKitLogger` / `AdvantageKit` NetworkTables where appropriate.
 - `PowerDistributionProperties` logs device mappings using AdvantageKit NetworkTables.
 
-#### Properties System
+#### Tunables System
 
-- Declare tunable values with `PropertyFactory` to make them persistent and dashboard-visible.
-- Pass `PropertyFactory` through Dagger injection.
-- Use the `XCANMotorControllerPIDProperties.Builder` pattern when constructing PID property
+- Declare configurable values with `TunableFactory` so they use the repository's persistence,
+  publication, logging, and replay integration.
+- Pass `TunableFactory` through Dagger injection.
+- Use the `XCANMotorControllerPIDProperties.Builder` pattern when constructing PID configuration
   objects with optional parameters.
 
 ### Testing

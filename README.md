@@ -23,7 +23,8 @@ We plan to continue maintaining this codebase throughout upcoming years as we de
 ## What does it do?
 ### Main features
 - **Fully testable** We have wrappers for the robot-specific classes that WPILib provies. This means that every class can be run on a development PC, using mock implementations and factories. Your tests run all the same code that gets deployed to the robot.
-- **Persistent, configurable properties** We have utilities and extra interfaces which provide an easily-accessable property framework. When you use our classes to create a property, supplying a flag makes it automatically persist in a database on the robot as well as on the Smart Dashboard. Perfect for configuration and settings.
+- **Persistent, configurable Tunables** The library integrates WPILib Tunables with persistent
+  storage, dashboard publication, AdvantageKit logging, and replay support.
 - **Detailed logging** Every class logs with a specific message and error level when something important happens (using log4j). You can modify the logging priority threshold for the program as a whole or for specific classes, depending on the verbosity of the desired logging.
 - **Re-usable utilities**  Our math utilities, logic helpers, and various number containers (such as the `XYPair`for vectors or points) contain loads of re-usable logic that's useful throughout a robot program.
 - **Robots never give up** It's always painful when your robot code crashes in a competition and you lose control of your robot. Although it's always best to write safe code, our scheduler wrapper keeps commands running even after an exception is thrown.

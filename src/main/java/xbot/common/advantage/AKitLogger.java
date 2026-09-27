@@ -10,7 +10,7 @@ import org.wpilib.util.protobuf.Protobuf;
 import org.wpilib.util.struct.Struct;
 import org.wpilib.util.struct.StructSerializable;
 
-import xbot.common.properties.IPropertySupport;
+import xbot.common.properties.TunablePrefixProvider;
 
 /**
  * AKitLogger is a wrapper around the AdvantageKit Logger that adds some extra functionality, such as log levels and prefixes.
@@ -42,7 +42,7 @@ public class AKitLogger {
         this.prefix = prefix;
     }
 
-    public AKitLogger(IPropertySupport parent) {
+    public AKitLogger(TunablePrefixProvider parent) {
         this(parent.getPrefix());
     }
 

@@ -1,5 +1,5 @@
 package xbot.common.properties;
 
-public interface IPropertySupport {
+public interface TunablePrefixProvider {
     public String getPrefix();
 }

@@ -28,7 +28,7 @@ public class TunableSkippingNT4PublisherTest {
     }
 
     @Test
-    public void nonPropertyKeysAreForwarded() throws InterruptedException {
+    public void nonTunableKeysAreForwarded() throws InterruptedException {
         LogTable input = new LogTable(123L);
         input.put("RealOutputs/Drive/Pose", 3.14);
         input.put("SystemStats/BatteryVoltage", 12.4);
@@ -43,7 +43,7 @@ public class TunableSkippingNT4PublisherTest {
     }
 
     @Test
-    public void propertyNamespacedKeysAreDropped() throws InterruptedException {
+    public void tunableNamespacedKeysAreDropped() throws InterruptedException {
         LogTable input = new LogTable(1L);
         input.put(TunableManager.AKIT_LOG_NAMESPACE + "ShooterSubsystem/VoltageRampTime", 0.2);
         input.put(TunableManager.AKIT_LOG_NAMESPACE + "DriveSubsystem/MaxSpeed", 4.0);
@@ -57,7 +57,7 @@ public class TunableSkippingNT4PublisherTest {
     }
 
     @Test
-    public void mixOfPropertyAndNonPropertyKeysIsHandled() throws InterruptedException {
+    public void mixOfTunableAndNonTunableKeysIsHandled() throws InterruptedException {
         LogTable input = new LogTable(7L);
         input.put("RealOutputs/Shooter/RPM", 6000.0);
         input.put(TunableManager.AKIT_LOG_NAMESPACE + "Shooter/VoltageRampTime", 0.2);
@@ -112,7 +112,7 @@ public class TunableSkippingNT4PublisherTest {
 
     @Test
     public void keyThatMerelyContainsTheNamespaceIsNotDropped() throws InterruptedException {
-        // A key like /RealOutputs/PropertyMirror/Foo happens to contain "PropertyMirror/" but
+        // A key like /RealOutputs/TunableMirror/Foo happens to contain the namespace but
         // isn't under the namespace — it must still be forwarded.
         LogTable input = new LogTable(1L);
         input.put("RealOutputs/" + TunableManager.AKIT_LOG_NAMESPACE + "Foo", 1.0);

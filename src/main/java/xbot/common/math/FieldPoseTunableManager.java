@@ -9,21 +9,21 @@ import dagger.assisted.AssistedInject;
 
 import xbot.common.properties.TunableFactory;
 
-public class FieldPosePropertyManager {
+public class FieldPoseTunableManager {
 
     private final TunableDouble xTunable;
     private final TunableDouble yTunable;
     private final TunableDouble headingTunable;
 
     @AssistedFactory
-    public abstract static class FieldPosePropertyManagerFactory {
-        public abstract FieldPosePropertyManager create(
+    public abstract static class FieldPoseTunableManagerFactory {
+        public abstract FieldPoseTunableManager create(
                 @Assisted("poseName") String poseName,
                 @Assisted("x") double x,
                 @Assisted("y") double y,
                 @Assisted("heading") double heading);
 
-        public FieldPosePropertyManager create(
+        public FieldPoseTunableManager create(
                 String poseName,
                 FieldPose fieldPose) {
             return create(poseName, fieldPose.getPoint().x, fieldPose.getPoint().y, fieldPose.getHeading().getDegrees());
@@ -31,7 +31,7 @@ public class FieldPosePropertyManager {
     }
 
     @AssistedInject
-    public FieldPosePropertyManager(
+    public FieldPoseTunableManager(
             @Assisted("poseName") String poseName,
             @Assisted("x") double x,
             @Assisted("y") double y,

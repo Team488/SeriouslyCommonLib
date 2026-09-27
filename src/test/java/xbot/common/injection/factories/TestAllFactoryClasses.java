@@ -23,7 +23,7 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
     @Test
     public void makeOneOfEverything() {
         getInjectorComponent().pidFactory().create("pid");
-        getInjectorComponent().pidPropertyManagerFactory().create("pidProperties", 0, 0, 0, 0);
+        getInjectorComponent().pidTunableManagerFactory().create("pidTunables", 0, 0, 0, 0);
         getInjectorComponent().powerDistributionPanelFactory().create();
         getInjectorComponent().encoderFactory().create("foo", 1, 2, 1, "TestPrefix");
         getInjectorComponent().digitalInputFactory().create(new DeviceInfo("foo", 5, null), "TestPrefix");
@@ -55,7 +55,7 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().velocityThrottleModuleFactory().create("velocityThrottleThing", pf.create("velocity", 1, 0, 0));
         getInjectorComponent().compressorFactory().create();
         getInjectorComponent().pwmFactory().create(3);
-        getInjectorComponent().fieldPosePropertyManagerFactory().create("testo", 1, 2, 3);
+        getInjectorComponent().fieldPoseTunableManagerFactory().create("testo", 1, 2, 3);
         getInjectorComponent().zeromqListenerFactory().create("testo", "testo");
         getInjectorComponent().chordButtonFactory().create(
             getInjectorComponent().joystickButtonFactory().create(j, 2),

@@ -1,7 +1,7 @@
 /**
  * Tunable configuration values backed by WPILib Tunables.
  *<p>
- * In general, any property on the robot is for one specific purpose: Configuration. These values are written
+ * In general, any tunable on the robot is for one specific purpose: configuration. These values are written
  * infrequently, but often read constantly. Typical use cases would be for PID constants, subsystem limits,
  * thresholds, durations, and similar scenarios.
  *<p>

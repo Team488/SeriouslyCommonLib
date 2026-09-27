@@ -37,7 +37,7 @@ public class TunableFactory {
         prefixSet = true;
     }
 
-    public void setPrefix(IPropertySupport prefixSource) {
+    public void setPrefix(TunablePrefixProvider prefixSource) {
         setPrefix(prefixSource.getPrefix());
     }
 

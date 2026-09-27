@@ -28,8 +28,8 @@ import xbot.common.logging.RobotAssertionManager;
 @Singleton
 public class TunableManager implements DataFrameRefreshable {
     public static final String IN_MEMORY_PERSISTENCE_NAME = "InMemoryTunablePersistence";
-    public static final String SHOW_DEBUG_KEY = "Properties/ShowDebugProperties";
-    public static final String AKIT_LOG_NAMESPACE = "PropertyMirror/";
+    public static final String SHOW_DEBUG_KEY = "Tunables/ShowDebugTunables";
+    public static final String AKIT_LOG_NAMESPACE = "TunableMirror/";
 
     private static final org.apache.logging.log4j.Logger log =
             LogManager.getLogger(TunableManager.class);
@@ -40,7 +40,7 @@ public class TunableManager implements DataFrameRefreshable {
     private final boolean replay;
     private final List<ManagedTunableBinding> bindings = new ArrayList<>();
     private final Map<String, ManagedTunableBinding> bindingsByKey = new HashMap<>();
-    private final TunableBoolean showDebugProperties;
+    private final TunableBoolean showDebugTunables;
 
     @Inject
     public TunableManager(
@@ -68,15 +68,15 @@ public class TunableManager implements DataFrameRefreshable {
                 persistentStorage,
                 this::applyDebugPublication);
         register(showDebugBinding);
-        this.showDebugProperties = showDebugBinding.tunable();
+        this.showDebugTunables = showDebugBinding.tunable();
     }
 
     public boolean isReplay() {
         return replay;
     }
 
-    public TunableBoolean getShowDebugProperties() {
-        return showDebugProperties;
+    public TunableBoolean getShowDebugTunables() {
+        return showDebugTunables;
     }
 
     TunableDouble createDouble(String key, double defaultValue, TunableLevel level) {
@@ -141,7 +141,7 @@ public class TunableManager implements DataFrameRefreshable {
         }
         bindingsByKey.put(binding.key(), binding);
         bindings.add(binding);
-        if (binding.level() == TunableLevel.Important || showDebugProperties.get()) {
+        if (binding.level() == TunableLevel.Important || showDebugTunables.get()) {
             publish(binding);
         }
     }
@@ -160,7 +160,7 @@ public class TunableManager implements DataFrameRefreshable {
     }
 
     private void applyDebugPublication() {
-        boolean shouldPublish = !replay && showDebugProperties.get();
+        boolean shouldPublish = !replay && showDebugTunables.get();
         for (ManagedTunableBinding binding : bindings) {
             if (binding.level() != TunableLevel.Debug) {
                 continue;

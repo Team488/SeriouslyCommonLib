@@ -11,7 +11,7 @@ import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.TunableFactory;
 import xbot.common.properties.TunableLevel;
 
-public class PIDPropertyManager {
+public class PIDTunableManager {
 
     private final TunableDouble pTunable;
     private final TunableDouble iTunable;
@@ -30,9 +30,9 @@ public class PIDPropertyManager {
     private final RobotAssertionManager assertionManager;
 
     @AssistedFactory
-    public abstract static class PIDPropertyManagerFactory {
+    public abstract static class PIDTunableManagerFactory {
 
-            public abstract PIDPropertyManager create(
+            public abstract PIDTunableManager create(
                             String functionName,
                             @Assisted("defaultP") double defaultP,
                             @Assisted("defaultI") double defaultI,
@@ -43,7 +43,7 @@ public class PIDPropertyManager {
                             @Assisted("timeThreshold") double timeThreshold,
                             @Assisted("iZone") double defaultIZone);
 
-            public PIDPropertyManager create(
+            public PIDTunableManager create(
                             String functionName,
                             double defaultP,
                             double defaultI,
@@ -56,7 +56,7 @@ public class PIDPropertyManager {
                                     timeThreshold, -1);
             }
 
-            public PIDPropertyManager create(
+            public PIDTunableManager create(
                             String functionName,
                             double defaultP,
                             double defaultI,
@@ -67,7 +67,7 @@ public class PIDPropertyManager {
     }
 
     @AssistedInject
-    public PIDPropertyManager(
+    public PIDTunableManager(
             @Assisted String functionName,
             TunableFactory tunableFactory,
             RobotAssertionManager assertionManager,

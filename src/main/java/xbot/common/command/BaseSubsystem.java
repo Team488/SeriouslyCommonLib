@@ -6,9 +6,9 @@ import org.apache.logging.log4j.Logger;
 import org.wpilib.command2.SubsystemBase;
 
 import xbot.common.advantage.AKitLogger;
-import xbot.common.properties.IPropertySupport;
+import xbot.common.properties.TunablePrefixProvider;
 
-public abstract class BaseSubsystem extends SubsystemBase implements IPropertySupport {
+public abstract class BaseSubsystem extends SubsystemBase implements TunablePrefixProvider {
 
     protected final Logger log;
     protected final AKitLogger aKitLog;
