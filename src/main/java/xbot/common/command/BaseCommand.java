@@ -88,14 +88,4 @@ public abstract class BaseCommand extends Command implements AutoCloseable, IPro
         }
     }
 
-    /**
-     * @deprecated
-     * Suggest use {@link #addRequirements(org.wpilib.command2.Subsystem...)} instead.
-     * @param subsystem Requirement to add
-     */
-    @Deprecated
-    public void requires(BaseSubsystem subsystem) {
-        this.addRequirements(subsystem);
-    }
-
 }
