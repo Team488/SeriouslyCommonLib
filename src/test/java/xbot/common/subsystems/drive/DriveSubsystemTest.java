@@ -1,17 +1,19 @@
 package xbot.common.subsystems.drive;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.math.XYPair;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DriveSubsystemTest extends BaseCommonLibTest {
 
     MockDriveSubsystem drive;
 
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();

@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 
 import org.wpilib.tunable.MockTunableBackend;
 import org.wpilib.tunable.TunableRegistry;
@@ -18,7 +18,7 @@ import xbot.common.injection.components.DaggerSimulationComponent;
 import xbot.common.math.PIDManager.PIDManagerFactory;
 import xbot.common.properties.TunableFactory;
 
-@Ignore
+@Disabled
 public class BaseSimulationTest {
     public BaseComponent injectorComponent;
 
@@ -31,7 +31,7 @@ public class BaseSimulationTest {
 
     SimulationPayloadDistributor distributor;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         TunableRegistry.reset();
         tunableBackend = new MockTunableBackend();
@@ -47,7 +47,7 @@ public class BaseSimulationTest {
         distributor = injectorComponent.simulationPayloadDistributor();
     }
 
-    @After
+    @AfterEach
     public void tearDownTunables() {
         TunableRegistry.reset();
     }

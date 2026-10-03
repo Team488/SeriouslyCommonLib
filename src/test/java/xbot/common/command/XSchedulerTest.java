@@ -1,9 +1,9 @@
 package xbot.common.command;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.command2.CommandScheduler;
 import org.wpilib.util.AlertDataJNI;
@@ -11,18 +11,18 @@ import org.wpilib.util.AlertDataJNI.AlertInfo;
 
 import xbot.common.injection.BaseCommonLibTest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class XSchedulerTest extends BaseCommonLibTest {
 
-    @Before
+    @BeforeEach
     public void setUp() {
         super.setUp();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         XScheduler scheduler = getInjectorComponent().scheduler();
         scheduler.reset();
@@ -76,7 +76,7 @@ public class XSchedulerTest extends BaseCommonLibTest {
     }
 
     @Test
-    @Ignore("I can't make the scheduler crash - this needs more investigation later.")
+    @Disabled("I can't make the scheduler crash - this needs more investigation later.")
     public void testSchedulerCrashes() {
         BaseCommand crashingCommand = new CrashingInExecCommand();
         CommandScheduler.getInstance().schedule(crashingCommand);
@@ -96,7 +96,7 @@ public class XSchedulerTest extends BaseCommonLibTest {
             hitCrash = true;
         }
 
-        assertTrue("We should have crashed", hitCrash);
+        assertTrue(hitCrash, "We should have crashed");
     }
 
     private static int getSchedulerAlertCount() {

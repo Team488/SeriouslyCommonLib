@@ -4,20 +4,22 @@ import java.math.BigDecimal;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.mock_adapters.MockEncoder;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Ignore
+@Disabled
 public class SimulationPayloadDistributorTest extends BaseSimulationTest {
 
     MockEncoder encoder;
     XTimerImpl timer;
 
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();

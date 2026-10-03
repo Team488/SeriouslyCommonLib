@@ -1,16 +1,18 @@
 package xbot.common.logic;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.logic.StallDetector.StallState;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StallDetectorTest extends BaseCommonLibTest {
     
     StallDetector stallDetector;
 
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();

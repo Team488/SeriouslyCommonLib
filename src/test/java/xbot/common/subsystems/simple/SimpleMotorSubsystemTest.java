@@ -1,19 +1,19 @@
 package xbot.common.subsystems.simple;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.command2.Command;
 
 import xbot.common.injection.BaseCommonLibTest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class SimpleMotorSubsystemTest extends BaseCommonLibTest {
     private MockSimpleMotorSubsystem subsystem;
 
-    @Before
+    @BeforeEach
     public void setup() {
         this.subsystem = this.getInjectorComponent().mockSimpleMotorSubsystem();
     }

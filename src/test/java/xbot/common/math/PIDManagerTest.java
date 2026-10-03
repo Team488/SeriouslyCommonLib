@@ -1,7 +1,7 @@
 package xbot.common.math;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.injection.BaseCommonLibTest;
@@ -9,16 +9,17 @@ import xbot.common.logging.RobotAssertionException;
 import xbot.common.math.PID.OffTargetReason;
 import xbot.common.math.PIDManager.PIDManagerFactory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PIDManagerTest extends BaseCommonLibTest {
 
     PIDManagerFactory factory;
     MockTimer mockTimer;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         super.setUp();
         factory = getInjectorComponent().pidFactory();
@@ -114,11 +115,11 @@ public class PIDManagerTest extends BaseCommonLibTest {
         assertFalse(manager.isOnTarget());
     }
 
-    @Test(expected=RobotAssertionException.class)
+    @Test
     public void testAttemptNegativeThreshold() {
         PIDManager manager = factory.create("test", 1, 0, 0, 0, 0.5, -0.25, 1, 1, -1);
 
-        manager.setErrorThreshold(-10);
+        assertThrows(RobotAssertionException.class, () -> manager.setErrorThreshold(-10));
     }
 
     @Test

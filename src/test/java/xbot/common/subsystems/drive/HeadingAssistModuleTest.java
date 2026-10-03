@@ -1,6 +1,7 @@
 package xbot.common.subsystems.drive;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
@@ -13,7 +14,7 @@ import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.MockBasePoseSubsystem;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.wpilib.units.Units.Degrees;
 
 public class HeadingAssistModuleTest extends BaseCommonLibTest {
@@ -21,6 +22,7 @@ public class HeadingAssistModuleTest extends BaseCommonLibTest {
     HeadingAssistModule ham;
     BasePoseSubsystem pose;
 
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();

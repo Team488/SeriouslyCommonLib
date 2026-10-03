@@ -1,8 +1,8 @@
 package xbot.common.properties;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.tunable.MockTunableBackend;
 import org.wpilib.tunable.TunableDouble;
@@ -12,8 +12,8 @@ import org.wpilib.units.measure.Distance;
 
 import xbot.common.logging.LoudRobotAssertionManager;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.wpilib.units.Units.Degrees;
 import static org.wpilib.units.Units.Inches;
 import static org.wpilib.units.Units.Meters;
@@ -22,7 +22,7 @@ public class TunableFactoryTest {
     private TunableFactory tunableFactory;
     private MockTunableBackend tunableBackend;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         TunableRegistry.reset();
         tunableBackend = new MockTunableBackend();
@@ -35,7 +35,7 @@ public class TunableFactoryTest {
         tunableFactory = new TunableFactory(manager, new LoudRobotAssertionManager());
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         TunableRegistry.reset();
     }

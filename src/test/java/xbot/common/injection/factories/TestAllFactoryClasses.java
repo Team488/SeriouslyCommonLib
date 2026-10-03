@@ -1,6 +1,6 @@
 package xbot.common.injection.factories;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.driverstation.POVDirection;
 
@@ -16,7 +16,7 @@ import xbot.common.injection.electrical_contract.MotorControllerType;
 import xbot.common.logging.RobotAssertionException;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TestAllFactoryClasses extends BaseCommonLibTest {
 
@@ -78,10 +78,10 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
 
     }
 
-    @Test(expected = RobotAssertionException.class)
+    @Test
     public void doubleAllocate() {
         getInjectorComponent().canCoderFactory().create(new DeviceInfo("", 1, null), "");
-        getInjectorComponent().canCoderFactory().create(new DeviceInfo("", 1, null), "");
-        fail("You shouldn't be able to double-allocate!");
+        assertThrows(RobotAssertionException.class,
+                () -> getInjectorComponent().canCoderFactory().create(new DeviceInfo("", 1, null), ""));
     }
 }

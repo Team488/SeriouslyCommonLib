@@ -1,14 +1,14 @@
 package xbot.common.command;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.command2.CommandScheduler;
 
 import xbot.common.injection.BaseCommonLibTest;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SetpointSystemTest extends BaseCommonLibTest {
 
@@ -24,7 +24,7 @@ public class SetpointSystemTest extends BaseCommonLibTest {
     // This is also impacted by other tests, somehow - it works in isolation
     // but fails when other tests are running.
     @Test
-    @Ignore
+    @Disabled
     public void testSetpointCommandsCollide() {
         XScheduler xScheduler = getInjectorComponent().scheduler();
         xScheduler.cancelAll();
@@ -41,18 +41,18 @@ public class SetpointSystemTest extends BaseCommonLibTest {
         second.setRunsWhenDisabled(true);
         
         
-        assertFalse("First command is not running", first.isScheduled());
-        assertFalse("Second command is not running", second.isScheduled());
+        assertFalse(first.isScheduled(), "First command is not running");
+        assertFalse(second.isScheduled(), "Second command is not running");
         
         CommandScheduler.getInstance().schedule(first);
         xScheduler.run();
-        assertTrue("First command is running", first.isScheduled());
+        assertTrue(first.isScheduled(), "First command is running");
         
         CommandScheduler.getInstance().schedule(second);
         xScheduler.run();
         
-        assertTrue("Second command is running", second.isScheduled());
-        assertFalse("First command is no longer running", first.isScheduled());
+        assertTrue(second.isScheduled(), "Second command is running");
+        assertFalse(first.isScheduled(), "First command is no longer running");
     }
     
     

@@ -2,9 +2,11 @@ package xbot.common.logging;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SafeRobotAssertionTest extends BaseCommonLibTest {
 
@@ -17,11 +19,12 @@ public class SafeRobotAssertionTest extends BaseCommonLibTest {
         assertMan.throwException(new RuntimeException("Something really bad happened (...but robots never die)"));
     }
     
-    @Test(expected=RuntimeException.class)
+    @Test
     public void testExceptionThrownInTests() {
         RobotAssertionManager assertMan = new LoudRobotAssertionManager();
-        
-        assertMan.throwException(new RuntimeException("Something really bad happened (tests are free to die as necessary)"));
+
+        assertThrows(RuntimeException.class, () ->
+            assertMan.throwException(new RuntimeException("Something really bad happened (tests are free to die as necessary)")));
     }
     
     @Test
@@ -33,11 +36,11 @@ public class SafeRobotAssertionTest extends BaseCommonLibTest {
         log.info("Yet the world keeps turning");
     }
     
-    @Test(expected=RobotAssertionException.class)
+    @Test
     public void testAssertionFailedInTests() {
         RobotAssertionManager assertMan = new LoudRobotAssertionManager();
-        
-        assertMan.assertTrue(false, "false != true");
+
+        assertThrows(RobotAssertionException.class, () -> assertMan.assertTrue(false, "false != true"));
     }
     
     @Test()

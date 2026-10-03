@@ -1,21 +1,21 @@
 package xbot.common.subsystems.compressor;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.properties.TunableFactory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CompressorSubsystemTest extends BaseCommonLibTest  {
 
     private CompressorSubsystem compressorSubsystem;
 
-    @Before
+    @BeforeEach
     public void setup() {
         TunableFactory tunableFactory = getInjectorComponent().tunableFactory();
         compressorSubsystem = new CompressorSubsystem(getInjectorComponent().compressorFactory(), tunableFactory);

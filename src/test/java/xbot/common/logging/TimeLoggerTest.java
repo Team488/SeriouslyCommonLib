@@ -1,12 +1,15 @@
 package xbot.common.logging;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
 
 public class TimeLoggerTest extends BaseCommonLibTest {
 
     TimeLogger tl;
+    
+    @BeforeEach
     
     @Override
     public void setUp() {

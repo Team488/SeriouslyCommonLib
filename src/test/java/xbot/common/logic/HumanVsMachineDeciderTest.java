@@ -1,18 +1,20 @@
 package xbot.common.logic;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.simulation.DriverStationSim;
 
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class HumanVsMachineDeciderTest extends BaseCommonLibTest {
 
     HumanVsMachineDecider decider;
 
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();
@@ -21,19 +23,19 @@ public class HumanVsMachineDeciderTest extends BaseCommonLibTest {
 
     @Test
     public void testStandardPath() {
-        assertSame("Start in coast while disabled", HumanVsMachineMode.Coast, decider.getRecommendedMode(0));
+        assertSame(HumanVsMachineMode.Coast, decider.getRecommendedMode(0), "Start in coast while disabled");
 
         DriverStationSim.setEnabled(true);
         DriverStationSim.notifyNewData();
 
-        assertSame("Start in initialize machine control", HumanVsMachineMode.InitializeMachineControl, decider.getRecommendedMode(0));
-        assertSame("Machine Control", HumanVsMachineMode.MachineControl, decider.getRecommendedMode(0));
+        assertSame(HumanVsMachineMode.InitializeMachineControl, decider.getRecommendedMode(0), "Start in initialize machine control");
+        assertSame(HumanVsMachineMode.MachineControl, decider.getRecommendedMode(0), "Machine Control");
 
-        assertSame("Human input brings us back out", HumanVsMachineMode.HumanControl, decider.getRecommendedMode(1));
+        assertSame(HumanVsMachineMode.HumanControl, decider.getRecommendedMode(1), "Human input brings us back out");
         timer.advanceTimeInSecondsBy(0.01);
-        assertSame("Then we coast", HumanVsMachineMode.Coast, decider.getRecommendedMode(0.01));
+        assertSame(HumanVsMachineMode.Coast, decider.getRecommendedMode(0.01), "Then we coast");
         timer.advanceTimeInSecondsBy(1);
-        assertSame("Advance to initialize", HumanVsMachineMode.InitializeMachineControl, decider.getRecommendedMode(0));
-        assertSame("Machine Control", HumanVsMachineMode.MachineControl, decider.getRecommendedMode(0));
+        assertSame(HumanVsMachineMode.InitializeMachineControl, decider.getRecommendedMode(0), "Advance to initialize");
+        assertSame(HumanVsMachineMode.MachineControl, decider.getRecommendedMode(0), "Machine Control");
     }
 }

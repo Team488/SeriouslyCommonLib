@@ -4,7 +4,8 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.kinematics.SwerveModuleVelocity;
@@ -20,16 +21,17 @@ import xbot.common.math.XYPair;
 import xbot.common.subsystems.drive.swerve.SwerveModuleStates;
 import xbot.common.subsystems.drive.swerve.SwerveModuleSubsystem;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.wpilib.units.Units.MetersPerSecond;
 import static org.wpilib.units.Units.RotationsPerSecond;
 
 public class BaseSwerveDriveSubsystemTest extends BaseCommonLibTest {
     BaseSwerveDriveSubsystem subsystem;
 
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();

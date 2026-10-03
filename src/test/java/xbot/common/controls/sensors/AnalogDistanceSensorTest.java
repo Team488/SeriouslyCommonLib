@@ -1,7 +1,7 @@
 package xbot.common.controls.sensors;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
 
@@ -9,7 +9,7 @@ public class AnalogDistanceSensorTest extends BaseCommonLibTest {
 
     AnalogDistanceSensor sensor;
 
-    @Before
+    @BeforeEach
     public void setup() {
         //sensor = (AnalogDistanceSensor)clf.createAnalogDistanceSensor(0, AnalogDistanceSensor.VoltageMaps::sharp0A51SK, "Test");
     }

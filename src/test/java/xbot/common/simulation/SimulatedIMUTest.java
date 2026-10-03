@@ -3,8 +3,9 @@ package xbot.common.simulation;
 import java.math.BigDecimal;
 
 import org.json.JSONObject;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.hardware.imu.OnboardIMU.MountOrientation;
 
@@ -13,15 +14,16 @@ import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.injection.electrical_contract.IMUInfo;
 import xbot.common.injection.electrical_contract.PowerSource;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.wpilib.units.Units.Degrees;
 import static org.wpilib.units.Units.DegreesPerSecond;
 
-@Ignore
+@Disabled
 public class SimulatedIMUTest extends BaseSimulationTest {
 
     MockGyro simulatedGyro;
 
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();

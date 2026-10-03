@@ -1,11 +1,11 @@
 package xbot.common.logic;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WatchdogTimerTest extends BaseCommonLibTest {
 
@@ -13,7 +13,7 @@ public class WatchdogTimerTest extends BaseCommonLibTest {
     int upCount;
     int downCount;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         super.setUp();
         upCount = 0;

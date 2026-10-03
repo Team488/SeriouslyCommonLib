@@ -1,19 +1,21 @@
 package xbot.common.simulation;
 
 import org.json.JSONObject;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.controls.actuators.mock_adapters.MockSolenoid;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Ignore
+@Disabled
 public class SimulatedSolenoidTest extends BaseSimulationTest {
 
     MockSolenoid mockSolenoid;
     final int channel = 1;
 
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();

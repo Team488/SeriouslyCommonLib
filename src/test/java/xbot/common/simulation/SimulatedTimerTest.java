@@ -3,18 +3,20 @@ package xbot.common.simulation;
 import java.math.BigDecimal;
 
 import org.json.JSONObject;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Ignore
+@Disabled
 public class SimulatedTimerTest extends BaseSimulationTest {
 
     MockTimer simulatedTimer;
 
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();
