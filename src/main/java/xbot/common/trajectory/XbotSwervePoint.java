@@ -7,7 +7,6 @@ import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
 
 import xbot.common.subsystems.drive.SwervePointKinematics;
-import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 public class XbotSwervePoint implements ProvidesInterpolationData {
 
@@ -70,17 +69,4 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
     public Rotation2d getRotation2d() {
         return keyPose.getRotation();
     }
-
-    public static XbotSwervePoint createPotentiallyFilppedXbotSwervePoint(
-            Translation2d targetLocation, Rotation2d targetHeading, double durationInSeconds) {
-        var potentiallyFlippedPose = BasePoseSubsystem.convertBlueToRedIfNeeded(new Pose2d(targetLocation, targetHeading));
-        return new XbotSwervePoint(potentiallyFlippedPose, durationInSeconds);
-    }
-
-    public static XbotSwervePoint createPotentiallyFilppedXbotSwervePoint(
-            Pose2d pose, double durationInSeconds) {
-        var potentiallyFlippedPose = BasePoseSubsystem.convertBlueToRedIfNeeded(pose);
-        return new XbotSwervePoint(potentiallyFlippedPose, durationInSeconds);
-    }
-
 }
