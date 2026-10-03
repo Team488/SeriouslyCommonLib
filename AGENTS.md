@@ -25,7 +25,7 @@ SeriouslyCommonLib/
 ├── build.gradle                     # Gradle build (GradleRIO + Dagger + Checkstyle)
 ├── xbotcheckstyle.xml               # Checkstyle ruleset
 ├── checkstyle_suppressions.xml      # Checkstyle suppressions
-├── azure-pipelines.yml              # CI/CD (builds on main branch and PRs to main)
+├── .github/workflows/build.yml        # CI/CD (builds on main branch and PRs to main)
 └── vendordeps/                      # WPILib vendor dependency JSON files
 ```
 
@@ -68,7 +68,8 @@ All commands use the Gradle wrapper from the repository root.
 ./gradlew --stop
 ```
 
-> **Note:** The CI pipeline runs `./gradlew build --stacktrace --info` on every PR targeting
+> **Note:** The CI pipeline (GitHub Actions, `.github/workflows/build.yml`) runs
+> `./gradlew build --build-cache --parallel --stacktrace` on every PR targeting
 > `main` and on every push to `main`. Always ensure `./gradlew build` passes before finalizing
 > a change.
 
