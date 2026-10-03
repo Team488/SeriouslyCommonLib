@@ -64,6 +64,13 @@ public abstract class BaseRobot extends LoggedRobot {
         super(loopInterval);
     }
 
+    /** Initializes SCL before AdvantageKit starts simulation and the robot loop. */
+    @Override
+    public void startCompetition() {
+        robotInit();
+        super.startCompetition();
+    }
+
     /**
      * Override if you need a different module
      */
