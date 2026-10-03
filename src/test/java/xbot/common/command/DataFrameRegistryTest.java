@@ -1,10 +1,10 @@
 package xbot.common.command;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import xbot.common.advantage.DataFrameRefreshable;
 

@@ -1,5 +1,7 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import java.util.function.Supplier;
+
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
@@ -17,20 +19,23 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import org.apache.logging.log4j.LogManager;
+
+import org.wpilib.units.AngularAccelerationUnit;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularAcceleration;
+import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.Current;
+import org.wpilib.units.measure.Frequency;
+import org.wpilib.units.measure.Time;
+import org.wpilib.units.measure.Velocity;
+import org.wpilib.units.measure.Voltage;
+import org.wpilib.util.Alert;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.units.AngularAccelerationUnit;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularAcceleration;
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Current;
-import edu.wpi.first.units.measure.Frequency;
-import edu.wpi.first.units.measure.Time;
-import edu.wpi.first.units.measure.Velocity;
-import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj.Alert;
-import org.apache.logging.log4j.LogManager;
+
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
@@ -41,10 +46,8 @@ import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.injection.electrical_contract.TalonFxMotorControllerOutputConfig;
 import xbot.common.logging.AlertGroups;
 import xbot.common.properties.PowerDistributionProperties;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 import xbot.common.resiliency.DeviceHealth;
-
-import java.util.function.Supplier;
 
 public class CANTalonFxWpiAdapter extends XCANMotorController {
 
@@ -53,7 +56,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         public abstract CANTalonFxWpiAdapter create(
                 @Assisted("info") CANMotorControllerInfo info,
                 @Assisted("owningSystemPrefix") String owningSystemPrefix,
-                @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
+                @Assisted("pidTunablePrefix") String pidTunablePrefix,
                 @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties);
     }
 
@@ -75,14 +78,14 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
     public CANTalonFxWpiAdapter(
             @Assisted("info") CANMotorControllerInfo info,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            PropertyFactory propertyFactory,
+            TunableFactory tunableFactory,
             DevicePolice police,
-            @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
+            @Assisted("pidTunablePrefix") String pidTunablePrefix,
             @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties,
             DataFrameRegistry dataFrameRegistry,
             PowerDistributionProperties pdProperties
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
+        super(info, owningSystemPrefix, tunableFactory, police, pidTunablePrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
         this.internalTalonFx = new TalonFX(info.deviceId(), info.busId().toPhoenixCANBus());
 
         this.rotorPositionSignal = this.internalTalonFx.getRotorPosition(false);
@@ -91,14 +94,14 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
         this.statorCurrentSignal = this.internalTalonFx.getStatorCurrent(false);
         this.talonConfiguration = new TalonFXConfiguration();
 
-        this.unsupportedPIDModeAlert = new Alert("Tried to use an unsupported PID mode", Alert.AlertType.kWarning);
+        this.unsupportedPIDModeAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Tried to use an unsupported PID mode", Alert.Level.MEDIUM);
         this.notOnlineDuringConfigAlert = new Alert(AlertGroups.DEVICE_HEALTH, "TalonFX " + info.deviceId()
                 + " (" + info.name() + ") is not online and cannot be configured",
-                Alert.AlertType.kError);
+                Alert.Level.HIGH);
         this.configCacheFailedAlert = new Alert(AlertGroups.DEVICE_HEALTH, "Failed to cache configuration for TalonFX " + info.deviceId()
                 + " (" + info.name() + ")",
-                Alert.AlertType.kError);
-        this.lastCommandFailedAlert = new Alert(AlertGroups.DEVICE_HEALTH, "", Alert.AlertType.kError);
+                Alert.Level.HIGH);
+        this.lastCommandFailedAlert = new Alert(AlertGroups.DEVICE_HEALTH, "", Alert.Level.HIGH);
 
         waitForOnline();
         cacheConfiguration();
@@ -279,7 +282,7 @@ public class CANTalonFxWpiAdapter extends XCANMotorController {
 
     @Override
     public double getPower() {
-        return this.internalTalonFx.get();
+        return this.internalTalonFx.getThrottle();
     }
 
     @Override

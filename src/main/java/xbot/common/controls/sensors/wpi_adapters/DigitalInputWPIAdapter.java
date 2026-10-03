@@ -1,10 +1,11 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
+import org.wpilib.hardware.discrete.DigitalInput;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XDigitalInputs;
 import xbot.common.controls.sensors.XDigitalInput;

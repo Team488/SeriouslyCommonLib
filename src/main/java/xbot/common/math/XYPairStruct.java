@@ -1,8 +1,8 @@
 package xbot.common.math;
 
-import edu.wpi.first.util.struct.Struct;
-
 import java.nio.ByteBuffer;
+
+import org.wpilib.util.struct.Struct;
 
 public class XYPairStruct implements Struct<XYPair> {
     @Override
@@ -17,7 +17,7 @@ public class XYPairStruct implements Struct<XYPair> {
 
     @Override
     public int getSize() {
-        return kSizeDouble * 2;
+        return Struct.DOUBLE_SIZE * 2;
     }
 
     @Override

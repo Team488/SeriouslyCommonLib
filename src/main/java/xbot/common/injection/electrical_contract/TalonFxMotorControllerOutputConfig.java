@@ -1,10 +1,10 @@
 package xbot.common.injection.electrical_contract;
 
-import edu.wpi.first.units.measure.Current;
-import edu.wpi.first.units.measure.Time;
+import org.wpilib.units.measure.Current;
+import org.wpilib.units.measure.Time;
 
-import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.Seconds;
+import static org.wpilib.units.Units.Amps;
+import static org.wpilib.units.Units.Seconds;
 
 /**
  * Configuration class for Talon FX motor controllers.

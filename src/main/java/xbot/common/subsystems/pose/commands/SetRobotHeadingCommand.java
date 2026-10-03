@@ -1,11 +1,11 @@
 package xbot.common.subsystems.pose.commands;
 
+import java.util.function.DoubleSupplier;
+
 import javax.inject.Inject;
 
 import xbot.common.command.BaseCommand;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
-
-import java.util.function.DoubleSupplier;
 
 public class SetRobotHeadingCommand extends BaseCommand {
 

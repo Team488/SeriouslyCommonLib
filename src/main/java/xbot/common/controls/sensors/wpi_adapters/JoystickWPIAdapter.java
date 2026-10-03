@@ -1,5 +1,13 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
+import org.wpilib.driverstation.GenericHID;
+import org.wpilib.driverstation.Joystick;
+import org.wpilib.driverstation.POVDirection;
+
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
+
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
@@ -7,16 +15,9 @@ import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButt
 import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 
-import dagger.assisted.Assisted;
-import dagger.assisted.AssistedFactory;
-import dagger.assisted.AssistedInject;
-
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
-
 public class JoystickWPIAdapter extends XJoystick {
     
-    private GenericHID internalHID;
+    private Joystick internalHID;
     
     @AssistedFactory
     public abstract static class JoystickWPIAdapterFactory implements XJoystickFactory {
@@ -55,12 +56,12 @@ public class JoystickWPIAdapter extends XJoystick {
     }
 
     @Override
-    public int getPOV() {
+    public POVDirection getPOV() {
         return this.internalHID.getPOV();
     }
 
     @Override
-    public GenericHID getGenericHID() {
-        return internalHID;
+    public GenericHID getHID() {
+        return internalHID.getHID();
     }
 }

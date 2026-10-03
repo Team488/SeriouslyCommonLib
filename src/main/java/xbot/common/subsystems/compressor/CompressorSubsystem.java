@@ -3,14 +3,13 @@ package xbot.common.subsystems.compressor;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import org.littletonrobotics.junction.Logger;
+import org.wpilib.command2.Command;
+
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.NamedRunCommand;
 import xbot.common.controls.actuators.XCompressor;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
-import xbot.common.properties.BooleanProperty;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 /**
  * Subsystem for managing compressor state.
@@ -22,11 +21,11 @@ public class CompressorSubsystem extends BaseSubsystem {
     /**
      * Create a new CompressorSubsystem.
      * @param compressorFactory The compressor factory.
-     * @param pf The property factory.
+     * @param tunableFactory The tunable factory.
      */
     @Inject
-    public CompressorSubsystem(XCompressorFactory compressorFactory, PropertyFactory pf) {
-        pf.setPrefix("CompressorSubsystem");
+    public CompressorSubsystem(XCompressorFactory compressorFactory, TunableFactory tunableFactory) {
+        tunableFactory.setPrefix("CompressorSubsystem");
         this.compressor = compressorFactory.create();
         this.register();
     }

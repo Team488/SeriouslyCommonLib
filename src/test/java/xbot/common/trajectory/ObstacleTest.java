@@ -1,14 +1,14 @@
 package xbot.common.trajectory;
 
+import org.junit.Test;
+
+import org.wpilib.math.geometry.Translation2d;
+
+import xbot.common.injection.BaseCommonLibTest;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import edu.wpi.first.math.geometry.Translation2d;
-import org.junit.Test;
-
-import xbot.common.injection.BaseCommonLibTest;
-import xbot.common.math.XYPair;
 
 public class ObstacleTest extends BaseCommonLibTest {
 

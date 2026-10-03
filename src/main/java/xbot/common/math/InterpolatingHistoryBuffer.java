@@ -1,10 +1,10 @@
-package xbot.common.math;
-
 /*
  *******************************************************************************************
  * Copyright (C) 2017 FRC Team 1736 Robot Casserole - www.robotcasserole.org
  *******************************************************************************************
 */
+
+package xbot.common.math;
 
 import java.util.Arrays;
 

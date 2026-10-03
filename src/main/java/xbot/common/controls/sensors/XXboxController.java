@@ -1,14 +1,20 @@
 package xbot.common.controls.sensors;
 
-import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.Objects;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import xbot.common.controls.sensors.buttons.AdvancedXboxAxisTrigger;
-import xbot.common.controls.sensors.buttons.AdvancedXboxButtonTrigger;
+import org.wpilib.driverstation.Alliance;
+import org.wpilib.driverstation.MatchState;
+import org.wpilib.driverstation.POVDirection;
+import org.wpilib.driverstation.XboxController.Axis;
+import org.wpilib.driverstation.XboxController.Button;
+import org.wpilib.math.geometry.Translation2d;
+
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
+import xbot.common.controls.sensors.buttons.AdvancedXboxAxisTrigger;
+import xbot.common.controls.sensors.buttons.AdvancedXboxButtonTrigger;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
@@ -18,10 +24,13 @@ import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
 
 public abstract class XXboxController extends XJoystick implements IRumbler, IGamepad {
 
-    protected final int port;
-    protected final RobotAssertionManager assertionManager;
+    private static final double DEFAULT_AXIS_BUTTON_THRESHOLD = 0.75;
 
-    public final HashMap<XboxButton, AdvancedXboxButtonTrigger> allocatedButtons;
+    protected final int port;
+
+    private final EnumMap<Button, AdvancedXboxButtonTrigger> allocatedButtons;
+    private final EnumMap<XboxAxisButton, AdvancedXboxAxisTrigger> allocatedAxisButtons;
+    private final EnumSet<Button> reservedButtons;
 
     protected boolean leftXInversion = false;
     protected boolean leftYInversion = false;
@@ -38,10 +47,12 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
             AdvancedPovButtonTriggerFactory advancedPovButtonFactory, AnalogHIDButtonTriggerFactory analogHidButtonFactory,
             XRumbleManagerFactory rumbleManagerFactory, RobotAssertionManager assertionManager,
             DevicePolice police) {
-        super(port, joystickButtonFactory, advancedPovButtonFactory, analogHidButtonFactory, assertionManager, 10, police);
+        super(port, joystickButtonFactory, advancedPovButtonFactory, analogHidButtonFactory, assertionManager, 0,
+                police);
         this.port = port;
-        this.assertionManager = assertionManager;
-        allocatedButtons = new HashMap<XboxButton, AdvancedXboxButtonTrigger>();
+        allocatedButtons = new EnumMap<>(Button.class);
+        allocatedAxisButtons = new EnumMap<>(XboxAxisButton.class);
+        reservedButtons = EnumSet.noneOf(Button.class);
         rumbleManager = rumbleManagerFactory.create(this);
     }
 
@@ -50,73 +61,134 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
         return rumbleManager;
     }
 
-    public enum XboxButton {
-        A(1), B(2), X(3), Y(4), LeftBumper(5), RightBumper(6), Back(7), Start(8), LeftStick(9), RightStick(10),
-        LeftTrigger(-1), RightTrigger(-1),
-        LeftJoystickYAxisPositive(-1), RightJoystickYAxisPositive(-1),
-        LeftJoystickYAxisNegative(-1, true), RightJoystickYAxisNegative(-1, true);
+    /**
+     * Xbox names for WPILib's typed, zero-based physical buttons.
+     */
+    public static final class XboxButton {
+        public static final Button A = Button.A;
+        public static final Button B = Button.B;
+        public static final Button X = Button.X;
+        public static final Button Y = Button.Y;
+        public static final Button View = Button.VIEW;
+        public static final Button Xbox = Button.XBOX;
+        public static final Button Menu = Button.MENU;
+        public static final Button LeftStick = Button.LEFT_STICK;
+        public static final Button RightStick = Button.RIGHT_STICK;
+        public static final Button LeftBumper = Button.LEFT_BUMPER;
+        public static final Button RightBumper = Button.RIGHT_BUMPER;
+        public static final Button DPadUp = Button.DPAD_UP;
+        public static final Button DPadDown = Button.DPAD_DOWN;
+        public static final Button DPadLeft = Button.DPAD_LEFT;
+        public static final Button DPadRight = Button.DPAD_RIGHT;
 
-        private int value;
-        private boolean usesNegativeRange = false;
-
-        private XboxButton(int value) {
-            this.value = value;
-            this.usesNegativeRange = false;
+        private XboxButton() {
         }
+    }
 
-        private XboxButton(int value, boolean usesNegativeRange) {
-            this.value = value;
+    public enum XboxAxisButton {
+        LeftTrigger(Axis.LEFT_TRIGGER, false),
+        RightTrigger(Axis.RIGHT_TRIGGER, false),
+        LeftJoystickYAxisPositive(Axis.LEFT_Y, false),
+        RightJoystickYAxisPositive(Axis.RIGHT_Y, false),
+        LeftJoystickYAxisNegative(Axis.LEFT_Y, true),
+        RightJoystickYAxisNegative(Axis.RIGHT_Y, true);
+
+        private final Axis axis;
+        private final boolean usesNegativeRange;
+
+        XboxAxisButton(Axis axis, boolean usesNegativeRange) {
+            this.axis = axis;
             this.usesNegativeRange = usesNegativeRange;
         }
 
-        public int getValue() {
-            return value;
+        public Axis getAxis() {
+            return axis;
         }
 
-        public boolean getUsesNegativeRange() {
+        public boolean usesNegativeRange() {
             return usesNegativeRange;
         }
     }
 
-    public AdvancedXboxButtonTrigger getifAvailable(XboxButton buttonName) {
-        if (!allocatedButtons.containsKey(buttonName)) {
-            // If we're trying to use the triggers as buttons, then we need to do some extra
-            // work.
-            if (buttonName.value == -1) {
-                AdvancedXboxAxisTrigger candidate = new AdvancedXboxAxisTrigger(this, buttonName, 0.75);
-                allocatedButtons.put(buttonName, candidate);
-            } else {
-                AdvancedXboxButtonTrigger candidate = new AdvancedXboxButtonTrigger(this, buttonName);
-                allocatedButtons.put(buttonName, candidate);
+    public AdvancedXboxButtonTrigger getXboxButtonIfAvailable(Button button) {
+        Objects.requireNonNull(button, "button");
 
-                // Also reserve the "simple" button
-                this.getifAvailable(buttonName.value);
-            }
-        } else {
-            // button already used!
-            assertionManager.assertTrue(false, "Button " + buttonName + " has already been allocated!");
+        if (allocatedButtons.containsKey(button) || reservedButtons.contains(button)) {
+            throw new IllegalStateException("Xbox button " + button + " has already been allocated!");
         }
 
-        return allocatedButtons.get(buttonName);
+        POVDirection[] directions = getPovDirections(button);
+        if (directions.length > 0) {
+            assertPovDirectionsAvailable(directions);
+        }
+
+        AdvancedXboxButtonTrigger candidate = new AdvancedXboxButtonTrigger(this, button);
+        allocatedButtons.put(button, candidate);
+        return candidate;
     }
 
-    public AdvancedXboxButtonTrigger getXboxButton(XboxButton buttonName) {
-
-        if (!allocatedButtons.containsKey(buttonName)) {
-            // key does not exist. Create button!
-            AdvancedXboxButtonTrigger candidate;
-
-            // If it's a trigger button, create it in a different way
-            if (buttonName.value == -1) {
-                candidate = new AdvancedXboxAxisTrigger(this, buttonName, 0.75);
-            } else {
-                candidate = new AdvancedXboxButtonTrigger(this, buttonName);
+    @Override
+    protected void onPovAllocated(POVDirection direction) {
+        EnumSet<Button> buttons = getXboxButtons(direction);
+        for (Button button : buttons) {
+            if (allocatedButtons.containsKey(button)) {
+                throw new IllegalStateException("Xbox button " + button + " has already been allocated!");
             }
+        }
+        reservedButtons.addAll(buttons);
+    }
 
-            allocatedButtons.put(buttonName, candidate);
+    private static POVDirection[] getPovDirections(Button button) {
+        return switch (button) {
+            case DPAD_UP -> new POVDirection[] {
+                POVDirection.UP,
+                POVDirection.UP_LEFT,
+                POVDirection.UP_RIGHT
+            };
+            case DPAD_DOWN -> new POVDirection[] {
+                POVDirection.DOWN,
+                POVDirection.DOWN_LEFT,
+                POVDirection.DOWN_RIGHT
+            };
+            case DPAD_LEFT -> new POVDirection[] {
+                POVDirection.LEFT,
+                POVDirection.UP_LEFT,
+                POVDirection.DOWN_LEFT
+            };
+            case DPAD_RIGHT -> new POVDirection[] {
+                POVDirection.RIGHT,
+                POVDirection.UP_RIGHT,
+                POVDirection.DOWN_RIGHT
+            };
+            default -> new POVDirection[0];
+        };
+    }
+
+    private static EnumSet<Button> getXboxButtons(POVDirection direction) {
+        return switch (direction) {
+            case UP -> EnumSet.of(Button.DPAD_UP);
+            case UP_RIGHT -> EnumSet.of(Button.DPAD_UP, Button.DPAD_RIGHT);
+            case RIGHT -> EnumSet.of(Button.DPAD_RIGHT);
+            case DOWN_RIGHT -> EnumSet.of(Button.DPAD_DOWN, Button.DPAD_RIGHT);
+            case DOWN -> EnumSet.of(Button.DPAD_DOWN);
+            case DOWN_LEFT -> EnumSet.of(Button.DPAD_DOWN, Button.DPAD_LEFT);
+            case LEFT -> EnumSet.of(Button.DPAD_LEFT);
+            case UP_LEFT -> EnumSet.of(Button.DPAD_UP, Button.DPAD_LEFT);
+            default -> EnumSet.noneOf(Button.class);
+        };
+    }
+
+    public AdvancedXboxAxisTrigger getXboxAxisButtonIfAvailable(XboxAxisButton button) {
+        Objects.requireNonNull(button, "button");
+
+        if (allocatedAxisButtons.containsKey(button)) {
+            throw new IllegalStateException("Xbox axis button " + button + " has already been allocated!");
         }
 
-        return allocatedButtons.get(buttonName);
+        AdvancedXboxAxisTrigger candidate = new AdvancedXboxAxisTrigger(this, button,
+                DEFAULT_AXIS_BUTTON_THRESHOLD);
+        allocatedAxisButtons.put(button, candidate);
+        return candidate;
     }
 
     // Joysticks---------------------------------------------------------------------------------------------
@@ -129,8 +201,8 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
     }
 
     public Translation2d getLeftFieldOrientedVector() {
-        var blueTranslation = new Translation2d(getLeftRawY(), getLeftRawX());
-        if(DriverStation.getAlliance().orElseGet(() -> Alliance.Blue) == Alliance.Blue) {
+        var blueTranslation = new Translation2d(getLeftStickY(), getLeftStickX());
+        if (MatchState.getAlliance().orElseGet(() -> Alliance.BLUE) == Alliance.BLUE) {
             return blueTranslation;
         } else {
             // when on red, both axis invert
@@ -139,8 +211,8 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
     }
 
     public Translation2d getRightFieldOrientedVector() {
-        var blueTranslation = new Translation2d(getRightRawY(), getRightRawX());
-        if(DriverStation.getAlliance().orElseGet(() -> Alliance.Blue) == Alliance.Blue) {
+        var blueTranslation = new Translation2d(getRightStickY(), getRightStickX());
+        if (MatchState.getAlliance().orElseGet(() -> Alliance.BLUE) == Alliance.BLUE) {
             return blueTranslation;
         } else {
             // when on red, both axis invert
@@ -159,39 +231,30 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
     }
 
     public double getLeftStickX() {
-        return this.getLeftRawX() * (leftXInversion ? -1 : 1);
+        return this.getLeftX() * (leftXInversion ? -1 : 1);
     }
 
     public double getRightStickX() {
-        return this.getRightRawX() * (rightXInversion ? -1 : 1);
+        return this.getRightX() * (rightXInversion ? -1 : 1);
     }
 
     public double getLeftStickY() {
-        return this.getLeftRawY() * (leftYInversion ? -1 : 1);
+        return this.getLeftY() * (leftYInversion ? -1 : 1);
     }
 
     public double getRightStickY() {
-        return this.getRightRawY() * (rightYInversion ? -1 : 1);
+        return this.getRightY() * (rightYInversion ? -1 : 1);
     }
 
-    // Triggers-----------------------------------------------------------------------------------------------
-    public double getLeftTrigger() {
-        return this.getLeftRawTriggerAxis();
-    }
+    public abstract boolean getButton(Button button);
 
-    public double getRightTrigger() {
-        return this.getRightRawTriggerAxis();
-    }
+    public abstract double getAxis(Axis axis);
 
-    protected abstract double getLeftRawTriggerAxis();
+    protected abstract double getLeftX();
 
-    protected abstract double getRightRawTriggerAxis();
+    protected abstract double getLeftY();
 
-    protected abstract double getLeftRawX();
+    protected abstract double getRightX();
 
-    protected abstract double getLeftRawY();
-
-    protected abstract double getRightRawX();
-
-    protected abstract double getRightRawY();
+    protected abstract double getRightY();
 }

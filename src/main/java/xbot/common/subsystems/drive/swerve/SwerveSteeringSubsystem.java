@@ -1,17 +1,21 @@
 package xbot.common.subsystems.drive.swerve;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import edu.wpi.first.math.geometry.Rotation2d;
 
-import edu.wpi.first.math.MathUtil;
+import org.wpilib.command2.Command;
+import org.wpilib.command2.sysid.SysIdRoutine;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.util.MathUtil;
+import org.wpilib.tunable.TunableDouble;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.Voltage;
+
 import xbot.common.advantage.AKitLogger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.BaseSimpleSetpointSubsystem;
@@ -24,14 +28,11 @@ import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
 import xbot.common.injection.swerve.SwerveInstance;
 import xbot.common.injection.swerve.SwerveSingleton;
 import xbot.common.math.PIDManager.PIDManagerFactory;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
-import java.util.Optional;
-
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.RPM;
-import static edu.wpi.first.units.Units.Rotations;
+import static org.wpilib.units.Units.Degrees;
+import static org.wpilib.units.Units.RPM;
+import static org.wpilib.units.Units.Rotations;
 
 @SwerveSingleton
 public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem implements DataFrameRefreshable {
@@ -39,7 +40,7 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
     private final String label;
 
     private double targetRotation;
-    private final DoubleProperty degreesPerMotorRotation;
+    private final TunableDouble degreesPerMotorRotation;
     private final SysIdRoutine sysId;
 
     private Rotation2d currentModuleHeadingRotation2d;
@@ -48,14 +49,13 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
 
     @Inject
     public SwerveSteeringSubsystem(SwerveInstance swerveInstance, XCANMotorController.XCANMotorControllerFactory mcFactory, XCANCoderFactory canCoderFactory,
-                                   PropertyFactory pf, PIDManagerFactory pidf, XSwerveDriveElectricalContract electricalContract) {
+                                   TunableFactory tunableFactory, PIDManagerFactory pidf, XSwerveDriveElectricalContract electricalContract) {
         this.label = swerveInstance.label();
         log.info("Creating SwerveRotationSubsystem {}", this.label);
         aKitLog.setPrefix(this.getPrefix());
 
-        // Create properties shared among all instances
-        pf.setPrefix(super.getPrefix());
-        this.degreesPerMotorRotation = pf.createPersistentProperty("DegreesPerMotorRotation",
+        tunableFactory.setPrefix(this.getPrefix());
+        this.degreesPerMotorRotation = tunableFactory.createDouble("DegreesPerMotorRotation",
                 degreesPerMotorRotationFromGearRatio(electricalContract.getSteeringGearRatio()));
         this.currentModuleHeadingRotation2d = Rotation2d.fromDegrees(0);
 
@@ -70,7 +70,7 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
         if (electricalContract.isDriveReady()) {
             this.motorController = mcFactory.create(
                     electricalContract.getSteeringMotor(swerveInstance),
-                    SwerveSteeringSubsystem.class.getSimpleName(),
+                    this.getPrefix(),
                     "SteeringPID",
                     new XCANMotorControllerPIDProperties.Builder()
                             .withP(3.0)

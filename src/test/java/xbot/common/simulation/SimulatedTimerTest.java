@@ -1,7 +1,5 @@
 package xbot.common.simulation;
 
-import static org.junit.Assert.assertEquals;
-
 import java.math.BigDecimal;
 
 import org.json.JSONObject;
@@ -9,6 +7,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
+
+import static org.junit.Assert.assertEquals;
 
 @Ignore
 public class SimulatedTimerTest extends BaseSimulationTest {
@@ -37,7 +37,7 @@ public class SimulatedTimerTest extends BaseSimulationTest {
             JSONObject worldPosePayload = new JSONObject();
             worldPosePayload.put("Time", new BigDecimal(time));
             JSONObject fullSensorPayload = createSimpleWorldPosePayload(worldPosePayload);
-            
+
             this.distributor.distributeSimulationPayload(fullSensorPayload);
 
             assertEquals(time, simulatedTimer.getFPGATimestamp(), 0.001);
@@ -48,7 +48,7 @@ public class SimulatedTimerTest extends BaseSimulationTest {
         JSONObject worldPosePayload = new JSONObject();
         worldPosePayload.put("Time", new BigDecimal(1.23));
         JSONObject fullSensorPayload = createSimpleWorldPosePayload(worldPosePayload);
-        
+
         this.distributor.distributeSimulationPayload(fullSensorPayload);
         assertEquals(1.23, simulatedTimer.getFPGATimestamp(), 0.001);
 

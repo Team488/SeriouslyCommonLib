@@ -2,8 +2,9 @@ package xbot.common.subsystems.compressor;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import xbot.common.injection.BaseCommonLibTest;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -16,8 +17,8 @@ public class CompressorSubsystemTest extends BaseCommonLibTest  {
 
     @Before
     public void setup() {
-        PropertyFactory propertyFactory = getInjectorComponent().propertyFactory();
-        compressorSubsystem = new CompressorSubsystem(getInjectorComponent().compressorFactory(), propertyFactory);
+        TunableFactory tunableFactory = getInjectorComponent().tunableFactory();
+        compressorSubsystem = new CompressorSubsystem(getInjectorComponent().compressorFactory(), tunableFactory);
     }
 
     @Test

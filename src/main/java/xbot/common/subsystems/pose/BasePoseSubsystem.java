@@ -1,31 +1,25 @@
 package xbot.common.subsystems.pose;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.units.Units;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.util.MathUtil;
+import org.wpilib.tunable.TunableBoolean;
+import org.wpilib.tunable.TunableDouble;
+import org.wpilib.units.measure.Angle;
+
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.sensors.XGyro;
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
+import xbot.common.controls.sensors.XTimer;
 import xbot.common.math.FieldPose;
-import xbot.common.math.WrappedRotation2d;
 import xbot.common.math.XYPair;
-import xbot.common.properties.BooleanProperty;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.Property;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
+import xbot.common.properties.TunableLevel;
 import xbot.common.subsystems.drive.swerve.ISwerveAdvisorPoseSupport;
 
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.DegreesPerSecond;
-import static edu.wpi.first.units.Units.Inches;
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.Radians;
+import static org.wpilib.units.Units.Degrees;
+import static org.wpilib.units.Units.DegreesPerSecond;
+import static org.wpilib.units.Units.Radians;
 
 public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerveAdvisorPoseSupport {
 
@@ -42,26 +36,26 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     // These are two common robot starting positions - kept here as convenient shorthand.
     public static final double FACING_AWAY_FROM_DRIVERS = 0;
     public static final double INCHES_IN_A_METER = 39.3701;
-    protected final DoubleProperty inherentRioPitch;
-    protected final DoubleProperty inherentRioRoll;
+    protected final TunableDouble inherentRioPitch;
+    protected final TunableDouble inherentRioRoll;
     protected double previousLeftDistance;
     protected double previousRightDistance;
     protected final double classInstantiationTime;
     protected boolean isNavXReady = false;
-    protected BooleanProperty rioRotated;
+    protected TunableBoolean rioRotated;
     protected boolean firstUpdate = true;
     protected double lastSetHeadingTime;
     // 2025 xMidpoint = 8.7785m, 2024 xMidpoint = 8.2705
 
     private Angle currentHeading;
 
-    public BasePoseSubsystem(XGyroFactory gyroFactory, PropertyFactory propManager) {
-        this(gyroFactory.create(), propManager);
+    public BasePoseSubsystem(XGyroFactory gyroFactory, TunableFactory tunableFactory) {
+        this(gyroFactory.create(), tunableFactory);
     }
 
-    public BasePoseSubsystem(XGyro gyro, PropertyFactory propManager) {
+    public BasePoseSubsystem(XGyro gyro, TunableFactory tunableFactory) {
         log.info("Creating");
-        propManager.setPrefix(this);
+        tunableFactory.setPrefix(this);
         imu = gyro;
         this.classInstantiationTime = XTimer.getFPGATimestamp();
 
@@ -69,10 +63,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
         // the same as the current value, to avoid any sudden changes later
         currentHeading = Degrees.zero();
 
-        propManager.setDefaultLevel(Property.PropertyLevel.Debug);
-        rioRotated = propManager.createPersistentProperty("RIO rotated", false);
-        inherentRioPitch = propManager.createPersistentProperty("Inherent RIO pitch", 0.0);
-        inherentRioRoll = propManager.createPersistentProperty("Inherent RIO roll", 0.0);
+        tunableFactory.setDefaultLevel(TunableLevel.Debug);
+        rioRotated = tunableFactory.createBoolean("RIO rotated", false);
+        inherentRioPitch = tunableFactory.createDouble("Inherent RIO pitch", 0.0);
+        inherentRioRoll = tunableFactory.createDouble("Inherent RIO roll", 0.0);
     }
 
     protected double getCompassHeading(Rotation2d standardHeading) {
@@ -134,9 +128,9 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     /**
      * @return Current heading but if the navX is still booting up it will return 0
      */
-    public WrappedRotation2d getCurrentHeadingGyroOnly() {
+    public Rotation2d getCurrentHeadingGyroOnly() {
         updateCurrentHeading();
-        return WrappedRotation2d.fromDegrees(currentHeading.in(Degrees));
+        return Rotation2d.fromDegrees(currentHeading.in(Degrees));
     }
 
     /**
@@ -144,7 +138,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
      * (e.g. a vision system, pose estimator, etc)
      * @return Current heading but if the navX is still booting up it will return 0
      */
-    public WrappedRotation2d getCurrentHeading() {
+    public Rotation2d getCurrentHeading() {
         return getCurrentHeadingGyroOnly();
     }
 
@@ -240,8 +234,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
      * If the RoboRIO is mounted in a position other than "flat" (e.g. with the pins facing upward)
      * then this method will need to be overridden.
      */
-    protected WrappedRotation2d getRobotYaw() {
-        return WrappedRotation2d.fromDegrees(imu.getHeading().in(Degrees));
+    protected Rotation2d getRobotYaw() {
+        return Rotation2d.fromDegrees(imu.getHeading().in(Degrees));
     }
 
     protected double getUntrimmedPitch() {

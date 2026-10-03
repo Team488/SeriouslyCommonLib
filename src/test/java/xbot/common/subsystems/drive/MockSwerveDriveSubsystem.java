@@ -1,7 +1,10 @@
 package xbot.common.subsystems.drive;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
+import javax.inject.Inject;
+
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Translation2d;
+
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.injection.swerve.FrontLeftDrive;
 import xbot.common.injection.swerve.FrontRightDrive;
@@ -9,19 +12,17 @@ import xbot.common.injection.swerve.RearLeftDrive;
 import xbot.common.injection.swerve.RearRightDrive;
 import xbot.common.injection.swerve.SwerveComponent;
 import xbot.common.math.PIDManager;
-import xbot.common.properties.PropertyFactory;
-
-import javax.inject.Inject;
+import xbot.common.properties.TunableFactory;
 
 public class MockSwerveDriveSubsystem extends BaseSwerveDriveSubsystem {
     @Inject
-    public MockSwerveDriveSubsystem(PIDManager.PIDManagerFactory pidFactory, PropertyFactory pf,
+    public MockSwerveDriveSubsystem(PIDManager.PIDManagerFactory pidFactory, TunableFactory tunableFactory,
                                     @FrontLeftDrive SwerveComponent frontLeftSwerve,
                                     @FrontRightDrive SwerveComponent frontRightSwerve,
                                     @RearLeftDrive SwerveComponent rearLeftSwerve,
                                     @RearRightDrive SwerveComponent rearRightSwerve,
                                     DataFrameRegistry dataFrameRegistry) {
-        super(pidFactory, pf, frontLeftSwerve, frontRightSwerve, rearLeftSwerve, rearRightSwerve, dataFrameRegistry);
+        super(pidFactory, tunableFactory, frontLeftSwerve, frontRightSwerve, rearLeftSwerve, rearRightSwerve, dataFrameRegistry);
     }
 
     @Override

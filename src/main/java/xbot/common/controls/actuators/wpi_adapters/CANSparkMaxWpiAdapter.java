@@ -8,21 +8,23 @@ import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import org.wpilib.units.AngularAccelerationUnit;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularAcceleration;
+import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.Current;
+import org.wpilib.units.measure.Frequency;
+import org.wpilib.units.measure.Time;
+import org.wpilib.units.measure.Velocity;
+import org.wpilib.units.measure.Voltage;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.units.AngularAccelerationUnit;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularAcceleration;
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Current;
-import edu.wpi.first.units.measure.Frequency;
-import edu.wpi.first.units.measure.Time;
-import edu.wpi.first.units.measure.Velocity;
-import edu.wpi.first.units.measure.Voltage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
@@ -34,15 +36,15 @@ import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.injection.electrical_contract.SparkMaxMotorControllerOutputConfig;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.PowerDistributionProperties;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 import xbot.common.resiliency.DeviceHealth;
 
-import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.RPM;
-import static edu.wpi.first.units.Units.Rotations;
-import static edu.wpi.first.units.Units.Second;
-import static edu.wpi.first.units.Units.Seconds;
-import static edu.wpi.first.units.Units.Volts;
+import static org.wpilib.units.Units.Amps;
+import static org.wpilib.units.Units.RPM;
+import static org.wpilib.units.Units.Rotations;
+import static org.wpilib.units.Units.Second;
+import static org.wpilib.units.Units.Seconds;
+import static org.wpilib.units.Units.Volts;
 
 public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
@@ -51,7 +53,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         public abstract CANSparkMaxWpiAdapter create(
                 @Assisted("info") CANMotorControllerInfo info,
                 @Assisted("owningSystemPrefix") String owningSystemPrefix,
-                @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
+                @Assisted("pidTunablePrefix") String pidTunablePrefix,
                 @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties);
     }
 
@@ -67,21 +69,21 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     public CANSparkMaxWpiAdapter(
             @Assisted("info") CANMotorControllerInfo info,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            PropertyFactory propertyFactory,
+            TunableFactory tunableFactory,
             DevicePolice police,
             RobotAssertionManager assertionManager,
-            @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
+            @Assisted("pidTunablePrefix") String pidTunablePrefix,
             @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties,
             DataFrameRegistry dataFrameRegistry,
             PowerDistributionProperties pdProperties
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
-        this.internalSparkMax = new SparkMax(info.deviceId(), SparkLowLevel.MotorType.kBrushless);
+        super(info, owningSystemPrefix, tunableFactory, police, pidTunablePrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
         this.assertionManager = assertionManager;
 
         if (info.busId() != CANBusId.RIO) {
             this.assertionManager.fail("CANSparkMax must be connected to the RIO");
         }
+        this.internalSparkMax = new SparkMax(CANBusId.RIO.toWpiCANPort().value, info.deviceId(), SparkLowLevel.MotorType.kBrushless);
         setConfiguration(info.outputConfig());
     }
 
@@ -179,7 +181,12 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
     @Override
     public DeviceHealth getHealth() {
-        var faults = this.internalSparkMax.getFaults();
+        var faultSignal = this.internalSparkMax.getFaults();
+        if (!faultSignal.isValid()) {
+            return DeviceHealth.Unhealthy;
+        }
+
+        var faults = faultSignal.get();
         return (faults.can || faults.firmware) ? DeviceHealth.Unhealthy : DeviceHealth.Healthy;
     }
 
@@ -188,12 +195,12 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         if (!isValidPowerRequest(power)) {
             return;
         }
-        this.internalSparkMax.set(MathUtil.clamp(power, minPower, maxPower));
+        this.internalSparkMax.setThrottle(Math.clamp(power, minPower, maxPower));
     }
 
     @Override
     public double getPower() {
-        return this.internalSparkMax.getAppliedOutput();
+        return this.internalSparkMax.getAppliedOutput().get();
     }
 
     @Override
@@ -210,7 +217,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     public Angle getRawPosition_internal() {
-        return Rotations.of(this.internalSparkMax.getEncoder().getPosition());
+        return Rotations.of(this.internalSparkMax.getEncoder().getPosition().get());
     }
 
     @Override
@@ -235,7 +242,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     public AngularVelocity getRawVelocity_internal() {
-        return RPM.of(this.internalSparkMax.getEncoder().getVelocity());
+        return RPM.of(this.internalSparkMax.getEncoder().getVelocity().get());
     }
 
     @Override
@@ -293,7 +300,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
     public Voltage getVoltage_internal() {
         return Volts.of(
-                this.internalSparkMax.getAppliedOutput() * internalSparkMax.getBusVoltage());
+                this.internalSparkMax.getAppliedOutput().get() * internalSparkMax.getBusVoltage().get());
     }
 
     @Override
@@ -302,7 +309,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     }
 
     private Current getCurrent_internal() {
-        return Amps.of(this.internalSparkMax.getOutputCurrent());
+        return Amps.of(this.internalSparkMax.getOutputCurrent().get());
     }
 
     @Override

@@ -1,10 +1,10 @@
 package xbot.common.math;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
+
+import static org.junit.Assert.assertEquals;
 
 public class ContiguousDoubleTest extends BaseCommonLibTest {
     @Test

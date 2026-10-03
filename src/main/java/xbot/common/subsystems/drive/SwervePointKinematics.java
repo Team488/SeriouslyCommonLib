@@ -1,10 +1,10 @@
 package xbot.common.subsystems.drive;
 
-import edu.wpi.first.units.measure.LinearAcceleration;
-import edu.wpi.first.units.measure.LinearVelocity;
+import org.wpilib.units.measure.LinearAcceleration;
+import org.wpilib.units.measure.LinearVelocity;
 
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
+import static org.wpilib.units.Units.MetersPerSecond;
+import static org.wpilib.units.Units.MetersPerSecondPerSecond;
 
 public record SwervePointKinematics(LinearAcceleration acceleration, LinearVelocity initialVelocity, LinearVelocity goalVelocity, LinearVelocity maxVelocity) {
     /**

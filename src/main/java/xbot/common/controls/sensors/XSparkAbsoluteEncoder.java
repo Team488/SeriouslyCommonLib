@@ -1,7 +1,8 @@
 package xbot.common.controls.sensors;
 
-import edu.wpi.first.units.measure.Angle;
 import org.littletonrobotics.junction.Logger;
+
+import org.wpilib.units.measure.Angle;
 
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;

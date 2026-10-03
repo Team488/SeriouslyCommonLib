@@ -1,6 +1,6 @@
 package xbot.common.controls.sensors;
 
-import edu.wpi.first.math.geometry.Translation2d;
+import org.wpilib.math.geometry.Translation2d;
 
 public interface IGamepad {
 

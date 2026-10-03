@@ -1,11 +1,8 @@
 package xbot.common.math;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.struct.Translation2dStruct;
-import edu.wpi.first.util.struct.StructSerializable;
-
-import java.sql.Struct;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.util.struct.StructSerializable;
 
 /**
  * Pair of X and Y coordinates. Can be used for points, vectors, or anything

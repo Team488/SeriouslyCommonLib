@@ -3,7 +3,7 @@ package xbot.common.injection.components;
 import javax.inject.Named;
 
 import xbot.common.command.DataFrameRegistry;
-import xbot.common.command.SmartDashboardCommandPutter;
+import xbot.common.command.TunableCommandPublisher;
 import xbot.common.command.XScheduler;
 import xbot.common.controls.actuators.XCANLightController;
 import xbot.common.controls.actuators.XCANMotorController;
@@ -11,25 +11,23 @@ import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
 import xbot.common.controls.actuators.XDigitalOutput.XDigitalOutputFactory;
 import xbot.common.controls.actuators.XDoubleSolenoid.XDoubleSolenoidFactory;
 import xbot.common.controls.actuators.XPWM.XPWMFactory;
-import xbot.common.controls.actuators.XRelay.XRelayFactory;
-import xbot.common.controls.actuators.XServo.XServoFactory;
 import xbot.common.controls.actuators.XSolenoid.XSolenoidFactory;
 import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
-import xbot.common.controls.sensors.XDutyCycleEncoder;
-import xbot.common.controls.sensors.XLaserCAN;
-import xbot.common.controls.sensors.XSettableTimerImpl;
-import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.XAbsoluteEncoder.XAbsoluteEncoderFactory;
 import xbot.common.controls.sensors.XAnalogDistanceSensor.XAnalogDistanceSensorFactory;
 import xbot.common.controls.sensors.XAnalogInput.XAnalogInputFactory;
 import xbot.common.controls.sensors.XCANCoder.XCANCoderFactory;
 import xbot.common.controls.sensors.XDigitalInput.XDigitalInputFactory;
+import xbot.common.controls.sensors.XDutyCycleEncoder;
 import xbot.common.controls.sensors.XEncoder.XEncoderFactory;
-import xbot.common.controls.sensors.XFTCGamepad.XFTCGamepadFactory;
+import xbot.common.controls.sensors.XGamepad.XGamepadFactory;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
 import xbot.common.controls.sensors.XJoystick.XJoystickFactory;
+import xbot.common.controls.sensors.XLaserCAN;
 import xbot.common.controls.sensors.XLidarLite.XLidarLiteFactory;
 import xbot.common.controls.sensors.XPowerDistributionPanel.XPowerDistributionPanelFactory;
+import xbot.common.controls.sensors.XSettableTimerImpl;
+import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.XXboxController.XXboxControllerFactory;
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
@@ -42,14 +40,13 @@ import xbot.common.logic.CalibrationDecider.CalibrationDeciderFactory;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.logic.StallDetector.StallDetectorFactory;
 import xbot.common.logic.VelocityThrottleModule.VelocityThrottleModuleFactory;
-import xbot.common.math.FieldPosePropertyManager.FieldPosePropertyManagerFactory;
+import xbot.common.math.FieldPoseTunableManager.FieldPoseTunableManagerFactory;
 import xbot.common.math.PIDManager.PIDManagerFactory;
-import xbot.common.math.PIDPropertyManager.PIDPropertyManagerFactory;
+import xbot.common.math.PIDTunableManager.PIDTunableManagerFactory;
 import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
-import xbot.common.properties.ITableProxy;
-import xbot.common.properties.PermanentStorage;
-import xbot.common.properties.PropertyFactory;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.TunableFactory;
+import xbot.common.properties.TunableManager;
+import xbot.common.properties.TunablePersistence;
 import xbot.common.simulation.SimulationPayloadDistributor;
 import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
@@ -70,27 +67,26 @@ public abstract class BaseComponent {
 
     public abstract XSettableTimerImpl settableTimerImplementation();
 
-    public abstract ITableProxy tableProxy();
-
-    public abstract @Named(XPropertyManager.IN_MEMORY_STORE_NAME) ITableProxy inMemoryTableProxy();
-
-    public abstract PermanentStorage permanentStorage();
-
     public abstract RobotAssertionManager robotAssertionManager();
 
     public abstract DevicePolice devicePolice();
 
     public abstract DataFrameRegistry dataFrameRegistry();
 
-    public abstract SmartDashboardCommandPutter smartDashboardCommandPutter();
+    public abstract TunableCommandPublisher tunableCommandPublisher();
 
     public abstract XScheduler scheduler();
 
-    public abstract XPropertyManager propertyManager();
+    public abstract TunableManager tunableManager();
 
-    public abstract PropertyFactory propertyFactory();
+    public abstract TunableFactory tunableFactory();
 
-    public abstract FieldPosePropertyManagerFactory fieldPosePropertyManagerFactory();
+    public abstract TunablePersistence tunablePersistence();
+
+    public abstract @Named(TunableManager.IN_MEMORY_PERSISTENCE_NAME)
+            TunablePersistence inMemoryTunablePersistence();
+
+    public abstract FieldPoseTunableManagerFactory fieldPoseTunableManagerFactory();
 
     public abstract AutonomousCommandSelector autonomousCommandSelector();
 
@@ -100,7 +96,7 @@ public abstract class BaseComponent {
 
     public abstract PIDManagerFactory pidFactory();
 
-    public abstract PIDPropertyManagerFactory pidPropertyManagerFactory();
+    public abstract PIDTunableManagerFactory pidTunableManagerFactory();
 
     public abstract XPowerDistributionPanelFactory powerDistributionPanelFactory();
 
@@ -114,7 +110,7 @@ public abstract class BaseComponent {
 
     public abstract XXboxControllerFactory xboxControllerFactory();
 
-    public abstract XFTCGamepadFactory ftcGamepadFactory();
+    public abstract XGamepadFactory gamepadFactory();
 
     public abstract XRumbleManagerFactory rumbleManagerFactory();
 
@@ -142,8 +138,6 @@ public abstract class BaseComponent {
 
     public abstract XGyroFactory gyroFactory();
 
-    public abstract XServoFactory servoFactory();
-
     public abstract HeadingModuleFactory headingModuleFactory();
 
     public abstract HeadingAssistModuleFactory headingAssistModuleFactory();
@@ -155,8 +149,6 @@ public abstract class BaseComponent {
     public abstract XCANCoderFactory canCoderFactory();
 
     public abstract XSolenoidFactory solenoidFactory();
-
-    public abstract XRelayFactory relayFactory();
 
     public abstract XDoubleSolenoidFactory doubleSolenoidFactory();
 

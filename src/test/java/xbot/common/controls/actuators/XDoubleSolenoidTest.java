@@ -1,8 +1,5 @@
 package xbot.common.controls.actuators;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,12 +7,15 @@ import xbot.common.controls.actuators.XDoubleSolenoid.DoubleSolenoidMode;
 import xbot.common.controls.actuators.mock_adapters.MockSolenoid;
 import xbot.common.injection.BaseCommonLibTest;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 public class XDoubleSolenoidTest extends BaseCommonLibTest {
 
-    MockSolenoid forwardSolenoid;   
+    MockSolenoid forwardSolenoid;
     MockSolenoid reverseSolenoid;
     XDoubleSolenoid xDoubleSol;
-    
+
     @Before
     public void setup()
     {

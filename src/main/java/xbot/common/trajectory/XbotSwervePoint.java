@@ -1,15 +1,12 @@
 package xbot.common.trajectory;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import xbot.common.math.WrappedRotation2d;
-import xbot.common.subsystems.drive.SwervePointKinematics;
-import xbot.common.subsystems.pose.BasePoseSubsystem;
-
-import java.util.ArrayList;
 import java.util.List;
+
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Translation2d;
+
+import xbot.common.subsystems.drive.SwervePointKinematics;
 
 public class XbotSwervePoint implements ProvidesInterpolationData {
 
@@ -45,24 +42,17 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
         this.keyPose = pose;
     }
 
-    public static Trajectory generateTrajectory(List<XbotSwervePoint> swervePoints) {
-        ArrayList<Trajectory.State> wpiStates = new ArrayList<>();
-        for (XbotSwervePoint point : swervePoints) {
-            Trajectory.State state = new Trajectory.State();
-            // Swerve points are in inches, but the trajectory is in meters.
-            state.poseMeters = new Pose2d(
-                    point.keyPose.getTranslation().getX(),
-                    point.keyPose.getTranslation().getY(),
-                    WrappedRotation2d.fromRotation2d(point.keyPose.getRotation())
-            );
-            state.velocityMetersPerSecond = 0;
-            state.accelerationMetersPerSecondSq = 0;
-            wpiStates.add(state);
-        }
-        if (wpiStates.size() == 0) {
-            return new Trajectory();
-        }
-        return new Trajectory(wpiStates);
+    /**
+     * Converts swerve points to the pose array expected by AdvantageKit's trajectory visualization.
+     * Timing remains on the source points for use by the simple trajectory interpolators.
+     *
+     * @param swervePoints points to visualize
+     * @return poses in path order
+     */
+    public static Pose2d[] generatePathVisualization(List<XbotSwervePoint> swervePoints) {
+        return swervePoints.stream()
+                .map(point -> point.keyPose)
+                .toArray(Pose2d[]::new);
     }
 
     @Override
@@ -79,5 +69,4 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
     public Rotation2d getRotation2d() {
         return keyPose.getRotation();
     }
-
-    }
+}

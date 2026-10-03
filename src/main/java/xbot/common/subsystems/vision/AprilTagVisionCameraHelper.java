@@ -1,49 +1,54 @@
 package xbot.common.subsystems.vision;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.wpilibj.Alert;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
+
 import org.littletonrobotics.junction.Logger;
+
+import org.wpilib.fields.Fields;
+import org.wpilib.math.geometry.Pose3d;
+import org.wpilib.math.linalg.VecBuilder;
+import org.wpilib.tunable.TunableDouble;
+import org.wpilib.util.Alert;
+
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.logging.AlertGroups;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
-
-import java.util.LinkedList;
-import java.util.List;
+import xbot.common.properties.TunableFactory;
 
 /**
  * Helper class for ingesting data from a single AprilTag vision camera.
  */
 class AprilTagVisionCameraHelper implements DataFrameRefreshable {
+    private static final AtomicLong NEXT_ALERT_ID = new AtomicLong();
+
     private final AprilTagVisionIO io;
     final VisionIOInputsAutoLogged inputs;
     private final String logPath;
     private final Alert disconnectedAlert;
-    private final AprilTagFieldLayout aprilTagFieldLayout;
+    private final Fields aprilTagFieldLayout;
     private final boolean useForPoseEstimates;
 
     // Basic filtering thresholds
-    private final DoubleProperty maxAmbiguity;
-    private final DoubleProperty maxZError;
-    private final DoubleProperty maxSingleTagDistance;
-    private final DoubleProperty maxMultiTagDistance;
-    private final DoubleProperty minTagDistance;
+    private final TunableDouble maxAmbiguity;
+    private final TunableDouble maxZError;
+    private final TunableDouble maxSingleTagDistance;
+    private final TunableDouble maxMultiTagDistance;
+    private final TunableDouble minTagDistance;
 
     // Standard deviation baselines, for 1 meter distance and 1 tag
     // (Adjusted automatically based on distance and # of tags)
-    private final DoubleProperty linearStdDevBaseline;
-    private final DoubleProperty angularStdDevBaseline;
+    private final TunableDouble linearStdDevBaseline;
+    private final TunableDouble angularStdDevBaseline;
 
     // Multipliers to apply for MegaTag 2 observations
-    private final DoubleProperty linearStdDevMegatag2Factor;
-    private final DoubleProperty angularStdDevMegatag2Factor;
+    private final TunableDouble linearStdDevMegatag2Factor;
+    private final TunableDouble angularStdDevMegatag2Factor;
 
     // Standard deviation multipliers for each camera
     // (Adjust to trust some cameras more than others)
-    private final DoubleProperty cameraStdDevFactor;
+    private final TunableDouble cameraStdDevFactor;
 
     private final List<Pose3d> tagPoses = new LinkedList<>();
     private final List<Integer> tagIds = new LinkedList<>();
@@ -52,29 +57,30 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final List<Pose3d> robotPosesRejected = new LinkedList<>();
     private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
 
-    public AprilTagVisionCameraHelper(String prefix, PropertyFactory pf, AprilTagVisionIO io,
-            AprilTagFieldLayout fieldLayout, DataFrameRegistry registry, boolean useForPoseEstimates) {
+    public AprilTagVisionCameraHelper(String prefix, TunableFactory tunableFactory, AprilTagVisionIO io,
+            Fields fieldLayout, DataFrameRegistry registry, boolean useForPoseEstimates) {
         this.logPath = prefix;
         this.io = io;
         this.inputs = new VisionIOInputsAutoLogged();
         registry.register(this);
         this.aprilTagFieldLayout = fieldLayout;
-        this.disconnectedAlert = new Alert(AlertGroups.DEVICE_HEALTH,
-                "Vision camera " + prefix + " is disconnected.", Alert.AlertType.kError);
+        String alertId = getClass().getName() + "-" + NEXT_ALERT_ID.getAndIncrement();
+        this.disconnectedAlert = new Alert(AlertGroups.DEVICE_HEALTH, alertId,
+                "Vision camera " + prefix + " is disconnected.", Alert.Level.HIGH);
         this.useForPoseEstimates = useForPoseEstimates;
 
-        pf.setPrefix(this.logPath);
-        this.maxAmbiguity = pf.createPersistentProperty("MaxAmbiguity", 0.3);
-        this.maxZError = pf.createPersistentProperty("MaxZError", 0.75);
-        this.linearStdDevBaseline = pf.createPersistentProperty("LinearStdDevBaseline", 0.02 /* meters */);
-        this.angularStdDevBaseline = pf.createPersistentProperty("AngularStdDevBaseline", 0.06 /* radians */);
-        this.linearStdDevMegatag2Factor = pf.createPersistentProperty("LinearStdDevMegatag2Factor", 0.5);
-        this.angularStdDevMegatag2Factor = pf.createPersistentProperty("AngularStdDevMegatag2Factor",
+        tunableFactory.setPrefix(this.logPath);
+        this.maxAmbiguity = tunableFactory.createDouble("MaxAmbiguity", 0.3);
+        this.maxZError = tunableFactory.createDouble("MaxZError", 0.75);
+        this.linearStdDevBaseline = tunableFactory.createDouble("LinearStdDevBaseline", 0.02 /* meters */);
+        this.angularStdDevBaseline = tunableFactory.createDouble("AngularStdDevBaseline", 0.06 /* radians */);
+        this.linearStdDevMegatag2Factor = tunableFactory.createDouble("LinearStdDevMegatag2Factor", 0.5);
+        this.angularStdDevMegatag2Factor = tunableFactory.createDouble("AngularStdDevMegatag2Factor",
                 Double.POSITIVE_INFINITY);
-        this.cameraStdDevFactor = pf.createPersistentProperty("CameraStdDevFactor", 1.0);
-        this.maxSingleTagDistance = pf.createPersistentProperty("MaxSingleTagDistance", 1.0);
-        this.maxMultiTagDistance = pf.createPersistentProperty("MaxMultiTagDistance", 5.0);
-        this.minTagDistance = pf.createPersistentProperty("MinTagDistance", 0.5);
+        this.cameraStdDevFactor = tunableFactory.createDouble("CameraStdDevFactor", 1.0);
+        this.maxSingleTagDistance = tunableFactory.createDouble("MaxSingleTagDistance", 1.0);
+        this.maxMultiTagDistance = tunableFactory.createDouble("MaxMultiTagDistance", 5.0);
+        this.minTagDistance = tunableFactory.createDouble("MinTagDistance", 0.5);
     }
 
     @Override
@@ -129,7 +135,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
 
         // Add the tag poses
         for (int tagId : inputs.tagIds) {
-            var tagPose = this.aprilTagFieldLayout.getTagPose(tagId);
+            var tagPose = this.aprilTagFieldLayout.loadField().getTagPose(tagId);
             if (tagPose.isPresent()) {
                 this.tagPoses.add(tagPose.get());
                 this.tagIds.add(tagId);
@@ -162,9 +168,9 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private boolean isObservationOutOfBounds(Pose3d pose) {
         // Must be within the field boundaries
         return pose.getX() <= 0.0
-                || pose.getX() > aprilTagFieldLayout.getFieldLength()
+                || pose.getX() > aprilTagFieldLayout.loadField().getFieldLength()
                 || pose.getY() <= 0.0
-                || pose.getY() > aprilTagFieldLayout.getFieldWidth();
+                || pose.getY() > aprilTagFieldLayout.loadField().getFieldWidth();
     }
 
     private boolean shouldRejectObservation(AprilTagVisionIO.PoseObservation observation) {

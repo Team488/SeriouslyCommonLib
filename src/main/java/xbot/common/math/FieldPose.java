@@ -1,6 +1,6 @@
 package xbot.common.math;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Rotation2d;
 
 /**
  * The FieldPose class represents a point on the field as well as a heading.
@@ -14,29 +14,29 @@ import edu.wpi.first.math.geometry.Rotation2d;
  */
 public class FieldPose {
 
-    private WrappedRotation2d heading;
+    private Rotation2d heading;
     private final XYPair fieldPosition;
 
     public FieldPose() {
         this.fieldPosition = new XYPair();
-        this.heading = WrappedRotation2d.fromDegrees(0);
+        this.heading = Rotation2d.fromDegrees(0);
     }
     
     public FieldPose(XYPair point, Rotation2d heading) {
         this.fieldPosition = point.clone();
-        this.heading = new WrappedRotation2d(heading.getRadians());
+        this.heading = new Rotation2d(heading.getRadians());
     }
 
     public FieldPose(double x, double y, double heading) {
         this.fieldPosition = new XYPair(x, y);
-        this.heading = WrappedRotation2d.fromDegrees(heading);
+        this.heading = Rotation2d.fromDegrees(heading);
     }
 
     public FieldPose clone() {
         return new FieldPose(fieldPosition.clone(), heading);
     }
     
-    public WrappedRotation2d getHeading() {
+    public Rotation2d getHeading() {
         return heading;
     }
     
@@ -44,9 +44,9 @@ public class FieldPose {
         return fieldPosition;
     }
     
-    public WrappedRotation2d getPerpendicularHeadingTowardsPoint(FieldPose other) {
+    public Rotation2d getPerpendicularHeadingTowardsPoint(FieldPose other) {
         boolean direction = getPoseRelativeDisplacement(other).y > 0;
-        return WrappedRotation2d.fromRotation2d(heading.rotateBy(Rotation2d.fromDegrees(direction ? -90 : 90)));
+        return heading.rotateBy(Rotation2d.fromDegrees(direction ? -90 : 90));
     }
     
     public XYPair getPointAlongPoseClosestToPoint(XYPair other) {
@@ -93,7 +93,7 @@ public class FieldPose {
     }
     
     public double getDeltaAngleToRabbit(FieldPose other, double lookaheadDistance) {
-        return WrappedRotation2d.fromDegrees(getVectorToRabbit(other, lookaheadDistance).getAngle()).minus(other.getHeading()).getDegrees();
+        return Rotation2d.fromDegrees(getVectorToRabbit(other, lookaheadDistance).getAngle()).minus(other.getHeading()).getDegrees();
     }
     
     public XYPair getVectorToRabbit(FieldPose other, double lookaheadDistance) {
@@ -142,7 +142,7 @@ public class FieldPose {
     public FieldPose getFieldPoseOffsetBy(FieldPose offset) {
         XYPair changedPoint = this.getPoint().clone().add(offset.getPoint().clone().scale(-1));
         // Currently only handling point offsets, not heading offsets
-        WrappedRotation2d changedHeading = this.getHeading();
+        Rotation2d changedHeading = this.getHeading();
 
         return new FieldPose(changedPoint, changedHeading);
     }

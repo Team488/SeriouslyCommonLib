@@ -1,14 +1,14 @@
 package xbot.common.subsystems.simple;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import org.junit.Before;
 import org.junit.Test;
+
+import org.wpilib.command2.Command;
+
 import xbot.common.injection.BaseCommonLibTest;
-import xbot.common.injection.BaseWPITest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class SimpleMotorSubsystemTest extends BaseCommonLibTest {
     private MockSimpleMotorSubsystem subsystem;

@@ -1,8 +1,6 @@
 package xbot.common.command;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.littletonrobotics.junction.LogFileUtil;
@@ -12,26 +10,27 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import xbot.common.advantage.PropertySkippingNT4Publisher;
+import org.wpilib.command2.Command;
+import org.wpilib.command2.CommandScheduler;
+import org.wpilib.driverstation.MatchState;
+import org.wpilib.driverstation.RobotState;
+import org.wpilib.hardware.bus.CANPort;
+import org.wpilib.hardware.power.PowerDistribution;
+import org.wpilib.system.RobotController;
+import org.wpilib.tunable.Tunables;
+
+import xbot.common.advantage.TunableSkippingNT4Publisher;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.components.BaseComponent;
-import xbot.common.properties.PropertyFactory;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.TunableManager;
 import xbot.common.simulation.SimulationPayloadDistributor;
 import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
 
 /**
- * Core Robot class which configures logging, properties,
+ * Core Robot class which configures logging, tunables,
  * scheduling, and the injector. Required for a fair amount
  * of CommonLib functionality.
  */
@@ -39,7 +38,7 @@ public abstract class BaseRobot extends LoggedRobot {
 
     org.apache.logging.log4j.Logger log;
 
-    protected XPropertyManager propertyManager;
+    protected TunableManager tunableManager;
     protected XScheduler xScheduler;
 
     // Other than initially creating required systems, you should never use the injector again
@@ -99,18 +98,19 @@ public abstract class BaseRobot extends LoggedRobot {
                 }
                 
 
-                if (!DriverStation.isFMSAttached()) {
+                if (!RobotState.isFMSAttached()) {
                     // Publish data to NetworkTables if we're not on a real field
 
-                    // Publish data to NetworkTables, but skip the AKit-side mirror of Property
+                    // Publish data to NetworkTables, but skip the AKit-side mirror of tunable
                     // values (they're in the on-disk WPILOG for replay, and the editable surface
-                    // for dashboards lives at /Preferences/... via WPILib Preferences, untouched).
-                    Logger.addDataReceiver(new PropertySkippingNT4Publisher());
+                    // for dashboards lives at /Tunables/...).
+                    Logger.addDataReceiver(new TunableSkippingNT4Publisher());
                 }
 
                 LoggedPowerDistribution.getInstance(
-                        PowerDistribution.kDefaultModule,
-                        PowerDistribution.ModuleType.kRev); // Log power distribution data from the configured module
+                        CANPort.CAN_S0.value,
+                        PowerDistribution.DEFAULT_MODULE,
+                        PowerDistribution.ModuleType.REV); // Log power distribution data from the configured module
             } else {
                 setUseTiming(false); // Run as fast as possible
                 String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
@@ -119,8 +119,6 @@ public abstract class BaseRobot extends LoggedRobot {
             }
 
             Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
-            DriverStation.silenceJoystickConnectionWarning(true);
-
 
             log = LogManager.getLogger(BaseRobot.class);
             log.info("========== BASE ROBOT INITIALIZING ==========");
@@ -128,13 +126,7 @@ public abstract class BaseRobot extends LoggedRobot {
             log.info("========== INJECTOR CREATED ==========");
             this.initializeSystems();
             log.info("========== SYSTEMS INITIALIZED ==========");
-            SmartDashboard.putData(CommandScheduler.getInstance());
-
-            if (this.isReal()) {
-                // We're just so tired of seeing these in logs. We may re-enable this at competition time.
-                DriverStation.silenceJoystickConnectionWarning(true);
-            }
-            PropertyFactory pf = injectorComponent.propertyFactory();
+            Tunables.publish("Scheduler", CommandScheduler.getInstance());
 
             devicePolice = injectorComponent.devicePolice();
             deviceDataFrameRegistry = injectorComponent.dataFrameRegistry();
@@ -142,7 +134,6 @@ public abstract class BaseRobot extends LoggedRobot {
             if (forceWebots) {
                 simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
             }
-            LiveWindow.disableAllTelemetry();
         } catch (Exception e) {
             this.initException = e;
             throw e;
@@ -150,29 +141,29 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     protected String getEnableTypeString() {
-        if (!DriverStation.isEnabled()) {
+        if (!RobotState.isEnabled()) {
             return "disabled";
         }
 
-        if (DriverStation.isAutonomous()) {
+        if (RobotState.isAutonomous()) {
             return "auto";
         }
 
-        if (DriverStation.isTeleop()) {
+        if (RobotState.isTeleop()) {
             return "teleop";
         }
 
-        if (DriverStation.isTest()) {
-            return "test";
+        if (RobotState.isUtility()) {
+            return "utility";
         }
 
         return "enabled/unknown";
     }
 
     protected void updateLoggingContext() {
-        String dsStatus = DriverStation.isDSAttached() ? "DS" : "no DS";
-        String fmsStatus = DriverStation.isFMSAttached() ? "FMS" : "no FMS";
-        String matchStatus = DriverStation.getMatchType().toString() + " " + DriverStation.getMatchNumber() + " " + DriverStation.getReplayNumber();
+        String dsStatus = RobotState.isDSAttached() ? "DS" : "no DS";
+        String fmsStatus = RobotState.isFMSAttached() ? "FMS" : "no FMS";
+        String matchStatus = MatchState.getMatchType().toString() + " " + MatchState.getMatchNumber() + " " + MatchState.getReplayNumber();
         String enableStatus = getEnableTypeString();
         String matchContext = dsStatus + ", " + fmsStatus + ", " + enableStatus + ", " + matchStatus;
     }
@@ -183,8 +174,7 @@ public abstract class BaseRobot extends LoggedRobot {
         XTimerImpl timerimpl = injectorComponent.timerImplementation();
         XTimer.setImplementation(timerimpl);
 
-        // Get the property manager and get all properties from the robot disk
-        propertyManager = injectorComponent.propertyManager();
+        tunableManager = injectorComponent.tunableManager();
         xScheduler = injectorComponent.scheduler();
         xScheduler.reset();
         // All this does is set the timeout period for the scheduler - the actual loop still runs at 50hz.
@@ -195,7 +185,7 @@ public abstract class BaseRobot extends LoggedRobot {
     @Override
     public void disabledInit() {
         updateLoggingContext();
-        propertyManager.refreshDataFrame();
+        tunableManager.refreshDataFrame();
         log.info("Disabled init (" + getMatchContextString() + ")");
     }
 
@@ -204,15 +194,15 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     protected String getMatchContextString() {
-        return DriverStation.getAlliance().toString() + DriverStation.getLocation() + ", "
-            + DriverStation.getMatchTime() + "s, "
-            + (DriverStation.isDSAttached() ? "DS connected" : "DS disconnected") + ", "
-            + (DriverStation.isFMSAttached() ? "FMS connected" : "FMS disconnected") + ", "
-            + "Is disabled: " + DriverStation.isDisabled() + ", "
-            + "Is enabled: " + DriverStation.isEnabled() + ", "
-            + "Is auto: " + DriverStation.isAutonomous() + ", "
-            + "Is teleop: " + DriverStation.isTeleop() + ", "
-            + "Is test: " + DriverStation.isTest() + ", "
+        return MatchState.getAlliance().toString() + MatchState.getLocation() + ", "
+            + MatchState.getMatchTime() + "s, "
+            + (RobotState.isDSAttached() ? "DS connected" : "DS disconnected") + ", "
+            + (RobotState.isFMSAttached() ? "FMS connected" : "FMS disconnected") + ", "
+            + "Is disabled: " + RobotState.isDisabled() + ", "
+            + "Is enabled: " + RobotState.isEnabled() + ", "
+            + "Is auto: " + RobotState.isAutonomous() + ", "
+            + "Is teleop: " + RobotState.isTeleop() + ", "
+            + "Is utility: " + RobotState.isUtility() + ", "
             + "Is browned out: " + RobotController.isBrownedOut() + ", "
             + "Is output enabled: " + RobotController.isSysActive() + ", "
             + "Battery voltage: " + RobotController.getBatteryVoltage();
@@ -267,12 +257,12 @@ public abstract class BaseRobot extends LoggedRobot {
         // Get a fresh data frame from all top-level components (typically large subsystems or shared sensors)
 
 
-        // Refresh the properties ahead of all other systems, since some may want to immediately
+        // Refresh tunable replay/logging state ahead of all other systems.
         // use the relevant values.
-        double propertyStart = getPerformanceTimestampInMs();
-        propertyManager.refreshDataFrame();
-        double propertyEnd = getPerformanceTimestampInMs();
-        Logger.recordOutput("RefreshPropertyMs", propertyEnd - propertyStart);
+        double tunableStart = getPerformanceTimestampInMs();
+        tunableManager.refreshDataFrame();
+        double tunableEnd = getPerformanceTimestampInMs();
+        Logger.recordOutput("RefreshTunablesMs", tunableEnd - tunableStart);
 
         // Then, refresh any Subsystem or other components that implement DataFrameRefreshable.
         double dataFrameStart = getPerformanceTimestampInMs();

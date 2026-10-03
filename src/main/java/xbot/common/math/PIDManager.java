@@ -1,29 +1,28 @@
 package xbot.common.math;
 
+import org.wpilib.tunable.TunableBoolean;
+import org.wpilib.tunable.TunableDouble;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import org.littletonrobotics.junction.Logger;
-
 import xbot.common.advantage.AKitLogger;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.PID.OffTargetReason;
-import xbot.common.properties.BooleanProperty;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.Property;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
+import xbot.common.properties.TunableLevel;
 
 /**
- * Wrapper for PID class which automatically puts the P, I and D values on
- * the SmartDashboard.
+ * Wrapper for PID class which automatically publishes the P, I and D values
+ * as Tunables.
  */
-public class PIDManager extends PIDPropertyManager {
+public class PIDManager extends PIDTunableManager {
     private PID pid;
 
-    private DoubleProperty maxOutput;
-    private DoubleProperty minOutput;
-    private BooleanProperty isEnabled;
+    private TunableDouble maxOutput;
+    private TunableDouble minOutput;
+    private TunableBoolean isEnabled;
     private boolean isIMasked = false;
 
     private String prefix;
@@ -112,7 +111,7 @@ public class PIDManager extends PIDPropertyManager {
     @AssistedInject
     public PIDManager(
             @Assisted String functionName,
-            PropertyFactory propMan,
+            TunableFactory tunableFactory,
             RobotAssertionManager assertionManager,
             @Assisted("defaultP") double defaultP,
             @Assisted("defaultI") double defaultI,
@@ -124,19 +123,19 @@ public class PIDManager extends PIDPropertyManager {
             @Assisted("derivativeThreshold") double derivativeThreshold,
             @Assisted("timeThreshold") double timeThreshold,
             @Assisted("iZone") double iZone) {
-        super(functionName, propMan, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold,
+        super(functionName, tunableFactory, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold,
                 derivativeThreshold, timeThreshold, iZone);
 
-        propMan.setDefaultLevel(Property.PropertyLevel.Debug);
-        this.prefix = propMan.getCleanPrefix();
+        tunableFactory.setDefaultLevel(TunableLevel.Debug);
+        this.prefix = tunableFactory.getCleanPrefix();
         this.aKitLog = new AKitLogger(this.prefix);
 
-        maxOutput = propMan.createPersistentProperty("Max Output", defaultMaxOutput);
-        minOutput = propMan.createPersistentProperty("Min Output", defaultMinOutput);
+        maxOutput = tunableFactory.createDouble("Max Output", defaultMaxOutput);
+        minOutput = tunableFactory.createDouble("Min Output", defaultMinOutput);
 
-        propMan.setDefaultLevel(Property.PropertyLevel.Debug);
-        isEnabled = propMan.createPersistentProperty("Is Enabled", true);
-        propMan.setDefaultLevel(Property.PropertyLevel.Important);
+        tunableFactory.setDefaultLevel(TunableLevel.Debug);
+        isEnabled = tunableFactory.createBoolean("Is Enabled", true);
+        tunableFactory.setDefaultLevel(TunableLevel.Important);
 
         pid = new PID();
         sendTolerancesToInternalPID();
@@ -149,7 +148,7 @@ public class PIDManager extends PIDPropertyManager {
     }
 
     public double calculate(double goal, double current) {
-        // update tolerances via properties
+        // Update tolerances via tunables.
         sendTolerancesToInternalPID();
 
         if (isEnabled.get()) {
@@ -191,7 +190,7 @@ public class PIDManager extends PIDPropertyManager {
      * setDerivativeThreshold(), as well as
      * setEnableErrorThreshold() and/or setDerivativeErrorThreshold(), or if you
      * have set
-     * these values in the SmartDashboard at runtime.
+     * have set these values through Tunables at runtime.
      */
     public boolean isOnTarget() {
         return pid.isOnTarget();

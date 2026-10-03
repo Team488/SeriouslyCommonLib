@@ -1,16 +1,16 @@
 package xbot.common.subsystems.drive.control_logic;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import org.wpilib.tunable.TunableDouble;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XTimer;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 /**
@@ -33,8 +33,8 @@ public class HeadingAssistModule {
     final HeadingModule headingModule;
     final HeadingModule decayModule;
 
-    final DoubleProperty humanThreshold;
-    final DoubleProperty coastTime;
+    final TunableDouble humanThreshold;
+    final TunableDouble coastTime;
     double desiredHeading;
     double lastHumanInput;
     boolean inAutomaticMode;
@@ -73,14 +73,14 @@ public class HeadingAssistModule {
             @Assisted("headingModule") HeadingModule headingModule,
             @Assisted("decayModule") HeadingModule decayModule,
             @Assisted("prefix") String prefix,
-            PropertyFactory propMan,
+            TunableFactory tunableFactory,
             BasePoseSubsystem pose) {
         this.headingModule = headingModule;
         this.decayModule = decayModule;
         this.pose = pose;
-        propMan.setPrefix(prefix);
-        humanThreshold = propMan.createPersistentProperty("HeadingAssistModule/Human Threshold", 0.05);
-        coastTime = propMan.createPersistentProperty("Heading Assist Module/Coast Time", 0.5);
+        tunableFactory.setPrefix(prefix);
+        humanThreshold = tunableFactory.createDouble("HeadingAssistModule/Human Threshold", 0.05);
+        coastTime = tunableFactory.createDouble("Heading Assist Module/Coast Time", 0.5);
         lastHumanInput = 0;
         this.headingMode = HeadingAssistMode.HoldOrientation;
     }

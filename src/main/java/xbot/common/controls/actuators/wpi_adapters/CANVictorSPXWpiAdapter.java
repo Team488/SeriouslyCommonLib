@@ -1,20 +1,24 @@
+/*
 package xbot.common.controls.actuators.wpi_adapters;
 
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.tre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import org.wpilib.units.AngularAccelerationUnit;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularAcceleration;
+import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.Frequency;
+import org.wpilib.units.measure.Time;
+import org.wpilib.units.measure.Velocity;
+import org.wpilib.units.measure.Voltage;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.units.AngularAccelerationUnit;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularAcceleration;
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Frequency;
-import edu.wpi.first.units.measure.Time;
-import edu.wpi.first.units.measure.Velocity;
-import edu.wpi.first.units.measure.Voltage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
@@ -25,11 +29,11 @@ import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.properties.PowerDistributionProperties;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 import xbot.common.resiliency.DeviceHealth;
 
-import static edu.wpi.first.units.Units.Seconds;
-import static edu.wpi.first.units.Units.Volts;
+import static org.wpilib.units.Units.Seconds;
+import static org.wpilib.units.Units.Volts;
 
 public class CANVictorSPXWpiAdapter extends XCANMotorController {
 
@@ -39,7 +43,7 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
         public abstract CANVictorSPXWpiAdapter create(
                 @Assisted("info") CANMotorControllerInfo info,
                 @Assisted("owningSystemPrefix") String owningSystemPrefix,
-                @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
+                @Assisted("pidTunablePrefix") String pidTunablePrefix,
                 @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties);
     }
 
@@ -55,15 +59,15 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
     public CANVictorSPXWpiAdapter(
             @Assisted("info") CANMotorControllerInfo info,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            PropertyFactory propertyFactory,
+            TunableFactory tunableFactory,
             DevicePolice police,
             RobotAssertionManager assertionManager,
-            @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
+            @Assisted("pidTunablePrefix") String pidTunablePrefix,
             @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties,
             DataFrameRegistry dataFrameRegistry,
             PowerDistributionProperties pdProperties
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
+        super(info, owningSystemPrefix, tunableFactory, police, pidTunablePrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
         this.internalVictor = new VictorSPX(info.deviceId());
         this.assertionManager = assertionManager;
 
@@ -176,3 +180,4 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
         // Do nothing, not relevant
     }
 }
+    */

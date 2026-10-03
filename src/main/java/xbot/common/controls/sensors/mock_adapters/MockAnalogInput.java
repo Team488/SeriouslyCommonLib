@@ -6,6 +6,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.injection.DevicePolice;
 import xbot.common.simulation.ISimulatableSensor;
@@ -20,8 +21,11 @@ public class MockAnalogInput extends XAnalogInput implements ISimulatableSensor 
     }
 
     @AssistedInject
-    public MockAnalogInput(@Assisted("channel") int channel, DevicePolice police) {
-        super(channel, police);
+    public MockAnalogInput(
+            @Assisted("channel") int channel,
+            DevicePolice police,
+            DataFrameRegistry dataFrameRegistry) {
+        super(channel, police, dataFrameRegistry);
         this.channel = channel;
     }
 
@@ -31,14 +35,6 @@ public class MockAnalogInput extends XAnalogInput implements ISimulatableSensor 
 
     public double getVoltage() {
         return voltage;
-    }
-
-    public double getAverageVoltage() {
-        return voltage;
-    }
-
-    public void setAverageBits(int bits) {
-        // Nothing to do here.
     }
 
     @Override

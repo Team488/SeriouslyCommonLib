@@ -1,8 +1,5 @@
 package xbot.common.simulation;
 
-import static edu.wpi.first.units.Units.Rotations;
-import static org.junit.Assert.assertEquals;
-
 import java.math.BigDecimal;
 
 import org.json.JSONArray;
@@ -12,6 +9,9 @@ import org.junit.Test;
 
 import xbot.common.controls.sensors.mock_adapters.MockAbsoluteEncoder;
 import xbot.common.injection.electrical_contract.DeviceInfo;
+
+import static org.junit.Assert.assertEquals;
+import static org.wpilib.units.Units.Rotations;
 
 @Ignore
 public class SimulatedMockAbsoluteEncoderTest extends BaseSimulationTest {

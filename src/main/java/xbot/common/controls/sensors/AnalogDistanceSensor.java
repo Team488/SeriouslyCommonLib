@@ -1,27 +1,28 @@
 package xbot.common.controls.sensors;
 
+import java.util.function.DoubleUnaryOperator;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import org.wpilib.tunable.TunableDouble;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XAnalogInput.XAnalogInputFactory;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
-
-import java.util.function.DoubleUnaryOperator;
+import xbot.common.properties.TunableFactory;
 
 public class AnalogDistanceSensor extends XAnalogDistanceSensor {
 
-    private static final int NUM_AVERAGE_BITS = 2;
+    private static final int AVERAGE_SAMPLE_WINDOW = 4;
 
     public XAnalogInput input;
 
-    private DoubleProperty voltageOffset;
-    private DoubleProperty distanceOffset;
-    private DoubleProperty scalarMultiplier;
+    private TunableDouble voltageOffset;
+    private TunableDouble distanceOffset;
+    private TunableDouble scalarMultiplier;
 
     private boolean isAveragingEnabled = false;
 
@@ -41,18 +42,18 @@ public class AnalogDistanceSensor extends XAnalogDistanceSensor {
             @Assisted("channel") int channel,
             @Assisted("voltageMap") DoubleUnaryOperator voltageMap,
             @Assisted("prefix") String prefix,
-            PropertyFactory propMan) {
+            TunableFactory tunableFactory) {
         super(channel, voltageMap);
 
         log.info("Initializing...");
         this.input = analogInputFactory.create(channel);
-        propMan.setPrefix(prefix);
-        voltageOffset = propMan.createPersistentProperty("Distance sensor " + input.getChannel() + " voltage offset",
+        tunableFactory.setPrefix(prefix);
+        voltageOffset = tunableFactory.createDouble("Distance sensor " + input.getChannel() + " voltage offset",
                 0d);
-        distanceOffset = propMan.createPersistentProperty("Distance sensor " + input.getChannel() + " distance offset",
+        distanceOffset = tunableFactory.createDouble("Distance sensor " + input.getChannel() + " distance offset",
                 0d);
-        scalarMultiplier = propMan
-                .createPersistentProperty("Distance sensor " + input.getChannel() + "scalar multiplier", 1d);
+        scalarMultiplier = tunableFactory
+                .createDouble("Distance sensor " + input.getChannel() + "scalar multiplier", 1d);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class AnalogDistanceSensor extends XAnalogDistanceSensor {
     @Override
     public void setAveraging(boolean shouldAverage) {
         isAveragingEnabled = shouldAverage;
-        input.setAverageBits(shouldAverage ? NUM_AVERAGE_BITS : 0);
+        input.setAverageSampleWindow(shouldAverage ? AVERAGE_SAMPLE_WINDOW : 1);
     }
 
     public void setVoltageOffset(double offset) {

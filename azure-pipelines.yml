@@ -21,7 +21,7 @@ jobs:
       clean: true
     - task: JavaToolInstaller@0
       inputs:
-        versionSpec: '17'
+        versionSpec: '25'
         jdkArchitectureOption: 'x64'
         jdkSourceOption: 'PreInstalled'
     - task: Cache@2

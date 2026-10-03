@@ -1,6 +1,8 @@
 package xbot.common.controls.actuators;
 
 import org.junit.Test;
+
+import xbot.common.controls.actuators.mock_adapters.MockCANLightController;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANLightControllerInfo;
@@ -9,6 +11,7 @@ import xbot.common.injection.electrical_contract.LEDStripType;
 import xbot.common.injection.electrical_contract.LightControllerType;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CANLightControlelrTest extends BaseCommonLibTest {
     @Test
@@ -19,13 +22,14 @@ public class CANLightControlelrTest extends BaseCommonLibTest {
                         "test",
                         LightControllerType.Candle,
                         CANBusId.RIO,
-                        999,
+                        61,
                         new CANLightControllerOutputConfig(
                                 LEDStripType.RGB,
                                 1.0,
                                 new int[]{8, 30, 30}
                         )));
 
+        assertTrue(lightController instanceof MockCANLightController);
         assertEquals(0, lightController.getSlotStartIndex(0));
         assertEquals(7, lightController.getSlotEndIndex(0));
 

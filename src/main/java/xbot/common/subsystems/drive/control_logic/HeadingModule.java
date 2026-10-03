@@ -1,12 +1,13 @@
 package xbot.common.subsystems.drive.control_logic;
 
+import org.wpilib.math.geometry.Rotation2d;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import xbot.common.math.PIDManager;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 /**
@@ -36,7 +37,7 @@ public class HeadingModule {
     public HeadingModule(
             @Assisted("headingDrivePid") PIDManager headingDrivePid, 
             BasePoseSubsystem pose, 
-            PropertyFactory propMan)
+            TunableFactory tunableFactory)
     {
         this.pose = pose;
         

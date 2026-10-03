@@ -1,18 +1,17 @@
 package xbot.common.controls.sensors;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import org.littletonrobotics.junction.Logger;
+
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.units.measure.Angle;
 
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.XBaseIO;
-import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
 import xbot.common.controls.io_inputs.XDutyCycleEncoderInputs;
 import xbot.common.controls.io_inputs.XDutyCycleEncoderInputsAutoLogged;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
-import xbot.common.math.ContiguousDouble;
-import xbot.common.math.WrappedRotation2d;
 
 public abstract class XDutyCycleEncoder implements XBaseIO, DataFrameRefreshable {
 
@@ -36,22 +35,17 @@ public abstract class XDutyCycleEncoder implements XBaseIO, DataFrameRefreshable
     }
 
     /**
-     * Typically not recommended - use {@link #getWrappedPosition()} instead.
-     * @return the absolute position of the encoder in degrees from (0, 360)
+     * @return the number of rotations the encoder has gone through since it was last reset.
      */
-    public Rotation2d getAbsolutePosition() {
-        return new Rotation2d(inputs.absoluteRawPosition*2*Math.PI * inversionFactor());
-    }
-
-    public double getAbsoluteDegrees() {
-        return inputs.absoluteRawPosition * 360 * inversionFactor();
+    public Angle getAbsolutePosition() {
+        return inputs.absoluteRawPosition.times(inversionFactor());
     }
 
     /**
-     * @return the absolute position of the encoder in degrees from (-180, 180)
+     * @return the position of the encoder wrapped to the range [-180, 180) degrees (or equivalent units).
      */
-    public WrappedRotation2d getWrappedPosition() {
-        return WrappedRotation2d.fromRotation2d(getAbsolutePosition());
+    public Angle getWrappedPosition() {
+        return new Rotation2d(getAbsolutePosition()).getMeasure();
     }
 
     @Override

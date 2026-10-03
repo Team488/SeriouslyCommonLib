@@ -1,14 +1,12 @@
 package xbot.common.subsystems.drive;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 
 import org.junit.Ignore;
 import org.junit.Test;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Rotation2d;
+
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
@@ -16,6 +14,9 @@ import xbot.common.subsystems.drive.PurePursuitCommand.PointLoadingMode;
 import xbot.common.subsystems.drive.RabbitPoint.PointTerminatingType;
 import xbot.common.subsystems.drive.RabbitPoint.PointType;
 import xbot.common.subsystems.pose.MockBasePoseSubsystem;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class PurePursuitCommandTest extends BaseCommonLibTest {
 

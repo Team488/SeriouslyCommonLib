@@ -1,4 +1,5 @@
 package xbot.common.logic;
+
 import java.util.function.Consumer;
 
 /**

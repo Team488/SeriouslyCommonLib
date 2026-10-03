@@ -1,17 +1,17 @@
 package xbot.common.injection.modules;
 
+import javax.inject.Singleton;
+
+import org.wpilib.fields.Fields;
+
 import dagger.Module;
 import dagger.Provides;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
-
-import javax.inject.Singleton;
 
 @Module
 public class DefaultVisionModule {
     @Provides
     @Singleton
-    static AprilTagFieldLayout getAprilTagFieldLayout() {
-        return AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
+    static Fields getAprilTagFieldLayout() {
+        return Fields.DEFAULT_FIELD;
     }
 }

@@ -1,11 +1,11 @@
 package xbot.common.logic;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.logic.StallDetector.StallState;
+
+import static org.junit.Assert.assertEquals;
 
 public class StallDetectorTest extends BaseCommonLibTest {
     

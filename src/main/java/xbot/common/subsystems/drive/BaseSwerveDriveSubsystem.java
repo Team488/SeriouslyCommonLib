@@ -1,16 +1,22 @@
 package xbot.common.subsystems.drive;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import java.util.function.Consumer;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import org.wpilib.command2.Command;
+import org.wpilib.command2.Commands;
+import org.wpilib.command2.StartEndCommand;
+import org.wpilib.math.filter.SlewRateLimiter;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.math.kinematics.ChassisVelocities;
+import org.wpilib.math.kinematics.SwerveDriveKinematics;
+import org.wpilib.math.kinematics.SwerveModuleVelocity;
+import org.wpilib.tunable.TunableDouble;
+import org.wpilib.units.measure.LinearAcceleration;
+
 import xbot.common.advantage.AKitLogger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;
@@ -19,16 +25,14 @@ import xbot.common.injection.swerve.SwerveComponent;
 import xbot.common.math.PIDDefaults;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.Property;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 import xbot.common.subsystems.drive.swerve.ISwerveAdvisorDriveSupport;
-import xbot.common.subsystems.drive.swerve.SwerveModuleStates;
 import xbot.common.subsystems.drive.swerve.SwerveDriveSubsystem;
+import xbot.common.subsystems.drive.swerve.SwerveModuleStates;
 import xbot.common.subsystems.drive.swerve.SwerveModuleSubsystem;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
-import java.util.function.Consumer;
+import static org.wpilib.units.Units.MetersPerSecondPerSecond;
 
 public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
         implements DataFrameRefreshable, ISwerveAdvisorDriveSupport {
@@ -39,9 +43,10 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
     private final SwerveModuleSubsystem rearLeftSwerveModuleSubsystem;
     private final SwerveModuleSubsystem rearRightSwerveModuleSubsystem;
 
-    private final DoubleProperty maxTargetSpeedMps;
-    private final DoubleProperty maxTargetTurnRate;
-    private final DoubleProperty maxAccelerationMps2;
+    private final TunableDouble maxTargetSpeedMps;
+    private final TunableDouble maxTargetTurnRate;
+    private final TunableDouble maxAccelerationMps2;
+    private LinearAcceleration lastMaxAcceleration;
 
     private final SwerveDriveKinematics swerveDriveKinematics;
     private String activeModuleLabel;
@@ -50,8 +55,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
     private double translationYTargetMPS;
     private double rotationTargetRadians;
 
-    private final DoubleProperty minTranslateSpeed;
-    private final DoubleProperty minRotationalSpeed;
+    private final TunableDouble minTranslateSpeed;
+    private final TunableDouble minRotationalSpeed;
 
     private final PIDManager positionalPidManager;
     private final PIDManager headingPidManager;
@@ -88,12 +93,12 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
     private SlewRateLimiter slewRateLimiter;
     private double lastMoveCallTime;
 
-    public BaseSwerveDriveSubsystem(PIDManager.PIDManagerFactory pidFactory, PropertyFactory pf,
+    public BaseSwerveDriveSubsystem(PIDManager.PIDManagerFactory pidFactory, TunableFactory tunableFactory,
             SwerveComponent frontLeftSwerve, SwerveComponent frontRightSwerve,
             SwerveComponent rearLeftSwerve, SwerveComponent rearRightSwerve,
             DataFrameRegistry dataFrameRegistry) {
         log.info("Creating DriveSubsystem");
-        pf.setPrefix(this);
+        tunableFactory.setPrefix(this);
 
         this.frontLeftSwerveModuleSubsystem = frontLeftSwerve.swerveModuleSubsystem();
         this.frontRightSwerveModuleSubsystem = frontRightSwerve.swerveModuleSubsystem();
@@ -105,16 +110,17 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
                 this.frontRightSwerveModuleSubsystem.getModuleTranslation(),
                 this.rearLeftSwerveModuleSubsystem.getModuleTranslation(),
                 this.rearRightSwerveModuleSubsystem.getModuleTranslation());
-        this.maxTargetSpeedMps = pf.createPersistentProperty("MaxTargetSpeedMetersPerSecond", 4.5);
-        this.maxTargetTurnRate = pf.createPersistentProperty("MaxTargetTurnRate", 8.0);
-        this.maxAccelerationMps2 = pf.createPersistentProperty("MaxAccelerationMps2", 9.0); // TODO: tune.
+        this.maxTargetSpeedMps = tunableFactory.createDouble("MaxTargetSpeedMetersPerSecond", 4.5);
+        this.maxTargetTurnRate = tunableFactory.createDouble("MaxTargetTurnRate", 8.0);
+        this.maxAccelerationMps2 = tunableFactory.createDouble("MaxAccelerationMps2", 9.0); // TODO: tune.
+        this.lastMaxAcceleration = MetersPerSecondPerSecond.of(maxAccelerationMps2.get());
 
         this.activeModuleLabel = activeModule.toString();
         this.desiredHeading = 0;
 
         // These can be tuned to reduce twitchy wheels
-        this.minTranslateSpeed = pf.createPersistentProperty("Minimum translate speed", 0.02);
-        this.minRotationalSpeed = pf.createPersistentProperty("Minimum rotational speed", 0.005);
+        this.minTranslateSpeed = tunableFactory.createDouble("Minimum translate speed", 0.02);
+        this.minRotationalSpeed = tunableFactory.createDouble("Minimum rotational speed", 0.005);
 
         // TODO: eventually, this should retrieved from auto or the pose subsystem as a
         // field like
@@ -389,7 +395,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
         // This handy library from WPILib will take our robot's overall desired
         // translation & rotation and figure out
         // what each swerve module should be doing in order to achieve that.
-        ChassisSpeeds targetMotion = new ChassisSpeeds(targetXmetersPerSecond, targetYmetersPerSecond,
+        ChassisVelocities targetMotion = new ChassisVelocities(targetXmetersPerSecond, targetYmetersPerSecond,
                 targetRotationRadiansPerSecond);
 
         // One optional step - we can choose to rotate around a specific point, rather
@@ -397,7 +403,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
         Translation2d centerOfRotationTranslationMeters = new Translation2d(
                 centerOfRotationInches.x / BasePoseSubsystem.INCHES_IN_A_METER,
                 centerOfRotationInches.y / BasePoseSubsystem.INCHES_IN_A_METER);
-        SwerveModuleState[] moduleStates = swerveDriveKinematics.toSwerveModuleStates(targetMotion,
+        SwerveModuleVelocity[] calculatedModuleStates = swerveDriveKinematics.toSwerveModuleVelocities(targetMotion,
                 centerOfRotationTranslationMeters);
 
         // Another potentially optional step - it's possible that in the calculations
@@ -420,13 +426,17 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
 
         // Also, one more special check - if there was no commanded motion, set the
         // speed to 0.
+        SwerveModuleVelocity[] moduleStates;
         if (isNotMoving) {
-            for (SwerveModuleState moduleState : moduleStates) {
-                moduleState.speedMetersPerSecond = 0;
+            moduleStates = new SwerveModuleVelocity[calculatedModuleStates.length];
+            for (int i = 0; i < calculatedModuleStates.length; i++) {
+                moduleStates[i] = new SwerveModuleVelocity(0, calculatedModuleStates[i].angle);
             }
         } else {
             double topSpeedMetersPerSecond = maxTargetSpeedMps.get();
-            SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, topSpeedMetersPerSecond);
+            moduleStates = SwerveDriveKinematics.desaturateWheelVelocities(
+                    calculatedModuleStates,
+                    topSpeedMetersPerSecond);
         }
 
         // Finally, we can tell each swerve module what it should be doing. Log these
@@ -453,8 +463,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
     }
 
     public void setWheelsToXMode() {
-        SwerveModuleState frontLeft = new SwerveModuleState(0, new Rotation2d(+45));
-        SwerveModuleState frontRight = new SwerveModuleState(0, new Rotation2d(-45));
+        SwerveModuleVelocity frontLeft = new SwerveModuleVelocity(0, new Rotation2d(+45));
+        SwerveModuleVelocity frontRight = new SwerveModuleVelocity(0, new Rotation2d(-45));
         this.getFrontLeftSwerveModuleSubsystem().setTargetState(frontLeft);
         this.getFrontRightSwerveModuleSubsystem().setTargetState(frontRight);
         this.getRearLeftSwerveModuleSubsystem().setTargetState(frontRight);
@@ -466,7 +476,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
      * This should only be used when all swerve modules need to be at the same
      * target state.
      */
-    public void setAllSwerveModulesToTargetState(SwerveModuleState swerveModuleState) {
+    public void setAllSwerveModulesToTargetState(SwerveModuleVelocity swerveModuleState) {
         forEachSwerveModule(module -> module.setTargetState(swerveModuleState, false));
     }
 
@@ -679,8 +689,12 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
                     new Translation2d(velocityMaintainerXTarget, velocityMaintainerXTarget));
         });
 
-        if (maxAccelerationMps2.hasChangedSinceLastCheck()) {
-            slewRateLimiter = new SlewRateLimiter(maxAccelerationMps2.get());
+        LinearAcceleration currentMaxAcceleration =
+                MetersPerSecondPerSecond.of(maxAccelerationMps2.get());
+        if (!currentMaxAcceleration.isEquivalent(lastMaxAcceleration)) {
+            slewRateLimiter = new SlewRateLimiter(
+                    currentMaxAcceleration.in(MetersPerSecondPerSecond));
+            lastMaxAcceleration = currentMaxAcceleration;
         }
     }
 

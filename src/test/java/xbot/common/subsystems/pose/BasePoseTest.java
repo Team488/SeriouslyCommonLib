@@ -1,7 +1,5 @@
 package xbot.common.subsystems.pose;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Before;
 import org.junit.Ignore;
 
@@ -9,6 +7,8 @@ import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
+
+import static org.junit.Assert.assertEquals;
 
 @Ignore
 public class BasePoseTest extends BaseCommonLibTest {

@@ -1,19 +1,22 @@
 package xbot.common.subsystems.drive.swerve;
 
+import org.wpilib.driverstation.Alliance;
+import org.wpilib.driverstation.MatchState;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.math.util.MathUtil;
+import org.wpilib.tunable.TunableDouble;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
+
 import xbot.common.advantage.AKitLogger;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 /**
  * This class is responsible for advising the drive subsystem on what heading to rotate to based on various inputs and modes.
@@ -25,7 +28,7 @@ public class SwerveDriveRotationAdvisor {
     ISwerveAdvisorDriveSupport drive;
     int snappingZoneCount = 4;
 
-    DoubleProperty minimumMagnitudeToSnap;
+    TunableDouble minimumMagnitudeToSnap;
 
     AKitLogger aKitLogger;
 
@@ -53,18 +56,18 @@ public class SwerveDriveRotationAdvisor {
     @AssistedInject
     public SwerveDriveRotationAdvisor(RobotAssertionManager assertionManager,
                                       ISwerveAdvisorPoseSupport pose, ISwerveAdvisorDriveSupport drive,
-                                      PropertyFactory pf,
+                                      TunableFactory tunableFactory,
                                       @Assisted HumanVsMachineDecider hvmDecider,
                                       @Assisted("HvmDeadband") double hvmDeadband) {
-        pf.setPrefix("SwerveDriveRotationAdvisor/");
+        tunableFactory.setPrefix("SwerveDriveRotationAdvisor/");
         this.assertionManager = assertionManager;
         this.hvmDecider = hvmDecider;
         this.drive = drive;
         this.pose = pose;
 
-        aKitLogger = new AKitLogger(pf.getPrefix());
+        aKitLogger = new AKitLogger(tunableFactory.getPrefix());
 
-        this.minimumMagnitudeToSnap = pf.createPersistentProperty("MinimumMagnitudeToSnap", 0.75);
+        this.minimumMagnitudeToSnap = tunableFactory.createDouble("MinimumMagnitudeToSnap", 0.75);
 
         hvmDecider.setDeadband(hvmDeadband);
     }
@@ -110,7 +113,7 @@ public class SwerveDriveRotationAdvisor {
     SwerveSuggestedRotation evaluateSnappingInput(Translation2d input) {
         Rotation2d desiredHeading = getDesiredHeadingFromSnappingInput(input);
 
-        if (DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Red) {
+        if (MatchState.getAlliance().orElse(Alliance.BLUE) == Alliance.RED) {
             desiredHeading = desiredHeading.rotateBy(Rotation2d.fromDegrees(180));
         }
 
@@ -130,7 +133,7 @@ public class SwerveDriveRotationAdvisor {
         Translation2d currentXY = new Translation2d(currentPose.getX(), currentPose.getY());
 
         // By default, we need to add 180 to our desiredHeading.
-        double desiredHeading = currentXY.minus(target).getAngle().getDegrees() + 180;
+        double desiredHeading = currentXY.minus(target).getAngle().get().getDegrees() + 180;
         if (drive.getLookAtPointInverted()) {
             desiredHeading -= 180;
         }
@@ -176,7 +179,7 @@ public class SwerveDriveRotationAdvisor {
     }
 
     Rotation2d getDesiredHeadingFromSnappingInput(Translation2d input) {
-        Rotation2d heading = input.getAngle();
+        Rotation2d heading = input.getAngle().get();
 
         double sectorSize = 360.0 / snappingZoneCount;
 

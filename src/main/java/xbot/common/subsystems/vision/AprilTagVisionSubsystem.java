@@ -13,21 +13,6 @@
 
 package xbot.common.subsystems.vision;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import org.littletonrobotics.junction.Logger;
-import xbot.common.advantage.DataFrameRefreshable;
-import xbot.common.command.DataFrameRegistry;
-import xbot.common.injection.electrical_contract.CameraInfo;
-import xbot.common.injection.electrical_contract.XCameraElectricalContract;
-import xbot.common.properties.PropertyFactory;
-import edu.wpi.first.wpilibj.Timer;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -37,6 +22,23 @@ import java.util.OptionalInt;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import org.littletonrobotics.junction.Logger;
+
+import org.wpilib.command2.SubsystemBase;
+import org.wpilib.fields.Fields;
+import org.wpilib.math.geometry.Pose3d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Transform3d;
+import org.wpilib.system.Timer;
+
+import xbot.common.command.DataFrameRegistry;
+import xbot.common.injection.electrical_contract.CameraInfo;
+import xbot.common.injection.electrical_contract.XCameraElectricalContract;
+import xbot.common.properties.TunableFactory;
+
 /**
  * Subsystem for processing AprilTag vision data.
  * Based on the AdvantageKit sample implementation by team 6328.
@@ -44,12 +46,12 @@ import java.util.stream.Collectors;
 @Singleton
 public class AprilTagVisionSubsystem extends SubsystemBase {
     private final CameraInfo[] cameras;
-    private final AprilTagFieldLayout aprilTagFieldLayout;
+    private final Fields aprilTagFieldLayout;
     final AprilTagVisionIO[] io;
     final AprilTagVisionCameraHelper[] cameraHelpers;
 
     @Inject
-    public AprilTagVisionSubsystem(PropertyFactory pf, AprilTagFieldLayout fieldLayout,
+    public AprilTagVisionSubsystem(TunableFactory tunableFactory, Fields fieldLayout,
             XCameraElectricalContract contract,
             AprilTagVisionIOFactory visionIOFactory, DataFrameRegistry registry) {
         this.aprilTagFieldLayout = fieldLayout;
@@ -61,7 +63,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
             var cameraInfo = this.cameras[i];
             io[i] = visionIOFactory.create(cameraInfo.networkTablesName(), cameraInfo.position());
             cameraHelpers[i] = new AprilTagVisionCameraHelper(this.getName() + "/Cameras/" + cameraInfo.friendlyName(),
-                    pf, io[i], fieldLayout, registry, cameraInfo.useForPoseEstimates());
+                    tunableFactory, io[i], fieldLayout, registry, cameraInfo.useForPoseEstimates());
         }
     }
 
@@ -222,7 +224,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
             Logger.recordOutput(
                     cameraHelper.getLogPath() + "/RobotPosesRejected",
                     cameraHelper.getRobotPosesRejected().toArray(new Pose3d[0]));
-            double now = Timer.getFPGATimestamp();
+            double now = Timer.getMonotonicTimestamp();
             Logger.recordOutput(
                     cameraHelper.getLogPath() + "/Staleness",
                     cameraHelper.getPoseObservations().stream().map(p -> (now - p.timestampSeconds())).mapToDouble(Double::doubleValue).toArray());

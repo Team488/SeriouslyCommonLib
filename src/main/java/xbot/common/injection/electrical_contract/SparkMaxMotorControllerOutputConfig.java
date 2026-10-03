@@ -1,10 +1,10 @@
 package xbot.common.injection.electrical_contract;
 
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Current;
+import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.Current;
 
-import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.RPM;
+import static org.wpilib.units.Units.Amps;
+import static org.wpilib.units.Units.RPM;
 
 /**
  * Configuration class for Spark Max motor controllers.

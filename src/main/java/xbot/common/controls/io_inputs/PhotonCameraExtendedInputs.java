@@ -1,6 +1,5 @@
 package xbot.common.controls.io_inputs;
 
-import org.littletonrobotics.junction.AutoLog;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 //@AutoLog

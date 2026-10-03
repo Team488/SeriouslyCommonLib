@@ -1,13 +1,15 @@
 package xbot.common.controls.actuators.wpi_adapters;
 
+import org.wpilib.hardware.pneumatic.PneumaticsModuleType;
+import org.wpilib.hardware.pneumatic.Solenoid;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.injection.DevicePolice;
+import xbot.common.injection.electrical_contract.CANBusId;
 
 public class SolenoidWPIAdapter extends XSolenoid {
 
@@ -23,7 +25,7 @@ public class SolenoidWPIAdapter extends XSolenoid {
     @AssistedInject
     public SolenoidWPIAdapter(@Assisted("channel") int channel, DevicePolice police) {
         super(channel, police);
-        this.solenoid = new Solenoid(PneumaticsModuleType.REVPH, channel);
+        this.solenoid = new Solenoid(CANBusId.RIO.toWpiCANPort(), PneumaticsModuleType.REV_PH, channel);
     }
 
     @Override

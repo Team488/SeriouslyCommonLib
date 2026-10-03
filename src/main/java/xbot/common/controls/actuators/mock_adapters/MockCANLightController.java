@@ -2,13 +2,15 @@ package xbot.common.controls.actuators.mock_adapters;
 
 import com.ctre.phoenix6.signals.AnimationDirectionValue;
 import com.ctre.phoenix6.signals.LarsonBounceValue;
+
+import org.wpilib.units.measure.Frequency;
+import org.wpilib.util.Color;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.units.measure.Frequency;
-import edu.wpi.first.wpilibj.util.Color;
+
 import xbot.common.controls.actuators.XCANLightController;
-import xbot.common.controls.actuators.wpi_adapters.CANdleWpiAdapter;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANLightControllerInfo;
 import xbot.common.resiliency.DeviceHealth;
@@ -19,7 +21,7 @@ import xbot.common.resiliency.DeviceHealth;
 public class MockCANLightController extends XCANLightController {
     @AssistedFactory
     public abstract static class MockCANLightControllerFactory implements XCANLightController.XCANLightControllerFactory {
-        public abstract CANdleWpiAdapter create(
+        public abstract MockCANLightController create(
                 @Assisted("info") CANLightControllerInfo info);
     }
 

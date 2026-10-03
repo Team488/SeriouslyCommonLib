@@ -1,13 +1,15 @@
 package xbot.common.logic;
 
+import org.wpilib.driverstation.RobotState;
+import org.wpilib.tunable.TunableDouble;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.wpilibj.DriverStation;
+
 import xbot.common.controls.sensors.XTimer;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.Property;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
+import xbot.common.properties.TunableLevel;
 
 /**
  * Decides whether to use human or machine control of a subsystem.
@@ -25,8 +27,8 @@ public class HumanVsMachineDecider {
     }
 
     private double lastHumanTime;
-    private final DoubleProperty deadbandProp;
-    private final DoubleProperty coastTimeProp;
+    private final TunableDouble deadbandTunable;
+    private final TunableDouble coastTimeTunable;
     private boolean inAutomaticMode;
 
     /**
@@ -36,7 +38,7 @@ public class HumanVsMachineDecider {
     public abstract static class HumanVsMachineDeciderFactory {
         /**
          * Creates a new decider with the given prefix.
-         * @param prefix The prefix to use for all properties created by this decider.
+         * @param prefix The prefix to use for all tunables created by this decider.
          * @return The new decider.
          */
         public abstract HumanVsMachineDecider create(@Assisted("prefix") String prefix);
@@ -44,16 +46,16 @@ public class HumanVsMachineDecider {
 
     /**
      * Creates a new decider with the given prefix.
-     * @param prefix The prefix to use for all properties created by this decider.
-     * @param propertyFactory The property factory to use for creating properties.
+     * @param prefix The prefix to use for all tunables created by this decider.
+     * @param tunableFactory The tunable factory to use for creating configuration values.
      */
     @AssistedInject
-    public HumanVsMachineDecider(@Assisted("prefix") String prefix, PropertyFactory propertyFactory) {
-        propertyFactory.setPrefix(prefix);
-        propertyFactory.appendPrefix("Decider");
-        propertyFactory.setDefaultLevel(Property.PropertyLevel.Debug);
-        deadbandProp = propertyFactory.createPersistentProperty("Deadband", 0.1);
-        coastTimeProp = propertyFactory.createPersistentProperty("Coast Time", 0.3);
+    public HumanVsMachineDecider(@Assisted("prefix") String prefix, TunableFactory tunableFactory) {
+        tunableFactory.setPrefix(prefix);
+        tunableFactory.appendPrefix("Decider");
+        tunableFactory.setDefaultLevel(TunableLevel.Debug);
+        deadbandTunable = tunableFactory.createDouble("Deadband", 0.1);
+        coastTimeTunable = tunableFactory.createDouble("Coast Time", 0.3);
         reset();
     }
 
@@ -80,18 +82,18 @@ public class HumanVsMachineDecider {
      */
     public HumanVsMachineMode getRecommendedMode(double humanInput) {
 
-        if (DriverStation.isDisabled()) {
+        if (RobotState.isDisabled()) {
             inAutomaticMode = false;
             return HumanVsMachineMode.Coast;
         }
 
-        if (Math.abs(humanInput) > deadbandProp.get()) {
+        if (Math.abs(humanInput) > deadbandTunable.get()) {
             lastHumanTime = XTimer.getFPGATimestamp();
             inAutomaticMode = false;
             return HumanVsMachineMode.HumanControl;
         }
 
-        if (XTimer.getFPGATimestamp() - lastHumanTime < coastTimeProp.get()) {
+        if (XTimer.getFPGATimestamp() - lastHumanTime < coastTimeTunable.get()) {
             inAutomaticMode = false;
             return HumanVsMachineMode.Coast;
         }
@@ -109,10 +111,10 @@ public class HumanVsMachineDecider {
      * @return The deadband value.
      */
     public double getDeadband() {
-        return deadbandProp.get();
+        return deadbandTunable.get();
     }
 
     public void setDeadband(double value) {
-        deadbandProp.set(value);
+        deadbandTunable.set(value);
     }
 }

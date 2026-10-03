@@ -1,12 +1,12 @@
 package xbot.common.controls.sensors;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDDescription;
 import xbot.common.controls.sensors.mock_adapters.MockJoystick;
 import xbot.common.injection.BaseCommonLibTest;
+
+import static org.junit.Assert.assertTrue;
 
 public class JoystickTest extends BaseCommonLibTest {
 

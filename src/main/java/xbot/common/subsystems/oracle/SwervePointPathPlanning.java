@@ -1,45 +1,48 @@
 package xbot.common.subsystems.oracle;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.units.measure.Distance;
-import static edu.wpi.first.units.Units.Meters;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.tunable.TunableDouble;
+import org.wpilib.units.measure.Distance;
+
 import xbot.common.advantage.AKitLogger;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
-import xbot.common.trajectory.XbotSwervePoint;
+import xbot.common.properties.TunableFactory;
 import xbot.common.subsystems.pose.GameField;
 import xbot.common.subsystems.pose.IFieldObstacle;
 import xbot.common.subsystems.pose.ObstacleMap;
+import xbot.common.trajectory.XbotSwervePoint;
 
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+import static org.wpilib.units.Units.Meters;
 
 public class SwervePointPathPlanning {
     private final Distance radius;
     private final GameField gameField;
     private final ObstacleMap obstacleMap;
     private final AKitLogger aKitLog;
-    public final DoubleProperty additionalClearanceOfObstaclesMeters;
+    public final TunableDouble additionalClearanceOfObstaclesMeters;
 
     private static Logger log = LogManager.getLogger(SwervePointPathPlanning.class);
 
     @Inject
     public SwervePointPathPlanning(ObstacleMap obstacleMap, GameField gameField,
-            XSwerveDriveElectricalContract electrical_contract, PropertyFactory pf) {
-        pf.setPrefix(SwervePointPathPlanning.class.getName());
+            XSwerveDriveElectricalContract electrical_contract, TunableFactory tunableFactory) {
+        tunableFactory.setPrefix(SwervePointPathPlanning.class.getName());
         this.obstacleMap = obstacleMap;
         this.gameField = gameField;
         this.radius = electrical_contract.getRadiusOfRobot();
 
         this.aKitLog = new AKitLogger("SwervePointPathPlanning/");
-        this.additionalClearanceOfObstaclesMeters = pf.createPersistentProperty("additionalClearanceOfObstaclesMeters",
+        this.additionalClearanceOfObstaclesMeters = tunableFactory.createDouble("additionalClearanceOfObstaclesMeters",
                 0.1);
     }
 
@@ -138,13 +141,14 @@ public class SwervePointPathPlanning {
         // Move either away or towards the obstacle based on distance to center, and
         // then go to the edge of the avoidance radius.
         Translation2d fromObstacleCenter;
+        var fallbackDirection = getAngleOrDefault(endPoint.minus(obstacleCenter), new Rotation2d());
         if (closeToObstacle) {
             var moveAwayVector = vectorToObstacleCenter.unaryMinus();
             fromObstacleCenter = new Translation2d(clearanceRadius.in(Meters),
-                    moveAwayVector.getAngle());
+                    getAngleOrDefault(moveAwayVector, fallbackDirection));
         } else {
             fromObstacleCenter = new Translation2d(clearanceRadius.in(Meters),
-                    vectorToObstacleCenter.getAngle());
+                    getAngleOrDefault(vectorToObstacleCenter, fallbackDirection));
         }
 
         return obstacleCenter.plus(fromObstacleCenter);
@@ -156,7 +160,7 @@ public class SwervePointPathPlanning {
         var obstacleCenter = closestObstacle.center();
         var vectorToObstacleCenter = currentPoint.minus(obstacleCenter);
 
-        double angleCurrent = vectorToObstacleCenter.getAngle().getRadians();
+        double angleCurrent = getAngleOrDefault(vectorToObstacleCenter, new Rotation2d()).getRadians();
         double angleStep = Math.PI / 18;
 
         var moveGreaterInY = currentPoint.getY() > this.gameField.getFieldCenter().getY();
@@ -179,5 +183,9 @@ public class SwervePointPathPlanning {
     private Distance buildObstacleClearanceDistance(IFieldObstacle fieldObstacle) {
         var additionalClearance = Meters.of(this.additionalClearanceOfObstaclesMeters.get());
         return this.radius.plus(fieldObstacle.avoidanceRadius()).plus(additionalClearance);
+    }
+
+    static Rotation2d getAngleOrDefault(Translation2d vector, Rotation2d fallback) {
+        return vector.getAngle().orElse(fallback);
     }
 }

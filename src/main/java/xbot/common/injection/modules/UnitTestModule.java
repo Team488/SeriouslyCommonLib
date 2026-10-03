@@ -5,18 +5,18 @@ import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
-import xbot.common.command.MockSmartDashboardCommandPutter;
-import xbot.common.command.SmartDashboardCommandPutter;
+
+import xbot.common.command.MockTunableCommandPublisher;
+import xbot.common.command.TunableCommandPublisher;
 import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.logging.LoudRobotAssertionManager;
 import xbot.common.logging.RobotAssertionManager;
-import xbot.common.properties.ITableProxy;
-import xbot.common.properties.MockPermanentStorage;
-import xbot.common.properties.PermanentStorage;
-import xbot.common.properties.TableProxy;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.DebugTunablePersistence;
+import xbot.common.properties.InMemoryTunablePersistence;
+import xbot.common.properties.TunableManager;
+import xbot.common.properties.TunablePersistence;
 import xbot.common.subsystems.vision.AprilTagVisionIOFactory;
 import xbot.common.subsystems.vision.MockAprilTagVisionIO;
 
@@ -35,16 +35,12 @@ public abstract class UnitTestModule {
 
     @Binds
     @Singleton
-    abstract ITableProxy getTableProxy(TableProxy impl);
+    abstract TunablePersistence getTunablePersistence(InMemoryTunablePersistence impl);
 
     @Binds
-    @Named(XPropertyManager.IN_MEMORY_STORE_NAME)
+    @Named(TunableManager.IN_MEMORY_PERSISTENCE_NAME)
     @Singleton
-    abstract ITableProxy getInMemoryTableProxy(TableProxy impl);
-
-    @Binds
-    @Singleton
-    abstract PermanentStorage getPermanentStorage(MockPermanentStorage impl);
+    abstract TunablePersistence getInMemoryTunablePersistence(DebugTunablePersistence impl);
 
     @Binds
     @Singleton
@@ -52,7 +48,7 @@ public abstract class UnitTestModule {
 
     @Binds
     @Singleton
-    abstract SmartDashboardCommandPutter getSmartDashboardCommandPutter(MockSmartDashboardCommandPutter impl);
+    abstract TunableCommandPublisher getTunableCommandPublisher(MockTunableCommandPublisher impl);
 
     @Binds
     @Singleton

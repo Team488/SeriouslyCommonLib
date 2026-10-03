@@ -1,18 +1,19 @@
 package xbot.common.controls.actuators.mock_adapters;
 
+import org.wpilib.units.AngularAccelerationUnit;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularAcceleration;
+import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.Current;
+import org.wpilib.units.measure.Frequency;
+import org.wpilib.units.measure.Time;
+import org.wpilib.units.measure.Velocity;
+import org.wpilib.units.measure.Voltage;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.units.AngularAccelerationUnit;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularAcceleration;
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Current;
-import edu.wpi.first.units.measure.Frequency;
-import edu.wpi.first.units.measure.Time;
-import edu.wpi.first.units.measure.Velocity;
-import edu.wpi.first.units.measure.Voltage;
+
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
@@ -21,13 +22,13 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.properties.PowerDistributionProperties;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 import xbot.common.resiliency.DeviceHealth;
 
-import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.RPM;
-import static edu.wpi.first.units.Units.Volts;
-import static edu.wpi.first.units.Units.Rotations;
+import static org.wpilib.units.Units.Amps;
+import static org.wpilib.units.Units.RPM;
+import static org.wpilib.units.Units.Rotations;
+import static org.wpilib.units.Units.Volts;
 
 /**
  * Mock XCANMotorController for simulation.
@@ -63,7 +64,7 @@ public class MockCANMotorController extends XCANMotorController {
         public abstract MockCANMotorController create(
                 @Assisted("info") CANMotorControllerInfo info,
                 @Assisted("owningSystemPrefix") String owningSystemPrefix,
-                @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
+                @Assisted("pidTunablePrefix") String pidTunablePrefix,
                 @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties);
     }
 
@@ -71,14 +72,14 @@ public class MockCANMotorController extends XCANMotorController {
     public MockCANMotorController(
             @Assisted("info") CANMotorControllerInfo info,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            PropertyFactory propertyFactory,
+            TunableFactory tunableFactory,
             DevicePolice police,
-            @Assisted("pidPropertyPrefix") String pidPropertyPrefix,
+            @Assisted("pidTunablePrefix") String pidTunablePrefix,
             @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties,
             DataFrameRegistry dataFrameRegistry,
             PowerDistributionProperties pdProperties
     ) {
-        super(info, owningSystemPrefix, propertyFactory, police, pidPropertyPrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
+        super(info, owningSystemPrefix, tunableFactory, police, pidTunablePrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
     }
 
     @Override
@@ -132,9 +133,9 @@ public class MockCANMotorController extends XCANMotorController {
             return;
         }
         controlMode = ControlMode.DutyCycle;
-        this.power = MathUtil.clamp(power, -1.0, 1.0);
-        this.voltage = Volts.of(MathUtil.clamp(power * 12.0, -12.0, 12.0));
-        this.current = Amps.of(MathUtil.clamp(power, -1.0, 1.0));
+        this.power = Math.clamp(power, -1.0, 1.0);
+        this.voltage = Volts.of(Math.clamp(power * 12.0, -12.0, 12.0));
+        this.current = Amps.of(Math.clamp(power, -1.0, 1.0));
     }
 
     /*
@@ -142,7 +143,7 @@ public class MockCANMotorController extends XCANMotorController {
      * Useful for simulating an internal pid on a motor controller.
      */
     public void setPowerInternal(double power) {
-        this.power = MathUtil.clamp(power, -1.0, 1.0);
+        this.power = Math.clamp(power, -1.0, 1.0);
     }
 
     @Override
@@ -157,7 +158,7 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     public Angle getRawPosition_internal() {
-        return this.position.copy();
+        return this.position;
     }
 
     @Override
@@ -176,11 +177,11 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     public Angle getRawTargetPosition() {
-        return targetPosition.copy();
+        return targetPosition;
     }
 
     public AngularVelocity getRawVelocity_internal() {
-        return velocity.copy();
+        return velocity;
     }
 
     public void setVelocity(AngularVelocity velocity) {
@@ -203,7 +204,7 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     public AngularVelocity getRawTargetVelocity() {
-        return targetVelocity.copy();
+        return targetVelocity;
     }
 
     @Override
@@ -212,7 +213,7 @@ public class MockCANMotorController extends XCANMotorController {
             return;
         }
         this.voltage = voltage;
-        this.power = MathUtil.clamp(voltage.in(Volts) / 12.0, -1.0, 1.0);
+        this.power = Math.clamp(voltage.in(Volts) / 12.0, -1.0, 1.0);
         this.current = Amps.of(voltage.in(Volts) / 12.0);
     }
 

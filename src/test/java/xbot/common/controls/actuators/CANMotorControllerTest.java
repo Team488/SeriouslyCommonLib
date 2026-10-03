@@ -1,6 +1,16 @@
 package xbot.common.controls.actuators;
 
+import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Test;
+
+import org.wpilib.tunable.TunableRegistry;
+import org.wpilib.util.Alert;
+import org.wpilib.util.AlertDataJNI;
+import org.wpilib.util.AlertDataJNI.AlertInfo;
+
 import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.injection.electrical_contract.CANBusId;
@@ -8,11 +18,13 @@ import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.injection.electrical_contract.MotorControllerType;
 
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.Rotations;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+import static org.wpilib.units.Units.Meters;
+import static org.wpilib.units.Units.Rotations;
+import static org.wpilib.units.Units.RotationsPerSecond;
 
 public class CANMotorControllerTest extends BaseCommonLibTest {
 
@@ -42,6 +54,44 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
         assertEquals(0, mockMotor.d, 0.001);
         assertEquals(0, mockMotor.f, 0.001);
         assertEquals(0, mockMotor.g, 0.001);
+    }
+
+    @Test
+    public void sameDeviceAlertsHaveIndependentIdentityAndState() throws ReflectiveOperationException {
+        CANMotorControllerInfo info = new CANMotorControllerInfo(
+                "DuplicateDeviceAlertTest",
+                MotorControllerType.TalonFx,
+                CANBusId.Canivore,
+                91,
+                new CANMotorControllerOutputConfig());
+        String expectedText = "Motor Controller 91 on CAN bus " + CANBusId.Canivore + " (DuplicateDeviceAlertOwner) is unhealthy";
+        Set<String> initialAlertIds = getDeviceHealthAlertIds(expectedText);
+
+        XCANMotorController firstMotor = getInjectorComponent().motorControllerFactory()
+                .create(info, "DuplicateDeviceAlertOwner", "TestPIDPrefix", null);
+        TunableRegistry.reset();
+        TunableRegistry.registerBackend("", tunableBackend);
+        XCANMotorController secondMotor = createDaggerComponent().motorControllerFactory()
+                .create(info, "DuplicateDeviceAlertOwner", "TestPIDPrefix", null);
+
+        Alert firstAlert = getUnhealthyAlert(firstMotor);
+        Alert secondAlert = getUnhealthyAlert(secondMotor);
+        firstAlert.set(true);
+
+        assertTrue(firstAlert.get());
+        assertFalse(secondAlert.get());
+        assertEquals(expectedText, firstAlert.getText());
+        assertEquals(expectedText, secondAlert.getText());
+        assertEquals(Alert.Level.HIGH, firstAlert.getLevel());
+        assertEquals(Alert.Level.HIGH, secondAlert.getLevel());
+
+        Set<String> newAlertIds = getDeviceHealthAlertIds(expectedText);
+        newAlertIds.removeAll(initialAlertIds);
+        assertEquals(2, newAlertIds.size());
+        String[] alertIds = newAlertIds.toArray(String[]::new);
+        assertNotEquals(alertIds[0], alertIds[1]);
+
+        firstAlert.set(false);
     }
 
     @Test
@@ -135,5 +185,21 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
         assertTrue(Rotations.of(10).isNear(motor.getRawPosition(), 0.001));
         motor.setVelocityTarget(RotationsPerSecond.of(1));
         assertTrue(RotationsPerSecond.of(1).isNear(motor.getRawTargetVelocity(), 0.001));
+    }
+
+    private static Alert getUnhealthyAlert(XCANMotorController motor) throws ReflectiveOperationException {
+        Field unhealthyAlertField = XCANMotorController.class.getDeclaredField("unhealthyAlert");
+        unhealthyAlertField.setAccessible(true);
+        return (Alert)unhealthyAlertField.get(motor);
+    }
+
+    private static Set<String> getDeviceHealthAlertIds(String text) {
+        Set<String> alertIds = new HashSet<>();
+        for (AlertInfo alert : AlertDataJNI.getAlerts()) {
+            if ("DeviceHealth".equals(alert.group) && text.equals(alert.text)) {
+                alertIds.add(alert.id);
+            }
+        }
+        return alertIds;
     }
 }

@@ -6,11 +6,11 @@ import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Velocity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularVelocity;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -23,11 +23,8 @@ import xbot.common.controls.sensors.XCANCoder;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 import xbot.common.resiliency.DeviceHealth;
-
-import static edu.wpi.first.units.Units.Rotations;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 public class CANCoderAdapter extends XCANCoder {
 
@@ -54,9 +51,9 @@ public class CANCoderAdapter extends XCANCoder {
     @AssistedInject
     public CANCoderAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            DevicePolice police, PropertyFactory pf, DataFrameRegistry dataFrameRegistry) {
+            DevicePolice police, TunableFactory tunableFactory, DataFrameRegistry dataFrameRegistry) {
         super(deviceInfo, dataFrameRegistry);
-        pf.setPrefix(owningSystemPrefix);
+        tunableFactory.setPrefix(owningSystemPrefix);
 
         this.inverted = deviceInfo.inverted;
         this.magnetOffset = 0.0;

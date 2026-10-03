@@ -1,6 +1,7 @@
 package xbot.common.command;
 
 import org.junit.Test;
+
 import xbot.common.injection.BaseCommonLibTest;
 
 import static org.junit.Assert.assertFalse;

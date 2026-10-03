@@ -1,13 +1,19 @@
 package xbot.common.command;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import org.wpilib.command2.CommandScheduler;
+import org.wpilib.util.AlertDataJNI;
+import org.wpilib.util.AlertDataJNI.AlertInfo;
+
 import xbot.common.injection.BaseCommonLibTest;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class XSchedulerTest extends BaseCommonLibTest {
 
@@ -18,7 +24,33 @@ public class XSchedulerTest extends BaseCommonLibTest {
 
     @After
     public void tearDown() {
-        getInjectorComponent().scheduler().reset();
+        XScheduler scheduler = getInjectorComponent().scheduler();
+        scheduler.reset();
+        scheduler.close();
+    }
+
+    @Test
+    public void schedulerAlertsHaveIndependentIdentityAndLifecycle() {
+        int initialSchedulerAlertCount = getSchedulerAlertCount();
+        XScheduler firstScheduler = new XScheduler();
+        XScheduler secondScheduler = new XScheduler();
+
+        try {
+            assertEquals(initialSchedulerAlertCount + 2, getSchedulerAlertCount());
+
+            firstScheduler.schedulerCrashedAlert.setText("First scheduler crash");
+            firstScheduler.schedulerCrashedAlert.set(true);
+
+            assertEquals("First scheduler crash", firstScheduler.schedulerCrashedAlert.getText());
+            assertEquals("Scheduler Crashed", secondScheduler.schedulerCrashedAlert.getText());
+            assertTrue(firstScheduler.schedulerCrashedAlert.get());
+            assertFalse(secondScheduler.schedulerCrashedAlert.get());
+        } finally {
+            firstScheduler.close();
+            secondScheduler.close();
+        }
+
+        assertEquals(initialSchedulerAlertCount, getSchedulerAlertCount());
     }
 
     @Test
@@ -65,6 +97,16 @@ public class XSchedulerTest extends BaseCommonLibTest {
         }
 
         assertTrue("We should have crashed", hitCrash);
+    }
+
+    private static int getSchedulerAlertCount() {
+        int count = 0;
+        for (AlertInfo alert : AlertDataJNI.getAlerts()) {
+            if ("SchedulerCrash".equals(alert.group)) {
+                count++;
+            }
+        }
+        return count;
     }
 
 }

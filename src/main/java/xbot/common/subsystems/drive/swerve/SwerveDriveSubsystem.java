@@ -1,28 +1,28 @@
 package xbot.common.subsystems.drive.swerve;
 
-import edu.wpi.first.units.measure.Distance;
+import java.util.Optional;
+
+import javax.inject.Inject;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import xbot.common.advantage.DataFrameRefreshable;
+import org.wpilib.tunable.TunableBoolean;
+import org.wpilib.tunable.TunableDouble;
+import org.wpilib.units.measure.Distance;
+
 import xbot.common.command.BaseSimpleSetpointSubsystem;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
 import xbot.common.injection.swerve.SwerveInstance;
 import xbot.common.injection.swerve.SwerveSingleton;
-import xbot.common.properties.BooleanProperty;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
-import javax.inject.Inject;
-
-import java.util.Optional;
-
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.RPM;
-import static edu.wpi.first.units.Units.Rotations;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static org.wpilib.units.Units.Meters;
+import static org.wpilib.units.Units.RPM;
+import static org.wpilib.units.Units.Rotations;
+import static org.wpilib.units.Units.RotationsPerSecond;
 
 @SwerveSingleton
 public class SwerveDriveSubsystem extends BaseSimpleSetpointSubsystem {
@@ -30,8 +30,8 @@ public class SwerveDriveSubsystem extends BaseSimpleSetpointSubsystem {
 
     private final String label;
 
-    private final DoubleProperty metersPerMotorRotation;
-    private final BooleanProperty enableDrivePid;
+    private final TunableDouble metersPerMotorRotation;
+    private final TunableBoolean enableDrivePid;
     private final double minVelocityToEngagePid;
     private double targetVelocity;
 
@@ -39,25 +39,24 @@ public class SwerveDriveSubsystem extends BaseSimpleSetpointSubsystem {
 
     @Inject
     public SwerveDriveSubsystem(SwerveInstance swerveInstance, XCANMotorController.XCANMotorControllerFactory mcFactory,
-                                PropertyFactory pf, XSwerveDriveElectricalContract electricalContract) {
+                                TunableFactory tunableFactory, XSwerveDriveElectricalContract electricalContract) {
         this.label = swerveInstance.label();
         log.info("Creating SwerveDriveSubsystem {}", this.label);
         aKitLog.setPrefix(this.getPrefix());
 
-        // Create properties shared among all instances
-        pf.setPrefix(super.getPrefix());
-        this.metersPerMotorRotation = pf.createPersistentProperty(
+        tunableFactory.setPrefix(this.getPrefix());
+        this.metersPerMotorRotation = tunableFactory.createDouble(
                 "MetersPerMotorRotation", metersPerMotorRotationFromGearRatioAndWheelDiameter(
                         electricalContract.getDriveGearRatio(),
                         electricalContract.getDriveWheelDiameter()
                 )); // Measured value: 0.0492434, very close to precalculated 0.49.
-        this.enableDrivePid = pf.createPersistentProperty("EnableDrivePID", true);
+        this.enableDrivePid = tunableFactory.createBoolean("EnableDrivePID", true);
         this.minVelocityToEngagePid = 0.01;
 
         if (electricalContract.isDriveReady()) {
             this.motorController = mcFactory.create(
                     electricalContract.getDriveMotor(swerveInstance),
-                    SwerveDriveSubsystem.class.getSimpleName(),
+                    this.getPrefix(),
                     "DrivePID",
                     new XCANMotorControllerPIDProperties.Builder()
                             .withVelocityFeedForward(0.01)

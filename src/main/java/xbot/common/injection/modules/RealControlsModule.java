@@ -4,10 +4,11 @@ import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
-import xbot.common.controls.sensors.XFTCGamepad.XFTCGamepadFactory;
+
+import xbot.common.controls.sensors.XGamepad.XGamepadFactory;
 import xbot.common.controls.sensors.XJoystick.XJoystickFactory;
 import xbot.common.controls.sensors.XXboxController.XXboxControllerFactory;
-import xbot.common.controls.sensors.wpi_adapters.FTCGamepadWpiAdapter.FTCGamepadWpiAdapterFactory;
+import xbot.common.controls.sensors.wpi_adapters.GamepadWpiAdapter.GamepadWpiAdapterFactory;
 import xbot.common.controls.sensors.wpi_adapters.JoystickWPIAdapter.JoystickWPIAdapterFactory;
 import xbot.common.controls.sensors.wpi_adapters.XboxControllerWpiAdapter.XboxControllerWpiAdapterFactory;
 import xbot.common.subsystems.feedback.RumbleManager.RumbleManagerFactory;
@@ -28,7 +29,7 @@ public abstract class RealControlsModule {
 
     @Binds
     @Singleton
-    public abstract XFTCGamepadFactory getFTCGamepadFactory(FTCGamepadWpiAdapterFactory impl);
+    public abstract XGamepadFactory getGamepadFactory(GamepadWpiAdapterFactory impl);
 
     @Binds
     @Singleton

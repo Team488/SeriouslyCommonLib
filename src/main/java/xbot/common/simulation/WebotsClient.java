@@ -16,19 +16,20 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import edu.wpi.first.wpilibj.util.Color;
 import org.littletonrobotics.junction.Logger;
+
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.tunable.Tunable;
+import org.wpilib.tunable.TunableBoolean;
+import org.wpilib.tunable.TunableDouble;
+import org.wpilib.util.Color;
+
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
-import xbot.common.properties.BooleanProperty;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
-import xbot.common.properties.StringProperty;
+import xbot.common.properties.TunableFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 @Singleton
@@ -36,9 +37,9 @@ public class WebotsClient {
     double simulatorPoseX;
     double simulatorPoseY;
     double simulatorPoseYaw;
-    final StringProperty simulatorRobotTemplate;
-    final BooleanProperty enableProxy;
-    final DoubleProperty proxyPort;
+    final Tunable<String> simulatorRobotTemplate;
+    final TunableBoolean enableProxy;
+    final TunableDouble proxyPort;
     final String hostname = "127.0.0.1";
     final int supervisorPort = 10001;
     final HttpClient client;
@@ -48,11 +49,11 @@ public class WebotsClient {
     private FieldPose fieldOffset;
 
     @Inject
-    public WebotsClient(PropertyFactory propertyFactory) {
-        propertyFactory.setPrefix("Webots");
-        simulatorRobotTemplate = propertyFactory.createPersistentProperty("Robot Template", "RobotTemplate2022");
-        enableProxy = propertyFactory.createPersistentProperty("Enable Proxy", false);
-        proxyPort = propertyFactory.createPersistentProperty("Proxy Port", 8888);
+    public WebotsClient(TunableFactory tunableFactory) {
+        tunableFactory.setPrefix("Webots");
+        simulatorRobotTemplate = tunableFactory.createString("Robot Template", "RobotTemplate2022");
+        enableProxy = tunableFactory.createBoolean("Enable Proxy", false);
+        proxyPort = tunableFactory.createDouble("Proxy Port", 8888);
 
         fieldOffset = new FieldPose();
         client = buildHttpClient(enableProxy.get(), (int)proxyPort.get());

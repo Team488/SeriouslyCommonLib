@@ -3,12 +3,14 @@ package xbot.common.controls.sensors.mock_adapters;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XDutyCycleEncoderInputs;
-import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.controls.sensors.XDutyCycleEncoder;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
+
+import static org.wpilib.units.Units.Rotations;
 
 public class MockDutyCycleEncoder extends XDutyCycleEncoder {
 
@@ -35,6 +37,6 @@ public class MockDutyCycleEncoder extends XDutyCycleEncoder {
 
     @Override
     public void updateInputs(XDutyCycleEncoderInputs inputs) {
-        inputs.absoluteRawPosition = rawPosition;
+        inputs.absoluteRawPosition = Rotations.of(rawPosition);
     }
 }

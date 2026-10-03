@@ -1,14 +1,16 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
+import org.wpilib.hardware.bus.I2C;
+import org.wpilib.hardware.bus.I2C.Port;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.I2C.Port;
+
 import xbot.common.controls.sensors.XLidarLite;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.DevicePolice;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 public class LidarLiteWpiAdapter extends XLidarLite{
 
@@ -20,8 +22,8 @@ public class LidarLiteWpiAdapter extends XLidarLite{
     }
 
     @AssistedInject
-    public LidarLiteWpiAdapter(@Assisted("port") Port port, PropertyFactory propMan, DevicePolice police, @Assisted("prefix") String prefix) {
-        super(port, propMan, police, prefix);
+    public LidarLiteWpiAdapter(@Assisted("port") Port port, TunableFactory tunableFactory, DevicePolice police, @Assisted("prefix") String prefix) {
+        super(port, tunableFactory, police, prefix);
 
       i2c = new I2C(port, lidar_address);
     }

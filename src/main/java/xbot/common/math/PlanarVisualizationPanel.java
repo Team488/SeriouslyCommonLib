@@ -8,7 +8,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Rotation2d;
 
 //@SuppressWarnings("serial")
 public class PlanarVisualizationPanel extends JPanel {

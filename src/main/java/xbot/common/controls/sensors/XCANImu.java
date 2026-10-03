@@ -1,12 +1,11 @@
 package xbot.common.controls.sensors;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.LinearAcceleration;
-import edu.wpi.first.units.measure.Temperature;
-import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.util.sendable.SendableBuilder;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Rotation3d;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.LinearAcceleration;
+import org.wpilib.units.measure.Temperature;
+import org.wpilib.units.measure.Voltage;
 
 public abstract class XCANImu implements AutoCloseable {
 
@@ -35,8 +34,6 @@ public abstract class XCANImu implements AutoCloseable {
     public abstract void setYaw(Angle newValue);
 
     public abstract Temperature getTemperature();
-
-    public abstract void initSendable(SendableBuilder builder);
 
     public abstract Angle getAccumGyroX();
 

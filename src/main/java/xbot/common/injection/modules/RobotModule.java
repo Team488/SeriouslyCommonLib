@@ -5,21 +5,19 @@ import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
-import xbot.common.command.RealSmartDashboardCommandPutter;
-import xbot.common.command.SmartDashboardCommandPutter;
+
+import xbot.common.command.RealTunableCommandPublisher;
+import xbot.common.command.TunableCommandPublisher;
 import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.wpi_adapters.TimerWpiAdapter;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.logging.SilentRobotAssertionManager;
-import xbot.common.properties.ITableProxy;
-import xbot.common.properties.PermanentStorage;
-import xbot.common.properties.PreferenceStorage;
-import xbot.common.properties.SmartDashboardTableWrapper;
-import xbot.common.properties.TableProxy;
-import xbot.common.properties.XPropertyManager;
+import xbot.common.properties.DebugTunablePersistence;
+import xbot.common.properties.PreferencesTunablePersistence;
+import xbot.common.properties.TunableManager;
+import xbot.common.properties.TunablePersistence;
 import xbot.common.subsystems.vision.AprilTagVisionIOFactory;
-import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVision;
 import xbot.common.subsystems.vision.AprilTagVisionIOPhotonVisionEstimator;
 
 /**
@@ -37,17 +35,12 @@ public abstract class RobotModule {
 
     @Binds
     @Singleton
-    abstract ITableProxy getTableProxy(SmartDashboardTableWrapper impl);
+    abstract TunablePersistence getTunablePersistence(PreferencesTunablePersistence impl);
 
     @Binds
-    @Named(XPropertyManager.IN_MEMORY_STORE_NAME)
+    @Named(TunableManager.IN_MEMORY_PERSISTENCE_NAME)
     @Singleton
-    // TODO: Figure out debug mode toggle
-    abstract ITableProxy getInMemoryTableProxy(TableProxy impl);
-
-    @Binds
-    @Singleton
-    abstract PermanentStorage getPermanentStorage(PreferenceStorage impl);
+    abstract TunablePersistence getInMemoryTunablePersistence(DebugTunablePersistence impl);
 
     @Binds
     @Singleton
@@ -55,7 +48,7 @@ public abstract class RobotModule {
 
     @Binds
     @Singleton
-    abstract SmartDashboardCommandPutter getSmartDashboardCommandPutter(RealSmartDashboardCommandPutter impl);
+    abstract TunableCommandPublisher getTunableCommandPublisher(RealTunableCommandPublisher impl);
 
     @Binds
     @Singleton

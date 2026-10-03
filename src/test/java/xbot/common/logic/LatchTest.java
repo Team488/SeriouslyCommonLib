@@ -1,7 +1,5 @@
 package xbot.common.logic;
 
-import static junit.framework.TestCase.assertEquals;
-
 import java.util.function.Consumer;
 
 import org.junit.After;
@@ -9,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import xbot.common.logic.Latch.EdgeType;
+
+import static junit.framework.TestCase.assertEquals;
 
 public class LatchTest {
 

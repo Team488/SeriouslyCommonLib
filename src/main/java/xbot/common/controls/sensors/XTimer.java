@@ -1,8 +1,8 @@
 package xbot.common.controls.sensors;
 
-import static edu.wpi.first.units.Units.Seconds;
+import org.wpilib.units.measure.Time;
 
-import edu.wpi.first.units.measure.Time;
+import static org.wpilib.units.Units.Seconds;
 
 public class XTimer
 {

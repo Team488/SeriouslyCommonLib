@@ -1,9 +1,9 @@
 package xbot.common.subsystems.drive.swerve.commands;
 
+import javax.inject.Inject;
+
 import xbot.common.command.BaseCommand;
 import xbot.common.subsystems.drive.BaseSwerveDriveSubsystem;
-
-import javax.inject.Inject;
 
 public class ChangeActiveSwerveModuleCommand extends BaseCommand {
 

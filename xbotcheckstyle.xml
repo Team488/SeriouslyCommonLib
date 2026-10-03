@@ -18,11 +18,29 @@
     <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
     <property name="max" value="160"/>
   </module>
+  <module name="RegexpMultiline">
+    <property name="format" value="(?m)^package[^\r\n;]*;\r?\n(?:[ \t]*\r?\n){2,}[ \t]*import[ \t]"/>
+    <property name="maximum" value="0"/>
+    <property name="message" value="Package declaration must be followed by exactly one blank line before imports."/>
+  </module>
   <module name="TreeWalker">
     <module name="SuppressionCommentFilter"/>
     <module name="OuterTypeFilename"/>
 
+    <module name="EmptyLineSeparator">
+      <property name="tokens" value="PACKAGE_DEF"/>
+      <property name="allowMultipleEmptyLines" value="true"/>
+    </module>
     <module name="AvoidStarImport"/>
+    <module name="ImportOrder">
+      <property name="option" value="bottom"/>
+      <property name="groups"
+                value="/^java\./, /^(javax|jakarta)\./, /^(?!(?:java|javax|jakarta|org\.wpilib|dagger|xbot)\.).+/, /^org\.wpilib\./, /^dagger\./, /^xbot\./"/>
+      <property name="ordered" value="true"/>
+      <property name="separated" value="true"/>
+      <property name="separatedStaticGroups" value="false"/>
+      <property name="sortStaticImportsAlphabetically" value="true"/>
+    </module>
     <module name="OneTopLevelClass"/>
     <module name="NoLineWrap"/>
     <module name="EmptyBlock">

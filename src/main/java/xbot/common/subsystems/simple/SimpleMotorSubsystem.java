@@ -1,40 +1,41 @@
 package xbot.common.subsystems.simple;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
+import org.wpilib.tunable.TunableDouble;
+
 import xbot.common.command.BaseSubsystem;
 import xbot.common.command.NamedRunCommand;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 /**
  * Generic subsystem that handles a single motor which can be driven in forward and reverse.
  */
 public abstract class SimpleMotorSubsystem extends BaseSubsystem {
-    final DoubleProperty forwardPower;
-    final DoubleProperty reversePower;
+    final TunableDouble forwardPower;
+    final TunableDouble reversePower;
 
     /**
      * Create an instance with the specified default forward and reverse power.
      * @param name The name of the subsystem
-     * @param pf The property factory
+     * @param tunableFactory The tunable factory
      * @param defaultForwardPower The default power to use in the forward direction
      * @param defaultReversePower The default power to use in the reverse direction
      */
-    public SimpleMotorSubsystem(String name, PropertyFactory pf, double defaultForwardPower, double defaultReversePower) {
+    public SimpleMotorSubsystem(String name, TunableFactory tunableFactory, double defaultForwardPower, double defaultReversePower) {
         setName(name);
-        pf.setPrefix(name);
-        this.forwardPower = pf.createPersistentProperty("Forward Power", defaultForwardPower);
-        this.reversePower = pf.createPersistentProperty("Reverse Power", defaultReversePower);
+        tunableFactory.setPrefix(name);
+        this.forwardPower = tunableFactory.createDouble("Forward Power", defaultForwardPower);
+        this.reversePower = tunableFactory.createDouble("Reverse Power", defaultReversePower);
         setDefaultCommand(getStopCommand());
     }
 
     /**
      * Create an instance with default power settings.
      * @param name The name of the subsystem
-     * @param pf The property factory
+     * @param tunableFactory The tunable factory
      */
-    public SimpleMotorSubsystem(String name, PropertyFactory pf) {
-        this(name, pf, 1.0, -1.0);
+    public SimpleMotorSubsystem(String name, TunableFactory tunableFactory) {
+        this(name, tunableFactory, 1.0, -1.0);
     }
 
     /**

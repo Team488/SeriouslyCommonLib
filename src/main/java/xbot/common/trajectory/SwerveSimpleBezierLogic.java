@@ -1,12 +1,18 @@
 package xbot.common.trajectory;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Twist2d;
-import edu.wpi.first.units.measure.LinearVelocity;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.math.geometry.Twist2d;
+import org.wpilib.units.measure.LinearVelocity;
+
 import xbot.common.advantage.AKitLogger;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.PIDManager;
@@ -16,12 +22,8 @@ import xbot.common.subsystems.drive.SwervePointKinematics;
 import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Supplier;
-
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.Seconds;
+import static org.wpilib.units.Units.Meters;
+import static org.wpilib.units.Units.Seconds;
 
 public class SwerveSimpleBezierLogic {
 
@@ -156,7 +158,7 @@ public class SwerveSimpleBezierLogic {
 
             // Visualize direct raycast
             var start = new XbotSwervePoint(currentPose.getTranslation(), currentPose.getRotation(), 0);
-            var raycast = XbotSwervePoint.generateTrajectory(List.of(
+            var raycast = XbotSwervePoint.generatePathVisualization(List.of(
                     start, keyPoints.get(0))
             );
             aKitLog.record("Raycast", raycast);
@@ -220,7 +222,7 @@ public class SwerveSimpleBezierLogic {
             }
         }
 
-        aKitLog.record("Trajectory", XbotSwervePoint.generateTrajectory(keyPoints));
+        aKitLog.record("Trajectory", XbotSwervePoint.generatePathVisualization(keyPoints));
 
         interpolator.setMinimumDistanceFromChasePointInMeters(0.5);
         interpolator.setKeyPoints(keyPoints);

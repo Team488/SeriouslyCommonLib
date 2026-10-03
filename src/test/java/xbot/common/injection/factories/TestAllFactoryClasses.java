@@ -1,8 +1,8 @@
 package xbot.common.injection.factories;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Test;
+
+import org.wpilib.driverstation.POVDirection;
 
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.BaseCommonLibTest;
@@ -16,12 +16,14 @@ import xbot.common.injection.electrical_contract.MotorControllerType;
 import xbot.common.logging.RobotAssertionException;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
+import static org.junit.Assert.fail;
+
 public class TestAllFactoryClasses extends BaseCommonLibTest {
 
     @Test
     public void makeOneOfEverything() {
         getInjectorComponent().pidFactory().create("pid");
-        getInjectorComponent().pidPropertyManagerFactory().create("pid", 0, 0, 0, 0);
+        getInjectorComponent().pidTunableManagerFactory().create("pidTunables", 0, 0, 0, 0);
         getInjectorComponent().powerDistributionPanelFactory().create();
         getInjectorComponent().encoderFactory().create("foo", 1, 2, 1, "TestPrefix");
         getInjectorComponent().digitalInputFactory().create(new DeviceInfo("foo", 5, null), "TestPrefix");
@@ -29,7 +31,6 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().xboxControllerFactory().create(2);
         getInjectorComponent().solenoidFactory().create(1);
         getInjectorComponent().digitalOutputFactory().create(3);
-        getInjectorComponent().servoFactory().create(1);
         getInjectorComponent().speedControllerFactory().create(2);
         getInjectorComponent().motorControllerFactory()
                 .create(
@@ -45,17 +46,16 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         XJoystick j = getInjectorComponent().joystickFactory().create(1, 12);
         getInjectorComponent().joystickButtonFactory().create(j, 1);
         getInjectorComponent().analogHidButtonFactory().create(j, 1, -1, 1);
-        getInjectorComponent().povButtonFactory().create(j, 1);
-        getInjectorComponent().ftcGamepadFactory().create(3, 10);
+        getInjectorComponent().povButtonFactory().create(j, POVDirection.UP);
+        getInjectorComponent().gamepadFactory().create(3);
         getInjectorComponent().humanVsMachineDeciderFactory().create("Agent Smith");
         HeadingModule h = getInjectorComponent().headingModuleFactory().create(pf.create("bar", 1, 0, 0));
         getInjectorComponent().headingAssistModuleFactory().create(h, "heading");
         getInjectorComponent().calibrationDeciderFactory().create("calibration");
         getInjectorComponent().velocityThrottleModuleFactory().create("velocityThrottleThing", pf.create("velocity", 1, 0, 0));
         getInjectorComponent().compressorFactory().create();
-        getInjectorComponent().relayFactory().create(5);
         getInjectorComponent().pwmFactory().create(3);
-        getInjectorComponent().fieldPosePropertyManagerFactory().create("testo", 1, 2, 3);
+        getInjectorComponent().fieldPoseTunableManagerFactory().create("testo", 1, 2, 3);
         getInjectorComponent().zeromqListenerFactory().create("testo", "testo");
         getInjectorComponent().chordButtonFactory().create(
             getInjectorComponent().joystickButtonFactory().create(j, 2),

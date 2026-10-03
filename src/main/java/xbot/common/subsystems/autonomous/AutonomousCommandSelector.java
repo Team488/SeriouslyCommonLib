@@ -1,22 +1,23 @@
 package xbot.common.subsystems.autonomous;
 
-import java.util.Objects;
 import java.util.function.Supplier;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import org.wpilib.command2.Command;
+import org.wpilib.command2.InstantCommand;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.tunable.Tunable;
+import org.wpilib.tunable.TunableConfig;
+import org.wpilib.tunable.TunableOption;
+import org.wpilib.tunable.Tunables;
 
 import xbot.common.command.BaseSubsystem;
-import xbot.common.properties.PropertyFactory;
-import xbot.common.properties.StringProperty;
+import xbot.common.properties.TunableFactory;
 
 @Singleton
 public class AutonomousCommandSelector extends BaseSubsystem {
@@ -26,10 +27,15 @@ public class AutonomousCommandSelector extends BaseSubsystem {
     Command currentAutonomousCommand;
     Pose2d currentAutonomousStartingPosition;
     boolean isDefault;
+    private final Tunable<String> currentAutonomousCommandName;
 
     @Inject
-    public AutonomousCommandSelector(PropertyFactory propFactory) {
-        propFactory.setTopLevelPrefix();
+    public AutonomousCommandSelector(TunableFactory tunableFactory) {
+        tunableFactory.setTopLevelPrefix();
+        currentAutonomousCommandName = Tunable.createConfig(
+                "No command set",
+                TunableConfig.of(TunableOption.IMMUTABLE));
+        Tunables.publish("Current autunomous command name", currentAutonomousCommandName);
         setAutonomousState("Not set");
         isDefault = true;
     }
@@ -55,8 +61,7 @@ public class AutonomousCommandSelector extends BaseSubsystem {
         var nameString = currentAutonomousCommand == null ? "No command set" : currentAutonomousCommand.getName();
         aKitLog.record("Current autonomous command name", nameString);
         
-        // to make sure this is always logged to networktables no matter what, also explicitly push it to the SD
-        SmartDashboard.putString("Current autunomous command name", nameString);
+        currentAutonomousCommandName.set(nameString);
 
         this.currentAutonomousCommand = currentAutonomousCommand;
         commandSupplier = null;

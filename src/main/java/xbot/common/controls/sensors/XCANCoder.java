@@ -1,8 +1,12 @@
 package xbot.common.controls.sensors;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 import com.ctre.phoenix6.StatusCode;
-import edu.wpi.first.wpilibj.Alert;
 import org.littletonrobotics.junction.Logger;
+
+import org.wpilib.util.Alert;
+
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XCANCoderInputs;
 import xbot.common.controls.io_inputs.XCANCoderInputsAutoLogged;
@@ -11,6 +15,8 @@ import xbot.common.logging.AlertGroups;
 import xbot.common.resiliency.DeviceHealth;
 
 public abstract class XCANCoder extends XAbsoluteEncoder {
+
+    private static final AtomicLong NEXT_ALERT_ID = new AtomicLong();
 
     XCANCoderInputsAutoLogged inputs;
 
@@ -23,8 +29,9 @@ public abstract class XCANCoder extends XAbsoluteEncoder {
     public XCANCoder(DeviceInfo info, DataFrameRegistry dataFrameRegistry) {
         super(info, dataFrameRegistry);
         inputs = new XCANCoderInputsAutoLogged();
-        unhealthyAlert = new Alert(AlertGroups.DEVICE_HEALTH, "CANCoder " + info.channel + " on CAN bus " + info.canBusId + " is unhealthy",
-                Alert.AlertType.kError);
+        String alertId = getClass().getName() + "-" + NEXT_ALERT_ID.getAndIncrement();
+        unhealthyAlert = new Alert(AlertGroups.DEVICE_HEALTH, alertId,
+                "CANCoder " + info.channel + " on CAN bus " + info.canBusId + " is unhealthy", Alert.Level.HIGH);
     }
 
     /**

@@ -10,7 +10,7 @@ import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XEncoderInputs;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.injection.DevicePolice;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 import xbot.common.simulation.ISimulatableSensor;
 
 public class MockEncoder extends XEncoder implements ISimulatableSensor {
@@ -32,8 +32,8 @@ public class MockEncoder extends XEncoder implements ISimulatableSensor {
     public MockEncoder(@Assisted("name") String name, @Assisted("aChannel") int aChannel,
             @Assisted("bChannel") int bChannel, @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse,
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            PropertyFactory propMan, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
-        super(name, aChannel, bChannel, defaultDistancePerPulse, owningSystemPrefix, propMan, police, dataFrameRegistry);
+            TunableFactory tunableFactory, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
+        super(name, aChannel, bChannel, defaultDistancePerPulse, owningSystemPrefix, tunableFactory, police, dataFrameRegistry);
     }
 
     public void setDistance(double distance) {
@@ -56,7 +56,8 @@ public class MockEncoder extends XEncoder implements ISimulatableSensor {
         return distance;
     }
 
-    public void setSamplesToAverage(int samples) {
+    @Override
+    protected void setRateWindowMilliseconds(int rateWindowMilliseconds) {
     }
 
     @Override

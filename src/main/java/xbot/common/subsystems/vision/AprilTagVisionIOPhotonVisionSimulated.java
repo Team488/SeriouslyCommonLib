@@ -13,20 +13,21 @@
 
 package xbot.common.subsystems.vision;
 
-import dagger.Lazy;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.geometry.Transform3d;
-import xbot.common.properties.BooleanProperty;
-import xbot.common.properties.PropertyFactory;
-import xbot.common.subsystems.pose.SimulatedPositionSupplier;
-
 import org.photonvision.simulation.PhotonCameraSim;
 import org.photonvision.simulation.SimCameraProperties;
 import org.photonvision.simulation.VisionSystemSim;
 
+import org.wpilib.fields.Fields;
+import org.wpilib.math.geometry.Transform3d;
+import org.wpilib.tunable.TunableBoolean;
+
+import dagger.Lazy;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
+
+import xbot.common.properties.TunableFactory;
+import xbot.common.subsystems.pose.SimulatedPositionSupplier;
 
 /**
  * IO implementation for a simulated PhotonVision environment.
@@ -42,7 +43,7 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
     private static VisionSystemSim visionSim;
     private final Lazy<SimulatedPositionSupplier> poseSupplier;
     private final PhotonCameraSim cameraSim;
-    private final BooleanProperty enableFancySim;
+    private final TunableBoolean enableFancySim;
 
     /**
      * Creates a new AprilTagVisionIOPhotonVisionSimulated.
@@ -54,18 +55,18 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
      */
     @AssistedInject
     public AprilTagVisionIOPhotonVisionSimulated(@Assisted String name, @Assisted Transform3d robotToCamera,
-            AprilTagFieldLayout fieldLayout, Lazy<SimulatedPositionSupplier> poseSupplier, PropertyFactory pf) {
+            Fields fieldLayout, Lazy<SimulatedPositionSupplier> poseSupplier, TunableFactory tunableFactory) {
         super(name, robotToCamera, fieldLayout);
 
         this.poseSupplier = poseSupplier;
 
-        pf.setPrefix("AprilTagVisionIOPhotonVisionSimulated");
-        this.enableFancySim = pf.createPersistentProperty("EnableFancySim_RebootAfterChange", false);
+        tunableFactory.setPrefix("AprilTagVisionIOPhotonVisionSimulated");
+        this.enableFancySim = tunableFactory.createBoolean("EnableFancySim_RebootAfterChange", false);
 
         // Initialize vision sim
         if (visionSim == null) {
             visionSim = new VisionSystemSim("main");
-            visionSim.addAprilTags(fieldLayout);
+            visionSim.addAprilTags(fieldLayout.loadField());
         }
 
         // Add sim camera

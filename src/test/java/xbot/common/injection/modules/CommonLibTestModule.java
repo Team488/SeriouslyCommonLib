@@ -1,27 +1,21 @@
 package xbot.common.injection.modules;
 
+import javax.inject.Singleton;
+
 import dagger.Binds;
-import dagger.BindsInstance;
 import dagger.Module;
 import dagger.Provides;
+
 import xbot.common.injection.MockCameraElectricalContract;
 import xbot.common.injection.electrical_contract.MockSwerveDriveElectricalContract;
 import xbot.common.injection.electrical_contract.XCameraElectricalContract;
 import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
-import xbot.common.injection.swerve.FrontLeftDrive;
-import xbot.common.injection.swerve.FrontRightDrive;
-import xbot.common.injection.swerve.RearLeftDrive;
-import xbot.common.injection.swerve.RearRightDrive;
-import xbot.common.injection.swerve.SwerveComponent;
-import xbot.common.injection.swerve.SwerveInstance;
 import xbot.common.subsystems.drive.BaseSwerveDriveSubsystem;
 import xbot.common.subsystems.drive.MockSwerveDriveSubsystem;
 import xbot.common.subsystems.drive.swerve.ISwerveAdvisorDriveSupport;
 import xbot.common.subsystems.drive.swerve.ISwerveAdvisorPoseSupport;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.GameField;
-
-import javax.inject.Singleton;
 
 @Module
 public abstract class CommonLibTestModule {

@@ -1,8 +1,9 @@
 package xbot.common.command;
 
+import org.wpilib.tunable.TunableDouble;
+
 import xbot.common.controls.sensors.XTimer;
-import xbot.common.properties.DoubleProperty;
-import xbot.common.properties.PropertyFactory;
+import xbot.common.properties.TunableFactory;
 
 /**
  * Command that waits for a setpoint subsystem to reach its goal
@@ -10,15 +11,18 @@ import xbot.common.properties.PropertyFactory;
 public abstract class BaseWaitForMaintainerCommand extends BaseCommand {
 
     private final BaseSetpointSubsystem<?, ?> system;
-    private final DoubleProperty timeoutProperty;
+    private final TunableDouble timeoutTunable;
 
     private double startTime;
 
-    public BaseWaitForMaintainerCommand(BaseSetpointSubsystem<?, ?> system, PropertyFactory pf, double defaultTimeout) {
+    public BaseWaitForMaintainerCommand(
+            BaseSetpointSubsystem<?, ?> system,
+            TunableFactory tunableFactory,
+            double defaultTimeout) {
         this.system = system;
 
-        pf.setPrefix(this);
-        this.timeoutProperty = pf.createPersistentProperty("Timeout Seconds", defaultTimeout);
+        tunableFactory.setPrefix(this);
+        this.timeoutTunable = tunableFactory.createDouble("Timeout Seconds", defaultTimeout);
     }
 
     @Override
@@ -37,6 +41,6 @@ public abstract class BaseWaitForMaintainerCommand extends BaseCommand {
     }
 
     private boolean isTimeoutExpired() {
-        return XTimer.getFPGATimestamp() > this.startTime + this.timeoutProperty.get();
+        return XTimer.getFPGATimestamp() > this.startTime + this.timeoutTunable.get();
     }
 }

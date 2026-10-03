@@ -1,8 +1,8 @@
 package xbot.common.injection.electrical_contract;
 
-import xbot.common.subsystems.vision.CameraCapabilities;
-
 import java.util.Arrays;
+
+import xbot.common.subsystems.vision.CameraCapabilities;
 
 /**
  * This interface is used to provide information about the cameras on the robot.

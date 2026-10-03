@@ -1,9 +1,12 @@
 package xbot.common.controls.sensors.wpi_adapters;
 
+import org.wpilib.hardware.discrete.AnalogInput;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
-import edu.wpi.first.wpilibj.AnalogInput;
+
+import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.injection.DevicePolice;
 
@@ -16,8 +19,11 @@ public class AnalogInputWPIAdapater extends XAnalogInput {
     }
 
     @AssistedInject
-    public AnalogInputWPIAdapater(@Assisted("channel") int channel, DevicePolice police) {
-        super(channel, police);
+    public AnalogInputWPIAdapater(
+            @Assisted("channel") int channel,
+            DevicePolice police,
+            DataFrameRegistry dataFrameRegistry) {
+        super(channel, police, dataFrameRegistry);
         input = new AnalogInput(channel);
     }
 
@@ -27,14 +33,6 @@ public class AnalogInputWPIAdapater extends XAnalogInput {
 
     public double getVoltage() {
         return input.getVoltage();
-    }
-
-    public double getAverageVoltage() {
-        return input.getAverageVoltage();
-    }
-
-    public void setAverageBits(int bits) {
-        input.setAverageBits(bits);
     }
 
     public AnalogInput getInternalDevice() {

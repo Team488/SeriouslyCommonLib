@@ -6,10 +6,11 @@ import java.util.function.BooleanSupplier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import org.wpilib.command2.Command;
+import org.wpilib.command2.button.Trigger;
+import org.wpilib.driverstation.XboxController.Button;
+
 import xbot.common.controls.sensors.XXboxController;
-import xbot.common.controls.sensors.XXboxController.XboxButton;
 
 public class AdvancedXboxButtonTrigger extends AdvancedTrigger {
 
@@ -30,17 +31,18 @@ public class AdvancedXboxButtonTrigger extends AdvancedTrigger {
     private static final Logger log = LogManager.getLogger(AdvancedTrigger.class);
 
     XXboxController controller;
-    public XboxButton buttonName;
+    public Button buttonName;
 
     public final HashMap<ButtonTriggerType, Command> triggeredCommands = new HashMap<ButtonTriggerType, Command>();
 
-    public AdvancedXboxButtonTrigger(final XXboxController controller, final XboxButton buttonName) {
-        this(controller, buttonName, () -> controller.getButton(buttonName.getValue()));
+    public AdvancedXboxButtonTrigger(final XXboxController controller, final Button buttonName) {
+        this(controller, buttonName, () -> controller.getButton(buttonName));
     }
 
-    protected AdvancedXboxButtonTrigger(final XXboxController controller, final XboxButton buttonName, final BooleanSupplier supplier) {
+    protected AdvancedXboxButtonTrigger(final XXboxController controller, final Button buttonName,
+            final BooleanSupplier supplier) {
         super(supplier);
-        log.info("Creating XboxButton " + buttonName.toString());// + " on port " + controller.getInternalController().getPort());
+        log.info("Creating XboxButton " + buttonName);
         this.controller = controller;
         this.buttonName = buttonName;
     }

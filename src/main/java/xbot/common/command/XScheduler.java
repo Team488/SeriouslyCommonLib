@@ -1,24 +1,28 @@
 package xbot.common.command;
 
+import java.lang.ref.Cleaner;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import edu.wpi.first.wpilibj.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+import org.wpilib.command2.Command;
+import org.wpilib.command2.CommandScheduler;
+import org.wpilib.command2.Subsystem;
+import org.wpilib.util.Alert;
 
 /**
  * Wrapper for base Scheduler which intelligently manages exceptions.
  */
 @Singleton
-public class XScheduler {
+public class XScheduler implements AutoCloseable {
 
+    private static final Cleaner ALERT_CLEANER = Cleaner.create();
+    private static final AtomicLong NEXT_ALERT_ID = new AtomicLong();
     private static Logger log = LogManager.getLogger(XScheduler.class);
 
     boolean crashedPreviously = false;
@@ -28,11 +32,14 @@ public class XScheduler {
     Throwable lastException = null;
 
     final Alert schedulerCrashedAlert;
+    private final Cleaner.Cleanable schedulerCrashedAlertCleanup;
     final CommandScheduler scheduler;
 
     @Inject
     public XScheduler() {
-        this.schedulerCrashedAlert = new Alert("Scheduler Crashed", Alert.AlertType.kError);
+        String alertId = getClass().getName() + "-" + NEXT_ALERT_ID.getAndIncrement();
+        this.schedulerCrashedAlert = new Alert("SchedulerCrash", alertId, "Scheduler Crashed", Alert.Level.HIGH);
+        this.schedulerCrashedAlertCleanup = ALERT_CLEANER.register(this, schedulerCrashedAlert::close);
         this.scheduler = CommandScheduler.getInstance();
     }
 
@@ -68,6 +75,14 @@ public class XScheduler {
     public void reset() {
         scheduler.cancelAll();
         scheduler.unregisterAllSubsystems();
+    }
+
+    /**
+     * Releases the native alert allocation when this scheduler wrapper will no longer be used.
+     */
+    @Override
+    public void close() {
+        schedulerCrashedAlertCleanup.clean();
     }
 
     public Throwable getLastException() {
