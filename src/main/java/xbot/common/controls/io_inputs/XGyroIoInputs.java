@@ -6,6 +6,7 @@ import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularVelocity;
 import org.wpilib.units.measure.LinearAcceleration;
 
+import static org.wpilib.units.Units.MetersPerSecondPerSecond;
 import static org.wpilib.units.Units.Radians;
 import static org.wpilib.units.Units.RadiansPerSecond;
 
@@ -15,6 +16,8 @@ public class XGyroIoInputs {
     public AngularVelocity yawAngularVelocity = RadiansPerSecond.zero();
     public Angle pitch = Radians.zero();
     public Angle roll = Radians.zero();
-    public LinearAcceleration[] acceleration = new LinearAcceleration[3];
+    public LinearAcceleration[] acceleration = new LinearAcceleration[] {
+            MetersPerSecondPerSecond.zero(), MetersPerSecondPerSecond.zero(), MetersPerSecondPerSecond.zero()
+    };
     public boolean isConnected = false;
 }
