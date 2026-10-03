@@ -119,8 +119,6 @@ public abstract class BaseRobot extends LoggedRobot {
             }
 
             Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
-            //DriverStation.silenceJoystickConnectionWarning(true);
-
 
             log = LogManager.getLogger(BaseRobot.class);
             log.info("========== BASE ROBOT INITIALIZING ==========");
@@ -130,10 +128,6 @@ public abstract class BaseRobot extends LoggedRobot {
             log.info("========== SYSTEMS INITIALIZED ==========");
             Tunables.publish("Scheduler", CommandScheduler.getInstance());
 
-            if (this.isReal()) {
-                // We're just so tired of seeing these in logs. We may re-enable this at competition time.
-                //DriverStation.silenceJoystickConnectionWarning(true);
-            }
             devicePolice = injectorComponent.devicePolice();
             deviceDataFrameRegistry = injectorComponent.dataFrameRegistry();
 
