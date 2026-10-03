@@ -79,6 +79,7 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
+<li><a href="#startCompetition()" tabindex="0">startCompetition()</a></li>
 <li><a href="#setupInjectionModule()" tabindex="0">setupInjectionModule()</a></li>
 <li><a href="#createDaggerComponent()" tabindex="0">createDaggerComponent()</a></li>
 <li><a href="#getInjectorComponent()" tabindex="0">getInjectorComponent()</a></li>
@@ -260,27 +261,32 @@ of CommonLib functionality.</div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#simulationPeriodic()" class="member-name-link">simulationPeriodic</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#teleopInit()" class="member-name-link">teleopInit</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#startCompetition()" class="member-name-link">startCompetition</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Initializes SCL before AdvantageKit starts simulation and the robot loop.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#teleopPeriodic()" class="member-name-link">teleopPeriodic</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#teleopInit()" class="member-name-link">teleopInit</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#teleopPeriodic()" class="member-name-link">teleopPeriodic</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">This function is called periodically during operator control</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testPeriodic()" class="member-name-link">testPeriodic</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testPeriodic()" class="member-name-link">testPeriodic</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">This function is called periodically during test mode</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateLoggingContext()" class="member-name-link">updateLoggingContext</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateLoggingContext()" class="member-name-link">updateLoggingContext</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-org.littletonrobotics.junction.LoggedRobot">Methods inherited from class&nbsp;org.littletonrobotics.junction.LoggedRobot</h3>
-<code>close, endCompetition, setUseTiming, startCompetition</code></div>
+<code>close, endCompetition, setUseTiming</code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-org.wpilib.framework.IterativeRobotBase">Methods inherited from class&nbsp;org.wpilib.framework.IterativeRobotBase</h3>
 <code>autonomousExit, disabledExit, driverStationConnected, getPeriod, loopFunc, printWatchdogEpochs, robotPeriodic, teleopExit, utilityExit, utilityInit, utilityPeriodic</code></div>
@@ -405,6 +411,19 @@ of CommonLib functionality.</div>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="startCompetition()">
+<h3>startCompetition</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">startCompetition</span>()</div>
+<div class="block">Initializes SCL before AdvantageKit starts simulation and the robot loop.</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code>startCompetition</code>&nbsp;in class&nbsp;<code>org.littletonrobotics.junction.LoggedRobot</code></dd>
+</dl>
+</div>
+</section>
+</li>
 <li>
 <section class="detail" id="setupInjectionModule()">
 <h3>setupInjectionModule</h3>

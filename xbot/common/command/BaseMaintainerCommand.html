@@ -70,6 +70,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
 <li><a href="#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem,xbot.common.properties.TunableFactory,xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory,double,double)" tabindex="0">BaseMaintainerCommand(BaseSetpointSubsystem, TunableFactory, HumanVsMachineDecider.HumanVsMachineDeciderFactory, double, double)</a></li>
+<li><a href="#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem,xbot.common.properties.TunableFactory,xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory,double,double,java.lang.String)" tabindex="0">BaseMaintainerCommand(BaseSetpointSubsystem, TunableFactory, HumanVsMachineDecider.HumanVsMachineDeciderFactory, double, double, String)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -196,6 +197,15 @@ It runs a state machine to decide if the subsystem should be in human control, m
  double&nbsp;defaultTimeStableWindow)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates a new maintainer command.</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(xbot.common.command.BaseSetpointSubsystem,xbot.common.properties.TunableFactory,xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory,double,double,java.lang.String)" class="member-name-link">BaseMaintainerCommand</a><wbr>(<a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;<a href="#type-param-TargetT" title="type parameter in BaseMaintainerCommand">TargetT</a>,<wbr><a href="#type-param-PowerT" title="type parameter in BaseMaintainerCommand">PowerT</a>&gt;&nbsp;subsystemToMaintain,
+ <a href="../properties/TunableFactory.html" title="class in xbot.common.properties">TunableFactory</a>&nbsp;tunableFactory,
+ <a href="../logic/HumanVsMachineDecider.HumanVsMachineDeciderFactory.html" title="class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineDeciderFactory</a>&nbsp;humanVsMachineDeciderFactory,
+ double&nbsp;defaultErrorTolerance,
+ double&nbsp;defaultTimeStableWindow,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;tunablePrefix)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Creates a maintainer with an optional prefix before its command tunable path.</div>
 </div>
 </div>
 </section>
@@ -374,6 +384,29 @@ at its goal.</div>
 <dd><code>humanVsMachineDeciderFactory</code> - The decider factory to use for creating the decider.</dd>
 <dd><code>defaultErrorTolerance</code> - The default error tolerance.</dd>
 <dd><code>defaultTimeStableWindow</code> - The default time stable window.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(xbot.common.command.BaseSetpointSubsystem,xbot.common.properties.TunableFactory,xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory,double,double,java.lang.String)">
+<h3>BaseMaintainerCommand</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">BaseMaintainerCommand</span><wbr><span class="parameters">(<a href="BaseSetpointSubsystem.html" title="class in xbot.common.command">BaseSetpointSubsystem</a>&lt;<a href="#type-param-TargetT" title="type parameter in BaseMaintainerCommand">TargetT</a>,<wbr><a href="#type-param-PowerT" title="type parameter in BaseMaintainerCommand">PowerT</a>&gt;&nbsp;subsystemToMaintain,
+ <a href="../properties/TunableFactory.html" title="class in xbot.common.properties">TunableFactory</a>&nbsp;tunableFactory,
+ <a href="../logic/HumanVsMachineDecider.HumanVsMachineDeciderFactory.html" title="class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineDeciderFactory</a>&nbsp;humanVsMachineDeciderFactory,
+ double&nbsp;defaultErrorTolerance,
+ double&nbsp;defaultTimeStableWindow,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;tunablePrefix)</span></div>
+<div class="block">Creates a maintainer with an optional prefix before its command tunable path.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>subsystemToMaintain</code> - The subsystem to maintain.</dd>
+<dd><code>tunableFactory</code> - The factory for configuration values.</dd>
+<dd><code>humanVsMachineDeciderFactory</code> - The factory for the decider.</dd>
+<dd><code>defaultErrorTolerance</code> - The default error tolerance.</dd>
+<dd><code>defaultTimeStableWindow</code> - The default time stable window.</dd>
+<dd><code>tunablePrefix</code> - Additional prefix, or an empty string for the default command path.</dd>
 </dl>
 </div>
 </section>
