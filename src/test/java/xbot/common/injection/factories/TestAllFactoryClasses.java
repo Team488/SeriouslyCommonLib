@@ -54,7 +54,6 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().velocityThrottleModuleFactory().create("velocityThrottleThing", pf.create("velocity", 1, 0, 0));
         getInjectorComponent().compressorFactory().create();
         getInjectorComponent().relayFactory().create(5);
-        getInjectorComponent().pwmFactory().create(3);
         getInjectorComponent().fieldPosePropertyManagerFactory().create("testo", 1, 2, 3);
         getInjectorComponent().zeromqListenerFactory().create("testo", "testo");
         getInjectorComponent().chordButtonFactory().create(

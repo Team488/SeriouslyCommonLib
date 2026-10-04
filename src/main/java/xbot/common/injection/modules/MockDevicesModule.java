@@ -6,7 +6,7 @@ import xbot.common.controls.actuators.XCANLightController;
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
 import xbot.common.controls.actuators.XDigitalOutput.XDigitalOutputFactory;
-import xbot.common.controls.actuators.XPWM.XPWMFactory;
+
 import xbot.common.controls.actuators.XRelay.XRelayFactory;
 import xbot.common.controls.actuators.XServo.XServoFactory;
 import xbot.common.controls.actuators.XSolenoid.XSolenoidFactory;
@@ -15,7 +15,7 @@ import xbot.common.controls.actuators.mock_adapters.MockCANLightController;
 import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
 import xbot.common.controls.actuators.mock_adapters.MockCompressor.MockCompressorFactory;
 import xbot.common.controls.actuators.mock_adapters.MockDigitalOutput.MockDigitalOutputFactory;
-import xbot.common.controls.actuators.mock_adapters.MockPWM.MockPWMFactory;
+
 import xbot.common.controls.actuators.mock_adapters.MockRelay.MockRelayFactory;
 import xbot.common.controls.actuators.mock_adapters.MockServo.MockServoFactory;
 import xbot.common.controls.actuators.mock_adapters.MockSolenoid.MockSolenoidFactory;
@@ -67,10 +67,6 @@ public abstract class MockDevicesModule {
     @Binds
     @Singleton
     public abstract XDigitalOutputFactory getDigitalOutputFactory(MockDigitalOutputFactory impl);
-
-    @Binds
-    @Singleton
-    public abstract XPWMFactory getPwmFactory(MockPWMFactory impl);
 
     @Binds
     @Singleton

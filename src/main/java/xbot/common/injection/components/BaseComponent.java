@@ -10,7 +10,6 @@ import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
 import xbot.common.controls.actuators.XDigitalOutput.XDigitalOutputFactory;
 import xbot.common.controls.actuators.XDoubleSolenoid.XDoubleSolenoidFactory;
-import xbot.common.controls.actuators.XPWM.XPWMFactory;
 import xbot.common.controls.actuators.XRelay.XRelayFactory;
 import xbot.common.controls.actuators.XServo.XServoFactory;
 import xbot.common.controls.actuators.XSolenoid.XSolenoidFactory;
@@ -135,8 +134,6 @@ public abstract class BaseComponent {
     public abstract XDigitalInputFactory digitalInputFactory();
 
     public abstract XDigitalOutputFactory digitalOutputFactory();
-
-    public abstract XPWMFactory pwmFactory();
 
     public abstract XCompressorFactory compressorFactory();
 

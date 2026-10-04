@@ -7,7 +7,6 @@ import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerFactoryImpl;
 import xbot.common.controls.actuators.XCompressor.XCompressorFactory;
 import xbot.common.controls.actuators.XDigitalOutput.XDigitalOutputFactory;
-import xbot.common.controls.actuators.XPWM.XPWMFactory;
 import xbot.common.controls.actuators.XRelay.XRelayFactory;
 import xbot.common.controls.actuators.XServo.XServoFactory;
 import xbot.common.controls.actuators.XSolenoid.XSolenoidFactory;
@@ -15,7 +14,6 @@ import xbot.common.controls.actuators.XSpeedController.XSpeedControllerFactory;
 import xbot.common.controls.actuators.wpi_adapters.CANdleWpiAdapter;
 import xbot.common.controls.actuators.wpi_adapters.CompressorWPIAdapter.CompressorWPIAdapterFactory;
 import xbot.common.controls.actuators.wpi_adapters.DigitalOutputWPIAdapter.DigitalOutputWPIAdapterFactory;
-import xbot.common.controls.actuators.wpi_adapters.PWMWPIAdapter.PWMWPIAdapterFactory;
 import xbot.common.controls.actuators.wpi_adapters.RelayWPIAdapter.RelayWPIAdapterFactory;
 import xbot.common.controls.actuators.wpi_adapters.ServoWPIAdapter.ServoWPIAdapterFactory;
 import xbot.common.controls.actuators.wpi_adapters.SolenoidWPIAdapter.SolenoidWPIAdapterFactory;
@@ -68,9 +66,7 @@ public abstract class RealDevicesModule {
     @Singleton
     public abstract XDigitalOutputFactory getDigitalOutputFactory(DigitalOutputWPIAdapterFactory impl);
 
-    @Binds
-    @Singleton
-    public abstract XPWMFactory getPwmFactory(PWMWPIAdapterFactory impl);
+
 
     @Binds
     @Singleton
