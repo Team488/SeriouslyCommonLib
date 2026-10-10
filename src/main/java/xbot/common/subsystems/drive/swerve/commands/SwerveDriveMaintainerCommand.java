@@ -16,7 +16,7 @@ public class SwerveDriveMaintainerCommand extends BaseSimpleMaintainerCommand {
     @Inject
     public SwerveDriveMaintainerCommand(BaseSwerveDriveSubsystem drive, SwerveDriveSubsystem subsystemToMaintain,
                                         TunableFactory tunableFactory, HumanVsMachineDeciderFactory hvmFactory) {
-        super(subsystemToMaintain, tunableFactory, hvmFactory, 0.001, 0.001);
+        super(subsystemToMaintain, tunableFactory, hvmFactory, 0.001, 0.001, subsystemToMaintain.getPrefix());
         this.subsystem = subsystemToMaintain;
         this.drive = drive;
     }

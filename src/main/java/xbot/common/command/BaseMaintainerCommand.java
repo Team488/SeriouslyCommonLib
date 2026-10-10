@@ -54,17 +54,36 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
                                  TunableFactory tunableFactory,
                                  HumanVsMachineDeciderFactory humanVsMachineDeciderFactory,
                                  double defaultErrorTolerance, double defaultTimeStableWindow) {
+        this(subsystemToMaintain, tunableFactory, humanVsMachineDeciderFactory,
+                defaultErrorTolerance, defaultTimeStableWindow, "");
+    }
+
+    /**
+     * Creates a maintainer with an optional prefix before its command tunable path.
+     * @param subsystemToMaintain The subsystem to maintain.
+     * @param tunableFactory The factory for configuration values.
+     * @param humanVsMachineDeciderFactory The factory for the decider.
+     * @param defaultErrorTolerance The default error tolerance.
+     * @param defaultTimeStableWindow The default time stable window.
+     * @param tunablePrefix Additional prefix, or an empty string for the default command path.
+     */
+    public BaseMaintainerCommand(BaseSetpointSubsystem<TargetT, PowerT> subsystemToMaintain,
+                                TunableFactory tunableFactory,
+                                HumanVsMachineDeciderFactory humanVsMachineDeciderFactory,
+                                double defaultErrorTolerance, double defaultTimeStableWindow,
+                                String tunablePrefix) {
         this.subsystemToMaintain = subsystemToMaintain;
         this.addRequirements(subsystemToMaintain);
 
-        tunableFactory.setPrefix(this);
+        String prefix = tunablePrefix + this.getPrefix();
+        tunableFactory.setPrefix(prefix);
         tunableFactory.setDefaultLevel(TunableLevel.Important);
         errorToleranceTunable = tunableFactory.createDouble("Error Tolerance", defaultErrorTolerance);
         errorTimeStableWindowTunable =
                 tunableFactory.createDouble("Error Time Stable Window", defaultTimeStableWindow);
 
         timeStableValidator = new TimeStableValidator(() -> errorTimeStableWindowTunable.get());
-        decider = humanVsMachineDeciderFactory.create(this.getPrefix());
+        decider = humanVsMachineDeciderFactory.create(prefix);
     }
 
     @Override
