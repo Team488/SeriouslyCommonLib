@@ -2,18 +2,13 @@ package xbot.common.subsystems.arm.commands;
 
 import org.wpilib.units.measure.Angle;
 
+import xbot.common.command.BaseMaintainerCommand;
+import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.properties.TunableFactory;
 import xbot.common.subsystems.arm.BaseArmSubsystem;
-import edu.wpi.first.units.Units;
-import edu.wpi.first.units.measure.Angle;
-import xbot.common.command.BaseMaintainerCommand;
-import xbot.common.controls.sensors.XXboxController;
-import xbot.common.logic.HumanVsMachineDecider;
-import xbot.common.properties.PropertyFactory;
 
-import javax.inject.Inject;
 
-public abstract class BaseArmMaintainer extends BaseMaintainerCommand <Angle, Double> {
+public abstract class BaseArmMaintainer extends BaseMaintainerCommand<Angle, Double> {
 
     final BaseArmSubsystem baseArm;
 

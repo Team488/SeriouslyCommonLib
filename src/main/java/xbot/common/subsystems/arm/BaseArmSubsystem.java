@@ -1,20 +1,17 @@
 package xbot.common.subsystems.arm;
 
+import javax.inject.Singleton;
+
 import org.wpilib.command2.Command;
 import org.wpilib.command2.Commands;
-import org.wpilib.tunable.TunableDouble;
 import org.wpilib.units.measure.Angle;
-
 
 import xbot.common.command.BaseSetpointSubsystem;
 import xbot.common.controls.actuators.XCANMotorController;
-import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
-import org.wpilib.tunable.Tunable;
-
 import xbot.common.properties.TunableFactory;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+
+
 
 @Singleton
 public abstract class BaseArmSubsystem extends BaseSetpointSubsystem <org.wpilib.units.measure.Angle, Double> {
