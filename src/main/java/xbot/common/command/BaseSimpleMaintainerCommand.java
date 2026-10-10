@@ -25,4 +25,23 @@ public abstract class BaseSimpleMaintainerCommand extends BaseMaintainerCommand<
         super(subsystemToMaintain, tunableFactory, humanVsMachineDeciderFactory, defaultErrorTolerance,
                 defaultTimeStableWindow);
     }
+
+    /**
+     * Creates a simple maintainer with an optional tunable prefix.
+     * @param subsystemToMaintain The subsystem to maintain.
+     * @param tunableFactory The factory for configuration values.
+     * @param humanVsMachineDeciderFactory The factory for the decider.
+     * @param defaultErrorTolerance The default error tolerance.
+     * @param defaultTimeStableWindow The default time stable window.
+     * @param tunablePrefix Additional prefix, or an empty string for the default command path.
+     */
+    public BaseSimpleMaintainerCommand(BaseSetpointSubsystem<Double, Double> subsystemToMaintain,
+                                      TunableFactory tunableFactory,
+                                      HumanVsMachineDecider.HumanVsMachineDeciderFactory humanVsMachineDeciderFactory,
+                                      double defaultErrorTolerance, double defaultTimeStableWindow,
+                                      String tunablePrefix) {
+        super(subsystemToMaintain, tunableFactory, humanVsMachineDeciderFactory,
+                defaultErrorTolerance, defaultTimeStableWindow, tunablePrefix);
+    }
+
 }
