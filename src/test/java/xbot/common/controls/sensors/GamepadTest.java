@@ -1,7 +1,7 @@
 package xbot.common.controls.sensors;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.driverstation.POVDirection;
 import org.wpilib.math.util.MathUtil;
@@ -10,16 +10,17 @@ import xbot.common.controls.sensors.XGamepad.GamepadButton;
 import xbot.common.controls.sensors.mock_adapters.MockGamepad;
 import xbot.common.injection.BaseCommonLibTest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GamepadTest extends BaseCommonLibTest {
 
     private XGamepad gamepad;
     private MockGamepad mockGamepad;
 
-    @Before
+    @BeforeEach
     public void setupGamepad() {
         gamepad = getInjectorComponent().gamepadFactory().create(0);
         mockGamepad = (MockGamepad)gamepad;
@@ -39,10 +40,10 @@ public class GamepadTest extends BaseCommonLibTest {
         assertTrue(leftPaddle.getAsBoolean());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void duplicateButtonAllocationFails() {
         gamepad.getGamepadButtonIfAvailable(GamepadButton.FACE_RIGHT);
-        gamepad.getGamepadButtonIfAvailable(GamepadButton.FACE_RIGHT);
+        assertThrows(IllegalStateException.class, () -> gamepad.getGamepadButtonIfAvailable(GamepadButton.FACE_RIGHT));
     }
 
     @Test
@@ -108,15 +109,15 @@ public class GamepadTest extends BaseCommonLibTest {
         assertEquals(POVDirection.DOWN_LEFT, gamepad.getPOV());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void dpadCannotBeAllocatedAsButtonThenPov() {
         gamepad.getGamepadButtonIfAvailable(GamepadButton.DPAD_RIGHT);
-        gamepad.getPovIfAvailable(POVDirection.DOWN_RIGHT);
+        assertThrows(IllegalStateException.class, () -> gamepad.getPovIfAvailable(POVDirection.DOWN_RIGHT));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void diagonalPovReservesBothButtons() {
         gamepad.getPovIfAvailable(POVDirection.UP_RIGHT);
-        gamepad.getGamepadButtonIfAvailable(GamepadButton.DPAD_UP);
+        assertThrows(IllegalStateException.class, () -> gamepad.getGamepadButtonIfAvailable(GamepadButton.DPAD_UP));
     }
 }

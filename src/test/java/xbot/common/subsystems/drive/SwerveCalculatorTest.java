@@ -3,12 +3,13 @@ package xbot.common.subsystems.drive;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.logging.RobotAssertionManager;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.wpilib.units.Units.Meters;
 import static org.wpilib.units.Units.MetersPerSecond;
 import static org.wpilib.units.Units.MetersPerSecondPerSecond;
@@ -18,6 +19,7 @@ public class SwerveCalculatorTest extends BaseCommonLibTest {
 
     RobotAssertionManager assertionManager;
 
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();

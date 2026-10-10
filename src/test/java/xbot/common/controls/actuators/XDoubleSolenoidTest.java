@@ -1,14 +1,14 @@
 package xbot.common.controls.actuators;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.controls.actuators.XDoubleSolenoid.DoubleSolenoidMode;
 import xbot.common.controls.actuators.mock_adapters.MockSolenoid;
 import xbot.common.injection.BaseCommonLibTest;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class XDoubleSolenoidTest extends BaseCommonLibTest {
 
@@ -16,7 +16,7 @@ public class XDoubleSolenoidTest extends BaseCommonLibTest {
     MockSolenoid reverseSolenoid;
     XDoubleSolenoid xDoubleSol;
 
-    @Before
+    @BeforeEach
     public void setup()
     {
         super.setUp();

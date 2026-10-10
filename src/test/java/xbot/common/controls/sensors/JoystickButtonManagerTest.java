@@ -1,7 +1,7 @@
 package xbot.common.controls.sensors;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.driverstation.POVDirection;
 import org.wpilib.math.geometry.Translation2d;
@@ -10,16 +10,17 @@ import xbot.common.controls.sensors.mock_adapters.MockJoystick;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.logging.RobotAssertionManager;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class JoystickButtonManagerTest extends BaseCommonLibTest {
     
     XJoystick testJoystick;
     RobotAssertionManager assertion;
     
-    @Before
+    @BeforeEach
     public void setup() {
         super.setUp();
         
@@ -27,25 +28,25 @@ public class JoystickButtonManagerTest extends BaseCommonLibTest {
         assertion = getInjectorComponent().robotAssertionManager();
     }
     
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testButtonBelowRange() {
-        testJoystick.getifAvailable(13);
+        assertThrows(RuntimeException.class, () -> testJoystick.getifAvailable(13));
     }
     
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testButtonZero() {
-        testJoystick.getifAvailable(0);
+        assertThrows(RuntimeException.class, () -> testJoystick.getifAvailable(0));
     }
     
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testButtonNegative() {
-        testJoystick.getifAvailable(-1);
+        assertThrows(RuntimeException.class, () -> testJoystick.getifAvailable(-1));
     }
     
     @Test
     public void testAllValidButtons() {
         for (int x = 1; x <= 12; x++) {
-            assertTrue("Button " + x + " should not be null.", null != testJoystick.getifAvailable(x));
+            assertTrue(null != testJoystick.getifAvailable(x), "Button " + x + " should not be null.");
         }
         for (int x = 1; x <= 12; x++) {
             assertButtonUnavailable(x);
@@ -62,10 +63,10 @@ public class JoystickButtonManagerTest extends BaseCommonLibTest {
         assertTrue(testJoystick.getPovIfAvailable(POVDirection.RIGHT).getAsBoolean());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testPovDirectionCannotBeAllocatedTwice() {
         testJoystick.getPovIfAvailable(POVDirection.UP);
-        testJoystick.getPovIfAvailable(POVDirection.UP);
+        assertThrows(IllegalStateException.class, () -> testJoystick.getPovIfAvailable(POVDirection.UP));
     }
 
     @Test

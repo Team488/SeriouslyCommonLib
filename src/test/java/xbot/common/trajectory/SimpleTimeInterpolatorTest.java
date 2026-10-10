@@ -3,8 +3,8 @@ package xbot.common.trajectory;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
@@ -14,10 +14,10 @@ import xbot.common.logging.SilentRobotAssertionManager;
 import xbot.common.subsystems.drive.SwervePointKinematics;
 import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SimpleTimeInterpolatorTest extends BaseCommonLibTest {
 
@@ -25,7 +25,7 @@ public class SimpleTimeInterpolatorTest extends BaseCommonLibTest {
     SilentRobotAssertionManager assertionManager;
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() {
         super.setUp();
         assertionManager = new SilentRobotAssertionManager();
@@ -99,13 +99,13 @@ public class SimpleTimeInterpolatorTest extends BaseCommonLibTest {
         Translation2d currentLocation = new Translation2d(5.0, 3.0);
         SimpleTimeInterpolator.InterpolationResult result = interpolator.calculateTarget(currentLocation);
         assertEquals(currentLocation, result.chasePoint);
-        assertTrue("Should be on final point when no key points", result.isOnFinalPoint);
+        assertTrue(result.isOnFinalPoint, "Should be on final point when no key points");
 
         interpolator.setKeyPoints(new ArrayList<>());
         currentLocation = new Translation2d(2.0, 4.0);
         result = interpolator.calculateTarget(currentLocation);
         assertEquals(currentLocation, result.chasePoint);
-        assertTrue("Should be on final point when key points list is empty", result.isOnFinalPoint);
+        assertTrue(result.isOnFinalPoint, "Should be on final point when key points list is empty");
     }
 
     @Test
@@ -119,7 +119,7 @@ public class SimpleTimeInterpolatorTest extends BaseCommonLibTest {
         Translation2d currentLocation = new Translation2d(3.0, 4.0);
         SimpleTimeInterpolator.InterpolationResult result = interpolator.calculateTarget(currentLocation);
         assertEquals(currentLocation, result.chasePoint);
-        assertTrue("Should be on final point when key point has zero time", result.isOnFinalPoint);
+        assertTrue(result.isOnFinalPoint, "Should be on final point when key point has zero time");
     }
 
     @Test
@@ -133,8 +133,8 @@ public class SimpleTimeInterpolatorTest extends BaseCommonLibTest {
         SimpleTimeInterpolator.InterpolationResult result = interpolator.calculateTarget(new Translation2d(0, 0));
         assertEquals(0.0, result.lerpFraction, 0.001);
         assertEquals(new Translation2d(0, 0), result.chasePoint);
-        assertFalse("Should not be on final point yet", result.isOnFinalPoint);
-        assertTrue("Single keypoint is always on the final leg", result.isOnFinalLeg);
+        assertFalse(result.isOnFinalPoint, "Should not be on final point yet");
+        assertTrue(result.isOnFinalLeg, "Single keypoint is always on the final leg");
     }
 
     @Test
@@ -152,7 +152,7 @@ public class SimpleTimeInterpolatorTest extends BaseCommonLibTest {
         SimpleTimeInterpolator.InterpolationResult result = interpolator.calculateTarget(new Translation2d(0, 0));
         assertEquals(0.3, result.lerpFraction, 0.01);
         assertEquals(new Translation2d(3, 0), result.chasePoint);
-        assertFalse("Should not be on final point mid-segment", result.isOnFinalPoint);
+        assertFalse(result.isOnFinalPoint, "Should not be on final point mid-segment");
     }
 
     @Test
@@ -170,8 +170,8 @@ public class SimpleTimeInterpolatorTest extends BaseCommonLibTest {
         SimpleTimeInterpolator.InterpolationResult result = interpolator.calculateTarget(new Translation2d(9, 0));
         assertEquals(1.0, result.lerpFraction, 0.001);
         assertEquals(new Translation2d(10, 0), result.chasePoint);
-        assertTrue("Should be on final point when lerpFraction >= 1", result.isOnFinalPoint);
-        assertTrue("Should be on final leg", result.isOnFinalLeg);
+        assertTrue(result.isOnFinalPoint, "Should be on final point when lerpFraction >= 1");
+        assertTrue(result.isOnFinalLeg, "Should be on final leg");
     }
 
     @Test
@@ -190,14 +190,14 @@ public class SimpleTimeInterpolatorTest extends BaseCommonLibTest {
         SimpleTimeInterpolator.InterpolationResult result = interpolator.calculateTarget(new Translation2d(2, 0));
         assertEquals(0.6, result.lerpFraction, 0.01);
         assertEquals(new Translation2d(6, 0), result.chasePoint);
-        assertFalse("Should not be on final point yet", result.isOnFinalPoint);
+        assertFalse(result.isOnFinalPoint, "Should not be on final point yet");
 
         timer.advanceTimeInSecondsBy(3);
         result = interpolator.calculateTarget(new Translation2d(7, 0));
         assertEquals(0.2, result.lerpFraction, 0.01);
         assertEquals(new Translation2d(12, 0), result.chasePoint);
-        assertTrue("Should be on final leg", result.isOnFinalLeg);
-        assertFalse("Should not be on final point yet (lerpFraction < 1)", result.isOnFinalPoint);
+        assertTrue(result.isOnFinalLeg, "Should be on final leg");
+        assertFalse(result.isOnFinalPoint, "Should not be on final point yet (lerpFraction < 1)");
     }
 
     @Test
@@ -217,8 +217,7 @@ public class SimpleTimeInterpolatorTest extends BaseCommonLibTest {
         interpolator.calculateTarget(new Translation2d(0, 0));
 
         SimpleTimeInterpolator.InterpolationResult result = interpolator.calculateTarget(new Translation2d(0, 0));
-        assertTrue("LerpFraction should be near 0 after time was rewound by distance clamping",
-                result.lerpFraction < 0.1);
+        assertTrue(result.lerpFraction < 0.1, "LerpFraction should be near 0 after time was rewound by distance clamping");
     }
 
     @Test
@@ -247,7 +246,7 @@ public class SimpleTimeInterpolatorTest extends BaseCommonLibTest {
         interpolator.setKeyPoints(points);
 
         SimpleTimeInterpolator.InterpolationResult result = interpolator.calculateTarget(new Translation2d(0, 0));
-        assertNotNull("Calculator should be created in kinematics mode", interpolator.calculator);
+        assertNotNull(interpolator.calculator, "Calculator should be created in kinematics mode");
         assertNotNull(result.chasePoint);
         assertEquals(0.0, result.lerpFraction, 0.001);
     }
@@ -266,7 +265,7 @@ public class SimpleTimeInterpolatorTest extends BaseCommonLibTest {
         SimpleTimeInterpolator.InterpolationResult result = interpolator.calculateTarget(new Translation2d(1, 0));
         assertEquals(2.0, result.plannedVector.getX(), 0.001);
         assertEquals(0.0, result.plannedVector.getY(), 0.001);
-        assertNotNull("Should have a chase heading", result.chaseHeading);
+        assertNotNull(result.chaseHeading, "Should have a chase heading");
     }
 
     @Test
@@ -299,13 +298,13 @@ public class SimpleTimeInterpolatorTest extends BaseCommonLibTest {
 
         timer.advanceTimeInSecondsBy(5);
         SimpleTimeInterpolator.InterpolationResult result = interpolator.calculateTarget(new Translation2d(9, 0));
-        assertEquals("Should be at start of second segment", 0.0, result.lerpFraction, 0.01);
-        assertTrue("Should be on final leg", result.isOnFinalLeg);
+        assertEquals(0.0, result.lerpFraction, 0.01, "Should be at start of second segment");
+        assertTrue(result.isOnFinalLeg, "Should be on final leg");
 
         timer.advanceTimeInSecondsBy(5);
         result = interpolator.calculateTarget(new Translation2d(9, 0));
-        assertEquals("Should be at end of second segment", 1.0, result.lerpFraction, 0.001);
-        assertTrue("Should be on final point", result.isOnFinalPoint);
+        assertEquals(1.0, result.lerpFraction, 0.001, "Should be at end of second segment");
+        assertTrue(result.isOnFinalPoint, "Should be on final point");
     }
 
     @Test
@@ -325,8 +324,8 @@ public class SimpleTimeInterpolatorTest extends BaseCommonLibTest {
 
         timer.advanceTimeInSecondsBy(5);
         SimpleTimeInterpolator.InterpolationResult result = interpolator.calculateTarget(new Translation2d(5, 0));
-        assertEquals("Should have advanced past zero-time segment", 2, interpolator.index);
-        assertEquals("LerpFraction should be 0 on third segment", 0.0, result.lerpFraction, 0.01);
+        assertEquals(2, interpolator.index, "Should have advanced past zero-time segment");
+        assertEquals(0.0, result.lerpFraction, 0.01, "LerpFraction should be 0 on third segment");
         assertNotNull(result.chasePoint);
     }
 

@@ -1,11 +1,12 @@
 package xbot.common.injection.electrical_contract;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.hardware.bus.CANPort;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CANBusIdTest {
 
@@ -20,13 +21,13 @@ public class CANBusIdTest {
         assertEquals("*", CANBusId.Canivore.toPhoenixCANBus().getName());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void rejectsCanivoreAsWpiCanPort() {
-        CANBusId.Canivore.toWpiCANPort();
+        assertThrows(IllegalArgumentException.class, () -> CANBusId.Canivore.toWpiCANPort());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void rejectsUnknownBus() {
-        new CANBusId("unknown").toPhoenixCANBus();
+        assertThrows(IllegalArgumentException.class, () -> new CANBusId("unknown").toPhoenixCANBus());
     }
 }

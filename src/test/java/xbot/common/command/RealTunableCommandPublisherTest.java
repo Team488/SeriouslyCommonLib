@@ -1,8 +1,8 @@
 package xbot.common.command;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.tunable.MockTunableBackend;
 import org.wpilib.tunable.TunableRegistry;
@@ -12,15 +12,15 @@ import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.logging.RobotAssertionManager;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RealTunableCommandPublisherTest {
 
     private MockTunableBackend tunableBackend;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         TunableRegistry.reset();
         tunableBackend = new MockTunableBackend();
@@ -28,7 +28,7 @@ public class RealTunableCommandPublisherTest {
         XTimer.setImplementation(new MockTimer());
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         TunableRegistry.reset();
     }

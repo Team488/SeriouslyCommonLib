@@ -2,7 +2,8 @@ package xbot.common.trajectory;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
@@ -10,12 +11,13 @@ import org.wpilib.math.geometry.Translation2d;
 
 import xbot.common.injection.BaseCommonLibTest;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LowResFieldTest extends BaseCommonLibTest {
 
     LowResField f;
 
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();

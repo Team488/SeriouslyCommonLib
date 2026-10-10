@@ -1,6 +1,6 @@
 package xbot.common.controls.sensors;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.hardware.imu.OnboardIMU.MountOrientation;
 
@@ -10,7 +10,7 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.IMUInfo;
 import xbot.common.logging.LoudRobotAssertionManager;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.wpilib.units.Units.MetersPerSecondPerSecond;
 
 public class MockGyroTest {

@@ -1,7 +1,7 @@
 package xbot.common.subsystems.pose.commands;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.subsystems.pose.BasePoseTest;
 
@@ -9,7 +9,7 @@ public class ResetDistanceCommandTest extends BasePoseTest {
 
     ResetDistanceCommand reset;
 
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
         reset = getInjectorComponent().resetDistanceCommand();

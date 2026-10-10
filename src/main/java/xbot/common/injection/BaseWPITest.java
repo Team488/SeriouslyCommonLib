@@ -1,8 +1,8 @@
 package xbot.common.injection;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 
 import org.wpilib.tunable.MockTunableBackend;
 import org.wpilib.tunable.TunableRegistry;
@@ -13,7 +13,7 @@ import xbot.common.injection.components.BaseComponent;
 import xbot.common.math.PIDManager.PIDManagerFactory;
 import xbot.common.properties.TunableFactory;
 
-@Ignore
+@Disabled
 public abstract class BaseWPITest {
     private BaseComponent injectorComponent;
 
@@ -33,7 +33,7 @@ public abstract class BaseWPITest {
         return injectorComponent;
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         TunableRegistry.reset();
         tunableBackend = new MockTunableBackend();
@@ -47,7 +47,7 @@ public abstract class BaseWPITest {
         pf = injectorComponent.pidFactory();
     }
 
-    @After
+    @AfterEach
     public void tearDownTunables() {
         TunableRegistry.reset();
     }

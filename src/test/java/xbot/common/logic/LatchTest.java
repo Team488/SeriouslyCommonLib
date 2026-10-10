@@ -2,24 +2,24 @@ package xbot.common.logic;
 
 import java.util.function.Consumer;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.logic.Latch.EdgeType;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LatchTest {
 
     private LatchTestObserver latchTestObserver;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         latchTestObserver = new LatchTestObserver();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         latchTestObserver = null;
     }

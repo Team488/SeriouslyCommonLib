@@ -1,7 +1,7 @@
 package xbot.common.subsystems.pose.commands;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.BasePoseTest;
@@ -10,7 +10,7 @@ public class SetRobotHeadingCommandTest extends BasePoseTest {
 
     SetRobotHeadingCommand setHeading;
     
-    @Before
+    @BeforeEach
     public void setup() {
         super.setup();
         setHeading = getInjectorComponent().setRobotHeadingCommand();

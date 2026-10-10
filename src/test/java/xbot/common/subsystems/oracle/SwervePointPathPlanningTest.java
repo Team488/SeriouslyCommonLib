@@ -1,11 +1,11 @@
 package xbot.common.subsystems.oracle;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SwervePointPathPlanningTest {
 

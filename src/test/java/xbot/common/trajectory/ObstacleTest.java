@@ -1,14 +1,14 @@
 package xbot.common.trajectory;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.math.geometry.Translation2d;
 
 import xbot.common.injection.BaseCommonLibTest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ObstacleTest extends BaseCommonLibTest {
 
@@ -19,16 +19,16 @@ public class ObstacleTest extends BaseCommonLibTest {
 
         assertEquals(point.getX(), 5, 0.2);
         assertEquals(point.getY(), 7.5, 0.2);
-        assertFalse("bottom left should not be available", o.bottomLeftAvailable);
+        assertFalse(o.bottomLeftAvailable, "bottom left should not be available");
 
         point = o.getClosestCornerToPoint(point);
         assertEquals(point.getX(), 5, 0.2);
         assertEquals(point.getY(), 12.5, 0.2);
-        assertFalse("top left should not be available", o.topLeftAvailable);
+        assertFalse(o.topLeftAvailable, "top left should not be available");
 
         o.resetCorners();
-        assertTrue("corners should be available again", o.bottomLeftAvailable);
-        assertTrue("corners should be available again", o.topLeftAvailable);
+        assertTrue(o.bottomLeftAvailable, "corners should be available again");
+        assertTrue(o.topLeftAvailable, "corners should be available again");
     }
 
     @Test

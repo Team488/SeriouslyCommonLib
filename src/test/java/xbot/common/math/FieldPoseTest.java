@@ -1,10 +1,10 @@
 package xbot.common.math;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.math.geometry.Rotation2d;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FieldPoseTest {
 

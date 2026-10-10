@@ -1,11 +1,11 @@
 package xbot.common.math;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.BaseCommonLibTest;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HistoryBufferTests extends BaseCommonLibTest {
 

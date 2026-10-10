@@ -1,6 +1,6 @@
 package xbot.common.controls.actuators;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.controls.actuators.mock_adapters.MockCANLightController;
 import xbot.common.injection.BaseCommonLibTest;
@@ -10,8 +10,8 @@ import xbot.common.injection.electrical_contract.CANLightControllerOutputConfig;
 import xbot.common.injection.electrical_contract.LEDStripType;
 import xbot.common.injection.electrical_contract.LightControllerType;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CANLightControlelrTest extends BaseCommonLibTest {
     @Test

@@ -1,7 +1,7 @@
 package xbot.common.controls.sensors;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.driverstation.POVDirection;
 import org.wpilib.math.util.MathUtil;
@@ -11,25 +11,26 @@ import xbot.common.controls.sensors.XXboxController.XboxButton;
 import xbot.common.controls.sensors.mock_adapters.MockXboxControllerAdapter;
 import xbot.common.injection.BaseCommonLibTest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class XboxControllerTest extends BaseCommonLibTest {
 
     private XXboxController controller;
     private MockXboxControllerAdapter mockController;
 
-    @Before
+    @BeforeEach
     public void setupController() {
         controller = getInjectorComponent().xboxControllerFactory().create(0);
         mockController = (MockXboxControllerAdapter)controller;
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void doubleAllocateButton() {
         controller.getXboxButtonIfAvailable(XboxButton.A);
-        controller.getXboxButtonIfAvailable(XboxButton.A);
+        assertThrows(IllegalStateException.class, () -> controller.getXboxButtonIfAvailable(XboxButton.A));
     }
 
     @Test
@@ -101,9 +102,9 @@ public class XboxControllerTest extends BaseCommonLibTest {
         assertEquals(POVDirection.UP_RIGHT, controller.getPOV());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void dpadCannotBeAllocatedAsPovThenButton() {
         controller.getPovIfAvailable(POVDirection.UP_LEFT);
-        controller.getXboxButtonIfAvailable(XboxButton.DPadLeft);
+        assertThrows(IllegalStateException.class, () -> controller.getXboxButtonIfAvailable(XboxButton.DPadLeft));
     }
 }

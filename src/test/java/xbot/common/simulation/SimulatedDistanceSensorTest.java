@@ -1,11 +1,14 @@
 package xbot.common.simulation;
 
+import org.junit.jupiter.api.BeforeEach;
+
 import xbot.common.controls.sensors.SimulatedAnalogDistanceSensor;
 
 public class SimulatedDistanceSensorTest extends BaseSimulationTest {
 
     SimulatedAnalogDistanceSensor distanceSensor;
 
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();

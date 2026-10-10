@@ -1,6 +1,6 @@
 package xbot.common.networking;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
 

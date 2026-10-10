@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ctre.phoenix6.StatusCode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.units.measure.Angle;
 import org.wpilib.util.Alert;
@@ -19,9 +19,9 @@ import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.logging.AlertGroups;
 import xbot.common.resiliency.DeviceHealth;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class XCANCoderTest extends BaseCommonLibTest {
 

@@ -2,8 +2,9 @@ package xbot.common.subsystems.drive;
 
 import java.util.ArrayList;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.math.geometry.Rotation2d;
 
@@ -15,8 +16,8 @@ import xbot.common.subsystems.drive.RabbitPoint.PointTerminatingType;
 import xbot.common.subsystems.drive.RabbitPoint.PointType;
 import xbot.common.subsystems.pose.MockBasePoseSubsystem;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PurePursuitCommandTest extends BaseCommonLibTest {
 
@@ -24,6 +25,7 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
     MockDriveSubsystem drive;
     MockBasePoseSubsystem pose;
 
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();
@@ -180,7 +182,7 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void testThreePointDirect() {
         command.addPoint(
             new RabbitPoint(new FieldPose(new XYPair(100, 0), Rotation2d.fromDegrees(-90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
@@ -193,24 +195,24 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
     }
 
     protected void verifyPose(RabbitPoint poseToTest, double x, double y, double heading) {
-        assertEquals("Looking at X", x, poseToTest.pose.getPoint().x, 0.001);
-        assertEquals("Looking at Y", y, poseToTest.pose.getPoint().y, 0.001);
-        assertEquals("Looking at Heading", heading, poseToTest.pose.getHeading().getDegrees(), 0.001);
+        assertEquals(x, poseToTest.pose.getPoint().x, 0.001, "Looking at X");
+        assertEquals(y, poseToTest.pose.getPoint().y, 0.001, "Looking at Y");
+        assertEquals(heading, poseToTest.pose.getHeading().getDegrees(), 0.001, "Looking at Heading");
     }
 
     protected void verifyTankDrive(double left, double right) {
-        assertEquals("Checking Left Drive", left, drive.leftTank.getPower(), 0.001);
-        assertEquals("Checking Right Drive", right, drive.rightTank.getPower(), 0.001);
+        assertEquals(left, drive.leftTank.getPower(), 0.001, "Checking Left Drive");
+        assertEquals(right, drive.rightTank.getPower(), 0.001, "Checking Right Drive");
     }
 
     protected void verifyDirection(boolean forward) {
         double translation = drive.leftTank.getPower() + drive.rightTank.getPower();
-        assertTrue("Checking Driving Forward",  translation > 0 == forward);
+        assertTrue(translation > 0 == forward, "Checking Driving Forward");
     }
 
     protected void verifyRotation(boolean turningLeft) {
         double rotation = -drive.leftTank.getPower() + drive.rightTank.getPower();
-        assertTrue("Checking Driving Forward",  rotation > 0 == turningLeft);
+        assertTrue(rotation > 0 == turningLeft, "Checking Driving Forward");
     }
 }
 

@@ -1,8 +1,8 @@
 package xbot.common.injection;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.command2.Command;
 import org.wpilib.command2.CommandScheduler;
@@ -11,14 +11,14 @@ import org.wpilib.command2.WaitCommand;
 import xbot.common.command.XScheduler;
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MockTimerTest extends BaseCommonLibTest {
 
     MockTimer timer;
 
-    @Before
+    @BeforeEach
     public void setup() {
         timer = (MockTimer)getInjectorComponent().timerImplementation();
     }
@@ -35,7 +35,7 @@ public class MockTimerTest extends BaseCommonLibTest {
     }
 
     @Test
-    @Ignore("Changes to WPI's Timer render this non-functional, until we find a way to inject depeer into their library")
+    @Disabled("Changes to WPI's Timer render this non-functional, until we find a way to inject depeer into their library")
     public void test_command_timed_out() {
         Command timeOut = new WaitCommand(5);
         XScheduler xScheduler = getInjectorComponent().scheduler();

@@ -1,12 +1,12 @@
 package xbot.common.controls.sensors;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DigitalInputTest extends BaseCommonLibTest {
     @Test

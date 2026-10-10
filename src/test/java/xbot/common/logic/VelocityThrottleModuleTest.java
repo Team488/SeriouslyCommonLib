@@ -1,14 +1,17 @@
 package xbot.common.logic;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class VelocityThrottleModuleTest extends BaseCommonLibTest {
 
     VelocityThrottleModule module;
+    
+    @BeforeEach
     
     @Override
     public void setUp() {

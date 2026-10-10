@@ -1,10 +1,11 @@
 package xbot.common.math;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DoubleInterpolatorTest extends BaseCommonLibTest {
     DoubleInterpolator converter;
@@ -12,6 +13,7 @@ public class DoubleInterpolatorTest extends BaseCommonLibTest {
     double[] testDistance = {1,2,3,4,5,6,7,8,10,11};
     double[] testRPM = {500,950,1300,1500,1700,2200,2500,2700,3000,3500};
 
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();

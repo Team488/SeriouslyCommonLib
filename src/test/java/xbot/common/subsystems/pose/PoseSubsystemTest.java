@@ -1,16 +1,19 @@
 package xbot.common.subsystems.pose;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.wpilib.units.Units.Degrees;
 
 public class PoseSubsystemTest extends BasePoseTest {
 
     MockBasePoseSubsystem pose;
 
+    @BeforeEach
+    @Override
     public void setup() {
         super.setup();
         pose = (MockBasePoseSubsystem)getInjectorComponent().poseSubsystem();

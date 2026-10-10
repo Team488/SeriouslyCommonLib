@@ -1,19 +1,19 @@
 package xbot.common.controls.sensors;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.controls.sensors.mock_adapters.MockAnalogInput;
 import xbot.common.injection.BaseCommonLibTest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class XAnalogInputTest extends BaseCommonLibTest {
 
     private MockAnalogInput input;
 
-    @Before
+    @BeforeEach
     public void setup() {
         input = (MockAnalogInput) getInjectorComponent().analogInputFactory().create(1);
     }
