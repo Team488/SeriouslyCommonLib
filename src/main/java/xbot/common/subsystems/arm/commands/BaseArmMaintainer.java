@@ -36,5 +36,4 @@ public abstract class BaseArmMaintainer extends BaseMaintainerCommand <Angle, Do
     protected abstract Double getHumanInput() ;
 
     protected abstract double getHumanInputMagnitude() ;
-
 }

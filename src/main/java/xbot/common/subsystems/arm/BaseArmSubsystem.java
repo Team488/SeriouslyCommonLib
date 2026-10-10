@@ -19,12 +19,6 @@ import javax.inject.Singleton;
 @Singleton
 public abstract class BaseArmSubsystem extends BaseSetpointSubsystem <org.wpilib.units.measure.Angle, Double> {
 
-    private Tunable calibrationValue;
-
-    private Angle currentArmAngle;
-    private Angle targetAngle;
-    private TunableDouble targetAngleProperty;
-
     boolean isCalibrated = false;
     boolean hasAbsoluteEncoder;
 
@@ -34,6 +28,7 @@ public abstract class BaseArmSubsystem extends BaseSetpointSubsystem <org.wpilib
         tunableFactory.setPrefix(this);
 
     }
+
     public abstract Angle getTargetValue() ;
 
     public abstract boolean hasAbsoluteEncoder() ;
@@ -51,11 +46,9 @@ public abstract class BaseArmSubsystem extends BaseSetpointSubsystem <org.wpilib
     public abstract Angle getCurrentValue() ;
 
     public Command getHasAbsoluteEncoder() {
-
         return Commands.runOnce(() -> {
             hasAbsoluteEncoder = hasAbsoluteEncoder() ;
         });
-
     }
 
     public Command getCalibrateCommand() {
@@ -63,5 +56,4 @@ public abstract class BaseArmSubsystem extends BaseSetpointSubsystem <org.wpilib
             isCalibrated = isCalibrated() ;
         });
     }
-
 }
