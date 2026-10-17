@@ -3,7 +3,12 @@ package xbot.common.controls.sensors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import xbot.common.controls.sensors.mock_adapters.MockAnalogInput;
 import xbot.common.injection.BaseCommonLibTest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class AnalogDistanceSensorTest extends BaseCommonLibTest {
 
@@ -11,12 +16,19 @@ public class AnalogDistanceSensorTest extends BaseCommonLibTest {
 
     @BeforeEach
     public void setup() {
-        //sensor = (AnalogDistanceSensor)clf.createAnalogDistanceSensor(0, AnalogDistanceSensor.VoltageMaps::sharp0A51SK, "Test");
+        sensor = assertInstanceOf(AnalogDistanceSensor.class, getInjectorComponent().analogDistanceSensorFactory()
+                .create(0, voltage -> voltage * 2, "DistanceTest"));
     }
 
     @Test
-    public void testSensor() {
-        //((MockAnalogInput)sensor.input).setVoltage(0.6d);
-        //assertEquals(3.93700787d, sensor.getDistance(), 0.2);
+    public void factoryUsesMockVoltageInputAndAppliesCalibration() {
+        MockAnalogInput input = assertInstanceOf(MockAnalogInput.class, sensor.input);
+        input.setVoltage(1.25);
+        assertEquals(2.5, sensor.getDistance(), 0.001);
+
+        sensor.setVoltageOffset(0.25);
+        sensor.setDistanceOffset(0.5);
+        assertEquals(3.5, sensor.getDistance(), 0.001);
+        assertSame(input, getInjectorComponent().devicePolice().registeredChannels.get("Analog0"));
     }
 }

@@ -58,7 +58,7 @@ dependencies {
     // The production code uses the SLF4J logging API at compile time
     implementation 'org.slf4j:slf4j-api:1.7.21'
 
-    // BaseWPITest/BaseSimulationTest (in src/main/java) use JUnit Jupiter annotations directly,
+    // BaseWPITest (in src/main/java) uses JUnit Jupiter annotations directly,
     // so JUnit must remain an implementation (compile-time) dependency, not just test-only.
     implementation 'org.junit.jupiter:junit-jupiter-api:5.11.4'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.11.4'
@@ -71,8 +71,6 @@ dependencies {
 
     implementation 'org.apache.logging.log4j:log4j-api:2.19.0'
     implementation 'org.apache.logging.log4j:log4j-core:2.19.0'
-
-    implementation group: 'org.json', name:'json', version: '20230227'
 
     implementation group: 'org.zeromq', name: 'jeromq', version: '0.5.3'
 

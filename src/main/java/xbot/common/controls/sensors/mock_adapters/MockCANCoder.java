@@ -1,7 +1,6 @@
 package xbot.common.controls.sensors.mock_adapters;
 
 import com.ctre.phoenix6.StatusCode;
-import org.json.JSONObject;
 
 import org.wpilib.math.util.MathUtil;
 import org.wpilib.units.measure.Angle;
@@ -21,16 +20,14 @@ import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.properties.TunableFactory;
 import xbot.common.properties.TunableLevel;
 import xbot.common.resiliency.DeviceHealth;
-import xbot.common.simulation.ISimulatableSensor;
 
 import static org.wpilib.units.Units.RPM;
 import static org.wpilib.units.Units.Radians;
 import static org.wpilib.units.Units.Rotations;
 
-public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
+public class MockCANCoder extends XCANCoder {
 
     private final int deviceId;
-    private double simulationScale;
     private double positionOffset;
 
     private final boolean inverted;
@@ -57,7 +54,6 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
         tunableFactory.setDefaultLevel(TunableLevel.Debug);
         this.positionOffset = 0;
         this.inverted = deviceInfo.inverted;
-        this.simulationScale = deviceInfo.simulationScalingValue;
 
         police.registerDevice(DeviceType.CAN, deviceInfo.channel, this);
     }
@@ -94,13 +90,6 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
 
     public void setAbsolutePosition(Angle position) {
         this.position = position.times(inverted ? -1 : 1);
-    }
-
-    @Override
-    public void ingestSimulationData(JSONObject payload) {
-        setAbsolutePosition(
-            Rotations.of(payload.getBigDecimal("EncoderTicks").doubleValue() * this.simulationScale)
-        );
     }
 
     public DeviceHealth getHealth_internal() {

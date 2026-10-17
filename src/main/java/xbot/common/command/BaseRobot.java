@@ -25,8 +25,6 @@ import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.components.BaseComponent;
 import xbot.common.properties.TunableManager;
-import xbot.common.simulation.SimulationPayloadDistributor;
-import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
 
 /**
@@ -47,13 +45,8 @@ public abstract class BaseRobot extends LoggedRobot {
     protected Command autonomousCommand;
     protected AutonomousCommandSelector autonomousCommandSelector;
 
-    protected WebotsClient webots;
-
     protected DevicePolice devicePolice;
-    protected SimulationPayloadDistributor simulationPayloadDistributor;
     protected DataFrameRegistry deviceDataFrameRegistry;
-
-    boolean forceWebots = true; // TODO: figure out a better way to swap between simulation and replay.
 
     public Throwable initException = null;
 
@@ -98,7 +91,7 @@ public abstract class BaseRobot extends LoggedRobot {
         initException = null;
         try {
             Logger.recordMetadata("ProjectName", "XbotProject"); // Set a metadata value
-            if (isReal() || forceWebots) {
+            if (isReal()) {
                 var logDirectory = new File("/U/logs");
                 if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
                     Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
@@ -137,10 +130,6 @@ public abstract class BaseRobot extends LoggedRobot {
 
             devicePolice = injectorComponent.devicePolice();
             deviceDataFrameRegistry = injectorComponent.dataFrameRegistry();
-
-            if (forceWebots) {
-                simulationPayloadDistributor = injectorComponent.simulationPayloadDistributor();
-            }
         } catch (Exception e) {
             this.initException = e;
             throw e;
@@ -290,44 +279,6 @@ public abstract class BaseRobot extends LoggedRobot {
         // subsystems that derive state from a device (e.g. SwerveModuleSubsystem) are refreshed after
         // the devices they depend on.
         deviceDataFrameRegistry.refreshAll();
-    }
-
-    @Override
-    public void simulationInit() {
-        // TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
-        /*if (forceWebots) {
-            webots = injectorComponent.webotsClient();
-            webots.initialize();
-            DriverStationSim.setEnabled(true);
-        }*/
-    }
-
-    @Override
-    public void simulationPeriodic() {
-        // TODO: Add something to detect replay vs Webots, and skip all of this if we're in replay mode.
-
-        // it would be really useful to have some suepr basic non-physical simulation of the robot.
-        // As in, if the swerve modules want to go to some angle and speed, we just make that happen directly.
-        // If rotation is commanded, we just rotate the robot.
-
-
-        /*if (forceWebots) {
-            // find all simulatable motors
-            List<JSONObject> motors = new ArrayList<JSONObject>();
-
-            for (String deviceId : devicePolice.registeredChannels.keySet()) {
-                Object device = devicePolice.registeredChannels.get(deviceId);
-                if (device instanceof ISimulatableMotor) {
-                    motors.add(((ISimulatableMotor) device).getSimulationData());
-                }
-                if (device instanceof ISimulatableSolenoid) {
-                    motors.add(((ISimulatableSolenoid) device).getSimulationData());
-                }
-            }
-            JSONObject response = webots.sendMotors(motors);
-
-            simulationPayloadDistributor.distributeSimulationPayload(response);
-        }*/
     }
 
     protected double getPerformanceTimestampInMs() {
