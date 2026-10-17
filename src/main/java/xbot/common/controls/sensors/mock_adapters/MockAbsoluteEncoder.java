@@ -1,7 +1,5 @@
 package xbot.common.controls.sensors.mock_adapters;
 
-import org.json.JSONObject;
-
 import org.wpilib.math.util.MathUtil;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularVelocity;
@@ -18,16 +16,14 @@ import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.properties.TunableFactory;
 import xbot.common.resiliency.DeviceHealth;
-import xbot.common.simulation.ISimulatableSensor;
 
 import static org.wpilib.units.Units.RPM;
 import static org.wpilib.units.Units.Rotations;
 
-public class MockAbsoluteEncoder extends XAbsoluteEncoder implements ISimulatableSensor {
+public class MockAbsoluteEncoder extends XAbsoluteEncoder {
 
     private final int deviceId;
     private boolean inverted;
-    private double simulationScale;
     private double positionOffset;
 
     private AngularVelocity velocity;
@@ -81,13 +77,6 @@ public class MockAbsoluteEncoder extends XAbsoluteEncoder implements ISimulatabl
 
     public double getPositionOffset() {
         return this.positionOffset;
-    }
-
-    @Override
-    public void ingestSimulationData(JSONObject payload) {
-        setPosition(
-            Rotations.of(payload.getBigDecimal("EncoderTicks").doubleValue() * this.simulationScale)
-        );
     }
 
     public DeviceHealth getHealth_internal() {

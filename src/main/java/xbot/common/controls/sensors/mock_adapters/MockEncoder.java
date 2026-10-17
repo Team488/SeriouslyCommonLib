@@ -1,7 +1,5 @@
 package xbot.common.controls.sensors.mock_adapters;
 
-import org.json.JSONObject;
-
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
@@ -11,9 +9,8 @@ import xbot.common.controls.io_inputs.XEncoderInputs;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.injection.DevicePolice;
 import xbot.common.properties.TunableFactory;
-import xbot.common.simulation.ISimulatableSensor;
 
-public class MockEncoder extends XEncoder implements ISimulatableSensor {
+public class MockEncoder extends XEncoder {
 
     private double distance;
     private double rate;
@@ -58,11 +55,6 @@ public class MockEncoder extends XEncoder implements ISimulatableSensor {
 
     @Override
     protected void setRateWindowMilliseconds(int rateWindowMilliseconds) {
-    }
-
-    @Override
-    public void ingestSimulationData(JSONObject payload) {
-        setDistance((double) payload.get("EncoderTicks"));
     }
 
     @Override

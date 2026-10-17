@@ -43,7 +43,7 @@ SeriouslyCommonLib/
 | `networking` | ZeroMQ-based networking utilities |
 | `properties` | WPILib Tunables integration (`TunableManager`, `TunableFactory`) |
 | `resiliency` | Exception handling and retry logic |
-| `simulation` | Webots client and simulation payload distributor |
+| `simulation` | Mock motor PID helpers for general-purpose simulation |
 | `subsystems` | Pre-built subsystems: drive, swerve, pose, vision, autonomous |
 | `trajectory` | Pure pursuit and trajectory planning |
 

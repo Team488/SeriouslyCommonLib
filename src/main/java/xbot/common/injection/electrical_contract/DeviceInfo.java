@@ -3,7 +3,6 @@ package xbot.common.injection.electrical_contract;
 public class DeviceInfo {
     public int channel;
     public boolean inverted;
-    public double simulationScalingValue;
     public String name;
     public CANBusId canBusId = CANBusId.RIO;
     public PowerSource powerFrom;
@@ -32,16 +31,6 @@ public class DeviceInfo {
 
     public DeviceInfo(String name, int channel, boolean inverted, PowerSource powerFrom) {
         this(name, channel, inverted);
-        this.powerFrom = powerFrom;
-    }
-
-    public DeviceInfo(String name, int channel, boolean inverted, double simulationScalingValue) {
-        this(name, channel, inverted);
-        this.simulationScalingValue = simulationScalingValue;
-    }
-
-    public DeviceInfo(String name, int channel, boolean inverted, double simulationScalingValue, PowerSource powerFrom) {
-        this(name, channel, inverted, simulationScalingValue);
         this.powerFrom = powerFrom;
     }
 

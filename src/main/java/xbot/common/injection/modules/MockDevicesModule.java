@@ -19,7 +19,7 @@ import xbot.common.controls.actuators.mock_adapters.MockDigitalOutput.MockDigita
 import xbot.common.controls.actuators.mock_adapters.MockPWM.MockPWMFactory;
 import xbot.common.controls.actuators.mock_adapters.MockSolenoid.MockSolenoidFactory;
 import xbot.common.controls.actuators.mock_adapters.MockSpeedController.MockSpeedControllerFactory;
-import xbot.common.controls.sensors.SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory;
+import xbot.common.controls.sensors.AnalogDistanceSensor.AnalogDistanceSensorFactory;
 import xbot.common.controls.sensors.XAbsoluteEncoder.XAbsoluteEncoderFactory;
 import xbot.common.controls.sensors.XAnalogDistanceSensor.XAnalogDistanceSensorFactory;
 import xbot.common.controls.sensors.XAnalogInput.XAnalogInputFactory;
@@ -79,7 +79,7 @@ public abstract class MockDevicesModule {
 
     @Binds
     @Singleton
-    public abstract XAnalogDistanceSensorFactory getAnalogDistanceSensorFactory(SimulatedAnalogDistanceSensorFactory impl);
+    public abstract XAnalogDistanceSensorFactory getAnalogDistanceSensorFactory(AnalogDistanceSensorFactory impl);
 
     @Binds
     @Singleton

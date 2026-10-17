@@ -1,7 +1,5 @@
 package xbot.common.controls.sensors.mock_adapters;
 
-import org.json.JSONObject;
-
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
@@ -9,9 +7,8 @@ import dagger.assisted.AssistedInject;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.sensors.XAnalogInput;
 import xbot.common.injection.DevicePolice;
-import xbot.common.simulation.ISimulatableSensor;
 
-public class MockAnalogInput extends XAnalogInput implements ISimulatableSensor {
+public class MockAnalogInput extends XAnalogInput {
     int channel;
     double voltage;
 
@@ -47,8 +44,4 @@ public class MockAnalogInput extends XAnalogInput implements ISimulatableSensor 
         return getVoltage() >= threshold;
     }
 
-    @Override
-    public void ingestSimulationData(JSONObject payload) {
-        setVoltage(payload.getDouble("Voltage"));
-    }
 }

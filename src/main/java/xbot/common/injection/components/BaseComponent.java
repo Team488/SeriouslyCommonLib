@@ -47,8 +47,6 @@ import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
 import xbot.common.properties.TunableFactory;
 import xbot.common.properties.TunableManager;
 import xbot.common.properties.TunablePersistence;
-import xbot.common.simulation.SimulationPayloadDistributor;
-import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
 import xbot.common.subsystems.drive.BaseDriveSubsystem;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule.HeadingAssistModuleFactory;
@@ -89,10 +87,6 @@ public abstract class BaseComponent {
     public abstract FieldPoseTunableManagerFactory fieldPoseTunableManagerFactory();
 
     public abstract AutonomousCommandSelector autonomousCommandSelector();
-
-    public abstract WebotsClient webotsClient();
-
-    public abstract SimulationPayloadDistributor simulationPayloadDistributor();
 
     public abstract PIDManagerFactory pidFactory();
 

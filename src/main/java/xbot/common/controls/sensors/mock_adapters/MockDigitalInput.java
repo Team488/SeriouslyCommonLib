@@ -1,7 +1,5 @@
 package xbot.common.controls.sensors.mock_adapters;
 
-import org.json.JSONObject;
-
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
@@ -11,9 +9,8 @@ import xbot.common.controls.io_inputs.XDigitalInputs;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
-import xbot.common.simulation.ISimulatableSensor;
 
-public class MockDigitalInput extends XDigitalInput implements ISimulatableSensor {
+public class MockDigitalInput extends XDigitalInput {
 
     protected boolean value;
     final int channel;
@@ -55,8 +52,4 @@ public class MockDigitalInput extends XDigitalInput implements ISimulatableSenso
         return this.channel;
     }
 
-    @Override
-    public void ingestSimulationData(JSONObject payload) {
-        setValue(payload.getBoolean("Triggered"));
-    }
 }
