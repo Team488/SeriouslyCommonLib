@@ -48,6 +48,12 @@ public abstract class BaseRobot extends LoggedRobot {
     protected DevicePolice devicePolice;
     protected DataFrameRegistry deviceDataFrameRegistry;
 
+    /**
+     * Selects log replay instead of live desktop simulation. Defaults to simulation.
+     * Set before {@link #robotInit()}; ignored on real hardware.
+     */
+    protected boolean useReplay = false;
+
     public Throwable initException = null;
 
     public BaseRobot() {
@@ -91,7 +97,7 @@ public abstract class BaseRobot extends LoggedRobot {
         initException = null;
         try {
             Logger.recordMetadata("ProjectName", "XbotProject"); // Set a metadata value
-            if (isReal()) {
+            if (isReal() || !useReplay) {
                 var logDirectory = new File("/U/logs");
                 if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
                     Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
