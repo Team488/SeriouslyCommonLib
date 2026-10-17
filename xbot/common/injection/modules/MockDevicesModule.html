@@ -71,7 +71,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#getPwmFactory(xbot.common.controls.actuators.mock_adapters.MockPWM.MockPWMFactory)" tabindex="0">getPwmFactory(MockPWM.MockPWMFactory)</a></li>
 <li><a href="#getCompressorFactory(xbot.common.controls.actuators.mock_adapters.MockCompressor.MockCompressorFactory)" tabindex="0">getCompressorFactory(MockCompressor.MockCompressorFactory)</a></li>
 <li><a href="#getGyroFactory(xbot.common.controls.sensors.mock_adapters.MockGyro.MockGyroFactory)" tabindex="0">getGyroFactory(MockGyro.MockGyroFactory)</a></li>
-<li><a href="#getAnalogDistanceSensorFactory(xbot.common.controls.sensors.SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory)" tabindex="0">getAnalogDistanceSensorFactory(SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory)</a></li>
+<li><a href="#getAnalogDistanceSensorFactory(xbot.common.controls.sensors.AnalogDistanceSensor.AnalogDistanceSensorFactory)" tabindex="0">getAnalogDistanceSensorFactory(AnalogDistanceSensor.AnalogDistanceSensorFactory)</a></li>
 <li><a href="#getMotorControllerFactory(xbot.common.controls.actuators.mock_adapters.MockCANMotorController.MockCANMotorControllerFactory)" tabindex="0">getMotorControllerFactory(MockCANMotorController.MockCANMotorControllerFactory)</a></li>
 <li><a href="#getLidarLiteFactory(xbot.common.controls.sensors.mock_adapters.MockLidarLite.MockLidarLiteFactory)" tabindex="0">getLidarLiteFactory(MockLidarLite.MockLidarLiteFactory)</a></li>
 <li><a href="#getEncoderFactory(xbot.common.controls.sensors.mock_adapters.MockEncoder.MockEncoderFactory)" tabindex="0">getEncoderFactory(MockEncoder.MockEncoderFactory)</a></li>
@@ -134,7 +134,7 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getAbsoluteEncoderFactory(xbot.common.controls.sensors.mock_adapters.MockAbsoluteEncoder.MockAbsoluteEncoderFactory)" class="member-name-link">getAbsoluteEncoderFactory</a><wbr>(<a href="../../controls/sensors/mock_adapters/MockAbsoluteEncoder.MockAbsoluteEncoderFactory.html" title="class in xbot.common.controls.sensors.mock_adapters">MockAbsoluteEncoder.MockAbsoluteEncoderFactory</a>&nbsp;impl)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="../../controls/sensors/XAnalogDistanceSensor.XAnalogDistanceSensorFactory.html" title="interface in xbot.common.controls.sensors">XAnalogDistanceSensor.XAnalogDistanceSensorFactory</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getAnalogDistanceSensorFactory(xbot.common.controls.sensors.SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory)" class="member-name-link">getAnalogDistanceSensorFactory</a><wbr>(<a href="../../controls/sensors/SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory.html" title="class in xbot.common.controls.sensors">SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory</a>&nbsp;impl)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getAnalogDistanceSensorFactory(xbot.common.controls.sensors.AnalogDistanceSensor.AnalogDistanceSensorFactory)" class="member-name-link">getAnalogDistanceSensorFactory</a><wbr>(<a href="../../controls/sensors/AnalogDistanceSensor.AnalogDistanceSensorFactory.html" title="class in xbot.common.controls.sensors">AnalogDistanceSensor.AnalogDistanceSensorFactory</a>&nbsp;impl)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="../../controls/sensors/XAnalogInput.XAnalogInputFactory.html" title="interface in xbot.common.controls.sensors">XAnalogInput.XAnalogInputFactory</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getAnalogInputFactory(xbot.common.controls.sensors.mock_adapters.MockAnalogInput.MockAnalogInputFactory)" class="member-name-link">getAnalogInputFactory</a><wbr>(<a href="../../controls/sensors/mock_adapters/MockAnalogInput.MockAnalogInputFactory.html" title="class in xbot.common.controls.sensors.mock_adapters">MockAnalogInput.MockAnalogInputFactory</a>&nbsp;impl)</code></div>
@@ -291,12 +291,12 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="getAnalogDistanceSensorFactory(xbot.common.controls.sensors.SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory)">
+<section class="detail" id="getAnalogDistanceSensorFactory(xbot.common.controls.sensors.AnalogDistanceSensor.AnalogDistanceSensorFactory)">
 <h3>getAnalogDistanceSensorFactory</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@Binds
 @Singleton
-</span><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="../../controls/sensors/XAnalogDistanceSensor.XAnalogDistanceSensorFactory.html" title="interface in xbot.common.controls.sensors">XAnalogDistanceSensor.XAnalogDistanceSensorFactory</a></span>&nbsp;<span class="element-name">getAnalogDistanceSensorFactory</span><wbr><span class="parameters">(<a href="../../controls/sensors/SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory.html" title="class in xbot.common.controls.sensors">SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory</a>&nbsp;impl)</span></div>
+</span><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="../../controls/sensors/XAnalogDistanceSensor.XAnalogDistanceSensorFactory.html" title="interface in xbot.common.controls.sensors">XAnalogDistanceSensor.XAnalogDistanceSensorFactory</a></span>&nbsp;<span class="element-name">getAnalogDistanceSensorFactory</span><wbr><span class="parameters">(<a href="../../controls/sensors/AnalogDistanceSensor.AnalogDistanceSensorFactory.html" title="class in xbot.common.controls.sensors">AnalogDistanceSensor.AnalogDistanceSensorFactory</a>&nbsp;impl)</span></div>
 </div>
 </section>
 </li>

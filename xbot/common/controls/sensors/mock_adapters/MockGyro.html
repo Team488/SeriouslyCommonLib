@@ -94,7 +94,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#setDeviceRawAccelZ(double)" tabindex="0">setDeviceRawAccelZ(double)</a></li>
 <li><a href="#setDeviceRawAccelZ(org.wpilib.units.measure.LinearAcceleration)" tabindex="0">setDeviceRawAccelZ(LinearAcceleration)</a></li>
 <li><a href="#close()" tabindex="0">close()</a></li>
-<li><a href="#ingestSimulationData(org.json.JSONObject)" tabindex="0">ingestSimulationData(JSONObject)</a></li>
 </ol>
 </li>
 </ol>
@@ -112,13 +111,12 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/AutoCloseable.html" title="class or interface in java.lang" class="external-link">AutoCloseable</a>, <a href="../../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a>, <a href="../../../simulation/ISimulatableSensor.html" title="interface in xbot.common.simulation">ISimulatableSensor</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/AutoCloseable.html" title="class or interface in java.lang" class="external-link">AutoCloseable</a>, <a href="../../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code></dd>
 </dl>
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">MockGyro</span>
-<span class="extends-implements">extends <a href="../XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a>
-implements <a href="../../../simulation/ISimulatableSensor.html" title="interface in xbot.common.simulation">ISimulatableSensor</a></span></div>
+<span class="extends-implements">extends <a href="../XGyro.html" title="class in xbot.common.controls.sensors">XGyro</a></span></div>
 </div>
 </section>
 <section class="summary">
@@ -209,60 +207,57 @@ implements <a href="../../../simulation/ISimulatableSensor.html" title="interfac
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.wpilib.units.measure.AngularVelocity</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDeviceYawAngularVelocity()" class="member-name-link">getDeviceYawAngularVelocity</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#ingestSimulationData(org.json.JSONObject)" class="member-name-link">ingestSimulationData</a><wbr>(org.json.JSONObject&nbsp;payload)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isBroken()" class="member-name-link">isBroken</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isBroken()" class="member-name-link">isBroken</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isConnected()" class="member-name-link">isConnected</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceRawAccelX(double)" class="member-name-link">setDeviceRawAccelX</a><wbr>(double&nbsp;accel)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isConnected()" class="member-name-link">isConnected</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceRawAccelX(org.wpilib.units.measure.LinearAcceleration)" class="member-name-link">setDeviceRawAccelX</a><wbr>(org.wpilib.units.measure.LinearAcceleration&nbsp;accel)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceRawAccelX(double)" class="member-name-link">setDeviceRawAccelX</a><wbr>(double&nbsp;accel)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceRawAccelY(double)" class="member-name-link">setDeviceRawAccelY</a><wbr>(double&nbsp;accel)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceRawAccelX(org.wpilib.units.measure.LinearAcceleration)" class="member-name-link">setDeviceRawAccelX</a><wbr>(org.wpilib.units.measure.LinearAcceleration&nbsp;accel)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceRawAccelY(org.wpilib.units.measure.LinearAcceleration)" class="member-name-link">setDeviceRawAccelY</a><wbr>(org.wpilib.units.measure.LinearAcceleration&nbsp;accel)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceRawAccelY(double)" class="member-name-link">setDeviceRawAccelY</a><wbr>(double&nbsp;accel)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceRawAccelZ(double)" class="member-name-link">setDeviceRawAccelZ</a><wbr>(double&nbsp;accel)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceRawAccelY(org.wpilib.units.measure.LinearAcceleration)" class="member-name-link">setDeviceRawAccelY</a><wbr>(org.wpilib.units.measure.LinearAcceleration&nbsp;accel)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceRawAccelZ(org.wpilib.units.measure.LinearAcceleration)" class="member-name-link">setDeviceRawAccelZ</a><wbr>(org.wpilib.units.measure.LinearAcceleration&nbsp;accel)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceRawAccelZ(double)" class="member-name-link">setDeviceRawAccelZ</a><wbr>(double&nbsp;accel)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceVelocityX(double)" class="member-name-link">setDeviceVelocityX</a><wbr>(double&nbsp;velocity)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceRawAccelZ(org.wpilib.units.measure.LinearAcceleration)" class="member-name-link">setDeviceRawAccelZ</a><wbr>(org.wpilib.units.measure.LinearAcceleration&nbsp;accel)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceVelocityY(double)" class="member-name-link">setDeviceVelocityY</a><wbr>(double&nbsp;velocity)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceVelocityX(double)" class="member-name-link">setDeviceVelocityX</a><wbr>(double&nbsp;velocity)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceVelocityZ(double)" class="member-name-link">setDeviceVelocityZ</a><wbr>(double&nbsp;velocity)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceVelocityY(double)" class="member-name-link">setDeviceVelocityY</a><wbr>(double&nbsp;velocity)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setIsBroken(boolean)" class="member-name-link">setIsBroken</a><wbr>(boolean&nbsp;broken)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceVelocityZ(double)" class="member-name-link">setDeviceVelocityZ</a><wbr>(double&nbsp;velocity)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPitch(org.wpilib.units.measure.Angle)" class="member-name-link">setPitch</a><wbr>(org.wpilib.units.measure.Angle&nbsp;pitch)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setIsBroken(boolean)" class="member-name-link">setIsBroken</a><wbr>(boolean&nbsp;broken)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRoll(org.wpilib.units.measure.Angle)" class="member-name-link">setRoll</a><wbr>(org.wpilib.units.measure.Angle&nbsp;roll)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPitch(org.wpilib.units.measure.Angle)" class="member-name-link">setPitch</a><wbr>(org.wpilib.units.measure.Angle&nbsp;pitch)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setYaw(org.wpilib.units.measure.Angle)" class="member-name-link">setYaw</a><wbr>(org.wpilib.units.measure.Angle&nbsp;yaw)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRoll(org.wpilib.units.measure.Angle)" class="member-name-link">setRoll</a><wbr>(org.wpilib.units.measure.Angle&nbsp;roll)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setYawAngularVelocity(org.wpilib.units.measure.AngularVelocity)" class="member-name-link">setYawAngularVelocity</a><wbr>(org.wpilib.units.measure.AngularVelocity&nbsp;yawAngularVelocity)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setYaw(org.wpilib.units.measure.Angle)" class="member-name-link">setYaw</a><wbr>(org.wpilib.units.measure.Angle&nbsp;yaw)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XGyroIoInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../io_inputs/XGyroIoInputs.html" title="class in xbot.common.controls.io_inputs">XGyroIoInputs</a>&nbsp;inputs)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setYawAngularVelocity(org.wpilib.units.measure.AngularVelocity)" class="member-name-link">setYawAngularVelocity</a><wbr>(org.wpilib.units.measure.AngularVelocity&nbsp;yawAngularVelocity)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XGyroIoInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../io_inputs/XGyroIoInputs.html" title="class in xbot.common.controls.io_inputs">XGyroIoInputs</a>&nbsp;inputs)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -538,22 +533,8 @@ implements <a href="../../../simulation/ISimulatableSensor.html" title="interfac
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">close</span>()
            throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></span></div>
 <dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/AutoCloseable.html#close()" title="class or interface in java.lang" class="external-link">close</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/AutoCloseable.html" title="class or interface in java.lang" class="external-link">AutoCloseable</a></code></dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></code></dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="ingestSimulationData(org.json.JSONObject)">
-<h3>ingestSimulationData</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">ingestSimulationData</span><wbr><span class="parameters">(org.json.JSONObject&nbsp;payload)</span></div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../../../simulation/ISimulatableSensor.html#ingestSimulationData(org.json.JSONObject)">ingestSimulationData</a></code>&nbsp;in interface&nbsp;<code><a href="../../../simulation/ISimulatableSensor.html" title="interface in xbot.common.simulation">ISimulatableSensor</a></code></dd>
 </dl>
 </div>
 </section>

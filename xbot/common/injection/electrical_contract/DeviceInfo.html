@@ -62,7 +62,6 @@ loadScripts(document, 'script');</script>
 <ol class="toc-list">
 <li><a href="#channel" tabindex="0">channel</a></li>
 <li><a href="#inverted" tabindex="0">inverted</a></li>
-<li><a href="#simulationScalingValue" tabindex="0">simulationScalingValue</a></li>
 <li><a href="#name" tabindex="0">name</a></li>
 <li><a href="#canBusId" tabindex="0">canBusId</a></li>
 <li><a href="#powerFrom" tabindex="0">powerFrom</a></li>
@@ -75,8 +74,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#%3Cinit%3E(java.lang.String,int,xbot.common.injection.electrical_contract.PowerSource)" tabindex="0">DeviceInfo(String, int, PowerSource)</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,int,boolean)" tabindex="0">DeviceInfo(String, int, boolean)</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,int,boolean,xbot.common.injection.electrical_contract.PowerSource)" tabindex="0">DeviceInfo(String, int, boolean, PowerSource)</a></li>
-<li><a href="#%3Cinit%3E(java.lang.String,int,boolean,double)" tabindex="0">DeviceInfo(String, int, boolean, double)</a></li>
-<li><a href="#%3Cinit%3E(java.lang.String,int,boolean,double,xbot.common.injection.electrical_contract.PowerSource)" tabindex="0">DeviceInfo(String, int, boolean, double, PowerSource)</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.CANBusId,int)" tabindex="0">DeviceInfo(String, CANBusId, int)</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.CANBusId,int,xbot.common.injection.electrical_contract.PowerSource)" tabindex="0">DeviceInfo(String, CANBusId, int, PowerSource)</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.CANBusId,int,boolean)" tabindex="0">DeviceInfo(String, CANBusId, int, boolean)</a></li>
@@ -126,9 +123,6 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code><a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a></code></div>
 <div class="col-second even-row-color"><code><a href="#powerFrom" class="member-name-link">powerFrom</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>double</code></div>
-<div class="col-second odd-row-color"><code><a href="#simulationScalingValue" class="member-name-link">simulationScalingValue</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -146,17 +140,6 @@ loadScripts(document, 'script');</script>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,int,boolean)" class="member-name-link">DeviceInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  int&nbsp;channel,
  boolean&nbsp;inverted)</code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,int,boolean,double)" class="member-name-link">DeviceInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
- int&nbsp;channel,
- boolean&nbsp;inverted,
- double&nbsp;simulationScalingValue)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,int,boolean,double,xbot.common.injection.electrical_contract.PowerSource)" class="member-name-link">DeviceInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
- int&nbsp;channel,
- boolean&nbsp;inverted,
- double&nbsp;simulationScalingValue,
- <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,int,boolean,xbot.common.injection.electrical_contract.PowerSource)" class="member-name-link">DeviceInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  int&nbsp;channel,
@@ -224,14 +207,6 @@ loadScripts(document, 'script');</script>
 <h3>inverted</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">inverted</span></div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="simulationScalingValue">
-<h3>simulationScalingValue</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">simulationScalingValue</span></div>
 </div>
 </section>
 </li>
@@ -312,29 +287,6 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DeviceInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  int&nbsp;channel,
  boolean&nbsp;inverted,
- <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</span></div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(java.lang.String,int,boolean,double)">
-<h3>DeviceInfo</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DeviceInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
- int&nbsp;channel,
- boolean&nbsp;inverted,
- double&nbsp;simulationScalingValue)</span></div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(java.lang.String,int,boolean,double,xbot.common.injection.electrical_contract.PowerSource)">
-<h3>DeviceInfo</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DeviceInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
- int&nbsp;channel,
- boolean&nbsp;inverted,
- double&nbsp;simulationScalingValue,
  <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</span></div>
 </div>
 </section>

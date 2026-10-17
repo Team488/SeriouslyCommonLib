@@ -72,7 +72,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#setRate(double)" tabindex="0">setRate(double)</a></li>
 <li><a href="#getDistance()" tabindex="0">getDistance()</a></li>
 <li><a href="#setRateWindowMilliseconds(int)" tabindex="0">setRateWindowMilliseconds(int)</a></li>
-<li><a href="#ingestSimulationData(org.json.JSONObject)" tabindex="0">ingestSimulationData(JSONObject)</a></li>
 <li><a href="#updateInputs(xbot.common.controls.io_inputs.XEncoderInputs)" tabindex="0">updateInputs(XEncoderInputs)</a></li>
 </ol>
 </li>
@@ -91,13 +90,12 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a>, <a href="../../../simulation/ISimulatableSensor.html" title="interface in xbot.common.simulation">ISimulatableSensor</a></code></dd>
+<dd><code><a href="../../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code></dd>
 </dl>
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">MockEncoder</span>
-<span class="extends-implements">extends <a href="../XEncoder.html" title="class in xbot.common.controls.sensors">XEncoder</a>
-implements <a href="../../../simulation/ISimulatableSensor.html" title="interface in xbot.common.simulation">ISimulatableSensor</a></span></div>
+<span class="extends-implements">extends <a href="../XEncoder.html" title="class in xbot.common.controls.sensors">XEncoder</a></span></div>
 </div>
 </section>
 <section class="summary">
@@ -170,20 +168,17 @@ implements <a href="../../../simulation/ISimulatableSensor.html" title="interfac
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRate()" class="member-name-link">getRate</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#ingestSimulationData(org.json.JSONObject)" class="member-name-link">ingestSimulationData</a><wbr>(org.json.JSONObject&nbsp;payload)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDistance(double)" class="member-name-link">setDistance</a><wbr>(double&nbsp;distance)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDistance(double)" class="member-name-link">setDistance</a><wbr>(double&nbsp;distance)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRate(double)" class="member-name-link">setRate</a><wbr>(double&nbsp;newRate)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRate(double)" class="member-name-link">setRate</a><wbr>(double&nbsp;newRate)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRateWindowMilliseconds(int)" class="member-name-link">setRateWindowMilliseconds</a><wbr>(int&nbsp;rateWindowMilliseconds)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRateWindowMilliseconds(int)" class="member-name-link">setRateWindowMilliseconds</a><wbr>(int&nbsp;rateWindowMilliseconds)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XEncoderInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../io_inputs/XEncoderInputs.html" title="class in xbot.common.controls.io_inputs">XEncoderInputs</a>&nbsp;inputs)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XEncoderInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../io_inputs/XEncoderInputs.html" title="class in xbot.common.controls.io_inputs">XEncoderInputs</a>&nbsp;inputs)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -289,18 +284,6 @@ implements <a href="../../../simulation/ISimulatableSensor.html" title="interfac
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../XEncoder.html#setRateWindowMilliseconds(int)">setRateWindowMilliseconds</a></code>&nbsp;in class&nbsp;<code><a href="../XEncoder.html" title="class in xbot.common.controls.sensors">XEncoder</a></code></dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="ingestSimulationData(org.json.JSONObject)">
-<h3>ingestSimulationData</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">ingestSimulationData</span><wbr><span class="parameters">(org.json.JSONObject&nbsp;payload)</span></div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../../../simulation/ISimulatableSensor.html#ingestSimulationData(org.json.JSONObject)">ingestSimulationData</a></code>&nbsp;in interface&nbsp;<code><a href="../../../simulation/ISimulatableSensor.html" title="interface in xbot.common.simulation">ISimulatableSensor</a></code></dd>
 </dl>
 </div>
 </section>

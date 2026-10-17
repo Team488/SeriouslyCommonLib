@@ -74,7 +74,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#setPosition(org.wpilib.units.measure.Angle)" tabindex="0">setPosition(Angle)</a></li>
 <li><a href="#getPositionOffset()" tabindex="0">getPositionOffset()</a></li>
 <li><a href="#setAbsolutePosition(org.wpilib.units.measure.Angle)" tabindex="0">setAbsolutePosition(Angle)</a></li>
-<li><a href="#ingestSimulationData(org.json.JSONObject)" tabindex="0">ingestSimulationData(JSONObject)</a></li>
 <li><a href="#getHealth_internal()" tabindex="0">getHealth_internal()</a></li>
 <li><a href="#setUpdateFrequencyForPosition(double)" tabindex="0">setUpdateFrequencyForPosition(double)</a></li>
 <li><a href="#stopAllUnsetSignals()" tabindex="0">stopAllUnsetSignals()</a></li>
@@ -101,13 +100,12 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a>, <a href="../../../simulation/ISimulatableSensor.html" title="interface in xbot.common.simulation">ISimulatableSensor</a></code></dd>
+<dd><code><a href="../../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a></code></dd>
 </dl>
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">MockCANCoder</span>
-<span class="extends-implements">extends <a href="../XCANCoder.html" title="class in xbot.common.controls.sensors">XCANCoder</a>
-implements <a href="../../../simulation/ISimulatableSensor.html" title="interface in xbot.common.simulation">ISimulatableSensor</a></span></div>
+<span class="extends-implements">extends <a href="../XCANCoder.html" title="class in xbot.common.controls.sensors">XCANCoder</a></span></div>
 </div>
 </section>
 <section class="summary">
@@ -195,33 +193,30 @@ implements <a href="../../../simulation/ISimulatableSensor.html" title="interfac
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasResetOccurred_internal()" class="member-name-link">hasResetOccurred_internal</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#ingestSimulationData(org.json.JSONObject)" class="member-name-link">ingestSimulationData</a><wbr>(org.json.JSONObject&nbsp;payload)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAbsolutePosition(org.wpilib.units.measure.Angle)" class="member-name-link">setAbsolutePosition</a><wbr>(org.wpilib.units.measure.Angle&nbsp;position)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAbsolutePosition(org.wpilib.units.measure.Angle)" class="member-name-link">setAbsolutePosition</a><wbr>(org.wpilib.units.measure.Angle&nbsp;position)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPosition(org.wpilib.units.measure.Angle)" class="member-name-link">setPosition</a><wbr>(org.wpilib.units.measure.Angle&nbsp;newPosition)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPosition(org.wpilib.units.measure.Angle)" class="member-name-link">setPosition</a><wbr>(org.wpilib.units.measure.Angle&nbsp;newPosition)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/StatusCode.html" title="class or interface in com.ctre.phoenix6" class="external-link">StatusCode</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUpdateFrequencyForPosition(double)" class="member-name-link">setUpdateFrequencyForPosition</a><wbr>(double&nbsp;frequencyInHz)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/StatusCode.html" title="class or interface in com.ctre.phoenix6" class="external-link">StatusCode</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUpdateFrequencyForPosition(double)" class="member-name-link">setUpdateFrequencyForPosition</a><wbr>(double&nbsp;frequencyInHz)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Updates how often we get data about the CANCoder position.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocity(org.wpilib.units.measure.AngularVelocity)" class="member-name-link">setVelocity</a><wbr>(org.wpilib.units.measure.AngularVelocity&nbsp;newVelocity)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/StatusCode.html" title="class or interface in com.ctre.phoenix6" class="external-link">StatusCode</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stopAllUnsetSignals()" class="member-name-link">stopAllUnsetSignals</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVelocity(org.wpilib.units.measure.AngularVelocity)" class="member-name-link">setVelocity</a><wbr>(org.wpilib.units.measure.AngularVelocity&nbsp;newVelocity)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/StatusCode.html" title="class or interface in com.ctre.phoenix6" class="external-link">StatusCode</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stopAllUnsetSignals()" class="member-name-link">stopAllUnsetSignals</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Stops all signals that are not explicitly set.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XAbsoluteEncoderInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../io_inputs/XAbsoluteEncoderInputs.html" title="class in xbot.common.controls.io_inputs">XAbsoluteEncoderInputs</a>&nbsp;inputs)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XCANCoderInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../io_inputs/XCANCoderInputs.html" title="class in xbot.common.controls.io_inputs">XCANCoderInputs</a>&nbsp;inputs)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XAbsoluteEncoderInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../io_inputs/XAbsoluteEncoderInputs.html" title="class in xbot.common.controls.io_inputs">XAbsoluteEncoderInputs</a>&nbsp;inputs)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateInputs(xbot.common.controls.io_inputs.XCANCoderInputs)" class="member-name-link">updateInputs</a><wbr>(<a href="../../io_inputs/XCANCoderInputs.html" title="class in xbot.common.controls.io_inputs">XCANCoderInputs</a>&nbsp;inputs)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -337,18 +332,6 @@ implements <a href="../../../simulation/ISimulatableSensor.html" title="interfac
 <h3>setAbsolutePosition</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setAbsolutePosition</span><wbr><span class="parameters">(org.wpilib.units.measure.Angle&nbsp;position)</span></div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="ingestSimulationData(org.json.JSONObject)">
-<h3>ingestSimulationData</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">ingestSimulationData</span><wbr><span class="parameters">(org.json.JSONObject&nbsp;payload)</span></div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../../../simulation/ISimulatableSensor.html#ingestSimulationData(org.json.JSONObject)">ingestSimulationData</a></code>&nbsp;in interface&nbsp;<code><a href="../../../simulation/ISimulatableSensor.html" title="interface in xbot.common.simulation">ISimulatableSensor</a></code></dd>
-</dl>
 </div>
 </section>
 </li>

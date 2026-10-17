@@ -64,10 +64,9 @@ loadScripts(document, 'script');</script>
 <li><a href="#xScheduler" tabindex="0">xScheduler</a></li>
 <li><a href="#autonomousCommand" tabindex="0">autonomousCommand</a></li>
 <li><a href="#autonomousCommandSelector" tabindex="0">autonomousCommandSelector</a></li>
-<li><a href="#webots" tabindex="0">webots</a></li>
 <li><a href="#devicePolice" tabindex="0">devicePolice</a></li>
-<li><a href="#simulationPayloadDistributor" tabindex="0">simulationPayloadDistributor</a></li>
 <li><a href="#deviceDataFrameRegistry" tabindex="0">deviceDataFrameRegistry</a></li>
+<li><a href="#useReplay" tabindex="0">useReplay</a></li>
 <li><a href="#initException" tabindex="0">initException</a></li>
 </ol>
 </li>
@@ -97,8 +96,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#testPeriodic()" tabindex="0">testPeriodic()</a></li>
 <li><a href="#sharedPeriodic()" tabindex="0">sharedPeriodic()</a></li>
 <li><a href="#refreshAllDataFrames()" tabindex="0">refreshAllDataFrames()</a></li>
-<li><a href="#simulationInit()" tabindex="0">simulationInit()</a></li>
-<li><a href="#simulationPeriodic()" tabindex="0">simulationPeriodic()</a></li>
 <li><a href="#getPerformanceTimestampInMs()" tabindex="0">getPerformanceTimestampInMs()</a></li>
 </ol>
 </li>
@@ -158,18 +155,17 @@ of CommonLib functionality.</div>
 <div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a></code></div>
 <div class="col-second even-row-color"><code><a href="#initException" class="member-name-link">initException</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected <a href="../simulation/SimulationPayloadDistributor.html" title="class in xbot.common.simulation">SimulationPayloadDistributor</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#simulationPayloadDistributor" class="member-name-link">simulationPayloadDistributor</a></code></div>
+<div class="col-first odd-row-color"><code>protected <a href="../properties/TunableManager.html" title="class in xbot.common.properties">TunableManager</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#tunableManager" class="member-name-link">tunableManager</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected <a href="../properties/TunableManager.html" title="class in xbot.common.properties">TunableManager</a></code></div>
-<div class="col-second even-row-color"><code><a href="#tunableManager" class="member-name-link">tunableManager</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected <a href="../simulation/WebotsClient.html" title="class in xbot.common.simulation">WebotsClient</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#webots" class="member-name-link">webots</a></code></div>
+<div class="col-first even-row-color"><code>protected boolean</code></div>
+<div class="col-second even-row-color"><code><a href="#useReplay" class="member-name-link">useReplay</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Selects log replay instead of live desktop simulation.</div>
+</div>
+<div class="col-first odd-row-color"><code>protected <a href="XScheduler.html" title="class in xbot.common.command">XScheduler</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#xScheduler" class="member-name-link">xScheduler</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected <a href="XScheduler.html" title="class in xbot.common.command">XScheduler</a></code></div>
-<div class="col-second even-row-color"><code><a href="#xScheduler" class="member-name-link">xScheduler</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-org.littletonrobotics.junction.LoggedRobot">Fields inherited from class&nbsp;org.littletonrobotics.junction.LoggedRobot</h3>
@@ -255,12 +251,6 @@ of CommonLib functionality.</div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sharedPeriodic()" class="member-name-link">sharedPeriodic</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#simulationInit()" class="member-name-link">simulationInit</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#simulationPeriodic()" class="member-name-link">simulationPeriodic</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#startCompetition()" class="member-name-link">startCompetition</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Initializes SCL before AdvantageKit starts simulation and the robot loop.</div>
@@ -289,7 +279,7 @@ of CommonLib functionality.</div>
 <code>close, endCompetition, setUseTiming</code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-org.wpilib.framework.IterativeRobotBase">Methods inherited from class&nbsp;org.wpilib.framework.IterativeRobotBase</h3>
-<code>autonomousExit, disabledExit, driverStationConnected, getPeriod, loopFunc, printWatchdogEpochs, robotPeriodic, teleopExit, utilityExit, utilityInit, utilityPeriodic</code></div>
+<code>autonomousExit, disabledExit, driverStationConnected, getPeriod, loopFunc, printWatchdogEpochs, robotPeriodic, simulationInit, simulationPeriodic, teleopExit, utilityExit, utilityInit, utilityPeriodic</code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-org.wpilib.framework.RobotBase">Methods inherited from class&nbsp;org.wpilib.framework.RobotBase</h3>
 <code>getMainThreadId, getOpMode, getOpModeId, getRobotName, getRuntimeType, isAutonomous, isAutonomousEnabled, isDisabled, isEnabled, isReal, isSimulation, isTeleop, isTeleopEnabled, isUtility, isUtilityEnabled, startRobot, suppressExitWarning</code></div>
@@ -340,14 +330,6 @@ of CommonLib functionality.</div>
 </section>
 </li>
 <li>
-<section class="detail" id="webots">
-<h3>webots</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../simulation/WebotsClient.html" title="class in xbot.common.simulation">WebotsClient</a></span>&nbsp;<span class="element-name">webots</span></div>
-</div>
-</section>
-</li>
-<li>
 <section class="detail" id="devicePolice">
 <h3>devicePolice</h3>
 <div class="horizontal-scroll">
@@ -356,18 +338,20 @@ of CommonLib functionality.</div>
 </section>
 </li>
 <li>
-<section class="detail" id="simulationPayloadDistributor">
-<h3>simulationPayloadDistributor</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../simulation/SimulationPayloadDistributor.html" title="class in xbot.common.simulation">SimulationPayloadDistributor</a></span>&nbsp;<span class="element-name">simulationPayloadDistributor</span></div>
-</div>
-</section>
-</li>
-<li>
 <section class="detail" id="deviceDataFrameRegistry">
 <h3>deviceDataFrameRegistry</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="DataFrameRegistry.html" title="class in xbot.common.command">DataFrameRegistry</a></span>&nbsp;<span class="element-name">deviceDataFrameRegistry</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="useReplay">
+<h3>useReplay</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">useReplay</span></div>
+<div class="block">Selects log replay instead of live desktop simulation. Defaults to simulation.
+Set before <a href="#robotInit()"><code>robotInit()</code></a>; ignored on real hardware.</div>
 </div>
 </section>
 </li>
@@ -592,30 +576,6 @@ of CommonLib functionality.</div>
 <h3>refreshAllDataFrames</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">refreshAllDataFrames</span>()</div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="simulationInit()">
-<h3>simulationInit</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">simulationInit</span>()</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code>simulationInit</code>&nbsp;in class&nbsp;<code>org.wpilib.framework.IterativeRobotBase</code></dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="simulationPeriodic()">
-<h3>simulationPeriodic</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">simulationPeriodic</span>()</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code>simulationPeriodic</code>&nbsp;in class&nbsp;<code>org.wpilib.framework.IterativeRobotBase</code></dd>
-</dl>
 </div>
 </section>
 </li>

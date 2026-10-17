@@ -69,7 +69,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#getVoltage()" tabindex="0">getVoltage()</a></li>
 <li><a href="#getChannel()" tabindex="0">getChannel()</a></li>
 <li><a href="#getAsDigital(double)" tabindex="0">getAsDigital(double)</a></li>
-<li><a href="#ingestSimulationData(org.json.JSONObject)" tabindex="0">ingestSimulationData(JSONObject)</a></li>
 </ol>
 </li>
 </ol>
@@ -87,13 +86,12 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a>, <a href="../../XBaseIO.html" title="interface in xbot.common.controls">XBaseIO</a>, <a href="../../../simulation/ISimulatableSensor.html" title="interface in xbot.common.simulation">ISimulatableSensor</a></code></dd>
+<dd><code><a href="../../../advantage/DataFrameRefreshable.html" title="interface in xbot.common.advantage">DataFrameRefreshable</a>, <a href="../../XBaseIO.html" title="interface in xbot.common.controls">XBaseIO</a></code></dd>
 </dl>
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">MockAnalogInput</span>
-<span class="extends-implements">extends <a href="../XAnalogInput.html" title="class in xbot.common.controls.sensors">XAnalogInput</a>
-implements <a href="../../../simulation/ISimulatableSensor.html" title="interface in xbot.common.simulation">ISimulatableSensor</a></span></div>
+<span class="extends-implements">extends <a href="../XAnalogInput.html" title="class in xbot.common.controls.sensors">XAnalogInput</a></span></div>
 </div>
 </section>
 <section class="summary">
@@ -154,11 +152,8 @@ implements <a href="../../../simulation/ISimulatableSensor.html" title="interfac
 <div class="block">Returns the current unfiltered voltage directly from the device.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#ingestSimulationData(org.json.JSONObject)" class="member-name-link">ingestSimulationData</a><wbr>(org.json.JSONObject&nbsp;payload)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVoltage(double)" class="member-name-link">setVoltage</a><wbr>(double&nbsp;voltage)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVoltage(double)" class="member-name-link">setVoltage</a><wbr>(double&nbsp;voltage)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -226,10 +221,6 @@ implements <a href="../../../simulation/ISimulatableSensor.html" title="interfac
 <h3>getChannel</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getChannel</span>()</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../../XBaseIO.html#getChannel()">getChannel</a></code>&nbsp;in interface&nbsp;<code><a href="../../XBaseIO.html" title="interface in xbot.common.controls">XBaseIO</a></code></dd>
-</dl>
 </div>
 </section>
 </li>
@@ -241,18 +232,6 @@ implements <a href="../../../simulation/ISimulatableSensor.html" title="interfac
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../XAnalogInput.html#getAsDigital(double)">getAsDigital</a></code>&nbsp;in class&nbsp;<code><a href="../XAnalogInput.html" title="class in xbot.common.controls.sensors">XAnalogInput</a></code></dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="ingestSimulationData(org.json.JSONObject)">
-<h3>ingestSimulationData</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">ingestSimulationData</span><wbr><span class="parameters">(org.json.JSONObject&nbsp;payload)</span></div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../../../simulation/ISimulatableSensor.html#ingestSimulationData(org.json.JSONObject)">ingestSimulationData</a></code>&nbsp;in interface&nbsp;<code><a href="../../../simulation/ISimulatableSensor.html" title="interface in xbot.common.simulation">ISimulatableSensor</a></code></dd>
 </dl>
 </div>
 </section>
