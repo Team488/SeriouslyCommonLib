@@ -27,9 +27,12 @@ public class HumanVsMachineDecider {
     }
 
     private double lastHumanTime;
+    private double lastHumanInput;
+    private HumanVsMachineMode lastMode = HumanVsMachineMode.Coast;
     private final TunableDouble deadbandTunable;
     private final TunableDouble coastTimeTunable;
-    private boolean inAutomaticMode;
+
+    private FiniteStateMachine<HumanVsMachineState, HumanVsMachineDecider> fsm;
 
     /**
      * Factory for creating a new decider.
@@ -56,6 +59,7 @@ public class HumanVsMachineDecider {
         tunableFactory.setDefaultLevel(TunableLevel.Debug);
         deadbandTunable = tunableFactory.createDouble("Deadband", 0.1);
         coastTimeTunable = tunableFactory.createDouble("Coast Time", 0.3);
+        fsm = new FiniteStateMachine<>("HumanVsMachineDecider", HumanVsMachineState.Coast, globalTransitions, FsmHook.noop());
         reset();
     }
 
@@ -71,8 +75,10 @@ public class HumanVsMachineDecider {
      * @param startInAutomaticMode Whether to start in automatic mode.
      */
     public void reset(boolean startInAutomaticMode) {
-        lastHumanTime = XTimer.getFPGATimestamp()-100;
-        inAutomaticMode = startInAutomaticMode;
+        lastHumanTime = XTimer.getFPGATimestamp() - 100;
+        fsm.forceState(
+                startInAutomaticMode ? HumanVsMachineState.MachineControl : HumanVsMachineState.RobotDisabled,
+                this);
     }
 
     /**
@@ -81,29 +87,102 @@ public class HumanVsMachineDecider {
      * @return The recommended mode.
      */
     public HumanVsMachineMode getRecommendedMode(double humanInput) {
-
-        if (RobotState.isDisabled()) {
-            inAutomaticMode = false;
-            return HumanVsMachineMode.Coast;
-        }
+        this.lastHumanInput = humanInput;
 
         if (Math.abs(humanInput) > deadbandTunable.get()) {
             lastHumanTime = XTimer.getFPGATimestamp();
-            inAutomaticMode = false;
-            return HumanVsMachineMode.HumanControl;
         }
 
-        if (XTimer.getFPGATimestamp() - lastHumanTime < coastTimeTunable.get()) {
-            inAutomaticMode = false;
-            return HumanVsMachineMode.Coast;
+        fsm.execute(this);
+
+        return this.lastMode;
+    }
+
+    FsmHook<HumanVsMachineState, HumanVsMachineDecider> globalTransitions = (ctx, t) -> {
+        if (RobotState.isDisabled()) {
+            t.transitionTo(HumanVsMachineState.RobotDisabled);
+            return;
         }
 
-        if (!inAutomaticMode) {
-            inAutomaticMode = true;
-            return HumanVsMachineMode.InitializeMachineControl;
-        }
+        var decider = ctx.payload();
 
-        return HumanVsMachineMode.MachineControl;
+        if (Math.abs(decider.lastHumanInput) > decider.deadbandTunable.get()) {
+            t.transitionTo(HumanVsMachineState.HumanControl);
+        }
+    };
+
+    enum HumanVsMachineState implements FsmState<HumanVsMachineState, HumanVsMachineDecider> {
+        RobotDisabled {
+            @Override
+            public void enter(FsmContext<HumanVsMachineDecider> ctx, FsmTransition<HumanVsMachineState> t) {
+                ctx.payload().lastMode = HumanVsMachineMode.Coast;
+            }
+            @Override
+            public void execute(FsmContext<HumanVsMachineDecider> ctx, FsmTransition<HumanVsMachineState> t) {
+                if (!RobotState.isDisabled()) {
+                    t.transitionTo(InitializeMachineControl);
+                }
+            }
+        },
+        InitializeMachineControl {
+            @Override
+            public void enter(FsmContext<HumanVsMachineDecider> ctx, FsmTransition<HumanVsMachineState> t) {
+                ctx.payload().lastMode = HumanVsMachineMode.InitializeMachineControl;
+            }
+            @Override
+            public void execute(FsmContext<HumanVsMachineDecider> ctx, FsmTransition<HumanVsMachineState> t) {
+                var decider = ctx.payload();
+                if (Math.abs(decider.lastHumanInput) > decider.deadbandTunable.get()) {
+                    t.transitionTo(HumanControl);
+                } else {
+                    t.transitionTo(MachineControl);
+                }
+            }
+        },
+        MachineControl {
+            @Override
+            public void enter(FsmContext<HumanVsMachineDecider> ctx, FsmTransition<HumanVsMachineState> t) {
+                ctx.payload().lastMode = HumanVsMachineMode.MachineControl;
+            }
+            @Override
+            public void execute(FsmContext<HumanVsMachineDecider> ctx, FsmTransition<HumanVsMachineState> t) {
+                var decider = ctx.payload();
+                if (Math.abs(decider.lastHumanInput) > decider.deadbandTunable.get()) {
+                    t.transitionTo(HumanControl);
+                }
+            }
+        },
+        HumanControl {
+            @Override
+            public void enter(FsmContext<HumanVsMachineDecider> ctx, FsmTransition<HumanVsMachineState> t) {
+                ctx.payload().lastMode = HumanVsMachineMode.HumanControl;
+            }
+            @Override
+            public void execute(FsmContext<HumanVsMachineDecider> ctx, FsmTransition<HumanVsMachineState> t) {
+                var decider = ctx.payload();
+                if (Math.abs(decider.lastHumanInput) > decider.deadbandTunable.get()) {
+                    return; // still actively controlled this tick; the beforeHook keeps re-asserting this state
+                }
+                if (XTimer.getFPGATimestamp() - decider.lastHumanTime < decider.coastTimeTunable.get()) {
+                    t.transitionTo(Coast);
+                } else {
+                    t.transitionTo(InitializeMachineControl);
+                }
+            }
+        },
+        Coast {
+            @Override
+            public void enter(FsmContext<HumanVsMachineDecider> ctx, FsmTransition<HumanVsMachineState> t) {
+                ctx.payload().lastMode = HumanVsMachineMode.Coast;
+            }
+            @Override
+            public void execute(FsmContext<HumanVsMachineDecider> ctx, FsmTransition<HumanVsMachineState> t) {
+                var decider = ctx.payload();
+                if (XTimer.getFPGATimestamp() - decider.lastHumanTime >= decider.coastTimeTunable.get()) {
+                    t.transitionTo(InitializeMachineControl);
+                }
+            }
+        }
     }
 
     /**
