@@ -3,8 +3,7 @@ package xbot.common.injection;
 import org.junit.jupiter.api.Test;
 
 import xbot.common.injection.DevicePolice.DeviceType;
-import xbot.common.logging.RobotAssertionException;
-import xbot.common.logging.RobotAssertionManager;
+import xbot.common.logging.assertion.RobotAssertionException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -18,8 +17,7 @@ public class TestDevicePolice extends BaseCommonLibTest {
      */
     @Test
     public void doubleAllocate() {
-        RobotAssertionManager ram = getInjectorComponent().robotAssertionManager();
-        DevicePolice police = new DevicePolice(ram);
+        DevicePolice police = new DevicePolice();
 
         police.registerDevice(DeviceType.Solenoid, 0, this);
         assertThrows(RobotAssertionException.class, () -> police.registerDevice(DeviceType.Solenoid, 0, this));
@@ -30,19 +28,17 @@ public class TestDevicePolice extends BaseCommonLibTest {
      */
     @Test
     public void allocateGreaterThanMax() {
-        RobotAssertionManager ram = getInjectorComponent().robotAssertionManager();
-        DevicePolice police = new DevicePolice(ram);
+        DevicePolice police = new DevicePolice();
 
         assertThrows(RobotAssertionException.class, () -> police.registerDevice(DeviceType.Solenoid, 9000, 0, 7));
     }
-    
+
     /**
      * Test that a device cannot be registered with an id less than the minimum allowed
      */
     @Test
     public void allocateLessThanMin() {
-        RobotAssertionManager ram = getInjectorComponent().robotAssertionManager();
-        DevicePolice police = new DevicePolice(ram);
+        DevicePolice police = new DevicePolice();
 
         assertThrows(RobotAssertionException.class, () -> police.registerDevice(DeviceType.Solenoid, 0, 3, 7));
     }

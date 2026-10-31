@@ -12,7 +12,7 @@ import org.wpilib.units.Measure;
 import org.wpilib.units.Unit;
 
 import xbot.common.logging.Pluralizer;
-import xbot.common.logging.RobotAssertionManager;
+import xbot.common.logging.assertion.RobotAssertionManager;
 
 /**
  * Creates directly consumable WPILib tunables managed by {@link TunableManager}.
@@ -21,15 +21,13 @@ public class TunableFactory {
     private static final Logger log = LogManager.getLogger(TunableFactory.class);
 
     private final TunableManager manager;
-    private final RobotAssertionManager assertionManager;
     private String prefix = "";
     private boolean prefixSet;
     private TunableLevel defaultLevel = TunableLevel.Important;
 
     @Inject
-    public TunableFactory(TunableManager manager, RobotAssertionManager assertionManager) {
+    public TunableFactory(TunableManager manager) {
         this.manager = manager;
-        this.assertionManager = assertionManager;
     }
 
     public void setPrefix(String prefix) {
@@ -125,7 +123,7 @@ public class TunableFactory {
 
     private void checkPrefixSet() {
         if (!prefixSet) {
-            assertionManager.fail(
+            RobotAssertionManager.fail(
                     "Call setPrefix() on TunableFactory before creating tunables, "
                             + "or call setTopLevelPrefix() for root tunables.");
         }

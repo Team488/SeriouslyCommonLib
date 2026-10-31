@@ -10,7 +10,7 @@ import org.wpilib.tunable.TunableRegistry;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.Distance;
 
-import xbot.common.logging.LoudRobotAssertionManager;
+import xbot.common.logging.assertion.LoudRobotAssertionHandler;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -30,9 +30,9 @@ public class TunableFactoryTest {
         TunableManager manager = new TunableManager(
                 new InMemoryTunablePersistence(),
                 new InMemoryTunablePersistence(),
-                new LoudRobotAssertionManager(),
+                new LoudRobotAssertionHandler(),
                 false);
-        tunableFactory = new TunableFactory(manager, new LoudRobotAssertionManager());
+        tunableFactory = new TunableFactory(manager, new LoudRobotAssertionHandler());
     }
 
     @AfterEach

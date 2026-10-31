@@ -8,7 +8,6 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import xbot.common.advantage.AKitLogger;
-import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.PID.OffTargetReason;
 import xbot.common.properties.TunableFactory;
 import xbot.common.properties.TunableLevel;
@@ -112,7 +111,6 @@ public class PIDManager extends PIDTunableManager {
     public PIDManager(
             @Assisted String functionName,
             TunableFactory tunableFactory,
-            RobotAssertionManager assertionManager,
             @Assisted("defaultP") double defaultP,
             @Assisted("defaultI") double defaultI,
             @Assisted("defaultD") double defaultD,
@@ -123,7 +121,7 @@ public class PIDManager extends PIDTunableManager {
             @Assisted("derivativeThreshold") double derivativeThreshold,
             @Assisted("timeThreshold") double timeThreshold,
             @Assisted("iZone") double iZone) {
-        super(functionName, tunableFactory, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold,
+        super(functionName, tunableFactory, defaultP, defaultI, defaultD, defaultF, errorThreshold,
                 derivativeThreshold, timeThreshold, iZone);
 
         tunableFactory.setDefaultLevel(TunableLevel.Debug);

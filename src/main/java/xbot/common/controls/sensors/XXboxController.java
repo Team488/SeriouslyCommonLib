@@ -17,7 +17,6 @@ import xbot.common.controls.sensors.buttons.AdvancedXboxAxisTrigger;
 import xbot.common.controls.sensors.buttons.AdvancedXboxButtonTrigger;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
-import xbot.common.logging.RobotAssertionManager;
 import xbot.common.subsystems.feedback.IRumbler;
 import xbot.common.subsystems.feedback.XRumbleManager;
 import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
@@ -45,9 +44,8 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
 
     protected XXboxController(int port, AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
             AdvancedPovButtonTriggerFactory advancedPovButtonFactory, AnalogHIDButtonTriggerFactory analogHidButtonFactory,
-            XRumbleManagerFactory rumbleManagerFactory, RobotAssertionManager assertionManager,
-            DevicePolice police) {
-        super(port, joystickButtonFactory, advancedPovButtonFactory, analogHidButtonFactory, assertionManager, 0,
+            XRumbleManagerFactory rumbleManagerFactory, DevicePolice police) {
+        super(port, joystickButtonFactory, advancedPovButtonFactory, analogHidButtonFactory, 0,
                 police);
         this.port = port;
         allocatedButtons = new EnumMap<>(Button.class);

@@ -10,7 +10,7 @@ import org.wpilib.tunable.Tunables;
 
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
-import xbot.common.logging.RobotAssertionManager;
+import xbot.common.logging.assertion.RobotAssertionHandler;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -38,17 +38,17 @@ public class RealTunableCommandPublisherTest {
         String path = "RealTunableCommandPublisherTest/CommandName";
         MockCommand command = new MockCommand();
         command.setName(path);
-        CapturingAssertionManager assertionManager = new CapturingAssertionManager();
-        RealTunableCommandPublisher publisher = new RealTunableCommandPublisher(assertionManager);
+        CapturingAssertionHandler assertionHandler = new CapturingAssertionHandler();
+        RealTunableCommandPublisher publisher = new RealTunableCommandPublisher(assertionHandler);
 
         try {
             publisher.publish(command);
             publisher.publish(path, command);
 
-            assertEquals(1, assertionManager.failureCount);
-            assertNotNull(assertionManager.failureMessage);
-            assertTrue(assertionManager.failureMessage.contains(path));
-            assertTrue(assertionManager.failureMessage.contains("the first command remains published"));
+            assertEquals(1, assertionHandler.failureCount);
+            assertNotNull(assertionHandler.failureMessage);
+            assertTrue(assertionHandler.failureMessage.contains(path));
+            assertTrue(assertionHandler.failureMessage.contains("the first command remains published"));
         } finally {
             Tunables.remove(path);
             command.close();
@@ -62,18 +62,18 @@ public class RealTunableCommandPublisherTest {
         firstCommand.setName("FirstCommand");
         MockCommand duplicateCommand = new MockCommand();
         duplicateCommand.setName("DuplicateCommand");
-        CapturingAssertionManager assertionManager = new CapturingAssertionManager();
-        RealTunableCommandPublisher publisher = new RealTunableCommandPublisher(assertionManager);
+        CapturingAssertionHandler assertionHandler = new CapturingAssertionHandler();
+        RealTunableCommandPublisher publisher = new RealTunableCommandPublisher(assertionHandler);
 
         try {
             publisher.publish(path, firstCommand);
             publisher.publish(path, duplicateCommand);
 
             assertEquals("FirstCommand", tunableBackend.getValue(path + "/name", String.class));
-            assertEquals(1, assertionManager.failureCount);
-            assertNotNull(assertionManager.failureMessage);
-            assertTrue(assertionManager.failureMessage.contains(path));
-            assertTrue(assertionManager.failureMessage.contains("the first command remains published"));
+            assertEquals(1, assertionHandler.failureCount);
+            assertNotNull(assertionHandler.failureMessage);
+            assertTrue(assertionHandler.failureMessage.contains(path));
+            assertTrue(assertionHandler.failureMessage.contains("the first command remains published"));
         } finally {
             Tunables.remove(path);
             firstCommand.close();
@@ -81,7 +81,7 @@ public class RealTunableCommandPublisherTest {
         }
     }
 
-    private static class CapturingAssertionManager extends RobotAssertionManager {
+    private static class CapturingAssertionHandler extends RobotAssertionHandler {
         private String failureMessage;
         private int failureCount;
 

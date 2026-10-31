@@ -35,7 +35,7 @@ import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButt
 import xbot.common.controls.sensors.buttons.ChordTrigger.ChordTriggerFactory;
 import xbot.common.controls.sensors.buttons.VirtualTrigger.VirtualTriggerFactory;
 import xbot.common.injection.DevicePolice;
-import xbot.common.logging.RobotAssertionManager;
+import xbot.common.logging.assertion.RobotAssertionHandler;
 import xbot.common.logic.CalibrationDecider.CalibrationDeciderFactory;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.logic.StallDetector.StallDetectorFactory;
@@ -65,7 +65,7 @@ public abstract class BaseComponent {
 
     public abstract XSettableTimerImpl settableTimerImplementation();
 
-    public abstract RobotAssertionManager robotAssertionManager();
+    public abstract RobotAssertionHandler robotAssertionHandler();
 
     public abstract DevicePolice devicePolice();
 

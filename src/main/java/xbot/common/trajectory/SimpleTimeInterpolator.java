@@ -12,7 +12,6 @@ import org.wpilib.units.measure.LinearVelocity;
 
 import xbot.common.advantage.AKitLogger;
 import xbot.common.controls.sensors.XTimer;
-import xbot.common.logging.RobotAssertionManager;
 import xbot.common.subsystems.drive.SwerveKinematicsCalculator;
 import xbot.common.subsystems.drive.SwervePointKinematics;
 import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
@@ -35,7 +34,6 @@ public class SimpleTimeInterpolator {
 
     Logger log = LogManager.getLogger(SimpleTimeInterpolator.class);
     AKitLogger aKitLog = new AKitLogger("SimpleTimeInterpolator/");
-    RobotAssertionManager assertionManager;
     private boolean usingKinematics;
 
     public static class InterpolationResult {
@@ -87,10 +85,6 @@ public class SimpleTimeInterpolator {
         }
     }
 
-    public SimpleTimeInterpolator(RobotAssertionManager assertionManager) {
-        this.assertionManager = assertionManager;
-    }
-
     public void setKeyPoints(List<? extends ProvidesInterpolationData> keyPoints) {
         this.keyPoints = keyPoints;
     }
@@ -111,7 +105,6 @@ public class SimpleTimeInterpolator {
 
     public SwerveKinematicsCalculator newCalculator(Translation2d targetPointTranslation2d, SwervePointKinematics kinematics) {
         return new SwerveKinematicsCalculator(
-                assertionManager,
                 Meters.zero(),
                 Meters.of(baseline.getTranslation2d().minus(targetPointTranslation2d).getNorm()),
                 kinematics

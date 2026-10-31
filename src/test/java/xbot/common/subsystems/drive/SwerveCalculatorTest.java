@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
-import xbot.common.logging.RobotAssertionManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.wpilib.units.Units.Meters;
@@ -17,18 +16,14 @@ import static org.wpilib.units.Units.Seconds;
 
 public class SwerveCalculatorTest extends BaseCommonLibTest {
 
-    RobotAssertionManager assertionManager;
-
     @BeforeEach
     @Override
     public void setUp() {
         super.setUp();
-        this.assertionManager = getInjectorComponent().robotAssertionManager();
     }
 
     private SwerveKinematicsCalculator newCalculator(double acceleration, double vInitial, double vGoal, double vMax) {
         return new SwerveKinematicsCalculator(
-                assertionManager,
                 Meters.zero(),
                 Meters.of(10),
                 new SwervePointKinematics(acceleration, vInitial, vGoal, vMax)

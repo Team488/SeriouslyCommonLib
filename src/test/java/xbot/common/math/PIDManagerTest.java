@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.injection.BaseCommonLibTest;
-import xbot.common.logging.RobotAssertionException;
+import xbot.common.logging.assertion.RobotAssertionException;
 import xbot.common.math.PID.OffTargetReason;
 import xbot.common.math.PIDManager.PIDManagerFactory;
 

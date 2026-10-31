@@ -19,8 +19,8 @@ import org.wpilib.units.Measure;
 import org.wpilib.units.Unit;
 
 import xbot.common.advantage.DataFrameRefreshable;
-import xbot.common.logging.RobotAssertionException;
-import xbot.common.logging.RobotAssertionManager;
+import xbot.common.logging.assertion.RobotAssertionException;
+import xbot.common.logging.assertion.RobotAssertionManager;
 
 /**
  * Owns persistence, publication, and AdvantageKit input logging for tunables.
@@ -36,7 +36,6 @@ public class TunableManager implements DataFrameRefreshable {
 
     private final TunablePersistence persistentStorage;
     private final TunablePersistence debugStorage;
-    private final RobotAssertionManager assertionManager;
     private final boolean replay;
     private final List<ManagedTunableBinding> bindings = new ArrayList<>();
     private final Map<String, ManagedTunableBinding> bindingsByKey = new HashMap<>();
@@ -45,19 +44,16 @@ public class TunableManager implements DataFrameRefreshable {
     @Inject
     public TunableManager(
             TunablePersistence persistentStorage,
-            @Named(IN_MEMORY_PERSISTENCE_NAME) TunablePersistence debugStorage,
-            RobotAssertionManager assertionManager) {
-        this(persistentStorage, debugStorage, assertionManager, Logger.hasReplaySource());
+            @Named(IN_MEMORY_PERSISTENCE_NAME) TunablePersistence debugStorage) {
+        this(persistentStorage, debugStorage, Logger.hasReplaySource());
     }
 
     TunableManager(
             TunablePersistence persistentStorage,
             TunablePersistence debugStorage,
-            RobotAssertionManager assertionManager,
             boolean replay) {
         this.persistentStorage = persistentStorage;
         this.debugStorage = debugStorage;
-        this.assertionManager = assertionManager;
         this.replay = replay;
 
         BooleanTunableBinding showDebugBinding = new BooleanTunableBinding(
@@ -156,7 +152,7 @@ public class TunableManager implements DataFrameRefreshable {
 
     private void fail(String message) {
         log.error(message);
-        assertionManager.fail(message);
+        RobotAssertionManager.fail(message);
     }
 
     private void applyDebugPublication() {
@@ -182,7 +178,7 @@ public class TunableManager implements DataFrameRefreshable {
                 "WPILib rejected duplicate debug tunable publication for key: " + binding.key();
         log.error(message);
         try {
-            assertionManager.fail(message);
+            RobotAssertionManager.fail(message);
         } catch (RobotAssertionException e) {
             log.error("Debug tunable publication failure was reported", e);
         }

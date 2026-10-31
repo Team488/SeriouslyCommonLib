@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import org.wpilib.math.geometry.Twist2d;
 
 import xbot.common.command.BaseCommand;
-import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 import xbot.common.properties.TunableFactory;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
@@ -28,14 +27,14 @@ public class SwerveSimpleBezierCommand extends BaseCommand {
 
         @Inject
         public SwerveSimpleBezierCommand(BaseSwerveDriveSubsystem drive, BasePoseSubsystem pose, TunableFactory tunableFactory,
-                        HeadingModuleFactory headingModuleFactory, RobotAssertionManager assertionManager) {
+                        HeadingModuleFactory headingModuleFactory) {
                 this.drive = drive;
                 this.pose = pose;
                 headingModule = headingModuleFactory.create(drive.getRotateToHeadingPid());
 
                 tunableFactory.setPrefix(this);
                 this.addRequirements(drive);
-                logic = new SwerveSimpleTrajectoryLogic(assertionManager);
+                logic = new SwerveSimpleTrajectoryLogic();
                 alternativeIsFinishedSupplier = () -> false;
         }
 
