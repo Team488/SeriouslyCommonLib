@@ -11,6 +11,7 @@ import org.wpilib.tunable.Tunables;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.logging.assertion.RobotAssertionHandler;
+import xbot.common.logging.assertion.RobotAssertionManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -39,7 +40,8 @@ public class RealTunableCommandPublisherTest {
         MockCommand command = new MockCommand();
         command.setName(path);
         CapturingAssertionHandler assertionHandler = new CapturingAssertionHandler();
-        RealTunableCommandPublisher publisher = new RealTunableCommandPublisher(assertionHandler);
+        RobotAssertionManager.configure(assertionHandler);
+        RealTunableCommandPublisher publisher = new RealTunableCommandPublisher();
 
         try {
             publisher.publish(command);
@@ -63,7 +65,8 @@ public class RealTunableCommandPublisherTest {
         MockCommand duplicateCommand = new MockCommand();
         duplicateCommand.setName("DuplicateCommand");
         CapturingAssertionHandler assertionHandler = new CapturingAssertionHandler();
-        RealTunableCommandPublisher publisher = new RealTunableCommandPublisher(assertionHandler);
+        RobotAssertionManager.configure(assertionHandler);
+        RealTunableCommandPublisher publisher = new RealTunableCommandPublisher();
 
         try {
             publisher.publish(path, firstCommand);
