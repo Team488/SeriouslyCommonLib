@@ -18,6 +18,7 @@ import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDDescription;
 import xbot.common.controls.sensors.mock_adapters.MockJoystick;
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.logging.RobotAssertionManager;
@@ -77,7 +78,7 @@ public abstract class XJoystick
             }
         }
         
-        police.registerDevice(DeviceType.USB, port, this);
+        police.registerDevice(this, DeviceAddress.channel(DeviceType.USB, port));
     }
     
     public int getPort() {

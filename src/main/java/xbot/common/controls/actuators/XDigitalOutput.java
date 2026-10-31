@@ -1,6 +1,7 @@
 package xbot.common.controls.actuators;
 
 import xbot.common.controls.XBaseIO;
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 
@@ -14,7 +15,7 @@ public abstract class XDigitalOutput implements XBaseIO {
 
     protected XDigitalOutput(int channel, DevicePolice police) {
         this.channel = channel;
-        police.registerDevice(DeviceType.DigitalIO, channel, this);
+        police.registerDevice(this, DeviceAddress.channel(DeviceType.DigitalIO, channel));
     }
     
     public int getChannel() {

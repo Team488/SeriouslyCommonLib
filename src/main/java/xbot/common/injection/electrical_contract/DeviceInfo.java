@@ -1,10 +1,12 @@
 package xbot.common.injection.electrical_contract;
 
+import org.wpilib.hardware.bus.CANPort;
+
 public class DeviceInfo {
     public int channel;
     public boolean inverted;
     public String name;
-    public CANBusId canBusId = CANBusId.RIO;
+    public CANBusId canBusId = CANBusId.fromPort(CANPort.CAN_S0);
     public PowerSource powerFrom;
 
     // Constructors without CAN Bus interface (sorted by parameter count)

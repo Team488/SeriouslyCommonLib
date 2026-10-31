@@ -3,6 +3,8 @@ package xbot.common.subsystems.drive;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.wpilib.hardware.bus.CANPort;
+
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
@@ -76,21 +78,21 @@ public class MockDriveSubsystem extends BaseDriveSubsystem {
     }
 
     public void changeIntoTankDrive() {
-        leftTank = motorControllerFactory.create(new CANMotorControllerInfo("Left", MotorControllerType.SparkMax, CANBusId.RIO, 0,
+        leftTank = motorControllerFactory.create(new CANMotorControllerInfo("Left", MotorControllerType.SparkMax, CANBusId.fromPort(CANPort.CAN_S0), 0,
                 new CANMotorControllerOutputConfig()), this.getPrefix(), this.getPrefix());
-        rightTank = motorControllerFactory.create(new CANMotorControllerInfo("Left", MotorControllerType.SparkMax, CANBusId.RIO, 1,
+        rightTank = motorControllerFactory.create(new CANMotorControllerInfo("Left", MotorControllerType.SparkMax, CANBusId.fromPort(CANPort.CAN_S0), 1,
                 new CANMotorControllerOutputConfig()), this.getPrefix(), this.getPrefix());
     }
 
     public void changeIntoMecanum() {
         // for simple tests, assume tank drive.
-        fl = motorControllerFactory.create(new CANMotorControllerInfo("FL", MotorControllerType.SparkMax, CANBusId.RIO, 2,
+        fl = motorControllerFactory.create(new CANMotorControllerInfo("FL", MotorControllerType.SparkMax, CANBusId.fromPort(CANPort.CAN_S0), 2,
                 new CANMotorControllerOutputConfig()), this.getPrefix(), this.getPrefix());
-        rl = motorControllerFactory.create(new CANMotorControllerInfo("RL", MotorControllerType.SparkMax, CANBusId.RIO, 3,
+        rl = motorControllerFactory.create(new CANMotorControllerInfo("RL", MotorControllerType.SparkMax, CANBusId.fromPort(CANPort.CAN_S0), 3,
                 new CANMotorControllerOutputConfig()), this.getPrefix(), this.getPrefix());
-        fr = motorControllerFactory.create(new CANMotorControllerInfo("FR", MotorControllerType.SparkMax, CANBusId.RIO, 4,
+        fr = motorControllerFactory.create(new CANMotorControllerInfo("FR", MotorControllerType.SparkMax, CANBusId.fromPort(CANPort.CAN_S0), 4,
                 new CANMotorControllerOutputConfig()), this.getPrefix(), this.getPrefix());
-        rr = motorControllerFactory.create(new CANMotorControllerInfo("RR", MotorControllerType.SparkMax, CANBusId.RIO, 5,
+        rr = motorControllerFactory.create(new CANMotorControllerInfo("RR", MotorControllerType.SparkMax, CANBusId.fromPort(CANPort.CAN_S0), 5,
                 new CANMotorControllerOutputConfig()), this.getPrefix(), this.getPrefix());
     }
 

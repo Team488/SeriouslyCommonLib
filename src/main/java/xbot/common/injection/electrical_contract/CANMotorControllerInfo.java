@@ -1,5 +1,7 @@
 package xbot.common.injection.electrical_contract;
 
+import org.wpilib.hardware.bus.CANPort;
+
 public record CANMotorControllerInfo(
         String name,
         MotorControllerType type,
@@ -9,7 +11,7 @@ public record CANMotorControllerInfo(
         CANMotorControllerOutputConfig outputConfig) {
 
     public CANMotorControllerInfo(String name, int deviceId) {
-        this(name, MotorControllerType.SparkMax, CANBusId.RIO, deviceId);
+        this(name, MotorControllerType.SparkMax, CANBusId.fromPort(CANPort.CAN_S0), deviceId);
     }
 
     public CANMotorControllerInfo(String name, MotorControllerType type, CANBusId busId, int deviceId) {
