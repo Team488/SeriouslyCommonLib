@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class DigitalInputTest extends BaseCommonLibTest {
     @Test
     public void testInversion() {
-        DeviceInfo info = new DeviceInfo("TestInput", 0, false, null);
+        DeviceInfo info = DeviceInfo.builder("TestInput").withChannel(0).build();
         XDigitalInput digitalInput = getInjectorComponent().digitalInputFactory().create(info, "testPrefix");
 
         assertFalse(digitalInput.getInverted());
 
-        info = new DeviceInfo("TestInput", 1, true, null);
+        info = DeviceInfo.builder("TestInput").withChannel(1).withInverted(true).build();
         digitalInput = getInjectorComponent().digitalInputFactory().create(info, "testPrefix");
 
         assertTrue(digitalInput.getInverted());

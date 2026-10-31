@@ -27,8 +27,8 @@ public abstract class XLaserCAN implements DataFrameRefreshable {
 
     public XLaserCAN(DevicePolice police, DeviceInfo info, String owningSystemPrefix, DataFrameRegistry dataFrameRegistry) {
         this.info = info;
-        police.registerDevice(this, DeviceAddress.can(info.canBusId, info.channel));
-        akitName = owningSystemPrefix + info.name + "LaserCAN";
+        police.registerDevice(this, DeviceAddress.can(info.canBusId(), info.channel()));
+        akitName = owningSystemPrefix + info.name() + "LaserCAN";
         inputs = new LaserCANInputsAutoLogged();
         dataFrameRegistry.register(this);
     }

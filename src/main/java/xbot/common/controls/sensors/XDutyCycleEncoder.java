@@ -27,9 +27,9 @@ public abstract class XDutyCycleEncoder implements XBaseIO, DataFrameRefreshable
 
     public XDutyCycleEncoder(DeviceInfo info, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
         this.info = info;
-        this.channel = info.channel;
+        this.channel = info.channel();
         police.registerDevice(this, DeviceAddress.channel(DevicePolice.DeviceType.DigitalIO, channel));
-        setInverted(info.inverted);
+        setInverted(info.inverted());
 
         inputs = new XDutyCycleEncoderInputsAutoLogged();
         dataFrameRegistry.register(this);
@@ -66,7 +66,7 @@ public abstract class XDutyCycleEncoder implements XBaseIO, DataFrameRefreshable
 
     public void refreshDataFrame() {
         updateInputs(inputs);
-        Logger.processInputs(info.name + "/DutyCycleEncoder", inputs);
+        Logger.processInputs(info.name() + "/DutyCycleEncoder", inputs);
     }
 
 }
