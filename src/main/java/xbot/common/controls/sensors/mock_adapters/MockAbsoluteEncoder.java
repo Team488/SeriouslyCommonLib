@@ -11,8 +11,8 @@ import dagger.assisted.AssistedInject;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
 import xbot.common.controls.sensors.XAbsoluteEncoder;
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
-import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.properties.TunableFactory;
 import xbot.common.resiliency.DeviceHealth;
@@ -46,7 +46,7 @@ public class MockAbsoluteEncoder extends XAbsoluteEncoder {
         this.deviceId = deviceInfo.channel;
         this.velocity = RPM.zero();
         this.position = Rotations.zero();
-        police.registerDevice(DeviceType.CAN, deviceInfo.channel, this);
+        police.registerDevice(this, DeviceAddress.can(deviceInfo.canBusId, deviceInfo.channel));
     }
 
     @Override

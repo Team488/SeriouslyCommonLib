@@ -17,6 +17,7 @@ import dagger.assisted.AssistedInject;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.controls.sensors.XGyro;
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.IMUInfo;
 
@@ -43,7 +44,7 @@ public class Pigeon2Adapter extends XGyro {
     public Pigeon2Adapter(DevicePolice police, DataFrameRegistry registry, @Assisted IMUInfo imuInfo) {
         super(imuInfo, registry);
         this.pigeon = new Pigeon2(imuInfo.deviceId(), imuInfo.canBusId().toPhoenixCANBus());
-        police.registerDevice(DevicePolice.DeviceType.CAN, imuInfo.canBusId(), imuInfo.deviceId(), this);
+        police.registerDevice(this, DeviceAddress.can(imuInfo.canBusId(), imuInfo.deviceId()));
 
         this.yawSignal = pigeon.getYaw();
         this.pitchSignal = pigeon.getPitch();

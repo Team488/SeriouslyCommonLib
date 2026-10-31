@@ -31,6 +31,7 @@ import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputsAutoLogged;
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
@@ -158,7 +159,7 @@ public abstract class XCANMotorController implements DataFrameRefreshable {
 
         this.tunableFactory.setPrefix(defaultTunablePrefix);
 
-        police.registerDevice(DevicePolice.DeviceType.CAN, busId, info.deviceId(), info.name());
+        police.registerDevice(this, DeviceAddress.can(busId, info.deviceId()));
         this.akitName = info.name()+"/CANMotorController";
 
         String alertId = getClass().getName() + "-" + busId.id() + "-" + info.deviceId() + "-" + NEXT_ALERT_ID.getAndIncrement();

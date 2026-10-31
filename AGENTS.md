@@ -151,6 +151,23 @@ through the abstract base class and inject the concrete implementation via Dagge
 - Use `RobotAssertionManager` for runtime invariant checks.
 - Use `TimeLogger` for performance-sensitive code paths.
 
+### Error Handling and Graceful Fallback
+
+- Robot code must report validation failures through the injected `RobotAssertionManager`
+  (`fail` / `throwException`) and provide a safe fallback if reporting returns normally.
+  Do not introduce unconditional `throw`, `Objects.requireNonNull`, or `Optional.orElseThrow`
+  for runtime validation where the robot should continue operating.
+- The competition binding uses `SilentRobotAssertionManager`: it logs failures without
+  throwing. `LoudRobotAssertionManager` is an intentional off-robot/controlled-test policy;
+  preserve it rather than catching or suppressing its exceptions.
+- Validate before committing state. On failure, preserve prior valid state and return an
+  explicit rejection, an empty lookup result, or another documented safe outcome. A fallback
+  must not silently conceal the error or report success for rejected work.
+- Keep result construction behind validated operations so callers cannot create invalid
+  success results. Do not replace a graceful fallback with throwing constructor guards.
+- Cover graceful fallback with a non-throwing assertion manager, including diagnostics and
+  unchanged state. Where applicable, also verify the existing controlled-test policy.
+
 ## Pull Request Guidelines
 
 - PRs must target the `main` branch; CI runs automatically.

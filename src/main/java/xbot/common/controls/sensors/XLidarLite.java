@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.wpilib.hardware.bus.I2C.Port;
 import org.wpilib.tunable.TunableDouble;
 
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.properties.TunableFactory;
@@ -42,7 +43,7 @@ public abstract class XLidarLite implements DistanceSensor {
         updater = new java.util.Timer();
 
         this.start();
-        police.registerDevice(DeviceType.I2C, port.value, this);
+        police.registerDevice(this, DeviceAddress.channel(DeviceType.I2C, port.value));
     }
     
     protected abstract void update();

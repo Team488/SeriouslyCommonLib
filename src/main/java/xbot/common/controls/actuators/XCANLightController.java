@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.wpilib.units.measure.Frequency;
 import org.wpilib.util.Color;
 
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANLightControllerInfo;
@@ -59,7 +60,7 @@ public abstract class XCANLightController {
         this.deviceId = info.deviceId();
         this.config = info.outputConfig();
 
-        police.registerDevice(DevicePolice.DeviceType.CAN, this.busId, this.deviceId, this);
+        police.registerDevice(this, DeviceAddress.can(this.busId, this.deviceId));
     }
 
     public abstract DeviceHealth getHealth();

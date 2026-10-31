@@ -11,6 +11,7 @@ import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XEncoderInputs;
 import xbot.common.controls.io_inputs.XEncoderInputsAutoLogged;
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.properties.TunableFactory;
@@ -50,8 +51,9 @@ public abstract class XEncoder implements DataFrameRefreshable {
         tunableFactory.setPrefix(name);
         distancePerPulse = tunableFactory.createDouble("DistancePerPulse", defaultDistancePerPulse);
         setDistancePerPulseSupplier(() -> distancePerPulse.get());
-        police.registerDevice(DeviceType.DigitalIO, aChannel, this);
-        police.registerDevice(DeviceType.DigitalIO, bChannel, this);
+        police.registerDevice(this,
+                DeviceAddress.channel(DeviceType.DigitalIO, aChannel),
+                DeviceAddress.channel(DeviceType.DigitalIO, bChannel));
 
         akitName = owningSystemPrefix + name + "Encoder";
         inputs = new XEncoderInputsAutoLogged();

@@ -20,8 +20,8 @@ import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
 import xbot.common.controls.io_inputs.XCANCoderInputs;
 import xbot.common.controls.sensors.XCANCoder;
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
-import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.properties.TunableFactory;
 import xbot.common.resiliency.DeviceHealth;
@@ -75,7 +75,7 @@ public class CANCoderAdapter extends XCANCoder {
         this.absolutePositionSignal = cancoder.getAbsolutePosition(false);
         this.velocitySignal = cancoder.getVelocity(false);
 
-        police.registerDevice(DeviceType.CAN, deviceInfo.canBusId, deviceInfo.channel, this);
+        police.registerDevice(this, DeviceAddress.can(deviceInfo.canBusId, deviceInfo.channel));
     }
 
     @Override

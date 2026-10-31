@@ -30,7 +30,6 @@ import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
 import xbot.common.injection.DevicePolice;
-import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.injection.electrical_contract.SparkMaxMotorControllerOutputConfig;
@@ -80,10 +79,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         super(info, owningSystemPrefix, tunableFactory, police, pidTunablePrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
         this.assertionManager = assertionManager;
 
-        if (info.busId() != CANBusId.RIO) {
-            this.assertionManager.fail("CANSparkMax must be connected to the RIO");
-        }
-        this.internalSparkMax = new SparkMax(CANBusId.RIO.toWpiCANPort().value, info.deviceId(), SparkLowLevel.MotorType.kBrushless);
+        this.internalSparkMax = new SparkMax(info.busId().toWpiCANPort().value, info.deviceId(), SparkLowLevel.MotorType.kBrushless);
         setConfiguration(info.outputConfig());
     }
 
