@@ -26,7 +26,6 @@ import xbot.common.logging.assertion.LoudRobotAssertionHandler;
 import xbot.common.logging.assertion.RobotAssertionException;
 import xbot.common.logging.assertion.RobotAssertionHandler;
 import xbot.common.logging.assertion.RobotAssertionManager;
-import xbot.common.logging.assertion.SilentRobotAssertionHandler;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -37,12 +36,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestDevicePolice extends BaseCommonLibTest {
-    static Stream<RobotAssertionHandler> assertionManagers() {
+    static Stream<RobotAssertionHandler> assertionHandlers() {
         return Stream.of(new LoudRobotAssertionHandler(), new RecordingAssertions());
     }
 
     @ParameterizedTest
-    @MethodSource("assertionManagers")
+    @MethodSource("assertionHandlers")
     public void invalidRequestsLeaveRegistryUnchanged(RobotAssertionHandler assertions) {
         RobotAssertionManager.configure(assertions);
         DevicePolice police = new DevicePolice();
@@ -85,7 +84,7 @@ public class TestDevicePolice extends BaseCommonLibTest {
     }
 
     @ParameterizedTest
-    @MethodSource("assertionManagers")
+    @MethodSource("assertionHandlers")
     public void multiChannelReservationsAreAllOrNothing(RobotAssertionHandler assertions) {
         RobotAssertionManager.configure(assertions);
         DevicePolice police = new DevicePolice();
@@ -198,7 +197,7 @@ public class TestDevicePolice extends BaseCommonLibTest {
     }
 
     @ParameterizedTest
-    @MethodSource("assertionManagers")
+    @MethodSource("assertionHandlers")
     public void unsupportedCanBusesDoNotReserveAddresses(RobotAssertionHandler assertions) {
         RobotAssertionManager.configure(assertions);
         DevicePolice police = new DevicePolice();
