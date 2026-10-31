@@ -32,9 +32,8 @@ public class TunableTest {
         TunableManager manager = new TunableManager(
                 persistence,
                 new InMemoryTunablePersistence(),
-                new LoudRobotAssertionHandler(),
                 false);
-        tunableFactory = new TunableFactory(manager, new LoudRobotAssertionHandler());
+        tunableFactory = new TunableFactory(manager);
         tunableFactory.setTopLevelPrefix();
     }
 
@@ -114,10 +113,9 @@ public class TunableTest {
         TunableManager replayManager = new TunableManager(
                 replayPersistence,
                 new InMemoryTunablePersistence(),
-                new LoudRobotAssertionHandler(),
                 true);
         TunableFactory replayFactory =
-                new TunableFactory(replayManager, new LoudRobotAssertionHandler());
+                new TunableFactory(replayManager);
         replayFactory.setTopLevelPrefix();
 
         TunableDouble replayValue = replayFactory.createDouble("replay", 4.0);

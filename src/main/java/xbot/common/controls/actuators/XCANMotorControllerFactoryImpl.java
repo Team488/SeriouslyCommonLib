@@ -42,7 +42,10 @@ public class XCANMotorControllerFactoryImpl implements XCANMotorController.XCANM
             //case VictorSPX -> {
             //    return victorSPXFactory.create(info, owningSystemPrefix, pidTunablePrefix, defaultPIDProperties);
             //}
-            default -> RobotAssertionManager.throwException("Unknown motor controller type: " + info.type());
+            default -> {
+                RobotAssertionManager.throwException("Unknown motor controller type: " + info.type());
+                return null; // Still gotta return since we are not throwing Java exception...
+            }
         }
     }
 }
