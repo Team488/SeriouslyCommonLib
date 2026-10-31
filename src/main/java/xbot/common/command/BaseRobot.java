@@ -24,6 +24,7 @@ import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.components.BaseComponent;
+import xbot.common.logging.assertion.RobotAssertionManager;
 import xbot.common.properties.TunableManager;
 import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
 
@@ -129,6 +130,7 @@ public abstract class BaseRobot extends LoggedRobot {
             log = LogManager.getLogger(BaseRobot.class);
             log.info("========== BASE ROBOT INITIALIZING ==========");
             setupInjectionModule();
+            RobotAssertionManager.configure(injectorComponent.robotAssertionHandler());
             log.info("========== INJECTOR CREATED ==========");
             this.initializeSystems();
             log.info("========== SYSTEMS INITIALIZED ==========");
