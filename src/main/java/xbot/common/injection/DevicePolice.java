@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.wpilib.hardware.bus.CANPort;
@@ -75,6 +76,9 @@ public class DevicePolice {
         USB,
         IMU
     }
+
+    @Inject
+    public DevicePolice() {}
 
     /**
      * An explicit outcome when the assertion reporter returns normally.
