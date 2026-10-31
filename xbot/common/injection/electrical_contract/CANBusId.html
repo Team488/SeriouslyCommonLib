@@ -60,7 +60,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#field-detail" tabindex="0">Field Details</a>
 <ol class="toc-list">
-<li><a href="#RIO" tabindex="0">RIO</a></li>
 <li><a href="#Canivore" tabindex="0">Canivore</a></li>
 </ol>
 </li>
@@ -71,6 +70,7 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
+<li><a href="#fromPort(org.wpilib.hardware.bus.CANPort)" tabindex="0">fromPort(CANPort)</a></li>
 <li><a href="#toPhoenixCANBus()" tabindex="0">toPhoenixCANBus()</a></li>
 <li><a href="#toWpiCANPort()" tabindex="0">toWpiCANPort()</a></li>
 <li><a href="#toString()" tabindex="0">toString()</a></li>
@@ -100,7 +100,8 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">CANBusId</span>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
-<div class="block">Represents a CAN bus ID</div>
+<div class="block">Represents a CAN bus ID. Use <a href="#fromPort(org.wpilib.hardware.bus.CANPort)"><code>fromPort(CANPort)</code></a> for native SystemCore and
+MotionCore ports; CANivore retains its wildcard identity.</div>
 </div>
 </section>
 <section class="summary">
@@ -117,9 +118,6 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>static final <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a></code></div>
 <div class="col-second even-row-color"><code><a href="#Canivore" class="member-name-link">Canivore</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#RIO" class="member-name-link">RIO</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -143,7 +141,7 @@ loadScripts(document, 'script');</script>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
@@ -154,29 +152,34 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#fromPort(org.wpilib.hardware.bus.CANPort)" class="member-name-link">fromPort</a><wbr>(org.wpilib.hardware.bus.CANPort&nbsp;port)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Describes a native bus using WPILib's port enum and Phoenix's corresponding bus name.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code value for this object.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#id()" class="member-name-link">id</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#id()" class="member-name-link">id</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-id"><code>id</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/CANBus.html" title="class or interface in com.ctre.phoenix6" class="external-link">CANBus</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toPhoenixCANBus()" class="member-name-link">toPhoenixCANBus</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/CANBus.html" title="class or interface in com.ctre.phoenix6" class="external-link">CANBus</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toPhoenixCANBus()" class="member-name-link">toPhoenixCANBus</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Converts this CANBusId to a Phoenix CANBus object.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.wpilib.hardware.bus.CANPort</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toWpiCANPort()" class="member-name-link">toWpiCANPort</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.wpilib.hardware.bus.CANPort</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toWpiCANPort()" class="member-name-link">toWpiCANPort</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Converts this CANBusId to a WPILib CANPort.</div>
 </div>
 </div>
@@ -196,14 +199,6 @@ loadScripts(document, 'script');</script>
 <section class="field-details" id="field-detail">
 <h2>Field Details</h2>
 <ul class="member-list">
-<li>
-<section class="detail" id="RIO">
-<h3>RIO</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a></span>&nbsp;<span class="element-name">RIO</span></div>
-</div>
-</section>
-</li>
 <li>
 <section class="detail" id="Canivore">
 <h3>Canivore</h3>
@@ -242,11 +237,22 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="fromPort(org.wpilib.hardware.bus.CANPort)">
+<h3>fromPort</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a></span>&nbsp;<span class="element-name">fromPort</span><wbr><span class="parameters">(org.wpilib.hardware.bus.CANPort&nbsp;port)</span></div>
+<div class="block">Describes a native bus using WPILib's port enum and Phoenix's corresponding bus name.
+A null port produces an invalid address request for DevicePolice to reject.</div>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="toPhoenixCANBus()">
 <h3>toPhoenixCANBus</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/CANBus.html" title="class or interface in com.ctre.phoenix6" class="external-link">CANBus</a></span>&nbsp;<span class="element-name">toPhoenixCANBus</span>()</div>
-<div class="block">Converts this CANBusId to a Phoenix CANBus object.</div>
+<div class="block">Converts this CANBusId to a Phoenix CANBus object. Unsupported identities are logged
+and fall back to SystemCore CAN_S0.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>Corresponding CANBus object</dd>
@@ -259,7 +265,8 @@ loadScripts(document, 'script');</script>
 <h3>toWpiCANPort</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">org.wpilib.hardware.bus.CANPort</span>&nbsp;<span class="element-name">toWpiCANPort</span>()</div>
-<div class="block">Converts this CANBusId to a WPILib CANPort.</div>
+<div class="block">Converts this CANBusId to a WPILib CANPort. Non-native identities (including CANivore)
+are logged and fall back to SystemCore CAN_S0.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>Corresponding CANPort</dd>

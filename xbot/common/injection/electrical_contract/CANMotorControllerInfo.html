@@ -60,6 +60,10 @@ loadScripts(document, 'script');</script>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
 <li><a href="#%3Cinit%3E(java.lang.String,int)" tabindex="0">CANMotorControllerInfo(String, int)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,org.wpilib.hardware.bus.CANPort,int)" tabindex="0">CANMotorControllerInfo(String, MotorControllerType, CANPort, int)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig)" tabindex="0">CANMotorControllerInfo(String, MotorControllerType, CANPort, int, CANMotorControllerOutputConfig)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.PDHPort)" tabindex="0">CANMotorControllerInfo(String, MotorControllerType, CANPort, int, PDHPort)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.PDHPort,xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig)" tabindex="0">CANMotorControllerInfo(String, MotorControllerType, CANPort, int, PDHPort, CANMotorControllerOutputConfig)</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,xbot.common.injection.electrical_contract.CANBusId,int)" tabindex="0">CANMotorControllerInfo(String, MotorControllerType, CANBusId, int)</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,xbot.common.injection.electrical_contract.CANBusId,int,xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig)" tabindex="0">CANMotorControllerInfo(String, MotorControllerType, CANBusId, int, CANMotorControllerOutputConfig)</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,xbot.common.injection.electrical_contract.CANBusId,int,xbot.common.injection.electrical_contract.PDHPort)" tabindex="0">CANMotorControllerInfo(String, MotorControllerType, CANBusId, int, PDHPort)</a></li>
@@ -110,6 +114,30 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,int)" class="member-name-link">CANMotorControllerInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  int&nbsp;deviceId)</code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,org.wpilib.hardware.bus.CANPort,int)" class="member-name-link">CANMotorControllerInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a>&nbsp;type,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;deviceId)</code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig)" class="member-name-link">CANMotorControllerInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a>&nbsp;type,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;deviceId,
+ <a href="CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a>&nbsp;outputConfig)</code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.PDHPort)" class="member-name-link">CANMotorControllerInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a>&nbsp;type,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;deviceId,
+ <a href="PDHPort.html" title="enum class in xbot.common.injection.electrical_contract">PDHPort</a>&nbsp;pdhPort)</code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.PDHPort,xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig)" class="member-name-link">CANMotorControllerInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a>&nbsp;type,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;deviceId,
+ <a href="PDHPort.html" title="enum class in xbot.common.injection.electrical_contract">PDHPort</a>&nbsp;pdhPort,
+ <a href="CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a>&nbsp;outputConfig)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,xbot.common.injection.electrical_contract.CANBusId,int)" class="member-name-link">CANMotorControllerInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a>&nbsp;type,
@@ -219,6 +247,54 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CANMotorControllerInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  int&nbsp;deviceId)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,org.wpilib.hardware.bus.CANPort,int)">
+<h3>CANMotorControllerInfo</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CANMotorControllerInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a>&nbsp;type,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;deviceId)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig)">
+<h3>CANMotorControllerInfo</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CANMotorControllerInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a>&nbsp;type,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;deviceId,
+ <a href="CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a>&nbsp;outputConfig)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.PDHPort)">
+<h3>CANMotorControllerInfo</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CANMotorControllerInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a>&nbsp;type,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;deviceId,
+ <a href="PDHPort.html" title="enum class in xbot.common.injection.electrical_contract">PDHPort</a>&nbsp;pdhPort)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.PDHPort,xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig)">
+<h3>CANMotorControllerInfo</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CANMotorControllerInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="MotorControllerType.html" title="enum class in xbot.common.injection.electrical_contract">MotorControllerType</a>&nbsp;type,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;deviceId,
+ <a href="PDHPort.html" title="enum class in xbot.common.injection.electrical_contract">PDHPort</a>&nbsp;pdhPort,
+ <a href="CANMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig</a>&nbsp;outputConfig)</span></div>
 </div>
 </section>
 </li>

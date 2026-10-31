@@ -60,6 +60,10 @@ loadScripts(document, 'script');</script>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
 <li><a href="#%3Cinit%3E(org.wpilib.hardware.imu.OnboardIMU.MountOrientation)" tabindex="0">IMUInfo(OnboardIMU.MountOrientation)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.String,xbot.common.controls.sensors.XGyro.ImuType,xbot.common.controls.sensors.XGyro.InterfaceType,org.wpilib.hardware.bus.CANPort,int)" tabindex="0">IMUInfo(String, XGyro.ImuType, XGyro.InterfaceType, CANPort, int)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.String,xbot.common.controls.sensors.XGyro.ImuType,xbot.common.controls.sensors.XGyro.InterfaceType,org.wpilib.hardware.bus.CANPort,int,org.wpilib.hardware.imu.OnboardIMU.MountOrientation,xbot.common.injection.electrical_contract.PowerSource)" tabindex="0">IMUInfo(String, XGyro.ImuType, XGyro.InterfaceType, CANPort, int, OnboardIMU.MountOrientation, PowerSource)</a></li>
+<li><a href="#%3Cinit%3E(org.wpilib.hardware.bus.CANPort,int)" tabindex="0">IMUInfo(CANPort, int)</a></li>
+<li><a href="#%3Cinit%3E(org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.PowerSource)" tabindex="0">IMUInfo(CANPort, int, PowerSource)</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,xbot.common.controls.sensors.XGyro.ImuType,xbot.common.controls.sensors.XGyro.InterfaceType,xbot.common.injection.electrical_contract.CANBusId,int)" tabindex="0">IMUInfo(String, XGyro.ImuType, XGyro.InterfaceType, CANBusId, int)</a></li>
 <li><a href="#%3Cinit%3E(xbot.common.injection.electrical_contract.CANBusId,int)" tabindex="0">IMUInfo(CANBusId, int)</a></li>
 <li><a href="#%3Cinit%3E(xbot.common.injection.electrical_contract.CANBusId,int,xbot.common.injection.electrical_contract.PowerSource)" tabindex="0">IMUInfo(CANBusId, int, PowerSource)</a></li>
@@ -110,6 +114,20 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,xbot.common.controls.sensors.XGyro.ImuType,xbot.common.controls.sensors.XGyro.InterfaceType,org.wpilib.hardware.bus.CANPort,int)" class="member-name-link">IMUInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="../../controls/sensors/XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a>&nbsp;imuType,
+ <a href="../../controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;deviceId)</code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,xbot.common.controls.sensors.XGyro.ImuType,xbot.common.controls.sensors.XGyro.InterfaceType,org.wpilib.hardware.bus.CANPort,int,org.wpilib.hardware.imu.OnboardIMU.MountOrientation,xbot.common.injection.electrical_contract.PowerSource)" class="member-name-link">IMUInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="../../controls/sensors/XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a>&nbsp;imuType,
+ <a href="../../controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;deviceId,
+ org.wpilib.hardware.imu.OnboardIMU.MountOrientation&nbsp;mountOrientation,
+ <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,xbot.common.controls.sensors.XGyro.ImuType,xbot.common.controls.sensors.XGyro.InterfaceType,xbot.common.injection.electrical_contract.CANBusId,int)" class="member-name-link">IMUInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="../../controls/sensors/XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a>&nbsp;imuType,
  <a href="../../controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType,
@@ -126,6 +144,13 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color">
 <div class="block">Creates an instance of a <code>IMUInfo</code> record class.</div>
 </div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(org.wpilib.hardware.bus.CANPort,int)" class="member-name-link">IMUInfo</a><wbr>(org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;deviceId)</code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.PowerSource)" class="member-name-link">IMUInfo</a><wbr>(org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;deviceId,
+ <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(org.wpilib.hardware.imu.OnboardIMU.MountOrientation)" class="member-name-link">IMUInfo</a><wbr>(org.wpilib.hardware.imu.OnboardIMU.MountOrientation&nbsp;mountOrientation)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(xbot.common.injection.electrical_contract.CANBusId,int)" class="member-name-link">IMUInfo</a><wbr>(<a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;canBusId,
@@ -224,6 +249,51 @@ loadScripts(document, 'script');</script>
 <h3>IMUInfo</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">IMUInfo</span><wbr><span class="parameters">(org.wpilib.hardware.imu.OnboardIMU.MountOrientation&nbsp;mountOrientation)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,xbot.common.controls.sensors.XGyro.ImuType,xbot.common.controls.sensors.XGyro.InterfaceType,org.wpilib.hardware.bus.CANPort,int)">
+<h3>IMUInfo</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">IMUInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="../../controls/sensors/XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a>&nbsp;imuType,
+ <a href="../../controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;deviceId)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,xbot.common.controls.sensors.XGyro.ImuType,xbot.common.controls.sensors.XGyro.InterfaceType,org.wpilib.hardware.bus.CANPort,int,org.wpilib.hardware.imu.OnboardIMU.MountOrientation,xbot.common.injection.electrical_contract.PowerSource)">
+<h3>IMUInfo</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">IMUInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ <a href="../../controls/sensors/XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a>&nbsp;imuType,
+ <a href="../../controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;deviceId,
+ org.wpilib.hardware.imu.OnboardIMU.MountOrientation&nbsp;mountOrientation,
+ <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(org.wpilib.hardware.bus.CANPort,int)">
+<h3>IMUInfo</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">IMUInfo</span><wbr><span class="parameters">(org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;deviceId)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.PowerSource)">
+<h3>IMUInfo</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">IMUInfo</span><wbr><span class="parameters">(org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;deviceId,
+ <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</span></div>
 </div>
 </section>
 </li>

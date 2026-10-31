@@ -120,6 +120,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/RabbitPointBuilder.html#addPose(xbot.common.math.FieldPose)" class="member-name-link">addPose(FieldPose)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/RabbitPointBuilder.html" title="class in xbot.common.subsystems.drive">RabbitPointBuilder</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/DevicePolice.RegistrationResult.Registered.html#addresses()" class="member-name-link">addresses()</a> - Method in class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.RegistrationResult.Registered.html" title="class in xbot.common.injection">DevicePolice.RegistrationResult.Registered</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/buttons/AdvancedJoystickButtonTrigger.html" class="type-name-link" title="class in xbot.common.controls.sensors.buttons">AdvancedJoystickButtonTrigger</a> - Class in <a href="xbot/common/controls/sensors/buttons/package-summary.html">xbot.common.controls.sensors.buttons</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/buttons/AdvancedJoystickButtonTrigger.html#%3Cinit%3E(xbot.common.controls.sensors.XJoystick,int)" class="member-name-link">AdvancedJoystickButtonTrigger(XJoystick, int)</a> - Constructor for class xbot.common.controls.sensors.buttons.<a href="xbot/common/controls/sensors/buttons/AdvancedJoystickButtonTrigger.html" title="class in xbot.common.controls.sensors.buttons">AdvancedJoystickButtonTrigger</a></dt>
@@ -674,10 +676,18 @@ create a path to be used for the SwerveKinematicsCalculator</div>
 <dd>
 <div class="block">Returns the value of the <code>cameraToTarget</code> record component.</div>
 </dd>
+<dt><a href="xbot/common/injection/DeviceAddress.html#can(org.wpilib.hardware.bus.CANPort,int)" class="member-name-link">can(CANPort, int)</a> - Static method in record class xbot.common.injection.<a href="xbot/common/injection/DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/DeviceAddress.html#can(xbot.common.injection.electrical_contract.CANBusId,int)" class="member-name-link">can(CANBusId, int)</a> - Static method in record class xbot.common.injection.<a href="xbot/common/injection/DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XGyro.InterfaceType.html#CAN" class="member-name-link">CAN</a> - Enum constant in enum class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/DevicePolice.DeviceType.html#CAN" class="member-name-link">CAN</a> - Enum constant in enum class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.DeviceType.html" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/DeviceAddress.html#canBus()" class="member-name-link">canBus()</a> - Method in record class xbot.common.injection.<a href="xbot/common/injection/DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./xbot/common/injection/DeviceAddress.html#param-canBus"><code>canBus</code></a> record component.</div>
+</dd>
 <dt><a href="xbot/common/injection/electrical_contract/DeviceInfo.html#canBusId" class="member-name-link">canBusId</a> - Variable in class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html#canBusId()" class="member-name-link">canBusId()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a></dt>
@@ -690,7 +700,7 @@ create a path to be used for the SwerveKinematicsCalculator</div>
 </dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANBusId.html" class="type-name-link" title="class in xbot.common.injection.electrical_contract">CANBusId</a> - Record Class in <a href="xbot/common/injection/electrical_contract/package-summary.html">xbot.common.injection.electrical_contract</a></dt>
 <dd>
-<div class="block">Represents a CAN bus ID</div>
+<div class="block">Represents a CAN bus ID.</div>
 </dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANBusId.html#%3Cinit%3E(java.lang.String)" class="member-name-link">CANBusId(String)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a></dt>
 <dd>
@@ -726,6 +736,12 @@ create a path to be used for the SwerveKinematicsCalculator</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" class="type-name-link" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a> - Record Class in <a href="xbot/common/injection/electrical_contract/package-summary.html">xbot.common.injection.electrical_contract</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.LightControllerType,org.wpilib.hardware.bus.CANPort,int)" class="member-name-link">CANLightControllerInfo(String, LightControllerType, CANPort, int)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.LightControllerType,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.CANLightControllerOutputConfig)" class="member-name-link">CANLightControllerInfo(String, LightControllerType, CANPort, int, CANLightControllerOutputConfig)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.LightControllerType,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.CANLightControllerOutputConfig,xbot.common.injection.electrical_contract.PowerSource)" class="member-name-link">CANLightControllerInfo(String, LightControllerType, CANPort, int, CANLightControllerOutputConfig, PowerSource)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.LightControllerType,xbot.common.injection.electrical_contract.CANBusId,int)" class="member-name-link">CANLightControllerInfo(String, LightControllerType, CANBusId, int)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.LightControllerType,xbot.common.injection.electrical_contract.CANBusId,int,xbot.common.injection.electrical_contract.CANLightControllerOutputConfig)" class="member-name-link">CANLightControllerInfo(String, LightControllerType, CANBusId, int, CANLightControllerOutputConfig)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a></dt>
@@ -745,6 +761,14 @@ create a path to be used for the SwerveKinematicsCalculator</div>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" class="type-name-link" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a> - Record Class in <a href="xbot/common/injection/electrical_contract/package-summary.html">xbot.common.injection.electrical_contract</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html#%3Cinit%3E(java.lang.String,int)" class="member-name-link">CANMotorControllerInfo(String, int)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,org.wpilib.hardware.bus.CANPort,int)" class="member-name-link">CANMotorControllerInfo(String, MotorControllerType, CANPort, int)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig)" class="member-name-link">CANMotorControllerInfo(String, MotorControllerType, CANPort, int, CANMotorControllerOutputConfig)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.PDHPort)" class="member-name-link">CANMotorControllerInfo(String, MotorControllerType, CANPort, int, PDHPort)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.PDHPort,xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig)" class="member-name-link">CANMotorControllerInfo(String, MotorControllerType, CANPort, int, PDHPort, CANMotorControllerOutputConfig)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.MotorControllerType,xbot.common.injection.electrical_contract.CANBusId,int)" class="member-name-link">CANMotorControllerInfo(String, MotorControllerType, CANBusId, int)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo</a></dt>
 <dd>&nbsp;</dd>
@@ -831,6 +855,12 @@ create a path to be used for the SwerveKinematicsCalculator</div>
 <dt><a href="xbot/common/controls/sensors/XDutyCycleEncoder.html#channel" class="member-name-link">channel</a> - Variable in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XDutyCycleEncoder.html" title="class in xbot.common.controls.sensors">XDutyCycleEncoder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/DeviceInfo.html#channel" class="member-name-link">channel</a> - Variable in class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/DeviceAddress.html#channel()" class="member-name-link">channel()</a> - Method in record class xbot.common.injection.<a href="xbot/common/injection/DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./xbot/common/injection/DeviceAddress.html#param-channel"><code>channel</code></a> record component.</div>
+</dd>
+<dt><a href="xbot/common/injection/DeviceAddress.html#channel(xbot.common.injection.DevicePolice.DeviceType,int)" class="member-name-link">channel(DevicePolice.DeviceType, int)</a> - Static method in record class xbot.common.injection.<a href="xbot/common/injection/DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/PurePursuitCommand.html#chaseData" class="member-name-link">chaseData</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/PurePursuitCommand.html" title="class in xbot.common.subsystems.drive">PurePursuitCommand</a></dt>
 <dd>&nbsp;</dd>
@@ -1380,6 +1410,14 @@ and two LED strips of lengths 8 and 30.</div>
 <dd>
 <div class="block">The name of the alert group that is used for all alerts that are related to the robot's devices.</div>
 </dd>
+<dt><a href="xbot/common/injection/DeviceAddress.html" class="type-name-link" title="class in xbot.common.injection">DeviceAddress</a> - Record Class in <a href="xbot/common/injection/package-summary.html">xbot.common.injection</a></dt>
+<dd>
+<div class="block">A channel reservation, including the bus for CAN devices.</div>
+</dd>
+<dt><a href="xbot/common/injection/DeviceAddress.html#%3Cinit%3E(xbot.common.injection.DevicePolice.DeviceType,java.util.Optional,int)" class="member-name-link">DeviceAddress(DevicePolice.DeviceType, Optional, int)</a> - Constructor for record class xbot.common.injection.<a href="xbot/common/injection/DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>DeviceAddress</code> record class.</div>
+</dd>
 <dt><a href="xbot/common/command/BaseRobot.html#deviceDataFrameRegistry" class="member-name-link">deviceDataFrameRegistry</a> - Variable in class xbot.common.command.<a href="xbot/common/command/BaseRobot.html" title="class in xbot.common.command">BaseRobot</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/io_inputs/XAbsoluteEncoderInputs.html#deviceHealth" class="member-name-link">deviceHealth</a> - Variable in class xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/XAbsoluteEncoderInputs.html" title="class in xbot.common.controls.io_inputs">XAbsoluteEncoderInputs</a></dt>
@@ -1412,6 +1450,14 @@ and two LED strips of lengths 8 and 30.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/DeviceInfo.html#%3Cinit%3E(java.lang.String,int,xbot.common.injection.electrical_contract.PowerSource)" class="member-name-link">DeviceInfo(String, int, PowerSource)</a> - Constructor for class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/DeviceInfo.html#%3Cinit%3E(java.lang.String,org.wpilib.hardware.bus.CANPort,int)" class="member-name-link">DeviceInfo(String, CANPort, int)</a> - Constructor for class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/DeviceInfo.html#%3Cinit%3E(java.lang.String,org.wpilib.hardware.bus.CANPort,int,boolean)" class="member-name-link">DeviceInfo(String, CANPort, int, boolean)</a> - Constructor for class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/DeviceInfo.html#%3Cinit%3E(java.lang.String,org.wpilib.hardware.bus.CANPort,int,boolean,xbot.common.injection.electrical_contract.PowerSource)" class="member-name-link">DeviceInfo(String, CANPort, int, boolean, PowerSource)</a> - Constructor for class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/DeviceInfo.html#%3Cinit%3E(java.lang.String,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.PowerSource)" class="member-name-link">DeviceInfo(String, CANPort, int, PowerSource)</a> - Constructor for class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/DeviceInfo.html#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.CANBusId,int)" class="member-name-link">DeviceInfo(String, CANBusId, int)</a> - Constructor for class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/DeviceInfo.html#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.CANBusId,int,boolean)" class="member-name-link">DeviceInfo(String, CANBusId, int, boolean)</a> - Constructor for class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/DeviceInfo.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo</a></dt>
@@ -1430,16 +1476,23 @@ and two LED strips of lengths 8 and 30.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/DevicePolice.html" class="type-name-link" title="class in xbot.common.injection">DevicePolice</a> - Class in <a href="xbot/common/injection/package-summary.html">xbot.common.injection</a></dt>
 <dd>
-<div class="block">Tracks how many devices are registered and prevents incorrectly re-using devices</div>
+<div class="block">Reserves device addresses and enumerates owners by reference identity.</div>
 </dd>
 <dt><a href="xbot/common/injection/DevicePolice.html#%3Cinit%3E(xbot.common.logging.RobotAssertionManager)" class="member-name-link">DevicePolice(RobotAssertionManager)</a> - Constructor for class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a></dt>
 <dd>
-<div class="block">Creates a new DevicePolice instance</div>
+<div class="block">Uses the supplied reporting policy, or logs and falls back to the competition-safe
+policy if the assertion manager is missing.</div>
 </dd>
 <dt><a href="xbot/common/injection/DevicePolice.DeviceType.html" class="type-name-link" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a> - Enum Class in <a href="xbot/common/injection/package-summary.html">xbot.common.injection</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/DevicePolice.RegistrationResult.html" class="type-name-link" title="interface in xbot.common.injection">DevicePolice.RegistrationResult</a> - Interface in <a href="xbot/common/injection/package-summary.html">xbot.common.injection</a></dt>
 <dd>
-<div class="block">Types of devices</div>
+<div class="block">An explicit outcome when the assertion reporter returns normally.</div>
 </dd>
+<dt><a href="xbot/common/injection/DevicePolice.RegistrationResult.Registered.html" class="type-name-link" title="class in xbot.common.injection">DevicePolice.RegistrationResult.Registered</a> - Class in <a href="xbot/common/injection/package-summary.html">xbot.common.injection</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/DevicePolice.RegistrationResult.Rejected.html" class="type-name-link" title="class in xbot.common.injection">DevicePolice.RegistrationResult.Rejected</a> - Class in <a href="xbot/common/injection/package-summary.html">xbot.common.injection</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/ContiguousDouble.html#difference(double)" class="member-name-link">difference(double)</a> - Method in class xbot.common.math.<a href="xbot/common/math/ContiguousDouble.html" title="class in xbot.common.math">ContiguousDouble</a></dt>
 <dd>
 <div class="block">Computes the difference between two values (other - this), accounting for
@@ -1664,6 +1717,10 @@ NOTE: It is suggested to use ConstantVelocity mode instead for better consistenc
 </dd>
 <dt><a href="xbot/common/controls/sensors/buttons/AnalogHIDButtonTrigger.AnalogHIDDescription.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in class xbot.common.controls.sensors.buttons.<a href="xbot/common/controls/sensors/buttons/AnalogHIDButtonTrigger.AnalogHIDDescription.html" title="class in xbot.common.controls.sensors.buttons">AnalogHIDButtonTrigger.AnalogHIDDescription</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/DeviceAddress.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class xbot.common.injection.<a href="xbot/common/injection/DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CameraInfo.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CameraInfo.html" title="class in xbot.common.injection.electrical_contract">CameraInfo</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
@@ -1832,6 +1889,10 @@ and doing the math on how to get there.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/Obstacle.html#findClosestPointOnPerimeterToPoint(org.wpilib.math.geometry.Translation2d)" class="member-name-link">findClosestPointOnPerimeterToPoint(Translation2d)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/DevicePolice.html#findDevice(xbot.common.injection.DeviceAddress)" class="member-name-link">findDevice(DeviceAddress)</a> - Method in class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a></dt>
+<dd>
+<div class="block">Finds the owner, or returns empty when the address is unregistered.</div>
+</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html#fire(int,org.wpilib.units.measure.Frequency,double,double,double)" class="member-name-link">fire(int, Frequency, double, double, double)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html#fire(int,org.wpilib.units.measure.Frequency,double,double,double)" class="member-name-link">fire(int, Frequency, double, double, double)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter</a></dt>
@@ -1873,6 +1934,10 @@ and doing the math on how to get there.</div>
 <dt><a href="xbot/common/math/XYPair.html#fromPolar(double,double)" class="member-name-link">fromPolar(double, double)</a> - Static method in class xbot.common.math.<a href="xbot/common/math/XYPair.html" title="class in xbot.common.math">XYPair</a></dt>
 <dd>
 <div class="block">Create a coordinate from an angle and magnitude</div>
+</dd>
+<dt><a href="xbot/common/injection/electrical_contract/CANBusId.html#fromPort(org.wpilib.hardware.bus.CANPort)" class="member-name-link">fromPort(CANPort)</a> - Static method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a></dt>
+<dd>
+<div class="block">Describes a native bus using WPILib's port enum and Phoenix's corresponding bus name.</div>
 </dd>
 <dt><a href="xbot/common/math/XYPair.html#fromUnitPolar(double)" class="member-name-link">fromUnitPolar(double)</a> - Static method in class xbot.common.math.<a href="xbot/common/math/XYPair.html" title="class in xbot.common.math">XYPair</a></dt>
 <dd>
@@ -3066,6 +3131,14 @@ get that information here.</div>
 <dd>
 <div class="block">Gets the recommended mode based on the human input.</div>
 </dd>
+<dt><a href="xbot/common/injection/DevicePolice.html#getRegisteredChannels()" class="member-name-link">getRegisteredChannels()</a> - Method in class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a></dt>
+<dd>
+<div class="block">Returns an immutable snapshot of address ownership, in registration order.</div>
+</dd>
+<dt><a href="xbot/common/injection/DevicePolice.html#getRegisteredDevices()" class="member-name-link">getRegisteredDevices()</a> - Method in class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a></dt>
+<dd>
+<div class="block">Returns an immutable snapshot in first-successful-registration order.</div>
+</dd>
 <dt><a href="xbot/common/trajectory/SwerveSimpleBezierLogic.html#getResolvedKeyPoints()" class="member-name-link">getResolvedKeyPoints()</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/SwerveSimpleBezierLogic.html" title="class in xbot.common.trajectory">SwerveSimpleBezierLogic</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html#getResolvedKeyPoints()" class="member-name-link">getResolvedKeyPoints()</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/SwerveSimpleTrajectoryLogic.html" title="class in xbot.common.trajectory">SwerveSimpleTrajectoryLogic</a></dt>
@@ -3511,6 +3584,10 @@ with vision.</div>
 </dd>
 <dt><a href="xbot/common/controls/sensors/buttons/AnalogHIDButtonTrigger.AnalogHIDDescription.html#hashCode()" class="member-name-link">hashCode()</a> - Method in class xbot.common.controls.sensors.buttons.<a href="xbot/common/controls/sensors/buttons/AnalogHIDButtonTrigger.AnalogHIDDescription.html" title="class in xbot.common.controls.sensors.buttons">AnalogHIDButtonTrigger.AnalogHIDDescription</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/DeviceAddress.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class xbot.common.injection.<a href="xbot/common/injection/DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CameraInfo.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CameraInfo.html" title="class in xbot.common.injection.electrical_contract">CameraInfo</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
@@ -3675,12 +3752,20 @@ hold its current heading, even if it's temporarily rotated by outside forces.</d
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html" class="type-name-link" title="class in xbot.common.injection.electrical_contract">IMUInfo</a> - Record Class in <a href="xbot/common/injection/electrical_contract/package-summary.html">xbot.common.injection.electrical_contract</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html#%3Cinit%3E(java.lang.String,xbot.common.controls.sensors.XGyro.ImuType,xbot.common.controls.sensors.XGyro.InterfaceType,org.wpilib.hardware.bus.CANPort,int)" class="member-name-link">IMUInfo(String, XGyro.ImuType, XGyro.InterfaceType, CANPort, int)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html#%3Cinit%3E(java.lang.String,xbot.common.controls.sensors.XGyro.ImuType,xbot.common.controls.sensors.XGyro.InterfaceType,org.wpilib.hardware.bus.CANPort,int,org.wpilib.hardware.imu.OnboardIMU.MountOrientation,xbot.common.injection.electrical_contract.PowerSource)" class="member-name-link">IMUInfo(String, XGyro.ImuType, XGyro.InterfaceType, CANPort, int, OnboardIMU.MountOrientation, PowerSource)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html#%3Cinit%3E(java.lang.String,xbot.common.controls.sensors.XGyro.ImuType,xbot.common.controls.sensors.XGyro.InterfaceType,xbot.common.injection.electrical_contract.CANBusId,int)" class="member-name-link">IMUInfo(String, XGyro.ImuType, XGyro.InterfaceType, CANBusId, int)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html#%3Cinit%3E(java.lang.String,xbot.common.controls.sensors.XGyro.ImuType,xbot.common.controls.sensors.XGyro.InterfaceType,xbot.common.injection.electrical_contract.CANBusId,int,org.wpilib.hardware.imu.OnboardIMU.MountOrientation,xbot.common.injection.electrical_contract.PowerSource)" class="member-name-link">IMUInfo(String, XGyro.ImuType, XGyro.InterfaceType, CANBusId, int, OnboardIMU.MountOrientation, PowerSource)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a></dt>
 <dd>
 <div class="block">Creates an instance of a <code>IMUInfo</code> record class.</div>
 </dd>
+<dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html#%3Cinit%3E(org.wpilib.hardware.bus.CANPort,int)" class="member-name-link">IMUInfo(CANPort, int)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html#%3Cinit%3E(org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.PowerSource)" class="member-name-link">IMUInfo(CANPort, int, PowerSource)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html#%3Cinit%3E(org.wpilib.hardware.imu.OnboardIMU.MountOrientation)" class="member-name-link">IMUInfo(OnboardIMU.MountOrientation)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/IMUInfo.html#%3Cinit%3E(xbot.common.injection.electrical_contract.CANBusId,int)" class="member-name-link">IMUInfo(CANBusId, int)</a> - Constructor for record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/IMUInfo.html" title="class in xbot.common.injection.electrical_contract">IMUInfo</a></dt>
@@ -4236,6 +4321,8 @@ changes.</div>
 <dt><a href="xbot/common/logging/IntermittentConsoleLogger.html#logSometimes(java.lang.String)" class="member-name-link">logSometimes(String)</a> - Method in class xbot.common.logging.<a href="xbot/common/logging/IntermittentConsoleLogger.html" title="class in xbot.common.logging">IntermittentConsoleLogger</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/swerve/SwerveDriveRotationAdvisor.SwerveDriveRotationAdvisorMode.html#LookAtPoint" class="member-name-link">LookAtPoint</a> - Enum constant in enum class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveDriveRotationAdvisor.SwerveDriveRotationAdvisorMode.html" title="enum class in xbot.common.subsystems.drive.swerve">SwerveDriveRotationAdvisor.SwerveDriveRotationAdvisorMode</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/DevicePolice.html#looking-up-owners-heading" class="search-tag-link">Looking up owners</a> - Section in class xbot.common.injection.DevicePolice</dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PurePursuitTest.PursuitEnvironmentState.html#loops" class="member-name-link">loops</a> - Variable in class xbot.common.math.<a href="xbot/common/math/PurePursuitTest.PursuitEnvironmentState.html" title="class in xbot.common.math">PurePursuitTest.PursuitEnvironmentState</a></dt>
 <dd>&nbsp;</dd>
@@ -5281,6 +5368,8 @@ for AdvantageKit logging.</div>
 <dd>
 <div class="block">This annotation denotes the rear right swerve module.</div>
 </dd>
+<dt><a href="xbot/common/injection/DevicePolice.RegistrationResult.Rejected.html#reason()" class="member-name-link">reason()</a> - Method in class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.RegistrationResult.Rejected.html" title="class in xbot.common.injection">DevicePolice.RegistrationResult.Rejected</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/ContiguousDouble.html#reboundValue()" class="member-name-link">reboundValue()</a> - Method in class xbot.common.math.<a href="xbot/common/math/ContiguousDouble.html" title="class in xbot.common.math">ContiguousDouble</a></dt>
 <dd>
 <div class="block">Shifts the value so that it still represents the same position but is
@@ -5382,33 +5471,13 @@ within the current bounds.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/DataFrameRegistry.html#register(xbot.common.advantage.DataFrameRefreshable)" class="member-name-link">register(DataFrameRefreshable)</a> - Method in class xbot.common.command.<a href="xbot/common/command/DataFrameRegistry.html" title="class in xbot.common.command">DataFrameRegistry</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/injection/DevicePolice.html#registerDevice(xbot.common.injection.DevicePolice.DeviceType,int)" class="member-name-link">registerDevice(DevicePolice.DeviceType, int)</a> - Method in class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a></dt>
+<dt><a href="xbot/common/injection/DevicePolice.html#registerDevice(java.lang.Object,xbot.common.injection.DeviceAddress...)" class="member-name-link">registerDevice(Object, DeviceAddress...)</a> - Method in class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a></dt>
 <dd>
-<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+<div class="block">Reserves all addresses or none.</div>
 </dd>
-<dt><a href="xbot/common/injection/DevicePolice.html#registerDevice(xbot.common.injection.DevicePolice.DeviceType,int,int,int)" class="member-name-link">registerDevice(DevicePolice.DeviceType, int, int, int)</a> - Method in class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a></dt>
+<dt><a href="xbot/common/injection/DevicePolice.html#registerDevice(java.lang.Object,xbot.common.injection.DeviceAddress,int,int)" class="member-name-link">registerDevice(Object, DeviceAddress, int, int)</a> - Method in class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a></dt>
 <dd>
-<div class="block">Register a device with an id falling into an allowable range</div>
-</dd>
-<dt><a href="xbot/common/injection/DevicePolice.html#registerDevice(xbot.common.injection.DevicePolice.DeviceType,int,int,int,java.lang.Object)" class="member-name-link">registerDevice(DevicePolice.DeviceType, int, int, int, Object)</a> - Method in class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a></dt>
-<dd>
-<div class="block">Register a device with an id falling into an allowable range</div>
-</dd>
-<dt><a href="xbot/common/injection/DevicePolice.html#registerDevice(xbot.common.injection.DevicePolice.DeviceType,int,java.lang.Object)" class="member-name-link">registerDevice(DevicePolice.DeviceType, int, Object)</a> - Method in class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a></dt>
-<dd>
-<div class="block">Register a device</div>
-</dd>
-<dt><a href="xbot/common/injection/DevicePolice.html#registerDevice(xbot.common.injection.DevicePolice.DeviceType,xbot.common.injection.electrical_contract.CANBusId,int,java.lang.Object)" class="member-name-link">registerDevice(DevicePolice.DeviceType, CANBusId, int, Object)</a> - Method in class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a></dt>
-<dd>
-<div class="block">Register a CAN device</div>
-</dd>
-<dt><a href="xbot/common/injection/DevicePolice.html#registeredChannels" class="member-name-link">registeredChannels</a> - Variable in class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a></dt>
-<dd>
-<div class="block">A list of all the channels in use, and what device is using them.</div>
-</dd>
-<dt><a href="xbot/common/injection/DevicePolice.html#registeredDevices" class="member-name-link">registeredDevices</a> - Variable in class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a></dt>
-<dd>
-<div class="block">A list of all the devices in use</div>
+<div class="block">Reserves one address within an inclusive hardware-provided channel range.</div>
 </dd>
 <dt><a href="xbot/common/command/XScheduler.html#registerSubsystem(org.wpilib.command2.Subsystem...)" class="member-name-link">registerSubsystem(Subsystem...)</a> - Method in class xbot.common.command.<a href="xbot/common/command/XScheduler.html" title="class in xbot.common.command">XScheduler</a></dt>
 <dd>&nbsp;</dd>
@@ -5423,6 +5492,8 @@ within the current bounds.</div>
 <dt><a href="xbot/common/properties/PreferencesTunablePersistence.html#remove(java.lang.String)" class="member-name-link">remove(String)</a> - Method in class xbot.common.properties.<a href="xbot/common/properties/PreferencesTunablePersistence.html" title="class in xbot.common.properties">PreferencesTunablePersistence</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/properties/TunablePersistence.html#remove(java.lang.String)" class="member-name-link">remove(String)</a> - Method in interface xbot.common.properties.<a href="xbot/common/properties/TunablePersistence.html" title="interface in xbot.common.properties">TunablePersistence</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/DevicePolice.html#reserving-addresses-heading" class="search-tag-link">Reserving addresses</a> - Section in class xbot.common.injection.DevicePolice</dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/XScheduler.html#reset()" class="member-name-link">reset()</a> - Method in class xbot.common.command.<a href="xbot/common/command/XScheduler.html" title="class in xbot.common.command">XScheduler</a></dt>
 <dd>&nbsp;</dd>
@@ -5529,8 +5600,6 @@ within the current bounds.</div>
 <dt><a href="xbot/common/controls/sensors/XXboxController.html#rightYInversion" class="member-name-link">rightYInversion</a> - Variable in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XXboxController.html" title="class in xbot.common.controls.sensors">XXboxController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/PowerSource.html#RIO" class="member-name-link">RIO</a> - Enum constant in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="xbot/common/injection/electrical_contract/CANBusId.html#RIO" class="member-name-link">RIO</a> - Static variable in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/pose/BasePoseSubsystem.html#rioRotated" class="member-name-link">rioRotated</a> - Variable in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/BasePoseSubsystem.html" title="class in xbot.common.subsystems.pose">BasePoseSubsystem</a></dt>
 <dd>&nbsp;</dd>
@@ -7144,6 +7213,10 @@ to a goal position and velocity.</div>
 </dd>
 <dt><a href="xbot/common/controls/sensors/buttons/AnalogHIDButtonTrigger.AnalogHIDDescription.html#toString()" class="member-name-link">toString()</a> - Method in class xbot.common.controls.sensors.buttons.<a href="xbot/common/controls/sensors/buttons/AnalogHIDButtonTrigger.AnalogHIDDescription.html" title="class in xbot.common.controls.sensors.buttons">AnalogHIDButtonTrigger.AnalogHIDDescription</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/DeviceAddress.html#toString()" class="member-name-link">toString()</a> - Method in record class xbot.common.injection.<a href="xbot/common/injection/DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CameraInfo.html#toString()" class="member-name-link">toString()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CameraInfo.html" title="class in xbot.common.injection.electrical_contract">CameraInfo</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
@@ -7322,6 +7395,10 @@ under the <a href="xbot/common/properties/TunableManager.html#AKIT_LOG_NAMESPACE
 </dd>
 <dt><a href="xbot/common/subsystems/drive/swerve/SwerveSuggestedRotation.html#type" class="member-name-link">type</a> - Variable in class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveSuggestedRotation.html" title="class in xbot.common.subsystems.drive.swerve">SwerveSuggestedRotation</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/injection/DeviceAddress.html#type()" class="member-name-link">type()</a> - Method in record class xbot.common.injection.<a href="xbot/common/injection/DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./xbot/common/injection/DeviceAddress.html#param-type"><code>type</code></a> record component.</div>
+</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html#type()" class="member-name-link">type()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANLightControllerInfo.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>type</code> record component.</div>
@@ -7495,6 +7572,10 @@ of the "distance traveled" calculation.</div>
 </dl>
 <h2 class="title" id="I:V">V</h2>
 <dl class="index">
+<dt><a href="xbot/common/injection/DeviceAddress.html#validationError()" class="member-name-link">validationError()</a> - Method in record class xbot.common.injection.<a href="xbot/common/injection/DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a></dt>
+<dd>
+<div class="block">Returns a validation error, or empty for a valid address.</div>
+</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockDigitalOutput.html#value" class="member-name-link">value</a> - Variable in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockDigitalOutput.html" title="class in xbot.common.controls.actuators.mock_adapters">MockDigitalOutput</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockPWM.html#value" class="member-name-link">value</a> - Variable in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockPWM.html" title="class in xbot.common.controls.actuators.mock_adapters">MockPWM</a></dt>

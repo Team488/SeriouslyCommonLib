@@ -74,6 +74,10 @@ loadScripts(document, 'script');</script>
 <li><a href="#%3Cinit%3E(java.lang.String,int,xbot.common.injection.electrical_contract.PowerSource)" tabindex="0">DeviceInfo(String, int, PowerSource)</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,int,boolean)" tabindex="0">DeviceInfo(String, int, boolean)</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,int,boolean,xbot.common.injection.electrical_contract.PowerSource)" tabindex="0">DeviceInfo(String, int, boolean, PowerSource)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.String,org.wpilib.hardware.bus.CANPort,int)" tabindex="0">DeviceInfo(String, CANPort, int)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.String,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.PowerSource)" tabindex="0">DeviceInfo(String, CANPort, int, PowerSource)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.String,org.wpilib.hardware.bus.CANPort,int,boolean)" tabindex="0">DeviceInfo(String, CANPort, int, boolean)</a></li>
+<li><a href="#%3Cinit%3E(java.lang.String,org.wpilib.hardware.bus.CANPort,int,boolean,xbot.common.injection.electrical_contract.PowerSource)" tabindex="0">DeviceInfo(String, CANPort, int, boolean, PowerSource)</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.CANBusId,int)" tabindex="0">DeviceInfo(String, CANBusId, int)</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.CANBusId,int,xbot.common.injection.electrical_contract.PowerSource)" tabindex="0">DeviceInfo(String, CANBusId, int, PowerSource)</a></li>
 <li><a href="#%3Cinit%3E(java.lang.String,xbot.common.injection.electrical_contract.CANBusId,int,boolean)" tabindex="0">DeviceInfo(String, CANBusId, int, boolean)</a></li>
@@ -147,6 +151,26 @@ loadScripts(document, 'script');</script>
  <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,int,xbot.common.injection.electrical_contract.PowerSource)" class="member-name-link">DeviceInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ int&nbsp;channel,
+ <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,org.wpilib.hardware.bus.CANPort,int)" class="member-name-link">DeviceInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;channel)</code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,org.wpilib.hardware.bus.CANPort,int,boolean)" class="member-name-link">DeviceInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;channel,
+ boolean&nbsp;inverted)</code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,org.wpilib.hardware.bus.CANPort,int,boolean,xbot.common.injection.electrical_contract.PowerSource)" class="member-name-link">DeviceInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;channel,
+ boolean&nbsp;inverted,
+ <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.PowerSource)" class="member-name-link">DeviceInfo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
  int&nbsp;channel,
  <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
@@ -285,6 +309,50 @@ loadScripts(document, 'script');</script>
 <h3>DeviceInfo</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DeviceInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ int&nbsp;channel,
+ boolean&nbsp;inverted,
+ <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,org.wpilib.hardware.bus.CANPort,int)">
+<h3>DeviceInfo</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DeviceInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;channel)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,org.wpilib.hardware.bus.CANPort,int,xbot.common.injection.electrical_contract.PowerSource)">
+<h3>DeviceInfo</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DeviceInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;channel,
+ <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,org.wpilib.hardware.bus.CANPort,int,boolean)">
+<h3>DeviceInfo</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DeviceInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
+ int&nbsp;channel,
+ boolean&nbsp;inverted)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.String,org.wpilib.hardware.bus.CANPort,int,boolean,xbot.common.injection.electrical_contract.PowerSource)">
+<h3>DeviceInfo</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DeviceInfo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+ org.wpilib.hardware.bus.CANPort&nbsp;canPort,
  int&nbsp;channel,
  boolean&nbsp;inverted,
  <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)</span></div>

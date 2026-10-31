@@ -54,17 +54,15 @@ loadScripts(document, 'script');</script>
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset"></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
-<li><a href="#nested-class-summary" tabindex="0">Nested Class Summary</a></li>
-<li><a href="#field-summary" tabindex="0">Field Summary</a></li>
-<li><a href="#constructor-summary" tabindex="0">Constructor Summary</a></li>
-<li><a href="#method-summary" tabindex="0">Method Summary</a></li>
-<li><a href="#field-detail" tabindex="0">Field Details</a>
+<li><a href="#" tabindex="0">Description</a>
 <ol class="toc-list">
-<li><a href="#registeredChannels" tabindex="0">registeredChannels</a></li>
-<li><a href="#registeredDevices" tabindex="0">registeredDevices</a></li>
+<li><a href="#reserving-addresses-heading" tabindex="0">Reserving addresses</a></li>
+<li><a href="#looking-up-owners-heading" tabindex="0">Looking up owners</a></li>
 </ol>
 </li>
+<li><a href="#nested-class-summary" tabindex="0">Nested Class Summary</a></li>
+<li><a href="#constructor-summary" tabindex="0">Constructor Summary</a></li>
+<li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
 <li><a href="#%3Cinit%3E(xbot.common.logging.RobotAssertionManager)" tabindex="0">DevicePolice(RobotAssertionManager)</a></li>
@@ -72,11 +70,11 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#registerDevice(xbot.common.injection.DevicePolice.DeviceType,int)" tabindex="0">registerDevice(DevicePolice.DeviceType, int)</a></li>
-<li><a href="#registerDevice(xbot.common.injection.DevicePolice.DeviceType,int,java.lang.Object)" tabindex="0">registerDevice(DevicePolice.DeviceType, int, Object)</a></li>
-<li><a href="#registerDevice(xbot.common.injection.DevicePolice.DeviceType,xbot.common.injection.electrical_contract.CANBusId,int,java.lang.Object)" tabindex="0">registerDevice(DevicePolice.DeviceType, CANBusId, int, Object)</a></li>
-<li><a href="#registerDevice(xbot.common.injection.DevicePolice.DeviceType,int,int,int)" tabindex="0">registerDevice(DevicePolice.DeviceType, int, int, int)</a></li>
-<li><a href="#registerDevice(xbot.common.injection.DevicePolice.DeviceType,int,int,int,java.lang.Object)" tabindex="0">registerDevice(DevicePolice.DeviceType, int, int, int, Object)</a></li>
+<li><a href="#registerDevice(java.lang.Object,xbot.common.injection.DeviceAddress...)" tabindex="0">registerDevice(Object, DeviceAddress...)</a></li>
+<li><a href="#registerDevice(java.lang.Object,xbot.common.injection.DeviceAddress,int,int)" tabindex="0">registerDevice(Object, DeviceAddress, int, int)</a></li>
+<li><a href="#findDevice(xbot.common.injection.DeviceAddress)" tabindex="0">findDevice(DeviceAddress)</a></li>
+<li><a href="#getRegisteredChannels()" tabindex="0">getRegisteredChannels()</a></li>
+<li><a href="#getRegisteredDevices()" tabindex="0">getRegisteredDevices()</a></li>
 </ol>
 </li>
 </ol>
@@ -95,7 +93,43 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="annotations">@Singleton
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">DevicePolice</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">Tracks how many devices are registered and prevents incorrectly re-using devices</div>
+<div class="block">Reserves device addresses and enumerates owners by reference identity.
+
+<p>Registration is all-or-nothing, including multi-channel requests. Rejected requests
+are reported through RobotAssertionManager and leave the registry unchanged. With the
+competition-safe assertion policy, rejection returns normally without throwing.
+CAN reservations accept only native <code>CANPort</code> identities or the CANivore wildcard.
+Rejection does not prevent a hardware constructor from continuing or disable the rejected device.
+
+<h2 id="reserving-addresses-heading">Reserving addresses</h2>
+Supply the actual device object as the owner, not its display name or null.
+Use <a href="DeviceAddress.html#can(org.wpilib.hardware.bus.CANPort,int)"><code>DeviceAddress.can(CANPort, int)</code></a> for CAN addresses, preserving the configured bus, and
+<code>DeviceAddress.channel</code> for other device types. Reserve all channels for one
+device in a single call, for example an encoder's A/B channels:
+<pre><code>DevicePolice.RegistrationResult result = police.registerDevice(
+        encoder,
+        DeviceAddress.channel(DevicePolice.DeviceType.DigitalIO, 3),
+        DeviceAddress.channel(DevicePolice.DeviceType.DigitalIO, 4));
+</code></pre>
+
+<p>The result is either <a href="DevicePolice.RegistrationResult.Registered.html" title="class in xbot.common.injection"><code>DevicePolice.RegistrationResult.Registered</code></a> or
+<a href="DevicePolice.RegistrationResult.Rejected.html" title="class in xbot.common.injection"><code>DevicePolice.RegistrationResult.Rejected</code></a>. Inspect a returned rejection before treating
+the reservation as successful; it contains the diagnostic reported through
+<a href="../logging/RobotAssertionManager.html" title="class in xbot.common.logging"><code>RobotAssertionManager</code></a>. Controlled tests may select a loud assertion policy
+that throws instead. Validation does not bypass the selected assertion policy.
+
+<p>An occupied address is rejected even for its current owner. The same owner can
+reserve additional unused addresses without a second enumeration entry. Owners
+are distinguished by reference identity, so equal but distinct objects remain
+separate devices. The single-address <a href="#registerDevice(java.lang.Object,xbot.common.injection.DeviceAddress,int,int)"><code>registerDevice(Object, DeviceAddress, int, int)</code></a>
+overload enforces inclusive hardware-provided channel bounds.
+
+<h2 id="looking-up-owners-heading">Looking up owners</h2>
+Use <a href="#findDevice(xbot.common.injection.DeviceAddress)"><code>findDevice(DeviceAddress)</code></a> for one address, <a href="#getRegisteredChannels()"><code>getRegisteredChannels()</code></a> for address
+ownership, and <a href="#getRegisteredDevices()"><code>getRegisteredDevices()</code></a> for owners in first-successful-registration
+order. Collection results are immutable snapshots, not live views; device objects
+themselves are not copied. Owners are reservation owners, not necessarily physical
+hardware devices.</div>
 </div>
 </section>
 <section class="summary">
@@ -111,30 +145,11 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static enum&nbsp;</code></div>
 <div class="col-second even-row-color"><code><a href="DevicePolice.DeviceType.html" class="type-name-link" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a></code></div>
-<div class="col-last even-row-color">
-<div class="block">Types of devices</div>
-</div>
-</div>
-</section>
-</li>
-<!-- =========== FIELD SUMMARY =========== -->
-<li>
-<section class="field-summary" id="field-summary">
-<h2>Field Summary</h2>
-<div class="caption"><span>Fields</span></div>
-<div class="summary-table three-column-summary">
-<div class="table-header col-first">Modifier and Type</div>
-<div class="table-header col-second">Field</div>
-<div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#registeredChannels" class="member-name-link">registeredChannels</a></code></div>
-<div class="col-last even-row-color">
-<div class="block">A list of all the channels in use, and what device is using them.</div>
-</div>
-<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#registeredDevices" class="member-name-link">registeredDevices</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static interface&nbsp;</code></div>
+<div class="col-second odd-row-color"><code><a href="DevicePolice.RegistrationResult.html" class="type-name-link" title="interface in xbot.common.injection">DevicePolice.RegistrationResult</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">A list of all the devices in use</div>
+<div class="block">An explicit outcome when the assertion reporter returns normally.</div>
 </div>
 </div>
 </section>
@@ -149,7 +164,8 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.logging.RobotAssertionManager)" class="member-name-link">DevicePolice</a><wbr>(<a href="../logging/RobotAssertionManager.html" title="class in xbot.common.logging">RobotAssertionManager</a>&nbsp;assertionManager)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Creates a new DevicePolice instance</div>
+<div class="block">Uses the supplied reporting policy, or logs and falls back to the competition-safe
+policy if the assertion manager is missing.</div>
 </div>
 </div>
 </section>
@@ -159,49 +175,40 @@ loadScripts(document, 'script');</script>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button><button id="method-summary-table-tab6" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab6', 3)" class="table-tab">Deprecated Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#registerDevice(xbot.common.injection.DevicePolice.DeviceType,int)" class="member-name-link">registerDevice</a><wbr>(<a href="DevicePolice.DeviceType.html" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a>&nbsp;type,
- int&nbsp;id)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
-<div class="block"><span class="deprecated-label">Deprecated.</span></div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#registerDevice(xbot.common.injection.DevicePolice.DeviceType,int,int,int)" class="member-name-link">registerDevice</a><wbr>(<a href="DevicePolice.DeviceType.html" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a>&nbsp;type,
- int&nbsp;id,
- int&nbsp;minId,
- int&nbsp;maxId)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Register a device with an id falling into an allowable range</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#registerDevice(xbot.common.injection.DevicePolice.DeviceType,int,int,int,java.lang.Object)" class="member-name-link">registerDevice</a><wbr>(<a href="DevicePolice.DeviceType.html" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a>&nbsp;type,
- int&nbsp;id,
- int&nbsp;minId,
- int&nbsp;maxId,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;device)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#findDevice(xbot.common.injection.DeviceAddress)" class="member-name-link">findDevice</a><wbr>(<a href="DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a>&nbsp;address)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Register a device with an id falling into an allowable range</div>
+<div class="block">Finds the owner, or returns empty when the address is unregistered.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#registerDevice(xbot.common.injection.DevicePolice.DeviceType,int,java.lang.Object)" class="member-name-link">registerDevice</a><wbr>(<a href="DevicePolice.DeviceType.html" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a>&nbsp;type,
- int&nbsp;id,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;device)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRegisteredChannels()" class="member-name-link">getRegisteredChannels</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Register a device</div>
+<div class="block">Returns an immutable snapshot of address ownership, in registration order.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#registerDevice(xbot.common.injection.DevicePolice.DeviceType,xbot.common.injection.electrical_contract.CANBusId,int,java.lang.Object)" class="member-name-link">registerDevice</a><wbr>(<a href="DevicePolice.DeviceType.html" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a>&nbsp;type,
- <a href="electrical_contract/CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;busId,
- int&nbsp;id,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;device)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRegisteredDevices()" class="member-name-link">getRegisteredDevices</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Register a CAN device</div>
+<div class="block">Returns an immutable snapshot in first-successful-registration order.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="DevicePolice.RegistrationResult.html" title="interface in xbot.common.injection">DevicePolice.RegistrationResult</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#registerDevice(java.lang.Object,xbot.common.injection.DeviceAddress...)" class="member-name-link">registerDevice</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;device,
+ <a href="DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a>...&nbsp;addresses)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Reserves all addresses or none.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="DevicePolice.RegistrationResult.html" title="interface in xbot.common.injection">DevicePolice.RegistrationResult</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#registerDevice(java.lang.Object,xbot.common.injection.DeviceAddress,int,int)" class="member-name-link">registerDevice</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;device,
+ <a href="DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a>&nbsp;address,
+ int&nbsp;minChannel,
+ int&nbsp;maxChannel)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Reserves one address within an inclusive hardware-provided channel range.</div>
 </div>
 </div>
 </div>
@@ -215,32 +222,6 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="details">
 <ul class="details-list">
-<!-- ============ FIELD DETAIL =========== -->
-<li>
-<section class="field-details" id="field-detail">
-<h2>Field Details</h2>
-<ul class="member-list">
-<li>
-<section class="detail" id="registeredChannels">
-<h3>registeredChannels</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">registeredChannels</span></div>
-<div class="block">A list of all the channels in use, and what device is using them.</div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="registeredDevices">
-<h3>registeredDevices</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">registeredDevices</span></div>
-<div class="block">A list of all the devices in use</div>
-</div>
-</section>
-</li>
-</ul>
-</section>
-</li>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <li>
 <section class="constructor-details" id="constructor-detail">
@@ -252,7 +233,8 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@Inject
 </span><span class="modifiers">public</span>&nbsp;<span class="element-name">DevicePolice</span><wbr><span class="parameters">(<a href="../logging/RobotAssertionManager.html" title="class in xbot.common.logging">RobotAssertionManager</a>&nbsp;assertionManager)</span></div>
-<div class="block">Creates a new DevicePolice instance</div>
+<div class="block">Uses the supplied reporting policy, or logs and falls back to the competition-safe
+policy if the assertion manager is missing.</div>
 </div>
 </section>
 </li>
@@ -265,93 +247,56 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="registerDevice(xbot.common.injection.DevicePolice.DeviceType,int)">
+<section class="detail" id="registerDevice(java.lang.Object,xbot.common.injection.DeviceAddress...)">
 <h3>registerDevice</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">registerDevice</span><wbr><span class="parameters">(<a href="DevicePolice.DeviceType.html" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a>&nbsp;type,
- int&nbsp;id)</span></div>
-<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
-<div class="block">Register a device. Please use <a href="#registerDevice(xbot.common.injection.DevicePolice.DeviceType,int,java.lang.Object)"><code>registerDevice(DeviceType, int, Object)</code></a> instead</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>type</code> - Device type</dd>
-<dd><code>id</code> - Device id</dd>
-</dl>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="DevicePolice.RegistrationResult.html" title="interface in xbot.common.injection">DevicePolice.RegistrationResult</a></span>&nbsp;<span class="element-name">registerDevice</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;device,
+ <a href="DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a>...&nbsp;addresses)</span></div>
+<div class="block">Reserves all addresses or none. An occupied address is rejected even for its current owner.
+The same owner may reserve additional unused channels without a second enumeration entry.</div>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="registerDevice(xbot.common.injection.DevicePolice.DeviceType,int,java.lang.Object)">
+<section class="detail" id="registerDevice(java.lang.Object,xbot.common.injection.DeviceAddress,int,int)">
 <h3>registerDevice</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">registerDevice</span><wbr><span class="parameters">(<a href="DevicePolice.DeviceType.html" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a>&nbsp;type,
- int&nbsp;id,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;device)</span></div>
-<div class="block">Register a device</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>type</code> - Device type</dd>
-<dd><code>id</code> - Device id</dd>
-</dl>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="DevicePolice.RegistrationResult.html" title="interface in xbot.common.injection">DevicePolice.RegistrationResult</a></span>&nbsp;<span class="element-name">registerDevice</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;device,
+ <a href="DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a>&nbsp;address,
+ int&nbsp;minChannel,
+ int&nbsp;maxChannel)</span></div>
+<div class="block">Reserves one address within an inclusive hardware-provided channel range.</div>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="registerDevice(xbot.common.injection.DevicePolice.DeviceType,xbot.common.injection.electrical_contract.CANBusId,int,java.lang.Object)">
-<h3>registerDevice</h3>
+<section class="detail" id="findDevice(xbot.common.injection.DeviceAddress)">
+<h3>findDevice</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">registerDevice</span><wbr><span class="parameters">(<a href="DevicePolice.DeviceType.html" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a>&nbsp;type,
- <a href="electrical_contract/CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;busId,
- int&nbsp;id,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;device)</span></div>
-<div class="block">Register a CAN device</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>type</code> - Device type</dd>
-<dd><code>busId</code> - Device CAN bus id</dd>
-<dd><code>id</code> - Device id</dd>
-<dd><code>device</code> - Device object</dd>
-</dl>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">findDevice</span><wbr><span class="parameters">(<a href="DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a>&nbsp;address)</span></div>
+<div class="block">Finds the owner, or returns empty when the address is unregistered.
+Null or structurally invalid addresses are reported through RobotAssertionManager
+and return empty when the selected policy returns normally. Registry state is unchanged.</div>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="registerDevice(xbot.common.injection.DevicePolice.DeviceType,int,int,int)">
-<h3>registerDevice</h3>
+<section class="detail" id="getRegisteredChannels()">
+<h3>getRegisteredChannels</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">registerDevice</span><wbr><span class="parameters">(<a href="DevicePolice.DeviceType.html" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a>&nbsp;type,
- int&nbsp;id,
- int&nbsp;minId,
- int&nbsp;maxId)</span></div>
-<div class="block">Register a device with an id falling into an allowable range</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>type</code> - Device type</dd>
-<dd><code>id</code> - Device id</dd>
-<dd><code>minId</code> - Minimum allowable id</dd>
-<dd><code>maxId</code> - Maximum allowable id</dd>
-</dl>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">getRegisteredChannels</span>()</div>
+<div class="block">Returns an immutable snapshot of address ownership, in registration order.
+The device objects themselves are not copied.</div>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="registerDevice(xbot.common.injection.DevicePolice.DeviceType,int,int,int,java.lang.Object)">
-<h3>registerDevice</h3>
+<section class="detail" id="getRegisteredDevices()">
+<h3>getRegisteredDevices</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">registerDevice</span><wbr><span class="parameters">(<a href="DevicePolice.DeviceType.html" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a>&nbsp;type,
- int&nbsp;id,
- int&nbsp;minId,
- int&nbsp;maxId,
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;device)</span></div>
-<div class="block">Register a device with an id falling into an allowable range</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>type</code> - Device type</dd>
-<dd><code>id</code> - Device id</dd>
-<dd><code>minId</code> - Minimum allowable id</dd>
-<dd><code>maxId</code> - Maximum allowable id</dd>
-</dl>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">getRegisteredDevices</span>()</div>
+<div class="block">Returns an immutable snapshot in first-successful-registration order.
+Owners are deduplicated by reference identity, not equals/hashCode.</div>
 </div>
 </section>
 </li>
