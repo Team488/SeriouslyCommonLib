@@ -277,6 +277,7 @@ public class TestDevicePolice extends BaseCommonLibTest {
     @Test
     public void encoderConflictReturnsNormallyUnderCompetitionSafePolicy() {
         RecordingAssertions assertions = new RecordingAssertions();
+        RobotAssertionManager.configure(assertions);
         DevicePolice police = new DevicePolice();
         DeviceAddress occupied = DeviceAddress.channel(DeviceType.DigitalIO, 4);
         police.registerDevice(this, occupied);
