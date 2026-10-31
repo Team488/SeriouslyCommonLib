@@ -10,13 +10,15 @@ import org.wpilib.tunable.TunableRegistry;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.Distance;
 
+import xbot.common.injection.BaseCommonLibTest;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.wpilib.units.Units.Degrees;
 import static org.wpilib.units.Units.Inches;
 import static org.wpilib.units.Units.Meters;
 
-public class TunableFactoryTest {
+public class TunableFactoryTest extends BaseCommonLibTest {
     private TunableFactory tunableFactory;
     private MockTunableBackend tunableBackend;
 
