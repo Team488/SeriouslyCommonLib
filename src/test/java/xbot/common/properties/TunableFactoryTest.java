@@ -22,8 +22,10 @@ public class TunableFactoryTest extends BaseCommonLibTest {
     private TunableFactory tunableFactory;
     private MockTunableBackend tunableBackend;
 
+    @Override
     @BeforeEach
     public void setUp() {
+        super.setUp();
         TunableRegistry.reset();
         tunableBackend = new MockTunableBackend();
         TunableRegistry.registerBackend("", tunableBackend);
