@@ -11,6 +11,8 @@ import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.Distance;
 
 import xbot.common.injection.BaseCommonLibTest;
+import xbot.common.logging.assertion.LoudRobotAssertionHandler;
+import xbot.common.logging.assertion.RobotAssertionManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -18,14 +20,12 @@ import static org.wpilib.units.Units.Degrees;
 import static org.wpilib.units.Units.Inches;
 import static org.wpilib.units.Units.Meters;
 
-public class TunableFactoryTest extends BaseCommonLibTest {
+public class TunableFactoryTest {
     private TunableFactory tunableFactory;
     private MockTunableBackend tunableBackend;
 
-    @Override
     @BeforeEach
     public void setUp() {
-        super.setUp();
         TunableRegistry.reset();
         tunableBackend = new MockTunableBackend();
         TunableRegistry.registerBackend("", tunableBackend);
@@ -34,6 +34,7 @@ public class TunableFactoryTest extends BaseCommonLibTest {
                 new InMemoryTunablePersistence(),
                 false);
         tunableFactory = new TunableFactory(manager);
+        RobotAssertionManager.configure(new LoudRobotAssertionHandler());
     }
 
     @AfterEach
