@@ -1,6 +1,7 @@
 package xbot.common.injection;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
@@ -13,6 +14,9 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.wpilib.hardware.bus.CANPort;
+
+import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.logging.RobotAssertionManager;
 import xbot.common.logging.SilentRobotAssertionManager;
 
@@ -22,6 +26,7 @@ import xbot.common.logging.SilentRobotAssertionManager;
  * <p>Registration is all-or-nothing, including multi-channel requests. Rejected requests
  * are reported through RobotAssertionManager and leave the registry unchanged. With the
  * competition-safe assertion policy, rejection returns normally without throwing.
+ * CAN reservations accept only native {@link CANPort} identities or the CANivore wildcard.
  * Rejection does not prevent a hardware constructor from continuing or disable the rejected device.
  *
  * <h2>Reserving addresses</h2>
@@ -140,6 +145,9 @@ public class DevicePolice {
             if (error.isPresent()) {
                 return reject("Invalid device address " + address + ": " + error.get());
             }
+            if (address.type() == DeviceType.CAN && address.canBus().filter(DevicePolice::isKnownCanBus).isEmpty()) {
+                return reject("Unknown CAN bus in device address " + address);
+            }
             if (!unique.add(address)) {
                 return reject("Device address occurs more than once in the reservation: " + address);
             }
@@ -204,6 +212,11 @@ public class DevicePolice {
      */
     public synchronized List<Object> getRegisteredDevices() {
         return List.copyOf(registeredDevices);
+    }
+
+    private static boolean isKnownCanBus(CANBusId bus) {
+        return CANBusId.Canivore.equals(bus)
+                || Arrays.stream(CANPort.values()).anyMatch(port -> CANBusId.fromPort(port).equals(bus));
     }
 
     private RegistrationResult reject(String reason) {

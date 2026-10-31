@@ -198,6 +198,31 @@ public class TestDevicePolice extends BaseCommonLibTest {
         assertEquals(3, police.getRegisteredChannels().size());
     }
 
+    @ParameterizedTest
+    @MethodSource("assertionManagers")
+    public void unsupportedCanBusesDoNotReserveAddresses(RobotAssertionManager assertions) {
+        DevicePolice police = new DevicePolice(assertions);
+        DeviceAddress unknown = DeviceAddress.can(new CANBusId("typo"), 5);
+        DeviceAddress nativeAddress = DeviceAddress.can(CANPort.CAN_S0, 5);
+        DeviceAddress canivoreAddress = DeviceAddress.can(CANBusId.Canivore, 5);
+
+        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(this, unknown));
+        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(this, nativeAddress, unknown));
+        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
+                this, DeviceAddress.can(new CANBusId("can_s999"), 5)));
+
+        assertInstanceOf(RegistrationResult.Registered.class,
+                police.registerDevice(this, nativeAddress));
+        assertInstanceOf(RegistrationResult.Registered.class,
+                police.registerDevice(this, canivoreAddress));
+        assertEquals(2, police.getRegisteredChannels().size());
+        assertSame(this, police.findDevice(nativeAddress).orElseThrow());
+        assertSame(this, police.findDevice(canivoreAddress).orElseThrow());
+        if (assertions instanceof RecordingAssertions recording) {
+            assertEquals(3, recording.failures);
+        }
+    }
+
     @Test
     public void concurrentConflictingBatchesHaveOnlyOneWinner() throws Exception {
         DevicePolice police = new DevicePolice(new RecordingAssertions());
