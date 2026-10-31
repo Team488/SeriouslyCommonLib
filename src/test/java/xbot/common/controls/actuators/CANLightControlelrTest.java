@@ -2,9 +2,10 @@ package xbot.common.controls.actuators;
 
 import org.junit.jupiter.api.Test;
 
+import org.wpilib.hardware.bus.CANPort;
+
 import xbot.common.controls.actuators.mock_adapters.MockCANLightController;
 import xbot.common.injection.BaseCommonLibTest;
-import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANLightControllerInfo;
 import xbot.common.injection.electrical_contract.CANLightControllerOutputConfig;
 import xbot.common.injection.electrical_contract.LEDStripType;
@@ -21,7 +22,7 @@ public class CANLightControlelrTest extends BaseCommonLibTest {
                 new CANLightControllerInfo(
                         "test",
                         LightControllerType.Candle,
-                        CANBusId.RIO,
+                        CANPort.CAN_S0,
                         61,
                         new CANLightControllerOutputConfig(
                                 LEDStripType.RGB,

@@ -1,6 +1,7 @@
 package xbot.common.controls.actuators;
 
 import xbot.common.controls.XBaseIO;
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 
@@ -15,7 +16,7 @@ public abstract class XSolenoid implements XBaseIO {
 
     protected XSolenoid(int channel, DevicePolice police) {
         this.channel = channel;
-        police.registerDevice(DeviceType.Solenoid, this.channel, 0, getMaxSupportedChannel());
+        police.registerDevice(this, DeviceAddress.channel(DeviceType.Solenoid, this.channel), 0, getMaxSupportedChannel());
     }
     
     public void setOn(boolean on) {

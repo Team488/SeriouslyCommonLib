@@ -3,6 +3,7 @@ package xbot.common.controls.sensors;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.XBaseIO;
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 
@@ -20,7 +21,7 @@ public abstract class XAnalogInput implements XBaseIO, DataFrameRefreshable {
 
     public XAnalogInput(int channel, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
         this.channel = channel;
-        police.registerDevice(DeviceType.Analog, channel, this);
+        police.registerDevice(this, DeviceAddress.channel(DeviceType.Analog, channel));
         dataFrameRegistry.register(this);
     }
 

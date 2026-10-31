@@ -11,8 +11,8 @@ import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.LaserCANInputs;
 import xbot.common.controls.io_inputs.LaserCANInputsAutoLogged;
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
-import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 
 public abstract class XLaserCAN implements DataFrameRefreshable {
@@ -27,7 +27,7 @@ public abstract class XLaserCAN implements DataFrameRefreshable {
 
     public XLaserCAN(DevicePolice police, DeviceInfo info, String owningSystemPrefix, DataFrameRegistry dataFrameRegistry) {
         this.info = info;
-        police.registerDevice(DeviceType.CAN, info.channel, this);
+        police.registerDevice(this, DeviceAddress.can(info.canBusId, info.channel));
         akitName = owningSystemPrefix + info.name + "LaserCAN";
         inputs = new LaserCANInputsAutoLogged();
         dataFrameRegistry.register(this);

@@ -3,6 +3,7 @@ package xbot.common.injection.factories;
 import org.junit.jupiter.api.Test;
 
 import org.wpilib.driverstation.POVDirection;
+import org.wpilib.hardware.bus.CANPort;
 
 import xbot.common.controls.sensors.XJoystick;
 import xbot.common.injection.BaseCommonLibTest;
@@ -74,7 +75,8 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().canCoderFactory().create(new DeviceInfo("test",7, null), "test");
         getInjectorComponent().dutyCycleEncoderFactory().create(new DeviceInfo("test",8, null));
         getInjectorComponent().laserCANFactory().create(new DeviceInfo("laserTest",9, null), "test");
-        getInjectorComponent().lightControllerFactory().create(new CANLightControllerInfo("lights", LightControllerType.Candle, CANBusId.RIO, 60));
+        getInjectorComponent().lightControllerFactory().create(new CANLightControllerInfo(
+                "lights", LightControllerType.Candle, CANPort.CAN_S0, 60));
 
     }
 

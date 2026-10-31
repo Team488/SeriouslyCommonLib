@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import org.wpilib.hardware.bus.CANPort;
 import org.wpilib.units.AngularAccelerationUnit;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularAcceleration;
@@ -68,8 +69,8 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
         super(info, owningSystemPrefix, tunableFactory, police, pidTunablePrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
         this.internalVictor = new VictorSPX(info.deviceId());
 
-        if (info.busId() != CANBusId.RIO) {
-            RobotAssertionManager.fail("VictorSPX must be connected to the RIO");
+        if (!info.busId().equals(CANBusId.fromPort(CANPort.CAN_S0))) {
+            RobotAssertionManager.fail("VictorSPX must be connected to SystemCore CAN_S0");
         }
         setConfiguration(info.outputConfig());
     }

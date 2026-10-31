@@ -14,8 +14,8 @@ import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
 import xbot.common.controls.io_inputs.XCANCoderInputs;
 import xbot.common.controls.sensors.XCANCoder;
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
-import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.properties.TunableFactory;
 import xbot.common.properties.TunableLevel;
@@ -55,7 +55,7 @@ public class MockCANCoder extends XCANCoder {
         this.positionOffset = 0;
         this.inverted = deviceInfo.inverted;
 
-        police.registerDevice(DeviceType.CAN, deviceInfo.channel, this);
+        police.registerDevice(this, DeviceAddress.can(deviceInfo.canBusId, deviceInfo.channel));
     }
 
     @Override
