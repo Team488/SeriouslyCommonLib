@@ -10,7 +10,7 @@ import org.wpilib.tunable.TunableBoolean;
 import org.wpilib.tunable.TunableDouble;
 import org.wpilib.tunable.TunableRegistry;
 
-import xbot.common.logging.LoudRobotAssertionManager;
+import xbot.common.logging.assertion.LoudRobotAssertionHandler;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -32,9 +32,8 @@ public class TunableTest {
         TunableManager manager = new TunableManager(
                 persistence,
                 new InMemoryTunablePersistence(),
-                new LoudRobotAssertionManager(),
                 false);
-        tunableFactory = new TunableFactory(manager, new LoudRobotAssertionManager());
+        tunableFactory = new TunableFactory(manager);
         tunableFactory.setTopLevelPrefix();
     }
 
@@ -114,10 +113,9 @@ public class TunableTest {
         TunableManager replayManager = new TunableManager(
                 replayPersistence,
                 new InMemoryTunablePersistence(),
-                new LoudRobotAssertionManager(),
                 true);
         TunableFactory replayFactory =
-                new TunableFactory(replayManager, new LoudRobotAssertionManager());
+                new TunableFactory(replayManager);
         replayFactory.setTopLevelPrefix();
 
         TunableDouble replayValue = replayFactory.createDouble("replay", 4.0);

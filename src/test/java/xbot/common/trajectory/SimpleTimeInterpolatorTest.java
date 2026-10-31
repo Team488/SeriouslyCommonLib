@@ -10,7 +10,6 @@ import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
 
 import xbot.common.injection.BaseCommonLibTest;
-import xbot.common.logging.SilentRobotAssertionManager;
 import xbot.common.subsystems.drive.SwervePointKinematics;
 import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
 
@@ -22,14 +21,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class SimpleTimeInterpolatorTest extends BaseCommonLibTest {
 
     SimpleTimeInterpolator interpolator;
-    SilentRobotAssertionManager assertionManager;
 
     @Override
     @BeforeEach
     public void setUp() {
         super.setUp();
-        assertionManager = new SilentRobotAssertionManager();
-        interpolator = new SimpleTimeInterpolator(assertionManager);
+        interpolator = new SimpleTimeInterpolator();
     }
 
     private ProvidesInterpolationData createPoint(double x, double y, double secondsForSegment) {

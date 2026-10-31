@@ -11,8 +11,8 @@ import xbot.common.command.TunableCommandPublisher;
 import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
-import xbot.common.logging.LoudRobotAssertionManager;
-import xbot.common.logging.RobotAssertionManager;
+import xbot.common.logging.assertion.LoudRobotAssertionHandler;
+import xbot.common.logging.assertion.RobotAssertionHandler;
 import xbot.common.properties.DebugTunablePersistence;
 import xbot.common.properties.InMemoryTunablePersistence;
 import xbot.common.properties.TunableManager;
@@ -44,7 +44,7 @@ public abstract class UnitTestModule {
 
     @Binds
     @Singleton
-    abstract RobotAssertionManager getRobotAssertionManager(LoudRobotAssertionManager impl);
+    abstract RobotAssertionHandler getRobotAssertionHandler(LoudRobotAssertionHandler impl);
 
     @Binds
     @Singleton

@@ -7,7 +7,8 @@ import org.wpilib.units.measure.Distance;
 import org.wpilib.units.measure.LinearVelocity;
 import org.wpilib.units.measure.Time;
 
-import xbot.common.logging.RobotAssertionManager;
+import xbot.common.logging.assertion.RobotAssertionManager;
+
 
 import static org.wpilib.units.Units.Meter;
 import static org.wpilib.units.Units.Meters;
@@ -36,7 +37,6 @@ public class SwerveKinematicsCalculator {
     final double goalVelocity;
     final double maxVelocity;
     final List<CalculatorNode> nodeMap;
-    RobotAssertionManager assertionManager;
 
     final Time totalOperationTime;
     final Distance totalOperationDistance;
@@ -83,19 +83,18 @@ public class SwerveKinematicsCalculator {
         return Seconds.of(Math.max(result.get(0), result.get(1)));
     }
 
-    public SwerveKinematicsCalculator(RobotAssertionManager assertionManager, Distance startPosition, Distance endPosition,
+    public SwerveKinematicsCalculator(Distance startPosition, Distance endPosition,
                                       SwervePointKinematics kinematics) {
-        this.assertionManager = assertionManager;
 
         // Gimmicky way to avoid division by zero
         if (endPosition.in(Meters) - startPosition.in(Meters) == 0) {
-            assertionManager.throwException("Calculator instantiated for same start and end position", new Exception());
+            RobotAssertionManager.throwException("Calculator instantiated for same start and end position", new Exception());
             endPosition = Meters.of(endPosition.in(Meters) + 0.01);
         }
 
         // Acceleration normally should not be negative!
         if (kinematics.acceleration().in(MetersPerSecondPerSecond) < 0) {
-            assertionManager.throwException("Calculator instantiated with negative acceleration", new Exception());
+            RobotAssertionManager.throwException("Calculator instantiated with negative acceleration", new Exception());
         }
 
         this.startPosition = startPosition.in(Meters);

@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 import xbot.common.controls.actuators.wpi_adapters.CANSparkMaxWpiAdapter;
 import xbot.common.controls.actuators.wpi_adapters.CANTalonFxWpiAdapter;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
+import xbot.common.logging.assertion.RobotAssertionManager;
 
 @Singleton
 public class XCANMotorControllerFactoryImpl implements XCANMotorController.XCANMotorControllerFactory {
@@ -41,8 +42,10 @@ public class XCANMotorControllerFactoryImpl implements XCANMotorController.XCANM
             //case VictorSPX -> {
             //    return victorSPXFactory.create(info, owningSystemPrefix, pidTunablePrefix, defaultPIDProperties);
             //}
-            // TODO: can't throw exceptions unless they come from the RobotAssertionManager.
-            default -> throw new IllegalArgumentException("Unknown motor controller type: " + info.type());
+            default -> {
+                RobotAssertionManager.throwException("Unknown motor controller type: " + info.type());
+                return null; // Still gotta return since we are not throwing Java exception...
+            }
         }
     }
 }

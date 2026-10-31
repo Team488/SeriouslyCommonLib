@@ -14,7 +14,7 @@ import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.injection.electrical_contract.LightControllerType;
 import xbot.common.injection.electrical_contract.MotorControllerType;
-import xbot.common.logging.RobotAssertionException;
+import xbot.common.logging.assertion.RobotAssertionException;
 import xbot.common.subsystems.drive.control_logic.HeadingModule;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;

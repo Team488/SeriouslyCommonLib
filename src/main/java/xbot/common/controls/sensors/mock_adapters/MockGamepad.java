@@ -17,7 +17,6 @@ import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.Advanc
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
-import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 
 public class MockGamepad extends XGamepad {
@@ -39,9 +38,8 @@ public class MockGamepad extends XGamepad {
             AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
             AdvancedPovButtonTriggerFactory povButtonFactory,
             AnalogHIDButtonTriggerFactory analogHidButtonFactory,
-            RobotAssertionManager assertionManager,
             DevicePolice police) {
-        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, assertionManager, police);
+        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, police);
 
         for (int i = LEFT_X_AXIS; i <= RIGHT_TRIGGER_AXIS; i++) {
             rawAxes.put(i, 0.0);

@@ -22,9 +22,10 @@ import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.injection.electrical_contract.MotorControllerType;
-import xbot.common.logging.LoudRobotAssertionManager;
-import xbot.common.logging.RobotAssertionException;
-import xbot.common.logging.RobotAssertionManager;
+import xbot.common.logging.assertion.LoudRobotAssertionHandler;
+import xbot.common.logging.assertion.RobotAssertionException;
+import xbot.common.logging.assertion.RobotAssertionHandler;
+import xbot.common.logging.assertion.RobotAssertionManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -35,14 +36,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestDevicePolice extends BaseCommonLibTest {
-    static Stream<RobotAssertionManager> assertionManagers() {
-        return Stream.of(new LoudRobotAssertionManager(), new RecordingAssertions());
+    static Stream<RobotAssertionHandler> assertionHandlers() {
+        return Stream.of(new LoudRobotAssertionHandler(), new RecordingAssertions());
     }
 
     @ParameterizedTest
-    @MethodSource("assertionManagers")
-    public void invalidRequestsLeaveRegistryUnchanged(RobotAssertionManager assertions) {
-        DevicePolice police = new DevicePolice(assertions);
+    @MethodSource("assertionHandlers")
+    public void invalidRequestsLeaveRegistryUnchanged(RobotAssertionHandler assertions) {
+        RobotAssertionManager.configure(assertions);
+        DevicePolice police = new DevicePolice();
         DeviceAddress occupied = DeviceAddress.channel(DeviceType.Solenoid, 0);
         police.registerDevice(this, occupied);
 
@@ -82,9 +84,10 @@ public class TestDevicePolice extends BaseCommonLibTest {
     }
 
     @ParameterizedTest
-    @MethodSource("assertionManagers")
-    public void multiChannelReservationsAreAllOrNothing(RobotAssertionManager assertions) {
-        DevicePolice police = new DevicePolice(assertions);
+    @MethodSource("assertionHandlers")
+    public void multiChannelReservationsAreAllOrNothing(RobotAssertionHandler assertions) {
+        RobotAssertionManager.configure(assertions);
+        DevicePolice police = new DevicePolice();
         DeviceAddress channelA = DeviceAddress.channel(DeviceType.DigitalIO, 1);
         DeviceAddress channelB = DeviceAddress.channel(DeviceType.DigitalIO, 2);
         Object existing = new Object();
@@ -107,7 +110,8 @@ public class TestDevicePolice extends BaseCommonLibTest {
     @Test
     public void invalidLookupsReportFailuresAndReturnEmptyWithoutChangingState() {
         RecordingAssertions assertions = new RecordingAssertions();
-        DevicePolice police = new DevicePolice(assertions);
+        RobotAssertionManager.configure(assertions);
+        DevicePolice police = new DevicePolice();
         DeviceAddress occupied = DeviceAddress.channel(DeviceType.DigitalIO, 0);
         police.registerDevice(this, occupied);
         var before = police.getRegisteredChannels();
@@ -125,7 +129,8 @@ public class TestDevicePolice extends BaseCommonLibTest {
 
     @Test
     public void invalidLookupsHonorControlledTestAssertionPolicy() {
-        DevicePolice police = new DevicePolice(new LoudRobotAssertionManager());
+        RobotAssertionManager.configure(new LoudRobotAssertionHandler());
+        DevicePolice police = new DevicePolice();
         assertThrows(RobotAssertionException.class, () -> police.findDevice(null));
         assertThrows(RobotAssertionException.class,
                 () -> police.findDevice(DeviceAddress.channel(DeviceType.DigitalIO, -1)));
@@ -133,18 +138,9 @@ public class TestDevicePolice extends BaseCommonLibTest {
     }
 
     @Test
-    public void missingAssertionManagerFallsBackToCompetitionSafePolicy() {
-        DevicePolice police = new DevicePolice(null);
-        assertInstanceOf(RegistrationResult.Rejected.class, police.registerDevice(null));
-        assertTrue(police.findDevice(null).isEmpty());
-        DeviceAddress address = DeviceAddress.channel(DeviceType.Analog, 0);
-        assertInstanceOf(RegistrationResult.Registered.class, police.registerDevice(this, address));
-        assertSame(this, police.findDevice(address).orElseThrow());
-    }
-
-    @Test
     public void ownersUseReferenceIdentityAndSnapshotsDoNotChange() {
-        DevicePolice police = new DevicePolice(new LoudRobotAssertionManager());
+        RobotAssertionManager.configure(new LoudRobotAssertionHandler());
+        DevicePolice police = new DevicePolice();
         Object first = new String("equal owners");
         Object second = new String("equal owners");
         police.registerDevice(first, DeviceAddress.channel(DeviceType.Analog, 0));
@@ -165,7 +161,8 @@ public class TestDevicePolice extends BaseCommonLibTest {
 
     @Test
     public void channelsAreSeparatedByTypeAndCanBusAndRangesAreInclusive() {
-        DevicePolice police = new DevicePolice(new LoudRobotAssertionManager());
+        RobotAssertionManager.configure(new LoudRobotAssertionHandler());
+        DevicePolice police = new DevicePolice();
         Object systemCoreDevice = new Object();
         Object otherBusDevice = new Object();
         Object pwmDevice = new Object();
@@ -184,7 +181,8 @@ public class TestDevicePolice extends BaseCommonLibTest {
 
     @Test
     public void systemCoreAndMotionCorePortsReserveSeparateAddresses() {
-        DevicePolice police = new DevicePolice(new LoudRobotAssertionManager());
+        RobotAssertionManager.configure(new LoudRobotAssertionHandler());
+        DevicePolice police = new DevicePolice();
         for (CANPort port : List.of(CANPort.CAN_S0, CANPort.CAN_S1, CANPort.CAN_D0)) {
             Object owner = new Object();
             DeviceAddress address = DeviceAddress.can(port, 5);
@@ -199,9 +197,10 @@ public class TestDevicePolice extends BaseCommonLibTest {
     }
 
     @ParameterizedTest
-    @MethodSource("assertionManagers")
-    public void unsupportedCanBusesDoNotReserveAddresses(RobotAssertionManager assertions) {
-        DevicePolice police = new DevicePolice(assertions);
+    @MethodSource("assertionHandlers")
+    public void unsupportedCanBusesDoNotReserveAddresses(RobotAssertionHandler assertions) {
+        RobotAssertionManager.configure(assertions);
+        DevicePolice police = new DevicePolice();
         DeviceAddress unknown = DeviceAddress.can(new CANBusId("typo"), 5);
         DeviceAddress nativeAddress = DeviceAddress.can(CANPort.CAN_S0, 5);
         DeviceAddress canivoreAddress = DeviceAddress.can(CANBusId.Canivore, 5);
@@ -225,7 +224,8 @@ public class TestDevicePolice extends BaseCommonLibTest {
 
     @Test
     public void concurrentConflictingBatchesHaveOnlyOneWinner() throws Exception {
-        DevicePolice police = new DevicePolice(new RecordingAssertions());
+        RobotAssertionManager.configure(new RecordingAssertions());
+        DevicePolice police = new DevicePolice();
         DeviceAddress first = DeviceAddress.channel(DeviceType.DigitalIO, 0);
         DeviceAddress shared = DeviceAddress.channel(DeviceType.DigitalIO, 1);
         DeviceAddress last = DeviceAddress.channel(DeviceType.DigitalIO, 2);
@@ -276,7 +276,8 @@ public class TestDevicePolice extends BaseCommonLibTest {
     @Test
     public void encoderConflictReturnsNormallyUnderCompetitionSafePolicy() {
         RecordingAssertions assertions = new RecordingAssertions();
-        DevicePolice police = new DevicePolice(assertions);
+        RobotAssertionManager.configure(assertions);
+        DevicePolice police = new DevicePolice();
         DeviceAddress occupied = DeviceAddress.channel(DeviceType.DigitalIO, 4);
         police.registerDevice(this, occupied);
         var before = police.getRegisteredChannels();
@@ -306,7 +307,7 @@ public class TestDevicePolice extends BaseCommonLibTest {
     }
 
     private void assertRejectedUnchanged(
-            DevicePolice police, RobotAssertionManager assertions, Supplier<RegistrationResult> registration) {
+            DevicePolice police, RobotAssertionHandler assertions, Supplier<RegistrationResult> registration) {
         var addressesBefore = police.getRegisteredChannels();
         var devicesBefore = police.getRegisteredDevices();
         if (assertions.isExceptionsEnabled()) {
@@ -319,7 +320,7 @@ public class TestDevicePolice extends BaseCommonLibTest {
         assertEquals(devicesBefore, police.getRegisteredDevices());
     }
 
-    private static class RecordingAssertions extends RobotAssertionManager {
+    private static class RecordingAssertions extends RobotAssertionHandler {
         private int failures;
 
         @Override
