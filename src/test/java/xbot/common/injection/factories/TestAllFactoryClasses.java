@@ -76,7 +76,7 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().dutyCycleEncoderFactory().create(new DeviceInfo("test",8, null));
         getInjectorComponent().laserCANFactory().create(new DeviceInfo("laserTest",9, null), "test");
         getInjectorComponent().lightControllerFactory().create(new CANLightControllerInfo(
-                "lights", LightControllerType.Candle, CANBusId.fromPort(CANPort.CAN_S0), 60));
+                "lights", LightControllerType.Candle, CANPort.CAN_S0, 60));
 
     }
 

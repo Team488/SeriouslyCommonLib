@@ -33,7 +33,7 @@ public class MockSwerveDriveElectricalContract implements XSwerveDriveElectrical
                 return new CANMotorControllerInfo(
                         "DriveSubsystem/FrontLeftDrive/Drive",
                         MotorControllerType.SparkMax,
-                        CANBusId.fromPort(CANPort.CAN_S0),
+                        CANPort.CAN_S0,
                         1,
                         new CANMotorControllerOutputConfig());
             }
@@ -41,7 +41,7 @@ public class MockSwerveDriveElectricalContract implements XSwerveDriveElectrical
                 return new CANMotorControllerInfo(
                         "DriveSubsystem/FrontRightDrive/Drive",
                         MotorControllerType.SparkMax,
-                        CANBusId.fromPort(CANPort.CAN_S0),
+                        CANPort.CAN_S0,
                         2,
                         new CANMotorControllerOutputConfig());
             }
@@ -49,7 +49,7 @@ public class MockSwerveDriveElectricalContract implements XSwerveDriveElectrical
                 return new CANMotorControllerInfo(
                         "DriveSubsystem/RearLeftDrive/Drive",
                         MotorControllerType.SparkMax,
-                        CANBusId.fromPort(CANPort.CAN_S0),
+                        CANPort.CAN_S0,
                         3,
                         new CANMotorControllerOutputConfig());
             }
@@ -57,7 +57,7 @@ public class MockSwerveDriveElectricalContract implements XSwerveDriveElectrical
                 return new CANMotorControllerInfo(
                         "DriveSubsystem/RearRightDrive/Drive",
                         MotorControllerType.SparkMax,
-                        CANBusId.fromPort(CANPort.CAN_S0),
+                        CANPort.CAN_S0,
                         4,
                         new CANMotorControllerOutputConfig());
             }
@@ -72,7 +72,7 @@ public class MockSwerveDriveElectricalContract implements XSwerveDriveElectrical
                 return new CANMotorControllerInfo(
                         "DriveSubsystem/FrontLeftSteering/Steering",
                         MotorControllerType.SparkMax,
-                        CANBusId.fromPort(CANPort.CAN_S0),
+                        CANPort.CAN_S0,
                         5,
                         new CANMotorControllerOutputConfig());
             }
@@ -80,7 +80,7 @@ public class MockSwerveDriveElectricalContract implements XSwerveDriveElectrical
                 return new CANMotorControllerInfo(
                         "DriveSubsystem/FrontRightSteering/Steering",
                         MotorControllerType.SparkMax,
-                        CANBusId.fromPort(CANPort.CAN_S0),
+                        CANPort.CAN_S0,
                         6,
                         new CANMotorControllerOutputConfig());
             }
@@ -88,7 +88,7 @@ public class MockSwerveDriveElectricalContract implements XSwerveDriveElectrical
                 return new CANMotorControllerInfo(
                         "DriveSubsystem/RearLeftSteering/Steering",
                         MotorControllerType.SparkMax,
-                        CANBusId.fromPort(CANPort.CAN_S0),
+                        CANPort.CAN_S0,
                         7,
                         new CANMotorControllerOutputConfig());
             }
@@ -96,7 +96,7 @@ public class MockSwerveDriveElectricalContract implements XSwerveDriveElectrical
                 return new CANMotorControllerInfo(
                         "DriveSubsystem/RearRightSteering/Steering",
                         MotorControllerType.SparkMax,
-                        CANBusId.fromPort(CANPort.CAN_S0),
+                        CANPort.CAN_S0,
                         8,
                         new CANMotorControllerOutputConfig());
             }
@@ -110,25 +110,25 @@ public class MockSwerveDriveElectricalContract implements XSwerveDriveElectrical
             case "FrontLeftDrive" -> {
                 return new DeviceInfo(
                         "DriveSubsystem/FrontLeftSteering/SteeringEncoder",
-                        CANBusId.fromPort(CANPort.CAN_S0),
+                        CANPort.CAN_S0,
                         11);
             }
             case "FrontRightDrive" -> {
                 return new DeviceInfo(
                         "DriveSubsystem/FrontRightSteering/SteeringEncoder",
-                        CANBusId.fromPort(CANPort.CAN_S0),
+                        CANPort.CAN_S0,
                         12);
             }
             case "RearLeftDrive" -> {
                 return new DeviceInfo(
                         "DriveSubsystem/RearLeftSteering/SteeringEncoder",
-                        CANBusId.fromPort(CANPort.CAN_S0),
+                        CANPort.CAN_S0,
                         13);
             }
             case "RearRightDrive" -> {
                 return new DeviceInfo(
                         "DriveSubsystem/RearRightSteering/SteeringEncoder",
-                        CANBusId.fromPort(CANPort.CAN_S0),
+                        CANPort.CAN_S0,
                         14);
             }
             default -> throw new IllegalArgumentException("Unknown SwerveInstance: " + swerveInstance.label());

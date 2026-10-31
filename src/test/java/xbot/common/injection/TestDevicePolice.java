@@ -63,9 +63,9 @@ public class TestDevicePolice extends BaseCommonLibTest {
         assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
                 new Object(), DeviceAddress.channel(DeviceType.DigitalIO, -1)));
         assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
-                new Object(), DeviceAddress.can(null, 1)));
+                new Object(), DeviceAddress.can((CANBusId) null, 1)));
         assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
-                new Object(), DeviceAddress.can(CANBusId.fromPort(null), 1)));
+                new Object(), DeviceAddress.can((CANPort) null, 1)));
         assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
                 new Object(), DeviceAddress.can(new CANBusId(" "), 1)));
         assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
@@ -114,7 +114,7 @@ public class TestDevicePolice extends BaseCommonLibTest {
 
         assertTrue(police.findDevice(null).isEmpty());
         assertTrue(police.findDevice(DeviceAddress.channel(DeviceType.DigitalIO, -1)).isEmpty());
-        assertTrue(police.findDevice(DeviceAddress.can(null, 1)).isEmpty());
+        assertTrue(police.findDevice(DeviceAddress.can((CANBusId) null, 1)).isEmpty());
         assertEquals(3, assertions.failures);
         assertTrue(police.findDevice(DeviceAddress.channel(DeviceType.DigitalIO, 1)).isEmpty());
         assertEquals(3, assertions.failures);
@@ -169,7 +169,7 @@ public class TestDevicePolice extends BaseCommonLibTest {
         Object systemCoreDevice = new Object();
         Object otherBusDevice = new Object();
         Object pwmDevice = new Object();
-        DeviceAddress systemCore = DeviceAddress.can(CANBusId.fromPort(CANPort.CAN_S0), 0);
+        DeviceAddress systemCore = DeviceAddress.can(CANPort.CAN_S0, 0);
         DeviceAddress otherBus = DeviceAddress.can(CANBusId.Canivore, 0);
         police.registerDevice(systemCoreDevice, systemCore);
         police.registerDevice(otherBusDevice, otherBus);
@@ -187,7 +187,7 @@ public class TestDevicePolice extends BaseCommonLibTest {
         DevicePolice police = new DevicePolice(new LoudRobotAssertionManager());
         for (CANPort port : List.of(CANPort.CAN_S0, CANPort.CAN_S1, CANPort.CAN_D0)) {
             Object owner = new Object();
-            DeviceAddress address = DeviceAddress.can(CANBusId.fromPort(port), 5);
+            DeviceAddress address = DeviceAddress.can(port, 5);
             police.registerDevice(owner, address);
             assertSame(owner, police.findDevice(address).orElseThrow());
         }
@@ -244,8 +244,8 @@ public class TestDevicePolice extends BaseCommonLibTest {
         assertSame(solenoid, police.findDevice(DeviceAddress.channel(DeviceType.Solenoid, 0)).orElseThrow());
         assertSame(canCoder, police.findDevice(DeviceAddress.can(CANBusId.Canivore, 35)).orElseThrow());
         assertSame(absoluteEncoder, police.findDevice(DeviceAddress.can(CANBusId.Canivore, 36)).orElseThrow());
-        assertTrue(police.findDevice(DeviceAddress.can(CANBusId.fromPort(CANPort.CAN_S0), 35)).isEmpty());
-        assertTrue(police.findDevice(DeviceAddress.can(CANBusId.fromPort(CANPort.CAN_S0), 36)).isEmpty());
+        assertTrue(police.findDevice(DeviceAddress.can(CANPort.CAN_S0, 35)).isEmpty());
+        assertTrue(police.findDevice(DeviceAddress.can(CANPort.CAN_S0, 36)).isEmpty());
     }
 
     @Test

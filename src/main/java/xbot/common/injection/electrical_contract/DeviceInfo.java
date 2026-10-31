@@ -38,6 +38,22 @@ public class DeviceInfo {
 
     // Constructors with CAN Bus interface (sorted by parameter count)
     
+    public DeviceInfo(String name, CANPort canPort, int channel) {
+        this(name, CANBusId.fromPort(canPort), channel);
+    }
+
+    public DeviceInfo(String name, CANPort canPort, int channel, PowerSource powerFrom) {
+        this(name, CANBusId.fromPort(canPort), channel, powerFrom);
+    }
+
+    public DeviceInfo(String name, CANPort canPort, int channel, boolean inverted) {
+        this(name, CANBusId.fromPort(canPort), channel, inverted);
+    }
+
+    public DeviceInfo(String name, CANPort canPort, int channel, boolean inverted, PowerSource powerFrom) {
+        this(name, CANBusId.fromPort(canPort), channel, inverted, powerFrom);
+    }
+
     public DeviceInfo(String name, CANBusId canBusId, int channel){
         this(name, channel);
         this.canBusId = canBusId;

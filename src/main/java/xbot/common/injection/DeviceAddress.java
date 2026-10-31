@@ -3,12 +3,14 @@ package xbot.common.injection;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
+import org.wpilib.hardware.bus.CANPort;
+
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.CANBusId;
 
 /**
  * A channel reservation, including the bus for CAN devices. Native bus identities are
- * constructed with {@link CANBusId#fromPort(org.wpilib.hardware.bus.CANPort)}.
+ * accepted directly by {@link #can(CANPort, int)}.
  *
  * <p>Factories describe a request without throwing for invalid channel or bus values.
  * DevicePolice validates the complete request before reserving any channels.
@@ -18,6 +20,10 @@ import xbot.common.injection.electrical_contract.CANBusId;
  * @param channel channel or device number
  */
 public record DeviceAddress(DeviceType type, Optional<CANBusId> canBus, int channel) {
+    public static DeviceAddress can(CANPort port, int channel) {
+        return can(CANBusId.fromPort(port), channel);
+    }
+
     public static DeviceAddress can(CANBusId bus, int channel) {
         return new DeviceAddress(DeviceType.CAN, Optional.ofNullable(bus), channel);
     }
