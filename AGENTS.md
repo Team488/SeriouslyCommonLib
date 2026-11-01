@@ -106,9 +106,12 @@ Formatting is auto-fixed by Spotless (`build.gradle`), which runs the same Eclip
 profile (`xboteclipseprofile.xml`) that VS Code already uses, so editor, CLI, and CI output stay
 consistent. `spotlessCheck` runs automatically as part of `./gradlew build`.
 
-- One-time setup to format on commit: `git config core.hooksPath githooks` (see
-  `githooks/pre-commit`). This only formats files you've staged and re-stages them — no extra
-  tooling required beyond the Gradle wrapper.
+- One-time setup to check formatting on commit: `git config core.hooksPath githooks` (see
+  `githooks/pre-commit`). If a staged `.java` file isn't correctly formatted, the hook fixes it in
+  your working tree and **aborts the commit** — review the diff, `git add` it, and commit again.
+  This matches how pre-commit.com's own formatter hooks (Black, Prettier, etc.) behave: a hook
+  that modifies files fails the run rather than silently committing a version you never looked at.
+  No extra tooling required beyond the Gradle wrapper.
 - If you already use the [pre-commit](https://pre-commit.com) framework, `.pre-commit-config.yaml`
   wires up the same underlying script as an alternative trigger; it's optional, not a replacement
   for the git hook above.
