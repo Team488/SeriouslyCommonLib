@@ -17,7 +17,7 @@ public class RumbleManager implements XRumbleManager {
     private double lastRequestEndTime = -1;
     private XJoystick gamepad;
     private boolean isRumbling;
-    
+
     @AssistedFactory
     public abstract static class RumbleManagerFactory implements XRumbleManagerFactory {
         public abstract RumbleManager create(@Assisted("gamepad") XJoystick gamepad);
@@ -25,18 +25,20 @@ public class RumbleManager implements XRumbleManager {
 
     /**
      * Creates a new RumbleManager instance.
-     * @param gamepad The gamepad in which to control rumble on.
+     *
+     * @param gamepad
+     *            The gamepad in which to control rumble on.
      */
     @AssistedInject
     public RumbleManager(@Assisted("gamepad") XJoystick gamepad) {
         this.gamepad = gamepad;
     }
-    
+
     public void stopGamepadRumble() {
         writeRumble(gamepad, 0);
         lastRequestEndTime = -1;
     }
-    
+
     public void rumbleGamepad(double intensity, double length) {
         writeRumble(gamepad, intensity);
         lastRequestEndTime = XTimer.getFPGATimestamp() + length;
@@ -53,11 +55,14 @@ public class RumbleManager implements XRumbleManager {
             isRumbling = false;
         }
     }
-    
+
     /**
      * Writes the rumble value to the specified joystick.
-     * @param joystick Joystick to set the rumble value on.
-     * @param intensity Rumble intensity, between 0 and 1.
+     *
+     * @param joystick
+     *            Joystick to set the rumble value on.
+     * @param intensity
+     *            Rumble intensity, between 0 and 1.
      */
     private void writeRumble(XJoystick joystick, double intensity) {
 

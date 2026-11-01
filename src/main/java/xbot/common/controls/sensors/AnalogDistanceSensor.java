@@ -30,30 +30,21 @@ public class AnalogDistanceSensor extends XAnalogDistanceSensor {
 
     @AssistedFactory
     public abstract static class AnalogDistanceSensorFactory implements XAnalogDistanceSensorFactory {
-        public abstract AnalogDistanceSensor create(
-                @Assisted("channel") int channel,
-                @Assisted("voltageMap") DoubleUnaryOperator voltageMap,
+        public abstract AnalogDistanceSensor create(@Assisted("channel") int channel, @Assisted("voltageMap") DoubleUnaryOperator voltageMap,
                 @Assisted("prefix") String prefix);
     }
 
     @AssistedInject
-    public AnalogDistanceSensor(
-            XAnalogInputFactory analogInputFactory,
-            @Assisted("channel") int channel,
-            @Assisted("voltageMap") DoubleUnaryOperator voltageMap,
-            @Assisted("prefix") String prefix,
-            TunableFactory tunableFactory) {
+    public AnalogDistanceSensor(XAnalogInputFactory analogInputFactory, @Assisted("channel") int channel,
+            @Assisted("voltageMap") DoubleUnaryOperator voltageMap, @Assisted("prefix") String prefix, TunableFactory tunableFactory) {
         super(channel, voltageMap);
 
         log.info("Initializing...");
         this.input = analogInputFactory.create(channel);
         tunableFactory.setPrefix(prefix);
-        voltageOffset = tunableFactory.createDouble("Distance sensor " + input.getChannel() + " voltage offset",
-                0d);
-        distanceOffset = tunableFactory.createDouble("Distance sensor " + input.getChannel() + " distance offset",
-                0d);
-        scalarMultiplier = tunableFactory
-                .createDouble("Distance sensor " + input.getChannel() + "scalar multiplier", 1d);
+        voltageOffset = tunableFactory.createDouble("Distance sensor " + input.getChannel() + " voltage offset", 0d);
+        distanceOffset = tunableFactory.createDouble("Distance sensor " + input.getChannel() + " distance offset", 0d);
+        scalarMultiplier = tunableFactory.createDouble("Distance sensor " + input.getChannel() + "scalar multiplier", 1d);
     }
 
     @Override

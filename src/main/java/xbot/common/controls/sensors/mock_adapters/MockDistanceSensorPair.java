@@ -9,13 +9,13 @@ public class MockDistanceSensorPair implements DistanceSensorPair {
 
     private DistanceSensor sensorA;
     private DistanceSensor sensorB;
-    
+
     @Inject
     public MockDistanceSensorPair() {
         sensorA = new MockDistanceSensor();
         sensorB = new MockDistanceSensor();
     }
-    
+
     @Override
     public DistanceSensor getSensorA() {
         return sensorA;

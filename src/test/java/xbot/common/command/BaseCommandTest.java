@@ -37,8 +37,10 @@ public class BaseCommandTest extends BaseCommonLibTest {
     @Test
     public void runningAlertsHaveIndependentIdentityAndLifecycle() {
         int initialCommandAlertCount = getCommandAlertCount();
-        BaseCommand firstCommand = new BaseCommand() {};
-        BaseCommand secondCommand = new BaseCommand() {};
+        BaseCommand firstCommand = new BaseCommand() {
+        };
+        BaseCommand secondCommand = new BaseCommand() {
+        };
 
         try {
             assertEquals(initialCommandAlertCount + 2, getCommandAlertCount());

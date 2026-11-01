@@ -28,8 +28,8 @@ public class XboxControllerWpiAdapter extends XXboxController {
 
     @AssistedInject
     public XboxControllerWpiAdapter(@Assisted("port") int port, AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
-            AdvancedPovButtonTriggerFactory povButtonFactory, AnalogHIDButtonTriggerFactory analogHidButtonFactory,
-            XRumbleManagerFactory rumbleManagerFactory, DevicePolice police) {
+            AdvancedPovButtonTriggerFactory povButtonFactory, AnalogHIDButtonTriggerFactory analogHidButtonFactory, XRumbleManagerFactory rumbleManagerFactory,
+            DevicePolice police) {
         super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, rumbleManagerFactory, police);
         controller = new XboxController(port);
     }
@@ -61,10 +61,7 @@ public class XboxControllerWpiAdapter extends XXboxController {
 
     @Override
     public POVDirection getPOV() {
-        return getPovDirection(
-                controller.getButton(Button.DPAD_UP),
-                controller.getButton(Button.DPAD_DOWN),
-                controller.getButton(Button.DPAD_LEFT),
+        return getPovDirection(controller.getButton(Button.DPAD_UP), controller.getButton(Button.DPAD_DOWN), controller.getButton(Button.DPAD_LEFT),
                 controller.getButton(Button.DPAD_RIGHT));
     }
 

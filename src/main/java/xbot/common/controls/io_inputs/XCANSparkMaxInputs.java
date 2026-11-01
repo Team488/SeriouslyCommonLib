@@ -3,8 +3,7 @@ package xbot.common.controls.io_inputs;
 import org.littletonrobotics.junction.AutoLog;
 
 @AutoLog
-public class XCANSparkMaxInputs
-{
+public class XCANSparkMaxInputs {
     public boolean stickyFaultHasReset;
     public long lastErrorId;
     public double velocity;

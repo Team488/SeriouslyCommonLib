@@ -48,26 +48,20 @@ public class DeviceInfoBuildersTest {
     @EnumSource(CANPort.class)
     public void nativePortAndBusIdBuildersPreserveTheSameConfiguration(CANPort port) {
         CANBusId bus = CANBusId.fromPort(port);
-        assertEquals(
-                DeviceInfo.builder("encoder").withCanBus(bus, 7).withInverted(true).withPowerFrom(PowerSource.PDH01).build(),
+        assertEquals(DeviceInfo.builder("encoder").withCanBus(bus, 7).withInverted(true).withPowerFrom(PowerSource.PDH01).build(),
                 DeviceInfo.builder("encoder").withCanBus(port, 7).withInverted(true).withPowerFrom(PowerSource.PDH01).build());
 
         var config = new CANMotorControllerOutputConfig();
-        assertEquals(
-                CANMotorControllerInfo.builder("motor").withCanBus(bus, 8).withOutputConfig(config).build(),
+        assertEquals(CANMotorControllerInfo.builder("motor").withCanBus(bus, 8).withOutputConfig(config).build(),
                 CANMotorControllerInfo.builder("motor").withCanBus(port, 8).withOutputConfig(config).build());
-        assertEquals(
-                CANLightControllerInfo.builder("lights").withCanBus(bus, 9).build(),
-                CANLightControllerInfo.builder("lights").withCanBus(port, 9).build());
-        assertEquals(
-                IMUInfo.builder("gyro", XGyro.ImuType.pigeon2).withCanBus(bus, 10).build(),
+        assertEquals(CANLightControllerInfo.builder("lights").withCanBus(bus, 9).build(), CANLightControllerInfo.builder("lights").withCanBus(port, 9).build());
+        assertEquals(IMUInfo.builder("gyro", XGyro.ImuType.pigeon2).withCanBus(bus, 10).build(),
                 IMUInfo.builder("gyro", XGyro.ImuType.pigeon2).withCanBus(port, 10).build());
     }
 
     @Test
     public void deviceBuilderChangesDoNotMutateBuiltDescriptors() {
-        var builder = DeviceInfo.builder("encoder")
-                .withCanBus(CANBusId.Canivore, 7).withInverted(true).withPowerFrom(PowerSource.PDH01);
+        var builder = DeviceInfo.builder("encoder").withCanBus(CANBusId.Canivore, 7).withInverted(true).withPowerFrom(PowerSource.PDH01);
         DeviceInfo first = builder.build();
         DeviceInfo second = builder.withCanBus(CANPort.CAN_D0, 17).withInverted(false).withPowerFrom(PowerSource.PDH02).build();
 
@@ -92,8 +86,8 @@ public class DeviceInfoBuildersTest {
         assertEquals(CANMotorControllerOutputConfig.InversionType.Normal, second.outputConfig().inversionType);
 
         var config = new CANMotorControllerOutputConfig().withNeutralMode(CANMotorControllerOutputConfig.NeutralMode.Brake);
-        var explicit = builder.withType(MotorControllerType.TalonFx).withCanBus(CANBusId.Canivore, 18)
-                .withPdhPort(PDHPort.PDH02).withOutputConfig(config).build();
+        var explicit = builder.withType(MotorControllerType.TalonFx).withCanBus(CANBusId.Canivore, 18).withPdhPort(PDHPort.PDH02).withOutputConfig(config)
+                .build();
         assertEquals("motor", explicit.name());
         assertEquals(18, explicit.deviceId());
         assertEquals(MotorControllerType.TalonFx, explicit.type());
@@ -109,10 +103,9 @@ public class DeviceInfoBuildersTest {
 
     @Test
     public void lightBuilderChangesPreserveExistingDescriptorsAndExplicitConfiguration() {
-        var config = new CANLightControllerOutputConfig(LEDStripType.RGB, 0.5, new int[] {10, 20});
-        var builder = CANLightControllerInfo.builder("lights")
-                .withType(LightControllerType.Candle).withCanBus(CANBusId.Canivore, 9)
-                .withOutputConfig(config).withPowerFrom(PowerSource.PDH03);
+        var config = new CANLightControllerOutputConfig(LEDStripType.RGB, 0.5, new int[] { 10, 20 });
+        var builder = CANLightControllerInfo.builder("lights").withType(LightControllerType.Candle).withCanBus(CANBusId.Canivore, 9).withOutputConfig(config)
+                .withPowerFrom(PowerSource.PDH03);
         var first = builder.build();
         var second = builder.withCanBus(CANPort.CAN_S1, 19).withOutputConfig(null).withPowerFrom(null).build();
 
@@ -141,8 +134,7 @@ public class DeviceInfoBuildersTest {
 
     @Test
     public void imuBuilderAndMockConversionPreserveExplicitMetadata() {
-        var builder = IMUInfo.builder("gyro", XGyro.ImuType.pigeon2)
-                .withInterfaceType(XGyro.InterfaceType.CAN).withCanBus(CANBusId.Canivore, 10)
+        var builder = IMUInfo.builder("gyro", XGyro.ImuType.pigeon2).withInterfaceType(XGyro.InterfaceType.CAN).withCanBus(CANBusId.Canivore, 10)
                 .withMountOrientation(MountOrientation.FLAT).withPowerFrom(PowerSource.PDH04);
         var real = builder.build();
         var second = builder.withCanBus(CANPort.CAN_S1, 20).withMountOrientation(null).withPowerFrom(null).build();
@@ -180,11 +172,8 @@ public class DeviceInfoBuildersTest {
         var lights = CANLightControllerInfo.builder("lights").build();
         var imu = IMUInfo.builder("gyro", XGyro.ImuType.onboard).build();
         var police = new DevicePolice();
-        for (DeviceAddress address : List.of(
-                DeviceAddress.can(device.canBusId(), device.channel()),
-                DeviceAddress.can(motor.busId(), motor.deviceId()),
-                DeviceAddress.can(lights.canBusId(), lights.deviceId()),
-                DeviceAddress.channel(DevicePolice.DeviceType.IMU, imu.deviceId()))) {
+        for (DeviceAddress address : List.of(DeviceAddress.can(device.canBusId(), device.channel()), DeviceAddress.can(motor.busId(), motor.deviceId()),
+                DeviceAddress.can(lights.canBusId(), lights.deviceId()), DeviceAddress.channel(DevicePolice.DeviceType.IMU, imu.deviceId()))) {
             assertInstanceOf(DevicePolice.RegistrationResult.Rejected.class, police.registerDevice(this, address));
         }
         assertTrue(police.getRegisteredChannels().isEmpty());

@@ -12,20 +12,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class JoystickTest extends BaseCommonLibTest {
 
     MockJoystick joystick;
-    
+
     @BeforeEach
-    
+
     @Override
     public void setUp() {
         super.setUp();
-        
-        joystick = (MockJoystick)getInjectorComponent().joystickFactory().create(0, 10);
+
+        joystick = (MockJoystick) getInjectorComponent().joystickFactory().create(0, 10);
     }
-    
+
     @Test
     public void testAnalogButton() {
         AnalogHIDDescription desc = new AnalogHIDDescription(0, -1, -.1);
         joystick.addAnalogButton(desc);
-        assertTrue(joystick.getAnalogIfAvailable(desc) != null);        
+        assertTrue(joystick.getAnalogIfAvailable(desc) != null);
     }
 }

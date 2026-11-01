@@ -29,23 +29,17 @@ public class MockJoystick extends XJoystick {
     }
 
     @AssistedInject
-    public MockJoystick(
-            @Assisted("port") int port,
-            AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
-            AdvancedPovButtonTriggerFactory povButtonFactory,
-            AnalogHIDButtonTriggerFactory analogHidButtonFactory,
-            @Assisted("numButtons") int numButtons,
+    public MockJoystick(@Assisted("port") int port, AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
+            AdvancedPovButtonTriggerFactory povButtonFactory, AnalogHIDButtonTriggerFactory analogHidButtonFactory, @Assisted("numButtons") int numButtons,
             DevicePolice police) {
 
         super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, numButtons, police);
 
-        for(int i = 0; i < 6; i++)
-        {
+        for (int i = 0; i < 6; i++) {
             rawAxis.put(i, 0d);
         }
 
-        for(int i = 0; i < 12; i++)
-        {
+        for (int i = 0; i < 12; i++) {
             releaseButton(i);
         }
     }

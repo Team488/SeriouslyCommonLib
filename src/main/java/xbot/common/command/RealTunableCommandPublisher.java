@@ -9,7 +9,8 @@ import xbot.common.logging.assertion.RobotAssertionManager;
 public class RealTunableCommandPublisher implements TunableCommandPublisher {
 
     @Inject
-    public RealTunableCommandPublisher() {}
+    public RealTunableCommandPublisher() {
+    }
 
     @Override
     public void publish(BaseCommand command) {
@@ -27,7 +28,7 @@ public class RealTunableCommandPublisher implements TunableCommandPublisher {
     }
 
     private void reportDuplicatePath(String path) {
-        RobotAssertionManager.fail("Cannot publish command to Tunables path '" + path
-                + "' because that path is already in use; the first command remains published.");
+        RobotAssertionManager
+                .fail("Cannot publish command to Tunables path '" + path + "' because that path is already in use; the first command remains published.");
     }
 }

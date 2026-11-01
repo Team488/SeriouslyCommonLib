@@ -28,7 +28,7 @@ public class ConfigurablePurePursuitCommand extends PurePursuitCommand {
     public void addPoint(RabbitPoint point) {
         originalPoints.add(point);
     }
-    
+
     public void addPoint(FieldPose point) {
         originalPoints.add(new RabbitPoint(point));
     }
@@ -40,18 +40,18 @@ public class ConfigurablePurePursuitCommand extends PurePursuitCommand {
     public void setPoints(List<RabbitPoint> points) {
         this.originalPoints = points;
     }
-    
+
     public void setPointSupplier(Supplier<List<RabbitPoint>> externalPointSource) {
         this.externalPointSource = externalPointSource;
     }
-    
+
     protected List<RabbitPoint> getOriginalPoints() {
         if (externalPointSource != null) {
             originalPoints = externalPointSource.get();
         }
         return originalPoints;
     }
-    
+
     protected PointLoadingMode getPursuitMode() {
         return this.mode;
     }

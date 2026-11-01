@@ -29,9 +29,8 @@ import xbot.common.properties.TunableManager;
 import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
 
 /**
- * Core Robot class which configures logging, tunables,
- * scheduling, and the injector. Required for a fair amount
- * of CommonLib functionality.
+ * Core Robot class which configures logging, tunables, scheduling, and the injector. Required for a fair amount of
+ * CommonLib functionality.
  */
 public abstract class BaseRobot extends LoggedRobot {
 
@@ -50,8 +49,8 @@ public abstract class BaseRobot extends LoggedRobot {
     protected DataFrameRegistry deviceDataFrameRegistry;
 
     /**
-     * Selects log replay instead of live desktop simulation. Defaults to simulation.
-     * Set before {@link #robotInit()}; ignored on real hardware.
+     * Selects log replay instead of live desktop simulation. Defaults to simulation. Set before {@link #robotInit()};
+     * ignored on real hardware.
      */
     protected boolean useReplay = false;
 
@@ -85,6 +84,7 @@ public abstract class BaseRobot extends LoggedRobot {
 
     /**
      * Get the dependency injection component
+     *
      * @return an implementation of BaseComponent that will be used throughout the robot.
      */
     protected BaseComponent getInjectorComponent() {
@@ -103,7 +103,6 @@ public abstract class BaseRobot extends LoggedRobot {
                 if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
                     Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
                 }
-                
 
                 if (!RobotState.isFMSAttached()) {
                     // Publish data to NetworkTables if we're not on a real field
@@ -114,10 +113,8 @@ public abstract class BaseRobot extends LoggedRobot {
                     Logger.addDataReceiver(new TunableSkippingNT4Publisher());
                 }
 
-                LoggedPowerDistribution.getInstance(
-                        CANPort.CAN_S0.value,
-                        PowerDistribution.DEFAULT_MODULE,
-                        PowerDistribution.ModuleType.REV); // Log power distribution data from the configured module
+                // Log power distribution data from the configured module
+                LoggedPowerDistribution.getInstance(CANPort.CAN_S0.value, PowerDistribution.DEFAULT_MODULE, PowerDistribution.ModuleType.REV);
             } else {
                 setUseTiming(false); // Run as fast as possible
                 String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
@@ -198,25 +195,19 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     protected String getMatchContextString() {
-        return MatchState.getAlliance().toString() + MatchState.getLocation() + ", "
-            + MatchState.getMatchTime() + "s, "
-            + (RobotState.isDSAttached() ? "DS connected" : "DS disconnected") + ", "
-            + (RobotState.isFMSAttached() ? "FMS connected" : "FMS disconnected") + ", "
-            + "Is disabled: " + RobotState.isDisabled() + ", "
-            + "Is enabled: " + RobotState.isEnabled() + ", "
-            + "Is auto: " + RobotState.isAutonomous() + ", "
-            + "Is teleop: " + RobotState.isTeleop() + ", "
-            + "Is utility: " + RobotState.isUtility() + ", "
-            + "Is browned out: " + RobotController.isBrownedOut() + ", "
-            + "Is output enabled: " + RobotController.isSysActive() + ", "
-            + "Battery voltage: " + RobotController.getBatteryVoltage();
+        return MatchState.getAlliance().toString() + MatchState.getLocation() + ", " + MatchState.getMatchTime() + "s, "
+                + (RobotState.isDSAttached() ? "DS connected" : "DS disconnected") + ", " + (RobotState.isFMSAttached() ? "FMS connected" : "FMS disconnected")
+                + ", " + "Is disabled: " + RobotState.isDisabled() + ", " + "Is enabled: " + RobotState.isEnabled() + ", " + "Is auto: "
+                + RobotState.isAutonomous() + ", " + "Is teleop: " + RobotState.isTeleop() + ", " + "Is utility: " + RobotState.isUtility() + ", "
+                + "Is browned out: " + RobotController.isBrownedOut() + ", " + "Is output enabled: " + RobotController.isSysActive() + ", "
+                + "Battery voltage: " + RobotController.getBatteryVoltage();
     }
 
     public void autonomousInit() {
         updateLoggingContext();
         log.info("Autonomous init (" + getMatchContextString() + ")");
         this.autonomousCommand = this.autonomousCommandSelector.getCurrentAutonomousCommand();
-        if(this.autonomousCommand != null) {
+        if (this.autonomousCommand != null) {
             log.info("Starting autonomous command: " + this.autonomousCommand);
             CommandScheduler.getInstance().schedule(this.autonomousCommand);
         } else {
@@ -234,7 +225,7 @@ public abstract class BaseRobot extends LoggedRobot {
     public void teleopInit() {
         updateLoggingContext();
         log.info("Teleop init (" + getMatchContextString() + ")");
-        if(this.autonomousCommand != null) {
+        if (this.autonomousCommand != null) {
             log.info("Cancelling autonomousCommand.");
             this.autonomousCommand.cancel();
         }
@@ -259,7 +250,6 @@ public abstract class BaseRobot extends LoggedRobot {
         double outsidePeriodicEnd = getPerformanceTimestampInMs();
         Logger.recordOutput("OutsidePeriodicMs", outsidePeriodicEnd - outsidePeriodicStart);
         // Get a fresh data frame from all top-level components (typically large subsystems or shared sensors)
-
 
         // Refresh tunable replay/logging state ahead of all other systems.
         // use the relevant values.

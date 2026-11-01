@@ -66,25 +66,14 @@ public class Pigeon2Adapter extends XGyro {
 
     @Override
     protected void updateInputs(XGyroIoInputs inputs) {
-        BaseStatusSignal.refreshAll(
-                yawSignal,
-                pitchSignal,
-                rollSignal,
-                yawAngularVelocitySignal,
-                accelerationXSignal,
-                accelerationYSignal,
-                accelerationZSignal
-        );
+        BaseStatusSignal.refreshAll(yawSignal, pitchSignal, rollSignal, yawAngularVelocitySignal, accelerationXSignal, accelerationYSignal,
+                accelerationZSignal);
 
         inputs.yaw = yawSignal.getValue();
         inputs.pitch = pitchSignal.getValue();
         inputs.roll = rollSignal.getValue();
         inputs.yawAngularVelocity = yawAngularVelocitySignal.getValue();
-        inputs.acceleration = new LinearAcceleration[]{
-                accelerationXSignal.getValue(),
-                accelerationYSignal.getValue(),
-                accelerationZSignal.getValue()
-        };
+        inputs.acceleration = new LinearAcceleration[] { accelerationXSignal.getValue(), accelerationYSignal.getValue(), accelerationZSignal.getValue() };
         inputs.isConnected = pigeon.isConnected();
     }
 }

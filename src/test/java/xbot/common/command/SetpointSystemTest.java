@@ -17,7 +17,7 @@ public class SetpointSystemTest extends BaseCommonLibTest {
     public void testSetpointSystemCanBeCreated() {
         MockSetpointCommand first = getInjectorComponent().mockSetpointCommand();
     }
-    
+
     // I think this test is failing because the robot isn't "enabled."
     // Yep, that's the issue. Setting these commands to RunWhenDisabled lets this test pass as
     // expected. Is there some way we can deal with this problem?
@@ -39,21 +39,19 @@ public class SetpointSystemTest extends BaseCommonLibTest {
 
         first.setRunsWhenDisabled(true);
         second.setRunsWhenDisabled(true);
-        
-        
+
         assertFalse(first.isScheduled(), "First command is not running");
         assertFalse(second.isScheduled(), "Second command is not running");
-        
+
         CommandScheduler.getInstance().schedule(first);
         xScheduler.run();
         assertTrue(first.isScheduled(), "First command is running");
-        
+
         CommandScheduler.getInstance().schedule(second);
         xScheduler.run();
-        
+
         assertTrue(second.isScheduled(), "Second command is running");
         assertFalse(first.isScheduled(), "First command is no longer running");
     }
-    
-    
+
 }

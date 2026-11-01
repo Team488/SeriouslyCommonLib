@@ -23,7 +23,7 @@ public class GamepadTest extends BaseCommonLibTest {
     @BeforeEach
     public void setupGamepad() {
         gamepad = getInjectorComponent().gamepadFactory().create(0);
-        mockGamepad = (MockGamepad)gamepad;
+        mockGamepad = (MockGamepad) gamepad;
     }
 
     @Test

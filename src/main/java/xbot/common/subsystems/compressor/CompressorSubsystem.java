@@ -20,8 +20,11 @@ public class CompressorSubsystem extends BaseSubsystem {
 
     /**
      * Create a new CompressorSubsystem.
-     * @param compressorFactory The compressor factory.
-     * @param tunableFactory The tunable factory.
+     *
+     * @param compressorFactory
+     *            The compressor factory.
+     * @param tunableFactory
+     *            The tunable factory.
      */
     @Inject
     public CompressorSubsystem(XCompressorFactory compressorFactory, TunableFactory tunableFactory) {
@@ -32,6 +35,7 @@ public class CompressorSubsystem extends BaseSubsystem {
 
     /**
      * Gets whether the compressor is enabled.
+     *
      * @return True if enabled, false if not.
      */
     public boolean isEnabled() {
@@ -54,6 +58,7 @@ public class CompressorSubsystem extends BaseSubsystem {
 
     /**
      * Gets the current consumed by the compressor.
+     *
      * @return The current in amps.
      */
     public double getCompressorCurrent() {
@@ -62,6 +67,7 @@ public class CompressorSubsystem extends BaseSubsystem {
 
     /**
      * Gets a command to enable the compressor.
+     *
      * @return The command.
      */
     public final Command getEnableCommand() {
@@ -70,6 +76,7 @@ public class CompressorSubsystem extends BaseSubsystem {
 
     /**
      * Gets a command to disable the compressor.
+     *
      * @return The command.
      */
     public final Command getDisableCommand() {

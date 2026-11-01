@@ -17,14 +17,8 @@ public class MockGyroTest {
 
     @Test
     public void accelerationSettersPopulateTypedInputs() {
-        MockGyro gyro = new MockGyro(
-                new DevicePolice(),
-                new DataFrameRegistry(),
-                IMUInfo.builder("IMU", XGyro.ImuType.onboard)
-                        .withDeviceId(1)
-                        .withMountOrientation(MountOrientation.FLAT)
-                        .withPowerFrom(PowerSource.RIO)
-                        .build());
+        MockGyro gyro = new MockGyro(new DevicePolice(), new DataFrameRegistry(), IMUInfo.builder("IMU", XGyro.ImuType.onboard).withDeviceId(1)
+                .withMountOrientation(MountOrientation.FLAT).withPowerFrom(PowerSource.RIO).build());
 
         gyro.setDeviceRawAccelX(1.25);
         gyro.setDeviceRawAccelY(MetersPerSecondPerSecond.of(-2.5));

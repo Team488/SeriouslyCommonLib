@@ -8,7 +8,7 @@ public class MockSetpointCommand extends BaseSetpointCommand {
     public MockSetpointCommand(MockSetpointSubsystem system) {
         super(system);
     }
-    
+
     @Override
     public void initialize() {
     }

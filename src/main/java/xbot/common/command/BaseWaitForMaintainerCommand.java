@@ -15,10 +15,7 @@ public abstract class BaseWaitForMaintainerCommand extends BaseCommand {
 
     private double startTime;
 
-    public BaseWaitForMaintainerCommand(
-            BaseSetpointSubsystem<?, ?> system,
-            TunableFactory tunableFactory,
-            double defaultTimeout) {
+    public BaseWaitForMaintainerCommand(BaseSetpointSubsystem<?, ?> system, TunableFactory tunableFactory, double defaultTimeout) {
         this.system = system;
 
         tunableFactory.setPrefix(this);

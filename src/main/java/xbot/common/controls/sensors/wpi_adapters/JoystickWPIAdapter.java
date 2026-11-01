@@ -25,13 +25,8 @@ public class JoystickWPIAdapter extends XJoystick {
     }
 
     @AssistedInject
-    public JoystickWPIAdapter(
-            @Assisted("port") int port,
-            @Assisted("numButtons") int numButtons,
-            AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
-            AdvancedPovButtonTriggerFactory povButtonFactory,
-            AnalogHIDButtonTriggerFactory analogHidButtonFactory,
-            DevicePolice police) {
+    public JoystickWPIAdapter(@Assisted("port") int port, @Assisted("numButtons") int numButtons, AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
+            AdvancedPovButtonTriggerFactory povButtonFactory, AnalogHIDButtonTriggerFactory analogHidButtonFactory, DevicePolice police) {
         super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, numButtons, police);
 
         internalHID = new Joystick(port);

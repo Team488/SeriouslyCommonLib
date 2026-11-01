@@ -43,15 +43,12 @@ public class CANCoderAdapter extends XCANCoder {
 
     @AssistedFactory
     public abstract static class CANCoderAdapterFactory implements XCANCoderFactory {
-        public abstract CANCoderAdapter create(
-            @Assisted("deviceInfo") DeviceInfo deviceInfo,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix);
+        public abstract CANCoderAdapter create(@Assisted("deviceInfo") DeviceInfo deviceInfo, @Assisted("owningSystemPrefix") String owningSystemPrefix);
     }
 
     @AssistedInject
-    public CANCoderAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            DevicePolice police, TunableFactory tunableFactory, DataFrameRegistry dataFrameRegistry) {
+    public CANCoderAdapter(@Assisted("deviceInfo") DeviceInfo deviceInfo, @Assisted("owningSystemPrefix") String owningSystemPrefix, DevicePolice police,
+            TunableFactory tunableFactory, DataFrameRegistry dataFrameRegistry) {
         super(deviceInfo, dataFrameRegistry);
         tunableFactory.setPrefix(owningSystemPrefix);
 
@@ -62,8 +59,7 @@ public class CANCoderAdapter extends XCANCoder {
 
         var currentConfig = getCurrentConfiguration();
         currentConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
-        currentConfig.MagnetSensor.SensorDirection = this.inverted
-                ? SensorDirectionValue.Clockwise_Positive : SensorDirectionValue.CounterClockwise_Positive;
+        currentConfig.MagnetSensor.SensorDirection = this.inverted ? SensorDirectionValue.Clockwise_Positive : SensorDirectionValue.CounterClockwise_Positive;
         applyConfiguration(currentConfig);
 
         this.getMagnetOffset();
@@ -109,6 +105,7 @@ public class CANCoderAdapter extends XCANCoder {
 
     /**
      * Gets the magnet offset configured on the encoder device. Blocking call.
+     *
      * @return The magnet offset in degrees
      */
     public double getMagnetOffset() {
@@ -124,7 +121,9 @@ public class CANCoderAdapter extends XCANCoder {
 
     /**
      * Sets the magnet offset configured on the encoder device.
-     * @param offsetInDegrees The magnet offset in degrees
+     *
+     * @param offsetInDegrees
+     *            The magnet offset in degrees
      * @return True on success.
      */
     public boolean setMagnetOffset(double offsetInDegrees) {
@@ -170,12 +169,7 @@ public class CANCoderAdapter extends XCANCoder {
     }
 
     private void refreshAllSignals() {
-        BaseStatusSignal.refreshAll(
-            this.versionSignal,
-            this.positionSignal,
-            this.absolutePositionSignal,
-            this.velocitySignal
-        );
+        BaseStatusSignal.refreshAll(this.versionSignal, this.positionSignal, this.absolutePositionSignal, this.velocitySignal);
     }
 
     @Override

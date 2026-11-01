@@ -24,7 +24,7 @@ public class XboxControllerTest extends BaseCommonLibTest {
     @BeforeEach
     public void setupController() {
         controller = getInjectorComponent().xboxControllerFactory().create(0);
-        mockController = (MockXboxControllerAdapter)controller;
+        mockController = (MockXboxControllerAdapter) controller;
     }
 
     @Test

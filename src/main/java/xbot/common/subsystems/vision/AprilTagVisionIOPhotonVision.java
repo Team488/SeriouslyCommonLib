@@ -31,8 +31,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 /**
- * IO implementation for real PhotonVision hardware.
- * Based on the AdvantageKit sample implementation by team 6328.
+ * IO implementation for real PhotonVision hardware. Based on the AdvantageKit sample implementation by team 6328.
  */
 public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
 
@@ -44,8 +43,8 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
     private static final int[] EMPTY_TAG_IDS_OBSERVATION = new int[0];
     private static final PoseObservation[] EMPTY_POSE_OBSERVATION = new PoseObservation[0];
     private static final TargetObservation[] EMPTY_TARGET_OBSERVATIONS = new TargetObservation[0];
-    private static final TargetObservation EMPTY_TARGET_OBSERVATION = new TargetObservation(0, 0, new Rotation2d(),
-            new Rotation2d(), new Transform3d(), 1, true);
+    private static final TargetObservation EMPTY_TARGET_OBSERVATION = new TargetObservation(0, 0, new Rotation2d(), new Rotation2d(), new Transform3d(), 1,
+            true);
     // Originally based off same heartbeat bounce as photonvision:
     // https://github.com/PhotonVision/photonvision/blob/3c332db4bfe9083fc0311ae71cff92de588939ad/photon-lib/src/main/java/org/photonvision/PhotonCamera.java#L107
     // However, testing indicated that a lower value would be better than 0.5s:
@@ -58,13 +57,15 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
     /**
      * Creates a new VisionIOPhotonVision.
      *
-     * @param name          The configured name of the camera.
-     * @param robotToCamera The 3D position of the camera relative to the robot.
-     * @param fieldLayout   The April Tag field layout.
+     * @param name
+     *            The configured name of the camera.
+     * @param robotToCamera
+     *            The 3D position of the camera relative to the robot.
+     * @param fieldLayout
+     *            The April Tag field layout.
      */
     @AssistedInject
-    public AprilTagVisionIOPhotonVision(@Assisted String name, @Assisted Transform3d robotToCamera,
-            Fields fieldLayout) {
+    public AprilTagVisionIOPhotonVision(@Assisted String name, @Assisted Transform3d robotToCamera, Fields fieldLayout) {
         camera = new PhotonCamera(name);
         this.robotToCamera = robotToCamera;
         this.aprilTagFieldLayout = fieldLayout;
@@ -91,26 +92,16 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
             // Update latest target observation
             if (result.hasTargets()) {
                 var bestTarget = result.getBestTarget();
-                inputs.latestTargetObservation = new TargetObservation(
-                        result.getTimestampSeconds(),
-                        bestTarget.getFiducialId(),
-                        Rotation2d.fromDegrees(bestTarget.getYaw()),
-                        Rotation2d.fromDegrees(bestTarget.getPitch()),
-                        bestTarget.getBestCameraToTarget(),
-                        bestTarget.getPoseAmbiguity(),
-                        stale);
+                inputs.latestTargetObservation = new TargetObservation(result.getTimestampSeconds(), bestTarget.getFiducialId(),
+                        Rotation2d.fromDegrees(bestTarget.getYaw()), Rotation2d.fromDegrees(bestTarget.getPitch()), bestTarget.getBestCameraToTarget(),
+                        bestTarget.getPoseAmbiguity(), stale);
 
                 var targetObservations = new TargetObservation[result.targets.size()];
                 var targetIndex = 0;
                 for (var target : result.targets) {
-                    targetObservations[targetIndex++] = new TargetObservation(
-                            result.getTimestampSeconds(),
-                            target.fiducialId,
-                            Rotation2d.fromDegrees(target.getYaw()),
-                            Rotation2d.fromDegrees(target.getPitch()),
-                            target.getBestCameraToTarget(),
-                            target.getPoseAmbiguity(),
-                            stale);
+                    targetObservations[targetIndex++] = new TargetObservation(result.getTimestampSeconds(), target.fiducialId,
+                            Rotation2d.fromDegrees(target.getYaw()), Rotation2d.fromDegrees(target.getPitch()), target.getBestCameraToTarget(),
+                            target.getPoseAmbiguity(), stale);
                 }
                 inputs.targetObservations = targetObservations;
             } else {
@@ -137,15 +128,13 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
                 tagIds.addAll(multitagResult.fiducialIDsUsed);
 
                 // Add observation
-                poseObservations.add(
-                        new PoseObservation(
-                                result.getTimestampSeconds(), // Timestamp
-                                robotPose, // 3D pose estimate
-                                multitagResult.estimatedPose.ambiguity, // Ambiguity
-                                multitagResult.fiducialIDsUsed.size(), // Tag count
-                                totalTagDistance / result.targets.size(), // Average tag distance
-                                0.02, 0.02, 0.6, // This is from LinearStdDevBaseline, and AngularStdDevBaseline from the old way.
-                                PoseObservationType.PHOTONVISION)); // Observation type
+                poseObservations.add(new PoseObservation(result.getTimestampSeconds(), // Timestamp
+                        robotPose, // 3D pose estimate
+                        multitagResult.estimatedPose.ambiguity, // Ambiguity
+                        multitagResult.fiducialIDsUsed.size(), // Tag count
+                        totalTagDistance / result.targets.size(), // Average tag distance
+                        0.02, 0.02, 0.6, // This is from LinearStdDevBaseline, and AngularStdDevBaseline from the old way.
+                        PoseObservationType.PHOTONVISION)); // Observation type
 
             } else if (!result.targets.isEmpty()) { // Single tag result
                 var target = result.targets.get(0);
@@ -153,8 +142,7 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
                 // Calculate robot pose
                 var tagPose = this.aprilTagFieldLayout.loadField().getTagPose(target.fiducialId);
                 if (tagPose.isPresent()) {
-                    Transform3d fieldToTarget = new Transform3d(tagPose.get().getTranslation(),
-                            tagPose.get().getRotation());
+                    Transform3d fieldToTarget = new Transform3d(tagPose.get().getTranslation(), tagPose.get().getRotation());
                     Transform3d cameraToTarget = target.bestCameraToTarget;
                     Transform3d fieldToCamera = fieldToTarget.plus(cameraToTarget.inverse());
                     Transform3d fieldToRobot = fieldToCamera.plus(robotToCamera.inverse());
@@ -164,15 +152,13 @@ public class AprilTagVisionIOPhotonVision implements AprilTagVisionIO {
                     tagIds.add((short) target.fiducialId);
 
                     // Add observation
-                    poseObservations.add(
-                            new PoseObservation(
-                                    result.getTimestampSeconds(), // Timestamp
-                                    robotPose, // 3D pose estimate
-                                    target.poseAmbiguity, // Ambiguity
-                                    1, // Tag count
-                                    cameraToTarget.getTranslation().getNorm(), // Average tag distance
-                                    0.02, 0.02, 0.6, // This is from LinearStdDevBaseline, and AngularStdDevBaseline from the old way.
-                                    PoseObservationType.PHOTONVISION)); // Observation type
+                    poseObservations.add(new PoseObservation(result.getTimestampSeconds(), // Timestamp
+                            robotPose, // 3D pose estimate
+                            target.poseAmbiguity, // Ambiguity
+                            1, // Tag count
+                            cameraToTarget.getTranslation().getNorm(), // Average tag distance
+                            0.02, 0.02, 0.6, // This is from LinearStdDevBaseline, and AngularStdDevBaseline from the old way.
+                            PoseObservationType.PHOTONVISION)); // Observation type
                 }
             }
         }

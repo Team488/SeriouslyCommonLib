@@ -13,9 +13,8 @@ public class DutyCycleEncoderTest extends BaseCommonLibTest {
 
     @Test
     public void simpleScaling() {
-        MockDutyCycleEncoder encoder =
-                (MockDutyCycleEncoder)this.getInjectorComponent().dutyCycleEncoderFactory().create(
-                        DeviceInfo.builder("Test").withChannel(0).build());
+        MockDutyCycleEncoder encoder = (MockDutyCycleEncoder) this.getInjectorComponent().dutyCycleEncoderFactory()
+                .create(DeviceInfo.builder("Test").withChannel(0).build());
 
         encoder.setRawPosition(0);
         encoder.refreshDataFrame();

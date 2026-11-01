@@ -13,14 +13,12 @@ public class ChordTrigger extends AdvancedTrigger {
 
     @AssistedFactory
     public abstract static class ChordTriggerFactory {
-        public abstract ChordTrigger create(
-            @Assisted("a") Trigger a,
-            @Assisted("b") Trigger b);
+        public abstract ChordTrigger create(@Assisted("a") Trigger a, @Assisted("b") Trigger b);
     }
 
     @AssistedInject
     public ChordTrigger(@Assisted("a") Trigger a, @Assisted("b") Trigger b) {
         super(() -> a.getAsBoolean() && b.getAsBoolean());
     }
-    
+
 }

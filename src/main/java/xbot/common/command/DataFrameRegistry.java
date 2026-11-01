@@ -8,7 +8,8 @@ import javax.inject.Singleton;
 import xbot.common.advantage.DataFrameRefreshable;
 
 /**
- * A registry for components that implement {@link DataFrameRefreshable}, which allows them to be refreshed on a regular basis by the {@link BaseRobot}.
+ * A registry for components that implement {@link DataFrameRefreshable}, which allows them to be refreshed on a regular
+ * basis by the {@link BaseRobot}.
  */
 @Singleton
 public final class DataFrameRegistry {
@@ -20,7 +21,8 @@ public final class DataFrameRegistry {
     private final LinkedHashSet<DataFrameRefreshable> refreshables = new LinkedHashSet<>();
 
     @Inject
-    public DataFrameRegistry() {}
+    public DataFrameRegistry() {
+    }
 
     public void register(DataFrameRefreshable refreshable) {
         refreshables.add(refreshable);
