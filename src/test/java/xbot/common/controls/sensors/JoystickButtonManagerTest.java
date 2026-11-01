@@ -16,33 +16,33 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class JoystickButtonManagerTest extends BaseCommonLibTest {
-    
+
     XJoystick testJoystick;
     RobotAssertionManager assertion;
-    
+
     @BeforeEach
     public void setup() {
         super.setUp();
-        
+
         testJoystick = getInjectorComponent().joystickFactory().create(1, 12);
         assertion = getInjectorComponent().robotAssertionManager();
     }
-    
+
     @Test
     public void testButtonBelowRange() {
         assertThrows(RuntimeException.class, () -> testJoystick.getifAvailable(13));
     }
-    
+
     @Test
     public void testButtonZero() {
         assertThrows(RuntimeException.class, () -> testJoystick.getifAvailable(0));
     }
-    
+
     @Test
     public void testButtonNegative() {
         assertThrows(RuntimeException.class, () -> testJoystick.getifAvailable(-1));
     }
-    
+
     @Test
     public void testAllValidButtons() {
         for (int x = 1; x <= 12; x++) {
@@ -55,7 +55,7 @@ public class JoystickButtonManagerTest extends BaseCommonLibTest {
 
     @Test
     public void testPovDirections() {
-        MockJoystick mockJoystick = (MockJoystick)testJoystick;
+        MockJoystick mockJoystick = (MockJoystick) testJoystick;
         assertEquals(POVDirection.CENTER, mockJoystick.getPOV());
 
         mockJoystick.setPOV(POVDirection.RIGHT);
@@ -71,7 +71,7 @@ public class JoystickButtonManagerTest extends BaseCommonLibTest {
 
     @Test
     public void testVectorUsesBothAxes() {
-        MockJoystick mockJoystick = (MockJoystick)testJoystick;
+        MockJoystick mockJoystick = (MockJoystick) testJoystick;
         mockJoystick.setRawAxis(0, 0.25);
         mockJoystick.setRawAxis(1, 0.75);
 
@@ -80,13 +80,12 @@ public class JoystickButtonManagerTest extends BaseCommonLibTest {
         assertEquals(0.25, vector.getX(), 0.001);
         assertEquals(0.75, vector.getY(), 0.001);
     }
-    
+
     private void assertButtonUnavailable(int i) {
         try {
             testJoystick.getifAvailable(i);
             fail();
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             // nice!
         }
     }

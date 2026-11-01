@@ -23,12 +23,11 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.logging.RobotAssertionManager;
 
-public abstract class XJoystick
-{
+public abstract class XJoystick {
     protected int port;
 
     private boolean[] axisInversion;
-    
+
     private static final Logger log = LogManager.getLogger(XJoystick.class);
 
     private HashMap<Integer, AdvancedJoystickButtonTrigger> buttonMap;
@@ -42,19 +41,13 @@ public abstract class XJoystick
 
     private RobotAssertionManager assertionManager;
     private DevicePolice police;
-    
+
     public interface XJoystickFactory {
         XJoystick create(int port, int numButtons);
     }
 
-    public XJoystick(
-            int port, 
-            AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
-            AdvancedPovButtonTriggerFactory povButtonFactory,
-            AnalogHIDButtonTriggerFactory analogHidButtonFactory,
-            RobotAssertionManager assertionManager, 
-            int numButtons,
-            DevicePolice police) {
+    public XJoystick(int port, AdvancedJoystickButtonTriggerFactory joystickButtonFactory, AdvancedPovButtonTriggerFactory povButtonFactory,
+            AnalogHIDButtonTriggerFactory analogHidButtonFactory, RobotAssertionManager assertionManager, int numButtons, DevicePolice police) {
         this.port = port;
         this.police = police;
         this.joystickButtonFactory = joystickButtonFactory;
@@ -62,7 +55,7 @@ public abstract class XJoystick
         this.analogHidButtonFactory = analogHidButtonFactory;
         this.assertionManager = assertionManager;
         maxButtons = numButtons;
-        
+
         this.buttonMap = new HashMap<Integer, AdvancedJoystickButtonTrigger>(numButtons);
         this.analogButtonMap = new HashMap<>();
         this.povButtonMap = new HashMap<POVDirection, AdvancedPovButtonTrigger>();
@@ -71,32 +64,29 @@ public abstract class XJoystick
         for (int i = 1; i <= numButtons; i++) {
             this.set(i, joystickButtonFactory.create(this, i));
         }
-        
+
         for (POVDirection direction : POVDirection.values()) {
             if (direction != POVDirection.CENTER) {
                 povButtonMap.put(direction, povButtonFactory.create(this, direction));
             }
         }
-        
+
         police.registerDevice(this, DeviceAddress.channel(DeviceType.USB, port));
     }
-    
+
     public int getPort() {
         return port;
     }
 
     public boolean getAxisInverted(int axisNumber) {
-        if (axisNumber >= 0 && axisNumber < axisInversion.length)
-        {
+        if (axisNumber >= 0 && axisNumber < axisInversion.length) {
             return axisInversion[axisNumber];
         }
         return false;
     }
 
-    
     public void setAxisInverted(int axisNumber, boolean inverted) {
-        if (axisNumber >= 0 && axisNumber < axisInversion.length)
-        {
+        if (axisNumber >= 0 && axisNumber < axisInversion.length) {
             axisInversion[axisNumber] = inverted;
         }
     }
@@ -108,11 +98,11 @@ public abstract class XJoystick
     }
 
     public abstract boolean getButton(int button);
-    
+
     public abstract double getRawAxis(int axisNumber);
-    
+
     public abstract GenericHID getHID();
-    
+
     public abstract POVDirection getPOV();
 
     public void addAnalogButton(int axisNumber, double minThreshold, double maxThreshold) {
@@ -122,28 +112,29 @@ public abstract class XJoystick
     public void addAnalogButton(AnalogHIDDescription desc) {
         setAnalog(analogHidButtonFactory.create(this, desc));
     }
-    
+
     public enum ButtonSource {
-        Standard,
-        POV
+        Standard, POV
     }
 
     public AdvancedTrigger getifAvailable(int buttonNumber) {
-        
+
         if (buttonNumber < 1 || buttonNumber > maxButtons) {
             return handleInvalidButton("button " + buttonNumber + " is out of range!");
         }
-        
+
         if (buttonMap.containsKey(buttonNumber)) {
             return buttonMap.remove(buttonNumber);
         } else {
             return handleInvalidButton("button " + buttonNumber + " is already used! Cannot be used twice!");
         }
     }
-    
+
     /**
      * Uses the d-pad as a button source.
-     * @param direction The desired POV direction.
+     *
+     * @param direction
+     *            The desired POV direction.
      * @return A trigger that represents the given POV direction.
      */
     public AdvancedTrigger getPovIfAvailable(POVDirection direction) {
@@ -186,10 +177,10 @@ public abstract class XJoystick
         }
         return POVDirection.CENTER;
     }
-    
+
     private AdvancedTrigger handleInvalidButton(String message) {
         assertionManager.throwException(message, new Exception());
-        
+
         MockJoystick mj = new MockJoystick(0, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, assertionManager, 12, police);
         return new AdvancedJoystickButtonTrigger(mj, 1);
     }

@@ -15,7 +15,7 @@ public class ObstacleTest extends BaseCommonLibTest {
     @Test
     public void testNearestPoint() {
         Obstacle o = new Obstacle(10, 10, 10, 5, "Test");
-        Translation2d point = o.getClosestCornerToPoint(new Translation2d(3,0));
+        Translation2d point = o.getClosestCornerToPoint(new Translation2d(3, 0));
 
         assertEquals(point.getX(), 5, 0.2);
         assertEquals(point.getY(), 7.5, 0.2);
@@ -45,11 +45,8 @@ public class ObstacleTest extends BaseCommonLibTest {
     @Test
     public void testLineIntersection() {
         Obstacle o = new Obstacle(10, 10, 10, 10, "Test");
-        Translation2d intersection = o.getLineIntersectionPoint(
-                new Translation2d(0,0),
-                new Translation2d(10,0),
-                new Translation2d(5,10),
-                new Translation2d(5,-10));
+        Translation2d intersection = o.getLineIntersectionPoint(new Translation2d(0, 0), new Translation2d(10, 0), new Translation2d(5, 10),
+                new Translation2d(5, -10));
         assertEquals(5, intersection.getX(), 0.001);
         assertEquals(0, intersection.getY(), 0.001);
     }
@@ -62,24 +59,24 @@ public class ObstacleTest extends BaseCommonLibTest {
         assertEquals(4, shouldNotMove.getY(), 0.001);
 
         // slide down
-        Translation2d shouldMove =  o.movePointOutsideOfBounds(new Translation2d(9, 7));
+        Translation2d shouldMove = o.movePointOutsideOfBounds(new Translation2d(9, 7));
         assertEquals(9, shouldMove.getX(), 0.2);
-        assertEquals(5-o.getBonusOffset(), shouldMove.getY(), 0.2);
+        assertEquals(5 - o.getBonusOffset(), shouldMove.getY(), 0.2);
 
         // slide left
-        shouldMove =  o.movePointOutsideOfBounds(new Translation2d(6, 9));
-        assertEquals(5-o.getBonusOffset(), shouldMove.getX(), 0.2);
+        shouldMove = o.movePointOutsideOfBounds(new Translation2d(6, 9));
+        assertEquals(5 - o.getBonusOffset(), shouldMove.getX(), 0.2);
         assertEquals(9, shouldMove.getY(), 0.2);
 
         // slide right
-        shouldMove =  o.movePointOutsideOfBounds(new Translation2d(14, 7));
-        assertEquals(15+o.getBonusOffset(), shouldMove.getX(), 0.2);
+        shouldMove = o.movePointOutsideOfBounds(new Translation2d(14, 7));
+        assertEquals(15 + o.getBonusOffset(), shouldMove.getX(), 0.2);
         assertEquals(7, shouldMove.getY(), 0.2);
 
         // slide up
-        shouldMove =  o.movePointOutsideOfBounds(new Translation2d(9, 13));
+        shouldMove = o.movePointOutsideOfBounds(new Translation2d(9, 13));
         assertEquals(9, shouldMove.getX(), 0.2);
-        assertEquals(15+o.getBonusOffset(), shouldMove.getY(), 0.2);
+        assertEquals(15 + o.getBonusOffset(), shouldMove.getY(), 0.2);
     }
 
     @Test

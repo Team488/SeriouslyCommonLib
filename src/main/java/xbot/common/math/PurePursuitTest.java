@@ -27,8 +27,7 @@ public class PurePursuitTest extends BaseWPITest {
     boolean pastOne;
     List<RabbitPoint> points;
 
-    public PurePursuitTest(List<RabbitPoint> points)
-    {
+    public PurePursuitTest(List<RabbitPoint> points) {
         this.points = points;
     }
 
@@ -38,7 +37,7 @@ public class PurePursuitTest extends BaseWPITest {
     }
 
     protected PurePursuitTestComponent getInjectorComponent() {
-        return (PurePursuitTestComponent)super.getInjectorComponent();
+        return (PurePursuitTestComponent) super.getInjectorComponent();
     }
 
     public static class PursuitEnvironmentState {
@@ -49,9 +48,9 @@ public class PurePursuitTest extends BaseWPITest {
         public double rabbitAngle;
         public double turnPower;
         public double translatePower;
-                
-        public PursuitEnvironmentState(FieldPose robot, FieldPose goal, FieldPose rabbit, 
-        int loops, double rabbitAngle, double turnPower, double translatePower) {
+
+        public PursuitEnvironmentState(FieldPose robot, FieldPose goal, FieldPose rabbit, int loops, double rabbitAngle, double turnPower,
+                double translatePower) {
             this.robot = robot;
             this.goal = goal;
             this.loops = loops;
@@ -61,19 +60,19 @@ public class PurePursuitTest extends BaseWPITest {
             this.translatePower = translatePower;
         }
     }
-    
+
     public static interface AsyncLinearIntervalJob {
         void onNewStep(PursuitEnvironmentState envState);
     }
-    
+
     public void setAsAsync(AsyncLinearIntervalJob asyncIntervalJob) {
         this.asyncJob = asyncIntervalJob;
     }
-        
+
     public void setAsyncPeriodMultiplier(double newMultiplier) {
-        if(Math.abs(this.periodMultiplier - newMultiplier) > 0.01) {
+        if (Math.abs(this.periodMultiplier - newMultiplier) > 0.01) {
             this.periodMultiplier = newMultiplier;
-            
+
             asyncTimer.cancel();
             startAsyncTimer();
         }
@@ -81,55 +80,48 @@ public class PurePursuitTest extends BaseWPITest {
 
     protected ConfigurablePurePursuitCommand command;
     MockBasePoseSubsystem poseSystem;
-    
+
     public void vizRun() {
-        super.setUp();        
+        super.setUp();
         engine = new PlanarEngine();
         PIDManagerFactory pf = getInjectorComponent().pidFactory();
-        MockDriveSubsystem b = (MockDriveSubsystem)getInjectorComponent().driveSubsystem();
-        this.poseSystem = (MockBasePoseSubsystem)getInjectorComponent().poseSubsystem();
+        MockDriveSubsystem b = (MockDriveSubsystem) getInjectorComponent().driveSubsystem();
+        this.poseSystem = (MockBasePoseSubsystem) getInjectorComponent().poseSubsystem();
         b.changeRotationalPid(pf.create("testRot", 0.05, 0, 0));
         b.changePositionalPid(pf.create("testPos", 0.1, 0, 0.1));
         command = getInjectorComponent().configurablePurePursuitCommand();
         command.setDotProductDrivingEnabled(true);
         setPoints();
         command.initialize();
-        startAsyncTimer();    
+        startAsyncTimer();
     }
 
     public void setPoints() {
         command.setPoints(points);
     }
-    
+
     public void startAsyncTimer() {
         asyncTimer = new Timer();
-        asyncTimer.schedule(
-            new TimerTask() {
-                @Override
-                public void run() {
-                    FieldPose robot = engine.getRobotPose();
-                    poseSystem.setCurrentHeading(robot.getHeading().getDegrees());
-                    poseSystem.setCurrentPosition(robot.getPoint().x, robot.getPoint().y);
-                    RabbitChaseInfo info = command.evaluateCurrentPoint(robot);
-                    FieldPose target = info.target;
-                    double angleToRabbit = target.getDeltaAngleToRabbit(robot, 5);
-                                        
-                    engine.step(info.translation, info.rotation);
-                    
-                    PursuitEnvironmentState state = new PursuitEnvironmentState(
-                            engine.getRobotPose(),
-                            target,
-                            info.rabbit,
-                            engine.loops,
-                            angleToRabbit,
-                            info.rotation,
-                            info.translation);
-                    
-                    asyncJob.onNewStep(state);
-                }
-            }, 0, (int)(100*this.periodMultiplier));
+        asyncTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                FieldPose robot = engine.getRobotPose();
+                poseSystem.setCurrentHeading(robot.getHeading().getDegrees());
+                poseSystem.setCurrentPosition(robot.getPoint().x, robot.getPoint().y);
+                RabbitChaseInfo info = command.evaluateCurrentPoint(robot);
+                FieldPose target = info.target;
+                double angleToRabbit = target.getDeltaAngleToRabbit(robot, 5);
+
+                engine.step(info.translation, info.rotation);
+
+                PursuitEnvironmentState state = new PursuitEnvironmentState(engine.getRobotPose(), target, info.rabbit, engine.loops, angleToRabbit,
+                        info.rotation, info.translation);
+
+                asyncJob.onNewStep(state);
+            }
+        }, 0, (int) (100 * this.periodMultiplier));
     }
-    
+
     public void stopTestEnv() {
         asyncTimer.cancel();
     }

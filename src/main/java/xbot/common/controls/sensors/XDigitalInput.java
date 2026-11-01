@@ -18,7 +18,7 @@ public abstract class XDigitalInput implements XBaseIO, DataFrameRefreshable {
     final XDigitalInputsAutoLogged inputs;
     final DeviceInfo info;
     private String akitName;
-    
+
     public interface XDigitalInputFactory {
         XDigitalInput create(DeviceInfo info, String owningSystemPrefix);
     }
@@ -31,15 +31,15 @@ public abstract class XDigitalInput implements XBaseIO, DataFrameRefreshable {
         this.setInverted(info.inverted);
         dataFrameRegistry.register(this);
     }
-    
+
     public boolean get() {
         return inputs.signal ^ inverted;
     }
-    
+
     public void setInverted(boolean inverted) {
         this.inverted = inverted;
     }
-    
+
     public boolean getInverted() {
         return inverted;
     }

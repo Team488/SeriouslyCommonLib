@@ -91,8 +91,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
         leftDriveDistance = currentLeftDistance;
         rightDriveDistance = currentRightDistance;
 
-        if (firstUpdate)
-        {
+        if (firstUpdate) {
             // For the very first update, we set the previous distance to the current distance - that way,
             // if the drive system initially reports non-zero travel distance, we will still report 0 initial
             // distance traveled.
@@ -134,8 +133,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     }
 
     /**
-     * Can be overriden by subclasses to provide a different heading source
-     * (e.g. a vision system, pose estimator, etc)
+     * Can be overriden by subclasses to provide a different heading source (e.g. a vision system, pose estimator, etc)
+     *
      * @return Current heading but if the navX is still booting up it will return 0
      */
     public Rotation2d getCurrentHeading() {
@@ -156,11 +155,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
 
     public Pose2d getCurrentPose2d() {
         var travelVector = getTravelVector();
-        return new Pose2d(
-                travelVector.x,
-                travelVector.y,
-                Rotation2d.fromDegrees(getCurrentHeadingGyroOnly().getDegrees())
-        );
+        return new Pose2d(travelVector.x, travelVector.y, Rotation2d.fromDegrees(getCurrentHeadingGyroOnly().getDegrees()));
     }
 
     public XYPair getCurrentVelocity() {
@@ -172,8 +167,9 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     }
 
     /**
-     * Returns the distance the robot has traveled forward. Rotations are ignored - if you drove forward 100 inches,
-     * then turned 180 degrees and drove another 100 inches, this would tell you that you have traveled 200 inches.
+     * Returns the distance the robot has traveled forward. Rotations are ignored - if you drove forward 100 inches, then
+     * turned 180 degrees and drove another 100 inches, this would tell you that you have traveled 200 inches.
+     *
      * @return Distance in inches traveled forward from the robot perspective
      */
     public double getRobotOrientedTotalDistanceTraveled() {
@@ -186,7 +182,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
         totalDistanceYRobotPerspective = 0;
     }
 
-    public void setCurrentHeading(double headingInDegrees){
+    public void setCurrentHeading(double headingInDegrees) {
         //log.info("Forcing heading to: " + headingInDegrees);
         double rawHeading = getRobotYaw().getDegrees();
         //log.info("Raw heading is: " + rawHeading);
@@ -207,12 +203,12 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     }
 
     /**
-     * This should be called as often as reasonably possible, to increase accuracy
-     * of the "distance traveled" calculation.
-     * <p>The PoseSubsystem can't directly own positional sensors, so some command will need to feed in the
-     * distance values coming from the DriveSubsystem. In order to have accurate calculations, these
-     * values need to be in inches, and should never be reset - any resetting should be done here
-     * in the PoseSubsystem</p>
+     * This should be called as often as reasonably possible, to increase accuracy of the "distance traveled" calculation.
+     * <p>
+     * The PoseSubsystem can't directly own positional sensors, so some command will need to feed in the distance values
+     * coming from the DriveSubsystem. In order to have accurate calculations, these values need to be in inches, and should
+     * never be reset - any resetting should be done here in the PoseSubsystem
+     * </p>
      */
     protected void updatePose() {
         updateCurrentHeading();
@@ -220,6 +216,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     }
 
     protected abstract double getLeftDriveDistance();
+
     protected abstract double getRightDriveDistance();
 
     public double getRobotPitch() {
@@ -231,8 +228,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     }
 
     /**
-     * If the RoboRIO is mounted in a position other than "flat" (e.g. with the pins facing upward)
-     * then this method will need to be overridden.
+     * If the RoboRIO is mounted in a position other than "flat" (e.g. with the pins facing upward) then this method will
+     * need to be overridden.
      */
     protected Rotation2d getRobotYaw() {
         return Rotation2d.fromDegrees(imu.getHeading().in(Degrees));
@@ -257,7 +254,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
         inherentRioRoll.set(getUntrimmedRoll());
     }
 
-    public double getYawAngularVelocity(){
+    public double getYawAngularVelocity() {
         return imu.getYawAngularVelocity().in(DegreesPerSecond);
     }
 

@@ -31,9 +31,9 @@ public abstract class XAnalogInput implements XBaseIO, DataFrameRefreshable {
     public abstract double getVoltage();
 
     /**
-     * Returns the software-window average captured by {@link #refreshDataFrame()}. Reading this
-     * value never adds a sample, so multiple consumers see the same value during a robot loop.
-     * Before the first data-frame refresh, this falls back to the current raw voltage.
+     * Returns the software-window average captured by {@link #refreshDataFrame()}. Reading this value never adds a sample,
+     * so multiple consumers see the same value during a robot loop. Before the first data-frame refresh, this falls back to
+     * the current raw voltage.
      */
     public final double getAverageVoltage() {
         double average = voltageAverager.getAverage();
@@ -43,12 +43,12 @@ public abstract class XAnalogInput implements XBaseIO, DataFrameRefreshable {
     /**
      * Configures the number of robot-loop samples in the software averaging window.
      *
-     * @param samples number of samples, from 1 through 128
+     * @param samples
+     *            number of samples, from 1 through 128
      */
     public final void setAverageSampleWindow(int samples) {
         if (samples < 1 || samples > MAX_AVERAGE_SAMPLES) {
-            throw new IllegalArgumentException(
-                    "Average sample window must be between 1 and " + MAX_AVERAGE_SAMPLES);
+            throw new IllegalArgumentException("Average sample window must be between 1 and " + MAX_AVERAGE_SAMPLES);
         }
         voltageAverager.setSampleWindow(samples);
     }
@@ -56,14 +56,13 @@ public abstract class XAnalogInput implements XBaseIO, DataFrameRefreshable {
     /**
      * Configures a software averaging window of {@code 2^bits} robot-loop samples.
      *
-     * @deprecated WPILib 2027 removed FPGA averaging. Prefer
-     *             {@link #setAverageSampleWindow(int)} to state the software filter size directly.
+     * @deprecated WPILib 2027 removed FPGA averaging. Prefer {@link #setAverageSampleWindow(int)} to state the software
+     *             filter size directly.
      */
     @Deprecated
     public final void setAverageBits(int bits) {
         if (bits < 0 || bits > MAX_AVERAGE_BITS) {
-            throw new IllegalArgumentException(
-                    "Average bits must be between 0 and " + MAX_AVERAGE_BITS);
+            throw new IllegalArgumentException("Average bits must be between 0 and " + MAX_AVERAGE_BITS);
         }
         setAverageSampleWindow(1 << bits);
     }

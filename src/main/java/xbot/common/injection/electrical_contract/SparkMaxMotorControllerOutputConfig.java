@@ -28,10 +28,9 @@ public class SparkMaxMotorControllerOutputConfig extends CANMotorControllerOutpu
     }
 
     /**
-     * Sets the smart current limits for Spark motor controllers.
-     * RPMs lower than the stallSpeed will be limited to stallCurrent,
-     * RPMs higher than the stall speed with have current limits linearly increasing
-     * with speed (up to the max free speed of the motor) up to freeCurrent..
+     * Sets the smart current limits for Spark motor controllers. RPMs lower than the stallSpeed will be limited to
+     * stallCurrent, RPMs higher than the stall speed with have current limits linearly increasing with speed (up to the max
+     * free speed of the motor) up to freeCurrent..
      */
     public SparkMaxMotorControllerOutputConfig withSmartCurrentLimit(Current stallCurrent, Current freeCurrent, AngularVelocity stallSpeed) {
         this.sparkStallCurrentLimit = stallCurrent;
@@ -41,8 +40,8 @@ public class SparkMaxMotorControllerOutputConfig extends CANMotorControllerOutpu
     }
 
     /**
-     * Sets the smart current limits for Spark motor controllers, using the same current for stall and free.
-     * This method sets a fixed current limit over the whole speed range.
+     * Sets the smart current limits for Spark motor controllers, using the same current for stall and free. This method
+     * sets a fixed current limit over the whole speed range.
      */
     public SparkMaxMotorControllerOutputConfig withSmartCurrentLimit(Current stallCurrent) {
         this.sparkStallCurrentLimit = stallCurrent;

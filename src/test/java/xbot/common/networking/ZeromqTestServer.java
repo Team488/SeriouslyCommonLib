@@ -19,12 +19,12 @@ public class ZeromqTestServer implements Runnable {
 
         //  Initialize random number generator
         Random srandom = new Random(System.currentTimeMillis());
-        while (!Thread.currentThread ().isInterrupted ()) {
+        while (!Thread.currentThread().isInterrupted()) {
             //  Get values that will fool the boss
             int zipcode;
             int temperature;
             int relhumidity;
-            zipcode = 10000 + srandom.nextInt(10000) ;
+            zipcode = 10000 + srandom.nextInt(10000);
             temperature = srandom.nextInt(215) - 80 + 1;
             relhumidity = srandom.nextInt(50) + 10 + 1;
 
@@ -33,8 +33,8 @@ public class ZeromqTestServer implements Runnable {
             publisher.send(update, 0);
         }
 
-        publisher.close ();
-        context.term ();
+        publisher.close();
+        context.term();
     }
 
 }

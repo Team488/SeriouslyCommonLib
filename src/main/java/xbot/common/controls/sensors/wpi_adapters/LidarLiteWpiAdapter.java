@@ -12,10 +12,10 @@ import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.DevicePolice;
 import xbot.common.properties.TunableFactory;
 
-public class LidarLiteWpiAdapter extends XLidarLite{
+public class LidarLiteWpiAdapter extends XLidarLite {
 
     private I2C i2c;
-    
+
     @AssistedFactory
     public abstract static class LidarLiteWpiAdapterFactory implements XLidarLiteFactory {
         public abstract LidarLiteWpiAdapter create(@Assisted("port") Port port, @Assisted("prefix") String prefix);
@@ -25,7 +25,7 @@ public class LidarLiteWpiAdapter extends XLidarLite{
     public LidarLiteWpiAdapter(@Assisted("port") Port port, TunableFactory tunableFactory, DevicePolice police, @Assisted("prefix") String prefix) {
         super(port, tunableFactory, police, prefix);
 
-      i2c = new I2C(port, lidar_address);
+        i2c = new I2C(port, lidar_address);
     }
 
     @Override

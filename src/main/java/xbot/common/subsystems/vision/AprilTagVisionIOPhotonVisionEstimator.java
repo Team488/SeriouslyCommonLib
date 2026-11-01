@@ -41,8 +41,7 @@ import dagger.assisted.AssistedInject;
 import xbot.common.properties.TunableFactory;
 
 /**
- * IO implementation for real PhotonVision hardware.
- * Based on the AdvantageKit sample implementation by team 6328.
+ * IO implementation for real PhotonVision hardware. Based on the AdvantageKit sample implementation by team 6328.
  */
 public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
 
@@ -59,8 +58,8 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
     private static final int[] EMPTY_TAG_IDS_OBSERVATION = new int[0];
     private static final PoseObservation[] EMPTY_POSE_OBSERVATION = new PoseObservation[0];
     private static final TargetObservation[] EMPTY_TARGET_OBSERVATIONS = new TargetObservation[0];
-    private static final TargetObservation EMPTY_TARGET_OBSERVATION = new TargetObservation(0, 0, new Rotation2d(),
-            new Rotation2d(), new Transform3d(), 1, true);
+    private static final TargetObservation EMPTY_TARGET_OBSERVATION = new TargetObservation(0, 0, new Rotation2d(), new Rotation2d(), new Transform3d(), 1,
+            true);
     // Using same heartbeat bounce as photonvision:
     // https://github.com/PhotonVision/photonvision/blob/3c332db4bfe9083fc0311ae71cff92de588939ad/photon-lib/src/main/java/org/photonvision/PhotonCamera.java#L107
     private static final double HEARTBEAT_DEBOUNCE_SEC = 0.5;
@@ -78,22 +77,24 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
     private final TunableDouble multipleTagStdDev2;
     private final TunableDouble multipleTagAngularStdDev;
 
-
     protected final Transform3d robotToCamera;
 
     /**
      * Creates a new VisionIOPhotonVisionEstimator.
      *
-     * @param name          The configured name of the camera.
-     * @param robotToCamera The 3D position of the camera relative to the robot.
-     * @param fieldLayout   The April Tag field layout.
+     * @param name
+     *            The configured name of the camera.
+     * @param robotToCamera
+     *            The 3D position of the camera relative to the robot.
+     * @param fieldLayout
+     *            The April Tag field layout.
      */
     @AssistedInject
-    public AprilTagVisionIOPhotonVisionEstimator(@Assisted String name, @Assisted Transform3d robotToCamera,
-                                                 Fields fieldLayout, TunableFactory tunableFactory) {
+    public AprilTagVisionIOPhotonVisionEstimator(@Assisted String name, @Assisted Transform3d robotToCamera, Fields fieldLayout,
+            TunableFactory tunableFactory) {
         this.logPath = name;
         this.camera = new PhotonCamera(name);
-        this.aprilTagFieldLayout= fieldLayout;
+        this.aprilTagFieldLayout = fieldLayout;
         this.robotToCamera = robotToCamera;
         this.photonEstimator = new PhotonPoseEstimator(this.aprilTagFieldLayout.loadField(), this.robotToCamera);
 
@@ -130,35 +131,19 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
                 visionEst = this.photonEstimator.estimateLowestAmbiguityPose(result);
             }
 
-            visionEst.ifPresent(
-                                est -> {
-                                    // Change our trust in the measurement based on the tags we can see
-                                    var estStdDevs = this.getEstimationStdDevs(est, result.getTargets());
-                                    var targets = result.getTargets();
-                                    var ambiguityStats = targets.stream()
-                                        .map(t -> t.getPoseAmbiguity())
-                                        .mapToDouble(Double::doubleValue)
-                                        .summaryStatistics();
-                                    var distanceStats = targets.stream()
-                                        .map(t -> t.bestCameraToTarget.getTranslation().getNorm())
-                                        .mapToDouble(Double::doubleValue)
-                                        .summaryStatistics();
-                                    var targetTagIds = targets.stream()
-                                        .map(t -> t.getFiducialId())
-                                        .collect(Collectors.toList());
-                                    tagIds.addAll(targetTagIds);
+            visionEst.ifPresent(est -> {
+                // Change our trust in the measurement based on the tags we can see
+                var estStdDevs = this.getEstimationStdDevs(est, result.getTargets());
+                var targets = result.getTargets();
+                var ambiguityStats = targets.stream().map(t -> t.getPoseAmbiguity()).mapToDouble(Double::doubleValue).summaryStatistics();
+                var distanceStats = targets.stream().map(t -> t.bestCameraToTarget.getTranslation().getNorm()).mapToDouble(Double::doubleValue)
+                        .summaryStatistics();
+                var targetTagIds = targets.stream().map(t -> t.getFiducialId()).collect(Collectors.toList());
+                tagIds.addAll(targetTagIds);
 
-                                    poseObservations.add(
-                                        new PoseObservation(est.timestampSeconds,
-                                                            est.estimatedPose,
-                                                            ambiguityStats.getAverage(),
-                                                            (int) ambiguityStats.getCount(),
-                                                            distanceStats.getAverage(),
-                                                            estStdDevs.get(0, 0),
-                                                            estStdDevs.get(1, 0),
-                                                            estStdDevs.get(2, 0),
-                                                            PoseObservationType.PHOTONVISION));
-                                });
+                poseObservations.add(new PoseObservation(est.timestampSeconds, est.estimatedPose, ambiguityStats.getAverage(), (int) ambiguityStats.getCount(),
+                        distanceStats.getAverage(), estStdDevs.get(0, 0), estStdDevs.get(1, 0), estStdDevs.get(2, 0), PoseObservationType.PHOTONVISION));
+            });
         }
         inputs.poseObservations = poseObservations.stream().toArray(PoseObservation[]::new);
         inputs.tagIds = tagIds.stream().mapToInt(Number::intValue).toArray();
@@ -167,14 +152,15 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
     }
 
     /**
-     * Calculates new standard deviations This algorithm is a heuristic that creates dynamic standard
-     * deviations based on number of tags, estimation strategy, and distance from the tags.
+     * Calculates new standard deviations This algorithm is a heuristic that creates dynamic standard deviations based on
+     * number of tags, estimation strategy, and distance from the tags.
      *
-     * @param estimatedPose The estimated pose to guess standard deviations for.
-     * @param targets All targets in this camera frame
+     * @param estimatedPose
+     *            The estimated pose to guess standard deviations for.
+     * @param targets
+     *            All targets in this camera frame
      */
-    private Matrix<N3, N1> getEstimationStdDevs(
-            EstimatedRobotPose estimatedPose, List<PhotonTrackedTarget> targets) {
+    private Matrix<N3, N1> getEstimationStdDevs(EstimatedRobotPose estimatedPose, List<PhotonTrackedTarget> targets) {
         var singleTagStdDevs = VecBuilder.fill(this.singleTagStdDev1.get(), this.singleTagStdDev2.get(), this.singleTagAngularStdDev.get());
         var multipleTagStdDevs = VecBuilder.fill(this.multipleTagStdDev1.get(), this.multipleTagStdDev2.get(), this.multipleTagAngularStdDev.get());
         // Pose present. Start running Heuristic
@@ -189,12 +175,7 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
                 continue;
             }
             numTags++;
-            avgDist +=
-                tagPose
-                .get()
-                .toPose2d()
-                .getTranslation()
-                .getDistance(estimatedPose.estimatedPose.toPose2d().getTranslation());
+            avgDist += tagPose.get().toPose2d().getTranslation().getDistance(estimatedPose.estimatedPose.toPose2d().getTranslation());
         }
 
         if (numTags == 0) {

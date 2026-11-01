@@ -16,18 +16,12 @@ public class MockDigitalInput extends XDigitalInput {
     final int channel;
 
     @AssistedFactory
-    public abstract static class MockDigitalInputFactory implements XDigitalInputFactory
-    {
-        public abstract MockDigitalInput create(
-                @Assisted("info")DeviceInfo info,
-                @Assisted("owningSystemPrefix") String owningSystemPrefix);
+    public abstract static class MockDigitalInputFactory implements XDigitalInputFactory {
+        public abstract MockDigitalInput create(@Assisted("info") DeviceInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix);
     }
 
     @AssistedInject
-    public MockDigitalInput(
-            @Assisted("info") DeviceInfo info,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            DevicePolice police,
+    public MockDigitalInput(@Assisted("info") DeviceInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix, DevicePolice police,
             DataFrameRegistry dataFrameRegistry) {
         super(police, info, owningSystemPrefix, dataFrameRegistry);
         this.channel = info.channel;

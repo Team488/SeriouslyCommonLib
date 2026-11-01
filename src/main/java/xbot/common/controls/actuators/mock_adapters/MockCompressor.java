@@ -6,7 +6,7 @@ import dagger.assisted.AssistedInject;
 import xbot.common.controls.actuators.XCompressor;
 
 public class MockCompressor extends XCompressor {
-    
+
     private boolean isEnabled = true;
 
     @AssistedFactory

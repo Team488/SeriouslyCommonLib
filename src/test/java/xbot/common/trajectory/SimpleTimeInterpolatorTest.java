@@ -60,8 +60,7 @@ public class SimpleTimeInterpolatorTest extends BaseCommonLibTest {
         };
     }
 
-    private ProvidesInterpolationData createKinematicsPoint(double x, double y, double secondsForSegment,
-                                                             SwervePointKinematics kinematics) {
+    private ProvidesInterpolationData createKinematicsPoint(double x, double y, double secondsForSegment, SwervePointKinematics kinematics) {
         return new ProvidesInterpolationData() {
             @Override
             public Translation2d getTranslation2d() {

@@ -21,7 +21,7 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
     public void testBasicOperation() {
         var subsystem = this.getInjectorComponent().getAprilTagVisionSubsystem();
         var registry = this.getInjectorComponent().dataFrameRegistry();
-        
+
         assertEquals(1, subsystem.getCameraCount());
         assertEquals(1, subsystem.io.length);
         registry.refreshAll();
@@ -36,16 +36,12 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
 
         var io = (MockAprilTagVisionIO) subsystem.io[0];
         io.poseObservations = new AprilTagVisionIO.PoseObservation[] {
-                new AprilTagVisionIO.PoseObservation(1, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()),
-                        0, 2, 0,
-                        0.02, 0.02, 0.6, AprilTagVisionIO.PoseObservationType.PHOTONVISION),
-                new AprilTagVisionIO.PoseObservation(2, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()),
-                        0, 2, 0,
-                        0.02, 0.02, 0.6, AprilTagVisionIO.PoseObservationType.PHOTONVISION),
-                new AprilTagVisionIO.PoseObservation(3, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()),
-                        0, 2, 0,
-                        0.02, 0.02, 0.6, AprilTagVisionIO.PoseObservationType.PHOTONVISION)
-        };
+                new AprilTagVisionIO.PoseObservation(1, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()), 0, 2, 0, 0.02, 0.02, 0.6,
+                        AprilTagVisionIO.PoseObservationType.PHOTONVISION),
+                new AprilTagVisionIO.PoseObservation(2, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()), 0, 2, 0, 0.02, 0.02, 0.6,
+                        AprilTagVisionIO.PoseObservationType.PHOTONVISION),
+                new AprilTagVisionIO.PoseObservation(3, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()), 0, 2, 0, 0.02, 0.02, 0.6,
+                        AprilTagVisionIO.PoseObservationType.PHOTONVISION) };
         io.tagIds = new int[] { 1, 2, 3 };
         registry.refreshAll();
         subsystem.periodic();
@@ -69,16 +65,11 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
         var registry = this.getInjectorComponent().dataFrameRegistry();
 
         var io = (MockAprilTagVisionIO) subsystem.io[0];
-        io.latestTargetObservation = new AprilTagVisionIO.TargetObservation(0, 1, new Rotation2d(), new Rotation2d(),
-                new Transform3d(), 0.2, false);
+        io.latestTargetObservation = new AprilTagVisionIO.TargetObservation(0, 1, new Rotation2d(), new Rotation2d(), new Transform3d(), 0.2, false);
         io.targetObservations = new AprilTagVisionIO.TargetObservation[] {
-                new AprilTagVisionIO.TargetObservation(0, 1, new Rotation2d(), new Rotation2d(), new Transform3d(), 0.2,
-                        false),
-                new AprilTagVisionIO.TargetObservation(0, 2, new Rotation2d(), new Rotation2d(), new Transform3d(), 0.2,
-                        false),
-                new AprilTagVisionIO.TargetObservation(0, 3, new Rotation2d(), new Rotation2d(), new Transform3d(), 0.2,
-                        false)
-        };
+                new AprilTagVisionIO.TargetObservation(0, 1, new Rotation2d(), new Rotation2d(), new Transform3d(), 0.2, false),
+                new AprilTagVisionIO.TargetObservation(0, 2, new Rotation2d(), new Rotation2d(), new Transform3d(), 0.2, false),
+                new AprilTagVisionIO.TargetObservation(0, 3, new Rotation2d(), new Rotation2d(), new Transform3d(), 0.2, false) };
         io.tagIds = new int[] { 1, 2, 3 };
         registry.refreshAll();
         subsystem.periodic();

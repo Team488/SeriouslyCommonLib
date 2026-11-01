@@ -16,9 +16,9 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.logging.RobotAssertionManager;
 
 public class JoystickWPIAdapter extends XJoystick {
-    
+
     private Joystick internalHID;
-    
+
     @AssistedFactory
     public abstract static class JoystickWPIAdapterFactory implements XJoystickFactory {
         @Override
@@ -26,19 +26,14 @@ public class JoystickWPIAdapter extends XJoystick {
     }
 
     @AssistedInject
-    public JoystickWPIAdapter(
-            @Assisted("port") int port, 
-            @Assisted("numButtons") int numButtons,
-            AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
-            AdvancedPovButtonTriggerFactory povButtonFactory,
-            AnalogHIDButtonTriggerFactory analogHidButtonFactory,
-            RobotAssertionManager assertionManager, 
+    public JoystickWPIAdapter(@Assisted("port") int port, @Assisted("numButtons") int numButtons, AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
+            AdvancedPovButtonTriggerFactory povButtonFactory, AnalogHIDButtonTriggerFactory analogHidButtonFactory, RobotAssertionManager assertionManager,
             DevicePolice police) {
         super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, assertionManager, numButtons, police);
-        
+
         internalHID = new Joystick(port);
     }
-    
+
     protected double getX() {
         return internalHID.getRawAxis(0);
     }

@@ -28,7 +28,7 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
 
     @Inject
     public SwerveSimpleTrajectoryCommand(BaseSwerveDriveSubsystem drive, BasePoseSubsystem pose, TunableFactory tunableFactory,
-                                         HeadingModuleFactory headingModuleFactory, RobotAssertionManager assertionManager) {
+            HeadingModuleFactory headingModuleFactory, RobotAssertionManager assertionManager) {
         this.drive = drive;
         this.pose = pose;
         headingModule = headingModuleFactory.create(drive.getRotateToHeadingPid());
@@ -56,8 +56,7 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
 
     @Override
     public void execute() {
-        Twist2d powers = logic.calculatePowers(pose.getCurrentPose2d(), drive.getPositionalPid(),
-                headingModule, drive.getMaxTargetSpeedMetersPerSecond());
+        Twist2d powers = logic.calculatePowers(pose.getCurrentPose2d(), drive.getPositionalPid(), headingModule, drive.getMaxTargetSpeedMetersPerSecond());
 
         if (constantRotationEnabled) {
             if (constantRotationPowerSupplier != null) {
@@ -67,23 +66,22 @@ public class SwerveSimpleTrajectoryCommand extends BaseCommand {
 
         aKitLog.record("Powers", powers);
 
-        drive.fieldOrientedDrive(
-                new XYPair(powers.dx, powers.dy),
-                powers.dtheta, pose.getCurrentHeading().getDegrees(), false);
+        drive.fieldOrientedDrive(new XYPair(powers.dx, powers.dy), powers.dtheta, pose.getCurrentHeading().getDegrees(), false);
     }
 
     @Override
     public boolean isFinished() {
-        return logic.recommendIsFinished(pose.getCurrentPose2d(), drive.getPositionalPid(), headingModule)
-                || alternativeIsFinishedSupplier.getAsBoolean();
+        return logic.recommendIsFinished(pose.getCurrentPose2d(), drive.getPositionalPid(), headingModule) || alternativeIsFinishedSupplier.getAsBoolean();
     }
 
     public void setAlternativeIsFinishedSupplier(BooleanSupplier alternativeIsFinishedSupplier) {
         this.alternativeIsFinishedSupplier = alternativeIsFinishedSupplier;
     }
+
     public BooleanSupplier getAlternativeIsFinishedSupplier() {
         return alternativeIsFinishedSupplier;
     }
+
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);

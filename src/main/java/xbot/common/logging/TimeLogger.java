@@ -46,7 +46,7 @@ public class TimeLogger {
         callCount++;
 
         if (getPerformanceTimestamp() - lastReportTime > reportingIntervalInSeconds && callCount > 0) {
-            double averageLoopDuration = accumulatedTime / (double)callCount;
+            double averageLoopDuration = accumulatedTime / (double) callCount;
             log.info("Average duration for {} was: {} seconds", name, averageLoopDuration);
 
             reset();

@@ -17,7 +17,6 @@ public class ZeromqListenerTest extends BaseCommonLibTest {
         ZeromqListener client = new ZeromqListener("tcp://localhost:5556", "10001 ");
         client.setNewPacketHandler(packet -> handlePacket(packet));
 
-       
         client.start();
 
         while (true) {
@@ -36,13 +35,13 @@ public class ZeromqListenerTest extends BaseCommonLibTest {
         serverThread.start();
 
         ZeromqListener client = new ZeromqListener("tcp://localhost:5556", "10001 ");
-        client.start();        
+        client.start();
     }
 
     @Test
     public void stopBeforeStart() {
         ZeromqListener client = new ZeromqListener("tcp://localhost:5556", "10001 ");
-        client.stop();   
+        client.stop();
     }
 
     private void handlePacket(String packet) {

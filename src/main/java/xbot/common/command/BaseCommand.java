@@ -16,8 +16,7 @@ import xbot.common.logging.TimeLogger;
 import xbot.common.properties.TunablePrefixProvider;
 
 /**
- * Enhanced version of WPILib's Command that allows for extension of existing
- * functionality.
+ * Enhanced version of WPILib's Command that allows for extension of existing functionality.
  */
 public abstract class BaseCommand extends Command implements AutoCloseable, TunablePrefixProvider {
 

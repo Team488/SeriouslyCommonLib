@@ -77,22 +77,28 @@ public class MockDriveSubsystem extends BaseDriveSubsystem {
     }
 
     public void changeIntoTankDrive() {
-        leftTank = motorControllerFactory.create(new CANMotorControllerInfo("Left", MotorControllerType.SparkMax, CANPort.CAN_S0, 0,
-                new CANMotorControllerOutputConfig()), this.getPrefix(), this.getPrefix());
-        rightTank = motorControllerFactory.create(new CANMotorControllerInfo("Left", MotorControllerType.SparkMax, CANPort.CAN_S0, 1,
-                new CANMotorControllerOutputConfig()), this.getPrefix(), this.getPrefix());
+        leftTank = motorControllerFactory.create(
+                new CANMotorControllerInfo("Left", MotorControllerType.SparkMax, CANPort.CAN_S0, 0, new CANMotorControllerOutputConfig()), this.getPrefix(),
+                this.getPrefix());
+        rightTank = motorControllerFactory.create(
+                new CANMotorControllerInfo("Left", MotorControllerType.SparkMax, CANPort.CAN_S0, 1, new CANMotorControllerOutputConfig()), this.getPrefix(),
+                this.getPrefix());
     }
 
     public void changeIntoMecanum() {
         // for simple tests, assume tank drive.
-        fl = motorControllerFactory.create(new CANMotorControllerInfo("FL", MotorControllerType.SparkMax, CANPort.CAN_S0, 2,
-                new CANMotorControllerOutputConfig()), this.getPrefix(), this.getPrefix());
-        rl = motorControllerFactory.create(new CANMotorControllerInfo("RL", MotorControllerType.SparkMax, CANPort.CAN_S0, 3,
-                new CANMotorControllerOutputConfig()), this.getPrefix(), this.getPrefix());
-        fr = motorControllerFactory.create(new CANMotorControllerInfo("FR", MotorControllerType.SparkMax, CANPort.CAN_S0, 4,
-                new CANMotorControllerOutputConfig()), this.getPrefix(), this.getPrefix());
-        rr = motorControllerFactory.create(new CANMotorControllerInfo("RR", MotorControllerType.SparkMax, CANPort.CAN_S0, 5,
-                new CANMotorControllerOutputConfig()), this.getPrefix(), this.getPrefix());
+        fl = motorControllerFactory.create(
+                new CANMotorControllerInfo("FL", MotorControllerType.SparkMax, CANPort.CAN_S0, 2, new CANMotorControllerOutputConfig()), this.getPrefix(),
+                this.getPrefix());
+        rl = motorControllerFactory.create(
+                new CANMotorControllerInfo("RL", MotorControllerType.SparkMax, CANPort.CAN_S0, 3, new CANMotorControllerOutputConfig()), this.getPrefix(),
+                this.getPrefix());
+        fr = motorControllerFactory.create(
+                new CANMotorControllerInfo("FR", MotorControllerType.SparkMax, CANPort.CAN_S0, 4, new CANMotorControllerOutputConfig()), this.getPrefix(),
+                this.getPrefix());
+        rr = motorControllerFactory.create(
+                new CANMotorControllerInfo("RR", MotorControllerType.SparkMax, CANPort.CAN_S0, 5, new CANMotorControllerOutputConfig()), this.getPrefix(),
+                this.getPrefix());
     }
 
     @Override

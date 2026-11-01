@@ -26,7 +26,7 @@ public abstract class MockControlsModule {
     @Binds
     @Singleton
     public abstract XXboxControllerFactory getXboxControllerFactory(MockXboxControllerFactory impl);
-    
+
     @Binds
     @Singleton
     public abstract XGamepadFactory getGamepadFactory(MockGamepadFactory impl);

@@ -57,16 +57,15 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final List<Pose3d> robotPosesRejected = new LinkedList<>();
     private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
 
-    public AprilTagVisionCameraHelper(String prefix, TunableFactory tunableFactory, AprilTagVisionIO io,
-            Fields fieldLayout, DataFrameRegistry registry, boolean useForPoseEstimates) {
+    public AprilTagVisionCameraHelper(String prefix, TunableFactory tunableFactory, AprilTagVisionIO io, Fields fieldLayout, DataFrameRegistry registry,
+            boolean useForPoseEstimates) {
         this.logPath = prefix;
         this.io = io;
         this.inputs = new VisionIOInputsAutoLogged();
         registry.register(this);
         this.aprilTagFieldLayout = fieldLayout;
         String alertId = getClass().getName() + "-" + NEXT_ALERT_ID.getAndIncrement();
-        this.disconnectedAlert = new Alert(AlertGroups.DEVICE_HEALTH, alertId,
-                "Vision camera " + prefix + " is disconnected.", Alert.Level.HIGH);
+        this.disconnectedAlert = new Alert(AlertGroups.DEVICE_HEALTH, alertId, "Vision camera " + prefix + " is disconnected.", Alert.Level.HIGH);
         this.useForPoseEstimates = useForPoseEstimates;
 
         tunableFactory.setPrefix(this.logPath);
@@ -75,8 +74,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.linearStdDevBaseline = tunableFactory.createDouble("LinearStdDevBaseline", 0.02 /* meters */);
         this.angularStdDevBaseline = tunableFactory.createDouble("AngularStdDevBaseline", 0.06 /* radians */);
         this.linearStdDevMegatag2Factor = tunableFactory.createDouble("LinearStdDevMegatag2Factor", 0.5);
-        this.angularStdDevMegatag2Factor = tunableFactory.createDouble("AngularStdDevMegatag2Factor",
-                Double.POSITIVE_INFINITY);
+        this.angularStdDevMegatag2Factor = tunableFactory.createDouble("AngularStdDevMegatag2Factor", Double.POSITIVE_INFINITY);
         this.cameraStdDevFactor = tunableFactory.createDouble("CameraStdDevFactor", 1.0);
         this.maxSingleTagDistance = tunableFactory.createDouble("MaxSingleTagDistance", 1.0);
         this.maxMultiTagDistance = tunableFactory.createDouble("MaxMultiTagDistance", 5.0);
@@ -159,17 +157,14 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
                 continue;
             }
 
-            poseObservations.add(new VisionPoseObservation(observation.pose().toPose2d(),
-                                                           observation.timestamp(),
-                                                           VecBuilder.fill(observation.stdDev0(), observation.stdDev1(), observation.stdDev2())));
+            poseObservations.add(new VisionPoseObservation(observation.pose().toPose2d(), observation.timestamp(),
+                    VecBuilder.fill(observation.stdDev0(), observation.stdDev1(), observation.stdDev2())));
         }
     }
 
     private boolean isObservationOutOfBounds(Pose3d pose) {
         // Must be within the field boundaries
-        return pose.getX() <= 0.0
-                || pose.getX() > aprilTagFieldLayout.loadField().getFieldLength()
-                || pose.getY() <= 0.0
+        return pose.getX() <= 0.0 || pose.getX() > aprilTagFieldLayout.loadField().getFieldLength() || pose.getY() <= 0.0
                 || pose.getY() > aprilTagFieldLayout.loadField().getFieldWidth();
     }
 

@@ -31,7 +31,7 @@ public class RealTunableCommandPublisher implements TunableCommandPublisher {
     }
 
     private void reportDuplicatePath(String path) {
-        assertionManager.fail("Cannot publish command to Tunables path '" + path
-                + "' because that path is already in use; the first command remains published.");
+        assertionManager
+                .fail("Cannot publish command to Tunables path '" + path + "' because that path is already in use; the first command remains published.");
     }
 }

@@ -15,10 +15,9 @@ public class XCANMotorControllerFactoryImpl implements XCANMotorController.XCANM
     //private final CANVictorSPXWpiAdapter.CANVictorSPXWpiAdapterFactory victorSPXFactory;
 
     @Inject
-    public XCANMotorControllerFactoryImpl(
-            CANTalonFxWpiAdapter.CANTalonFxWpiAdapterFactory talonFxFactory,
+    public XCANMotorControllerFactoryImpl(CANTalonFxWpiAdapter.CANTalonFxWpiAdapterFactory talonFxFactory,
             CANSparkMaxWpiAdapter.CANSparkMaxWpiAdapterFactory sparkMaxFactory//,
-            //CANVictorSPXWpiAdapter.CANVictorSPXWpiAdapterFactory victorSPXFactory
+    //CANVictorSPXWpiAdapter.CANVictorSPXWpiAdapterFactory victorSPXFactory
     ) {
         this.talonFxFactory = talonFxFactory;
         this.sparkMaxFactory = sparkMaxFactory;
@@ -26,23 +25,20 @@ public class XCANMotorControllerFactoryImpl implements XCANMotorController.XCANM
     }
 
     @Override
-    public XCANMotorController create(
-            CANMotorControllerInfo info,
-            String owningSystemPrefix,
-            String pidTunablePrefix,
+    public XCANMotorController create(CANMotorControllerInfo info, String owningSystemPrefix, String pidTunablePrefix,
             XCANMotorControllerPIDProperties defaultPIDProperties) {
         switch (info.type()) {
-            case TalonFx -> {
-                return talonFxFactory.create(info, owningSystemPrefix, pidTunablePrefix, defaultPIDProperties);
-            }
-            case SparkMax -> {
-                return sparkMaxFactory.create(info, owningSystemPrefix, pidTunablePrefix, defaultPIDProperties);
-            }
-            //case VictorSPX -> {
-            //    return victorSPXFactory.create(info, owningSystemPrefix, pidTunablePrefix, defaultPIDProperties);
-            //}
-            // TODO: can't throw exceptions unless they come from the RobotAssertionManager.
-            default -> throw new IllegalArgumentException("Unknown motor controller type: " + info.type());
+        case TalonFx -> {
+            return talonFxFactory.create(info, owningSystemPrefix, pidTunablePrefix, defaultPIDProperties);
+        }
+        case SparkMax -> {
+            return sparkMaxFactory.create(info, owningSystemPrefix, pidTunablePrefix, defaultPIDProperties);
+        }
+        //case VictorSPX -> {
+        //    return victorSPXFactory.create(info, owningSystemPrefix, pidTunablePrefix, defaultPIDProperties);
+        //}
+        // TODO: can't throw exceptions unless they come from the RobotAssertionManager.
+        default -> throw new IllegalArgumentException("Unknown motor controller type: " + info.type());
         }
     }
 }

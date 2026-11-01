@@ -14,8 +14,7 @@ import xbot.common.properties.TunableFactory;
 import xbot.common.properties.TunableLevel;
 
 /**
- * Wrapper for PID class which automatically publishes the P, I and D values
- * as Tunables.
+ * Wrapper for PID class which automatically publishes the P, I and D values as Tunables.
  */
 public class PIDManager extends PIDTunableManager {
     private PID pid;
@@ -30,76 +29,32 @@ public class PIDManager extends PIDTunableManager {
 
     @AssistedFactory
     public abstract static class PIDManagerFactory {
-        public abstract PIDManager create(
-                String functionName,
-                @Assisted("defaultP") double defaultP,
-                @Assisted("defaultI") double defaultI,
-                @Assisted("defaultD") double defaultD,
-                @Assisted("defaultF") double defaultF,
-                @Assisted("defaultMaxOutput") double defaultMaxOutput,
-                @Assisted("defaultMinOutput") double defaultMinOutput,
-                @Assisted("errorThreshold") double errorThreshold,
-                @Assisted("derivativeThreshold") double derivativeThreshold,
-                @Assisted("timeThreshold") double timeThreshold,
-                @Assisted("iZone") double iZone);
+        public abstract PIDManager create(String functionName, @Assisted("defaultP") double defaultP, @Assisted("defaultI") double defaultI,
+                @Assisted("defaultD") double defaultD, @Assisted("defaultF") double defaultF, @Assisted("defaultMaxOutput") double defaultMaxOutput,
+                @Assisted("defaultMinOutput") double defaultMinOutput, @Assisted("errorThreshold") double errorThreshold,
+                @Assisted("derivativeThreshold") double derivativeThreshold, @Assisted("timeThreshold") double timeThreshold, @Assisted("iZone") double iZone);
 
         public PIDManager create(String functionName, PIDDefaults defaults) {
-            return create(functionName,
-                    defaults.p(),
-                    defaults.i(),
-                    defaults.d(),
-                    defaults.f(),
-                    defaults.maxOutput(),
-                    defaults.minOutput(),
-                    defaults.errorThreshold(),
-                    defaults.derivativeThreshold(),
-                    defaults.timeThreshold(),
-                    defaults.iZone());
+            return create(functionName, defaults.p(), defaults.i(), defaults.d(), defaults.f(), defaults.maxOutput(), defaults.minOutput(),
+                    defaults.errorThreshold(), defaults.derivativeThreshold(), defaults.timeThreshold(), defaults.iZone());
         }
 
-        public PIDManager create(
-                String functionName,
-                double defaultP,
-                double defaultI,
-                double defaultD,
-                double defaultF,
-                double defaultMaxOutput,
-                double defaultMinOutput,
-                double errorThreshold,
-                double derivativeThreshold,
-                double timeThreshold) {
-            return create(functionName, defaultP, defaultI, defaultD, defaultF, defaultMaxOutput,
-                    defaultMinOutput, errorThreshold, derivativeThreshold, timeThreshold, -1);
+        public PIDManager create(String functionName, double defaultP, double defaultI, double defaultD, double defaultF, double defaultMaxOutput,
+                double defaultMinOutput, double errorThreshold, double derivativeThreshold, double timeThreshold) {
+            return create(functionName, defaultP, defaultI, defaultD, defaultF, defaultMaxOutput, defaultMinOutput, errorThreshold, derivativeThreshold,
+                    timeThreshold, -1);
         }
 
-        public PIDManager create(
-                String functionName,
-                double defaultP,
-                double defaultI,
-                double defaultD,
-                double defaultF,
-                double defaultMaxOutput,
+        public PIDManager create(String functionName, double defaultP, double defaultI, double defaultD, double defaultF, double defaultMaxOutput,
                 double defaultMinOutput) {
-            return create(functionName, defaultP, defaultI, defaultD, defaultF, defaultMaxOutput,
-                    defaultMinOutput, -1, -1, -1);
+            return create(functionName, defaultP, defaultI, defaultD, defaultF, defaultMaxOutput, defaultMinOutput, -1, -1, -1);
         }
 
-        public PIDManager create(
-                String functionName,
-                double defaultP,
-                double defaultI,
-                double defaultD,
-                double defaultMaxOutput,
-                double defaultMinOutput) {
-            return create(functionName, defaultP, defaultI, defaultD, 0, defaultMaxOutput,
-                    defaultMinOutput);
+        public PIDManager create(String functionName, double defaultP, double defaultI, double defaultD, double defaultMaxOutput, double defaultMinOutput) {
+            return create(functionName, defaultP, defaultI, defaultD, 0, defaultMaxOutput, defaultMinOutput);
         }
 
-        public PIDManager create(
-                String functionName,
-                double defaultP,
-                double defaultI,
-                double defaultD) {
+        public PIDManager create(String functionName, double defaultP, double defaultI, double defaultD) {
             return create(functionName, defaultP, defaultI, defaultD, 1.0, -1.0);
         }
 
@@ -109,22 +64,13 @@ public class PIDManager extends PIDTunableManager {
     }
 
     @AssistedInject
-    public PIDManager(
-            @Assisted String functionName,
-            TunableFactory tunableFactory,
-            RobotAssertionManager assertionManager,
-            @Assisted("defaultP") double defaultP,
-            @Assisted("defaultI") double defaultI,
-            @Assisted("defaultD") double defaultD,
-            @Assisted("defaultF") double defaultF,
-            @Assisted("defaultMaxOutput") double defaultMaxOutput,
-            @Assisted("defaultMinOutput") double defaultMinOutput,
-            @Assisted("errorThreshold") double errorThreshold,
-            @Assisted("derivativeThreshold") double derivativeThreshold,
-            @Assisted("timeThreshold") double timeThreshold,
-            @Assisted("iZone") double iZone) {
-        super(functionName, tunableFactory, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold,
-                derivativeThreshold, timeThreshold, iZone);
+    public PIDManager(@Assisted String functionName, TunableFactory tunableFactory, RobotAssertionManager assertionManager,
+            @Assisted("defaultP") double defaultP, @Assisted("defaultI") double defaultI, @Assisted("defaultD") double defaultD,
+            @Assisted("defaultF") double defaultF, @Assisted("defaultMaxOutput") double defaultMaxOutput, @Assisted("defaultMinOutput") double defaultMinOutput,
+            @Assisted("errorThreshold") double errorThreshold, @Assisted("derivativeThreshold") double derivativeThreshold,
+            @Assisted("timeThreshold") double timeThreshold, @Assisted("iZone") double iZone) {
+        super(functionName, tunableFactory, assertionManager, defaultP, defaultI, defaultD, defaultF, errorThreshold, derivativeThreshold, timeThreshold,
+                iZone);
 
         tunableFactory.setDefaultLevel(TunableLevel.Debug);
         this.prefix = tunableFactory.getCleanPrefix();
@@ -143,8 +89,7 @@ public class PIDManager extends PIDTunableManager {
 
     private void sendTolerancesToInternalPID() {
         pid.setTolerances(getErrorThreshold(), getDerivativeThreshold(), getTimeThreshold());
-        pid.setShouldCheckTolerances(getEnableErrorThreshold(), getEnableDerivativeThreshold(),
-                getEnableTimeThreshold());
+        pid.setShouldCheckTolerances(getEnableErrorThreshold(), getEnableDerivativeThreshold(), getEnableTimeThreshold());
     }
 
     public double calculate(double goal, double current) {
@@ -185,12 +130,9 @@ public class PIDManager extends PIDTunableManager {
     }
 
     /**
-     * Determines if you are on target.
-     * Only works if: you have called setErrorThreshold() and/or
-     * setDerivativeThreshold(), as well as
-     * setEnableErrorThreshold() and/or setDerivativeErrorThreshold(), or if you
-     * have set
-     * have set these values through Tunables at runtime.
+     * Determines if you are on target. Only works if: you have called setErrorThreshold() and/or setDerivativeThreshold(),
+     * as well as setEnableErrorThreshold() and/or setDerivativeErrorThreshold(), or if you have set have set these values
+     * through Tunables at runtime.
      */
     public boolean isOnTarget() {
         return pid.isOnTarget();

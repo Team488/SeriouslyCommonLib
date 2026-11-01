@@ -32,9 +32,7 @@ public class AutonomousCommandSelector extends BaseSubsystem {
     @Inject
     public AutonomousCommandSelector(TunableFactory tunableFactory) {
         tunableFactory.setTopLevelPrefix();
-        currentAutonomousCommandName = Tunable.createConfig(
-                "No command set",
-                TunableConfig.of(TunableOption.IMMUTABLE));
+        currentAutonomousCommandName = Tunable.createConfig("No command set", TunableConfig.of(TunableOption.IMMUTABLE));
         Tunables.publish("Current autunomous command name", currentAutonomousCommandName);
         setAutonomousState("Not set");
         isDefault = true;
@@ -47,11 +45,11 @@ public class AutonomousCommandSelector extends BaseSubsystem {
         return currentAutonomousCommand;
     }
 
-    public Pose2d getCurrentAutonomousStartingPosition(){
+    public Pose2d getCurrentAutonomousStartingPosition() {
         return currentAutonomousStartingPosition;
     }
 
-    public void setCurrentAutonomousStartingPosition(Pose2d position){
+    public void setCurrentAutonomousStartingPosition(Pose2d position) {
         this.currentAutonomousStartingPosition = position;
     }
 
@@ -60,7 +58,7 @@ public class AutonomousCommandSelector extends BaseSubsystem {
         log.info("Setting CurrentStartingPosition to " + currentAutonomousStartingPosition);
         var nameString = currentAutonomousCommand == null ? "No command set" : currentAutonomousCommand.getName();
         aKitLog.record("Current autonomous command name", nameString);
-        
+
         currentAutonomousCommandName.set(nameString);
 
         this.currentAutonomousCommand = currentAutonomousCommand;
@@ -78,8 +76,8 @@ public class AutonomousCommandSelector extends BaseSubsystem {
     }
 
     public Command createAutonomousStateMessageCommand(String message) {
-        return new  InstantCommand(() -> {
-                    this.setAutonomousState(message);
+        return new InstantCommand(() -> {
+            this.setAutonomousState(message);
         });
     }
 

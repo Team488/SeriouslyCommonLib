@@ -31,15 +31,12 @@ public class MockAbsoluteEncoder extends XAbsoluteEncoder {
 
     @AssistedFactory
     public abstract static class MockAbsoluteEncoderFactory implements XAbsoluteEncoderFactory {
-        public abstract MockAbsoluteEncoder create(
-            @Assisted("deviceInfo") DeviceInfo deviceInfo,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix);
+        public abstract MockAbsoluteEncoder create(@Assisted("deviceInfo") DeviceInfo deviceInfo, @Assisted("owningSystemPrefix") String owningSystemPrefix);
     }
 
     @AssistedInject
-    public MockAbsoluteEncoder(@Assisted("deviceInfo") DeviceInfo deviceInfo,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            DevicePolice police, TunableFactory tunableFactory, DataFrameRegistry dataFrameRegistry) {
+    public MockAbsoluteEncoder(@Assisted("deviceInfo") DeviceInfo deviceInfo, @Assisted("owningSystemPrefix") String owningSystemPrefix, DevicePolice police,
+            TunableFactory tunableFactory, DataFrameRegistry dataFrameRegistry) {
         super(deviceInfo, dataFrameRegistry);
         tunableFactory.setPrefix(owningSystemPrefix);
 

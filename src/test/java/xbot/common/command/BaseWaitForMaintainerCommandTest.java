@@ -22,7 +22,7 @@ public class BaseWaitForMaintainerCommandTest extends BaseCommonLibTest {
         subsystem.setMaintainerIsAtGoal(true);
         assertTrue(command.isFinished());
     }
-    
+
     @Test
     public void testTimeout() {
         BaseSetpointSubsystem subsystem = getInjectorComponent().mockSetpointSubsystem();

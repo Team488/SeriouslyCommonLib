@@ -9,5 +9,6 @@ public interface XZeromqListener {
     }
 
     public void start();
+
     public void setNewPacketHandler(Consumer<String> handler);
 }

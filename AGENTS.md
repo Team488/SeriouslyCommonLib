@@ -61,6 +61,12 @@ All commands use the Gradle wrapper from the repository root.
 # Run Checkstyle linter only
 ./gradlew checkstyle
 
+# Check formatting without changing files (also runs as part of `./gradlew build`)
+./gradlew spotlessCheck
+
+# Auto-fix formatting
+./gradlew spotlessApply
+
 # Generate Javadoc
 ./gradlew javadoc
 
@@ -94,6 +100,27 @@ configured in `xbotcheckstyle.xml`; do not duplicate individual formatting rules
 
 Use `// CHECKSTYLE:OFF` / `// CHECKSTYLE:ON` or add entries to
 `checkstyle_suppressions.xml` when a suppression is genuinely required.
+
+#### Formatting
+
+Formatting is auto-fixed by Spotless (`build.gradle`), which runs the same Eclipse formatter
+profile (`xboteclipseprofile.xml`) that VS Code already uses, so editor, CLI, and CI output stay
+consistent. `spotlessCheck` runs automatically as part of `./gradlew build`.
+
+- One-time setup to format on commit: `git config core.hooksPath githooks` (see
+  `githooks/pre-commit`). This only formats files you've staged and re-stages them — no extra
+  tooling required beyond the Gradle wrapper.
+- If you already use the [pre-commit](https://pre-commit.com) framework, `.pre-commit-config.yaml`
+  wires up the same underlying script as an alternative trigger; it's optional, not a replacement
+  for the git hook above.
+- VS Code format-on-save is already configured (`.vscode/settings.json`); install the
+  recommended `redhat.java` extension if prompted. IntelliJ users without a format-on-save
+  equivalent can install the "Eclipse Code Formatter" plugin pointed at `xboteclipseprofile.xml`
+  (profile `XbotProfile`), or just rely on `./gradlew spotlessApply` / the git hook.
+- `githooks/*` are shell scripts. On Windows, the git hook works out of the box because Git for
+  Windows invokes hooks through its bundled Git Bash — no extra setup needed. The optional
+  pre-commit.com path requires `bash` to be resolvable on `PATH` (true for Git Bash/WSL users),
+  which `.pre-commit-config.yaml` relies on explicitly.
 
 ### Architecture Patterns
 

@@ -24,10 +24,12 @@ public class LowResField implements ProvidesWaypoints {
     }
 
     /**
-     * Adds an obstacle to the field. If the obstacle intersects with any existing obstacles, it will be combined with
-     * the existing obstacle into a single larger obstacle with a bounding box that fully contains both obstacles.
-     * This should be the only method used to add new obstacles; otherwise obstacles could intersect.
-     * @param o The obstacle to add.
+     * Adds an obstacle to the field. If the obstacle intersects with any existing obstacles, it will be combined with the
+     * existing obstacle into a single larger obstacle with a bounding box that fully contains both obstacles. This should
+     * be the only method used to add new obstacles; otherwise obstacles could intersect.
+     *
+     * @param o
+     *            The obstacle to add.
      */
     public void addObstacle(Obstacle o) {
         Obstacle potentialObstacleToRemove = null;
@@ -54,10 +56,13 @@ public class LowResField implements ProvidesWaypoints {
     }
 
     /**
-     * Generates a path from the current position to the target point, avoiding known obstacles.
-     * Very generally, it will recursively solve paths nearby the target, and then step foward to approach the target.
-     * @param currentPose Starting point
-     * @param targetPoint Terminating Point
+     * Generates a path from the current position to the target point, avoiding known obstacles. Very generally, it will
+     * recursively solve paths nearby the target, and then step foward to approach the target.
+     *
+     * @param currentPose
+     *            Starting point
+     * @param targetPoint
+     *            Terminating Point
      * @return A List of XbotSwervePoints that can be followed to reach the destination without collision.
      */
     public List<XbotSwervePoint> generatePath(Pose2d currentPose, Pose2d targetPoint) {
@@ -107,15 +112,12 @@ public class LowResField implements ProvidesWaypoints {
             // Later put in more checks about starting inside an obstacle
 
             if (o.contains(currentSource.getX(), currentSource.getY())) {
-                log.info("Robot is currently inside obstacle" + o.name +". Shifting for calculations.");
+                log.info("Robot is currently inside obstacle" + o.name + ". Shifting for calculations.");
                 // our original robot pose is inside, and needs to shift.
                 Translation2d slidPoint = o.movePointOutsideOfBounds(currentSource);
                 currentSource = slidPoint;
 
-                var specialStartingPoint = new XbotSwervePoint(
-                        slidPoint,
-                        targetPoint.getRotation(),
-                        10);
+                var specialStartingPoint = new XbotSwervePoint(slidPoint, targetPoint.getRotation(), 10);
                 path.add(specialStartingPoint);
             }
 
@@ -129,10 +131,7 @@ public class LowResField implements ProvidesWaypoints {
                 specialFinalPoint = ultimateTarget;
 
                 // For the rest of the logic, consider this "legal" point to be the final point.
-                ultimateTarget = new XbotSwervePoint(
-                        slidPoint,
-                        targetPoint.getRotation(),
-                        10);
+                ultimateTarget = new XbotSwervePoint(slidPoint, targetPoint.getRotation(), 10);
                 currentTarget = ultimateTarget;
             }
         }
@@ -143,8 +142,7 @@ public class LowResField implements ProvidesWaypoints {
         int escape = 0;
         while (!completed && escape < 20) {
 
-            log.info("Searching from CurrentSource" + currentSource.toString()
-                    + " to CurrentTarget" + currentTarget.getTranslation2d().toString());
+            log.info("Searching from CurrentSource" + currentSource.toString() + " to CurrentTarget" + currentTarget.getTranslation2d().toString());
 
             sortedObstacles.clear();
             escape++;
@@ -161,8 +159,8 @@ public class LowResField implements ProvidesWaypoints {
                 Obstacle o = sortedObstacles.get(d);
                 log.info("Checking obstacle " + o.name + " at distance " + d.toString() + " from source.");
 
-                if (o.intersectsLine(currentSource.getX(), currentSource.getY(),
-                        currentTarget.getTranslation2d().getX(), currentTarget.getTranslation2d().getY())) {
+                if (o.intersectsLine(currentSource.getX(), currentSource.getY(), currentTarget.getTranslation2d().getX(),
+                        currentTarget.getTranslation2d().getY())) {
                     log.info("Collision detected.");
                     collision = true;
                     // 4c) If collision, get the nearest legal corner, put it on the stack, and set it as the current target.
@@ -172,15 +170,13 @@ public class LowResField implements ProvidesWaypoints {
                     Obstacle.PointProjectionCombination pointCombination = Obstacle.PointProjectionCombination.NotRelevant;
                     Obstacle.ParallelCrossingType parallelCrossingType = o.getParallelCrossingType(averageIntersection);
                     if (parallelCrossingType != Obstacle.ParallelCrossingType.None) {
-                       pointCombination = o.getPointProjectionCombination(
-                                currentSource, targetPoint.getTranslation(), parallelCrossingType);
+                        pointCombination = o.getPointProjectionCombination(currentSource, targetPoint.getTranslation(), parallelCrossingType);
                     }
 
                     log.info("Parallel Crossing Type: " + parallelCrossingType.toString());
                     log.info("Point Combination: " + pointCombination.toString());
 
-                    if (parallelCrossingType != Obstacle.ParallelCrossingType.None
-                            && pointCombination == Obstacle.PointProjectionCombination.BothOutside) {
+                    if (parallelCrossingType != Obstacle.ParallelCrossingType.None && pointCombination == Obstacle.PointProjectionCombination.BothOutside) {
                         log.info("Handing diagonal crossing.");
                         // Case for diagonal crossings.
                         // We eliminate the closest corner to the source,
@@ -190,11 +186,7 @@ public class LowResField implements ProvidesWaypoints {
                         var nearestCorner = o.getClosestCornerToPoint(currentSource);
                         nearestCorner = o.getClosestCornerToPoint(currentSource);
                         log.info("Chosen corner:" + nearestCorner.toString());
-                        XbotSwervePoint cornerPoint = new XbotSwervePoint(
-                                nearestCorner,
-                                currentTarget.getRotation2d(),
-                                10
-                        );
+                        XbotSwervePoint cornerPoint = new XbotSwervePoint(nearestCorner, currentTarget.getRotation2d(), 10);
                         swervePointStack.push(cornerPoint);
                         currentTarget = cornerPoint;
                     } else if (parallelCrossingType != Obstacle.ParallelCrossingType.None
@@ -207,8 +199,7 @@ public class LowResField implements ProvidesWaypoints {
                         var secondArbitraryCorner = o.getClosestCornerToPoint(averageIntersection);
                         Translation2d pointClosestToTarget = null;
                         Translation2d pointClosestToSource = null;
-                        if (firstArbitraryCorner.getDistance(targetPoint.getTranslation())
-                                < secondArbitraryCorner.getDistance(targetPoint.getTranslation())) {
+                        if (firstArbitraryCorner.getDistance(targetPoint.getTranslation()) < secondArbitraryCorner.getDistance(targetPoint.getTranslation())) {
                             pointClosestToTarget = firstArbitraryCorner;
                             pointClosestToSource = secondArbitraryCorner;
                         } else {
@@ -216,16 +207,8 @@ public class LowResField implements ProvidesWaypoints {
                             pointClosestToSource = firstArbitraryCorner;
                         }
 
-                        XbotSwervePoint swervePointNearTarget = new XbotSwervePoint(
-                                pointClosestToTarget,
-                                currentTarget.getRotation2d(),
-                                10
-                        );
-                        XbotSwervePoint swervePointNearSource = new XbotSwervePoint(
-                                pointClosestToSource,
-                                currentTarget.getRotation2d(),
-                                10
-                        );
+                        XbotSwervePoint swervePointNearTarget = new XbotSwervePoint(pointClosestToTarget, currentTarget.getRotation2d(), 10);
+                        XbotSwervePoint swervePointNearSource = new XbotSwervePoint(pointClosestToSource, currentTarget.getRotation2d(), 10);
 
                         log.info("Adding point closest to target:" + pointClosestToTarget.toString());
                         log.info("Adding point closest to source:" + pointClosestToSource.toString());
@@ -233,8 +216,7 @@ public class LowResField implements ProvidesWaypoints {
                         swervePointStack.push(swervePointNearTarget);
                         swervePointStack.push(swervePointNearSource);
                         currentTarget = swervePointNearSource;
-                    } else if (parallelCrossingType != Obstacle.ParallelCrossingType.None
-                            && pointCombination == Obstacle.PointProjectionCombination.FirstInside
+                    } else if (parallelCrossingType != Obstacle.ParallelCrossingType.None && pointCombination == Obstacle.PointProjectionCombination.FirstInside
                             || pointCombination == Obstacle.PointProjectionCombination.SecondInside) {
                         log.info("Handling mixed case - two parallel lines, one inside.");
                         // This is similar to the straight across, except we only want one point - and that
@@ -252,8 +234,7 @@ public class LowResField implements ProvidesWaypoints {
                         }
 
                         // Find which corner is closest to the inside point
-                        if (arbitraryCornerA.getDistance(insidePoint)
-                                < arbitraryCornerB.getDistance(insidePoint)) {
+                        if (arbitraryCornerA.getDistance(insidePoint) < arbitraryCornerB.getDistance(insidePoint)) {
                             pointClosestToInside = arbitraryCornerA;
                             o.restoreCorner(arbitraryCornerB);
                         } else {
@@ -263,24 +244,15 @@ public class LowResField implements ProvidesWaypoints {
 
                         log.info("Adding point closest to 'inside' point:" + pointClosestToInside);
 
-                        XbotSwervePoint swervePointNearInside = new XbotSwervePoint(
-                                pointClosestToInside,
-                                currentTarget.getRotation2d(),
-                                10
-                        );
+                        XbotSwervePoint swervePointNearInside = new XbotSwervePoint(pointClosestToInside, currentTarget.getRotation2d(), 10);
                         swervePointStack.push(swervePointNearInside);
                         currentTarget = swervePointNearInside;
-                    }
-                    else {
+                    } else {
                         log.info("Handling non-parallel crossing; typical case..");
                         // General, most straightforward case. Get the nearest corner to the average intersection,
                         // and prepare for another loop.
                         var nearestCorner = o.getClosestCornerToPoint(averageIntersection);
-                        XbotSwervePoint cornerPoint = new XbotSwervePoint(
-                                nearestCorner,
-                                currentTarget.getRotation2d(),
-                                10
-                        );
+                        XbotSwervePoint cornerPoint = new XbotSwervePoint(nearestCorner, currentTarget.getRotation2d(), 10);
                         log.info("Chosen corner:" + nearestCorner.toString());
                         swervePointStack.push(cornerPoint);
                         currentTarget = cornerPoint;

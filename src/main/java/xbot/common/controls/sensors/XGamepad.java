@@ -69,13 +69,8 @@ public abstract class XGamepad extends XJoystick implements IGamepad {
     private final Map<GamepadButton, AdvancedJoystickButtonTrigger> allocatedButtons;
     private final EnumSet<GamepadButton> reservedButtons;
 
-    protected XGamepad(
-            int port,
-            AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
-            AdvancedPovButtonTriggerFactory povButtonFactory,
-            AnalogHIDButtonTriggerFactory analogHidButtonFactory,
-            RobotAssertionManager assertionManager,
-            DevicePolice police) {
+    protected XGamepad(int port, AdvancedJoystickButtonTriggerFactory joystickButtonFactory, AdvancedPovButtonTriggerFactory povButtonFactory,
+            AnalogHIDButtonTriggerFactory analogHidButtonFactory, RobotAssertionManager assertionManager, DevicePolice police) {
         super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, assertionManager, 0, police);
         this.joystickButtonFactory = joystickButtonFactory;
         this.allocatedButtons = new EnumMap<>(GamepadButton.class);
@@ -115,41 +110,25 @@ public abstract class XGamepad extends XJoystick implements IGamepad {
 
     private static POVDirection[] getPovDirections(GamepadButton button) {
         return switch (button) {
-            case DPAD_UP -> new POVDirection[] {
-                POVDirection.UP,
-                POVDirection.UP_LEFT,
-                POVDirection.UP_RIGHT
-            };
-            case DPAD_DOWN -> new POVDirection[] {
-                POVDirection.DOWN,
-                POVDirection.DOWN_LEFT,
-                POVDirection.DOWN_RIGHT
-            };
-            case DPAD_LEFT -> new POVDirection[] {
-                POVDirection.LEFT,
-                POVDirection.UP_LEFT,
-                POVDirection.DOWN_LEFT
-            };
-            case DPAD_RIGHT -> new POVDirection[] {
-                POVDirection.RIGHT,
-                POVDirection.UP_RIGHT,
-                POVDirection.DOWN_RIGHT
-            };
-            default -> new POVDirection[0];
+        case DPAD_UP -> new POVDirection[] { POVDirection.UP, POVDirection.UP_LEFT, POVDirection.UP_RIGHT };
+        case DPAD_DOWN -> new POVDirection[] { POVDirection.DOWN, POVDirection.DOWN_LEFT, POVDirection.DOWN_RIGHT };
+        case DPAD_LEFT -> new POVDirection[] { POVDirection.LEFT, POVDirection.UP_LEFT, POVDirection.DOWN_LEFT };
+        case DPAD_RIGHT -> new POVDirection[] { POVDirection.RIGHT, POVDirection.UP_RIGHT, POVDirection.DOWN_RIGHT };
+        default -> new POVDirection[0];
         };
     }
 
     private static EnumSet<GamepadButton> getGamepadButtons(POVDirection direction) {
         return switch (direction) {
-            case UP -> EnumSet.of(GamepadButton.DPAD_UP);
-            case UP_RIGHT -> EnumSet.of(GamepadButton.DPAD_UP, GamepadButton.DPAD_RIGHT);
-            case RIGHT -> EnumSet.of(GamepadButton.DPAD_RIGHT);
-            case DOWN_RIGHT -> EnumSet.of(GamepadButton.DPAD_DOWN, GamepadButton.DPAD_RIGHT);
-            case DOWN -> EnumSet.of(GamepadButton.DPAD_DOWN);
-            case DOWN_LEFT -> EnumSet.of(GamepadButton.DPAD_DOWN, GamepadButton.DPAD_LEFT);
-            case LEFT -> EnumSet.of(GamepadButton.DPAD_LEFT);
-            case UP_LEFT -> EnumSet.of(GamepadButton.DPAD_UP, GamepadButton.DPAD_LEFT);
-            default -> EnumSet.noneOf(GamepadButton.class);
+        case UP -> EnumSet.of(GamepadButton.DPAD_UP);
+        case UP_RIGHT -> EnumSet.of(GamepadButton.DPAD_UP, GamepadButton.DPAD_RIGHT);
+        case RIGHT -> EnumSet.of(GamepadButton.DPAD_RIGHT);
+        case DOWN_RIGHT -> EnumSet.of(GamepadButton.DPAD_DOWN, GamepadButton.DPAD_RIGHT);
+        case DOWN -> EnumSet.of(GamepadButton.DPAD_DOWN);
+        case DOWN_LEFT -> EnumSet.of(GamepadButton.DPAD_DOWN, GamepadButton.DPAD_LEFT);
+        case LEFT -> EnumSet.of(GamepadButton.DPAD_LEFT);
+        case UP_LEFT -> EnumSet.of(GamepadButton.DPAD_UP, GamepadButton.DPAD_LEFT);
+        default -> EnumSet.noneOf(GamepadButton.class);
         };
     }
 

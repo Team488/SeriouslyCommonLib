@@ -18,8 +18,8 @@ public class AnalogDistanceSensorTest extends BaseCommonLibTest {
 
     @BeforeEach
     public void setup() {
-        sensor = assertInstanceOf(AnalogDistanceSensor.class, getInjectorComponent().analogDistanceSensorFactory()
-                .create(0, voltage -> voltage * 2, "DistanceTest"));
+        sensor = assertInstanceOf(AnalogDistanceSensor.class,
+                getInjectorComponent().analogDistanceSensorFactory().create(0, voltage -> voltage * 2, "DistanceTest"));
     }
 
     @Test
@@ -31,7 +31,6 @@ public class AnalogDistanceSensorTest extends BaseCommonLibTest {
         sensor.setVoltageOffset(0.25);
         sensor.setDistanceOffset(0.5);
         assertEquals(3.5, sensor.getDistance(), 0.001);
-        assertSame(input, getInjectorComponent().devicePolice()
-                .findDevice(DeviceAddress.channel(DeviceType.Analog, 0)).orElseThrow());
+        assertSame(input, getInjectorComponent().devicePolice().findDevice(DeviceAddress.channel(DeviceType.Analog, 0)).orElseThrow());
     }
 }

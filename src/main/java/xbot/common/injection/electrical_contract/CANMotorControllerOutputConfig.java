@@ -2,13 +2,11 @@ package xbot.common.injection.electrical_contract;
 
 public class CANMotorControllerOutputConfig {
     public enum InversionType {
-        Normal,
-        Inverted
+        Normal, Inverted
     }
 
     public enum NeutralMode {
-        Brake,
-        Coast
+        Brake, Coast
     }
 
     public InversionType inversionType = InversionType.Normal;

@@ -43,16 +43,15 @@ public class XbotSwervePoint implements ProvidesInterpolationData {
     }
 
     /**
-     * Converts swerve points to the pose array expected by AdvantageKit's trajectory visualization.
-     * Timing remains on the source points for use by the simple trajectory interpolators.
+     * Converts swerve points to the pose array expected by AdvantageKit's trajectory visualization. Timing remains on the
+     * source points for use by the simple trajectory interpolators.
      *
-     * @param swervePoints points to visualize
+     * @param swervePoints
+     *            points to visualize
      * @return poses in path order
      */
     public static Pose2d[] generatePathVisualization(List<XbotSwervePoint> swervePoints) {
-        return swervePoints.stream()
-                .map(point -> point.keyPose)
-                .toArray(Pose2d[]::new);
+        return swervePoints.stream().map(point -> point.keyPose).toArray(Pose2d[]::new);
     }
 
     @Override

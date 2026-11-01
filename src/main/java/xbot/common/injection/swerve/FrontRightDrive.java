@@ -10,4 +10,5 @@ import javax.inject.Qualifier;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Qualifier
-public @interface FrontRightDrive {}
+public @interface FrontRightDrive {
+}
