@@ -6,6 +6,7 @@ plugins {
     id 'checkstyle'
     id 'jacoco'
     id "net.linguica.maven-settings" version "0.5"
+    id 'com.diffplug.spotless' version '8.10.4'
 }
 
 java {
@@ -150,6 +151,32 @@ tasks.withType(Test) {
 checkstyle {
     toolVersion = '10.6.0'
     configFile = file('./xbotcheckstyle.xml')
+}
+
+// Spotless auto-fixes the formatting rules that overlap with xbotcheckstyle.xml (import
+// grouping/order, line length, no tabs) by reusing the same Eclipse formatter profile that
+// VS Code is already configured to use (see .vscode/settings.json). Vendor/generated files
+// that checkstyle_suppressions.xml exempts are excluded here too, so they're left untouched.
+spotless {
+    java {
+        target 'src/main/java/**/*.java', 'src/test/java/**/*.java'
+        targetExclude(
+                '**/*nav6*.java',
+                '**/*navx*.java',
+                '**/*CANTalon*.java',
+                '**/*JSON*.java',
+                '**/*AutonomousPathTrajectoryPlanner*.java',
+                '**/*VictorAppearingAsTalonWPIAdapter*.java',
+                '**/generated/**'
+        )
+        // '\\#' is Spotless's marker for static imports; placing it last keeps them in their
+        // own group at the bottom of the file, matching xbotcheckstyle.xml's
+        // ImportOrder(option = bottom, sortStaticImportsAlphabetically = true).
+        importOrder('java', 'javax', '', 'org.wpilib', 'dagger', 'xbot', '\\#')
+        eclipse().configFile('xboteclipseprofile.xml')
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
 }
 
 task checkstyle(type: Checkstyle) {

@@ -2,6 +2,9 @@
     "java.configuration.updateBuildConfiguration": "automatic",
     "java.format.settings.url": "xboteclipseprofile.xml",
     "java.format.settings.profile": "XbotProfile",
+    "[java]": {
+        "editor.formatOnSave": true
+    },
     "java.completion.importOrder": [
         "java",
         "javax",
