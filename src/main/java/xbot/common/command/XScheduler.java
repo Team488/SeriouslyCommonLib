@@ -43,8 +43,7 @@ public class XScheduler implements AutoCloseable {
         this.scheduler = CommandScheduler.getInstance();
     }
 
-    public int getNumberOfCrashes()
-    {
+    public int getNumberOfCrashes() {
         return numberOfCrashes;
     }
 
@@ -54,16 +53,13 @@ public class XScheduler implements AutoCloseable {
             crashedPreviously = false;
             schedulerCrashedAlert.set(false);
             lastException = null;
-        } catch(Throwable t) {
-            var alertText = String.format(
-                    "Unhandled exception in scheduler: %s\n%s",
-                    t.toString(),
-                    Arrays.toString(t.getStackTrace()));
+        } catch (Throwable t) {
+            var alertText = String.format("Unhandled exception in scheduler: %s\n%s", t.toString(), Arrays.toString(t.getStackTrace()));
             log.error(alertText);
             schedulerCrashedAlert.setText(alertText);
             schedulerCrashedAlert.set(true);
             lastException = t;
-            if(crashedPreviously) {
+            if (crashedPreviously) {
                 log.error("Due to repeated exceptions, clearing Scheduler queue completely");
                 scheduler.cancelAll();
             }

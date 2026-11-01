@@ -18,80 +18,76 @@ import xbot.common.trajectory.SwerveSimpleTrajectoryLogic;
 
 public class SwerveSimpleBezierCommand extends BaseCommand {
 
-        protected BaseSwerveDriveSubsystem drive;
-        protected BasePoseSubsystem pose;
-        protected HeadingModule headingModule;
-        public SwerveSimpleTrajectoryLogic logic;
-        public DoubleSupplier constantRotationPowerSupplier;
-        protected BooleanSupplier alternativeIsFinishedSupplier;
-        public boolean constantRotationEnabled = false;
+    protected BaseSwerveDriveSubsystem drive;
+    protected BasePoseSubsystem pose;
+    protected HeadingModule headingModule;
+    public SwerveSimpleTrajectoryLogic logic;
+    public DoubleSupplier constantRotationPowerSupplier;
+    protected BooleanSupplier alternativeIsFinishedSupplier;
+    public boolean constantRotationEnabled = false;
 
-        @Inject
-        public SwerveSimpleBezierCommand(BaseSwerveDriveSubsystem drive, BasePoseSubsystem pose, TunableFactory tunableFactory,
-                        HeadingModuleFactory headingModuleFactory, RobotAssertionManager assertionManager) {
-                this.drive = drive;
-                this.pose = pose;
-                headingModule = headingModuleFactory.create(drive.getRotateToHeadingPid());
+    @Inject
+    public SwerveSimpleBezierCommand(BaseSwerveDriveSubsystem drive, BasePoseSubsystem pose, TunableFactory tunableFactory,
+            HeadingModuleFactory headingModuleFactory, RobotAssertionManager assertionManager) {
+        this.drive = drive;
+        this.pose = pose;
+        headingModule = headingModuleFactory.create(drive.getRotateToHeadingPid());
 
-                tunableFactory.setPrefix(this);
-                this.addRequirements(drive);
-                logic = new SwerveSimpleTrajectoryLogic(assertionManager);
-                alternativeIsFinishedSupplier = () -> false;
+        tunableFactory.setPrefix(this);
+        this.addRequirements(drive);
+        logic = new SwerveSimpleTrajectoryLogic(assertionManager);
+        alternativeIsFinishedSupplier = () -> false;
+    }
+
+    @Override
+    public void initialize() {
+        log.info("Initializing");
+        reset();
+    }
+
+    public void reset() {
+        logic.reset(pose.getCurrentPose2d());
+    }
+
+    public void setConstantRotationPowerSupplier(DoubleSupplier constantRotationPowerSupplier) {
+        this.constantRotationEnabled = true;
+        this.constantRotationPowerSupplier = constantRotationPowerSupplier;
+    }
+
+    @Override
+    public void execute() {
+        Twist2d powers = logic.calculatePowers(pose.getCurrentPose2d(), drive.getPositionalPid(), headingModule, this.drive.getMaxTargetSpeedMetersPerSecond());
+
+        if (constantRotationEnabled) {
+            if (constantRotationPowerSupplier != null) {
+                powers.dtheta = constantRotationPowerSupplier.getAsDouble();
+            }
         }
 
-        @Override
-        public void initialize() {
-                log.info("Initializing");
-                reset();
+        aKitLog.record("Powers", powers);
+
+        drive.fieldOrientedDrive(new XYPair(powers.dx, powers.dy), powers.dtheta, pose.getCurrentHeading().getDegrees(), false);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return logic.recommendIsFinished(pose.getCurrentPose2d(), drive.getPositionalPid(), headingModule) || alternativeIsFinishedSupplier.getAsBoolean();
+    }
+
+    public void setAlternativeIsFinishedSupplier(BooleanSupplier alternativeIsFinishedSupplier) {
+        this.alternativeIsFinishedSupplier = alternativeIsFinishedSupplier;
+    }
+
+    public BooleanSupplier getAlternativeIsFinishedSupplier() {
+        return alternativeIsFinishedSupplier;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        super.end(interrupted);
+        if (interrupted) {
+            log.warn("Command interrupted");
         }
-
-        public void reset() {
-                logic.reset(pose.getCurrentPose2d());
-        }
-
-        public void setConstantRotationPowerSupplier(DoubleSupplier constantRotationPowerSupplier) {
-                this.constantRotationEnabled = true;
-                this.constantRotationPowerSupplier = constantRotationPowerSupplier;
-        }
-
-        @Override
-        public void execute() {
-                Twist2d powers = logic.calculatePowers(pose.getCurrentPose2d(), drive.getPositionalPid(),
-                                headingModule, this.drive.getMaxTargetSpeedMetersPerSecond());
-
-                if (constantRotationEnabled) {
-                        if (constantRotationPowerSupplier != null) {
-                                powers.dtheta = constantRotationPowerSupplier.getAsDouble();
-                        }
-                }
-
-                aKitLog.record("Powers", powers);
-
-                drive.fieldOrientedDrive(
-                                new XYPair(powers.dx, powers.dy),
-                                powers.dtheta, pose.getCurrentHeading().getDegrees(), false);
-        }
-
-        @Override
-        public boolean isFinished() {
-                return logic.recommendIsFinished(pose.getCurrentPose2d(), drive.getPositionalPid(), headingModule)
-                                || alternativeIsFinishedSupplier.getAsBoolean();
-        }
-
-        public void setAlternativeIsFinishedSupplier(BooleanSupplier alternativeIsFinishedSupplier) {
-                this.alternativeIsFinishedSupplier = alternativeIsFinishedSupplier;
-        }
-
-        public BooleanSupplier getAlternativeIsFinishedSupplier() {
-                return alternativeIsFinishedSupplier;
-        }
-
-        @Override
-        public void end(boolean interrupted) {
-                super.end(interrupted);
-                if (interrupted) {
-                        log.warn("Command interrupted");
-                }
-                drive.stop();
-        }
+        drive.stop();
+    }
 }

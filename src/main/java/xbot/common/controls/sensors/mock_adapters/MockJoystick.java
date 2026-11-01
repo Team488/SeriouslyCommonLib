@@ -30,24 +30,17 @@ public class MockJoystick extends XJoystick {
     }
 
     @AssistedInject
-    public MockJoystick(
-            @Assisted("port") int port, 
-            AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
-            AdvancedPovButtonTriggerFactory povButtonFactory,
-            AnalogHIDButtonTriggerFactory analogHidButtonFactory,
-            RobotAssertionManager assertionManager, 
-            @Assisted("numButtons") int numButtons,
-            DevicePolice police) {
-        
+    public MockJoystick(@Assisted("port") int port, AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
+            AdvancedPovButtonTriggerFactory povButtonFactory, AnalogHIDButtonTriggerFactory analogHidButtonFactory, RobotAssertionManager assertionManager,
+            @Assisted("numButtons") int numButtons, DevicePolice police) {
+
         super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, assertionManager, numButtons, police);
-        
-        for(int i = 0; i < 6; i++)
-        {
+
+        for (int i = 0; i < 6; i++) {
             rawAxis.put(i, 0d);
         }
-        
-        for(int i = 0; i < 12; i++)
-        {
+
+        for (int i = 0; i < 12; i++) {
             releaseButton(i);
         }
     }
@@ -59,7 +52,7 @@ public class MockJoystick extends XJoystick {
     public void setY(double y) {
         setRawAxis(1, y);
     }
-    
+
     public void setRawAxis(int which, double value) {
         rawAxis.put(which, value);
     }

@@ -30,21 +30,23 @@ public abstract class XCANCoder extends XAbsoluteEncoder {
         super(info, dataFrameRegistry);
         inputs = new XCANCoderInputsAutoLogged();
         String alertId = getClass().getName() + "-" + NEXT_ALERT_ID.getAndIncrement();
-        unhealthyAlert = new Alert(AlertGroups.DEVICE_HEALTH, alertId,
-                "CANCoder " + info.channel + " on CAN bus " + info.canBusId + " is unhealthy", Alert.Level.HIGH);
+        unhealthyAlert = new Alert(AlertGroups.DEVICE_HEALTH, alertId, "CANCoder " + info.channel + " on CAN bus " + info.canBusId + " is unhealthy",
+                Alert.Level.HIGH);
     }
 
     /**
      * Updates how often we get data about the CANCoder position.
-     * @param frequencyInHz How many times per second we want to get data.
+     *
+     * @param frequencyInHz
+     *            How many times per second we want to get data.
      * @return The status code returned from the underlying object.
      */
     public abstract StatusCode setUpdateFrequencyForPosition(double frequencyInHz);
 
     /**
-     * Stops all signals that are not explicitly set.
-     * For example, if you haven't called setUpdateFrequencyForPosition, this will stop that signal!
-     * Useful for reducing CAN bus traffic for data we're not reading.
+     * Stops all signals that are not explicitly set. For example, if you haven't called setUpdateFrequencyForPosition, this
+     * will stop that signal! Useful for reducing CAN bus traffic for data we're not reading.
+     *
      * @return The status code returned from the underlying object.
      */
     public abstract StatusCode stopAllUnsetSignals();
@@ -60,7 +62,7 @@ public abstract class XCANCoder extends XAbsoluteEncoder {
     public void refreshDataFrame() {
         super.refreshDataFrame();
         updateInputs(inputs);
-        Logger.processInputs(info.name+"/CANCoder", inputs);
+        Logger.processInputs(info.name + "/CANCoder", inputs);
 
         unhealthyAlert.set(getHealth() == DeviceHealth.Unhealthy);
     }

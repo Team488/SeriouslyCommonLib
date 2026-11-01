@@ -9,7 +9,8 @@ public class MockSetpointSubsystem extends BaseSetpointSubsystem<Double, Double>
     private Double currentValue = 0.0;
 
     @Inject
-    public MockSetpointSubsystem() {}
+    public MockSetpointSubsystem() {
+    }
 
     @Override
     public Double getCurrentValue() {

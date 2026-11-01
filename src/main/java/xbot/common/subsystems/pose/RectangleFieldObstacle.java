@@ -9,8 +9,8 @@ import org.wpilib.units.measure.Distance;
 /**
  * Rectangle obstacle defined by center + half extents.
  *
- * Collision is tested as: (segment swept by robotRadius) intersects rectangle
- * <=> segment intersects the rectangle inflated by robotRadius in X and Y.
+ * Collision is tested as: (segment swept by robotRadius) intersects rectangle <=> segment intersects the rectangle
+ * inflated by robotRadius in X and Y.
  */
 public class RectangleFieldObstacle implements IFieldObstacle {
     protected final Translation2d center;
@@ -18,11 +18,7 @@ public class RectangleFieldObstacle implements IFieldObstacle {
     protected final Distance halfHeight;
     private final boolean isToughTerrain;
 
-    public RectangleFieldObstacle(
-            Translation2d center,
-            Distance halfWidth,
-            Distance halfHeight,
-            boolean isToughTerrain) {
+    public RectangleFieldObstacle(Translation2d center, Distance halfWidth, Distance halfHeight, boolean isToughTerrain) {
         this.center = center;
         this.halfWidth = halfWidth;
         this.halfHeight = halfHeight;
@@ -68,8 +64,8 @@ public class RectangleFieldObstacle implements IFieldObstacle {
 
         var doesIntersect = segmentIntersectsRectangle(start, end, minX, minY, maxX, maxY);
 
-        var prefix = String.format("Path/Obstacle(%.2f,%.2f)/Path((%.2f,%.2f)To(%.2f,%.2f)", center.getX(),
-                center.getY(), start.getX(), start.getY(), end.getX(), end.getY());
+        var prefix = String.format("Path/Obstacle(%.2f,%.2f)/Path((%.2f,%.2f)To(%.2f,%.2f)", center.getX(), center.getY(), start.getX(), start.getY(),
+                end.getX(), end.getY());
         Logger.recordOutput(prefix + "/doesIntersect", doesIntersect);
 
         return doesIntersect;
@@ -79,11 +75,7 @@ public class RectangleFieldObstacle implements IFieldObstacle {
     // verified.
     // Segment vs axis-aligned bounding box intersection using the parametric "slab"
     // method.
-    private static boolean segmentIntersectsRectangle(
-            Translation2d a,
-            Translation2d b,
-            double minX, double minY,
-            double maxX, double maxY) {
+    private static boolean segmentIntersectsRectangle(Translation2d a, Translation2d b, double minX, double minY, double maxX, double maxY) {
         final double ax = a.getX();
         final double ay = a.getY();
         final double bx = b.getX();

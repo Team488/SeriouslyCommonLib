@@ -5,8 +5,7 @@ import org.wpilib.math.geometry.Translation2d;
 import org.wpilib.util.struct.StructSerializable;
 
 /**
- * Pair of X and Y coordinates. Can be used for points, vectors, or anything
- * else that requires a coordinate pair.
+ * Pair of X and Y coordinates. Can be used for points, vectors, or anything else that requires a coordinate pair.
  */
 public class XYPair implements StructSerializable {
     public static final XYPair ZERO = new XYPair(0, 0);
@@ -16,8 +15,11 @@ public class XYPair implements StructSerializable {
 
     /**
      * Create a coordinate with the specified x and y value.
-     * @param x the x value to use
-     * @param y the y value to use
+     *
+     * @param x
+     *            the x value to use
+     * @param y
+     *            the y value to use
      */
     public XYPair(double x, double y) {
         this.x = x;
@@ -26,7 +28,9 @@ public class XYPair implements StructSerializable {
 
     /**
      * Creates a coordinate representing the unit vector for a rotation.
-     * @param rotation The rotation value.
+     *
+     * @param rotation
+     *            The rotation value.
      */
     public XYPair(Rotation2d rotation) {
         this.x = rotation.getCos();
@@ -50,18 +54,23 @@ public class XYPair implements StructSerializable {
 
     /**
      * Create a coordinate from an angle and magnitude
-     * @param angle angle in degrees
-     * @param magnitude magnitude
+     *
+     * @param angle
+     *            angle in degrees
+     * @param magnitude
+     *            magnitude
      * @return coordinate
      */
     public static XYPair fromPolar(double angle, double magnitude) {
         XYPair newValue = new XYPair(magnitude, 0);
         return newValue.rotate(angle);
     }
-    
+
     /**
      * Create a coordinate of magnitude 1 with an angle
-     * @param angle angle in degrees
+     *
+     * @param angle
+     *            angle in degrees
      * @return coordinate
      */
     public static XYPair fromUnitPolar(double angle) {
@@ -71,7 +80,9 @@ public class XYPair implements StructSerializable {
 
     /**
      * Scales the current coordinate by a magnitude equally in both dimensions.
-     * @param scalarMagnitude the magnitude to scale the coordinate by
+     *
+     * @param scalarMagnitude
+     *            the magnitude to scale the coordinate by
      * @return the scaled object
      */
     public XYPair scale(double scalarMagnitude) {
@@ -82,8 +93,11 @@ public class XYPair implements StructSerializable {
 
     /**
      * Scales the coordinate by an x- and y- magnitude.
-     * @param xMagnitude the magnitude to scale the x-coordinate by
-     * @param yMagnitude the magnitude to scale the y-coordinate by
+     *
+     * @param xMagnitude
+     *            the magnitude to scale the x-coordinate by
+     * @param yMagnitude
+     *            the magnitude to scale the y-coordinate by
      * @return the scaled object
      */
     public XYPair scale(double xMagnitude, double yMagnitude) {
@@ -91,27 +105,31 @@ public class XYPair implements StructSerializable {
         this.y *= yMagnitude;
         return this;
     }
-    
+
     /**
      * Add the magnitude to the vector represented by the coordinate.
-     * @param magnitudeToAdd magnitude to add
+     *
+     * @param magnitudeToAdd
+     *            magnitude to add
      * @return the modified coordinate
      */
     public XYPair addMagnitude(double magnitudeToAdd) {
         double currentMagnitude = this.getMagnitude();
-        
+
         if (currentMagnitude == 0) {
             this.y = magnitudeToAdd;
             return this;
         }
-        
+
         double totalMagnitude = currentMagnitude + magnitudeToAdd;
         return this.scale(totalMagnitude / currentMagnitude);
     }
 
     /**
      * Rotates the vector by a given angle.
-     * @param angle the angle in degrees to rotate the pair by
+     *
+     * @param angle
+     *            the angle in degrees to rotate the pair by
      * @return the rotated object
      */
     public XYPair rotate(double angle) {
@@ -128,6 +146,7 @@ public class XYPair implements StructSerializable {
 
     /**
      * Get the angle of the vector in degrees
+     *
      * @return angle in degrees
      */
     public double getAngle() {
@@ -136,6 +155,7 @@ public class XYPair implements StructSerializable {
 
     /**
      * Get the magnitude of the vector (i.e. distance from origin to the coordinate).
+     *
      * @return magnitude
      */
     public double getMagnitude() {
@@ -144,7 +164,9 @@ public class XYPair implements StructSerializable {
 
     /**
      * Adds the value of a second coordinate to the current coordinate.
-     * @param pair coordinate to add
+     *
+     * @param pair
+     *            coordinate to add
      * @return the combined object
      */
     public XYPair add(XYPair pair) {
@@ -152,10 +174,12 @@ public class XYPair implements StructSerializable {
         this.y += pair.y;
         return this;
     }
-    
+
     /**
      * Get the distance between the current point and a second point.
-     * @param otherPoint the point to calculate the distance from
+     *
+     * @param otherPoint
+     *            the point to calculate the distance from
      * @return the distance
      */
     public double getDistanceToPoint(XYPair otherPoint) {
@@ -167,7 +191,9 @@ public class XYPair implements StructSerializable {
 
     /**
      * Calculate the dot-product between this and another point.
-     * @param otherPoint the second point to use for calculating dot product
+     *
+     * @param otherPoint
+     *            the second point to use for calculating dot product
      * @return the dot product value
      */
     public double dotProduct(XYPair otherPoint) {

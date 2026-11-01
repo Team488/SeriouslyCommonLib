@@ -40,15 +40,12 @@ public class MockXboxControllerAdapter extends XXboxController {
     public abstract static class MockXboxControllerFactory implements XXboxControllerFactory {
         public abstract MockXboxControllerAdapter create(@Assisted("port") int port);
     }
-    
+
     @AssistedInject
-    public MockXboxControllerAdapter(@Assisted("port") int port,
-            AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
-            AdvancedPovButtonTriggerFactory povButtonFactory,
-            AnalogHIDButtonTriggerFactory analogHidButtonFactory, XRumbleManagerFactory rumbleManagerFactory,
+    public MockXboxControllerAdapter(@Assisted("port") int port, AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
+            AdvancedPovButtonTriggerFactory povButtonFactory, AnalogHIDButtonTriggerFactory analogHidButtonFactory, XRumbleManagerFactory rumbleManagerFactory,
             RobotAssertionManager manager, DevicePolice police) {
-        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, rumbleManagerFactory, manager,
-                police);
+        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, rumbleManagerFactory, manager, police);
         leftStick = new XYPair();
         rightStick = new XYPair();
         this.rumbleManager = rumbleManagerFactory.create(this);
@@ -73,12 +70,11 @@ public class MockXboxControllerAdapter extends XXboxController {
     }
 
     /**
-     * Needed for a few scenarios where we want to emulate the underlying joystick
-     * behavior
-     * and not the intent after inversion.
-     * 
-     * @param xy XYPair to directly set. (Remember that by default, most joysticks
-     *           have an inverted Y axis!)
+     * Needed for a few scenarios where we want to emulate the underlying joystick behavior and not the intent after
+     * inversion.
+     *
+     * @param xy
+     *            XYPair to directly set. (Remember that by default, most joysticks have an inverted Y axis!)
      */
     public void setRawLeftStick(XYPair xy) {
         leftStick.x = xy.x;
@@ -86,12 +82,11 @@ public class MockXboxControllerAdapter extends XXboxController {
     }
 
     /**
-     * Needed for a few scenarios where we want to emulate the underlying joystick
-     * behavior
-     * and not the intent after inversion.
-     * 
-     * @param xy XYPair to directly set. (Remember that by default, most joysticks
-     *           have an inverted Y axis!)
+     * Needed for a few scenarios where we want to emulate the underlying joystick behavior and not the intent after
+     * inversion.
+     *
+     * @param xy
+     *            XYPair to directly set. (Remember that by default, most joysticks have an inverted Y axis!)
      */
     public void setRawRightStick(XYPair xy) {
         rightStick.x = xy.x;
@@ -138,30 +133,26 @@ public class MockXboxControllerAdapter extends XXboxController {
     @Override
     public double getAxis(Axis axis) {
         switch (axis) {
-            case LEFT_X:
-                return leftStick.x;
-            case LEFT_Y:
-                return leftStick.y;
-            case RIGHT_X:
-                return rightStick.x;
-            case RIGHT_Y:
-                return rightStick.y;
-            case LEFT_TRIGGER:
-                return leftTrigger;
-            case RIGHT_TRIGGER:
-                return rightTrigger;
-            default:
-                throw new IllegalArgumentException("Unsupported Xbox axis " + axis);
+        case LEFT_X:
+            return leftStick.x;
+        case LEFT_Y:
+            return leftStick.y;
+        case RIGHT_X:
+            return rightStick.x;
+        case RIGHT_Y:
+            return rightStick.y;
+        case LEFT_TRIGGER:
+            return leftTrigger;
+        case RIGHT_TRIGGER:
+            return rightTrigger;
+        default:
+            throw new IllegalArgumentException("Unsupported Xbox axis " + axis);
         }
     }
 
     @Override
     public POVDirection getPOV() {
-        return getPovDirection(
-                getButton(Button.DPAD_UP),
-                getButton(Button.DPAD_DOWN),
-                getButton(Button.DPAD_LEFT),
-                getButton(Button.DPAD_RIGHT));
+        return getPovDirection(getButton(Button.DPAD_UP), getButton(Button.DPAD_DOWN), getButton(Button.DPAD_LEFT), getButton(Button.DPAD_RIGHT));
     }
 
     @Override

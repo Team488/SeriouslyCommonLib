@@ -55,9 +55,9 @@ import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 /**
- * Base class for all Components that provides methods to get implementations from DI.
- * Implementations of this abstract class map Modules to the Component. Dagger will automatically
- * generate a class with the prefix "Dagger" in the same package.
+ * Base class for all Components that provides methods to get implementations from DI. Implementations of this abstract
+ * class map Modules to the Component. Dagger will automatically generate a class with the prefix "Dagger" in the same
+ * package.
  */
 @SuppressWarnings("unused")
 public abstract class BaseComponent {
@@ -81,8 +81,7 @@ public abstract class BaseComponent {
 
     public abstract TunablePersistence tunablePersistence();
 
-    public abstract @Named(TunableManager.IN_MEMORY_PERSISTENCE_NAME)
-            TunablePersistence inMemoryTunablePersistence();
+    public abstract @Named(TunableManager.IN_MEMORY_PERSISTENCE_NAME) TunablePersistence inMemoryTunablePersistence();
 
     public abstract FieldPoseTunableManagerFactory fieldPoseTunableManagerFactory();
 

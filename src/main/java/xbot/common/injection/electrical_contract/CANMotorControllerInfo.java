@@ -2,12 +2,7 @@ package xbot.common.injection.electrical_contract;
 
 import org.wpilib.hardware.bus.CANPort;
 
-public record CANMotorControllerInfo(
-        String name,
-        MotorControllerType type,
-        CANBusId busId,
-        int deviceId,
-        PDHPort pdhPort,
+public record CANMotorControllerInfo(String name, MotorControllerType type, CANBusId busId, int deviceId, PDHPort pdhPort,
         CANMotorControllerOutputConfig outputConfig) {
 
     public CANMotorControllerInfo(String name, int deviceId) {
@@ -18,8 +13,7 @@ public record CANMotorControllerInfo(
         this(name, type, CANBusId.fromPort(canPort), deviceId);
     }
 
-    public CANMotorControllerInfo(String name, MotorControllerType type, CANPort canPort,
-            int deviceId, CANMotorControllerOutputConfig outputConfig) {
+    public CANMotorControllerInfo(String name, MotorControllerType type, CANPort canPort, int deviceId, CANMotorControllerOutputConfig outputConfig) {
         this(name, type, CANBusId.fromPort(canPort), deviceId, outputConfig);
     }
 
@@ -27,8 +21,8 @@ public record CANMotorControllerInfo(
         this(name, type, CANBusId.fromPort(canPort), deviceId, pdhPort);
     }
 
-    public CANMotorControllerInfo(String name, MotorControllerType type, CANPort canPort,
-            int deviceId, PDHPort pdhPort, CANMotorControllerOutputConfig outputConfig) {
+    public CANMotorControllerInfo(String name, MotorControllerType type, CANPort canPort, int deviceId, PDHPort pdhPort,
+            CANMotorControllerOutputConfig outputConfig) {
         this(name, type, CANBusId.fromPort(canPort), deviceId, pdhPort, outputConfig);
     }
 

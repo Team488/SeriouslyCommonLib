@@ -18,19 +18,13 @@ import static org.wpilib.units.Units.Degrees;
 import static org.wpilib.units.Units.DegreesPerSecond;
 import static org.wpilib.units.Units.MetersPerSecondPerSecond;
 
-public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
-{
+public abstract class XGyro implements DataFrameRefreshable, AutoCloseable {
     public enum InterfaceType {
-        CAN,
-        spi,
-        serial,
-        i2c
+        CAN, spi, serial, i2c
     }
 
     public enum ImuType {
-        onboard,
-        mock,
-        pigeon2
+        onboard, mock, pigeon2
     }
 
     protected final ImuType imuType;
@@ -46,8 +40,7 @@ public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
         }
     }
 
-    protected XGyro(IMUInfo info, DataFrameRegistry dataFrameRegistry)
-    {
+    protected XGyro(IMUInfo info, DataFrameRegistry dataFrameRegistry) {
         this.imuType = info.imuType();
         this.deviceName = info.name();
         this.io = new XGyroIoInputsAutoLogged();
@@ -107,11 +100,8 @@ public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
     }
 
     public LinearAcceleration getAcceleration() {
-        return MetersPerSecondPerSecond.of(VecBuilder.fill(
-            getAccelerationX().in(MetersPerSecondPerSecond),
-            getAccelerationY().in(MetersPerSecondPerSecond),
-            getAccelerationX().in(MetersPerSecondPerSecond)
-        ).norm());
+        return MetersPerSecondPerSecond.of(VecBuilder.fill(getAccelerationX().in(MetersPerSecondPerSecond), getAccelerationY().in(MetersPerSecondPerSecond),
+                getAccelerationX().in(MetersPerSecondPerSecond)).norm());
     }
 
     // What follows are the primitive "gets" for the gyro. These aren't protected,

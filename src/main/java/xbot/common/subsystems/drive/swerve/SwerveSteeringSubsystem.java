@@ -49,7 +49,7 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
 
     @Inject
     public SwerveSteeringSubsystem(SwerveInstance swerveInstance, XCANMotorController.XCANMotorControllerFactory mcFactory, XCANCoderFactory canCoderFactory,
-                                   TunableFactory tunableFactory, PIDManagerFactory pidf, XSwerveDriveElectricalContract electricalContract) {
+            TunableFactory tunableFactory, PIDManagerFactory pidf, XSwerveDriveElectricalContract electricalContract) {
         this.label = swerveInstance.label();
         log.info("Creating SwerveRotationSubsystem {}", this.label);
         aKitLog.setPrefix(this.getPrefix());
@@ -59,24 +59,14 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
                 degreesPerMotorRotationFromGearRatio(electricalContract.getSteeringGearRatio()));
         this.currentModuleHeadingRotation2d = Rotation2d.fromDegrees(0);
 
-        sysId =
-                new SysIdRoutine(
-                        new SysIdRoutine.Config(
-                                null, null, null,
-                                (state) -> org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "/SysIdState", state.toString())),
-                        new SysIdRoutine.Mechanism(
-                                this::setVoltage, null, this));
+        sysId = new SysIdRoutine(
+                new SysIdRoutine.Config(null, null, null,
+                        (state) -> org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "/SysIdState", state.toString())),
+                new SysIdRoutine.Mechanism(this::setVoltage, null, this));
 
         if (electricalContract.isDriveReady()) {
-            this.motorController = mcFactory.create(
-                    electricalContract.getSteeringMotor(swerveInstance),
-                    this.getPrefix(),
-                    "SteeringPID",
-                    new XCANMotorControllerPIDProperties.Builder()
-                            .withP(3.0)
-                            .withMinPowerOutput(-1.0)
-                            .withMaxPowerOutput(1.0)
-                            .build());
+            this.motorController = mcFactory.create(electricalContract.getSteeringMotor(swerveInstance), this.getPrefix(), "SteeringPID",
+                    new XCANMotorControllerPIDProperties.Builder().withP(3.0).withMinPowerOutput(-1.0).withMaxPowerOutput(1.0).build());
             this.motorController.setPowerRange(-1, 1);
         }
         if (electricalContract.areCanCodersReady()) {
@@ -140,7 +130,9 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
 
     /**
      * Sets the output power of the motor.
-     * @param power The power value, between -1 and 1.
+     *
+     * @param power
+     *            The power value, between -1 and 1.
      */
     @Override
     public void setPower(Double power) {
@@ -155,7 +147,9 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
 
     /**
      * Gets a command to run the SysId routine in the quasistatic mode.
-     * @param direction The direction to run the SysId routine.
+     *
+     * @param direction
+     *            The direction to run the SysId routine.
      * @return The command to run the SysId routine.
      */
     public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
@@ -164,7 +158,9 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
 
     /**
      * Gets a command to run the SysId routine in the dynamic mode.
-     * @param direction The direction to run the SysId routine.
+     *
+     * @param direction
+     *            The direction to run the SysId routine.
      * @return The command to run the SysId routine.
      */
     public Command sysIdDynamic(SysIdRoutine.Direction direction) {
@@ -177,6 +173,7 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
 
     /**
      * Gets the motor controller for this steering module.
+     *
      * @return The motor controller for this steering module.
      */
     public Optional<XCANMotorController> getMotorController() {
@@ -185,6 +182,7 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
 
     /**
      * Gets the CANCoder for this steering module.
+     *
      * @return The CANCoder for this steering module.
      */
     public Optional<XCANCoder> getEncoder() {
@@ -193,6 +191,7 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
 
     /**
      * Gets the current position of the mechanism using the best available encoder.
+     *
      * @return The position in degrees.
      */
     public Angle getBestEncoderPosition() {
@@ -201,12 +200,11 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
 
     /**
      * Gets the reported position of the CANCoder.
+     *
      * @return The position of the CANCoder.
      */
     public Angle getAbsoluteEncoderPosition() {
-        return getEncoder()
-                .map(XAbsoluteEncoder::getAbsolutePosition)
-                .orElse(Degrees.zero());
+        return getEncoder().map(XAbsoluteEncoder::getAbsolutePosition).orElse(Degrees.zero());
     }
 
     /**
@@ -224,9 +222,7 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
             Angle currentPosition = getBestEncoderPosition();
             Angle angleBetweenDesiredAndCurrent = Degrees.of(MathUtil.inputModulus(target.minus(currentPosition).in(Degrees), -180, 180));
 
-            Angle targetPosition = motorController.getPosition().plus(
-                    Rotations.of(angleBetweenDesiredAndCurrent.in(Degrees) / degreesPerMotorRotation.get())
-            );
+            Angle targetPosition = motorController.getPosition().plus(Rotations.of(angleBetweenDesiredAndCurrent.in(Degrees) / degreesPerMotorRotation.get()));
 
             motorController.setPositionTarget(targetPosition, XCANMotorController.MotorPidMode.Voltage, 0);
 
@@ -245,8 +241,7 @@ public class SwerveSteeringSubsystem extends BaseSimpleSetpointSubsystem impleme
         getMotorController().ifPresent(XCANMotorController::periodic);
         setupStatusFramesAsNeeded();
 
-        aKitLog.record("BestEncoderPositionDegrees",
-                getBestEncoderPosition().in(Degrees));
+        aKitLog.record("BestEncoderPositionDegrees", getBestEncoderPosition().in(Degrees));
     }
 
     @Override

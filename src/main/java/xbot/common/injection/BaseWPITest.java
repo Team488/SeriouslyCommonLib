@@ -21,7 +21,7 @@ public abstract class BaseWPITest {
     protected MockTunableBackend tunableBackend;
 
     protected PIDManagerFactory pf;
-    
+
     protected MockTimer timer;
 
     /**
@@ -39,11 +39,11 @@ public abstract class BaseWPITest {
         tunableBackend = new MockTunableBackend();
         TunableRegistry.registerBackend("", tunableBackend);
         injectorComponent = createDaggerComponent();
-        timer = (MockTimer)injectorComponent.timerImplementation();
+        timer = (MockTimer) injectorComponent.timerImplementation();
         XTimer.setImplementation(timer);
 
         tunableFactory = injectorComponent.tunableFactory();
-        
+
         pf = injectorComponent.pidFactory();
     }
 

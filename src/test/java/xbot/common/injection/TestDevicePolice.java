@@ -48,34 +48,23 @@ public class TestDevicePolice extends BaseCommonLibTest {
 
         assertRejectedUnchanged(police, assertions, () -> police.registerDevice(new Object(), occupied));
         assertRejectedUnchanged(police, assertions, () -> police.registerDevice(this, occupied));
-        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
-                new Object(), DeviceAddress.channel(DeviceType.Solenoid, 9000), 0, 7));
-        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
-                new Object(), DeviceAddress.channel(DeviceType.Solenoid, 0), 3, 7));
-        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
-                new Object(), DeviceAddress.channel(DeviceType.Solenoid, 1), 7, 3));
+        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(new Object(), DeviceAddress.channel(DeviceType.Solenoid, 9000), 0, 7));
+        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(new Object(), DeviceAddress.channel(DeviceType.Solenoid, 0), 3, 7));
+        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(new Object(), DeviceAddress.channel(DeviceType.Solenoid, 1), 7, 3));
         assertRejectedUnchanged(police, assertions, () -> police.registerDevice(null, occupied));
         assertRejectedUnchanged(police, assertions, () -> police.registerDevice(new Object()));
         assertRejectedUnchanged(police, assertions, () -> police.registerDevice(new Object(), (DeviceAddress[]) null));
         assertRejectedUnchanged(police, assertions, () -> police.registerDevice(new Object(), (DeviceAddress) null));
-        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
-                new Object(), DeviceAddress.channel(null, 1)));
-        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
-                new Object(), DeviceAddress.channel(DeviceType.DigitalIO, -1)));
-        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
-                new Object(), DeviceAddress.can((CANBusId) null, 1)));
-        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
-                new Object(), DeviceAddress.can((CANPort) null, 1)));
-        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
-                new Object(), DeviceAddress.can(new CANBusId(" "), 1)));
-        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
-                new Object(), DeviceAddress.can(new CANBusId(null), 1)));
-        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
-                new Object(), DeviceAddress.can(new CANBusId("\uD800"), 1)));
-        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
-                new Object(), new DeviceAddress(DeviceType.CAN, null, 1)));
-        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
-                new Object(), new DeviceAddress(DeviceType.DigitalIO, Optional.of(CANBusId.fromPort(CANPort.CAN_S0)), 1)));
+        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(new Object(), DeviceAddress.channel(null, 1)));
+        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(new Object(), DeviceAddress.channel(DeviceType.DigitalIO, -1)));
+        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(new Object(), DeviceAddress.can((CANBusId) null, 1)));
+        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(new Object(), DeviceAddress.can((CANPort) null, 1)));
+        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(new Object(), DeviceAddress.can(new CANBusId(" "), 1)));
+        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(new Object(), DeviceAddress.can(new CANBusId(null), 1)));
+        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(new Object(), DeviceAddress.can(new CANBusId("\uD800"), 1)));
+        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(new Object(), new DeviceAddress(DeviceType.CAN, null, 1)));
+        assertRejectedUnchanged(police, assertions,
+                () -> police.registerDevice(new Object(), new DeviceAddress(DeviceType.DigitalIO, Optional.of(CANBusId.fromPort(CANPort.CAN_S0)), 1)));
         if (assertions instanceof RecordingAssertions recording) {
             assertEquals(18, recording.failures);
         }
@@ -96,8 +85,7 @@ public class TestDevicePolice extends BaseCommonLibTest {
         assertRejectedUnchanged(police, assertions, () -> police.registerDevice(encoder, channelA, channelA));
 
         DeviceAddress channelC = DeviceAddress.channel(DeviceType.DigitalIO, 3);
-        RegistrationResult.Registered result = assertInstanceOf(
-                RegistrationResult.Registered.class, police.registerDevice(encoder, channelA, channelC));
+        RegistrationResult.Registered result = assertInstanceOf(RegistrationResult.Registered.class, police.registerDevice(encoder, channelA, channelC));
         assertEquals(List.of(channelA, channelC), result.addresses());
         assertEquals(List.of(existing, encoder), police.getRegisteredDevices());
         assertSame(encoder, police.findDevice(channelA).orElseThrow());
@@ -127,8 +115,7 @@ public class TestDevicePolice extends BaseCommonLibTest {
     public void invalidLookupsHonorControlledTestAssertionPolicy() {
         DevicePolice police = new DevicePolice(new LoudRobotAssertionManager());
         assertThrows(RobotAssertionException.class, () -> police.findDevice(null));
-        assertThrows(RobotAssertionException.class,
-                () -> police.findDevice(DeviceAddress.channel(DeviceType.DigitalIO, -1)));
+        assertThrows(RobotAssertionException.class, () -> police.findDevice(DeviceAddress.channel(DeviceType.DigitalIO, -1)));
         assertTrue(police.getRegisteredChannels().isEmpty());
     }
 
@@ -208,13 +195,10 @@ public class TestDevicePolice extends BaseCommonLibTest {
 
         assertRejectedUnchanged(police, assertions, () -> police.registerDevice(this, unknown));
         assertRejectedUnchanged(police, assertions, () -> police.registerDevice(this, nativeAddress, unknown));
-        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(
-                this, DeviceAddress.can(new CANBusId("can_s999"), 5)));
+        assertRejectedUnchanged(police, assertions, () -> police.registerDevice(this, DeviceAddress.can(new CANBusId("can_s999"), 5)));
 
-        assertInstanceOf(RegistrationResult.Registered.class,
-                police.registerDevice(this, nativeAddress));
-        assertInstanceOf(RegistrationResult.Registered.class,
-                police.registerDevice(this, canivoreAddress));
+        assertInstanceOf(RegistrationResult.Registered.class, police.registerDevice(this, nativeAddress));
+        assertInstanceOf(RegistrationResult.Registered.class, police.registerDevice(this, canivoreAddress));
         assertEquals(2, police.getRegisteredChannels().size());
         assertSame(this, police.findDevice(nativeAddress).orElseThrow());
         assertSame(this, police.findDevice(canivoreAddress).orElseThrow());
@@ -256,14 +240,12 @@ public class TestDevicePolice extends BaseCommonLibTest {
     @Test
     public void hardwareFactoriesRegisterActualOwnersAndConfiguredCanBuses() {
         DevicePolice police = getInjectorComponent().devicePolice();
-        var motor = getInjectorComponent().motorControllerFactory().create(
-                new CANMotorControllerInfo("RegisteredMotor", MotorControllerType.TalonFx, CANBusId.Canivore, 34),
-                "RegisteredMotor", "Pid");
+        var motor = getInjectorComponent().motorControllerFactory()
+                .create(new CANMotorControllerInfo("RegisteredMotor", MotorControllerType.TalonFx, CANBusId.Canivore, 34), "RegisteredMotor", "Pid");
         var solenoid = getInjectorComponent().solenoidFactory().create(0);
-        var canCoder = getInjectorComponent().canCoderFactory().create(
-                new DeviceInfo("RegisteredCanCoder", CANBusId.Canivore, 35), "RegisteredCanCoder");
-        var absoluteEncoder = getInjectorComponent().absoluteEncoderFactory().create(
-                new DeviceInfo("RegisteredAbsoluteEncoder", CANBusId.Canivore, 36), "RegisteredAbsoluteEncoder");
+        var canCoder = getInjectorComponent().canCoderFactory().create(new DeviceInfo("RegisteredCanCoder", CANBusId.Canivore, 35), "RegisteredCanCoder");
+        var absoluteEncoder = getInjectorComponent().absoluteEncoderFactory().create(new DeviceInfo("RegisteredAbsoluteEncoder", CANBusId.Canivore, 36),
+                "RegisteredAbsoluteEncoder");
 
         assertSame(motor, police.findDevice(DeviceAddress.can(CANBusId.Canivore, 34)).orElseThrow());
         assertSame(solenoid, police.findDevice(DeviceAddress.channel(DeviceType.Solenoid, 0)).orElseThrow());
@@ -281,8 +263,8 @@ public class TestDevicePolice extends BaseCommonLibTest {
         police.registerDevice(this, occupied);
         var before = police.getRegisteredChannels();
 
-        MockEncoder encoder = new MockEncoder("ConflictingEncoder", 3, 4, 1, "ConflictingEncoder",
-                getInjectorComponent().tunableFactory(), police, new DataFrameRegistry());
+        MockEncoder encoder = new MockEncoder("ConflictingEncoder", 3, 4, 1, "ConflictingEncoder", getInjectorComponent().tunableFactory(), police,
+                new DataFrameRegistry());
 
         assertEquals(1, assertions.failures);
         assertEquals(before, police.getRegisteredChannels());
@@ -298,15 +280,13 @@ public class TestDevicePolice extends BaseCommonLibTest {
         police.registerDevice(this, DeviceAddress.channel(DeviceType.DigitalIO, 4));
         var before = police.getRegisteredChannels();
 
-        assertThrows(RobotAssertionException.class, () -> getInjectorComponent().encoderFactory()
-                .create("ConflictingEncoder", 3, 4, 1, "ConflictingEncoder"));
+        assertThrows(RobotAssertionException.class, () -> getInjectorComponent().encoderFactory().create("ConflictingEncoder", 3, 4, 1, "ConflictingEncoder"));
 
         assertEquals(before, police.getRegisteredChannels());
         assertEquals(List.of(this), police.getRegisteredDevices());
     }
 
-    private void assertRejectedUnchanged(
-            DevicePolice police, RobotAssertionManager assertions, Supplier<RegistrationResult> registration) {
+    private void assertRejectedUnchanged(DevicePolice police, RobotAssertionManager assertions, Supplier<RegistrationResult> registration) {
         var addressesBefore = police.getRegisteredChannels();
         var devicesBefore = police.getRegisteredDevices();
         if (assertions.isExceptionsEnabled()) {

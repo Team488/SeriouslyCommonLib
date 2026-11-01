@@ -10,9 +10,7 @@ public class MockZeromqListener implements XZeromqListener {
 
     @AssistedFactory
     public abstract static class MockZeromqListenerFactory implements XZeromqListenerFactory {
-        public abstract MockZeromqListener create(
-                @Assisted("connectionString") String connectionString,
-                @Assisted("topic") String topic);
+        public abstract MockZeromqListener create(@Assisted("connectionString") String connectionString, @Assisted("topic") String topic);
     }
 
     @AssistedInject

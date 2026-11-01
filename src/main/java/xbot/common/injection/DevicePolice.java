@@ -23,42 +23,37 @@ import xbot.common.logging.SilentRobotAssertionManager;
 /**
  * Reserves device addresses and enumerates owners by reference identity.
  *
- * <p>Registration is all-or-nothing, including multi-channel requests. Rejected requests
- * are reported through RobotAssertionManager and leave the registry unchanged. With the
- * competition-safe assertion policy, rejection returns normally without throwing.
- * CAN reservations accept only native {@link CANPort} identities or the CANivore wildcard.
+ * <p>
+ * Registration is all-or-nothing, including multi-channel requests. Rejected requests are reported through
+ * RobotAssertionManager and leave the registry unchanged. With the competition-safe assertion policy, rejection returns
+ * normally without throwing. CAN reservations accept only native {@link CANPort} identities or the CANivore wildcard.
  * Rejection does not prevent a hardware constructor from continuing or disable the rejected device.
  *
- * <h2>Reserving addresses</h2>
- * Supply the actual device object as the owner, not its display name or null.
- * Use {@link DeviceAddress#can} for CAN addresses, preserving the configured bus, and
- * {@link DeviceAddress#channel} for other device types. Reserve all channels for one
- * device in a single call, for example an encoder's A/B channels:
+ * <h2>Reserving addresses</h2> Supply the actual device object as the owner, not its display name or null. Use
+ * {@link DeviceAddress#can} for CAN addresses, preserving the configured bus, and {@link DeviceAddress#channel} for
+ * other device types. Reserve all channels for one device in a single call, for example an encoder's A/B channels:
+ *
  * <pre>{@code
- * DevicePolice.RegistrationResult result = police.registerDevice(
- *         encoder,
- *         DeviceAddress.channel(DevicePolice.DeviceType.DigitalIO, 3),
+ * DevicePolice.RegistrationResult result = police.registerDevice(encoder, DeviceAddress.channel(DevicePolice.DeviceType.DigitalIO, 3),
  *         DeviceAddress.channel(DevicePolice.DeviceType.DigitalIO, 4));
  * }</pre>
  *
- * <p>The result is either {@link RegistrationResult.Registered} or
- * {@link RegistrationResult.Rejected}. Inspect a returned rejection before treating
- * the reservation as successful; it contains the diagnostic reported through
- * {@link RobotAssertionManager}. Controlled tests may select a loud assertion policy
- * that throws instead. Validation does not bypass the selected assertion policy.
+ * <p>
+ * The result is either {@link RegistrationResult.Registered} or {@link RegistrationResult.Rejected}. Inspect a returned
+ * rejection before treating the reservation as successful; it contains the diagnostic reported through
+ * {@link RobotAssertionManager}. Controlled tests may select a loud assertion policy that throws instead. Validation
+ * does not bypass the selected assertion policy.
  *
- * <p>An occupied address is rejected even for its current owner. The same owner can
- * reserve additional unused addresses without a second enumeration entry. Owners
- * are distinguished by reference identity, so equal but distinct objects remain
- * separate devices. The single-address {@link #registerDevice(Object, DeviceAddress, int, int)}
- * overload enforces inclusive hardware-provided channel bounds.
+ * <p>
+ * An occupied address is rejected even for its current owner. The same owner can reserve additional unused addresses
+ * without a second enumeration entry. Owners are distinguished by reference identity, so equal but distinct objects
+ * remain separate devices. The single-address {@link #registerDevice(Object, DeviceAddress, int, int)} overload
+ * enforces inclusive hardware-provided channel bounds.
  *
- * <h2>Looking up owners</h2>
- * Use {@link #findDevice} for one address, {@link #getRegisteredChannels} for address
- * ownership, and {@link #getRegisteredDevices} for owners in first-successful-registration
- * order. Collection results are immutable snapshots, not live views; device objects
- * themselves are not copied. Owners are reservation owners, not necessarily physical
- * hardware devices.
+ * <h2>Looking up owners</h2> Use {@link #findDevice} for one address, {@link #getRegisteredChannels} for address
+ * ownership, and {@link #getRegisteredDevices} for owners in first-successful-registration order. Collection results
+ * are immutable snapshots, not live views; device objects themselves are not copied. Owners are reservation owners, not
+ * necessarily physical hardware devices.
  */
 @Singleton
 public class DevicePolice {
@@ -68,21 +63,12 @@ public class DevicePolice {
     private final Set<Object> deviceIdentities = Collections.newSetFromMap(new IdentityHashMap<>());
 
     public enum DeviceType {
-        CAN,
-        PWM,
-        Solenoid,
-        DigitalIO,
-        Analog,
-        SPI,
-        I2C,
-        USB,
-        IMU
+        CAN, PWM, Solenoid, DigitalIO, Analog, SPI, I2C, USB, IMU
     }
 
     /**
-     * An explicit outcome when the assertion reporter returns normally.
-     * A rejection always contains its diagnostic; success never does.
-     * Only the registry constructs outcomes, after validating the complete request.
+     * An explicit outcome when the assertion reporter returns normally. A rejection always contains its diagnostic; success
+     * never does. Only the registry constructs outcomes, after validating the complete request.
      */
     public sealed interface RegistrationResult {
         final class Registered implements RegistrationResult {
@@ -111,8 +97,8 @@ public class DevicePolice {
     }
 
     /**
-     * Uses the supplied reporting policy, or logs and falls back to the competition-safe
-     * policy if the assertion manager is missing.
+     * Uses the supplied reporting policy, or logs and falls back to the competition-safe policy if the assertion manager is
+     * missing.
      */
     @Inject
     public DevicePolice(RobotAssertionManager assertionManager) {
@@ -125,8 +111,8 @@ public class DevicePolice {
     }
 
     /**
-     * Reserves all addresses or none. An occupied address is rejected even for its current owner.
-     * The same owner may reserve additional unused channels without a second enumeration entry.
+     * Reserves all addresses or none. An occupied address is rejected even for its current owner. The same owner may
+     * reserve additional unused channels without a second enumeration entry.
      */
     public synchronized RegistrationResult registerDevice(Object device, DeviceAddress... addresses) {
         if (device == null) {
@@ -168,22 +154,20 @@ public class DevicePolice {
     /**
      * Reserves one address within an inclusive hardware-provided channel range.
      */
-    public synchronized RegistrationResult registerDevice(
-            Object device, DeviceAddress address, int minChannel, int maxChannel) {
+    public synchronized RegistrationResult registerDevice(Object device, DeviceAddress address, int minChannel, int maxChannel) {
         if (minChannel < 0 || maxChannel < minChannel) {
             return reject("Invalid allowable channel range: [" + minChannel + ", " + maxChannel + "]");
         }
         if (address != null && (address.channel() < minChannel || address.channel() > maxChannel)) {
-            return reject("Device address " + address + " is outside allowed range ["
-                    + minChannel + ", " + maxChannel + "]");
+            return reject("Device address " + address + " is outside allowed range [" + minChannel + ", " + maxChannel + "]");
         }
         return registerDevice(device, address);
     }
 
     /**
-     * Finds the owner, or returns empty when the address is unregistered.
-     * Null or structurally invalid addresses are reported through RobotAssertionManager
-     * and return empty when the selected policy returns normally. Registry state is unchanged.
+     * Finds the owner, or returns empty when the address is unregistered. Null or structurally invalid addresses are
+     * reported through RobotAssertionManager and return empty when the selected policy returns normally. Registry state is
+     * unchanged.
      */
     public synchronized Optional<Object> findDevice(DeviceAddress address) {
         if (address == null) {
@@ -199,24 +183,23 @@ public class DevicePolice {
     }
 
     /**
-     * Returns an immutable snapshot of address ownership, in registration order.
-     * The device objects themselves are not copied.
+     * Returns an immutable snapshot of address ownership, in registration order. The device objects themselves are not
+     * copied.
      */
     public synchronized Map<DeviceAddress, Object> getRegisteredChannels() {
         return Collections.unmodifiableMap(new LinkedHashMap<>(registeredChannels));
     }
 
     /**
-     * Returns an immutable snapshot in first-successful-registration order.
-     * Owners are deduplicated by reference identity, not equals/hashCode.
+     * Returns an immutable snapshot in first-successful-registration order. Owners are deduplicated by reference identity,
+     * not equals/hashCode.
      */
     public synchronized List<Object> getRegisteredDevices() {
         return List.copyOf(registeredDevices);
     }
 
     private static boolean isKnownCanBus(CANBusId bus) {
-        return CANBusId.Canivore.equals(bus)
-                || Arrays.stream(CANPort.values()).anyMatch(port -> CANBusId.fromPort(port).equals(bus));
+        return CANBusId.Canivore.equals(bus) || Arrays.stream(CANPort.values()).anyMatch(port -> CANBusId.fromPort(port).equals(bus));
     }
 
     private RegistrationResult reject(String reason) {

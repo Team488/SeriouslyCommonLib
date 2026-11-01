@@ -10,6 +10,7 @@ public abstract class XCompressor {
     public interface XCompressorFactory {
         /**
          * Creates an XCompressor instance.
+         *
          * @return The XCompressor instance.
          */
         XCompressor create();
@@ -27,18 +28,21 @@ public abstract class XCompressor {
 
     /**
      * Get if the compressor is currently enabled.
+     *
      * @return True if the compressor is enabled.
      */
     public abstract boolean isEnabled();
 
     /**
      * Gets the current drawn by the compressor.
+     *
      * @return The current drawn by the compressor, in amps.
      */
     public abstract double getCurrent();
 
     /**
      * Gets whether the compressor is at its target pressure.
+     *
      * @return True if the compressor is at its target pressure.
      */
     public abstract boolean isAtTargetPressure();

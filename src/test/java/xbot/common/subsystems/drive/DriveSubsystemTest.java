@@ -18,7 +18,7 @@ public class DriveSubsystemTest extends BaseCommonLibTest {
     public void setUp() {
         super.setUp();
 
-        this.drive = (MockDriveSubsystem)getInjectorComponent().driveSubsystem();
+        this.drive = (MockDriveSubsystem) getInjectorComponent().driveSubsystem();
     }
 
     @Test
@@ -65,12 +65,12 @@ public class DriveSubsystemTest extends BaseCommonLibTest {
         verifyHolonomicDrive(-1, 1, 1, -1);
 
         // robot pointed down and right, commanded to go down and left
-        drive.fieldOrientedDrive(new XYPair(-1,-1), 0, -45, false);
+        drive.fieldOrientedDrive(new XYPair(-1, -1), 0, -45, false);
         // locally, this should be a strafe right
         verifyHolonomicDrive(1, -1, -1, 1);
 
         // robot pointed down and right, commanded to go up and right
-        drive.fieldOrientedDrive(new XYPair(1,1), 0, -45, false);
+        drive.fieldOrientedDrive(new XYPair(1, 1), 0, -45, false);
         // from its local perspective, this is another strafe left.
         verifyHolonomicDrive(-1, 1, 1, -1);
     }
@@ -101,7 +101,6 @@ public class DriveSubsystemTest extends BaseCommonLibTest {
         drive.drive(-.25, .6668);
         verifyTankDrive(-.25, 0.6668);
     }
-
 
     @Test
     public void testNoTalonsAvailable() {

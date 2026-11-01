@@ -43,12 +43,10 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
         XXboxController create(int port);
     }
 
-    protected XXboxController(int port, AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
-            AdvancedPovButtonTriggerFactory advancedPovButtonFactory, AnalogHIDButtonTriggerFactory analogHidButtonFactory,
-            XRumbleManagerFactory rumbleManagerFactory, RobotAssertionManager assertionManager,
+    protected XXboxController(int port, AdvancedJoystickButtonTriggerFactory joystickButtonFactory, AdvancedPovButtonTriggerFactory advancedPovButtonFactory,
+            AnalogHIDButtonTriggerFactory analogHidButtonFactory, XRumbleManagerFactory rumbleManagerFactory, RobotAssertionManager assertionManager,
             DevicePolice police) {
-        super(port, joystickButtonFactory, advancedPovButtonFactory, analogHidButtonFactory, assertionManager, 0,
-                police);
+        super(port, joystickButtonFactory, advancedPovButtonFactory, analogHidButtonFactory, assertionManager, 0, police);
         this.port = port;
         allocatedButtons = new EnumMap<>(Button.class);
         allocatedAxisButtons = new EnumMap<>(XboxAxisButton.class);
@@ -140,41 +138,25 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
 
     private static POVDirection[] getPovDirections(Button button) {
         return switch (button) {
-            case DPAD_UP -> new POVDirection[] {
-                POVDirection.UP,
-                POVDirection.UP_LEFT,
-                POVDirection.UP_RIGHT
-            };
-            case DPAD_DOWN -> new POVDirection[] {
-                POVDirection.DOWN,
-                POVDirection.DOWN_LEFT,
-                POVDirection.DOWN_RIGHT
-            };
-            case DPAD_LEFT -> new POVDirection[] {
-                POVDirection.LEFT,
-                POVDirection.UP_LEFT,
-                POVDirection.DOWN_LEFT
-            };
-            case DPAD_RIGHT -> new POVDirection[] {
-                POVDirection.RIGHT,
-                POVDirection.UP_RIGHT,
-                POVDirection.DOWN_RIGHT
-            };
-            default -> new POVDirection[0];
+        case DPAD_UP -> new POVDirection[] { POVDirection.UP, POVDirection.UP_LEFT, POVDirection.UP_RIGHT };
+        case DPAD_DOWN -> new POVDirection[] { POVDirection.DOWN, POVDirection.DOWN_LEFT, POVDirection.DOWN_RIGHT };
+        case DPAD_LEFT -> new POVDirection[] { POVDirection.LEFT, POVDirection.UP_LEFT, POVDirection.DOWN_LEFT };
+        case DPAD_RIGHT -> new POVDirection[] { POVDirection.RIGHT, POVDirection.UP_RIGHT, POVDirection.DOWN_RIGHT };
+        default -> new POVDirection[0];
         };
     }
 
     private static EnumSet<Button> getXboxButtons(POVDirection direction) {
         return switch (direction) {
-            case UP -> EnumSet.of(Button.DPAD_UP);
-            case UP_RIGHT -> EnumSet.of(Button.DPAD_UP, Button.DPAD_RIGHT);
-            case RIGHT -> EnumSet.of(Button.DPAD_RIGHT);
-            case DOWN_RIGHT -> EnumSet.of(Button.DPAD_DOWN, Button.DPAD_RIGHT);
-            case DOWN -> EnumSet.of(Button.DPAD_DOWN);
-            case DOWN_LEFT -> EnumSet.of(Button.DPAD_DOWN, Button.DPAD_LEFT);
-            case LEFT -> EnumSet.of(Button.DPAD_LEFT);
-            case UP_LEFT -> EnumSet.of(Button.DPAD_UP, Button.DPAD_LEFT);
-            default -> EnumSet.noneOf(Button.class);
+        case UP -> EnumSet.of(Button.DPAD_UP);
+        case UP_RIGHT -> EnumSet.of(Button.DPAD_UP, Button.DPAD_RIGHT);
+        case RIGHT -> EnumSet.of(Button.DPAD_RIGHT);
+        case DOWN_RIGHT -> EnumSet.of(Button.DPAD_DOWN, Button.DPAD_RIGHT);
+        case DOWN -> EnumSet.of(Button.DPAD_DOWN);
+        case DOWN_LEFT -> EnumSet.of(Button.DPAD_DOWN, Button.DPAD_LEFT);
+        case LEFT -> EnumSet.of(Button.DPAD_LEFT);
+        case UP_LEFT -> EnumSet.of(Button.DPAD_UP, Button.DPAD_LEFT);
+        default -> EnumSet.noneOf(Button.class);
         };
     }
 
@@ -185,8 +167,7 @@ public abstract class XXboxController extends XJoystick implements IRumbler, IGa
             throw new IllegalStateException("Xbox axis button " + button + " has already been allocated!");
         }
 
-        AdvancedXboxAxisTrigger candidate = new AdvancedXboxAxisTrigger(this, button,
-                DEFAULT_AXIS_BUTTON_THRESHOLD);
+        AdvancedXboxAxisTrigger candidate = new AdvancedXboxAxisTrigger(this, button, DEFAULT_AXIS_BUTTON_THRESHOLD);
         allocatedAxisButtons.put(button, candidate);
         return candidate;
     }

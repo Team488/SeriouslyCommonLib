@@ -30,14 +30,11 @@ public class CANBusIdTest {
         assertEquals(DeviceAddress.can(bus, 7), DeviceAddress.can(port, 7));
 
         assertDeviceInfoEquals(new DeviceInfo("encoder", bus, 7), new DeviceInfo("encoder", port, 7));
-        assertDeviceInfoEquals(new DeviceInfo("encoder", bus, 7, PowerSource.PDH01),
-                new DeviceInfo("encoder", port, 7, PowerSource.PDH01));
+        assertDeviceInfoEquals(new DeviceInfo("encoder", bus, 7, PowerSource.PDH01), new DeviceInfo("encoder", port, 7, PowerSource.PDH01));
         assertDeviceInfoEquals(new DeviceInfo("encoder", bus, 7, true), new DeviceInfo("encoder", port, 7, true));
-        assertDeviceInfoEquals(new DeviceInfo("encoder", bus, 7, true, PowerSource.PDH01),
-                new DeviceInfo("encoder", port, 7, true, PowerSource.PDH01));
+        assertDeviceInfoEquals(new DeviceInfo("encoder", bus, 7, true, PowerSource.PDH01), new DeviceInfo("encoder", port, 7, true, PowerSource.PDH01));
 
-        var motorConfig = new CANMotorControllerOutputConfig()
-                .withInversionType(CANMotorControllerOutputConfig.InversionType.Inverted)
+        var motorConfig = new CANMotorControllerOutputConfig().withInversionType(CANMotorControllerOutputConfig.InversionType.Inverted)
                 .withNeutralMode(CANMotorControllerOutputConfig.NeutralMode.Brake);
         assertEquals(new CANMotorControllerInfo("motor", MotorControllerType.TalonFx, bus, 8, motorConfig),
                 new CANMotorControllerInfo("motor", MotorControllerType.TalonFx, port, 8, motorConfig));
@@ -51,7 +48,7 @@ public class CANBusIdTest {
         assertEquals(CANMotorControllerOutputConfig.InversionType.Normal, defaultMotor.outputConfig().inversionType);
         assertEquals(CANMotorControllerOutputConfig.NeutralMode.Coast, poweredMotor.outputConfig().neutralMode);
 
-        var lightConfig = new CANLightControllerOutputConfig(LEDStripType.RGB, 0.5, new int[] {10, 20});
+        var lightConfig = new CANLightControllerOutputConfig(LEDStripType.RGB, 0.5, new int[] { 10, 20 });
         assertEquals(new CANLightControllerInfo("lights", LightControllerType.Candle, bus, 9),
                 new CANLightControllerInfo("lights", LightControllerType.Candle, port, 9));
         assertEquals(new CANLightControllerInfo("lights", LightControllerType.Candle, bus, 9, lightConfig),
@@ -63,10 +60,8 @@ public class CANBusIdTest {
         assertEquals(new IMUInfo(bus, 10, PowerSource.PDH04), new IMUInfo(port, 10, PowerSource.PDH04));
         assertEquals(new IMUInfo("gyro", XGyro.ImuType.pigeon2, XGyro.InterfaceType.CAN, bus, 10),
                 new IMUInfo("gyro", XGyro.ImuType.pigeon2, XGyro.InterfaceType.CAN, port, 10));
-        assertEquals(new IMUInfo("gyro", XGyro.ImuType.pigeon2, XGyro.InterfaceType.CAN, bus, 10,
-                        MountOrientation.FLAT, PowerSource.PDH04),
-                new IMUInfo("gyro", XGyro.ImuType.pigeon2, XGyro.InterfaceType.CAN, port, 10,
-                        MountOrientation.FLAT, PowerSource.PDH04));
+        assertEquals(new IMUInfo("gyro", XGyro.ImuType.pigeon2, XGyro.InterfaceType.CAN, bus, 10, MountOrientation.FLAT, PowerSource.PDH04),
+                new IMUInfo("gyro", XGyro.ImuType.pigeon2, XGyro.InterfaceType.CAN, port, 10, MountOrientation.FLAT, PowerSource.PDH04));
     }
 
     private void assertDeviceInfoEquals(DeviceInfo expected, DeviceInfo actual) {

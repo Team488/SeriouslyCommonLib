@@ -36,9 +36,9 @@ public class HeadingAssistModuleTest extends BaseCommonLibTest {
         XCANMotorController left = getInjectorComponent().motorControllerFactory().create(new CANMotorControllerInfo("Left", 0), "", "");
         XCANMotorController right = getInjectorComponent().motorControllerFactory().create(new CANMotorControllerInfo("Right", 1), "", "");
 
-        ((MockBasePoseSubsystem)pose).setDriveMotors(left, right);
+        ((MockBasePoseSubsystem) pose).setDriveMotors(left, right);
 
-        ((MockTimer)getInjectorComponent().timerImplementation()).advanceTimeInSecondsBy(10);
+        ((MockTimer) getInjectorComponent().timerImplementation()).advanceTimeInSecondsBy(10);
         getInjectorComponent().dataFrameRegistry().refreshAll();
         pose.periodic();
 
@@ -52,6 +52,7 @@ public class HeadingAssistModuleTest extends BaseCommonLibTest {
         step3_timePasses();
         step4_robotRotated();
     }
+
     @Test
     public void testFullStateMachine() {
         step1_humanDrive();
@@ -147,11 +148,10 @@ public class HeadingAssistModuleTest extends BaseCommonLibTest {
     private void step4_robotRotated() {
 
         // the robot undergoes some automatic rotation
-        setHeading(pose.getCurrentHeading().getDegrees()+90);
+        setHeading(pose.getCurrentHeading().getDegrees() + 90);
         double power = ham.calculateHeadingPower(0);
         assertEquals(-1, power, 0.001);
     }
-
 
     @Test
     public void testDecay() {
@@ -167,14 +167,14 @@ public class HeadingAssistModuleTest extends BaseCommonLibTest {
         step4_robotRotated();
 
         // However, unlike the position-based one, this one will try and turn left if the robot is suddenly rotated right.
-        setHeading(pose.getCurrentHeading().getDegrees()-90);
+        setHeading(pose.getCurrentHeading().getDegrees() - 90);
         power = ham.calculateHeadingPower(0);
         assertEquals(1, power, 0.001);
     }
 
     protected void setHeading(double heading) {
-        ((MockGyro)pose.imu).setYaw(Degrees.of(heading));
-        ((MockGyro)pose.imu).refreshDataFrame();
+        ((MockGyro) pose.imu).setYaw(Degrees.of(heading));
+        ((MockGyro) pose.imu).refreshDataFrame();
         pose.periodic();
     }
 }

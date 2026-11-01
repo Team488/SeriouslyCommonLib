@@ -17,12 +17,11 @@ public class XDoubleSolenoidTest extends BaseCommonLibTest {
     XDoubleSolenoid xDoubleSol;
 
     @BeforeEach
-    public void setup()
-    {
+    public void setup() {
         super.setUp();
 
-        forwardSolenoid = (MockSolenoid)getInjectorComponent().solenoidFactory().create(1);
-        reverseSolenoid = (MockSolenoid)getInjectorComponent().solenoidFactory().create(2);
+        forwardSolenoid = (MockSolenoid) getInjectorComponent().solenoidFactory().create(1);
+        reverseSolenoid = (MockSolenoid) getInjectorComponent().solenoidFactory().create(2);
         xDoubleSol = getInjectorComponent().doubleSolenoidFactory().create(forwardSolenoid, reverseSolenoid);
     }
 

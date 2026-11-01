@@ -18,17 +18,8 @@ public class CANLightControlelrTest extends BaseCommonLibTest {
     @Test
     public void testSlotToIndexTranslation() {
         var factory = getInjectorComponent().lightControllerFactory();
-        var lightController = factory.create(
-                new CANLightControllerInfo(
-                        "test",
-                        LightControllerType.Candle,
-                        CANPort.CAN_S0,
-                        61,
-                        new CANLightControllerOutputConfig(
-                                LEDStripType.RGB,
-                                1.0,
-                                new int[]{8, 30, 30}
-                        )));
+        var lightController = factory.create(new CANLightControllerInfo("test", LightControllerType.Candle, CANPort.CAN_S0, 61,
+                new CANLightControllerOutputConfig(LEDStripType.RGB, 1.0, new int[] { 8, 30, 30 })));
 
         assertTrue(lightController instanceof MockCANLightController);
         assertEquals(0, lightController.getSlotStartIndex(0));

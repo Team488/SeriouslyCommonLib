@@ -17,18 +17,13 @@ public class MockEncoder extends XEncoder {
 
     @AssistedFactory
     public abstract static class MockEncoderFactory implements XEncoderFactory {
-        public abstract MockEncoder create(
-                @Assisted("name") String name,
-                @Assisted("aChannel") int aChannel,
-                @Assisted("bChannel") int bChannel,
-                @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse,
-                @Assisted("owningSystemPrefix") String owningSystemPrefix);
+        public abstract MockEncoder create(@Assisted("name") String name, @Assisted("aChannel") int aChannel, @Assisted("bChannel") int bChannel,
+                @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse, @Assisted("owningSystemPrefix") String owningSystemPrefix);
     }
 
     @AssistedInject
-    public MockEncoder(@Assisted("name") String name, @Assisted("aChannel") int aChannel,
-            @Assisted("bChannel") int bChannel, @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix,
+    public MockEncoder(@Assisted("name") String name, @Assisted("aChannel") int aChannel, @Assisted("bChannel") int bChannel,
+            @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse, @Assisted("owningSystemPrefix") String owningSystemPrefix,
             TunableFactory tunableFactory, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
         super(name, aChannel, bChannel, defaultDistancePerPulse, owningSystemPrefix, tunableFactory, police, dataFrameRegistry);
     }

@@ -38,11 +38,10 @@ public class HeadingModuleTest extends BaseCommonLibTest {
         XCANMotorController left = getInjectorComponent().motorControllerFactory().create(new CANMotorControllerInfo("Left", 0), "", "");
         XCANMotorController right = getInjectorComponent().motorControllerFactory().create(new CANMotorControllerInfo("Right", 1), "", "");
 
-        ((MockBasePoseSubsystem)pose).setDriveMotors(left, right);
+        ((MockBasePoseSubsystem) pose).setDriveMotors(left, right);
 
-        ((MockTimer)getInjectorComponent().timerImplementation()).advanceTimeInSecondsBy(10);
+        ((MockTimer) getInjectorComponent().timerImplementation()).advanceTimeInSecondsBy(10);
         pose.periodic();
-
 
     }
 
@@ -78,10 +77,9 @@ public class HeadingModuleTest extends BaseCommonLibTest {
         assertTrue(headingModule.isOnTarget());
     }
 
-    protected void setHeading(double heading)
-    {
-        ((MockGyro)pose.imu).setYaw(Degrees.of(heading));
-        ((MockGyro)pose.imu).refreshDataFrame();
+    protected void setHeading(double heading) {
+        ((MockGyro) pose.imu).setYaw(Degrees.of(heading));
+        ((MockGyro) pose.imu).refreshDataFrame();
         pose.periodic();
     }
 }

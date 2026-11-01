@@ -23,7 +23,7 @@ public class PIDManagerTest extends BaseCommonLibTest {
     public void setUp() {
         super.setUp();
         factory = getInjectorComponent().pidFactory();
-        mockTimer = (MockTimer)getInjectorComponent().timerImplementation();
+        mockTimer = (MockTimer) getInjectorComponent().timerImplementation();
     }
 
     @Test
@@ -200,10 +200,10 @@ public class PIDManagerTest extends BaseCommonLibTest {
         assertEquals(0, output, 1e-6);
 
         // with error inside the iZone, i is applied
-        output = manager.calculate(iZone -1, 0);
+        output = manager.calculate(iZone - 1, 0);
         assertTrue(output > 0);
 
-        output = manager.calculate(-(iZone -1), 0);
+        output = manager.calculate(-(iZone - 1), 0);
         assertTrue(output < 0);
     }
 

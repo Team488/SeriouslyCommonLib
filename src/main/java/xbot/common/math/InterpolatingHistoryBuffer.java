@@ -20,14 +20,15 @@ public class InterpolatingHistoryBuffer {
     private int index; // "pointer" to the starting index in the buffers
 
     /**
-     * This class implements a set of circular buffers that can be used to store
-     * values of signals in the past, and retrieve values at arbitrary previous time
-     * indexes.
-     * 
+     * This class implements a set of circular buffers that can be used to store values of signals in the past, and retrieve
+     * values at arbitrary previous time indexes.
+     *
      * The value is assumed to saturate at the end of the maintained history.
-     * 
-     * @param length   Number of samples to keep
-     * @param init_val Value to fill the inital samples with (probably zero is fine)
+     *
+     * @param length
+     *            Number of samples to keep
+     * @param init_val
+     *            Value to fill the inital samples with (probably zero is fine)
      */
     public InterpolatingHistoryBuffer(int length, double init_val) {
         double init_time = XTimer.getFPGATimestamp();
@@ -41,10 +42,11 @@ public class InterpolatingHistoryBuffer {
 
     /**
      * Insert a new value into the buffer. Discards the oldest value.
-     * 
-     * @param time  Time at which the value was sampled. elements must be inserted
-     *              in a monotomically increasing fashion
-     * @param value Value of the signal right now
+     *
+     * @param time
+     *            Time at which the value was sampled. elements must be inserted in a monotomically increasing fashion
+     * @param value
+     *            Value of the signal right now
      * @return true if the value was inserted, false otherwise
      */
     public boolean insert(double time, double value) {
@@ -67,8 +69,9 @@ public class InterpolatingHistoryBuffer {
 
     /**
      * Returns the value at a given time, linearlly interpolated.
-     * 
-     * @param time time at which to retrieve value
+     *
+     * @param time
+     *            time at which to retrieve value
      * @return value at inputted time.
      */
     public double getValAtTime(double time) {

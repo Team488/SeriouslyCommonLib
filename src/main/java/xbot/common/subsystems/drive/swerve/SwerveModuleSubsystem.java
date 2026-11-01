@@ -50,7 +50,7 @@ public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRef
 
     @Inject
     public SwerveModuleSubsystem(SwerveInstance swerveInstance, SwerveDriveSubsystem driveSubsystem, SwerveSteeringSubsystem steeringSubsystem,
-                                 XSwerveDriveElectricalContract contract, TunableFactory tunableFactory) {
+            XSwerveDriveElectricalContract contract, TunableFactory tunableFactory) {
         this.label = swerveInstance.label();
         log.info("Creating SwerveModuleSubsystem {}", this.label);
         tunableFactory.setPrefix(this);
@@ -62,23 +62,22 @@ public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRef
         this.xOffsetInches = tunableFactory.createDouble("XOffsetInches", defaultModuleTranslation.getMeasureX().in(Inches), TunableLevel.Debug);
         this.yOffsetInches = tunableFactory.createDouble("YOffsetInches", defaultModuleTranslation.getMeasureY().in(Inches), TunableLevel.Debug);
 
-        this.moduleTranslation = new Translation2d(
-                Inches.of(xOffsetInches.get()),
-                Inches.of(yOffsetInches.get()));
+        this.moduleTranslation = new Translation2d(Inches.of(xOffsetInches.get()), Inches.of(yOffsetInches.get()));
 
         this.currentState = new SwerveModuleVelocity();
         this.currentPosition = new SwerveModulePosition();
         this.targetState = new SwerveModuleVelocity();
 
         String alertId = getClass().getName() + "-" + this.label + "-" + NEXT_ALERT_ID.getAndIncrement();
-        degradedModuleAlert = new Alert(AlertGroups.DEVICE_HEALTH, alertId,
-                "Module " + this.label + " cannot reach CANCoder, and is disabling itself.", Alert.Level.HIGH);
+        degradedModuleAlert = new Alert(AlertGroups.DEVICE_HEALTH, alertId, "Module " + this.label + " cannot reach CANCoder, and is disabling itself.",
+                Alert.Level.HIGH);
     }
 
     /**
      * Sets the target steering angle and drive power for this module, in METRIC UNITS.
      *
-     * @param swerveModuleState Metric swerve module state
+     * @param swerveModuleState
+     *            Metric swerve module state
      */
     public void setTargetState(SwerveModuleVelocity swerveModuleState) {
         setTargetState(swerveModuleState, true);
@@ -86,9 +85,7 @@ public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRef
 
     public void setTargetState(SwerveModuleVelocity swerveModuleState, boolean optimize) {
         if (!degraded) {
-            SwerveModuleVelocity commandedState = new SwerveModuleVelocity(
-                    swerveModuleState.velocity,
-                    swerveModuleState.angle);
+            SwerveModuleVelocity commandedState = new SwerveModuleVelocity(swerveModuleState.velocity, swerveModuleState.angle);
             if (optimize) {
                 commandedState = commandedState.optimize(getSteeringSubsystem().getCurrentRotation());
             }
@@ -145,11 +142,13 @@ public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRef
     }
 
     /***
-     * Very basic drive method - bypasses all PID to directly control the motors.
-     * Ensure that your command has required control of all relevant subsystems before doing this,
-     * or you will be fighting the maintainers.
-     * @param drivePower -1 to 1 value for nodule wheel power
-     * @param steeringPower -1 to 1 value for module rotation power
+     * Very basic drive method - bypasses all PID to directly control the motors. Ensure that your command has required
+     * control of all relevant subsystems before doing this, or you will be fighting the maintainers.
+     *
+     * @param drivePower
+     *            -1 to 1 value for nodule wheel power
+     * @param steeringPower
+     *            -1 to 1 value for module rotation power
      */
     public void setPowers(double drivePower, double steeringPower) {
         getDriveSubsystem().setPower(drivePower);
@@ -162,13 +161,11 @@ public class SwerveModuleSubsystem extends BaseSubsystem implements DataFrameRef
 
     @Override
     public void periodic() {
-        steeringSubsystem.getEncoder().ifPresentOrElse(
-                encoder -> {
-                    degraded = encoder.getHealth() == DeviceHealth.Unhealthy;
-                },
-                () -> {
-                    degraded = true;
-                });
+        steeringSubsystem.getEncoder().ifPresentOrElse(encoder -> {
+            degraded = encoder.getHealth() == DeviceHealth.Unhealthy;
+        }, () -> {
+            degraded = true;
+        });
         degradedModuleAlert.set(degraded);
     }
 

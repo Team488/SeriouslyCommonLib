@@ -34,16 +34,7 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().digitalOutputFactory().create(3);
         getInjectorComponent().speedControllerFactory().create(2);
         getInjectorComponent().motorControllerFactory()
-                .create(
-                        new CANMotorControllerInfo(
-                                "",
-                                MotorControllerType.TalonFx,
-                                CANBusId.Canivore,
-                                12,
-                                new CANMotorControllerOutputConfig()),
-                        "",
-                        "",
-                        null);
+                .create(new CANMotorControllerInfo("", MotorControllerType.TalonFx, CANBusId.Canivore, 12, new CANMotorControllerOutputConfig()), "", "", null);
         XJoystick j = getInjectorComponent().joystickFactory().create(1, 12);
         getInjectorComponent().joystickButtonFactory().create(j, 1);
         getInjectorComponent().analogHidButtonFactory().create(j, 1, -1, 1);
@@ -58,32 +49,28 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().pwmFactory().create(3);
         getInjectorComponent().fieldPoseTunableManagerFactory().create("testo", 1, 2, 3);
         getInjectorComponent().zeromqListenerFactory().create("testo", "testo");
-        getInjectorComponent().chordButtonFactory().create(
-            getInjectorComponent().joystickButtonFactory().create(j, 2),
-            getInjectorComponent().joystickButtonFactory().create(j, 3));
+        getInjectorComponent().chordButtonFactory().create(getInjectorComponent().joystickButtonFactory().create(j, 2),
+                getInjectorComponent().joystickButtonFactory().create(j, 3));
         getInjectorComponent().virtualButtonFactory().create();
-        getInjectorComponent().doubleSolenoidFactory().create(
-            getInjectorComponent().solenoidFactory().create(2),
-            getInjectorComponent().solenoidFactory().create(3));
-//        getInjectorComponent().canSparkMaxFactory().create(new DeviceInfo("left", 10), "drive", "left", "motorGroup");
-//        getInjectorComponent().canSparkMaxFactory().create(
-//                new DeviceInfo("left", 11), "drive", "left", "motorGroup",
-//                new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
+        getInjectorComponent().doubleSolenoidFactory().create(getInjectorComponent().solenoidFactory().create(2),
+                getInjectorComponent().solenoidFactory().create(3));
+        //        getInjectorComponent().canSparkMaxFactory().create(new DeviceInfo("left", 10), "drive", "left", "motorGroup");
+        //        getInjectorComponent().canSparkMaxFactory().create(
+        //                new DeviceInfo("left", 11), "drive", "left", "motorGroup",
+        //                new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
 
-        getInjectorComponent().absoluteEncoderFactory().create(new DeviceInfo("test",6, null), "test");
+        getInjectorComponent().absoluteEncoderFactory().create(new DeviceInfo("test", 6, null), "test");
         getInjectorComponent().stallDetectorFactory().create("owningSystem");
-        getInjectorComponent().canCoderFactory().create(new DeviceInfo("test",7, null), "test");
-        getInjectorComponent().dutyCycleEncoderFactory().create(new DeviceInfo("test",8, null));
-        getInjectorComponent().laserCANFactory().create(new DeviceInfo("laserTest",9, null), "test");
-        getInjectorComponent().lightControllerFactory().create(new CANLightControllerInfo(
-                "lights", LightControllerType.Candle, CANPort.CAN_S0, 60));
+        getInjectorComponent().canCoderFactory().create(new DeviceInfo("test", 7, null), "test");
+        getInjectorComponent().dutyCycleEncoderFactory().create(new DeviceInfo("test", 8, null));
+        getInjectorComponent().laserCANFactory().create(new DeviceInfo("laserTest", 9, null), "test");
+        getInjectorComponent().lightControllerFactory().create(new CANLightControllerInfo("lights", LightControllerType.Candle, CANPort.CAN_S0, 60));
 
     }
 
     @Test
     public void doubleAllocate() {
         getInjectorComponent().canCoderFactory().create(new DeviceInfo("", 1, null), "");
-        assertThrows(RobotAssertionException.class,
-                () -> getInjectorComponent().canCoderFactory().create(new DeviceInfo("", 1, null), ""));
+        assertThrows(RobotAssertionException.class, () -> getInjectorComponent().canCoderFactory().create(new DeviceInfo("", 1, null), ""));
     }
 }

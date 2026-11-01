@@ -19,14 +19,10 @@ public class XEncoderTest {
 
     @Test
     public void rejectsRateWindowsOutsideWpilibRange() {
-        assertThrows(IllegalArgumentException.class,
-                () -> XEncoder.toRateWindowMilliseconds(Milliseconds.of(4.99)));
-        assertThrows(IllegalArgumentException.class,
-                () -> XEncoder.toRateWindowMilliseconds(Milliseconds.of(255.01)));
-        assertThrows(IllegalArgumentException.class,
-                () -> XEncoder.toRateWindowMilliseconds(Milliseconds.of(Double.NaN)));
-        assertThrows(IllegalArgumentException.class,
-                () -> XEncoder.toRateWindowMilliseconds(Milliseconds.of(Double.POSITIVE_INFINITY)));
+        assertThrows(IllegalArgumentException.class, () -> XEncoder.toRateWindowMilliseconds(Milliseconds.of(4.99)));
+        assertThrows(IllegalArgumentException.class, () -> XEncoder.toRateWindowMilliseconds(Milliseconds.of(255.01)));
+        assertThrows(IllegalArgumentException.class, () -> XEncoder.toRateWindowMilliseconds(Milliseconds.of(Double.NaN)));
+        assertThrows(IllegalArgumentException.class, () -> XEncoder.toRateWindowMilliseconds(Milliseconds.of(Double.POSITIVE_INFINITY)));
         assertThrows(IllegalArgumentException.class, () -> XEncoder.toRateWindowMilliseconds(null));
     }
 }

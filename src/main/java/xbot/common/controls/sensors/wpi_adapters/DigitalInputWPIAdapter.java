@@ -17,9 +17,8 @@ public class DigitalInputWPIAdapter extends XDigitalInput {
     protected DigitalInput adapter;
 
     @AssistedFactory
-    public abstract static class DigitalInputWPIAdapterFactory implements XDigitalInputFactory
-    {
-        public abstract DigitalInputWPIAdapter create(@Assisted("info")DeviceInfo info, @Assisted("owningSystemPrefix")String owningSystemPrefix);
+    public abstract static class DigitalInputWPIAdapterFactory implements XDigitalInputFactory {
+        public abstract DigitalInputWPIAdapter create(@Assisted("info") DeviceInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix);
     }
 
     /**
@@ -29,10 +28,8 @@ public class DigitalInputWPIAdapter extends XDigitalInput {
      *            the DIO channel for the digital input 0-9 are on-board, 10-25 are on the MXP
      */
     @AssistedInject
-    public DigitalInputWPIAdapter(
-            @Assisted("info") DeviceInfo info,
-            @Assisted("owningSystemPrefix")String owningSystemPrefix,
-            DevicePolice police, DataFrameRegistry dataFrameRegistry) {
+    public DigitalInputWPIAdapter(@Assisted("info") DeviceInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix, DevicePolice police,
+            DataFrameRegistry dataFrameRegistry) {
         super(police, info, owningSystemPrefix, dataFrameRegistry);
         adapter = new DigitalInput(info.channel);
     }

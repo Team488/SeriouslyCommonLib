@@ -15,38 +15,38 @@ public class SafeRobotAssertionTest extends BaseCommonLibTest {
     @Test
     public void testNoExceptionOnRobot() {
         RobotAssertionManager assertMan = new SilentRobotAssertionManager();
-        
+
         assertMan.throwException(new RuntimeException("Something really bad happened (...but robots never die)"));
     }
-    
+
     @Test
     public void testExceptionThrownInTests() {
         RobotAssertionManager assertMan = new LoudRobotAssertionManager();
 
-        assertThrows(RuntimeException.class, () ->
-            assertMan.throwException(new RuntimeException("Something really bad happened (tests are free to die as necessary)")));
+        assertThrows(RuntimeException.class,
+                () -> assertMan.throwException(new RuntimeException("Something really bad happened (tests are free to die as necessary)")));
     }
-    
+
     @Test
     public void testAssertionContinuesOnRobot() {
         RobotAssertionManager assertMan = new SilentRobotAssertionManager();
-        
+
         assertMan.assertTrue(true, "The world is ending");
         assertMan.assertTrue(false, "false != true");
         log.info("Yet the world keeps turning");
     }
-    
+
     @Test
     public void testAssertionFailedInTests() {
         RobotAssertionManager assertMan = new LoudRobotAssertionManager();
 
         assertThrows(RobotAssertionException.class, () -> assertMan.assertTrue(false, "false != true"));
     }
-    
+
     @Test()
     public void testAssertionPassedInTests() {
         RobotAssertionManager assertMan = new LoudRobotAssertionManager();
-        
+
         assertMan.assertTrue(true, "The world is ending");
     }
 }

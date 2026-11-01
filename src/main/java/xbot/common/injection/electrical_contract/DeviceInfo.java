@@ -10,18 +10,18 @@ public class DeviceInfo {
     public PowerSource powerFrom;
 
     // Constructors without CAN Bus interface (sorted by parameter count)
-    
-    public DeviceInfo(String name, PowerSource powerFrom){
+
+    public DeviceInfo(String name, PowerSource powerFrom) {
         this.name = name;
         this.powerFrom = powerFrom;
     }
 
-    public DeviceInfo(String name, int channel){
+    public DeviceInfo(String name, int channel) {
         this.name = name;
         this.channel = channel;
     }
 
-    public DeviceInfo(String name, int channel, PowerSource powerFrom){
+    public DeviceInfo(String name, int channel, PowerSource powerFrom) {
         this(name, channel);
         this.powerFrom = powerFrom;
     }
@@ -37,7 +37,7 @@ public class DeviceInfo {
     }
 
     // Constructors with CAN Bus interface (sorted by parameter count)
-    
+
     public DeviceInfo(String name, CANPort canPort, int channel) {
         this(name, CANBusId.fromPort(canPort), channel);
     }
@@ -54,22 +54,22 @@ public class DeviceInfo {
         this(name, CANBusId.fromPort(canPort), channel, inverted, powerFrom);
     }
 
-    public DeviceInfo(String name, CANBusId canBusId, int channel){
+    public DeviceInfo(String name, CANBusId canBusId, int channel) {
         this(name, channel);
         this.canBusId = canBusId;
     }
 
-    public DeviceInfo(String name, CANBusId canBusId, int channel, PowerSource powerFrom){
+    public DeviceInfo(String name, CANBusId canBusId, int channel, PowerSource powerFrom) {
         this(name, canBusId, channel);
         this.powerFrom = powerFrom;
     }
 
-    public DeviceInfo(String name, CANBusId canBusId, int channel, boolean inverted){
+    public DeviceInfo(String name, CANBusId canBusId, int channel, boolean inverted) {
         this(name, canBusId, channel);
         this.inverted = inverted;
     }
 
-    public DeviceInfo(String name, CANBusId canBusId, int channel, boolean inverted, PowerSource powerFrom){
+    public DeviceInfo(String name, CANBusId canBusId, int channel, boolean inverted, PowerSource powerFrom) {
         this(name, canBusId, channel, inverted);
         this.powerFrom = powerFrom;
     }

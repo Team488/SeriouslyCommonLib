@@ -30,8 +30,8 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
     public void setUp() {
         super.setUp();
         command = getInjectorComponent().configurablePurePursuitCommand();
-        this.drive = (MockDriveSubsystem)getInjectorComponent().driveSubsystem();
-        this.pose = (MockBasePoseSubsystem)getInjectorComponent().poseSubsystem();
+        this.drive = (MockDriveSubsystem) getInjectorComponent().driveSubsystem();
+        this.pose = (MockBasePoseSubsystem) getInjectorComponent().poseSubsystem();
 
         pose.setDriveMotors(drive.leftTank, drive.rightTank);
 
@@ -121,11 +121,11 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
         command.addPoint(new FieldPose(new XYPair(0, 10), Rotation2d.fromDegrees(90)));
         command.addPoint(new FieldPose(new XYPair(10, 10), Rotation2d.fromDegrees(90)));
 
-        command.setPointSupplier(() ->
-        new ArrayList<RabbitPoint>() {{
-            add(new RabbitPoint(1, 2, 3));
-            }}
-        );
+        command.setPointSupplier(() -> new ArrayList<RabbitPoint>() {
+            {
+                add(new RabbitPoint(1, 2, 3));
+            }
+        });
 
         command.initialize();
 
@@ -151,8 +151,7 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
 
     @Test
     public void testDriveToPoint() {
-        command.addPoint(
-            new RabbitPoint(new FieldPose(new XYPair(10, 10), Rotation2d.fromDegrees(90)), PointType.PositionOnly, PointTerminatingType.Stop));
+        command.addPoint(new RabbitPoint(new FieldPose(new XYPair(10, 10), Rotation2d.fromDegrees(90)), PointType.PositionOnly, PointTerminatingType.Stop));
         command.initialize();
         command.execute();
         verifyTankDrive(1, -1);
@@ -162,7 +161,7 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
     public void testDriveOffset() {
         pose.setCurrentHeading(0);
         command.addPoint(
-            new RabbitPoint(new FieldPose(new XYPair(100, 0), Rotation2d.fromDegrees(-90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
+                new RabbitPoint(new FieldPose(new XYPair(100, 0), Rotation2d.fromDegrees(-90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
         command.initialize();
         command.execute();
         // Even though we're pointed right at the goal, we should veer left because we are completely perpindicular to it.
@@ -172,7 +171,7 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
     @Test
     public void testThreePointBehind() {
         command.addPoint(
-            new RabbitPoint(new FieldPose(new XYPair(100, -100), Rotation2d.fromDegrees(90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
+                new RabbitPoint(new FieldPose(new XYPair(100, -100), Rotation2d.fromDegrees(90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
         command.setDotProductDrivingEnabled(true);
         command.initialize();
         command.execute();
@@ -185,7 +184,7 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
     @Disabled
     public void testThreePointDirect() {
         command.addPoint(
-            new RabbitPoint(new FieldPose(new XYPair(100, 0), Rotation2d.fromDegrees(-90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
+                new RabbitPoint(new FieldPose(new XYPair(100, 0), Rotation2d.fromDegrees(-90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
         command.setDotProductDrivingEnabled(true);
         command.initialize();
         command.execute();
@@ -215,4 +214,3 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
         assertTrue(rotation > 0 == turningLeft, "Checking Driving Forward");
     }
 }
-

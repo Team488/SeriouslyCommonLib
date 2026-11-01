@@ -18,10 +18,7 @@ public class MockAnalogInput extends XAnalogInput {
     }
 
     @AssistedInject
-    public MockAnalogInput(
-            @Assisted("channel") int channel,
-            DevicePolice police,
-            DataFrameRegistry dataFrameRegistry) {
+    public MockAnalogInput(@Assisted("channel") int channel, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
         super(channel, police, dataFrameRegistry);
         this.channel = channel;
     }

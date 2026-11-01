@@ -24,13 +24,7 @@ final class StringTunableBinding extends ManagedTunableBinding {
         }
     };
 
-    StringTunableBinding(
-            String key,
-            String defaultValue,
-            TunableLevel level,
-            boolean replay,
-            TunablePersistence persistence,
-            Runnable onValueChanged) {
+    StringTunableBinding(String key, String defaultValue, TunableLevel level, boolean replay, TunablePersistence persistence, Runnable onValueChanged) {
         super(key, level, replay);
         this.persistence = persistence;
         this.onValueChanged = onValueChanged;

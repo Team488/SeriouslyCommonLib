@@ -27,11 +27,7 @@ public class TunableFactoryTest {
         TunableRegistry.reset();
         tunableBackend = new MockTunableBackend();
         TunableRegistry.registerBackend("", tunableBackend);
-        TunableManager manager = new TunableManager(
-                new InMemoryTunablePersistence(),
-                new InMemoryTunablePersistence(),
-                new LoudRobotAssertionManager(),
-                false);
+        TunableManager manager = new TunableManager(new InMemoryTunablePersistence(), new InMemoryTunablePersistence(), new LoudRobotAssertionManager(), false);
         tunableFactory = new TunableFactory(manager, new LoudRobotAssertionManager());
     }
 
@@ -51,9 +47,7 @@ public class TunableFactoryTest {
 
     @Test
     public void requiresExplicitPrefix() {
-        assertThrows(
-                RuntimeException.class,
-                () -> tunableFactory.createDouble("value", 1.0));
+        assertThrows(RuntimeException.class, () -> tunableFactory.createDouble("value", 1.0));
     }
 
     @Test
@@ -68,18 +62,13 @@ public class TunableFactoryTest {
     @Test
     public void createsUnitAwareMeasureTunables() {
         tunableFactory.setPrefix("drive");
-        TunableMeasure<Distance, ?> distance =
-                tunableFactory.createMeasure("distance", Inches.of(12));
-        TunableMeasure<Angle, ?> angle =
-                tunableFactory.createMeasure("angle", Degrees.of(90));
+        TunableMeasure<Distance, ?> distance = tunableFactory.createMeasure("distance", Inches.of(12));
+        TunableMeasure<Angle, ?> angle = tunableFactory.createMeasure("angle", Degrees.of(90));
 
         assertEquals(12.0, distance.get().in(Inches), 0.001);
         distance.set(Meters.of(1));
         assertEquals(1.0, distance.get().in(Meters), 0.001);
-        assertEquals(
-                Meters.of(1).in(Inches),
-                tunableBackend.getDouble("/drive/distance-in-Inches"),
-                0.001);
+        assertEquals(Meters.of(1).in(Inches), tunableBackend.getDouble("/drive/distance-in-Inches"), 0.001);
         assertEquals(90.0, angle.get().in(Degrees), 0.001);
     }
 }

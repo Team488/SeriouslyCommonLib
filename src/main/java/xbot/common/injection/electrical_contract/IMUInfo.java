@@ -5,13 +5,7 @@ import org.wpilib.hardware.imu.OnboardIMU.MountOrientation;
 
 import xbot.common.controls.sensors.XGyro;
 
-public record IMUInfo(
-        String name,
-        XGyro.ImuType imuType,
-        XGyro.InterfaceType interfaceType,
-        CANBusId canBusId,
-        int deviceId,
-        MountOrientation mountOrientation,
+public record IMUInfo(String name, XGyro.ImuType imuType, XGyro.InterfaceType interfaceType, CANBusId canBusId, int deviceId, MountOrientation mountOrientation,
         PowerSource powerFrom) {
     public IMUInfo(MountOrientation mountOrientation) {
         this("IMU", XGyro.ImuType.onboard, null, (CANBusId) null, 1, mountOrientation, PowerSource.RIO);
@@ -21,8 +15,8 @@ public record IMUInfo(
         this(name, imuType, interfaceType, CANBusId.fromPort(canPort), deviceId);
     }
 
-    public IMUInfo(String name, XGyro.ImuType imuType, XGyro.InterfaceType interfaceType, CANPort canPort,
-            int deviceId, MountOrientation mountOrientation, PowerSource powerFrom) {
+    public IMUInfo(String name, XGyro.ImuType imuType, XGyro.InterfaceType interfaceType, CANPort canPort, int deviceId, MountOrientation mountOrientation,
+            PowerSource powerFrom) {
         this(name, imuType, interfaceType, CANBusId.fromPort(canPort), deviceId, mountOrientation, powerFrom);
     }
 
@@ -48,7 +42,7 @@ public record IMUInfo(
     }
 
     public static IMUInfo createMock(IMUInfo realInstance) {
-        return new IMUInfo(realInstance.name(), XGyro.ImuType.mock, realInstance.interfaceType(), 
-            realInstance.canBusId(), realInstance.deviceId(), null, realInstance.powerFrom());
+        return new IMUInfo(realInstance.name(), XGyro.ImuType.mock, realInstance.interfaceType(), realInstance.canBusId(), realInstance.deviceId(), null,
+                realInstance.powerFrom());
     }
 }

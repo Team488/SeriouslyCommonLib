@@ -31,29 +31,15 @@ public abstract class XEncoder implements DataFrameRefreshable {
     final XEncoderInputsAutoLogged inputs;
 
     public interface XEncoderFactory {
-        XEncoder create(
-            String name,
-            int aChannel,
-            int bChannel,
-            double defaultDistancePerPulse,
-            String owningSystemPrefix);
+        XEncoder create(String name, int aChannel, int bChannel, double defaultDistancePerPulse, String owningSystemPrefix);
     }
 
-    public XEncoder(
-            String name,
-            int aChannel,
-            int bChannel,
-            double defaultDistancePerPulse,
-            String owningSystemPrefix,
-            TunableFactory tunableFactory,
-            DevicePolice police,
-            DataFrameRegistry dataFrameRegistry) {
+    public XEncoder(String name, int aChannel, int bChannel, double defaultDistancePerPulse, String owningSystemPrefix, TunableFactory tunableFactory,
+            DevicePolice police, DataFrameRegistry dataFrameRegistry) {
         tunableFactory.setPrefix(name);
         distancePerPulse = tunableFactory.createDouble("DistancePerPulse", defaultDistancePerPulse);
         setDistancePerPulseSupplier(() -> distancePerPulse.get());
-        police.registerDevice(this,
-                DeviceAddress.channel(DeviceType.DigitalIO, aChannel),
-                DeviceAddress.channel(DeviceType.DigitalIO, bChannel));
+        police.registerDevice(this, DeviceAddress.channel(DeviceType.DigitalIO, aChannel), DeviceAddress.channel(DeviceType.DigitalIO, bChannel));
 
         akitName = owningSystemPrefix + name + "Encoder";
         inputs = new XEncoderInputsAutoLogged();
@@ -78,15 +64,18 @@ public abstract class XEncoder implements DataFrameRefreshable {
     }
 
     protected abstract double getRate();
+
     protected abstract double getDistance();
 
     /**
      * Sets the duration used to calculate the encoder rate.
      *
-     * <p>The duration must be between 5 and 255 milliseconds, inclusive. It is rounded to the
-     * nearest millisecond to match the resolution supported by WPILib.
+     * <p>
+     * The duration must be between 5 and 255 milliseconds, inclusive. It is rounded to the nearest millisecond to match the
+     * resolution supported by WPILib.
      *
-     * @param rateWindow rate calculation window
+     * @param rateWindow
+     *            rate calculation window
      */
     public final void setRateWindow(Time rateWindow) {
         setRateWindowMilliseconds(toRateWindowMilliseconds(rateWindow));
@@ -98,8 +87,7 @@ public abstract class XEncoder implements DataFrameRefreshable {
         }
 
         double rateWindowMilliseconds = rateWindow.in(Milliseconds);
-        if (!Double.isFinite(rateWindowMilliseconds)
-                || rateWindowMilliseconds < MIN_RATE_WINDOW_MILLISECONDS
+        if (!Double.isFinite(rateWindowMilliseconds) || rateWindowMilliseconds < MIN_RATE_WINDOW_MILLISECONDS
                 || rateWindowMilliseconds > MAX_RATE_WINDOW_MILLISECONDS) {
             throw new IllegalArgumentException("Rate window must be between 5 and 255 milliseconds");
         }

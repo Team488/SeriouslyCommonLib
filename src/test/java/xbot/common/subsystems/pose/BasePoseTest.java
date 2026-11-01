@@ -18,8 +18,8 @@ public class BasePoseTest extends BaseCommonLibTest {
 
     @BeforeEach
     public void setup() {
-        mockTimer = (MockTimer)getInjectorComponent().timerImplementation();
-        pose = (MockBasePoseSubsystem)getInjectorComponent().poseSubsystem();
+        mockTimer = (MockTimer) getInjectorComponent().timerImplementation();
+        pose = (MockBasePoseSubsystem) getInjectorComponent().poseSubsystem();
 
         XCANMotorController left = getInjectorComponent().motorControllerFactory().create(new CANMotorControllerInfo("Left", 0), "", "");
         XCANMotorController right = getInjectorComponent().motorControllerFactory().create(new CANMotorControllerInfo("Right", 1), "", "");

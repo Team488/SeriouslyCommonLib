@@ -24,9 +24,10 @@ public abstract class BaseSubsystem extends SubsystemBase implements TunablePref
 
     /**
      * This method is called on each {@link org.wpilib.command2.CommandScheduler} loop.
-     * @apiNote Subsystem periodic() methods are not executed in a predictable order.
-     * If you need to ensure that some state is available before any other subsystems are run,
-     * you should implement {@link #refreshDataFrame()} to update the state before the scheduler runs periodic() on all the subsystems.
+     *
+     * @apiNote Subsystem periodic() methods are not executed in a predictable order. If you need to ensure that some state
+     *          is available before any other subsystems are run, you should implement {@link #refreshDataFrame()} to update
+     *          the state before the scheduler runs periodic() on all the subsystems.
      */
     @Override
     public void periodic() {

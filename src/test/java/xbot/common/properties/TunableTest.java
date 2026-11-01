@@ -29,11 +29,7 @@ public class TunableTest {
         tunableBackend = new MockTunableBackend();
         TunableRegistry.registerBackend("", tunableBackend);
         persistence = new InMemoryTunablePersistence();
-        TunableManager manager = new TunableManager(
-                persistence,
-                new InMemoryTunablePersistence(),
-                new LoudRobotAssertionManager(),
-                false);
+        TunableManager manager = new TunableManager(persistence, new InMemoryTunablePersistence(), new LoudRobotAssertionManager(), false);
         tunableFactory = new TunableFactory(manager, new LoudRobotAssertionManager());
         tunableFactory.setTopLevelPrefix();
     }
@@ -103,21 +99,14 @@ public class TunableTest {
     @Test
     public void duplicateKeysFailLoudly() {
         tunableFactory.createDouble("duplicate", 1.0);
-        assertThrows(
-                RuntimeException.class,
-                () -> tunableFactory.createDouble("duplicate", 2.0));
+        assertThrows(RuntimeException.class, () -> tunableFactory.createDouble("duplicate", 2.0));
     }
 
     @Test
     public void replayConstructionAndSetsDoNotWritePersistence() {
         InMemoryTunablePersistence replayPersistence = new InMemoryTunablePersistence();
-        TunableManager replayManager = new TunableManager(
-                replayPersistence,
-                new InMemoryTunablePersistence(),
-                new LoudRobotAssertionManager(),
-                true);
-        TunableFactory replayFactory =
-                new TunableFactory(replayManager, new LoudRobotAssertionManager());
+        TunableManager replayManager = new TunableManager(replayPersistence, new InMemoryTunablePersistence(), new LoudRobotAssertionManager(), true);
+        TunableFactory replayFactory = new TunableFactory(replayManager, new LoudRobotAssertionManager());
         replayFactory.setTopLevelPrefix();
 
         TunableDouble replayValue = replayFactory.createDouble("replay", 4.0);

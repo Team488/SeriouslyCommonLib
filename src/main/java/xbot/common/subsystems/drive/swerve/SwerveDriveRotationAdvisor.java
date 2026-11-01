@@ -19,7 +19,8 @@ import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
 import xbot.common.properties.TunableFactory;
 
 /**
- * This class is responsible for advising the drive subsystem on what heading to rotate to based on various inputs and modes.
+ * This class is responsible for advising the drive subsystem on what heading to rotate to based on various inputs and
+ * modes.
  */
 public class SwerveDriveRotationAdvisor {
     RobotAssertionManager assertionManager;
@@ -33,10 +34,7 @@ public class SwerveDriveRotationAdvisor {
     AKitLogger aKitLogger;
 
     public enum SwerveDriveRotationAdvisorMode {
-        SnappingInput,
-        LookAtPoint,
-        StaticHeading,
-        LastKnownHeading
+        SnappingInput, LookAtPoint, StaticHeading, LastKnownHeading
     }
 
     /**
@@ -44,9 +42,7 @@ public class SwerveDriveRotationAdvisor {
      */
     @AssistedFactory
     public interface Factory {
-        SwerveDriveRotationAdvisor create(
-                @Assisted HumanVsMachineDecider hvmDecider,
-                @Assisted("HvmDeadband") double hvmDeadband);
+        SwerveDriveRotationAdvisor create(@Assisted HumanVsMachineDecider hvmDecider, @Assisted("HvmDeadband") double hvmDeadband);
 
         default SwerveDriveRotationAdvisor create(HumanVsMachineDecider hvmDecider) {
             return create(hvmDecider, 0.1);
@@ -54,11 +50,8 @@ public class SwerveDriveRotationAdvisor {
     }
 
     @AssistedInject
-    public SwerveDriveRotationAdvisor(RobotAssertionManager assertionManager,
-                                      ISwerveAdvisorPoseSupport pose, ISwerveAdvisorDriveSupport drive,
-                                      TunableFactory tunableFactory,
-                                      @Assisted HumanVsMachineDecider hvmDecider,
-                                      @Assisted("HvmDeadband") double hvmDeadband) {
+    public SwerveDriveRotationAdvisor(RobotAssertionManager assertionManager, ISwerveAdvisorPoseSupport pose, ISwerveAdvisorDriveSupport drive,
+            TunableFactory tunableFactory, @Assisted HumanVsMachineDecider hvmDecider, @Assisted("HvmDeadband") double hvmDeadband) {
         tunableFactory.setPrefix("SwerveDriveRotationAdvisor/");
         this.assertionManager = assertionManager;
         this.hvmDecider = hvmDecider;
@@ -73,9 +66,12 @@ public class SwerveDriveRotationAdvisor {
     }
 
     /**
-     * Set how many snapping zones there are.
-     * For example, 4 would mean we snap to the cardinal directions (0, 90, 180, 270) while 2 would mean we only snap to forward and reverse (0, 180).
-     * @param count The number of snapping zones, must be at least 2 (1 would mean we snap to everything, essentially disabling snapping zones)
+     * Set how many snapping zones there are. For example, 4 would mean we snap to the cardinal directions (0, 90, 180, 270)
+     * while 2 would mean we only snap to forward and reverse (0, 180).
+     *
+     * @param count
+     *            The number of snapping zones, must be at least 2 (1 would mean we snap to everything, essentially
+     *            disabling snapping zones)
      */
     public void setSnappingZoneCount(int count) {
         if (count < 2) {
@@ -156,25 +152,19 @@ public class SwerveDriveRotationAdvisor {
         }
 
         return switch (recommendedMode) {
-            case HumanControl -> {
-                yield new SwerveSuggestedRotation(
-                        triggerRotateIntent,
-                        SwerveSuggestedRotation.RotationGoalType.HumanControlHeadingPower
-                );
-            }
-            case InitializeMachineControl -> {
-                drive.setDesiredHeading(pose.getCurrentHeading().getDegrees());
-                yield new SwerveSuggestedRotation();
-            }
-            case MachineControl -> {
-                yield new SwerveSuggestedRotation(
-                        drive.getDesiredHeading(),
-                        SwerveSuggestedRotation.RotationGoalType.DesiredHeading
-                );
-            }
-            case Coast -> {
-                yield new SwerveSuggestedRotation();
-            }
+        case HumanControl -> {
+            yield new SwerveSuggestedRotation(triggerRotateIntent, SwerveSuggestedRotation.RotationGoalType.HumanControlHeadingPower);
+        }
+        case InitializeMachineControl -> {
+            drive.setDesiredHeading(pose.getCurrentHeading().getDegrees());
+            yield new SwerveSuggestedRotation();
+        }
+        case MachineControl -> {
+            yield new SwerveSuggestedRotation(drive.getDesiredHeading(), SwerveSuggestedRotation.RotationGoalType.DesiredHeading);
+        }
+        case Coast -> {
+            yield new SwerveSuggestedRotation();
+        }
         };
     }
 

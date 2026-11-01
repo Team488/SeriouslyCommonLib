@@ -30,8 +30,8 @@ import xbot.common.properties.TunableFactory;
 import xbot.common.subsystems.pose.SimulatedPositionSupplier;
 
 /**
- * IO implementation for a simulated PhotonVision environment.
- * Based on the AdvantageKit sample implementation by team 6328.
+ * IO implementation for a simulated PhotonVision environment. Based on the AdvantageKit sample implementation by team
+ * 6328.
  */
 public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhotonVision {
 
@@ -48,14 +48,19 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
     /**
      * Creates a new AprilTagVisionIOPhotonVisionSimulated.
      *
-     * @param name          The configured name of the camera.
-     * @param robotToCamera The 3D position of the camera relative to the robot.
-     * @param fieldLayout   The April Tag field layout.
-     * @param poseSupplier  The simulated position supplier, tells the simulated vision system where the robot is on the simulated field.
+     * @param name
+     *            The configured name of the camera.
+     * @param robotToCamera
+     *            The 3D position of the camera relative to the robot.
+     * @param fieldLayout
+     *            The April Tag field layout.
+     * @param poseSupplier
+     *            The simulated position supplier, tells the simulated vision system where the robot is on the simulated
+     *            field.
      */
     @AssistedInject
-    public AprilTagVisionIOPhotonVisionSimulated(@Assisted String name, @Assisted Transform3d robotToCamera,
-            Fields fieldLayout, Lazy<SimulatedPositionSupplier> poseSupplier, TunableFactory tunableFactory) {
+    public AprilTagVisionIOPhotonVisionSimulated(@Assisted String name, @Assisted Transform3d robotToCamera, Fields fieldLayout,
+            Lazy<SimulatedPositionSupplier> poseSupplier, TunableFactory tunableFactory) {
         super(name, robotToCamera, fieldLayout);
 
         this.poseSupplier = poseSupplier;

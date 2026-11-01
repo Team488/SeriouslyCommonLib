@@ -26,8 +26,8 @@ import xbot.common.subsystems.vision.AprilTagVisionSubsystem;
  * Do not use this directly. Use auto-generated class DaggerUnitTestComponent.
  */
 @Singleton
-@Component(modules = {UnitTestModule.class, MockDevicesModule.class, MockControlsModule.class, UnitTestRobotModule.class, CommonLibTestModule.class,
-        DefaultVisionModule.class, SwerveInjectionModule.class})
+@Component(modules = { UnitTestModule.class, MockDevicesModule.class, MockControlsModule.class, UnitTestRobotModule.class, CommonLibTestModule.class,
+        DefaultVisionModule.class, SwerveInjectionModule.class })
 public abstract class CommonLibTestComponent extends PurePursuitTestComponent {
     public abstract MockSetpointCommand mockSetpointCommand();
 

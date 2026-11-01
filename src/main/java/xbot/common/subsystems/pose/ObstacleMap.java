@@ -24,21 +24,16 @@ public abstract class ObstacleMap {
         }
 
         var translation = pose.getTranslation();
-        var obstacleLocations = this.fieldObstacles.stream()
-            .filter(obstacle -> !obstacle.isToughTerrain() || !allowToughTerrain)
-            .map(obstacle -> obstacle.center())
-            .toList();
+        var obstacleLocations = this.fieldObstacles.stream().filter(obstacle -> !obstacle.isToughTerrain() || !allowToughTerrain)
+                .map(obstacle -> obstacle.center()).toList();
 
         var closestObstacleLocation = translation.nearest(obstacleLocations);
-        return this.fieldObstacles.stream()
-            .filter(obstacle -> !obstacle.isToughTerrain() || !allowToughTerrain)
-            .filter(obstacle -> obstacle.center() == closestObstacleLocation)
-            .findFirst();
+        return this.fieldObstacles.stream().filter(obstacle -> !obstacle.isToughTerrain() || !allowToughTerrain)
+                .filter(obstacle -> obstacle.center() == closestObstacleLocation).findFirst();
     }
 
     public boolean doesRobotPathIntersect(Translation2d start, Translation2d end, boolean allowToughTerrain) {
-        return this.fieldObstacles.stream()
-            .filter(obstacle -> !obstacle.isToughTerrain() || !allowToughTerrain)
-            .anyMatch(obstacle -> obstacle.doesRobotPathIntersect(start, end, this.robotRadius));
+        return this.fieldObstacles.stream().filter(obstacle -> !obstacle.isToughTerrain() || !allowToughTerrain)
+                .anyMatch(obstacle -> obstacle.doesRobotPathIntersect(start, end, this.robotRadius));
     }
 }

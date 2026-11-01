@@ -17,10 +17,7 @@ public class MockGyroTest {
 
     @Test
     public void accelerationSettersPopulateTypedInputs() {
-        MockGyro gyro = new MockGyro(
-                new DevicePolice(new LoudRobotAssertionManager()),
-                new DataFrameRegistry(),
-                new IMUInfo(MountOrientation.FLAT));
+        MockGyro gyro = new MockGyro(new DevicePolice(new LoudRobotAssertionManager()), new DataFrameRegistry(), new IMUInfo(MountOrientation.FLAT));
 
         gyro.setDeviceRawAccelX(1.25);
         gyro.setDeviceRawAccelY(MetersPerSecondPerSecond.of(-2.5));

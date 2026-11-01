@@ -39,8 +39,7 @@ public class RabbitPoint {
         this(pose, pointType, terminatingType, PointDriveStyle.Macro);
     }
 
-    public RabbitPoint(FieldPose pose, PointType pointType, PointTerminatingType terminatingType,
-            PointDriveStyle driveStyle) {
+    public RabbitPoint(FieldPose pose, PointType pointType, PointTerminatingType terminatingType, PointDriveStyle driveStyle) {
         this.pose = pose;
         this.pointType = pointType;
         this.terminatingType = terminatingType;

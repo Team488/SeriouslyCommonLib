@@ -19,8 +19,7 @@ public class MockAprilTagVisionIO implements AprilTagVisionIO {
     public boolean connected = true;
     public int[] tagIds = {};
     public PoseObservation[] poseObservations = {};
-    public TargetObservation latestTargetObservation = new TargetObservation(0, 1, new Rotation2d(), new Rotation2d(),
-            new Transform3d(), 1, false);
+    public TargetObservation latestTargetObservation = new TargetObservation(0, 1, new Rotation2d(), new Rotation2d(), new Transform3d(), 1, false);
     public TargetObservation[] targetObservations = { latestTargetObservation };
 
     @AssistedFactory
@@ -36,9 +35,8 @@ public class MockAprilTagVisionIO implements AprilTagVisionIO {
 
     @Override
     public void updateInputs(VisionIOInputs inputs) {
-        this.latestTargetObservation = new TargetObservation(Timer.getMonotonicTimestamp(),
-                this.latestTargetObservation.fiducialId(), this.latestTargetObservation.tx(),
-                this.latestTargetObservation.ty(), this.latestTargetObservation.cameraToTarget(),
+        this.latestTargetObservation = new TargetObservation(Timer.getMonotonicTimestamp(), this.latestTargetObservation.fiducialId(),
+                this.latestTargetObservation.tx(), this.latestTargetObservation.ty(), this.latestTargetObservation.cameraToTarget(),
                 this.latestTargetObservation.ambiguity(), false);
         inputs.connected = this.connected;
         inputs.tagIds = this.tagIds;

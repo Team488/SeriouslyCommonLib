@@ -16,14 +16,14 @@ import static org.wpilib.units.Units.MetersPerSecondPerSecond;
 import static org.wpilib.units.Units.Seconds;
 
 /**
- * This class is designed to compute the motion of a swerve drive system from a starting position and velocity
- * to a goal position and velocity. It takes inputs like acceleration, goal velocity, and max velocity to generate
- * a sequence of motion stages that prioritizes the fastest possible route while respecting its goals.
- * That said, it *may not* ALWAYS reach its goals if it is absurd/impossible!
+ * This class is designed to compute the motion of a swerve drive system from a starting position and velocity to a goal
+ * position and velocity. It takes inputs like acceleration, goal velocity, and max velocity to generate a sequence of
+ * motion stages that prioritizes the fastest possible route while respecting its goals. That said, it *may not* ALWAYS
+ * reach its goals if it is absurd/impossible!
  * <p>
- * NOTE: Quadratic formula code IS NOT ROBUST and is ONLY safe for SwerveSimpleTrajectoryCommand usages.
- * Please make adjustments if you are planning to use the static method and note that the quadratic formula IRL
- * may result in 0, 1, or 2 solutions; just that in this use case will guarantee 2 solutions.
+ * NOTE: Quadratic formula code IS NOT ROBUST and is ONLY safe for SwerveSimpleTrajectoryCommand usages. Please make
+ * adjustments if you are planning to use the static method and note that the quadratic formula IRL may result in 0, 1,
+ * or 2 solutions; just that in this use case will guarantee 2 solutions.
  * <p>
  * UNITS-WISE: This calculator uses meters, but you can feed it any units!
  */
@@ -44,8 +44,8 @@ public class SwerveKinematicsCalculator {
     // Returns the x-intercepts of a quadratic equation
 
     /**
-     * WILL NOT WORK if A is 0 due to division by zero
-     * WILL NOT WORK if quadratic formula have zero solutions
+     * WILL NOT WORK if A is 0 due to division by zero WILL NOT WORK if quadratic formula have zero solutions
+     *
      * @return a list of two solutions of polynomial equation in form of Ax^2 +Bx +C
      */
     private static List<Double> quadraticFormula(double a, double b, double c) {
@@ -60,18 +60,18 @@ public class SwerveKinematicsCalculator {
     }
 
     /**
-     * Derived from formula (1D-Motion): (xf - xi) = (vi * time + 0.5 * a * time^2)
-     * From this, we'll get a 2nd degree polynomial that we'll use quadratic formula to solve for time
-     * @return shortest time to get from initial position to goal position given acceleration and initial velocity.
-     * No constraints for velocity and acceleration will be taken into consideration.
+     * Derived from formula (1D-Motion): (xf - xi) = (vi * time + 0.5 * a * time^2) From this, we'll get a 2nd degree
+     * polynomial that we'll use quadratic formula to solve for time
+     *
+     * @return shortest time to get from initial position to goal position given acceleration and initial velocity. No
+     *         constraints for velocity and acceleration will be taken into consideration.
      */
-    public static Time calculateTimeToGoalPosition(double acceleration, double initialVelocity,
-                                                     double initialPosition, double goalPosition) {
+    public static Time calculateTimeToGoalPosition(double acceleration, double initialVelocity, double initialPosition, double goalPosition) {
         double a = 0.5 * acceleration;
         double b = initialVelocity;
         double c = initialPosition - goalPosition;
         if (acceleration == 0) {
-            return Seconds.of(-c/b);
+            return Seconds.of(-c / b);
         }
 
         // If acceleration is positive, we'll get a positive & negative solution, we want the positive one.
@@ -83,8 +83,7 @@ public class SwerveKinematicsCalculator {
         return Seconds.of(Math.max(result.get(0), result.get(1)));
     }
 
-    public SwerveKinematicsCalculator(RobotAssertionManager assertionManager, Distance startPosition, Distance endPosition,
-                                      SwervePointKinematics kinematics) {
+    public SwerveKinematicsCalculator(RobotAssertionManager assertionManager, Distance startPosition, Distance endPosition, SwervePointKinematics kinematics) {
         this.assertionManager = assertionManager;
 
         // Gimmicky way to avoid division by zero
@@ -164,11 +163,7 @@ public class SwerveKinematicsCalculator {
             } else {
                 // If we have to distance to go through before deceleration, then we'll just decelerate as if there is no tomorrow.
                 double decelerationTime = calculateTimeToGoalPosition(-acceleration, currentVelocity, 0, leftoverDistance).in(Seconds);
-                nodeMap.add(new CalculatorNode(
-                        decelerationTime,
-                        -acceleration,
-                        currentVelocity - acceleration * decelerationTime
-                ));
+                nodeMap.add(new CalculatorNode(decelerationTime, -acceleration, currentVelocity - acceleration * decelerationTime));
             }
             return nodeMap;
         }
@@ -178,17 +173,12 @@ public class SwerveKinematicsCalculator {
         // the over-acceleration-for-minimum-time, we'll end up at our goalVelocity anyway
         if (currentVelocity < goalVelocity) {
             double initialToGoalVelocityTime = (goalVelocity - currentVelocity) / acceleration;
-            double operationDistance = currentVelocity * initialToGoalVelocityTime
-                    + 0.5 * acceleration * Math.pow(initialToGoalVelocityTime, 2);
+            double operationDistance = currentVelocity * initialToGoalVelocityTime + 0.5 * acceleration * Math.pow(initialToGoalVelocityTime, 2);
 
             // This is for if no matter how much you accelerate you won't reach goal... so we accelerate til the end!
             if (operationDistance >= leftoverDistance) {
                 double time = calculateTimeToGoalPosition(acceleration, currentVelocity, 0, leftoverDistance).in(Seconds);
-                nodeMap.add(new CalculatorNode(
-                        time,
-                        acceleration,
-                        currentVelocity + acceleration * time
-                ));
+                nodeMap.add(new CalculatorNode(time, acceleration, currentVelocity + acceleration * time));
                 return nodeMap;
             } else {
                 // If all is normal, then we'll just accelerate to our goal velocity.
@@ -215,8 +205,7 @@ public class SwerveKinematicsCalculator {
                 // Go to max speed, then cruise, then decelerate to goal!
                 double timeFromGoalToMaxVelocity = (maxVelocity - currentVelocity) / acceleration;
                 double initialPosition = (endPosition - startPosition) - leftoverDistance;
-                double finalPositionAfterAcceleration = 0.5 * (currentVelocity + maxVelocity)
-                        * timeFromGoalToMaxVelocity + initialPosition;
+                double finalPositionAfterAcceleration = 0.5 * (currentVelocity + maxVelocity) * timeFromGoalToMaxVelocity + initialPosition;
                 double positionDelta = finalPositionAfterAcceleration - initialPosition;
                 double cruiseDistance = leftoverDistance - (positionDelta * 2);
                 double cruiseTime = cruiseDistance / maxVelocity;
@@ -230,11 +219,7 @@ public class SwerveKinematicsCalculator {
         } else {
             // Otherwise, cruise til the end if we are at both goal & max velocity!
             double cruiseTime = leftoverDistance / currentVelocity;
-            nodeMap.add(new CalculatorNode(
-                    cruiseTime,
-                    0,
-                    currentVelocity
-            ));
+            nodeMap.add(new CalculatorNode(cruiseTime, 0, currentVelocity));
             return nodeMap;
         }
     }
@@ -284,7 +269,9 @@ public class SwerveKinematicsCalculator {
 
     /**
      * Returns the distance travelled when the operation have elapsed by percentage time
-     * @param percentage progress of completion
+     *
+     * @param percentage
+     *            progress of completion
      * @return distance travelled in whatever units was used upon the instantiation of the calculator
      */
     public Distance getDistanceTravelledAtCompletionPercentage(double percentage) {
@@ -302,8 +289,8 @@ public class SwerveKinematicsCalculator {
 
             // Find amount of distance current node travels
             double nodeOperationTimeInSeconds = node.operationTime().in(Seconds);
-            double operationDistance = (currentVelocityInMeters * nodeOperationTimeInSeconds) + (0.5
-                    * node.operationAcceleration().in(MetersPerSecondPerSecond)) * Math.pow(nodeOperationTimeInSeconds, 2);
+            double operationDistance = (currentVelocityInMeters * nodeOperationTimeInSeconds)
+                    + (0.5 * node.operationAcceleration().in(MetersPerSecondPerSecond)) * Math.pow(nodeOperationTimeInSeconds, 2);
 
             // Continue until we land on the node we stop in
             if (distanceTravelled.in(Meters) - (totalDistanceTravelledInMeters + operationDistance) >= 0) {
@@ -311,11 +298,8 @@ public class SwerveKinematicsCalculator {
                 currentVelocityInMeters += (node.operationAcceleration().in(MetersPerSecondPerSecond) * nodeOperationTimeInSeconds);
             } else {
                 // Accelerate the remaining distance
-                double operationTime = calculateTimeToGoalPosition(
-                        node.operationAcceleration().in(MetersPerSecondPerSecond),
-                        currentVelocityInMeters,
-                        totalDistanceTravelledInMeters,
-                        distanceTravelled.in(Meters)).in(Seconds);
+                double operationTime = calculateTimeToGoalPosition(node.operationAcceleration().in(MetersPerSecondPerSecond), currentVelocityInMeters,
+                        totalDistanceTravelledInMeters, distanceTravelled.in(Meters)).in(Seconds);
                 currentVelocityInMeters += (node.operationAcceleration().in(MetersPerSecondPerSecond) * operationTime);
                 break;
             }
