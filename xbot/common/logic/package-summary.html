@@ -72,7 +72,7 @@ loadScripts(document, 'script');</script>
 <ul class="summary-list">
 <li>
 <div id="class-summary">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="class-summary-tab0" role="tab" aria-selected="true" aria-controls="class-summary.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary', 2)" class="active-table-tab">All Classes and Interfaces</button><button id="class-summary-tab2" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab2', 2)" class="table-tab">Classes</button><button id="class-summary-tab3" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab3', 2)" class="table-tab">Enum Classes</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="class-summary-tab0" role="tab" aria-selected="true" aria-controls="class-summary.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary', 2)" class="active-table-tab">All Classes and Interfaces</button><button id="class-summary-tab1" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab1', 2)" class="table-tab">Interfaces</button><button id="class-summary-tab2" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab2', 2)" class="table-tab">Classes</button><button id="class-summary-tab3" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab3', 2)" class="table-tab">Enum Classes</button><button id="class-summary-tab4" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab4', 2)" class="table-tab">Record Classes</button></div>
 <div id="class-summary.tabpanel" role="tabpanel" aria-labelledby="class-summary-tab0">
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Class</div>
@@ -83,42 +83,71 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color class-summary class-summary-tab2">&nbsp;</div>
 <div class="col-first even-row-color class-summary class-summary-tab3"><a href="CalibrationDecider.CalibrationMode.html" title="enum class in xbot.common.logic">CalibrationDecider.CalibrationMode</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab3">&nbsp;</div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="HumanVsMachineDecider.html" title="class in xbot.common.logic">HumanVsMachineDecider</a></div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="FiniteStateMachine.html" title="class in xbot.common.logic">FiniteStateMachine</a>&lt;StateT extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Enum.html" title="class or interface in java.lang" class="external-link">Enum</a>&lt;StateT&gt; &amp; <a href="FsmState.html" title="interface in xbot.common.logic">FsmState</a>&lt;StateT,<wbr>ContextT&gt;, ContextT&gt;</div>
 <div class="col-last odd-row-color class-summary class-summary-tab2">
+<div class="block">A small, reusable, polled finite state machine, intended to be ticked once per robot loop from a
+<code>Subsystem.periodic()</code> or <code>Command.execute()</code>.</div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab4"><a href="FsmContext.html" title="class in xbot.common.logic">FsmContext</a>&lt;ContextT&gt;</div>
+<div class="col-last even-row-color class-summary class-summary-tab4">
+<div class="block">The information passed in to every <a href="FsmState.html" title="interface in xbot.common.logic"><code>FsmState</code></a> hook and to every <a href="FiniteStateMachine.html" title="class in xbot.common.logic"><code>FiniteStateMachine</code></a> hook.</div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="FsmHook.html" title="interface in xbot.common.logic">FsmHook</a>&lt;StateT,<wbr>ContextT&gt;</div>
+<div class="col-last odd-row-color class-summary class-summary-tab1">
+<div class="block">A hook that a <a href="FiniteStateMachine.html" title="class in xbot.common.logic"><code>FiniteStateMachine</code></a> runs immediately before or immediately after the current state's
+<a href="FsmState.html#execute(xbot.common.logic.FsmContext,xbot.common.logic.FsmTransition)"><code>FsmState.execute(FsmContext, FsmTransition)</code></a> on every cycle, regardless of which state is active.</div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab1"><a href="FsmState.html" title="interface in xbot.common.logic">FsmState</a>&lt;StateT extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Enum.html" title="class or interface in java.lang" class="external-link">Enum</a>&lt;StateT&gt; &amp; <a href="FsmState.html" title="interface in xbot.common.logic">FsmState</a>&lt;StateT,<wbr>ContextT&gt;, ContextT&gt;</div>
+<div class="col-last even-row-color class-summary class-summary-tab1">
+<div class="block">The behavior contract implemented by every state of a <a href="FiniteStateMachine.html" title="class in xbot.common.logic"><code>FiniteStateMachine</code></a>.</div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="FsmTransition.html" title="interface in xbot.common.logic">FsmTransition</a>&lt;StateT&gt;</div>
+<div class="col-last odd-row-color class-summary class-summary-tab1">
+<div class="block">Callback handed to every <a href="FsmState.html" title="interface in xbot.common.logic"><code>FsmState</code></a> hook and every <a href="FsmHook.html" title="interface in xbot.common.logic"><code>FsmHook</code></a>, used to request a transition to a new
+state.</div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="HumanVsMachineDecider.html" title="class in xbot.common.logic">HumanVsMachineDecider</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">
 <div class="block">Decides whether to use human or machine control of a subsystem.</div>
 </div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="HumanVsMachineDecider.HumanVsMachineDeciderFactory.html" title="class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineDeciderFactory</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab2">
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="HumanVsMachineDecider.HumanVsMachineDeciderFactory.html" title="class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineDeciderFactory</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
 <div class="block">Factory for creating a new decider.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab3"><a href="HumanVsMachineDecider.HumanVsMachineMode.html" title="enum class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineMode</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab3">&nbsp;</div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="Latch.html" title="class in xbot.common.logic">Latch</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab2">
+<div class="col-first even-row-color class-summary class-summary-tab3"><a href="HumanVsMachineState.html" title="enum class in xbot.common.logic">HumanVsMachineState</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab3">
+<div class="block">The states of <a href="HumanVsMachineDecider.html" title="class in xbot.common.logic"><code>HumanVsMachineDecider</code></a>'s internal state machine, in the order control moves through them:
+<code>RobotDisabled</code> while the robot is disabled, <code>InitializeMachineControl</code> for exactly one cycle after
+control returns to automatic (before anything else has a chance to run), <code>MachineControl</code> while running
+automatically, <code>HumanControl</code> while a human is actively providing input above the deadband, and <code>Coast</code>
+for a brief grace period after human input stops, before handing back to <code>InitializeMachineControl</code>.</div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="Latch.html" title="class in xbot.common.logic">Latch</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
 <div class="block">Logical switch which consumes booleans and signals when the given value changes.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab3"><a href="Latch.EdgeType.html" title="enum class in xbot.common.logic">Latch.EdgeType</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab3">&nbsp;</div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="LogicUtils.html" title="class in xbot.common.logic">LogicUtils</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab2">
+<div class="col-first even-row-color class-summary class-summary-tab3"><a href="Latch.EdgeType.html" title="enum class in xbot.common.logic">Latch.EdgeType</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab3">&nbsp;</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="LogicUtils.html" title="class in xbot.common.logic">LogicUtils</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
 <div class="block">Utility methods for working with logic.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="StallDetector.html" title="class in xbot.common.logic">StallDetector</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab2">&nbsp;</div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="StallDetector.StallDetectorFactory.html" title="class in xbot.common.logic">StallDetector.StallDetectorFactory</a></div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="StallDetector.html" title="class in xbot.common.logic">StallDetector</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">&nbsp;</div>
-<div class="col-first odd-row-color class-summary class-summary-tab3"><a href="StallDetector.StallState.html" title="enum class in xbot.common.logic">StallDetector.StallState</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab3">&nbsp;</div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="TimeStableValidator.html" title="class in xbot.common.logic">TimeStableValidator</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab2">
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="StallDetector.StallDetectorFactory.html" title="class in xbot.common.logic">StallDetector.StallDetectorFactory</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">&nbsp;</div>
+<div class="col-first even-row-color class-summary class-summary-tab3"><a href="StallDetector.StallState.html" title="enum class in xbot.common.logic">StallDetector.StallState</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab3">&nbsp;</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="TimeStableValidator.html" title="class in xbot.common.logic">TimeStableValidator</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
 <div class="block">Checks that a value is stable for a given amount of time.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="VelocityThrottleModule.html" title="class in xbot.common.logic">VelocityThrottleModule</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab2">&nbsp;</div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="VelocityThrottleModule.VelocityThrottleModuleFactory.html" title="class in xbot.common.logic">VelocityThrottleModule.VelocityThrottleModuleFactory</a></div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="VelocityThrottleModule.html" title="class in xbot.common.logic">VelocityThrottleModule</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">&nbsp;</div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="WatchdogTimer.html" title="class in xbot.common.logic">WatchdogTimer</a></div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="VelocityThrottleModule.VelocityThrottleModuleFactory.html" title="class in xbot.common.logic">VelocityThrottleModule.VelocityThrottleModuleFactory</a></div>
 <div class="col-last odd-row-color class-summary class-summary-tab2">&nbsp;</div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="WatchdogTimer.html" title="class in xbot.common.logic">WatchdogTimer</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">&nbsp;</div>
 </div>
 </div>
 </div>

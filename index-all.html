@@ -952,7 +952,7 @@ SwerveKinematicsCalculator</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.NeutralMode.html#Coast" class="member-name-link">Coast</a> - Enum constant in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.NeutralMode.html" title="enum class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig.NeutralMode</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineMode.html#Coast" class="member-name-link">Coast</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineMode.html" title="enum class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineMode</a></dt>
+<dt><a href="xbot/common/logic/HumanVsMachineState.html#Coast" class="member-name-link">Coast</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineState.html" title="enum class in xbot.common.logic">HumanVsMachineState</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/BaseMaintainerCommand.html#coastAction()" class="member-name-link">coastAction()</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseMaintainerCommand.html" title="class in xbot.common.command">BaseMaintainerCommand</a></dt>
 <dd>
@@ -1694,6 +1694,10 @@ mode instead for better consistency!</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryCommand.html#end(boolean)" class="member-name-link">end(boolean)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwerveSimpleTrajectoryCommand.html" title="class in xbot.common.subsystems.drive">SwerveSimpleTrajectoryCommand</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/logic/FsmState.html#enter(xbot.common.logic.FsmContext,xbot.common.logic.FsmTransition)" class="member-name-link">enter(FsmContext, FsmTransition)</a> - Method in interface xbot.common.logic.<a href="xbot/common/logic/FsmState.html" title="interface in xbot.common.logic">FsmState</a></dt>
+<dd>
+<div class="block">Runs once when this state is entered, before any calls to <a href="xbot/common/logic/FsmState.html#execute(xbot.common.logic.FsmContext,xbot.common.logic.FsmTransition)"><code>FsmState.execute(FsmContext, FsmTransition)</code></a>.</div>
+</dd>
 <dt><a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XCANMotorControllerPIDProperties.html" title="class in xbot.common.controls.actuators">XCANMotorControllerPIDProperties</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
@@ -1733,6 +1737,10 @@ mode instead for better consistency!</div>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
 <dt><a href="xbot/common/injection/swerve/SwerveInstance.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/SwerveInstance.html" title="class in xbot.common.injection.swerve">SwerveInstance</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
+<dt><a href="xbot/common/logic/FsmContext.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class xbot.common.logic.<a href="xbot/common/logic/FsmContext.html" title="class in xbot.common.logic">FsmContext</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
@@ -1811,6 +1819,24 @@ math on how to get there.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/pose/commands/SetRobotHeadingCommand.html#execute()" class="member-name-link">execute()</a> - Method in class xbot.common.subsystems.pose.commands.<a href="xbot/common/subsystems/pose/commands/SetRobotHeadingCommand.html" title="class in xbot.common.subsystems.pose.commands">SetRobotHeadingCommand</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/logic/FiniteStateMachine.html#execute(ContextT)" class="member-name-link">execute(ContextT)</a> - Method in class xbot.common.logic.<a href="xbot/common/logic/FiniteStateMachine.html" title="class in xbot.common.logic">FiniteStateMachine</a></dt>
+<dd>
+<div class="block">Runs one cycle of the state machine: the before-hook, the current state's <code>execute()</code>, then the after-hook.</div>
+</dd>
+<dt><a href="xbot/common/logic/FsmState.html#execute(xbot.common.logic.FsmContext,xbot.common.logic.FsmTransition)" class="member-name-link">execute(FsmContext, FsmTransition)</a> - Method in interface xbot.common.logic.<a href="xbot/common/logic/FsmState.html" title="interface in xbot.common.logic">FsmState</a></dt>
+<dd>
+<div class="block">Runs every time the owning <a href="xbot/common/logic/FiniteStateMachine.html" title="class in xbot.common.logic"><code>FiniteStateMachine</code></a> is executed while this state is current, mirroring how a WPILib
+<code>Command</code> is ticked via <code>execute()</code>.</div>
+</dd>
+<dt><a href="xbot/common/logic/FsmContext.html#executionsInState()" class="member-name-link">executionsInState()</a> - Method in record class xbot.common.logic.<a href="xbot/common/logic/FsmContext.html" title="class in xbot.common.logic">FsmContext</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./xbot/common/logic/FsmContext.html#param-executionsInState"><code>executionsInState</code></a> record component.</div>
+</dd>
+<dt><a href="xbot/common/logic/FsmState.html#exit(xbot.common.logic.FsmContext,xbot.common.logic.FsmTransition)" class="member-name-link">exit(FsmContext, FsmTransition)</a> - Method in interface xbot.common.logic.<a href="xbot/common/logic/FsmState.html" title="interface in xbot.common.logic">FsmState</a></dt>
+<dd>
+<div class="block">Runs once when this state is exited, after the last call to <a href="xbot/common/logic/FsmState.html#execute(xbot.common.logic.FsmContext,xbot.common.logic.FsmTransition)"><code>FsmState.execute(FsmContext, FsmTransition)</code></a> while it was
+current.</div>
+</dd>
 <dt><a href="xbot/common/math/MathUtils.html#exponentAndRetainSign(double,int)" class="member-name-link">exponentAndRetainSign(double, int)</a> - Static method in class xbot.common.math.<a href="xbot/common/math/MathUtils.html" title="class in xbot.common.math">MathUtils</a></dt>
 <dd>&nbsp;</dd>
 </dl>
@@ -1882,6 +1908,19 @@ math on how to get there.</div>
 <dd>
 <div class="block">Finds the owner, or returns empty when the address is unregistered.</div>
 </dd>
+<dt><a href="xbot/common/logic/FiniteStateMachine.html" class="type-name-link" title="class in xbot.common.logic">FiniteStateMachine&lt;StateT,<wbr>ContextT&gt;</a> - Class in <a href="xbot/common/logic/package-summary.html">xbot.common.logic</a></dt>
+<dd>
+<div class="block">A small, reusable, polled finite state machine, intended to be ticked once per robot loop from a
+<code>Subsystem.periodic()</code> or <code>Command.execute()</code>.</div>
+</dd>
+<dt><a href="xbot/common/logic/FiniteStateMachine.html#%3Cinit%3E(java.lang.String,StateT)" class="member-name-link">FiniteStateMachine(String, StateT)</a> - Constructor for class xbot.common.logic.<a href="xbot/common/logic/FiniteStateMachine.html" title="class in xbot.common.logic">FiniteStateMachine</a></dt>
+<dd>
+<div class="block">Creates a new state machine with no before/after hooks.</div>
+</dd>
+<dt><a href="xbot/common/logic/FiniteStateMachine.html#%3Cinit%3E(java.lang.String,StateT,xbot.common.logic.FsmHook,xbot.common.logic.FsmHook)" class="member-name-link">FiniteStateMachine(String, StateT, FsmHook, FsmHook)</a> - Constructor for class xbot.common.logic.<a href="xbot/common/logic/FiniteStateMachine.html" title="class in xbot.common.logic">FiniteStateMachine</a></dt>
+<dd>
+<div class="block">Creates a new state machine.</div>
+</dd>
 <dt><a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html#fire(int,org.wpilib.units.measure.Frequency,double,double,double)" class="member-name-link">fire(int, Frequency, double, double, double)</a> - Method in class xbot.common.controls.actuators.mock_adapters.<a href="xbot/common/controls/actuators/mock_adapters/MockCANLightController.html" title="class in xbot.common.controls.actuators.mock_adapters">MockCANLightController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html#fire(int,org.wpilib.units.measure.Frequency,double,double,double)" class="member-name-link">fire(int, Frequency, double, double, double)</a> - Method in class xbot.common.controls.actuators.wpi_adapters.<a href="xbot/common/controls/actuators/wpi_adapters/CANdleWpiAdapter.html" title="class in xbot.common.controls.actuators.wpi_adapters">CANdleWpiAdapter</a></dt>
@@ -1898,8 +1937,18 @@ math on how to get there.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/MockDriveSubsystem.html#fl" class="member-name-link">fl</a> - Variable in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/MockDriveSubsystem.html" title="class in xbot.common.subsystems.drive">MockDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/logic/FiniteStateMachine.html#forceState(StateT,ContextT)" class="member-name-link">forceState(StateT, ContextT)</a> - Method in class xbot.common.logic.<a href="xbot/common/logic/FiniteStateMachine.html" title="class in xbot.common.logic">FiniteStateMachine</a></dt>
+<dd>
+<div class="block">Forces a transition to the given state outside of the normal execution cycle (e.g.</div>
+</dd>
 <dt><a href="xbot/common/subsystems/pose/MockBasePoseSubsystem.html#forceTotalXandY(double,double)" class="member-name-link">forceTotalXandY(double, double)</a> - Method in class xbot.common.subsystems.pose.<a href="xbot/common/subsystems/pose/MockBasePoseSubsystem.html" title="class in xbot.common.subsystems.pose">MockBasePoseSubsystem</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/logic/FsmTransition.html#forceTransitionTo(StateT)" class="member-name-link">forceTransitionTo(StateT)</a> - Method in interface xbot.common.logic.<a href="xbot/common/logic/FsmTransition.html" title="interface in xbot.common.logic">FsmTransition</a></dt>
+<dd>
+<div class="block">Requests a transition to <code>nextState</code> unconditionally, even if the machine is already there - in which case this
+still runs a full exit/enter cycle and resets <code>executionsInState</code>/ <code>timeInState</code> (though, like any
+self-transition, it is not logged, since nothing - as far as an outside observer is concerned - actually changed).</div>
+</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#forEachSwerveModule(java.util.function.Consumer)" class="member-name-link">forEachSwerveModule(Consumer)</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
 <dd>
 <div class="block">Applies the given consumer to each swerve module subsystem.</div>
@@ -1955,6 +2004,28 @@ math on how to get there.</div>
 <dt><a href="xbot/common/injection/swerve/FrontRightDrive.html" class="type-name-link" title="annotation interface in xbot.common.injection.swerve">FrontRightDrive</a> - Annotation Interface in <a href="xbot/common/injection/swerve/package-summary.html">xbot.common.injection.swerve</a></dt>
 <dd>
 <div class="block">This annotation denotes the front right swerve module.</div>
+</dd>
+<dt><a href="xbot/common/logic/FsmContext.html" class="type-name-link" title="class in xbot.common.logic">FsmContext&lt;ContextT&gt;</a> - Record Class in <a href="xbot/common/logic/package-summary.html">xbot.common.logic</a></dt>
+<dd>
+<div class="block">The information passed in to every <a href="xbot/common/logic/FsmState.html" title="interface in xbot.common.logic"><code>FsmState</code></a> hook and to every <a href="xbot/common/logic/FiniteStateMachine.html" title="class in xbot.common.logic"><code>FiniteStateMachine</code></a> hook.</div>
+</dd>
+<dt><a href="xbot/common/logic/FsmContext.html#%3Cinit%3E(ContextT,long,double)" class="member-name-link">FsmContext(ContextT, long, double)</a> - Constructor for record class xbot.common.logic.<a href="xbot/common/logic/FsmContext.html" title="class in xbot.common.logic">FsmContext</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>FsmContext</code> record class.</div>
+</dd>
+<dt><a href="xbot/common/logic/FsmHook.html" class="type-name-link" title="interface in xbot.common.logic">FsmHook&lt;StateT,<wbr>ContextT&gt;</a> - Interface in <a href="xbot/common/logic/package-summary.html">xbot.common.logic</a></dt>
+<dd>
+<div class="block">A hook that a <a href="xbot/common/logic/FiniteStateMachine.html" title="class in xbot.common.logic"><code>FiniteStateMachine</code></a> runs immediately before or immediately after the current state's
+<a href="xbot/common/logic/FsmState.html#execute(xbot.common.logic.FsmContext,xbot.common.logic.FsmTransition)"><code>FsmState.execute(FsmContext, FsmTransition)</code></a> on every cycle, regardless of which state is active.</div>
+</dd>
+<dt><a href="xbot/common/logic/FsmState.html" class="type-name-link" title="interface in xbot.common.logic">FsmState&lt;StateT,<wbr>ContextT&gt;</a> - Interface in <a href="xbot/common/logic/package-summary.html">xbot.common.logic</a></dt>
+<dd>
+<div class="block">The behavior contract implemented by every state of a <a href="xbot/common/logic/FiniteStateMachine.html" title="class in xbot.common.logic"><code>FiniteStateMachine</code></a>.</div>
+</dd>
+<dt><a href="xbot/common/logic/FsmTransition.html" class="type-name-link" title="interface in xbot.common.logic">FsmTransition&lt;StateT&gt;</a> - Interface in <a href="xbot/common/logic/package-summary.html">xbot.common.logic</a></dt>
+<dd>
+<div class="block">Callback handed to every <a href="xbot/common/logic/FsmState.html" title="interface in xbot.common.logic"><code>FsmState</code></a> hook and every <a href="xbot/common/logic/FsmHook.html" title="interface in xbot.common.logic"><code>FsmHook</code></a>, used to request a transition to a new
+state.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:G">G</h2>
@@ -2291,6 +2362,8 @@ math on how to get there.</div>
 <dd>
 <div class="block">Gets current angle as a Rotation2d</div>
 </dd>
+<dt><a href="xbot/common/logic/FiniteStateMachine.html#getCurrentState()" class="member-name-link">getCurrentState()</a> - Method in class xbot.common.logic.<a href="xbot/common/logic/FiniteStateMachine.html" title="class in xbot.common.logic">FiniteStateMachine</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/swerve/SwerveModuleSubsystem.html#getCurrentState()" class="member-name-link">getCurrentState()</a> - Method in class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveModuleSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveModuleSubsystem</a></dt>
 <dd>
 <div class="block">Gets the current state of the module, in METRIC UNITS.</div>
@@ -2479,6 +2552,8 @@ math on how to get there.</div>
 <dd>
 <div class="block">Performs a simple difference between goal and target in order to see if we are close.</div>
 </dd>
+<dt><a href="xbot/common/logic/FiniteStateMachine.html#getExecutionsInState()" class="member-name-link">getExecutionsInState()</a> - Method in class xbot.common.logic.<a href="xbot/common/logic/FiniteStateMachine.html" title="class in xbot.common.logic">FiniteStateMachine</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PIDTunableManager.html#getF()" class="member-name-link">getF()</a> - Method in class xbot.common.math.<a href="xbot/common/math/PIDTunableManager.html" title="class in xbot.common.math">PIDTunableManager</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PID.html#getFContribution()" class="member-name-link">getFContribution()</a> - Method in class xbot.common.math.<a href="xbot/common/math/PID.html" title="class in xbot.common.math">PID</a></dt>
@@ -3040,6 +3115,8 @@ information here.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/swerve/SwerveSteeringSubsystem.html#getPrefix()" class="member-name-link">getPrefix()</a> - Method in class xbot.common.subsystems.drive.swerve.<a href="xbot/common/subsystems/drive/swerve/SwerveSteeringSubsystem.html" title="class in xbot.common.subsystems.drive.swerve">SwerveSteeringSubsystem</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/logic/FiniteStateMachine.html#getPreviousState()" class="member-name-link">getPreviousState()</a> - Method in class xbot.common.logic.<a href="xbot/common/logic/FiniteStateMachine.html" title="class in xbot.common.logic">FiniteStateMachine</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/autonomous/AutonomousCommandSelector.html#getProgramName()" class="member-name-link">getProgramName()</a> - Method in class xbot.common.subsystems.autonomous.<a href="xbot/common/subsystems/autonomous/AutonomousCommandSelector.html" title="class in xbot.common.subsystems.autonomous">AutonomousCommandSelector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/ConfigurablePurePursuitCommand.html#getPursuitMode()" class="member-name-link">getPursuitMode()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/ConfigurablePurePursuitCommand.html" title="class in xbot.common.subsystems.drive">ConfigurablePurePursuitCommand</a></dt>
@@ -3110,9 +3187,9 @@ information here.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#getRearRightSwerveModuleSubsystem()" class="member-name-link">getRearRightSwerveModuleSubsystem()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/logic/HumanVsMachineDecider.html#getRecommendedMode(double)" class="member-name-link">getRecommendedMode(double)</a> - Method in class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineDecider.html" title="class in xbot.common.logic">HumanVsMachineDecider</a></dt>
+<dt><a href="xbot/common/logic/HumanVsMachineDecider.html#getRecommendedState(double)" class="member-name-link">getRecommendedState(double)</a> - Method in class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineDecider.html" title="class in xbot.common.logic">HumanVsMachineDecider</a></dt>
 <dd>
-<div class="block">Gets the recommended mode based on the human input.</div>
+<div class="block">Gets the recommended state based on the human input.</div>
 </dd>
 <dt><a href="xbot/common/injection/DevicePolice.html#getRegisteredChannels()" class="member-name-link">getRegisteredChannels()</a> - Method in class xbot.common.injection.<a href="xbot/common/injection/DevicePolice.html" title="class in xbot.common.injection">DevicePolice</a></dt>
 <dd>
@@ -3375,6 +3452,8 @@ travel</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/XPowerDistributionPanel.html#getTemperature()" class="member-name-link">getTemperature()</a> - Method in class xbot.common.controls.sensors.<a href="xbot/common/controls/sensors/XPowerDistributionPanel.html" title="class in xbot.common.controls.sensors">XPowerDistributionPanel</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/logic/FiniteStateMachine.html#getTimeInState()" class="member-name-link">getTimeInState()</a> - Method in class xbot.common.logic.<a href="xbot/common/logic/FiniteStateMachine.html" title="class in xbot.common.logic">FiniteStateMachine</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PIDTunableManager.html#getTimeThreshold()" class="member-name-link">getTimeThreshold()</a> - Method in class xbot.common.math.<a href="xbot/common/math/PIDTunableManager.html" title="class in xbot.common.math">PIDTunableManager</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/sensors/mock_adapters/MockPowerDistributionPanel.html#getTotalCurrent()" class="member-name-link">getTotalCurrent()</a> - Method in class xbot.common.controls.sensors.mock_adapters.<a href="xbot/common/controls/sensors/mock_adapters/MockPowerDistributionPanel.html" title="class in xbot.common.controls.sensors.mock_adapters">MockPowerDistributionPanel</a></dt>
@@ -3520,6 +3599,11 @@ travel</div>
 <dd>
 <div class="block">One set of kinematics values for the entire route</div>
 </dd>
+<dt><a href="xbot/common/logic/HumanVsMachineState.html#globalTransitions" class="member-name-link">globalTransitions</a> - Static variable in enum class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineState.html" title="enum class in xbot.common.logic">HumanVsMachineState</a></dt>
+<dd>
+<div class="block">The machine-wide preemption conditions that can redirect out of any state, regardless of which one is currently
+active: the robot being disabled, and active human input.</div>
+</dd>
 <dt><a href="xbot/common/math/PurePursuitTest.PursuitEnvironmentState.html#goal" class="member-name-link">goal</a> - Variable in class xbot.common.math.<a href="xbot/common/math/PurePursuitTest.PursuitEnvironmentState.html" title="class in xbot.common.math">PurePursuitTest.PursuitEnvironmentState</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/SwervePointKinematics.html#goalVelocity()" class="member-name-link">goalVelocity()</a> - Method in record class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/SwervePointKinematics.html" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a></dt>
@@ -3592,6 +3676,10 @@ travel</div>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
 <dt><a href="xbot/common/injection/swerve/SwerveInstance.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class xbot.common.injection.swerve.<a href="xbot/common/injection/swerve/SwerveInstance.html" title="class in xbot.common.injection.swerve">SwerveInstance</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
+<dt><a href="xbot/common/logic/FsmContext.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class xbot.common.logic.<a href="xbot/common/logic/FsmContext.html" title="class in xbot.common.logic">FsmContext</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
@@ -3672,7 +3760,7 @@ temporarily rotated by outside forces.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/control_logic/HeadingAssistModule.HeadingAssistMode.html#HoldOrientation" class="member-name-link">HoldOrientation</a> - Enum constant in enum class xbot.common.subsystems.drive.control_logic.<a href="xbot/common/subsystems/drive/control_logic/HeadingAssistModule.HeadingAssistMode.html" title="enum class in xbot.common.subsystems.drive.control_logic">HeadingAssistModule.HeadingAssistMode</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineMode.html#HumanControl" class="member-name-link">HumanControl</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineMode.html" title="enum class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineMode</a></dt>
+<dt><a href="xbot/common/logic/HumanVsMachineState.html#HumanControl" class="member-name-link">HumanControl</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineState.html" title="enum class in xbot.common.logic">HumanVsMachineState</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/BaseMaintainerCommand.html#humanControlAction()" class="member-name-link">humanControlAction()</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseMaintainerCommand.html" title="class in xbot.common.command">BaseMaintainerCommand</a></dt>
 <dd>
@@ -3692,12 +3780,18 @@ temporarily rotated by outside forces.</div>
 <dd>
 <div class="block">Factory for creating a new decider.</div>
 </dd>
-<dt><a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineMode.html" class="type-name-link" title="enum class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineMode</a> - Enum Class in <a href="xbot/common/logic/package-summary.html">xbot.common.logic</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/components/BaseComponent.html#humanVsMachineDeciderFactory()" class="member-name-link">humanVsMachineDeciderFactory()</a> - Method in class xbot.common.injection.components.<a href="xbot/common/injection/components/BaseComponent.html" title="class in xbot.common.injection.components">BaseComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineDeciderFactory.html#%3Cinit%3E()" class="member-name-link">HumanVsMachineDeciderFactory()</a> - Constructor for class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineDeciderFactory.html" title="class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineDeciderFactory</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/logic/HumanVsMachineState.html" class="type-name-link" title="enum class in xbot.common.logic">HumanVsMachineState</a> - Enum Class in <a href="xbot/common/logic/package-summary.html">xbot.common.logic</a></dt>
+<dd>
+<div class="block">The states of <a href="xbot/common/logic/HumanVsMachineDecider.html" title="class in xbot.common.logic"><code>HumanVsMachineDecider</code></a>'s internal state machine, in the order control moves through them:
+<code>RobotDisabled</code> while the robot is disabled, <code>InitializeMachineControl</code> for exactly one cycle after
+control returns to automatic (before anything else has a chance to run), <code>MachineControl</code> while running
+automatically, <code>HumanControl</code> while a human is actively providing input above the deadband, and <code>Coast</code>
+for a brief grace period after human input stops, before handing back to <code>InitializeMachineControl</code>.</div>
+</dd>
 </dl>
 <h2 class="title" id="I:I">I</h2>
 <dl class="index">
@@ -3813,7 +3907,7 @@ temporarily rotated by outside forces.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/trajectory/SimpleTimeInterpolator.html#initialize(xbot.common.trajectory.ProvidesInterpolationData,xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode)" class="member-name-link">initialize(ProvidesInterpolationData, SwerveSimpleTrajectoryMode)</a> - Method in class xbot.common.trajectory.<a href="xbot/common/trajectory/SimpleTimeInterpolator.html" title="class in xbot.common.trajectory">SimpleTimeInterpolator</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineMode.html#InitializeMachineControl" class="member-name-link">InitializeMachineControl</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineMode.html" title="enum class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineMode</a></dt>
+<dt><a href="xbot/common/logic/HumanVsMachineState.html#InitializeMachineControl" class="member-name-link">InitializeMachineControl</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineState.html" title="enum class in xbot.common.logic">HumanVsMachineState</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/BaseMaintainerCommand.html#initializeMachineControlAction()" class="member-name-link">initializeMachineControlAction()</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseMaintainerCommand.html" title="class in xbot.common.command">BaseMaintainerCommand</a></dt>
 <dd>
@@ -4017,6 +4111,8 @@ values at arbitrary previous time indexes.</div>
 <dt><a href="xbot/common/controls/io_inputs/XCANSparkMaxInputs.html#isForwardLimitSwitchPressed" class="member-name-link">isForwardLimitSwitchPressed</a> - Variable in class xbot.common.controls.io_inputs.<a href="xbot/common/controls/io_inputs/XCANSparkMaxInputs.html" title="class in xbot.common.controls.io_inputs">XCANSparkMaxInputs</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html#isGamePieceRotationActive()" class="member-name-link">isGamePieceRotationActive()</a> - Method in class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/BaseSwerveDriveSubsystem.html" title="class in xbot.common.subsystems.drive">BaseSwerveDriveSubsystem</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="xbot/common/logic/FiniteStateMachine.html#isInState(StateT)" class="member-name-link">isInState(StateT)</a> - Method in class xbot.common.logic.<a href="xbot/common/logic/FiniteStateMachine.html" title="class in xbot.common.logic">FiniteStateMachine</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/controls/actuators/XDoubleSolenoid.html#isInverted" class="member-name-link">isInverted</a> - Variable in class xbot.common.controls.actuators.<a href="xbot/common/controls/actuators/XDoubleSolenoid.html" title="class in xbot.common.controls.actuators">XDoubleSolenoid</a></dt>
 <dd>&nbsp;</dd>
@@ -4311,7 +4407,7 @@ calculate the start and ending velocities of each individual point! Suggested to
 </dl>
 <h2 class="title" id="I:M">M</h2>
 <dl class="index">
-<dt><a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineMode.html#MachineControl" class="member-name-link">MachineControl</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineMode.html" title="enum class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineMode</a></dt>
+<dt><a href="xbot/common/logic/HumanVsMachineState.html#MachineControl" class="member-name-link">MachineControl</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineState.html" title="enum class in xbot.common.logic">HumanVsMachineState</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/subsystems/drive/RabbitPoint.PointDriveStyle.html#Macro" class="member-name-link">Macro</a> - Enum constant in enum class xbot.common.subsystems.drive.<a href="xbot/common/subsystems/drive/RabbitPoint.PointDriveStyle.html" title="enum class in xbot.common.subsystems.drive">RabbitPoint.PointDriveStyle</a></dt>
 <dd>&nbsp;</dd>
@@ -4709,6 +4805,8 @@ readability.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/PowerSource.html#NONE" class="member-name-link">NONE</a> - Enum constant in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/logic/FsmHook.html#noop()" class="member-name-link">noop()</a> - Static method in interface xbot.common.logic.<a href="xbot/common/logic/FsmHook.html" title="interface in xbot.common.logic">FsmHook</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.InversionType.html#Normal" class="member-name-link">Normal</a> - Enum constant in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANMotorControllerOutputConfig.InversionType.html" title="enum class in xbot.common.injection.electrical_contract">CANMotorControllerOutputConfig.InversionType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/logic/StallDetector.StallState.html#NOT_STALLED" class="member-name-link">NOT_STALLED</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/StallDetector.StallState.html" title="enum class in xbot.common.logic">StallDetector.StallState</a></dt>
@@ -4801,6 +4899,10 @@ readability.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/PlanarVisualizationPanel.html#paintComponent(java.awt.Graphics)" class="member-name-link">paintComponent(Graphics)</a> - Method in class xbot.common.math.<a href="xbot/common/math/PlanarVisualizationPanel.html" title="class in xbot.common.math">PlanarVisualizationPanel</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/logic/FsmContext.html#payload()" class="member-name-link">payload()</a> - Method in record class xbot.common.logic.<a href="xbot/common/logic/FsmContext.html" title="class in xbot.common.logic">FsmContext</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./xbot/common/logic/FsmContext.html#param-payload"><code>payload</code></a> record component.</div>
+</dd>
 <dt><a href="xbot/common/injection/electrical_contract/PDHPort.html#PDH00" class="member-name-link">PDH00</a> - Enum constant in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/PDHPort.html" title="enum class in xbot.common.injection.electrical_contract">PDHPort</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/injection/electrical_contract/PowerSource.html#PDH00" class="member-name-link">PDH00</a> - Enum constant in enum class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a></dt>
@@ -5583,6 +5685,8 @@ the validator.</div>
 <dd>
 <div class="block">Static entry point for robot assertions.</div>
 </dd>
+<dt><a href="xbot/common/logic/HumanVsMachineState.html#RobotDisabled" class="member-name-link">RobotDisabled</a> - Enum constant in enum class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineState.html" title="enum class in xbot.common.logic">HumanVsMachineState</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/BaseRobot.html#robotInit()" class="member-name-link">robotInit()</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseRobot.html" title="class in xbot.common.command">BaseRobot</a></dt>
 <dd>
 <div class="block">This function is run when the robot is first started up and should be used for any initialization code.</div>
@@ -5635,6 +5739,10 @@ the validator.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/XScheduler.html#run()" class="member-name-link">run()</a> - Method in class xbot.common.command.<a href="xbot/common/command/XScheduler.html" title="class in xbot.common.command">XScheduler</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/logic/FsmHook.html#run(xbot.common.logic.FsmContext,xbot.common.logic.FsmTransition)" class="member-name-link">run(FsmContext, FsmTransition)</a> - Method in interface xbot.common.logic.<a href="xbot/common/logic/FsmHook.html" title="interface in xbot.common.logic">FsmHook</a></dt>
+<dd>
+<div class="block">Runs the hook.</div>
+</dd>
 <dt><a href="xbot/common/command/BaseCommand.html#runningAlert" class="member-name-link">runningAlert</a> - Variable in class xbot.common.command.<a href="xbot/common/command/BaseCommand.html" title="class in xbot.common.command">BaseCommand</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/command/BaseCommand.html#runsWhenDisabled()" class="member-name-link">runsWhenDisabled()</a> - Method in class xbot.common.command.<a href="xbot/common/command/BaseCommand.html" title="class in xbot.common.command">BaseCommand</a></dt>
@@ -7094,6 +7202,10 @@ position and velocity.</div>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/logging/assertion/RobotAssertionManager.html#throwException(java.lang.String,java.lang.Throwable)" class="member-name-link">throwException(String, Throwable)</a> - Static method in class xbot.common.logging.assertion.<a href="xbot/common/logging/assertion/RobotAssertionManager.html" title="class in xbot.common.logging.assertion">RobotAssertionManager</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="xbot/common/logic/FsmContext.html#timeInState()" class="member-name-link">timeInState()</a> - Method in record class xbot.common.logic.<a href="xbot/common/logic/FsmContext.html" title="class in xbot.common.logic">FsmContext</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./xbot/common/logic/FsmContext.html#param-timeInState"><code>timeInState</code></a> record component.</div>
+</dd>
 <dt><a href="xbot/common/logging/TimeLogger.html" class="type-name-link" title="class in xbot.common.logging">TimeLogger</a> - Class in <a href="xbot/common/logging/package-summary.html">xbot.common.logging</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/logging/TimeLogger.html#%3Cinit%3E(java.lang.String,int)" class="member-name-link">TimeLogger(String, int)</a> - Constructor for class xbot.common.logging.<a href="xbot/common/logging/TimeLogger.html" title="class in xbot.common.logging">TimeLogger</a></dt>
@@ -7204,6 +7316,10 @@ position and velocity.</div>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
+<dt><a href="xbot/common/logic/FsmContext.html#toString()" class="member-name-link">toString()</a> - Method in record class xbot.common.logic.<a href="xbot/common/logic/FsmContext.html" title="class in xbot.common.logic">FsmContext</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
 <dt><a href="xbot/common/math/ContiguousDouble.html#toString()" class="member-name-link">toString()</a> - Method in class xbot.common.math.<a href="xbot/common/math/ContiguousDouble.html" title="class in xbot.common.math">ContiguousDouble</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="xbot/common/math/FieldPose.html#toString()" class="member-name-link">toString()</a> - Method in class xbot.common.math.<a href="xbot/common/math/FieldPose.html" title="class in xbot.common.math">FieldPose</a></dt>
@@ -7253,6 +7369,10 @@ position and velocity.</div>
 <dt><a href="xbot/common/injection/electrical_contract/CANBusId.html#toWpiCANPort()" class="member-name-link">toWpiCANPort()</a> - Method in record class xbot.common.injection.electrical_contract.<a href="xbot/common/injection/electrical_contract/CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a></dt>
 <dd>
 <div class="block">Converts this CANBusId to a WPILib CANPort.</div>
+</dd>
+<dt><a href="xbot/common/logic/FsmTransition.html#transitionTo(StateT)" class="member-name-link">transitionTo(StateT)</a> - Method in interface xbot.common.logic.<a href="xbot/common/logic/FsmTransition.html" title="interface in xbot.common.logic">FsmTransition</a></dt>
+<dd>
+<div class="block">Requests a transition to <code>nextState</code> - a safe no-op if the machine is already in it.</div>
 </dd>
 <dt><a href="xbot/common/math/PurePursuitTest.PursuitEnvironmentState.html#translatePower" class="member-name-link">translatePower</a> - Variable in class xbot.common.math.<a href="xbot/common/math/PurePursuitTest.PursuitEnvironmentState.html" title="class in xbot.common.math">PurePursuitTest.PursuitEnvironmentState</a></dt>
 <dd>&nbsp;</dd>
@@ -7619,7 +7739,7 @@ be at) HeadingPower (The power of which you should be rotating)</div>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
-<dt><a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineMode.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineMode.html" title="enum class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineMode</a></dt>
+<dt><a href="xbot/common/logic/HumanVsMachineState.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineState.html" title="enum class in xbot.common.logic">HumanVsMachineState</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
@@ -7807,7 +7927,7 @@ the order they are declared.</div>
 <div class="block">Returns an array containing the constants of this enum class, in
 the order they are declared.</div>
 </dd>
-<dt><a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineMode.html#values()" class="member-name-link">values()</a> - Static method in enum class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineDecider.HumanVsMachineMode.html" title="enum class in xbot.common.logic">HumanVsMachineDecider.HumanVsMachineMode</a></dt>
+<dt><a href="xbot/common/logic/HumanVsMachineState.html#values()" class="member-name-link">values()</a> - Static method in enum class xbot.common.logic.<a href="xbot/common/logic/HumanVsMachineState.html" title="enum class in xbot.common.logic">HumanVsMachineState</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum class, in
 the order they are declared.</div>
