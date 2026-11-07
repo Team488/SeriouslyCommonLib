@@ -15,7 +15,7 @@ import dagger.assisted.AssistedInject;
 import xbot.common.advantage.AKitLogger;
 import xbot.common.logging.assertion.RobotAssertionManager;
 import xbot.common.logic.HumanVsMachineDecider;
-import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
+import xbot.common.logic.HumanVsMachineState;
 import xbot.common.properties.TunableFactory;
 
 /**
@@ -143,13 +143,13 @@ public class SwerveDriveRotationAdvisor {
     }
 
     SwerveSuggestedRotation evaluateLastKnownHeading(double triggerRotateIntent) {
-        HumanVsMachineMode recommendedMode = hvmDecider.getRecommendedMode(triggerRotateIntent);
-        aKitLogger.record("HvmRecommendedMode", recommendedMode);
+        HumanVsMachineState recommendedState = hvmDecider.getRecommendedState(triggerRotateIntent);
+        aKitLogger.record("HvmRecommendedState", recommendedState);
         if (pose.getHeadingResetRecently()) {
             drive.setDesiredHeading(pose.getCurrentHeading().getDegrees());
         }
 
-        return switch (recommendedMode) {
+        return switch (recommendedState) {
         case HumanControl -> {
             yield new SwerveSuggestedRotation(triggerRotateIntent, SwerveSuggestedRotation.RotationGoalType.HumanControlHeadingPower);
         }
@@ -160,7 +160,7 @@ public class SwerveDriveRotationAdvisor {
         case MachineControl -> {
             yield new SwerveSuggestedRotation(drive.getDesiredHeading(), SwerveSuggestedRotation.RotationGoalType.DesiredHeading);
         }
-        case Coast -> {
+        case Coast, RobotDisabled -> {
             yield new SwerveSuggestedRotation();
         }
         };
