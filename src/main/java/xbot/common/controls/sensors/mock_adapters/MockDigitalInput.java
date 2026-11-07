@@ -30,7 +30,7 @@ public class MockDigitalInput extends XDigitalInput {
             DevicePolice police,
             DataFrameRegistry dataFrameRegistry) {
         super(police, info, owningSystemPrefix, dataFrameRegistry);
-        this.channel = info.channel;
+        this.channel = info.channel();
     }
 
     public void setValue(boolean value) {

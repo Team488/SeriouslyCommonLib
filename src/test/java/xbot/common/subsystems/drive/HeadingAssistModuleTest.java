@@ -3,6 +3,8 @@ package xbot.common.subsystems.drive;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.wpilib.hardware.bus.CANPort;
+
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
@@ -33,8 +35,10 @@ public class HeadingAssistModuleTest extends BaseCommonLibTest {
         ham = getInjectorComponent().headingAssistModuleFactory().create(hold, decay, "Test");
         ham.setMode(HeadingAssistMode.HoldOrientation);
 
-        XCANMotorController left = getInjectorComponent().motorControllerFactory().create(new CANMotorControllerInfo("Left", 0), "", "");
-        XCANMotorController right = getInjectorComponent().motorControllerFactory().create(new CANMotorControllerInfo("Right", 1), "", "");
+        XCANMotorController left = getInjectorComponent().motorControllerFactory().create(
+                CANMotorControllerInfo.builder("Left").withCanBus(CANPort.CAN_S0, 0).build(), "", "");
+        XCANMotorController right = getInjectorComponent().motorControllerFactory().create(
+                CANMotorControllerInfo.builder("Right").withCanBus(CANPort.CAN_S0, 1).build(), "", "");
 
         ((MockBasePoseSubsystem)pose).setDriveMotors(left, right);
 

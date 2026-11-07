@@ -24,11 +24,11 @@ public abstract class XDigitalInput implements XBaseIO, DataFrameRefreshable {
     }
 
     public XDigitalInput(DevicePolice police, DeviceInfo info, String owningSystemPrefix, DataFrameRegistry dataFrameRegistry) {
-        police.registerDevice(this, DeviceAddress.channel(DeviceType.DigitalIO, info.channel));
+        police.registerDevice(this, DeviceAddress.channel(DeviceType.DigitalIO, info.channel()));
         inputs = new XDigitalInputsAutoLogged();
         this.info = info;
-        akitName = owningSystemPrefix + info.name + "DigitalInput";
-        this.setInverted(info.inverted);
+        akitName = owningSystemPrefix + info.name() + "DigitalInput";
+        this.setInverted(info.inverted());
         dataFrameRegistry.register(this);
     }
     
