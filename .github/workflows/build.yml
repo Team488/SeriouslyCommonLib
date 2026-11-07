@@ -1,0 +1,99 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Cancel superseded PR runs. Pushes to main are never cancelled so every merge gets published.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build / Test / Publish
+    runs-on: windows-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      checks: write        # test result check run
+      pull-requests: write # test result PR comment
+    env:
+      GRADLE_OPTS: -Xmx3072m -Dfile.encoding=UTF-8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          submodules: true
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      # Caches the Gradle wrapper and dependencies (replaces Azure's Cache@2 step).
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v5
+        with:
+          # Only main writes the cache so PR branches can't pollute it.
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+
+      # build = compile + spotlessCheck + checkstyle + tests + JaCoCo report
+      - name: Build
+        run: ./gradlew build --stacktrace --console=plain
+        shell: bash
+
+      - name: Publish test results
+        # The default variant of this action is a Linux-only Docker action; use the Windows one.
+        uses: EnricoMi/publish-unit-test-result-action/windows@v2
+        if: ${{ !cancelled() }}
+        with:
+          files: build/test-results/test/TEST-*.xml
+          check_name: JUnit results
+          # Fork PRs get a read-only token and can't post checks/comments; don't fail on that.
+          comment_mode: ${{ github.event.pull_request.head.repo.fork && 'off' || 'changes' }}
+        continue-on-error: ${{ github.event.pull_request.head.repo.fork == true }}
+
+      - name: Upload JaCoCo report
+        uses: actions/upload-artifact@v5
+        if: ${{ !cancelled() }}
+        with:
+          name: jacoco-report
+          path: build/reports/jacoco/test/
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Build Javadoc
+        run: ./gradlew javadoc --stacktrace --console=plain
+        shell: bash
+
+      - name: Upload Javadoc
+        uses: actions/upload-artifact@v5
+        with:
+          name: javadoc
+          path: build/docs/javadoc
+          retention-days: 14
+
+      # Publishes to the XBot Azure Artifacts Maven feed that robot projects already consume.
+      # Versions keep the feed's existing yyyyMMdd.N shape so new builds sort as newest.
+      - name: Publish to XBot Maven feed
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        env:
+          AZURE_ARTIFACTS_TOKEN: ${{ secrets.AZURE_ARTIFACTS_TOKEN }}
+        run: |
+          if [ -z "$AZURE_ARTIFACTS_TOKEN" ]; then
+            echo "::error::Repository secret AZURE_ARTIFACTS_TOKEN is not set (Azure DevOps PAT with Packaging: Read & write)."
+            exit 1
+          fi
+          export PUBLISH_VERSION="$(date -u +%Y%m%d).$(date -u +%H%M%S)"
+          echo "Publishing xbot.common:SeriouslyCommonLib:$PUBLISH_VERSION"
+          echo "### Published \`xbot.common:SeriouslyCommonLib:$PUBLISH_VERSION\`" >> "$GITHUB_STEP_SUMMARY"
+          ./gradlew publish --stacktrace --console=plain
