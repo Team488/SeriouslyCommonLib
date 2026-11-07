@@ -26,7 +26,6 @@ repositories {
     
     maven { url = "https://mvnrepository.com/artifact/com.google.dagger/dagger" }
     maven { url = "https://mvnrepository.com/artifact/com.google.dagger/dagger-compiler" }
-    maven { url = "https://mvnrepository.com/artifact/org.zeromq/jeromq" }
 
     maven { url = "https://3015rangerrobotics.github.io/pathplannerlib/repo"}
 
@@ -71,8 +70,6 @@ dependencies {
 
     implementation 'org.apache.logging.log4j:log4j-api:2.19.0'
     implementation 'org.apache.logging.log4j:log4j-core:2.19.0'
-
-    implementation group: 'org.zeromq', name: 'jeromq', version: '0.5.3'
 
     implementation 'org.scala-lang:scala-library:2.11.12'
     testImplementation 'org.scalatest:scalatest_2.11:3.0.0'

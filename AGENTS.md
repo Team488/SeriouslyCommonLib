@@ -40,7 +40,6 @@ SeriouslyCommonLib/
 | `logging` | Log4j2 utilities: `TimeLogger`, `RobotAssertionManager`, alert system |
 | `logic` | Utility helpers: `Latch`, `StallDetector`, `TimeStableValidator`, etc. |
 | `math` | PID, kinematics, interpolation, pose estimation, `XYPair` |
-| `networking` | ZeroMQ-based networking utilities |
 | `properties` | WPILib Tunables integration (`TunableManager`, `TunableFactory`) |
 | `resiliency` | Exception handling and retry logic |
 | `simulation` | Mock motor PID helpers for general-purpose simulation |

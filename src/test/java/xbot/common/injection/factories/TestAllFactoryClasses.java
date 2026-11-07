@@ -57,7 +57,6 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().compressorFactory().create();
         getInjectorComponent().pwmFactory().create(3);
         getInjectorComponent().fieldPoseTunableManagerFactory().create("testo", 1, 2, 3);
-        getInjectorComponent().zeromqListenerFactory().create("testo", "testo");
         getInjectorComponent().chordButtonFactory().create(
             getInjectorComponent().joystickButtonFactory().create(j, 2),
             getInjectorComponent().joystickButtonFactory().create(j, 3));
