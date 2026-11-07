@@ -8,7 +8,6 @@ import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.IMUInfo;
-import xbot.common.logging.LoudRobotAssertionManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.wpilib.units.Units.MetersPerSecondPerSecond;
@@ -18,7 +17,7 @@ public class MockGyroTest {
     @Test
     public void accelerationSettersPopulateTypedInputs() {
         MockGyro gyro = new MockGyro(
-                new DevicePolice(new LoudRobotAssertionManager()),
+                new DevicePolice(),
                 new DataFrameRegistry(),
                 new IMUInfo(MountOrientation.FLAT));
 

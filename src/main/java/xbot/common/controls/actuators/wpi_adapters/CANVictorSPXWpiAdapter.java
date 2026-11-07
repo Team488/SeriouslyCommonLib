@@ -28,7 +28,7 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
-import xbot.common.logging.RobotAssertionManager;
+import xbot.common.logging.assertion.RobotAssertionManager;
 import xbot.common.properties.PowerDistributionProperties;
 import xbot.common.properties.TunableFactory;
 import xbot.common.resiliency.DeviceHealth;
@@ -51,7 +51,6 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
     private static final Logger log = LogManager.getLogger(CANVictorSPXWpiAdapter.class);
 
     private final VictorSPX internalVictor;
-    private final RobotAssertionManager assertionManager;
 
     private double minPower = -1.0;
     private double maxPower = 1.0;
@@ -62,7 +61,6 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
             TunableFactory tunableFactory,
             DevicePolice police,
-            RobotAssertionManager assertionManager,
             @Assisted("pidTunablePrefix") String pidTunablePrefix,
             @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties,
             DataFrameRegistry dataFrameRegistry,
@@ -70,10 +68,9 @@ public class CANVictorSPXWpiAdapter extends XCANMotorController {
     ) {
         super(info, owningSystemPrefix, tunableFactory, police, pidTunablePrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
         this.internalVictor = new VictorSPX(info.deviceId());
-        this.assertionManager = assertionManager;
 
         if (!info.busId().equals(CANBusId.fromPort(CANPort.CAN_S0))) {
-            this.assertionManager.fail("VictorSPX must be connected to SystemCore CAN_S0");
+            RobotAssertionManager.fail("VictorSPX must be connected to SystemCore CAN_S0");
         }
         setConfiguration(info.outputConfig());
     }

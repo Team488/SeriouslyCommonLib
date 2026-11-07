@@ -13,7 +13,6 @@ import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.Advanc
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
-import xbot.common.logging.RobotAssertionManager;
 
 public class GamepadWpiAdapter extends XGamepad {
 
@@ -30,9 +29,8 @@ public class GamepadWpiAdapter extends XGamepad {
             AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
             AdvancedPovButtonTriggerFactory povButtonFactory,
             AnalogHIDButtonTriggerFactory analogHidButtonFactory,
-            RobotAssertionManager assertionManager,
             DevicePolice police) {
-        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, assertionManager, police);
+        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, police);
         internalGamepad = new Gamepad(port);
     }
 

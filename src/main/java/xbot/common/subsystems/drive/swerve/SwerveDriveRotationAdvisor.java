@@ -13,7 +13,7 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import xbot.common.advantage.AKitLogger;
-import xbot.common.logging.RobotAssertionManager;
+import xbot.common.logging.assertion.RobotAssertionManager;
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
 import xbot.common.properties.TunableFactory;
@@ -22,7 +22,6 @@ import xbot.common.properties.TunableFactory;
  * This class is responsible for advising the drive subsystem on what heading to rotate to based on various inputs and modes.
  */
 public class SwerveDriveRotationAdvisor {
-    RobotAssertionManager assertionManager;
     HumanVsMachineDecider hvmDecider;
     ISwerveAdvisorPoseSupport pose;
     ISwerveAdvisorDriveSupport drive;
@@ -54,13 +53,11 @@ public class SwerveDriveRotationAdvisor {
     }
 
     @AssistedInject
-    public SwerveDriveRotationAdvisor(RobotAssertionManager assertionManager,
-                                      ISwerveAdvisorPoseSupport pose, ISwerveAdvisorDriveSupport drive,
+    public SwerveDriveRotationAdvisor(ISwerveAdvisorPoseSupport pose, ISwerveAdvisorDriveSupport drive,
                                       TunableFactory tunableFactory,
                                       @Assisted HumanVsMachineDecider hvmDecider,
                                       @Assisted("HvmDeadband") double hvmDeadband) {
         tunableFactory.setPrefix("SwerveDriveRotationAdvisor/");
-        this.assertionManager = assertionManager;
         this.hvmDecider = hvmDecider;
         this.drive = drive;
         this.pose = pose;
@@ -79,7 +76,7 @@ public class SwerveDriveRotationAdvisor {
      */
     public void setSnappingZoneCount(int count) {
         if (count < 2) {
-            assertionManager.fail("Snapping zone count must be at least 2");
+            RobotAssertionManager.fail("Snapping zone count must be at least 2");
         }
         this.snappingZoneCount = Math.max(2, count);
     }
