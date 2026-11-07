@@ -25,9 +25,7 @@ public class StallDetector {
     // This will have the effect of "pulsing" the motor.
 
     public enum StallState {
-        NOT_STALLED,
-        STALLED,
-        WAS_STALLED_RECENTLY
+        NOT_STALLED, STALLED, WAS_STALLED_RECENTLY
     }
 
     final TimeStableValidator currentLimitValidator;
@@ -55,8 +53,7 @@ public class StallDetector {
         currentLimit = tunableFactory.createDouble("CurrentLimit", 1000);
 
         noMotionTimeWindow = tunableFactory.createDouble("NoMotionTimeWindow", 0.1);
-        tryingHardVoltagePercentThreshold =
-                tunableFactory.createDouble("TryingHardVoltagePercentThreshold", 10);
+        tryingHardVoltagePercentThreshold = tunableFactory.createDouble("TryingHardVoltagePercentThreshold", 10);
         littleMotionThreshold = tunableFactory.createDouble("LittleMotionThreshold", 1000.0);
 
         stallCoolDown = tunableFactory.createDouble("StallCoolDown", 0.);
@@ -67,9 +64,8 @@ public class StallDetector {
         timeOfLastDetectedStall = -9999;
     }
 
-    public void setAllParameters(double currentTimeWindow, double currentLimit,
-            double noMotionTimeWindow, double tryingHardVoltagePercentThreshold, double littleMotionThreshold,
-            double stallCoolDown) {
+    public void setAllParameters(double currentTimeWindow, double currentLimit, double noMotionTimeWindow, double tryingHardVoltagePercentThreshold,
+            double littleMotionThreshold, double stallCoolDown) {
         this.currentTimeWindow.set(currentTimeWindow);
         this.currentLimit.set(currentLimit);
         this.noMotionTimeWindow.set(noMotionTimeWindow);
@@ -85,7 +81,7 @@ public class StallDetector {
 
         boolean currentOverLimit = currentLimitValidator.checkStable(Math.abs(current) > currentLimit.get());
         boolean voltageCondition = false;
-        
+
         // Check for stalls in either direction
         if (voltagePercent > 0) {
             // check for velocity below critical point
@@ -95,8 +91,7 @@ public class StallDetector {
             voltageCondition = voltagePercent < -tryingHardVoltagePercentThreshold.get();
         }
 
-        boolean noMotion = noMotionValidator.checkStable(
-                Math.abs(velocity) < littleMotionThreshold.get() && voltageCondition);
+        boolean noMotion = noMotionValidator.checkStable(Math.abs(velocity) < littleMotionThreshold.get() && voltageCondition);
 
         if (currentOverLimit || noMotion) {
             timeOfLastDetectedStall = XTimer.getFPGATimestamp();

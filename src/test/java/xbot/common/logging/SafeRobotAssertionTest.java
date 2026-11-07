@@ -27,8 +27,8 @@ public class SafeRobotAssertionTest extends BaseCommonLibTest {
     public void testExceptionThrownInTests() {
         RobotAssertionHandler assertionHandler = new LoudRobotAssertionHandler();
 
-        assertThrows(RuntimeException.class, () ->
-            assertionHandler.throwException(new RuntimeException("Something really bad happened (tests are free to die as necessary)")));
+        assertThrows(RuntimeException.class,
+                () -> assertionHandler.throwException(new RuntimeException("Something really bad happened (tests are free to die as necessary)")));
     }
 
     @Test

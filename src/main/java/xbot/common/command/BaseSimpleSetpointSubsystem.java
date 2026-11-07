@@ -1,8 +1,7 @@
 package xbot.common.command;
 
 /**
- * A base class for setpoint subsystems that use simple Double values for both
- * current and target values.
+ * A base class for setpoint subsystems that use simple Double values for both current and target values.
  */
 public abstract class BaseSimpleSetpointSubsystem extends BaseSetpointSubsystem<Double, Double> {
     @Override

@@ -23,8 +23,7 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.logging.assertion.RobotAssertionManager;
 
-public abstract class XJoystick
-{
+public abstract class XJoystick {
     protected int port;
 
     private boolean[] axisInversion;
@@ -46,13 +45,8 @@ public abstract class XJoystick
         XJoystick create(int port, int numButtons);
     }
 
-    public XJoystick(
-            int port,
-            AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
-            AdvancedPovButtonTriggerFactory povButtonFactory,
-            AnalogHIDButtonTriggerFactory analogHidButtonFactory,
-            int numButtons,
-            DevicePolice police) {
+    public XJoystick(int port, AdvancedJoystickButtonTriggerFactory joystickButtonFactory, AdvancedPovButtonTriggerFactory povButtonFactory,
+            AnalogHIDButtonTriggerFactory analogHidButtonFactory, int numButtons, DevicePolice police) {
         this.port = port;
         this.police = police;
         this.joystickButtonFactory = joystickButtonFactory;
@@ -82,17 +76,14 @@ public abstract class XJoystick
     }
 
     public boolean getAxisInverted(int axisNumber) {
-        if (axisNumber >= 0 && axisNumber < axisInversion.length)
-        {
+        if (axisNumber >= 0 && axisNumber < axisInversion.length) {
             return axisInversion[axisNumber];
         }
         return false;
     }
 
-
     public void setAxisInverted(int axisNumber, boolean inverted) {
-        if (axisNumber >= 0 && axisNumber < axisInversion.length)
-        {
+        if (axisNumber >= 0 && axisNumber < axisInversion.length) {
             axisInversion[axisNumber] = inverted;
         }
     }
@@ -120,8 +111,7 @@ public abstract class XJoystick
     }
 
     public enum ButtonSource {
-        Standard,
-        POV
+        Standard, POV
     }
 
     public AdvancedTrigger getifAvailable(int buttonNumber) {
@@ -139,7 +129,9 @@ public abstract class XJoystick
 
     /**
      * Uses the d-pad as a button source.
-     * @param direction The desired POV direction.
+     *
+     * @param direction
+     *            The desired POV direction.
      * @return A trigger that represents the given POV direction.
      */
     public AdvancedTrigger getPovIfAvailable(POVDirection direction) {

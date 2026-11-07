@@ -6,37 +6,35 @@ import org.wpilib.hardware.imu.OnboardIMU.MountOrientation;
 import xbot.common.controls.sensors.XGyro;
 
 /**
- * IMU configuration. No bus, interface, orientation, or power metadata is inferred from the IMU type.
- * Construction does not validate or reserve hardware.
+ * IMU configuration. No bus, interface, orientation, or power metadata is inferred from the IMU type. Construction does
+ * not validate or reserve hardware.
  *
  * <pre>{@code
- * IMUInfo imu = IMUInfo.builder("IMU", XGyro.ImuType.onboard)
- *         .withDeviceId(1)
- *         .withMountOrientation(MountOrientation.FLAT)
- *         .withPowerFrom(PowerSource.RIO)
+ * IMUInfo imu = IMUInfo.builder("IMU", XGyro.ImuType.onboard).withDeviceId(1).withMountOrientation(MountOrientation.FLAT).withPowerFrom(PowerSource.RIO)
  *         .build();
  * }</pre>
  *
- * @param name device name
- * @param imuType IMU implementation type
- * @param interfaceType hardware interface
- * @param canBusId CAN bus identity
- * @param deviceId device number
- * @param mountOrientation onboard IMU mounting orientation
- * @param powerFrom power-source metadata
+ * @param name
+ *            device name
+ * @param imuType
+ *            IMU implementation type
+ * @param interfaceType
+ *            hardware interface
+ * @param canBusId
+ *            CAN bus identity
+ * @param deviceId
+ *            device number
+ * @param mountOrientation
+ *            onboard IMU mounting orientation
+ * @param powerFrom
+ *            power-source metadata
  */
-public record IMUInfo(
-        String name,
-        XGyro.ImuType imuType,
-        XGyro.InterfaceType interfaceType,
-        CANBusId canBusId,
-        int deviceId,
-        MountOrientation mountOrientation,
+public record IMUInfo(String name, XGyro.ImuType imuType, XGyro.InterfaceType interfaceType, CANBusId canBusId, int deviceId, MountOrientation mountOrientation,
         PowerSource powerFrom) {
     /**
-     * Starts a builder with an explicit name and IMU type. All optional metadata defaults to null.
-     * Set the CAN address with {@link Builder#withCanBus(CANPort, int)}, or a non-CAN device ID
-     * with {@link Builder#withDeviceId(int)}. An unspecified device ID is -1.
+     * Starts a builder with an explicit name and IMU type. All optional metadata defaults to null. Set the CAN address with
+     * {@link Builder#withCanBus(CANPort, int)}, or a non-CAN device ID with {@link Builder#withDeviceId(int)}. An
+     * unspecified device ID is -1.
      */
     public static Builder builder(String name, XGyro.ImuType imuType) {
         return new Builder(name, imuType);
@@ -46,11 +44,8 @@ public record IMUInfo(
      * Preserves identity, interface, bus, and power metadata for a mock, without mounting orientation.
      */
     public static IMUInfo createMock(IMUInfo realInstance) {
-        return builder(realInstance.name(), XGyro.ImuType.mock)
-                .withInterfaceType(realInstance.interfaceType())
-                .withCanBus(realInstance.canBusId(), realInstance.deviceId())
-                .withPowerFrom(realInstance.powerFrom())
-                .build();
+        return builder(realInstance.name(), XGyro.ImuType.mock).withInterfaceType(realInstance.interfaceType())
+                .withCanBus(realInstance.canBusId(), realInstance.deviceId()).withPowerFrom(realInstance.powerFrom()).build();
     }
 
     public static final class Builder {

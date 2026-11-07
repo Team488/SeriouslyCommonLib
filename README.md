@@ -44,3 +44,7 @@ We are currently in the process of modifying this library to get it ready as a r
 ### We'd love some help!
 
 Although we do plan to maintain this library for use in our own robots, we'd love to recieve help with fixing bugs, adding new features, and finding issues that we need to look at. If your team uses the library, we'd love for you to open issues on GitHub as you find them. And if you're feeling adventurous, we welcome PRs too.
+
+Before sending a PR, run `git config core.hooksPath githooks` once per clone so your commits get
+auto-formatted to match the project's style. See [AGENTS.md](AGENTS.md) for full build, test, and
+formatting instructions.

@@ -48,8 +48,8 @@ public class XYPairTest extends BaseCommonLibTest {
     @Test
     public void testFromUnitPolar() {
         XYPair a = XYPair.fromUnitPolar(45);
-        assertEquals(Math.sqrt(2)/2.0, a.x, 0.001);
-        assertEquals(Math.sqrt(2)/2.0, a.y, 0.001);
+        assertEquals(Math.sqrt(2) / 2.0, a.x, 0.001);
+        assertEquals(Math.sqrt(2) / 2.0, a.y, 0.001);
     }
 
     @Test
@@ -73,7 +73,7 @@ public class XYPairTest extends BaseCommonLibTest {
 
     @Test
     public void testAdd() {
-        XYPair a = new XYPair(-1,2);
+        XYPair a = new XYPair(-1, 2);
         XYPair b = new XYPair(2, 3);
 
         a.add(b);
@@ -112,28 +112,28 @@ public class XYPairTest extends BaseCommonLibTest {
     @Test
     public void testGetDistanceToPoint() {
         XYPair a = new XYPair();
-        
+
         assertEquals(1.0, a.getDistanceToPoint(new XYPair(1.0, 0)), 0.001);
         assertEquals(5.0, a.getDistanceToPoint(new XYPair(-3.0, 4.0)), 0.001);
     }
 
     @Test
     public void testDotProduct() {
-        XYPair a = new XYPair(5,5);
-        XYPair b = new XYPair(10,10);
+        XYPair a = new XYPair(5, 5);
+        XYPair b = new XYPair(10, 10);
 
-        a.scale(1/a.getMagnitude());
-        b.scale(1/b.getMagnitude());
+        a.scale(1 / a.getMagnitude());
+        b.scale(1 / b.getMagnitude());
 
         assertEquals(1, a.dotProduct(b), 0.001);
 
-        a = new XYPair(1,0);
-        b = new XYPair(0,1);
+        a = new XYPair(1, 0);
+        b = new XYPair(0, 1);
 
         assertEquals(0, a.dotProduct(b), 0.001);
 
-        a = new XYPair(1,0);
-        b = new XYPair(-1,0);
+        a = new XYPair(1, 0);
+        b = new XYPair(-1, 0);
 
         assertEquals(-1, a.dotProduct(b), 0.001);
     }

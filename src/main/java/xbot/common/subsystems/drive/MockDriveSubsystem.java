@@ -76,22 +76,24 @@ public class MockDriveSubsystem extends BaseDriveSubsystem {
     }
 
     public void changeIntoTankDrive() {
-        leftTank = motorControllerFactory.create(CANMotorControllerInfo.builder("Left")
-                .withType(MotorControllerType.SparkMax).withCanBus(CANPort.CAN_S0, 0).build(), this.getPrefix(), this.getPrefix());
-        rightTank = motorControllerFactory.create(CANMotorControllerInfo.builder("Left")
-                .withType(MotorControllerType.SparkMax).withCanBus(CANPort.CAN_S0, 1).build(), this.getPrefix(), this.getPrefix());
+        leftTank = motorControllerFactory.create(
+                CANMotorControllerInfo.builder("Left").withType(MotorControllerType.SparkMax).withCanBus(CANPort.CAN_S0, 0).build(), this.getPrefix(),
+                this.getPrefix());
+        rightTank = motorControllerFactory.create(
+                CANMotorControllerInfo.builder("Left").withType(MotorControllerType.SparkMax).withCanBus(CANPort.CAN_S0, 1).build(), this.getPrefix(),
+                this.getPrefix());
     }
 
     public void changeIntoMecanum() {
         // for simple tests, assume tank drive.
-        fl = motorControllerFactory.create(CANMotorControllerInfo.builder("FL")
-                .withType(MotorControllerType.SparkMax).withCanBus(CANPort.CAN_S0, 2).build(), this.getPrefix(), this.getPrefix());
-        rl = motorControllerFactory.create(CANMotorControllerInfo.builder("RL")
-                .withType(MotorControllerType.SparkMax).withCanBus(CANPort.CAN_S0, 3).build(), this.getPrefix(), this.getPrefix());
-        fr = motorControllerFactory.create(CANMotorControllerInfo.builder("FR")
-                .withType(MotorControllerType.SparkMax).withCanBus(CANPort.CAN_S0, 4).build(), this.getPrefix(), this.getPrefix());
-        rr = motorControllerFactory.create(CANMotorControllerInfo.builder("RR")
-                .withType(MotorControllerType.SparkMax).withCanBus(CANPort.CAN_S0, 5).build(), this.getPrefix(), this.getPrefix());
+        fl = motorControllerFactory.create(CANMotorControllerInfo.builder("FL").withType(MotorControllerType.SparkMax).withCanBus(CANPort.CAN_S0, 2).build(),
+                this.getPrefix(), this.getPrefix());
+        rl = motorControllerFactory.create(CANMotorControllerInfo.builder("RL").withType(MotorControllerType.SparkMax).withCanBus(CANPort.CAN_S0, 3).build(),
+                this.getPrefix(), this.getPrefix());
+        fr = motorControllerFactory.create(CANMotorControllerInfo.builder("FR").withType(MotorControllerType.SparkMax).withCanBus(CANPort.CAN_S0, 4).build(),
+                this.getPrefix(), this.getPrefix());
+        rr = motorControllerFactory.create(CANMotorControllerInfo.builder("RR").withType(MotorControllerType.SparkMax).withCanBus(CANPort.CAN_S0, 5).build(),
+                this.getPrefix(), this.getPrefix());
     }
 
     @Override

@@ -21,7 +21,7 @@ public class AnalogHIDButtonConfiguration {
 
     /**
      * Supplier indicates whether the analog value is in the button's range
-     * 
+     *
      * @return A supplier for the value of the joystick button
      */
     public BooleanSupplier getSupplier() {

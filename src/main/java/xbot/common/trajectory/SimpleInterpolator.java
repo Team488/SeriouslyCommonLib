@@ -20,7 +20,6 @@ import static org.wpilib.units.Units.MetersPerSecond;
 
 public class SimpleInterpolator {
 
-
     ProvidesInterpolationData baseline;
     int index;
     double minimumDistanceFromChasePointInMeters = 0.3;
@@ -54,24 +53,22 @@ public class SimpleInterpolator {
             this(chasePoint, isOnFinalPoint, chaseHeading, null);
         }
 
-        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading,
-                                   Translation2d plannedVector) {
+        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading, Translation2d plannedVector) {
             this(chasePoint, isOnFinalPoint, chaseHeading, plannedVector, 0);
         }
 
-        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading,
-                                   Translation2d plannedVector, double distanceToTargetPoint) {
+        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading, Translation2d plannedVector,
+                double distanceToTargetPoint) {
             this(chasePoint, isOnFinalPoint, chaseHeading, plannedVector, distanceToTargetPoint, 0);
         }
 
-        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading,
-                                   Translation2d plannedVector, double distanceToTargetPoint, double lerpFraction) {
+        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading, Translation2d plannedVector,
+                double distanceToTargetPoint, double lerpFraction) {
             this(chasePoint, isOnFinalPoint, chaseHeading, plannedVector, distanceToTargetPoint, lerpFraction, false);
         }
 
-        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading,
-                                   Translation2d plannedVector, double distanceToTargetPoint, double lerpFraction,
-                                   boolean isOnFinalLeg) {
+        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading, Translation2d plannedVector,
+                double distanceToTargetPoint, double lerpFraction, boolean isOnFinalLeg) {
             this.chasePoint = chasePoint;
             this.isOnFinalPoint = isOnFinalPoint;
             this.chaseHeading = chaseHeading;
@@ -82,7 +79,7 @@ public class SimpleInterpolator {
         }
     }
 
-    public void setKeyPoints(List<? extends ProvidesInterpolationData > keyPoints) {
+    public void setKeyPoints(List<? extends ProvidesInterpolationData> keyPoints) {
         this.keyPoints = keyPoints;
     }
 
@@ -99,11 +96,7 @@ public class SimpleInterpolator {
     }
 
     public SwerveKinematicsCalculator newCalculator(Translation2d targetPointTranslation2d, SwervePointKinematics kinematics) {
-        return new SwerveKinematicsCalculator(
-                Meters.zero(),
-                Meters.of(baseline.getTranslation2d().minus(targetPointTranslation2d).getNorm()),
-                kinematics
-        );
+        return new SwerveKinematicsCalculator(Meters.zero(), Meters.of(baseline.getTranslation2d().minus(targetPointTranslation2d).getNorm()), kinematics);
     }
 
     public InterpolationResult calculateTarget(Translation2d currentLocation) {
@@ -157,13 +150,12 @@ public class SimpleInterpolator {
             }
         }
 
-        boolean targetingFinalPoint = (index == keyPoints.size() - 1)
-                && (currentLocation.getDistance(chasePoint) < minimumDistanceFromChasePointInMeters);
+        boolean targetingFinalPoint = (index == keyPoints.size() - 1) && (currentLocation.getDistance(chasePoint) < minimumDistanceFromChasePointInMeters);
         boolean isOnFinalLeg = (index == keyPoints.size() - 1);
         double distanceToTarget = currentLocation.getDistance(targetKeyPoint.getTranslation2d());
         // Since we are not interpolating along a time fraction, set lerpFraction to 0.
         double lerpFraction = 0;
-        return new InterpolationResult(chasePoint, targetingFinalPoint, targetKeyPoint.getRotation2d(), plannedVector,
-                distanceToTarget, lerpFraction, isOnFinalLeg);
+        return new InterpolationResult(chasePoint, targetingFinalPoint, targetKeyPoint.getRotation2d(), plannedVector, distanceToTarget, lerpFraction,
+                isOnFinalLeg);
     }
 }

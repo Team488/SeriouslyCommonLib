@@ -17,25 +17,16 @@ public class FieldPoseTunableManager {
 
     @AssistedFactory
     public abstract static class FieldPoseTunableManagerFactory {
-        public abstract FieldPoseTunableManager create(
-                @Assisted("poseName") String poseName,
-                @Assisted("x") double x,
-                @Assisted("y") double y,
+        public abstract FieldPoseTunableManager create(@Assisted("poseName") String poseName, @Assisted("x") double x, @Assisted("y") double y,
                 @Assisted("heading") double heading);
 
-        public FieldPoseTunableManager create(
-                String poseName,
-                FieldPose fieldPose) {
+        public FieldPoseTunableManager create(String poseName, FieldPose fieldPose) {
             return create(poseName, fieldPose.getPoint().x, fieldPose.getPoint().y, fieldPose.getHeading().getDegrees());
         }
     }
 
     @AssistedInject
-    public FieldPoseTunableManager(
-            @Assisted("poseName") String poseName,
-            @Assisted("x") double x,
-            @Assisted("y") double y,
-            @Assisted("heading") double heading,
+    public FieldPoseTunableManager(@Assisted("poseName") String poseName, @Assisted("x") double x, @Assisted("y") double y, @Assisted("heading") double heading,
             TunableFactory tunableFactory) {
         tunableFactory.setPrefix(poseName);
         xTunable = tunableFactory.createDouble("X", x);
@@ -44,8 +35,6 @@ public class FieldPoseTunableManager {
     }
 
     public FieldPose getPose() {
-        return new FieldPose(
-                new XYPair(xTunable.get(), yTunable.get()),
-                Rotation2d.fromDegrees(headingTunable.get()));
+        return new FieldPose(new XYPair(xTunable.get(), yTunable.get()), Rotation2d.fromDegrees(headingTunable.get()));
     }
 }

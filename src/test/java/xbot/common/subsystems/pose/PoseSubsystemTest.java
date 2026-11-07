@@ -16,7 +16,7 @@ public class PoseSubsystemTest extends BasePoseTest {
     @Override
     public void setup() {
         super.setup();
-        pose = (MockBasePoseSubsystem)getInjectorComponent().poseSubsystem();
+        pose = (MockBasePoseSubsystem) getInjectorComponent().poseSubsystem();
     }
 
     @Test
@@ -37,7 +37,7 @@ public class PoseSubsystemTest extends BasePoseTest {
     @Test
     public void testCalibrate() {
         changeMockGyroHeading(45);
-        verifyRobotHeading(BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS+45);
+        verifyRobotHeading(BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS + 45);
 
         pose.setCurrentHeading(90);
         verifyRobotHeading(90);
@@ -46,7 +46,7 @@ public class PoseSubsystemTest extends BasePoseTest {
     @Test
     public void testCalibrateAndMove() {
         changeMockGyroHeading(45);
-        verifyRobotHeading(BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS+45);
+        verifyRobotHeading(BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS + 45);
 
         pose.setCurrentHeading(90);
         verifyRobotHeading(90);
@@ -56,7 +56,7 @@ public class PoseSubsystemTest extends BasePoseTest {
     }
 
     @Test
-    public void testCrossBounds () {
+    public void testCrossBounds() {
         pose.setCurrentHeading(90);
 
         changeMockGyroHeading(180);
@@ -94,19 +94,18 @@ public class PoseSubsystemTest extends BasePoseTest {
         verifyRobotOrientedDistance(0);
     }
 
-    protected void setMockGyroHeading(double heading)
-    {
-        ((MockGyro)pose.imu).setYaw(Degrees.of(heading));
+    protected void setMockGyroHeading(double heading) {
+        ((MockGyro) pose.imu).setYaw(Degrees.of(heading));
         refreshPoseSubsystem();
     }
 
     protected void setMockGyroPitch(double pitch) {
-        ((MockGyro)pose.imu).setPitch(Degrees.of(pitch));
+        ((MockGyro) pose.imu).setPitch(Degrees.of(pitch));
         refreshPoseSubsystem();
     }
 
     protected void changeMockGyroHeading(double delta) {
-        double oldHeading = ((MockGyro)pose.imu).getDeviceYaw().in(Degrees);
+        double oldHeading = ((MockGyro) pose.imu).getDeviceYaw().in(Degrees);
         double newHeading = oldHeading + delta;
         setMockGyroHeading(newHeading);
         refreshPoseSubsystem();

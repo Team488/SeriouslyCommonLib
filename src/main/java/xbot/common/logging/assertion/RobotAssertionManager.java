@@ -1,18 +1,21 @@
 package xbot.common.logging.assertion;
 
 /**
- * Static entry point for robot assertions. Assertions are logged without throwing until a handler is configured.
- * Use a {@link RobotAssertionHandler} instance directly when an object needs its own failure policy.
+ * Static entry point for robot assertions. Assertions are logged without throwing until a handler is configured. Use a
+ * {@link RobotAssertionHandler} instance directly when an object needs its own failure policy.
  */
 public final class RobotAssertionManager {
     private static volatile RobotAssertionHandler assertionHandler = new SilentRobotAssertionHandler();
 
-    private RobotAssertionManager() {}
+    private RobotAssertionManager() {
+    }
 
     /**
-     * Selects the handler used by all subsequent assertions. Configure before creating robot systems or test fixtures.
-     * A null handler is reported through the current handler and leaves the configuration unchanged.
-     * @param handler the platform-specific assertion handler
+     * Selects the handler used by all subsequent assertions. Configure before creating robot systems or test fixtures. A
+     * null handler is reported through the current handler and leaves the configuration unchanged.
+     *
+     * @param handler
+     *            the platform-specific assertion handler
      */
     public static void configure(RobotAssertionHandler handler) {
         if (handler == null) {

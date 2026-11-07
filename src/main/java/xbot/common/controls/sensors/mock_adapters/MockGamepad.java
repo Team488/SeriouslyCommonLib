@@ -33,12 +33,8 @@ public class MockGamepad extends XGamepad {
     }
 
     @AssistedInject
-    public MockGamepad(
-            @Assisted("port") int port,
-            AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
-            AdvancedPovButtonTriggerFactory povButtonFactory,
-            AnalogHIDButtonTriggerFactory analogHidButtonFactory,
-            DevicePolice police) {
+    public MockGamepad(@Assisted("port") int port, AdvancedJoystickButtonTriggerFactory joystickButtonFactory, AdvancedPovButtonTriggerFactory povButtonFactory,
+            AnalogHIDButtonTriggerFactory analogHidButtonFactory, DevicePolice police) {
         super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, police);
 
         for (int i = LEFT_X_AXIS; i <= RIGHT_TRIGGER_AXIS; i++) {
@@ -128,10 +124,7 @@ public class MockGamepad extends XGamepad {
 
     @Override
     public POVDirection getPOV() {
-        return getPovDirection(
-                getButton(GamepadButton.DPAD_UP),
-                getButton(GamepadButton.DPAD_DOWN),
-                getButton(GamepadButton.DPAD_LEFT),
+        return getPovDirection(getButton(GamepadButton.DPAD_UP), getButton(GamepadButton.DPAD_DOWN), getButton(GamepadButton.DPAD_LEFT),
                 getButton(GamepadButton.DPAD_RIGHT));
     }
 

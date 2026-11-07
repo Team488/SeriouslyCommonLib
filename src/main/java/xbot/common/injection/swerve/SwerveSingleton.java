@@ -10,4 +10,5 @@ import javax.inject.Scope;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Scope
-public @interface SwerveSingleton {}
+public @interface SwerveSingleton {
+}

@@ -31,8 +31,7 @@ public class TunableManager implements DataFrameRefreshable {
     public static final String SHOW_DEBUG_KEY = "Tunables/ShowDebugTunables";
     public static final String AKIT_LOG_NAMESPACE = "TunableMirror/";
 
-    private static final org.apache.logging.log4j.Logger log =
-            LogManager.getLogger(TunableManager.class);
+    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(TunableManager.class);
 
     private final TunablePersistence persistentStorage;
     private final TunablePersistence debugStorage;
@@ -42,26 +41,16 @@ public class TunableManager implements DataFrameRefreshable {
     private final TunableBoolean showDebugTunables;
 
     @Inject
-    public TunableManager(
-            TunablePersistence persistentStorage,
-            @Named(IN_MEMORY_PERSISTENCE_NAME) TunablePersistence debugStorage) {
+    public TunableManager(TunablePersistence persistentStorage, @Named(IN_MEMORY_PERSISTENCE_NAME) TunablePersistence debugStorage) {
         this(persistentStorage, debugStorage, Logger.hasReplaySource());
     }
 
-    TunableManager(
-            TunablePersistence persistentStorage,
-            TunablePersistence debugStorage,
-            boolean replay) {
+    TunableManager(TunablePersistence persistentStorage, TunablePersistence debugStorage, boolean replay) {
         this.persistentStorage = persistentStorage;
         this.debugStorage = debugStorage;
         this.replay = replay;
 
-        BooleanTunableBinding showDebugBinding = new BooleanTunableBinding(
-                SHOW_DEBUG_KEY,
-                false,
-                TunableLevel.Important,
-                replay,
-                persistentStorage,
+        BooleanTunableBinding showDebugBinding = new BooleanTunableBinding(SHOW_DEBUG_KEY, false, TunableLevel.Important, replay, persistentStorage,
                 this::applyDebugPublication);
         register(showDebugBinding);
         this.showDebugTunables = showDebugBinding.tunable();
@@ -76,52 +65,25 @@ public class TunableManager implements DataFrameRefreshable {
     }
 
     TunableDouble createDouble(String key, double defaultValue, TunableLevel level) {
-        DoubleTunableBinding binding = new DoubleTunableBinding(
-                key,
-                defaultValue,
-                level,
-                replay,
-                storageFor(level),
-                this::applyDebugPublication);
+        DoubleTunableBinding binding = new DoubleTunableBinding(key, defaultValue, level, replay, storageFor(level), this::applyDebugPublication);
         register(binding);
         return binding.tunable();
     }
 
     TunableBoolean createBoolean(String key, boolean defaultValue, TunableLevel level) {
-        BooleanTunableBinding binding = new BooleanTunableBinding(
-                key,
-                defaultValue,
-                level,
-                replay,
-                storageFor(level),
-                this::applyDebugPublication);
+        BooleanTunableBinding binding = new BooleanTunableBinding(key, defaultValue, level, replay, storageFor(level), this::applyDebugPublication);
         register(binding);
         return binding.tunable();
     }
 
     Tunable<String> createString(String key, String defaultValue, TunableLevel level) {
-        StringTunableBinding binding = new StringTunableBinding(
-                key,
-                defaultValue,
-                level,
-                replay,
-                storageFor(level),
-                this::applyDebugPublication);
+        StringTunableBinding binding = new StringTunableBinding(key, defaultValue, level, replay, storageFor(level), this::applyDebugPublication);
         register(binding);
         return binding.tunable();
     }
 
-    <M extends Measure<U>, U extends Unit> TunableMeasure<M, U> createMeasure(
-            String key,
-            M defaultValue,
-            TunableLevel level) {
-        MeasureTunableBinding<M, U> binding = new MeasureTunableBinding<>(
-                key,
-                defaultValue,
-                level,
-                replay,
-                storageFor(level),
-                this::applyDebugPublication);
+    <M extends Measure<U>, U extends Unit> TunableMeasure<M, U> createMeasure(String key, M defaultValue, TunableLevel level) {
+        MeasureTunableBinding<M, U> binding = new MeasureTunableBinding<>(key, defaultValue, level, replay, storageFor(level), this::applyDebugPublication);
         register(binding);
         return binding.tunable();
     }
@@ -145,8 +107,7 @@ public class TunableManager implements DataFrameRefreshable {
     private void publish(ManagedTunableBinding binding) {
         if (!binding.publish()) {
             fail("WPILib rejected duplicate tunable publication for key: " + binding.key());
-            throw new IllegalStateException(
-                    "WPILib rejected duplicate tunable publication for key: " + binding.key());
+            throw new IllegalStateException("WPILib rejected duplicate tunable publication for key: " + binding.key());
         }
     }
 
@@ -174,8 +135,7 @@ public class TunableManager implements DataFrameRefreshable {
             return;
         }
 
-        String message =
-                "WPILib rejected duplicate debug tunable publication for key: " + binding.key();
+        String message = "WPILib rejected duplicate debug tunable publication for key: " + binding.key();
         log.error(message);
         try {
             RobotAssertionManager.fail(message);

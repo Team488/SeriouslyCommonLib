@@ -33,12 +33,7 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().digitalOutputFactory().create(3);
         getInjectorComponent().speedControllerFactory().create(2);
         getInjectorComponent().motorControllerFactory()
-                .create(
-                        CANMotorControllerInfo.builder("")
-                                .withType(MotorControllerType.TalonFx).withCanBus(CANBusId.Canivore, 12).build(),
-                        "",
-                        "",
-                        null);
+                .create(CANMotorControllerInfo.builder("").withType(MotorControllerType.TalonFx).withCanBus(CANBusId.Canivore, 12).build(), "", "", null);
         XJoystick j = getInjectorComponent().joystickFactory().create(1, 12);
         getInjectorComponent().joystickButtonFactory().create(j, 1);
         getInjectorComponent().analogHidButtonFactory().create(j, 1, -1, 1);
@@ -52,26 +47,24 @@ public class TestAllFactoryClasses extends BaseCommonLibTest {
         getInjectorComponent().compressorFactory().create();
         getInjectorComponent().pwmFactory().create(3);
         getInjectorComponent().fieldPoseTunableManagerFactory().create("testo", 1, 2, 3);
-        getInjectorComponent().chordButtonFactory().create(
-            getInjectorComponent().joystickButtonFactory().create(j, 2),
-            getInjectorComponent().joystickButtonFactory().create(j, 3));
+        getInjectorComponent().chordButtonFactory().create(getInjectorComponent().joystickButtonFactory().create(j, 2),
+                getInjectorComponent().joystickButtonFactory().create(j, 3));
         getInjectorComponent().virtualButtonFactory().create();
-        getInjectorComponent().doubleSolenoidFactory().create(
-            getInjectorComponent().solenoidFactory().create(2),
-            getInjectorComponent().solenoidFactory().create(3));
-//        getInjectorComponent().canSparkMaxFactory().create(
-//                DeviceInfo.builder("left").withCanBus(CANPort.CAN_S0, 10).build(), "drive", "left", "motorGroup");
-//        getInjectorComponent().canSparkMaxFactory().create(
-//                DeviceInfo.builder("left").withCanBus(CANPort.CAN_S0, 11).build(), "drive", "left", "motorGroup",
-//                new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
+        getInjectorComponent().doubleSolenoidFactory().create(getInjectorComponent().solenoidFactory().create(2),
+                getInjectorComponent().solenoidFactory().create(3));
+        //        getInjectorComponent().canSparkMaxFactory().create(
+        //                DeviceInfo.builder("left").withCanBus(CANPort.CAN_S0, 10).build(), "drive", "left", "motorGroup");
+        //        getInjectorComponent().canSparkMaxFactory().create(
+        //                DeviceInfo.builder("left").withCanBus(CANPort.CAN_S0, 11).build(), "drive", "left", "motorGroup",
+        //                new XCANSparkMaxPIDProperties(1, 0, 0, 0, 0, 0.5, -0.5));
 
         getInjectorComponent().absoluteEncoderFactory().create(DeviceInfo.builder("test").withCanBus(CANPort.CAN_S0, 6).build(), "test");
         getInjectorComponent().stallDetectorFactory().create("owningSystem");
         getInjectorComponent().canCoderFactory().create(DeviceInfo.builder("test").withCanBus(CANPort.CAN_S0, 7).build(), "test");
         getInjectorComponent().dutyCycleEncoderFactory().create(DeviceInfo.builder("test").withChannel(8).build());
         getInjectorComponent().laserCANFactory().create(DeviceInfo.builder("laserTest").withCanBus(CANPort.CAN_S0, 9).build(), "test");
-        getInjectorComponent().lightControllerFactory().create(CANLightControllerInfo.builder("lights")
-                .withType(LightControllerType.Candle).withCanBus(CANPort.CAN_S0, 60).build());
+        getInjectorComponent().lightControllerFactory()
+                .create(CANLightControllerInfo.builder("lights").withType(LightControllerType.Candle).withCanBus(CANPort.CAN_S0, 60).build());
 
     }
 

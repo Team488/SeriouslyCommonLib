@@ -36,15 +36,12 @@ public class MockCANCoder extends XCANCoder {
 
     @AssistedFactory
     public abstract static class MockCANCoderFactory implements XCANCoderFactory {
-        public abstract MockCANCoder create(
-            @Assisted("deviceInfo") DeviceInfo deviceInfo,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix);
+        public abstract MockCANCoder create(@Assisted("deviceInfo") DeviceInfo deviceInfo, @Assisted("owningSystemPrefix") String owningSystemPrefix);
     }
 
     @AssistedInject
-    public MockCANCoder(@Assisted("deviceInfo") DeviceInfo deviceInfo,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            DevicePolice police, TunableFactory tunableFactory, DataFrameRegistry dataFrameRegistry) {
+    public MockCANCoder(@Assisted("deviceInfo") DeviceInfo deviceInfo, @Assisted("owningSystemPrefix") String owningSystemPrefix, DevicePolice police,
+            TunableFactory tunableFactory, DataFrameRegistry dataFrameRegistry) {
         super(deviceInfo, dataFrameRegistry);
         tunableFactory.setPrefix(owningSystemPrefix);
 
@@ -96,7 +93,6 @@ public class MockCANCoder extends XCANCoder {
         return DeviceHealth.Healthy;
     }
 
-
     @Override
     public StatusCode setUpdateFrequencyForPosition(double frequencyInHz) {
         return StatusCode.OK;
@@ -123,6 +119,7 @@ public class MockCANCoder extends XCANCoder {
         inputs.position = getPosition_internal();
         inputs.deviceHealth = getHealth_internal().toString();
     }
+
     @Override
     public void updateInputs(XCANCoderInputs inputs) {
         inputs.hasResetOccurred = hasResetOccurred_internal();

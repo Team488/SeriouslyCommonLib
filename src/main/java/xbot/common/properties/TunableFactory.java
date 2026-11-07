@@ -73,10 +73,7 @@ public class TunableFactory {
         return createDouble(suffix, defaultValue, defaultLevel);
     }
 
-    public TunableDouble createDouble(
-            String suffix,
-            double defaultValue,
-            TunableLevel level) {
+    public TunableDouble createDouble(String suffix, double defaultValue, TunableLevel level) {
         return manager.createDouble(fullKey(suffix), defaultValue, level);
     }
 
@@ -84,10 +81,7 @@ public class TunableFactory {
         return createBoolean(suffix, defaultValue, defaultLevel);
     }
 
-    public TunableBoolean createBoolean(
-            String suffix,
-            boolean defaultValue,
-            TunableLevel level) {
+    public TunableBoolean createBoolean(String suffix, boolean defaultValue, TunableLevel level) {
         return manager.createBoolean(fullKey(suffix), defaultValue, level);
     }
 
@@ -95,23 +89,15 @@ public class TunableFactory {
         return createString(suffix, defaultValue, defaultLevel);
     }
 
-    public Tunable<String> createString(
-            String suffix,
-            String defaultValue,
-            TunableLevel level) {
+    public Tunable<String> createString(String suffix, String defaultValue, TunableLevel level) {
         return manager.createString(fullKey(suffix), defaultValue, level);
     }
 
-    public <M extends Measure<U>, U extends Unit> TunableMeasure<M, U> createMeasure(
-            String suffix,
-            M defaultValue) {
+    public <M extends Measure<U>, U extends Unit> TunableMeasure<M, U> createMeasure(String suffix, M defaultValue) {
         return createMeasure(suffix, defaultValue, defaultLevel);
     }
 
-    public <M extends Measure<U>, U extends Unit> TunableMeasure<M, U> createMeasure(
-            String suffix,
-            M defaultValue,
-            TunableLevel level) {
+    public <M extends Measure<U>, U extends Unit> TunableMeasure<M, U> createMeasure(String suffix, M defaultValue, TunableLevel level) {
         String unitSuffix = "-in-" + Pluralizer.pluralize(defaultValue.unit().name());
         return manager.createMeasure(fullKey(suffix + unitSuffix), defaultValue, level);
     }
@@ -123,19 +109,14 @@ public class TunableFactory {
 
     private void checkPrefixSet() {
         if (!prefixSet) {
-            RobotAssertionManager.fail(
-                    "Call setPrefix() on TunableFactory before creating tunables, "
-                            + "or call setTopLevelPrefix() for root tunables.");
+            RobotAssertionManager.fail("Call setPrefix() on TunableFactory before creating tunables, " + "or call setTopLevelPrefix() for root tunables.");
         }
     }
 
     private String sanitize(String key) {
         String sanitizedKey = key.replace(",", "").replace("\n", "");
         if (!sanitizedKey.equals(key)) {
-            log.warn(
-                    "Tunable '{}' contained illegal characters and was sanitized to '{}'",
-                    key,
-                    sanitizedKey);
+            log.warn("Tunable '{}' contained illegal characters and was sanitized to '{}'", key, sanitizedKey);
         }
         return sanitizedKey;
     }

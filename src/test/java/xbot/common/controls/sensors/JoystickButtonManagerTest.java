@@ -52,7 +52,7 @@ public class JoystickButtonManagerTest extends BaseCommonLibTest {
 
     @Test
     public void testPovDirections() {
-        MockJoystick mockJoystick = (MockJoystick)testJoystick;
+        MockJoystick mockJoystick = (MockJoystick) testJoystick;
         assertEquals(POVDirection.CENTER, mockJoystick.getPOV());
 
         mockJoystick.setPOV(POVDirection.RIGHT);
@@ -68,7 +68,7 @@ public class JoystickButtonManagerTest extends BaseCommonLibTest {
 
     @Test
     public void testVectorUsesBothAxes() {
-        MockJoystick mockJoystick = (MockJoystick)testJoystick;
+        MockJoystick mockJoystick = (MockJoystick) testJoystick;
         mockJoystick.setRawAxis(0, 0.25);
         mockJoystick.setRawAxis(1, 0.75);
 
@@ -82,8 +82,7 @@ public class JoystickButtonManagerTest extends BaseCommonLibTest {
         try {
             testJoystick.getifAvailable(i);
             fail();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // nice!
         }
     }

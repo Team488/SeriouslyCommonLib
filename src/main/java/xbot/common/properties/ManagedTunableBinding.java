@@ -21,8 +21,7 @@ abstract class ManagedTunableBinding {
 
         String normalizedKey = key.startsWith("/") ? key.substring(1) : key;
         int lastSlash = normalizedKey.lastIndexOf('/');
-        String logParent =
-                lastSlash < 0 ? "" : normalizedKey.substring(0, lastSlash) + "/";
+        String logParent = lastSlash < 0 ? "" : normalizedKey.substring(0, lastSlash) + "/";
         this.logPrefix = TunableManager.AKIT_LOG_NAMESPACE + logParent;
         this.logName = normalizedKey.substring(lastSlash + 1);
     }

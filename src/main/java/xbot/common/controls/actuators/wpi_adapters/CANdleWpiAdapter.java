@@ -38,8 +38,7 @@ import xbot.common.resiliency.DeviceHealth;
 public class CANdleWpiAdapter extends XCANLightController {
     @AssistedFactory
     public abstract static class CANdleWpiAdapterFactory implements XCANLightController.XCANLightControllerFactory {
-        public abstract CANdleWpiAdapter create(
-                @Assisted("info") CANLightControllerInfo info);
+        public abstract CANdleWpiAdapter create(@Assisted("info") CANLightControllerInfo info);
     }
 
     public static final int SLOT_COUNT = 8;
@@ -49,9 +48,7 @@ public class CANdleWpiAdapter extends XCANLightController {
     public final CANdle candle;
 
     @AssistedInject
-    public CANdleWpiAdapter(
-            @Assisted("info") CANLightControllerInfo deviceInfo,
-            DevicePolice police) {
+    public CANdleWpiAdapter(@Assisted("info") CANLightControllerInfo deviceInfo, DevicePolice police) {
         super(deviceInfo, police);
         candle = new CANdle(deviceInfo.deviceId(), deviceInfo.canBusId().toPhoenixCANBus());
 
@@ -81,87 +78,55 @@ public class CANdleWpiAdapter extends XCANLightController {
     @Override
     public void colorFlow(int slot, Frequency frameRate, Color color) {
         this.candle.setControl(
-                new ColorFlowAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot))
-                        .withSlot(slot)
-                        .withFrameRate(frameRate)
-                        .withColor(toRGBWColor(color)));
+                new ColorFlowAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot)).withSlot(slot).withFrameRate(frameRate).withColor(toRGBWColor(color)));
     }
 
     @Override
     public void fire(int slot, Frequency frameRate, double brightness, double cooling, double sparking) {
-        this.candle.setControl(
-                new FireAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot))
-                        .withSlot(slot)
-                        .withFrameRate(frameRate)
-                        .withBrightness(brightness)
-                        .withCooling(cooling)
-                        .withSparking(sparking));
+        this.candle.setControl(new FireAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot)).withSlot(slot).withFrameRate(frameRate)
+                .withBrightness(brightness).withCooling(cooling).withSparking(sparking));
     }
 
     @Override
     public void larson(int slot, Frequency frameRate, Color color, LarsonBounceValue bounceValue) {
-        this.candle.setControl(
-                new LarsonAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot))
-                        .withSlot(slot)
-                        .withFrameRate(frameRate)
-                        .withColor(toRGBWColor(color))
-                        .withBounceMode(bounceValue));
+        this.candle.setControl(new LarsonAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot)).withSlot(slot).withFrameRate(frameRate)
+                .withColor(toRGBWColor(color)).withBounceMode(bounceValue));
     }
 
     @Override
     public void rainbow(int slot, Frequency frameRate, double brightness, AnimationDirectionValue animationDirection) {
-        this.candle.setControl(
-                new RainbowAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot))
-                        .withSlot(slot)
-                        .withFrameRate(frameRate)
-                        .withBrightness(brightness)
-                        .withDirection(animationDirection));
+        this.candle.setControl(new RainbowAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot)).withSlot(slot).withFrameRate(frameRate)
+                .withBrightness(brightness).withDirection(animationDirection));
     }
 
     @Override
     public void rgbFade(int slot, Frequency frameRate, double brightness) {
         this.candle.setControl(
-                new RgbFadeAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot))
-                        .withSlot(slot)
-                        .withFrameRate(frameRate)
-                        .withBrightness(brightness));
+                new RgbFadeAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot)).withSlot(slot).withFrameRate(frameRate).withBrightness(brightness));
     }
 
     @Override
     public void singleFade(int slot, Frequency frameRate, Color color) {
         this.candle.setControl(
-                new SingleFadeAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot))
-                        .withSlot(slot)
-                        .withFrameRate(frameRate)
-                        .withColor(toRGBWColor(color)));
+                new SingleFadeAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot)).withSlot(slot).withFrameRate(frameRate).withColor(toRGBWColor(color)));
     }
 
     @Override
     public void strobe(int slot, Frequency frameRate, Color color) {
         this.candle.setControl(
-                new StrobeAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot))
-                        .withSlot(slot)
-                        .withFrameRate(frameRate)
-                        .withColor(toRGBWColor(color)));
+                new StrobeAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot)).withSlot(slot).withFrameRate(frameRate).withColor(toRGBWColor(color)));
     }
 
     @Override
     public void twinkleOff(int slot, Frequency frameRate, double density, Color color) {
-        this.candle.setControl(
-                new TwinkleOffAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot))
-                        .withSlot(slot)
-                        .withFrameRate(frameRate)
-                        .withMaxLEDsOnProportion(density)
-                        .withColor(toRGBWColor(color)));
+        this.candle.setControl(new TwinkleOffAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot)).withSlot(slot).withFrameRate(frameRate)
+                .withMaxLEDsOnProportion(density).withColor(toRGBWColor(color)));
     }
 
     @Override
     public void twinkle(int slot, Frequency frameRate, Color color) {
         this.candle.setControl(
-                new TwinkleAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot))
-                        .withSlot(slot)
-                        .withFrameRate(frameRate)
-                        .withColor(toRGBWColor(color)));
+                new TwinkleAnimation(getSlotStartIndex(slot), getSlotEndIndex(slot)).withSlot(slot).withFrameRate(frameRate).withColor(toRGBWColor(color)));
     }
 
     /**

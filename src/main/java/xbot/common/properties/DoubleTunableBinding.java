@@ -24,13 +24,7 @@ final class DoubleTunableBinding extends ManagedTunableBinding {
         }
     };
 
-    DoubleTunableBinding(
-            String key,
-            double defaultValue,
-            TunableLevel level,
-            boolean replay,
-            TunablePersistence persistence,
-            Runnable onValueChanged) {
+    DoubleTunableBinding(String key, double defaultValue, TunableLevel level, boolean replay, TunablePersistence persistence, Runnable onValueChanged) {
         super(key, level, replay);
         this.persistence = persistence;
         this.onValueChanged = onValueChanged;

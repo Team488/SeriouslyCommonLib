@@ -6,32 +6,30 @@ import org.wpilib.hardware.bus.CANPort;
  * Motor-controller configuration. Construction does not validate or reserve hardware.
  *
  * <pre>{@code
- * CANMotorControllerInfo motor = CANMotorControllerInfo.builder("Drive")
- *         .withType(MotorControllerType.TalonFx)
- *         .withCanBus(CANBusId.Canivore, 1)
- *         .withPdhPort(PDHPort.PDH01)
- *         .build();
+ * CANMotorControllerInfo motor = CANMotorControllerInfo.builder("Drive").withType(MotorControllerType.TalonFx).withCanBus(CANBusId.Canivore, 1)
+ *         .withPdhPort(PDHPort.PDH01).build();
  * }</pre>
  *
- * @param name device name
- * @param type motor-controller type
- * @param busId CAN bus identity
- * @param deviceId CAN device number
- * @param pdhPort power-distribution port metadata
- * @param outputConfig output configuration, retained by reference
+ * @param name
+ *            device name
+ * @param type
+ *            motor-controller type
+ * @param busId
+ *            CAN bus identity
+ * @param deviceId
+ *            CAN device number
+ * @param pdhPort
+ *            power-distribution port metadata
+ * @param outputConfig
+ *            output configuration, retained by reference
  */
-public record CANMotorControllerInfo(
-        String name,
-        MotorControllerType type,
-        CANBusId busId,
-        int deviceId,
-        PDHPort pdhPort,
+public record CANMotorControllerInfo(String name, MotorControllerType type, CANBusId busId, int deviceId, PDHPort pdhPort,
         CANMotorControllerOutputConfig outputConfig) {
 
     /**
-     * Starts a SparkMax builder on CAN_S0 with no PDH port.
-     * Set the CAN address with {@link Builder#withCanBus(CANPort, int)}; an unspecified device ID is -1.
-     * Each build gets a fresh default output configuration unless one is explicitly supplied.
+     * Starts a SparkMax builder on CAN_S0 with no PDH port. Set the CAN address with
+     * {@link Builder#withCanBus(CANPort, int)}; an unspecified device ID is -1. Each build gets a fresh default output
+     * configuration unless one is explicitly supplied.
      */
     public static Builder builder(String name) {
         return new Builder(name);

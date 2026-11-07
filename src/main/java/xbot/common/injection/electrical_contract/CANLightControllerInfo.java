@@ -6,31 +6,27 @@ import org.wpilib.hardware.bus.CANPort;
  * Light-controller configuration. Construction does not validate or reserve hardware.
  *
  * <pre>{@code
- * CANLightControllerInfo lights = CANLightControllerInfo.builder("Lights")
- *         .withCanBus(CANPort.CAN_S0, 60)
- *         .withPowerFrom(PowerSource.PDH01)
- *         .build();
+ * CANLightControllerInfo lights = CANLightControllerInfo.builder("Lights").withCanBus(CANPort.CAN_S0, 60).withPowerFrom(PowerSource.PDH01).build();
  * }</pre>
  *
- * @param name device name
- * @param type light-controller type
- * @param canBusId CAN bus identity
- * @param deviceId CAN device number
- * @param outputConfig output configuration, retained by reference
- * @param powerFrom power-source metadata
+ * @param name
+ *            device name
+ * @param type
+ *            light-controller type
+ * @param canBusId
+ *            CAN bus identity
+ * @param deviceId
+ *            CAN device number
+ * @param outputConfig
+ *            output configuration, retained by reference
+ * @param powerFrom
+ *            power-source metadata
  */
-public record CANLightControllerInfo(
-        String name,
-        LightControllerType type,
-        CANBusId canBusId,
-        int deviceId,
-        CANLightControllerOutputConfig outputConfig,
-        PowerSource powerFrom
-) {
+public record CANLightControllerInfo(String name, LightControllerType type, CANBusId canBusId, int deviceId, CANLightControllerOutputConfig outputConfig,
+        PowerSource powerFrom) {
     /**
-     * Starts a CANdle builder on CAN_S0 with the existing default light configuration
-     * and no power-source metadata. Set the CAN address with {@link Builder#withCanBus(CANPort, int)};
-     * an unspecified device ID is -1.
+     * Starts a CANdle builder on CAN_S0 with the existing default light configuration and no power-source metadata. Set the
+     * CAN address with {@link Builder#withCanBus(CANPort, int)}; an unspecified device ID is -1.
      */
     public static Builder builder(String name) {
         return new Builder(name);

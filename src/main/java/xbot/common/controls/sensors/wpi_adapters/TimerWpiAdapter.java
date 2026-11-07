@@ -11,7 +11,8 @@ import xbot.common.controls.sensors.XSettableTimerImpl;
 public class TimerWpiAdapter implements XSettableTimerImpl {
 
     @Inject
-    public TimerWpiAdapter() {}
+    public TimerWpiAdapter() {
+    }
 
     @Override
     public double getFPGATimestamp() {
@@ -29,12 +30,12 @@ public class TimerWpiAdapter implements XSettableTimerImpl {
     }
 
     @Override
-    public void setTimeInSeconds(double time) {        
+    public void setTimeInSeconds(double time) {
         // Deliberately do nothing.
     }
 
     @Override
     public void advanceTimeInSecondsBy(double time) {
-        // Deliberately do nothing.        
+        // Deliberately do nothing.
     }
 }

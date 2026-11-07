@@ -6,6 +6,8 @@ import org.wpilib.math.geometry.Rotation2d;
 public interface ISwerveAdvisorPoseSupport {
 
     public boolean getHeadingResetRecently();
+
     public Rotation2d getCurrentHeading();
+
     public Pose2d getCurrentPose2d();
 }
