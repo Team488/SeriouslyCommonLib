@@ -12,10 +12,14 @@ import xbot.common.properties.TunableLevel;
 
 /**
  * A command that maintains a subsystem at a goal value (and allows human override).
- * @param <TargetT> The type of the setpoint being maintained.
- * @param <PowerT> The type of the power being applied to the subsystem.
- * It runs a state machine to decide if the subsystem should be in human control, machine control, or coasting:
- * <pre class="mermaid">
+ *
+ * @param <TargetT>
+ *            The type of the setpoint being maintained.
+ * @param <PowerT>
+ *            The type of the power being applied to the subsystem. It runs a state machine to decide if the subsystem
+ *            should be in human control, machine control, or coasting:
+ *
+ *            <pre class="mermaid">
     flowchart TD
         C[Coast]
         HC[HumanControl]
@@ -28,12 +32,11 @@ import xbot.common.properties.TunableLevel;
         R-- Yes -->C
         R-- No -->IMC
         IMC-->MC
- * </pre>
+ *            </pre>
  */
 public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand {
 
     BaseSetpointSubsystem<TargetT, PowerT> subsystemToMaintain;
-
 
     protected final TunableDouble errorToleranceTunable;
     protected final TunableDouble errorTimeStableWindowTunable;
@@ -41,37 +44,43 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
     protected final TimeStableValidator timeStableValidator;
     protected final HumanVsMachineDecider decider;
 
-
     /**
      * Creates a new maintainer command.
-     * @param subsystemToMaintain The subsystem to maintain.
-     * @param tunableFactory The tunable factory to use for creating configuration values.
-     * @param humanVsMachineDeciderFactory The decider factory to use for creating the decider.
-     * @param defaultErrorTolerance The default error tolerance.
-     * @param defaultTimeStableWindow The default time stable window.
+     *
+     * @param subsystemToMaintain
+     *            The subsystem to maintain.
+     * @param tunableFactory
+     *            The tunable factory to use for creating configuration values.
+     * @param humanVsMachineDeciderFactory
+     *            The decider factory to use for creating the decider.
+     * @param defaultErrorTolerance
+     *            The default error tolerance.
+     * @param defaultTimeStableWindow
+     *            The default time stable window.
      */
-    public BaseMaintainerCommand(BaseSetpointSubsystem<TargetT, PowerT> subsystemToMaintain,
-                                 TunableFactory tunableFactory,
-                                 HumanVsMachineDeciderFactory humanVsMachineDeciderFactory,
-                                 double defaultErrorTolerance, double defaultTimeStableWindow) {
-        this(subsystemToMaintain, tunableFactory, humanVsMachineDeciderFactory,
-                defaultErrorTolerance, defaultTimeStableWindow, "");
+    public BaseMaintainerCommand(BaseSetpointSubsystem<TargetT, PowerT> subsystemToMaintain, TunableFactory tunableFactory,
+            HumanVsMachineDeciderFactory humanVsMachineDeciderFactory, double defaultErrorTolerance, double defaultTimeStableWindow) {
+        this(subsystemToMaintain, tunableFactory, humanVsMachineDeciderFactory, defaultErrorTolerance, defaultTimeStableWindow, "");
     }
 
     /**
      * Creates a maintainer with an optional prefix before its command tunable path.
-     * @param subsystemToMaintain The subsystem to maintain.
-     * @param tunableFactory The factory for configuration values.
-     * @param humanVsMachineDeciderFactory The factory for the decider.
-     * @param defaultErrorTolerance The default error tolerance.
-     * @param defaultTimeStableWindow The default time stable window.
-     * @param tunablePrefix Additional prefix, or an empty string for the default command path.
+     *
+     * @param subsystemToMaintain
+     *            The subsystem to maintain.
+     * @param tunableFactory
+     *            The factory for configuration values.
+     * @param humanVsMachineDeciderFactory
+     *            The factory for the decider.
+     * @param defaultErrorTolerance
+     *            The default error tolerance.
+     * @param defaultTimeStableWindow
+     *            The default time stable window.
+     * @param tunablePrefix
+     *            Additional prefix, or an empty string for the default command path.
      */
-    public BaseMaintainerCommand(BaseSetpointSubsystem<TargetT, PowerT> subsystemToMaintain,
-                                TunableFactory tunableFactory,
-                                HumanVsMachineDeciderFactory humanVsMachineDeciderFactory,
-                                double defaultErrorTolerance, double defaultTimeStableWindow,
-                                String tunablePrefix) {
+    public BaseMaintainerCommand(BaseSetpointSubsystem<TargetT, PowerT> subsystemToMaintain, TunableFactory tunableFactory,
+            HumanVsMachineDeciderFactory humanVsMachineDeciderFactory, double defaultErrorTolerance, double defaultTimeStableWindow, String tunablePrefix) {
         this.subsystemToMaintain = subsystemToMaintain;
         this.addRequirements(subsystemToMaintain);
 
@@ -79,8 +88,7 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
         tunableFactory.setPrefix(prefix);
         tunableFactory.setDefaultLevel(TunableLevel.Important);
         errorToleranceTunable = tunableFactory.createDouble("Error Tolerance", defaultErrorTolerance);
-        errorTimeStableWindowTunable =
-                tunableFactory.createDouble("Error Time Stable Window", defaultTimeStableWindow);
+        errorTimeStableWindowTunable = tunableFactory.createDouble("Error Time Stable Window", defaultTimeStableWindow);
 
         timeStableValidator = new TimeStableValidator(() -> errorTimeStableWindowTunable.get());
         decider = humanVsMachineDeciderFactory.create(prefix);
@@ -93,7 +101,9 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
 
     /**
      * Resets the decider to the given mode.
-     * @param startInAutomaticMode True to start in automatic mode, false to start in human control mode.
+     *
+     * @param startInAutomaticMode
+     *            True to start in automatic mode, false to start in human control mode.
      */
     protected void resetDecider(boolean startInAutomaticMode) {
         decider.reset(startInAutomaticMode);
@@ -112,8 +122,7 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
     }
 
     /**
-     * Contains all the logic associated with keeping the subsystem
-     * at its goal.
+     * Contains all the logic associated with keeping the subsystem at its goal.
      */
     protected void maintain() {
         double humanInput = getHumanInputMagnitude();
@@ -121,25 +130,25 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
         aKitLog.record("CurrentMode", mode.toString());
 
         switch (mode) {
-            case Coast:
-                coastAction();
-                break;
-            case HumanControl:
-                humanControlAction();
-                break;
-            case InitializeMachineControl:
-                initializeMachineControlAction();
-                break;
-            case MachineControl:
-                if (subsystemToMaintain.isCalibrated()) {
-                    calibratedMachineControlAction();
-                } else {
-                    uncalibratedMachineControlAction();
-                }
-                break;
-            default:
-                // How did you get here?!?!
-                break;
+        case Coast:
+            coastAction();
+            break;
+        case HumanControl:
+            humanControlAction();
+            break;
+        case InitializeMachineControl:
+            initializeMachineControlAction();
+            break;
+        case MachineControl:
+            if (subsystemToMaintain.isCalibrated()) {
+                calibratedMachineControlAction();
+            } else {
+                uncalibratedMachineControlAction();
+            }
+            break;
+        default:
+            // How did you get here?!?!
+            break;
         }
     }
 
@@ -149,8 +158,7 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
     protected abstract void coastAction();
 
     /**
-     * The human control action. Typically, this simply assigns the human input to
-     * the subsystem.
+     * The human control action. Typically, this simply assigns the human input to the subsystem.
      */
     protected void humanControlAction() {
         // Typically simply assign human input
@@ -158,8 +166,7 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
     }
 
     /**
-     * The initialize machine control action. Typically, this sets the goal to the
-     * current position to avoid sudden changes.
+     * The initialize machine control action. Typically, this sets the goal to the current position to avoid sudden changes.
      */
     protected void initializeMachineControlAction() {
         // When we re-initialize machine control, we need to briefly "take" the setpoint
@@ -183,9 +190,8 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
     protected abstract void calibratedMachineControlAction();
 
     /**
-     * The uncalibrated machine control action. Typically, this defaults to human
-     * control, although this is a good candidate for being overridden with an
-     * auto-calibration sequence.
+     * The uncalibrated machine control action. Typically, this defaults to human control, although this is a good candidate
+     * for being overridden with an auto-calibration sequence.
      */
     protected void uncalibratedMachineControlAction() {
         humanControlAction();
@@ -193,6 +199,7 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
 
     /**
      * Checks if the subsystem is at its goal.
+     *
      * @return True if the subsystem is at its goal.
      */
     protected boolean isMaintainerAtGoal() {
@@ -211,9 +218,8 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
     }
 
     /**
-     * Maintainer systems already check for error tolerance and time stability. If
-     * there are any other checks that should be made, override this method and place them
-     * here.
+     * Maintainer systems already check for error tolerance and time stability. If there are any other checks that should be
+     * made, override this method and place them here.
      *
      * @return true by default, can be overridden by child classes.
      */
@@ -222,17 +228,12 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
     }
 
     /**
-     * Performs a simple difference between goal and target in order to see if we
-     * are close.
-     * if your subsystem needs to do something more complicated (for example, if you
-     * needed to
-     * compute difference via a ContiguousDouble) then override this method with a
-     * better
-     * computation.
+     * Performs a simple difference between goal and target in order to see if we are close. if your subsystem needs to do
+     * something more complicated (for example, if you needed to compute difference via a ContiguousDouble) then override
+     * this method with a better computation.
      */
     protected boolean getErrorWithinTolerance() {
-        if (Math.abs(getErrorMagnitude()) < errorToleranceTunable
-                .get()) {
+        if (Math.abs(getErrorMagnitude()) < errorToleranceTunable.get()) {
             return true;
         }
         return false;
@@ -242,20 +243,24 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
 
     /**
      * Gets the human input to use for the maintain command.
+     *
      * @return The human input.
      */
     protected abstract PowerT getHumanInput();
 
     /**
-     * Gets the magnitude of the human input to use for the maintain command,
-     * since the generic type {@code PowerT} may not be a number.
+     * Gets the magnitude of the human input to use for the maintain command, since the generic type {@code PowerT} may not
+     * be a number.
+     *
      * @return The magnitude of the human input.
      */
     protected abstract double getHumanInputMagnitude();
 
     /**
      * Sets the error tolerance for the maintain command.
-     * @param tolerance The error tolerance.
+     *
+     * @param tolerance
+     *            The error tolerance.
      */
     protected void setErrorTolerance(double tolerance) {
         errorToleranceTunable.set(tolerance);

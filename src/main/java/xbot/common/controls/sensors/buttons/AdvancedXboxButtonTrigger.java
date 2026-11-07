@@ -39,8 +39,7 @@ public class AdvancedXboxButtonTrigger extends AdvancedTrigger {
         this(controller, buttonName, () -> controller.getButton(buttonName));
     }
 
-    protected AdvancedXboxButtonTrigger(final XXboxController controller, final Button buttonName,
-            final BooleanSupplier supplier) {
+    protected AdvancedXboxButtonTrigger(final XXboxController controller, final Button buttonName, final BooleanSupplier supplier) {
         super(supplier);
         log.info("Creating XboxButton " + buttonName);
         this.controller = controller;

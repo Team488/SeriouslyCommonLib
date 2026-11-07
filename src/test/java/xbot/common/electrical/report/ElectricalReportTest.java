@@ -31,7 +31,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ElectricalReportTest {
 
-    enum Hardware { Shooter, Intake }
+    enum Hardware {
+        Shooter, Intake
+    }
 
     /** Shaped like a robot's abstract ElectricalContract: readiness plus tagged getters. */
     abstract static class BaseContract implements XElectricalReportContract {
@@ -58,11 +60,11 @@ public class ElectricalReportTest {
         public abstract CANMotorControllerInfo getIntakeMotor();
 
         public DeviceInfo getHomeSensor() {
-            return new DeviceInfo("HomeSensor", 0, PowerSource.RIO);
+            return DeviceInfo.builder("HomeSensor").withChannel(0).withPowerFrom(PowerSource.RIO).build();
         }
 
         public DeviceInfo getHoodServo() {
-            return new DeviceInfo("HoodServo", 3);
+            return DeviceInfo.builder("HoodServo").withChannel(3).build();
         }
     }
 
@@ -74,12 +76,14 @@ public class ElectricalReportTest {
 
         @Override
         public CANMotorControllerInfo getShooterMotor() {
-            return new CANMotorControllerInfo("Shooter", MotorControllerType.TalonFx, CANBusId.Canivore, 22, PDHPort.PDH02);
+            return CANMotorControllerInfo.builder("Shooter").withType(MotorControllerType.TalonFx).withCanBus(CANBusId.Canivore, 22).withPdhPort(PDHPort.PDH02)
+                    .build();
         }
 
         @Override
         public CANMotorControllerInfo getIntakeMotor() {
-            return new CANMotorControllerInfo("Intake", MotorControllerType.TalonFx, CANBusId.fromPort(CANPort.CAN_S0), 30, PDHPort.PDH03);
+            return CANMotorControllerInfo.builder("Intake").withType(MotorControllerType.TalonFx).withCanBus(CANPort.CAN_S0, 30).withPdhPort(PDHPort.PDH03)
+                    .build();
         }
 
         @Override
@@ -105,7 +109,8 @@ public class ElectricalReportTest {
 
         @ReadyWhen("Shoter")
         public CANMotorControllerInfo getFeederMotor() {
-            return new CANMotorControllerInfo("Feeder", MotorControllerType.TalonFx, CANBusId.Canivore, 23, PDHPort.PDH04);
+            return CANMotorControllerInfo.builder("Feeder").withType(MotorControllerType.TalonFx).withCanBus(CANBusId.Canivore, 23).withPdhPort(PDHPort.PDH04)
+                    .build();
         }
     }
 
@@ -127,8 +132,8 @@ public class ElectricalReportTest {
     @Test
     public void sortsIoByConvention() throws Exception {
         ElectricalReport.Discovery d = ElectricalReport.discover(new ShooterRobot());
-        assertEquals(List.of("HomeSensor"), d.dio.stream().map(x -> x.name).toList());
-        assertEquals(List.of("HoodServo"), d.pwm.stream().map(x -> x.name).toList());
+        assertEquals(List.of("HomeSensor"), d.dio.stream().map(DeviceInfo::name).toList());
+        assertEquals(List.of("HoodServo"), d.pwm.stream().map(DeviceInfo::name).toList());
     }
 
     @Test

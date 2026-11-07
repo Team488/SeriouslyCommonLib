@@ -1,6 +1,5 @@
 package xbot.common.math;
 
-
 public class MovingAverageForDouble extends MovingAverage<Double> {
     public MovingAverageForDouble(int size) {
         super(new SumFunction<Double>() {

@@ -29,13 +29,13 @@ public class MockLidarLite extends XLidarLite {
             Thread.sleep(5);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }        
+        }
     }
-    
+
     public void setTestDistance(int testDistance) {
         byte[] fakeDistance = new byte[2];
-        fakeDistance[0] = (byte)(testDistance >> 8);
-        fakeDistance[1] = (byte)(testDistance % 256);
+        fakeDistance[0] = (byte) (testDistance >> 8);
+        fakeDistance[1] = (byte) (testDistance % 256);
     }
 
 }

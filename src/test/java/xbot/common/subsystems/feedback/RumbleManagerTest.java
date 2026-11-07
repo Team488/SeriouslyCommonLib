@@ -24,9 +24,9 @@ public class RumbleManagerTest extends BaseCommonLibTest {
     public void setUp() {
         super.setUp();
 
-        this.gamepad = (MockGamepad)getInjectorComponent().gamepadFactory().create(0);
+        this.gamepad = (MockGamepad) getInjectorComponent().gamepadFactory().create(0);
         this.rumbleManager = new RumbleManager(this.gamepad);
-        this.timer = (MockTimer)getInjectorComponent().timerImplementation();
+        this.timer = (MockTimer) getInjectorComponent().timerImplementation();
     }
 
     @Test

@@ -9,15 +9,19 @@ import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.CANBusId;
 
 /**
- * A channel reservation, including the bus for CAN devices. Native bus identities are
- * accepted directly by {@link #can(CANPort, int)}.
+ * A channel reservation, including the bus for CAN devices. Native bus identities are accepted directly by
+ * {@link #can(CANPort, int)}.
  *
- * <p>Factories describe a request without throwing for invalid channel or bus values.
- * DevicePolice validates the complete request before reserving any channels.
+ * <p>
+ * Factories describe a request without throwing for invalid channel or bus values. DevicePolice validates the complete
+ * request before reserving any channels.
  *
- * @param type device type
- * @param canBus CAN bus, present only for CAN devices
- * @param channel channel or device number
+ * @param type
+ *            device type
+ * @param canBus
+ *            CAN bus, present only for CAN devices
+ * @param channel
+ *            channel or device number
  */
 public record DeviceAddress(DeviceType type, Optional<CANBusId> canBus, int channel) {
     public static DeviceAddress can(CANPort port, int channel) {

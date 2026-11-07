@@ -15,7 +15,6 @@ import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.Advanc
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
-import xbot.common.logging.RobotAssertionManager;
 import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
 
 public class XboxControllerWpiAdapter extends XXboxController {
@@ -29,10 +28,9 @@ public class XboxControllerWpiAdapter extends XXboxController {
 
     @AssistedInject
     public XboxControllerWpiAdapter(@Assisted("port") int port, AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
-            AdvancedPovButtonTriggerFactory povButtonFactory, AnalogHIDButtonTriggerFactory analogHidButtonFactory,
-            XRumbleManagerFactory rumbleManagerFactory, RobotAssertionManager manager, DevicePolice police) {
-        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, rumbleManagerFactory, manager,
-                police);
+            AdvancedPovButtonTriggerFactory povButtonFactory, AnalogHIDButtonTriggerFactory analogHidButtonFactory, XRumbleManagerFactory rumbleManagerFactory,
+            DevicePolice police) {
+        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, rumbleManagerFactory, police);
         controller = new XboxController(port);
     }
 
@@ -63,10 +61,7 @@ public class XboxControllerWpiAdapter extends XXboxController {
 
     @Override
     public POVDirection getPOV() {
-        return getPovDirection(
-                controller.getButton(Button.DPAD_UP),
-                controller.getButton(Button.DPAD_DOWN),
-                controller.getButton(Button.DPAD_LEFT),
+        return getPovDirection(controller.getButton(Button.DPAD_UP), controller.getButton(Button.DPAD_DOWN), controller.getButton(Button.DPAD_LEFT),
                 controller.getButton(Button.DPAD_RIGHT));
     }
 

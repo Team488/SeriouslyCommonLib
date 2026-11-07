@@ -9,7 +9,8 @@ import xbot.common.controls.sensors.XSettableTimerImpl;
 public class MockTimer implements XSettableTimerImpl {
 
     @Inject
-    public MockTimer() {}
+    public MockTimer() {
+    }
 
     double timeInSeconds;
 

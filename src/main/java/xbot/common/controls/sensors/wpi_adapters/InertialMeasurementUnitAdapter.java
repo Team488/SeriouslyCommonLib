@@ -43,8 +43,7 @@ public class InertialMeasurementUnitAdapter extends XGyro {
             this.imu = new OnboardIMU(imuInfo.mountOrientation());
             police.registerDevice(this, DeviceAddress.channel(DeviceType.IMU, imuInfo.deviceId()));
             log.info("IMU successfully created");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             isBroken = true;
             log.warn("IMU could not be created - gyro is broken!");
         }
@@ -72,11 +71,7 @@ public class InertialMeasurementUnitAdapter extends XGyro {
         inputs.yawAngularVelocity = getDeviceYawAngularVelocity();
         inputs.pitch = getDevicePitch();
         inputs.roll = getDeviceRoll();
-        inputs.acceleration = new LinearAcceleration[]{
-            getDeviceRawAccelX(),
-            getDeviceRawAccelY(),
-            getDeviceRawAccelZ()
-        };
+        inputs.acceleration = new LinearAcceleration[] { getDeviceRawAccelX(), getDeviceRawAccelY(), getDeviceRawAccelZ() };
         inputs.isConnected = isConnected();
     }
 
@@ -85,7 +80,7 @@ public class InertialMeasurementUnitAdapter extends XGyro {
         return isBroken;
     }
 
-    public AngularVelocity getDeviceYawAngularVelocity(){
+    public AngularVelocity getDeviceYawAngularVelocity() {
         return RadiansPerSecond.of(imu.getGyroRateZ());
     }
 

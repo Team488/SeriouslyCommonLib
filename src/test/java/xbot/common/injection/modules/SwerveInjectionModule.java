@@ -17,32 +17,24 @@ public class SwerveInjectionModule {
     @Provides
     @Singleton
     public @FrontLeftDrive SwerveComponent frontLeftSwerveComponent(SwerveComponent.Builder builder) {
-        return builder
-                .swerveInstance(new SwerveInstance("FrontLeftDrive"))
-                .build();
+        return builder.swerveInstance(new SwerveInstance("FrontLeftDrive")).build();
     }
 
     @Provides
     @Singleton
     public @FrontRightDrive SwerveComponent frontRightSwerveComponent(SwerveComponent.Builder builder) {
-        return builder
-                .swerveInstance(new SwerveInstance("FrontRightDrive"))
-                .build();
+        return builder.swerveInstance(new SwerveInstance("FrontRightDrive")).build();
     }
 
     @Provides
     @Singleton
     public @RearLeftDrive SwerveComponent rearLeftSwerveComponent(SwerveComponent.Builder builder) {
-        return builder
-                .swerveInstance(new SwerveInstance("RearLeftDrive"))
-                .build();
+        return builder.swerveInstance(new SwerveInstance("RearLeftDrive")).build();
     }
 
     @Provides
     @Singleton
     public @RearRightDrive SwerveComponent rearRightSwerveComponent(SwerveComponent.Builder builder) {
-        return builder
-                .swerveInstance(new SwerveInstance("RearRightDrive"))
-                .build();
+        return builder.swerveInstance(new SwerveInstance("RearRightDrive")).build();
     }
 }

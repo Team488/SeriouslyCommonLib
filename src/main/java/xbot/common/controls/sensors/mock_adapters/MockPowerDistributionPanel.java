@@ -11,8 +11,8 @@ import dagger.assisted.AssistedInject;
 import xbot.common.controls.sensors.XPowerDistributionPanel;
 
 /**
- * Mock implementation of XPowerDistributionPanel for testing purposes.
- * Allows setting mock voltage and mock current values for each channel.
+ * Mock implementation of XPowerDistributionPanel for testing purposes. Allows setting mock voltage and mock current
+ * values for each channel.
  */
 public class MockPowerDistributionPanel extends XPowerDistributionPanel {
     private final HashMap<Integer, Double> outputCurrents;

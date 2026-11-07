@@ -38,31 +38,22 @@ public class SwerveDriveSubsystem extends BaseSimpleSetpointSubsystem {
     private XCANMotorController motorController;
 
     @Inject
-    public SwerveDriveSubsystem(SwerveInstance swerveInstance, XCANMotorController.XCANMotorControllerFactory mcFactory,
-                                TunableFactory tunableFactory, XSwerveDriveElectricalContract electricalContract) {
+    public SwerveDriveSubsystem(SwerveInstance swerveInstance, XCANMotorController.XCANMotorControllerFactory mcFactory, TunableFactory tunableFactory,
+            XSwerveDriveElectricalContract electricalContract) {
         this.label = swerveInstance.label();
         log.info("Creating SwerveDriveSubsystem {}", this.label);
         aKitLog.setPrefix(this.getPrefix());
 
         tunableFactory.setPrefix(this.getPrefix());
-        this.metersPerMotorRotation = tunableFactory.createDouble(
-                "MetersPerMotorRotation", metersPerMotorRotationFromGearRatioAndWheelDiameter(
-                        electricalContract.getDriveGearRatio(),
-                        electricalContract.getDriveWheelDiameter()
-                )); // Measured value: 0.0492434, very close to precalculated 0.49.
+        // Measured value: 0.0492434, very close to precalculated 0.49.
+        this.metersPerMotorRotation = tunableFactory.createDouble("MetersPerMotorRotation",
+                metersPerMotorRotationFromGearRatioAndWheelDiameter(electricalContract.getDriveGearRatio(), electricalContract.getDriveWheelDiameter()));
         this.enableDrivePid = tunableFactory.createBoolean("EnableDrivePID", true);
         this.minVelocityToEngagePid = 0.01;
 
         if (electricalContract.isDriveReady()) {
-            this.motorController = mcFactory.create(
-                    electricalContract.getDriveMotor(swerveInstance),
-                    this.getPrefix(),
-                    "DrivePID",
-                    new XCANMotorControllerPIDProperties.Builder()
-                            .withVelocityFeedForward(0.01)
-                            .withMaxPowerOutput(1.0)
-                            .withMinPowerOutput(-1.0)
-                            .build());
+            this.motorController = mcFactory.create(electricalContract.getDriveMotor(swerveInstance), this.getPrefix(), "DrivePID",
+                    new XCANMotorControllerPIDProperties.Builder().withVelocityFeedForward(0.01).withMaxPowerOutput(1.0).withMinPowerOutput(-1.0).build());
             this.motorController.setPowerRange(-1, 1);
             setupStatusFramesAsNeeded();
             setCurrentLimitsForMode(CurrentLimitMode.Teleop);
@@ -75,8 +66,7 @@ public class SwerveDriveSubsystem extends BaseSimpleSetpointSubsystem {
     int autoSecondaryCurrentLimit = 40;
 
     public enum CurrentLimitMode {
-        Auto,
-        Teleop
+        Auto, Teleop
     }
 
     public void setCurrentLimitsForMode(CurrentLimitMode mode) {
@@ -116,9 +106,7 @@ public class SwerveDriveSubsystem extends BaseSimpleSetpointSubsystem {
      */
     @Override
     public Double getCurrentValue() {
-        return getMotorController()
-                .map(mc -> mc.getVelocity().in(RotationsPerSecond) * this.metersPerMotorRotation.get())
-                .orElse(0.0);
+        return getMotorController().map(mc -> mc.getVelocity().in(RotationsPerSecond) * this.metersPerMotorRotation.get()).orElse(0.0);
     }
 
     /**
@@ -138,9 +126,7 @@ public class SwerveDriveSubsystem extends BaseSimpleSetpointSubsystem {
     }
 
     public double getCurrentPositionValue() {
-        return getMotorController()
-                .map(mc -> mc.getPosition().in(Rotations) * this.metersPerMotorRotation.get())
-                .orElse(0.0);
+        return getMotorController().map(mc -> mc.getPosition().in(Rotations) * this.metersPerMotorRotation.get()).orElse(0.0);
     }
 
     @Override
@@ -152,7 +138,6 @@ public class SwerveDriveSubsystem extends BaseSimpleSetpointSubsystem {
     public boolean isCalibrated() {
         return true;
     }
-
 
     public Optional<XCANMotorController> getMotorController() {
         return Optional.ofNullable(this.motorController);

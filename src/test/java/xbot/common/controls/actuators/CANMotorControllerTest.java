@@ -16,7 +16,6 @@ import xbot.common.controls.actuators.mock_adapters.MockCANMotorController;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
-import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.injection.electrical_contract.MotorControllerType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -38,12 +37,7 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
     @Test
     public void createWithoutPIDProperties() {
 
-        CANMotorControllerInfo info = new CANMotorControllerInfo(
-                "Test",
-                MotorControllerType.TalonFx,
-                CANBusId.Canivore,
-                1,
-                new CANMotorControllerOutputConfig());
+        CANMotorControllerInfo info = CANMotorControllerInfo.builder("Test").withType(MotorControllerType.TalonFx).withCanBus(CANBusId.Canivore, 1).build();
 
         XCANMotorController motor = getInjectorComponent().motorControllerFactory().create(info, "TestOwningPrefix", "TestPIDPrefix", null);
 
@@ -60,21 +54,15 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
 
     @Test
     public void sameDeviceAlertsHaveIndependentIdentityAndState() throws ReflectiveOperationException {
-        CANMotorControllerInfo info = new CANMotorControllerInfo(
-                "DuplicateDeviceAlertTest",
-                MotorControllerType.TalonFx,
-                CANBusId.Canivore,
-                91,
-                new CANMotorControllerOutputConfig());
+        CANMotorControllerInfo info = CANMotorControllerInfo.builder("DuplicateDeviceAlertTest").withType(MotorControllerType.TalonFx)
+                .withCanBus(CANBusId.Canivore, 91).build();
         String expectedText = "Motor Controller 91 on CAN bus " + CANBusId.Canivore + " (DuplicateDeviceAlertOwner) is unhealthy";
         Set<String> initialAlertIds = getDeviceHealthAlertIds(expectedText);
 
-        XCANMotorController firstMotor = getInjectorComponent().motorControllerFactory()
-                .create(info, "DuplicateDeviceAlertOwner", "TestPIDPrefix", null);
+        XCANMotorController firstMotor = getInjectorComponent().motorControllerFactory().create(info, "DuplicateDeviceAlertOwner", "TestPIDPrefix", null);
         TunableRegistry.reset();
         TunableRegistry.registerBackend("", tunableBackend);
-        XCANMotorController secondMotor = createDaggerComponent().motorControllerFactory()
-                .create(info, "DuplicateDeviceAlertOwner", "TestPIDPrefix", null);
+        XCANMotorController secondMotor = createDaggerComponent().motorControllerFactory().create(info, "DuplicateDeviceAlertOwner", "TestPIDPrefix", null);
 
         Alert firstAlert = getUnhealthyAlert(firstMotor);
         Alert secondAlert = getUnhealthyAlert(secondMotor);
@@ -98,19 +86,10 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
 
     @Test
     public void createWithPidProperties() {
-        CANMotorControllerInfo info = new CANMotorControllerInfo("Test", MotorControllerType.TalonFx, CANBusId.Canivore, 1,
-                new CANMotorControllerOutputConfig());
+        CANMotorControllerInfo info = CANMotorControllerInfo.builder("Test").withType(MotorControllerType.TalonFx).withCanBus(CANBusId.Canivore, 1).build();
 
-        XCANMotorControllerPIDProperties pidProperties = new XCANMotorControllerPIDProperties.Builder()
-                .withP(1)
-                .withI(2)
-                .withD(3)
-                .withStaticFeedForward(4)
-                .withVelocityFeedForward(5)
-                .withGravityFeedForward(6)
-                .withMinPowerOutput(-1.0)
-                .withMaxPowerOutput(1.0)
-                .build();
+        XCANMotorControllerPIDProperties pidProperties = new XCANMotorControllerPIDProperties.Builder().withP(1).withI(2).withD(3).withStaticFeedForward(4)
+                .withVelocityFeedForward(5).withGravityFeedForward(6).withMinPowerOutput(-1.0).withMaxPowerOutput(1.0).build();
 
         XCANMotorController motor = getInjectorComponent().motorControllerFactory().create(info, "TestOwningPrefix", "TestPIDPrefix", pidProperties);
 
@@ -128,8 +107,7 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
 
     @Test
     public void softwareLimitTests() {
-        CANMotorControllerInfo info = new CANMotorControllerInfo("Test", MotorControllerType.TalonFx, CANBusId.Canivore, 1,
-                new CANMotorControllerOutputConfig());
+        CANMotorControllerInfo info = CANMotorControllerInfo.builder("Test").withType(MotorControllerType.TalonFx).withCanBus(CANBusId.Canivore, 1).build();
         XCANMotorController motor = getInjectorComponent().motorControllerFactory().create(info, "TestOwningPrefix", "TestPIDPrefix", null);
 
         motor.setSoftwareForwardLimit(() -> true);
@@ -150,9 +128,8 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
 
     @Test
     public void testScaleFactors() {
-        CANMotorControllerInfo info = new CANMotorControllerInfo("Test", MotorControllerType.TalonFx, CANBusId.Canivore, 1,
-                new CANMotorControllerOutputConfig());
-        var motor = (MockCANMotorController)getInjectorComponent().motorControllerFactory().create(info, "TestOwningPrefix", "TestPIDPrefix", null);
+        CANMotorControllerInfo info = CANMotorControllerInfo.builder("Test").withType(MotorControllerType.TalonFx).withCanBus(CANBusId.Canivore, 1).build();
+        var motor = (MockCANMotorController) getInjectorComponent().motorControllerFactory().create(info, "TestOwningPrefix", "TestPIDPrefix", null);
 
         motor.setAngleScaleFactor(Rotations.per(Rotations).of(2));
         motor.setDistancePerMotorRotationsScaleFactor(Meters.per(Rotations).of(4));
@@ -192,7 +169,7 @@ public class CANMotorControllerTest extends BaseCommonLibTest {
     private static Alert getUnhealthyAlert(XCANMotorController motor) throws ReflectiveOperationException {
         Field unhealthyAlertField = XCANMotorController.class.getDeclaredField("unhealthyAlert");
         unhealthyAlertField.setAccessible(true);
-        return (Alert)unhealthyAlertField.get(motor);
+        return (Alert) unhealthyAlertField.get(motor);
     }
 
     private static Set<String> getDeviceHealthAlertIds(String text) {

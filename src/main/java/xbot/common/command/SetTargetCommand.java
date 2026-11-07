@@ -2,7 +2,9 @@ package xbot.common.command;
 
 /**
  * A command that sets a target value on a BaseSetpointSubsystem.
- * @param <TargetT> The type of the target value.
+ *
+ * @param <TargetT>
+ *            The type of the target value.
  */
 public class SetTargetCommand<TargetT> extends BaseSetpointCommand {
 
@@ -11,7 +13,9 @@ public class SetTargetCommand<TargetT> extends BaseSetpointCommand {
 
     /**
      * Creates a new SetTargetCommand.
-     * @param system The BaseSetpointSubsystem to set the target value on.
+     *
+     * @param system
+     *            The BaseSetpointSubsystem to set the target value on.
      */
     public SetTargetCommand(BaseSetpointSubsystem<TargetT, ?> system) {
         super(system);
@@ -21,7 +25,9 @@ public class SetTargetCommand<TargetT> extends BaseSetpointCommand {
 
     /**
      * Sets the target value to be applied when the command is initialized.
-     * @param value The target value to set.
+     *
+     * @param value
+     *            The target value to set.
      */
     public void setTargetValue(TargetT value) {
         this.targetValue = value;

@@ -7,7 +7,7 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import xbot.common.logging.RobotAssertionManager;
+import xbot.common.logging.assertion.RobotAssertionManager;
 import xbot.common.properties.TunableFactory;
 import xbot.common.properties.TunableLevel;
 
@@ -27,58 +27,29 @@ public class PIDTunableManager {
     private final TunableBoolean enableDerivativeThresholdTunable;
     private final TunableBoolean enableTimeThresholdTunable;
 
-    private final RobotAssertionManager assertionManager;
-
     @AssistedFactory
     public abstract static class PIDTunableManagerFactory {
 
-            public abstract PIDTunableManager create(
-                            String functionName,
-                            @Assisted("defaultP") double defaultP,
-                            @Assisted("defaultI") double defaultI,
-                            @Assisted("defaultD") double defaultD,
-                            @Assisted("defaultF") double defaultF,
-                            @Assisted("errorThreshold") double errorThreshold,
-                            @Assisted("derivativeThreshold") double derivativeThreshold,
-                            @Assisted("timeThreshold") double timeThreshold,
-                            @Assisted("iZone") double defaultIZone);
+        public abstract PIDTunableManager create(String functionName, @Assisted("defaultP") double defaultP, @Assisted("defaultI") double defaultI,
+                @Assisted("defaultD") double defaultD, @Assisted("defaultF") double defaultF, @Assisted("errorThreshold") double errorThreshold,
+                @Assisted("derivativeThreshold") double derivativeThreshold, @Assisted("timeThreshold") double timeThreshold,
+                @Assisted("iZone") double defaultIZone);
 
-            public PIDTunableManager create(
-                            String functionName,
-                            double defaultP,
-                            double defaultI,
-                            double defaultD,
-                            double defaultF,
-                            double errorThreshold,
-                            double derivativeThreshold,
-                            double timeThreshold) {
-                    return create(functionName, defaultP, defaultI, defaultD, defaultF, errorThreshold, derivativeThreshold,
-                                    timeThreshold, -1);
-            }
+        public PIDTunableManager create(String functionName, double defaultP, double defaultI, double defaultD, double defaultF, double errorThreshold,
+                double derivativeThreshold, double timeThreshold) {
+            return create(functionName, defaultP, defaultI, defaultD, defaultF, errorThreshold, derivativeThreshold, timeThreshold, -1);
+        }
 
-            public PIDTunableManager create(
-                            String functionName,
-                            double defaultP,
-                            double defaultI,
-                            double defaultD,
-                            double defaultF) {
-                    return create(functionName, defaultP, defaultI, defaultD, defaultF, -1, -1, -1);
-            }
+        public PIDTunableManager create(String functionName, double defaultP, double defaultI, double defaultD, double defaultF) {
+            return create(functionName, defaultP, defaultI, defaultD, defaultF, -1, -1, -1);
+        }
     }
 
     @AssistedInject
-    public PIDTunableManager(
-            @Assisted String functionName,
-            TunableFactory tunableFactory,
-            RobotAssertionManager assertionManager,
-            @Assisted("defaultP") double defaultP,
-            @Assisted("defaultI") double defaultI,
-            @Assisted("defaultD") double defaultD,
-            @Assisted("defaultF") double defaultF,
-            @Assisted("errorThreshold") double errorThreshold,
-            @Assisted("derivativeThreshold") double derivativeThreshold,
-            @Assisted("timeThreshold") double timeThreshold,
-            @Assisted("iZone") double defaultIZone) {
+    public PIDTunableManager(@Assisted String functionName, TunableFactory tunableFactory, @Assisted("defaultP") double defaultP,
+            @Assisted("defaultI") double defaultI, @Assisted("defaultD") double defaultD, @Assisted("defaultF") double defaultF,
+            @Assisted("errorThreshold") double errorThreshold, @Assisted("derivativeThreshold") double derivativeThreshold,
+            @Assisted("timeThreshold") double timeThreshold, @Assisted("iZone") double defaultIZone) {
         tunableFactory.setPrefix(functionName);
 
         tunableFactory.setDefaultLevel(TunableLevel.Important);
@@ -94,22 +65,14 @@ public class PIDTunableManager {
 
         tunableFactory.setDefaultLevel(TunableLevel.Debug);
 
-        errorThresholdTunable =
-                tunableFactory.createDouble("Error threshold", errorThreshold);
-        derivativeThresholdTunable =
-                tunableFactory.createDouble("Derivative threshold", derivativeThreshold);
-        timeThresholdTunable =
-                tunableFactory.createDouble("Time threshold", timeThreshold);
+        errorThresholdTunable = tunableFactory.createDouble("Error threshold", errorThreshold);
+        derivativeThresholdTunable = tunableFactory.createDouble("Derivative threshold", derivativeThreshold);
+        timeThresholdTunable = tunableFactory.createDouble("Time threshold", timeThreshold);
 
+        enableErrorThresholdTunable = tunableFactory.createBoolean("Enable error threshold", errorThreshold > 0);
+        enableDerivativeThresholdTunable = tunableFactory.createBoolean("Enable derivative threshold", derivativeThreshold > 0);
+        enableTimeThresholdTunable = tunableFactory.createBoolean("Enable time threshold", timeThreshold > 0);
 
-        enableErrorThresholdTunable =
-                tunableFactory.createBoolean("Enable error threshold", errorThreshold > 0);
-        enableDerivativeThresholdTunable =
-                tunableFactory.createBoolean("Enable derivative threshold", derivativeThreshold > 0);
-        enableTimeThresholdTunable =
-                tunableFactory.createBoolean("Enable time threshold", timeThreshold > 0);
-
-        this.assertionManager = assertionManager;
     }
 
     public double getP() {
@@ -157,7 +120,7 @@ public class PIDTunableManager {
     }
 
     public void setErrorThreshold(double errorThreshold) {
-        assertionManager.assertTrue(errorThreshold >= 0, "Thresholds won't work if they are negative!");
+        RobotAssertionManager.assertTrue(errorThreshold >= 0, "Thresholds won't work if they are negative!");
         errorThresholdTunable.set(Math.abs(errorThreshold));
     }
 
@@ -166,7 +129,7 @@ public class PIDTunableManager {
     }
 
     public void setDerivativeThreshold(double derivativeThreshold) {
-        assertionManager.assertTrue(derivativeThreshold >= 0, "Thresholds won't work if they are negative!");
+        RobotAssertionManager.assertTrue(derivativeThreshold >= 0, "Thresholds won't work if they are negative!");
         derivativeThresholdTunable.set(Math.abs(derivativeThreshold));
     }
 
@@ -175,7 +138,7 @@ public class PIDTunableManager {
     }
 
     public void setTimeThreshold(double timeThreshold) {
-        assertionManager.assertTrue(timeThreshold >= 0, "Thresholds won't work if they are negative!");
+        RobotAssertionManager.assertTrue(timeThreshold >= 0, "Thresholds won't work if they are negative!");
         timeThresholdTunable.set(Math.abs(timeThreshold));
     }
 

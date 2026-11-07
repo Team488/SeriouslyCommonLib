@@ -18,8 +18,6 @@ public class MockCameraElectricalContract implements XCameraElectricalContract {
 
     @Override
     public CameraInfo[] getCameraInfo() {
-        return new CameraInfo[] {
-                new CameraInfo("test", "test", new Transform3d(), EnumSet.of(CameraCapabilities.APRIL_TAG))
-        };
+        return new CameraInfo[] { new CameraInfo("test", "test", new Transform3d(), EnumSet.of(CameraCapabilities.APRIL_TAG)) };
     }
 }

@@ -1,0 +1,16 @@
+# Optional: if you already use the pre-commit.com framework
+# (https://pre-commit.com) and prefer it to the native git hook,
+# `pip install pre-commit && pre-commit install` works too. This
+# shells out to the exact same script as githooks/pre-commit, so
+# there's one formatting implementation either way -- this file is
+# not required, and the native hook (see githooks/pre-commit) covers
+# the same thing without needing Python installed.
+repos:
+  - repo: local
+    hooks:
+      - id: spotless-staged
+        name: Spotless (format staged Java files)
+        entry: bash githooks/spotless-staged.sh
+        language: system
+        files: \.java$
+        pass_filenames: false

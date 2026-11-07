@@ -3,6 +3,8 @@ package xbot.common.subsystems.drive;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.wpilib.hardware.bus.CANPort;
+
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
@@ -35,14 +37,15 @@ public class HeadingModuleTest extends BaseCommonLibTest {
         headingModule = getInjectorComponent().headingModuleFactory().create(pid);
         pose = getInjectorComponent().poseSubsystem();
 
-        XCANMotorController left = getInjectorComponent().motorControllerFactory().create(new CANMotorControllerInfo("Left", 0), "", "");
-        XCANMotorController right = getInjectorComponent().motorControllerFactory().create(new CANMotorControllerInfo("Right", 1), "", "");
+        XCANMotorController left = getInjectorComponent().motorControllerFactory()
+                .create(CANMotorControllerInfo.builder("Left").withCanBus(CANPort.CAN_S0, 0).build(), "", "");
+        XCANMotorController right = getInjectorComponent().motorControllerFactory()
+                .create(CANMotorControllerInfo.builder("Right").withCanBus(CANPort.CAN_S0, 1).build(), "", "");
 
-        ((MockBasePoseSubsystem)pose).setDriveMotors(left, right);
+        ((MockBasePoseSubsystem) pose).setDriveMotors(left, right);
 
-        ((MockTimer)getInjectorComponent().timerImplementation()).advanceTimeInSecondsBy(10);
+        ((MockTimer) getInjectorComponent().timerImplementation()).advanceTimeInSecondsBy(10);
         pose.periodic();
-
 
     }
 
@@ -78,10 +81,9 @@ public class HeadingModuleTest extends BaseCommonLibTest {
         assertTrue(headingModule.isOnTarget());
     }
 
-    protected void setHeading(double heading)
-    {
-        ((MockGyro)pose.imu).setYaw(Degrees.of(heading));
-        ((MockGyro)pose.imu).refreshDataFrame();
+    protected void setHeading(double heading) {
+        ((MockGyro) pose.imu).setYaw(Degrees.of(heading));
+        ((MockGyro) pose.imu).refreshDataFrame();
         pose.periodic();
     }
 }

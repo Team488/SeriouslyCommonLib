@@ -5,7 +5,8 @@ import javax.inject.Inject;
 public class MockTunableCommandPublisher implements TunableCommandPublisher {
 
     @Inject
-    public MockTunableCommandPublisher() {}
+    public MockTunableCommandPublisher() {
+    }
 
     @Override
     public void publish(BaseCommand command) {

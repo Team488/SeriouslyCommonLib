@@ -31,15 +31,12 @@ import static org.wpilib.units.Units.Rotations;
 import static org.wpilib.units.Units.Volts;
 
 /**
- * Mock XCANMotorController for simulation.
- * - Power and voltage is grouped.
- * - The user is responsible for updating its position and velocity.
+ * Mock XCANMotorController for simulation. - Power and voltage is grouped. - The user is responsible for updating its
+ * position and velocity.
  */
 public class MockCANMotorController extends XCANMotorController {
     public enum ControlMode {
-        DutyCycle,
-        Position,
-        Velocity
+        DutyCycle, Position, Velocity
     }
 
     private ControlMode controlMode = ControlMode.DutyCycle;
@@ -61,24 +58,15 @@ public class MockCANMotorController extends XCANMotorController {
 
     @AssistedFactory
     public abstract static class MockCANMotorControllerFactory implements XCANMotorControllerFactory {
-        public abstract MockCANMotorController create(
-                @Assisted("info") CANMotorControllerInfo info,
-                @Assisted("owningSystemPrefix") String owningSystemPrefix,
-                @Assisted("pidTunablePrefix") String pidTunablePrefix,
-                @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties);
+        public abstract MockCANMotorController create(@Assisted("info") CANMotorControllerInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix,
+                @Assisted("pidTunablePrefix") String pidTunablePrefix, @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties);
     }
 
     @AssistedInject
-    public MockCANMotorController(
-            @Assisted("info") CANMotorControllerInfo info,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            TunableFactory tunableFactory,
-            DevicePolice police,
-            @Assisted("pidTunablePrefix") String pidTunablePrefix,
-            @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties,
-            DataFrameRegistry dataFrameRegistry,
-            PowerDistributionProperties pdProperties
-    ) {
+    public MockCANMotorController(@Assisted("info") CANMotorControllerInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix,
+            TunableFactory tunableFactory, DevicePolice police, @Assisted("pidTunablePrefix") String pidTunablePrefix,
+            @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties, DataFrameRegistry dataFrameRegistry,
+            PowerDistributionProperties pdProperties) {
         super(info, owningSystemPrefix, tunableFactory, police, pidTunablePrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
     }
 
@@ -139,8 +127,8 @@ public class MockCANMotorController extends XCANMotorController {
     }
 
     /*
-     * Set the internal power of the motor controller without changing the controlMode.
-     * Useful for simulating an internal pid on a motor controller.
+     * Set the internal power of the motor controller without changing the controlMode. Useful for simulating an internal
+     * pid on a motor controller.
      */
     public void setPowerInternal(double power) {
         this.power = Math.clamp(power, -1.0, 1.0);

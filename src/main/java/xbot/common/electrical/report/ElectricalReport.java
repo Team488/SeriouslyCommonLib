@@ -37,45 +37,56 @@ import xbot.common.injection.electrical_contract.XSwerveDriveElectricalContract;
 import xbot.common.injection.swerve.SwerveInstance;
 
 /**
- * Electrical report for a robot's electrical contract: every CAN device, I/O channel and power
- * connection the contract defines, as a text report or as a JSON snapshot for the electrical web
- * tool (Team488/electrical-contract-web).
+ * Electrical report for a robot's electrical contract: every CAN device, I/O channel and power connection the contract
+ * defines, as a text report or as a JSON snapshot for the electrical web tool (Team488/electrical-contract-web).
  *
- * <p>Devices are found by reflection: every public no-argument getter returning
- * {@link CANMotorControllerInfo}, {@link DeviceInfo} or {@link IMUInfo}, plus the swerve getters
- * when the contract is an {@link XSwerveDriveElectricalContract}. Getters tagged
- * {@link ReadyWhen} are left out when the robot doesn't have that mechanism.
+ * <p>
+ * Devices are found by reflection: every public no-argument getter returning {@link CANMotorControllerInfo},
+ * {@link DeviceInfo} or {@link IMUInfo}, plus the swerve getters when the contract is an
+ * {@link XSwerveDriveElectricalContract}. Getters tagged {@link ReadyWhen} are left out when the robot doesn't have
+ * that mechanism.
  *
- * <p>A robot project calls {@link #run} from a small main that lists its contracts:
+ * <p>
+ * A robot project calls {@link #run} from a small main that lists its contracts:
+ *
  * <pre>
  * public static void main(String[] args) throws Exception {
- *     ElectricalReport.run(args, Map.of(
- *         "Competition", new ElectricalReport.RobotContract("2027 Competition", Contract2027::new)));
+ *     ElectricalReport.run(args, Map.of("Competition", new ElectricalReport.RobotContract("2027 Competition", Contract2027::new)));
  * }
  * </pre>
- * Arguments: {@code [--contract NAME] [--json] [-f FILE]}. NAME is the robot's ContractToUse
- * name; the default is the first contract listed. {@code --all -d DIR} writes a JSON snapshot for
- * every contract into DIR, plus {@code index.json} listing them; the electrical web tool reads
- * that folder (TeamXbot's "Electrical snapshots" GitHub workflow publishes it).
+ *
+ * Arguments: {@code [--contract NAME] [--json] [-f FILE]}. NAME is the robot's ContractToUse name; the default is the
+ * first contract listed. {@code --all -d DIR} writes a JSON snapshot for every contract into DIR, plus
+ * {@code index.json} listing them; the electrical web tool reads that folder (TeamXbot's "Electrical snapshots" GitHub
+ * workflow publishes it).
  */
 public final class ElectricalReport {
 
     /**
      * A robot the report can describe.
-     * @param robotName Display name, e.g. "2027 Competition".
-     * @param create Makes the robot's contract.
+     *
+     * @param robotName
+     *            Display name, e.g. "2027 Competition".
+     * @param create
+     *            Makes the robot's contract.
      */
-    public record RobotContract(String robotName, Supplier<? extends XElectricalReportContract> create) {}
+    public record RobotContract(String robotName, Supplier<? extends XElectricalReportContract> create) {
+    }
 
-    private static final String[] SWERVE_LABELS = {"FrontLeftDrive", "FrontRightDrive", "RearLeftDrive", "RearRightDrive"};
+    private static final String[] SWERVE_LABELS = { "FrontLeftDrive", "FrontRightDrive", "RearLeftDrive", "RearRightDrive" };
 
-    private ElectricalReport() {}
+    private ElectricalReport() {
+    }
 
     /**
      * Writes the report for one robot.
-     * @param args Command-line arguments (see class docs).
-     * @param contracts ContractToUse name to robot, in display order.
-     * @throws Exception If the contract can't be read or the file can't be written.
+     *
+     * @param args
+     *            Command-line arguments (see class docs).
+     * @param contracts
+     *            ContractToUse name to robot, in display order.
+     * @throws Exception
+     *             If the contract can't be read or the file can't be written.
      */
     public static void run(String[] args, Map<String, RobotContract> contracts) throws Exception {
         if (Arrays.asList(args).contains("--all")) {
@@ -106,8 +117,7 @@ public final class ElectricalReport {
         Discovery d = discover(contract);
 
         if (json) {
-            Files.writeString(Paths.get(outputFile), Json.write(snapshot(contractName, robot, contract, d)) + "\n",
-                    StandardCharsets.UTF_8);
+            Files.writeString(Paths.get(outputFile), Json.write(snapshot(contractName, robot, contract, d)) + "\n", StandardCharsets.UTF_8);
             System.err.println("Wrote electrical snapshot to: " + outputFile);
         } else {
             try (PrintStream out = new PrintStream(new FileOutputStream(new File(outputFile)), false, StandardCharsets.UTF_8)) {
@@ -119,9 +129,13 @@ public final class ElectricalReport {
 
     /**
      * Writes {@code <name>.json} for every contract and an {@code index.json} listing them.
-     * @param dir Output folder (created if needed).
-     * @param contracts ContractToUse name to robot.
-     * @throws Exception If a contract can't be read or a file can't be written.
+     *
+     * @param dir
+     *            Output folder (created if needed).
+     * @param contracts
+     *            ContractToUse name to robot.
+     * @throws Exception
+     *             If a contract can't be read or a file can't be written.
      */
     public static void writeAll(Path dir, Map<String, RobotContract> contracts) throws Exception {
         Files.createDirectories(dir);
@@ -129,8 +143,7 @@ public final class ElectricalReport {
         for (Map.Entry<String, RobotContract> e : contracts.entrySet()) {
             XElectricalReportContract contract = e.getValue().create().get();
             String file = e.getKey() + ".json";
-            Files.writeString(dir.resolve(file),
-                    Json.write(snapshot(e.getKey(), e.getValue(), contract, discover(contract))) + "\n", StandardCharsets.UTF_8);
+            Files.writeString(dir.resolve(file), Json.write(snapshot(e.getKey(), e.getValue(), contract, discover(contract))) + "\n", StandardCharsets.UTF_8);
             Map<String, Object> entry = new LinkedHashMap<>();
             entry.put("name", e.getKey());
             entry.put("file", file);
@@ -147,8 +160,8 @@ public final class ElectricalReport {
     // ------------------------------------------------------------------ discovery
 
     /** A device on a CAN bus. */
-    record CanDevice(String name, CANBusId busId, int deviceId, String type, PDHPort pdhPort,
-                     PowerSource powerFrom, Integer busPosition, boolean motor) {}
+    record CanDevice(String name, CANBusId busId, int deviceId, String type, PDHPort pdhPort, PowerSource powerFrom, Integer busPosition, boolean motor) {
+    }
 
     /** Everything found in one contract. */
     static final class Discovery {
@@ -214,31 +227,29 @@ public final class ElectricalReport {
                     continue;
                 }
                 d.definedIn.put(imu.name(), owner);
-                addCan(d, positions, new CanDevice(imu.name(), imu.canBusId(), imu.deviceId(), "IMU", null, imu.powerFrom(),
-                        null, false));
+                addCan(d, positions, new CanDevice(imu.name(), imu.canBusId(), imu.deviceId(), "IMU", null, imu.powerFrom(), null, false));
                 if (imu.powerFrom() != null) {
                     d.addPower(imu.powerFrom(), imu.name());
                 }
             } else if (result instanceof DeviceInfo device) {
                 if (!enabled) {
-                    d.disabled.add(device.name);
+                    d.disabled.add(device.name());
                     continue;
                 }
-                d.definedIn.put(device.name, owner);
-                if (device.powerFrom != null) {
-                    d.addPower(device.powerFrom, device.name);
+                d.definedIn.put(device.name(), owner);
+                if (device.powerFrom() != null) {
+                    d.addPower(device.powerFrom(), device.name());
                 }
                 String methodName = method.getName().toLowerCase();
                 // TODO(SystemCore): DeviceInfo doesn't say what kind of port it is, so these rules
                 // follow naming conventions. Replace with an explicit port type/mode.
                 if (methodName.contains("servo") || methodName.contains("pwm")) {
                     d.pwm.add(device);
-                } else if ((device.name != null && device.name.endsWith("DIO")) || device.powerFrom == PowerSource.RIO) {
+                } else if ((device.name() != null && device.name().endsWith("DIO")) || device.powerFrom() == PowerSource.RIO) {
                     d.dio.add(device);
-                } else if (device.canBusId != null && device.channel > 0) {
+                } else if (device.canBusId() != null && device.channel() > 0) {
                     String type = methodName.contains("encoder") ? "CANCoder" : "Sensor";
-                    addCan(d, positions, new CanDevice(device.name, device.canBusId, device.channel, type, null,
-                            device.powerFrom, null, false));
+                    addCan(d, positions, new CanDevice(device.name(), device.canBusId(), device.channel(), type, null, device.powerFrom(), null, false));
                 }
             }
         }
@@ -252,13 +263,13 @@ public final class ElectricalReport {
                 addMotor(d, positions, swerve.getDriveMotor(si), swerve.isDriveReady(), driveOwner);
                 addMotor(d, positions, swerve.getSteeringMotor(si), swerve.isDriveReady(), steeringOwner);
                 DeviceInfo encoder = swerve.getSteeringEncoder(si);
-                if (encoder != null && encoder.canBusId != null && encoder.channel > 0) {
+                if (encoder != null && encoder.canBusId() != null && encoder.channel() > 0) {
                     if (!swerve.areCanCodersReady()) {
-                        d.disabled.add(encoder.name);
+                        d.disabled.add(encoder.name());
                     } else {
-                        d.definedIn.put(encoder.name, encoderOwner);
-                        addCan(d, positions, new CanDevice(encoder.name, encoder.canBusId, encoder.channel, "CANCoder", null,
-                                encoder.powerFrom, null, false));
+                        d.definedIn.put(encoder.name(), encoderOwner);
+                        addCan(d, positions,
+                                new CanDevice(encoder.name(), encoder.canBusId(), encoder.channel(), "CANCoder", null, encoder.powerFrom(), null, false));
                     }
                 }
             }
@@ -266,8 +277,7 @@ public final class ElectricalReport {
         return d;
     }
 
-    private static void addMotor(Discovery d, Map<CANBusId, Map<Integer, Integer>> positions,
-                                 CANMotorControllerInfo motor, boolean enabled, String owner) {
+    private static void addMotor(Discovery d, Map<CANBusId, Map<Integer, Integer>> positions, CANMotorControllerInfo motor, boolean enabled, String owner) {
         if (motor == null) {
             return;
         }
@@ -276,8 +286,7 @@ public final class ElectricalReport {
             return;
         }
         d.definedIn.put(motor.name(), owner);
-        addCan(d, positions, new CanDevice(motor.name(), motor.busId(), motor.deviceId(), String.valueOf(motor.type()),
-                motor.pdhPort(), null, null, true));
+        addCan(d, positions, new CanDevice(motor.name(), motor.busId(), motor.deviceId(), String.valueOf(motor.type()), motor.pdhPort(), null, null, true));
         if (motor.pdhPort() != null) {
             d.addPower(PowerSource.valueOf(motor.pdhPort().name()), motor.name());
         }
@@ -288,8 +297,8 @@ public final class ElectricalReport {
         if (position == null) {
             d.positionWarnings.add(device.name() + " (ID " + device.deviceId() + " on " + busName(device.busId()) + ")");
         }
-        CanDevice placed = new CanDevice(device.name(), device.busId(), device.deviceId(), device.type(), device.pdhPort(),
-                device.powerFrom(), position, device.motor());
+        CanDevice placed = new CanDevice(device.name(), device.busId(), device.deviceId(), device.type(), device.pdhPort(), device.powerFrom(), position,
+                device.motor());
         d.canByBus.computeIfAbsent(busName(device.busId()), k -> new ArrayList<>()).add(placed);
     }
 
@@ -301,8 +310,7 @@ public final class ElectricalReport {
         }
         Set<String> known = contract.getHardwareNames();
         if (known != null && !known.contains(readyWhen.value())) {
-            throw new IllegalStateException("@ReadyWhen(\"" + readyWhen.value() + "\") on " + method.getName()
-                    + " doesn't match any hardware name " + known);
+            throw new IllegalStateException("@ReadyWhen(\"" + readyWhen.value() + "\") on " + method.getName() + " doesn't match any hardware name " + known);
         }
         return contract.isReady(readyWhen.value());
     }
@@ -348,8 +356,7 @@ public final class ElectricalReport {
 
     // ------------------------------------------------------------------ JSON snapshot
 
-    static Map<String, Object> snapshot(String contractName, RobotContract robot, XElectricalReportContract contract,
-                                        Discovery d) {
+    static Map<String, Object> snapshot(String contractName, RobotContract robot, XElectricalReportContract contract, Discovery d) {
         Map<String, Object> root = new LinkedHashMap<>();
         root.put("source", contract.getClass().getName());
         root.put("contractName", contractName);
@@ -405,12 +412,12 @@ public final class ElectricalReport {
 
     private static List<Object> channelDevices(List<DeviceInfo> devices, Discovery d) {
         List<Object> out = new ArrayList<>();
-        devices.stream().sorted(Comparator.comparingInt(x -> x.channel)).forEach(x -> {
+        devices.stream().sorted(Comparator.comparingInt(DeviceInfo::channel)).forEach(x -> {
             Map<String, Object> m = new LinkedHashMap<>();
-            m.put("name", x.name);
-            m.put("channel", x.channel);
-            m.put("powerFrom", x.powerFrom == null ? null : x.powerFrom.name());
-            m.put("definedIn", d.definedIn.get(x.name));
+            m.put("name", x.name());
+            m.put("channel", x.channel());
+            m.put("powerFrom", x.powerFrom() == null ? null : x.powerFrom().name());
+            m.put("definedIn", d.definedIn.get(x.name()));
             out.add(m);
         });
         return out;
@@ -431,8 +438,7 @@ public final class ElectricalReport {
     private static final String RULE = "=".repeat(80);
     private static final String LINE = "-".repeat(80);
 
-    static void writeText(PrintStream out, String contractName, RobotContract robot, XElectricalReportContract contract,
-                          Discovery d) throws Exception {
+    static void writeText(PrintStream out, String contractName, RobotContract robot, XElectricalReportContract contract, Discovery d) throws Exception {
         out.println(RULE);
         out.println("Electrical Contract Report");
         out.println(RULE);
@@ -441,8 +447,8 @@ public final class ElectricalReport {
         out.println("Source: " + contract.getClass().getName());
         Path source = Paths.get("src/main/java/" + contract.getClass().getName().replace('.', '/') + ".java");
         if (Files.exists(source)) {
-            String modified = Files.readAttributes(source, BasicFileAttributes.class).lastModifiedTime().toInstant()
-                    .atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z"));
+            String modified = Files.readAttributes(source, BasicFileAttributes.class).lastModifiedTime().toInstant().atZone(ZoneId.systemDefault())
+                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z"));
             out.println("Source last modified: " + modified);
         }
         out.println();
@@ -510,8 +516,7 @@ public final class ElectricalReport {
 
     private static void channelSection(PrintStream out, String title, String label, List<DeviceInfo> devices) {
         section(out, title + " (" + devices.size() + " devices)");
-        devices.stream().sorted(Comparator.comparingInt(x -> x.channel))
-                .forEach(x -> out.printf("  %s %2d: %s%n", label, x.channel, x.name));
+        devices.stream().sorted(Comparator.comparingInt(DeviceInfo::channel)).forEach(x -> out.printf("  %s %2d: %s%n", label, x.channel(), x.name()));
         out.println();
     }
 
@@ -538,8 +543,8 @@ public final class ElectricalReport {
                 conflicts.add(String.format("  *** CONFLICT *** %s assigned to multiple MOTORS: %s", port, String.join(", ", onPort)));
             }
             if (!onPort.isEmpty() && !others.isEmpty()) {
-                conflicts.add(String.format("  *** CONFLICT *** %s shared between motor(s) and non-motor device(s): motors=[%s], other=[%s]",
-                        port, String.join(", ", onPort), String.join(", ", others)));
+                conflicts.add(String.format("  *** CONFLICT *** %s shared between motor(s) and non-motor device(s): motors=[%s], other=[%s]", port,
+                        String.join(", ", onPort), String.join(", ", others)));
             }
             if (noConnect) {
                 out.printf("  %s: (No Connect)%n", port);
@@ -647,7 +652,8 @@ public final class ElectricalReport {
 
     /** Minimal JSON writer for maps, lists, strings, numbers, booleans and null. */
     static final class Json {
-        private Json() {}
+        private Json() {
+        }
 
         static String write(Object value) {
             StringBuilder sb = new StringBuilder();
@@ -706,18 +712,18 @@ public final class ElectricalReport {
             sb.append('"');
             for (char c : s.toCharArray()) {
                 switch (c) {
-                    case '"' -> sb.append("\\\"");
-                    case '\\' -> sb.append("\\\\");
-                    case '\n' -> sb.append("\\n");
-                    case '\r' -> sb.append("\\r");
-                    case '\t' -> sb.append("\\t");
-                    default -> {
-                        if (c < 0x20) {
-                            sb.append(String.format("\\u%04x", (int) c));
-                        } else {
-                            sb.append(c);
-                        }
+                case '"' -> sb.append("\\\"");
+                case '\\' -> sb.append("\\\\");
+                case '\n' -> sb.append("\\n");
+                case '\r' -> sb.append("\\r");
+                case '\t' -> sb.append("\\t");
+                default -> {
+                    if (c < 0x20) {
+                        sb.append(String.format("\\u%04x", (int) c));
+                    } else {
+                        sb.append(c);
                     }
+                }
                 }
             }
             sb.append('"');

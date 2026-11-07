@@ -22,5 +22,5 @@ public class SettableBooleanSuppler implements BooleanSupplier {
     public void toggle() {
         this.value = !this.value;
     }
-    
+
 }

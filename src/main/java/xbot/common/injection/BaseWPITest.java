@@ -10,6 +10,8 @@ import org.wpilib.tunable.TunableRegistry;
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.injection.components.BaseComponent;
+import xbot.common.logging.assertion.RobotAssertionManager;
+import xbot.common.logging.assertion.SilentRobotAssertionHandler;
 import xbot.common.math.PIDManager.PIDManagerFactory;
 import xbot.common.properties.TunableFactory;
 
@@ -21,7 +23,7 @@ public abstract class BaseWPITest {
     protected MockTunableBackend tunableBackend;
 
     protected PIDManagerFactory pf;
-    
+
     protected MockTimer timer;
 
     /**
@@ -39,16 +41,18 @@ public abstract class BaseWPITest {
         tunableBackend = new MockTunableBackend();
         TunableRegistry.registerBackend("", tunableBackend);
         injectorComponent = createDaggerComponent();
-        timer = (MockTimer)injectorComponent.timerImplementation();
+        RobotAssertionManager.configure(injectorComponent.robotAssertionHandler());
+        timer = (MockTimer) injectorComponent.timerImplementation();
         XTimer.setImplementation(timer);
 
         tunableFactory = injectorComponent.tunableFactory();
-        
+
         pf = injectorComponent.pidFactory();
     }
 
     @AfterEach
     public void tearDownTunables() {
+        RobotAssertionManager.configure(new SilentRobotAssertionHandler());
         TunableRegistry.reset();
     }
 }

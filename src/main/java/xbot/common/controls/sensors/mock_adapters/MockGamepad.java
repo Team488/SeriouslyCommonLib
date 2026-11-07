@@ -17,7 +17,6 @@ import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.Advanc
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
-import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 
 public class MockGamepad extends XGamepad {
@@ -34,14 +33,9 @@ public class MockGamepad extends XGamepad {
     }
 
     @AssistedInject
-    public MockGamepad(
-            @Assisted("port") int port,
-            AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
-            AdvancedPovButtonTriggerFactory povButtonFactory,
-            AnalogHIDButtonTriggerFactory analogHidButtonFactory,
-            RobotAssertionManager assertionManager,
-            DevicePolice police) {
-        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, assertionManager, police);
+    public MockGamepad(@Assisted("port") int port, AdvancedJoystickButtonTriggerFactory joystickButtonFactory, AdvancedPovButtonTriggerFactory povButtonFactory,
+            AnalogHIDButtonTriggerFactory analogHidButtonFactory, DevicePolice police) {
+        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, police);
 
         for (int i = LEFT_X_AXIS; i <= RIGHT_TRIGGER_AXIS; i++) {
             rawAxes.put(i, 0.0);
@@ -130,10 +124,7 @@ public class MockGamepad extends XGamepad {
 
     @Override
     public POVDirection getPOV() {
-        return getPovDirection(
-                getButton(GamepadButton.DPAD_UP),
-                getButton(GamepadButton.DPAD_DOWN),
-                getButton(GamepadButton.DPAD_LEFT),
+        return getPovDirection(getButton(GamepadButton.DPAD_UP), getButton(GamepadButton.DPAD_DOWN), getButton(GamepadButton.DPAD_LEFT),
                 getButton(GamepadButton.DPAD_RIGHT));
     }
 

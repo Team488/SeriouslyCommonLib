@@ -20,7 +20,7 @@ public class MockTimerTest extends BaseCommonLibTest {
 
     @BeforeEach
     public void setup() {
-        timer = (MockTimer)getInjectorComponent().timerImplementation();
+        timer = (MockTimer) getInjectorComponent().timerImplementation();
     }
 
     @Test

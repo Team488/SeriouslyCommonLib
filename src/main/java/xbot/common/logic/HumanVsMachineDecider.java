@@ -12,18 +12,13 @@ import xbot.common.properties.TunableFactory;
 import xbot.common.properties.TunableLevel;
 
 /**
- * Decides whether to use human or machine control of a subsystem.
- * Human control is used when the inputs exceed a deadband.
- * When input stops, control is handed back to the machine after a
- * coast period.
+ * Decides whether to use human or machine control of a subsystem. Human control is used when the inputs exceed a
+ * deadband. When input stops, control is handed back to the machine after a coast period.
  */
 public class HumanVsMachineDecider {
 
     public enum HumanVsMachineMode {
-        HumanControl,
-        Coast,
-        InitializeMachineControl,
-        MachineControl
+        HumanControl, Coast, InitializeMachineControl, MachineControl
     }
 
     private double lastHumanTime;
@@ -38,7 +33,9 @@ public class HumanVsMachineDecider {
     public abstract static class HumanVsMachineDeciderFactory {
         /**
          * Creates a new decider with the given prefix.
-         * @param prefix The prefix to use for all tunables created by this decider.
+         *
+         * @param prefix
+         *            The prefix to use for all tunables created by this decider.
          * @return The new decider.
          */
         public abstract HumanVsMachineDecider create(@Assisted("prefix") String prefix);
@@ -46,8 +43,11 @@ public class HumanVsMachineDecider {
 
     /**
      * Creates a new decider with the given prefix.
-     * @param prefix The prefix to use for all tunables created by this decider.
-     * @param tunableFactory The tunable factory to use for creating configuration values.
+     *
+     * @param prefix
+     *            The prefix to use for all tunables created by this decider.
+     * @param tunableFactory
+     *            The tunable factory to use for creating configuration values.
      */
     @AssistedInject
     public HumanVsMachineDecider(@Assisted("prefix") String prefix, TunableFactory tunableFactory) {
@@ -68,16 +68,20 @@ public class HumanVsMachineDecider {
 
     /**
      * Resets the decider.
-     * @param startInAutomaticMode Whether to start in automatic mode.
+     *
+     * @param startInAutomaticMode
+     *            Whether to start in automatic mode.
      */
     public void reset(boolean startInAutomaticMode) {
-        lastHumanTime = XTimer.getFPGATimestamp()-100;
+        lastHumanTime = XTimer.getFPGATimestamp() - 100;
         inAutomaticMode = startInAutomaticMode;
     }
 
     /**
      * Gets the recommended mode based on the human input.
-     * @param humanInput The human input to use for the decision.
+     *
+     * @param humanInput
+     *            The human input to use for the decision.
      * @return The recommended mode.
      */
     public HumanVsMachineMode getRecommendedMode(double humanInput) {
@@ -108,6 +112,7 @@ public class HumanVsMachineDecider {
 
     /**
      * Get the deadband value.
+     *
      * @return The deadband value.
      */
     public double getDeadband() {

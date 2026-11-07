@@ -4,15 +4,12 @@ import javax.inject.Inject;
 
 import org.wpilib.tunable.Tunables;
 
-import xbot.common.logging.RobotAssertionManager;
+import xbot.common.logging.assertion.RobotAssertionManager;
 
 public class RealTunableCommandPublisher implements TunableCommandPublisher {
 
-    private final RobotAssertionManager assertionManager;
-
     @Inject
-    public RealTunableCommandPublisher(RobotAssertionManager assertionManager) {
-        this.assertionManager = assertionManager;
+    public RealTunableCommandPublisher() {
     }
 
     @Override
@@ -31,7 +28,7 @@ public class RealTunableCommandPublisher implements TunableCommandPublisher {
     }
 
     private void reportDuplicatePath(String path) {
-        assertionManager.fail("Cannot publish command to Tunables path '" + path
-                + "' because that path is already in use; the first command remains published.");
+        RobotAssertionManager
+                .fail("Cannot publish command to Tunables path '" + path + "' because that path is already in use; the first command remains published.");
     }
 }

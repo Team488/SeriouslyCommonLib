@@ -8,7 +8,7 @@ import xbot.common.subsystems.pose.BasePoseSubsystem;
 public class ResetDistanceCommand extends BaseCommand {
 
     protected final BasePoseSubsystem poseSubsystem;
-    
+
     @Inject
     public ResetDistanceCommand(BasePoseSubsystem poseSubsystem) {
         this.poseSubsystem = poseSubsystem;
@@ -27,9 +27,9 @@ public class ResetDistanceCommand extends BaseCommand {
 
     @Override
     public void execute() {
-        
+
     }
-    
+
     @Override
     public boolean isFinished() {
         return true;
