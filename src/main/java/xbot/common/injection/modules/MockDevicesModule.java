@@ -41,8 +41,6 @@ import xbot.common.controls.sensors.mock_adapters.MockGyro.MockGyroFactory;
 import xbot.common.controls.sensors.mock_adapters.MockLaserCAN;
 import xbot.common.controls.sensors.mock_adapters.MockLidarLite.MockLidarLiteFactory;
 import xbot.common.controls.sensors.mock_adapters.MockPowerDistributionPanel.MockPowerDistributionPanelFactory;
-import xbot.common.networking.MockZeromqListener.MockZeromqListenerFactory;
-import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
 
 /**
  * Module for mapping device interfaces to mock implementations.
@@ -108,10 +106,6 @@ public abstract class MockDevicesModule {
     @Binds
     @Singleton
     public abstract XSpeedControllerFactory getSpeedControllerFactory(MockSpeedControllerFactory impl);
-
-    @Binds
-    @Singleton
-    public abstract XZeromqListenerFactory getZeromqListenerFactory(MockZeromqListenerFactory impl);
 
     @Binds
     @Singleton

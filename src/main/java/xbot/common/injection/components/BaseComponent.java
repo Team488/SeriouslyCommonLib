@@ -43,7 +43,6 @@ import xbot.common.logic.VelocityThrottleModule.VelocityThrottleModuleFactory;
 import xbot.common.math.FieldPoseTunableManager.FieldPoseTunableManagerFactory;
 import xbot.common.math.PIDManager.PIDManagerFactory;
 import xbot.common.math.PIDTunableManager.PIDTunableManagerFactory;
-import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
 import xbot.common.properties.TunableFactory;
 import xbot.common.properties.TunableManager;
 import xbot.common.properties.TunablePersistence;
@@ -151,8 +150,6 @@ public abstract class BaseComponent {
     public abstract XLidarLiteFactory lidarLiteFactory();
 
     public abstract XSpeedControllerFactory speedControllerFactory();
-
-    public abstract XZeromqListenerFactory zeromqListenerFactory();
 
     public abstract XCANMotorController.XCANMotorControllerFactory motorControllerFactory();
 
