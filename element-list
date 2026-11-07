@@ -19,7 +19,6 @@ xbot.common.logging
 xbot.common.logging.assertion
 xbot.common.logic
 xbot.common.math
-xbot.common.networking
 xbot.common.properties
 xbot.common.resiliency
 xbot.common.simulation
