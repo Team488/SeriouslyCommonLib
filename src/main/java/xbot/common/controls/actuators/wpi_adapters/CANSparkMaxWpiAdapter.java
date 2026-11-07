@@ -33,7 +33,7 @@ import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.injection.electrical_contract.SparkMaxMotorControllerOutputConfig;
-import xbot.common.logging.RobotAssertionManager;
+import xbot.common.logging.assertion.RobotAssertionManager;
 import xbot.common.properties.PowerDistributionProperties;
 import xbot.common.properties.TunableFactory;
 import xbot.common.resiliency.DeviceHealth;
@@ -59,7 +59,6 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     private static final Logger log = LogManager.getLogger(CANSparkMaxWpiAdapter.class);
 
     private final SparkMax internalSparkMax;
-    private final RobotAssertionManager assertionManager;
 
     private double minPower = -1.0;
     private double maxPower = 1.0;
@@ -70,14 +69,12 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
             @Assisted("owningSystemPrefix") String owningSystemPrefix,
             TunableFactory tunableFactory,
             DevicePolice police,
-            RobotAssertionManager assertionManager,
             @Assisted("pidTunablePrefix") String pidTunablePrefix,
             @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties,
             DataFrameRegistry dataFrameRegistry,
             PowerDistributionProperties pdProperties
     ) {
         super(info, owningSystemPrefix, tunableFactory, police, pidTunablePrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
-        this.assertionManager = assertionManager;
 
         this.internalSparkMax = new SparkMax(info.busId().toWpiCANPort().value, info.deviceId(), SparkLowLevel.MotorType.kBrushless);
         setConfiguration(info.outputConfig());
@@ -228,7 +225,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
             case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kPosition;
             case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionPositionControl;
             default -> {
-                this.assertionManager.fail("Unsupported mode: " + mode);
+                RobotAssertionManager.fail("Unsupported mode: " + mode);
                 controlType = SparkBase.ControlType.kPosition;
             }
         }
@@ -248,7 +245,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
             case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kVelocity;
             case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionVelocityControl;
             default -> {
-                this.assertionManager.fail("Unsupported mode: " + mode);
+                RobotAssertionManager.fail("Unsupported mode: " + mode);
                 controlType = SparkBase.ControlType.kVelocity;
             }
         }
@@ -264,7 +261,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
             case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kVelocity;
             case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionVelocityControl;
             default -> {
-                this.assertionManager.fail("Unsupported mode: " + mode);
+                RobotAssertionManager.fail("Unsupported mode: " + mode);
                 controlType = SparkBase.ControlType.kVelocity;
             }
         }
@@ -288,7 +285,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
             case 2 -> ClosedLoopSlot.kSlot2;
             case 3 -> ClosedLoopSlot.kSlot3;
             default -> {
-                this.assertionManager.fail("Invalid PID slot number: " + slot);
+                RobotAssertionManager.fail("Invalid PID slot number: " + slot);
                 yield ClosedLoopSlot.kSlot0;
             }
         };

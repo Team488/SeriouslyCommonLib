@@ -12,7 +12,6 @@ import org.wpilib.hardware.imu.OnboardIMU.MountOrientation;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
-import xbot.common.logging.SilentRobotAssertionManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -180,7 +179,7 @@ public class DeviceInfoBuildersTest {
         var motor = CANMotorControllerInfo.builder("motor").build();
         var lights = CANLightControllerInfo.builder("lights").build();
         var imu = IMUInfo.builder("gyro", XGyro.ImuType.onboard).build();
-        var police = new DevicePolice(new SilentRobotAssertionManager());
+        var police = new DevicePolice();
         for (DeviceAddress address : List.of(
                 DeviceAddress.can(device.canBusId(), device.channel()),
                 DeviceAddress.can(motor.busId(), motor.deviceId()),

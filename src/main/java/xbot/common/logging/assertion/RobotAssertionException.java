@@ -1,4 +1,4 @@
-package xbot.common.logging;
+package xbot.common.logging.assertion;
 
 //@SuppressWarnings("serial")
 public class RobotAssertionException extends RuntimeException {

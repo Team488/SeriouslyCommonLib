@@ -14,7 +14,7 @@ import org.wpilib.math.geometry.Twist2d;
 import org.wpilib.units.measure.LinearVelocity;
 
 import xbot.common.advantage.AKitLogger;
-import xbot.common.logging.RobotAssertionManager;
+import xbot.common.logging.assertion.RobotAssertionManager;
 import xbot.common.math.PIDManager;
 import xbot.common.math.XYPair;
 import xbot.common.subsystems.drive.SwerveKinematicsCalculator;
@@ -50,11 +50,9 @@ public class SwerveSimpleBezierLogic {
     private double constantVelocity = 0;
     private SwervePointKinematics globalKinematics = null;
     private SwerveSimpleTrajectoryMode mode = SwerveSimpleTrajectoryMode.DurationInSeconds;
-    RobotAssertionManager assertionManager;
 
-    public SwerveSimpleBezierLogic(RobotAssertionManager assertionManager) {
-        this.assertionManager = assertionManager;
-        interpolator = new SimpleInterpolator(this.assertionManager);
+    public SwerveSimpleBezierLogic() {
+        interpolator = new SimpleInterpolator();
     }
 
     // --------------------------------------------------------------
@@ -175,21 +173,21 @@ public class SwerveSimpleBezierLogic {
             case KinematicsForIndividualPoints -> {
                 for (XbotSwervePoint point : keyPoints) {
                     if (point.getKinematics() == null) {
-                        assertionManager.throwException("Needs to set kinematics for swerve point!", new Exception());
+                        RobotAssertionManager.throwException("Needs to set kinematics for swerve point!", new Exception());
                     }
                 }
                 keyPoints = getKinematicsAdjustedSwervePoints(initialPoint, keyPoints);
             }
             case GlobalKinematicsValue -> {
                 if (globalKinematics == null) {
-                    assertionManager.throwException("Needs to set globalKinematics!", new Exception());
+                    RobotAssertionManager.throwException("Needs to set globalKinematics!", new Exception());
                 }
                 keyPoints = getGlobalKinematicsAdjustedSwervePoints(initialPoint, keyPoints, currentPose);
             }
             case ConstantVelocity -> {
                 keyPoints = getVelocityAdjustedSwervePoints(initialPoint, keyPoints, constantVelocity);
             }
-            default -> assertionManager.throwException("No handling for SwerveSimpleTrajectoryMode!", new Exception());
+            default -> RobotAssertionManager.throwException("No handling for SwerveSimpleTrajectoryMode!", new Exception());
         }
 
         handleAimingAtFinalLeg(currentPose);
@@ -323,7 +321,6 @@ public class SwerveSimpleBezierLogic {
             }
             double distance = previous.getTranslation2d().getDistance(current.getTranslation2d());
             calculator = new SwerveKinematicsCalculator(
-                    assertionManager,
                     Meters.zero(),
                     Meters.of(distance),
                     current.getKinematics()
@@ -362,7 +359,6 @@ public class SwerveSimpleBezierLogic {
         }
 
         SwerveKinematicsCalculator calculator = new SwerveKinematicsCalculator(
-                assertionManager,
                 Meters.zero(),
                 Meters.of(totalDistance),
                 globalKinematics
@@ -385,7 +381,6 @@ public class SwerveSimpleBezierLogic {
             LinearVelocity vf = calculator.getVelocityAtDistanceTravelled(Meters.of(accumulatedDistance));
 
             SwerveKinematicsCalculator operationCalculator = new SwerveKinematicsCalculator(
-                    assertionManager,
                     Meters.zero(),
                     Meters.of(distance),
                     new SwervePointKinematics(globalKinematics.acceleration(), vi, vf, globalKinematics.maxVelocity())

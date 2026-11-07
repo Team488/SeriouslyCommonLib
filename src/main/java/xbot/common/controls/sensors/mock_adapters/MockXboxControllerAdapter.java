@@ -17,7 +17,6 @@ import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.Advanc
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
-import xbot.common.logging.RobotAssertionManager;
 import xbot.common.math.XYPair;
 import xbot.common.subsystems.feedback.XRumbleManager;
 import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
@@ -40,15 +39,17 @@ public class MockXboxControllerAdapter extends XXboxController {
     public abstract static class MockXboxControllerFactory implements XXboxControllerFactory {
         public abstract MockXboxControllerAdapter create(@Assisted("port") int port);
     }
-    
+
     @AssistedInject
-    public MockXboxControllerAdapter(@Assisted("port") int port,
+    public MockXboxControllerAdapter(
+            @Assisted("port") int port,
             AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
             AdvancedPovButtonTriggerFactory povButtonFactory,
-            AnalogHIDButtonTriggerFactory analogHidButtonFactory, XRumbleManagerFactory rumbleManagerFactory,
-            RobotAssertionManager manager, DevicePolice police) {
-        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, rumbleManagerFactory, manager,
-                police);
+            AnalogHIDButtonTriggerFactory analogHidButtonFactory,
+            XRumbleManagerFactory rumbleManagerFactory,
+            DevicePolice police
+    ) {
+        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, rumbleManagerFactory, police);
         leftStick = new XYPair();
         rightStick = new XYPair();
         this.rumbleManager = rumbleManagerFactory.create(this);
@@ -76,7 +77,7 @@ public class MockXboxControllerAdapter extends XXboxController {
      * Needed for a few scenarios where we want to emulate the underlying joystick
      * behavior
      * and not the intent after inversion.
-     * 
+     *
      * @param xy XYPair to directly set. (Remember that by default, most joysticks
      *           have an inverted Y axis!)
      */
@@ -89,7 +90,7 @@ public class MockXboxControllerAdapter extends XXboxController {
      * Needed for a few scenarios where we want to emulate the underlying joystick
      * behavior
      * and not the intent after inversion.
-     * 
+     *
      * @param xy XYPair to directly set. (Remember that by default, most joysticks
      *           have an inverted Y axis!)
      */

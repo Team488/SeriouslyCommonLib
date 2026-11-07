@@ -15,7 +15,6 @@ import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.Advanc
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
-import xbot.common.logging.RobotAssertionManager;
 
 /**
  * A platform-neutral abstraction of a Driver Station gamepad.
@@ -74,9 +73,8 @@ public abstract class XGamepad extends XJoystick implements IGamepad {
             AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
             AdvancedPovButtonTriggerFactory povButtonFactory,
             AnalogHIDButtonTriggerFactory analogHidButtonFactory,
-            RobotAssertionManager assertionManager,
             DevicePolice police) {
-        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, assertionManager, 0, police);
+        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, 0, police);
         this.joystickButtonFactory = joystickButtonFactory;
         this.allocatedButtons = new EnumMap<>(GamepadButton.class);
         this.reservedButtons = EnumSet.noneOf(GamepadButton.class);

@@ -11,8 +11,8 @@ import xbot.common.command.TunableCommandPublisher;
 import xbot.common.controls.sensors.XSettableTimerImpl;
 import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.wpi_adapters.TimerWpiAdapter;
-import xbot.common.logging.RobotAssertionManager;
-import xbot.common.logging.SilentRobotAssertionManager;
+import xbot.common.logging.assertion.RobotAssertionHandler;
+import xbot.common.logging.assertion.SilentRobotAssertionHandler;
 import xbot.common.properties.DebugTunablePersistence;
 import xbot.common.properties.PreferencesTunablePersistence;
 import xbot.common.properties.TunableManager;
@@ -44,7 +44,7 @@ public abstract class RobotModule {
 
     @Binds
     @Singleton
-    abstract RobotAssertionManager getRobotAssertionManager(SilentRobotAssertionManager impl);
+    abstract RobotAssertionHandler getRobotAssertionHandler(SilentRobotAssertionHandler impl);
 
     @Binds
     @Singleton

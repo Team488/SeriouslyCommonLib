@@ -17,8 +17,7 @@ import javax.inject.Singleton;
 import org.wpilib.hardware.bus.CANPort;
 
 import xbot.common.injection.electrical_contract.CANBusId;
-import xbot.common.logging.RobotAssertionManager;
-import xbot.common.logging.SilentRobotAssertionManager;
+import xbot.common.logging.assertion.RobotAssertionManager;
 
 /**
  * Reserves device addresses and enumerates owners by reference identity.
@@ -62,7 +61,6 @@ import xbot.common.logging.SilentRobotAssertionManager;
  */
 @Singleton
 public class DevicePolice {
-    private final RobotAssertionManager assertionManager;
     private final Map<DeviceAddress, Object> registeredChannels = new LinkedHashMap<>();
     private final List<Object> registeredDevices = new ArrayList<>();
     private final Set<Object> deviceIdentities = Collections.newSetFromMap(new IdentityHashMap<>());
@@ -78,6 +76,9 @@ public class DevicePolice {
         USB,
         IMU
     }
+
+    @Inject
+    public DevicePolice() {}
 
     /**
      * An explicit outcome when the assertion reporter returns normally.
@@ -107,20 +108,6 @@ public class DevicePolice {
             public String reason() {
                 return reason;
             }
-        }
-    }
-
-    /**
-     * Uses the supplied reporting policy, or logs and falls back to the competition-safe
-     * policy if the assertion manager is missing.
-     */
-    @Inject
-    public DevicePolice(RobotAssertionManager assertionManager) {
-        if (assertionManager == null) {
-            this.assertionManager = new SilentRobotAssertionManager();
-            this.assertionManager.fail("DevicePolice requires an assertion manager; using the competition-safe policy");
-        } else {
-            this.assertionManager = assertionManager;
         }
     }
 
@@ -187,12 +174,12 @@ public class DevicePolice {
      */
     public synchronized Optional<Object> findDevice(DeviceAddress address) {
         if (address == null) {
-            assertionManager.fail("Device address is required");
+            RobotAssertionManager.fail("Device address is required");
             return Optional.empty();
         }
         Optional<String> error = address.validationError();
         if (error.isPresent()) {
-            assertionManager.fail("Invalid device address " + address + ": " + error.get());
+            RobotAssertionManager.fail("Invalid device address " + address + ": " + error.get());
             return Optional.empty();
         }
         return Optional.ofNullable(registeredChannels.get(address));
@@ -221,7 +208,7 @@ public class DevicePolice {
 
     private RegistrationResult reject(String reason) {
         RegistrationResult result = new RegistrationResult.Rejected(reason);
-        assertionManager.fail(reason);
+        RobotAssertionManager.fail(reason);
         return result;
     }
 }

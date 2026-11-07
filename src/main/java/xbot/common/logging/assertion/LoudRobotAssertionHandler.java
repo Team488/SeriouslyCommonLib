@@ -1,16 +1,16 @@
-package xbot.common.logging;
+package xbot.common.logging.assertion;
 
 import javax.inject.Inject;
 
 /**
- * Version of RobotAssertionManager that allows exceptions to be thrown. Should
+ * Assertion handler that allows exceptions to be thrown. Should
  * only be used off-robot or during controlled testing sessions; should never
  * be used in competition.
  */
-public class LoudRobotAssertionManager extends RobotAssertionManager {
+public class LoudRobotAssertionHandler extends RobotAssertionHandler {
 
     @Inject
-    public LoudRobotAssertionManager() {}
+    public LoudRobotAssertionHandler() {}
 
     @Override
     protected void handlePlatformException(RuntimeException e) {
