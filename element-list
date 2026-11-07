@@ -16,6 +16,7 @@ xbot.common.injection.electrical_contract
 xbot.common.injection.modules
 xbot.common.injection.swerve
 xbot.common.logging
+xbot.common.logging.assertion
 xbot.common.logic
 xbot.common.math
 xbot.common.networking

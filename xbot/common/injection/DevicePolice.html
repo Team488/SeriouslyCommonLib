@@ -65,7 +65,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(xbot.common.logging.RobotAssertionManager)" tabindex="0">DevicePolice(RobotAssertionManager)</a></li>
+<li><a href="#%3Cinit%3E()" tabindex="0">DevicePolice()</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -115,7 +115,7 @@ device in a single call, for example an encoder's A/B channels:
 <p>The result is either <a href="DevicePolice.RegistrationResult.Registered.html" title="class in xbot.common.injection"><code>DevicePolice.RegistrationResult.Registered</code></a> or
 <a href="DevicePolice.RegistrationResult.Rejected.html" title="class in xbot.common.injection"><code>DevicePolice.RegistrationResult.Rejected</code></a>. Inspect a returned rejection before treating
 the reservation as successful; it contains the diagnostic reported through
-<a href="../logging/RobotAssertionManager.html" title="class in xbot.common.logging"><code>RobotAssertionManager</code></a>. Controlled tests may select a loud assertion policy
+<a href="../logging/assertion/RobotAssertionManager.html" title="class in xbot.common.logging.assertion"><code>RobotAssertionManager</code></a>. Controlled tests may select a loud assertion policy
 that throws instead. Validation does not bypass the selected assertion policy.
 
 <p>An occupied address is rejected even for its current owner. The same owner can
@@ -162,11 +162,8 @@ hardware devices.</div>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.logging.RobotAssertionManager)" class="member-name-link">DevicePolice</a><wbr>(<a href="../logging/RobotAssertionManager.html" title="class in xbot.common.logging">RobotAssertionManager</a>&nbsp;assertionManager)</code></div>
-<div class="col-last even-row-color">
-<div class="block">Uses the supplied reporting policy, or logs and falls back to the competition-safe
-policy if the assertion manager is missing.</div>
-</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">DevicePolice</a>()</code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -228,13 +225,11 @@ policy if the assertion manager is missing.</div>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(xbot.common.logging.RobotAssertionManager)">
+<section class="detail" id="&lt;init&gt;()">
 <h3>DevicePolice</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations">@Inject
-</span><span class="modifiers">public</span>&nbsp;<span class="element-name">DevicePolice</span><wbr><span class="parameters">(<a href="../logging/RobotAssertionManager.html" title="class in xbot.common.logging">RobotAssertionManager</a>&nbsp;assertionManager)</span></div>
-<div class="block">Uses the supplied reporting policy, or logs and falls back to the competition-safe
-policy if the assertion manager is missing.</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="element-name">DevicePolice</span>()</div>
 </div>
 </section>
 </li>

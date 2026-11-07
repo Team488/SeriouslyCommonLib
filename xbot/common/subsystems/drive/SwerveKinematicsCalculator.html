@@ -59,7 +59,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(xbot.common.logging.RobotAssertionManager,org.wpilib.units.measure.Distance,org.wpilib.units.measure.Distance,xbot.common.subsystems.drive.SwervePointKinematics)" tabindex="0">SwerveKinematicsCalculator(RobotAssertionManager, Distance, Distance, SwervePointKinematics)</a></li>
+<li><a href="#%3Cinit%3E(org.wpilib.units.measure.Distance,org.wpilib.units.measure.Distance,xbot.common.subsystems.drive.SwervePointKinematics)" tabindex="0">SwerveKinematicsCalculator(Distance, Distance, SwervePointKinematics)</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -112,8 +112,7 @@ UNITS-WISE: This calculator uses meters, but you can feed it any units!</div>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(xbot.common.logging.RobotAssertionManager,org.wpilib.units.measure.Distance,org.wpilib.units.measure.Distance,xbot.common.subsystems.drive.SwervePointKinematics)" class="member-name-link">SwerveKinematicsCalculator</a><wbr>(<a href="../../logging/RobotAssertionManager.html" title="class in xbot.common.logging">RobotAssertionManager</a>&nbsp;assertionManager,
- org.wpilib.units.measure.Distance&nbsp;startPosition,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(org.wpilib.units.measure.Distance,org.wpilib.units.measure.Distance,xbot.common.subsystems.drive.SwervePointKinematics)" class="member-name-link">SwerveKinematicsCalculator</a><wbr>(org.wpilib.units.measure.Distance&nbsp;startPosition,
  org.wpilib.units.measure.Distance&nbsp;endPosition,
  <a href="SwervePointKinematics.html" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a>&nbsp;kinematics)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
@@ -184,11 +183,10 @@ From this, we'll get a 2nd degree polynomial that we'll use quadratic formula to
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(xbot.common.logging.RobotAssertionManager,org.wpilib.units.measure.Distance,org.wpilib.units.measure.Distance,xbot.common.subsystems.drive.SwervePointKinematics)">
+<section class="detail" id="&lt;init&gt;(org.wpilib.units.measure.Distance,org.wpilib.units.measure.Distance,xbot.common.subsystems.drive.SwervePointKinematics)">
 <h3>SwerveKinematicsCalculator</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SwerveKinematicsCalculator</span><wbr><span class="parameters">(<a href="../../logging/RobotAssertionManager.html" title="class in xbot.common.logging">RobotAssertionManager</a>&nbsp;assertionManager,
- org.wpilib.units.measure.Distance&nbsp;startPosition,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SwerveKinematicsCalculator</span><wbr><span class="parameters">(org.wpilib.units.measure.Distance&nbsp;startPosition,
  org.wpilib.units.measure.Distance&nbsp;endPosition,
  <a href="SwervePointKinematics.html" title="class in xbot.common.subsystems.drive">SwervePointKinematics</a>&nbsp;kinematics)</span></div>
 </div>
