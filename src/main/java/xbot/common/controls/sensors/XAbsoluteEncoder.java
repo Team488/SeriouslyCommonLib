@@ -54,6 +54,6 @@ public abstract class XAbsoluteEncoder implements DataFrameRefreshable {
 
     public void refreshDataFrame() {
         updateInputs(inputs);
-        Logger.processInputs(info.name+"/AbsoluteEncoder", inputs);
+        Logger.processInputs(info.name()+"/AbsoluteEncoder", inputs);
     }
 }

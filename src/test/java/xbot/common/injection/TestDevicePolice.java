@@ -257,13 +257,14 @@ public class TestDevicePolice extends BaseCommonLibTest {
     public void hardwareFactoriesRegisterActualOwnersAndConfiguredCanBuses() {
         DevicePolice police = getInjectorComponent().devicePolice();
         var motor = getInjectorComponent().motorControllerFactory().create(
-                new CANMotorControllerInfo("RegisteredMotor", MotorControllerType.TalonFx, CANBusId.Canivore, 34),
+                CANMotorControllerInfo.builder("RegisteredMotor")
+                        .withType(MotorControllerType.TalonFx).withCanBus(CANBusId.Canivore, 34).build(),
                 "RegisteredMotor", "Pid");
         var solenoid = getInjectorComponent().solenoidFactory().create(0);
         var canCoder = getInjectorComponent().canCoderFactory().create(
-                new DeviceInfo("RegisteredCanCoder", CANBusId.Canivore, 35), "RegisteredCanCoder");
+                DeviceInfo.builder("RegisteredCanCoder").withCanBus(CANBusId.Canivore, 35).build(), "RegisteredCanCoder");
         var absoluteEncoder = getInjectorComponent().absoluteEncoderFactory().create(
-                new DeviceInfo("RegisteredAbsoluteEncoder", CANBusId.Canivore, 36), "RegisteredAbsoluteEncoder");
+                DeviceInfo.builder("RegisteredAbsoluteEncoder").withCanBus(CANBusId.Canivore, 36).build(), "RegisteredAbsoluteEncoder");
 
         assertSame(motor, police.findDevice(DeviceAddress.can(CANBusId.Canivore, 34)).orElseThrow());
         assertSame(solenoid, police.findDevice(DeviceAddress.channel(DeviceType.Solenoid, 0)).orElseThrow());

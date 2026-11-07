@@ -31,7 +31,7 @@ public abstract class XCANCoder extends XAbsoluteEncoder {
         inputs = new XCANCoderInputsAutoLogged();
         String alertId = getClass().getName() + "-" + NEXT_ALERT_ID.getAndIncrement();
         unhealthyAlert = new Alert(AlertGroups.DEVICE_HEALTH, alertId,
-                "CANCoder " + info.channel + " on CAN bus " + info.canBusId + " is unhealthy", Alert.Level.HIGH);
+                "CANCoder " + info.channel() + " on CAN bus " + info.canBusId() + " is unhealthy", Alert.Level.HIGH);
     }
 
     /**
@@ -60,7 +60,7 @@ public abstract class XCANCoder extends XAbsoluteEncoder {
     public void refreshDataFrame() {
         super.refreshDataFrame();
         updateInputs(inputs);
-        Logger.processInputs(info.name+"/CANCoder", inputs);
+        Logger.processInputs(info.name()+"/CANCoder", inputs);
 
         unhealthyAlert.set(getHealth() == DeviceHealth.Unhealthy);
     }

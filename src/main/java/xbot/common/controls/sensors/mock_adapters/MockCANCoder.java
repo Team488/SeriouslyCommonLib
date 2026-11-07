@@ -48,14 +48,14 @@ public class MockCANCoder extends XCANCoder {
         super(deviceInfo, dataFrameRegistry);
         tunableFactory.setPrefix(owningSystemPrefix);
 
-        this.deviceId = deviceInfo.channel;
+        this.deviceId = deviceInfo.channel();
         this.velocity = RPM.zero();
         this.position = Rotations.zero();
         tunableFactory.setDefaultLevel(TunableLevel.Debug);
         this.positionOffset = 0;
-        this.inverted = deviceInfo.inverted;
+        this.inverted = deviceInfo.inverted();
 
-        police.registerDevice(this, DeviceAddress.can(deviceInfo.canBusId, deviceInfo.channel));
+        police.registerDevice(this, DeviceAddress.can(deviceInfo.canBusId(), deviceInfo.channel()));
     }
 
     @Override

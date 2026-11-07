@@ -34,7 +34,7 @@ public class DigitalInputWPIAdapter extends XDigitalInput {
             @Assisted("owningSystemPrefix")String owningSystemPrefix,
             DevicePolice police, DataFrameRegistry dataFrameRegistry) {
         super(police, info, owningSystemPrefix, dataFrameRegistry);
-        adapter = new DigitalInput(info.channel);
+        adapter = new DigitalInput(info.channel());
     }
 
     @Override

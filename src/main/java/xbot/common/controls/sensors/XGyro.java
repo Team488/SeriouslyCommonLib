@@ -13,6 +13,7 @@ import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.controls.io_inputs.XGyroIoInputsAutoLogged;
 import xbot.common.injection.electrical_contract.IMUInfo;
+import xbot.common.injection.electrical_contract.PowerSource;
 
 import static org.wpilib.units.Units.Degrees;
 import static org.wpilib.units.Units.DegreesPerSecond;
@@ -42,7 +43,11 @@ public abstract class XGyro implements DataFrameRefreshable, AutoCloseable
         public abstract XGyro create(IMUInfo imuInfo);
 
         public XGyro create() {
-            return create(new IMUInfo(MountOrientation.FLAT));
+            return create(IMUInfo.builder("IMU", ImuType.onboard)
+                    .withDeviceId(1)
+                    .withMountOrientation(MountOrientation.FLAT)
+                    .withPowerFrom(PowerSource.RIO)
+                    .build());
         }
     }
 

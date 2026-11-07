@@ -55,10 +55,10 @@ public class CANCoderAdapter extends XCANCoder {
         super(deviceInfo, dataFrameRegistry);
         tunableFactory.setPrefix(owningSystemPrefix);
 
-        this.inverted = deviceInfo.inverted;
+        this.inverted = deviceInfo.inverted();
         this.magnetOffset = 0.0;
 
-        this.cancoder = new CANcoder(deviceInfo.channel, deviceInfo.canBusId.toPhoenixCANBus());
+        this.cancoder = new CANcoder(deviceInfo.channel(), deviceInfo.canBusId().toPhoenixCANBus());
 
         var currentConfig = getCurrentConfiguration();
         currentConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
@@ -68,14 +68,14 @@ public class CANCoderAdapter extends XCANCoder {
 
         this.getMagnetOffset();
 
-        this.deviceId = deviceInfo.channel;
+        this.deviceId = deviceInfo.channel();
 
         this.versionSignal = cancoder.getVersionMajor(false);
         this.positionSignal = cancoder.getPosition(false);
         this.absolutePositionSignal = cancoder.getAbsolutePosition(false);
         this.velocitySignal = cancoder.getVelocity(false);
 
-        police.registerDevice(this, DeviceAddress.can(deviceInfo.canBusId, deviceInfo.channel));
+        police.registerDevice(this, DeviceAddress.can(deviceInfo.canBusId(), deviceInfo.channel()));
     }
 
     @Override
