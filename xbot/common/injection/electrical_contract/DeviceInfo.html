@@ -103,10 +103,7 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 <div class="block">Immutable device configuration. Construction does not validate or reserve hardware.
 
-<pre><code>DeviceInfo encoder = DeviceInfo.builder("SteeringEncoder")
-        .withCanBus(CANPort.CAN_S1, 11)
-        .withInverted(true)
-        .build();
+<pre><code>DeviceInfo encoder = DeviceInfo.builder("SteeringEncoder").withCanBus(CANPort.CAN_S1, 11).withInverted(true).build();
 </code></pre></div>
 </div>
 </section>
@@ -253,9 +250,9 @@ loadScripts(document, 'script');</script>
 <h3>builder</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="DeviceInfo.Builder.html" title="class in xbot.common.injection.electrical_contract">DeviceInfo.Builder</a></span>&nbsp;<span class="element-name">builder</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
-<div class="block">Starts a builder with no inversion, CAN_S0, and no power-source metadata.
-Set a non-CAN channel with <a href="DeviceInfo.Builder.html#withChannel(int)"><code>DeviceInfo.Builder.withChannel(int)</code></a>, or a CAN address
-with <a href="DeviceInfo.Builder.html#withCanBus(org.wpilib.hardware.bus.CANPort,int)"><code>DeviceInfo.Builder.withCanBus(CANPort, int)</code></a>. An unspecified channel is -1.</div>
+<div class="block">Starts a builder with no inversion, CAN_S0, and no power-source metadata. Set a non-CAN channel with
+<a href="DeviceInfo.Builder.html#withChannel(int)"><code>DeviceInfo.Builder.withChannel(int)</code></a>, or a CAN address with <a href="DeviceInfo.Builder.html#withCanBus(org.wpilib.hardware.bus.CANPort,int)"><code>DeviceInfo.Builder.withCanBus(CANPort, int)</code></a>. An unspecified
+channel is -1.</div>
 </div>
 </section>
 </li>

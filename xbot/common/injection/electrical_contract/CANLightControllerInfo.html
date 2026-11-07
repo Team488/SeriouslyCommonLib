@@ -105,10 +105,7 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 <div class="block">Light-controller configuration. Construction does not validate or reserve hardware.
 
-<pre><code>CANLightControllerInfo lights = CANLightControllerInfo.builder("Lights")
-        .withCanBus(CANPort.CAN_S0, 60)
-        .withPowerFrom(PowerSource.PDH01)
-        .build();
+<pre><code>CANLightControllerInfo lights = CANLightControllerInfo.builder("Lights").withCanBus(CANPort.CAN_S0, 60).withPowerFrom(PowerSource.PDH01).build();
 </code></pre></div>
 </div>
 </section>
@@ -163,8 +160,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="CANLightControllerInfo.Builder.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo.Builder</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#builder(java.lang.String)" class="member-name-link">builder</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Starts a CANdle builder on CAN_S0 with the existing default light configuration
-and no power-source metadata.</div>
+<div class="block">Starts a CANdle builder on CAN_S0 with the existing default light configuration and no power-source metadata.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#canBusId()" class="member-name-link">canBusId</a>()</code></div>
@@ -264,9 +260,8 @@ and no power-source metadata.</div>
 <h3>builder</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="CANLightControllerInfo.Builder.html" title="class in xbot.common.injection.electrical_contract">CANLightControllerInfo.Builder</a></span>&nbsp;<span class="element-name">builder</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
-<div class="block">Starts a CANdle builder on CAN_S0 with the existing default light configuration
-and no power-source metadata. Set the CAN address with <a href="CANLightControllerInfo.Builder.html#withCanBus(org.wpilib.hardware.bus.CANPort,int)"><code>CANLightControllerInfo.Builder.withCanBus(CANPort, int)</code></a>;
-an unspecified device ID is -1.</div>
+<div class="block">Starts a CANdle builder on CAN_S0 with the existing default light configuration and no power-source metadata. Set the
+CAN address with <a href="CANLightControllerInfo.Builder.html#withCanBus(org.wpilib.hardware.bus.CANPort,int)"><code>CANLightControllerInfo.Builder.withCanBus(CANPort, int)</code></a>; an unspecified device ID is -1.</div>
 </div>
 </section>
 </li>

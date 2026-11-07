@@ -170,9 +170,9 @@ implements <a href="ProvidesWaypoints.html" title="interface in xbot.common.traj
 <h3>addObstacle</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addObstacle</span><wbr><span class="parameters">(<a href="Obstacle.html" title="class in xbot.common.trajectory">Obstacle</a>&nbsp;o)</span></div>
-<div class="block">Adds an obstacle to the field. If the obstacle intersects with any existing obstacles, it will be combined with
-the existing obstacle into a single larger obstacle with a bounding box that fully contains both obstacles.
-This should be the only method used to add new obstacles; otherwise obstacles could intersect.</div>
+<div class="block">Adds an obstacle to the field. If the obstacle intersects with any existing obstacles, it will be combined with the
+existing obstacle into a single larger obstacle with a bounding box that fully contains both obstacles. This should
+be the only method used to add new obstacles; otherwise obstacles could intersect.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>o</code> - The obstacle to add.</dd>
@@ -194,8 +194,8 @@ This should be the only method used to add new obstacles; otherwise obstacles co
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="XbotSwervePoint.html" title="class in xbot.common.trajectory">XbotSwervePoint</a>&gt;</span>&nbsp;<span class="element-name">generatePath</span><wbr><span class="parameters">(org.wpilib.math.geometry.Pose2d&nbsp;currentPose,
  org.wpilib.math.geometry.Pose2d&nbsp;targetPoint)</span></div>
-<div class="block">Generates a path from the current position to the target point, avoiding known obstacles.
-Very generally, it will recursively solve paths nearby the target, and then step foward to approach the target.</div>
+<div class="block">Generates a path from the current position to the target point, avoiding known obstacles. Very generally, it will
+recursively solve paths nearby the target, and then step foward to approach the target.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="ProvidesWaypoints.html#generatePath(org.wpilib.math.geometry.Pose2d,org.wpilib.math.geometry.Pose2d)">generatePath</a></code>&nbsp;in interface&nbsp;<code><a href="ProvidesWaypoints.html" title="interface in xbot.common.trajectory">ProvidesWaypoints</a></code></dd>

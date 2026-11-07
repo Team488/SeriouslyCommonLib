@@ -260,15 +260,15 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>errorTolerance</code> - How close the error can be before it is considered "on-target."
-                           <p>
-                           Negative values will cause that constraint to skipped when checking isOnTarget().
-                           <p>
-                           This is in the same units as your current and goal values.</dd>
+           <p>
+           Negative values will cause that constraint to skipped when checking isOnTarget().
+           <p>
+           This is in the same units as your current and goal values.</dd>
 <dd><code>derivativeTolerance</code> - Set how small the derivative of the error can be before it is considered "on-target."
-                           <p>
-                           This is roughly in the same units as your current and goal values, but per 1/20th of a second.
-                           <p>
-                           e.g. if you wanted a minimum rotation speed of 5 degrees per second, this tolerance would need to be 0.25.</dd>
+           <p>
+           This is roughly in the same units as your current and goal values, but per 1/20th of a second.
+           <p>
+           e.g. if you wanted a minimum rotation speed of 5 degrees per second, this tolerance would need to be 0.25.</dd>
 </dl>
 </div>
 </section>
@@ -371,8 +371,9 @@ loadScripts(document, 'script');</script>
 <h3>getOffTargetReason</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="PID.OffTargetReason.html" title="enum class in xbot.common.math">PID.OffTargetReason</a></span>&nbsp;<span class="element-name">getOffTargetReason</span>()</div>
-<div class="block">Returns an enum explaining the reason the PID is not on target. It has the following priority list if there are multiple reasons (higher ones overrule
-lower ones): - Too much error - Too much derivative - Waiting for time stability - On Target</div>
+<div class="block">Returns an enum explaining the reason the PID is not on target. It has the following priority list if there are
+multiple reasons (higher ones overrule lower ones): - Too much error - Too much derivative - Waiting for time
+stability - On Target</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The reason the PID is not on target.</dd>

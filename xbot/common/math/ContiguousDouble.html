@@ -99,13 +99,9 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">ContiguousDouble</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">Wraps a double to allow easy comparison and manipulation of sensor readings
-that wrap (e.g. -180 to 180).
+<div class="block">Wraps a double to allow easy comparison and manipulation of sensor readings that wrap (e.g. -180 to 180).
 
-For bounds 0 - 10, logically:
-  - 10 + 1 == 1
-  - 0 - 1 == 9
-  - 0 == 10</div>
+For bounds 0 - 10, logically: - 10 + 1 == 1 - 0 - 1 == 9 - 0 == 10</div>
 </div>
 </section>
 <section class="summary">
@@ -147,14 +143,12 @@ For bounds 0 - 10, logically:
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#difference(double)" class="member-name-link">difference</a><wbr>(double&nbsp;otherValue)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Computes the difference between two values (other - this), accounting for
-wrapping.</div>
+<div class="block">Computes the difference between two values (other - this), accounting for wrapping.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#difference(xbot.common.math.ContiguousDouble)" class="member-name-link">difference</a><wbr>(<a href="ContiguousDouble.html" title="class in xbot.common.math">ContiguousDouble</a>&nbsp;otherValue)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Computes the difference between two values (other - this), accounting for
-wrapping</div>
+<div class="block">Computes the difference between two values (other - this), accounting for wrapping</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLowerBound()" class="member-name-link">getLowerBound</a>()</code></div>
@@ -168,8 +162,7 @@ wrapping</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reboundValue()" class="member-name-link">reboundValue</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Shifts the value so that it still represents the same position but is
-within the current bounds.</div>
+<div class="block">Shifts the value so that it still represents the same position but is within the current bounds.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#reboundValue(double,double,double)" class="member-name-link">reboundValue</a><wbr>(double&nbsp;value,
@@ -201,14 +194,12 @@ within the current bounds.</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unwrapAbove()" class="member-name-link">unwrapAbove</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Calculates a number representing the current value that is higher than
-(or equal to) the upper bound.</div>
+<div class="block">Calculates a number representing the current value that is higher than (or equal to) the upper bound.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#unwrapBelow()" class="member-name-link">unwrapBelow</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Calculates a number representing the current value that is lower than (or
-equal to) the lower bound.</div>
+<div class="block">Calculates a number representing the current value that is lower than (or equal to) the lower bound.</div>
 </div>
 </div>
 </div>
@@ -267,8 +258,7 @@ equal to) the lower bound.</div>
 <h3>reboundValue</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">reboundValue</span>()</div>
-<div class="block">Shifts the value so that it still represents the same position but is
-within the current bounds.</div>
+<div class="block">Shifts the value so that it still represents the same position but is within the current bounds.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the new value for chaining functions</dd>
@@ -291,9 +281,8 @@ within the current bounds.</div>
 <h3>unwrapBelow</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">unwrapBelow</span>()</div>
-<div class="block">Calculates a number representing the current value that is lower than (or
-equal to) the lower bound. Used to make normal numerical comparisons
-without needing to handle wrap cases.</div>
+<div class="block">Calculates a number representing the current value that is lower than (or equal to) the lower bound. Used to make
+normal numerical comparisons without needing to handle wrap cases.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the computed value</dd>
@@ -306,9 +295,8 @@ without needing to handle wrap cases.</div>
 <h3>unwrapAbove</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">unwrapAbove</span>()</div>
-<div class="block">Calculates a number representing the current value that is higher than
-(or equal to) the upper bound. Used to make normal numerical comparisons
-without needing to handle wrap cases.</div>
+<div class="block">Calculates a number representing the current value that is higher than (or equal to) the upper bound. Used to make
+normal numerical comparisons without needing to handle wrap cases.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the computed value</dd>
@@ -321,9 +309,8 @@ without needing to handle wrap cases.</div>
 <h3>difference</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">difference</span><wbr><span class="parameters">(double&nbsp;otherValue)</span></div>
-<div class="block">Computes the difference between two values (other - this), accounting for
-wrapping. Treats the given 'other' value as a number within the same bounds
-as the current instance.</div>
+<div class="block">Computes the difference between two values (other - this), accounting for wrapping. Treats the given 'other' value as
+a number within the same bounds as the current instance.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>otherValue</code> - the other value to compare against</dd>
@@ -338,12 +325,10 @@ as the current instance.</div>
 <h3>difference</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">difference</span><wbr><span class="parameters">(<a href="ContiguousDouble.html" title="class in xbot.common.math">ContiguousDouble</a>&nbsp;otherValue)</span></div>
-<div class="block">Computes the difference between two values (other - this), accounting for
-wrapping</div>
+<div class="block">Computes the difference between two values (other - this), accounting for wrapping</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>otherValue</code> - the other value to compare against (must have the same bounds
-           as the current instance)</dd>
+<dd><code>otherValue</code> - the other value to compare against (must have the same bounds as the current instance)</dd>
 <dt>Returns:</dt>
 <dd>the computed difference</dd>
 </dl>

@@ -99,15 +99,15 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">BaseParallelDeadlineGroup</span>
 <span class="extends-implements">extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseCommand</a></span></div>
-<div class="block">A command composition that runs a set of commands in parallel, ending only when a specific
-command (the "deadline") ends, interrupting all other commands that are still running at that
-point.
+<div class="block">A command composition that runs a set of commands in parallel, ending only when a specific command (the "deadline")
+ends, interrupting all other commands that are still running at that point.
 
-<p>The rules for command compositions apply: command instances that are passed to it cannot be
-added to any other composition or scheduled individually, and the composition requires all
-subsystems its components require.
+<p>
+The rules for command compositions apply: command instances that are passed to it cannot be added to any other
+composition or scheduled individually, and the composition requires all subsystems its components require.
 
-<p>This class is provided by the NewCommands VendorDep</div>
+<p>
+This class is provided by the NewCommands VendorDep</div>
 </div>
 </section>
 <section class="summary">
@@ -217,10 +217,9 @@ subsystems its components require.
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">BaseParallelDeadlineGroup</span><wbr><span class="parameters">(org.wpilib.command2.Command&nbsp;deadline,
  org.wpilib.command2.Command...&nbsp;otherCommands)</span></div>
-<div class="block">Creates a new ParallelDeadlineGroup. The given commands, including the deadline, will be
-executed simultaneously. The composition will finish when the deadline finishes, interrupting
-all other still-running commands. If the composition is interrupted, only the commands still
-running will be interrupted.</div>
+<div class="block">Creates a new ParallelDeadlineGroup. The given commands, including the deadline, will be executed simultaneously. The
+composition will finish when the deadline finishes, interrupting all other still-running commands. If the composition
+is interrupted, only the commands still running will be interrupted.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>deadline</code> - the command that determines when the composition ends</dd>
@@ -244,8 +243,7 @@ running will be interrupted.</div>
 <h3>setDeadline</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDeadline</span><wbr><span class="parameters">(org.wpilib.command2.Command&nbsp;deadline)</span></div>
-<div class="block">Sets the deadline to the given command. The deadline is added to the group if it is not already
-contained.</div>
+<div class="block">Sets the deadline to the given command. The deadline is added to the group if it is not already contained.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>deadline</code> - the command that determines when the group ends</dd>

@@ -100,9 +100,8 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">The FieldPose class represents a point on the field as well as a heading.
 
-It also keeps track of some linear equation parameters such as slope and y-intercept.
-These are used to calculate intersection points between multiple FieldPose instances,
-which can then be used as part of path-following logic.</div>
+It also keeps track of some linear equation parameters such as slope and y-intercept. These are used to calculate
+intersection points between multiple FieldPose instances, which can then be used as part of path-following logic.</div>
 </div>
 </section>
 <section class="summary">
@@ -350,9 +349,8 @@ which can then be used as part of path-following logic.</div>
 <h3>getPointAlongPoseLine</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="FieldPose.html" title="class in xbot.common.math">FieldPose</a></span>&nbsp;<span class="element-name">getPointAlongPoseLine</span><wbr><span class="parameters">(double&nbsp;distance)</span></div>
-<div class="block">Projects along the line created by the X,Y pair and the Heading.
-Positive distances are in front, negative are behind. Keeps the
-original heading.</div>
+<div class="block">Projects along the line created by the X,Y pair and the Heading. Positive distances are in front, negative are
+behind. Keeps the original heading.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>distance</code> - Positive distances are in front, negative are behind.</dd>
@@ -367,8 +365,8 @@ original heading.</div>
 <h3>getFieldPoseOffsetBy</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="FieldPose.html" title="class in xbot.common.math">FieldPose</a></span>&nbsp;<span class="element-name">getFieldPoseOffsetBy</span><wbr><span class="parameters">(<a href="FieldPose.html" title="class in xbot.common.math">FieldPose</a>&nbsp;offset)</span></div>
-<div class="block">Returns a FieldPose that's "subtracted" by the offset FieldPose. Useful for setting your current position
-as 0,0 and measuring relative to that as you move around the field.</div>
+<div class="block">Returns a FieldPose that's "subtracted" by the offset FieldPose. Useful for setting your current position as 0,0 and
+measuring relative to that as you move around the field.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>offset</code> - The offset location</dd>

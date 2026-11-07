@@ -110,9 +110,10 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">AKitLogger</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">AKitLogger is a wrapper around the AdvantageKit Logger that adds some extra functionality, such as log levels and prefixes.
-The log level functionality allows you to control how much logging is sent to the network table, which can be useful for reducing network traffic.
-The prefix functionality allows you to easily organize your logs in the network table by subsystem or other categories.</div>
+<div class="block">AKitLogger is a wrapper around the AdvantageKit Logger that adds some extra functionality, such as log levels and
+prefixes. The log level functionality allows you to control how much logging is sent to the network table, which can
+be useful for reducing network traffic. The prefix functionality allows you to easily organize your logs in the
+network table by subsystem or other categories.</div>
 </div>
 </section>
 <section class="summary">
@@ -320,9 +321,8 @@ The prefix functionality allows you to easily organize your logs in the network 
 <h3>setGlobalLogLevel</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setGlobalLogLevel</span><wbr><span class="parameters">(<a href="AKitLogger.LogLevel.html" title="enum class in xbot.common.advantage">AKitLogger.LogLevel</a>&nbsp;level)</span></div>
-<div class="block">This controls the log level for all AKitLoggers.
-This will generally be set to INFO during competitions so that debug logs are
-not sent to the network table.</div>
+<div class="block">This controls the log level for all AKitLoggers. This will generally be set to INFO during competitions so that debug
+logs are not sent to the network table.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>level</code> - new level to set</dd>
@@ -336,8 +336,8 @@ not sent to the network table.</div>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">withLogLevel</span><wbr><span class="parameters">(<a href="AKitLogger.LogLevel.html" title="enum class in xbot.common.advantage">AKitLogger.LogLevel</a>&nbsp;level,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;loggingCode)</span></div>
-<div class="block">Temporarily changes the log level for this logger while running the provided code.
-This is useful for cases where you want to log something at a different level than the rest of the logger's logs.</div>
+<div class="block">Temporarily changes the log level for this logger while running the provided code. This is useful for cases where you
+want to log something at a different level than the rest of the logger's logs.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>level</code> - log level to use while running the provided code</dd>
@@ -351,8 +351,7 @@ This is useful for cases where you want to log something at a different level th
 <h3>setLogLevel</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setLogLevel</span><wbr><span class="parameters">(<a href="AKitLogger.LogLevel.html" title="enum class in xbot.common.advantage">AKitLogger.LogLevel</a>&nbsp;level)</span></div>
-<div class="block">Set the log level for this particular logger instance.
-Log calls made after this will have that level when checking
+<div class="block">Set the log level for this particular logger instance. Log calls made after this will have that level when checking
 if they should record or not.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -379,8 +378,8 @@ if they should record or not.</div>
 <h3>setPrefix</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPrefix</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;prefix)</span></div>
-<div class="block">Changes the log prefix. May be needed for subsystems that have the same name,
-such as multiple instances of the Swerve modules.</div>
+<div class="block">Changes the log prefix. May be needed for subsystems that have the same name, such as multiple instances of the
+Swerve modules.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>prefix</code> - logging prefix, should end with a "/"</dd>

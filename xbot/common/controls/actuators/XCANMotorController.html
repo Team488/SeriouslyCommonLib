@@ -614,8 +614,8 @@ implements <a href="../../advantage/DataFrameRefreshable.html" title="interface 
 <h3>MAX_VOLTAGE</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">org.wpilib.units.measure.Voltage</span>&nbsp;<span class="element-name">MAX_VOLTAGE</span></div>
-<div class="block">The maximum voltage that the motor controller can accept.
-This is typically 12V, but at the start of a match the voltage could be a little higher..</div>
+<div class="block">The maximum voltage that the motor controller can accept. This is typically 12V, but at the start of a match the
+voltage could be a little higher..</div>
 </div>
 </section>
 </li>
@@ -807,9 +807,8 @@ This is typically 12V, but at the start of a match the voltage could be a little
 <h3>setSoftwareForwardLimit</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setSoftwareForwardLimit</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/BooleanSupplier.html" title="class or interface in java.util.function" class="external-link">BooleanSupplier</a>&nbsp;softwareForwardLimit)</span></div>
-<div class="block">Set the software forward limit for the motor controller.
-If the limit is hit, the motor controller will stop.
-This is evaluated on every periodic call.</div>
+<div class="block">Set the software forward limit for the motor controller. If the limit is hit, the motor controller will stop. This is
+evaluated on every periodic call.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>softwareForwardLimit</code> - A supplier that returns true if the forward limit is hit.</dd>
@@ -822,9 +821,8 @@ This is evaluated on every periodic call.</div>
 <h3>setSoftwareReverseLimit</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setSoftwareReverseLimit</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/BooleanSupplier.html" title="class or interface in java.util.function" class="external-link">BooleanSupplier</a>&nbsp;softwareReverseLimit)</span></div>
-<div class="block">Set the software reverse limit for the motor controller.
-If the limit is hit, the motor controller will stop.
-This is evaluated on every periodic call.</div>
+<div class="block">Set the software reverse limit for the motor controller. If the limit is hit, the motor controller will stop. This is
+evaluated on every periodic call.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>softwareReverseLimit</code> - A supplier that returns true if the reverse limit is hit.</dd>
@@ -839,8 +837,8 @@ This is evaluated on every periodic call.</div>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPidDirectly</span><wbr><span class="parameters">(double&nbsp;p,
  double&nbsp;i,
  double&nbsp;d)</span></div>
-<div class="block">Set the PID values for the motor controller directly, without using tunables.
-This method sets the PID values on slot 0, and leaves feed forward values at 0.</div>
+<div class="block">Set the PID values for the motor controller directly, without using tunables. This method sets the PID values on slot
+0, and leaves feed forward values at 0.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>p</code> - The proportional gain to set.</dd>
@@ -859,8 +857,8 @@ This method sets the PID values on slot 0, and leaves feed forward values at 0.<
  double&nbsp;d,
  double&nbsp;velocityFF,
  double&nbsp;gravityFF)</span></div>
-<div class="block">Set the PID values for the motor controller directly, without using tunables.
-This method sets the PID values on slot 0.</div>
+<div class="block">Set the PID values for the motor controller directly, without using tunables. This method sets the PID values on slot
+0.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>p</code> - The proportional gain to set.</dd>
@@ -1000,9 +998,11 @@ This method sets the PID values on slot 0.</div>
 <h3>setDistancePerMotorRotationsScaleFactor</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDistancePerMotorRotationsScaleFactor</span><wbr><span class="parameters">(org.wpilib.units.Measure&lt;? extends org.wpilib.units.PerUnit&lt;org.wpilib.units.DistanceUnit, org.wpilib.units.AngleUnit&gt;&gt;&nbsp;distancePerAngle)</span></div>
-<div class="block">Set the distance per motor rotation scaling factor for the motor controller.
-This is used to convert the motor controller's position to a distance.
-<p>Example: <code>setDistancePerMotorRotationScaleFactor(Meters.per(Rotation).of(0.5))</code></p></div>
+<div class="block">Set the distance per motor rotation scaling factor for the motor controller. This is used to convert the motor
+controller's position to a distance.
+<p>
+Example: <code>setDistancePerMotorRotationScaleFactor(Meters.per(Rotation).of(0.5))</code>
+</p></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>distancePerAngle</code> - The distance per angle scaling factor to set.</dd>
@@ -1015,9 +1015,11 @@ This is used to convert the motor controller's position to a distance.
 <h3>setAngleScaleFactor</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setAngleScaleFactor</span><wbr><span class="parameters">(org.wpilib.units.Measure&lt;? extends org.wpilib.units.PerUnit&lt;org.wpilib.units.AngleUnit, org.wpilib.units.AngleUnit&gt;&gt;&nbsp;angleScaleFactor)</span></div>
-<div class="block">Set the angle scaling factor for the motor controller.
-This is used to convert the motor controller's position to an angle.
-<p>Example: <code>setAngleScaleFactor(Degrees.per(Rotation).of(488))</code></p></div>
+<div class="block">Set the angle scaling factor for the motor controller. This is used to convert the motor controller's position to an
+angle.
+<p>
+Example: <code>setAngleScaleFactor(Degrees.per(Rotation).of(488))</code>
+</p></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>angleScaleFactor</code> - The angle scaling factor to set.</dd>
@@ -1070,7 +1072,9 @@ This is used to convert the motor controller's position to an angle.
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPosition</span><wbr><span class="parameters">(org.wpilib.units.measure.Angle&nbsp;position)</span></div>
 <div class="block">Override the position of the motor controller.
-<p>Typically, this would be called to zero the reported position of the motor as part of a calibration routine.</p></div>
+<p>
+Typically, this would be called to zero the reported position of the motor as part of a calibration routine.
+</p></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>position</code> - The new position to set.</dd>
@@ -1084,7 +1088,9 @@ This is used to convert the motor controller's position to an angle.
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRawPosition</span><wbr><span class="parameters">(org.wpilib.units.measure.Angle&nbsp;position)</span></div>
 <div class="block">Override the position of the motor controller.
-<p>Typically, this would be called to zero the reported position of the motor as part of a calibration routine.</p></div>
+<p>
+Typically, this would be called to zero the reported position of the motor as part of a calibration routine.
+</p></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>position</code> - The new position to set.</dd>

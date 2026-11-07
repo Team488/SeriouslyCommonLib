@@ -100,8 +100,8 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">CANBusId</span>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
-<div class="block">Represents a CAN bus ID. Use <a href="#fromPort(org.wpilib.hardware.bus.CANPort)"><code>fromPort(CANPort)</code></a> for native SystemCore and
-MotionCore ports; CANivore retains its wildcard identity.</div>
+<div class="block">Represents a CAN bus ID. Use <a href="#fromPort(org.wpilib.hardware.bus.CANPort)"><code>fromPort(CANPort)</code></a> for native SystemCore and MotionCore ports; CANivore retains
+its wildcard identity.</div>
 </div>
 </section>
 <section class="summary">
@@ -241,8 +241,8 @@ MotionCore ports; CANivore retains its wildcard identity.</div>
 <h3>fromPort</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a></span>&nbsp;<span class="element-name">fromPort</span><wbr><span class="parameters">(org.wpilib.hardware.bus.CANPort&nbsp;port)</span></div>
-<div class="block">Describes a native bus using WPILib's port enum and Phoenix's corresponding bus name.
-A null port produces an invalid address request for DevicePolice to reject.</div>
+<div class="block">Describes a native bus using WPILib's port enum and Phoenix's corresponding bus name. A null port produces an invalid
+address request for DevicePolice to reject.</div>
 </div>
 </section>
 </li>
@@ -251,8 +251,8 @@ A null port produces an invalid address request for DevicePolice to reject.</div
 <h3>toPhoenixCANBus</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/CANBus.html" title="class or interface in com.ctre.phoenix6" class="external-link">CANBus</a></span>&nbsp;<span class="element-name">toPhoenixCANBus</span>()</div>
-<div class="block">Converts this CANBusId to a Phoenix CANBus object. Unsupported identities are logged
-and fall back to SystemCore CAN_S0.</div>
+<div class="block">Converts this CANBusId to a Phoenix CANBus object. Unsupported identities are logged and fall back to SystemCore
+CAN_S0.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>Corresponding CANBus object</dd>
@@ -265,8 +265,8 @@ and fall back to SystemCore CAN_S0.</div>
 <h3>toWpiCANPort</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">org.wpilib.hardware.bus.CANPort</span>&nbsp;<span class="element-name">toWpiCANPort</span>()</div>
-<div class="block">Converts this CANBusId to a WPILib CANPort. Non-native identities (including CANivore)
-are logged and fall back to SystemCore CAN_S0.</div>
+<div class="block">Converts this CANBusId to a WPILib CANPort. Non-native identities (including CANivore) are logged and fall back to
+SystemCore CAN_S0.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>Corresponding CANPort</dd>

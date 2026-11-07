@@ -98,9 +98,8 @@ loadScripts(document, 'script');</script>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,double)" class="member-name-link">InterpolatingHistoryBuffer</a><wbr>(int&nbsp;length,
  double&nbsp;init_val)</code></div>
 <div class="col-last even-row-color">
-<div class="block">This class implements a set of circular buffers that can be used to store
-values of signals in the past, and retrieve values at arbitrary previous time
-indexes.</div>
+<div class="block">This class implements a set of circular buffers that can be used to store values of signals in the past, and retrieve
+values at arbitrary previous time indexes.</div>
 </div>
 </div>
 </section>
@@ -150,9 +149,8 @@ indexes.</div>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">InterpolatingHistoryBuffer</span><wbr><span class="parameters">(int&nbsp;length,
  double&nbsp;init_val)</span></div>
-<div class="block">This class implements a set of circular buffers that can be used to store
-values of signals in the past, and retrieve values at arbitrary previous time
-indexes.
+<div class="block">This class implements a set of circular buffers that can be used to store values of signals in the past, and retrieve
+values at arbitrary previous time indexes.
 
 The value is assumed to saturate at the end of the maintained history.</div>
 <dl class="notes">
@@ -180,8 +178,7 @@ The value is assumed to saturate at the end of the maintained history.</div>
 <div class="block">Insert a new value into the buffer. Discards the oldest value.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>time</code> - Time at which the value was sampled. elements must be inserted
-             in a monotomically increasing fashion</dd>
+<dd><code>time</code> - Time at which the value was sampled. elements must be inserted in a monotomically increasing fashion</dd>
 <dd><code>value</code> - Value of the signal right now</dd>
 <dt>Returns:</dt>
 <dd>true if the value was inserted, false otherwise</dd>

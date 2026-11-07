@@ -100,11 +100,12 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="BaseCommand.html" title="class in xbot.common.command">BaseCommand</a></span></div>
 <div class="block">A command composition that runs a set of commands in parallel, ending when the last command ends.
 
-<p>The rules for command compositions apply: command instances that are passed to it cannot be
-added to any other composition or scheduled individually, and the composition requires all
-subsystems its components require.
+<p>
+The rules for command compositions apply: command instances that are passed to it cannot be added to any other
+composition or scheduled individually, and the composition requires all subsystems its components require.
 
-<p>This class is provided by the NewCommands VendorDep</div>
+<p>
+This class is provided by the NewCommands VendorDep</div>
 </div>
 </section>
 <section class="summary">
@@ -207,9 +208,9 @@ subsystems its components require.
 <h3>BaseParallelCommandGroup</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">BaseParallelCommandGroup</span><wbr><span class="parameters">(org.wpilib.command2.Command...&nbsp;commands)</span></div>
-<div class="block">Creates a new ParallelCommandGroup. The given commands will be executed simultaneously. The
-command composition will finish when the last command finishes. If the composition is
-interrupted, only the commands that are still running will be interrupted.</div>
+<div class="block">Creates a new ParallelCommandGroup. The given commands will be executed simultaneously. The command composition will
+finish when the last command finishes. If the composition is interrupted, only the commands that are still running
+will be interrupted.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>commands</code> - the commands to include in this composition.</dd>

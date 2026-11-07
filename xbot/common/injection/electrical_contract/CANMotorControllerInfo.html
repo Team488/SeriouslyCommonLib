@@ -105,11 +105,8 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 <div class="block">Motor-controller configuration. Construction does not validate or reserve hardware.
 
-<pre><code>CANMotorControllerInfo motor = CANMotorControllerInfo.builder("Drive")
-        .withType(MotorControllerType.TalonFx)
-        .withCanBus(CANBusId.Canivore, 1)
-        .withPdhPort(PDHPort.PDH01)
-        .build();
+<pre><code>CANMotorControllerInfo motor = CANMotorControllerInfo.builder("Drive").withType(MotorControllerType.TalonFx).withCanBus(CANBusId.Canivore, 1)
+        .withPdhPort(PDHPort.PDH01).build();
 </code></pre></div>
 </div>
 </section>
@@ -264,9 +261,9 @@ loadScripts(document, 'script');</script>
 <h3>builder</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="CANMotorControllerInfo.Builder.html" title="class in xbot.common.injection.electrical_contract">CANMotorControllerInfo.Builder</a></span>&nbsp;<span class="element-name">builder</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
-<div class="block">Starts a SparkMax builder on CAN_S0 with no PDH port.
-Set the CAN address with <a href="CANMotorControllerInfo.Builder.html#withCanBus(org.wpilib.hardware.bus.CANPort,int)"><code>CANMotorControllerInfo.Builder.withCanBus(CANPort, int)</code></a>; an unspecified device ID is -1.
-Each build gets a fresh default output configuration unless one is explicitly supplied.</div>
+<div class="block">Starts a SparkMax builder on CAN_S0 with no PDH port. Set the CAN address with
+<a href="CANMotorControllerInfo.Builder.html#withCanBus(org.wpilib.hardware.bus.CANPort,int)"><code>CANMotorControllerInfo.Builder.withCanBus(CANPort, int)</code></a>; an unspecified device ID is -1. Each build gets a fresh default output
+configuration unless one is explicitly supplied.</div>
 </div>
 </section>
 </li>

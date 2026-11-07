@@ -112,9 +112,10 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Type Parameters:</dt>
 <dd><span id="type-param-TargetT"><code>TargetT</code> - The type of the setpoint being maintained.</span></dd>
-<dd><span id="type-param-PowerT"><code>PowerT</code> - The type of the power being applied to the subsystem.
-It runs a state machine to decide if the subsystem should be in human control, machine control, or coasting:
-<pre class="mermaid">
+<dd><span id="type-param-PowerT"><code>PowerT</code> - The type of the power being applied to the subsystem. It runs a state machine to decide if the subsystem
+           should be in human control, machine control, or coasting:
+
+           <pre class="mermaid">
    flowchart TD
        C[Coast]
        HC[HumanControl]
@@ -127,7 +128,7 @@ It runs a state machine to decide if the subsystem should be in human control, m
        R-- Yes --&gt;C
        R-- No --&gt;IMC
        IMC--&gt;MC
-</pre></span></dd>
+           </pre></span></dd>
 </dl>
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
@@ -245,8 +246,7 @@ It runs a state machine to decide if the subsystem should be in human control, m
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getErrorWithinTolerance()" class="member-name-link">getErrorWithinTolerance</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Performs a simple difference between goal and target in order to see if we
-are close.</div>
+<div class="block">Performs a simple difference between goal and target in order to see if we are close.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract <a href="#type-param-PowerT" title="type parameter in BaseMaintainerCommand">PowerT</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getHumanInput()" class="member-name-link">getHumanInput</a>()</code></div>
@@ -256,8 +256,8 @@ are close.</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getHumanInputMagnitude()" class="member-name-link">getHumanInputMagnitude</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Gets the magnitude of the human input to use for the maintain command,
-since the generic type <code>PowerT</code> may not be a number.</div>
+<div class="block">Gets the magnitude of the human input to use for the maintain command, since the generic type <code>PowerT</code> may not
+be a number.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#humanControlAction()" class="member-name-link">humanControlAction</a>()</code></div>
@@ -280,8 +280,7 @@ since the generic type <code>PowerT</code> may not be a number.</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maintain()" class="member-name-link">maintain</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Contains all the logic associated with keeping the subsystem
-at its goal.</div>
+<div class="block">Contains all the logic associated with keeping the subsystem at its goal.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resetDecider(boolean)" class="member-name-link">resetDecider</a><wbr>(boolean&nbsp;startInAutomaticMode)</code></div>
@@ -473,8 +472,7 @@ at its goal.</div>
 <h3>maintain</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">maintain</span>()</div>
-<div class="block">Contains all the logic associated with keeping the subsystem
-at its goal.</div>
+<div class="block">Contains all the logic associated with keeping the subsystem at its goal.</div>
 </div>
 </section>
 </li>
@@ -492,8 +490,7 @@ at its goal.</div>
 <h3>humanControlAction</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">humanControlAction</span>()</div>
-<div class="block">The human control action. Typically, this simply assigns the human input to
-the subsystem.</div>
+<div class="block">The human control action. Typically, this simply assigns the human input to the subsystem.</div>
 </div>
 </section>
 </li>
@@ -502,8 +499,7 @@ the subsystem.</div>
 <h3>initializeMachineControlAction</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initializeMachineControlAction</span>()</div>
-<div class="block">The initialize machine control action. Typically, this sets the goal to the
-current position to avoid sudden changes.</div>
+<div class="block">The initialize machine control action. Typically, this sets the goal to the current position to avoid sudden changes.</div>
 </div>
 </section>
 </li>
@@ -521,9 +517,8 @@ current position to avoid sudden changes.</div>
 <h3>uncalibratedMachineControlAction</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">uncalibratedMachineControlAction</span>()</div>
-<div class="block">The uncalibrated machine control action. Typically, this defaults to human
-control, although this is a good candidate for being overridden with an
-auto-calibration sequence.</div>
+<div class="block">The uncalibrated machine control action. Typically, this defaults to human control, although this is a good candidate
+for being overridden with an auto-calibration sequence.</div>
 </div>
 </section>
 </li>
@@ -545,9 +540,8 @@ auto-calibration sequence.</div>
 <h3>additionalAtGoalChecks</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">additionalAtGoalChecks</span>()</div>
-<div class="block">Maintainer systems already check for error tolerance and time stability. If
-there are any other checks that should be made, override this method and place them
-here.</div>
+<div class="block">Maintainer systems already check for error tolerance and time stability. If there are any other checks that should be
+made, override this method and place them here.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>true by default, can be overridden by child classes.</dd>
@@ -560,13 +554,9 @@ here.</div>
 <h3>getErrorWithinTolerance</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">getErrorWithinTolerance</span>()</div>
-<div class="block">Performs a simple difference between goal and target in order to see if we
-are close.
-if your subsystem needs to do something more complicated (for example, if you
-needed to
-compute difference via a ContiguousDouble) then override this method with a
-better
-computation.</div>
+<div class="block">Performs a simple difference between goal and target in order to see if we are close. if your subsystem needs to do
+something more complicated (for example, if you needed to compute difference via a ContiguousDouble) then override
+this method with a better computation.</div>
 </div>
 </section>
 </li>
@@ -596,8 +586,8 @@ computation.</div>
 <h3>getHumanInputMagnitude</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getHumanInputMagnitude</span>()</div>
-<div class="block">Gets the magnitude of the human input to use for the maintain command,
-since the generic type <code>PowerT</code> may not be a number.</div>
+<div class="block">Gets the magnitude of the human input to use for the maintain command, since the generic type <code>PowerT</code> may not
+be a number.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The magnitude of the human input.</dd>

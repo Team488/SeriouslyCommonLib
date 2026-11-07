@@ -67,26 +67,31 @@ loadScripts(document, 'script');</script>
 <section class="package-description" id="package-description">
 <div class="block">Tunable configuration values backed by WPILib Tunables.
 <p>
- In general, any tunable on the robot is for one specific purpose: configuration. These values are written
- infrequently, but often read constantly. Typical use cases would be for PID constants, subsystem limits,
- thresholds, durations, and similar scenarios.
+In general, any tunable on the robot is for one specific purpose: configuration. These values are written
+infrequently, but often read constantly. Typical use cases would be for PID constants, subsystem limits, thresholds,
+durations, and similar scenarios.
 <p>
- Important tunables load and save values through WPILib Preferences, while WPILib Tunables
- provides the editable dashboard surface under <code>/Tunables</code>.
+Important tunables load and save values through WPILib Preferences, while WPILib Tunables provides the editable
+dashboard surface under <code>/Tunables</code>.
 <p>
- Tunable values are also recorded through AdvantageKit. Mostly this is just
- duplication, however, this automatic logging also lets the robot perform an accurate "replay mode" if any
- configuration values were changed at runtime.
+Tunable values are also recorded through AdvantageKit. Mostly this is just duplication, however, this automatic
+logging also lets the robot perform an accurate "replay mode" if any configuration values were changed at runtime.
 <p>
- Tunables can be created with Important or Debug levels. Important tunables are persisted to robot storage;
- Debug tunables are kept in memory and published only while the global debug toggle is enabled.
+Tunables can be created with Important or Debug levels. Important tunables are persisted to robot storage; Debug
+tunables are kept in memory and published only while the global debug toggle is enabled.
 <p>
- For read-only telemetry, use AdvantageKit's logger rather than a tunable,
- as in the following example:
+For read-only telemetry, use AdvantageKit's logger rather than a tunable, as in the following example:
 <p>
- <pre>org.littletonrobotics.junction.Logger.recordOutput("DriveSubsystem/MaximumForwardSpeed", maxForwardSpeed);</pre>
- or, for most commands/subsystems,
- <pre>org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "/MaximumForwardSpeed", maxForwardSpeed);</pre></div>
+
+<pre>
+org.littletonrobotics.junction.Logger.recordOutput("DriveSubsystem/MaximumForwardSpeed", maxForwardSpeed);
+</pre>
+
+or, for most commands/subsystems,
+
+<pre>
+org.littletonrobotics.junction.Logger.recordOutput(this.getPrefix() + "/MaximumForwardSpeed", maxForwardSpeed);
+</pre></div>
 </section>
 </div>
 <section class="summary">
@@ -108,8 +113,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first even-row-color class-summary class-summary-tab2"><a href="PowerDistributionProperties.html" title="class in xbot.common.properties">PowerDistributionProperties</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">
-<div class="block">This class manages properties related to the power distribution system (PDP/PDH)
-for AdvantageKit logging.</div>
+<div class="block">This class manages properties related to the power distribution system (PDP/PDH) for AdvantageKit logging.</div>
 </div>
 <div class="col-first odd-row-color class-summary class-summary-tab2"><a href="PreferencesTunablePersistence.html" title="class in xbot.common.properties">PreferencesTunablePersistence</a></div>
 <div class="col-last odd-row-color class-summary class-summary-tab2">
@@ -121,8 +125,7 @@ for AdvantageKit logging.</div>
 </div>
 <div class="col-first odd-row-color class-summary class-summary-tab3"><a href="TunableLevel.html" title="enum class in xbot.common.properties">TunableLevel</a></div>
 <div class="col-last odd-row-color class-summary class-summary-tab3">
-<div class="block">Controls whether a tunable is always published or only published while debug
-tunables are enabled.</div>
+<div class="block">Controls whether a tunable is always published or only published while debug tunables are enabled.</div>
 </div>
 <div class="col-first even-row-color class-summary class-summary-tab2"><a href="TunableManager.html" title="class in xbot.common.properties">TunableManager</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">
@@ -130,8 +133,7 @@ tunables are enabled.</div>
 </div>
 <div class="col-first odd-row-color class-summary class-summary-tab2"><a href="TunableMeasure.html" title="class in xbot.common.properties">TunableMeasure</a>&lt;M extends org.wpilib.units.Measure&lt;U&gt;, U extends org.wpilib.units.Unit&gt;</div>
 <div class="col-last odd-row-color class-summary class-summary-tab2">
-<div class="block">A direct WPILib tunable that presents a unit-aware value while publishing its
-magnitude in the unit named in its key.</div>
+<div class="block">A direct WPILib tunable that presents a unit-aware value while publishing its magnitude in the unit named in its key.</div>
 </div>
 <div class="col-first even-row-color class-summary class-summary-tab1"><a href="TunablePersistence.html" title="interface in xbot.common.properties">TunablePersistence</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab1">

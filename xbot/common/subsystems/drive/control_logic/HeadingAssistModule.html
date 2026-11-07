@@ -85,15 +85,13 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">HeadingAssistModule</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">Encaspulates a useful bit of driving logic: - The robot should attempt to
-hold its current heading, even if it's temporarily rotated by outside forces.
-- If the human driver wants the robot to turn (above some small threshold),
-then the robot should turn according to human desires. - After a few moments,
-the robot should memorize its current heading, and attempt to hold it again.
+<div class="block">Encaspulates a useful bit of driving logic: - The robot should attempt to hold its current heading, even if it's
+temporarily rotated by outside forces. - If the human driver wants the robot to turn (above some small threshold),
+then the robot should turn according to human desires. - After a few moments, the robot should memorize its current
+heading, and attempt to hold it again.
 
-The automatic response can take one of two forms: - Hold a specific heading,
-as mentioned above, using a PID controller - Resist changes in rotational
-velocity using a D-only controller.</div>
+The automatic response can take one of two forms: - Hold a specific heading, as mentioned above, using a PID
+controller - Resist changes in rotational velocity using a D-only controller.</div>
 </div>
 </section>
 <section class="summary">
@@ -217,22 +215,15 @@ velocity using a D-only controller.</div>
 <h3>calculateHeadingPower</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">calculateHeadingPower</span><wbr><span class="parameters">(double&nbsp;humanRotationalPower)</span></div>
-<div class="block">Core method of the HeadingAssistModule. You input the human rotational power
-input,
-and this will determine whether or not to have the human drive the robot or
-whether the robot
-should continue on its last heading.
+<div class="block">Core method of the HeadingAssistModule. You input the human rotational power input, and this will determine whether
+or not to have the human drive the robot or whether the robot should continue on its last heading.
 
-In either case, it will return the suggested power output to the drive
-subsystem in order to achieve
-those goals.</div>
+In either case, it will return the suggested power output to the drive subsystem in order to achieve those goals.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>humanRotationalPower</code> - - values between -1 and 1, in terms of "maximum
-                            rotational power"</dd>
+<dd><code>humanRotationalPower</code> - - values between -1 and 1, in terms of "maximum rotational power"</dd>
 <dt>Returns:</dt>
-<dd>values between -1 and 1, in terms of "how hard you should try in
-        order to satisfy rotational goals."</dd>
+<dd>values between -1 and 1, in terms of "how hard you should try in order to satisfy rotational goals."</dd>
 </dl>
 </div>
 </section>

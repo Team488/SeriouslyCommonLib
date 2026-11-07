@@ -99,11 +99,12 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">DeviceAddress</span>(<a href="DevicePolice.DeviceType.html" title="enum class in xbot.common.injection">DevicePolice.DeviceType</a>&nbsp;type, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="electrical_contract/CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&gt;&nbsp;canBus, int&nbsp;channel)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
-<div class="block">A channel reservation, including the bus for CAN devices. Native bus identities are
-accepted directly by <a href="#can(org.wpilib.hardware.bus.CANPort,int)"><code>can(CANPort, int)</code></a>.
+<div class="block">A channel reservation, including the bus for CAN devices. Native bus identities are accepted directly by
+<a href="#can(org.wpilib.hardware.bus.CANPort,int)"><code>can(CANPort, int)</code></a>.
 
-<p>Factories describe a request without throwing for invalid channel or bus values.
-DevicePolice validates the complete request before reserving any channels.</div>
+<p>
+Factories describe a request without throwing for invalid channel or bus values. DevicePolice validates the complete
+request before reserving any channels.</div>
 </div>
 </section>
 <section class="summary">

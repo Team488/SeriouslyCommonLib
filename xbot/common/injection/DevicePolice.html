@@ -95,41 +95,36 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Reserves device addresses and enumerates owners by reference identity.
 
-<p>Registration is all-or-nothing, including multi-channel requests. Rejected requests
-are reported through RobotAssertionManager and leave the registry unchanged. With the
-competition-safe assertion policy, rejection returns normally without throwing.
-CAN reservations accept only native <code>CANPort</code> identities or the CANivore wildcard.
+<p>
+Registration is all-or-nothing, including multi-channel requests. Rejected requests are reported through
+RobotAssertionManager and leave the registry unchanged. With the competition-safe assertion policy, rejection returns
+normally without throwing. CAN reservations accept only native <code>CANPort</code> identities or the CANivore wildcard.
 Rejection does not prevent a hardware constructor from continuing or disable the rejected device.
 
-<h2 id="reserving-addresses-heading">Reserving addresses</h2>
-Supply the actual device object as the owner, not its display name or null.
-Use <a href="DeviceAddress.html#can(org.wpilib.hardware.bus.CANPort,int)"><code>DeviceAddress.can(CANPort, int)</code></a> for CAN addresses, preserving the configured bus, and
-<code>DeviceAddress.channel</code> for other device types. Reserve all channels for one
-device in a single call, for example an encoder's A/B channels:
-<pre><code>DevicePolice.RegistrationResult result = police.registerDevice(
-        encoder,
-        DeviceAddress.channel(DevicePolice.DeviceType.DigitalIO, 3),
+<h2 id="reserving-addresses-heading">Reserving addresses</h2> Supply the actual device object as the owner, not its display name or null. Use
+<a href="DeviceAddress.html#can(org.wpilib.hardware.bus.CANPort,int)"><code>DeviceAddress.can(CANPort, int)</code></a> for CAN addresses, preserving the configured bus, and <code>DeviceAddress.channel</code> for
+other device types. Reserve all channels for one device in a single call, for example an encoder's A/B channels:
+
+<pre><code>DevicePolice.RegistrationResult result = police.registerDevice(encoder, DeviceAddress.channel(DevicePolice.DeviceType.DigitalIO, 3),
         DeviceAddress.channel(DevicePolice.DeviceType.DigitalIO, 4));
 </code></pre>
 
-<p>The result is either <a href="DevicePolice.RegistrationResult.Registered.html" title="class in xbot.common.injection"><code>DevicePolice.RegistrationResult.Registered</code></a> or
-<a href="DevicePolice.RegistrationResult.Rejected.html" title="class in xbot.common.injection"><code>DevicePolice.RegistrationResult.Rejected</code></a>. Inspect a returned rejection before treating
-the reservation as successful; it contains the diagnostic reported through
-<a href="../logging/assertion/RobotAssertionManager.html" title="class in xbot.common.logging.assertion"><code>RobotAssertionManager</code></a>. Controlled tests may select a loud assertion policy
-that throws instead. Validation does not bypass the selected assertion policy.
+<p>
+The result is either <a href="DevicePolice.RegistrationResult.Registered.html" title="class in xbot.common.injection"><code>DevicePolice.RegistrationResult.Registered</code></a> or <a href="DevicePolice.RegistrationResult.Rejected.html" title="class in xbot.common.injection"><code>DevicePolice.RegistrationResult.Rejected</code></a>. Inspect a returned
+rejection before treating the reservation as successful; it contains the diagnostic reported through
+<a href="../logging/assertion/RobotAssertionManager.html" title="class in xbot.common.logging.assertion"><code>RobotAssertionManager</code></a>. Controlled tests may select a loud assertion policy that throws instead. Validation
+does not bypass the selected assertion policy.
 
-<p>An occupied address is rejected even for its current owner. The same owner can
-reserve additional unused addresses without a second enumeration entry. Owners
-are distinguished by reference identity, so equal but distinct objects remain
-separate devices. The single-address <a href="#registerDevice(java.lang.Object,xbot.common.injection.DeviceAddress,int,int)"><code>registerDevice(Object, DeviceAddress, int, int)</code></a>
-overload enforces inclusive hardware-provided channel bounds.
+<p>
+An occupied address is rejected even for its current owner. The same owner can reserve additional unused addresses
+without a second enumeration entry. Owners are distinguished by reference identity, so equal but distinct objects
+remain separate devices. The single-address <a href="#registerDevice(java.lang.Object,xbot.common.injection.DeviceAddress,int,int)"><code>registerDevice(Object, DeviceAddress, int, int)</code></a> overload
+enforces inclusive hardware-provided channel bounds.
 
-<h2 id="looking-up-owners-heading">Looking up owners</h2>
-Use <a href="#findDevice(xbot.common.injection.DeviceAddress)"><code>findDevice(DeviceAddress)</code></a> for one address, <a href="#getRegisteredChannels()"><code>getRegisteredChannels()</code></a> for address
-ownership, and <a href="#getRegisteredDevices()"><code>getRegisteredDevices()</code></a> for owners in first-successful-registration
-order. Collection results are immutable snapshots, not live views; device objects
-themselves are not copied. Owners are reservation owners, not necessarily physical
-hardware devices.</div>
+<h2 id="looking-up-owners-heading">Looking up owners</h2> Use <a href="#findDevice(xbot.common.injection.DeviceAddress)"><code>findDevice(DeviceAddress)</code></a> for one address, <a href="#getRegisteredChannels()"><code>getRegisteredChannels()</code></a> for address
+ownership, and <a href="#getRegisteredDevices()"><code>getRegisteredDevices()</code></a> for owners in first-successful-registration order. Collection results
+are immutable snapshots, not live views; device objects themselves are not copied. Owners are reservation owners, not
+necessarily physical hardware devices.</div>
 </div>
 </section>
 <section class="summary">
@@ -247,8 +242,8 @@ hardware devices.</div>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="DevicePolice.RegistrationResult.html" title="interface in xbot.common.injection">DevicePolice.RegistrationResult</a></span>&nbsp;<span class="element-name">registerDevice</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;device,
  <a href="DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a>...&nbsp;addresses)</span></div>
-<div class="block">Reserves all addresses or none. An occupied address is rejected even for its current owner.
-The same owner may reserve additional unused channels without a second enumeration entry.</div>
+<div class="block">Reserves all addresses or none. An occupied address is rejected even for its current owner. The same owner may
+reserve additional unused channels without a second enumeration entry.</div>
 </div>
 </section>
 </li>
@@ -269,9 +264,9 @@ The same owner may reserve additional unused channels without a second enumerati
 <h3>findDevice</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">findDevice</span><wbr><span class="parameters">(<a href="DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a>&nbsp;address)</span></div>
-<div class="block">Finds the owner, or returns empty when the address is unregistered.
-Null or structurally invalid addresses are reported through RobotAssertionManager
-and return empty when the selected policy returns normally. Registry state is unchanged.</div>
+<div class="block">Finds the owner, or returns empty when the address is unregistered. Null or structurally invalid addresses are
+reported through RobotAssertionManager and return empty when the selected policy returns normally. Registry state is
+unchanged.</div>
 </div>
 </section>
 </li>
@@ -280,8 +275,8 @@ and return empty when the selected policy returns normally. Registry state is un
 <h3>getRegisteredChannels</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="DeviceAddress.html" title="class in xbot.common.injection">DeviceAddress</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">getRegisteredChannels</span>()</div>
-<div class="block">Returns an immutable snapshot of address ownership, in registration order.
-The device objects themselves are not copied.</div>
+<div class="block">Returns an immutable snapshot of address ownership, in registration order. The device objects themselves are not
+copied.</div>
 </div>
 </section>
 </li>
@@ -290,8 +285,8 @@ The device objects themselves are not copied.</div>
 <h3>getRegisteredDevices</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">getRegisteredDevices</span>()</div>
-<div class="block">Returns an immutable snapshot in first-successful-registration order.
-Owners are deduplicated by reference identity, not equals/hashCode.</div>
+<div class="block">Returns an immutable snapshot in first-successful-registration order. Owners are deduplicated by reference identity,
+not equals/hashCode.</div>
 </div>
 </section>
 </li>

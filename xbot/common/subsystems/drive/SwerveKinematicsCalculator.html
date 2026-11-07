@@ -90,14 +90,14 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SwerveKinematicsCalculator</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">This class is designed to compute the motion of a swerve drive system from a starting position and velocity
-to a goal position and velocity. It takes inputs like acceleration, goal velocity, and max velocity to generate
-a sequence of motion stages that prioritizes the fastest possible route while respecting its goals.
-That said, it *may not* ALWAYS reach its goals if it is absurd/impossible!
+<div class="block">This class is designed to compute the motion of a swerve drive system from a starting position and velocity to a goal
+position and velocity. It takes inputs like acceleration, goal velocity, and max velocity to generate a sequence of
+motion stages that prioritizes the fastest possible route while respecting its goals. That said, it *may not* ALWAYS
+reach its goals if it is absurd/impossible!
 <p>
-NOTE: Quadratic formula code IS NOT ROBUST and is ONLY safe for SwerveSimpleTrajectoryCommand usages.
-Please make adjustments if you are planning to use the static method and note that the quadratic formula IRL
-may result in 0, 1, or 2 solutions; just that in this use case will guarantee 2 solutions.
+NOTE: Quadratic formula code IS NOT ROBUST and is ONLY safe for SwerveSimpleTrajectoryCommand usages. Please make
+adjustments if you are planning to use the static method and note that the quadratic formula IRL may result in 0, 1,
+or 2 solutions; just that in this use case will guarantee 2 solutions.
 <p>
 UNITS-WISE: This calculator uses meters, but you can feed it any units!</div>
 </div>
@@ -136,8 +136,8 @@ UNITS-WISE: This calculator uses meters, but you can feed it any units!</div>
  double&nbsp;initialPosition,
  double&nbsp;goalPosition)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Derived from formula (1D-Motion): (xf - xi) = (vi * time + 0.5 * a * time^2)
-From this, we'll get a 2nd degree polynomial that we'll use quadratic formula to solve for time</div>
+<div class="block">Derived from formula (1D-Motion): (xf - xi) = (vi * time + 0.5 * a * time^2) From this, we'll get a 2nd degree
+polynomial that we'll use quadratic formula to solve for time</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="CalculatorNode.html" title="class in xbot.common.subsystems.drive">CalculatorNode</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#generateNodeMap()" class="member-name-link">generateNodeMap</a>()</code></div>
@@ -208,12 +208,12 @@ From this, we'll get a 2nd degree polynomial that we'll use quadratic formula to
  double&nbsp;initialVelocity,
  double&nbsp;initialPosition,
  double&nbsp;goalPosition)</span></div>
-<div class="block">Derived from formula (1D-Motion): (xf - xi) = (vi * time + 0.5 * a * time^2)
-From this, we'll get a 2nd degree polynomial that we'll use quadratic formula to solve for time</div>
+<div class="block">Derived from formula (1D-Motion): (xf - xi) = (vi * time + 0.5 * a * time^2) From this, we'll get a 2nd degree
+polynomial that we'll use quadratic formula to solve for time</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>shortest time to get from initial position to goal position given acceleration and initial velocity.
-No constraints for velocity and acceleration will be taken into consideration.</dd>
+<dd>shortest time to get from initial position to goal position given acceleration and initial velocity. No
+        constraints for velocity and acceleration will be taken into consideration.</dd>
 </dl>
 </div>
 </section>

@@ -272,8 +272,7 @@ implements <a href="../drive/swerve/ISwerveAdvisorPoseSupport.html" title="inter
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.wpilib.math.geometry.Rotation2d</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentHeading()" class="member-name-link">getCurrentHeading</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Can be overriden by subclasses to provide a different heading source
-(e.g.</div>
+<div class="block">Can be overriden by subclasses to provide a different heading source (e.g.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentHeadingAngularVelocity()" class="member-name-link">getCurrentHeadingAngularVelocity</a>()</code></div>
@@ -357,8 +356,7 @@ implements <a href="../drive/swerve/ISwerveAdvisorPoseSupport.html" title="inter
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updatePose()" class="member-name-link">updatePose</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">This should be called as often as reasonably possible, to increase accuracy
-of the "distance traveled" calculation.</div>
+<div class="block">This should be called as often as reasonably possible, to increase accuracy of the "distance traveled" calculation.</div>
 </div>
 </div>
 </div>
@@ -645,8 +643,7 @@ of the "distance traveled" calculation.</div>
 <h3>getCurrentHeading</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">org.wpilib.math.geometry.Rotation2d</span>&nbsp;<span class="element-name">getCurrentHeading</span>()</div>
-<div class="block">Can be overriden by subclasses to provide a different heading source
-(e.g. a vision system, pose estimator, etc)</div>
+<div class="block">Can be overriden by subclasses to provide a different heading source (e.g. a vision system, pose estimator, etc)</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../drive/swerve/ISwerveAdvisorPoseSupport.html#getCurrentHeading()">getCurrentHeading</a></code>&nbsp;in interface&nbsp;<code><a href="../drive/swerve/ISwerveAdvisorPoseSupport.html" title="interface in xbot.common.subsystems.drive.swerve">ISwerveAdvisorPoseSupport</a></code></dd>
@@ -713,8 +710,8 @@ of the "distance traveled" calculation.</div>
 <h3>getRobotOrientedTotalDistanceTraveled</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getRobotOrientedTotalDistanceTraveled</span>()</div>
-<div class="block">Returns the distance the robot has traveled forward. Rotations are ignored - if you drove forward 100 inches,
-then turned 180 degrees and drove another 100 inches, this would tell you that you have traveled 200 inches.</div>
+<div class="block">Returns the distance the robot has traveled forward. Rotations are ignored - if you drove forward 100 inches, then
+turned 180 degrees and drove another 100 inches, this would tell you that you have traveled 200 inches.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>Distance in inches traveled forward from the robot perspective</dd>
@@ -764,12 +761,12 @@ then turned 180 degrees and drove another 100 inches, this would tell you that y
 <h3>updatePose</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updatePose</span>()</div>
-<div class="block">This should be called as often as reasonably possible, to increase accuracy
-of the "distance traveled" calculation.
-<p>The PoseSubsystem can't directly own positional sensors, so some command will need to feed in the
-distance values coming from the DriveSubsystem. In order to have accurate calculations, these
-values need to be in inches, and should never be reset - any resetting should be done here
-in the PoseSubsystem</p></div>
+<div class="block">This should be called as often as reasonably possible, to increase accuracy of the "distance traveled" calculation.
+<p>
+The PoseSubsystem can't directly own positional sensors, so some command will need to feed in the distance values
+coming from the DriveSubsystem. In order to have accurate calculations, these values need to be in inches, and should
+never be reset - any resetting should be done here in the PoseSubsystem
+</p></div>
 </div>
 </section>
 </li>
@@ -810,8 +807,8 @@ in the PoseSubsystem</p></div>
 <h3>getRobotYaw</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">org.wpilib.math.geometry.Rotation2d</span>&nbsp;<span class="element-name">getRobotYaw</span>()</div>
-<div class="block">If the RoboRIO is mounted in a position other than "flat" (e.g. with the pins facing upward)
-then this method will need to be overridden.</div>
+<div class="block">If the RoboRIO is mounted in a position other than "flat" (e.g. with the pins facing upward) then this method will
+need to be overridden.</div>
 </div>
 </section>
 </li>

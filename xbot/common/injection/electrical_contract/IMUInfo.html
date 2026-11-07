@@ -106,13 +106,10 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">IMUInfo</span>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, <a href="../../controls/sensors/XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a>&nbsp;imuType, <a href="../../controls/sensors/XGyro.InterfaceType.html" title="enum class in xbot.common.controls.sensors">XGyro.InterfaceType</a>&nbsp;interfaceType, <a href="CANBusId.html" title="class in xbot.common.injection.electrical_contract">CANBusId</a>&nbsp;canBusId, int&nbsp;deviceId, org.wpilib.hardware.imu.OnboardIMU.MountOrientation&nbsp;mountOrientation, <a href="PowerSource.html" title="enum class in xbot.common.injection.electrical_contract">PowerSource</a>&nbsp;powerFrom)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
-<div class="block">IMU configuration. No bus, interface, orientation, or power metadata is inferred from the IMU type.
-Construction does not validate or reserve hardware.
+<div class="block">IMU configuration. No bus, interface, orientation, or power metadata is inferred from the IMU type. Construction does
+not validate or reserve hardware.
 
-<pre><code>IMUInfo imu = IMUInfo.builder("IMU", XGyro.ImuType.onboard)
-        .withDeviceId(1)
-        .withMountOrientation(MountOrientation.FLAT)
-        .withPowerFrom(PowerSource.RIO)
+<pre><code>IMUInfo imu = IMUInfo.builder("IMU", XGyro.ImuType.onboard).withDeviceId(1).withMountOrientation(MountOrientation.FLAT).withPowerFrom(PowerSource.RIO)
         .build();
 </code></pre></div>
 </div>
@@ -283,9 +280,9 @@ Construction does not validate or reserve hardware.
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="IMUInfo.Builder.html" title="class in xbot.common.injection.electrical_contract">IMUInfo.Builder</a></span>&nbsp;<span class="element-name">builder</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="../../controls/sensors/XGyro.ImuType.html" title="enum class in xbot.common.controls.sensors">XGyro.ImuType</a>&nbsp;imuType)</span></div>
-<div class="block">Starts a builder with an explicit name and IMU type. All optional metadata defaults to null.
-Set the CAN address with <a href="IMUInfo.Builder.html#withCanBus(org.wpilib.hardware.bus.CANPort,int)"><code>IMUInfo.Builder.withCanBus(CANPort, int)</code></a>, or a non-CAN device ID
-with <a href="IMUInfo.Builder.html#withDeviceId(int)"><code>IMUInfo.Builder.withDeviceId(int)</code></a>. An unspecified device ID is -1.</div>
+<div class="block">Starts a builder with an explicit name and IMU type. All optional metadata defaults to null. Set the CAN address with
+<a href="IMUInfo.Builder.html#withCanBus(org.wpilib.hardware.bus.CANPort,int)"><code>IMUInfo.Builder.withCanBus(CANPort, int)</code></a>, or a non-CAN device ID with <a href="IMUInfo.Builder.html#withDeviceId(int)"><code>IMUInfo.Builder.withDeviceId(int)</code></a>. An
+unspecified device ID is -1.</div>
 </div>
 </section>
 </li>

@@ -90,15 +90,17 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">TunableSkippingNT4Publisher</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements org.littletonrobotics.junction.LogDataReceiver</span></div>
-<div class="block">A <code>LogDataReceiver</code> that wraps <code>NT4Publisher</code> and skips any LogTable entry
-under the <a href="../properties/TunableManager.html#AKIT_LOG_NAMESPACE"><code>TunableManager.AKIT_LOG_NAMESPACE</code></a> subtable.
+<div class="block">A <code>LogDataReceiver</code> that wraps <code>NT4Publisher</code> and skips any LogTable entry under the
+<a href="../properties/TunableManager.html#AKIT_LOG_NAMESPACE"><code>TunableManager.AKIT_LOG_NAMESPACE</code></a> subtable.
 
-<p>Tunable values are routed through that subtable so the on-disk WPILOG receiver still
-captures them (replay correctness), but the live NetworkTables surface stays clean —
-dashboards see editable values through WPILib's <code>/Tunables/...</code> table.
+<p>
+Tunable values are routed through that subtable so the on-disk WPILOG receiver still captures them (replay
+correctness), but the live NetworkTables surface stays clean — dashboards see editable values through WPILib's
+<code>/Tunables/...</code> table.
 
-<p>All other keys (subsystem telemetry, <code>aKitLog.record(...)</code> outputs, system stats,
-driver-station data, etc.) flow through unchanged.</div>
+<p>
+All other keys (subsystem telemetry, <code>aKitLog.record(...)</code> outputs, system stats, driver-station data, etc.)
+flow through unchanged.</div>
 </div>
 </section>
 <section class="summary">

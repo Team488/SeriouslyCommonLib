@@ -280,10 +280,9 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SparkMaxMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">SparkMaxMotorControllerOutputConfig</a></span>&nbsp;<span class="element-name">withSmartCurrentLimit</span><wbr><span class="parameters">(org.wpilib.units.measure.Current&nbsp;stallCurrent,
  org.wpilib.units.measure.Current&nbsp;freeCurrent,
  org.wpilib.units.measure.AngularVelocity&nbsp;stallSpeed)</span></div>
-<div class="block">Sets the smart current limits for Spark motor controllers.
-RPMs lower than the stallSpeed will be limited to stallCurrent,
-RPMs higher than the stall speed with have current limits linearly increasing
-with speed (up to the max free speed of the motor) up to freeCurrent..</div>
+<div class="block">Sets the smart current limits for Spark motor controllers. RPMs lower than the stallSpeed will be limited to
+stallCurrent, RPMs higher than the stall speed with have current limits linearly increasing with speed (up to the max
+free speed of the motor) up to freeCurrent..</div>
 </div>
 </section>
 </li>
@@ -292,8 +291,8 @@ with speed (up to the max free speed of the motor) up to freeCurrent..</div>
 <h3>withSmartCurrentLimit</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SparkMaxMotorControllerOutputConfig.html" title="class in xbot.common.injection.electrical_contract">SparkMaxMotorControllerOutputConfig</a></span>&nbsp;<span class="element-name">withSmartCurrentLimit</span><wbr><span class="parameters">(org.wpilib.units.measure.Current&nbsp;stallCurrent)</span></div>
-<div class="block">Sets the smart current limits for Spark motor controllers, using the same current for stall and free.
-This method sets a fixed current limit over the whole speed range.</div>
+<div class="block">Sets the smart current limits for Spark motor controllers, using the same current for stall and free. This method
+sets a fixed current limit over the whole speed range.</div>
 </div>
 </section>
 </li>

@@ -219,8 +219,8 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="PurePursuitCommand.RabbitChaseInfo.html" title="class in xbot.common.subsystems.drive">PurePursuitCommand.RabbitChaseInfo</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#evaluateCurrentPoint()" class="member-name-link">evaluateCurrentPoint</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">This is the core method that looks at the point list, figures out which point to be heading towards,
-and doing the math on how to get there.</div>
+<div class="block">This is the core method that looks at the point list, figures out which point to be heading towards, and doing the
+math on how to get there.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="PurePursuitCommand.RabbitChaseInfo.html" title="class in xbot.common.subsystems.drive">PurePursuitCommand.RabbitChaseInfo</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#evaluateCurrentPoint(xbot.common.math.FieldPose)" class="member-name-link">evaluateCurrentPoint</a><wbr>(<a href="../../math/FieldPose.html" title="class in xbot.common.math">FieldPose</a>&nbsp;robotPose)</code></div>
@@ -237,8 +237,8 @@ and doing the math on how to get there.</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="RabbitPoint.html" title="class in xbot.common.subsystems.drive">RabbitPoint</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPlannedPointsToVisit()" class="member-name-link">getPlannedPointsToVisit</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">If you want to see where this command is heading in the future (for visualization purposes, perhaps) you can 
-get that information here.</div>
+<div class="block">If you want to see where this command is heading in the future (for visualization purposes, perhaps) you can get that
+information here.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract <a href="PurePursuitCommand.PointLoadingMode.html" title="enum class in xbot.common.subsystems.drive">PurePursuitCommand.PointLoadingMode</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getPursuitMode()" class="member-name-link">getPursuitMode</a>()</code></div>
@@ -369,12 +369,13 @@ get that information here.</div>
  <a href="../../properties/TunableFactory.html" title="class in xbot.common.properties">TunableFactory</a>&nbsp;tunableFactory)</span></div>
 <div class="block">An implementation of Pure Pursuit for FRC. We got the basic idea from here:
 http://www8.cs.umu.se/kurser/TDBD17/VT06/utdelat/Assignment%20Papers/Path%20Tracking%20for%20a%20Miniature%20Robot.pdf
-Fundamentally, you can add field points to this command (x,y, and rotation) and the robot will attempt to reach all those points
-with a smooth path. This works for any drive base, but presumably, holonomic robots can solve this problem more effectively.
+Fundamentally, you can add field points to this command (x,y, and rotation) and the robot will attempt to reach all
+those points with a smooth path. This works for any drive base, but presumably, holonomic robots can solve this
+problem more effectively.
 
-You will see references to rabbits, or "chasing the rabbit". This is alluding to how greyhoud races use mechanical rabbits,
-which is designed to always stay ahead of them, regardless of their speed. This is similiar to how, as the robot uses pure
-pursuit, it is always chasing a point it can never reach.</div>
+You will see references to rabbits, or "chasing the rabbit". This is alluding to how greyhoud races use mechanical
+rabbits, which is designed to always stay ahead of them, regardless of their speed. This is similiar to how, as the
+robot uses pure pursuit, it is always chasing a point it can never reach.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>headingModuleFactory</code> - HeadingModuleFactory</dd>
@@ -399,8 +400,8 @@ pursuit, it is always chasing a point it can never reach.</div>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPIDs</span><wbr><span class="parameters">(<a href="control_logic/HeadingModule.html" title="class in xbot.common.subsystems.drive.control_logic">HeadingModule</a>&nbsp;headingModule,
  <a href="../../math/PIDManager.html" title="class in xbot.common.math">PIDManager</a>&nbsp;positionalPid)</span></div>
-<div class="block">By default, the PurePursuitCommand uses the HeadingModule and PositionalPid from the DriveSubsystem. However,
-if you want to change the PIDs used on the fly, you can here.</div>
+<div class="block">By default, the PurePursuitCommand uses the HeadingModule and PositionalPid from the DriveSubsystem. However, if you
+want to change the PIDs used on the fly, you can here.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>headingModule</code> - Used for rotation</dd>
@@ -446,8 +447,8 @@ if you want to change the PIDs used on the fly, you can here.</div>
 <h3>getPlannedPointsToVisit</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="RabbitPoint.html" title="class in xbot.common.subsystems.drive">RabbitPoint</a>&gt;</span>&nbsp;<span class="element-name">getPlannedPointsToVisit</span>()</div>
-<div class="block">If you want to see where this command is heading in the future (for visualization purposes, perhaps) you can 
-get that information here.</div>
+<div class="block">If you want to see where this command is heading in the future (for visualization purposes, perhaps) you can get that
+information here.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>List of points to visit</dd>
@@ -492,8 +493,8 @@ get that information here.</div>
 <h3>evaluateCurrentPoint</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="PurePursuitCommand.RabbitChaseInfo.html" title="class in xbot.common.subsystems.drive">PurePursuitCommand.RabbitChaseInfo</a></span>&nbsp;<span class="element-name">evaluateCurrentPoint</span>()</div>
-<div class="block">This is the core method that looks at the point list, figures out which point to be heading towards,
-and doing the math on how to get there.</div>
+<div class="block">This is the core method that looks at the point list, figures out which point to be heading towards, and doing the
+math on how to get there.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>Information about what the robot would like to do in order to reach its points.</dd>
