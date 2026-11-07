@@ -37,6 +37,9 @@ jobs:
         with:
           distribution: temurin
           java-version: "25"
+          # Don't write ~/.m2/settings.xml: its ${env.GITHUB_TOKEN} placeholder looks like an
+          # encrypted password to the maven-settings Gradle plugin and breaks configuration.
+          overwrite-settings: false
 
       # Caches the Gradle wrapper and dependencies (replaces Azure's Cache@2 step).
       - name: Set up Gradle
