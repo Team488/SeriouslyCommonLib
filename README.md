@@ -1,7 +1,7 @@
 # Seriously Common Lib for FRC
 
 [![Build](https://github.com/Team488/SeriouslyCommonLib/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/Team488/SeriouslyCommonLib/actions/workflows/build.yml)
-[![xbot.common:SeriouslyCommonLib package in XBot feed in Azure Artifacts](https://feeds.dev.azure.com/Team488/2ef6eee3-1df0-441a-9af8-5edc5c3cb203/_apis/public/Packaging/Feeds/XBot/Packages/1dc16f9c-8e55-4f41-ada6-7b73e2161843/Badge)](https://dev.azure.com/Team488/Team%20488%20Builds/_artifacts/feed/XBot/maven/xbot.common%2FSeriouslyCommonLib?preferRelease=true)
+[![Latest release](https://img.shields.io/github/v/release/Team488/SeriouslyCommonLib?label=release)](https://github.com/Team488/SeriouslyCommonLib/releases/latest)
 
 ## Up-Front Warning
 
@@ -36,6 +36,33 @@ We plan to continue maintaining this codebase throughout upcoming years as we de
 
 If you want to jump in, a good place to start is our [robot template](https://github.com/Team488/FRCRobotTemplate). It includes all the configuration, build scripts, and boilerplate needed to start adding functionality. We hope to develop full documentation, but in the meantime, feel free to open issues on this repo to ask us questions and provide feedback. 
 You can also take a look at the [generated documentation](https://team488.github.io/SeriouslyCommonLib/).
+
+### Using SeriouslyCommonLib in a robot project
+
+Every merge to `main` is published as a [GitHub release](https://github.com/Team488/SeriouslyCommonLib/releases)
+tagged with its version (e.g. `20261107.193005`). Gradle can download the jar straight from the release,
+with no Maven feed or credentials needed:
+
+```groovy
+def SeriouslyCommonLibVersion = '20261107.193005' // pick a tag from the releases page
+
+repositories {
+    ivy {
+        name = 'SeriouslyCommonLibReleases'
+        url = 'https://github.com/Team488/SeriouslyCommonLib/releases/download/'
+        patternLayout { artifact '[revision]/[module]-[revision](-[classifier]).[ext]' }
+        metadataSources { artifact() }
+        content { includeGroup 'xbot.common' }
+    }
+}
+
+dependencies {
+    implementation "xbot.common:SeriouslyCommonLib:${SeriouslyCommonLibVersion}"
+}
+```
+
+Versions must be pinned exactly; ranges like `+` or `latest.release` don't work against release URLs.
+Older versions (before the move to GitHub releases) remain on the XBot Azure Artifacts feed.
 
 ## How's development going?
 

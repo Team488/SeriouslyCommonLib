@@ -7,7 +7,7 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# Cancel superseded PR runs. Pushes to main are never cancelled so every merge gets published.
+# Cancel superseded PR runs. Pushes to main are never cancelled so every merge gets released.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -17,11 +17,11 @@ permissions:
 
 jobs:
   build:
-    name: Build / Test / Publish
+    name: Build / Test / Release
     runs-on: windows-latest
     timeout-minutes: 45
     permissions:
-      contents: read
+      contents: write      # create the GitHub release on main
       checks: write        # test result check run
       pull-requests: write # test result PR comment
     env:
@@ -37,10 +37,6 @@ jobs:
         with:
           distribution: temurin
           java-version: "25"
-          # Keep setup-java's generated settings.xml out of ~/.m2: its ${env.GITHUB_TOKEN}
-          # placeholder looks like an encrypted password to the maven-settings Gradle plugin
-          # and breaks project configuration.
-          settings-path: ${{ runner.temp }}/setup-java
 
       # Caches the Gradle wrapper and dependencies (replaces Azure's Cache@2 step).
       - name: Set up Gradle
@@ -85,19 +81,32 @@ jobs:
           path: build/docs/javadoc
           retention-days: 14
 
-      # Publishes to the XBot Azure Artifacts Maven feed that robot projects already consume.
-      # Versions keep the feed's existing yyyyMMdd.N shape so new builds sort as newest.
-      - name: Publish to XBot Maven feed
+      # Each push to main becomes a GitHub release tagged with its version. Robot projects
+      # download the jar straight from the release (see README "Using SeriouslyCommonLib").
+      # Versions keep the old Azure feed's yyyyMMdd.N shape so they sort after older builds.
+      - name: Create GitHub release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         shell: bash
         env:
-          AZURE_ARTIFACTS_TOKEN: ${{ secrets.AZURE_ARTIFACTS_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
-          if [ -z "$AZURE_ARTIFACTS_TOKEN" ]; then
-            echo "::error::Repository secret AZURE_ARTIFACTS_TOKEN is not set (Azure DevOps PAT with Packaging: Read & write)."
-            exit 1
-          fi
+          set -euo pipefail
           export PUBLISH_VERSION="$(date -u +%Y%m%d).$(date -u +%H%M%S)"
-          echo "Publishing xbot.common:SeriouslyCommonLib:$PUBLISH_VERSION"
-          echo "### Published \`xbot.common:SeriouslyCommonLib:$PUBLISH_VERSION\`" >> "$GITHUB_STEP_SUMMARY"
-          ./gradlew publish --stacktrace --console=plain
+          ./gradlew jar sourcesJar javadocJar generatePomFileForMyPublicationPublication --console=plain
+
+          out=build/release
+          mkdir -p "$out"
+          cp build/libs/SeriouslyCommonLib.jar         "$out/SeriouslyCommonLib-$PUBLISH_VERSION.jar"
+          cp build/libs/SeriouslyCommonLib-sources.jar "$out/SeriouslyCommonLib-$PUBLISH_VERSION-sources.jar"
+          cp build/libs/SeriouslyCommonLib-javadoc.jar "$out/SeriouslyCommonLib-$PUBLISH_VERSION-javadoc.jar"
+          cp build/publications/myPublication/pom-default.xml "$out/SeriouslyCommonLib-$PUBLISH_VERSION.pom"
+
+          gh release create "$PUBLISH_VERSION" "$out"/* \
+            --target "$GITHUB_SHA" \
+            --title "SeriouslyCommonLib $PUBLISH_VERSION" \
+            --generate-notes
+
+          {
+            echo "### Released \`xbot.common:SeriouslyCommonLib:$PUBLISH_VERSION\`"
+            echo "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/$PUBLISH_VERSION"
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -25,7 +25,7 @@ SeriouslyCommonLib/
 ├── build.gradle                     # Gradle build (GradleRIO + Dagger + Checkstyle)
 ├── xbotcheckstyle.xml               # Checkstyle ruleset
 ├── checkstyle_suppressions.xml      # Checkstyle suppressions
-├── .github/workflows/build.yml      # CI/CD (builds PRs to main; builds + publishes main)
+├── .github/workflows/build.yml      # CI/CD (builds PRs to main; builds + releases main)
 └── vendordeps/                      # WPILib vendor dependency JSON files
 ```
 
@@ -74,8 +74,8 @@ All commands use the Gradle wrapper from the repository root.
 ```
 
 > **Note:** CI (GitHub Actions, `.github/workflows/build.yml`) runs `./gradlew build` on every PR
-> targeting `main` and on every push to `main`. Pushes to `main` also publish to the XBot Azure
-> Artifacts Maven feed (needs the `AZURE_ARTIFACTS_TOKEN` repository secret). Always ensure `./gradlew build` passes before finalizing
+> targeting `main` and on every push to `main`. Each push to `main` also creates a GitHub release
+> (tag = version) with the jar, sources, Javadoc, and POM attached. Always ensure `./gradlew build` passes before finalizing
 > a change.
 
 ## Coding Conventions
