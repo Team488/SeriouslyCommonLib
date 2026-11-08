@@ -5,7 +5,7 @@ import org.wpilib.tunable.TunableDouble;
 
 import xbot.common.logic.HumanVsMachineDecider;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
-import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineMode;
+import xbot.common.logic.HumanVsMachineState;
 import xbot.common.logic.TimeStableValidator;
 import xbot.common.properties.TunableFactory;
 import xbot.common.properties.TunableLevel;
@@ -126,10 +126,11 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
      */
     protected void maintain() {
         double humanInput = getHumanInputMagnitude();
-        HumanVsMachineMode mode = decider.getRecommendedMode(humanInput);
-        aKitLog.record("CurrentMode", mode.toString());
+        HumanVsMachineState recommendedState = decider.getRecommendedState(humanInput);
+        aKitLog.record("CurrentState", recommendedState.toString());
 
-        switch (mode) {
+        switch (recommendedState) {
+        case RobotDisabled:
         case Coast:
             coastAction();
             break;
