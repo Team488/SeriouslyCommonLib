@@ -5,7 +5,6 @@ plugins {
     id 'scala'
     id 'checkstyle'
     id 'jacoco'
-    id "net.linguica.maven-settings" version "0.5"
     id 'com.diffplug.spotless' version '8.10.4'
 }
 
@@ -235,17 +234,14 @@ publishing {
         myPublication(MavenPublication) { 
             groupId 'xbot.common' 
             artifactId 'SeriouslyCommonLib' 
-            version System.getenv('BUILD_BUILDNUMBER') ?: '1.0.0'
+            // Set by .github/workflows/build.yml when releasing from main.
+            version System.getenv('PUBLISH_VERSION') ?: '1.0.0'
 
             artifact jar
             artifact sourcesJar
             artifact javadocJar
-        } 
-    }
-    repositories {
-        maven {
-            url = 'https://pkgs.dev.azure.com/Team488/2ef6eee3-1df0-441a-9af8-5edc5c3cb203/_packaging/XBot/maven/v1'
-            name = 'XBot'
         }
     }
+    // Releases are published as GitHub releases by CI; this publication is only used for
+    // the release POM and for local `publishToMavenLocal`.
 }
