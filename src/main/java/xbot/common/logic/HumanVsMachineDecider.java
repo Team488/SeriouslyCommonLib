@@ -1,6 +1,5 @@
 package xbot.common.logic;
 
-import org.wpilib.driverstation.RobotState;
 import org.wpilib.tunable.TunableDouble;
 
 import dagger.assisted.Assisted;
@@ -17,14 +16,13 @@ import xbot.common.properties.TunableLevel;
  */
 public class HumanVsMachineDecider {
 
-    public enum HumanVsMachineMode {
-        HumanControl, Coast, InitializeMachineControl, MachineControl
-    }
-
-    private double lastHumanTime;
     private final TunableDouble deadbandTunable;
     private final TunableDouble coastTimeTunable;
-    private boolean inAutomaticMode;
+
+    /** The decider's own current snapshot - see {@link HumanVsMachinePayload}. */
+    private HumanVsMachinePayload payload;
+
+    private FiniteStateMachine<HumanVsMachineState, HumanVsMachinePayload> fsm;
 
     /**
      * Factory for creating a new decider.
@@ -56,6 +54,7 @@ public class HumanVsMachineDecider {
         tunableFactory.setDefaultLevel(TunableLevel.Debug);
         deadbandTunable = tunableFactory.createDouble("Deadband", 0.1);
         coastTimeTunable = tunableFactory.createDouble("Coast Time", 0.3);
+        fsm = new FiniteStateMachine<>("HumanVsMachineDecider", HumanVsMachineState.Coast, HumanVsMachineState.globalTransitions, FsmHook.noop());
         reset();
     }
 
@@ -73,41 +72,26 @@ public class HumanVsMachineDecider {
      *            Whether to start in automatic mode.
      */
     public void reset(boolean startInAutomaticMode) {
-        lastHumanTime = XTimer.getFPGATimestamp() - 100;
-        inAutomaticMode = startInAutomaticMode;
+        // No human input to report at reset time; lastHumanTime is pushed far enough into the past that a
+        // coast check could never hold a fresh reset up.
+        payload = new HumanVsMachinePayload(0.0, deadbandTunable.get(), coastTimeTunable.get(), XTimer.getFPGATimestamp() - 100);
+        fsm.forceState(startInAutomaticMode ? HumanVsMachineState.MachineControl : HumanVsMachineState.RobotDisabled, payload);
     }
 
     /**
-     * Gets the recommended mode based on the human input.
+     * Gets the recommended state based on the human input.
      *
      * @param humanInput
      *            The human input to use for the decision.
-     * @return The recommended mode.
+     * @return The recommended state.
      */
-    public HumanVsMachineMode getRecommendedMode(double humanInput) {
+    public HumanVsMachineState getRecommendedState(double humanInput) {
+        double lastHumanTime = Math.abs(humanInput) > deadbandTunable.get() ? XTimer.getFPGATimestamp() : payload.lastHumanTime();
+        payload = new HumanVsMachinePayload(humanInput, deadbandTunable.get(), coastTimeTunable.get(), lastHumanTime);
 
-        if (RobotState.isDisabled()) {
-            inAutomaticMode = false;
-            return HumanVsMachineMode.Coast;
-        }
+        fsm.execute(payload);
 
-        if (Math.abs(humanInput) > deadbandTunable.get()) {
-            lastHumanTime = XTimer.getFPGATimestamp();
-            inAutomaticMode = false;
-            return HumanVsMachineMode.HumanControl;
-        }
-
-        if (XTimer.getFPGATimestamp() - lastHumanTime < coastTimeTunable.get()) {
-            inAutomaticMode = false;
-            return HumanVsMachineMode.Coast;
-        }
-
-        if (!inAutomaticMode) {
-            inAutomaticMode = true;
-            return HumanVsMachineMode.InitializeMachineControl;
-        }
-
-        return HumanVsMachineMode.MachineControl;
+        return fsm.getCurrentState();
     }
 
     /**
