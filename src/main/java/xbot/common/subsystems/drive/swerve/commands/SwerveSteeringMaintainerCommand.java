@@ -13,7 +13,7 @@ public class SwerveSteeringMaintainerCommand extends BaseSimpleMaintainerCommand
 
     @Inject
     public SwerveSteeringMaintainerCommand(SwerveSteeringSubsystem subsystemToMaintain, TunableFactory tunableFactory,
-                                          HumanVsMachineDeciderFactory hvmFactory) {
+            HumanVsMachineDeciderFactory hvmFactory) {
         super(subsystemToMaintain, tunableFactory, hvmFactory, 0.001, 0.001, subsystemToMaintain.getPrefix());
 
         this.subsystem = subsystemToMaintain;

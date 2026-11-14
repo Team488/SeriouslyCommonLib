@@ -37,8 +37,11 @@ public class GameField {
 
     /**
      * Creates a new GameField.
-     * @param fieldLayout The layout of the field.
-     * @param symmetry The symmetry of the field.
+     *
+     * @param fieldLayout
+     *            The layout of the field.
+     * @param symmetry
+     *            The symmetry of the field.
      */
     @Inject
     public GameField(Fields fieldLayout, GameField.Symmetry symmetry) {
@@ -49,6 +52,7 @@ public class GameField {
 
     /**
      * Gets the width of the field.
+     *
      * @return The width of the field.
      */
     public Distance getFieldWidth() {
@@ -57,6 +61,7 @@ public class GameField {
 
     /**
      * Gets the length of the field.
+     *
      * @return The length of the field.
      */
     public Distance getFieldLength() {
@@ -65,6 +70,7 @@ public class GameField {
 
     /**
      * Gets the symmetry of the field.
+     *
      * @return The symmetry of the field.
      */
     public Symmetry getSymmetry() {
@@ -73,6 +79,7 @@ public class GameField {
 
     /**
      * Gets the center of the field.
+     *
      * @return The center of the field. Distances are in meters.
      */
     public Translation2d getFieldCenter() {
@@ -81,31 +88,37 @@ public class GameField {
 
     /**
      * Gets the mirrored translation of a given translation per the field symmetry.
-     * @param original The original translation. Distances are in meters.
+     *
+     * @param original
+     *            The original translation. Distances are in meters.
      * @return The mirrored translation. Distances are in meters.
      */
     public Translation2d getMirroredTranslation(Translation2d original) {
         return switch (symmetry) {
-            case Mirrored -> new Translation2d(fieldLength.in(Meters) - original.getX(), original.getY());
-            case Rotational -> new Translation2d(fieldLength.in(Meters) - original.getX(), fieldWidth.in(Meters) - original.getY());
+        case Mirrored -> new Translation2d(fieldLength.in(Meters) - original.getX(), original.getY());
+        case Rotational -> new Translation2d(fieldLength.in(Meters) - original.getX(), fieldWidth.in(Meters) - original.getY());
         };
     }
 
     /**
      * Gets the mirrored rotation of a given rotation per the field symmetry.
-     * @param original The original rotation.
+     *
+     * @param original
+     *            The original rotation.
      * @return The mirrored rotation.
      */
     public Rotation2d getMirroredRotation(Rotation2d original) {
         return switch (symmetry) {
-            case Mirrored -> Rotation2d.fromDegrees(original.getDegrees() - (original.getDegrees() - 90.0) * 2);
-            case Rotational -> original.rotateBy(Rotation2d.fromDegrees(180));
+        case Mirrored -> Rotation2d.fromDegrees(original.getDegrees() - (original.getDegrees() - 90.0) * 2);
+        case Rotational -> original.rotateBy(Rotation2d.fromDegrees(180));
         };
     }
 
     /**
      * Gets the mirrored pose of a given pose per the field symmetry.
-     * @param original The original pose. Distances are in meters.
+     *
+     * @param original
+     *            The original pose. Distances are in meters.
      * @return The mirrored pose. Distances are in meters.
      */
     public Pose2d getMirroredPose(Pose2d original) {

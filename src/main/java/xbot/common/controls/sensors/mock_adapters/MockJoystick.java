@@ -15,7 +15,6 @@ import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.Advanc
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButtonTriggerFactory;
 import xbot.common.injection.DevicePolice;
-import xbot.common.logging.RobotAssertionManager;
 
 public class MockJoystick extends XJoystick {
 
@@ -30,24 +29,17 @@ public class MockJoystick extends XJoystick {
     }
 
     @AssistedInject
-    public MockJoystick(
-            @Assisted("port") int port, 
-            AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
-            AdvancedPovButtonTriggerFactory povButtonFactory,
-            AnalogHIDButtonTriggerFactory analogHidButtonFactory,
-            RobotAssertionManager assertionManager, 
-            @Assisted("numButtons") int numButtons,
+    public MockJoystick(@Assisted("port") int port, AdvancedJoystickButtonTriggerFactory joystickButtonFactory,
+            AdvancedPovButtonTriggerFactory povButtonFactory, AnalogHIDButtonTriggerFactory analogHidButtonFactory, @Assisted("numButtons") int numButtons,
             DevicePolice police) {
-        
-        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, assertionManager, numButtons, police);
-        
-        for(int i = 0; i < 6; i++)
-        {
+
+        super(port, joystickButtonFactory, povButtonFactory, analogHidButtonFactory, numButtons, police);
+
+        for (int i = 0; i < 6; i++) {
             rawAxis.put(i, 0d);
         }
-        
-        for(int i = 0; i < 12; i++)
-        {
+
+        for (int i = 0; i < 12; i++) {
             releaseButton(i);
         }
     }
@@ -59,7 +51,7 @@ public class MockJoystick extends XJoystick {
     public void setY(double y) {
         setRawAxis(1, y);
     }
-    
+
     public void setRawAxis(int which, double value) {
         rawAxis.put(which, value);
     }

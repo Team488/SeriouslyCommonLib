@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.wpilib.hardware.bus.I2C.Port;
 import org.wpilib.tunable.TunableDouble;
 
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.properties.TunableFactory;
@@ -15,7 +16,7 @@ import xbot.common.properties.TunableFactory;
 public abstract class XLidarLite implements DistanceSensor {
 
     private Logger log = LogManager.getLogger(XLidarLite.class);
-    
+
     protected byte[] distance;
     private java.util.Timer updater;
     private LidarUpdater task;
@@ -42,9 +43,9 @@ public abstract class XLidarLite implements DistanceSensor {
         updater = new java.util.Timer();
 
         this.start();
-        police.registerDevice(DeviceType.I2C, port.value, this);
+        police.registerDevice(this, DeviceAddress.channel(DeviceType.I2C, port.value));
     }
-    
+
     protected abstract void update();
 
     // Distance in cm
@@ -65,14 +66,11 @@ public abstract class XLidarLite implements DistanceSensor {
     public void stop() {
         updater.cancel();
     }
-/*
-    // Update distance variable
-    public void update() {
-        i2c.write(lidar_config_register, 0x04); // Initiate measurement
-        Timer.delay(0.04); // Delay for measurement to be taken
-        i2c.read(lidar_distance_register, 2, distance); // Read in measurement
-        Timer.delay(0.01); // Delay to prevent over polling
-    }*/
+    /*
+     * // Update distance variable public void update() { i2c.write(lidar_config_register, 0x04); // Initiate measurement
+     * Timer.delay(0.04); // Delay for measurement to be taken i2c.read(lidar_distance_register, 2, distance); // Read in
+     * measurement Timer.delay(0.01); // Delay to prevent over polling }
+     */
 
     // Timer task to keep distance updated
     private class LidarUpdater extends TimerTask {

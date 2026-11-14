@@ -2,20 +2,16 @@ package xbot.common.math;
 
 import java.util.function.DoubleUnaryOperator;
 
-public class MathUtils
-{
-    public static double constrainDouble(double value, double lowerBound, double upperBound)
-    {
+public class MathUtils {
+    public static double constrainDouble(double value, double lowerBound, double upperBound) {
         return Math.max(lowerBound, Math.min(value, upperBound));
     }
 
-    public static int constrainInt(int value, int lowerBound, int upperBound)
-    {
+    public static int constrainInt(int value, int lowerBound, int upperBound) {
         return Math.max(lowerBound, Math.min(value, upperBound));
     }
 
-    public static double scaleDouble(double value, double oldMin, double oldMax, double newMin, double newMax)
-    {
+    public static double scaleDouble(double value, double oldMin, double oldMax, double newMin, double newMax) {
         value -= oldMin;
         value /= oldMax - oldMin;
         value *= newMax - newMin;
@@ -55,7 +51,7 @@ public class MathUtils
         }
 
         // Divide the input by the remaining range to scale it back to a (0, 1) range.
-        double scaledInput = reducedInput / (1-deadband);
+        double scaledInput = reducedInput / (1 - deadband);
 
         // Apply whatever further function is appropriate
         return function.applyAsDouble(scaledInput);

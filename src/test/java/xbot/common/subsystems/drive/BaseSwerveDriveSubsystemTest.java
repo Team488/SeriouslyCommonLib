@@ -4,7 +4,8 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.kinematics.SwerveModuleVelocity;
@@ -20,16 +21,17 @@ import xbot.common.math.XYPair;
 import xbot.common.subsystems.drive.swerve.SwerveModuleStates;
 import xbot.common.subsystems.drive.swerve.SwerveModuleSubsystem;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.wpilib.units.Units.MetersPerSecond;
 import static org.wpilib.units.Units.RotationsPerSecond;
 
 public class BaseSwerveDriveSubsystemTest extends BaseCommonLibTest {
     BaseSwerveDriveSubsystem subsystem;
 
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();
@@ -103,41 +105,25 @@ public class BaseSwerveDriveSubsystemTest extends BaseCommonLibTest {
         // The drive subsystem itself isn't injected with a DataFrameRegistry directly here, but
         // refreshing the registry should cascade: motor controller -> SwerveSteeringSubsystem ->
         // SwerveModuleSubsystem -> BaseSwerveDriveSubsystem, updating the cached current states.
-        var driveMotor = (MockCANMotorController) subsystem.getFrontLeftSwerveModuleSubsystem()
-                .getDriveSubsystem().getMotorController().get();
+        var driveMotor = (MockCANMotorController) subsystem.getFrontLeftSwerveModuleSubsystem().getDriveSubsystem().getMotorController().get();
         driveMotor.setRawVelocity(RotationsPerSecond.of(10));
 
         getInjectorComponent().dataFrameRegistry().refreshAll();
 
-        assertEquals(
-                subsystem.getFrontLeftSwerveModuleSubsystem().getDriveSubsystem().getCurrentValue(),
-                MetersPerSecond.of(subsystem.getCurrentSwerveStates().frontLeft().velocity).in(MetersPerSecond),
-                0.001);
+        assertEquals(subsystem.getFrontLeftSwerveModuleSubsystem().getDriveSubsystem().getCurrentValue(),
+                MetersPerSecond.of(subsystem.getCurrentSwerveStates().frontLeft().velocity).in(MetersPerSecond), 0.001);
     }
 
     @Test
     public void setTargetSwerveStates() {
         subsystem.setTargetSwerveStates(
-                new SwerveModuleStates(
-                    new SwerveModuleVelocity(1, Rotation2d.fromDegrees(90)),
-                    new SwerveModuleVelocity(2, Rotation2d.fromDegrees(91)),
-                    new SwerveModuleVelocity(3, Rotation2d.fromDegrees(92)),
-                    new SwerveModuleVelocity(4, Rotation2d.fromDegrees(93))
-                )
-        );
+                new SwerveModuleStates(new SwerveModuleVelocity(1, Rotation2d.fromDegrees(90)), new SwerveModuleVelocity(2, Rotation2d.fromDegrees(91)),
+                        new SwerveModuleVelocity(3, Rotation2d.fromDegrees(92)), new SwerveModuleVelocity(4, Rotation2d.fromDegrees(93))));
 
-        assertEquals(
-                new SwerveModuleVelocity(1, Rotation2d.fromDegrees(90)),
-                subsystem.getFrontLeftSwerveModuleSubsystem().getTargetState());
-        assertEquals(
-                new SwerveModuleVelocity(-2, Rotation2d.fromDegrees(-89)),
-                subsystem.getFrontRightSwerveModuleSubsystem().getTargetState());
-        assertEquals(
-                new SwerveModuleVelocity(-3, Rotation2d.fromDegrees(-88)),
-                subsystem.getRearLeftSwerveModuleSubsystem().getTargetState());
-        assertEquals(
-                new SwerveModuleVelocity(-4, Rotation2d.fromDegrees(-87)),
-                subsystem.getRearRightSwerveModuleSubsystem().getTargetState());
+        assertEquals(new SwerveModuleVelocity(1, Rotation2d.fromDegrees(90)), subsystem.getFrontLeftSwerveModuleSubsystem().getTargetState());
+        assertEquals(new SwerveModuleVelocity(-2, Rotation2d.fromDegrees(-89)), subsystem.getFrontRightSwerveModuleSubsystem().getTargetState());
+        assertEquals(new SwerveModuleVelocity(-3, Rotation2d.fromDegrees(-88)), subsystem.getRearLeftSwerveModuleSubsystem().getTargetState());
+        assertEquals(new SwerveModuleVelocity(-4, Rotation2d.fromDegrees(-87)), subsystem.getRearRightSwerveModuleSubsystem().getTargetState());
 
         assertEquals(-2, subsystem.getFrontRightSwerveModuleSubsystem().getDriveSubsystem().getTargetValue(), 0.001);
         assertEquals(-89, subsystem.getFrontRightSwerveModuleSubsystem().getSteeringSubsystem().getTargetValue(), 0.001);
@@ -157,7 +143,7 @@ public class BaseSwerveDriveSubsystemTest extends BaseCommonLibTest {
     private static Alert getDegradedModuleAlert(SwerveModuleSubsystem module) throws ReflectiveOperationException {
         Field degradedModuleAlertField = SwerveModuleSubsystem.class.getDeclaredField("degradedModuleAlert");
         degradedModuleAlertField.setAccessible(true);
-        return (Alert)degradedModuleAlertField.get(module);
+        return (Alert) degradedModuleAlertField.get(module);
     }
 
     private static AlertInfo getAlertInfo(String alertId) {

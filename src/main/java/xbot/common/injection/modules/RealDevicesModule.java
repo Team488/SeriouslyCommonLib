@@ -38,8 +38,6 @@ import xbot.common.controls.sensors.wpi_adapters.DutyCycleEncoderWpiAdapter;
 import xbot.common.controls.sensors.wpi_adapters.EncoderWPIAdapter.EncoderWPIAdapterFactory;
 import xbot.common.controls.sensors.wpi_adapters.LidarLiteWpiAdapter.LidarLiteWpiAdapterFactory;
 import xbot.common.controls.sensors.wpi_adapters.PowerDistributionPanelWPIAdapter.PowerDistributionPanelWPIAdapaterFactory;
-import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
-import xbot.common.networking.ZeromqListener.ZeromqListenerFactory;
 
 /**
  * Module for mapping device interfaces to real hardware.
@@ -105,10 +103,6 @@ public abstract class RealDevicesModule {
     @Binds
     @Singleton
     public abstract XSpeedControllerFactory getSpeedControllerFactory(SpeedControllerWPIAdapterFactory impl);
-
-    @Binds
-    @Singleton
-    public abstract XZeromqListenerFactory getZeromqListenerFactory(ZeromqListenerFactory impl);
 
     @Binds
     @Singleton

@@ -40,8 +40,7 @@ import xbot.common.injection.electrical_contract.XCameraElectricalContract;
 import xbot.common.properties.TunableFactory;
 
 /**
- * Subsystem for processing AprilTag vision data.
- * Based on the AdvantageKit sample implementation by team 6328.
+ * Subsystem for processing AprilTag vision data. Based on the AdvantageKit sample implementation by team 6328.
  */
 @Singleton
 public class AprilTagVisionSubsystem extends SubsystemBase {
@@ -51,8 +50,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
     final AprilTagVisionCameraHelper[] cameraHelpers;
 
     @Inject
-    public AprilTagVisionSubsystem(TunableFactory tunableFactory, Fields fieldLayout,
-            XCameraElectricalContract contract,
+    public AprilTagVisionSubsystem(TunableFactory tunableFactory, Fields fieldLayout, XCameraElectricalContract contract,
             AprilTagVisionIOFactory visionIOFactory, DataFrameRegistry registry) {
         this.aprilTagFieldLayout = fieldLayout;
 
@@ -62,8 +60,8 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
         for (int i = 0; i < io.length; i++) {
             var cameraInfo = this.cameras[i];
             io[i] = visionIOFactory.create(cameraInfo.networkTablesName(), cameraInfo.position());
-            cameraHelpers[i] = new AprilTagVisionCameraHelper(this.getName() + "/Cameras/" + cameraInfo.friendlyName(),
-                    tunableFactory, io[i], fieldLayout, registry, cameraInfo.useForPoseEstimates());
+            cameraHelpers[i] = new AprilTagVisionCameraHelper(this.getName() + "/Cameras/" + cameraInfo.friendlyName(), tunableFactory, io[i], fieldLayout,
+                    registry, cameraInfo.useForPoseEstimates());
         }
     }
 
@@ -76,7 +74,9 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
 
     /**
      * Gets the position of the camera relative to the robot.
-     * @param cameraIndex The index of the camera to use.
+     *
+     * @param cameraIndex
+     *            The index of the camera to use.
      * @return The 3D position of the camera relative to the robot.
      */
     public Transform3d getCameraPosition(int cameraIndex) {
@@ -85,7 +85,9 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
 
     /**
      * Returns the latest target observation.
-     * @param cameraIndex The index of the camera to use.
+     *
+     * @param cameraIndex
+     *            The index of the camera to use.
      * @return The latest target observation.
      */
     public AprilTagVisionIO.TargetObservation getLatestTargetObservation(int cameraIndex) {
@@ -93,32 +95,33 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
     }
 
     /**
-     * Returns the X angle to the best target, which can be used for simple servoing
-     * with vision.
+     * Returns the X angle to the best target, which can be used for simple servoing with vision.
      *
-     * @param cameraIndex The index of the camera to use.
+     * @param cameraIndex
+     *            The index of the camera to use.
      */
     public Rotation2d getTargetX(int cameraIndex) {
         return cameraHelpers[cameraIndex].inputs.latestTargetObservation.tx();
     }
 
     /**
-     * Returns the X angle to the specified target, which can be used for simple servoing
-     * with vision.
+     * Returns the X angle to the specified target, which can be used for simple servoing with vision.
      *
-     * @param cameraIndex The index of the camera to use.
-     * @param tagId The tag to check.
+     * @param cameraIndex
+     *            The index of the camera to use.
+     * @param tagId
+     *            The tag to check.
      * @return The X angle to the specified target.
      */
     public Optional<Rotation2d> getTargetX(int cameraIndex, int tagId) {
-        return getTargetObservation(cameraIndex, tagId)
-                .map(AprilTagVisionIO.TargetObservation::tx);
+        return getTargetObservation(cameraIndex, tagId).map(AprilTagVisionIO.TargetObservation::tx);
     }
 
     /**
      * Returns the ID of the best target.
      *
-     * @param cameraIndex The index of the camera to use.
+     * @param cameraIndex
+     *            The index of the camera to use.
      * @return The ID of the best target.
      */
     public OptionalInt getBestTargetId(int cameraIndex) {
@@ -132,20 +135,23 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
     /**
      * Returns the raw observation data for the specified target.
      *
-     * @param cameraIndex The index of the camera to use.
-     * @param tagId The tag to check.
+     * @param cameraIndex
+     *            The index of the camera to use.
+     * @param tagId
+     *            The tag to check.
      * @return The raw observation data for the specified target.
      */
     public Optional<AprilTagVisionIO.TargetObservation> getTargetObservation(int cameraIndex, int tagId) {
-        return Arrays.stream(cameraHelpers[cameraIndex].inputs.targetObservations)
-                .filter(t -> t.fiducialId() == tagId)
-                .findFirst();
+        return Arrays.stream(cameraHelpers[cameraIndex].inputs.targetObservations).filter(t -> t.fiducialId() == tagId).findFirst();
     }
 
     /**
      * Returns <c>true</c> if the camera can see the specified tag.
-     * @param cameraIndex The camera to check.
-     * @param tagId The tag to check.
+     *
+     * @param cameraIndex
+     *            The camera to check.
+     * @param tagId
+     *            The tag to check.
      * @return <c>true</c> if the camera can see the tag.
      */
     public boolean tagVisibleByCamera(int cameraIndex, int tagId) {
@@ -154,7 +160,9 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
 
     /**
      * Returns <c>true</c> if any camera can see the specified tag.
-     * @param tagId The tag to check.
+     *
+     * @param tagId
+     *            The tag to check.
      * @return <c>true</c> if any camera can see the tag.
      */
     public boolean tagVisibleByAnyCamera(int tagId) {
@@ -168,7 +176,9 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
 
     /**
      * Returns the set of cameras that can see the specified tag.
-     * @param tagId The tag to check.
+     *
+     * @param tagId
+     *            The tag to check.
      * @return The set of cameras that can see the tag.
      */
     public Set<Integer> camerasWithTagVisible(int tagId) {
@@ -187,16 +197,16 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
 
     /**
      * Retrieves the set of cameras that should be used for pose estimations
+     *
      * @return The set of cameras that are meant for pose.
      */
     public List<AprilTagVisionCameraHelper> getAllPoseCameras() {
-        return Arrays.asList(this.cameraHelpers).stream()
-            .filter(c -> c.getUseForPoseEstimates())
-            .collect(Collectors.toList());
+        return Arrays.asList(this.cameraHelpers).stream().filter(c -> c.getUseForPoseEstimates()).collect(Collectors.toList());
     }
 
     /**
      * Gets all the pose observations in this iteration of the scheduler loop.
+     *
      * @return A list of pose observations.
      */
     public List<VisionPoseObservation> getAllPoseObservations() {
@@ -212,21 +222,12 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
         // Loop over cameras
         for (AprilTagVisionCameraHelper cameraHelper : cameraHelpers) {
             // Log camera data
-            Logger.recordOutput(
-                    cameraHelper.getLogPath() + "/TagPoses",
-                    cameraHelper.getTagPoses().toArray(new Pose3d[0]));
-            Logger.recordOutput(
-                    cameraHelper.getLogPath() + "/RobotPoses",
-                    cameraHelper.getRobotPoses().toArray(new Pose3d[0]));
-            Logger.recordOutput(
-                    cameraHelper.getLogPath() + "/RobotPosesAccepted",
-                    cameraHelper.getRobotPosesAccepted().toArray(new Pose3d[0]));
-            Logger.recordOutput(
-                    cameraHelper.getLogPath() + "/RobotPosesRejected",
-                    cameraHelper.getRobotPosesRejected().toArray(new Pose3d[0]));
+            Logger.recordOutput(cameraHelper.getLogPath() + "/TagPoses", cameraHelper.getTagPoses().toArray(new Pose3d[0]));
+            Logger.recordOutput(cameraHelper.getLogPath() + "/RobotPoses", cameraHelper.getRobotPoses().toArray(new Pose3d[0]));
+            Logger.recordOutput(cameraHelper.getLogPath() + "/RobotPosesAccepted", cameraHelper.getRobotPosesAccepted().toArray(new Pose3d[0]));
+            Logger.recordOutput(cameraHelper.getLogPath() + "/RobotPosesRejected", cameraHelper.getRobotPosesRejected().toArray(new Pose3d[0]));
             double now = Timer.getMonotonicTimestamp();
-            Logger.recordOutput(
-                    cameraHelper.getLogPath() + "/Staleness",
+            Logger.recordOutput(cameraHelper.getLogPath() + "/Staleness",
                     cameraHelper.getPoseObservations().stream().map(p -> (now - p.timestampSeconds())).mapToDouble(Double::doubleValue).toArray());
         }
     }

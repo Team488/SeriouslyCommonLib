@@ -6,8 +6,11 @@ import xbot.common.controls.sensors.XTimer;
 
 /**
  * Base class for subsystems that have a setpoint managed by a maintainer.
- * @param <TargetT> The type of the target value.
- * @param <PowerT> The type of the power value.
+ *
+ * @param <TargetT>
+ *            The type of the target value.
+ * @param <PowerT>
+ *            The type of the power value.
  */
 public abstract class BaseSetpointSubsystem<TargetT, PowerT> extends BaseSubsystem implements SupportsSetpointLock {
 
@@ -17,12 +20,13 @@ public abstract class BaseSetpointSubsystem<TargetT, PowerT> extends BaseSubsyst
     protected TargetT lastTargetValueUsedforAtGoal;
 
     public BaseSetpointSubsystem() {
-        setpointLock = new Subsystem() {};
+        setpointLock = new Subsystem() {
+        };
     }
 
     @Override
     public Subsystem getSetpointLock() {
-       return setpointLock;
+        return setpointLock;
     }
 
     public boolean isMaintainerAtGoal() {

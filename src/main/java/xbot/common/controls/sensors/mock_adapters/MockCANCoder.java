@@ -1,7 +1,6 @@
 package xbot.common.controls.sensors.mock_adapters;
 
 import com.ctre.phoenix6.StatusCode;
-import org.json.JSONObject;
 
 import org.wpilib.math.util.MathUtil;
 import org.wpilib.units.measure.Angle;
@@ -15,22 +14,20 @@ import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XAbsoluteEncoderInputs;
 import xbot.common.controls.io_inputs.XCANCoderInputs;
 import xbot.common.controls.sensors.XCANCoder;
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
-import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.properties.TunableFactory;
 import xbot.common.properties.TunableLevel;
 import xbot.common.resiliency.DeviceHealth;
-import xbot.common.simulation.ISimulatableSensor;
 
 import static org.wpilib.units.Units.RPM;
 import static org.wpilib.units.Units.Radians;
 import static org.wpilib.units.Units.Rotations;
 
-public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
+public class MockCANCoder extends XCANCoder {
 
     private final int deviceId;
-    private double simulationScale;
     private double positionOffset;
 
     private final boolean inverted;
@@ -39,27 +36,23 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
 
     @AssistedFactory
     public abstract static class MockCANCoderFactory implements XCANCoderFactory {
-        public abstract MockCANCoder create(
-            @Assisted("deviceInfo") DeviceInfo deviceInfo,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix);
+        public abstract MockCANCoder create(@Assisted("deviceInfo") DeviceInfo deviceInfo, @Assisted("owningSystemPrefix") String owningSystemPrefix);
     }
 
     @AssistedInject
-    public MockCANCoder(@Assisted("deviceInfo") DeviceInfo deviceInfo,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            DevicePolice police, TunableFactory tunableFactory, DataFrameRegistry dataFrameRegistry) {
+    public MockCANCoder(@Assisted("deviceInfo") DeviceInfo deviceInfo, @Assisted("owningSystemPrefix") String owningSystemPrefix, DevicePolice police,
+            TunableFactory tunableFactory, DataFrameRegistry dataFrameRegistry) {
         super(deviceInfo, dataFrameRegistry);
         tunableFactory.setPrefix(owningSystemPrefix);
 
-        this.deviceId = deviceInfo.channel;
+        this.deviceId = deviceInfo.channel();
         this.velocity = RPM.zero();
         this.position = Rotations.zero();
         tunableFactory.setDefaultLevel(TunableLevel.Debug);
         this.positionOffset = 0;
-        this.inverted = deviceInfo.inverted;
-        this.simulationScale = deviceInfo.simulationScalingValue;
+        this.inverted = deviceInfo.inverted();
 
-        police.registerDevice(DeviceType.CAN, deviceInfo.channel, this);
+        police.registerDevice(this, DeviceAddress.can(deviceInfo.canBusId(), deviceInfo.channel()));
     }
 
     @Override
@@ -96,17 +89,9 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
         this.position = position.times(inverted ? -1 : 1);
     }
 
-    @Override
-    public void ingestSimulationData(JSONObject payload) {
-        setAbsolutePosition(
-            Rotations.of(payload.getBigDecimal("EncoderTicks").doubleValue() * this.simulationScale)
-        );
-    }
-
     public DeviceHealth getHealth_internal() {
         return DeviceHealth.Healthy;
     }
-
 
     @Override
     public StatusCode setUpdateFrequencyForPosition(double frequencyInHz) {
@@ -134,6 +119,7 @@ public class MockCANCoder extends XCANCoder implements ISimulatableSensor {
         inputs.position = getPosition_internal();
         inputs.deviceHealth = getHealth_internal().toString();
     }
+
     @Override
     public void updateInputs(XCANCoderInputs inputs) {
         inputs.hasResetOccurred = hasResetOccurred_internal();

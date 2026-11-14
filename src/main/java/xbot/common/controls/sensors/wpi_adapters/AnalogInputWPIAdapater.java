@@ -19,10 +19,7 @@ public class AnalogInputWPIAdapater extends XAnalogInput {
     }
 
     @AssistedInject
-    public AnalogInputWPIAdapater(
-            @Assisted("channel") int channel,
-            DevicePolice police,
-            DataFrameRegistry dataFrameRegistry) {
+    public AnalogInputWPIAdapater(@Assisted("channel") int channel, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
         super(channel, police, dataFrameRegistry);
         input = new AnalogInput(channel);
     }

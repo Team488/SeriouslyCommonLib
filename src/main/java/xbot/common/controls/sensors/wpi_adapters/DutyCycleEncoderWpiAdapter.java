@@ -26,7 +26,7 @@ public class DutyCycleEncoderWpiAdapter extends XDutyCycleEncoder {
     @AssistedInject
     public DutyCycleEncoderWpiAdapter(@Assisted("info") DeviceInfo info, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
         super(info, police, dataFrameRegistry);
-        internalEncoder = new DutyCycleEncoder(info.channel);
+        internalEncoder = new DutyCycleEncoder(info.channel());
     }
 
     @Override

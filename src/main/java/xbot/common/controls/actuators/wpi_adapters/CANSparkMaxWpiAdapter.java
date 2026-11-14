@@ -30,11 +30,10 @@ import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.actuators.XCANMotorControllerPIDProperties;
 import xbot.common.controls.io_inputs.XCANMotorControllerInputs;
 import xbot.common.injection.DevicePolice;
-import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.injection.electrical_contract.CANMotorControllerOutputConfig;
 import xbot.common.injection.electrical_contract.SparkMaxMotorControllerOutputConfig;
-import xbot.common.logging.RobotAssertionManager;
+import xbot.common.logging.assertion.RobotAssertionManager;
 import xbot.common.properties.PowerDistributionProperties;
 import xbot.common.properties.TunableFactory;
 import xbot.common.resiliency.DeviceHealth;
@@ -50,66 +49,45 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
     @AssistedFactory
     public abstract static class CANSparkMaxWpiAdapterFactory implements XCANMotorControllerFactory {
-        public abstract CANSparkMaxWpiAdapter create(
-                @Assisted("info") CANMotorControllerInfo info,
-                @Assisted("owningSystemPrefix") String owningSystemPrefix,
-                @Assisted("pidTunablePrefix") String pidTunablePrefix,
-                @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties);
+        public abstract CANSparkMaxWpiAdapter create(@Assisted("info") CANMotorControllerInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix,
+                @Assisted("pidTunablePrefix") String pidTunablePrefix, @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties);
     }
 
     private static final Logger log = LogManager.getLogger(CANSparkMaxWpiAdapter.class);
 
     private final SparkMax internalSparkMax;
-    private final RobotAssertionManager assertionManager;
 
     private double minPower = -1.0;
     private double maxPower = 1.0;
 
     @AssistedInject
-    public CANSparkMaxWpiAdapter(
-            @Assisted("info") CANMotorControllerInfo info,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            TunableFactory tunableFactory,
-            DevicePolice police,
-            RobotAssertionManager assertionManager,
-            @Assisted("pidTunablePrefix") String pidTunablePrefix,
-            @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties,
-            DataFrameRegistry dataFrameRegistry,
-            PowerDistributionProperties pdProperties
-    ) {
+    public CANSparkMaxWpiAdapter(@Assisted("info") CANMotorControllerInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix,
+            TunableFactory tunableFactory, DevicePolice police, @Assisted("pidTunablePrefix") String pidTunablePrefix,
+            @Assisted("defaultPIDProperties") XCANMotorControllerPIDProperties defaultPIDProperties, DataFrameRegistry dataFrameRegistry,
+            PowerDistributionProperties pdProperties) {
         super(info, owningSystemPrefix, tunableFactory, police, pidTunablePrefix, defaultPIDProperties, dataFrameRegistry, pdProperties);
-        this.assertionManager = assertionManager;
 
-        if (info.busId() != CANBusId.RIO) {
-            this.assertionManager.fail("CANSparkMax must be connected to the RIO");
-        }
-        this.internalSparkMax = new SparkMax(CANBusId.RIO.toWpiCANPort().value, info.deviceId(), SparkLowLevel.MotorType.kBrushless);
+        this.internalSparkMax = new SparkMax(info.busId().toWpiCANPort().value, info.deviceId(), SparkLowLevel.MotorType.kBrushless);
         setConfiguration(info.outputConfig());
     }
 
     @Override
     public void setConfiguration(CANMotorControllerOutputConfig outputConfig) {
-        var config = new SparkMaxConfig()
-                .inverted(outputConfig.inversionType == CANMotorControllerOutputConfig.InversionType.Inverted)
-                .idleMode(outputConfig.neutralMode == CANMotorControllerOutputConfig.NeutralMode.Brake
-                        ? SparkBaseConfig.IdleMode.kBrake
+        var config = new SparkMaxConfig().inverted(outputConfig.inversionType == CANMotorControllerOutputConfig.InversionType.Inverted)
+                .idleMode(outputConfig.neutralMode == CANMotorControllerOutputConfig.NeutralMode.Brake ? SparkBaseConfig.IdleMode.kBrake
                         : SparkBaseConfig.IdleMode.kCoast);
 
         if (outputConfig.getClass() != SparkMaxMotorControllerOutputConfig.class) {
-            log.error("Tried to set Spark Max {} ({}) configuration with incompatible config class {}. Skipping device-specific settings.",
-                    deviceId, akitName, outputConfig.getClass().getSimpleName());
+            log.error("Tried to set Spark Max {} ({}) configuration with incompatible config class {}. Skipping device-specific settings.", deviceId, akitName,
+                    outputConfig.getClass().getSimpleName());
         } else {
             var sparkConfig = (SparkMaxMotorControllerOutputConfig) outputConfig;
 
-            config.smartCurrentLimit(
-                    (int) sparkConfig.sparkStallCurrentLimit.in(Amps),
-                    (int) sparkConfig.sparkFreeCurrentLimit.in(Amps),
+            config.smartCurrentLimit((int) sparkConfig.sparkStallCurrentLimit.in(Amps), (int) sparkConfig.sparkFreeCurrentLimit.in(Amps),
                     (int) sparkConfig.sparkStallSpeed.in(RPM));
         }
 
-        this.internalSparkMax.configure(config,
-                ResetMode.kResetSafeParameters,
-                PersistMode.kPersistParameters);
+        this.internalSparkMax.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     @Override
@@ -120,9 +98,7 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
         var config = new SparkMaxConfig();
         config.openLoopRampRate(dutyCyclePeriod.in(Seconds));
-        this.internalSparkMax.configure(config,
-                ResetMode.kNoResetSafeParameters,
-                PersistMode.kNoPersistParameters);
+        this.internalSparkMax.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     }
 
     @Override
@@ -133,18 +109,14 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
         var config = new SparkMaxConfig();
         config.closedLoopRampRate(dutyCyclePeriod.in(Seconds));
-        this.internalSparkMax.configure(config,
-                ResetMode.kNoResetSafeParameters,
-                PersistMode.kNoPersistParameters);
+        this.internalSparkMax.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     }
 
     @Override
     public void setTrapezoidalProfileAcceleration(AngularAcceleration acceleration) {
         var config = new SparkMaxConfig();
         config.closedLoop.maxMotion.maxAcceleration(acceleration.in(RPM.per(Second)));
-        this.internalSparkMax.configure(config,
-                ResetMode.kNoResetSafeParameters,
-                PersistMode.kNoPersistParameters);
+        this.internalSparkMax.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     }
 
     @Override
@@ -158,25 +130,17 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     public void setTrapezoidalProfileMaxVelocity(AngularVelocity velocity) {
         var config = new SparkMaxConfig();
         config.closedLoop.maxMotion.cruiseVelocity(velocity.in(RPM));
-        this.internalSparkMax.configure(config,
-                ResetMode.kNoResetSafeParameters,
-                PersistMode.kNoPersistParameters);
+        this.internalSparkMax.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     }
 
     @Override
     public void setPidDirectly(XCANMotorControllerPIDProperties pidProperties, int slot) {
         var config = new SparkMaxConfig();
-        config.closedLoop
-                .p(pidProperties.p(), getClosedLoopSlot(slot))
-                .i(pidProperties.i(), getClosedLoopSlot(slot))
-                .d(pidProperties.d(), getClosedLoopSlot(slot));
-        config.closedLoop.feedForward
-                .kS(pidProperties.staticFeedForward(), getClosedLoopSlot(slot))
-                .kV(pidProperties.velocityFeedForward(), getClosedLoopSlot(slot))
-                .kG(pidProperties.gravityFeedForward(), getClosedLoopSlot(slot));
-        this.internalSparkMax.configure(config,
-                ResetMode.kNoResetSafeParameters,
-                PersistMode.kNoPersistParameters);
+        config.closedLoop.p(pidProperties.p(), getClosedLoopSlot(slot)).i(pidProperties.i(), getClosedLoopSlot(slot)).d(pidProperties.d(),
+                getClosedLoopSlot(slot));
+        config.closedLoop.feedForward.kS(pidProperties.staticFeedForward(), getClosedLoopSlot(slot))
+                .kV(pidProperties.velocityFeedForward(), getClosedLoopSlot(slot)).kG(pidProperties.gravityFeedForward(), getClosedLoopSlot(slot));
+        this.internalSparkMax.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     }
 
     @Override
@@ -208,12 +172,8 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
         this.minPower = minPower;
         this.maxPower = maxPower;
         var config = new SparkMaxConfig();
-        config.closedLoop
-                .minOutput(minPower)
-                .maxOutput(maxPower);
-        this.internalSparkMax.configure(config,
-                ResetMode.kNoResetSafeParameters,
-                PersistMode.kNoPersistParameters);
+        config.closedLoop.minOutput(minPower).maxOutput(maxPower);
+        this.internalSparkMax.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     }
 
     public Angle getRawPosition_internal() {
@@ -229,16 +189,14 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     public void setRawPositionTarget(Angle rawPosition, MotorPidMode mode, int slot) {
         SparkBase.ControlType controlType;
         switch (mode) {
-            case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kPosition;
-            case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionPositionControl;
-            default -> {
-                this.assertionManager.fail("Unsupported mode: " + mode);
-                controlType = SparkBase.ControlType.kPosition;
-            }
+        case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kPosition;
+        case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionPositionControl;
+        default -> {
+            RobotAssertionManager.fail("Unsupported mode: " + mode);
+            controlType = SparkBase.ControlType.kPosition;
         }
-        this.internalSparkMax
-                .getClosedLoopController()
-                .setSetpoint(rawPosition.in(Rotations), controlType, getClosedLoopSlot(slot));
+        }
+        this.internalSparkMax.getClosedLoopController().setSetpoint(rawPosition.in(Rotations), controlType, getClosedLoopSlot(slot));
     }
 
     public AngularVelocity getRawVelocity_internal() {
@@ -249,32 +207,28 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     public void setRawVelocityTarget(AngularVelocity rawVelocity, MotorPidMode mode, int slot) {
         SparkBase.ControlType controlType;
         switch (mode) {
-            case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kVelocity;
-            case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionVelocityControl;
-            default -> {
-                this.assertionManager.fail("Unsupported mode: " + mode);
-                controlType = SparkBase.ControlType.kVelocity;
-            }
+        case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kVelocity;
+        case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionVelocityControl;
+        default -> {
+            RobotAssertionManager.fail("Unsupported mode: " + mode);
+            controlType = SparkBase.ControlType.kVelocity;
         }
-        this.internalSparkMax
-                .getClosedLoopController()
-                .setSetpoint(rawVelocity.in(RPM), controlType, getClosedLoopSlot(slot));
+        }
+        this.internalSparkMax.getClosedLoopController().setSetpoint(rawVelocity.in(RPM), controlType, getClosedLoopSlot(slot));
     }
 
     @Override
     public void setRawVelocityTargetWithFeedForward(AngularVelocity rawVelocity, MotorPidMode mode, double feedForward, int slot) {
         SparkBase.ControlType controlType;
         switch (mode) {
-            case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kVelocity;
-            case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionVelocityControl;
-            default -> {
-                this.assertionManager.fail("Unsupported mode: " + mode);
-                controlType = SparkBase.ControlType.kVelocity;
-            }
+        case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kVelocity;
+        case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionVelocityControl;
+        default -> {
+            RobotAssertionManager.fail("Unsupported mode: " + mode);
+            controlType = SparkBase.ControlType.kVelocity;
         }
-        this.internalSparkMax
-                .getClosedLoopController()
-                .setSetpoint(rawVelocity.in(RPM), controlType, getClosedLoopSlot(slot), feedForward);
+        }
+        this.internalSparkMax.getClosedLoopController().setSetpoint(rawVelocity.in(RPM), controlType, getClosedLoopSlot(slot), feedForward);
     }
 
     @Override
@@ -287,20 +241,19 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
     private ClosedLoopSlot getClosedLoopSlot(int slot) {
         return switch (slot) {
-            case 0 -> ClosedLoopSlot.kSlot0;
-            case 1 -> ClosedLoopSlot.kSlot1;
-            case 2 -> ClosedLoopSlot.kSlot2;
-            case 3 -> ClosedLoopSlot.kSlot3;
-            default -> {
-                this.assertionManager.fail("Invalid PID slot number: " + slot);
-                yield ClosedLoopSlot.kSlot0;
-            }
+        case 0 -> ClosedLoopSlot.kSlot0;
+        case 1 -> ClosedLoopSlot.kSlot1;
+        case 2 -> ClosedLoopSlot.kSlot2;
+        case 3 -> ClosedLoopSlot.kSlot3;
+        default -> {
+            RobotAssertionManager.fail("Invalid PID slot number: " + slot);
+            yield ClosedLoopSlot.kSlot0;
+        }
         };
     }
 
     public Voltage getVoltage_internal() {
-        return Volts.of(
-                this.internalSparkMax.getAppliedOutput().get() * internalSparkMax.getBusVoltage().get());
+        return Volts.of(this.internalSparkMax.getAppliedOutput().get() * internalSparkMax.getBusVoltage().get());
     }
 
     @Override

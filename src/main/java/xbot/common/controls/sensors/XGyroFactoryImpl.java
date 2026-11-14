@@ -11,10 +11,8 @@ public class XGyroFactoryImpl extends XGyro.XGyroFactory {
     private final InertialMeasurementUnitAdapter.InertialMeasurementUnitAdapterFactory navXFactory;
 
     @Inject
-    public XGyroFactoryImpl(
-            Pigeon2Adapter.Pigeon2AdapterFactory pigeon2Factory,
-            InertialMeasurementUnitAdapter.InertialMeasurementUnitAdapterFactory navXFactory
-    ) {
+    public XGyroFactoryImpl(Pigeon2Adapter.Pigeon2AdapterFactory pigeon2Factory,
+            InertialMeasurementUnitAdapter.InertialMeasurementUnitAdapterFactory navXFactory) {
         this.pigeon2Factory = pigeon2Factory;
         this.navXFactory = navXFactory;
     }
@@ -22,12 +20,12 @@ public class XGyroFactoryImpl extends XGyro.XGyroFactory {
     @Override
     public XGyro create(IMUInfo imuInfo) {
         switch (imuInfo.imuType()) {
-            case pigeon2 -> {
-                return pigeon2Factory.create(imuInfo);
-            }
-            default -> {
-                return navXFactory.create(imuInfo);
-            }
+        case pigeon2 -> {
+            return pigeon2Factory.create(imuInfo);
+        }
+        default -> {
+            return navXFactory.create(imuInfo);
+        }
         }
     }
 }

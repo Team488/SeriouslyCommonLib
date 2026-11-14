@@ -34,16 +34,15 @@ public class SwervePointPathPlanning {
     private static Logger log = LogManager.getLogger(SwervePointPathPlanning.class);
 
     @Inject
-    public SwervePointPathPlanning(ObstacleMap obstacleMap, GameField gameField,
-            XSwerveDriveElectricalContract electrical_contract, TunableFactory tunableFactory) {
+    public SwervePointPathPlanning(ObstacleMap obstacleMap, GameField gameField, XSwerveDriveElectricalContract electrical_contract,
+            TunableFactory tunableFactory) {
         tunableFactory.setPrefix(SwervePointPathPlanning.class.getName());
         this.obstacleMap = obstacleMap;
         this.gameField = gameField;
         this.radius = electrical_contract.getRadiusOfRobot();
 
         this.aKitLog = new AKitLogger("SwervePointPathPlanning/");
-        this.additionalClearanceOfObstaclesMeters = tunableFactory.createDouble("additionalClearanceOfObstaclesMeters",
-                0.1);
+        this.additionalClearanceOfObstaclesMeters = tunableFactory.createDouble("additionalClearanceOfObstaclesMeters", 0.1);
     }
 
     public Distance getAdditionalClearance() {
@@ -51,15 +50,15 @@ public class SwervePointPathPlanning {
     }
 
     /**
-     * Generates a list of swerve points from Point A -> B while avoiding any
-     * obstacles in the map.
+     * Generates a list of swerve points from Point A -> B while avoiding any obstacles in the map.
      *
-     * @param startingPose you are at
-     * @param endingPose   you want to go to
+     * @param startingPose
+     *            you are at
+     * @param endingPose
+     *            you want to go to
      * @return a list of swerve points to destination
      */
-    public List<XbotSwervePoint> generateSwervePoints(Pose2d startingPose, Pose2d endingPose,
-            boolean allowToughTerrain) {
+    public List<XbotSwervePoint> generateSwervePoints(Pose2d startingPose, Pose2d endingPose, boolean allowToughTerrain) {
         List<XbotSwervePoint> swervePoints = new ArrayList<>();
         Translation2d start = startingPose.getTranslation();
         Translation2d end = endingPose.getTranslation();
@@ -71,8 +70,7 @@ public class SwervePointPathPlanning {
             swervePoints.add(new XbotSwervePoint(endingPose, 0.001)); // Set to small number so SSTC does not complain.
             return swervePoints;
         }
-        var prefix = String.format("/(%.2f,%.2f)->(%.2f,%.2f)", startingPose.getX(), startingPose.getY(),
-                endingPose.getX(), endingPose.getY());
+        var prefix = String.format("/(%.2f,%.2f)->(%.2f,%.2f)", startingPose.getX(), startingPose.getY(), endingPose.getX(), endingPose.getY());
         var closestObstacle = this.obstacleMap.closestObstacle(startingPose, allowToughTerrain).orElseThrow();
 
         Translation2d tangentPoint = null;
@@ -85,8 +83,7 @@ public class SwervePointPathPlanning {
             // If we're inside the routing circle and there is a collision, we need to first
             // back out to the routing circle.
             Translation2d direction = start.minus(closestObstacle.center());
-            tangentPoint = closestObstacle.center()
-                    .plus(direction.times(closestObstacle.avoidanceRadius().in(Meters) / direction.getNorm()));
+            tangentPoint = closestObstacle.center().plus(direction.times(closestObstacle.avoidanceRadius().in(Meters) / direction.getNorm()));
             trajectoryPoses.add(new Pose2d(tangentPoint, startingPose.getRotation()));
             swervePoints.add(new XbotSwervePoint(new Pose2d(tangentPoint, startingPose.getRotation()), 10));
         } else {
@@ -124,8 +121,7 @@ public class SwervePointPathPlanning {
         return swervePoints;
     }
 
-    private Translation2d findClosestTangentPoint(Translation2d point, Translation2d endPoint,
-            IFieldObstacle closestObstacle) {
+    private Translation2d findClosestTangentPoint(Translation2d point, Translation2d endPoint, IFieldObstacle closestObstacle) {
         var obstacleCenter = closestObstacle.center();
         var distanceToCenter = point.getDistance(obstacleCenter);
         var vectorToObstacleCenter = obstacleCenter.minus(point);
@@ -144,18 +140,15 @@ public class SwervePointPathPlanning {
         var fallbackDirection = getAngleOrDefault(endPoint.minus(obstacleCenter), new Rotation2d());
         if (closeToObstacle) {
             var moveAwayVector = vectorToObstacleCenter.unaryMinus();
-            fromObstacleCenter = new Translation2d(clearanceRadius.in(Meters),
-                    getAngleOrDefault(moveAwayVector, fallbackDirection));
+            fromObstacleCenter = new Translation2d(clearanceRadius.in(Meters), getAngleOrDefault(moveAwayVector, fallbackDirection));
         } else {
-            fromObstacleCenter = new Translation2d(clearanceRadius.in(Meters),
-                    getAngleOrDefault(vectorToObstacleCenter, fallbackDirection));
+            fromObstacleCenter = new Translation2d(clearanceRadius.in(Meters), getAngleOrDefault(vectorToObstacleCenter, fallbackDirection));
         }
 
         return obstacleCenter.plus(fromObstacleCenter);
     }
 
-    private Translation2d moveAlongCircumferenceTowardsOuterWall(Translation2d currentPoint,
-            IFieldObstacle closestObstacle) {
+    private Translation2d moveAlongCircumferenceTowardsOuterWall(Translation2d currentPoint, IFieldObstacle closestObstacle) {
         var clearanceRadius = this.buildObstacleClearanceDistance(closestObstacle);
         var obstacleCenter = closestObstacle.center();
         var vectorToObstacleCenter = currentPoint.minus(obstacleCenter);
@@ -165,12 +158,8 @@ public class SwervePointPathPlanning {
 
         var moveGreaterInY = currentPoint.getY() > this.gameField.getFieldCenter().getY();
 
-        var counterClockWisePoint = obstacleCenter
-                .plus(new Translation2d(clearanceRadius.in(Meters),
-                        Rotation2d.fromRadians(angleCurrent + angleStep)));
-        var clockWisePoint = obstacleCenter
-                .plus(new Translation2d(clearanceRadius.in(Meters),
-                        Rotation2d.fromRadians(angleCurrent - angleStep)));
+        var counterClockWisePoint = obstacleCenter.plus(new Translation2d(clearanceRadius.in(Meters), Rotation2d.fromRadians(angleCurrent + angleStep)));
+        var clockWisePoint = obstacleCenter.plus(new Translation2d(clearanceRadius.in(Meters), Rotation2d.fromRadians(angleCurrent - angleStep)));
 
         var referenceVector = counterClockWisePoint.minus(currentPoint);
         if (referenceVector.getY() > 0 && moveGreaterInY) {

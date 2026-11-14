@@ -1,7 +1,5 @@
 package xbot.common.controls.sensors.mock_adapters;
 
-import org.json.JSONObject;
-
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
@@ -11,29 +9,22 @@ import xbot.common.controls.io_inputs.XDigitalInputs;
 import xbot.common.controls.sensors.XDigitalInput;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
-import xbot.common.simulation.ISimulatableSensor;
 
-public class MockDigitalInput extends XDigitalInput implements ISimulatableSensor {
+public class MockDigitalInput extends XDigitalInput {
 
     protected boolean value;
     final int channel;
 
     @AssistedFactory
-    public abstract static class MockDigitalInputFactory implements XDigitalInputFactory
-    {
-        public abstract MockDigitalInput create(
-                @Assisted("info")DeviceInfo info,
-                @Assisted("owningSystemPrefix") String owningSystemPrefix);
+    public abstract static class MockDigitalInputFactory implements XDigitalInputFactory {
+        public abstract MockDigitalInput create(@Assisted("info") DeviceInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix);
     }
 
     @AssistedInject
-    public MockDigitalInput(
-            @Assisted("info") DeviceInfo info,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            DevicePolice police,
+    public MockDigitalInput(@Assisted("info") DeviceInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix, DevicePolice police,
             DataFrameRegistry dataFrameRegistry) {
         super(police, info, owningSystemPrefix, dataFrameRegistry);
-        this.channel = info.channel;
+        this.channel = info.channel();
     }
 
     public void setValue(boolean value) {
@@ -55,8 +46,4 @@ public class MockDigitalInput extends XDigitalInput implements ISimulatableSenso
         return this.channel;
     }
 
-    @Override
-    public void ingestSimulationData(JSONObject payload) {
-        setValue(payload.getBoolean("Triggered"));
-    }
 }

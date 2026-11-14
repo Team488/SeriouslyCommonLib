@@ -15,32 +15,29 @@ import xbot.common.injection.swerve.SwerveComponent;
 @Singleton
 public final class SwerveDefaultCommandMap {
     @Inject
-    public SwerveDefaultCommandMap() {}
+    public SwerveDefaultCommandMap() {
+    }
 
     @Inject
-    public void setupFrontLeftSubsystems(
-            @FrontLeftDrive SwerveComponent swerveComponent) {
+    public void setupFrontLeftSubsystems(@FrontLeftDrive SwerveComponent swerveComponent) {
         swerveComponent.swerveDriveSubsystem().setDefaultCommand(swerveComponent.swerveDriveMaintainerCommand());
         swerveComponent.swerveSteeringSubsystem().setDefaultCommand(swerveComponent.swerveSteeringMaintainerCommand());
     }
 
     @Inject
-    public void setupFrontRightSubsystems(
-            @FrontRightDrive SwerveComponent swerveComponent) {
+    public void setupFrontRightSubsystems(@FrontRightDrive SwerveComponent swerveComponent) {
         swerveComponent.swerveDriveSubsystem().setDefaultCommand(swerveComponent.swerveDriveMaintainerCommand());
         swerveComponent.swerveSteeringSubsystem().setDefaultCommand(swerveComponent.swerveSteeringMaintainerCommand());
     }
 
     @Inject
-    public void setupRearLeftSubsystems(
-            @RearLeftDrive SwerveComponent swerveComponent) {
+    public void setupRearLeftSubsystems(@RearLeftDrive SwerveComponent swerveComponent) {
         swerveComponent.swerveDriveSubsystem().setDefaultCommand(swerveComponent.swerveDriveMaintainerCommand());
         swerveComponent.swerveSteeringSubsystem().setDefaultCommand(swerveComponent.swerveSteeringMaintainerCommand());
     }
 
     @Inject
-    public void setupRearRightSubsystems(
-            @RearRightDrive SwerveComponent swerveComponent) {
+    public void setupRearRightSubsystems(@RearRightDrive SwerveComponent swerveComponent) {
         swerveComponent.swerveDriveSubsystem().setDefaultCommand(swerveComponent.swerveDriveMaintainerCommand());
         swerveComponent.swerveSteeringSubsystem().setDefaultCommand(swerveComponent.swerveSteeringMaintainerCommand());
     }

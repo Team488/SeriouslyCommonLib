@@ -1,21 +1,21 @@
 package xbot.common.logic;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.properties.TunableFactory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CalibrationDeciderTest extends BaseCommonLibTest {
 
     private CalibrationDecider decider;
 
-    @Before
+    @BeforeEach
     public void setup() {
         TunableFactory tunableFactory = getInjectorComponent().tunableFactory();
         decider = new CalibrationDecider("test", tunableFactory);

@@ -16,14 +16,14 @@ public class AprilTagCamera extends SimpleCamera {
     /**
      * Create a new AprilTagCamera.
      *
-     * @param cameraInfo The information about the camera.
-     * @param poseStableTime The time that the pose must be stable for before it is considered valid.
-     * @param fieldLayout The layout of the field.
+     * @param cameraInfo
+     *            The information about the camera.
+     * @param poseStableTime
+     *            The time that the pose must be stable for before it is considered valid.
+     * @param fieldLayout
+     *            The layout of the field.
      */
-    public AprilTagCamera(CameraInfo cameraInfo,
-                          DoubleSupplier poseStableTime,
-                          Fields fieldLayout,
-                          String prefix) {
+    public AprilTagCamera(CameraInfo cameraInfo, DoubleSupplier poseStableTime, Fields fieldLayout, String prefix) {
         super(cameraInfo, prefix);
         this.isStable = new TimeStableValidator(poseStableTime);
     }

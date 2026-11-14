@@ -1,33 +1,25 @@
 package xbot.common.controls.actuators;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.wpilib.hardware.bus.CANPort;
 
 import xbot.common.controls.actuators.mock_adapters.MockCANLightController;
 import xbot.common.injection.BaseCommonLibTest;
-import xbot.common.injection.electrical_contract.CANBusId;
 import xbot.common.injection.electrical_contract.CANLightControllerInfo;
 import xbot.common.injection.electrical_contract.CANLightControllerOutputConfig;
 import xbot.common.injection.electrical_contract.LEDStripType;
 import xbot.common.injection.electrical_contract.LightControllerType;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CANLightControlelrTest extends BaseCommonLibTest {
     @Test
     public void testSlotToIndexTranslation() {
         var factory = getInjectorComponent().lightControllerFactory();
-        var lightController = factory.create(
-                new CANLightControllerInfo(
-                        "test",
-                        LightControllerType.Candle,
-                        CANBusId.RIO,
-                        61,
-                        new CANLightControllerOutputConfig(
-                                LEDStripType.RGB,
-                                1.0,
-                                new int[]{8, 30, 30}
-                        )));
+        var lightController = factory.create(CANLightControllerInfo.builder("test").withType(LightControllerType.Candle).withCanBus(CANPort.CAN_S0, 61)
+                .withOutputConfig(new CANLightControllerOutputConfig(LEDStripType.RGB, 1.0, new int[] { 8, 30, 30 })).build());
 
         assertTrue(lightController instanceof MockCANLightController);
         assertEquals(0, lightController.getSlotStartIndex(0));

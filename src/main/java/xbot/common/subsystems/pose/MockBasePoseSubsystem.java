@@ -28,19 +28,19 @@ public class MockBasePoseSubsystem extends BasePoseSubsystem {
 
     @Override
     protected double getLeftDriveDistance() {
-        return ((MockCANMotorController)left).getPosition().magnitude();
+        return ((MockCANMotorController) left).getPosition().magnitude();
     }
 
     @Override
     protected double getRightDriveDistance() {
-        return ((MockCANMotorController)right).getPosition().magnitude();
+        return ((MockCANMotorController) right).getPosition().magnitude();
     }
 
     public void setDriveEncoderDistances(int left, int right) {
-        ((MockCANMotorController)this.left).setPosition(Rotations.of(left));
-        ((MockCANMotorController)this.right).setPosition(Rotations.of(right));
-        ((MockCANMotorController)this.left).refreshDataFrame();
-        ((MockCANMotorController)this.right).refreshDataFrame();
+        ((MockCANMotorController) this.left).setPosition(Rotations.of(left));
+        ((MockCANMotorController) this.right).setPosition(Rotations.of(right));
+        ((MockCANMotorController) this.left).refreshDataFrame();
+        ((MockCANMotorController) this.right).refreshDataFrame();
         periodic();
     }
 

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Auto-formats staged .java files with Spotless before each commit.
+#
+# Enable once per clone with:
+#   git config core.hooksPath githooks
+set -euo pipefail
+exec "$(git rev-parse --show-toplevel)/githooks/spotless-staged.sh"

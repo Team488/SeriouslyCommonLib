@@ -28,7 +28,7 @@ public class MockPWM extends XPWM {
 
     @Override
     public int getRaw() {
-        return (int)(value * 255);
+        return (int) (value * 255);
     }
 
     @Override

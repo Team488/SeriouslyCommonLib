@@ -10,25 +10,20 @@ import org.wpilib.units.Measure;
 import org.wpilib.units.Unit;
 
 /**
- * A direct WPILib tunable that presents a unit-aware value while publishing its
- * magnitude in the unit named in its key.
+ * A direct WPILib tunable that presents a unit-aware value while publishing its magnitude in the unit named in its key.
  *
- * @param <M> measure type
- * @param <U> unit type
+ * @param <M>
+ *            measure type
+ * @param <U>
+ *            unit type
  */
-public final class TunableMeasure<M extends Measure<U>, U extends Unit>
-        extends Tunable<M>
-        implements Tunable.CustomTunable {
+public final class TunableMeasure<M extends Measure<U>, U extends Unit> extends Tunable<M> implements Tunable.CustomTunable {
     private final U displayUnit;
     private final Supplier<M> getter;
     private final Consumer<M> setter;
     private final TunableDouble magnitudeTunable;
 
-    TunableMeasure(
-            U displayUnit,
-            Supplier<M> getter,
-            Consumer<M> setter,
-            TunableConfig config) {
+    TunableMeasure(U displayUnit, Supplier<M> getter, Consumer<M> setter, TunableConfig config) {
         super(config);
         this.displayUnit = displayUnit;
         this.getter = getter;
@@ -55,8 +50,7 @@ public final class TunableMeasure<M extends Measure<U>, U extends Unit>
     @Override
     public void set(M value) {
         if (!displayUnit.getBaseUnit().equivalent(value.unit().getBaseUnit())) {
-            throw new IllegalArgumentException(
-                    "Measure unit " + value.unit() + " is not compatible with " + displayUnit);
+            throw new IllegalArgumentException("Measure unit " + value.unit() + " is not compatible with " + displayUnit);
         }
         magnitudeTunable.set(value.in(displayUnit));
     }

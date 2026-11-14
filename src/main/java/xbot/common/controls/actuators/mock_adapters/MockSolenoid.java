@@ -1,16 +1,13 @@
 package xbot.common.controls.actuators.mock_adapters;
 
-import org.json.JSONObject;
-
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.actuators.XSolenoid;
 import xbot.common.injection.DevicePolice;
-import xbot.common.simulation.ISimulatableSolenoid;
 
-public class MockSolenoid extends XSolenoid implements ISimulatableSolenoid {
+public class MockSolenoid extends XSolenoid {
     final int channel;
     protected boolean on;
 
@@ -39,8 +36,4 @@ public class MockSolenoid extends XSolenoid implements ISimulatableSolenoid {
         return 15;
     }
 
-    @Override
-    public JSONObject getSimulationData() {
-        return buildMotorObject(channel, get());
-    }
 }

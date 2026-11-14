@@ -15,7 +15,7 @@ public final class SwerveComponentHolder {
 
     @Inject
     public SwerveComponentHolder(@FrontLeftDrive SwerveComponent frontLeft, @FrontRightDrive SwerveComponent frontRight,
-                                 @RearLeftDrive SwerveComponent rearLeft, @RearRightDrive SwerveComponent rearRight) {
+            @RearLeftDrive SwerveComponent rearLeft, @RearRightDrive SwerveComponent rearRight) {
         this.frontLeft = frontLeft;
         this.frontRight = frontRight;
         this.rearLeft = rearLeft;

@@ -3,12 +3,12 @@ package xbot.common.subsystems.drive;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.injection.BaseCommonLibTest;
-import xbot.common.logging.RobotAssertionManager;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.wpilib.units.Units.Meters;
 import static org.wpilib.units.Units.MetersPerSecond;
 import static org.wpilib.units.Units.MetersPerSecondPerSecond;
@@ -16,21 +16,14 @@ import static org.wpilib.units.Units.Seconds;
 
 public class SwerveCalculatorTest extends BaseCommonLibTest {
 
-    RobotAssertionManager assertionManager;
-
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();
-        this.assertionManager = getInjectorComponent().robotAssertionManager();
     }
 
     private SwerveKinematicsCalculator newCalculator(double acceleration, double vInitial, double vGoal, double vMax) {
-        return new SwerveKinematicsCalculator(
-                assertionManager,
-                Meters.zero(),
-                Meters.of(10),
-                new SwervePointKinematics(acceleration, vInitial, vGoal, vMax)
-        );
+        return new SwerveKinematicsCalculator(Meters.zero(), Meters.of(10), new SwervePointKinematics(acceleration, vInitial, vGoal, vMax));
     }
 
     private void compareNodeMaps(List<CalculatorNode> map1, List<CalculatorNode> map2) {
@@ -38,8 +31,8 @@ public class SwerveCalculatorTest extends BaseCommonLibTest {
         for (int i = 0; i < map1.size(); i++) {
             assertEquals(map1.get(i).operationTime().in(Seconds), map2.get(i).operationTime().in(Seconds), 0.001);
             assertEquals(map1.get(i).operationEndingVelocity().in(MetersPerSecond), map2.get(i).operationEndingVelocity().in(MetersPerSecond), 0.001);
-            assertEquals(map1.get(i).operationAcceleration().in(MetersPerSecondPerSecond),
-                    map2.get(i).operationAcceleration().in(MetersPerSecondPerSecond), 0.001);
+            assertEquals(map1.get(i).operationAcceleration().in(MetersPerSecondPerSecond), map2.get(i).operationAcceleration().in(MetersPerSecondPerSecond),
+                    0.001);
         }
     }
 

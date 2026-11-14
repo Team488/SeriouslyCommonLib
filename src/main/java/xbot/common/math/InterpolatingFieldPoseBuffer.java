@@ -29,10 +29,8 @@ public class InterpolatingFieldPoseBuffer {
     }
 
     public FieldPose getPoseAtTime(double timeInSeconds) {
-        return new FieldPose(new XYPair(
-            xBuffer.getValAtTime(timeInSeconds),
-            yBuffer.getValAtTime(timeInSeconds)),
-            Rotation2d.fromDegrees(headingBuffer.getValAtTime(timeInSeconds)));
+        return new FieldPose(new XYPair(xBuffer.getValAtTime(timeInSeconds), yBuffer.getValAtTime(timeInSeconds)),
+                Rotation2d.fromDegrees(headingBuffer.getValAtTime(timeInSeconds)));
     }
 
 }

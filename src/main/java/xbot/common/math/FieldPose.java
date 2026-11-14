@@ -4,11 +4,10 @@ import org.wpilib.math.geometry.Rotation2d;
 
 /**
  * The FieldPose class represents a point on the field as well as a heading.
- * 
- * It also keeps track of some linear equation parameters such as slope and y-intercept.
- * These are used to calculate intersection points between multiple FieldPose instances,
- * which can then be used as part of path-following logic.
- * 
+ *
+ * It also keeps track of some linear equation parameters such as slope and y-intercept. These are used to calculate
+ * intersection points between multiple FieldPose instances, which can then be used as part of path-following logic.
+ *
  * @author John
  *
  */
@@ -21,7 +20,7 @@ public class FieldPose {
         this.fieldPosition = new XYPair();
         this.heading = Rotation2d.fromDegrees(0);
     }
-    
+
     public FieldPose(XYPair point, Rotation2d heading) {
         this.fieldPosition = point.clone();
         this.heading = new Rotation2d(heading.getRadians());
@@ -35,24 +34,23 @@ public class FieldPose {
     public FieldPose clone() {
         return new FieldPose(fieldPosition.clone(), heading);
     }
-    
+
     public Rotation2d getHeading() {
         return heading;
     }
-    
+
     public XYPair getPoint() {
         return fieldPosition;
     }
-    
+
     public Rotation2d getPerpendicularHeadingTowardsPoint(FieldPose other) {
         boolean direction = getPoseRelativeDisplacement(other).y > 0;
         return heading.rotateBy(Rotation2d.fromDegrees(direction ? -90 : 90));
     }
-    
+
     public XYPair getPointAlongPoseClosestToPoint(XYPair other) {
 
         XYPair relativeVector = new XYPair(other.x - fieldPosition.x, other.y - fieldPosition.y);
-        
 
         // Found by taking the derivative of the distance between any point along the
         // projected pose, denoted by a distance P along the line, and the "other" point:
@@ -65,37 +63,35 @@ public class FieldPose {
         double headingCosine = getHeadingCosine();
         double headingSine = getHeadingSine();
         double distanceAlongPoseLine = headingCosine * relativeVector.x + headingSine * relativeVector.y;
-        
-        return new XYPair(
-                fieldPosition.x + headingCosine * distanceAlongPoseLine,
-                fieldPosition.y + headingSine * distanceAlongPoseLine);
+
+        return new XYPair(fieldPosition.x + headingCosine * distanceAlongPoseLine, fieldPosition.y + headingSine * distanceAlongPoseLine);
     }
-    
+
     public double getDistanceAlongPoseLine(XYPair other) {
         XYPair relativeVector = new XYPair(other.x - fieldPosition.x, other.y - fieldPosition.y);
         double headingCosine = getHeadingCosine();
         double headingSine = getHeadingSine();
         return headingCosine * relativeVector.x + headingSine * relativeVector.y;
     }
-    
+
     private double getHeadingCosine() {
         return heading.getCos();
     }
-    
+
     private double getHeadingSine() {
         return heading.getSin();
     }
-    
+
     public FieldPose getRabbitPose(XYPair other, double lookaheadDistance) {
         XYPair closestPoint = getPointAlongPoseClosestToPoint(other);
         XYPair rabbitLocation = closestPoint.add(new XYPair(lookaheadDistance * getHeadingCosine(), lookaheadDistance * getHeadingSine()));
         return new FieldPose(rabbitLocation, getHeading());
     }
-    
+
     public double getDeltaAngleToRabbit(FieldPose other, double lookaheadDistance) {
         return Rotation2d.fromDegrees(getVectorToRabbit(other, lookaheadDistance).getAngle()).minus(other.getHeading()).getDegrees();
     }
-    
+
     public XYPair getVectorToRabbit(FieldPose other, double lookaheadDistance) {
         FieldPose rabbitPose = getRabbitPose(other.getPoint(), lookaheadDistance);
         return rabbitPose.getPoint().add(other.getPoint().clone().scale(-1));
@@ -104,7 +100,7 @@ public class FieldPose {
     public double getAngleToPoint(XYPair point) {
         return point.clone().add(this.getPoint().clone().scale(-1)).getAngle();
     }
-    
+
     public double getDistanceToLineFromPoint(XYPair currentPoint) {
         return getPointAlongPoseClosestToPoint(currentPoint).getDistanceToPoint(currentPoint);
     }
@@ -112,16 +108,17 @@ public class FieldPose {
     public XYPair getPoseRelativeDisplacement(FieldPose other) {
         XYPair clonedPoint = this.getPoint().clone();
         XYPair normalizedPoint = clonedPoint.add(other.getPoint().scale(-1));
-        
+
         // then rotate that point to 90 degrees
         return normalizedPoint.rotate(90 - other.getHeading().getDegrees());
     }
 
     /**
-     * Projects along the line created by the X,Y pair and the Heading.
-     * Positive distances are in front, negative are behind. Keeps the
-     * original heading.
-     * @param distance Positive distances are in front, negative are behind.
+     * Projects along the line created by the X,Y pair and the Heading. Positive distances are in front, negative are
+     * behind. Keeps the original heading.
+     *
+     * @param distance
+     *            Positive distances are in front, negative are behind.
      * @return FieldPose projected along the line
      */
     public FieldPose getPointAlongPoseLine(double distance) {
@@ -134,9 +131,11 @@ public class FieldPose {
     }
 
     /**
-     * Returns a FieldPose that's "subtracted" by the offset FieldPose. Useful for setting your current position
-     * as 0,0 and measuring relative to that as you move around the field.
-     * @param offset The offset location
+     * Returns a FieldPose that's "subtracted" by the offset FieldPose. Useful for setting your current position as 0,0 and
+     * measuring relative to that as you move around the field.
+     *
+     * @param offset
+     *            The offset location
      * @return The FieldPose shifted by the given offset
      */
     public FieldPose getFieldPoseOffsetBy(FieldPose offset) {
@@ -151,6 +150,6 @@ public class FieldPose {
     public String toString() {
         String xyString = fieldPosition == null ? "null, null" : fieldPosition.x + ", " + fieldPosition.y;
         String headingString = heading == null ? "null" : Double.toString(heading.getDegrees());
-        return "FieldPose(" + xyString + ", "+ headingString + ")";
+        return "FieldPose(" + xyString + ", " + headingString + ")";
     }
 }

@@ -1,4 +1,4 @@
-package xbot.common.logging;
+package xbot.common.logging.assertion;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -7,17 +7,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Base class for safe assertion manager. Allows context-based management of
- * exceptions and assertion conditions.
+ * Base class for safe assertion handlers. Allows context-based management of exceptions and assertion conditions.
  */
-public abstract class RobotAssertionManager {
-    static Logger log = LogManager.getLogger(RobotAssertionManager.class);
+public abstract class RobotAssertionHandler {
+    private static final Logger log = LogManager.getLogger(RobotAssertionHandler.class);
 
     public final void throwException(RuntimeException e) {
         log.error("Safe exception encountered (exception throw {}): {}", this.isExceptionsEnabled() ? "enabled" : "disabled", e.getMessage());
-        log.error("Stack trace: \n    {}", Arrays.stream(e.getStackTrace())
-                .map(StackTraceElement::toString)
-                .collect(Collectors.joining("\n    ")));
+        log.error("Stack trace: \n    {}", Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.joining("\n    ")));
 
         handlePlatformException(e);
     }
@@ -34,9 +31,9 @@ public abstract class RobotAssertionManager {
         throwException(new RobotAssertionException(message));
     }
 
-    public final void assertTrue(boolean value, String assertionFaliureCause) {
-        if(!value) {
-            fail(assertionFaliureCause);
+    public final void assertTrue(boolean value, String assertionFailureCause) {
+        if (!value) {
+            fail(assertionFailureCause);
         }
     }
 }

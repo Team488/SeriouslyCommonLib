@@ -2,8 +2,9 @@ package xbot.common.subsystems.drive;
 
 import java.util.ArrayList;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.math.geometry.Rotation2d;
 
@@ -15,8 +16,8 @@ import xbot.common.subsystems.drive.RabbitPoint.PointTerminatingType;
 import xbot.common.subsystems.drive.RabbitPoint.PointType;
 import xbot.common.subsystems.pose.MockBasePoseSubsystem;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PurePursuitCommandTest extends BaseCommonLibTest {
 
@@ -24,12 +25,13 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
     MockDriveSubsystem drive;
     MockBasePoseSubsystem pose;
 
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();
         command = getInjectorComponent().configurablePurePursuitCommand();
-        this.drive = (MockDriveSubsystem)getInjectorComponent().driveSubsystem();
-        this.pose = (MockBasePoseSubsystem)getInjectorComponent().poseSubsystem();
+        this.drive = (MockDriveSubsystem) getInjectorComponent().driveSubsystem();
+        this.pose = (MockBasePoseSubsystem) getInjectorComponent().poseSubsystem();
 
         pose.setDriveMotors(drive.leftTank, drive.rightTank);
 
@@ -119,11 +121,11 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
         command.addPoint(new FieldPose(new XYPair(0, 10), Rotation2d.fromDegrees(90)));
         command.addPoint(new FieldPose(new XYPair(10, 10), Rotation2d.fromDegrees(90)));
 
-        command.setPointSupplier(() ->
-        new ArrayList<RabbitPoint>() {{
-            add(new RabbitPoint(1, 2, 3));
-            }}
-        );
+        command.setPointSupplier(() -> new ArrayList<RabbitPoint>() {
+            {
+                add(new RabbitPoint(1, 2, 3));
+            }
+        });
 
         command.initialize();
 
@@ -149,8 +151,7 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
 
     @Test
     public void testDriveToPoint() {
-        command.addPoint(
-            new RabbitPoint(new FieldPose(new XYPair(10, 10), Rotation2d.fromDegrees(90)), PointType.PositionOnly, PointTerminatingType.Stop));
+        command.addPoint(new RabbitPoint(new FieldPose(new XYPair(10, 10), Rotation2d.fromDegrees(90)), PointType.PositionOnly, PointTerminatingType.Stop));
         command.initialize();
         command.execute();
         verifyTankDrive(1, -1);
@@ -160,7 +161,7 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
     public void testDriveOffset() {
         pose.setCurrentHeading(0);
         command.addPoint(
-            new RabbitPoint(new FieldPose(new XYPair(100, 0), Rotation2d.fromDegrees(-90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
+                new RabbitPoint(new FieldPose(new XYPair(100, 0), Rotation2d.fromDegrees(-90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
         command.initialize();
         command.execute();
         // Even though we're pointed right at the goal, we should veer left because we are completely perpindicular to it.
@@ -170,7 +171,7 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
     @Test
     public void testThreePointBehind() {
         command.addPoint(
-            new RabbitPoint(new FieldPose(new XYPair(100, -100), Rotation2d.fromDegrees(90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
+                new RabbitPoint(new FieldPose(new XYPair(100, -100), Rotation2d.fromDegrees(90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
         command.setDotProductDrivingEnabled(true);
         command.initialize();
         command.execute();
@@ -180,10 +181,10 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void testThreePointDirect() {
         command.addPoint(
-            new RabbitPoint(new FieldPose(new XYPair(100, 0), Rotation2d.fromDegrees(-90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
+                new RabbitPoint(new FieldPose(new XYPair(100, 0), Rotation2d.fromDegrees(-90)), PointType.PositionAndHeading, PointTerminatingType.Stop));
         command.setDotProductDrivingEnabled(true);
         command.initialize();
         command.execute();
@@ -193,24 +194,23 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
     }
 
     protected void verifyPose(RabbitPoint poseToTest, double x, double y, double heading) {
-        assertEquals("Looking at X", x, poseToTest.pose.getPoint().x, 0.001);
-        assertEquals("Looking at Y", y, poseToTest.pose.getPoint().y, 0.001);
-        assertEquals("Looking at Heading", heading, poseToTest.pose.getHeading().getDegrees(), 0.001);
+        assertEquals(x, poseToTest.pose.getPoint().x, 0.001, "Looking at X");
+        assertEquals(y, poseToTest.pose.getPoint().y, 0.001, "Looking at Y");
+        assertEquals(heading, poseToTest.pose.getHeading().getDegrees(), 0.001, "Looking at Heading");
     }
 
     protected void verifyTankDrive(double left, double right) {
-        assertEquals("Checking Left Drive", left, drive.leftTank.getPower(), 0.001);
-        assertEquals("Checking Right Drive", right, drive.rightTank.getPower(), 0.001);
+        assertEquals(left, drive.leftTank.getPower(), 0.001, "Checking Left Drive");
+        assertEquals(right, drive.rightTank.getPower(), 0.001, "Checking Right Drive");
     }
 
     protected void verifyDirection(boolean forward) {
         double translation = drive.leftTank.getPower() + drive.rightTank.getPower();
-        assertTrue("Checking Driving Forward",  translation > 0 == forward);
+        assertTrue(translation > 0 == forward, "Checking Driving Forward");
     }
 
     protected void verifyRotation(boolean turningLeft) {
         double rotation = -drive.leftTank.getPower() + drive.rightTank.getPower();
-        assertTrue("Checking Driving Forward",  rotation > 0 == turningLeft);
+        assertTrue(rotation > 0 == turningLeft, "Checking Driving Forward");
     }
 }
-

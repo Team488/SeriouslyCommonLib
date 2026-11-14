@@ -7,8 +7,7 @@ import org.wpilib.tunable.TunableConfig;
 import org.wpilib.units.Measure;
 import org.wpilib.units.Unit;
 
-final class MeasureTunableBinding<M extends Measure<U>, U extends Unit>
-        extends ManagedTunableBinding {
+final class MeasureTunableBinding<M extends Measure<U>, U extends Unit> extends ManagedTunableBinding {
     private final TunablePersistence persistence;
     private final U displayUnit;
     private final TunableMeasure<M, U> tunable;
@@ -27,25 +26,14 @@ final class MeasureTunableBinding<M extends Measure<U>, U extends Unit>
         }
     };
 
-    MeasureTunableBinding(
-            String key,
-            M defaultValue,
-            TunableLevel level,
-            boolean replay,
-            TunablePersistence persistence,
-            Runnable onValueChanged) {
+    MeasureTunableBinding(String key, M defaultValue, TunableLevel level, boolean replay, TunablePersistence persistence, Runnable onValueChanged) {
         super(key, level, replay);
         this.persistence = persistence;
         this.displayUnit = defaultValue.unit();
         this.onValueChanged = onValueChanged;
         this.value = load(defaultValue);
-        TunableConfig config = new TunableConfig()
-                .withProperty("unit", quoteJson(defaultValue.unit().symbol()));
-        this.tunable = new TunableMeasure<>(
-                displayUnit,
-                () -> value,
-                this::setValue,
-                config);
+        TunableConfig config = new TunableConfig().withProperty("unit", quoteJson(defaultValue.unit().symbol()));
+        this.tunable = new TunableMeasure<>(displayUnit, () -> value, this::setValue, config);
     }
 
     private M load(M defaultValue) {

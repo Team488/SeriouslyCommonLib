@@ -4,13 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Wraps a double to allow easy comparison and manipulation of sensor readings
- * that wrap (e.g. -180 to 180).
- * 
- * For bounds 0 - 10, logically:
- *   - 10 + 1 == 1
- *   - 0 - 1 == 9
- *   - 0 == 10
+ * Wraps a double to allow easy comparison and manipulation of sensor readings that wrap (e.g. -180 to 180).
+ *
+ * For bounds 0 - 10, logically: - 10 + 1 == 1 - 0 - 1 == 9 - 0 == 10
  */
 public class ContiguousDouble {
 
@@ -45,9 +41,8 @@ public class ContiguousDouble {
     }
 
     /**
-     * Shifts the value so that it still represents the same position but is
-     * within the current bounds.
-     * 
+     * Shifts the value so that it still represents the same position but is within the current bounds.
+     *
      * @return the new value for chaining functions
      */
     public double reboundValue() {
@@ -57,25 +52,20 @@ public class ContiguousDouble {
 
     public static double reboundValue(double value, double lowerBound, double upperBound) {
         if (value < lowerBound) {
-            value = upperBound
-                    + ((value - lowerBound) % (upperBound - lowerBound));
+            value = upperBound + ((value - lowerBound) % (upperBound - lowerBound));
         } else if (value > upperBound) {
-            value = lowerBound
-                    + ((value - upperBound) % (upperBound - lowerBound));
+            value = lowerBound + ((value - upperBound) % (upperBound - lowerBound));
         }
 
         return value;
     }
 
     /**
-     * Flips the lower and upper bounds if the lower bound is larger than the
-     * upper bound.
+     * Flips the lower and upper bounds if the lower bound is larger than the upper bound.
      */
     private void validateBounds() {
         if (lowerBound > upperBound) {
-            log.warn(String
-                    .format("Given bounds are out of order (Low: %.4f, High: %.4f). Flipping them to continue.",
-                            this.lowerBound, this.upperBound));
+            log.warn(String.format("Given bounds are out of order (Low: %.4f, High: %.4f). Flipping them to continue.", this.lowerBound, this.upperBound));
             double tmp = this.lowerBound;
             this.lowerBound = this.upperBound;
             this.upperBound = tmp;
@@ -83,10 +73,9 @@ public class ContiguousDouble {
     }
 
     /**
-     * Calculates a number representing the current value that is lower than (or
-     * equal to) the lower bound. Used to make normal numerical comparisons
-     * without needing to handle wrap cases.
-     * 
+     * Calculates a number representing the current value that is lower than (or equal to) the lower bound. Used to make
+     * normal numerical comparisons without needing to handle wrap cases.
+     *
      * @return the computed value
      */
     public double unwrapBelow() {
@@ -94,10 +83,9 @@ public class ContiguousDouble {
     }
 
     /**
-     * Calculates a number representing the current value that is higher than
-     * (or equal to) the upper bound. Used to make normal numerical comparisons
-     * without needing to handle wrap cases.
-     * 
+     * Calculates a number representing the current value that is higher than (or equal to) the upper bound. Used to make
+     * normal numerical comparisons without needing to handle wrap cases.
+     *
      * @return the computed value
      */
     public double unwrapAbove() {
@@ -105,35 +93,29 @@ public class ContiguousDouble {
     }
 
     /**
-     * Computes the difference between two values (other - this), accounting for
-     * wrapping. Treats the given 'other' value as a number within the same bounds
-     * as the current instance.
-     * 
+     * Computes the difference between two values (other - this), accounting for wrapping. Treats the given 'other' value as
+     * a number within the same bounds as the current instance.
+     *
      * @param otherValue
      *            the other value to compare against
      * @return the computed difference
      */
     public double difference(double otherValue) {
-        return difference(new ContiguousDouble(otherValue, lowerBound,
-                upperBound));
+        return difference(new ContiguousDouble(otherValue, lowerBound, upperBound));
     }
 
     /**
-     * Computes the difference between two values (other - this), accounting for
-     * wrapping
-     * 
+     * Computes the difference between two values (other - this), accounting for wrapping
+     *
      * @param otherValue
-     *            the other value to compare against (must have the same bounds
-     *            as the current instance)
+     *            the other value to compare against (must have the same bounds as the current instance)
      * @return the computed difference
      */
     public double difference(ContiguousDouble otherValue) {
-        if (otherValue.getLowerBound() != lowerBound
-                || otherValue.getUpperBound() != upperBound) {
-            log.warn("The given ContiguousDouble does not have the same upper and lower bounds. "
-                    + "This may lead to unexpected behavior.");
+        if (otherValue.getLowerBound() != lowerBound || otherValue.getUpperBound() != upperBound) {
+            log.warn("The given ContiguousDouble does not have the same upper and lower bounds. " + "This may lead to unexpected behavior.");
         }
-        
+
         // Find the shortest path to the target (smallest difference)
         double aboveDiff = otherValue.getValue() - this.unwrapAbove();
         double belowDiff = otherValue.getValue() - this.unwrapBelow();
@@ -141,11 +123,9 @@ public class ContiguousDouble {
 
         double finalDiff = stdDiff;
 
-        if (Math.abs(aboveDiff) < Math.abs(belowDiff)
-                && Math.abs(aboveDiff) < Math.abs(stdDiff)) {
+        if (Math.abs(aboveDiff) < Math.abs(belowDiff) && Math.abs(aboveDiff) < Math.abs(stdDiff)) {
             finalDiff = aboveDiff;
-        } else if (Math.abs(belowDiff) < Math.abs(aboveDiff)
-                && Math.abs(belowDiff) < Math.abs(stdDiff)) {
+        } else if (Math.abs(belowDiff) < Math.abs(aboveDiff) && Math.abs(belowDiff) < Math.abs(stdDiff)) {
             finalDiff = belowDiff;
         }
 
@@ -154,7 +134,7 @@ public class ContiguousDouble {
 
     /**
      * Shifts both bounds by the specified amount
-     * 
+     *
      * @param shiftMagnitude
      *            the amount to add to each bound
      */
@@ -167,16 +147,16 @@ public class ContiguousDouble {
 
     /**
      * Shifts value by the specified amount (addition)
-     * 
+     *
      * @param shiftMagnitude
      *            the amount to add to the current value
-     * 
+     *
      * @return A reference to the current ContiguousDouble, for daisy chaining.
      */
     public ContiguousDouble shiftValue(double shiftMagnitude) {
         value += shiftMagnitude;
         reboundValue();
-        
+
         return this;
     }
 
@@ -219,11 +199,9 @@ public class ContiguousDouble {
     public ContiguousDouble clone() {
         return new ContiguousDouble(value, lowerBound, upperBound);
     }
-    
+
     @Override
     public String toString() {
-        return "ContiguousDouble"
-            + "[" + this.getLowerBound() +", " + this.getUpperBound() + "]"
-            + " " + this.getValue();
+        return "ContiguousDouble" + "[" + this.getLowerBound() + ", " + this.getUpperBound() + "]" + " " + this.getValue();
     }
 }

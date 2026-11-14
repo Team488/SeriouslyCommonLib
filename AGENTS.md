@@ -25,7 +25,7 @@ SeriouslyCommonLib/
 ├── build.gradle                     # Gradle build (GradleRIO + Dagger + Checkstyle)
 ├── xbotcheckstyle.xml               # Checkstyle ruleset
 ├── checkstyle_suppressions.xml      # Checkstyle suppressions
-├── azure-pipelines.yml              # CI/CD (builds on main branch and PRs to main)
+├── .github/workflows/build.yml      # CI/CD (builds PRs to main; builds + releases main)
 └── vendordeps/                      # WPILib vendor dependency JSON files
 ```
 
@@ -40,10 +40,9 @@ SeriouslyCommonLib/
 | `logging` | Log4j2 utilities: `TimeLogger`, `RobotAssertionManager`, alert system |
 | `logic` | Utility helpers: `Latch`, `StallDetector`, `TimeStableValidator`, etc. |
 | `math` | PID, kinematics, interpolation, pose estimation, `XYPair` |
-| `networking` | ZeroMQ-based networking utilities |
 | `properties` | WPILib Tunables integration (`TunableManager`, `TunableFactory`) |
 | `resiliency` | Exception handling and retry logic |
-| `simulation` | Webots client and simulation payload distributor |
+| `simulation` | Mock motor PID helpers for general-purpose simulation |
 | `subsystems` | Pre-built subsystems: drive, swerve, pose, vision, autonomous |
 | `trajectory` | Pure pursuit and trajectory planning |
 
@@ -61,6 +60,12 @@ All commands use the Gradle wrapper from the repository root.
 # Run Checkstyle linter only
 ./gradlew checkstyle
 
+# Check formatting without changing files (also runs as part of `./gradlew build`)
+./gradlew spotlessCheck
+
+# Auto-fix formatting
+./gradlew spotlessApply
+
 # Generate Javadoc
 ./gradlew javadoc
 
@@ -68,8 +73,9 @@ All commands use the Gradle wrapper from the repository root.
 ./gradlew --stop
 ```
 
-> **Note:** The CI pipeline runs `./gradlew build --stacktrace --info` on every PR targeting
-> `main` and on every push to `main`. Always ensure `./gradlew build` passes before finalizing
+> **Note:** CI (GitHub Actions, `.github/workflows/build.yml`) runs `./gradlew build` on every PR
+> targeting `main` and on every push to `main`. Each push to `main` also creates a GitHub release
+> (tag = version) with the jar, sources, Javadoc, and POM attached. Always ensure `./gradlew build` passes before finalizing
 > a change.
 
 ## Coding Conventions
@@ -94,6 +100,30 @@ configured in `xbotcheckstyle.xml`; do not duplicate individual formatting rules
 
 Use `// CHECKSTYLE:OFF` / `// CHECKSTYLE:ON` or add entries to
 `checkstyle_suppressions.xml` when a suppression is genuinely required.
+
+#### Formatting
+
+Formatting is auto-fixed by Spotless (`build.gradle`), which runs the same Eclipse formatter
+profile (`xboteclipseprofile.xml`) that VS Code already uses, so editor, CLI, and CI output stay
+consistent. `spotlessCheck` runs automatically as part of `./gradlew build`.
+
+- One-time setup to check formatting on commit: `git config core.hooksPath githooks` (see
+  `githooks/pre-commit`). If a staged `.java` file isn't correctly formatted, the hook fixes it in
+  your working tree and **aborts the commit** — review the diff, `git add` it, and commit again.
+  This matches how pre-commit.com's own formatter hooks (Black, Prettier, etc.) behave: a hook
+  that modifies files fails the run rather than silently committing a version you never looked at.
+  No extra tooling required beyond the Gradle wrapper.
+- If you already use the [pre-commit](https://pre-commit.com) framework, `.pre-commit-config.yaml`
+  wires up the same underlying script as an alternative trigger; it's optional, not a replacement
+  for the git hook above.
+- VS Code format-on-save is already configured (`.vscode/settings.json`); install the
+  recommended `redhat.java` extension if prompted. IntelliJ users without a format-on-save
+  equivalent can install the "Eclipse Code Formatter" plugin pointed at `xboteclipseprofile.xml`
+  (profile `XbotProfile`), or just rely on `./gradlew spotlessApply` / the git hook.
+- `githooks/*` are shell scripts. On Windows, the git hook works out of the box because Git for
+  Windows invokes hooks through its bundled Git Bash — no extra setup needed. The optional
+  pre-commit.com path requires `bash` to be resolvable on `PATH` (true for Git Bash/WSL users),
+  which `.pre-commit-config.yaml` relies on explicitly.
 
 ### Architecture Patterns
 
@@ -150,6 +180,23 @@ through the abstract base class and inject the concrete implementation via Dagge
 - Use Log4j2: `private static final Logger log = LogManager.getLogger(MyClass.class);`
 - Use `RobotAssertionManager` for runtime invariant checks.
 - Use `TimeLogger` for performance-sensitive code paths.
+
+### Error Handling and Graceful Fallback
+
+- Robot code must report validation failures through the injected `RobotAssertionManager`
+  (`fail` / `throwException`) and provide a safe fallback if reporting returns normally.
+  Do not introduce unconditional `throw`, `Objects.requireNonNull`, or `Optional.orElseThrow`
+  for runtime validation where the robot should continue operating.
+- The competition binding uses `SilentRobotAssertionManager`: it logs failures without
+  throwing. `LoudRobotAssertionManager` is an intentional off-robot/controlled-test policy;
+  preserve it rather than catching or suppressing its exceptions.
+- Validate before committing state. On failure, preserve prior valid state and return an
+  explicit rejection, an empty lookup result, or another documented safe outcome. A fallback
+  must not silently conceal the error or report success for rejected work.
+- Keep result construction behind validated operations so callers cannot create invalid
+  success results. Do not replace a graceful fallback with throwing constructor guards.
+- Cover graceful fallback with a non-throwing assertion manager, including diagnostics and
+  unchanged state. Where applicable, also verify the existing controlled-test policy.
 
 ## Pull Request Guidelines
 

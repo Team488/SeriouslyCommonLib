@@ -10,6 +10,7 @@ import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.XBaseIO;
 import xbot.common.controls.io_inputs.XDutyCycleEncoderInputs;
 import xbot.common.controls.io_inputs.XDutyCycleEncoderInputsAutoLogged;
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 
@@ -26,9 +27,9 @@ public abstract class XDutyCycleEncoder implements XBaseIO, DataFrameRefreshable
 
     public XDutyCycleEncoder(DeviceInfo info, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
         this.info = info;
-        this.channel = info.channel;
-        police.registerDevice(DevicePolice.DeviceType.DigitalIO, channel, this);
-        setInverted(info.inverted);
+        this.channel = info.channel();
+        police.registerDevice(this, DeviceAddress.channel(DevicePolice.DeviceType.DigitalIO, channel));
+        setInverted(info.inverted());
 
         inputs = new XDutyCycleEncoderInputsAutoLogged();
         dataFrameRegistry.register(this);
@@ -65,7 +66,7 @@ public abstract class XDutyCycleEncoder implements XBaseIO, DataFrameRefreshable
 
     public void refreshDataFrame() {
         updateInputs(inputs);
-        Logger.processInputs(info.name + "/DutyCycleEncoder", inputs);
+        Logger.processInputs(info.name() + "/DutyCycleEncoder", inputs);
     }
 
 }

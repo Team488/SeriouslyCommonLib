@@ -24,13 +24,7 @@ final class BooleanTunableBinding extends ManagedTunableBinding {
         }
     };
 
-    BooleanTunableBinding(
-            String key,
-            boolean defaultValue,
-            TunableLevel level,
-            boolean replay,
-            TunablePersistence persistence,
-            Runnable onValueChanged) {
+    BooleanTunableBinding(String key, boolean defaultValue, TunableLevel level, boolean replay, TunablePersistence persistence, Runnable onValueChanged) {
         super(key, level, replay);
         this.persistence = persistence;
         this.onValueChanged = onValueChanged;

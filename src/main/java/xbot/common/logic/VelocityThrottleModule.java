@@ -16,42 +16,34 @@ public class VelocityThrottleModule {
     final TunableDouble throttleUpperLimitTunable;
     final TunableDouble throttleLowerLimitTunable;
     private double throttle;
-    
+
     @AssistedFactory
     public abstract static class VelocityThrottleModuleFactory {
-        public abstract VelocityThrottleModule create(
-            @Assisted("name") String name,
-            @Assisted("velocityPid") PIDManager velocityPid);
+        public abstract VelocityThrottleModule create(@Assisted("name") String name, @Assisted("velocityPid") PIDManager velocityPid);
     }
 
     @AssistedInject
-    public VelocityThrottleModule(
-            @Assisted("name") String name,
-            @Assisted("velocityPid") PIDManager velocityPid,
-            TunableFactory tunableFactory) {
+    public VelocityThrottleModule(@Assisted("name") String name, @Assisted("velocityPid") PIDManager velocityPid, TunableFactory tunableFactory) {
         this.velocityPid = velocityPid;
         tunableFactory.setPrefix(name + "/ThrottleModule");
         throttleUpperLimitTunable = tunableFactory.createDouble("ThrottleUpperLimit", 1);
         throttleLowerLimitTunable = tunableFactory.createDouble("ThrottleLowerLimit", -1);
     }
-    
+
     public void setThrottleLimits(double lowerLimit, double upperLimit) {
         throttleUpperLimitTunable.set(upperLimit);
         throttleLowerLimitTunable.set(lowerLimit);
     }
-    
+
     public void reset() {
         throttle = 0;
         velocityPid.reset();
     }
-    
+
     public double calculateThrottle(double goalSpeed, double currentSpeed) {
         double throttleDelta = velocityPid.calculate(goalSpeed, currentSpeed);
         throttle += throttleDelta;
-        throttle = MathUtils.constrainDouble(
-                throttle,
-                throttleLowerLimitTunable.get(),
-                throttleUpperLimitTunable.get());
+        throttle = MathUtils.constrainDouble(throttle, throttleLowerLimitTunable.get(), throttleUpperLimitTunable.get());
         return throttle;
     }
 }

@@ -7,7 +7,7 @@ import xbot.common.properties.TunableManager;
 public class BaseCommonLibTest extends BaseWPITest {
 
     protected CommonLibTestComponent getInjectorComponent() {
-        return (CommonLibTestComponent)super.getInjectorComponent();
+        return (CommonLibTestComponent) super.getInjectorComponent();
     }
 
     protected TunableManager getTunableManager() {
@@ -18,5 +18,5 @@ public class BaseCommonLibTest extends BaseWPITest {
     protected CommonLibTestComponent createDaggerComponent() {
         return DaggerCommonLibTestComponent.create();
     }
-    
+
 }

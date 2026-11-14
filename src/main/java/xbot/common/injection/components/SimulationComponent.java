@@ -16,5 +16,5 @@ import xbot.common.injection.modules.UnitTestRobotModule;
 @Singleton
 @Component(modules = { SimulationModule.class, MockDevicesModule.class, RealControlsModule.class, UnitTestRobotModule.class, DefaultVisionModule.class })
 public abstract class SimulationComponent extends BaseComponent {
-    
+
 }

@@ -16,12 +16,9 @@ import xbot.common.properties.TunableFactory;
 
 public class MockSwerveDriveSubsystem extends BaseSwerveDriveSubsystem {
     @Inject
-    public MockSwerveDriveSubsystem(PIDManager.PIDManagerFactory pidFactory, TunableFactory tunableFactory,
-                                    @FrontLeftDrive SwerveComponent frontLeftSwerve,
-                                    @FrontRightDrive SwerveComponent frontRightSwerve,
-                                    @RearLeftDrive SwerveComponent rearLeftSwerve,
-                                    @RearRightDrive SwerveComponent rearRightSwerve,
-                                    DataFrameRegistry dataFrameRegistry) {
+    public MockSwerveDriveSubsystem(PIDManager.PIDManagerFactory pidFactory, TunableFactory tunableFactory, @FrontLeftDrive SwerveComponent frontLeftSwerve,
+            @FrontRightDrive SwerveComponent frontRightSwerve, @RearLeftDrive SwerveComponent rearLeftSwerve, @RearRightDrive SwerveComponent rearRightSwerve,
+            DataFrameRegistry dataFrameRegistry) {
         super(pidFactory, tunableFactory, frontLeftSwerve, frontRightSwerve, rearLeftSwerve, rearRightSwerve, dataFrameRegistry);
     }
 
@@ -36,7 +33,9 @@ public class MockSwerveDriveSubsystem extends BaseSwerveDriveSubsystem {
     }
 
     @Override
-    public boolean getLookAtPointInverted() { return false; }
+    public boolean getLookAtPointInverted() {
+        return false;
+    }
 
     @Override
     public Rotation2d getStaticHeadingTarget() {

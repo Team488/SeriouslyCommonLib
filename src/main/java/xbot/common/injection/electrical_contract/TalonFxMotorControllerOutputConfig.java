@@ -42,9 +42,8 @@ public class TalonFxMotorControllerOutputConfig extends CANMotorControllerOutput
     /**
      * Sets the continuous current limit for the motor controller's supply current.
      */
-    public TalonFxMotorControllerOutputConfig withSupplyCurrentLimit(Current continuousSupplyCurrentLimit,
-                                                                 Current burstSupplyCurrentLimit,
-                                                                 Time supplyCurrentBurstDuration) {
+    public TalonFxMotorControllerOutputConfig withSupplyCurrentLimit(Current continuousSupplyCurrentLimit, Current burstSupplyCurrentLimit,
+            Time supplyCurrentBurstDuration) {
         this.supplyCurrentLimit = continuousSupplyCurrentLimit;
         this.burstSupplyCurrentLimit = burstSupplyCurrentLimit;
         this.supplyCurrentBurstDuration = supplyCurrentBurstDuration;
@@ -53,7 +52,9 @@ public class TalonFxMotorControllerOutputConfig extends CANMotorControllerOutput
 
     /**
      * Sets a CANCoder as the position source for the motor
-     * @param canCoderDeviceId The CAN ID of the CANCoder to use as a remote sensor.
+     *
+     * @param canCoderDeviceId
+     *            The CAN ID of the CANCoder to use as a remote sensor.
      * @apiNote The CANCoder must be on the same bus as the motor controller.
      */
     public TalonFxMotorControllerOutputConfig withRemoteCanCoderFeedback(int canCoderDeviceId) {

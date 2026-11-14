@@ -20,42 +20,29 @@ import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Transform3d;
 
 /**
- * IO interface for AprilTag vision inputs.
- * Based on the AdvantageKit sample implementation by team 6328.
+ * IO interface for AprilTag vision inputs. Based on the AdvantageKit sample implementation by team 6328.
  */
 public interface AprilTagVisionIO {
     @AutoLog
     class VisionIOInputs {
         public boolean connected = false;
-        public TargetObservation latestTargetObservation = new TargetObservation(0, 0, new Rotation2d(),
-                new Rotation2d(), new Transform3d(), 1, true);
+        public TargetObservation latestTargetObservation = new TargetObservation(0, 0, new Rotation2d(), new Rotation2d(), new Transform3d(), 1, true);
         public TargetObservation[] targetObservations = new TargetObservation[0];
         public PoseObservation[] poseObservations = new PoseObservation[0];
         public int[] tagIds = new int[0];
     }
 
     /** Represents the angle to a simple target, not used for pose estimation. */
-    record TargetObservation(double timestamp, int fiducialId, Rotation2d tx, Rotation2d ty, Transform3d cameraToTarget,
-            double ambiguity, boolean stale) {
+    record TargetObservation(double timestamp, int fiducialId, Rotation2d tx, Rotation2d ty, Transform3d cameraToTarget, double ambiguity, boolean stale) {
     }
 
     /** Represents a robot pose sample used for pose estimation. */
-    record PoseObservation(
-            double timestamp,
-            Pose3d pose,
-            double ambiguity,
-            int tagCount,
-            double averageTagDistance,
-            double stdDev0,
-            double stdDev1,
-            double stdDev2,
-            PoseObservationType type) {
+    record PoseObservation(double timestamp, Pose3d pose, double ambiguity, int tagCount, double averageTagDistance, double stdDev0, double stdDev1,
+            double stdDev2, PoseObservationType type) {
     }
 
     enum PoseObservationType {
-        MEGATAG_1,
-        MEGATAG_2,
-        PHOTONVISION
+        MEGATAG_1, MEGATAG_2, PHOTONVISION
     }
 
     default void updateInputs(VisionIOInputs inputs) {

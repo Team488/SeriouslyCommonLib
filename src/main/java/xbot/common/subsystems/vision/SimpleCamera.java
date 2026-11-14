@@ -14,7 +14,8 @@ public abstract class SimpleCamera {
     /**
      * Create a new SimpleCamera.
      *
-     * @param cameraInfo The information about the camera.
+     * @param cameraInfo
+     *            The information about the camera.
      */
     protected SimpleCamera(CameraInfo cameraInfo, String prefix) {
         this.camera = new PhotonCameraExtended(cameraInfo.networkTablesName(), prefix);
@@ -45,7 +46,6 @@ public abstract class SimpleCamera {
      * @return True if the camera is working, false otherwise.
      */
     public boolean isCameraWorking() {
-        return getCamera().doesLibraryVersionMatchCoprocessorVersion()
-                && getCamera().isConnectedAkitCompatible();
+        return getCamera().doesLibraryVersionMatchCoprocessorVersion() && getCamera().isConnectedAkitCompatible();
     }
 }

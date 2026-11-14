@@ -1,7 +1,5 @@
 package xbot.common.controls.sensors.mock_adapters;
 
-import org.json.JSONObject;
-
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
@@ -11,27 +9,21 @@ import xbot.common.controls.io_inputs.XEncoderInputs;
 import xbot.common.controls.sensors.XEncoder;
 import xbot.common.injection.DevicePolice;
 import xbot.common.properties.TunableFactory;
-import xbot.common.simulation.ISimulatableSensor;
 
-public class MockEncoder extends XEncoder implements ISimulatableSensor {
+public class MockEncoder extends XEncoder {
 
     private double distance;
     private double rate;
 
     @AssistedFactory
     public abstract static class MockEncoderFactory implements XEncoderFactory {
-        public abstract MockEncoder create(
-                @Assisted("name") String name,
-                @Assisted("aChannel") int aChannel,
-                @Assisted("bChannel") int bChannel,
-                @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse,
-                @Assisted("owningSystemPrefix") String owningSystemPrefix);
+        public abstract MockEncoder create(@Assisted("name") String name, @Assisted("aChannel") int aChannel, @Assisted("bChannel") int bChannel,
+                @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse, @Assisted("owningSystemPrefix") String owningSystemPrefix);
     }
 
     @AssistedInject
-    public MockEncoder(@Assisted("name") String name, @Assisted("aChannel") int aChannel,
-            @Assisted("bChannel") int bChannel, @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix,
+    public MockEncoder(@Assisted("name") String name, @Assisted("aChannel") int aChannel, @Assisted("bChannel") int bChannel,
+            @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse, @Assisted("owningSystemPrefix") String owningSystemPrefix,
             TunableFactory tunableFactory, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
         super(name, aChannel, bChannel, defaultDistancePerPulse, owningSystemPrefix, tunableFactory, police, dataFrameRegistry);
     }
@@ -58,11 +50,6 @@ public class MockEncoder extends XEncoder implements ISimulatableSensor {
 
     @Override
     protected void setRateWindowMilliseconds(int rateWindowMilliseconds) {
-    }
-
-    @Override
-    public void ingestSimulationData(JSONObject payload) {
-        setDistance((double) payload.get("EncoderTicks"));
     }
 
     @Override

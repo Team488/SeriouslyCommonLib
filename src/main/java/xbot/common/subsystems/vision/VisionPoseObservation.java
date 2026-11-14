@@ -5,7 +5,5 @@ import org.wpilib.math.linalg.Matrix;
 import org.wpilib.math.numbers.N1;
 import org.wpilib.math.numbers.N3;
 
-public record VisionPoseObservation(Pose2d visionRobotPoseMeters,
-                                    double timestampSeconds,
-                                    Matrix<N3, N1> visionMeasurementStdDevs) {
+public record VisionPoseObservation(Pose2d visionRobotPoseMeters, double timestampSeconds, Matrix<N3, N1> visionMeasurementStdDevs) {
 }

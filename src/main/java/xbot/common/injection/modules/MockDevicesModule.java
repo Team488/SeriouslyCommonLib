@@ -19,7 +19,7 @@ import xbot.common.controls.actuators.mock_adapters.MockDigitalOutput.MockDigita
 import xbot.common.controls.actuators.mock_adapters.MockPWM.MockPWMFactory;
 import xbot.common.controls.actuators.mock_adapters.MockSolenoid.MockSolenoidFactory;
 import xbot.common.controls.actuators.mock_adapters.MockSpeedController.MockSpeedControllerFactory;
-import xbot.common.controls.sensors.SimulatedAnalogDistanceSensor.SimulatedAnalogDistanceSensorFactory;
+import xbot.common.controls.sensors.AnalogDistanceSensor.AnalogDistanceSensorFactory;
 import xbot.common.controls.sensors.XAbsoluteEncoder.XAbsoluteEncoderFactory;
 import xbot.common.controls.sensors.XAnalogDistanceSensor.XAnalogDistanceSensorFactory;
 import xbot.common.controls.sensors.XAnalogInput.XAnalogInputFactory;
@@ -41,8 +41,6 @@ import xbot.common.controls.sensors.mock_adapters.MockGyro.MockGyroFactory;
 import xbot.common.controls.sensors.mock_adapters.MockLaserCAN;
 import xbot.common.controls.sensors.mock_adapters.MockLidarLite.MockLidarLiteFactory;
 import xbot.common.controls.sensors.mock_adapters.MockPowerDistributionPanel.MockPowerDistributionPanelFactory;
-import xbot.common.networking.MockZeromqListener.MockZeromqListenerFactory;
-import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
 
 /**
  * Module for mapping device interfaces to mock implementations.
@@ -79,7 +77,7 @@ public abstract class MockDevicesModule {
 
     @Binds
     @Singleton
-    public abstract XAnalogDistanceSensorFactory getAnalogDistanceSensorFactory(SimulatedAnalogDistanceSensorFactory impl);
+    public abstract XAnalogDistanceSensorFactory getAnalogDistanceSensorFactory(AnalogDistanceSensorFactory impl);
 
     @Binds
     @Singleton
@@ -108,10 +106,6 @@ public abstract class MockDevicesModule {
     @Binds
     @Singleton
     public abstract XSpeedControllerFactory getSpeedControllerFactory(MockSpeedControllerFactory impl);
-
-    @Binds
-    @Singleton
-    public abstract XZeromqListenerFactory getZeromqListenerFactory(MockZeromqListenerFactory impl);
 
     @Binds
     @Singleton

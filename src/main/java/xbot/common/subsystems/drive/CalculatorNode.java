@@ -9,8 +9,8 @@ import static org.wpilib.units.Units.MetersPerSecondPerSecond;
 import static org.wpilib.units.Units.Seconds;
 
 /**
- * CalculatorNodes are small little steps to be interpreted and formed together to
- * create a path to be used for the SwerveKinematicsCalculator
+ * CalculatorNodes are small little steps to be interpreted and formed together to create a path to be used for the
+ * SwerveKinematicsCalculator
  */
 public record CalculatorNode(Time operationTime, LinearAcceleration operationAcceleration, LinearVelocity operationEndingVelocity) {
 

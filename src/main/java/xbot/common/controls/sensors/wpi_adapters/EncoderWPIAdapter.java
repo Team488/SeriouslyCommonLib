@@ -18,24 +18,14 @@ public class EncoderWPIAdapter extends XEncoder {
 
     @AssistedFactory
     public abstract static class EncoderWPIAdapterFactory implements XEncoderFactory {
-        public abstract EncoderWPIAdapter create(
-            @Assisted("name") String name,
-            @Assisted("aChannel") int aChannel,
-            @Assisted("bChannel") int bChannel,
-            @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix);
+        public abstract EncoderWPIAdapter create(@Assisted("name") String name, @Assisted("aChannel") int aChannel, @Assisted("bChannel") int bChannel,
+                @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse, @Assisted("owningSystemPrefix") String owningSystemPrefix);
     }
 
     @AssistedInject
-    public EncoderWPIAdapter(
-            @Assisted("name")String name,
-            @Assisted("aChannel") int aChannel,
-            @Assisted("bChannel") int bChannel,
-            @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            TunableFactory tunableFactory,
-            DevicePolice police,
-            DataFrameRegistry dataFrameRegistry) {
+    public EncoderWPIAdapter(@Assisted("name") String name, @Assisted("aChannel") int aChannel, @Assisted("bChannel") int bChannel,
+            @Assisted("defaultDistancePerPulse") double defaultDistancePerPulse, @Assisted("owningSystemPrefix") String owningSystemPrefix,
+            TunableFactory tunableFactory, DevicePolice police, DataFrameRegistry dataFrameRegistry) {
         super(name, aChannel, bChannel, defaultDistancePerPulse, owningSystemPrefix, tunableFactory, police, dataFrameRegistry);
         internalEncoder = new Encoder(aChannel, bChannel);
     }

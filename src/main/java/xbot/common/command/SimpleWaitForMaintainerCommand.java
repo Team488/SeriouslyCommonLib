@@ -15,8 +15,11 @@ public class SimpleWaitForMaintainerCommand extends BaseCommand {
 
     /**
      * Creates a new SimpleWaitForMaintainerCommand instance.
-     * @param subsystem The maintainer subsystem.
-     * @param delaySupplier The timeout duration in seconds via a supplier.
+     *
+     * @param subsystem
+     *            The maintainer subsystem.
+     * @param delaySupplier
+     *            The timeout duration in seconds via a supplier.
      */
     public SimpleWaitForMaintainerCommand(BaseSetpointSubsystem<?, ?> subsystem, DoubleSupplier delaySupplier) {
         this.subsystem = subsystem;

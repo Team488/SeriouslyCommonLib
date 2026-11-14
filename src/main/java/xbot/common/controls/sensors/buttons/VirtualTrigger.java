@@ -5,8 +5,8 @@ import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 /**
- * A virtual button under program control that can be used for creating chords.
- * This is useful to repurpose buttons in multiple "modes".
+ * A virtual button under program control that can be used for creating chords. This is useful to repurpose buttons in
+ * multiple "modes".
  */
 public class VirtualTrigger extends AdvancedTrigger {
 
@@ -20,7 +20,7 @@ public class VirtualTrigger extends AdvancedTrigger {
             return create(false);
         }
     }
-    
+
     @AssistedInject
     public VirtualTrigger(@Assisted boolean defaultPressed) {
         this(new SettableBooleanSuppler(defaultPressed));
@@ -30,7 +30,7 @@ public class VirtualTrigger extends AdvancedTrigger {
         super(supplier);
         this.supplier = supplier;
     }
- 
+
     public void set(boolean value) {
         this.supplier.set(value);
     }

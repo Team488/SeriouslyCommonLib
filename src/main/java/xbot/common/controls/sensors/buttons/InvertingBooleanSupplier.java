@@ -23,7 +23,5 @@ public class InvertingBooleanSupplier implements BooleanSupplier {
     public boolean getAsBoolean() {
         return this.supplier.getAsBoolean() ^ this.isInverted;
     }
-    
-
 
 }

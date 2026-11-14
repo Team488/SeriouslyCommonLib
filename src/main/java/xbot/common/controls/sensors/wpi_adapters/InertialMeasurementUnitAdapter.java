@@ -15,6 +15,7 @@ import dagger.assisted.AssistedInject;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.XGyroIoInputs;
 import xbot.common.controls.sensors.XGyro;
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.IMUInfo;
@@ -40,10 +41,9 @@ public class InertialMeasurementUnitAdapter extends XGyro {
         super(imuInfo, registry);
         try {
             this.imu = new OnboardIMU(imuInfo.mountOrientation());
-            police.registerDevice(DeviceType.IMU, imuInfo.deviceId(), this);
+            police.registerDevice(this, DeviceAddress.channel(DeviceType.IMU, imuInfo.deviceId()));
             log.info("IMU successfully created");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             isBroken = true;
             log.warn("IMU could not be created - gyro is broken!");
         }
@@ -71,11 +71,7 @@ public class InertialMeasurementUnitAdapter extends XGyro {
         inputs.yawAngularVelocity = getDeviceYawAngularVelocity();
         inputs.pitch = getDevicePitch();
         inputs.roll = getDeviceRoll();
-        inputs.acceleration = new LinearAcceleration[]{
-            getDeviceRawAccelX(),
-            getDeviceRawAccelY(),
-            getDeviceRawAccelZ()
-        };
+        inputs.acceleration = new LinearAcceleration[] { getDeviceRawAccelX(), getDeviceRawAccelY(), getDeviceRawAccelZ() };
         inputs.isConnected = isConnected();
     }
 
@@ -84,7 +80,7 @@ public class InertialMeasurementUnitAdapter extends XGyro {
         return isBroken;
     }
 
-    public AngularVelocity getDeviceYawAngularVelocity(){
+    public AngularVelocity getDeviceYawAngularVelocity() {
         return RadiansPerSecond.of(imu.getGyroRateZ());
     }
 

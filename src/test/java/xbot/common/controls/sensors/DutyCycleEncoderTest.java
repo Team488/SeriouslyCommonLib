@@ -1,21 +1,20 @@
 package xbot.common.controls.sensors;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import xbot.common.controls.sensors.mock_adapters.MockDutyCycleEncoder;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.wpilib.units.Units.Degrees;
 
 public class DutyCycleEncoderTest extends BaseCommonLibTest {
 
     @Test
     public void simpleScaling() {
-        MockDutyCycleEncoder encoder =
-                (MockDutyCycleEncoder)this.getInjectorComponent().dutyCycleEncoderFactory().create(
-                        new DeviceInfo("Test",0, false, null));
+        MockDutyCycleEncoder encoder = (MockDutyCycleEncoder) this.getInjectorComponent().dutyCycleEncoderFactory()
+                .create(DeviceInfo.builder("Test").withChannel(0).build());
 
         encoder.setRawPosition(0);
         encoder.refreshDataFrame();

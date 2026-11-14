@@ -2,7 +2,8 @@ package xbot.common.trajectory;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
@@ -10,12 +11,13 @@ import org.wpilib.math.geometry.Translation2d;
 
 import xbot.common.injection.BaseCommonLibTest;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LowResFieldTest extends BaseCommonLibTest {
 
     LowResField f;
 
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();
@@ -25,7 +27,7 @@ public class LowResFieldTest extends BaseCommonLibTest {
     @Test
     public void testParallelInsideOneObstacle() {
         // Square near origin
-        var simpleObstacle = new Obstacle(10,5,20,10, "First");
+        var simpleObstacle = new Obstacle(10, 5, 20, 10, "First");
         f.addObstacle(simpleObstacle);
         // Final point on the right side of the obstacle, biased up a bit.
         var finalPoint = new XbotSwervePoint(25, 8, 90, 10);
@@ -40,7 +42,7 @@ public class LowResFieldTest extends BaseCommonLibTest {
     @Test
     public void testParalellOutsideOneObstacle() {
         // Square near origin
-        var simpleObstacle = new Obstacle(10,5,20,10, "First");
+        var simpleObstacle = new Obstacle(10, 5, 20, 10, "First");
         f.addObstacle(simpleObstacle);
         // Final point on the right side of the obstacle, biased up a bit.
         var finalPoint = new XbotSwervePoint(22, -20, 90, 10);
@@ -54,7 +56,7 @@ public class LowResFieldTest extends BaseCommonLibTest {
     @Test
     public void testParallelMixedOneObstacle() {
         // Square near origin
-        var simpleObstacle = new Obstacle(10,5,20,10, "First");
+        var simpleObstacle = new Obstacle(10, 5, 20, 10, "First");
         f.addObstacle(simpleObstacle);
         // Final point on the right side of the obstacle, biased up a bit.
         var finalPoint = new XbotSwervePoint(10, -5, 90, 10);
@@ -68,9 +70,9 @@ public class LowResFieldTest extends BaseCommonLibTest {
     @Test
     public void testParallelInsideTwoObstacles() {
         // Square near origin
-        var wideObstacle = new Obstacle(10,5,20,10, "Wide"); // 0-20, 0-10
+        var wideObstacle = new Obstacle(10, 5, 20, 10, "Wide"); // 0-20, 0-10
         f.addObstacle(wideObstacle);
-        var tallObstacle = new Obstacle(45,20,10,40, "Tall"); // 40-50, 0-40
+        var tallObstacle = new Obstacle(45, 20, 10, 40, "Tall"); // 40-50, 0-40
         f.addObstacle(tallObstacle);
 
         var finalPoint = new XbotSwervePoint(60, 8, 90, 10);

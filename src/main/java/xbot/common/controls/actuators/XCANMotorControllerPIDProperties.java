@@ -1,16 +1,8 @@
 package xbot.common.controls.actuators;
 
-public record XCANMotorControllerPIDProperties(double p,
-                                        double i,
-                                        double d,
-                                        double staticFeedForward,
-                                        double velocityFeedForward,
-                                        double gravityFeedForward,
-                                        double maxPowerOutput,
-                                        double minPowerOutput
-) {
-    public XCANMotorControllerPIDProperties()
-    {
+public record XCANMotorControllerPIDProperties(double p, double i, double d, double staticFeedForward, double velocityFeedForward, double gravityFeedForward,
+        double maxPowerOutput, double minPowerOutput) {
+    public XCANMotorControllerPIDProperties() {
         this(0, 0, 0);
     }
 
@@ -72,16 +64,7 @@ public record XCANMotorControllerPIDProperties(double p,
         }
 
         public XCANMotorControllerPIDProperties build() {
-            return new XCANMotorControllerPIDProperties(
-                    p,
-                    i,
-                    d,
-                    staticFeedForward,
-                    velocityFeedForward,
-                    gravityFeedForward,
-                    maxPowerOutput,
-                    minPowerOutput
-            );
+            return new XCANMotorControllerPIDProperties(p, i, d, staticFeedForward, velocityFeedForward, gravityFeedForward, maxPowerOutput, minPowerOutput);
         }
     }
 }

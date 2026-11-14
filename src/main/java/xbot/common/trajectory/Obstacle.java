@@ -34,11 +34,16 @@ public class Obstacle extends Rectangle2D.Double {
     /**
      * Creates an obstacle, represented by an Axis-Aligned Bounding Box.
      *
-     * @param x      CenterX of the obstacle
-     * @param y      CenterY of the obstacle
-     * @param width  width (x) of the obstacle
-     * @param height height (y) of the obstacle
-     * @param name   name
+     * @param x
+     *            CenterX of the obstacle
+     * @param y
+     *            CenterY of the obstacle
+     * @param width
+     *            width (x) of the obstacle
+     * @param height
+     *            height (y) of the obstacle
+     * @param name
+     *            name
      */
     public Obstacle(double x, double y, double width, double height, String name) {
         super(x - width / 2, y - height / 2, width, height);
@@ -46,7 +51,7 @@ public class Obstacle extends Rectangle2D.Double {
         // Generate the corner points of the bounding box.
         // We will put the points sliiiiightly outside the bounding box, so we don't
         // collide with the true corners later.
-        setKeyParameters(x-width/2, x+width/2, y-height/2, y+height/2);
+        setKeyParameters(x - width / 2, x + width / 2, y - height / 2, y + height / 2);
     }
 
     private void setKeyParameters(double minX, double maxX, double minY, double maxY) {
@@ -58,10 +63,10 @@ public class Obstacle extends Rectangle2D.Double {
         this.leftLine = new Line2D.Double(minX, minY, minX, maxY);
         this.rightLine = new Line2D.Double(maxX, minY, maxX, maxY);
 
-        this.topLeft = new Translation2d(minX-fudgeDistance, maxY+fudgeDistance);
-        this.topRight = new Translation2d(maxX+fudgeDistance, maxY+fudgeDistance);
-        this.bottomLeft = new Translation2d(minX-fudgeDistance, minY-fudgeDistance);
-        this.bottomRight = new Translation2d(maxX+fudgeDistance, minY-fudgeDistance);
+        this.topLeft = new Translation2d(minX - fudgeDistance, maxY + fudgeDistance);
+        this.topRight = new Translation2d(maxX + fudgeDistance, maxY + fudgeDistance);
+        this.bottomLeft = new Translation2d(minX - fudgeDistance, minY - fudgeDistance);
+        this.bottomRight = new Translation2d(maxX + fudgeDistance, minY - fudgeDistance);
     }
 
     public String getName() {
@@ -85,7 +90,8 @@ public class Obstacle extends Rectangle2D.Double {
     /**
      * Gets the distance between the center of this obstacle and a given point.
      *
-     * @param other The given point
+     * @param other
+     *            The given point
      * @return distance to that point from the center of the obstacle.
      */
     public double getDistanceToCenter(Translation2d other) {
@@ -93,13 +99,13 @@ public class Obstacle extends Rectangle2D.Double {
     }
 
     /**
-     * Finds the two intersection points of a line that passes through this
-     * obstacle, and averages them together.
+     * Finds the two intersection points of a line that passes through this obstacle, and averages them together.
      *
-     * @param start Line x1,y1
-     * @param end   Line x2,y2
-     * @return The average intersection point, or null if there is no intersection
-     *         point.
+     * @param start
+     *            Line x1,y1
+     * @param end
+     *            Line x2,y2
+     * @return The average intersection point, or null if there is no intersection point.
      */
     public Translation2d getIntersectionAveragePoint(Translation2d start, Translation2d end) {
         // test each of the four lines to get any intersection points, then average
@@ -109,7 +115,7 @@ public class Obstacle extends Rectangle2D.Double {
         Translation2d leftLine = getLineIntersectionPoint(start, end, topLeft, bottomLeft);
         Translation2d rightLine = getLineIntersectionPoint(start, end, topRight, bottomRight);
 
-        Translation2d[] translations = {topLine, bottomLine, leftLine, rightLine};
+        Translation2d[] translations = { topLine, bottomLine, leftLine, rightLine };
         int count = 0;
 
         for (Translation2d translation : translations) {
@@ -140,10 +146,14 @@ public class Obstacle extends Rectangle2D.Double {
      * Calculates the intersection point of two line segments. Copied from
      * https://stackoverflow.com/questions/40314303/java-find-intersection-of-line-and-rectangle
      *
-     * @param lineA1 Line A x1,y1
-     * @param lineA2 Line A x2,y2
-     * @param lineB1 Line B x1,y1
-     * @param lineB2 Line B x2,y2
+     * @param lineA1
+     *            Line A x1,y1
+     * @param lineA2
+     *            Line A x2,y2
+     * @param lineB1
+     *            Line B x1,y1
+     * @param lineB2
+     *            Line B x2,y2
      * @return 0,0 if the segments do not intersect.
      */
     public Translation2d getLineIntersectionPoint(Translation2d lineA1, Translation2d lineA2, Translation2d lineB1, Translation2d lineB2) {
@@ -178,27 +188,22 @@ public class Obstacle extends Rectangle2D.Double {
     }
 
     public Translation2d getLineIntersectionPoint(Line2D.Double lineA, Line2D.Double lineB) {
-        return getLineIntersectionPoint(
-                new Translation2d(lineA.getX1(), lineA.getY1()),
-                new Translation2d(lineA.getX2(), lineA.getY2()),
-                new Translation2d(lineB.getX1(), lineB.getY1()),
-                new Translation2d(lineB.getX2(), lineB.getY2()));
+        return getLineIntersectionPoint(new Translation2d(lineA.getX1(), lineA.getY1()), new Translation2d(lineA.getX2(), lineA.getY2()),
+                new Translation2d(lineB.getX1(), lineB.getY1()), new Translation2d(lineB.getX2(), lineB.getY2()));
     }
 
     public boolean doesPointLieAlongMidlines(Translation2d point) {
-        return (Math.abs(this.getCenterX()-point.getX()) < 0.025) || (Math.abs(this.getCenterY()-point.getY()) < 0.025);
+        return (Math.abs(this.getCenterX() - point.getX()) < 0.025) || (Math.abs(this.getCenterY() - point.getY()) < 0.025);
     }
 
     public enum ParallelCrossingType {
-        TopAndBottom,
-        LeftAndRight,
-        None
+        TopAndBottom, LeftAndRight, None
     }
 
     public ParallelCrossingType getParallelCrossingType(Translation2d point) {
-        if (Math.abs(this.getCenterX()-point.getX()) < 0.025) {
+        if (Math.abs(this.getCenterX() - point.getX()) < 0.025) {
             return ParallelCrossingType.LeftAndRight;
-        } else if (Math.abs(this.getCenterY()-point.getY()) < 0.025) {
+        } else if (Math.abs(this.getCenterY() - point.getY()) < 0.025) {
             return ParallelCrossingType.TopAndBottom;
         } else {
             return ParallelCrossingType.None;
@@ -206,10 +211,11 @@ public class Obstacle extends Rectangle2D.Double {
     }
 
     /**
-     * Finds the closest available corner of this obstacle from a given point. Once
-     * it returns a point, that point is unavailable until resetCorners() is called.
+     * Finds the closest available corner of this obstacle from a given point. Once it returns a point, that point is
+     * unavailable until resetCorners() is called.
      *
-     * @param other The point to measure from
+     * @param other
+     *            The point to measure from
      * @return The closest corner, or 0,0 if no corner is found.
      * @see xbot.common.trajectory.Obstacle#resetCorners()
      */
@@ -335,15 +341,10 @@ public class Obstacle extends Rectangle2D.Double {
     }
 
     public enum PointProjectionCombination {
-        BothInside,
-        FirstInside,
-        SecondInside,
-        BothOutside,
-        NotRelevant
+        BothInside, FirstInside, SecondInside, BothOutside, NotRelevant
     }
 
-    public PointProjectionCombination getPointProjectionCombination(Translation2d first, Translation2d second,
-                                                                    ParallelCrossingType crossingType) {
+    public PointProjectionCombination getPointProjectionCombination(Translation2d first, Translation2d second, ParallelCrossingType crossingType) {
         if (crossingType == ParallelCrossingType.TopAndBottom) {
             return checkXCombination(first, second);
         } else if (crossingType == ParallelCrossingType.LeftAndRight) {

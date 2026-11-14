@@ -16,10 +16,15 @@ public abstract class SimpleMotorSubsystem extends BaseSubsystem {
 
     /**
      * Create an instance with the specified default forward and reverse power.
-     * @param name The name of the subsystem
-     * @param tunableFactory The tunable factory
-     * @param defaultForwardPower The default power to use in the forward direction
-     * @param defaultReversePower The default power to use in the reverse direction
+     *
+     * @param name
+     *            The name of the subsystem
+     * @param tunableFactory
+     *            The tunable factory
+     * @param defaultForwardPower
+     *            The default power to use in the forward direction
+     * @param defaultReversePower
+     *            The default power to use in the reverse direction
      */
     public SimpleMotorSubsystem(String name, TunableFactory tunableFactory, double defaultForwardPower, double defaultReversePower) {
         setName(name);
@@ -31,8 +36,11 @@ public abstract class SimpleMotorSubsystem extends BaseSubsystem {
 
     /**
      * Create an instance with default power settings.
-     * @param name The name of the subsystem
-     * @param tunableFactory The tunable factory
+     *
+     * @param name
+     *            The name of the subsystem
+     * @param tunableFactory
+     *            The tunable factory
      */
     public SimpleMotorSubsystem(String name, TunableFactory tunableFactory) {
         this(name, tunableFactory, 1.0, -1.0);
@@ -40,7 +48,9 @@ public abstract class SimpleMotorSubsystem extends BaseSubsystem {
 
     /**
      * Sets the motor output power.
-     * @param power The output power, from -1.0 to 1.0
+     *
+     * @param power
+     *            The output power, from -1.0 to 1.0
      */
     public abstract void setPower(double power);
 
@@ -67,6 +77,7 @@ public abstract class SimpleMotorSubsystem extends BaseSubsystem {
 
     /**
      * Gets a command to drive the motor in the forward direction.
+     *
      * @return The command.
      */
     public final Command getForwardCommand() {
@@ -75,6 +86,7 @@ public abstract class SimpleMotorSubsystem extends BaseSubsystem {
 
     /**
      * Gets a command to drive the motor in the reverse direction.
+     *
      * @return The command.
      */
     public final Command getReverseCommand() {
@@ -83,6 +95,7 @@ public abstract class SimpleMotorSubsystem extends BaseSubsystem {
 
     /**
      * Gets a command to stop the motor.
+     *
      * @return The command.
      */
     public final Command getStopCommand() {

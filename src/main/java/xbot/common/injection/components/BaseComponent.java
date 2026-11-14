@@ -35,7 +35,7 @@ import xbot.common.controls.sensors.buttons.AnalogHIDButtonTrigger.AnalogHIDButt
 import xbot.common.controls.sensors.buttons.ChordTrigger.ChordTriggerFactory;
 import xbot.common.controls.sensors.buttons.VirtualTrigger.VirtualTriggerFactory;
 import xbot.common.injection.DevicePolice;
-import xbot.common.logging.RobotAssertionManager;
+import xbot.common.logging.assertion.RobotAssertionHandler;
 import xbot.common.logic.CalibrationDecider.CalibrationDeciderFactory;
 import xbot.common.logic.HumanVsMachineDecider.HumanVsMachineDeciderFactory;
 import xbot.common.logic.StallDetector.StallDetectorFactory;
@@ -43,12 +43,9 @@ import xbot.common.logic.VelocityThrottleModule.VelocityThrottleModuleFactory;
 import xbot.common.math.FieldPoseTunableManager.FieldPoseTunableManagerFactory;
 import xbot.common.math.PIDManager.PIDManagerFactory;
 import xbot.common.math.PIDTunableManager.PIDTunableManagerFactory;
-import xbot.common.networking.XZeromqListener.XZeromqListenerFactory;
 import xbot.common.properties.TunableFactory;
 import xbot.common.properties.TunableManager;
 import xbot.common.properties.TunablePersistence;
-import xbot.common.simulation.SimulationPayloadDistributor;
-import xbot.common.simulation.WebotsClient;
 import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
 import xbot.common.subsystems.drive.BaseDriveSubsystem;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule.HeadingAssistModuleFactory;
@@ -57,9 +54,9 @@ import xbot.common.subsystems.feedback.XRumbleManager.XRumbleManagerFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
 /**
- * Base class for all Components that provides methods to get implementations from DI.
- * Implementations of this abstract class map Modules to the Component. Dagger will automatically
- * generate a class with the prefix "Dagger" in the same package.
+ * Base class for all Components that provides methods to get implementations from DI. Implementations of this abstract
+ * class map Modules to the Component. Dagger will automatically generate a class with the prefix "Dagger" in the same
+ * package.
  */
 @SuppressWarnings("unused")
 public abstract class BaseComponent {
@@ -67,7 +64,7 @@ public abstract class BaseComponent {
 
     public abstract XSettableTimerImpl settableTimerImplementation();
 
-    public abstract RobotAssertionManager robotAssertionManager();
+    public abstract RobotAssertionHandler robotAssertionHandler();
 
     public abstract DevicePolice devicePolice();
 
@@ -83,16 +80,11 @@ public abstract class BaseComponent {
 
     public abstract TunablePersistence tunablePersistence();
 
-    public abstract @Named(TunableManager.IN_MEMORY_PERSISTENCE_NAME)
-            TunablePersistence inMemoryTunablePersistence();
+    public abstract @Named(TunableManager.IN_MEMORY_PERSISTENCE_NAME) TunablePersistence inMemoryTunablePersistence();
 
     public abstract FieldPoseTunableManagerFactory fieldPoseTunableManagerFactory();
 
     public abstract AutonomousCommandSelector autonomousCommandSelector();
-
-    public abstract WebotsClient webotsClient();
-
-    public abstract SimulationPayloadDistributor simulationPayloadDistributor();
 
     public abstract PIDManagerFactory pidFactory();
 
@@ -157,8 +149,6 @@ public abstract class BaseComponent {
     public abstract XLidarLiteFactory lidarLiteFactory();
 
     public abstract XSpeedControllerFactory speedControllerFactory();
-
-    public abstract XZeromqListenerFactory zeromqListenerFactory();
 
     public abstract XCANMotorController.XCANMotorControllerFactory motorControllerFactory();
 

@@ -20,16 +20,12 @@ public class MockLaserCAN extends XLaserCAN {
 
     @AssistedFactory
     public abstract static class MockLaserCANFactory implements XLaserCANFactory {
-        public abstract MockLaserCAN create(
-                @Assisted("info") DeviceInfo info,
-                @Assisted("owningSystemPrefix") String owningSystemPrefix);
+        public abstract MockLaserCAN create(@Assisted("info") DeviceInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix);
     }
 
     @AssistedInject
-    public MockLaserCAN(
-            @Assisted("info") DeviceInfo info,
-            @Assisted("owningSystemPrefix") String owningSystemPrefix,
-            DevicePolice police, DataFrameRegistry dataFrameRegistry) {
+    public MockLaserCAN(@Assisted("info") DeviceInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix, DevicePolice police,
+            DataFrameRegistry dataFrameRegistry) {
         super(police, info, owningSystemPrefix, dataFrameRegistry);
     }
 

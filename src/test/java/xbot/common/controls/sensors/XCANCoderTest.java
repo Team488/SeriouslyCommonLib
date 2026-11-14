@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ctre.phoenix6.StatusCode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
+import org.wpilib.hardware.bus.CANPort;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.util.Alert;
 import org.wpilib.util.AlertDataJNI;
@@ -19,18 +20,18 @@ import xbot.common.injection.electrical_contract.DeviceInfo;
 import xbot.common.logging.AlertGroups;
 import xbot.common.resiliency.DeviceHealth;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class XCANCoderTest extends BaseCommonLibTest {
 
     @Test
     public void healthAlertsHaveIndependentIdentityAndActivation() {
-        DeviceInfo info = new DeviceInfo("Test CANCoder", 42);
+        DeviceInfo info = DeviceInfo.builder("Test CANCoder").withCanBus(CANPort.CAN_S0, 42).build();
         TestCANCoder first = new TestCANCoder(info);
         TestCANCoder second = new TestCANCoder(info);
-        String expectedText = "CANCoder 42 on CAN bus " + info.canBusId + " is unhealthy";
+        String expectedText = "CANCoder 42 on CAN bus " + info.canBusId() + " is unhealthy";
 
         List<AlertInfo> alerts = getTestCANCoderAlerts();
         assertEquals(2, alerts.size());
@@ -69,7 +70,7 @@ public class XCANCoderTest extends BaseCommonLibTest {
 
         @Override
         public int getDeviceId() {
-            return info.channel;
+            return info.channel();
         }
 
         @Override

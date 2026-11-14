@@ -3,20 +3,11 @@ package xbot.common.math;
 /**
  * This class is used to define the default values for a PID controller.
  */
-public record PIDDefaults(
-        double p,
-        double i,
-        double d,
-        double f,
-        double maxOutput,
-        double minOutput,
-        double errorThreshold,
-        double derivativeThreshold,
-        double timeThreshold,
-        double iZone) {
+public record PIDDefaults(double p, double i, double d, double f, double maxOutput, double minOutput, double errorThreshold, double derivativeThreshold,
+        double timeThreshold, double iZone) {
 
-    public PIDDefaults(double p, double i, double d, double f, double maxOutput, double minOutput,
-                       double errorThreshold, double derivativeThreshold, double timeThreshold) {
+    public PIDDefaults(double p, double i, double d, double f, double maxOutput, double minOutput, double errorThreshold, double derivativeThreshold,
+            double timeThreshold) {
         this(p, i, d, f, maxOutput, minOutput, errorThreshold, derivativeThreshold, timeThreshold, -1);
     }
 

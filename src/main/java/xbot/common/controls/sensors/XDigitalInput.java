@@ -7,6 +7,7 @@ import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.XBaseIO;
 import xbot.common.controls.io_inputs.XDigitalInputs;
 import xbot.common.controls.io_inputs.XDigitalInputsAutoLogged;
+import xbot.common.injection.DeviceAddress;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.DevicePolice.DeviceType;
 import xbot.common.injection.electrical_contract.DeviceInfo;
@@ -17,28 +18,28 @@ public abstract class XDigitalInput implements XBaseIO, DataFrameRefreshable {
     final XDigitalInputsAutoLogged inputs;
     final DeviceInfo info;
     private String akitName;
-    
+
     public interface XDigitalInputFactory {
         XDigitalInput create(DeviceInfo info, String owningSystemPrefix);
     }
 
     public XDigitalInput(DevicePolice police, DeviceInfo info, String owningSystemPrefix, DataFrameRegistry dataFrameRegistry) {
-        police.registerDevice(DeviceType.DigitalIO, info.channel, this);
+        police.registerDevice(this, DeviceAddress.channel(DeviceType.DigitalIO, info.channel()));
         inputs = new XDigitalInputsAutoLogged();
         this.info = info;
-        akitName = owningSystemPrefix + info.name + "DigitalInput";
-        this.setInverted(info.inverted);
+        akitName = owningSystemPrefix + info.name() + "DigitalInput";
+        this.setInverted(info.inverted());
         dataFrameRegistry.register(this);
     }
-    
+
     public boolean get() {
         return inputs.signal ^ inverted;
     }
-    
+
     public void setInverted(boolean inverted) {
         this.inverted = inverted;
     }
-    
+
     public boolean getInverted() {
         return inverted;
     }

@@ -21,13 +21,11 @@ import xbot.common.resiliency.DeviceHealth;
 public class MockCANLightController extends XCANLightController {
     @AssistedFactory
     public abstract static class MockCANLightControllerFactory implements XCANLightController.XCANLightControllerFactory {
-        public abstract MockCANLightController create(
-                @Assisted("info") CANLightControllerInfo info);
+        public abstract MockCANLightController create(@Assisted("info") CANLightControllerInfo info);
     }
 
     @AssistedInject
-    protected MockCANLightController(@Assisted("info") CANLightControllerInfo info,
-                                     DevicePolice police) {
+    protected MockCANLightController(@Assisted("info") CANLightControllerInfo info, DevicePolice police) {
         super(info, police);
     }
 

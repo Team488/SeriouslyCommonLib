@@ -13,110 +13,109 @@ import org.wpilib.command2.CommandScheduler;
 /**
  * A command composition that runs a list of commands in sequence.
  *
- * <p>The rules for command compositions apply: command instances that are passed to it cannot be
- * added to any other composition or scheduled individually, and the composition requires all
- * subsystems its components require.
+ * <p>
+ * The rules for command compositions apply: command instances that are passed to it cannot be added to any other
+ * composition or scheduled individually, and the composition requires all subsystems its components require.
  *
- * <p>This class is provided by the NewCommands VendorDep
+ * <p>
+ * This class is provided by the NewCommands VendorDep
  */
 public class BaseSequentialCommandGroup extends BaseCommand {
-  private final List<Command> m_commands = new ArrayList<>();
-  private int m_currentCommandIndex = -1;
-  private boolean m_runWhenDisabled = true;
-  private InterruptionBehavior m_interruptBehavior = InterruptionBehavior.CANCEL_INCOMING;
+    private final List<Command> m_commands = new ArrayList<>();
+    private int m_currentCommandIndex = -1;
+    private boolean m_runWhenDisabled = true;
+    private InterruptionBehavior m_interruptBehavior = InterruptionBehavior.CANCEL_INCOMING;
 
-  /**
-   * Creates a new SequentialCommandGroup. The given commands will be run sequentially, with the
-   * composition finishing when the last command finishes.
-   *
-   * @param commands the commands to include in this composition.
-   */
-  @SuppressWarnings("this-escape")
-  public BaseSequentialCommandGroup(Command... commands) {
-    addCommands(commands);
-  }
-
-  public BaseSequentialCommandGroup(String name, Command... commands) {
-    this.setName(name);
-    addCommands(commands);
-  }
-
-  /**
-   * Adds the given commands to the group.
-   *
-   * @param commands Commands to add, in order of execution.
-   */
-  @SuppressWarnings("PMD.UseArraysAsList")
-  public final void addCommands(Command... commands) {
-    if (m_currentCommandIndex != -1) {
-      throw new IllegalStateException(
-          "Commands cannot be added to a composition while it's running");
+    /**
+     * Creates a new SequentialCommandGroup. The given commands will be run sequentially, with the composition finishing
+     * when the last command finishes.
+     *
+     * @param commands
+     *            the commands to include in this composition.
+     */
+    @SuppressWarnings("this-escape")
+    public BaseSequentialCommandGroup(Command... commands) {
+        addCommands(commands);
     }
 
-    CommandScheduler.getInstance().registerComposedCommands(commands);
-
-    for (Command command : commands) {
-      m_commands.add(command);
-      addRequirements(command.getRequirements());
-      m_runWhenDisabled &= command.runsWhenDisabled();
-      if (command.getInterruptionBehavior() == InterruptionBehavior.CANCEL_SELF) {
-        m_interruptBehavior = InterruptionBehavior.CANCEL_SELF;
-      }
-    }
-  }
-
-  @Override
-  public final void initialize() {
-    super.initialize();
-    m_currentCommandIndex = 0;
-
-    if (!m_commands.isEmpty()) {
-      m_commands.get(0).initialize();
-    }
-  }
-
-  @Override
-  public final void execute() {
-    if (m_commands.isEmpty()) {
-      return;
+    public BaseSequentialCommandGroup(String name, Command... commands) {
+        this.setName(name);
+        addCommands(commands);
     }
 
-    Command currentCommand = m_commands.get(m_currentCommandIndex);
+    /**
+     * Adds the given commands to the group.
+     *
+     * @param commands
+     *            Commands to add, in order of execution.
+     */
+    @SuppressWarnings("PMD.UseArraysAsList")
+    public final void addCommands(Command... commands) {
+        if (m_currentCommandIndex != -1) {
+            throw new IllegalStateException("Commands cannot be added to a composition while it's running");
+        }
 
-    currentCommand.execute();
-    if (currentCommand.isFinished()) {
-      currentCommand.end(false);
-      m_currentCommandIndex++;
-      if (m_currentCommandIndex < m_commands.size()) {
-        m_commands.get(m_currentCommandIndex).initialize();
-      }
+        CommandScheduler.getInstance().registerComposedCommands(commands);
+
+        for (Command command : commands) {
+            m_commands.add(command);
+            addRequirements(command.getRequirements());
+            m_runWhenDisabled &= command.runsWhenDisabled();
+            if (command.getInterruptionBehavior() == InterruptionBehavior.CANCEL_SELF) {
+                m_interruptBehavior = InterruptionBehavior.CANCEL_SELF;
+            }
+        }
     }
-  }
 
-  @Override
-  public final void end(boolean interrupted) {
-    super.end(interrupted);
-    if (interrupted
-        && !m_commands.isEmpty()
-        && m_currentCommandIndex > -1
-        && m_currentCommandIndex < m_commands.size()) {
-      m_commands.get(m_currentCommandIndex).end(true);
+    @Override
+    public final void initialize() {
+        super.initialize();
+        m_currentCommandIndex = 0;
+
+        if (!m_commands.isEmpty()) {
+            m_commands.get(0).initialize();
+        }
     }
-    m_currentCommandIndex = -1;
-  }
 
-  @Override
-  public final boolean isFinished() {
-    return m_currentCommandIndex == m_commands.size();
-  }
+    @Override
+    public final void execute() {
+        if (m_commands.isEmpty()) {
+            return;
+        }
 
-  @Override
-  public boolean runsWhenDisabled() {
-    return m_runWhenDisabled;
-  }
+        Command currentCommand = m_commands.get(m_currentCommandIndex);
 
-  @Override
-  public InterruptionBehavior getInterruptionBehavior() {
-    return m_interruptBehavior;
-  }
+        currentCommand.execute();
+        if (currentCommand.isFinished()) {
+            currentCommand.end(false);
+            m_currentCommandIndex++;
+            if (m_currentCommandIndex < m_commands.size()) {
+                m_commands.get(m_currentCommandIndex).initialize();
+            }
+        }
+    }
+
+    @Override
+    public final void end(boolean interrupted) {
+        super.end(interrupted);
+        if (interrupted && !m_commands.isEmpty() && m_currentCommandIndex > -1 && m_currentCommandIndex < m_commands.size()) {
+            m_commands.get(m_currentCommandIndex).end(true);
+        }
+        m_currentCommandIndex = -1;
+    }
+
+    @Override
+    public final boolean isFinished() {
+        return m_currentCommandIndex == m_commands.size();
+    }
+
+    @Override
+    public boolean runsWhenDisabled() {
+        return m_runWhenDisabled;
+    }
+
+    @Override
+    public InterruptionBehavior getInterruptionBehavior() {
+        return m_interruptBehavior;
+    }
 }

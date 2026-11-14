@@ -1,8 +1,8 @@
 package xbot.common.properties;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.tunable.MockTunableBackend;
 import org.wpilib.tunable.Tunable;
@@ -10,35 +10,31 @@ import org.wpilib.tunable.TunableBoolean;
 import org.wpilib.tunable.TunableDouble;
 import org.wpilib.tunable.TunableRegistry;
 
-import xbot.common.logging.LoudRobotAssertionManager;
+import xbot.common.logging.assertion.LoudRobotAssertionHandler;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TunableTest {
     private InMemoryTunablePersistence persistence;
     private TunableFactory tunableFactory;
     private MockTunableBackend tunableBackend;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         TunableRegistry.reset();
         tunableBackend = new MockTunableBackend();
         TunableRegistry.registerBackend("", tunableBackend);
         persistence = new InMemoryTunablePersistence();
-        TunableManager manager = new TunableManager(
-                persistence,
-                new InMemoryTunablePersistence(),
-                new LoudRobotAssertionManager(),
-                false);
-        tunableFactory = new TunableFactory(manager, new LoudRobotAssertionManager());
+        TunableManager manager = new TunableManager(persistence, new InMemoryTunablePersistence(), false);
+        tunableFactory = new TunableFactory(manager);
         tunableFactory.setTopLevelPrefix();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         TunableRegistry.reset();
     }
@@ -103,21 +99,14 @@ public class TunableTest {
     @Test
     public void duplicateKeysFailLoudly() {
         tunableFactory.createDouble("duplicate", 1.0);
-        assertThrows(
-                RuntimeException.class,
-                () -> tunableFactory.createDouble("duplicate", 2.0));
+        assertThrows(RuntimeException.class, () -> tunableFactory.createDouble("duplicate", 2.0));
     }
 
     @Test
     public void replayConstructionAndSetsDoNotWritePersistence() {
         InMemoryTunablePersistence replayPersistence = new InMemoryTunablePersistence();
-        TunableManager replayManager = new TunableManager(
-                replayPersistence,
-                new InMemoryTunablePersistence(),
-                new LoudRobotAssertionManager(),
-                true);
-        TunableFactory replayFactory =
-                new TunableFactory(replayManager, new LoudRobotAssertionManager());
+        TunableManager replayManager = new TunableManager(replayPersistence, new InMemoryTunablePersistence(), true);
+        TunableFactory replayFactory = new TunableFactory(replayManager);
         replayFactory.setTopLevelPrefix();
 
         TunableDouble replayValue = replayFactory.createDouble("replay", 4.0);

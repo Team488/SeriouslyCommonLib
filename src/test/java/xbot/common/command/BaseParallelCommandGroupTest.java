@@ -1,13 +1,13 @@
 package xbot.common.command;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.command2.Command;
 import org.wpilib.command2.CommandScheduler;
 
 import xbot.common.injection.BaseCommonLibTest;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BaseParallelCommandGroupTest extends BaseCommonLibTest {
 

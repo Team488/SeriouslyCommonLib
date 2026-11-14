@@ -28,9 +28,12 @@ public interface IFieldObstacle {
     /**
      * Whether the described robot path will collide with this field obstacle or not.
      *
-     * @param start The start of the path.
-     * @param end The end of the path.
-     * @param robotRadius The radius we should use to determine whether the robot can make the path through this obstacle.
+     * @param start
+     *            The start of the path.
+     * @param end
+     *            The end of the path.
+     * @param robotRadius
+     *            The radius we should use to determine whether the robot can make the path through this obstacle.
      *
      * @return Whether the path will work for this obstacle.
      */

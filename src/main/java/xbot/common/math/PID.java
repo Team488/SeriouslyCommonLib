@@ -9,12 +9,7 @@ import xbot.common.controls.sensors.XTimer;
  */
 public class PID {
     public enum OffTargetReason {
-        Unknown,
-        OffTargetNotConfigured,
-        ErrorTooLarge,
-        DerivativeTooLarge,
-        NotTimeStable,
-        OnTarget
+        Unknown, OffTargetNotConfigured, ErrorTooLarge, DerivativeTooLarge, NotTimeStable, OnTarget
     }
 
     private double m_error = 0.0;
@@ -48,7 +43,6 @@ public class PID {
     private boolean onTarget = false;
     private OffTargetReason offTargetReason = OffTargetReason.Unknown;
 
-
     /**
      * Resets the PID controller.
      */
@@ -62,16 +56,18 @@ public class PID {
     /**
      * Set tolerances for the PID system.
      *
-     * @param errorTolerance      How close the error can be before it is considered "on-target."
-     *                            <p>
-     *                            Negative values will cause that constraint to skipped when checking isOnTarget().
-     *                            <p>
-     *                            This is in the same units as your current and goal values.
-     * @param derivativeTolerance Set how small the derivative of the error can be before it is considered "on-target."
-     *                            <p>
-     *                            This is roughly in the same units as your current and goal values, but per 1/20th of a second.
-     *                            <p>
-     *                            e.g. if you wanted a minimum rotation speed of 5 degrees per second, this tolerance would need to be 0.25.
+     * @param errorTolerance
+     *            How close the error can be before it is considered "on-target."
+     *            <p>
+     *            Negative values will cause that constraint to skipped when checking isOnTarget().
+     *            <p>
+     *            This is in the same units as your current and goal values.
+     * @param derivativeTolerance
+     *            Set how small the derivative of the error can be before it is considered "on-target."
+     *            <p>
+     *            This is roughly in the same units as your current and goal values, but per 1/20th of a second.
+     *            <p>
+     *            e.g. if you wanted a minimum rotation speed of 5 degrees per second, this tolerance would need to be 0.25.
      */
     public void setTolerances(double errorTolerance, double derivativeTolerance, double timeToleranceInSeconds) {
         this.errorTolerance = errorTolerance;
@@ -91,16 +87,21 @@ public class PID {
     /**
      * Calculates the output value given P,I,D, a process variable and a goal
      *
-     * @param goal    What value you are trying to achieve
-     * @param current What the value under observation currently is
-     * @param p       Proportionate response
-     * @param i       Integral response.
-     * @param d       Derivative response.
-     * @param f       Feed-forward response
+     * @param goal
+     *            What value you are trying to achieve
+     * @param current
+     *            What the value under observation currently is
+     * @param p
+     *            Proportionate response
+     * @param i
+     *            Integral response.
+     * @param d
+     *            Derivative response.
+     * @param f
+     *            Feed-forward response
      * @return The output value to achieve goal
      */
-    public double calculate(double goal, double current,
-                            double p, double i, double d, double f, double iZone) {
+    public double calculate(double goal, double current, double p, double i, double d, double f, double iZone) {
         m_targetInputValue = goal;
         m_currentInputValue = current;
         double result;
@@ -120,9 +121,7 @@ public class PID {
         }
         // if previous error is a value, do normal derivative calculation.
         // otherwise derivative value should be 0
-        m_prevError.ifPresentOrElse(
-                aDouble -> m_derivativeValue = OptionalDouble.of(m_error - aDouble),
-                () -> m_derivativeValue = OptionalDouble.empty());
+        m_prevError.ifPresentOrElse(aDouble -> m_derivativeValue = OptionalDouble.of(m_error - aDouble), () -> m_derivativeValue = OptionalDouble.empty());
 
         // If iZone is configured, but we are outside the zone, clear any accumulated I.
         if (iZone > 0 && Math.abs(m_error) > iZone) {
@@ -146,17 +145,15 @@ public class PID {
         result = m_result;
 
         errorIsSmall = checkErrorThreshold && Math.abs(m_targetInputValue - m_currentInputValue) < errorTolerance;
-        m_derivativeValue.ifPresentOrElse(
-                aDouble -> {
-                    if (checkDerivativeThreshold) {
-                        derivativeIsSmall = Math.abs(aDouble) < derivativeTolerance;
-                    }
-                },
-                () -> {
-                    // If we don't have a derivative value, we can't check it.
-                    derivativeIsSmall = false;
-                });
-//        derivativeIsSmall = checkDerivativeThreshold && Math.abs(m_derivativeValue) < derivativeTolerance;
+        m_derivativeValue.ifPresentOrElse(aDouble -> {
+            if (checkDerivativeThreshold) {
+                derivativeIsSmall = Math.abs(aDouble) < derivativeTolerance;
+            }
+        }, () -> {
+            // If we don't have a derivative value, we can't check it.
+            derivativeIsSmall = false;
+        });
+        //        derivativeIsSmall = checkDerivativeThreshold && Math.abs(m_derivativeValue) < derivativeTolerance;
 
         checkIsOnTarget();
 
@@ -171,42 +168,52 @@ public class PID {
     /**
      * Calculates the output value given P,I,D, a process variable and a goal
      *
-     * @param goal    What value you are trying to achieve
-     * @param current What the value under observation currently is
-     * @param p       Proportionate response
-     * @param i       Integral response.
-     * @param d       Derivative response.
-     * @param f       Feed-forward response.
+     * @param goal
+     *            What value you are trying to achieve
+     * @param current
+     *            What the value under observation currently is
+     * @param p
+     *            Proportionate response
+     * @param i
+     *            Integral response.
+     * @param d
+     *            Derivative response.
+     * @param f
+     *            Feed-forward response.
      * @return The output value to achieve goal
      */
-    public double calculate(double goal, double current,
-                            double p, double i, double d, double f) {
+    public double calculate(double goal, double current, double p, double i, double d, double f) {
         return calculate(goal, current, p, i, d, f, 0);
     }
 
     /**
      * Calculates the output value given P,I,D, a process variable and a goal
      *
-     * @param goal    What value you are trying to achieve
-     * @param current What the value under observation currently is
-     * @param p       Proportionate response
-     * @param i       Integral response.
-     * @param d       Derivative response.
+     * @param goal
+     *            What value you are trying to achieve
+     * @param current
+     *            What the value under observation currently is
+     * @param p
+     *            Proportionate response
+     * @param i
+     *            Integral response.
+     * @param d
+     *            Derivative response.
      * @return The output value to achieve goal
      */
-    public double calculate(double goal, double current,
-                            double p, double i, double d) {
+    public double calculate(double goal, double current, double p, double i, double d) {
         return calculate(goal, current, p, i, d, 0);
     }
 
     /**
-     * With the addition of a time threshold, "onTarget" needs to be updated every tick, since isOnTarget() should return true if all conditions are met EVEN IF
-     * it's the first time being called.
+     * With the addition of a time threshold, "onTarget" needs to be updated every tick, since isOnTarget() should return
+     * true if all conditions are met EVEN IF it's the first time being called.
      * <p>
-     * While that's unlikely due to our command infrastructure, it's still possible, and the PID class should be able to handle that scenario.
+     * While that's unlikely due to our command infrastructure, it's still possible, and the PID class should be able to
+     * handle that scenario.
      * <p>
-     * As a result, this checkIsOnTarget method was added, which does all the onTarget calculations during every calculate() call. the isOnTarget() method just
-     * returns a stored class-level variable.
+     * As a result, this checkIsOnTarget method was added, which does all the onTarget calculations during every calculate()
+     * call. the isOnTarget() method just returns a stored class-level variable.
      */
     private void checkIsOnTarget() {
         if (!checkErrorThreshold && !checkDerivativeThreshold && !checkTimeThreshold) {
@@ -254,8 +261,9 @@ public class PID {
     }
 
     /**
-     * Returns an enum explaining the reason the PID is not on target. It has the following priority list if there are multiple reasons (higher ones overrule
-     * lower ones): - Too much error - Too much derivative - Waiting for time stability - On Target
+     * Returns an enum explaining the reason the PID is not on target. It has the following priority list if there are
+     * multiple reasons (higher ones overrule lower ones): - Too much error - Too much derivative - Waiting for time
+     * stability - On Target
      *
      * @return The reason the PID is not on target.
      */
@@ -263,11 +271,19 @@ public class PID {
         return offTargetReason;
     }
 
-    public double getPContribution() { return m_lastPContribution; }
+    public double getPContribution() {
+        return m_lastPContribution;
+    }
 
-    public double getIContribution() { return m_lastIContribution; }
+    public double getIContribution() {
+        return m_lastIContribution;
+    }
 
-    public double getDContribution() { return m_lastDContribution; }
+    public double getDContribution() {
+        return m_lastDContribution;
+    }
 
-    public double getFContribution() { return m_lastFContribution; }
+    public double getFContribution() {
+        return m_lastFContribution;
+    }
 }

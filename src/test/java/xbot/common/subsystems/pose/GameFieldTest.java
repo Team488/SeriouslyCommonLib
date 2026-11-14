@@ -1,6 +1,6 @@
 package xbot.common.subsystems.pose;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.wpilib.fields.Fields;
 import org.wpilib.math.geometry.Pose2d;
@@ -9,8 +9,8 @@ import org.wpilib.math.geometry.Translation2d;
 
 import xbot.common.injection.BaseCommonLibTest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.wpilib.units.Units.Meters;
 
 public class GameFieldTest extends BaseCommonLibTest {
@@ -92,7 +92,6 @@ public class GameFieldTest extends BaseCommonLibTest {
         assertEquals(-179, mirroredPose.getRotation().getDegrees(), 0.001);
     }
 
-
     @Test
     public void testGetFieldWidth_mirroredField() {
         var fieldLayout = Fields.FRC_2024_CRESCENDO;
@@ -152,8 +151,7 @@ public class GameFieldTest extends BaseCommonLibTest {
         assertEquals(179, gameField.getMirroredRotation(Rotation2d.fromDegrees(1)).getDegrees(), 0.001);
         assertEquals(90, gameField.getMirroredRotation(Rotation2d.fromDegrees(90)).getDegrees(), 0.001);
         assertEquals(0, gameField.getMirroredRotation(Rotation2d.fromDegrees(180)).getDegrees(), 0.001);
-        assertEquals(Rotation2d.fromDegrees(270).getDegrees(),
-                gameField.getMirroredRotation(Rotation2d.fromDegrees(-90)).getDegrees(), 0.001);
+        assertEquals(Rotation2d.fromDegrees(270).getDegrees(), gameField.getMirroredRotation(Rotation2d.fromDegrees(-90)).getDegrees(), 0.001);
     }
 
     @Test

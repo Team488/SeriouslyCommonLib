@@ -16,8 +16,7 @@ public class XGyroIoInputs {
     public AngularVelocity yawAngularVelocity = RadiansPerSecond.zero();
     public Angle pitch = Radians.zero();
     public Angle roll = Radians.zero();
-    public LinearAcceleration[] acceleration = new LinearAcceleration[] {
-            MetersPerSecondPerSecond.zero(), MetersPerSecondPerSecond.zero(), MetersPerSecondPerSecond.zero()
-    };
+    public LinearAcceleration[] acceleration = new LinearAcceleration[] { MetersPerSecondPerSecond.zero(), MetersPerSecondPerSecond.zero(),
+            MetersPerSecondPerSecond.zero() };
     public boolean isConnected = false;
 }

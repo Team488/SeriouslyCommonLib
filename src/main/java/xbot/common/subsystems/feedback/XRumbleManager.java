@@ -10,8 +10,11 @@ public interface XRumbleManager {
 
     /**
      * Rumbles the gamepad at the specified intensity for the given duration.
-     * @param intensity Rumble intensity, between 0 and 1.
-     * @param length Rumble duration, in seconds
+     *
+     * @param intensity
+     *            Rumble intensity, between 0 and 1.
+     * @param length
+     *            Rumble duration, in seconds
      */
     void rumbleGamepad(double intensity, double length);
 
@@ -22,6 +25,7 @@ public interface XRumbleManager {
 
     /**
      * Gets the current rumble state.
+     *
      * @return true if the gamepad is currently rumbling.
      */
     boolean getIsRumbling();

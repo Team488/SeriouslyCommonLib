@@ -10,15 +10,17 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import xbot.common.properties.TunableManager;
 
 /**
- * A {@link LogDataReceiver} that wraps {@link NT4Publisher} and skips any LogTable entry
- * under the {@link TunableManager#AKIT_LOG_NAMESPACE} subtable.
+ * A {@link LogDataReceiver} that wraps {@link NT4Publisher} and skips any LogTable entry under the
+ * {@link TunableManager#AKIT_LOG_NAMESPACE} subtable.
  *
- * <p>Tunable values are routed through that subtable so the on-disk WPILOG receiver still
- * captures them (replay correctness), but the live NetworkTables surface stays clean —
- * dashboards see editable values through WPILib's {@code /Tunables/...} table.
+ * <p>
+ * Tunable values are routed through that subtable so the on-disk WPILOG receiver still captures them (replay
+ * correctness), but the live NetworkTables surface stays clean — dashboards see editable values through WPILib's
+ * {@code /Tunables/...} table.
  *
- * <p>All other keys (subsystem telemetry, {@code aKitLog.record(...)} outputs, system stats,
- * driver-station data, etc.) flow through unchanged.
+ * <p>
+ * All other keys (subsystem telemetry, {@code aKitLog.record(...)} outputs, system stats, driver-station data, etc.)
+ * flow through unchanged.
  */
 public class TunableSkippingNT4Publisher implements LogDataReceiver {
 
