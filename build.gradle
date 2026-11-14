@@ -144,6 +144,12 @@ tasks.withType(Test) {
     }
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
 checkstyle {
     toolVersion = '10.6.0'
     configFile = file('./xbotcheckstyle.xml')
