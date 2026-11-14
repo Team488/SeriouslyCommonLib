@@ -45,10 +45,15 @@ jobs:
           # Only main writes the cache so PR branches can't pollute it.
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
-      # build = compile + spotlessCheck + checkstyle + tests + JaCoCo report
-      - name: Build
-        run: ./gradlew build --stacktrace --console=plain
-        shell: bash
+      - parallel:
+          # build = compile + checkstyle + tests + JaCoCo report
+          - name: Build
+            run: ./gradlew build --stacktrace -x spotlessCheck --console=plain
+            shell: bash
+          # build = spotlessCheck report
+          - name: Formatting (Spotless) Only Check
+            run: ./gradlew spotlessCheck --stacktrace --console=plain
+            shell: bash
 
       - name: Publish test results
         # The default variant of this action is a Linux-only Docker action; use the Windows one.
