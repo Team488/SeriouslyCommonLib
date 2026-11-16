@@ -86,7 +86,7 @@ All commands use the Gradle wrapper from the repository root.
 |---|---|---|
 | Custom library classes | `X` prefix | `XGyro`, `XEncoder`, `XCANMotorController` |
 | Base/abstract classes | `Base` prefix | `BaseCommand`, `BaseSubsystem`, `BaseRobot` |
-| Mock/test implementations | `Mock` prefix | `MockGyro`, `MockTimer` |
+| Mock/test implementations | `Mock` prefix | `MockGyro`, `MockLaserCAN` |
 | WPILib adapter classes | `*WpiAdapter` suffix | `PowerDistributionPanelWPIAdapter` |
 | Interfaces | `I` prefix (optional) | `ITableProxy` |
 | Packages | all lowercase, dots allowed | `xbot.common.math` |
@@ -170,8 +170,9 @@ through the abstract base class and inject the concrete implementation via Dagge
 - All tests extend `BaseWPITest` (located in `xbot.common.injection`) and implement
   `createDaggerComponent()` to provide a Dagger component wired with mock modules.
 - Tests are plain JUnit 4 (`@Test`, `@Before`, `@After`).
-- The `MockTimer` (injected as `timer` in `BaseWPITest`) controls simulated time; advance it
-  manually where time-dependent logic is tested.
+- `BaseWPITest` pauses WPILib's simulated clock; advance it with `SimHooks.stepTiming(seconds)` where
+  time-dependent logic is tested. The clock does not start at zero, so measure time relative to a
+  timestamp captured in the test.
 - Test classes live in `src/test/java/` mirroring the package of the class under test.
 - Aim for unit tests that do not require hardware, network, or file I/O.
 

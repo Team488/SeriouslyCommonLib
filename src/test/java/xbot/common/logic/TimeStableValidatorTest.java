@@ -3,6 +3,8 @@ package xbot.common.logic;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.wpilib.simulation.SimHooks;
+
 import xbot.common.injection.BaseCommonLibTest;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -24,11 +26,11 @@ public class TimeStableValidatorTest extends BaseCommonLibTest {
         boolean result = tsv.checkStable(true);
         assertFalse(result);
 
-        timer.advanceTimeInSecondsBy(0.5);
+        SimHooks.stepTiming(0.5);
         result = tsv.checkStable(true);
         assertFalse(result);
 
-        timer.advanceTimeInSecondsBy(0.6);
+        SimHooks.stepTiming(0.6);
         result = tsv.checkStable(true);
         assertTrue(result);
     }
@@ -46,15 +48,15 @@ public class TimeStableValidatorTest extends BaseCommonLibTest {
         boolean result = tsv.checkStable(true);
         assertFalse(result);
 
-        timer.advanceTimeInSecondsBy(0.5);
+        SimHooks.stepTiming(0.5);
         result = tsv.checkStable(false);
         assertFalse(result);
 
-        timer.advanceTimeInSecondsBy(0.6);
+        SimHooks.stepTiming(0.6);
         result = tsv.checkStable(true);
         assertFalse(result);
 
-        timer.advanceTimeInSecondsBy(1.1);
+        SimHooks.stepTiming(1.1);
         result = tsv.checkStable(true);
         assertTrue(result);
     }
@@ -64,7 +66,7 @@ public class TimeStableValidatorTest extends BaseCommonLibTest {
         boolean result = tsv.checkStable(true);
         assertFalse(result);
 
-        timer.advanceTimeInSecondsBy(1.1);
+        SimHooks.stepTiming(1.1);
         result = tsv.checkStable(true);
         assertTrue(result);
 
@@ -74,7 +76,7 @@ public class TimeStableValidatorTest extends BaseCommonLibTest {
         result = tsv.checkStable(true);
         assertFalse(result);
 
-        timer.advanceTimeInSecondsBy(1.1);
+        SimHooks.stepTiming(1.1);
         result = tsv.checkStable(true);
         assertTrue(result);
     }

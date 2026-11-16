@@ -2,7 +2,8 @@ package xbot.common.logic;
 
 import java.util.function.DoubleSupplier;
 
-import xbot.common.controls.sensors.XTimer;
+import org.wpilib.system.Timer;
+
 import xbot.common.logic.Latch.EdgeType;
 
 /**
@@ -40,7 +41,7 @@ public class TimeStableValidator {
 
     private void initialize() {
         latch = new Latch(false, EdgeType.RisingEdge);
-        latch.setObserver((e) -> risingEdgeTime = XTimer.getFPGATimestamp());
+        latch.setObserver((e) -> risingEdgeTime = Timer.getMonotonicTimestamp());
     }
 
     /**
@@ -79,7 +80,7 @@ public class TimeStableValidator {
      */
     public boolean checkStable(boolean value) {
         latch.setValue(value);
-        double duration = XTimer.getFPGATimestamp() - risingEdgeTime;
+        double duration = Timer.getMonotonicTimestamp() - risingEdgeTime;
         // if the value is true now, and has been for a while, it is stable.
         lastStableEvaluation = (duration > getStableWindow()) && value;
         return lastStableEvaluation;

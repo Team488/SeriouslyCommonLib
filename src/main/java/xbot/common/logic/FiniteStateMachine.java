@@ -3,7 +3,7 @@ package xbot.common.logic;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import xbot.common.controls.sensors.XTimer;
+import org.wpilib.system.Timer;
 
 /**
  * A small, reusable, polled finite state machine, intended to be ticked once per robot loop from a
@@ -211,16 +211,16 @@ public class FiniteStateMachine<StateT extends Enum<StateT> & FsmState<StateT, C
     }
 
     /**
-     * @return The number of seconds since the current state was entered, per {@link XTimer}.
+     * @return The number of seconds since the current state was entered, per {@link Timer}.
      */
     public double getTimeInState() {
-        return XTimer.getFPGATimestamp() - timeStateStart;
+        return Timer.getMonotonicTimestamp() - timeStateStart;
     }
 
     private void ensureInitialized(ContextT payload, FsmTransition<StateT> transition) {
         if (!initialized) {
             initialized = true;
-            timeStateStart = XTimer.getFPGATimestamp();
+            timeStateStart = Timer.getMonotonicTimestamp();
             currentState.enter(buildContext(payload), transition);
         }
     }
@@ -236,13 +236,13 @@ public class FiniteStateMachine<StateT extends Enum<StateT> & FsmState<StateT, C
         previousState = oldState;
         oldState.exit(buildContext(payload), transition);
         currentState = newState;
-        timeStateStart = XTimer.getFPGATimestamp();
+        timeStateStart = Timer.getMonotonicTimestamp();
         executionsInState = 0;
         currentState.enter(buildContext(payload), transition);
     }
 
     private FsmContext<ContextT> buildContext(ContextT payload) {
-        return new FsmContext<>(payload, executionsInState, XTimer.getFPGATimestamp() - timeStateStart);
+        return new FsmContext<>(payload, executionsInState, Timer.getMonotonicTimestamp() - timeStateStart);
     }
 
     /**

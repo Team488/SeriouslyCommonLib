@@ -1,12 +1,12 @@
 package xbot.common.logic;
 
+import org.wpilib.system.Timer;
 import org.wpilib.tunable.TunableDouble;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.TunableFactory;
 
 public class StallDetector {
@@ -94,7 +94,7 @@ public class StallDetector {
         boolean noMotion = noMotionValidator.checkStable(Math.abs(velocity) < littleMotionThreshold.get() && voltageCondition);
 
         if (currentOverLimit || noMotion) {
-            timeOfLastDetectedStall = XTimer.getFPGATimestamp();
+            timeOfLastDetectedStall = Timer.getMonotonicTimestamp();
             return StallState.STALLED;
         }
 
@@ -108,6 +108,6 @@ public class StallDetector {
     }
 
     public boolean wasStalledRecently() {
-        return XTimer.getFPGATimestamp() - timeOfLastDetectedStall < stallCoolDown.get();
+        return Timer.getMonotonicTimestamp() - timeOfLastDetectedStall < stallCoolDown.get();
     }
 }

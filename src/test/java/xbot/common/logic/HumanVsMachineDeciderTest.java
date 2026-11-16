@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.wpilib.simulation.DriverStationSim;
+import org.wpilib.simulation.SimHooks;
 
 import xbot.common.injection.BaseCommonLibTest;
 
@@ -43,9 +44,9 @@ public class HumanVsMachineDeciderTest extends BaseCommonLibTest {
         assertSame(HumanVsMachineState.MachineControl, decider.getRecommendedState(0), "Machine Control");
 
         assertSame(HumanVsMachineState.HumanControl, decider.getRecommendedState(1), "Human input brings us back out");
-        timer.advanceTimeInSecondsBy(0.01);
+        SimHooks.stepTiming(0.01);
         assertSame(HumanVsMachineState.Coast, decider.getRecommendedState(0.01), "Then we coast");
-        timer.advanceTimeInSecondsBy(1);
+        SimHooks.stepTiming(1);
         assertSame(HumanVsMachineState.InitializeMachineControl, decider.getRecommendedState(0), "Advance to initialize");
         assertSame(HumanVsMachineState.MachineControl, decider.getRecommendedState(0), "Machine Control");
     }
@@ -65,20 +66,20 @@ public class HumanVsMachineDeciderTest extends BaseCommonLibTest {
 
         assertSame(HumanVsMachineState.HumanControl, decider.getRecommendedState(1), "Human input brings us back out");
 
-        timer.advanceTimeInSecondsBy(0.1);
+        SimHooks.stepTiming(0.1);
         assertSame(HumanVsMachineState.Coast, decider.getRecommendedState(0), "Input stopped, start coasting");
 
-        timer.advanceTimeInSecondsBy(0.1);
+        SimHooks.stepTiming(0.1);
         assertSame(HumanVsMachineState.HumanControl, decider.getRecommendedState(1), "Fresh input mid-coast interrupts it and returns to human control");
 
         // Only 0.1s has elapsed since the renewed input above, well under the 0.3s default coast time. If the
         // coast timer hadn't actually restarted - e.g. still measuring from the very first burst of input,
         // 0.2s + 0.1s = 0.3s ago - this would incorrectly already be eligible to leave Coast.
-        timer.advanceTimeInSecondsBy(0.1);
+        SimHooks.stepTiming(0.1);
         assertSame(HumanVsMachineState.Coast, decider.getRecommendedState(0), "Still within the coast window measured from the renewed input");
 
         // Now push well past the coast window measured from the renewed input (0.1s + 0.3s = 0.4s total).
-        timer.advanceTimeInSecondsBy(0.3);
+        SimHooks.stepTiming(0.3);
         assertSame(HumanVsMachineState.InitializeMachineControl, decider.getRecommendedState(0), "Coast window (from the renewed input) has elapsed");
         assertSame(HumanVsMachineState.MachineControl, decider.getRecommendedState(0), "Back to machine control");
     }
@@ -100,7 +101,7 @@ public class HumanVsMachineDeciderTest extends BaseCommonLibTest {
 
         // Advance well past the default 0.3s coast time before the next poll, rather than advancing by less
         // than it (as testStandardPath does) - simulating a gap longer than the coast window itself.
-        timer.advanceTimeInSecondsBy(1);
+        SimHooks.stepTiming(1);
         assertSame(HumanVsMachineState.InitializeMachineControl, decider.getRecommendedState(0), "Grace period already elapsed; skip straight past Coast");
         assertSame(HumanVsMachineState.MachineControl, decider.getRecommendedState(0), "Machine Control");
     }

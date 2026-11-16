@@ -3,13 +3,13 @@ package xbot.common.subsystems.drive.control_logic;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import org.wpilib.system.Timer;
 import org.wpilib.tunable.TunableDouble;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.TunableFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
@@ -109,13 +109,13 @@ public class HeadingAssistModule {
         // Also, update a timestamp that says this happened recently
         if (Math.abs(humanRotationalPower) > humanThreshold.get()) {
             inAutomaticMode = false;
-            lastHumanInput = XTimer.getFPGATimestamp();
+            lastHumanInput = Timer.getMonotonicTimestamp();
             return humanRotationalPower;
         }
 
         // If not under threshold, but too close to timestamp,
         // "coast"
-        double timeSinceHumanInput = XTimer.getFPGATimestamp() - lastHumanInput;
+        double timeSinceHumanInput = Timer.getMonotonicTimestamp() - lastHumanInput;
 
         if (timeSinceHumanInput < coastTime.get()) {
             return 0;

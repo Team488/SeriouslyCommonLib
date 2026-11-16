@@ -4,10 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.wpilib.hardware.bus.CANPort;
+import org.wpilib.simulation.SimHooks;
 
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
-import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.math.PIDManager;
@@ -44,7 +44,7 @@ public class HeadingModuleTest extends BaseCommonLibTest {
 
         ((MockBasePoseSubsystem) pose).setDriveMotors(left, right);
 
-        ((MockTimer) getInjectorComponent().timerImplementation()).advanceTimeInSecondsBy(10);
+        SimHooks.stepTiming(10);
         pose.periodic();
 
     }

@@ -3,7 +3,8 @@ package xbot.common.math;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import xbot.common.controls.sensors.mock_adapters.MockTimer;
+import org.wpilib.simulation.SimHooks;
+
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.logging.assertion.RobotAssertionException;
 import xbot.common.math.PID.OffTargetReason;
@@ -17,13 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PIDManagerTest extends BaseCommonLibTest {
 
     PIDManagerFactory factory;
-    MockTimer mockTimer;
 
     @BeforeEach
     public void setUp() {
         super.setUp();
         factory = getInjectorComponent().pidFactory();
-        mockTimer = (MockTimer) getInjectorComponent().timerImplementation();
     }
 
     @Test
@@ -219,12 +218,12 @@ public class PIDManagerTest extends BaseCommonLibTest {
         assertFalse(manager.isOnTarget());
 
         // advance time a little bit, but not the full second, so should still be off target
-        mockTimer.setTimeInSeconds(.75);
+        SimHooks.stepTiming(0.75);
         manager.calculate(100, 100);
         assertFalse(manager.isOnTarget());
 
         // advance time past the 1 second mark, so should finally report on target.
-        mockTimer.setTimeInSeconds(1.1);
+        SimHooks.stepTiming(0.35);
         manager.calculate(100, 100);
         assertTrue(manager.isOnTarget());
     }
@@ -240,7 +239,7 @@ public class PIDManagerTest extends BaseCommonLibTest {
         // Get within error threshold, and for some time
         manager.calculate(100, 100);
         assertEquals(OffTargetReason.NotTimeStable, manager.getOffTargetReason());
-        mockTimer.setTimeInSeconds(1.5);
+        SimHooks.stepTiming(1.5);
         manager.calculate(100, 100);
         assertTrue(manager.isOnTarget());
         assertEquals(OffTargetReason.OnTarget, manager.getOffTargetReason());
@@ -256,7 +255,7 @@ public class PIDManagerTest extends BaseCommonLibTest {
         assertEquals(OffTargetReason.NotTimeStable, manager.getOffTargetReason());
 
         // then wait a bit
-        mockTimer.setTimeInSeconds(3.0);
+        SimHooks.stepTiming(1.5);
         manager.calculate(100, 100);
         assertTrue(manager.isOnTarget());
         assertEquals(OffTargetReason.OnTarget, manager.getOffTargetReason());

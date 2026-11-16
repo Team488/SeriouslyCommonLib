@@ -7,8 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.simulation.SimHooks;
+import org.wpilib.system.Timer;
 
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.BaseCommonLibTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -211,14 +212,14 @@ public class FiniteStateMachineReadMeExampleTest extends BaseCommonLibTest {
     /**
      * Ticks a freshly-{@code initialize()}'d command at 50Hz until {@code isFinished()}, recording how long it spent in
      * each state along the way. This is deliberately measured against an independent clock (state-name transitions
-     * timestamped via {@link XTimer}) rather than by reading {@code cmd.fsm.getTimeInState()}: that keeps this check honest
+     * timestamped via {@link Timer}) rather than by reading {@code cmd.fsm.getTimeInState()}: that keeps this check honest
      * even against a bug in {@code getTimeInState()} itself, such as a reset that doesn't fire on every transition.
      */
     private List<Phase> runToCompletion(CalibrateDriveCommand cmd) {
         List<Phase> phases = new ArrayList<>();
         cmd.initialize();
         String currentPhase = null;
-        double phaseStart = XTimer.getFPGATimestamp();
+        double phaseStart = Timer.getMonotonicTimestamp();
 
         for (int tick = 0; tick < MAX_TICKS; tick++) {
             cmd.execute();
@@ -226,15 +227,15 @@ public class FiniteStateMachineReadMeExampleTest extends BaseCommonLibTest {
             if (currentPhase == null) {
                 currentPhase = observed;
             } else if (!observed.equals(currentPhase)) {
-                phases.add(new Phase(currentPhase, XTimer.getFPGATimestamp() - phaseStart));
+                phases.add(new Phase(currentPhase, Timer.getMonotonicTimestamp() - phaseStart));
                 currentPhase = observed;
-                phaseStart = XTimer.getFPGATimestamp();
+                phaseStart = Timer.getMonotonicTimestamp();
             }
             if (cmd.isFinished()) {
-                phases.add(new Phase(currentPhase, XTimer.getFPGATimestamp() - phaseStart));
+                phases.add(new Phase(currentPhase, Timer.getMonotonicTimestamp() - phaseStart));
                 return phases;
             }
-            timer.advanceTimeInSecondsBy(LOOP_PERIOD_SECONDS);
+            SimHooks.stepTiming(LOOP_PERIOD_SECONDS);
         }
         throw new AssertionError("Calibration never finished; stuck in " + currentPhase);
     }
@@ -267,7 +268,7 @@ public class FiniteStateMachineReadMeExampleTest extends BaseCommonLibTest {
         for (int tick = 0; tick < 50; tick++) {
             cmd.execute();
             cmd.drive.advanceAllModulePositionsBy(1.0);
-            timer.advanceTimeInSecondsBy(LOOP_PERIOD_SECONDS);
+            SimHooks.stepTiming(LOOP_PERIOD_SECONDS);
         }
 
         assertEquals(150.0, cmd.drive.frontLeft.driveMotorPosition, 1e-9, "the modules should have crept");
@@ -333,23 +334,23 @@ public class FiniteStateMachineReadMeExampleTest extends BaseCommonLibTest {
         assertEquals(0.0, cmd.drive.lastCommandedSpeed(), 1e-9);
         assertTrue(cmd.deltaLogs.isEmpty(), "the align phase should not be logging deltas yet");
 
-        timer.advanceTimeInSecondsBy(2.5);
+        SimHooks.stepTiming(2.5);
         cmd.execute();
         assertEquals(CalibrationState.DriveForwardForTime, cmd.fsm.getCurrentState());
         assertEquals(0.0, cmd.drive.lastCommandedSpeed(), 1e-9, "AlignModulesAndWait's body finished before it asked for the transition");
         assertTrue(cmd.deltaLogs.isEmpty(), "DriveForwardForTime's body has not run yet");
 
-        timer.advanceTimeInSecondsBy(LOOP_PERIOD_SECONDS);
+        SimHooks.stepTiming(LOOP_PERIOD_SECONDS);
         cmd.execute();
         assertEquals(1.5, cmd.drive.lastCommandedSpeed(), 1e-9);
         assertFalse(cmd.deltaLogs.isEmpty(), "the driving phase should be logging deltas");
 
-        timer.advanceTimeInSecondsBy(8.5);
+        SimHooks.stepTiming(8.5);
         cmd.execute();
         assertEquals(CalibrationState.DecelerateAndWait, cmd.fsm.getCurrentState());
         assertEquals(1.5, cmd.drive.lastCommandedSpeed(), 1e-9, "same rule on the way out - this tick ran DriveForwardForTime's body first");
 
-        timer.advanceTimeInSecondsBy(LOOP_PERIOD_SECONDS);
+        SimHooks.stepTiming(LOOP_PERIOD_SECONDS);
         cmd.execute();
         assertEquals(0.0, cmd.drive.lastCommandedSpeed(), 1e-9);
     }
@@ -359,16 +360,18 @@ public class FiniteStateMachineReadMeExampleTest extends BaseCommonLibTest {
     public void isFinishedOnlyOnceFinalAnalysisIsReached() {
         CalibrateDriveCommand cmd = new CalibrateDriveCommand();
         cmd.initialize();
+        double startTime = Timer.getMonotonicTimestamp();
 
         for (int tick = 0; tick < MAX_TICKS; tick++) {
             cmd.execute();
             if (cmd.isFinished()) {
                 assertEquals(CalibrationState.FinalAnalysis, cmd.fsm.getCurrentState());
-                assertEquals(15.0, XTimer.getFPGATimestamp(), DURATION_TOLERANCE_SECONDS);
+                // Three timed states, each with its own tick of slack.
+                assertEquals(15.0, Timer.getMonotonicTimestamp() - startTime, 3 * DURATION_TOLERANCE_SECONDS);
                 return;
             }
             assertFalse(cmd.fsm.isInState(CalibrationState.FinalAnalysis));
-            timer.advanceTimeInSecondsBy(LOOP_PERIOD_SECONDS);
+            SimHooks.stepTiming(LOOP_PERIOD_SECONDS);
         }
         throw new AssertionError("isFinished() never became true");
     }

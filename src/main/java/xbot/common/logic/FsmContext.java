@@ -13,7 +13,7 @@ package xbot.common.logic;
  *            The number of times {@link FiniteStateMachine#execute(Object)} has run against the current state,
  *            including this call. Reset to zero whenever the state changes.
  * @param timeInState
- *            The number of seconds since the current state was entered, per {@code XTimer}. Reset to zero whenever the
+ *            The number of seconds since the current state was entered, per {@code Timer}. Reset to zero whenever the
  *            state changes.
  * @param <ContextT>
  *            The type of the payload.

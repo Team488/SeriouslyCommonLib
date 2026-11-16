@@ -4,10 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.wpilib.hardware.bus.CANPort;
+import org.wpilib.simulation.SimHooks;
 
 import xbot.common.controls.actuators.XCANMotorController;
 import xbot.common.controls.sensors.mock_adapters.MockGyro;
-import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 import xbot.common.subsystems.drive.control_logic.HeadingAssistModule;
@@ -42,7 +42,7 @@ public class HeadingAssistModuleTest extends BaseCommonLibTest {
 
         ((MockBasePoseSubsystem) pose).setDriveMotors(left, right);
 
-        ((MockTimer) getInjectorComponent().timerImplementation()).advanceTimeInSecondsBy(10);
+        SimHooks.stepTiming(10);
         getInjectorComponent().dataFrameRegistry().refreshAll();
         pose.periodic();
 
@@ -144,7 +144,7 @@ public class HeadingAssistModuleTest extends BaseCommonLibTest {
     private void step3_timePasses() {
 
         // time passes, this should "set" the desired angle
-        timer.advanceTimeInSecondsBy(1);
+        SimHooks.stepTiming(1);
         double power = ham.calculateHeadingPower(0);
         assertEquals(0, power, 0.001);
     }

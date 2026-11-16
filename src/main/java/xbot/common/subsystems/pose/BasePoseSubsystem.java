@@ -3,6 +3,7 @@ package xbot.common.subsystems.pose;
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.util.MathUtil;
+import org.wpilib.system.Timer;
 import org.wpilib.tunable.TunableBoolean;
 import org.wpilib.tunable.TunableDouble;
 import org.wpilib.units.measure.Angle;
@@ -10,7 +11,6 @@ import org.wpilib.units.measure.Angle;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
 import xbot.common.properties.TunableFactory;
@@ -57,7 +57,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
         log.info("Creating");
         tunableFactory.setPrefix(this);
         imu = gyro;
-        this.classInstantiationTime = XTimer.getFPGATimestamp();
+        this.classInstantiationTime = Timer.getMonotonicTimestamp();
 
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
@@ -189,7 +189,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
         headingOffset = -rawHeading + headingInDegrees;
         //log.info("Offset calculated to be: " + headingOffset);
 
-        lastSetHeadingTime = XTimer.getFPGATimestamp();
+        lastSetHeadingTime = Timer.getMonotonicTimestamp();
     }
 
     public void setCurrentPosition(double newXPosition, double newYPosition) {
@@ -199,7 +199,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     }
 
     public boolean getHeadingResetRecently() {
-        return XTimer.getFPGATimestamp() - lastSetHeadingTime < 1;
+        return Timer.getMonotonicTimestamp() - lastSetHeadingTime < 1;
     }
 
     /**
@@ -264,7 +264,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
 
     @Override
     public void periodic() {
-        if (!isNavXReady && (classInstantiationTime + 1 < XTimer.getFPGATimestamp())) {
+        if (!isNavXReady && (classInstantiationTime + 1 < Timer.getMonotonicTimestamp())) {
             setCurrentHeading(FACING_AWAY_FROM_DRIVERS);
             isNavXReady = true;
         }

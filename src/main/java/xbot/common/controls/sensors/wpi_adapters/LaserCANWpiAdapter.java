@@ -9,9 +9,8 @@ package xbot.common.controls.sensors.wpi_adapters;
  * import dagger.assisted.Assisted; import dagger.assisted.AssistedFactory; import dagger.assisted.AssistedInject;
  *
  * import xbot.common.command.DataFrameRegistry; import xbot.common.controls.io_inputs.LaserCANInputs; import
- * xbot.common.controls.sensors.XLaserCAN; import xbot.common.controls.sensors.XTimer; import
- * xbot.common.injection.DevicePolice; import xbot.common.injection.electrical_contract.DeviceInfo; import
- * xbot.common.logging.AlertGroups;
+ * xbot.common.controls.sensors.XLaserCAN; import org.wpilib.system.Timer; import xbot.common.injection.DevicePolice;
+ * import xbot.common.injection.electrical_contract.DeviceInfo; import xbot.common.logging.AlertGroups;
  *
  * import static org.wpilib.units.Units.Meters; import static org.wpilib.units.Units.Seconds;
  *
@@ -41,8 +40,8 @@ package xbot.common.controls.sensors.wpi_adapters;
  * @Override public void updateInputs(LaserCANInputs inputs) { LaserCanInterface.Measurement measurement =
  * laserCan.getMeasurement(); if (measurement != null && measurement.status ==
  * LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) { inputs.distance = Meters.of(measurement.distance_mm / 1000.0); if
- * (!inputs.distance.isEquivalent(previousMeasurement)) { previousMeasurementTime = XTimer.getFPGATimestampTime();
- * previousMeasurement = inputs.distance; } inputs.measurementLatency =
- * XTimer.getFPGATimestampTime().minus(previousMeasurementTime); inputs.isMeasurementValid = true; } else {
+ * (!inputs.distance.isEquivalent(previousMeasurement)) { previousMeasurementTime =
+ * Seconds.of(Timer.getMonotonicTimestamp()); previousMeasurement = inputs.distance; } inputs.measurementLatency =
+ * Seconds.of(Timer.getMonotonicTimestamp()).minus(previousMeasurementTime); inputs.isMeasurementValid = true; } else {
  * inputs.distance = Meters.zero(); inputs.measurementLatency = Seconds.zero(); inputs.isMeasurementValid = false; } } }
  */
