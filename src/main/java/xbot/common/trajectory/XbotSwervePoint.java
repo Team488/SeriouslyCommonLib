@@ -8,6 +8,10 @@ import org.wpilib.math.geometry.Translation2d;
 
 import xbot.common.subsystems.drive.SwervePointKinematics;
 
+/**
+ * @deprecated Path planning and path following are moving to PathPlanner. This will be removed in a future release.
+ */
+@Deprecated
 public class XbotSwervePoint implements ProvidesInterpolationData {
 
     public Pose2d keyPose;

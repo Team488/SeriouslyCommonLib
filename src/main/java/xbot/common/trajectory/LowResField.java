@@ -13,7 +13,10 @@ import org.wpilib.math.geometry.Translation2d;
 
 /**
  * Represents a simple version of the field, with Axis-Aligned Bounding Boxes representing no-go zones due to obstacles.
+ *
+ * @deprecated Path planning and path following are moving to PathPlanner. This will be removed in a future release.
  */
+@Deprecated
 public class LowResField implements ProvidesWaypoints {
 
     List<Obstacle> obstacles;

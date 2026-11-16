@@ -25,6 +25,10 @@ import xbot.common.subsystems.drive.control_logic.HeadingModule;
 import static org.wpilib.units.Units.Meters;
 import static org.wpilib.units.Units.Seconds;
 
+/**
+ * @deprecated Path planning and path following are moving to PathPlanner. This will be removed in a future release.
+ */
+@Deprecated
 public class SwerveSimpleBezierLogic {
 
     Logger log = LogManager.getLogger(this.getClass());

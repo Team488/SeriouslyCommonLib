@@ -15,6 +15,10 @@ import xbot.common.subsystems.drive.control_logic.HeadingModule.HeadingModuleFac
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.trajectory.SwerveSimpleTrajectoryLogic;
 
+/**
+ * @deprecated Path planning and path following are moving to PathPlanner. This will be removed in a future release.
+ */
+@Deprecated
 public class SwerveSimpleTrajectoryCommand extends BaseCommand {
 
     protected BaseSwerveDriveSubsystem drive;

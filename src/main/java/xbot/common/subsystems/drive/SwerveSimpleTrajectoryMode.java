@@ -2,7 +2,10 @@ package xbot.common.subsystems.drive;
 
 /**
  * Different ways to input values for SwerveSimpleTrajectoryCommand
+ *
+ * @deprecated Path planning and path following are moving to PathPlanner. This will be removed in a future release.
  */
+@Deprecated
 public enum SwerveSimpleTrajectoryMode {
 
     /**

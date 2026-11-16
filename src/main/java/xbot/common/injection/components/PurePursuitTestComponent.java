@@ -13,9 +13,12 @@ import xbot.common.subsystems.drive.ConfigurablePurePursuitCommand;
 
 /**
  * Do not use this directly. Use auto-generated class DaggerUnitTestComponent.
+ *
+ * @deprecated Path planning and path following are moving to PathPlanner. This will be removed in a future release.
  */
 @Singleton
 @Component(modules = { UnitTestModule.class, MockDevicesModule.class, MockControlsModule.class, UnitTestRobotModule.class, DefaultVisionModule.class })
+@Deprecated
 public abstract class PurePursuitTestComponent extends BaseComponent {
     public abstract ConfigurablePurePursuitCommand configurablePurePursuitCommand();
 }
