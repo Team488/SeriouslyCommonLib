@@ -5,6 +5,10 @@ import java.awt.geom.Rectangle2D;
 
 import org.wpilib.math.geometry.Translation2d;
 
+/**
+ * @deprecated Path planning and path following are moving to PathPlanner. This will be removed in a future release.
+ */
+@Deprecated
 public class Obstacle extends Rectangle2D.Double {
 
     private static final long serialVersionUID = 1L;

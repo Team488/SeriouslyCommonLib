@@ -11,6 +11,10 @@ import xbot.common.properties.TunableFactory;
 import xbot.common.subsystems.drive.control_logic.HeadingModule.HeadingModuleFactory;
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 
+/**
+ * @deprecated Path planning and path following are moving to PathPlanner. This will be removed in a future release.
+ */
+@Deprecated
 public class ConfigurablePurePursuitCommand extends PurePursuitCommand {
     private List<RabbitPoint> originalPoints;
     private PointLoadingMode mode;
