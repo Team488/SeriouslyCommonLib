@@ -1,8 +1,7 @@
 package xbot.common.logic;
 
 import org.wpilib.driverstation.RobotState;
-
-import xbot.common.controls.sensors.XTimer;
+import org.wpilib.system.Timer;
 
 /**
  * The states of {@link HumanVsMachineDecider}'s internal state machine, in the order control moves through them:
@@ -47,7 +46,7 @@ public enum HumanVsMachineState implements FsmState<HumanVsMachineState, HumanVs
             if (Math.abs(payload.humanInput()) > payload.deadband()) {
                 return; // still actively controlled this tick; the beforeHook keeps re-asserting this state
             }
-            if (XTimer.getFPGATimestamp() - payload.lastHumanTime() < payload.coastTime()) {
+            if (Timer.getMonotonicTimestamp() - payload.lastHumanTime() < payload.coastTime()) {
                 transition.transitionTo(Coast);
             } else {
                 transition.transitionTo(InitializeMachineControl);
@@ -58,7 +57,7 @@ public enum HumanVsMachineState implements FsmState<HumanVsMachineState, HumanVs
         @Override
         public void execute(FsmContext<HumanVsMachinePayload> context, FsmTransition<HumanVsMachineState> transition) {
             var payload = context.payload();
-            if (XTimer.getFPGATimestamp() - payload.lastHumanTime() >= payload.coastTime()) {
+            if (Timer.getMonotonicTimestamp() - payload.lastHumanTime() >= payload.coastTime()) {
                 transition.transitionTo(InitializeMachineControl);
             }
         }

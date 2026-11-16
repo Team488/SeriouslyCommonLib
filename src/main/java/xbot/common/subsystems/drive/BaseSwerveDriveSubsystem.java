@@ -14,13 +14,13 @@ import org.wpilib.math.geometry.Translation2d;
 import org.wpilib.math.kinematics.ChassisVelocities;
 import org.wpilib.math.kinematics.SwerveDriveKinematics;
 import org.wpilib.math.kinematics.SwerveModuleVelocity;
+import org.wpilib.system.Timer;
 import org.wpilib.tunable.TunableDouble;
 import org.wpilib.units.measure.LinearAcceleration;
 
 import xbot.common.advantage.AKitLogger;
 import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.swerve.SwerveComponent;
 import xbot.common.math.PIDDefaults;
 import xbot.common.math.PIDManager;
@@ -430,7 +430,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
             lastCommandedRotation = rotate;
         }
 
-        lastMoveCallTime = XTimer.getFPGATimestamp();
+        lastMoveCallTime = Timer.getMonotonicTimestamp();
     }
 
     public void setActivateBrakeOverride(boolean activateBrakeOverride) {

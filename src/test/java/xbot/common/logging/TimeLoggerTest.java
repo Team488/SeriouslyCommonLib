@@ -3,6 +3,8 @@ package xbot.common.logging;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.wpilib.simulation.SimHooks;
+
 import xbot.common.injection.BaseCommonLibTest;
 
 public class TimeLoggerTest extends BaseCommonLibTest {
@@ -21,20 +23,20 @@ public class TimeLoggerTest extends BaseCommonLibTest {
     public void simpleTest() {
         tl.start();
 
-        timer.advanceTimeInSecondsBy(2);
+        SimHooks.stepTiming(2);
         tl.stop();
     }
 
     @Test
     public void testMultipleMeasurements() {
         tl.start();
-        timer.advanceTimeInSecondsBy(0.25);
+        SimHooks.stepTiming(0.25);
         tl.stop();
 
-        timer.advanceTimeInSecondsBy(1);
+        SimHooks.stepTiming(1);
 
         tl.start();
-        timer.advanceTimeInSecondsBy(0.75);
+        SimHooks.stepTiming(0.75);
         tl.stop();
     }
 

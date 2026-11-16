@@ -3,6 +3,8 @@ package xbot.common.subsystems.pose.commands;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.wpilib.simulation.SimHooks;
+
 import xbot.common.subsystems.pose.BasePoseSubsystem;
 import xbot.common.subsystems.pose.BasePoseTest;
 
@@ -18,7 +20,7 @@ public class SetRobotHeadingCommandTest extends BasePoseTest {
 
     @Test
     public void testSetHeading() {
-        mockTimer.setTimeInSeconds(mockTimer.getFPGATimestamp() + 1);
+        SimHooks.stepTiming(1);
         verifyRobotHeading(BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS);
 
         setHeading.setHeadingToApply(74);
@@ -31,7 +33,7 @@ public class SetRobotHeadingCommandTest extends BasePoseTest {
 
     @Test
     public void testSetHeadingLargeValues() {
-        mockTimer.setTimeInSeconds(2);
+        SimHooks.stepTiming(2);
         verifyRobotHeading(BasePoseSubsystem.FACING_AWAY_FROM_DRIVERS);
 
         setHeading.setHeadingToApply(361);

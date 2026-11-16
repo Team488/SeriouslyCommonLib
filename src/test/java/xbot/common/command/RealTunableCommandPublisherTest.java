@@ -8,8 +8,6 @@ import org.wpilib.tunable.MockTunableBackend;
 import org.wpilib.tunable.TunableRegistry;
 import org.wpilib.tunable.Tunables;
 
-import xbot.common.controls.sensors.XTimer;
-import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.logging.assertion.RobotAssertionHandler;
 import xbot.common.logging.assertion.RobotAssertionManager;
 
@@ -26,7 +24,6 @@ public class RealTunableCommandPublisherTest {
         TunableRegistry.reset();
         tunableBackend = new MockTunableBackend();
         TunableRegistry.registerBackend("", tunableBackend);
-        XTimer.setImplementation(new MockTimer());
     }
 
     @AfterEach

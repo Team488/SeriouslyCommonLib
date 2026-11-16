@@ -2,13 +2,13 @@ package xbot.common.subsystems.feedback;
 
 import org.wpilib.driverstation.GenericHID;
 import org.wpilib.driverstation.GenericHID.RumbleType;
+import org.wpilib.system.Timer;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XJoystick;
-import xbot.common.controls.sensors.XTimer;
 
 /**
  * Wrappers around gamepad rumble behavior to control intensity and duration.
@@ -41,7 +41,7 @@ public class RumbleManager implements XRumbleManager {
 
     public void rumbleGamepad(double intensity, double length) {
         writeRumble(gamepad, intensity);
-        lastRequestEndTime = XTimer.getFPGATimestamp() + length;
+        lastRequestEndTime = Timer.getMonotonicTimestamp() + length;
     }
 
     public boolean getIsRumbling() {
@@ -49,7 +49,7 @@ public class RumbleManager implements XRumbleManager {
     }
 
     public void periodic() {
-        if (isRumbling && lastRequestEndTime > 0 && XTimer.getFPGATimestamp() > lastRequestEndTime) {
+        if (isRumbling && lastRequestEndTime > 0 && Timer.getMonotonicTimestamp() > lastRequestEndTime) {
             writeRumble(gamepad, 0);
             lastRequestEndTime = -1;
             isRumbling = false;

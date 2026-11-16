@@ -1,8 +1,8 @@
 package xbot.common.command;
 
+import org.wpilib.system.Timer;
 import org.wpilib.tunable.TunableDouble;
 
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.TunableFactory;
 
 /**
@@ -24,7 +24,7 @@ public abstract class BaseWaitForMaintainerCommand extends BaseCommand {
 
     @Override
     public void initialize() {
-        this.startTime = XTimer.getFPGATimestamp();
+        this.startTime = Timer.getMonotonicTimestamp();
     }
 
     @Override
@@ -38,6 +38,6 @@ public abstract class BaseWaitForMaintainerCommand extends BaseCommand {
     }
 
     private boolean isTimeoutExpired() {
-        return XTimer.getFPGATimestamp() > this.startTime + this.timeoutTunable.get();
+        return Timer.getMonotonicTimestamp() > this.startTime + this.timeoutTunable.get();
     }
 }

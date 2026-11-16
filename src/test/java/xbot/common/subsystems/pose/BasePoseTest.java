@@ -4,9 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 
 import org.wpilib.hardware.bus.CANPort;
+import org.wpilib.simulation.SimHooks;
 
 import xbot.common.controls.actuators.XCANMotorController;
-import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.injection.electrical_contract.CANMotorControllerInfo;
 
@@ -16,11 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class BasePoseTest extends BaseCommonLibTest {
 
     protected MockBasePoseSubsystem pose;
-    protected MockTimer mockTimer;
 
     @BeforeEach
     public void setup() {
-        mockTimer = (MockTimer) getInjectorComponent().timerImplementation();
         pose = (MockBasePoseSubsystem) getInjectorComponent().poseSubsystem();
 
         XCANMotorController left = getInjectorComponent().motorControllerFactory()
@@ -30,7 +28,7 @@ public class BasePoseTest extends BaseCommonLibTest {
 
         pose.setDriveMotors(left, right);
 
-        mockTimer.advanceTimeInSecondsBy(10);
+        SimHooks.stepTiming(10);
         pose.periodic();
     }
 

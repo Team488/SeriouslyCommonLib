@@ -8,7 +8,7 @@ package xbot.common.math;
 
 import java.util.Arrays;
 
-import xbot.common.controls.sensors.XTimer;
+import org.wpilib.system.Timer;
 
 public class InterpolatingHistoryBuffer {
 
@@ -31,7 +31,7 @@ public class InterpolatingHistoryBuffer {
      *            Value to fill the inital samples with (probably zero is fine)
      */
     public InterpolatingHistoryBuffer(int length, double init_val) {
-        double init_time = XTimer.getFPGATimestamp();
+        double init_time = Timer.getMonotonicTimestamp();
         value_buffer = new double[length];
         time_buffer = new double[length];
         Arrays.fill(value_buffer, init_val);

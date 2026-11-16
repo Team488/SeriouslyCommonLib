@@ -2,7 +2,7 @@ package xbot.common.math;
 
 import java.util.OptionalDouble;
 
-import xbot.common.controls.sensors.XTimer;
+import org.wpilib.system.Timer;
 
 /**
  * This PID was extracted from WPILib. It has all the same functionality, but does not run on its own separate thread.
@@ -242,11 +242,11 @@ public class PID {
             if (onTarget) {
                 if (waitingToStabilize == false) {
                     waitingToStabilize = true;
-                    startTime = XTimer.getFPGATimestamp();
+                    startTime = Timer.getMonotonicTimestamp();
                     onTarget = false;
                     offTargetReason = OffTargetReason.NotTimeStable;
                 } else {
-                    onTarget = (XTimer.getFPGATimestamp() - startTime) > timeToleranceInSeconds;
+                    onTarget = (Timer.getMonotonicTimestamp() - startTime) > timeToleranceInSeconds;
                     offTargetReason = onTarget ? OffTargetReason.OnTarget : OffTargetReason.NotTimeStable;
                 }
             } else {

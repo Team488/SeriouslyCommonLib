@@ -1,8 +1,7 @@
 package xbot.common.math;
 
 import org.wpilib.math.geometry.Rotation2d;
-
-import xbot.common.controls.sensors.XTimer;
+import org.wpilib.system.Timer;
 
 public class InterpolatingFieldPoseBuffer {
 
@@ -20,12 +19,12 @@ public class InterpolatingFieldPoseBuffer {
     }
 
     public void insert(FieldPose pose) {
-        xBuffer.insert(XTimer.getFPGATimestamp(), pose.getPoint().x);
-        yBuffer.insert(XTimer.getFPGATimestamp(), pose.getPoint().y);
+        xBuffer.insert(Timer.getMonotonicTimestamp(), pose.getPoint().x);
+        yBuffer.insert(Timer.getMonotonicTimestamp(), pose.getPoint().y);
 
         double headingDelta = pose.getHeading().minus(Rotation2d.fromDegrees(unwrappedHeading)).getDegrees();
         unwrappedHeading += headingDelta;
-        headingBuffer.insert(XTimer.getFPGATimestamp(), unwrappedHeading);
+        headingBuffer.insert(Timer.getMonotonicTimestamp(), unwrappedHeading);
     }
 
     public FieldPose getPoseAtTime(double timeInSeconds) {

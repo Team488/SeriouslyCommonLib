@@ -1,5 +1,7 @@
 package xbot.common.controls.sensors.mock_adapters;
 
+import org.wpilib.system.Timer;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
@@ -7,7 +9,6 @@ import dagger.assisted.AssistedInject;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.LaserCANInputs;
 import xbot.common.controls.sensors.XLaserCAN;
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 
@@ -31,13 +32,13 @@ public class MockLaserCAN extends XLaserCAN {
 
     public void setDistance(double distanceMeters) {
         this.distanceMeters = distanceMeters;
-        this.measurementTime = XTimer.getFPGATimestamp();
+        this.measurementTime = Timer.getMonotonicTimestamp();
     }
 
     @Override
     public void updateInputs(LaserCANInputs inputs) {
         inputs.isMeasurementValid = true;
         inputs.distance = org.wpilib.units.Units.Meters.of(distanceMeters);
-        inputs.measurementLatency = Seconds.of(XTimer.getFPGATimestamp() - measurementTime);
+        inputs.measurementLatency = Seconds.of(Timer.getMonotonicTimestamp() - measurementTime);
     }
 }

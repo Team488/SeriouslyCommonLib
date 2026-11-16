@@ -7,11 +7,11 @@ import org.apache.logging.log4j.Logger;
 
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.system.Timer;
 import org.wpilib.units.measure.Distance;
 import org.wpilib.units.measure.LinearVelocity;
 
 import xbot.common.advantage.AKitLogger;
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.subsystems.drive.SwerveKinematicsCalculator;
 import xbot.common.subsystems.drive.SwervePointKinematics;
 import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
@@ -95,7 +95,7 @@ public class SimpleTimeInterpolator {
         log.debug("Initializing a SimpleTimeInterpolator");
         this.baseline = baseline;
         accumulatedProductiveSeconds = 0;
-        previousTimestamp = XTimer.getFPGATimestamp();
+        previousTimestamp = Timer.getMonotonicTimestamp();
         index = 0;
         calculator = null;
         usingKinematics = (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints) || (mode == SwerveSimpleTrajectoryMode.GlobalKinematicsValue);
@@ -106,7 +106,7 @@ public class SimpleTimeInterpolator {
     }
 
     public InterpolationResult calculateTarget(Translation2d currentLocation) {
-        double currentTime = XTimer.getFPGATimestamp();
+        double currentTime = Timer.getMonotonicTimestamp();
         aKitLog.record("CurrentTime", currentTime);
 
         double secondsSinceLastExecute = currentTime - previousTimestamp;

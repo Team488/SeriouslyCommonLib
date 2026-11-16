@@ -1,8 +1,7 @@
 package xbot.common.command;
 
 import org.wpilib.command2.Subsystem;
-
-import xbot.common.controls.sensors.XTimer;
+import org.wpilib.system.Timer;
 
 /**
  * Base class for subsystems that have a setpoint managed by a maintainer.
@@ -42,7 +41,7 @@ public abstract class BaseSetpointSubsystem<TargetT, PowerT> extends BaseSubsyst
             return false;
         }
 
-        if (XTimer.getFPGATimestamp() - lastUpdateTimeFromMaintainer > 0.5) {
+        if (Timer.getMonotonicTimestamp() - lastUpdateTimeFromMaintainer > 0.5) {
             // If we haven't heard from the maintainer within the last 0.5 seconds,
             // then assume the system is not ready.
             return false;
@@ -52,8 +51,9 @@ public abstract class BaseSetpointSubsystem<TargetT, PowerT> extends BaseSubsyst
     }
 
     public void setMaintainerIsAtGoal(boolean atGoal) {
-        lastUpdateTimeFromMaintainer = XTimer.getFPGATimestamp();
+        lastUpdateTimeFromMaintainer = Timer.getMonotonicTimestamp();
         this.atGoal = atGoal;
+
         lastTargetValueUsedforAtGoal = getTargetValue();
     }
 

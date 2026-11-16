@@ -3,8 +3,9 @@ package xbot.common.subsystems.feedback;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.wpilib.simulation.SimHooks;
+
 import xbot.common.controls.sensors.mock_adapters.MockGamepad;
-import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.injection.BaseCommonLibTest;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -17,7 +18,6 @@ public class RumbleManagerTest extends BaseCommonLibTest {
 
     MockGamepad gamepad;
     RumbleManager rumbleManager;
-    MockTimer timer;
 
     @BeforeEach
     @Override
@@ -26,7 +26,6 @@ public class RumbleManagerTest extends BaseCommonLibTest {
 
         this.gamepad = (MockGamepad) getInjectorComponent().gamepadFactory().create(0);
         this.rumbleManager = new RumbleManager(this.gamepad);
-        this.timer = (MockTimer) getInjectorComponent().timerImplementation();
     }
 
     @Test
@@ -46,7 +45,7 @@ public class RumbleManagerTest extends BaseCommonLibTest {
         rumbleManager.rumbleGamepad(5, rumbleDuration);
         assertTrue(rumbleManager.getIsRumbling());
 
-        timer.advanceTimeInSecondsBy(rumbleDuration + 0.01);
+        SimHooks.stepTiming(rumbleDuration + 0.01);
         rumbleManager.periodic();
         assertFalse(rumbleManager.getIsRumbling());
     }

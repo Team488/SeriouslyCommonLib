@@ -1,6 +1,7 @@
 package xbot.common.logic;
 
-import xbot.common.controls.sensors.XTimer;
+import org.wpilib.system.Timer;
+
 import xbot.common.logic.Latch.EdgeType;
 
 public class WatchdogTimer {
@@ -34,11 +35,11 @@ public class WatchdogTimer {
     }
 
     public void kick() {
-        lastKick = XTimer.getFPGATimestamp();
+        lastKick = Timer.getMonotonicTimestamp();
     }
 
     public void check() {
-        double now = XTimer.getFPGATimestamp();
+        double now = Timer.getMonotonicTimestamp();
         timeSinceKick = now - lastKick;
         isUp = Double.isFinite(timeSinceKick) && timeSinceKick <= timeout;
         latch.setValue(isUp);

@@ -17,11 +17,10 @@ import org.wpilib.driverstation.RobotState;
 import org.wpilib.hardware.bus.CANPort;
 import org.wpilib.hardware.power.PowerDistribution;
 import org.wpilib.system.RobotController;
+import org.wpilib.system.Timer;
 import org.wpilib.tunable.Tunables;
 
 import xbot.common.advantage.TunableSkippingNT4Publisher;
-import xbot.common.controls.sensors.XTimer;
-import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.components.BaseComponent;
 import xbot.common.logging.assertion.RobotAssertionManager;
@@ -172,9 +171,6 @@ public abstract class BaseRobot extends LoggedRobot {
     protected void initializeSystems() {
         updateLoggingContext();
         // override with additional systems (but call this one too)
-        XTimerImpl timerimpl = injectorComponent.timerImplementation();
-        XTimer.setImplementation(timerimpl);
-
         tunableManager = injectorComponent.tunableManager();
         xScheduler = injectorComponent.scheduler();
         xScheduler.reset();
@@ -280,6 +276,6 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     protected double getPerformanceTimestampInMs() {
-        return XTimer.getFPGATimestamp() * 1000.0;
+        return Timer.getMonotonicTimestamp() * 1000.0;
     }
 }

@@ -1,12 +1,12 @@
 package xbot.common.logic;
 
+import org.wpilib.system.Timer;
 import org.wpilib.tunable.TunableDouble;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.TunableFactory;
 import xbot.common.properties.TunableLevel;
 
@@ -74,7 +74,7 @@ public class HumanVsMachineDecider {
     public void reset(boolean startInAutomaticMode) {
         // No human input to report at reset time; lastHumanTime is pushed far enough into the past that a
         // coast check could never hold a fresh reset up.
-        payload = new HumanVsMachinePayload(0.0, deadbandTunable.get(), coastTimeTunable.get(), XTimer.getFPGATimestamp() - 100);
+        payload = new HumanVsMachinePayload(0.0, deadbandTunable.get(), coastTimeTunable.get(), Timer.getMonotonicTimestamp() - 100);
         fsm.forceState(startInAutomaticMode ? HumanVsMachineState.MachineControl : HumanVsMachineState.RobotDisabled, payload);
     }
 
@@ -86,7 +86,7 @@ public class HumanVsMachineDecider {
      * @return The recommended state.
      */
     public HumanVsMachineState getRecommendedState(double humanInput) {
-        double lastHumanTime = Math.abs(humanInput) > deadbandTunable.get() ? XTimer.getFPGATimestamp() : payload.lastHumanTime();
+        double lastHumanTime = Math.abs(humanInput) > deadbandTunable.get() ? Timer.getMonotonicTimestamp() : payload.lastHumanTime();
         payload = new HumanVsMachinePayload(humanInput, deadbandTunable.get(), coastTimeTunable.get(), lastHumanTime);
 
         fsm.execute(payload);
