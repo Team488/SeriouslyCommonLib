@@ -35,14 +35,14 @@ public abstract class BaseWPITest {
 
     @BeforeEach
     public void setUp() {
+        HAL.initialize();
+        SimHooks.pauseTiming();
         TunableRegistry.reset();
         tunableBackend = new MockTunableBackend();
         TunableRegistry.registerBackend("", tunableBackend);
         injectorComponent = createDaggerComponent();
         RobotAssertionManager.configure(injectorComponent.robotAssertionHandler());
         // Freeze the simulated clock so time only moves when a test calls SimHooks.stepTiming(seconds).
-        HAL.initialize();
-        SimHooks.pauseTiming();
 
         tunableFactory = injectorComponent.tunableFactory();
 
