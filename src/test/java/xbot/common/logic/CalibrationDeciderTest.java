@@ -47,13 +47,13 @@ public class CalibrationDeciderTest extends BaseCommonLibTest {
 
     @Test
     public void testDecideModeWhenTimeExceeded() {
-        decider.startTime = Timer.getMonotonicTimestamp() - 4; // 4 is greater than the default calibrationTimeTunable value of 3
+        decider.startTime = Timer.getTimestamp() - 4; // 4 is greater than the default calibrationTimeTunable value of 3
         assertEquals(CalibrationDecider.CalibrationMode.GaveUp, decider.decideMode(false));
     }
 
     @Test
     public void testDecideModeWhenAttempting() {
-        decider.startTime = Timer.getMonotonicTimestamp();
+        decider.startTime = Timer.getTimestamp();
         assertEquals(CalibrationDecider.CalibrationMode.Attempting, decider.decideMode(false));
     }
 }

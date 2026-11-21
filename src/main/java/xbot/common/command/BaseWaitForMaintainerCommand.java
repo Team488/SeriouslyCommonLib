@@ -15,7 +15,8 @@ public abstract class BaseWaitForMaintainerCommand extends BaseCommand {
 
     private double startTime;
 
-    public BaseWaitForMaintainerCommand(BaseSetpointSubsystem<?, ?> system, TunableFactory tunableFactory, double defaultTimeout) {
+    public BaseWaitForMaintainerCommand(BaseSetpointSubsystem<?, ?> system, TunableFactory tunableFactory,
+            double defaultTimeout) {
         this.system = system;
 
         tunableFactory.setPrefix(this);
@@ -24,7 +25,7 @@ public abstract class BaseWaitForMaintainerCommand extends BaseCommand {
 
     @Override
     public void initialize() {
-        this.startTime = Timer.getMonotonicTimestamp();
+        this.startTime = Timer.getTimestamp();
     }
 
     @Override
@@ -38,6 +39,6 @@ public abstract class BaseWaitForMaintainerCommand extends BaseCommand {
     }
 
     private boolean isTimeoutExpired() {
-        return Timer.getMonotonicTimestamp() > this.startTime + this.timeoutTunable.get();
+        return Timer.getTimestamp() > this.startTime + this.timeoutTunable.get();
     }
 }

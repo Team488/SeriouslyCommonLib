@@ -4,11 +4,16 @@ import org.wpilib.driverstation.RobotState;
 import org.wpilib.system.Timer;
 
 /**
- * The states of {@link HumanVsMachineDecider}'s internal state machine, in the order control moves through them:
- * {@code RobotDisabled} while the robot is disabled, {@code InitializeMachineControl} for exactly one cycle after
- * control returns to automatic (before anything else has a chance to run), {@code MachineControl} while running
- * automatically, {@code HumanControl} while a human is actively providing input above the deadband, and {@code Coast}
- * for a brief grace period after human input stops, before handing back to {@code InitializeMachineControl}.
+ * The states of {@link HumanVsMachineDecider}'s internal state machine, in the
+ * order control moves through them:
+ * {@code RobotDisabled} while the robot is disabled,
+ * {@code InitializeMachineControl} for exactly one cycle after
+ * control returns to automatic (before anything else has a chance to run),
+ * {@code MachineControl} while running
+ * automatically, {@code HumanControl} while a human is actively providing input
+ * above the deadband, and {@code Coast}
+ * for a brief grace period after human input stops, before handing back to
+ * {@code InitializeMachineControl}.
  */
 public enum HumanVsMachineState implements FsmState<HumanVsMachineState, HumanVsMachinePayload> {
     RobotDisabled {
@@ -44,9 +49,10 @@ public enum HumanVsMachineState implements FsmState<HumanVsMachineState, HumanVs
         public void execute(FsmContext<HumanVsMachinePayload> context, FsmTransition<HumanVsMachineState> transition) {
             var payload = context.payload();
             if (Math.abs(payload.humanInput()) > payload.deadband()) {
-                return; // still actively controlled this tick; the beforeHook keeps re-asserting this state
+                return; // still actively controlled this tick; the beforeHook keeps re-asserting this
+                        // state
             }
-            if (Timer.getMonotonicTimestamp() - payload.lastHumanTime() < payload.coastTime()) {
+            if (Timer.getTimestamp() - payload.lastHumanTime() < payload.coastTime()) {
                 transition.transitionTo(Coast);
             } else {
                 transition.transitionTo(InitializeMachineControl);
@@ -57,18 +63,21 @@ public enum HumanVsMachineState implements FsmState<HumanVsMachineState, HumanVs
         @Override
         public void execute(FsmContext<HumanVsMachinePayload> context, FsmTransition<HumanVsMachineState> transition) {
             var payload = context.payload();
-            if (Timer.getMonotonicTimestamp() - payload.lastHumanTime() >= payload.coastTime()) {
+            if (Timer.getTimestamp() - payload.lastHumanTime() >= payload.coastTime()) {
                 transition.transitionTo(InitializeMachineControl);
             }
         }
     };
 
     /**
-     * The machine-wide preemption conditions that can redirect out of any state, regardless of which one is currently
-     * active: the robot being disabled, and active human input. Pass this as the {@code FiniteStateMachine}'s
+     * The machine-wide preemption conditions that can redirect out of any state,
+     * regardless of which one is currently
+     * active: the robot being disabled, and active human input. Pass this as the
+     * {@code FiniteStateMachine}'s
      * {@code beforeHook}.
      */
-    public static final FsmHook<HumanVsMachineState, HumanVsMachinePayload> globalTransitions = (context, transition) -> {
+    public static final FsmHook<HumanVsMachineState, HumanVsMachinePayload> globalTransitions = (context,
+            transition) -> {
         if (RobotState.isDisabled()) {
             transition.transitionTo(RobotDisabled);
             return;

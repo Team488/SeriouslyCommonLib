@@ -64,7 +64,8 @@ public class StallDetector {
         timeOfLastDetectedStall = -9999;
     }
 
-    public void setAllParameters(double currentTimeWindow, double currentLimit, double noMotionTimeWindow, double tryingHardVoltagePercentThreshold,
+    public void setAllParameters(double currentTimeWindow, double currentLimit, double noMotionTimeWindow,
+            double tryingHardVoltagePercentThreshold,
             double littleMotionThreshold, double stallCoolDown) {
         this.currentTimeWindow.set(currentTimeWindow);
         this.currentLimit.set(currentLimit);
@@ -91,10 +92,11 @@ public class StallDetector {
             voltageCondition = voltagePercent < -tryingHardVoltagePercentThreshold.get();
         }
 
-        boolean noMotion = noMotionValidator.checkStable(Math.abs(velocity) < littleMotionThreshold.get() && voltageCondition);
+        boolean noMotion = noMotionValidator
+                .checkStable(Math.abs(velocity) < littleMotionThreshold.get() && voltageCondition);
 
         if (currentOverLimit || noMotion) {
-            timeOfLastDetectedStall = Timer.getMonotonicTimestamp();
+            timeOfLastDetectedStall = Timer.getTimestamp();
             return StallState.STALLED;
         }
 
@@ -108,6 +110,6 @@ public class StallDetector {
     }
 
     public boolean wasStalledRecently() {
-        return Timer.getMonotonicTimestamp() - timeOfLastDetectedStall < stallCoolDown.get();
+        return Timer.getTimestamp() - timeOfLastDetectedStall < stallCoolDown.get();
     }
 }

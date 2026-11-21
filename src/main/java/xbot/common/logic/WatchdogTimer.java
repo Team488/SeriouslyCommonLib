@@ -35,11 +35,11 @@ public class WatchdogTimer {
     }
 
     public void kick() {
-        lastKick = Timer.getMonotonicTimestamp();
+        lastKick = Timer.getTimestamp();
     }
 
     public void check() {
-        double now = Timer.getMonotonicTimestamp();
+        double now = Timer.getTimestamp();
         timeSinceKick = now - lastKick;
         isUp = Double.isFinite(timeSinceKick) && timeSinceKick <= timeout;
         latch.setValue(isUp);

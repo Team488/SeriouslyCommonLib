@@ -19,12 +19,12 @@ public class InterpolatingFieldPoseBuffer {
     }
 
     public void insert(FieldPose pose) {
-        xBuffer.insert(Timer.getMonotonicTimestamp(), pose.getPoint().x);
-        yBuffer.insert(Timer.getMonotonicTimestamp(), pose.getPoint().y);
+        xBuffer.insert(Timer.getTimestamp(), pose.getPoint().x);
+        yBuffer.insert(Timer.getTimestamp(), pose.getPoint().y);
 
         double headingDelta = pose.getHeading().minus(Rotation2d.fromDegrees(unwrappedHeading)).getDegrees();
         unwrappedHeading += headingDelta;
-        headingBuffer.insert(Timer.getMonotonicTimestamp(), unwrappedHeading);
+        headingBuffer.insert(Timer.getTimestamp(), unwrappedHeading);
     }
 
     public FieldPose getPoseAtTime(double timeInSeconds) {

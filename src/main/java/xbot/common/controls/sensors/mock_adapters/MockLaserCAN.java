@@ -21,24 +21,26 @@ public class MockLaserCAN extends XLaserCAN {
 
     @AssistedFactory
     public abstract static class MockLaserCANFactory implements XLaserCANFactory {
-        public abstract MockLaserCAN create(@Assisted("info") DeviceInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix);
+        public abstract MockLaserCAN create(@Assisted("info") DeviceInfo info,
+                @Assisted("owningSystemPrefix") String owningSystemPrefix);
     }
 
     @AssistedInject
-    public MockLaserCAN(@Assisted("info") DeviceInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix, DevicePolice police,
+    public MockLaserCAN(@Assisted("info") DeviceInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix,
+            DevicePolice police,
             DataFrameRegistry dataFrameRegistry) {
         super(police, info, owningSystemPrefix, dataFrameRegistry);
     }
 
     public void setDistance(double distanceMeters) {
         this.distanceMeters = distanceMeters;
-        this.measurementTime = Timer.getMonotonicTimestamp();
+        this.measurementTime = Timer.getTimestamp();
     }
 
     @Override
     public void updateInputs(LaserCANInputs inputs) {
         inputs.isMeasurementValid = true;
         inputs.distance = org.wpilib.units.Units.Meters.of(distanceMeters);
-        inputs.measurementLatency = Seconds.of(Timer.getMonotonicTimestamp() - measurementTime);
+        inputs.measurementLatency = Seconds.of(Timer.getTimestamp() - measurementTime);
     }
 }

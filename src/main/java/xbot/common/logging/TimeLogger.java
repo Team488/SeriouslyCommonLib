@@ -54,6 +54,6 @@ public class TimeLogger {
     }
 
     private double getPerformanceTimestamp() {
-        return Timer.getMonotonicTimestamp();
+        return Timer.getTimestamp();
     }
 }

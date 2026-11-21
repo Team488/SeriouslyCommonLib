@@ -7,9 +7,9 @@ import org.wpilib.system.Timer;
  * Base class for subsystems that have a setpoint managed by a maintainer.
  *
  * @param <TargetT>
- *            The type of the target value.
+ *                  The type of the target value.
  * @param <PowerT>
- *            The type of the power value.
+ *                  The type of the power value.
  */
 public abstract class BaseSetpointSubsystem<TargetT, PowerT> extends BaseSubsystem implements SupportsSetpointLock {
 
@@ -37,11 +37,12 @@ public abstract class BaseSetpointSubsystem<TargetT, PowerT> extends BaseSubsyst
 
         if (!areTwoTargetsEquivalent(getTargetValue(), lastTargetValueUsedforAtGoal)) {
             // At goal was set when the target was significantly different than it is now.
-            // Could happen if somebody updates the target and immediately calls isMaintainerAtGoal.
+            // Could happen if somebody updates the target and immediately calls
+            // isMaintainerAtGoal.
             return false;
         }
 
-        if (Timer.getMonotonicTimestamp() - lastUpdateTimeFromMaintainer > 0.5) {
+        if (Timer.getTimestamp() - lastUpdateTimeFromMaintainer > 0.5) {
             // If we haven't heard from the maintainer within the last 0.5 seconds,
             // then assume the system is not ready.
             return false;
@@ -51,7 +52,7 @@ public abstract class BaseSetpointSubsystem<TargetT, PowerT> extends BaseSubsyst
     }
 
     public void setMaintainerIsAtGoal(boolean atGoal) {
-        lastUpdateTimeFromMaintainer = Timer.getMonotonicTimestamp();
+        lastUpdateTimeFromMaintainer = Timer.getTimestamp();
         this.atGoal = atGoal;
 
         lastTargetValueUsedforAtGoal = getTargetValue();

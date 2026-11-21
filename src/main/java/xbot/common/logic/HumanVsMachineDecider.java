@@ -11,8 +11,10 @@ import xbot.common.properties.TunableFactory;
 import xbot.common.properties.TunableLevel;
 
 /**
- * Decides whether to use human or machine control of a subsystem. Human control is used when the inputs exceed a
- * deadband. When input stops, control is handed back to the machine after a coast period.
+ * Decides whether to use human or machine control of a subsystem. Human control
+ * is used when the inputs exceed a
+ * deadband. When input stops, control is handed back to the machine after a
+ * coast period.
  */
 public class HumanVsMachineDecider {
 
@@ -33,7 +35,7 @@ public class HumanVsMachineDecider {
          * Creates a new decider with the given prefix.
          *
          * @param prefix
-         *            The prefix to use for all tunables created by this decider.
+         *               The prefix to use for all tunables created by this decider.
          * @return The new decider.
          */
         public abstract HumanVsMachineDecider create(@Assisted("prefix") String prefix);
@@ -43,9 +45,11 @@ public class HumanVsMachineDecider {
      * Creates a new decider with the given prefix.
      *
      * @param prefix
-     *            The prefix to use for all tunables created by this decider.
+     *                       The prefix to use for all tunables created by this
+     *                       decider.
      * @param tunableFactory
-     *            The tunable factory to use for creating configuration values.
+     *                       The tunable factory to use for creating configuration
+     *                       values.
      */
     @AssistedInject
     public HumanVsMachineDecider(@Assisted("prefix") String prefix, TunableFactory tunableFactory) {
@@ -54,7 +58,8 @@ public class HumanVsMachineDecider {
         tunableFactory.setDefaultLevel(TunableLevel.Debug);
         deadbandTunable = tunableFactory.createDouble("Deadband", 0.1);
         coastTimeTunable = tunableFactory.createDouble("Coast Time", 0.3);
-        fsm = new FiniteStateMachine<>("HumanVsMachineDecider", HumanVsMachineState.Coast, HumanVsMachineState.globalTransitions, FsmHook.noop());
+        fsm = new FiniteStateMachine<>("HumanVsMachineDecider", HumanVsMachineState.Coast,
+                HumanVsMachineState.globalTransitions, FsmHook.noop());
         reset();
     }
 
@@ -69,24 +74,28 @@ public class HumanVsMachineDecider {
      * Resets the decider.
      *
      * @param startInAutomaticMode
-     *            Whether to start in automatic mode.
+     *                             Whether to start in automatic mode.
      */
     public void reset(boolean startInAutomaticMode) {
-        // No human input to report at reset time; lastHumanTime is pushed far enough into the past that a
+        // No human input to report at reset time; lastHumanTime is pushed far enough
+        // into the past that a
         // coast check could never hold a fresh reset up.
-        payload = new HumanVsMachinePayload(0.0, deadbandTunable.get(), coastTimeTunable.get(), Timer.getMonotonicTimestamp() - 100);
-        fsm.forceState(startInAutomaticMode ? HumanVsMachineState.MachineControl : HumanVsMachineState.RobotDisabled, payload);
+        payload = new HumanVsMachinePayload(0.0, deadbandTunable.get(), coastTimeTunable.get(),
+                Timer.getTimestamp() - 100);
+        fsm.forceState(startInAutomaticMode ? HumanVsMachineState.MachineControl : HumanVsMachineState.RobotDisabled,
+                payload);
     }
 
     /**
      * Gets the recommended state based on the human input.
      *
      * @param humanInput
-     *            The human input to use for the decision.
+     *                   The human input to use for the decision.
      * @return The recommended state.
      */
     public HumanVsMachineState getRecommendedState(double humanInput) {
-        double lastHumanTime = Math.abs(humanInput) > deadbandTunable.get() ? Timer.getMonotonicTimestamp() : payload.lastHumanTime();
+        double lastHumanTime = Math.abs(humanInput) > deadbandTunable.get() ? Timer.getTimestamp()
+                : payload.lastHumanTime();
         payload = new HumanVsMachinePayload(humanInput, deadbandTunable.get(), coastTimeTunable.get(), lastHumanTime);
 
         fsm.execute(payload);

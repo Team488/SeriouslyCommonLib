@@ -31,7 +31,7 @@ public class CalibrationDecider {
     }
 
     public void reset() {
-        startTime = Timer.getMonotonicTimestamp();
+        startTime = Timer.getTimestamp();
     }
 
     public CalibrationMode decideMode(boolean isCalibrated) {
@@ -39,7 +39,7 @@ public class CalibrationDecider {
             return CalibrationMode.Calibrated;
         }
 
-        if (Timer.getMonotonicTimestamp() - startTime > calibrationTimeTunable.get()) {
+        if (Timer.getTimestamp() - startTime > calibrationTimeTunable.get()) {
             return CalibrationMode.GaveUp;
         }
 

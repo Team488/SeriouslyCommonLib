@@ -15,8 +15,9 @@ public class DelayViaSupplierCommand extends BaseCommand {
 
     @Override
     public void initialize() {
-        this.startTime = Timer.getMonotonicTimestamp();
-        log.info("Initializing with intial time: " + startTime + " and waiting for " + delaySupplier.getAsDouble() + " seconds");
+        this.startTime = Timer.getTimestamp();
+        log.info("Initializing with intial time: " + startTime + " and waiting for " + delaySupplier.getAsDouble()
+                + " seconds");
     }
 
     @Override
@@ -30,6 +31,6 @@ public class DelayViaSupplierCommand extends BaseCommand {
     }
 
     private boolean isTimeoutExpired() {
-        return Timer.getMonotonicTimestamp() > startTime + delaySupplier.getAsDouble();
+        return Timer.getTimestamp() > startTime + delaySupplier.getAsDouble();
     }
 }

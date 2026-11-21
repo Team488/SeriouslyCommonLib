@@ -57,21 +57,25 @@ public class SimpleTimeInterpolator {
             this(chasePoint, isOnFinalPoint, chaseHeading, null);
         }
 
-        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading, Translation2d plannedVector) {
+        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading,
+                Translation2d plannedVector) {
             this(chasePoint, isOnFinalPoint, chaseHeading, plannedVector, 0);
         }
 
-        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading, Translation2d plannedVector,
+        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading,
+                Translation2d plannedVector,
                 double distanceToTargetPoint) {
             this(chasePoint, isOnFinalPoint, chaseHeading, plannedVector, distanceToTargetPoint, 0);
         }
 
-        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading, Translation2d plannedVector,
+        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading,
+                Translation2d plannedVector,
                 double distanceToTargetPoint, double lerpFraction) {
             this(chasePoint, isOnFinalPoint, chaseHeading, plannedVector, distanceToTargetPoint, lerpFraction, false);
         }
 
-        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading, Translation2d plannedVector,
+        public InterpolationResult(Translation2d chasePoint, boolean isOnFinalPoint, Rotation2d chaseHeading,
+                Translation2d plannedVector,
                 double distanceToTargetPoint, double lerpFraction, boolean isOnFinalLeg) {
             this.chasePoint = chasePoint;
             this.isOnFinalPoint = isOnFinalPoint;
@@ -95,18 +99,21 @@ public class SimpleTimeInterpolator {
         log.debug("Initializing a SimpleTimeInterpolator");
         this.baseline = baseline;
         accumulatedProductiveSeconds = 0;
-        previousTimestamp = Timer.getMonotonicTimestamp();
+        previousTimestamp = Timer.getTimestamp();
         index = 0;
         calculator = null;
-        usingKinematics = (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints) || (mode == SwerveSimpleTrajectoryMode.GlobalKinematicsValue);
+        usingKinematics = (mode == SwerveSimpleTrajectoryMode.KinematicsForIndividualPoints)
+                || (mode == SwerveSimpleTrajectoryMode.GlobalKinematicsValue);
     }
 
-    public SwerveKinematicsCalculator newCalculator(Translation2d targetPointTranslation2d, SwervePointKinematics kinematics) {
-        return new SwerveKinematicsCalculator(Meters.zero(), Meters.of(baseline.getTranslation2d().minus(targetPointTranslation2d).getNorm()), kinematics);
+    public SwerveKinematicsCalculator newCalculator(Translation2d targetPointTranslation2d,
+            SwervePointKinematics kinematics) {
+        return new SwerveKinematicsCalculator(Meters.zero(),
+                Meters.of(baseline.getTranslation2d().minus(targetPointTranslation2d).getNorm()), kinematics);
     }
 
     public InterpolationResult calculateTarget(Translation2d currentLocation) {
-        double currentTime = Timer.getMonotonicTimestamp();
+        double currentTime = Timer.getTimestamp();
         aKitLog.record("CurrentTime", currentTime);
 
         double secondsSinceLastExecute = currentTime - previousTimestamp;
@@ -159,17 +166,20 @@ public class SimpleTimeInterpolator {
             index++;
 
             targetKeyPoint = keyPoints.get(index);
-            log.debug("Advancing to next keypoint, new baseline is {} and new target is {}", baseline.getTranslation2d(), targetKeyPoint.getTranslation2d());
+            log.debug("Advancing to next keypoint, new baseline is {} and new target is {}",
+                    baseline.getTranslation2d(), targetKeyPoint.getTranslation2d());
             if (usingKinematics) {
                 calculator = newCalculator(targetKeyPoint.getTranslation2d(), targetKeyPoint.getKinematics());
             }
         }
 
-        double lerpFraction = Math.max(0, Math.min(accumulatedProductiveSeconds / targetKeyPoint.getSecondsForSegment(), 1.0));
+        double lerpFraction = Math.max(0,
+                Math.min(accumulatedProductiveSeconds / targetKeyPoint.getSecondsForSegment(), 1.0));
 
         if (lerpFraction < 1) {
             if (usingKinematics) {
-                Distance expectedMagnitudeTravelled = calculator.getDistanceTravelledAtCompletionPercentage(lerpFraction);
+                Distance expectedMagnitudeTravelled = calculator
+                        .getDistanceTravelledAtCompletionPercentage(lerpFraction);
                 double multiplier = expectedMagnitudeTravelled.div(calculator.getTotalOperationDistance()).in(Value);
                 chasePoint = baseline.getTranslation2d().interpolate(targetKeyPoint.getTranslation2d(), multiplier);
             } else {
@@ -178,10 +188,12 @@ public class SimpleTimeInterpolator {
         }
 
         // If the chase point is too far ahead, freeze it so the robot can catch up.
-        // This "rewinds time" so the next loop recalculates from an earlier point on the trajectory.
+        // This "rewinds time" so the next loop recalculates from an earlier point on
+        // the trajectory.
         if (currentLocation.getDistance(chasePoint) > maximumDistanceFromChasePointInMeters) {
             accumulatedProductiveSeconds -= secondsSinceLastExecute;
-            lerpFraction = Math.max(0, Math.min(accumulatedProductiveSeconds / targetKeyPoint.getSecondsForSegment(), 1.0));
+            lerpFraction = Math.max(0,
+                    Math.min(accumulatedProductiveSeconds / targetKeyPoint.getSecondsForSegment(), 1.0));
         }
 
         var plannedVector = targetKeyPoint.getTranslation2d().minus(baseline.getTranslation2d());

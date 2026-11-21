@@ -15,7 +15,7 @@ up every time:
   on every tick for as long as you're in that state.
 - **Manual timers that don't reset.** "Have we been in this state for 2 seconds?" usually gets answered
   with a hand-rolled `double stateStartTime` field, set (and often *forgotten to be reset*) at each
-  transition, then checked with `Timer.getMonotonicTimestamp() - stateStartTime > threshold`.
+  transition, then checked with `Timer.getTimestamp() - stateStartTime > threshold`.
 - **Duplicated bookkeeping.** The same "did we just enter this state?" check gets copy-pasted at every call
   site that can transition into that state.
 - **No clean place to test a single state in isolation**, because entry/exit/execute logic is all smeared

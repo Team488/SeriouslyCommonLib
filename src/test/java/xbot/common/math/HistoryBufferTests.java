@@ -13,16 +13,16 @@ public class HistoryBufferTests extends BaseCommonLibTest {
 
     @Test
     public void simpleBufferTest() {
-        double start = Timer.getMonotonicTimestamp();
+        double start = Timer.getTimestamp();
         InterpolatingHistoryBuffer b = new InterpolatingHistoryBuffer(3, 5);
         SimHooks.stepTiming(2);
-        b.insert(Timer.getMonotonicTimestamp(), 10);
+        b.insert(Timer.getTimestamp(), 10);
         assertEquals(7.5, b.getValAtTime(start + 1), 0.001);
     }
 
     @Test
     public void simplePoseBufferTest() {
-        double start = Timer.getMonotonicTimestamp();
+        double start = Timer.getTimestamp();
         FieldPose startingPose = new FieldPose(0, 0, 90);
         InterpolatingFieldPoseBuffer b = new InterpolatingFieldPoseBuffer(startingPose);
         SimHooks.stepTiming(1);
@@ -34,7 +34,7 @@ public class HistoryBufferTests extends BaseCommonLibTest {
 
     @Test
     public void acrossBoundaryTest() {
-        double start = Timer.getMonotonicTimestamp();
+        double start = Timer.getTimestamp();
         FieldPose startingPose = new FieldPose(0, 0, 140);
         InterpolatingFieldPoseBuffer b = new InterpolatingFieldPoseBuffer(startingPose);
         SimHooks.stepTiming(1);
