@@ -41,11 +41,11 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
 
         var io = (MockAprilTagVisionIO) subsystem.io[0];
         io.poseObservations = new AprilTagVisionIO.PoseObservation[] {
-                new AprilTagVisionIO.PoseObservation(1, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()), 0, 2, 2, 0.02, 0.02, 0.6,
+                new AprilTagVisionIO.PoseObservation(1, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()), 0, 2, 0, 0.02, 0.02, 0.6,
                         AprilTagVisionIO.PoseObservationType.PHOTONVISION),
-                new AprilTagVisionIO.PoseObservation(2, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()), 0, 2, 2, 0.02, 0.02, 0.6,
+                new AprilTagVisionIO.PoseObservation(2, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()), 0, 2, 0, 0.02, 0.02, 0.6,
                         AprilTagVisionIO.PoseObservationType.PHOTONVISION),
-                new AprilTagVisionIO.PoseObservation(3, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()), 0, 2, 2, 0.02, 0.02, 0.6,
+                new AprilTagVisionIO.PoseObservation(3, new Pose3d(new Translation3d(0.1, 0.1, 0.1), new Rotation3d()), 0, 2, 0, 0.02, 0.02, 0.6,
                         AprilTagVisionIO.PoseObservationType.PHOTONVISION) };
         io.tagIds = new int[] { 1, 2, 3 };
         registry.refreshAll();
@@ -79,20 +79,19 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
     }
 
     static Stream<Arguments> singleObservationCases() {
-        return Stream.of(Arguments.of("single tag in range", observation(3, 3, 0, 0.1, 1, 2.0), "ACCEPTED"),
-                Arguments.of("multi tag in range", observation(3, 3, 0, 0.1, 2, 4.5), "ACCEPTED"),
+        return Stream.of(Arguments.of("single tag on field", observation(3, 3, 0, 0.1, 1, 2.0), "ACCEPTED"),
+                Arguments.of("multi tag on field", observation(3, 3, 0, 0.1, 2, 4.5), "ACCEPTED"),
                 Arguments.of("within field border margin", observation(-0.2, 3, 0, 0.1, 2, 2.0), "ACCEPTED"),
-                Arguments.of("multi tag ignores ambiguity", observation(3, 3, 0, 0.5, 2, 2.0), "ACCEPTED"),
+                Arguments.of("raised by bump", observation(3, 3, 0.3, 0.1, 2, 2.0), "ACCEPTED"),
+                Arguments.of("high ambiguity is not rejected", observation(3, 3, 0, 0.9, 1, 2.0), "ACCEPTED"),
+                Arguments.of("far tag is not rejected", observation(3, 3, 0, 0.1, 1, 8.0), "ACCEPTED"),
                 Arguments.of("no tags", observation(3, 3, 0, 0.1, 0, 2.0), "NO_TAGS"),
-                Arguments.of("single tag high ambiguity", observation(3, 3, 0, 0.5, 1, 2.0), "HIGH_AMBIGUITY"),
-                Arguments.of("z error", observation(3, 3, 1.0, 0.1, 2, 2.0), "Z_ERROR"),
+                Arguments.of("above field", observation(3, 3, 1.5, 0.1, 2, 2.0), "Z_ERROR"),
+                Arguments.of("below field", observation(3, 3, -1.5, 0.1, 2, 2.0), "Z_ERROR"),
                 Arguments.of("past negative x edge", observation(-1.0, 3, 0, 0.1, 2, 2.0), "OUT_OF_BOUNDS"),
                 Arguments.of("past positive x edge", observation(100, 3, 0, 0.1, 2, 2.0), "OUT_OF_BOUNDS"),
                 Arguments.of("past negative y edge", observation(3, -1.0, 0, 0.1, 2, 2.0), "OUT_OF_BOUNDS"),
-                Arguments.of("past positive y edge", observation(3, 100, 0, 0.1, 2, 2.0), "OUT_OF_BOUNDS"),
-                Arguments.of("too close", observation(3, 3, 0, 0.1, 2, 0.2), "TOO_CLOSE"),
-                Arguments.of("single tag too far", observation(3, 3, 0, 0.1, 1, 5.5), "TOO_FAR"),
-                Arguments.of("multi tag too far", observation(3, 3, 0, 0.1, 2, 5.5), "TOO_FAR"));
+                Arguments.of("past positive y edge", observation(3, 100, 0, 0.1, 2, 2.0), "OUT_OF_BOUNDS"));
     }
 
     @ParameterizedTest(name = "{0}")
@@ -103,10 +102,10 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
 
     @Test
     public void testOnlyFirstFailingRuleIsReported() {
-        var noTagsAndOutOfBounds = observation(-1.0, 3, 1.0, 0.1, 0, 0.2);
-        var ambiguousAndTooFar = observation(3, 3, 0, 0.5, 1, 5.5);
+        var noTagsAndAboveField = observation(3, 3, 1.5, 0.1, 0, 2.0);
+        var aboveFieldAndOutOfBounds = observation(-1.0, 3, 1.5, 0.1, 2, 2.0);
 
-        assertEquals(List.of("NO_TAGS", "HIGH_AMBIGUITY"), rejectionReasonsFor(noTagsAndOutOfBounds, ambiguousAndTooFar));
+        assertEquals(List.of("NO_TAGS", "Z_ERROR"), rejectionReasonsFor(noTagsAndAboveField, aboveFieldAndOutOfBounds));
     }
 
     @Test

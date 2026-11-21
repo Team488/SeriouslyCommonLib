@@ -65,7 +65,9 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
 
     // Rejection reasons for pose observations
     enum RejectionReason {
-        NO_TAGS, HIGH_AMBIGUITY, Z_ERROR, OUT_OF_BOUNDS, TOO_CLOSE, TOO_FAR,
+        NO_TAGS,
+        Z_ERROR,
+        OUT_OF_BOUNDS
     }
 
     public AprilTagVisionCameraHelper(String prefix, TunableFactory tunableFactory, AprilTagVisionIO io, Fields fieldLayout, DataFrameRegistry registry,
@@ -81,13 +83,13 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
 
         tunableFactory.setPrefix(this.logPath);
         this.maxAmbiguity = tunableFactory.createDouble("MaxAmbiguity", 0.3);
-        this.maxZError = tunableFactory.createDouble("MaxZError", 0.75);
+        this.maxZError = tunableFactory.createDouble("MaxZError", 1.0);
         this.linearStdDevBaseline = tunableFactory.createDouble("LinearStdDevBaseline", 0.02 /* meters */);
         this.angularStdDevBaseline = tunableFactory.createDouble("AngularStdDevBaseline", 0.06 /* radians */);
         this.linearStdDevMegatag2Factor = tunableFactory.createDouble("LinearStdDevMegatag2Factor", 0.5);
         this.angularStdDevMegatag2Factor = tunableFactory.createDouble("AngularStdDevMegatag2Factor", Double.POSITIVE_INFINITY);
         this.cameraStdDevFactor = tunableFactory.createDouble("CameraStdDevFactor", 1.0);
-        this.maxSingleTagDistance = tunableFactory.createDouble("MaxSingleTagDistance", 5.0);
+        this.maxSingleTagDistance = tunableFactory.createDouble("MaxSingleTagDistance", 1.0);
         this.maxMultiTagDistance = tunableFactory.createDouble("MaxMultiTagDistance", 5.0);
         this.minTagDistance = tunableFactory.createDouble("MinTagDistance", 0.5);
         this.fieldBorderMargin = tunableFactory.createDouble("FieldBorderMargin", 0.5);
@@ -189,25 +191,14 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     }
 
     private Optional<RejectionReason> getRejectionReason(PoseObservation observation) {
-        // I wonder if there's a better way to do this
         if (observation.tagCount() == 0) {
             return Optional.of(RejectionReason.NO_TAGS);
-        }
-        if (observation.tagCount() == 1 && observation.ambiguity() > maxAmbiguity.get()) {
-            return Optional.of(RejectionReason.HIGH_AMBIGUITY);
         }
         if (Math.abs(observation.pose().getZ()) > maxZError.get()) {
             return Optional.of(RejectionReason.Z_ERROR);
         }
         if (rejectOutOfBoundsObservations.get() && isObservationOutOfBounds(observation.pose())) {
             return Optional.of(RejectionReason.OUT_OF_BOUNDS);
-        }
-        if (observation.averageTagDistance() < minTagDistance.get()) {
-            return Optional.of(RejectionReason.TOO_CLOSE);
-        }
-        double maxDistance = observation.tagCount() == 1 ? maxSingleTagDistance.get() : maxMultiTagDistance.get();
-        if (observation.averageTagDistance() > maxDistance) {
-            return Optional.of(RejectionReason.TOO_FAR);
         }
         return Optional.empty();
     }

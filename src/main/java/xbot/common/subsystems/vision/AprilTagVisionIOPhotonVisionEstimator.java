@@ -189,7 +189,11 @@ public class AprilTagVisionIOPhotonVisionEstimator implements AprilTagVisionIO {
                 estStdDevs = multipleTagStdDevs;
             }
             // Increase std devs based on (average) distance
-            estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
+            if (numTags == 1 && avgDist > 4) {
+                estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
+            } else {
+                estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
+            }
         }
 
         return estStdDevs;
