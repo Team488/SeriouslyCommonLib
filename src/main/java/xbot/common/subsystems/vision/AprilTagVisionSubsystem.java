@@ -226,6 +226,7 @@ public class AprilTagVisionSubsystem extends SubsystemBase {
             Logger.recordOutput(cameraHelper.getLogPath() + "/RobotPoses", cameraHelper.getRobotPoses().toArray(new Pose3d[0]));
             Logger.recordOutput(cameraHelper.getLogPath() + "/RobotPosesAccepted", cameraHelper.getRobotPosesAccepted().toArray(new Pose3d[0]));
             Logger.recordOutput(cameraHelper.getLogPath() + "/RobotPosesRejected", cameraHelper.getRobotPosesRejected().toArray(new Pose3d[0]));
+            Logger.recordOutput(cameraHelper.getLogPath() + "/RobotPosesRejectionReasons", cameraHelper.getRejectionReasons().toArray(new String[0]));
             double now = Timer.getMonotonicTimestamp();
             Logger.recordOutput(cameraHelper.getLogPath() + "/Staleness",
                     cameraHelper.getPoseObservations().stream().map(p -> (now - p.timestampSeconds())).mapToDouble(Double::doubleValue).toArray());
