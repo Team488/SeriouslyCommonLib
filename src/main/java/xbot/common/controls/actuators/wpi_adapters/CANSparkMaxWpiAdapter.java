@@ -189,12 +189,12 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     public void setRawPositionTarget(Angle rawPosition, MotorPidMode mode, int slot) {
         SparkBase.ControlType controlType;
         switch (mode) {
-        case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kPosition;
-        case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionPositionControl;
-        default -> {
-            RobotAssertionManager.fail("Unsupported mode: " + mode);
-            controlType = SparkBase.ControlType.kPosition;
-        }
+            case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kPosition;
+            case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionPositionControl;
+            default -> {
+                RobotAssertionManager.fail("Unsupported mode: " + mode);
+                controlType = SparkBase.ControlType.kPosition;
+            }
         }
         this.internalSparkMax.getClosedLoopController().setSetpoint(rawPosition.in(Rotations), controlType, getClosedLoopSlot(slot));
     }
@@ -207,12 +207,12 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     public void setRawVelocityTarget(AngularVelocity rawVelocity, MotorPidMode mode, int slot) {
         SparkBase.ControlType controlType;
         switch (mode) {
-        case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kVelocity;
-        case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionVelocityControl;
-        default -> {
-            RobotAssertionManager.fail("Unsupported mode: " + mode);
-            controlType = SparkBase.ControlType.kVelocity;
-        }
+            case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kVelocity;
+            case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionVelocityControl;
+            default -> {
+                RobotAssertionManager.fail("Unsupported mode: " + mode);
+                controlType = SparkBase.ControlType.kVelocity;
+            }
         }
         this.internalSparkMax.getClosedLoopController().setSetpoint(rawVelocity.in(RPM), controlType, getClosedLoopSlot(slot));
     }
@@ -221,12 +221,12 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
     public void setRawVelocityTargetWithFeedForward(AngularVelocity rawVelocity, MotorPidMode mode, double feedForward, int slot) {
         SparkBase.ControlType controlType;
         switch (mode) {
-        case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kVelocity;
-        case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionVelocityControl;
-        default -> {
-            RobotAssertionManager.fail("Unsupported mode: " + mode);
-            controlType = SparkBase.ControlType.kVelocity;
-        }
+            case DutyCycle, Voltage -> controlType = SparkBase.ControlType.kVelocity;
+            case TrapezoidalVoltage -> controlType = SparkBase.ControlType.kMAXMotionVelocityControl;
+            default -> {
+                RobotAssertionManager.fail("Unsupported mode: " + mode);
+                controlType = SparkBase.ControlType.kVelocity;
+            }
         }
         this.internalSparkMax.getClosedLoopController().setSetpoint(rawVelocity.in(RPM), controlType, getClosedLoopSlot(slot), feedForward);
     }
@@ -241,14 +241,14 @@ public class CANSparkMaxWpiAdapter extends XCANMotorController {
 
     private ClosedLoopSlot getClosedLoopSlot(int slot) {
         return switch (slot) {
-        case 0 -> ClosedLoopSlot.kSlot0;
-        case 1 -> ClosedLoopSlot.kSlot1;
-        case 2 -> ClosedLoopSlot.kSlot2;
-        case 3 -> ClosedLoopSlot.kSlot3;
-        default -> {
-            RobotAssertionManager.fail("Invalid PID slot number: " + slot);
-            yield ClosedLoopSlot.kSlot0;
-        }
+            case 0 -> ClosedLoopSlot.kSlot0;
+            case 1 -> ClosedLoopSlot.kSlot1;
+            case 2 -> ClosedLoopSlot.kSlot2;
+            case 3 -> ClosedLoopSlot.kSlot3;
+            default -> {
+                RobotAssertionManager.fail("Invalid PID slot number: " + slot);
+                yield ClosedLoopSlot.kSlot0;
+            }
         };
     }
 

@@ -7,12 +7,12 @@ public enum LEDStripType {
 
     public StripTypeValue toPhoenixStripTypeValue() {
         return switch (this) {
-        case GRB -> StripTypeValue.GRB;
-        case RGB -> StripTypeValue.RGB;
-        case BRG -> StripTypeValue.BRG;
-        case GRBW -> StripTypeValue.GRBW;
-        case RGBW -> StripTypeValue.RGBW;
-        case BRGW -> StripTypeValue.BRGW;
+            case GRB -> StripTypeValue.GRB;
+            case RGB -> StripTypeValue.RGB;
+            case BRG -> StripTypeValue.BRG;
+            case GRBW -> StripTypeValue.GRBW;
+            case RGBW -> StripTypeValue.RGBW;
+            case BRGW -> StripTypeValue.BRGW;
         };
     }
 }
