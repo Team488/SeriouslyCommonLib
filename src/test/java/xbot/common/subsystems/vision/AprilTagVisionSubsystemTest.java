@@ -74,7 +74,7 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
         io.poseObservations = new AprilTagVisionIO.PoseObservation[] { observation(3, 3, 0, 0.1, 1, 2.0), observation(3, 3, 0, 0.1, 0, 2.0),
                 observation(3, 3, 0, 0.5, 1, 2.0), observation(3, 3, 0, 0.5, 2, 2.0), observation(3, 3, 1.0, 0.1, 2, 2.0), observation(-1.0, 3, 0, 0.1, 2, 2.0),
                 observation(3, -1.0, 0, 0.1, 2, 2.0), observation(-0.2, 3, 0, 0.1, 2, 2.0), observation(3, 3, 0, 0.1, 2, 0.2),
-                observation(3, 3, 0, 0.1, 1, 4.5), observation(3, 3, 0, 0.1, 2, 4.5), observation(3, 3, 0, 0.1, 2, 5.5) };
+                observation(3, 3, 0, 0.1, 1, 5.5), observation(3, 3, 0, 0.1, 2, 4.5), observation(3, 3, 0, 0.1, 2, 5.5) };
         registry.refreshAll();
         subsystem.periodic();
 
