@@ -95,8 +95,8 @@ public class GameField {
      */
     public Translation2d getMirroredTranslation(Translation2d original) {
         return switch (symmetry) {
-        case Mirrored -> new Translation2d(fieldLength.in(Meters) - original.getX(), original.getY());
-        case Rotational -> new Translation2d(fieldLength.in(Meters) - original.getX(), fieldWidth.in(Meters) - original.getY());
+            case Mirrored -> new Translation2d(fieldLength.in(Meters) - original.getX(), original.getY());
+            case Rotational -> new Translation2d(fieldLength.in(Meters) - original.getX(), fieldWidth.in(Meters) - original.getY());
         };
     }
 
@@ -109,8 +109,8 @@ public class GameField {
      */
     public Rotation2d getMirroredRotation(Rotation2d original) {
         return switch (symmetry) {
-        case Mirrored -> Rotation2d.fromDegrees(original.getDegrees() - (original.getDegrees() - 90.0) * 2);
-        case Rotational -> original.rotateBy(Rotation2d.fromDegrees(180));
+            case Mirrored -> Rotation2d.fromDegrees(original.getDegrees() - (original.getDegrees() - 90.0) * 2);
+            case Rotational -> original.rotateBy(Rotation2d.fromDegrees(180));
         };
     }
 
