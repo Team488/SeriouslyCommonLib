@@ -2,8 +2,12 @@ package xbot.common.subsystems.vision;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import org.wpilib.math.geometry.Pose3d;
 import org.wpilib.math.geometry.Rotation2d;
@@ -65,23 +69,56 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
                 AprilTagVisionIO.PoseObservationType.PHOTONVISION);
     }
 
-    @Test
-    public void testRejectsBadObservations() {
+    private List<String> rejectionReasonsFor(AprilTagVisionIO.PoseObservation... observations) {
         var subsystem = this.getInjectorComponent().getAprilTagVisionSubsystem();
-        var registry = this.getInjectorComponent().dataFrameRegistry();
-
         var io = (MockAprilTagVisionIO) subsystem.io[0];
-        io.poseObservations = new AprilTagVisionIO.PoseObservation[] { observation(3, 3, 0, 0.1, 1, 2.0), observation(3, 3, 0, 0.1, 0, 2.0),
-                observation(3, 3, 0, 0.5, 1, 2.0), observation(3, 3, 0, 0.5, 2, 2.0), observation(3, 3, 1.0, 0.1, 2, 2.0), observation(-1.0, 3, 0, 0.1, 2, 2.0),
-                observation(3, -1.0, 0, 0.1, 2, 2.0), observation(-0.2, 3, 0, 0.1, 2, 2.0), observation(3, 3, 0, 0.1, 2, 0.2),
-                observation(3, 3, 0, 0.1, 1, 5.5), observation(3, 3, 0, 0.1, 2, 4.5), observation(3, 3, 0, 0.1, 2, 5.5) };
-        registry.refreshAll();
+        io.poseObservations = observations;
+        this.getInjectorComponent().dataFrameRegistry().refreshAll();
         subsystem.periodic();
+        return subsystem.cameraHelpers[0].getRejectionReasons();
+    }
 
-        assertEquals(List.of("ACCEPTED", "NO_TAGS", "HIGH_AMBIGUITY", "ACCEPTED", "Z_ERROR", "OUT_OF_BOUNDS", "OUT_OF_BOUNDS", "ACCEPTED", "TOO_CLOSE",
-                "TOO_FAR", "ACCEPTED", "TOO_FAR"), subsystem.cameraHelpers[0].getRejectionReasons());
-        assertEquals(4, subsystem.getAllPoseObservations().size());
-        assertEquals(8, subsystem.cameraHelpers[0].getRobotPosesRejected().size());
+    static Stream<Arguments> singleObservationCases() {
+        return Stream.of(Arguments.of("single tag in range", observation(3, 3, 0, 0.1, 1, 2.0), "ACCEPTED"),
+                Arguments.of("multi tag in range", observation(3, 3, 0, 0.1, 2, 4.5), "ACCEPTED"),
+                Arguments.of("within field border margin", observation(-0.2, 3, 0, 0.1, 2, 2.0), "ACCEPTED"),
+                Arguments.of("multi tag ignores ambiguity", observation(3, 3, 0, 0.5, 2, 2.0), "ACCEPTED"),
+                Arguments.of("no tags", observation(3, 3, 0, 0.1, 0, 2.0), "NO_TAGS"),
+                Arguments.of("single tag high ambiguity", observation(3, 3, 0, 0.5, 1, 2.0), "HIGH_AMBIGUITY"),
+                Arguments.of("z error", observation(3, 3, 1.0, 0.1, 2, 2.0), "Z_ERROR"),
+                Arguments.of("past negative x edge", observation(-1.0, 3, 0, 0.1, 2, 2.0), "OUT_OF_BOUNDS"),
+                Arguments.of("past positive x edge", observation(100, 3, 0, 0.1, 2, 2.0), "OUT_OF_BOUNDS"),
+                Arguments.of("past negative y edge", observation(3, -1.0, 0, 0.1, 2, 2.0), "OUT_OF_BOUNDS"),
+                Arguments.of("past positive y edge", observation(3, 100, 0, 0.1, 2, 2.0), "OUT_OF_BOUNDS"),
+                Arguments.of("too close", observation(3, 3, 0, 0.1, 2, 0.2), "TOO_CLOSE"),
+                Arguments.of("single tag too far", observation(3, 3, 0, 0.1, 1, 5.5), "TOO_FAR"),
+                Arguments.of("multi tag too far", observation(3, 3, 0, 0.1, 2, 5.5), "TOO_FAR"));
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("singleObservationCases")
+    public void testRejectionReason(String description, AprilTagVisionIO.PoseObservation observation, String expectedReason) {
+        assertEquals(List.of(expectedReason), rejectionReasonsFor(observation));
+    }
+
+    @Test
+    public void testOnlyFirstFailingRuleIsReported() {
+        var noTagsAndOutOfBounds = observation(-1.0, 3, 1.0, 0.1, 0, 0.2);
+        var ambiguousAndTooFar = observation(3, 3, 0, 0.5, 1, 5.5);
+
+        assertEquals(List.of("NO_TAGS", "HIGH_AMBIGUITY"), rejectionReasonsFor(noTagsAndOutOfBounds, ambiguousAndTooFar));
+    }
+
+    @Test
+    public void testOnlyAcceptedObservationsAreUsed() {
+        var subsystem = this.getInjectorComponent().getAprilTagVisionSubsystem();
+
+        var reasons = rejectionReasonsFor(observation(3, 3, 0, 0.1, 1, 2.0), observation(3, 3, 0, 0.1, 0, 2.0), observation(3, 3, 0, 0.1, 2, 4.5));
+
+        assertEquals(List.of("ACCEPTED", "NO_TAGS", "ACCEPTED"), reasons);
+        assertEquals(2, subsystem.getAllPoseObservations().size());
+        assertEquals(2, subsystem.cameraHelpers[0].getRobotPosesAccepted().size());
+        assertEquals(1, subsystem.cameraHelpers[0].getRobotPosesRejected().size());
     }
 
     @Test
