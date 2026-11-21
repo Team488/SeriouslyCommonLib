@@ -65,9 +65,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
 
     // Rejection reasons for pose observations
     enum RejectionReason {
-        NO_TAGS,
-        Z_ERROR,
-        OUT_OF_BOUNDS
+        NO_TAGS, Z_ERROR, OUT_OF_BOUNDS
     }
 
     public AprilTagVisionCameraHelper(String prefix, TunableFactory tunableFactory, AprilTagVisionIO io, Fields fieldLayout, DataFrameRegistry registry,
