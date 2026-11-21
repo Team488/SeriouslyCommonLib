@@ -151,8 +151,17 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
      * @return The default PID values.
      */
     protected PIDDefaults getHeadingPIDDefaults() {
-        return new PIDDefaults.Builder().withP(0.005).withI(0.000001).withD(0.02).withF(0.0).withMaxOutput(0.75).withMinOutput(-0.75).withErrorThreshold(2.0)
-                .withDerivativeThreshold(0.2).withTimeThreshold(0.2).build();
+        return new PIDDefaults.Builder()
+                .withP(0.005)
+                .withI(0.000001)
+                .withD(0.02)
+                .withF(0.0)
+                .withMaxOutput(0.75)
+                .withMinOutput(-0.75)
+                .withErrorThreshold(2.0)
+                .withDerivativeThreshold(0.2)
+                .withTimeThreshold(0.2)
+                .build();
     }
 
     public SwerveDriveKinematics getSwerveDriveKinematics() {

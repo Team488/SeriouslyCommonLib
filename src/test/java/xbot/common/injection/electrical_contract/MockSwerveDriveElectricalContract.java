@@ -30,11 +30,13 @@ public class MockSwerveDriveElectricalContract implements XSwerveDriveElectrical
     public CANMotorControllerInfo getDriveMotor(SwerveInstance swerveInstance) {
         switch (swerveInstance.label()) {
         case "FrontLeftDrive" -> {
-            return CANMotorControllerInfo.builder("DriveSubsystem/FrontLeftDrive/Drive").withType(MotorControllerType.SparkMax).withCanBus(CANPort.CAN_S0, 1)
+            return CANMotorControllerInfo.builder("DriveSubsystem/FrontLeftDrive/Drive").withType(MotorControllerType.SparkMax)
+                    .withCanBus(CANPort.CAN_S0, 1)
                     .build();
         }
         case "FrontRightDrive" -> {
-            return CANMotorControllerInfo.builder("DriveSubsystem/FrontRightDrive/Drive").withType(MotorControllerType.SparkMax).withCanBus(CANPort.CAN_S0, 2)
+            return CANMotorControllerInfo.builder("DriveSubsystem/FrontRightDrive/Drive").withType(MotorControllerType.SparkMax)
+                    .withCanBus(CANPort.CAN_S0, 2)
                     .build();
         }
         case "RearLeftDrive" -> {
@@ -42,7 +44,8 @@ public class MockSwerveDriveElectricalContract implements XSwerveDriveElectrical
                     .build();
         }
         case "RearRightDrive" -> {
-            return CANMotorControllerInfo.builder("DriveSubsystem/RearRightDrive/Drive").withType(MotorControllerType.SparkMax).withCanBus(CANPort.CAN_S0, 4)
+            return CANMotorControllerInfo.builder("DriveSubsystem/RearRightDrive/Drive").withType(MotorControllerType.SparkMax)
+                    .withCanBus(CANPort.CAN_S0, 4)
                     .build();
         }
         default -> throw new IllegalArgumentException("Unknown SwerveInstance: " + swerveInstance.label());
