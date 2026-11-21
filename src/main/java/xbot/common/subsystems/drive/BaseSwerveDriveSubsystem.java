@@ -564,17 +564,17 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem implem
 
     private SwerveModuleSubsystem getSwerveModuleSubsystem(SwerveModuleLocation location) {
         switch (location) {
-        case FRONT_LEFT:
-            return this.getFrontLeftSwerveModuleSubsystem();
-        case FRONT_RIGHT:
-            return this.getFrontRightSwerveModuleSubsystem();
-        case REAR_LEFT:
-            return this.getRearLeftSwerveModuleSubsystem();
-        case REAR_RIGHT:
-            return this.getRearRightSwerveModuleSubsystem();
-        default:
-            log.warn("Attempted to get a SwerveModuleSubsystem for an invalid SwerveModuleLocation. Returning front left so that something is returned.");
-            return this.getFrontLeftSwerveModuleSubsystem();
+            case FRONT_LEFT:
+                return this.getFrontLeftSwerveModuleSubsystem();
+            case FRONT_RIGHT:
+                return this.getFrontRightSwerveModuleSubsystem();
+            case REAR_LEFT:
+                return this.getRearLeftSwerveModuleSubsystem();
+            case REAR_RIGHT:
+                return this.getRearRightSwerveModuleSubsystem();
+            default:
+                log.warn("Attempted to get a SwerveModuleSubsystem for an invalid SwerveModuleLocation. Returning front left so that something is returned.");
+                return this.getFrontLeftSwerveModuleSubsystem();
         }
     }
 

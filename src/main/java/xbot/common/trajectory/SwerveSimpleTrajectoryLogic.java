@@ -183,26 +183,26 @@ public class SwerveSimpleTrajectoryLogic {
         // Adjust points based on mode, since the logic at default is optimized for "DurationInSeconds" we need
         // To convert over modes to have values in DurationInSeconds.
         switch (mode) {
-        case DurationInSeconds -> {
-        } // The logic at default is optimized for duration in seconds.
-        case KinematicsForIndividualPoints -> {
-            for (XbotSwervePoint point : keyPoints) {
-                if (point.getKinematics() == null) {
-                    RobotAssertionManager.throwException("Needs to set kinematics for swerve point!", new Exception());
+            case DurationInSeconds -> {
+            } // The logic at default is optimized for duration in seconds.
+            case KinematicsForIndividualPoints -> {
+                for (XbotSwervePoint point : keyPoints) {
+                    if (point.getKinematics() == null) {
+                        RobotAssertionManager.throwException("Needs to set kinematics for swerve point!", new Exception());
+                    }
                 }
+                keyPoints = getKinematicsAdjustedSwervePoints(initialPoint, keyPoints);
             }
-            keyPoints = getKinematicsAdjustedSwervePoints(initialPoint, keyPoints);
-        }
-        case GlobalKinematicsValue -> {
-            if (globalKinematics == null) {
-                RobotAssertionManager.throwException("Needs to set globalKinematics!", new Exception());
+            case GlobalKinematicsValue -> {
+                if (globalKinematics == null) {
+                    RobotAssertionManager.throwException("Needs to set globalKinematics!", new Exception());
+                }
+                keyPoints = getGlobalKinematicsAdjustedSwervePoints(initialPoint, keyPoints, currentPose);
             }
-            keyPoints = getGlobalKinematicsAdjustedSwervePoints(initialPoint, keyPoints, currentPose);
-        }
-        case ConstantVelocity -> {
-            keyPoints = getVelocityAdjustedSwervePoints(initialPoint, keyPoints, constantVelocity);
-        }
-        default -> RobotAssertionManager.throwException("No handling for SwerveSimpleTrajectoryMode!", new Exception());
+            case ConstantVelocity -> {
+                keyPoints = getVelocityAdjustedSwervePoints(initialPoint, keyPoints, constantVelocity);
+            }
+            default -> RobotAssertionManager.throwException("No handling for SwerveSimpleTrajectoryMode!", new Exception());
         }
 
         handleAimingAtFinalLeg(currentPose);
@@ -507,17 +507,17 @@ public class SwerveSimpleTrajectoryLogic {
 
         boolean finished = false;
         switch (finishMode) {
-        case LoosePositionAndRotation:
-            boolean isNearPositionTarget = translationDifference < loosePositionThreshold;
-            boolean isNearRotationTarget = rotationDifference < looseRotationThreshold;
+            case LoosePositionAndRotation:
+                boolean isNearPositionTarget = translationDifference < loosePositionThreshold;
+                boolean isNearRotationTarget = rotationDifference < looseRotationThreshold;
 
-            // Using isOnFinalLeg here instead of isOnFinalPoint as it's more loose
-            finished = lastResult.isOnFinalLeg && isNearPositionTarget && isNearRotationTarget;
-            break;
-        case BeAtPidTarget: // Fall into default
-        default:
-            finished = lastResult.isOnFinalPoint && positionalPid.isOnTarget() && headingModule.isOnTarget();
-            break;
+                // Using isOnFinalLeg here instead of isOnFinalPoint as it's more loose
+                finished = lastResult.isOnFinalLeg && isNearPositionTarget && isNearRotationTarget;
+                break;
+            case BeAtPidTarget: // Fall into default
+            default:
+                finished = lastResult.isOnFinalPoint && positionalPid.isOnTarget() && headingModule.isOnTarget();
+                break;
         }
 
         if (finished) {
