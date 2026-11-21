@@ -87,7 +87,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.linearStdDevMegatag2Factor = tunableFactory.createDouble("LinearStdDevMegatag2Factor", 0.5);
         this.angularStdDevMegatag2Factor = tunableFactory.createDouble("AngularStdDevMegatag2Factor", Double.POSITIVE_INFINITY);
         this.cameraStdDevFactor = tunableFactory.createDouble("CameraStdDevFactor", 1.0);
-        this.maxSingleTagDistance = tunableFactory.createDouble("MaxSingleTagDistance", 4.0);
+        this.maxSingleTagDistance = tunableFactory.createDouble("MaxSingleTagDistance", 5.0);
         this.maxMultiTagDistance = tunableFactory.createDouble("MaxMultiTagDistance", 5.0);
         this.minTagDistance = tunableFactory.createDouble("MinTagDistance", 0.5);
         this.fieldBorderMargin = tunableFactory.createDouble("FieldBorderMargin", 0.5);
