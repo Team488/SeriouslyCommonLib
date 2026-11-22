@@ -29,19 +29,19 @@ public class XCANMotorControllerFactoryImpl implements XCANMotorController.XCANM
     public XCANMotorController create(CANMotorControllerInfo info, String owningSystemPrefix, String pidTunablePrefix,
             XCANMotorControllerPIDProperties defaultPIDProperties) {
         switch (info.type()) {
-        case TalonFx -> {
-            return talonFxFactory.create(info, owningSystemPrefix, pidTunablePrefix, defaultPIDProperties);
-        }
-        case SparkMax -> {
-            return sparkMaxFactory.create(info, owningSystemPrefix, pidTunablePrefix, defaultPIDProperties);
-        }
-        //case VictorSPX -> {
-        //    return victorSPXFactory.create(info, owningSystemPrefix, pidTunablePrefix, defaultPIDProperties);
-        //}
-        default -> {
-            RobotAssertionManager.throwException("Unknown motor controller type: " + info.type());
-            return null; // Still gotta return since we are not throwing Java exception...
-        }
+            case TalonFx -> {
+                return talonFxFactory.create(info, owningSystemPrefix, pidTunablePrefix, defaultPIDProperties);
+            }
+            case SparkMax -> {
+                return sparkMaxFactory.create(info, owningSystemPrefix, pidTunablePrefix, defaultPIDProperties);
+            }
+            //case VictorSPX -> {
+            //    return victorSPXFactory.create(info, owningSystemPrefix, pidTunablePrefix, defaultPIDProperties);
+            //}
+            default -> {
+                RobotAssertionManager.throwException("Unknown motor controller type: " + info.type());
+                return null; // Still gotta return since we are not throwing Java exception...
+            }
         }
     }
 }

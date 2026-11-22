@@ -176,32 +176,32 @@ public abstract class PurePursuitCommand extends BaseCommand {
         // Relative: remap these points into a robot-relative frame.
         // -- This is useful for setting up repeating commands, like "go foward and right 3 feet, while turning right 90 degrees."
         switch (mode) {
-        case Absolute:
-            // Nothing to do - points are typically in absolute mode.
-            pointsToVisit = originalPoints;
-            break;
-        case Relative:
-            // Time to rotate & remap these points.
-            // The robot always has a sense of where it is (X, Y, rotation).
-            // We just take the requested points and map them onto our current location to set up some new point goals.
-            pointsToVisit = new ArrayList<>();
-            FieldPose currentRobotPose = poseSystem.getCurrentFieldPose();
-            for (RabbitPoint originalPoint : originalPoints) {
-                // First, rotate the point according to the robot's current heading
-                XYPair updatedPoint = originalPoint.pose.getPoint().clone().rotate(currentRobotPose.getHeading().getDegrees());
+            case Absolute:
+                // Nothing to do - points are typically in absolute mode.
+                pointsToVisit = originalPoints;
+                break;
+            case Relative:
+                // Time to rotate & remap these points.
+                // The robot always has a sense of where it is (X, Y, rotation).
+                // We just take the requested points and map them onto our current location to set up some new point goals.
+                pointsToVisit = new ArrayList<>();
+                FieldPose currentRobotPose = poseSystem.getCurrentFieldPose();
+                for (RabbitPoint originalPoint : originalPoints) {
+                    // First, rotate the point according to the robot's current heading
+                    XYPair updatedPoint = originalPoint.pose.getPoint().clone().rotate(currentRobotPose.getHeading().getDegrees());
 
-                // Then, translate the point according to the robot's current field position
-                updatedPoint.add(currentRobotPose.getPoint());
+                    // Then, translate the point according to the robot's current field position
+                    updatedPoint.add(currentRobotPose.getPoint());
 
-                // Finally, rotate the original's goal heading by the robot's current heading
-                double updatedHeading = originalPoint.pose.getHeading().getDegrees() + currentRobotPose.getHeading().getDegrees();
+                    // Finally, rotate the original's goal heading by the robot's current heading
+                    double updatedHeading = originalPoint.pose.getHeading().getDegrees() + currentRobotPose.getHeading().getDegrees();
 
-                FieldPose updatedPose = new FieldPose(updatedPoint, Rotation2d.fromDegrees(updatedHeading));
-                pointsToVisit.add(new RabbitPoint(updatedPose, originalPoint.pointType, originalPoint.terminatingType, originalPoint.driveStyle));
-            }
-            break;
-        default:
-            log.error("Tried to initialize a PurePursuitCommand with no proper mode set!");
+                    FieldPose updatedPose = new FieldPose(updatedPoint, Rotation2d.fromDegrees(updatedHeading));
+                    pointsToVisit.add(new RabbitPoint(updatedPose, originalPoint.pointType, originalPoint.terminatingType, originalPoint.driveStyle));
+                }
+                break;
+            default:
+                log.error("Tried to initialize a PurePursuitCommand with no proper mode set!");
         }
 
         log.info("Initialized PurePursuitCommand with " + pointsToVisit.size() + " point(s)");
