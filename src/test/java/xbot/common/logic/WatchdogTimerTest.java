@@ -3,6 +3,8 @@ package xbot.common.logic;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.wpilib.simulation.SimHooks;
+
 import xbot.common.injection.BaseCommonLibTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,7 +29,7 @@ public class WatchdogTimerTest extends BaseCommonLibTest {
         assertEquals(0, upCount);
         assertEquals(0, downCount);
 
-        timer.advanceTimeInSecondsBy(10);
+        SimHooks.stepTiming(10);
 
         watchdog.check();
         assertEquals(0, upCount);
@@ -39,13 +41,13 @@ public class WatchdogTimerTest extends BaseCommonLibTest {
         assertEquals(1, upCount);
         assertEquals(0, downCount);
 
-        timer.advanceTimeInSecondsBy(4);
+        SimHooks.stepTiming(4);
 
         watchdog.check();
         assertEquals(1, upCount);
         assertEquals(0, downCount);
 
-        timer.advanceTimeInSecondsBy(1.5);
+        SimHooks.stepTiming(1.5);
 
         watchdog.check();
         assertEquals(1, upCount);
@@ -58,7 +60,7 @@ public class WatchdogTimerTest extends BaseCommonLibTest {
         assertEquals(0, upCount);
         assertEquals(0, downCount);
 
-        timer.advanceTimeInSecondsBy(1);
+        SimHooks.stepTiming(1);
 
         watchdog.kick();
 
@@ -66,26 +68,26 @@ public class WatchdogTimerTest extends BaseCommonLibTest {
         assertEquals(1, upCount);
         assertEquals(0, downCount);
 
-        timer.advanceTimeInSecondsBy(1);
+        SimHooks.stepTiming(1);
 
         watchdog.check();
         assertEquals(1, upCount);
         assertEquals(0, downCount);
 
-        timer.advanceTimeInSecondsBy(3);
+        SimHooks.stepTiming(3);
         watchdog.kick();
 
         watchdog.check();
         assertEquals(1, upCount);
         assertEquals(0, downCount);
 
-        timer.advanceTimeInSecondsBy(3);
+        SimHooks.stepTiming(3);
 
         watchdog.check();
         assertEquals(1, upCount);
         assertEquals(0, downCount);
 
-        timer.advanceTimeInSecondsBy(3);
+        SimHooks.stepTiming(3);
 
         watchdog.check();
         assertEquals(1, upCount);
@@ -98,7 +100,7 @@ public class WatchdogTimerTest extends BaseCommonLibTest {
         assertEquals(0, upCount);
         assertEquals(0, downCount);
 
-        timer.advanceTimeInSecondsBy(5);
+        SimHooks.stepTiming(5);
 
         watchdog.kick();
 
@@ -106,20 +108,20 @@ public class WatchdogTimerTest extends BaseCommonLibTest {
         assertEquals(1, upCount);
         assertEquals(0, downCount);
 
-        timer.advanceTimeInSecondsBy(6);
+        SimHooks.stepTiming(6);
 
         watchdog.check();
         assertEquals(1, upCount);
         assertEquals(1, downCount);
 
-        timer.advanceTimeInSecondsBy(1.5);
+        SimHooks.stepTiming(1.5);
         watchdog.kick();
 
         watchdog.check();
         assertEquals(2, upCount);
         assertEquals(1, downCount);
 
-        timer.advanceTimeInSecondsBy(6);
+        SimHooks.stepTiming(6);
 
         watchdog.check();
         assertEquals(2, upCount);

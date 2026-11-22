@@ -8,9 +8,6 @@ import dagger.Module;
 
 import xbot.common.command.MockTunableCommandPublisher;
 import xbot.common.command.TunableCommandPublisher;
-import xbot.common.controls.sensors.XSettableTimerImpl;
-import xbot.common.controls.sensors.XTimerImpl;
-import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.logging.assertion.LoudRobotAssertionHandler;
 import xbot.common.logging.assertion.RobotAssertionHandler;
 import xbot.common.properties.DebugTunablePersistence;
@@ -25,14 +22,6 @@ import xbot.common.subsystems.vision.MockAprilTagVisionIO;
  */
 @Module
 public abstract class UnitTestModule {
-    @Binds
-    @Singleton
-    abstract XTimerImpl getTimer(MockTimer impl);
-
-    @Binds
-    @Singleton
-    abstract XSettableTimerImpl getSettableTimer(MockTimer impl);
-
     @Binds
     @Singleton
     abstract TunablePersistence getTunablePersistence(InMemoryTunablePersistence impl);

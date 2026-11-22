@@ -3,6 +3,8 @@ package xbot.common.logic;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.wpilib.simulation.SimHooks;
+
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.logic.StallDetector.StallState;
 
@@ -31,18 +33,18 @@ public class StallDetectorTest extends BaseCommonLibTest {
         // Way over current limit
         assertEquals(StallState.NOT_STALLED, stallDetector.getIsStalled(100, 0, 0));
         // Needs to be that way for a little while
-        timer.advanceTimeInSecondsBy(1.1);
+        SimHooks.stepTiming(1.1);
         assertEquals(StallState.STALLED, stallDetector.getIsStalled(100, 0, 0));
-        timer.advanceTimeInSecondsBy(0.1);
+        SimHooks.stepTiming(0.1);
         assertEquals(StallState.STALLED, stallDetector.getIsStalled(100, 0, 0));
 
         // Now, stop forcing the mechanism
         assertEquals(StallState.WAS_STALLED_RECENTLY, stallDetector.getIsStalled(0, 0, 0));
         // Wait a while
-        timer.advanceTimeInSecondsBy(1.9);
+        SimHooks.stepTiming(1.9);
         assertEquals(StallState.WAS_STALLED_RECENTLY, stallDetector.getIsStalled(0, 0, 0));
         // Wait across the stall cool down
-        timer.advanceTimeInSecondsBy(0.2);
+        SimHooks.stepTiming(0.2);
         assertEquals(StallState.NOT_STALLED, stallDetector.getIsStalled(0, 0, 0));
     }
 
@@ -50,13 +52,13 @@ public class StallDetectorTest extends BaseCommonLibTest {
     public void testMotionStallConditions() {
         // Large voltage but no motion
         assertEquals(StallState.NOT_STALLED, stallDetector.getIsStalled(0, 1, 0));
-        timer.advanceTimeInSecondsBy(1.1);
+        SimHooks.stepTiming(1.1);
         assertEquals(StallState.STALLED, stallDetector.getIsStalled(0, 1, 0));
         // Stop applying voltage, but only go forwards in time a little
-        timer.advanceTimeInSecondsBy(0.1);
+        SimHooks.stepTiming(0.1);
         assertEquals(StallState.WAS_STALLED_RECENTLY, stallDetector.getIsStalled(0, 0, 0));
         // Wait a while for the system to cool down
-        timer.advanceTimeInSecondsBy(2.5);
+        SimHooks.stepTiming(2.5);
         assertEquals(StallState.NOT_STALLED, stallDetector.getIsStalled(0, 0, 0));
     }
 
@@ -64,33 +66,33 @@ public class StallDetectorTest extends BaseCommonLibTest {
     public void testNegativeVoltageMotionStallConditions() {
         // Large voltage but no motion
         assertEquals(StallState.NOT_STALLED, stallDetector.getIsStalled(0, -1, 0));
-        timer.advanceTimeInSecondsBy(1.1);
+        SimHooks.stepTiming(1.1);
         assertEquals(StallState.STALLED, stallDetector.getIsStalled(0, -1, 0));
         // Stop applying voltage, but only go forwards in time a little
-        timer.advanceTimeInSecondsBy(0.1);
+        SimHooks.stepTiming(0.1);
         assertEquals(StallState.WAS_STALLED_RECENTLY, stallDetector.getIsStalled(0, 0, 0));
         // Wait a while for the system to cool down
-        timer.advanceTimeInSecondsBy(2.5);
+        SimHooks.stepTiming(2.5);
         assertEquals(StallState.NOT_STALLED, stallDetector.getIsStalled(0, 0, 0));
     }
 
     @Test
     public void testNormalMotion() {
         assertEquals(StallState.NOT_STALLED, stallDetector.getIsStalled(0, 1, 100));
-        timer.advanceTimeInSecondsBy(1.5);
+        SimHooks.stepTiming(1.5);
         assertEquals(StallState.NOT_STALLED, stallDetector.getIsStalled(0, 1, 100));
-        timer.advanceTimeInSecondsBy(1.5);
+        SimHooks.stepTiming(1.5);
         assertEquals(StallState.NOT_STALLED, stallDetector.getIsStalled(0, 1, 100));
-        timer.advanceTimeInSecondsBy(1.5);
+        SimHooks.stepTiming(1.5);
         assertEquals(StallState.NOT_STALLED, stallDetector.getIsStalled(0, 1, 100));
 
-        timer.advanceTimeInSecondsBy(50);
+        SimHooks.stepTiming(50);
         assertEquals(StallState.NOT_STALLED, stallDetector.getIsStalled(0, -1, -100));
-        timer.advanceTimeInSecondsBy(1.5);
+        SimHooks.stepTiming(1.5);
         assertEquals(StallState.NOT_STALLED, stallDetector.getIsStalled(0, -1, -100));
-        timer.advanceTimeInSecondsBy(1.5);
+        SimHooks.stepTiming(1.5);
         assertEquals(StallState.NOT_STALLED, stallDetector.getIsStalled(0, -1, -100));
-        timer.advanceTimeInSecondsBy(1.5);
+        SimHooks.stepTiming(1.5);
         assertEquals(StallState.NOT_STALLED, stallDetector.getIsStalled(0, -1, -100));
 
     }

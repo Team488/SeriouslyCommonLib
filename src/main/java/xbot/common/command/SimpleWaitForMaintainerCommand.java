@@ -2,7 +2,7 @@ package xbot.common.command;
 
 import java.util.function.DoubleSupplier;
 
-import xbot.common.controls.sensors.XTimer;
+import org.wpilib.system.Timer;
 
 /**
  * Command that waits for a maintainer to be at its goal or until a timeout.
@@ -17,9 +17,9 @@ public class SimpleWaitForMaintainerCommand extends BaseCommand {
      * Creates a new SimpleWaitForMaintainerCommand instance.
      *
      * @param subsystem
-     *            The maintainer subsystem.
+     *                      The maintainer subsystem.
      * @param delaySupplier
-     *            The timeout duration in seconds via a supplier.
+     *                      The timeout duration in seconds via a supplier.
      */
     public SimpleWaitForMaintainerCommand(BaseSetpointSubsystem<?, ?> subsystem, DoubleSupplier delaySupplier) {
         this.subsystem = subsystem;
@@ -28,7 +28,7 @@ public class SimpleWaitForMaintainerCommand extends BaseCommand {
 
     @Override
     public void initialize() {
-        this.startTime = XTimer.getFPGATimestamp();
+        this.startTime = Timer.getTimestamp();
     }
 
     @Override
@@ -42,6 +42,6 @@ public class SimpleWaitForMaintainerCommand extends BaseCommand {
     }
 
     private boolean isTimeoutExpired() {
-        return XTimer.getFPGATimestamp() > startTime + delaySupplier.getAsDouble();
+        return Timer.getTimestamp() > startTime + delaySupplier.getAsDouble();
     }
 }

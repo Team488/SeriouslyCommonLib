@@ -3,7 +3,9 @@ package xbot.common.logic;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import xbot.common.controls.sensors.XTimer;
+import org.wpilib.simulation.SimHooks;
+import org.wpilib.system.Timer;
+
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.properties.TunableFactory;
 
@@ -28,12 +30,12 @@ public class CalibrationDeciderTest extends BaseCommonLibTest {
 
     @Test
     public void testReset() {
-        timer.advanceTimeInSecondsBy(1);
+        SimHooks.stepTiming(1);
         decider.reset();
 
         double beforeReset = decider.startTime;
 
-        timer.advanceTimeInSecondsBy(1);
+        SimHooks.stepTiming(1);
         decider.reset();
         assertNotEquals(beforeReset, decider.startTime, 0.001);
     }
@@ -45,13 +47,13 @@ public class CalibrationDeciderTest extends BaseCommonLibTest {
 
     @Test
     public void testDecideModeWhenTimeExceeded() {
-        decider.startTime = XTimer.getFPGATimestamp() - 4; // 4 is greater than the default calibrationTimeTunable value of 3
+        decider.startTime = Timer.getTimestamp() - 4; // 4 is greater than the default calibrationTimeTunable value of 3
         assertEquals(CalibrationDecider.CalibrationMode.GaveUp, decider.decideMode(false));
     }
 
     @Test
     public void testDecideModeWhenAttempting() {
-        decider.startTime = XTimer.getFPGATimestamp();
+        decider.startTime = Timer.getTimestamp();
         assertEquals(CalibrationDecider.CalibrationMode.Attempting, decider.decideMode(false));
     }
 }

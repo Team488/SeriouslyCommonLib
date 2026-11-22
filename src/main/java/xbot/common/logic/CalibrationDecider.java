@@ -1,12 +1,12 @@
 package xbot.common.logic;
 
+import org.wpilib.system.Timer;
 import org.wpilib.tunable.TunableDouble;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.properties.TunableFactory;
 
 public class CalibrationDecider {
@@ -31,7 +31,7 @@ public class CalibrationDecider {
     }
 
     public void reset() {
-        startTime = XTimer.getFPGATimestamp();
+        startTime = Timer.getTimestamp();
     }
 
     public CalibrationMode decideMode(boolean isCalibrated) {
@@ -39,7 +39,7 @@ public class CalibrationDecider {
             return CalibrationMode.Calibrated;
         }
 
-        if (XTimer.getFPGATimestamp() - startTime > calibrationTimeTunable.get()) {
+        if (Timer.getTimestamp() - startTime > calibrationTimeTunable.get()) {
             return CalibrationMode.GaveUp;
         }
 

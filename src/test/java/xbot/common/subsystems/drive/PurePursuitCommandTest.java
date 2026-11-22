@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.simulation.SimHooks;
 
 import xbot.common.injection.BaseCommonLibTest;
 import xbot.common.math.FieldPose;
@@ -35,7 +36,7 @@ public class PurePursuitCommandTest extends BaseCommonLibTest {
 
         pose.setDriveMotors(drive.leftTank, drive.rightTank);
 
-        timer.advanceTimeInSecondsBy(10);
+        SimHooks.stepTiming(10);
 
         pose.periodic();
         pose.setCurrentHeading(90);

@@ -3,6 +3,7 @@ package xbot.common.subsystems.pose;
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.util.MathUtil;
+import org.wpilib.system.Timer;
 import org.wpilib.tunable.TunableBoolean;
 import org.wpilib.tunable.TunableDouble;
 import org.wpilib.units.measure.Angle;
@@ -10,7 +11,6 @@ import org.wpilib.units.measure.Angle;
 import xbot.common.command.BaseSubsystem;
 import xbot.common.controls.sensors.XGyro;
 import xbot.common.controls.sensors.XGyro.XGyroFactory;
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.math.FieldPose;
 import xbot.common.math.XYPair;
 import xbot.common.properties.TunableFactory;
@@ -33,7 +33,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     public double velocityY;
     protected double totalVelocity;
     protected double headingOffset;
-    // These are two common robot starting positions - kept here as convenient shorthand.
+    // These are two common robot starting positions - kept here as convenient
+    // shorthand.
     public static final double FACING_AWAY_FROM_DRIVERS = 0;
     public static final double INCHES_IN_A_METER = 39.3701;
     protected final TunableDouble inherentRioPitch;
@@ -57,7 +58,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
         log.info("Creating");
         tunableFactory.setPrefix(this);
         imu = gyro;
-        this.classInstantiationTime = XTimer.getFPGATimestamp();
+        this.classInstantiationTime = Timer.getTimestamp();
 
         // Right when the system is initialized, we need to have the old value be
         // the same as the current value, to avoid any sudden changes later
@@ -78,8 +79,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
 
         aKitLog.record("AdjustedHeadingDegrees", currentHeading.in(Degrees));
         aKitLog.record("AdjustedHeadingRadians", currentHeading.in(Radians));
-        //aKitLog.record("AdjustedPitchDegrees", this.getRobotPitch());
-        //aKitLog.record("AdjustedRollDegrees", this.getRobotRoll());
+        // aKitLog.record("AdjustedPitchDegrees", this.getRobotPitch());
+        // aKitLog.record("AdjustedRollDegrees", this.getRobotRoll());
         aKitLog.record("AdjustedYawVelocityDegrees", getYawAngularVelocity());
     }
 
@@ -92,8 +93,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
         rightDriveDistance = currentRightDistance;
 
         if (firstUpdate) {
-            // For the very first update, we set the previous distance to the current distance - that way,
-            // if the drive system initially reports non-zero travel distance, we will still report 0 initial
+            // For the very first update, we set the previous distance to the current
+            // distance - that way,
+            // if the drive system initially reports non-zero travel distance, we will still
+            // report 0 initial
             // distance traveled.
             firstUpdate = false;
             previousLeftDistance = currentLeftDistance;
@@ -133,7 +136,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     }
 
     /**
-     * Can be overriden by subclasses to provide a different heading source (e.g. a vision system, pose estimator, etc)
+     * Can be overriden by subclasses to provide a different heading source (e.g. a
+     * vision system, pose estimator, etc)
      *
      * @return Current heading but if the navX is still booting up it will return 0
      */
@@ -155,7 +159,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
 
     public Pose2d getCurrentPose2d() {
         var travelVector = getTravelVector();
-        return new Pose2d(travelVector.x, travelVector.y, Rotation2d.fromDegrees(getCurrentHeadingGyroOnly().getDegrees()));
+        return new Pose2d(travelVector.x, travelVector.y,
+                Rotation2d.fromDegrees(getCurrentHeadingGyroOnly().getDegrees()));
     }
 
     public XYPair getCurrentVelocity() {
@@ -167,8 +172,10 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     }
 
     /**
-     * Returns the distance the robot has traveled forward. Rotations are ignored - if you drove forward 100 inches, then
-     * turned 180 degrees and drove another 100 inches, this would tell you that you have traveled 200 inches.
+     * Returns the distance the robot has traveled forward. Rotations are ignored -
+     * if you drove forward 100 inches, then
+     * turned 180 degrees and drove another 100 inches, this would tell you that you
+     * have traveled 200 inches.
      *
      * @return Distance in inches traveled forward from the robot perspective
      */
@@ -183,30 +190,33 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     }
 
     public void setCurrentHeading(double headingInDegrees) {
-        //log.info("Forcing heading to: " + headingInDegrees);
+        // log.info("Forcing heading to: " + headingInDegrees);
         double rawHeading = getRobotYaw().getDegrees();
-        //log.info("Raw heading is: " + rawHeading);
+        // log.info("Raw heading is: " + rawHeading);
         headingOffset = -rawHeading + headingInDegrees;
-        //log.info("Offset calculated to be: " + headingOffset);
+        // log.info("Offset calculated to be: " + headingOffset);
 
-        lastSetHeadingTime = XTimer.getFPGATimestamp();
+        lastSetHeadingTime = Timer.getTimestamp();
     }
 
     public void setCurrentPosition(double newXPosition, double newYPosition) {
-        //log.info("Setting Robot Position. X:" + newXPosition + ", Y:" +newYPosition);
+        // log.info("Setting Robot Position. X:" + newXPosition + ", Y:" +newYPosition);
         totalDistanceX = newXPosition;
         totalDistanceY = newYPosition;
     }
 
     public boolean getHeadingResetRecently() {
-        return XTimer.getFPGATimestamp() - lastSetHeadingTime < 1;
+        return Timer.getTimestamp() - lastSetHeadingTime < 1;
     }
 
     /**
-     * This should be called as often as reasonably possible, to increase accuracy of the "distance traveled" calculation.
+     * This should be called as often as reasonably possible, to increase accuracy
+     * of the "distance traveled" calculation.
      * <p>
-     * The PoseSubsystem can't directly own positional sensors, so some command will need to feed in the distance values
-     * coming from the DriveSubsystem. In order to have accurate calculations, these values need to be in inches, and should
+     * The PoseSubsystem can't directly own positional sensors, so some command will
+     * need to feed in the distance values
+     * coming from the DriveSubsystem. In order to have accurate calculations, these
+     * values need to be in inches, and should
      * never be reset - any resetting should be done here in the PoseSubsystem
      * </p>
      */
@@ -228,7 +238,8 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
     }
 
     /**
-     * If the RoboRIO is mounted in a position other than "flat" (e.g. with the pins facing upward) then this method will
+     * If the RoboRIO is mounted in a position other than "flat" (e.g. with the pins
+     * facing upward) then this method will
      * need to be overridden.
      */
     protected Rotation2d getRobotYaw() {
@@ -264,7 +275,7 @@ public abstract class BasePoseSubsystem extends BaseSubsystem implements ISwerve
 
     @Override
     public void periodic() {
-        if (!isNavXReady && (classInstantiationTime + 1 < XTimer.getFPGATimestamp())) {
+        if (!isNavXReady && (classInstantiationTime + 1 < Timer.getTimestamp())) {
             setCurrentHeading(FACING_AWAY_FROM_DRIVERS);
             isNavXReady = true;
         }

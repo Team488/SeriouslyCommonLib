@@ -2,6 +2,8 @@ package xbot.common.command;
 
 import org.junit.jupiter.api.Test;
 
+import org.wpilib.simulation.SimHooks;
+
 import xbot.common.injection.BaseCommonLibTest;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -19,7 +21,7 @@ public class SimpleWaitForMaintainerCommandTest extends BaseCommonLibTest {
         command.execute();
         assertFalse(command.isFinished());
 
-        this.timer.advanceTimeInSecondsBy(1.5);
+        SimHooks.stepTiming(1.5);
         command.execute();
         assertTrue(command.isFinished());
     }
@@ -37,7 +39,7 @@ public class SimpleWaitForMaintainerCommandTest extends BaseCommonLibTest {
 
         subsystem.setCurrentValue(0.0);
         subsystem.setMaintainerIsAtGoal(true);
-        this.timer.advanceTimeInSecondsBy(0.2);
+        SimHooks.stepTiming(0.2);
         command.execute();
         assertTrue(command.isFinished());
     }

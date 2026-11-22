@@ -2,7 +2,8 @@ package xbot.common.logic;
 
 import java.util.function.DoubleSupplier;
 
-import xbot.common.controls.sensors.XTimer;
+import org.wpilib.system.Timer;
+
 import xbot.common.logic.Latch.EdgeType;
 
 /**
@@ -20,7 +21,7 @@ public class TimeStableValidator {
      * Creates a new TimeStableValidator using a constant value.
      *
      * @param stableWindow
-     *            The time window, in seconds.
+     *                     The time window, in seconds.
      */
     public TimeStableValidator(double stableWindow) {
         setStableWindow(stableWindow);
@@ -31,7 +32,8 @@ public class TimeStableValidator {
      * Creates a new TimeStableValidator using a window from a supplier.
      *
      * @param stableWindowProvider
-     *            A supplier that provides a time window, in seconds.
+     *                             A supplier that provides a time window, in
+     *                             seconds.
      */
     public TimeStableValidator(DoubleSupplier stableWindowProvider) {
         setStableWindowProvider(stableWindowProvider);
@@ -40,14 +42,15 @@ public class TimeStableValidator {
 
     private void initialize() {
         latch = new Latch(false, EdgeType.RisingEdge);
-        latch.setObserver((e) -> risingEdgeTime = XTimer.getFPGATimestamp());
+        latch.setObserver((e) -> risingEdgeTime = Timer.getTimestamp());
     }
 
     /**
      * Update the stable window using a supplier.
      *
      * @param stableWindowProvider
-     *            A supplier that provides a time window, in seconds.
+     *                             A supplier that provides a time window, in
+     *                             seconds.
      */
     public void setStableWindowProvider(DoubleSupplier stableWindowProvider) {
         this.stableWindowProvider = stableWindowProvider;
@@ -57,7 +60,7 @@ public class TimeStableValidator {
      * Update the stable window using a constant value.
      *
      * @param stableWindow
-     *            The time window, in seconds.
+     *                     The time window, in seconds.
      */
     public void setStableWindow(double stableWindow) {
         this.stableWindow = stableWindow;
@@ -74,20 +77,22 @@ public class TimeStableValidator {
      * Checks if the value has been stable for the entire stable window duration.
      *
      * @param value
-     *            The value to test.
+     *              The value to test.
      * @return True if the value has been stable for the entire window duration.
      */
     public boolean checkStable(boolean value) {
         latch.setValue(value);
-        double duration = XTimer.getFPGATimestamp() - risingEdgeTime;
+        double duration = Timer.getTimestamp() - risingEdgeTime;
         // if the value is true now, and has been for a while, it is stable.
         lastStableEvaluation = (duration > getStableWindow()) && value;
         return lastStableEvaluation;
     }
 
     /**
-     * Checks if the value has been stable for the entire stable window duration, but without updating the internal state of
-     * the validator. (Example usage: the validator is updated in a regular periodic call, but there are many listeners who
+     * Checks if the value has been stable for the entire stable window duration,
+     * but without updating the internal state of
+     * the validator. (Example usage: the validator is updated in a regular periodic
+     * call, but there are many listeners who
      * are interested in the result.)
      *
      * @return True if the last checkStable() call returned true.

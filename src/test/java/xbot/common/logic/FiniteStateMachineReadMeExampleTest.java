@@ -7,8 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.simulation.SimHooks;
+import org.wpilib.system.Timer;
 
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.BaseCommonLibTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,50 +17,77 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Executable proof for the worked example in {@code ReadMeFiniteStateMachine.md}: a port of that guide's "After"
- * listing (the FSM-based {@code CalibrateDriveCommand}), ticked at 50Hz with fake drive/pose subsystems. If a claim the
+ * Executable proof for the worked example in
+ * {@code ReadMeFiniteStateMachine.md}: a port of that guide's "After"
+ * listing (the FSM-based {@code CalibrateDriveCommand}), ticked at 50Hz with
+ * fake drive/pose subsystems. If a claim the
  * guide makes about this example stops being true, a test in this file fails.
  *
  * <p>
- * The guide's "Before" listing (the original hand-rolled {@code switch}, with its two bugs) is deliberately <b>not</b>
- * reproduced here as a second fake class - a copy of TeamXBot2025 code that this suite would then have to keep in sync
- * forever, just to prove a negative. Neither bug needs a side-by-side comparison: this suite shows the "After" listing
- * getting the right answer on its own terms ({@link #fsmVersionCapturesStartPositionsOnceAtEntry()} and
- * {@link #changingTheFirstPhaseDurationLeavesLaterPhasesUntouchedInFsmVersion()}). For the original buggy code itself,
+ * The guide's "Before" listing (the original hand-rolled {@code switch}, with
+ * its two bugs) is deliberately <b>not</b>
+ * reproduced here as a second fake class - a copy of TeamXBot2025 code that
+ * this suite would then have to keep in sync
+ * forever, just to prove a negative. Neither bug needs a side-by-side
+ * comparison: this suite shows the "After" listing
+ * getting the right answer on its own terms
+ * ({@link #fsmVersionCapturesStartPositionsOnceAtEntry()} and
+ * {@link #changingTheFirstPhaseDurationLeavesLaterPhasesUntouchedInFsmVersion()}).
+ * For the original buggy code itself,
  * see TeamXBot2025's <a href=
  * "https://github.com/Team488/TeamXBot2025/blob/a034516c376ce30cbc6b6da4e91c2bf33a0735d1/src/main/java/competition/subsystems/drive/commands/CalibrateDriveCommand.java">
- * {@code CalibrateDriveCommand.java}</a> (pinned to the commit the guide was written against; private to the Team488
+ * {@code CalibrateDriveCommand.java}</a> (pinned to the commit the guide was
+ * written against; private to the Team488
  * org).
  *
  * <p>
- * Two deliberate departures from the guide's "After" listing, neither of which touches the behavior under test:
+ * Two deliberate departures from the guide's "After" listing, neither of which
+ * touches the behavior under test:
  * <ul>
  * <li>The 2025-season drive API the guide quotes
- * ({@code setAllSwerveModulesToTargetState(new SwerveModuleState(speed, angle))}) lives in TeamXBot2025, not in this
- * library, and WPILib has since renamed {@code SwerveModuleState} outright. The fakes below record the commanded speed
+ * ({@code setAllSwerveModulesToTargetState(new SwerveModuleState(speed, angle))})
+ * lives in TeamXBot2025, not in this
+ * library, and WPILib has since renamed {@code SwerveModuleState} outright. The
+ * fakes below record the commanded speed
  * directly instead.</li>
- * <li>The first phase's duration is a field rather than a hardcoded {@code 2.0}, so that
- * {@link #changingTheFirstPhaseDurationLeavesLaterPhasesUntouchedInFsmVersion()} can change it and demonstrate the
+ * <li>The first phase's duration is a field rather than a hardcoded
+ * {@code 2.0}, so that
+ * {@link #changingTheFirstPhaseDurationLeavesLaterPhasesUntouchedInFsmVersion()}
+ * can change it and demonstrate the
  * guide's central claim about per-state timing.</li>
  * </ul>
  *
  * <p>
- * The guide's remaining claims - that {@code transitionTo(...)} does not stop the calling method, that self-transitions
- * are legal and unlogged, and that a {@code beforeHook} can preempt any state - are covered by
+ * The guide's remaining claims - that {@code transitionTo(...)} does not stop
+ * the calling method, that self-transitions
+ * are legal and unlogged, and that a {@code beforeHook} can preempt any state -
+ * are covered by
  * {@link FiniteStateMachineTest}.
  */
 public class FiniteStateMachineReadMeExampleTest extends BaseCommonLibTest {
 
-    /** The robot's normal 50Hz loop period. The command below is ticked at this rate, as it would be live. */
+    /**
+     * The robot's normal 50Hz loop period. The command below is ticked at this
+     * rate, as it would be live.
+     */
     private static final double LOOP_PERIOD_SECONDS = 0.02;
 
-    /** Generous upper bound on the ~15-second calibration sequence, so a stuck machine fails instead of hanging. */
+    /**
+     * Generous upper bound on the ~15-second calibration sequence, so a stuck
+     * machine fails instead of hanging.
+     */
     private static final int MAX_TICKS = 5000;
 
-    /** One tick of slack: a {@code timeInState() > threshold} check can only fire up to a tick late. */
+    /**
+     * One tick of slack: a {@code timeInState() > threshold} check can only fire up
+     * to a tick late.
+     */
     private static final double DURATION_TOLERANCE_SECONDS = 0.05;
 
-    /** Stand-in for one of TeamXBot2025's swerve module subsystems; all the example needs is a drive position. */
+    /**
+     * Stand-in for one of TeamXBot2025's swerve module subsystems; all the example
+     * needs is a drive position.
+     */
     static class FakeSwerveModule {
         double driveMotorPosition;
     }
@@ -106,7 +134,8 @@ public class FiniteStateMachineReadMeExampleTest extends BaseCommonLibTest {
     }
 
     /**
-     * The guide's "After" listing: the same calibration routine driven by a {@link FiniteStateMachine}.
+     * The guide's "After" listing: the same calibration routine driven by a
+     * {@link FiniteStateMachine}.
      */
     static class CalibrateDriveCommand {
         final FakeDriveSubsystem drive = new FakeDriveSubsystem();
@@ -118,7 +147,10 @@ public class FiniteStateMachineReadMeExampleTest extends BaseCommonLibTest {
         double rearLeftModuleStartPosition;
         double rearRightModuleStartPosition;
 
-        /** Hardcoded as {@code 2.0} in the guide; see this class's javadoc for why it is a field here. */
+        /**
+         * Hardcoded as {@code 2.0} in the guide; see this class's javadoc for why it is
+         * a field here.
+         */
         double alignDurationSeconds = 2.0;
 
         final List<String> deltaLogs = new ArrayList<>();
@@ -149,8 +181,10 @@ public class FiniteStateMachineReadMeExampleTest extends BaseCommonLibTest {
     }
 
     /**
-     * The state enum from the guide's "After" listing. The 8.0 and 5.0 thresholds are the per-state equivalents of the
-     * original's cumulative 10 and 15 (10 - 2 = 8, 15 - 10 = 5) - see the class javadoc above for a link to the original to
+     * The state enum from the guide's "After" listing. The 8.0 and 5.0 thresholds
+     * are the per-state equivalents of the
+     * original's cumulative 10 and 15 (10 - 2 = 8, 15 - 10 = 5) - see the class
+     * javadoc above for a link to the original to
      * check that arithmetic against.
      */
     enum CalibrationState implements FsmState<CalibrationState, CalibrateDriveCommand> {
@@ -204,21 +238,28 @@ public class FiniteStateMachineReadMeExampleTest extends BaseCommonLibTest {
         }
     }
 
-    /** One observed leg of the calibration sequence: the state's name and how long the command stayed in it. */
+    /**
+     * One observed leg of the calibration sequence: the state's name and how long
+     * the command stayed in it.
+     */
     record Phase(String state, double durationSeconds) {
     }
 
     /**
-     * Ticks a freshly-{@code initialize()}'d command at 50Hz until {@code isFinished()}, recording how long it spent in
-     * each state along the way. This is deliberately measured against an independent clock (state-name transitions
-     * timestamped via {@link XTimer}) rather than by reading {@code cmd.fsm.getTimeInState()}: that keeps this check honest
-     * even against a bug in {@code getTimeInState()} itself, such as a reset that doesn't fire on every transition.
+     * Ticks a freshly-{@code initialize()}'d command at 50Hz until
+     * {@code isFinished()}, recording how long it spent in
+     * each state along the way. This is deliberately measured against an
+     * independent clock (state-name transitions
+     * timestamped via {@link Timer}) rather than by reading
+     * {@code cmd.fsm.getTimeInState()}: that keeps this check honest
+     * even against a bug in {@code getTimeInState()} itself, such as a reset that
+     * doesn't fire on every transition.
      */
     private List<Phase> runToCompletion(CalibrateDriveCommand cmd) {
         List<Phase> phases = new ArrayList<>();
         cmd.initialize();
         String currentPhase = null;
-        double phaseStart = XTimer.getFPGATimestamp();
+        double phaseStart = Timer.getTimestamp();
 
         for (int tick = 0; tick < MAX_TICKS; tick++) {
             cmd.execute();
@@ -226,15 +267,15 @@ public class FiniteStateMachineReadMeExampleTest extends BaseCommonLibTest {
             if (currentPhase == null) {
                 currentPhase = observed;
             } else if (!observed.equals(currentPhase)) {
-                phases.add(new Phase(currentPhase, XTimer.getFPGATimestamp() - phaseStart));
+                phases.add(new Phase(currentPhase, Timer.getTimestamp() - phaseStart));
                 currentPhase = observed;
-                phaseStart = XTimer.getFPGATimestamp();
+                phaseStart = Timer.getTimestamp();
             }
             if (cmd.isFinished()) {
-                phases.add(new Phase(currentPhase, XTimer.getFPGATimestamp() - phaseStart));
+                phases.add(new Phase(currentPhase, Timer.getTimestamp() - phaseStart));
                 return phases;
             }
-            timer.advanceTimeInSecondsBy(LOOP_PERIOD_SECONDS);
+            SimHooks.stepTiming(LOOP_PERIOD_SECONDS);
         }
         throw new AssertionError("Calibration never finished; stuck in " + currentPhase);
     }
@@ -250,12 +291,15 @@ public class FiniteStateMachineReadMeExampleTest extends BaseCommonLibTest {
     }
 
     // ---------------------------------------------------------------------------------------------------------
-    // Bug #1: "record the starting position" should run once on entry, not every tick.
+    // Bug #1: "record the starting position" should run once on entry, not every
+    // tick.
     // ---------------------------------------------------------------------------------------------------------
 
     /**
-     * The guide claims the refactor fixes this "by construction", because the capture lives in {@code enter()}. Driven here
-     * by letting the modules creep while they align: whatever the command captured has to be the position at the instant of
+     * The guide claims the refactor fixes this "by construction", because the
+     * capture lives in {@code enter()}. Driven here
+     * by letting the modules creep while they align: whatever the command captured
+     * has to be the position at the instant of
      * entry, not the position on the most recent tick.
      */
     @Test
@@ -267,7 +311,7 @@ public class FiniteStateMachineReadMeExampleTest extends BaseCommonLibTest {
         for (int tick = 0; tick < 50; tick++) {
             cmd.execute();
             cmd.drive.advanceAllModulePositionsBy(1.0);
-            timer.advanceTimeInSecondsBy(LOOP_PERIOD_SECONDS);
+            SimHooks.stepTiming(LOOP_PERIOD_SECONDS);
         }
 
         assertEquals(150.0, cmd.drive.frontLeft.driveMotorPosition, 1e-9, "the modules should have crept");
@@ -281,20 +325,26 @@ public class FiniteStateMachineReadMeExampleTest extends BaseCommonLibTest {
     // Bug #2: per-state timing vs. one cumulative timer.
     // ---------------------------------------------------------------------------------------------------------
 
-    /** The headline sequence: four phases, in order, each lasting its own documented duration. */
+    /**
+     * The headline sequence: four phases, in order, each lasting its own documented
+     * duration.
+     */
     @Test
     public void fsmVersionRunsAllFourPhasesWithPerStateDurations() {
         List<Phase> phases = runToCompletion(new CalibrateDriveCommand());
 
-        assertEquals(List.of("AlignModulesAndWait", "DriveForwardForTime", "DecelerateAndWait", "FinalAnalysis"), stateNames(phases));
+        assertEquals(List.of("AlignModulesAndWait", "DriveForwardForTime", "DecelerateAndWait", "FinalAnalysis"),
+                stateNames(phases));
         assertPhaseDuration(2.0, phases, 0);
         assertPhaseDuration(8.0, phases, 1);
         assertPhaseDuration(5.0, phases, 2);
     }
 
     /**
-     * The guide's central claim about {@code timeInState()}: "10 really does mean 10 seconds in THIS state, regardless of
-     * how the earlier state's duration changes." Stretching the first phase from 2s to 5s must leave the other two phases
+     * The guide's central claim about {@code timeInState()}: "10 really does mean
+     * 10 seconds in THIS state, regardless of
+     * how the earlier state's duration changes." Stretching the first phase from 2s
+     * to 5s must leave the other two phases
      * exactly as long as they were.
      */
     @Test
@@ -314,12 +364,16 @@ public class FiniteStateMachineReadMeExampleTest extends BaseCommonLibTest {
     // ---------------------------------------------------------------------------------------------------------
 
     /**
-     * Each state owns "what to output": zero while aligning and decelerating, the calibration speed in between.
+     * Each state owns "what to output": zero while aligning and decelerating, the
+     * calibration speed in between.
      *
      * <p>
-     * This also pins down the guide's "{@code transitionTo(...)} doesn't stop your method" rule as it actually shows up in
-     * this example. The tick that crosses a threshold has already run the outgoing state's body, so the incoming state's
-     * output doesn't reach the drive until the following tick. Anyone reading the "After" listing and expecting the speed
+     * This also pins down the guide's "{@code transitionTo(...)} doesn't stop your
+     * method" rule as it actually shows up in
+     * this example. The tick that crosses a threshold has already run the outgoing
+     * state's body, so the incoming state's
+     * output doesn't reach the drive until the following tick. Anyone reading the
+     * "After" listing and expecting the speed
      * to change on the same tick as the state does is in for a surprise.
      */
     @Test
@@ -333,49 +387,58 @@ public class FiniteStateMachineReadMeExampleTest extends BaseCommonLibTest {
         assertEquals(0.0, cmd.drive.lastCommandedSpeed(), 1e-9);
         assertTrue(cmd.deltaLogs.isEmpty(), "the align phase should not be logging deltas yet");
 
-        timer.advanceTimeInSecondsBy(2.5);
+        SimHooks.stepTiming(2.5);
         cmd.execute();
         assertEquals(CalibrationState.DriveForwardForTime, cmd.fsm.getCurrentState());
-        assertEquals(0.0, cmd.drive.lastCommandedSpeed(), 1e-9, "AlignModulesAndWait's body finished before it asked for the transition");
+        assertEquals(0.0, cmd.drive.lastCommandedSpeed(), 1e-9,
+                "AlignModulesAndWait's body finished before it asked for the transition");
         assertTrue(cmd.deltaLogs.isEmpty(), "DriveForwardForTime's body has not run yet");
 
-        timer.advanceTimeInSecondsBy(LOOP_PERIOD_SECONDS);
+        SimHooks.stepTiming(LOOP_PERIOD_SECONDS);
         cmd.execute();
         assertEquals(1.5, cmd.drive.lastCommandedSpeed(), 1e-9);
         assertFalse(cmd.deltaLogs.isEmpty(), "the driving phase should be logging deltas");
 
-        timer.advanceTimeInSecondsBy(8.5);
+        SimHooks.stepTiming(8.5);
         cmd.execute();
         assertEquals(CalibrationState.DecelerateAndWait, cmd.fsm.getCurrentState());
-        assertEquals(1.5, cmd.drive.lastCommandedSpeed(), 1e-9, "same rule on the way out - this tick ran DriveForwardForTime's body first");
+        assertEquals(1.5, cmd.drive.lastCommandedSpeed(), 1e-9,
+                "same rule on the way out - this tick ran DriveForwardForTime's body first");
 
-        timer.advanceTimeInSecondsBy(LOOP_PERIOD_SECONDS);
+        SimHooks.stepTiming(LOOP_PERIOD_SECONDS);
         cmd.execute();
         assertEquals(0.0, cmd.drive.lastCommandedSpeed(), 1e-9);
     }
 
-    /** {@code isFinished()} is driven purely by {@code isInState(FinalAnalysis)}, so it stays false until the end. */
+    /**
+     * {@code isFinished()} is driven purely by {@code isInState(FinalAnalysis)}, so
+     * it stays false until the end.
+     */
     @Test
     public void isFinishedOnlyOnceFinalAnalysisIsReached() {
         CalibrateDriveCommand cmd = new CalibrateDriveCommand();
         cmd.initialize();
+        double startTime = Timer.getTimestamp();
 
         for (int tick = 0; tick < MAX_TICKS; tick++) {
             cmd.execute();
             if (cmd.isFinished()) {
                 assertEquals(CalibrationState.FinalAnalysis, cmd.fsm.getCurrentState());
-                assertEquals(15.0, XTimer.getFPGATimestamp(), DURATION_TOLERANCE_SECONDS);
+                // Three timed states, each with its own tick of slack.
+                assertEquals(15.0, Timer.getTimestamp() - startTime, 3 * DURATION_TOLERANCE_SECONDS);
                 return;
             }
             assertFalse(cmd.fsm.isInState(CalibrationState.FinalAnalysis));
-            timer.advanceTimeInSecondsBy(LOOP_PERIOD_SECONDS);
+            SimHooks.stepTiming(LOOP_PERIOD_SECONDS);
         }
         throw new AssertionError("isFinished() never became true");
     }
 
     /**
-     * The guide's "Commands vs. Subsystems" rule: because the machine is built in {@code initialize()}, a second scheduling
-     * starts the sequence over instead of resuming where the first run left off - and re-runs {@code enter()}, picking up
+     * The guide's "Commands vs. Subsystems" rule: because the machine is built in
+     * {@code initialize()}, a second scheduling
+     * starts the sequence over instead of resuming where the first run left off -
+     * and re-runs {@code enter()}, picking up
      * the wheel positions as they are now.
      */
     @Test
@@ -391,9 +454,11 @@ public class FiniteStateMachineReadMeExampleTest extends BaseCommonLibTest {
 
         assertEquals(CalibrationState.AlignModulesAndWait, cmd.fsm.getCurrentState());
         assertFalse(cmd.isFinished());
-        assertEquals(900.0, cmd.frontLeftModuleStartPosition, 1e-9, "initialize() should have built a fresh machine, re-running enter()");
+        assertEquals(900.0, cmd.frontLeftModuleStartPosition, 1e-9,
+                "initialize() should have built a fresh machine, re-running enter()");
 
         List<Phase> secondRun = runToCompletion(cmd);
-        assertEquals(List.of("AlignModulesAndWait", "DriveForwardForTime", "DecelerateAndWait", "FinalAnalysis"), stateNames(secondRun));
+        assertEquals(List.of("AlignModulesAndWait", "DriveForwardForTime", "DecelerateAndWait", "FinalAnalysis"),
+                stateNames(secondRun));
     }
 }

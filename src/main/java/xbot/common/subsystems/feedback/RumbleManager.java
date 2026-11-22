@@ -2,13 +2,13 @@ package xbot.common.subsystems.feedback;
 
 import org.wpilib.driverstation.GenericHID;
 import org.wpilib.driverstation.GenericHID.RumbleType;
+import org.wpilib.system.Timer;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XJoystick;
-import xbot.common.controls.sensors.XTimer;
 
 /**
  * Wrappers around gamepad rumble behavior to control intensity and duration.
@@ -27,7 +27,7 @@ public class RumbleManager implements XRumbleManager {
      * Creates a new RumbleManager instance.
      *
      * @param gamepad
-     *            The gamepad in which to control rumble on.
+     *                The gamepad in which to control rumble on.
      */
     @AssistedInject
     public RumbleManager(@Assisted("gamepad") XJoystick gamepad) {
@@ -41,7 +41,7 @@ public class RumbleManager implements XRumbleManager {
 
     public void rumbleGamepad(double intensity, double length) {
         writeRumble(gamepad, intensity);
-        lastRequestEndTime = XTimer.getFPGATimestamp() + length;
+        lastRequestEndTime = Timer.getTimestamp() + length;
     }
 
     public boolean getIsRumbling() {
@@ -49,7 +49,7 @@ public class RumbleManager implements XRumbleManager {
     }
 
     public void periodic() {
-        if (isRumbling && lastRequestEndTime > 0 && XTimer.getFPGATimestamp() > lastRequestEndTime) {
+        if (isRumbling && lastRequestEndTime > 0 && Timer.getTimestamp() > lastRequestEndTime) {
             writeRumble(gamepad, 0);
             lastRequestEndTime = -1;
             isRumbling = false;
@@ -60,9 +60,9 @@ public class RumbleManager implements XRumbleManager {
      * Writes the rumble value to the specified joystick.
      *
      * @param joystick
-     *            Joystick to set the rumble value on.
+     *                  Joystick to set the rumble value on.
      * @param intensity
-     *            Rumble intensity, between 0 and 1.
+     *                  Rumble intensity, between 0 and 1.
      */
     private void writeRumble(XJoystick joystick, double intensity) {
 

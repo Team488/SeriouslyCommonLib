@@ -3,7 +3,7 @@ package xbot.common.logging;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import xbot.common.controls.sensors.XTimer;
+import org.wpilib.system.Timer;
 
 public class TimeLogger {
 
@@ -54,6 +54,6 @@ public class TimeLogger {
     }
 
     private double getPerformanceTimestamp() {
-        return XTimer.getFPGATimestamp();
+        return Timer.getTimestamp();
     }
 }

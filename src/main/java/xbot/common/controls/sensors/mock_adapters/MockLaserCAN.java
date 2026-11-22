@@ -1,5 +1,7 @@
 package xbot.common.controls.sensors.mock_adapters;
 
+import org.wpilib.system.Timer;
+
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
@@ -7,7 +9,6 @@ import dagger.assisted.AssistedInject;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.controls.io_inputs.LaserCANInputs;
 import xbot.common.controls.sensors.XLaserCAN;
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.electrical_contract.DeviceInfo;
 
@@ -20,24 +21,26 @@ public class MockLaserCAN extends XLaserCAN {
 
     @AssistedFactory
     public abstract static class MockLaserCANFactory implements XLaserCANFactory {
-        public abstract MockLaserCAN create(@Assisted("info") DeviceInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix);
+        public abstract MockLaserCAN create(@Assisted("info") DeviceInfo info,
+                @Assisted("owningSystemPrefix") String owningSystemPrefix);
     }
 
     @AssistedInject
-    public MockLaserCAN(@Assisted("info") DeviceInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix, DevicePolice police,
+    public MockLaserCAN(@Assisted("info") DeviceInfo info, @Assisted("owningSystemPrefix") String owningSystemPrefix,
+            DevicePolice police,
             DataFrameRegistry dataFrameRegistry) {
         super(police, info, owningSystemPrefix, dataFrameRegistry);
     }
 
     public void setDistance(double distanceMeters) {
         this.distanceMeters = distanceMeters;
-        this.measurementTime = XTimer.getFPGATimestamp();
+        this.measurementTime = Timer.getTimestamp();
     }
 
     @Override
     public void updateInputs(LaserCANInputs inputs) {
         inputs.isMeasurementValid = true;
         inputs.distance = org.wpilib.units.Units.Meters.of(distanceMeters);
-        inputs.measurementLatency = Seconds.of(XTimer.getFPGATimestamp() - measurementTime);
+        inputs.measurementLatency = Seconds.of(Timer.getTimestamp() - measurementTime);
     }
 }

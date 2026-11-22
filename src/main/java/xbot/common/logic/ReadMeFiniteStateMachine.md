@@ -15,7 +15,7 @@ up every time:
   on every tick for as long as you're in that state.
 - **Manual timers that don't reset.** "Have we been in this state for 2 seconds?" usually gets answered
   with a hand-rolled `double stateStartTime` field, set (and often *forgotten to be reset*) at each
-  transition, then checked with `XTimer.getFPGATimestamp() - stateStartTime > threshold`.
+  transition, then checked with `Timer.getTimestamp() - stateStartTime > threshold`.
 - **Duplicated bookkeeping.** The same "did we just enter this state?" check gets copy-pasted at every call
   site that can transition into that state.
 - **No clean place to test a single state in isolation**, because entry/exit/execute logic is all smeared
@@ -298,8 +298,8 @@ What changed, concretely:
   check every cycle without worrying about re-triggering `Stall` once already in it - see
   `HumanVsMachineDecider`'s own `globalTransitions` hook for exactly this pattern.
 - **Testing:** construct the FSM with plain `new` (no dependency injection needed), drive it with a fake
-  `ContextT`, and advance time with the injected `MockTimer` (`timer.advanceTimeInSecondsBy(...)` in a test
-  extending `BaseCommonLibTest`) to exercise `timeInState()`-based transitions deterministically.
+  `ContextT`, and advance time with `SimHooks.stepTiming(...)` (in a test extending
+  `BaseCommonLibTest`, which pauses the simulated clock) to exercise `timeInState()`-based transitions deterministically.
   `FiniteStateMachineTest.java` has a full worked example doing exactly this (a light-switch FSM with a
   timed auto-off transition), plus tests covering entry/exit ordering, `beforeHook` preemption, and more.
   `FiniteStateMachineReadMeExampleTest.java` is the closer model for testing a real command: it ticks the

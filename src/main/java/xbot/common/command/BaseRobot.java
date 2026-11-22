@@ -17,11 +17,10 @@ import org.wpilib.driverstation.RobotState;
 import org.wpilib.hardware.bus.CANPort;
 import org.wpilib.hardware.power.PowerDistribution;
 import org.wpilib.system.RobotController;
+import org.wpilib.system.Timer;
 import org.wpilib.tunable.Tunables;
 
 import xbot.common.advantage.TunableSkippingNT4Publisher;
-import xbot.common.controls.sensors.XTimer;
-import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.injection.DevicePolice;
 import xbot.common.injection.components.BaseComponent;
 import xbot.common.logging.assertion.RobotAssertionManager;
@@ -29,7 +28,8 @@ import xbot.common.properties.TunableManager;
 import xbot.common.subsystems.autonomous.AutonomousCommandSelector;
 
 /**
- * Core Robot class which configures logging, tunables, scheduling, and the injector. Required for a fair amount of
+ * Core Robot class which configures logging, tunables, scheduling, and the
+ * injector. Required for a fair amount of
  * CommonLib functionality.
  */
 public abstract class BaseRobot extends LoggedRobot {
@@ -39,7 +39,8 @@ public abstract class BaseRobot extends LoggedRobot {
     protected TunableManager tunableManager;
     protected XScheduler xScheduler;
 
-    // Other than initially creating required systems, you should never use the injector again
+    // Other than initially creating required systems, you should never use the
+    // injector again
     private BaseComponent injectorComponent;
 
     protected Command autonomousCommand;
@@ -49,7 +50,8 @@ public abstract class BaseRobot extends LoggedRobot {
     protected DataFrameRegistry deviceDataFrameRegistry;
 
     /**
-     * Selects log replay instead of live desktop simulation. Defaults to simulation. Set before {@link #robotInit()};
+     * Selects log replay instead of live desktop simulation. Defaults to
+     * simulation. Set before {@link #robotInit()};
      * ignored on real hardware.
      */
     protected boolean useReplay = false;
@@ -85,14 +87,16 @@ public abstract class BaseRobot extends LoggedRobot {
     /**
      * Get the dependency injection component
      *
-     * @return an implementation of BaseComponent that will be used throughout the robot.
+     * @return an implementation of BaseComponent that will be used throughout the
+     *         robot.
      */
     protected BaseComponent getInjectorComponent() {
         return injectorComponent;
     }
 
     /**
-     * This function is run when the robot is first started up and should be used for any initialization code.
+     * This function is run when the robot is first started up and should be used
+     * for any initialization code.
      */
     public void robotInit() {
         initException = null;
@@ -101,7 +105,8 @@ public abstract class BaseRobot extends LoggedRobot {
             if (isReal() || !useReplay) {
                 var logDirectory = new File("/U/logs");
                 if (logDirectory.exists() && logDirectory.isDirectory() && logDirectory.canWrite()) {
-                    Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick with label LOGSDRIVE plugged into the inner usb port
+                    Logger.addDataReceiver(new WPILOGWriter("/U/logs")); // Log to a USB stick with label LOGSDRIVE
+                                                                         // plugged into the inner usb port
                 }
 
                 if (!RobotState.isFMSAttached()) {
@@ -114,15 +119,19 @@ public abstract class BaseRobot extends LoggedRobot {
                 }
 
                 // Log power distribution data from the configured module
-                LoggedPowerDistribution.getInstance(CANPort.CAN_S0.value, PowerDistribution.DEFAULT_MODULE, PowerDistribution.ModuleType.REV);
+                LoggedPowerDistribution.getInstance(CANPort.CAN_S0.value, PowerDistribution.DEFAULT_MODULE,
+                        PowerDistribution.ModuleType.REV);
             } else {
                 setUseTiming(false); // Run as fast as possible
-                String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
+                String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the
+                                                              // user)
                 Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
-                Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
+                Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to
+                                                                                                      // a new log
             }
 
-            Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
+            Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
+                            // be added.
 
             log = LogManager.getLogger(BaseRobot.class);
             log.info("========== BASE ROBOT INITIALIZING ==========");
@@ -164,7 +173,8 @@ public abstract class BaseRobot extends LoggedRobot {
     protected void updateLoggingContext() {
         String dsStatus = RobotState.isDSAttached() ? "DS" : "no DS";
         String fmsStatus = RobotState.isFMSAttached() ? "FMS" : "no FMS";
-        String matchStatus = MatchState.getMatchType().toString() + " " + MatchState.getMatchNumber() + " " + MatchState.getReplayNumber();
+        String matchStatus = MatchState.getMatchType().toString() + " " + MatchState.getMatchNumber() + " "
+                + MatchState.getReplayNumber();
         String enableStatus = getEnableTypeString();
         String matchContext = dsStatus + ", " + fmsStatus + ", " + enableStatus + ", " + matchStatus;
     }
@@ -172,13 +182,11 @@ public abstract class BaseRobot extends LoggedRobot {
     protected void initializeSystems() {
         updateLoggingContext();
         // override with additional systems (but call this one too)
-        XTimerImpl timerimpl = injectorComponent.timerImplementation();
-        XTimer.setImplementation(timerimpl);
-
         tunableManager = injectorComponent.tunableManager();
         xScheduler = injectorComponent.scheduler();
         xScheduler.reset();
-        // All this does is set the timeout period for the scheduler - the actual loop still runs at 50hz.
+        // All this does is set the timeout period for the scheduler - the actual loop
+        // still runs at 50hz.
         CommandScheduler.getInstance().setPeriod(0.05);
         autonomousCommandSelector = injectorComponent.autonomousCommandSelector();
     }
@@ -196,10 +204,14 @@ public abstract class BaseRobot extends LoggedRobot {
 
     protected String getMatchContextString() {
         return MatchState.getAlliance().toString() + MatchState.getLocation() + ", " + MatchState.getMatchTime() + "s, "
-                + (RobotState.isDSAttached() ? "DS connected" : "DS disconnected") + ", " + (RobotState.isFMSAttached() ? "FMS connected" : "FMS disconnected")
-                + ", " + "Is disabled: " + RobotState.isDisabled() + ", " + "Is enabled: " + RobotState.isEnabled() + ", " + "Is auto: "
-                + RobotState.isAutonomous() + ", " + "Is teleop: " + RobotState.isTeleop() + ", " + "Is utility: " + RobotState.isUtility() + ", "
-                + "Is browned out: " + RobotController.isBrownedOut() + ", " + "Is output enabled: " + RobotController.isSysActive() + ", "
+                + (RobotState.isDSAttached() ? "DS connected" : "DS disconnected") + ", "
+                + (RobotState.isFMSAttached() ? "FMS connected" : "FMS disconnected")
+                + ", " + "Is disabled: " + RobotState.isDisabled() + ", " + "Is enabled: " + RobotState.isEnabled()
+                + ", " + "Is auto: "
+                + RobotState.isAutonomous() + ", " + "Is teleop: " + RobotState.isTeleop() + ", " + "Is utility: "
+                + RobotState.isUtility() + ", "
+                + "Is browned out: " + RobotController.isBrownedOut() + ", " + "Is output enabled: "
+                + RobotController.isSysActive() + ", "
                 + "Battery voltage: " + RobotController.getBatteryVoltage();
     }
 
@@ -249,7 +261,8 @@ public abstract class BaseRobot extends LoggedRobot {
     protected void sharedPeriodic() {
         double outsidePeriodicEnd = getPerformanceTimestampInMs();
         Logger.recordOutput("OutsidePeriodicMs", outsidePeriodicEnd - outsidePeriodicStart);
-        // Get a fresh data frame from all top-level components (typically large subsystems or shared sensors)
+        // Get a fresh data frame from all top-level components (typically large
+        // subsystems or shared sensors)
 
         // Refresh tunable replay/logging state ahead of all other systems.
         // use the relevant values.
@@ -258,7 +271,8 @@ public abstract class BaseRobot extends LoggedRobot {
         double tunableEnd = getPerformanceTimestampInMs();
         Logger.recordOutput("RefreshTunablesMs", tunableEnd - tunableStart);
 
-        // Then, refresh any Subsystem or other components that implement DataFrameRefreshable.
+        // Then, refresh any Subsystem or other components that implement
+        // DataFrameRefreshable.
         double dataFrameStart = getPerformanceTimestampInMs();
         refreshAllDataFrames();
         double dataFrameEnd = getPerformanceTimestampInMs();
@@ -273,13 +287,15 @@ public abstract class BaseRobot extends LoggedRobot {
     }
 
     public void refreshAllDataFrames() {
-        // Devices register themselves with the registry when constructed (in dependency order), so
-        // subsystems that derive state from a device (e.g. SwerveModuleSubsystem) are refreshed after
+        // Devices register themselves with the registry when constructed (in dependency
+        // order), so
+        // subsystems that derive state from a device (e.g. SwerveModuleSubsystem) are
+        // refreshed after
         // the devices they depend on.
         deviceDataFrameRegistry.refreshAll();
     }
 
     protected double getPerformanceTimestampInMs() {
-        return XTimer.getFPGATimestamp() * 1000.0;
+        return Timer.getTimestamp() * 1000.0;
     }
 }

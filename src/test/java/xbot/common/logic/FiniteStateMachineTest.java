@@ -10,6 +10,8 @@ import org.apache.logging.log4j.core.appender.AbstractAppender;
 import org.apache.logging.log4j.core.config.Property;
 import org.junit.jupiter.api.Test;
 
+import org.wpilib.simulation.SimHooks;
+
 import xbot.common.injection.BaseCommonLibTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -129,12 +131,12 @@ public class FiniteStateMachineTest extends BaseCommonLibTest {
         assertEquals(1, fsm.getExecutionsInState());
         assertEquals(0.0, fsm.getTimeInState(), 0.0001);
 
-        timer.advanceTimeInSecondsBy(0.5);
+        SimHooks.stepTiming(0.5);
         fsm.execute(payload);
         assertEquals(2, fsm.getExecutionsInState());
         assertEquals(0.5, fsm.getTimeInState(), 0.0001);
 
-        timer.advanceTimeInSecondsBy(0.25);
+        SimHooks.stepTiming(0.25);
         fsm.execute(payload);
         assertEquals(3, fsm.getExecutionsInState());
         assertEquals(0.75, fsm.getTimeInState(), 0.0001);
@@ -146,7 +148,7 @@ public class FiniteStateMachineTest extends BaseCommonLibTest {
         payload.shouldTransitionAtoB = true;
         FiniteStateMachine<TestState, RecordingPayload> fsm = new FiniteStateMachine<>("Test", TestState.A);
 
-        timer.advanceTimeInSecondsBy(1.0);
+        SimHooks.stepTiming(1.0);
         fsm.execute(payload);
 
         assertEquals(List.of("A.enter", "A.execute", "A.exit", "B.enter"), payload.events);
@@ -306,13 +308,13 @@ public class FiniteStateMachineTest extends BaseCommonLibTest {
         assertEquals(TestState.Fault, fsm.getCurrentState());
         assertEquals(0.0, fsm.getTimeInState(), 0.0001);
 
-        timer.advanceTimeInSecondsBy(1.0);
+        SimHooks.stepTiming(1.0);
         fsm.execute(payload);
 
         assertEquals(TestState.Fault, fsm.getCurrentState());
         assertEquals(1.0, fsm.getTimeInState(), 0.0001, "the repeated same-state request from beforeHook should not have reset the clock");
 
-        timer.advanceTimeInSecondsBy(1.0);
+        SimHooks.stepTiming(1.0);
         fsm.execute(payload);
 
         assertEquals(2.0, fsm.getTimeInState(), 0.0001);
@@ -546,11 +548,11 @@ public class FiniteStateMachineTest extends BaseCommonLibTest {
         assertEquals(LightSwitchState.TimedOn, fsm.getCurrentState());
 
         payload.flippedOn = false;
-        timer.advanceTimeInSecondsBy(1.0);
+        SimHooks.stepTiming(1.0);
         fsm.execute(payload);
         assertEquals(LightSwitchState.TimedOn, fsm.getCurrentState());
 
-        timer.advanceTimeInSecondsBy(1.5);
+        SimHooks.stepTiming(1.5);
         fsm.execute(payload);
         assertEquals(LightSwitchState.Off, fsm.getCurrentState());
         assertFalse(payload.lightOn);

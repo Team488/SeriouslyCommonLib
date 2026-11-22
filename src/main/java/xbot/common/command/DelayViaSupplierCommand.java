@@ -2,7 +2,7 @@ package xbot.common.command;
 
 import java.util.function.DoubleSupplier;
 
-import xbot.common.controls.sensors.XTimer;
+import org.wpilib.system.Timer;
 
 public class DelayViaSupplierCommand extends BaseCommand {
 
@@ -15,8 +15,9 @@ public class DelayViaSupplierCommand extends BaseCommand {
 
     @Override
     public void initialize() {
-        this.startTime = XTimer.getFPGATimestamp();
-        log.info("Initializing with intial time: " + startTime + " and waiting for " + delaySupplier.getAsDouble() + " seconds");
+        this.startTime = Timer.getTimestamp();
+        log.info("Initializing with intial time: " + startTime + " and waiting for " + delaySupplier.getAsDouble()
+                + " seconds");
     }
 
     @Override
@@ -30,6 +31,6 @@ public class DelayViaSupplierCommand extends BaseCommand {
     }
 
     private boolean isTimeoutExpired() {
-        return XTimer.getFPGATimestamp() > startTime + delaySupplier.getAsDouble();
+        return Timer.getTimestamp() > startTime + delaySupplier.getAsDouble();
     }
 }

@@ -26,8 +26,6 @@ import xbot.common.controls.sensors.XJoystick.XJoystickFactory;
 import xbot.common.controls.sensors.XLaserCAN;
 import xbot.common.controls.sensors.XLidarLite.XLidarLiteFactory;
 import xbot.common.controls.sensors.XPowerDistributionPanel.XPowerDistributionPanelFactory;
-import xbot.common.controls.sensors.XSettableTimerImpl;
-import xbot.common.controls.sensors.XTimerImpl;
 import xbot.common.controls.sensors.XXboxController.XXboxControllerFactory;
 import xbot.common.controls.sensors.buttons.AdvancedJoystickButtonTrigger.AdvancedJoystickButtonTriggerFactory;
 import xbot.common.controls.sensors.buttons.AdvancedPovButtonTrigger.AdvancedPovButtonTriggerFactory;
@@ -60,10 +58,6 @@ import xbot.common.subsystems.pose.BasePoseSubsystem;
  */
 @SuppressWarnings("unused")
 public abstract class BaseComponent {
-    public abstract XTimerImpl timerImplementation();
-
-    public abstract XSettableTimerImpl settableTimerImplementation();
-
     public abstract RobotAssertionHandler robotAssertionHandler();
 
     public abstract DevicePolice devicePolice();

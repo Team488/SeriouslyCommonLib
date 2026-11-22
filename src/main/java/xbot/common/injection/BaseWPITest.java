@@ -4,11 +4,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 
+import org.wpilib.hardware.hal.HAL;
+import org.wpilib.simulation.SimHooks;
 import org.wpilib.tunable.MockTunableBackend;
 import org.wpilib.tunable.TunableRegistry;
 
-import xbot.common.controls.sensors.XTimer;
-import xbot.common.controls.sensors.mock_adapters.MockTimer;
 import xbot.common.injection.components.BaseComponent;
 import xbot.common.logging.assertion.RobotAssertionManager;
 import xbot.common.logging.assertion.SilentRobotAssertionHandler;
@@ -24,8 +24,6 @@ public abstract class BaseWPITest {
 
     protected PIDManagerFactory pf;
 
-    protected MockTimer timer;
-
     /**
      * Returns the {@link BaseComponent} instance used for dependency injection
      */
@@ -37,13 +35,14 @@ public abstract class BaseWPITest {
 
     @BeforeEach
     public void setUp() {
+        HAL.initialize();
+        SimHooks.pauseTiming();
         TunableRegistry.reset();
         tunableBackend = new MockTunableBackend();
         TunableRegistry.registerBackend("", tunableBackend);
         injectorComponent = createDaggerComponent();
         RobotAssertionManager.configure(injectorComponent.robotAssertionHandler());
-        timer = (MockTimer) injectorComponent.timerImplementation();
-        XTimer.setImplementation(timer);
+        // Freeze the simulated clock so time only moves when a test calls SimHooks.stepTiming(seconds).
 
         tunableFactory = injectorComponent.tunableFactory();
 
@@ -52,6 +51,7 @@ public abstract class BaseWPITest {
 
     @AfterEach
     public void tearDownTunables() {
+        SimHooks.resumeTiming();
         RobotAssertionManager.configure(new SilentRobotAssertionHandler());
         TunableRegistry.reset();
     }

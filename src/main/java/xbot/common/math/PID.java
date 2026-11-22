@@ -2,10 +2,11 @@ package xbot.common.math;
 
 import java.util.OptionalDouble;
 
-import xbot.common.controls.sensors.XTimer;
+import org.wpilib.system.Timer;
 
 /**
- * This PID was extracted from WPILib. It has all the same functionality, but does not run on its own separate thread.
+ * This PID was extracted from WPILib. It has all the same functionality, but
+ * does not run on its own separate thread.
  */
 public class PID {
     public enum OffTargetReason {
@@ -57,17 +58,24 @@ public class PID {
      * Set tolerances for the PID system.
      *
      * @param errorTolerance
-     *            How close the error can be before it is considered "on-target."
-     *            <p>
-     *            Negative values will cause that constraint to skipped when checking isOnTarget().
-     *            <p>
-     *            This is in the same units as your current and goal values.
+     *                            How close the error can be before it is considered
+     *                            "on-target."
+     *                            <p>
+     *                            Negative values will cause that constraint to
+     *                            skipped when checking isOnTarget().
+     *                            <p>
+     *                            This is in the same units as your current and goal
+     *                            values.
      * @param derivativeTolerance
-     *            Set how small the derivative of the error can be before it is considered "on-target."
-     *            <p>
-     *            This is roughly in the same units as your current and goal values, but per 1/20th of a second.
-     *            <p>
-     *            e.g. if you wanted a minimum rotation speed of 5 degrees per second, this tolerance would need to be 0.25.
+     *                            Set how small the derivative of the error can be
+     *                            before it is considered "on-target."
+     *                            <p>
+     *                            This is roughly in the same units as your current
+     *                            and goal values, but per 1/20th of a second.
+     *                            <p>
+     *                            e.g. if you wanted a minimum rotation speed of 5
+     *                            degrees per second, this tolerance would need to
+     *                            be 0.25.
      */
     public void setTolerances(double errorTolerance, double derivativeTolerance, double timeToleranceInSeconds) {
         this.errorTolerance = errorTolerance;
@@ -88,17 +96,17 @@ public class PID {
      * Calculates the output value given P,I,D, a process variable and a goal
      *
      * @param goal
-     *            What value you are trying to achieve
+     *                What value you are trying to achieve
      * @param current
-     *            What the value under observation currently is
+     *                What the value under observation currently is
      * @param p
-     *            Proportionate response
+     *                Proportionate response
      * @param i
-     *            Integral response.
+     *                Integral response.
      * @param d
-     *            Derivative response.
+     *                Derivative response.
      * @param f
-     *            Feed-forward response
+     *                Feed-forward response
      * @return The output value to achieve goal
      */
     public double calculate(double goal, double current, double p, double i, double d, double f, double iZone) {
@@ -121,7 +129,8 @@ public class PID {
         }
         // if previous error is a value, do normal derivative calculation.
         // otherwise derivative value should be 0
-        m_prevError.ifPresentOrElse(aDouble -> m_derivativeValue = OptionalDouble.of(m_error - aDouble), () -> m_derivativeValue = OptionalDouble.empty());
+        m_prevError.ifPresentOrElse(aDouble -> m_derivativeValue = OptionalDouble.of(m_error - aDouble),
+                () -> m_derivativeValue = OptionalDouble.empty());
 
         // If iZone is configured, but we are outside the zone, clear any accumulated I.
         if (iZone > 0 && Math.abs(m_error) > iZone) {
@@ -153,7 +162,8 @@ public class PID {
             // If we don't have a derivative value, we can't check it.
             derivativeIsSmall = false;
         });
-        //        derivativeIsSmall = checkDerivativeThreshold && Math.abs(m_derivativeValue) < derivativeTolerance;
+        // derivativeIsSmall = checkDerivativeThreshold && Math.abs(m_derivativeValue) <
+        // derivativeTolerance;
 
         checkIsOnTarget();
 
@@ -169,17 +179,17 @@ public class PID {
      * Calculates the output value given P,I,D, a process variable and a goal
      *
      * @param goal
-     *            What value you are trying to achieve
+     *                What value you are trying to achieve
      * @param current
-     *            What the value under observation currently is
+     *                What the value under observation currently is
      * @param p
-     *            Proportionate response
+     *                Proportionate response
      * @param i
-     *            Integral response.
+     *                Integral response.
      * @param d
-     *            Derivative response.
+     *                Derivative response.
      * @param f
-     *            Feed-forward response.
+     *                Feed-forward response.
      * @return The output value to achieve goal
      */
     public double calculate(double goal, double current, double p, double i, double d, double f) {
@@ -190,15 +200,15 @@ public class PID {
      * Calculates the output value given P,I,D, a process variable and a goal
      *
      * @param goal
-     *            What value you are trying to achieve
+     *                What value you are trying to achieve
      * @param current
-     *            What the value under observation currently is
+     *                What the value under observation currently is
      * @param p
-     *            Proportionate response
+     *                Proportionate response
      * @param i
-     *            Integral response.
+     *                Integral response.
      * @param d
-     *            Derivative response.
+     *                Derivative response.
      * @return The output value to achieve goal
      */
     public double calculate(double goal, double current, double p, double i, double d) {
@@ -206,20 +216,26 @@ public class PID {
     }
 
     /**
-     * With the addition of a time threshold, "onTarget" needs to be updated every tick, since isOnTarget() should return
+     * With the addition of a time threshold, "onTarget" needs to be updated every
+     * tick, since isOnTarget() should return
      * true if all conditions are met EVEN IF it's the first time being called.
      * <p>
-     * While that's unlikely due to our command infrastructure, it's still possible, and the PID class should be able to
+     * While that's unlikely due to our command infrastructure, it's still possible,
+     * and the PID class should be able to
      * handle that scenario.
      * <p>
-     * As a result, this checkIsOnTarget method was added, which does all the onTarget calculations during every calculate()
+     * As a result, this checkIsOnTarget method was added, which does all the
+     * onTarget calculations during every calculate()
      * call. the isOnTarget() method just returns a stored class-level variable.
      */
     private void checkIsOnTarget() {
         if (!checkErrorThreshold && !checkDerivativeThreshold && !checkTimeThreshold) {
-            // No tolerances are enabled, but isOnTarget is being called anyway. We still need to return something.
-            // In this case, we return FALSE, as it promotes robot action (the command using this will complete
-            // its activity, even if it doesn't signal that it is done to allow other actions to proceed).
+            // No tolerances are enabled, but isOnTarget is being called anyway. We still
+            // need to return something.
+            // In this case, we return FALSE, as it promotes robot action (the command using
+            // this will complete
+            // its activity, even if it doesn't signal that it is done to allow other
+            // actions to proceed).
             onTarget = false;
             offTargetReason = OffTargetReason.OffTargetNotConfigured;
             return;
@@ -242,11 +258,11 @@ public class PID {
             if (onTarget) {
                 if (waitingToStabilize == false) {
                     waitingToStabilize = true;
-                    startTime = XTimer.getFPGATimestamp();
+                    startTime = Timer.getTimestamp();
                     onTarget = false;
                     offTargetReason = OffTargetReason.NotTimeStable;
                 } else {
-                    onTarget = (XTimer.getFPGATimestamp() - startTime) > timeToleranceInSeconds;
+                    onTarget = (Timer.getTimestamp() - startTime) > timeToleranceInSeconds;
                     offTargetReason = onTarget ? OffTargetReason.OnTarget : OffTargetReason.NotTimeStable;
                 }
             } else {
@@ -261,8 +277,10 @@ public class PID {
     }
 
     /**
-     * Returns an enum explaining the reason the PID is not on target. It has the following priority list if there are
-     * multiple reasons (higher ones overrule lower ones): - Too much error - Too much derivative - Waiting for time
+     * Returns an enum explaining the reason the PID is not on target. It has the
+     * following priority list if there are
+     * multiple reasons (higher ones overrule lower ones): - Too much error - Too
+     * much derivative - Waiting for time
      * stability - On Target
      *
      * @return The reason the PID is not on target.

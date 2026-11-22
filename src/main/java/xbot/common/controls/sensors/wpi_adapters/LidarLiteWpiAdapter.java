@@ -2,13 +2,13 @@ package xbot.common.controls.sensors.wpi_adapters;
 
 import org.wpilib.hardware.bus.I2C;
 import org.wpilib.hardware.bus.I2C.Port;
+import org.wpilib.system.Timer;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
 import dagger.assisted.AssistedInject;
 
 import xbot.common.controls.sensors.XLidarLite;
-import xbot.common.controls.sensors.XTimer;
 import xbot.common.injection.DevicePolice;
 import xbot.common.properties.TunableFactory;
 
@@ -32,9 +32,9 @@ public class LidarLiteWpiAdapter extends XLidarLite {
     // Update distance variable
     public void update() {
         i2c.write(lidar_config_register, 0x04); // Initiate measurement
-        XTimer.delay(0.04); // Delay for measurement to be taken
+        Timer.delay(0.04); // Delay for measurement to be taken
         i2c.read(lidar_distance_register, 2, distance); // Read in measurement
-        XTimer.delay(0.01); // Delay to prevent over polling
+        Timer.delay(0.01); // Delay to prevent over polling
     }
 
 }
