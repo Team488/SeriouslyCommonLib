@@ -147,15 +147,8 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
      * @return The default PID values.
      */
     protected PIDDefaults getPositionalPIDDefaults() {
-        return new PIDDefaults(1.08, // P
-                0, // I
-                4.0, // D
-                0.0, // F
-                0.6, // Max output
-                -0.6, // Min output
-                0.05, // Error threshold
-                0.005, // Derivative threshold
-                0.2); // Time threshold
+        return new PIDDefaults.Builder().withP(1.08).withI(0).withD(4.0).withF(0.0).withMaxOutput(0.6).withMinOutput(-0.6).withErrorThreshold(0.05)
+                .withDerivativeThreshold(0.005).withTimeThreshold(0.2).build();
     }
 
     /**
@@ -165,15 +158,17 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
      * @return The default PID values.
      */
     protected PIDDefaults getHeadingPIDDefaults() {
-        return new PIDDefaults(0.005, // P
-                0.000001, // I
-                0.02, // D
-                0.0, // F
-                0.75, // Max output
-                -0.75, // Min output
-                2.0, // Error threshold
-                0.2, // Derivative threshold
-                0.2); // Time threshold
+        return new PIDDefaults.Builder()
+                .withP(0.005)
+                .withI(0.000001)
+                .withD(0.02)
+                .withF(0.0)
+                .withMaxOutput(0.75)
+                .withMinOutput(-0.75)
+                .withErrorThreshold(2.0)
+                .withDerivativeThreshold(0.2)
+                .withTimeThreshold(0.2)
+                .build();
     }
 
     public SwerveDriveKinematics getSwerveDriveKinematics() {
@@ -602,8 +597,7 @@ public abstract class BaseSwerveDriveSubsystem extends BaseDriveSubsystem
             case REAR_RIGHT:
                 return this.getRearRightSwerveModuleSubsystem();
             default:
-                log.warn(
-                        "Attempted to get a SwerveModuleSubsystem for an invalid SwerveModuleLocation. Returning front left so that something is returned.");
+                log.warn("Attempted to get a SwerveModuleSubsystem for an invalid SwerveModuleLocation. Returning front left so that something is returned.");
                 return this.getFrontLeftSwerveModuleSubsystem();
         }
     }

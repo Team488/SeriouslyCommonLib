@@ -150,19 +150,19 @@ public class SwerveDriveRotationAdvisor {
         }
 
         return switch (recommendedState) {
-        case HumanControl -> {
-            yield new SwerveSuggestedRotation(triggerRotateIntent, SwerveSuggestedRotation.RotationGoalType.HumanControlHeadingPower);
-        }
-        case InitializeMachineControl -> {
-            drive.setDesiredHeading(pose.getCurrentHeading().getDegrees());
-            yield new SwerveSuggestedRotation();
-        }
-        case MachineControl -> {
-            yield new SwerveSuggestedRotation(drive.getDesiredHeading(), SwerveSuggestedRotation.RotationGoalType.DesiredHeading);
-        }
-        case Coast, RobotDisabled -> {
-            yield new SwerveSuggestedRotation();
-        }
+            case HumanControl -> {
+                yield new SwerveSuggestedRotation(triggerRotateIntent, SwerveSuggestedRotation.RotationGoalType.HumanControlHeadingPower);
+            }
+            case InitializeMachineControl -> {
+                drive.setDesiredHeading(pose.getCurrentHeading().getDegrees());
+                yield new SwerveSuggestedRotation();
+            }
+            case MachineControl -> {
+                yield new SwerveSuggestedRotation(drive.getDesiredHeading(), SwerveSuggestedRotation.RotationGoalType.DesiredHeading);
+            }
+            case Coast, RobotDisabled -> {
+                yield new SwerveSuggestedRotation();
+            }
         };
     }
 

@@ -132,20 +132,20 @@ public class MockXboxControllerAdapter extends XXboxController {
     @Override
     public double getAxis(Axis axis) {
         switch (axis) {
-        case LEFT_X:
-            return leftStick.x;
-        case LEFT_Y:
-            return leftStick.y;
-        case RIGHT_X:
-            return rightStick.x;
-        case RIGHT_Y:
-            return rightStick.y;
-        case LEFT_TRIGGER:
-            return leftTrigger;
-        case RIGHT_TRIGGER:
-            return rightTrigger;
-        default:
-            throw new IllegalArgumentException("Unsupported Xbox axis " + axis);
+            case LEFT_X:
+                return leftStick.x;
+            case LEFT_Y:
+                return leftStick.y;
+            case RIGHT_X:
+                return rightStick.x;
+            case RIGHT_Y:
+                return rightStick.y;
+            case LEFT_TRIGGER:
+                return leftTrigger;
+            case RIGHT_TRIGGER:
+                return rightTrigger;
+            default:
+                throw new IllegalArgumentException("Unsupported Xbox axis " + axis);
         }
     }
 

@@ -20,12 +20,12 @@ public class XGyroFactoryImpl extends XGyro.XGyroFactory {
     @Override
     public XGyro create(IMUInfo imuInfo) {
         switch (imuInfo.imuType()) {
-        case pigeon2 -> {
-            return pigeon2Factory.create(imuInfo);
-        }
-        default -> {
-            return navXFactory.create(imuInfo);
-        }
+            case pigeon2 -> {
+                return pigeon2Factory.create(imuInfo);
+            }
+            default -> {
+                return navXFactory.create(imuInfo);
+            }
         }
     }
 }

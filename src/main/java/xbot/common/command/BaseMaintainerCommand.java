@@ -130,26 +130,26 @@ public abstract class BaseMaintainerCommand<TargetT, PowerT> extends BaseCommand
         aKitLog.record("CurrentState", recommendedState.toString());
 
         switch (recommendedState) {
-        case RobotDisabled:
-        case Coast:
-            coastAction();
-            break;
-        case HumanControl:
-            humanControlAction();
-            break;
-        case InitializeMachineControl:
-            initializeMachineControlAction();
-            break;
-        case MachineControl:
-            if (subsystemToMaintain.isCalibrated()) {
-                calibratedMachineControlAction();
-            } else {
-                uncalibratedMachineControlAction();
-            }
-            break;
-        default:
-            // How did you get here?!?!
-            break;
+            case RobotDisabled:
+            case Coast:
+                coastAction();
+                break;
+            case HumanControl:
+                humanControlAction();
+                break;
+            case InitializeMachineControl:
+                initializeMachineControlAction();
+                break;
+            case MachineControl:
+                if (subsystemToMaintain.isCalibrated()) {
+                    calibratedMachineControlAction();
+                } else {
+                    uncalibratedMachineControlAction();
+                }
+                break;
+            default:
+                // How did you get here?!?!
+                break;
         }
     }
 
