@@ -39,8 +39,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final TunableDouble maxSingleTagDistance;
     private final TunableDouble maxMultiTagDistance;
     private final TunableDouble minTagDistance;
-    private final TunableDouble fieldBorderMargin;
-    private final TunableBoolean rejectOutOfBoundsObservations;
+    final TunableBoolean rejectOutOfBoundsObservations;
 
     // Standard deviation baselines, for 1 meter distance and 1 tag
     // (Adjusted automatically based on distance and # of tags)
@@ -81,7 +80,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
 
         tunableFactory.setPrefix(this.logPath);
         this.maxAmbiguity = tunableFactory.createDouble("MaxAmbiguity", 0.3);
-        this.maxZError = tunableFactory.createDouble("MaxZError", 1.0);
+        this.maxZError = tunableFactory.createDouble("MaxZError", 0.75);
         this.linearStdDevBaseline = tunableFactory.createDouble("LinearStdDevBaseline", 0.02 /* meters */);
         this.angularStdDevBaseline = tunableFactory.createDouble("AngularStdDevBaseline", 0.06 /* radians */);
         this.linearStdDevMegatag2Factor = tunableFactory.createDouble("LinearStdDevMegatag2Factor", 0.5);
@@ -90,8 +89,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.maxSingleTagDistance = tunableFactory.createDouble("MaxSingleTagDistance", 1.0);
         this.maxMultiTagDistance = tunableFactory.createDouble("MaxMultiTagDistance", 5.0);
         this.minTagDistance = tunableFactory.createDouble("MinTagDistance", 0.5);
-        this.fieldBorderMargin = tunableFactory.createDouble("FieldBorderMargin", 0.5);
-        this.rejectOutOfBoundsObservations = tunableFactory.createBoolean("RejectOutOfBoundsObservations", true);
+        this.rejectOutOfBoundsObservations = tunableFactory.createBoolean("RejectOutOfBoundsObservations", false);
     }
 
     @Override
@@ -183,9 +181,9 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     }
 
     private boolean isObservationOutOfBounds(Pose3d pose) {
-        var field = aprilTagFieldLayout.loadField();
-        double margin = fieldBorderMargin.get();
-        return pose.getX() < -margin || pose.getX() > field.getFieldLength() + margin || pose.getY() < -margin || pose.getY() > field.getFieldWidth() + margin;
+        // Must be within the field boundaries
+        return pose.getX() <= 0.0 || pose.getX() > aprilTagFieldLayout.loadField().getFieldLength() || pose.getY() <= 0.0
+                || pose.getY() > aprilTagFieldLayout.loadField().getFieldWidth();
     }
 
     private Optional<RejectionReason> getRejectionReason(PoseObservation observation) {

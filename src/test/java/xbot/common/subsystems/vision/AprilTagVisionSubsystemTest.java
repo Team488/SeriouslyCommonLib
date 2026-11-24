@@ -78,16 +78,37 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
         return subsystem.cameraHelpers[0].getRejectionReasons();
     }
 
-    static Stream<Arguments> singleObservationCases() {
+    private void enableOutOfBoundsRejection() {
+        this.getInjectorComponent().getAprilTagVisionSubsystem().cameraHelpers[0].rejectOutOfBoundsObservations.set(true);
+    }
+
+    static Stream<Arguments> defaultSettingsCases() {
         return Stream.of(Arguments.of("single tag on field", observation(3, 3, 0, 0.1, 1, 2.0), "ACCEPTED"),
                 Arguments.of("multi tag on field", observation(3, 3, 0, 0.1, 2, 4.5), "ACCEPTED"),
-                Arguments.of("within field border margin", observation(-0.2, 3, 0, 0.1, 2, 2.0), "ACCEPTED"),
                 Arguments.of("raised by bump", observation(3, 3, 0.3, 0.1, 2, 2.0), "ACCEPTED"),
+                Arguments.of("exactly at max z", observation(3, 3, 0.75, 0.1, 2, 2.0), "ACCEPTED"),
+                Arguments.of("exactly at min z", observation(3, 3, -0.75, 0.1, 2, 2.0), "ACCEPTED"),
                 Arguments.of("high ambiguity is not rejected", observation(3, 3, 0, 0.9, 1, 2.0), "ACCEPTED"),
                 Arguments.of("far tag is not rejected", observation(3, 3, 0, 0.1, 1, 8.0), "ACCEPTED"),
+                Arguments.of("off field is accepted when bounds check is off", observation(-1.0, 3, 0, 0.1, 2, 2.0), "ACCEPTED"),
                 Arguments.of("no tags", observation(3, 3, 0, 0.1, 0, 2.0), "NO_TAGS"),
+                Arguments.of("just above max z", observation(3, 3, 0.76, 0.1, 2, 2.0), "Z_ERROR"),
                 Arguments.of("above field", observation(3, 3, 1.5, 0.1, 2, 2.0), "Z_ERROR"),
-                Arguments.of("below field", observation(3, 3, -1.5, 0.1, 2, 2.0), "Z_ERROR"),
+                Arguments.of("below field", observation(3, 3, -1.5, 0.1, 2, 2.0), "Z_ERROR"));
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("defaultSettingsCases")
+    public void testRejectionReason(String description, AprilTagVisionIO.PoseObservation observation, String expectedReason) {
+        assertEquals(List.of(expectedReason), rejectionReasonsFor(observation));
+    }
+
+    static Stream<Arguments> outOfBoundsCases() {
+        return Stream.of(Arguments.of("on field", observation(3, 3, 0, 0.1, 2, 2.0), "ACCEPTED"),
+                Arguments.of("just inside the origin corner", observation(0.01, 0.01, 0, 0.1, 2, 2.0), "ACCEPTED"),
+                Arguments.of("at origin", observation(0, 0, 0, 0.1, 2, 2.0), "OUT_OF_BOUNDS"),
+                Arguments.of("on x = 0 edge", observation(0, 3, 0, 0.1, 2, 2.0), "OUT_OF_BOUNDS"),
+                Arguments.of("on y = 0 edge", observation(3, 0, 0, 0.1, 2, 2.0), "OUT_OF_BOUNDS"),
                 Arguments.of("past negative x edge", observation(-1.0, 3, 0, 0.1, 2, 2.0), "OUT_OF_BOUNDS"),
                 Arguments.of("past positive x edge", observation(100, 3, 0, 0.1, 2, 2.0), "OUT_OF_BOUNDS"),
                 Arguments.of("past negative y edge", observation(3, -1.0, 0, 0.1, 2, 2.0), "OUT_OF_BOUNDS"),
@@ -95,13 +116,15 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
     }
 
     @ParameterizedTest(name = "{0}")
-    @MethodSource("singleObservationCases")
-    public void testRejectionReason(String description, AprilTagVisionIO.PoseObservation observation, String expectedReason) {
+    @MethodSource("outOfBoundsCases")
+    public void testOutOfBoundsRejectionWhenEnabled(String description, AprilTagVisionIO.PoseObservation observation, String expectedReason) {
+        enableOutOfBoundsRejection();
         assertEquals(List.of(expectedReason), rejectionReasonsFor(observation));
     }
 
     @Test
     public void testOnlyFirstFailingRuleIsReported() {
+        enableOutOfBoundsRejection();
         var noTagsAndAboveField = observation(3, 3, 1.5, 0.1, 0, 2.0);
         var aboveFieldAndOutOfBounds = observation(-1.0, 3, 1.5, 0.1, 2, 2.0);
 
@@ -110,14 +133,18 @@ public class AprilTagVisionSubsystemTest extends BaseCommonLibTest {
 
     @Test
     public void testOnlyAcceptedObservationsAreUsed() {
+        enableOutOfBoundsRejection();
         var subsystem = this.getInjectorComponent().getAprilTagVisionSubsystem();
+        var accepted = observation(3, 3, 0, 0.1, 2, 2.0);
 
-        var reasons = rejectionReasonsFor(observation(3, 3, 0, 0.1, 1, 2.0), observation(3, 3, 0, 0.1, 0, 2.0), observation(3, 3, 0, 0.1, 2, 4.5));
+        var reasons = rejectionReasonsFor(accepted, observation(3, 3, 0, 0.1, 0, 2.0), observation(3, 3, 1.5, 0.1, 2, 2.0),
+                observation(-1.0, 3, 0, 0.1, 2, 2.0));
 
-        assertEquals(List.of("ACCEPTED", "NO_TAGS", "ACCEPTED"), reasons);
-        assertEquals(2, subsystem.getAllPoseObservations().size());
-        assertEquals(2, subsystem.cameraHelpers[0].getRobotPosesAccepted().size());
-        assertEquals(1, subsystem.cameraHelpers[0].getRobotPosesRejected().size());
+        assertEquals(List.of("ACCEPTED", "NO_TAGS", "Z_ERROR", "OUT_OF_BOUNDS"), reasons);
+        assertEquals(1, subsystem.getAllPoseObservations().size());
+        assertEquals(accepted.pose().toPose2d(), subsystem.getAllPoseObservations().get(0).visionRobotPoseMeters());
+        assertEquals(1, subsystem.cameraHelpers[0].getRobotPosesAccepted().size());
+        assertEquals(3, subsystem.cameraHelpers[0].getRobotPosesRejected().size());
     }
 
     @Test
