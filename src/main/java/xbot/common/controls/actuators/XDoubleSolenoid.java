@@ -38,15 +38,15 @@ public class XDoubleSolenoid {
 
         switch (mode) {
 
-        case FORWARD:
-            setForwardInternal();
-            break;
-        case REVERSE:
-            setReverseInternal();
-            break;
-        default:
-            setOffInternal();
-            break;
+            case FORWARD:
+                setForwardInternal();
+                break;
+            case REVERSE:
+                setReverseInternal();
+                break;
+            default:
+                setOffInternal();
+                break;
         }
     }
 
