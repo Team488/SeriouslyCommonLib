@@ -33,7 +33,7 @@ import xbot.common.subsystems.pose.SimulatedPositionSupplier;
  * IO implementation for a simulated PhotonVision environment. Based on the AdvantageKit sample implementation by team
  * 6328.
  */
-public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhotonVision {
+public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhotonVisionEstimator {
 
     @AssistedFactory
     public abstract static class FactoryImpl implements AprilTagVisionIOFactory {
@@ -61,7 +61,7 @@ public class AprilTagVisionIOPhotonVisionSimulated extends AprilTagVisionIOPhoto
     @AssistedInject
     public AprilTagVisionIOPhotonVisionSimulated(@Assisted String name, @Assisted Transform3d robotToCamera, Fields fieldLayout,
             Lazy<SimulatedPositionSupplier> poseSupplier, TunableFactory tunableFactory) {
-        super(name, robotToCamera, fieldLayout);
+        super(name, robotToCamera, fieldLayout, tunableFactory);
 
         this.poseSupplier = poseSupplier;
 
