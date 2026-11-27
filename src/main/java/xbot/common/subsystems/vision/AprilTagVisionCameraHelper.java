@@ -2,6 +2,7 @@ package xbot.common.subsystems.vision;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.littletonrobotics.junction.Logger;
@@ -9,6 +10,7 @@ import org.littletonrobotics.junction.Logger;
 import org.wpilib.fields.Fields;
 import org.wpilib.math.geometry.Pose3d;
 import org.wpilib.math.linalg.VecBuilder;
+import org.wpilib.tunable.TunableBoolean;
 import org.wpilib.tunable.TunableDouble;
 import org.wpilib.util.Alert;
 
@@ -16,6 +18,7 @@ import xbot.common.advantage.DataFrameRefreshable;
 import xbot.common.command.DataFrameRegistry;
 import xbot.common.logging.AlertGroups;
 import xbot.common.properties.TunableFactory;
+import xbot.common.subsystems.vision.AprilTagVisionIO.PoseObservation;
 
 /**
  * Helper class for ingesting data from a single AprilTag vision camera.
@@ -36,6 +39,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final TunableDouble maxSingleTagDistance;
     private final TunableDouble maxMultiTagDistance;
     private final TunableDouble minTagDistance;
+    final TunableBoolean rejectOutOfBoundsObservations;
 
     // Standard deviation baselines, for 1 meter distance and 1 tag
     // (Adjusted automatically based on distance and # of tags)
@@ -56,6 +60,12 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
     private final List<Pose3d> robotPosesAccepted = new LinkedList<>();
     private final List<Pose3d> robotPosesRejected = new LinkedList<>();
     private final List<VisionPoseObservation> poseObservations = new LinkedList<>();
+    private final List<String> rejectionReasons = new LinkedList<>();
+
+    // Rejection reasons for pose observations
+    enum RejectionReason {
+        NO_TAGS, Z_ERROR, OUT_OF_BOUNDS
+    }
 
     public AprilTagVisionCameraHelper(String prefix, TunableFactory tunableFactory, AprilTagVisionIO io, Fields fieldLayout, DataFrameRegistry registry,
             boolean useForPoseEstimates) {
@@ -79,6 +89,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.maxSingleTagDistance = tunableFactory.createDouble("MaxSingleTagDistance", 1.0);
         this.maxMultiTagDistance = tunableFactory.createDouble("MaxMultiTagDistance", 5.0);
         this.minTagDistance = tunableFactory.createDouble("MinTagDistance", 0.5);
+        this.rejectOutOfBoundsObservations = tunableFactory.createBoolean("RejectOutOfBoundsObservations", false);
     }
 
     @Override
@@ -118,6 +129,10 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         return poseObservations;
     }
 
+    public List<String> getRejectionReasons() {
+        return rejectionReasons;
+    }
+
     public boolean getUseForPoseEstimates() {
         return useForPoseEstimates;
     }
@@ -130,6 +145,7 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         this.robotPosesAccepted.clear();
         this.robotPosesRejected.clear();
         this.poseObservations.clear();
+        this.rejectionReasons.clear();
 
         // Add the tag poses
         for (int tagId : inputs.tagIds) {
@@ -143,7 +159,9 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
         // Loop over pose observations
         for (var observation : inputs.poseObservations) {
             // Check whether to reject pose
-            boolean rejectPose = shouldRejectObservation(observation);
+            Optional<RejectionReason> rejectionReason = getRejectionReason(observation);
+            boolean rejectPose = rejectionReason.isPresent();
+            this.rejectionReasons.add(rejectionReason.map(Enum::name).orElse("ACCEPTED"));
             // Add pose to log
             robotPoses.add(observation.pose());
             if (rejectPose) {
@@ -168,12 +186,16 @@ class AprilTagVisionCameraHelper implements DataFrameRefreshable {
                 || pose.getY() > aprilTagFieldLayout.loadField().getFieldWidth();
     }
 
-    private boolean shouldRejectObservation(AprilTagVisionIO.PoseObservation observation) {
-        boolean shouldReject = false;
-        shouldReject |= observation.tagCount() == 0; // Must have at least one tag
-        // For teesting purpposes, remove for real comp.
-        // shouldReject |= isObservationOutOfBounds(observation.pose());
-
-        return shouldReject;
+    private Optional<RejectionReason> getRejectionReason(PoseObservation observation) {
+        if (observation.tagCount() == 0) {
+            return Optional.of(RejectionReason.NO_TAGS);
+        }
+        if (Math.abs(observation.pose().getZ()) > maxZError.get()) {
+            return Optional.of(RejectionReason.Z_ERROR);
+        }
+        if (rejectOutOfBoundsObservations.get() && isObservationOutOfBounds(observation.pose())) {
+            return Optional.of(RejectionReason.OUT_OF_BOUNDS);
+        }
+        return Optional.empty();
     }
 }
