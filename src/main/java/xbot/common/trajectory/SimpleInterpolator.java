@@ -18,6 +18,10 @@ import xbot.common.subsystems.drive.SwerveSimpleTrajectoryMode;
 import static org.wpilib.units.Units.Meters;
 import static org.wpilib.units.Units.MetersPerSecond;
 
+/**
+ * @deprecated Path planning and path following are moving to PathPlanner. This will be removed in a future release.
+ */
+@Deprecated
 public class SimpleInterpolator {
 
     ProvidesInterpolationData baseline;

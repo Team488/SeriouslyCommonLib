@@ -15,6 +15,10 @@ import xbot.common.subsystems.drive.PurePursuitCommand.RabbitChaseInfo;
 import xbot.common.subsystems.drive.RabbitPoint;
 import xbot.common.subsystems.pose.MockBasePoseSubsystem;
 
+/**
+ * @deprecated Path planning and path following are moving to PathPlanner. This will be removed in a future release.
+ */
+@Deprecated
 public class PurePursuitTest extends BaseWPITest {
 
     double target_distance = 5;

@@ -5,6 +5,10 @@ import org.wpilib.math.geometry.Translation2d;
 
 import xbot.common.subsystems.drive.SwervePointKinematics;
 
+/**
+ * @deprecated Path planning and path following are moving to PathPlanner. This will be removed in a future release.
+ */
+@Deprecated
 public interface ProvidesInterpolationData {
     public Translation2d getTranslation2d();
 
